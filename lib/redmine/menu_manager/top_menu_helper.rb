@@ -85,12 +85,11 @@ module Redmine::MenuManager::TopMenuHelper
     render_menu_dropdown_with_items(
       label: avatar.presence || '',
       label_options: {
-        id: 'user-menu',
         title: User.current.name,
         class: (avatar.present? ? '' : 'icon-user icon-context')
       },
       items: items,
-      options: { menu_item_class: 'last-child' }
+      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
     )
   end
 
@@ -108,8 +107,9 @@ module Redmine::MenuManager::TopMenuHelper
   def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
       label: l(:label_modules),
-      label_options: { id: 'more-menu', class: 'icon5 icon-modules' },
-      items: items
+      label_options: { class: 'icon5 icon-modules' },
+      items: items,
+      options: { drop_down_id: 'more-menu' }
     )
   end
 
