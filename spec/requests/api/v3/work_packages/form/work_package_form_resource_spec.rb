@@ -277,7 +277,7 @@ describe 'API v3 Work package form resource', type: :request do
                 it_behaves_like 'format error',
                                 I18n.t('api_v3.errors.invalid_format',
                                        property: 'startDate',
-                                       expected_format: 'ISO 8601 date only',
+                                       expected_format: I18n.t('api_v3.errors.expected.date'),
                                        actual: 'not a date')
               end
             end
@@ -304,7 +304,7 @@ describe 'API v3 Work package form resource', type: :request do
                 it_behaves_like 'format error',
                                 I18n.t('api_v3.errors.invalid_format',
                                        property: 'dueDate',
-                                       expected_format: 'ISO 8601 date only',
+                                       expected_format: I18n.t('api_v3.errors.expected.date'),
                                        actual: 'not a date')
               end
             end
