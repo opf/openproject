@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <script type="text/javascript" language="javascript">
   jQuery(function ($) {
     var Burndown = {
-      datasets: { <%= dataseries(burndown) %> },
+      datasets: <%= dataseries(burndown).to_json.html_safe %> ,
       previousPoint: null,
 
       setDatasetColor: function () {
