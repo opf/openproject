@@ -371,6 +371,7 @@ en:
         invalid: "is invalid."
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_a_date: "is not a valid date."
+        not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_a_number: "is not a number."
         not_an_integer: "is not an integer."
         not_same_project: "doesn't belong to the same project."
