@@ -96,7 +96,7 @@ describe 'project menu', type: :feature do
         it 'leads to cost reports' do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
-          within '#more-menu ul', visible: false do
+          within '#more-menu', visible: false do
             click_on 'Cost reports', visible: false
           end
 
