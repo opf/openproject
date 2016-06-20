@@ -135,7 +135,11 @@ module Redmine::MenuManager::MenuHelper
   def render_menu_dropdown(label_node, options = {}, &block)
     content_tag :li, class: "#{options[:menu_item_class]} drop-down" do
       concat(label_node)
-      concat(content_tag(:ul, style: 'display:none', class: options[:drop_down_class], &block))
+      concat(content_tag(:ul,
+                         style: 'display:none',
+                         id: options[:drop_down_id],
+                         class: options[:drop_down_class],
+                         &block))
     end
   end
 
