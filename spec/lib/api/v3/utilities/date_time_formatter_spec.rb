@@ -110,29 +110,6 @@ describe :DateTimeFormatter do
     end
   end
 
-  describe 'parse_datetime' do
-    it 'parses ISO 8601 dates' do
-      expect(subject.parse_datetime(date.iso8601, 'prop')).to eql(date.to_datetime)
-    end
-
-    it 'parses ISO 8601 date + time' do
-      expected = Time.at(datetime.to_i).to_datetime.utc # trim milliseconds
-      expect(subject.parse_datetime(datetime.iso8601, 'prop')).to eql(expected)
-    end
-
-    it 'rejects parsing non ISO date formats' do
-      bad_format = date.strftime('%d.%m.%Y %H:%M')
-      expect {
-        subject.parse_datetime(bad_format, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
-    end
-
-    it_behaves_like 'can parse nil' do
-      let(:method) { :parse_datetime }
-      let(:input) { datetime.utc.iso8601 }
-    end
-  end
-
   describe 'format_duration_from_hours' do
     it 'formats floats' do
       expect(subject.format_duration_from_hours(5.0)).to eql('PT5H')

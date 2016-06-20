@@ -66,18 +66,6 @@ module API
           datetime.to_datetime.utc.iso8601
         end
 
-        def self.parse_datetime(value, property_name, allow_nil: false)
-          return nil if value.nil? && allow_nil
-
-          begin
-            return DateTime.iso8601(value).utc
-          rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name,
-                                                       'ISO 8601 date and time',
-                                                       value)
-          end
-        end
-
         def self.format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
