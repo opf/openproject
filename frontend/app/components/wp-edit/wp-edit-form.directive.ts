@@ -39,7 +39,6 @@ export class WorkPackageEditFormController {
   public errorHandler: Function;
   public successHandler: Function;
   public fields = {};
-  public observers:{[name: string]: Function} = {};
 
   private errorsPerAttribute: Object = {};
   public firstActiveField: string;
@@ -58,21 +57,6 @@ export class WorkPackageEditFormController {
     if (this.hasEditMode) {
       wpEditModeState.register(this);
     }
-
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id))
-      .subscribe((wp: WorkPackageResource) => {
-        this.workPackage = wp;
-        angular.forEach(this.observers, (callback, name) => {
-          callback(wp);
-        })
-      });
-  }
-
-  /**
-   * Add an observer to the wpCacheService observed work package
-   */
-  public onWorkPackageUpdated(name: string, callback:Function) {
-    this.observers[name] = callback;
   }
 
   public isFieldRequired(fieldName) {

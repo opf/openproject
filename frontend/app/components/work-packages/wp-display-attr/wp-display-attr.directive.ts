@@ -32,6 +32,8 @@ import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edi
 import {WorkPackageCacheService} from "../work-package-cache.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageDisplayAttributeController {
 
@@ -110,20 +112,18 @@ export class WorkPackageDisplayAttributeController {
   }
 }
 
-function wpDisplayAttrDirective() {
+function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
 
   function wpTdLink(scope,
                     element,
                     attr,
                     controllers) {
 
-    // Listen for changes to the work package on the form ctrl
-    var formCtrl = controllers[0];
-
-    if (formCtrl && !scope.$ctrl.customSchema) {
-      formCtrl.onWorkPackageUpdated('wp-display-attr-' + scope.$ctrl.attribute, (wp) => {
-        scope.$ctrl.updateAttribute(wp);
-      });
+    if (!scope.$ctrl.customSchema) {
+      scopedObservable(scope, wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id))
+        .subscribe((wp: WorkPackageResource) => {
+          scope.$ctrl.updateAttribute(wp);
+        });
     }
   }
 
@@ -131,7 +131,6 @@ function wpDisplayAttrDirective() {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
-    require: ['^?wpEditForm'],
     link: wpTdLink,
 
     scope: {
