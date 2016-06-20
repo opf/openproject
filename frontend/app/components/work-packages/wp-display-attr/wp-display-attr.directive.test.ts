@@ -29,7 +29,6 @@
 describe('wpDisplayAttr directive', () => {
   var compile;
   var element;
-  var wpEditForm;
   var rootScope;
   var scope;
   var I18n;
@@ -49,7 +48,7 @@ describe('wpDisplayAttr directive', () => {
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_) => {
+  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_) => {
     var html = `
       <wp-display-attr work-package="workPackage" attribute="attribute">
       </wp-display-attr>
@@ -64,11 +63,8 @@ describe('wpDisplayAttr directive', () => {
     rootScope = $rootScope;
     scope = $rootScope.$new();
 
-    // Link to wpEditForm
-    wpEditForm = {
-      onWorkPackageUpdated: sinon.spy()
-    }
-    element.data("$wpEditFormController", wpEditForm);
+    // Expected request for updates
+    _$httpBackend_.expectGET('/api/v3/work_packages').respond(200);
 
     compile = () => {
       $compile(element)(scope);
@@ -142,10 +138,6 @@ describe('wpDisplayAttr directive', () => {
       beforeEach(() => {
         scope.attribute = 'type';
         compile();
-      });
-
-      it('should register the observer for that field', () => {
-        expect(wpEditForm.onWorkPackageUpdated.calledWith('wp-display-attr-type')).to.be.true;
       });
 
       it('should contain the object title', () => {

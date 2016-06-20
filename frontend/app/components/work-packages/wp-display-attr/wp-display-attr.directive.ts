@@ -131,7 +131,6 @@ function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/work-packages/wp-display-attr/wp-display-attr.directive.html',
-    require: ['^?wpEditForm'],
     link: wpTdLink,
 
     scope: {
