@@ -67,6 +67,10 @@ class CostReportsController < ApplicationController
     end unless performed?
   end
 
+  current_menu_item :index do
+    :cost_reports_global
+  end
+
   def drill_down
     redirect_to action: :index
   end
