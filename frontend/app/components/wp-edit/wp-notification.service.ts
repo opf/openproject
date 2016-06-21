@@ -48,7 +48,36 @@ export class WorkPackageNotificationService {
     });
   }
 
-  public showError(errorResource) {
+  public showError(errorResource, workPackage) {
+    this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
+  }
+
+  public showGeneralError() {
+    this.NotificationsService.addError("An internal error has occcurred.");
+  }
+
+  private showCustomError(errorResource, workPackage) {
+    if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
+
+      let attributeName  = workPackage.schema[errorResource.details.attribute].name;
+      let attributeType = workPackage.schema[errorResource.details.attribute].type.toLowerCase();
+      let i18nString = 'js.work_packages.error.format.' + attributeType;
+
+      if (this.I18n.lookup(i18nString) === undefined) {
+        return false;
+      }
+
+      this.NotificationsService.addError(this.I18n.t(i18nString,
+                                                     { attribute: attributeName }));
+
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  private showApiErrorMessages(errorResource) {
     var messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
@@ -57,10 +86,8 @@ export class WorkPackageNotificationService {
     else {
       this.NotificationsService.addError(messages[0]);
     }
-  }
 
-  public showGeneralError() {
-    this.NotificationsService.addError("An internal error has occcurred.");
+    return true;
   }
 }
 

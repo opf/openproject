@@ -134,7 +134,7 @@ export class WorkPackageEditFormController {
           this.WorkPackageNotificationService.showGeneralError;
           return deferred.reject([]);
         }
-        this.WorkPackageNotificationService.showError(error.data);
+        this.WorkPackageNotificationService.showError(error.data, this.workPackage);
         this.handleSubmissionErrors(error.data, deferred);
       });
 

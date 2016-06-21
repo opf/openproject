@@ -203,7 +203,7 @@ export class WorkPackageEditFieldController {
       // despite the field being editable.
       if (this.isEditable && !active) {
         this.NotificationsService.addError(this.I18n.t(
-          'js.work_packages.error_edit_prohibited',
+          'js.work_packages.error.edit_prohibited',
           {attribute: this.field.schema.name}
         ));
       }

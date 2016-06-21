@@ -365,8 +365,11 @@ en:
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
-      error: "An error has occured."
-      error_edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+      error:
+        edit_prohibited: "Editing %{attribute} is blocked for this work package. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occured."
       error_update_failed: "The work package could not be updated."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
