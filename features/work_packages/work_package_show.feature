@@ -80,9 +80,9 @@ Feature: Viewing a work package
   Scenario: Call the work package page for an issue and view the issue
     When I go to the page of the work package "issue1"
     Then I should see "issue1" within ".wp-edit-field.subject"
-    And  I should see "Bug #1" within ".work-packages--left-panel"
-     And I open the work package tab "Relations"
-    Then I should see "#2 issue2" within ".work-packages--right-panel"
+     And I should see "Bug #1" within ".work-packages--left-panel"
+    When I open the work package tab "Relations"
+     And I should see "#2 Bug: issue2" within ".work-packages--right-panel"
     # And I should see "0% Total progress"
 
   @javascript @wip
@@ -95,12 +95,12 @@ Feature: Viewing a work package
   @javascript
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
-    And I open the work package tab "Relations"
-    When I click on "#2 issue2" within ".work-packages--right-panel"
-    Then I should see "issue2" within ".wp-edit-field.subject"
-    And  I should see "Bug #2" within ".work-packages--left-panel"
      And I open the work package tab "Relations"
-    Then I should see "#1 issue1" within ".work-packages--right-panel"
+     And I click on "#2 Bug: issue2" within ".work-packages--right-panel"
+    Then I should see "issue2" within ".wp-edit-field.subject"
+     And I should see "Bug #2" within ".work-packages--left-panel"
+    When I open the work package tab "Relations"
+    Then I should see "#1 Bug: issue1" within ".work-packages--right-panel"
 
   @javascript @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
