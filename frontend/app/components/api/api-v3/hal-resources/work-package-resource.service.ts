@@ -116,7 +116,7 @@ export class WorkPackageResource extends HalResource {
       var args = [this[key], value];
 
       if (this[key] instanceof HalResource) {
-        args = args.map(arg => arg.$source);
+        args = args.map(arg => (arg ? arg.$source : arg));
       }
 
       if (!_.isEqual(...args)) {
@@ -256,7 +256,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   public storePristine(attribute:string) {
-    if (angular.isDefined(this.$pristine[attribute])) {
+    if (this.$pristine.hasOwnProperty(attribute)) {
       return;
     }
 
