@@ -361,6 +361,7 @@ en:
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occured. Could not submit the comment."
       comment_updated: "The comment was successfully updated."
+      confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
