@@ -68,7 +68,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   public addWorkPackageRow() {
-    scopedObservable(this.$scope, this.wpCreate.createNewWorkPackage()).subscribe(wp => {
+    scopedObservable(this.$scope, this.wpCreate.createNewWorkPackage(this.projectIdentifier)).subscribe(wp => {
       this._wp = wp;
       this._wp.inlineCreated = true;
 
