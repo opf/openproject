@@ -132,6 +132,11 @@ export class WorkPackageSingleViewController {
         this.filesExist = bool;
       });
     }
+
+    this.text.idLabel = this.workPackage.type.name;
+    if (!this.workPackage.isNew) {
+      this.text.idLabel += ' #' + this.workPackage.id;
+    }
   }
 }
 
