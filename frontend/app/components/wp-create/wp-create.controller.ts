@@ -32,6 +32,7 @@ import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-reso
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
+import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource|any;
@@ -53,11 +54,13 @@ export class WorkPackageCreateController {
               protected NotificationsService,
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
+              protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpCacheService:WorkPackageCacheService) {
+
     scopedObservable($scope, wpCreate.createNewWorkPackage($state.params.projectPath))
       .subscribe(wp => {
         this.newWorkPackage = wp;
-        wpCacheService.updateWorkPackage(wp);
+        this.wpEditModeState.start();
 
         if ($state.params.parent_id) {
           scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
@@ -73,14 +76,24 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage(successState:string) {
-    this.wpCreate.saveWorkPackage().then(wp => {
-      this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
-        .then(() => {
-          this.$rootScope.$emit('workPackagesRefreshInBackground');
-          this.notifySuccess();
-        });
-    });
+  public saveWorkPackage(successState:string): ng.IPromise<WorkPackageResource> {
+    if (this.wpEditModeState.active) {
+      return this.wpEditModeState.save().then(wp => {
+        this.newWorkPackage = null;
+        this.refreshAfterSave(wp, successState);
+        return wp;
+      });
+    }
+
+    return this.$q.reject();
+  }
+
+  private refreshAfterSave(wp, successState) {
+    this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
+      .then(() => {
+        this.$rootScope.$emit('workPackagesRefreshInBackground');
+        this.notifySuccess();
+      });
   }
 
   private notifySuccess() {

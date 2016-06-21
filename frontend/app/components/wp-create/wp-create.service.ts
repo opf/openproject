@@ -34,52 +34,27 @@ import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.ser
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 
 export class WorkPackageCreateService {
-  protected form:HalResource;
-  
-  private _newWorkPackage:ng.IPromise<WorkPackageResource>;
-  
-  constructor(protected $q:ng.IQService,
-              protected WorkPackageResource:typeof WorkPackageResource,
-              protected wpEditModeState:WorkPackageEditModeStateService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected apiWorkPackages:ApiWorkPackagesService) {
+  protected form: HalResource;
+
+  constructor(protected $q: ng.IQService,
+              protected WorkPackageResource: typeof WorkPackageResource,
+              protected wpCacheService: WorkPackageCacheService,
+              protected apiWorkPackages: ApiWorkPackagesService) {
   }
 
   public createNewWorkPackage(projectIdentifier) {
-    if (!this._newWorkPackage) {
-      this._newWorkPackage = this.getForm(projectIdentifier).then(form => {
-        var wp = this.WorkPackageResource.fromCreateForm(form);
+    var wp = this.getForm(projectIdentifier).then(form => {
+      var wp = this.WorkPackageResource.fromCreateForm(form);
 
-        this.wpCacheService.updateWorkPackage(wp);
-        this.wpEditModeState.start();
+      this.wpCacheService.updateWorkPackage(wp);
 
-        return wp;
-      });
-    }
-
-    return Rx.Observable.fromPromise(this._newWorkPackage);
-  }
-  
-  public saveWorkPackage() {
-    const deferred = this.$q.defer();
-    
-    this._newWorkPackage.then(() => {
-      if (this.wpEditModeState.active) {
-        this.wpEditModeState.save().then(wp => {
-          this._newWorkPackage = null;
-          
-          deferred.resolve(wp);
-        });
-      }
-      else {
-        deferred.reject();
-      }
+      return wp;
     });
-    
-    return deferred.promise;
+
+    return Rx.Observable.fromPromise(wp);
   }
 
-  private getForm(projectIdentifier):ng.IPromise<HalResource> {
+  private getForm(projectIdentifier): ng.IPromise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm(projectIdentifier);
     }

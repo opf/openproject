@@ -34,7 +34,7 @@ export class WorkPackageEditModeStateService {
   
   private _active: boolean = false;
 
-  constructor(protected $rootScope, protected $window, protected I18n) {
+  constructor(protected $rootScope, protected $window, protected $q, protected I18n) {
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
       if (this.form && fromParams.workPackageId
@@ -73,6 +73,8 @@ export class WorkPackageEditModeStateService {
         return wp;
       });
     }
+
+    return this.$q.reject();
   }
   
   public register(form: WorkPackageEditFormController) {
