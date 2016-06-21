@@ -370,7 +370,6 @@ en:
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
         general: "An error has occured."
-      error_update_failed: "The work package could not be updated."
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Enable multiselect"
