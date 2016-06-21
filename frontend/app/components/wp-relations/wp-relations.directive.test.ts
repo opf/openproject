@@ -27,11 +27,23 @@
 //++
 
 
-import {wpTabsModule, opApiModule} from "../../angular-modules";
+import {wpTabsModule, opApiModule} from '../../angular-modules';
 const expect = chai.expect;
 
-describe('Work Package Relations Directive', function () {
-  var I18n, PathHelper, WorkPackagesHelper, Ajax, compile, element, scope, ChildRelationsHandler, stateParams = {};
+describe('Work Package Relations Directive', () => {
+  var $q;
+  var I18n;
+  var compile;
+  var element;
+  var scope;
+  var stateParams = {};
+  var WorkPackageChildRelationsGroup;
+
+  var workPackage;
+  var relation;
+  var relationGroupMock;
+  var canAdd;
+  var canRemove;
 
   beforeEach(angular.mock.module(
     wpTabsModule.name,
@@ -53,228 +65,73 @@ describe('Work Package Relations Directive', function () {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(angular.mock.inject(function ($rootScope,
-                              $compile,
-                              _I18n_,
-                              _PathHelper_,
-                              _WorkPackagesHelper_,
-                              _ChildRelationsHandler_) {
+  beforeEach(angular.mock.inject(($rootScope,
+                                  $compile,
+                                  _$q_,
+                                  _I18n_,
+                                  _WorkPackageChildRelationsGroup_) => {
+    $q = _$q_;
+    I18n = _I18n_;
+    WorkPackageChildRelationsGroup = _WorkPackageChildRelationsGroup_;
+
     scope = $rootScope.$new();
 
-    compile = function (html) {
+    compile = html => {
       element = $compile(html)(scope);
       scope.$digest();
     };
 
-    I18n = _I18n_;
-    ChildRelationsHandler = _ChildRelationsHandler_;
-    PathHelper = _PathHelper_;
-    WorkPackagesHelper = _WorkPackagesHelper_;
-
-    Ajax = {
-      Autocompleter: angular.noop
+    relation = {
+      subject: 'Subject 1',
+      assignee: {
+        name: 'Assignee 1'
+      },
+      status: {
+        name: 'Status 1',
+        isClosed: false
+      },
+      $load: () => $q.when(relation)
+    };
+    workPackage = {};
+    canAdd = true;
+    canRemove = true;
+    relationGroupMock = {
+      id: 'parent',
+      type: 'parent',
+      name: 'parent',
+      relations: [relation],
+      getRelatedWorkPackage: () => relation.$load(),
+      canAddRelation: () => canAdd,
+      canRemoveRelation: () => canRemove,
+      isEmpty: false,
     };
 
     var stub = sinon.stub(I18n, 't');
-
-    stub.withArgs('js.work_packages.properties.subject').returns('Column0');
-    stub.withArgs('js.work_packages.properties.status').returns('Column1');
-    stub.withArgs('js.work_packages.properties.assignee').returns('Column2');
+    stub.withArgs('js.work_packages.properties.subject').returns('Subject');
+    stub.withArgs('js.work_packages.properties.status').returns('Status');
+    stub.withArgs('js.work_packages.properties.assignee').returns('Assignee');
     stub.withArgs('js.relations.remove').returns('Remove relation');
     stub.withArgs('js.relation_labels.parent').returns('Parent');
+    stub.withArgs('js.relation_labels.something').returns('Something');
   }));
 
-  afterEach(function () {
+  afterEach(() => {
     I18n.t.restore();
   });
 
-  var html = "<wp-relations relation-type='parent' handler='relations' " +
-    "button-title='Add Relation' button-icon='%MyIcon%'></wp-relations>";
+  var html = `<wp-relations relation-group="relationGroup"
+                            button-title="'Add Relation'"></wp-relations>`;
 
-  var workPackage1;
-  var workPackage2;
-  var workPackage3;
-  var workPackage4;
-
-  var relation1, relation2, relation3;
-
-  var relationsHandlerEmpty;
-  var relationsHandlerSingle;
-  var relationsHandlerMulti;
-  var relationsHandlerWithNotAssignedRelatedWorkPackage;
-
-  var createRelationsHandlerStub = function ($timeout, count) {
-    var relationsHandler:any = {};
-
-    relationsHandler.relationsId = sinon.stub();
-    relationsHandler.isEmpty = sinon.stub();
-    relationsHandler.getCount = sinon.stub();
-    relationsHandler.canAddRelation = sinon.stub();
-    relationsHandler.canDeleteRelation = sinon.stub();
-    relationsHandler.addRelation = sinon.stub();
-
-    relationsHandler.workPackage = workPackage1;
-    relationsHandler.relationsId.returns('related');
-    relationsHandler.isEmpty.returns(count === 0);
-    relationsHandler.getCount.returns(count);
-
-    relationsHandler.type = "relation";
-
-    relationsHandler.getRelatedWorkPackage = function () {
-      return $timeout(function () {
-        return workPackage1;
-      }, 10);
-    };
-
-    return relationsHandler;
-  };
-
-  beforeEach(angular.mock.inject(function ($q, $timeout) {
-    workPackage1 = {
-      props: {
-        id: "1",
-        subject: "Subject 1",
-      },
-      embedded: {
-        status: {
-          props: {
-            name: 'Status 1',
-            isClosed: false
-          }
-        },
-        assignee: {
-          props: {
-            name: "Assignee 1",
-          }
-        }
-      },
-      links: {
-        self: {href: "/work_packages/1"},
-        addChild: {href: "/add_children_href"},
-        addRelation: {href: "/work_packages/1/relations"}
-      },
-      addChild: {href: "/add_children_href"},
-      addRelation: {href: "/work_packages/1/relations"}
-    };
-    workPackage2 = {
-      props: {
-        id: "2",
-        subject: "Subject 2",
-      },
-      embedded: {
-        status: {
-          props: {
-            name: 'Status 2',
-            isClosed: false
-          }
-        },
-        assignee: {
-          props: {
-            name: "Assignee 2",
-          }
-        }
-      },
-      links: {
-        self: {href: "/work_packages/1"}
-      }
-    };
-    workPackage3 = {
-      props: {
-        id: "3",
-        subject: "Subject 3",
-      },
-      embedded: {
-        status: {
-          props: {
-            name: 'Status 2',
-            isClosed: true
-          }
-        },
-        assignee: {
-          props: {
-            name: "Assignee 3",
-          }
-        }
-      },
-      links: {
-        self: {href: "/work_packages/1"}
-      }
-    };
-    workPackage4 = {
-      props: {
-        id: "4",
-        subject: "Subject 4",
-      },
-      embedded: {
-        status: {
-          props: {
-            name: 'Status 4',
-            isClosed: false
-          }
-        }
-      },
-      links: {
-        self: {href: "/work_packages/1"}
-      }
-    };
-    relation1 = {
-      links: {
-        self: {href: "/relations/1"},
-        remove: {href: "/relations/1"},
-        relatedTo: {
-          href: "/work_packages/1"
-        },
-        relatedFrom: {
-          href: "/work_packages/3"
-        }
-      }
-    };
-    relation2 = {
-      links: {
-        self: {href: "/relations/2"},
-        relatedTo: {
-          href: "/work_packages/3"
-        },
-        relatedFrom: {
-          href: "/work_packages/1"
-        }
-      }
-    };
-    relation3 = {
-      links: {
-        self: {href: "/relations/3"},
-        relatedTo: {
-          href: "/work_packages/4"
-        },
-        relatedFrom: {
-          href: "/work_packages/1"
-        }
-      }
-    };
-
-    relationsHandlerEmpty = createRelationsHandlerStub($timeout, 0);
-    relationsHandlerEmpty.relations = [];
-
-    relationsHandlerSingle = createRelationsHandlerStub($timeout, 1);
-    relationsHandlerSingle.relations = [relation1];
-
-    relationsHandlerMulti = createRelationsHandlerStub($timeout, 2);
-    relationsHandlerMulti.relations = [relation1, relation2];
-
-    relationsHandlerWithNotAssignedRelatedWorkPackage = createRelationsHandlerStub($timeout, 1);
-    relationsHandlerWithNotAssignedRelatedWorkPackage.relations = [relation3];
-  }));
-
-  var shouldBehaveLikeRelationsDirective = function () {
-    it('should have a title', function () {
-      var title = angular.element(element.find('h3'));
-
-      expect(title.text()).to.include('Parent');
+  var shouldBehaveLikeRelationsDirective = () => {
+    it('should have a title', () => {
+      const title = angular.element(element.find('h3'));
+      const text = relationGroupMock.id === 'something' ? 'Something' : 'Parent';
+      expect(title.text()).to.include(text);
     });
   };
 
-  var shouldBehaveLikeHasTableHeader = function () {
-    it('should have a table head', function () {
+  var shouldBehaveLikeHasTableHeader = () => {
+    it('should have a table head', () => {
       var column0 = angular.element(element.find('.workpackages table thead td:nth-child(1)'));
       var column1 = angular.element(element.find('.workpackages table thead td:nth-child(2)'));
       var column2 = angular.element(element.find('.workpackages table thead td:nth-child(3)'));
@@ -285,227 +142,201 @@ describe('Work Package Relations Directive', function () {
     });
   };
 
-  var shouldBehaveLikeHasTableContent = function (count, removable) {
-    it('should have table content', function () {
-      for (var x = 1; x <= count; x++) {
-        var column0 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(1)'));
-        var column1 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(2)'));
-        var column2 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(3)'));
+  var shouldBehaveLikeHasTableContent = (removable) => {
+    it('should have table content', () => {
+      let x = 1;
+      var column0 = element.find('.workpackages tr:nth-of-type(' + x + ') td:nth-child(1)');
+      var column1 = element.find('.workpackages tr:nth-of-type(' + x + ') td:nth-child(2)');
+      var column2 = element.find('.workpackages tr:nth-of-type(' + x + ') td:nth-child(3)');
 
-        expect(angular.element(column0).text()).to.include('Subject ' + x);
-        expect(angular.element(column1).text()).to.include('Status ' + x);
-        expect(angular.element(column2).text()).to.include('Assignee ' + x);
+      expect(column0.text()).to.include('Subject ' + x);
+      expect(column1.text()).to.include('Status ' + x);
+      expect(column2.text()).to.include('Assignee ' + x);
 
-        expect(angular.element(column0).find('a').hasClass('work_package')).to.be.true;
-        expect(angular.element(column0).find('a').hasClass('closed')).to.be.false;
+      expect(column0.find('a').hasClass('work_package')).to.be.true;
+      expect(column0.find('a').hasClass('closed')).to.be.false;
 
-        if (removable) {
-          var column4 = angular.element(element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)'));
-          var removeIcon = angular.element(column4.find('span.icon-remove'));
-          expect(removeIcon.length).not.to.eq(0);
-          expect(removeIcon.attr('title')).to.include('Remove relation');
-        }
+      if (removable) {
+        const column4 = element.find('.workpackages table tbody tr:nth-of-type(' + x + ') td:nth-child(4)');
+        const removeIcon = column4.find('span.icon-remove');
+        expect(removeIcon.length).not.to.eq(0);
+        expect(removeIcon.attr('title')).to.include('Remove relation');
       }
     });
   };
 
-  var shouldBehaveLikeCollapsedRelationsDirective = function () {
+  var shouldBehaveLikeCollapsedRelationsDirective = () => {
 
     shouldBehaveLikeRelationsDirective();
 
-    it('should be initially collapsed', function () {
+    it('should be initially collapsed', () => {
       var content = angular.element(element.find('div.content'));
-      expect(content.hasClass('ng-hide')).to.eq(true);
+      expect(content.hasClass('ng-if')).to.eq(false);
     });
   };
 
-  var shouldBehaveLikeExpandedRelationsDirective = function () {
+  var shouldBehaveLikeExpandedRelationsDirective = () => {
 
     shouldBehaveLikeRelationsDirective();
 
-    it('should be initially expanded', function () {
+    it('should be initially expanded', () => {
       var content = angular.element(element.find('div.content'));
       expect(content.hasClass('ng-hide')).to.eq(false);
     });
   };
 
-  var shouldBehaveLikeSingleRelationDirective = function () {
-    it('should NOT have an elements count', function () {
-      var title = angular.element(element.find('h3'));
-
-      expect(title.text()).to.not.include('(' + scope.relations.getCount() + ')');
+  var shouldBehaveLikeSingleRelationDirective = () => {
+    it('should NOT have an elements count', () => {
+      let len = scope.relationGroup.length;
+      expect(element.find('h3').text()).to.not.include('(' + len + ')');
     });
   };
 
-  var shouldBehaveLikeMultiRelationDirective = function () {
-    it('should have an elements count', function () {
-      var title = angular.element(element.find('h3'));
-
-      expect(title.text()).to.include('(' + scope.relations.getCount() + ')');
+  var shouldBehaveLikeMultiRelationDirective = () => {
+    it('should have an elements count', () => {
+      let len = scope.relationGroup.relations.length;
+      expect(element.find('h3').text()).to.include('(' + len + ')');
     });
   };
 
-  var shouldBehaveLikeHasAddRelationDialog = function () {
-    it('should have add relation button and id input', function () {
-      var addRelationDiv = angular.element(element.find('.content .add-relation'));
-      expect(addRelationDiv.length).not.to.eq(0);
+  var shouldBehaveLikeHasAddRelationDialog = () => {
+    it('should have an add relation button and id input', () => {
+      const addRelationDiv = element.find('.content .add-relation');
+      const button = addRelationDiv.find('button');
 
-      var button = addRelationDiv.find('button');
+      expect(addRelationDiv).not.to.eq(0);
       expect(button.attr('title')).to.include('Add Relation');
       expect(button.text()).to.include('Add Relation');
     });
   };
 
-  var shouldBehaveLikeReadOnlyRelationDialog = function () {
-    it('should have add relation button and id input', function () {
-      var addRelationDiv = angular.element(element.find('.workpackages .add-relation'));
-
+  var shouldBehaveLikeReadOnlyRelationDialog = () => {
+    it('should have no add relation button and id input', () => {
+      var addRelationDiv = element.find('.workpackages .add-relation');
       expect(addRelationDiv.length).to.eq(0);
     });
   };
 
-  describe('children relation', function () {
-    context('add child link present', function () {
-      beforeEach(function () {
-        scope.relations = new ChildRelationsHandler(workPackage1, []);
+  describe('when having child relations', () => {
+    var childGroupConfig;
+
+    beforeEach(() => {
+      childGroupConfig = {
+        name: 'children',
+        type: 'children'
+      };
+    });
+
+    context('when it is possible to add a child relation', () => {
+      beforeEach(() => {
+        workPackage = {
+          addChild: true,
+          children: [relation],
+        };
+        scope.relationGroup =
+          new WorkPackageChildRelationsGroup(workPackage, childGroupConfig);
+
         compile(html);
       });
-      it('"add child" button should be present', function () {
+
+      it('should have an "add child" button', () => {
         expect(element.find('.add-work-package-child-button').length).to.eq(1);
       });
     });
 
-    context('add child link missing', function () {
-      beforeEach(function () {
-        scope.relations = new ChildRelationsHandler(workPackage2, []);
+    context('when it is not possible to add a child relation', () => {
+      beforeEach(() => {
+        scope.relationGroup =
+          new WorkPackageChildRelationsGroup({}, childGroupConfig);
         compile(html);
       });
-      it('"add child" button should be missing', function () {
-        expect(angular.element(element.find('.add-work-package-child-button')).length).to.eql(0);
+
+      it('should have no add child link', () => {
+        expect(angular.element(element.find('.add-work-package-child-button')).length).to.eq(0);
       });
     });
   });
 
-  describe('no element markup', function () {
-    beforeEach(function () {
-      scope.relations = relationsHandlerMulti;
-
-      scope.relations.canAddRelation.returns(true);
-      scope.relations.isEmpty.returns(true);
+  describe('when there is no element markup', () => {
+    beforeEach(() => {
+      canAdd = true;
+      relationGroupMock.id = 'something';
+      scope.relationGroup = relationGroupMock;
 
       compile(html);
     });
 
     shouldBehaveLikeMultiRelationDirective();
-
     shouldBehaveLikeCollapsedRelationsDirective();
-
     shouldBehaveLikeHasAddRelationDialog();
   });
 
-  describe('single element markup', function () {
-    describe('header', function () {
-      beforeEach(inject(function ($timeout) {
-        scope.relations = relationsHandlerSingle;
+  describe('single element markup', () => {
+    describe('header', () => {
+      beforeEach(() => {
+        scope.relationGroup = relationGroupMock;
         compile(html);
-
-        $timeout.flush();
-      }));
+      });
 
       shouldBehaveLikeSingleRelationDirective();
     });
 
-    describe('readonly', function () {
-      beforeEach(inject(function ($timeout) {
-        scope.relations = relationsHandlerSingle;
-        scope.relations.canDeleteRelation.returns(true);
-
+    describe('when it is readonly', () => {
+      beforeEach(() => {
+        canRemove = true;
+        scope.relationGroup = relationGroupMock;
         compile(html);
-
-        $timeout.flush();
-      }));
+      });
 
       shouldBehaveLikeRelationsDirective();
-
       shouldBehaveLikeExpandedRelationsDirective();
-
       shouldBehaveLikeHasTableHeader();
-
-      shouldBehaveLikeHasTableContent(1, true);
-
+      shouldBehaveLikeHasTableContent(true);
       shouldBehaveLikeReadOnlyRelationDialog();
     });
 
-    describe('can add and remove relations', function () {
-      beforeEach(inject(function ($timeout) {
-        scope.relations = relationsHandlerSingle;
-        scope.relations.relations = [relation2];
-        scope.relations.canAddRelation.returns(true);
-        scope.relations.canDeleteRelation.returns(false);
-
+    describe('when it is possible to add and remove relations', () => {
+      beforeEach(() => {
+        scope.relationGroup = relationGroupMock;
         compile(html);
-
-        $timeout.flush();
-      }));
+      });
 
       shouldBehaveLikeRelationsDirective();
-
       shouldBehaveLikeExpandedRelationsDirective();
-
       shouldBehaveLikeHasTableHeader();
-
-      shouldBehaveLikeHasTableContent(1, false);
-
+      shouldBehaveLikeHasTableContent(false);
       shouldBehaveLikeHasAddRelationDialog();
     });
 
-    describe('table row of closed work package', function () {
-      beforeEach(inject(function ($timeout) {
-        scope.relations = relationsHandlerSingle;
-        scope.relations.relations = [relation2];
-
-        scope.relations.getRelatedWorkPackage = function () {
-          return $timeout(function () {
-            return workPackage3;
-          }, 10);
-        };
-
+    describe('when the work package is closed', () => {
+      beforeEach(() => {
+        relation.status.isClosed = true;
+        scope.relationGroup = relationGroupMock;
         compile(html);
+      });
 
-        $timeout.flush();
-      }));
-
-      it('should have css class closed', function () {
-        var closedWorkPackageRow = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1) td:nth-child(1) a'));
-
+      it('should have set the css class of the row to closed', () => {
+        var closedWorkPackageRow = element.find('.workpackages tr:nth-of-type(1) td:nth-child(1) a');
         expect(closedWorkPackageRow.hasClass('closed')).to.be.true;
       });
     });
 
-    describe('table row of work package that is not assigned', function () {
+    describe('when a table row has no work package assigned', () => {
       var row;
 
-      beforeEach(inject(function ($timeout) {
-        scope.relations = relationsHandlerWithNotAssignedRelatedWorkPackage;
-
-        scope.relations.getRelatedWorkPackage = function () {
-          return $timeout(function () {
-            return workPackage4;
-          }, 10);
-        };
+      beforeEach(() => {
+        relation.assignee = null;
+        scope.relationGroup = relationGroupMock;
 
         compile(html);
+        row = element.find('.workpackages tr:nth-of-type(1)');
+      });
 
-        $timeout.flush();
-
-        row = angular.element(element.find('.workpackages table tbody tr:nth-of-type(1)'));
-      }));
-
-      it('should NOT have link', function () {
+      it('should NOT have link', () => {
         expect(row.find('td:nth-of-type(2) a').length).to.eql(0);
       });
 
-      it('should have empty element tag', function () {
+      it('should have empty element tag', () => {
         expect(row.find('empty-element').text()).to.include('-');
       });
     });

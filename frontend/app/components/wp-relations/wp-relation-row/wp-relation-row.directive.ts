@@ -32,14 +32,14 @@ import {WorkPackageRelationsController} from "../wp-relations.directive";
 function wpRelationRowDirective(PathHelper) {
   var getFullIdentifier = (workPackage) => {
     var type = ' ';
-    
+
     if (workPackage.type) {
-       type +=  workPackage.type.name + ': ';
+      type += workPackage.type.name + ': ';
     }
-    
+
     return `#${workPackage.id}${type}${workPackage.subject}`;
   };
-  
+
   function wpRelationsDirectiveLink(scope) {
     scope.workPackagePath = PathHelper.workPackagePath;
     scope.userPath = PathHelper.userPath;
