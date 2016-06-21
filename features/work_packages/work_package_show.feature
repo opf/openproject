@@ -76,22 +76,6 @@ Feature: Viewing a work package
       | pe2    |
     And I am already logged in as "bob"
 
-  @javascript @selenium
-  Scenario: Call the work package page for an issue and view the issue
-    When I go to the page of the work package "issue1"
-    Then I should see "issue1" within ".wp-edit-field.subject"
-     And I should see "Bug #1" within ".work-packages--left-panel"
-    When I open the work package tab "Relations"
-     And I should see "#2 Bug: issue2" within ".work-packages--right-panel"
-    # And I should see "0% Total progress"
-
-  @javascript @wip
-  Scenario: View work package with issue done ratio disabled
-    Given the "work_package_done_ratio" setting is set to disabled
-    When I go to the page of the work package "issue1"
-    Then I should see "#1 issue1" within ".work-packages--right-panel"
-    # And I should not see "Total progress"
-
   @javascript
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
