@@ -72,7 +72,8 @@ export class WorkPackageCreateController {
       });
   }
 
-  public goToWorkPackagesList() {
+  public cancelAndBackToList() {
+    this.wpEditModeState.cancel();
     this.$state.go('work-packages.list', this.$state.params);
   }
 
