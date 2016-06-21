@@ -42,7 +42,9 @@ module API
           begin
             date_and_time = DateTime.iso8601(value)
           rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name, 'ISO 8601 date only', value)
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       value)
           end
 
           date_only = date_and_time.to_date
@@ -51,7 +53,9 @@ module API
           # but not "2015-01-31T01:02:03".
           # However Date.iso8601 is too generous and would accept that
           unless date_and_time == date_only
-            raise API::Errors::PropertyFormatError.new(property_name, 'ISO 8601 date only', value)
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       value)
           end
 
           date_only
@@ -60,18 +64,6 @@ module API
         def self.format_datetime(datetime, allow_nil: false)
           return nil if datetime.nil? && allow_nil
           datetime.to_datetime.utc.iso8601
-        end
-
-        def self.parse_datetime(value, property_name, allow_nil: false)
-          return nil if value.nil? && allow_nil
-
-          begin
-            return DateTime.iso8601(value).utc
-          rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name,
-                                                       'ISO 8601 date and time',
-                                                       value)
-          end
         end
 
         def self.format_duration_from_hours(hours, allow_nil: false)
@@ -88,7 +80,7 @@ module API
             iso_duration.to_seconds / 3600.0
           rescue ISO8601::Errors::UnknownPattern
             raise API::Errors::PropertyFormatError.new(property_name,
-                                                       'ISO 8601 duration',
+                                                       I18n.t('api_v3.errors.expected.duration'),
                                                        duration)
           end
         end

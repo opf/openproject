@@ -62,6 +62,7 @@ export class WorkPackageEditFieldController {
               protected $q,
               protected FocusHelper,
               protected NotificationsService,
+              protected ConfigurationService,
               protected wpCacheService: WorkPackageCacheService,
               protected I18n) {
 
@@ -202,7 +203,7 @@ export class WorkPackageEditFieldController {
       // despite the field being editable.
       if (this.isEditable && !active) {
         this.NotificationsService.addError(this.I18n.t(
-          'js.work_packages.error_edit_prohibited',
+          'js.work_packages.error.edit_prohibited',
           {attribute: this.field.schema.name}
         ));
       }
@@ -249,6 +250,12 @@ export class WorkPackageEditFieldController {
     this.workPackage.restoreFromPristine(this.fieldName);
     this.fieldForm.$setPristine();
     this.deactivate();
+  }
+
+  public onlyInAccessibilityMode(callback) {
+    if (this.ConfigurationService.accessibilityModeEnabled()) {
+      callback.apply(this);
+    }
   }
 
   protected buildEditField(): ng.IPromise<any> {

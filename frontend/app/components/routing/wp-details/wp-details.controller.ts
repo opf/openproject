@@ -115,7 +115,7 @@ function WorkPackageDetailsController($scope,
   }
 
   function outputError(error) {
-    outputMessage(error.message || I18n.t('js.work_packages.error'), true);
+    outputMessage(error.message || I18n.t('js.work_packages.error.general'), true);
   }
 
   function setWorkPackageScopeProperties(workPackage) {

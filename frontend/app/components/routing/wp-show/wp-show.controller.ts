@@ -152,7 +152,7 @@ function WorkPackageShowController($scope,
   }
 
   function outputError(error) {
-    outputMessage(error.message || I18n.t('js.work_packages.error'), true);
+    outputMessage(error.message || I18n.t('js.work_packages.error.general'), true);
   }
 
   $scope.outputMessage = outputMessage; // expose to child controllers
