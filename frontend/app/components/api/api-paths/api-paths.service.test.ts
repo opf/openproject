@@ -27,6 +27,7 @@
 // ++
 
 import {ApiPathsService} from "./api-paths.service";
+import { expect } from 'chai';
 
 
 describe('apiPaths', () => {

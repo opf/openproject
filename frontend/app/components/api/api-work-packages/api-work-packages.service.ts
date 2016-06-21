@@ -81,7 +81,7 @@ export class ApiWorkPackagesService {
       parent = this.apiV3.one('projects', projectIdentifier);
     }
 
-    return this.apiV3.service('work_packages', parent);
+    return this.apiV3.one('work_packages', parent);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {

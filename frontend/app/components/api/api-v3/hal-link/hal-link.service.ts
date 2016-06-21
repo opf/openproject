@@ -81,8 +81,8 @@ export class HalLink implements HalLinkInterface {
   }
 }
 
-function halLinkService() {
-  [$q, apiV3] = arguments;
+function halLinkService(...args) {
+  [$q, apiV3] = args;
   return HalLink;
 }
 

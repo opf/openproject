@@ -1,7 +1,9 @@
 import {WpAttachmentsService} from './../wp-attachments/wp-attachments.service';
-import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service'
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums'
 import {DropModel, EditorModel, MarkupModel, FieldModel, SingleAttachmentModel} from './wp-attachments-formattable.models'
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageSingleViewController} from "../wp-single-view/wp-single-view.directive";
+import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
 
 export class WpAttachmentsFormattableController {
     private viewMode: ViewMode = ViewMode.SHOW;
@@ -13,10 +15,8 @@ export class WpAttachmentsFormattableController {
                 protected wpAttachments: WpAttachmentsService,
                 protected $timeout: ng.ITimeoutService) {
 
-      $element.get(0).addEventListener('drop', this.handleDrop);
-      $element.bind('dragenter', this.prevDefault)
-        .bind('dragleave', this.prevDefault)
-        .bind('dragover', this.prevDefault);
+      $element.on('drop', this.handleDrop);
+      $element.on('dragenter dragleave dragover', this.prevDefault);
 
     }
 
@@ -27,9 +27,9 @@ export class WpAttachmentsFormattableController {
         const textarea: ng.IAugmentedJQuery = this.$element.find('textarea');
         this.viewMode  = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
 
-        const workPackage: WorkPackageResource = this.$scope.workPackage;
+        const workPackage: WorkPackageResourceInterface = (this.$scope as any).workPackage;
         const dropData: DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
-      
+
         var description: any;
 
         if (this.viewMode === ViewMode.EDIT) {
@@ -105,14 +105,18 @@ export class WpAttachmentsFormattableController {
     }
 }
 
+interface IAttachmentScope extends ng.IScope {
+  workPackage: WorkPackageResourceInterface
+}
+
 function wpAttachmentsFormattable() {
     return {
       bindToController: true,
       controller: WpAttachmentsFormattableController,
-      link: function(scope: ng.IScope, 
+      link: function(scope: IAttachmentScope,
                      element: ng.IAugmentedJQuery, 
-                     attrs: ng.IAttributes, 
-                     controllers: Array<ng.IControllerService>){
+                     attrs: ng.IAttributes,
+                     controllers: [WorkPackageSingleViewController, WorkPackageEditFormController]){
         // right now the attachments directive will only work in combination with either
         // the wpSingleView or the wpEditForm directive
         // else the drop handler will fail because of a missing reference to the current wp
