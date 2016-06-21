@@ -27,28 +27,29 @@
 // ++
 
 import {wpServicesModule} from '../../../angular-modules.ts';
-import ArrayLiteralExpression = ts.ArrayLiteralExpression;
-import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service'
 import {HalResource} from './../../api/api-v3/hal-resources/hal-resource.service'
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+type FileListAsArray = FileList & typeFixes.ArrayFix;
+
 export class WpAttachmentsService {
-  public attachments: Array = [];
+  public attachments: Array<any> = [];
 
   constructor(
     protected $q: ng.IQService,
     protected $timeout: ng.ITimeoutService,
-    protected $http: ng.IHttpProvider,
+    protected $http: ng.IHttpService,
     protected Upload,
     protected I18n,
     protected NotificationsService
   ) {}
 
-  public upload(workPackage: WorkPackageResource, files: FileList): ng.IPromise {
+  public upload(workPackage: WorkPackageResourceInterface, files: FileListAsArray): ng.IPromise<any> {
     const uploadPath: string = workPackage.$links.attachments.$link.href;
     const uploads = _.map(files, (file: File) => {
       var options: Object = {
         fields: {
           metadata: {
-            description: file.description,
+            description: (file as any).description,
             fileName: file.name,
           }
         },
@@ -77,11 +78,11 @@ export class WpAttachmentsService {
     return allUploadsDone.promise;
   }
 
-  public load(workPackage: WorkPackageResource, reload:boolean = false): ng.IPromise<Array> {
+  public load(workPackage: WorkPackageResource, reload:boolean = false): ng.IPromise<Array<any>> {
     const loadedAttachments = this.$q.defer();
 
     const path: string = workPackage.$links.attachments.$link.href;
-    this.$http.get(path, {cache: !reload}).success(response => {
+    this.$http.get(path, {cache: !reload}).success((response: any) => {
       _.remove(this.attachments);
       _.extend(this.attachments,response._embedded.elements);
       loadedAttachments.resolve(this.attachments);
@@ -104,7 +105,7 @@ export class WpAttachmentsService {
     }
   };
 
-  public hasAttachments(workPackage: WorkPackageResource): ng.IPromise {
+  public hasAttachments(workPackage: WorkPackageResourceInterface): ng.IPromise {
     const existance = this.$q.defer();
 
     this.load(workPackage).then((attachments:any) => {
@@ -121,7 +122,7 @@ export class WpAttachmentsService {
     this.attachments.length = 0;
   };
 
-  public addPendingAttachments(files: FileList | File): void {
+  public addPendingAttachments(files: FileListAsArray | File): void {
     if (angular.isArray(files)) {
       files.forEach(file => {
         this.attachments.push(file);
@@ -133,7 +134,7 @@ export class WpAttachmentsService {
   }
 
   // not in use until furinvaders create is merged
-  public uploadPendingAttachments = (wp: WorkPackageResource): ng.IPromise<any> => {
+  public uploadPendingAttachments = (wp: WorkPackageResourceInterface): ng.IPromise<any> => {
     if (angular.isDefined(wp) && this.attachments.length > 0){
       return this.upload(wp, this.attachments);
     }

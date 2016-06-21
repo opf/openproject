@@ -40,7 +40,7 @@ interface WorkPackageResourceEmbedded {
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
-  children:HalResource[]|any[];
+  children:WorkPackageResourceInterface[];
   parent:HalResource|any;
   priority:HalResource|any;
   project:HalResource|any;
@@ -67,7 +67,7 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   move():ng.IPromise<any>;
   removeWatcher():ng.IPromise<any>;
   self():ng.IPromise<any>;
-  update():ng.IPromise<any>;
+  update(payload:any):ng.IPromise<any>;
   updateImmediately(payload:any):ng.IPromise<any>;
   watch():ng.IPromise<any>;
 }
@@ -108,6 +108,8 @@ export class WorkPackageResource extends HalResource {
   public schema;
   public $pristine:{ [attribute:string]:any } = {};
   public parentId:number;
+  public subject:string;
+  public lockVersion:number;
 
   private form;
 
@@ -132,7 +134,7 @@ export class WorkPackageResource extends HalResource {
         args = args.map(arg => (arg ? arg.$source : arg));
       }
 
-      if (!_.isEqual(...args)) {
+      if (!_.isEqual(args[0], args[1])) {
         modified.push(key);
       }
     });
@@ -335,7 +337,7 @@ export class WorkPackageResource extends HalResource {
     this.id = 'new';
 
     // Set update link to form
-    this.update = this.$links.update = form.$links.self;
+    this['update'] = this.$links.update = form.$links.self;
 
     this.parentId = this.parentId || $stateParams.parent_id;
   }
@@ -344,8 +346,8 @@ export class WorkPackageResource extends HalResource {
 export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, WorkPackageResourceEmbedded, WorkPackageResource {
 }
 
-function wpResource() {
-  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = arguments;
+function wpResource(...args) {
+  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = args;
   return WorkPackageResource;
 }
 

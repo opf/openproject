@@ -28,11 +28,15 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
 
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
-  public workPackage:any|WorkPackageResource;
+  public workPackage:WorkPackageResourceInterface;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;

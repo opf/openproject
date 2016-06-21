@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import { expect } from 'chai';
 declare var Factory:any;
 
 describe('workPackageContextMenu', () => {

@@ -1,6 +1,8 @@
 import {IApplyAttachmentMarkup} from './wp-attachments-formattable.interfaces'
 import {InsertMode} from './wp-attachments-formattable.enums'
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResourceInterface
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class EditorModel implements IApplyAttachmentMarkup{
@@ -34,7 +36,7 @@ export class EditorModel implements IApplyAttachmentMarkup{
 
 export class MarkupModel{
 
-    public createMarkup(insertUrl: string, insertMode: InsertMode, addLineBreak?: boolean = false): string {
+    public createMarkup(insertUrl: string, insertMode: InsertMode, addLineBreak: boolean = false): string {
         if (angular.isUndefined((insertUrl))) return "";
 
         var markup:string = "";
@@ -73,7 +75,7 @@ export class DropModel{
       maximumAttachmentFileSize : 0, // initialized during init process from ConfigurationService
     };
 
-    constructor(protected $location: ng.ILocationService, protected dt: DataTransfer, protected workPackage: WorkPackageResource){
+    constructor(protected $location: ng.ILocationService, protected dt: DataTransfer, protected workPackage: WorkPackageResourceInterface){
         this.files = dt.files;
         this.filesCount = this.files.length;
         this.isUpload = this._isUpload(dt);
@@ -158,7 +160,7 @@ export class SingleAttachmentModel {
 export class FieldModel implements IApplyAttachmentMarkup {
     public contentToInsert: string;
 
-    constructor(protected workPackage: WorkPackageResource, protected markupModel: MarkupModel){
+    constructor(protected workPackage: WorkPackageResourceInterface, protected markupModel: MarkupModel){
         this.contentToInsert = workPackage.description.raw || "";
     }
 

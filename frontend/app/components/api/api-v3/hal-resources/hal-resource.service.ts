@@ -167,7 +167,7 @@ function initializeResource(halResource:HalResource) {
 
           if (Array.isArray(link)) {
             var items = link.map(item => createLinkedResource(linkName, item.$link));
-            var property:Array = new ObservableArray(...items).on('change', () => {
+            var property:Array<HalResource> = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
                   property.splice(property.indexOf(item), 1);
@@ -246,15 +246,14 @@ function initializeResource(halResource:HalResource) {
   }
 }
 
-function halResourceService() {
-  [$q, lazy, HalLink, halResourceTypesStorage] = arguments;
+function halResourceService(...args) {
+  [$q, lazy, halResourceTypesStorage] = args;
   return HalResource;
 }
 
 halResourceService.$inject = [
   '$q',
   'lazy',
-  'HalLink',
   'halResourceTypesStorage'
 ];
 

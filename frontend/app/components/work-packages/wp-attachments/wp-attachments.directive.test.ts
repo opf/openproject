@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {WorkPackageAttachmentsController} from './wp-attachments.directive'
+type FileListAsArray = FileList & typeFixes.ArrayFix;
 
 describe('WorkPackageAttachmentsDirective', function() {
   var compile;
@@ -97,7 +98,7 @@ describe('WorkPackageAttachmentsDirective', function() {
     it('filters out attachments of type directory', function() {
       var files = [{type: 'directory'}, {type: 'file'}];
 
-      controller.filterFiles(files);
+      controller.filterFiles(<FileListAsArray> files);
 
       expect(files).to.eql([{type: 'file'}]);
     });
@@ -122,7 +123,7 @@ describe('WorkPackageAttachmentsDirective', function() {
 
       var uploadStub = wpAttachments.upload = sinon.stub().returns(dumbPromise);
 
-      controller.uploadFilteredFiles(files);
+      controller.uploadFilteredFiles(<FileListAsArray> files);
 
       expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
