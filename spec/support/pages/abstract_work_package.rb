@@ -93,8 +93,8 @@ module Pages
 
       visit_tab!('relations')
 
-      expect(page).to have_selector('.relation.parent .content',
-                                    text: "##{parent.id} #{parent.subject}")
+      expect(page).to have_selector('.relation.parent .work_package',
+                                    text: "##{parent.id} #{parent.type.name}: #{parent.subject}")
     end
 
     def update_attributes(key_value_map)
