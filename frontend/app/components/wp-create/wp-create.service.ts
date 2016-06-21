@@ -43,15 +43,18 @@ export class WorkPackageCreateService {
   }
 
   public createNewWorkPackage(projectIdentifier) {
-    var wp = this.getForm(projectIdentifier).then(form => {
+    return this.getForm(projectIdentifier).then(form => {
       var wp = this.WorkPackageResource.fromCreateForm(form);
-
-      this.wpCacheService.updateWorkPackage(wp);
-
       return wp;
     });
+  }
 
-    return Rx.Observable.fromPromise(wp);
+  
+  public copyWorkPackage(copyFromForm, projectIdentifier) {
+    return this.getForm(projectIdentifier).then(form => {
+      var wp = this.WorkPackageResource.copyFrom(copyFromForm, form);
+      return wp;
+    });
   }
 
   private getForm(projectIdentifier): ng.IPromise<HalResource> {

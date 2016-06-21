@@ -103,6 +103,9 @@ openprojectModule
 
       .state('work-packages.copy', {
         url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
+        controller: 'WorkPackageCopyController',
+        controllerAs: '$ctrl',
+        reloadOnSearch: false,
         templateUrl: '/components/routing/main/work-packages.new.html',
         onEnter: () => {
           document.title = 'Copy Work Package - OpenProject'
@@ -194,6 +197,8 @@ openprojectModule
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+        controller: 'WorkPackageCopyController',
+        controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
         reloadOnSearch: false
       })

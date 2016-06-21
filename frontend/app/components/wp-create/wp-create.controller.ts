@@ -42,7 +42,7 @@ export class WorkPackageCreateController {
   public get header():string {
     if (this.parentWorkPackage) {
       return this.I18n.t('js.work_packages.create.header_with_parent',
-        {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id });
+        {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id});
     }
     return this.I18n.t('js.work_packages.create.header');
   }
@@ -50,6 +50,7 @@ export class WorkPackageCreateController {
   constructor(protected $state,
               protected $scope,
               protected $rootScope:IRootScopeService,
+              protected $q:ng.IQService,
               protected I18n:op.I18n,
               protected NotificationsService,
               protected loadingIndicator,
@@ -57,19 +58,23 @@ export class WorkPackageCreateController {
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    scopedObservable($scope, wpCreate.createNewWorkPackage($state.params.projectPath))
-      .subscribe(wp => {
-        this.newWorkPackage = wp;
-        this.wpEditModeState.start();
+    this.newWorkPackageFromParams($state.params).then(wp => {
+      this.newWorkPackage = wp;
+      this.wpEditModeState.start();
+      wpCacheService.updateWorkPackage(wp);
 
-        if ($state.params.parent_id) {
-          scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
-            .subscribe(parent => {
-              this.parentWorkPackage = parent;
-              this.newWorkPackage.parent = parent;
-            });
-        }
-      });
+      if ($state.params.parent_id) {
+        scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
+          .subscribe(parent => {
+            this.parentWorkPackage = parent;
+            this.newWorkPackage.parent = parent;
+          });
+      }
+    });
+  }
+
+  protected newWorkPackageFromParams(stateParams) {
+    return this.wpCreate.createNewWorkPackage(stateParams.projectPath);
   }
 
   public cancelAndBackToList() {
@@ -77,7 +82,7 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage(successState:string): ng.IPromise<WorkPackageResource> {
+  public saveWorkPackage(successState:string):ng.IPromise<WorkPackageResource> {
     if (this.wpEditModeState.active) {
       return this.wpEditModeState.save().then(wp => {
         this.newWorkPackage = null;

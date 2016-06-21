@@ -82,15 +82,22 @@ export class WorkPackageResource extends HalResource {
   public static fromCreateForm(form) {
     var wp = new WorkPackageResource(form.payload.$plain(), true);
 
-    // Copy resources from form response
-    wp.schema = form.schema;
-    wp.form = $q.when(form);
-    wp.id = 'new-' + Date.now();
+    wp.initializeNewResource(form);
+    return wp;
+  }
 
-    // Set update link to form
-    wp.$links.update = form.$links.self;
+  /**
+   * Create a copy resource from other and the new work package form
+   * @param otherForm The work package form of another work package
+   * @param form Work Package create form
+   */
+  public static copyFrom(otherForm, form) {
+    var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
 
-    wp.parentId = wp.parentId || $stateParams.parent_id;
+    // Override values from form payload
+    wp.lockVersion = form.payload.lockVersion;
+
+    wp.initializeNewResource(form);
 
     return wp;
   }
@@ -283,7 +290,6 @@ export class WorkPackageResource extends HalResource {
     if (this.isNew) {
       return apiWorkPackages.wpApiPath().post(payload);
     }
-
     return this.$links.updateImmediately(payload);
   }
 
@@ -317,6 +323,21 @@ export class WorkPackageResource extends HalResource {
         this[key] = formPayload[key];
       }
     });
+  }
+
+  /**
+   * Assign values from the form for a newly created work package resource.
+   * @param form
+   */
+  public initializeNewResource(form) {
+    this.schema = form.schema;
+    this.form = $q.when(form);
+    this.id = 'new';
+
+    // Set update link to form
+    this.update = this.$links.update = form.$links.self;
+
+    this.parentId = this.parentId || $stateParams.parent_id;
   }
 }
 
