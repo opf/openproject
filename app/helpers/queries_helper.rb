@@ -65,7 +65,7 @@ module QueriesHelper
         end
         @query.group_by = params[:group_by]
         @query.display_sums = params[:display_sums].present? && params[:display_sums] == 'true'
-        @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
+        @query.column_names = column_names_from_params params
         session[:query] = { project_id: @query.project_id, filters: @query.filters, group_by: @query.group_by, display_sums: @query.display_sums, column_names: @query.column_names }
       else
         @query = Query.find_by(id: session[:query][:id]) if session[:query][:id]
@@ -75,6 +75,22 @@ module QueriesHelper
     end
 
     @query
+  end
+
+  ##
+  # Reads column names from the request parameters and converts them
+  # from the frontend names to names recognized by the backend.
+  # Examples:
+  #   * assigned => assigned_to
+  #   * customField1 => cf_1
+  #
+  # @param params [Hash] Request parameters
+  # @return [Array] The column names read from the parameters.
+  def column_names_from_params(params)
+    names = params[:c] || (params[:query] && params[:query][:column_names])
+    context = WorkPackage.new
+
+    names.map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
   end
 
   def visible_queries

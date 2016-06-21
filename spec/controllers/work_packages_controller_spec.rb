@@ -282,7 +282,8 @@ describe WorkPackagesController, type: :controller do
       FactoryGirl.create(
         :work_package,
         subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
-        description: "\u2022 requires unicode.")
+        description: "\u2022 requires unicode.",
+        assigned_to: current_user)
     end
     let(:current_user) { FactoryGirl.create(:admin) }
 
@@ -290,7 +291,7 @@ describe WorkPackagesController, type: :controller do
       wp = work_package
 
       expect {
-        get :index, format: 'csv'
+        get :index, format: 'csv', c: [:subject, :assignee, :updatedAt]
       }.not_to raise_error
 
       data = CSV.parse(response.body)
@@ -298,6 +299,8 @@ describe WorkPackagesController, type: :controller do
       expect(data.size).to eq(2)
       expect(data.last).to include(wp.subject)
       expect(data.last).to include(wp.description)
+      expect(data.last).to include(current_user.name)
+      expect(data.last).to include(wp.updated_at.localtime.strftime("%m/%d/%Y %I:%M %p"))
     end
   end
 
