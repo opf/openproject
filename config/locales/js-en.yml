@@ -63,6 +63,8 @@ en:
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
+    error:
+      internal: "An internal error has occcurred."
     filter:
       description:
         text_open_filter: "Open this filter with 'ALT' and arrow keys."

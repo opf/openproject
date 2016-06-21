@@ -53,7 +53,7 @@ export class WorkPackageNotificationService {
   }
 
   public showGeneralError() {
-    this.NotificationsService.addError("An internal error has occcurred.");
+    this.NotificationsService.addError(I18n.t('js.error.internal'));
   }
 
   private showCustomError(errorResource, workPackage) {
