@@ -30,6 +30,7 @@ import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service"
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "./wp-notification.service";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 
@@ -45,14 +46,11 @@ export class WorkPackageEditFormController {
 
   constructor(protected $scope: ng.IScope,
               protected $q,
-              protected $state,
               protected $rootScope,
-              protected I18n,
-              protected NotificationsService,
+              protected WorkPackageNotificationService,
               protected QueryService,
               protected wpEditModeState: WorkPackageEditModeStateService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected loadingIndicator) {
+              protected wpCacheService:WorkPackageCacheService) {
 
     if (this.hasEditMode) {
       wpEditModeState.register(this);
@@ -128,33 +126,19 @@ export class WorkPackageEditFormController {
         angular.forEach(this.fields, field => field.setErrors([]));
         deferred.resolve();
 
-        this.showSaveNotification();
+        this.WorkPackageNotificationService.showSave(this.workPackage, this.loadingIndicator);
         this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {
         if (!(error.data instanceof ErrorResource)) {
-          this.NotificationsService.addError("An internal error has occcurred.");
+          this.WorkPackageNotificationService.showGeneralError;
           return deferred.reject([]);
         }
-        error.data.showErrorNotification();
+        this.WorkPackageNotificationService.showError(error.data);
         this.handleSubmissionErrors(error.data, deferred);
       });
 
     return deferred.promise;
-  }
-
-  private showSaveNotification() {
-    var message = 'js.notice_successful_' + (this.workPackage.inlineCreated ? 'create' : 'update');
-    this.NotificationsService.addSuccess({
-      message: this.I18n.t(message),
-      link: {
-        target: _ => {
-          this.loadingIndicator.mainPage = this.$state.go.apply(this.$state,
-            ["work-packages.show.activity", {workPackageId: this.workPackage.id}]);
-        },
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-      }
-    });
   }
 
   private handleSubmissionErrors(error: any, deferred: any) {

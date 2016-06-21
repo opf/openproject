@@ -29,8 +29,6 @@
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from "../../../../angular-modules";
 
-var NotificationsService:any;
-
 export class ErrorResource extends HalResource {
   public errors:any[];
   public message:string;
@@ -47,17 +45,6 @@ export class ErrorResource extends HalResource {
 
   public isMultiErrorMessage() {
     return this.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
-  }
-
-  public showErrorNotification() {
-    var messages = this.errorMessages;
-
-    if (messages.length > 1) {
-      NotificationsService.addError('', messages);
-    }
-    else {
-      NotificationsService.addError(messages[0]);
-    }
   }
 
   public getInvolvedAttributes():string[] {
@@ -95,10 +82,7 @@ export class ErrorResource extends HalResource {
 }
 
 function errorResourceService() {
-  [NotificationsService] = arguments;
   return ErrorResource;
 }
-
-errorResourceService.$inject = ['NotificationsService'];
 
 opApiModule.factory('ErrorResource', errorResourceService);
