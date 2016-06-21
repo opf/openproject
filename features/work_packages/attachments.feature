@@ -59,6 +59,7 @@ Feature: Attachments on work packages
   @javascript
   Scenario: A work package's attachment is listed
     When I go to the page for the issue "work package 1"
+    Then I should see "work package 1"
     Then I should see "logo.gif" within ".work-package--attachments--files"
 
   @javascript @wip
