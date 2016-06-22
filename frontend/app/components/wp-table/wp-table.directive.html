@@ -131,7 +131,8 @@
             </accessible-checkbox>
             <span>
               <a class="wp-table--details-link"
-                 ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+                 ui-state="desiredSplitViewState"
+                 ui-state-params="{workPackageId: row.object.id}">
                 <i class="icon icon-view-split"></i>
                 <span ng-bind="::I18n.t('js.button_open_details')"/>
               </a>

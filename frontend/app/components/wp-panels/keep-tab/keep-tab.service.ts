@@ -30,14 +30,19 @@ export class KeepTabService {
   protected showTab:string = 'work-packages.show.activity';
   protected detailsTab:string = 'work-packages.list.details.overview';
 
-  constructor(public $state:ng.ui.IStateService, $rootScope:ng.IRootScopeService) {
+  protected subject = new Rx.ReplaySubject<{ [tab: string]: string; }>(1);
+
+  constructor(public $state:ng.ui.IStateService, protected $rootScope:ng.IRootScopeService) {
     'ngInject';
 
     this.updateTabs();
-
     $rootScope.$on('$stateChangeSuccess', () => {
       this.updateTabs();
     });
+  }
+
+  public get observable() {
+    return this.subject;
   }
 
   public get currentShowTab():string {
@@ -48,6 +53,13 @@ export class KeepTabService {
     return this.detailsTab;
   }
 
+  public get currentTabs():{ [tab: string]: string; } {
+    return {
+      show: this.showTab,
+      details: this.detailsTab
+    }
+  }
+
   protected updateTab(stateName:string, tabName:string) {
     this[tabName] = this.$state.includes(stateName) ? this.$state.current.name : this[tabName];
   }
@@ -55,6 +67,8 @@ export class KeepTabService {
   protected updateTabs() {
     this.updateTab('work-packages.show.*', 'showTab');
     this.updateTab('work-packages.list.details.*', 'detailsTab');
+
+    this.subject.onNext(this.currentTabs);
   }
 }
 

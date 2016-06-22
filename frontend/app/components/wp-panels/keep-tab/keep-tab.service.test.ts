@@ -75,6 +75,18 @@ describe('keepTab service', () => {
     it('should keep the previous value of currentDetailsTab', () => {
       expect(keepTab.currentDetailsTab).to.eq(defaults.detailsTab);
     });
+
+    it('should propagate the previous change', () => {
+      var cb = sinon.spy();
+
+      var expected = {
+        show: 'new-show-route',
+        details: keepTab.currentDetailsTab
+      }
+
+      keepTab.observable.subscribe(cb);
+      expect(cb).to.have.been.calledWith(expected);
+    });
   });
 
   describe('when opening a details route', () => {
@@ -94,5 +106,22 @@ describe('keepTab service', () => {
     it('should keep the previous value of currentDetailsTab', () => {
       expect(keepTab.currentShowTab).to.eq(defaults.showTab);
     });
+
+    it('should propagate the previous and next change', () => {
+      var cb = sinon.spy();
+
+      var expected = {
+        details: 'new-details-route',
+        show: keepTab.currentShowTab
+      }
+
+      keepTab.observable.subscribe(cb);
+      expect(cb).to.have.been.calledWith(expected);
+
+      $rootScope.$emit('$stateChangeSuccess');
+
+      expect(cb).to.have.been.calledTwice;
+    });
+
   });
 });
