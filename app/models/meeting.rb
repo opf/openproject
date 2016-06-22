@@ -167,7 +167,7 @@ class Meeting < ActiveRecord::Base
 
       objs.group_by(&:start_month).each do |month, objs|
 
-        objs.group_by(&:start_date).each do |date, objs|
+        objs.group_by(&:start_time).each do |date, objs|
 
           by_start_year_month_date[year][month][date] = objs
 
