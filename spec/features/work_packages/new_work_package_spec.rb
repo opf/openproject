@@ -66,6 +66,12 @@ describe 'new work package', js: true do
       wp_page.subject_field.set(subject)
       save_work_package!
 
+      # safegurards
+      wp_page.dismiss_notification!
+      wp_page.expect_no_notification(
+        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      )
+
       subject_field.expect_state_text(subject)
 
       create_work_package('Bug')

@@ -105,7 +105,6 @@ export class WorkPackageSingleViewController {
   private init(wp) {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
-    this.hideEmptyFields = !wp.isNew;
 
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();

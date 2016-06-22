@@ -49,8 +49,8 @@ export class SingleViewWorkPackage {
     var visible = attrVisibility === 'visible';
     var hidden = attrVisibility === 'hidden';
 
-    if (this.workPackage.isNew === true) {
-      return notRequired || hidden;
+    if (this.workPackage.isNew) {
+      return field === 'author' || notRequired || hidden;
     }
 
     return notRequired && !visible && (empty || hidden);
