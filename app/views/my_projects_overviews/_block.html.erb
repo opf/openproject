@@ -25,13 +25,12 @@ See doc/COPYRIGHT.md for more details.
   <% content_for block_name_id do %>
     <div class="box-actions">
       <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
-      <%= link_to '', {
-            remote: true,
-            confirm: l(:label_confirm_delete),
-            url: { action: "remove_block", block: block_name },
-            html: { class: "icon icon-close", title: l(:button_delete) }
-          }
-          %>
+      <%= link_to '', { action: "remove_block", block: block_name },
+                      remote: true,
+                      method: :post,
+                      confirm: l(:label_confirm_delete),
+                      class: "icon icon-close",
+                      title: l(:button_delete) %>
       <% end %>
     </div>
   <% end %>
