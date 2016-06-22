@@ -142,7 +142,8 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     child_work_package_page.save!
 
-    expect(page).to have_selector('.notification-box--content', text: I18n.t('js.notice_successful_create'))
+    expect(page).to have_selector('.notification-box--content',
+                                  text: I18n.t('js.notice_successful_create'))
 
     child_work_package = WorkPackage.order(created_at: 'desc').first
 

@@ -146,7 +146,7 @@ describe('WorkPackageDetailsController', function() {
             return false;
           }
         },
-        workPackage: workPackage,
+        workPackage: workPackage
       });
 
       $timeout.flush();
