@@ -26,16 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {wpDirectivesModule} from "../../angular-modules";
+import {scopedObservable} from '../../helpers/angular-rx-utils';
 import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
 import IAnimateProvider = angular.IAnimateProvider;
 import ITranscludeFunction = angular.ITranscludeFunction;
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpVirtualScrollRow', wpVirtualScrollRow);
-
-let counter = 0;
 
 function getBlockNodes(nodes) {
   var node = nodes[0];
@@ -61,9 +59,15 @@ function createDummyRow(content: any) {
   return tr;
 }
 
-function wpVirtualScrollRow($animate: any) {
-  return {
+function disableWatchers(element: any) {
+  var data = element.data();
+  console.log(data);
 
+}
+
+function wpVirtualScrollRow($animate: any,
+  workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+  return {
     multiElement: true,
     transclude: 'element',
     priority: 600,
@@ -72,69 +76,91 @@ function wpVirtualScrollRow($animate: any) {
     $$tlb: true,
 
     link: ($scope: IScope,
-           $element: IRootElementService,
-           $attr: any,
-           ctrl: any,
-           $transclude: ITranscludeFunction) => {
+      $element: IRootElementService,
+      $attr: any,
+      ctrl: any,
+      $transclude: ITranscludeFunction) => {
 
-      new RowDisplay($animate, $scope, $element, $attr, $transclude);
+      new RowDisplay($animate, $scope, $element, $attr, $transclude, workPackageTableVirtualScrollService);
     }
   };
 }
 
+wpDirectivesModule.directive('wpVirtualScrollRow', wpVirtualScrollRow);
+
 class RowDisplay {
 
-  private visible = false;
   private block: any;
   private childScope: IScope;
   private previousElements: any;
 
+  private dummyRow: HTMLElement;
+  private visible: boolean = undefined;
+  private index: number;
+  private viewport: [number, number] = [0, 5];
+
   constructor(private $animate: any,
-              private $scope: angular.IScope,
-              private $element: angular.IRootElementService,
-              private $attr: any,
-              private $transclude: angular.ITranscludeFunction) {
+    private $scope: angular.IScope,
+    private $element: angular.IRootElementService,
+    private $attr: any,
+    private $transclude: angular.ITranscludeFunction,
+    private workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
 
-    // setInterval(() => {
-    //   if (this.visible) {
-    //     this.hide();
-    //   } else {
-    //     this.show();
-    //   }
-    // }, 5 * 1000);
+    this.index = $scope.$eval($attr.wpVirtualScrollRow);
 
-    // if (this.isVisible()) {
-    this.show(counter++);
+    scopedObservable($scope, workPackageTableVirtualScrollService.viewportChanges)
+      .subscribe(vp => {
+        this.viewport = vp;
+        this.show();
+      });
+
   }
 
-  private isVisible() {
-    return true;
+  private isRowInViewport() {
+    return this.index >= this.viewport[0] && this.index <= this.viewport[1];
   }
 
-  private show(index: number) {
-    this.visible = true;
+  private isRowInViewportOffset() {
+    const offset = this.workPackageTableVirtualScrollService.viewportOffset;
+    return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
+  }
 
-    if (!this.childScope) {
-      if (index % 2 === 0) {
-        this.$transclude((clone: any, newScope: any) => {
-          this.childScope = newScope;
-          clone[clone.length++] = document.createComment(' wp-virtual-scroll: ' + index + ' ');
-          this.block = {
-            clone: clone
-          };
-          this.$animate.enter(clone, this.$element.parent(), this.$element);
-        });
-      } else {
-        let row = createDummyRow(index);
-        this.$animate.enter(row, this.$element.parent(), this.$element);
+  private show() {
+    const renderRow = this.isRowInViewportOffset();
+    const enableWatchers = this.isRowInViewport();
+
+    if (this.visible !== undefined) {
+      if (renderRow && this.visible) {
+        return;
+      } else if (!renderRow && !this.visible) {
+        return;
       }
     }
 
-    setTimeout(() => this.$scope.$apply(), 0);
+    this.hide();
+
+    if (!this.childScope) {
+      if (renderRow) {
+        this.$transclude((clone: any, newScope: any) => {
+          this.childScope = newScope;
+          clone[clone.length++] = document.createComment(' wp-virtual-scroll: ' + this.index + ' ');
+          this.block = {
+            clone: clone
+          };
+          this.visible = true;
+          this.$animate.enter(clone, this.$element.parent(), this.$element);
+        });
+      } else {
+        this.dummyRow = createDummyRow("Loading...");
+        this.visible = false;
+        this.$animate.enter(this.dummyRow, this.$element.parent(), this.$element);
+      }
+    }
   }
 
   private hide() {
-    this.visible = false;
+    this.dummyRow && this.$element.parent()[0].removeChild(this.dummyRow);
+    this.dummyRow = null;
 
     if (this.previousElements) {
       this.previousElements.remove();
@@ -151,9 +177,73 @@ class RowDisplay {
       });
       this.block = null;
     }
-
-    setTimeout(() => this.$scope.$apply(), 0);
   }
 
 
 }
+
+
+class WorkPackageTableVirtualScrollService {
+
+  private rowHeight: number = 44;
+
+  private element: JQuery;
+
+  private lastRowsAboveCount: number;
+
+  private lastRowsInViewport: number;
+
+  public viewportOffset = 0;
+
+  public viewportChanges: Rx.Subject<[number, number]> = new Rx.ReplaySubject<[number, number]>(1);
+
+  setTableElement(element: IRootElementService) {
+    this.element = element;
+
+    const childs = element.children();
+    console.log(childs);
+  }
+
+  updateScrollInfo() {
+    const scrollTop = this.element.scrollTop();
+    const height = this.element.outerHeight();
+    const rowsAboveCount = Math.floor(scrollTop / this.rowHeight);
+    const rowsInViewport = Math.round(height / this.rowHeight) + 1;
+
+    if (rowsAboveCount !== this.lastRowsAboveCount || rowsInViewport !== this.lastRowsInViewport) {
+      this.viewportChanges.onNext([rowsAboveCount, rowsAboveCount + rowsInViewport]);
+    }
+
+    this.lastRowsAboveCount = rowsAboveCount;
+    this.lastRowsInViewport = rowsInViewport;
+  }
+
+}
+
+wpDirectivesModule.service("workPackageTableVirtualScrollService", WorkPackageTableVirtualScrollService);
+
+
+function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+  return {
+    restrict: 'A',
+    link: ($scope: IScope, $element: IRootElementService) => {
+
+      workPackageTableVirtualScrollService.setTableElement($element);
+
+      let scrollTimeout: any;
+      $element.on("scroll", () => {
+        scrollTimeout && clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          //$scope.$applyAsync(() => {
+          workPackageTableVirtualScrollService.updateScrollInfo();
+          //});
+        }, 500);
+      });
+
+      workPackageTableVirtualScrollService.updateScrollInfo();
+
+    }
+  };
+}
+
+wpDirectivesModule.directive('wpVirtualScrollTable', wpVirtualScrollTable);
