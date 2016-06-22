@@ -85,6 +85,11 @@ describe ::API::V3::Users::UserRepresenter do
         expect(subject).to have_json_path('_links/self/href')
       end
 
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'showUser' }
+        let(:href) { "/users/#{user.id}" }
+      end
+
       context 'when regular current_user' do
         it 'should have no lock-related links' do
           expect(subject).not_to have_json_path('_links/lock/href')

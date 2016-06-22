@@ -157,6 +157,10 @@ module API
             show_revision_project_repository_path(project_id, identifier)
           end
 
+          def self.show_user(user_id)
+            user_path(user_id)
+          end
+
           def self.statuses
             "#{root}/statuses"
           end
