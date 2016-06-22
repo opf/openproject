@@ -83,7 +83,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   end
 
   describe 'with all minimum parameters' do
-    let(:type) { project.types.default.first }
+    let(:type) { project.types.order(:position).first }
     let(:parameters) {
       {
         _links: {
@@ -99,7 +99,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
       expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
     end
 
-    it 'has the first default type active in the project set' do
+    it 'has the first type active in the project set' do
       type_link = {
         href: "/api/v3/types/#{type.id}",
         title: type.name
