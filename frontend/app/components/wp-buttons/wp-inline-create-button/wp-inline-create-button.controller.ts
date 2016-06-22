@@ -28,28 +28,25 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageCreateService} from "../../wp-create/wp-create.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
-  public query: op.Query;
+  public query:op.Query;
   public rows:any[];
   public hidden:boolean = false;
 
-  // Template create form
-  protected form: HalResource;
-
   private _wp;
 
-  constructor(
-    protected $state,
-    protected $scope,
-    protected $rootScope,
-    protected $element,
-    protected FocusHelper,
-    protected I18n,
-    protected WorkPackageResource,
-    protected apiWorkPackages
-  ) {
+  constructor(protected $state,
+              protected $scope,
+              protected $rootScope,
+              protected $element,
+              protected FocusHelper,
+              protected I18n,
+              protected wpCacheService:WorkPackageCacheService,
+              protected wpCreate:WorkPackageCreateService) {
     super($state, I18n);
 
     $rootScope.$on('workPackageSaved', (event, savedWp) => {
@@ -59,7 +56,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
     });
 
     // Need to reset the state when the work package is refreshed hard
-    $rootScope.$on('workPackagesRefreshRequired', _ => {
+    $rootScope.$on('workPackagesRefreshRequired', () => {
       this.show();
     });
 
@@ -73,12 +70,13 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   public addWorkPackageRow() {
-    this.getForm().then(form => {
-      this._wp = this.WorkPackageResource.fromCreateForm(form);
+    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
+      this.wpCacheService.updateWorkPackage(wp);
+      this._wp = wp;
       this._wp.inlineCreated = true;
 
       this.query.applyDefaultsFromFilters(this._wp);
-      this.rows.push({ level: 0, ancestors: [], object: this._wp, parent: void 0 });
+      this.rows.push({level: 0, ancestors: [], object: this._wp, parent: void 0});
       this.hide();
     });
   }
@@ -90,15 +88,6 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public show() {
     return this.hidden = false;
   }
-
-  private getForm() {
-    if (!this.form) {
-      this.form = this.apiWorkPackages.emptyCreateForm(this.projectIdentifier);
-    }
-
-    return this.form;
-  }
-
 }
 
 wpButtonsModule.controller(

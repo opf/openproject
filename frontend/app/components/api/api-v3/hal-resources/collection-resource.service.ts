@@ -27,12 +27,19 @@
 //++
 
 import {HalResource} from './hal-resource.service';
-import {opApiModule} from "../../../../angular-modules";
+import {opApiModule} from '../../../../angular-modules';
+
+interface CollectionResourceEmbedded {
+  elements: HalResource[] & any;
+}
 
 export class CollectionResource extends HalResource {
   public getElements() {
     return this.$embedded.elements;
   }
+}
+
+export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
 }
 
 function collectionResource() {

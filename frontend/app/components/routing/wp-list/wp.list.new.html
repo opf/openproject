@@ -1,4 +1,23 @@
-<div class="work-packages--details">
-  <wp-create-form work-package="workPackage"
-                  success-state="work-packages.list.details.overview"></wp-create-form>
+<div
+    class="work-packages--details"
+    ng-if="$ctrl.newWorkPackage"
+>
+  <div class="work-packages--details-content -create-mode">
+    <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
+    <div
+        has-edit-mode="true"
+        wp-edit-form="$ctrl.newWorkPackage"
+    >
+      <h2>{{ $ctrl.header }}</h2>
+      <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+      <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+    </div>
+  </div>
+
+  <div class="bottom-toolbar">
+    <edit-actions-bar
+        on-save="$ctrl.saveWorkPackage('work-packages.list.details.overview')"
+        on-cancel="$ctrl.cancelAndBackToList()"
+    ></edit-actions-bar>
+  </div>
 </div>

@@ -65,7 +65,10 @@ const panels = {
     return {
       url: '/relations',
       reloadOnSearch: false,
-      templateUrl: '/templates/work_packages/tabs/relations.html'
+      template: ` <relations-panel
+                    ng-if="workPackageResource"
+                    work-package="workPackageResource"
+                  ></relations-panel>`
     };
   }
 };
@@ -91,11 +94,18 @@ openprojectModule
       .state('work-packages.new', {
         url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
         templateUrl: '/components/routing/main/work-packages.new.html',
-        reloadOnSearch: false
+        controller: 'WorkPackageCreateController',
+        controllerAs: '$ctrl',
+        reloadOnSearch: false,
+        onEnter: () => angular.element('body').addClass('full-create'),
+        onExit: () => angular.element('body').removeClass('full-create'),
       })
 
       .state('work-packages.copy', {
         url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
+        controller: 'WorkPackageCopyController',
+        controllerAs: '$ctrl',
+        reloadOnSearch: false,
         templateUrl: '/components/routing/main/work-packages.new.html',
         onEnter: () => {
           document.title = 'Copy Work Package - OpenProject'
@@ -180,11 +190,15 @@ openprojectModule
       })
       .state('work-packages.list.new', {
         url: '/create_new?type&parent_id',
+        controller: 'WorkPackageCreateController',
+        controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
         reloadOnSearch: false
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
+        controller: 'WorkPackageCopyController',
+        controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
         reloadOnSearch: false
       })

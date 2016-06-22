@@ -69,6 +69,12 @@ describe 'inline create work package', js: true do
         expect(page).to have_selector('.wp--row .subject', text: 'Some subject')
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
 
+        # safegurards
+        wp_table.dismiss_notification!
+        wp_table.expect_no_notification(
+          message: 'Successful update. Click here to open this work package in fullscreen view.'
+        )
+
         # Cancel creation
         expect(page).to have_selector('.wp--row.-new')
         page.find('.wp-table--cancel-create-link').click

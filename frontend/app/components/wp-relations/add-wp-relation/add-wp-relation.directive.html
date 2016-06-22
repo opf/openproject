@@ -2,16 +2,16 @@
   <div class="choice">
     <div class="choice--select">
       <ui-select
-        id="relation_to_id-{{ handler.relationsId }}"
-        name="relation[to_id][{{ handler.relationsId }}]"
-        ng-model="$parent.relationToAddId"
-        title="{{ I18n.t('js.field_value_enter_prompt', { field: I18n.t('js.relation_labels.' + handler.relationsId) }) }}"
+        id="relation_to_id-{{ $ctrl.relationGroup.id }}"
+        name="relation[to_id][{{ $ctrl.relationGroup.id }}]"
+        ng-model="$ctrl.wpToAddId"
+        title="{{ text.uiSelectTitle }}"
         required
         theme="select2"
         tabindex="0">
         <ui-select-match tabindex="-1">{{$select.selected.to_s}}</ui-select-match>
         <ui-select-choices
-          refresh-delay="100"
+          refresh-delay="250"
           refresh="autocompleteWorkPackages($select.search)"
           repeat="item.id as item in options">
             <div ng-bind="item.to_s"></div>
@@ -20,9 +20,9 @@
     </div>
     <div class="choice--button">
       <button class="button"
-              title="{{ btnTitle }}"
-              ng-bind-html="btnIcon + ' ' + btnTitle"
-              ng-click="handler.addRelation(this)"
+              title="{{ $ctrl.btnTitle }}"
+              ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
+              ng-click="$ctrl.addRelation()"
               ng-disabled="add_relation_form.$invalid">
       </button>
     </div>

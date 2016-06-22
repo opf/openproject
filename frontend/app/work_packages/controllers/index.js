@@ -36,25 +36,6 @@ angular.module('openproject.workPackages.controllers')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .constant('RELATION_TYPES', {
-    relatedTo: 'Relation::Relates',
-    duplicates: 'Relation::Duplicates',
-    duplicated: 'Relation::Duplicated',
-    blocks: 'Relation::Blocks',
-    blocked: 'Relation::Blocked',
-    precedes: 'Relation::Precedes',
-    follows: 'Relation::Follows'
-  })
-  .constant('RELATION_IDENTIFIERS', {
-    parent: 'parent',
-    relatedTo: 'relates',
-    duplicates: 'duplicates',
-    duplicated: 'duplicated',
-    blocks: 'blocks',
-    blocked: 'blocked',
-    precedes: 'precedes',
-    follows: 'follows'
-  })
   .factory('exportModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'ExportModalController',

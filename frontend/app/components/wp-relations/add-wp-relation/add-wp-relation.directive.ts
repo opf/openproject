@@ -26,33 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-module.exports = function($http, PathHelper) {
+import {wpTabsModule} from "../../../angular-modules";
+import {WorkPackageRelationsController} from "../wp-relations.directive";
+
+function addWpRelationDirective(I18n) {
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/tabs/_add_work_package_relation.html',
-    link: function(scope, element, attributes) {
-      scope.relationToAddId = null;
-      scope.autocompleteWorkPackages = function(term) {
-        if (!term) {
-          return;
-        }
-        var params = {
-          q: term,
-          scope: 'relatable',
-          escape: false,
-          id: scope.handler.workPackage.props.id,
-          'project_id': scope.handler.workPackage.embedded.project.props.id
-        };
-        return $http({
-          method: 'GET',
-          url: URI(PathHelper.workPackageJsonAutoCompletePath())
-            .search(params)
-            .toString()
-        }).then(function(response) {
-          scope.options = response.data;
+    templateUrl: '/components/wp-relations/add-wp-relation/add-wp-relation.directive.html',
+
+    link: function (scope) {
+      scope.text = {
+        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {field: scope.$ctrl.text.title})
+      };
+      scope.autocompleteWorkPackages = (term) => {
+        if (!term) return;
+
+        scope.$ctrl.relationGroup.findRelatableWorkPackages(term).then(workPackages => {
+          scope.options = workPackages;
         });
-      }
+      };
     }
   };
-};
+}
+
+wpTabsModule.directive('addWpRelation', addWpRelationDirective);

@@ -143,6 +143,12 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
+        link :relations do
+          {
+            href: api_v3_paths.work_package_relations(represented.id)
+          }
+        end
+
         link :revisions do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
@@ -366,16 +372,16 @@ module API
         end
 
         def relations
+          self_path = api_v3_paths.work_package_relations(represented.id)
           relations = represented.relations
           visible_relations = relations.select { |relation|
             relation.other_work_package(represented).visible?
           }
 
-          visible_relations.map do |relation|
-            Relations::RelationRepresenter.new(relation,
-                                               work_package: represented,
-                                               current_user: current_user)
-          end
+          ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
+                                                                  self_path,
+                                                                  work_package: represented,
+                                                                  current_user: current_user)
         end
 
         def visible_children

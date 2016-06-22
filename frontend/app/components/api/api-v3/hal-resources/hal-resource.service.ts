@@ -237,7 +237,7 @@ function initializeResource(halResource:HalResource) {
     if (val && val.$link) {
       const link = val.$link;
 
-      if (link.href && link.method === 'get') {
+      if (link.href) {
         halResource.$source._links[linkName] = link;
       }
 

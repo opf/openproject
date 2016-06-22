@@ -30,9 +30,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
 
     it 'shows the parent relationship expanded' do
-      within '.relation.parent' do
-        expect(page).to have_selector('.content', text: "##{parent.id} #{parent.subject}")
-      end
+      expect(page).to have_selector('.parent .work_package',
+                                    text: "##{parent.id} #{parent.type}: #{parent.subject}")
     end
   end
 
@@ -48,11 +47,12 @@ describe 'Work package relations tab', js: true, selenium: true do
         find('.parent-toggle-link').click
 
         form = find('.choice--select')
-        ui_select_choose(form, parent.id)
+        ui_select_choose(form, parent.subject)
 
         click_button 'Change parent'
 
-        expect(page).to have_selector('.content', text: "##{parent.id} #{parent.subject}")
+        expect(page).to have_selector('.parent .work_package',
+                                      text: "##{parent.id} #{parent.type}: #{parent.subject}")
       end
     end
   end

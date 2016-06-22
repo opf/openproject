@@ -243,7 +243,7 @@ function wpTable(
 
       /** Save callbacks for work package */
      scope.onWorkPackageSave = function(workPackage, fields) {
-       $rootScope.$emit('workPackageSaved', this.workPackage);
+       $rootScope.$emit('workPackageSaved', workPackage);
        $rootScope.$emit('workPackagesRefreshInBackground');
      } ;
     }

@@ -31,9 +31,10 @@ import {WorkPackageEditFormController} from "./wp-edit-form.directive";
 
 export class WorkPackageEditModeStateService {
   public form: WorkPackageEditFormController;
-  public _active: boolean = false;
+  
+  private _active: boolean = false;
 
-  constructor(protected $rootScope, protected $window, protected I18n) {
+  constructor(protected $rootScope, protected $window, protected $q, protected I18n) {
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
       if (this.active && fromParams.workPackageId
@@ -64,12 +65,16 @@ export class WorkPackageEditModeStateService {
   
   public save() {
     if (this.active) {
-      this.form.updateWorkPackage().then(() => {
+      return this.form.updateWorkPackage().then(wp => {
         // Doesn't use cancel() since that resets all values
         this.form.closeAllFields();
         this._active = false;
+        
+        return wp;
       });
     }
+
+    return this.$q.reject();
   }
   
   public register(form: WorkPackageEditFormController) {
@@ -77,7 +82,7 @@ export class WorkPackageEditModeStateService {
 
     // Activate form when it registers after the
     // edit mode has been requested.
-    if (this._active) {
+    if (this.active) {
       form.toggleEditMode(true);
     }
   }

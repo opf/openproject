@@ -27,15 +27,15 @@
 // ++
 
 
-import {opServicesModule} from "../../../angular-modules";
+import {opServicesModule} from '../../../angular-modules';
 
-var $filter: ng.IFilterService;
-var I18n: op.I18n;
-var TimezoneService: any;
-var currencyFilter: any;
+var $filter:ng.IFilterService;
+var I18n:op.I18n;
+var TimezoneService:any;
+var currencyFilter:any;
 
 export class SingleViewWorkPackage {
-  constructor(protected workPackage: any) {
+  constructor(protected workPackage:any) {
   }
 
   public isSingleField(field) {
@@ -46,11 +46,11 @@ export class SingleViewWorkPackage {
     var attrVisibility = this.getVisibility(field);
     var notRequired = !this.isRequired(field) || this.hasDefault(field);
     var empty = this.isEmpty(field);
-    var visible = attrVisibility == 'visible';
-    var hidden = attrVisibility == 'hidden';
+    var visible = attrVisibility === 'visible';
+    var hidden = attrVisibility === 'hidden';
 
-    if (this.workPackage.isNew === true) {
-      return notRequired && hidden;
+    if (this.workPackage.isNew) {
+      return field === 'author' || notRequired || hidden;
     }
 
     return notRequired && !visible && (empty || hidden);
@@ -92,8 +92,8 @@ export class SingleViewWorkPackage {
       return true;
     }
 
-    if (value.$embedded && _.isArray(value.$embedded.elements)) {
-      return value.$embedded.elements.length === 0;
+    if (value && _.isArray(value.elements)) {
+      return value.elements.length === 0;
     }
 
     return false;
@@ -187,7 +187,7 @@ export class SingleViewWorkPackage {
       var allowedValues = this.workPackage.schema.type.allowedValues;
       var currentType = this.workPackage.$links.type.$link.href;
 
-      return _.some(allowedValues, (allowedValue: any) => {
+      return _.some(allowedValues, (allowedValue:any) => {
         return allowedValue.href === currentType && allowedValue.isMilestone;
       });
     }
@@ -216,7 +216,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupHideable(groupedFields, groupName) {
-    var group: any = _.find(groupedFields, {groupName: groupName});
+    var group:any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0 || _.every(group.attributes, (field) => {
         return this.canHideField(field);
@@ -224,7 +224,7 @@ export class SingleViewWorkPackage {
   }
 
   public isGroupEmpty(groupedFields, groupName) {
-    var group: any = _.find(groupedFields, {groupName: groupName});
+    var group:any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0;
   }
@@ -264,19 +264,16 @@ export class SingleViewWorkPackage {
   }
 }
 
-function singleViewWpService(_$filter_, _I18n_, _TimezoneService, _currencyFilter_) {
-  $filter = _$filter_;
-  I18n = _I18n_;
-  TimezoneService = _TimezoneService;
-  currencyFilter = _currencyFilter_;
-
+function singleViewWpService() {
+  [$filter, I18n, TimezoneService, currencyFilter] = arguments;
   return SingleViewWorkPackage;
 }
 
-opServicesModule.factory('SingleViewWorkPackage', [
+singleViewWpService.$inject = [
   '$filter',
   'I18n',
   'TimezoneService',
-  'currencyFilter',
-  singleViewWpService
-]);
+  'currencyFilter'
+];
+
+opServicesModule.factory('SingleViewWorkPackage', singleViewWpService);

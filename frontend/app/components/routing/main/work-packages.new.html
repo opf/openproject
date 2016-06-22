@@ -1,4 +1,14 @@
-<div class="work-package--new-state">
-  <wp-create-form success-state="work-packages.show.activity"
-                  form-template="full-create"></wp-create-form>
+<div
+    class="work-package--new-state"
+    ng-if="$ctrl.newWorkPackage"
+    has-edit-mode="true"
+    wp-edit-form="$ctrl.newWorkPackage"
+>
+  <h2>{{ $ctrl.header }}</h2>
+  <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+  <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+  <edit-actions-bar
+      on-save="$ctrl.saveWorkPackage('work-packages.show')"
+      on-cancel="$ctrl.cancelAndBackToList()"
+  ></edit-actions-bar>
 </div>

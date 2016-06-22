@@ -28,23 +28,17 @@
 
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+
 function WorkPackageShowController($scope,
                                    $rootScope,
                                    $state,
                                    $window,
-                                   $q,
                                    PERMITTED_MORE_MENU_ACTIONS,
-                                   RELATION_TYPES,
-                                   RELATION_IDENTIFIERS,
                                    workPackage,
                                    I18n,
-                                   WorkPackagesHelper,
                                    PathHelper,
                                    UsersHelper,
                                    WorkPackageService,
-                                   CommonRelationsHandler,
-                                   ChildrenRelationsHandler,
-                                   ParentRelationsHandler,
                                    WorkPackageAuthorization,
                                    HookService,
                                    AuthorisationService,
@@ -182,35 +176,6 @@ function WorkPackageShowController($scope,
 
     // Attachments
     $scope.attachments = workPackage.embedded.attachments.embedded.elements;
-
-    // relations
-    $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parents) {
-      var relationsHandler = new ParentRelationsHandler(workPackage, parents, 'parent');
-      $scope.wpParent = relationsHandler;
-    });
-
-    $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
-      var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
-      $scope.wpChildren = relationsHandler;
-    });
-
-    function relationTypeIterator(key) {
-      $q.all(WorkPackagesHelper.getRelationsOfType(
-        workPackage,
-        RELATION_TYPES[key])
-      ).then(function(relations) {
-        var relationsHandler = new CommonRelationsHandler(workPackage,
-          relations,
-          RELATION_IDENTIFIERS[key]);
-        $scope[key] = relationsHandler;
-      });
-    }
-
-    for (var key in RELATION_TYPES) {
-      if (RELATION_TYPES.hasOwnProperty(key)) {
-        relationTypeIterator(key);
-      }
-    }
   }
 
   $scope.toggleWatch = function() {

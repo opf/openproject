@@ -57,7 +57,7 @@ module Pages
     end
 
     def select_attribute(property, value)
-      element = page.first("#work-package-#{property.downcase} select")
+      element = page.first(".wp-edit-field.#{property.downcase} select")
 
       if element
         element.select(value)

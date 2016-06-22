@@ -37,10 +37,12 @@ export class WorkPackageSubjectController {
   constructor(protected $scope,
               protected $stateParams,
               protected wpCacheService) {
-    scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId))
+    if (!this.workPackage) {
+      scopedObservable($scope, wpCacheService.loadWorkPackage($stateParams.workPackageId))
         .subscribe((wp: WorkPackageResource) => {
           this.workPackage = wp;
         });
+    }
   }
 }
 
@@ -48,7 +50,9 @@ function wpSubjectDirective() {
   return {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-subject/wp-subject.directive.html',
-    scope: {},
+    scope: {
+      workPackage: '=?'
+    },
     bindToController: true,
     controller: WorkPackageSubjectController,
     controllerAs: '$ctrl'

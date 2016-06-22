@@ -36,18 +36,11 @@ angular
 
 function WorkPackageDetailsController($scope,
                                       $state,
-                                      $q,
                                       $rootScope,
-                                      RELATION_TYPES,
-                                      RELATION_IDENTIFIERS,
                                       I18n,
-                                      WorkPackagesHelper,
                                       PathHelper,
                                       UsersHelper,
                                       WorkPackageService,
-                                      CommonRelationsHandler,
-                                      ChildrenRelationsHandler,
-                                      ParentRelationsHandler,
                                       NotificationsService,
                                       wpEditModeState:WorkPackageEditModeStateService,
                                       wpCacheService) {
@@ -141,34 +134,6 @@ function WorkPackageDetailsController($scope,
     // Attachments
     $scope.attachments = workPackage.embedded.attachments.embedded.elements;
 
-    // relations
-    $q.all(WorkPackagesHelper.getParent(workPackage)).then(function (parents) {
-      var relationsHandler = new ParentRelationsHandler(workPackage, parents, 'parent');
-      $scope.wpParent = relationsHandler;
-    });
-
-    $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function (children) {
-      var relationsHandler = new ChildrenRelationsHandler(workPackage, children);
-      $scope.wpChildren = relationsHandler;
-    });
-
-    function relationTypeIterator(key) {
-      $q.all(WorkPackagesHelper.getRelationsOfType(
-        workPackage,
-        RELATION_TYPES[key])
-      ).then(function (relations) {
-        var relationsHandler = new CommonRelationsHandler(workPackage,
-          relations,
-          RELATION_IDENTIFIERS[key]);
-        $scope[key] = relationsHandler;
-      });
-    }
-
-    for (var key in RELATION_TYPES) {
-      if (RELATION_TYPES.hasOwnProperty(key)) {
-        relationTypeIterator(key);
-      }
-    }
   }
 
   $scope.canViewWorkPackageWatchers = function () {
@@ -189,5 +154,4 @@ function WorkPackageDetailsController($scope,
 
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
-
 }

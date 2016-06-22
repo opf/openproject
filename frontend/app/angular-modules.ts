@@ -50,7 +50,9 @@ angular
     'openproject.workPackages.config',
     'openproject.services'
   ]);
-angular.module('openproject.viewModels', ['openproject.services']);
+export const opViewModelsModule = angular.module('openproject.viewModels', [
+  'openproject.services'
+]);
 
 // timelines
 angular.module('openproject.timelines', [
@@ -115,7 +117,7 @@ export const wpDirectivesModule = angular.module('openproject.workPackages.direc
   'openproject.workPackages.services',
   'openproject.workPackages.models'
 ]);
-angular.module('openproject.workPackages.tabs', []);
+export const wpTabsModule = angular.module('openproject.workPackages.tabs', []);
 angular.module('openproject.workPackages.activities', []);
 
 // messages

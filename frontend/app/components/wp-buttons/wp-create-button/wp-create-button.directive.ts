@@ -40,7 +40,7 @@ function wpCreateButton() {
     },
 
     bindToController: true,
-    controllerAs: 'vm',
+    controllerAs: '$ctrl',
     controller: 'WorkPackageCreateButtonController'
   }
 }

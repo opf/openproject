@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,41 +24,38 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.workPackages')
-  .directive('wpCreateForm', wpCreateForm);
+import {wpTabsModule} from "../../../angular-modules";
+import {WorkPackageRelationsController} from "../wp-relations.directive";
 
-function wpCreateForm() {
-  return {
-    restrict: 'E',
-    templateUrl: function (element, attrs) {
-      var directory = '/components/work-packages/wp-create-form/',
-          template = 'wp-create-form.directive.html';
+function wpRelationRowDirective(PathHelper) {
+  var getFullIdentifier = (workPackage) => {
+    var type = ' ';
 
-      if (attrs.formTemplate === 'full-create') {
-        template = 'wp-full-create-form.directive.html';
-      }
-
-      return directory + template;
-    },
-
-    scope: {
-      workPackage: '=?',
-      successState: '@'
-    },
-
-    controller: 'WorkPackageNewController',
-    controllerAs: 'vm',
-    bindToController: true,
-
-    link: function (scope) {
-      var body = angular.element('body').addClass('full-create');
-
-      scope.$on('$stateChangeStart', function () {
-        body.removeClass('full-create');
-      })
+    if (workPackage.type) {
+      type += workPackage.type.name + ': ';
     }
+
+    return `#${workPackage.id}${type}${workPackage.subject}`;
+  };
+
+  function wpRelationsDirectiveLink(scope) {
+    scope.workPackagePath = PathHelper.workPackagePath;
+    scope.userPath = PathHelper.userPath;
+
+    scope.$ctrl.relationGroup.getRelatedWorkPackage(scope.relation)
+      .then(relatedWorkPackage => {
+        scope.relatedWorkPackage = relatedWorkPackage;
+        scope.fullIdentifier = getFullIdentifier(relatedWorkPackage);
+        scope.state = relatedWorkPackage.status.isClosed ? 'closed' : '';
+      });
+  }
+
+  return {
+    restrict: 'A',
+    link: wpRelationsDirectiveLink
   };
 }
+
+wpTabsModule.directive('wpRelationRow', wpRelationRowDirective);

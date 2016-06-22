@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,26 +24,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.viewModels')
-  .factory('CommonRelationsHandler', [
-    '$timeout',
-    'WorkPackageService',
-    'ApiNotificationsService',
-    require('./common-relations-handler')
-  ])
-  .factory('ChildrenRelationsHandler', [
-    'CommonRelationsHandler',
-    'WorkPackageService',
-    'ApiNotificationsService',
-    '$state',
-    require('./children-relations-handler')
-  ])
-  .factory('ParentRelationsHandler', [
-    'CommonRelationsHandler',
-    'WorkPackageService',
-    'ApiNotificationsService',
-    'PathHelper',
-    require('./parent-relations-handler')
-  ]);
+import {wpDirectivesModule} from "../../angular-modules";
+import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+
+export class WorkPackageCopyController extends WorkPackageCreateController {
+  protected newWorkPackageFromParams(stateParams) {
+    var deferred = this.$q.defer();
+
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId))
+      .subscribe((wp:WorkPackageResource) => {
+        this.createCopyFrom(wp, stateParams.projectPath).then(newWorkPackage => {
+          deferred.resolve(newWorkPackage);
+        });
+      });
+
+    return deferred.promise;
+  }
+
+  private createCopyFrom(wp:WorkPackageResource, projectPath) {
+    return wp.getForm().then(form => {
+      return this.wpCreate.copyWorkPackage(form);
+    });
+  }
+}
+
+wpDirectivesModule.controller('WorkPackageCopyController', WorkPackageCopyController);

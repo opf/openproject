@@ -27,20 +27,4 @@
 //++
 
 angular.module('openproject.workPackages.tabs')
-  .directive('addWorkPackageChild', require(
-    './add-work-package-child-directive'))
-  .directive('addWorkPackageRelation', require(
-    './add-work-package-relation-directive'))
-  .directive('panelExpander', require('./panel-expander-directive'))
-  .directive('relatedWorkPackageTableRow', [
-    'I18n',
-    'PathHelper',
-    'WorkPackagesHelper', require(
-      './related-work-package-table-row-directive')
-  ])
-  .directive('workPackageRelations', [
-    'I18n',
-    'WorkPackagesHelper',
-    '$timeout',
-    require('./work-package-relations-directive')
-  ]);
+    .directive('panelExpander', require('./panel-expander-directive'));
