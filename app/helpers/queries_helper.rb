@@ -85,12 +85,15 @@ module QueriesHelper
   #   * customField1 => cf_1
   #
   # @param params [Hash] Request parameters
-  # @return [Array] The column names read from the parameters.
+  # @return [Array] The column names read from the parameters or nil if none were given.
   def column_names_from_params(params)
     names = params[:c] || (params[:query] && params[:query][:column_names])
-    context = WorkPackage.new
 
-    names.map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
+    if names
+      context = WorkPackage.new
+
+      names.map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
+    end
   end
 
   def visible_queries
