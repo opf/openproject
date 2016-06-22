@@ -96,9 +96,11 @@ export class WorkPackageEditFieldController {
   public activate(forceFocus = false) {
     this._forceFocus = forceFocus;
 
+    let alreadyActive = this._active;
+
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
-      if (this._active) {
+      if (this._active && !alreadyActive) {
         this.focusField();
       }
       return this._active;
