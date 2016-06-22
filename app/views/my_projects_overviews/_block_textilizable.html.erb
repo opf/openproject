@@ -37,7 +37,7 @@ See doc/COPYRIGHT.md for more details.
 
               <%= hidden_field_tag 'block_name', block_name %>
               <%= text_field_tag "block_title_#{block_name}", block_title %>
-              <%= text_area_tag "textile_#{block_name}", textile, cols: 40, rows: 5, class: 'wiki-edit' %>
+              <%= text_area_tag "textile_#{block_name}", textile.html_safe, cols: 40, rows: 5, class: 'wiki-edit' %>
               <%= wikitoolbar_for "textile_#{block_name}" %>
             <p><label><%=l(:label_attachment_plural)%></label><br />
               <%= render partial: 'attachments/form' %>
