@@ -30,6 +30,7 @@ import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 import {WorkPackageCreateService} from "../../wp-create/wp-create.service";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
   public query:op.Query;
@@ -44,6 +45,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
               protected $element,
               protected FocusHelper,
               protected I18n,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpCreate:WorkPackageCreateService) {
     super($state, I18n);
 
@@ -68,7 +70,8 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   }
 
   public addWorkPackageRow() {
-    scopedObservable(this.$scope, this.wpCreate.createNewWorkPackage(this.projectIdentifier)).subscribe(wp => {
+    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
+      this.wpCacheService.updateWorkPackage(wp);
       this._wp = wp;
       this._wp.inlineCreated = true;
 
