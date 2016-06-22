@@ -9,6 +9,9 @@ engines:
     enabled: true
   eslint:
     enabled: true
+    checks:
+      no-unused-expressions:
+        enabled: false
   csslint:
     enabled: true
   scsslint:
