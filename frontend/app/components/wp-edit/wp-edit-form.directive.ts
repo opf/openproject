@@ -115,6 +115,10 @@ export class WorkPackageEditFormController {
   }
 
   public updateWorkPackage() {
+    if (!this.workPackage.dirty) {
+      return this.$q.when();
+    }
+
     var deferred = this.$q.defer();
 
     // Reset old error notifcations
