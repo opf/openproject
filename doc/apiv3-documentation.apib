@@ -2942,6 +2942,7 @@ This endpoint lists the types that are *available* in a given project.
 | Link                | Description                                                          | Condition                                  |
 |:-------------------:| -------------------------------------------------------------------- | ------------------------------------------ |
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator  |
+| showUser            | Link to the OpenProject user page (HTML)                             |                                            |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator      |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete |
 
@@ -2981,6 +2982,10 @@ The `status` of a user can be one of:
                     "self": {
                         "href": "/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
+                    },
+                    "showUser": {
+                        "href": "/users/1",
+                        "type": 'text/html'
                     },
                     "lock": {
                         "href": "/api/v3/users/1/lock",
@@ -4339,6 +4344,10 @@ For more details and all possible responses see the general specification of [Fo
                             "self": {
                                 "href": "/api/v3/users/1",
                                 "title": "John Sheppard - j.sheppard"
+                            },
+                            "showUser": {
+                                "href": "/users/1",
+                                "type": 'text/html'
                             },
                             "lock": {
                                 "href": "/api/v3/users/1/lock",
