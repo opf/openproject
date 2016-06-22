@@ -773,8 +773,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def set_default_type
-    self.type ||= project.types.default.order(:position).first ||
-                  project.types.order(:position).first
+    self.type ||= project.types.order(:position).first
   end
 
   def add_time_entry_for(user, attributes)

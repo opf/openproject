@@ -53,31 +53,15 @@ describe WorkPackage, type: :model do
   }
 
   describe '.new' do
-
     context 'type' do
-      let(:non_default_type) {
-        type = FactoryGirl.create(:type, is_default: false)
-        project.types << type
-        type
-      }
-      let(:non_default_type2) {
-        type = FactoryGirl.create(:type, is_default: false)
-        project.types << type
-        type
-      }
-      let(:default_type2) {
-        type = FactoryGirl.create(:type, is_default: true)
-        project.types << type
-        type
-      }
+      let(:type2) { FactoryGirl.create(:type) }
+      let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
 
       before do
-        project # loads type as well
-        non_default_type
+        project # loads types as well
       end
 
       context 'no project chosen' do
-
         it 'has no type set if no project was chosen' do
           expect(WorkPackage.new.type)
             .to be_nil
@@ -85,27 +69,18 @@ describe WorkPackage, type: :model do
       end
 
       context 'project chosen' do
-
-        it 'has the first default type of the project set' do
+        it 'has the first type of the project set if none is provided' do
+          project.types = [type, type2]
           type.update_attribute :position, 2
-          default_type2.update_attribute :position, 1
+          type2.update_attribute :position, 1
 
           expect(WorkPackage.new(project: project).type)
-            .to eql default_type2
-        end
-
-        it 'has the first type of the project set if there is no default type inside the project' do
-          project.types = [non_default_type, non_default_type2]
-          non_default_type.update_attribute :position, 2
-          non_default_type2.update_attribute :position, 1
-
-          expect(WorkPackage.new(project: project).type)
-            .to eql non_default_type2
+            .to eql type2
         end
 
         it 'has the provided type if one is provided' do
-          expect(WorkPackage.new(project: project, type: non_default_type2).type)
-            .to eql non_default_type2
+          expect(WorkPackage.new(project: project, type: type2).type)
+            .to eql type2
         end
       end
     end
