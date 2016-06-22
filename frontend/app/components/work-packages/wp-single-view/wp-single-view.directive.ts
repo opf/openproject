@@ -26,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageSingleViewController {
   public workPackage:any|WorkPackageResource;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public filesExist : () => boolean;
-  public attachments: any;
+  public filesExist:() => boolean;
+  public attachments:any;
   public text:any;
   public scope:any;
 
@@ -56,7 +56,7 @@ export class WorkPackageSingleViewController {
               protected SingleViewWorkPackage) {
 
     var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;
-    
+
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
       fields: {
@@ -82,8 +82,8 @@ export class WorkPackageSingleViewController {
     });
   }
 
-  public filesExist = function(){
-    return this.wpAttachments.getCurrentAttachments().length > 0
+  public filesExist = function () {
+    return this.wpAttachments.getCurrentAttachments().length > 0;
   };
 
   public shouldHideGroup(group) {
@@ -105,6 +105,7 @@ export class WorkPackageSingleViewController {
   private init(wp) {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
+    this.hideEmptyFields = !wp.isNew;
 
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();
