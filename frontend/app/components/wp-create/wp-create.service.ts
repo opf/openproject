@@ -26,38 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpServicesModule} from "../../angular-modules";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
-import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {wpServicesModule} from '../../angular-modules';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
 export class WorkPackageCreateService {
-  protected form: HalResource;
+  protected form:ng.IPromise<HalResource>;
 
-  constructor(protected $q: ng.IQService,
-              protected WorkPackageResource: typeof WorkPackageResource,
-              protected wpCacheService: WorkPackageCacheService,
-              protected apiWorkPackages: ApiWorkPackagesService) {
+  constructor(protected $q:ng.IQService,
+              protected WorkPackageResource,
+              protected wpCacheService:WorkPackageCacheService,
+              protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
   public createNewWorkPackage(projectIdentifier) {
     return this.getForm(projectIdentifier).then(form => {
-      var wp = this.WorkPackageResource.fromCreateForm(form);
-      return wp;
+      return this.WorkPackageResource.fromCreateForm(form);
     });
   }
 
-  
-  public copyWorkPackage(copyFromForm, projectIdentifier) {
+
+  public copyWorkPackage(copyFromForm, projectIdentifier?) {
     return this.getForm(projectIdentifier).then(form => {
-      var wp = this.WorkPackageResource.copyFrom(copyFromForm, form);
-      return wp;
+      return this.WorkPackageResource.copyFrom(copyFromForm, form);
     });
   }
 
-  private getForm(projectIdentifier): ng.IPromise<HalResource> {
+  private getForm(projectIdentifier):ng.IPromise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm(projectIdentifier);
     }
