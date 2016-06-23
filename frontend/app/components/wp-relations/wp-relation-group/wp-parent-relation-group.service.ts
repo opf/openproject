@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageRelationGroup} from "./wp-relation-group.service";
-import {wpTabsModule} from "../../../angular-modules";
+import {WorkPackageRelationGroup} from './wp-relation-group.service';
+import {wpTabsModule} from '../../../angular-modules';
 
 var HalResource;
 var PathHelper:any;
@@ -72,8 +72,8 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   }
 }
 
-function wpParentRelationGroupService() {
-  [HalResource, PathHelper] = arguments;
+function wpParentRelationGroupService(...args) {
+  [HalResource, PathHelper] = args;
   return WorkPackageParentRelationGroup;
 }
 
