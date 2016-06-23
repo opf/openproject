@@ -57,8 +57,11 @@ body.accessibility-mode
 
     li a.selected,
     li.drop-down.selected a
-      background: $primary-color-dark !important
-      color: $font-color-on-primary-dark !important
+      background: $main-menu-bg-hover-selected-background !important
+      color: $main-menu-selected-font-color !important
+
+      &:hover
+        border-color: $main-menu-border-color
 
   // Neccessary to have enough space for the border in IE
   .wp-table--cell
