@@ -89,7 +89,7 @@ module Redmine::MenuManager::TopMenuHelper
         class: (avatar.present? ? '' : 'icon-user icon-context')
       },
       items: items,
-      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
+      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child -hide-icon' }
     )
   end
 
