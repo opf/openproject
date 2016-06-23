@@ -77,16 +77,14 @@ describe 'Inline editing work packages', js: true do
 
       subject_field.activate!
       subject_field.set_value('Other subject!')
-
-      # save is triggered by activating the status_field which
-      # causes a blur on the subject_field
-
-      status_field.activate!
+      subject_field.save!
 
       wp_table.expect_notification(message: 'Successful update')
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(message: 'Successful update')
 
+      status_field.activate!
       status_field.set_value(status2.name)
-
       status_field.save!
 
       subject_field.expect_inactive!
