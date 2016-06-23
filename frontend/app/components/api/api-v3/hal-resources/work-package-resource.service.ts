@@ -110,6 +110,7 @@ export class WorkPackageResource extends HalResource {
   public parentId:number;
   public subject:string;
   public lockVersion:number;
+  public description:any;
 
   private form;
 
