@@ -60,11 +60,8 @@ module.exports = function(TimezoneService, ConfigurationService) {
     this.datepickerInstance.datepicker('setDate' , null);
   };
 
-  Datepicker.prototype.destroy = function() {
-    // HACK: it should suffice to remove the datepicker by only the first line of code. It doesn't.
-    this.datepickerInstance.datepicker('destroy');
-    this.datepickerInstance.removeClass('hasDatepicker');
-    angular.element('#ui-datepicker-div').hide();
+  Datepicker.prototype.hide = function() {
+    this.datepickerInstance.datepicker('hide');
   };
 
   return Datepicker;

@@ -59,7 +59,8 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
 
   function showDatePicker() {
     let options = { onSelect: (date) => {
-        datePickerInstance.destroy();
+        datePickerInstance.hide();
+
         let val = date;
 
         if (input.val().trim() === '') {
