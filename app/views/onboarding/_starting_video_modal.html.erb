@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-
 <div id="top-menu" class="onboarding--top-menu">
   <%= homescreen_user_avatar %>
   <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
@@ -39,8 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="onboarding--video-text">
       <span><%= I18n.t('onboarding.text_getting_started') %></span>
     </div>
-    <div class="onboarding--video">
-      <iframe src="<%= OpenProject::Configuration.onboarding_video_url %>" height="282" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <div class="onboarding--video video-container">
+      <div class="video--inner-container">
+        <iframe src="<%= OpenProject::Configuration.onboarding_video_url %>" height="282" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
     </div>
   </div>
 </div>
