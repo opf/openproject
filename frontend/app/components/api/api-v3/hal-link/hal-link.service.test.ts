@@ -29,8 +29,6 @@
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalLink} from './hal-link.service';
 
-const expect = chai.expect;
-
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var HalLink;
@@ -39,7 +37,7 @@ describe('HalLink service', () => {
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_, _HalLink_) {
-    [$httpBackend, apiV3, HalLink] = arguments;
+    [$httpBackend, apiV3, HalLink] = _.toArray(arguments);
 
     apiV3.setDefaultHttpFields({cache: false});
   }));

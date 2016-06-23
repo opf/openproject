@@ -30,8 +30,6 @@ import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
 import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 
-const expect = chai.expect;
-
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var halResourceTypesStorage:HalResourceTypesStorageService;
@@ -44,11 +42,10 @@ describe('HalResource service', () => {
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, $provide => {
     $provide.value('OtherResource', OtherResource);
   }));
-  beforeEach(angular.mock.inject((_$httpBackend_,
-                                  _HalResource_,
-                                  _halResourceTypesStorage_,
-                                  apiV3) => {
-    [$httpBackend, HalResource, halResourceTypesStorage] = arguments;
+  beforeEach(angular.mock.inject(function (_$httpBackend_,
+                                           _halResourceTypesStorage_,
+                                           apiV3) {
+    [$httpBackend, halResourceTypesStorage] = _.toArray(arguments);
     apiV3.setDefaultHttpFields({cache: false});
   }));
 

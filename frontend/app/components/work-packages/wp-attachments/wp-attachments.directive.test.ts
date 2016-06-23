@@ -94,7 +94,7 @@ describe('WorkPackageAttachmentsDirective', () => {
 
 
   describe('uploadFilteredFiles', () => {
-    var files = [{type: 'directory'}, {type: 'file'}],
+    var files = <File[]>[{type: 'directory'}, {type: 'file'}],
       dumbPromise = {
         then: call => call()
       };
