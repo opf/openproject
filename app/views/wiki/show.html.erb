@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <p>
     <%= link_to(l(:label_previous), { action: 'show', id: @page, project_id: @page.project, version: (@content.version - 1) }, class: 'navigate-left') + " - " if @content.version > 1 %>
     <%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %>
-    <%= '(' + link_to(l(:label_diff), controller: '/wiki', action: 'diff', id: @page, project_id: @page.project, version: @content.version) + ')' if @content.version > 1 %> -
+    <%= '('.html_safe + link_to(l(:label_diff), controller: '/wiki', action: 'diff', id: @page, project_id: @page.project, version: @content.version) + ')' if @content.version > 1 %> -
     <%= link_to(l(:label_next), action: 'show', id: @page, project_id: @page.project, version: (@content.version + 1), class: 'navigate-right') + " - " if @content.version < @page.content.version %>
     <%= link_to(l(:label_current_version), action: 'show', id: @page, project_id: @page.project) %>
     <br />
