@@ -26,30 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
-import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
-import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageNotificationService} from "./wp-notification.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageEditModeStateService} from './wp-edit-mode-state.service';
+import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.directive';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
 export class WorkPackageEditFormController {
   public workPackage;
-  public hasEditMode: boolean;
-  public errorHandler: Function;
-  public successHandler: Function;
+  public hasEditMode:boolean;
+  public errorHandler:Function;
+  public successHandler:Function;
   public fields = {};
 
-  private errorsPerAttribute: Object = {};
-  public firstActiveField: string;
+  private errorsPerAttribute:Object = {};
+  public firstActiveField:string;
 
-  constructor(protected $scope: ng.IScope,
+  constructor(protected $scope:ng.IScope,
               protected $q,
               protected $rootScope,
               protected WorkPackageNotificationService,
               protected QueryService,
-              protected wpEditModeState: WorkPackageEditModeStateService,
+              protected loadingIndicator,
+              protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpCacheService:WorkPackageCacheService) {
 
     if (this.hasEditMode) {
@@ -57,8 +55,8 @@ export class WorkPackageEditFormController {
     }
   }
 
-  public isFieldRequired(fieldName) {
-    return _.filter((this.fields as any), (name: string, _field) => {
+  public isFieldRequired() {
+    return _.filter((this.fields as any), (name:string) => {
       return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
     });
   }
@@ -68,7 +66,7 @@ export class WorkPackageEditFormController {
     field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
   }
 
-  public toggleEditMode(state: boolean) {
+  public toggleEditMode(state:boolean) {
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, (field) => {
 
@@ -88,7 +86,7 @@ export class WorkPackageEditFormController {
   public closeAllFields() {
     angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
       field.deactivate();
-    })
+    });
   }
 
   public get inEditMode() {
@@ -109,9 +107,9 @@ export class WorkPackageEditFormController {
    * without saving the resource.
    */
   public updateForm() {
-    this.workPackage.updateForm(this.workPackage.$source).then((form) => {
+    this.workPackage.updateForm(this.workPackage.$source).then(() => {
       this.wpCacheService.updateWorkPackage(this.workPackage);
-    })
+    });
   }
 
   public updateWorkPackage() {
@@ -145,19 +143,21 @@ export class WorkPackageEditFormController {
     return deferred.promise;
   }
 
-  private handleSubmissionErrors(error: any, deferred: any) {
+  private handleSubmissionErrors(error:any, deferred:any) {
 
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  private handleErroneousAttributes(error: any) {
+  private handleErroneousAttributes(error:any) {
     let attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
 
-    if (attributes.length === 0) return;
+    if (attributes.length === 0) {
+      return;
+    }
 
     // Allow additional error handling
     this.firstActiveField = this.errorHandler({
