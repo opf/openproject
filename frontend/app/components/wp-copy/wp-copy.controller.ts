@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../angular-modules";
-import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {wpDirectivesModule} from '../../angular-modules';
+import {WorkPackageCreateController} from '../wp-create/wp-create.controller';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams) {
@@ -37,7 +37,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
 
     scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId))
       .subscribe((wp:WorkPackageResource) => {
-        this.createCopyFrom(wp, stateParams.projectPath).then(newWorkPackage => {
+        this.createCopyFrom(wp).then(newWorkPackage => {
           deferred.resolve(newWorkPackage);
         });
       });
@@ -45,7 +45,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     return deferred.promise;
   }
 
-  private createCopyFrom(wp:WorkPackageResource, projectPath) {
+  private createCopyFrom(wp:WorkPackageResource) {
     return wp.getForm().then(form => {
       return this.wpCreate.copyWorkPackage(form);
     });
