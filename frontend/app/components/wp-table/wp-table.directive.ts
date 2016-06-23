@@ -161,12 +161,52 @@ function wpTable(
         WorkPackagesTableService.setRowSelection(row, selected);
       }
 
+      // Open split view either in the current tab or in a new one.
+      // If the split view was open before, the currently active tab will be
+      // open for the new work package as well.
+      scope.handleSplitViewIconClick = function(workPackage, $event) {
+        $event.preventDefault();
+
+        if (!$event.metaKey) {
+          openSplitView(workPackage);
+        } else {
+          openSplitViewNewTab(workPackage);
+        }
+      };
+
+      // Open split view with it having the currently selected tab opened.
+      // If the split view was not opened, it will be opened with the overview
+      // tab open.
+      function openSplitView(workPackage) {
+        $state.go(desiredSplitViewState(),
+                  { workPackageId: workPackage.id });
+      }
+
+      // Open new tab (depending on browser preference) with the split view
+      // having open the currently selected tab.
+      // If the split view was not opened, it will be opened with the overview
+      // tab open.
+      function openSplitViewNewTab(workPackage) {
+        let href = $state.href(desiredSplitViewState(),
+                               { workPackageId: workPackage.id });
+
+        window.open(href);
+      }
+
       function openWhenInSplitView(workPackage) {
         if ($state.includes('work-packages.list.details')) {
           $state.go(
             $state.$current.name,
             { workPackageId: workPackage.id }
           );
+        }
+      }
+
+      function desiredSplitViewState() {
+        if ($state.includes('work-packages.list.details')) {
+          return $state.$current.name;
+        } else {
+          return 'work-packages.list.details.overview';
         }
       }
 
