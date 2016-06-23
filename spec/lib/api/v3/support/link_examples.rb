@@ -38,6 +38,8 @@ shared_examples_for 'action link' do
                               member_through_role: role)
   }
 
+  let(:href) { nil }
+
   before do login_as(user) end
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
@@ -49,6 +51,12 @@ shared_examples_for 'action link' do
     end
 
     it { expect(subject).to have_json_path("_links/#{action}/href") }
+
+    it do
+      if href
+        expect(subject).to be_json_eql(href.to_json).at_path("_links/#{action}/href")
+      end
+    end
   end
 end
 
