@@ -353,7 +353,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'assignee' do
         context 'assignee is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, assigned_to: FactoryGirl.build_stubbed(:user))
           }
 
           it_behaves_like 'has a titled link' do
@@ -373,7 +373,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'responsible' do
         context 'responsible is set' do
           let(:work_package) {
-            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build(:user))
+            FactoryGirl.build(:work_package, id: 42, responsible: FactoryGirl.build_stubbed(:user))
           }
 
           it_behaves_like 'has a titled link' do

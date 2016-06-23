@@ -48,6 +48,13 @@ module API
 
         self_link
 
+        link :showUser do
+          {
+            href: api_v3_paths.show_user(represented.id),
+            type: 'text/html'
+          }
+        end
+
         link :lock do
           {
             href: api_v3_paths.user_lock(represented.id),
