@@ -72,7 +72,6 @@ export class DisplayField extends Field {
   }
 
   public render(element: JQuery, fieldDisplay: WorkPackageDisplayAttributeController): void {
-    element.attr("title", fieldDisplay.displayText);
     element.text(fieldDisplay.displayText);
   }
 
