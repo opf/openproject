@@ -26,69 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-interface opDatePickerScope extends ng.IScope {
-  onDeactivate:Function,
-  onChange:Function
+interface OpDatePickerScope extends ng.IScope {
+  onChange:Function;
 }
 
-function opDatePickerLink(scope:opDatePickerScope, element:ng.IAugmentedJQuery, attrs, ngModel) {
+function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, attrs, ngModel) {
   // we don't want the date picker in the accessibility mode
   if (this.ConfigurationService.accessibilityModeEnabled()) {
     return;
   }
 
-  let input = element.find('.hidden-date-picker-input');
+  let input = element.find('input');
   let datePickerContainer = element.find('.ui-datepicker--container');
   let datePickerInstance;
   let DatePicker = this.Datepicker;
-  let onDeactivate = scope.onDeactivate;
   let onChange = scope.onChange;
-  let onClickCallback;
 
   let unbindNgModelInitializationWatch = scope.$watch(() => ngModel.$viewValue !== NaN, () => {
-    showDatePicker();
+    // This indirection is needed to prevent
+    // 'Missing instance data for this datepicker' errors.
+    input.focus( () => {
+      showDatePicker();
+    });
     unbindNgModelInitializationWatch();
   });
 
-  function hide() {
-    datePickerInstance.hide();
-    unregisterClickCallback();
-  }
-
-  function registerClickCallback() {
-    // HACK: we need to bind to 'mousedown' because the wp-edit-field.directive
-    // binds to 'click' and stops the event propagation
-    onClickCallback = angular.element('body').bind('mousedown', e => {
-      let target = angular.element(e.target);
-      let parentSelector =
-        '.ui-datepicker-header, .' + datePickerContainer.attr('class').split(' ').join('.');
-
-      if (!target.is(input) &&
-        target.parents(parentSelector).length <= 0) {
-
-        hide();
-        onDeactivate();
-      }
-    });
-  }
-
-  function unregisterClickCallback() {
-    angular.element('body').unbind('mousedown', onClickCallback);
-  }
+  input.keydown((event) => {
+    if (input.val() === '') {
+      datePickerInstance.clear();
+    }
+  });
 
   function showDatePicker() {
-    datePickerInstance = new DatePicker(datePickerContainer, input, ngModel.$viewValue);
+    let options = { onSelect: (date) => {
+        datePickerInstance.destroy();
+        let val = date;
 
-    datePickerInstance.onChange = (date) => {
-      ngModel.$setViewValue(date);
-      onChange();
+        if (input.val().trim() === '') {
+          val = null;
+        }
+        ngModel.$setViewValue(val);
+        onChange();
+      }
     };
+    datePickerInstance = new DatePicker(input, ngModel.$viewValue, options);
 
-    datePickerInstance.onDone = () => {
-      onChange();
-    };
-
-    registerClickCallback();
   }
 }
 
@@ -106,8 +88,7 @@ function opDatePicker(ConfigurationService, Datepicker) {
     link: angular.bind(dependencies, opDatePickerLink),
     require: 'ngModel',
     scope: {
-      onChange: "&",
-      onDeactivate: "&"
+      onChange: '&',
     }
   };
 }
