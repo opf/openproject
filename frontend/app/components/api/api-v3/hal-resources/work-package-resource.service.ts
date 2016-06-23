@@ -58,7 +58,7 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addAttachment(attachment:HalResource):ng.IPromise<any>;
   addChild(child:HalResource):ng.IPromise<any>;
   addComment(comment:HalResource):ng.IPromise<any>;
-  addRelation(relation:HalResource):ng.IPromise<any>;
+  addRelation(relation:any):ng.IPromise<any>;
   addWatcher(watcher:HalResource):ng.IPromise<any>;
   changeParent(newParent:WorkPackageResource):ng.IPromise<any>;
   copy():ng.IPromise<WorkPackageResource>;
