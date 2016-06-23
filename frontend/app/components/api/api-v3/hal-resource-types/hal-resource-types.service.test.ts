@@ -30,8 +30,6 @@ import {opApiModule} from '../../../../angular-modules';
 import {HalResourceTypesService} from './hal-resource-types.service';
 import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
 
-const expect = chai.expect;
-
 describe('halResourceTypes service', () => {
   var halResourceTypes:HalResourceTypesService;
   var halResourceTypesStorage:HalResourceTypesStorageService;
@@ -51,8 +49,8 @@ describe('halResourceTypes service', () => {
     $provide.value('FooResource', FooResource);
   }));
 
-  beforeEach(angular.mock.inject((_halResourceTypes_, _halResourceTypesStorage_) => {
-    [halResourceTypes, halResourceTypesStorage] = arguments;
+  beforeEach(angular.mock.inject(function (_halResourceTypes_, _halResourceTypesStorage_) {
+    [halResourceTypes, halResourceTypesStorage] = _.toArray(arguments);
   }));
 
   const expectResourceClassAdded = () => {

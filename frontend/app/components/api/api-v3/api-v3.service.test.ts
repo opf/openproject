@@ -28,15 +28,13 @@
 
 import {opApiModule, opServicesModule} from "../../../angular-modules";
 
-const expect = chai.expect;
-
 describe('apiV3 service', () => {
   var apiV3:restangular.IService;
   var $httpBackend:ng.IHttpBackendService;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_) {
-    [$httpBackend, apiV3] = arguments;
+    [$httpBackend, apiV3] = _.toArray(arguments);
     apiV3.setBaseUrl('/base');
     apiV3.setDefaultHttpFields({cache: false});
   }));
