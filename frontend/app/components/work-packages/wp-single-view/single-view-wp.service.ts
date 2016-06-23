@@ -264,8 +264,8 @@ export class SingleViewWorkPackage {
   }
 }
 
-function singleViewWpService() {
-  [$filter, I18n, TimezoneService, currencyFilter] = arguments;
+function singleViewWpService(...args) {
+  [$filter, I18n, TimezoneService, currencyFilter] = args;
   return SingleViewWorkPackage;
 }
 
