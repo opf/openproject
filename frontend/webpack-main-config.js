@@ -126,7 +126,6 @@ function getWebpackMainConfig() {
         'locales': './../../config/locales',
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
-        'angular-ui-date': 'angular-ui-date/src/date',
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'mousetrap': 'mousetrap/mousetrap.js',
