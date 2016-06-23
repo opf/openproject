@@ -26,46 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import open_project_global/variables
+body.accessibility-mode
+  a:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus,
+  *:focus
+    outline: 3px solid darkblue
 
-a:focus,
-input:focus,
-select:focus,
-textarea:focus,
-button:focus,
-*:focus
-  outline: 3px solid darkblue
+  .form--field-container input:out-of-range,
+  .form--field-container input:invalid
+    border: 2px solid #9E2A1C
 
-.form--field-container input:out-of-range,
-.form--field-container input:invalid
-  border: 2px solid #9E2A1C
+  h1:hover a.wiki-anchor,
+  h2:hover a.wiki-anchor,
+  h3:hover a.wiki-anchor
+    display: none
 
-h1:hover a.wiki-anchor,
-h2:hover a.wiki-anchor,
-h3:hover a.wiki-anchor
-  display: none
-
-.ng-modal-window.columns-modal .ng-modal-inner
-  overflow: auto
-  margin-top: 5vh
+  .ng-modal-window.columns-modal .ng-modal-inner
+    overflow: auto
+    margin-top: 5vh
 
 
-// Mark currently selected top menu items
-#top-menu
-  li a,
-  li.drop-down a
-    border: 1px solid transparent
+  // Mark currently selected top menu items
+  #top-menu
+    li a,
+    li.drop-down a
+      border: 1px solid transparent
 
-  li a.selected,
-  li.drop-down.selected a
-    background: $primary-color-dark !important
-    color: $font-color-on-primary-dark !important
+    li a.selected,
+    li.drop-down.selected a
+      background: $primary-color-dark !important
+      color: $font-color-on-primary-dark !important
 
-    &:hover
-      border-color: $font-color-on-primary-dark
-
-// Neccessary to have enough space for the border in IE
-.wp-table--cell
-  .inplace-edit .inplace-edit--read-value,
-  .id a
-    margin: 3px
+  // Neccessary to have enough space for the border in IE
+  .wp-table--cell
+    .inplace-edit .inplace-edit--read-value,
+    .id a
+      margin: 3px

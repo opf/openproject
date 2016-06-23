@@ -457,6 +457,11 @@ module ApplicationHelper
   # HTML body.
   def body_css_classes
     css = ['theme-' + current_theme.identifier.to_s]
+
+    if accessibility_css_enabled? && User.current.impaired?
+      css << 'accessibility-mode'
+    end
+
     if params[:controller] && params[:action]
       css << 'controller-' + params[:controller]
       css << 'action-' + params[:action]
