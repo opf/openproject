@@ -11,7 +11,6 @@
   "files": [
     "typings/index.d.ts",
     "app/typings/open-project.typings.ts",
-    "app/typings/type-fixes.d.ts",
     "tests/typings/tests.d.ts"
   ]
 }

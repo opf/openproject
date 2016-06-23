@@ -158,6 +158,8 @@ interface Function {
   _type:string;
 }
 
+declare var Factory:any;
+
 declare namespace op {
   /**
    * General components
@@ -209,9 +211,8 @@ declare namespace op {
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
     getForm();
     getSchema();
-
     save();
-    links: WorkPackageLinks
+    links:WorkPackageLinks;
   }
 
   interface QueryParams {
