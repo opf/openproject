@@ -27,12 +27,14 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
+import {HalLinkInterface} from '../hal-link/hal-link.service';
 import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
-import ObservableArray = require('observable-array');
+
+const ObservableArray:any = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
+var HalLink;
 var halResourceTypesStorage:HalResourceTypesStorageService;
 
 export class HalResource {
@@ -247,13 +249,14 @@ function initializeResource(halResource:HalResource) {
 }
 
 function halResourceService(...args) {
-  [$q, lazy, halResourceTypesStorage] = args;
+  [$q, lazy, HalLink, halResourceTypesStorage] = args;
   return HalResource;
 }
 
 halResourceService.$inject = [
   '$q',
   'lazy',
+  'HalLink',
   'halResourceTypesStorage'
 ];
 
