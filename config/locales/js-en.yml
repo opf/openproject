@@ -59,6 +59,8 @@ en:
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
+    button_export-pdf: "Download PDF"
+    button_export-atom: "Download Atom"
     description_available_columns: "Available Columns"
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Selected Columns"

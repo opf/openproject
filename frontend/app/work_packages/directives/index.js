@@ -39,7 +39,9 @@ angular.module('openproject.workPackages.directives')
     { key: 'log_time', link: 'logTime', resource: 'workPackage' },
     { key: 'move', link: 'move', resource: 'workPackage' },
     { key: 'delete', link: 'delete', resource: 'workPackage' },
-    { key: 'copy', link: 'createWorkPackage', resource: 'project' }
+    { key: 'copy', link: 'createWorkPackage', resource: 'project' },
+    { key: 'export-pdf', link: 'pdf', resource: 'workPackage' },
+    { key: 'export-atom', link: 'atom', resource: 'workPackage' }
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])

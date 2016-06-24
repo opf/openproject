@@ -86,6 +86,14 @@ angular.module('openproject.workPackages')
     {
       icon: 'delete',
       link: 'delete'
+    },
+    {
+      icon: 'export-pdf',
+      link: 'pdf'
+    },
+    {
+      icon: 'export-atom',
+      link: 'atom'
     }
   ])
   .factory('DetailsMoreDropdownMenu', [

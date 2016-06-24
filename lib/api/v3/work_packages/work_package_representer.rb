@@ -110,6 +110,22 @@ module API
           } if current_user_allowed_to(:move_work_packages, context: represented.project)
         end
 
+        link :pdf do
+          {
+            href: work_package_path(id: represented.id, format: :pdf),
+            type: 'application/pdf',
+            title: 'Export as PDF'
+          } if current_user_allowed_to(:export_work_packages, context: represented.project)
+        end
+
+        link :atom do
+          {
+            href: work_package_path(id: represented.id, format: :atom),
+            type: 'application/rss+xml',
+            title: 'Atom feed'
+          } if current_user_allowed_to(:export_work_packages, context: represented.project)
+        end
+
         linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
         linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 

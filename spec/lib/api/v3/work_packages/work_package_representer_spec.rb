@@ -798,6 +798,22 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
       end
 
+      describe 'pdf' do
+        it_behaves_like 'action link' do
+          let(:action) { 'pdf' }
+          let(:permission) { :export_work_packages }
+          let(:href) { "/work_packages/#{work_package.id}.pdf" }
+        end
+      end
+
+      describe 'atom' do
+        it_behaves_like 'action link' do
+          let(:action) { 'atom' }
+          let(:permission) { :export_work_packages }
+          let(:href) { "/work_packages/#{work_package.id}.atom"}
+        end
+      end
+
       describe 'changeParent' do
         it_behaves_like 'action link' do
           let(:action) { 'changeParent' }
