@@ -27,7 +27,7 @@
 // ++
 
 import {wpDirectivesModule} from "../../angular-modules";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {scopedObservable, runInScopeDigest} from "../../helpers/angular-rx-utils";
 import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
 import IAnimateProvider = angular.IAnimateProvider;
@@ -113,7 +113,6 @@ class RowDisplay {
         this.viewport = vp;
         this.viewportChanged();
       });
-
   }
 
   private isRowInViewport() {
@@ -121,9 +120,9 @@ class RowDisplay {
   }
 
   private isRowInViewportOffset() {
-    return true;
-    // const offset = this.workPackageTableVirtualScrollService.viewportOffset;
-    // return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
+    // return true;
+    const offset = this.workPackageTableVirtualScrollService.viewportOffset;
+    return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
   }
 
   private viewportChanged() {
@@ -235,6 +234,9 @@ class WorkPackageTableVirtualScrollService {
 
   public viewportChanges: Rx.Subject<[number, number]> = new Rx.ReplaySubject<[number, number]>(1);
 
+  constructor(private $rootScope: angular.IRootScopeService) {
+  }
+  
   setTableElement(element: IRootElementService) {
     this.element = element;
   }
@@ -246,7 +248,9 @@ class WorkPackageTableVirtualScrollService {
     const rowsInViewport = Math.round(height / this.rowHeight) + 1;
 
     if (rowsAboveCount !== this.lastRowsAboveCount || rowsInViewport !== this.lastRowsInViewport) {
-      this.viewportChanges.onNext([rowsAboveCount, rowsAboveCount + rowsInViewport]);
+      runInScopeDigest(this.$rootScope, () => {
+        this.viewportChanges.onNext([rowsAboveCount, rowsAboveCount + rowsInViewport]);
+      });
     }
 
     this.lastRowsAboveCount = rowsAboveCount;
