@@ -74,6 +74,5 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
 
     wp_split.open_in_full_view
     wp_full.expect_tab :activity
-
   end
 end
