@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from "../../../../angular-modules";
+import {opApiModule} from '../../../../angular-modules';
 
 var $q:ng.IQService;
 var apiV3:restangular.IService;
@@ -62,7 +62,7 @@ export class HalLink implements HalLinkInterface {
 
   public $fetch(...params) {
     if (!this.href) {
-      return $q.when({});
+      return $q.when(null);
     }
 
     if (this.method === 'post') {
