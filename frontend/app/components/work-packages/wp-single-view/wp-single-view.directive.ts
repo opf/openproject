@@ -40,7 +40,6 @@ export class WorkPackageSingleViewController {
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public filesExist:() => boolean;
   public attachments:any;
   public text:any;
   public scope:any;
