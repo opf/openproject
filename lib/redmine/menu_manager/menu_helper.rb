@@ -206,11 +206,12 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_single_menu_node(item, caption, url, selected)
-    link_text    = you_are_here_info(selected) + caption
+    link_text = ''.html_safe
+    link_text << you_are_here_info(selected)
+    link_text << content_tag(:span, caption, lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)
     html_options[:title] ||= caption
 
-    html_options[:lang] = menu_item_locale(item)
     link_to link_text, url, html_options
   end
 
