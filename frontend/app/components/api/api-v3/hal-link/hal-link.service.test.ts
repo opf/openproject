@@ -31,13 +31,17 @@ import {HalLink} from './hal-link.service';
 
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
+  var $rootScope;
   var HalLink;
   var apiV3;
   var link:HalLink;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject(function (_$httpBackend_, _apiV3_, _HalLink_) {
-    [$httpBackend, apiV3, HalLink] = _.toArray(arguments);
+  beforeEach(angular.mock.inject(function (_$httpBackend_,
+                                           _$rootScope_,
+                                           _apiV3_,
+                                           _HalLink_) {
+    [$httpBackend, $rootScope, apiV3, HalLink] = _.toArray(arguments);
 
     apiV3.setDefaultHttpFields({cache: false});
   }));
@@ -55,8 +59,28 @@ describe('HalLink service', () => {
       expect(link.method).to.eq('get');
     });
 
-    it('should return a promise returning an empty object', () => {
-      expect(link.$fetch()).to.eventually.eql({});
+    it('should have a null href', () => {
+      expect(link.href).to.be.null;
+    });
+
+    it('should not be templated', () => {
+      expect(link.templated).to.be.false;
+    });
+
+    it('should have an empty string as title', () => {
+      expect(link.title).to.equal('');
+    });
+  });
+
+  describe('when fetching a link that has a null href', () => {
+    beforeEach(() => {
+      link = new HalLink();
+      link.href = null;
+    });
+
+    it('should return a promise that has null as its return value', () => {
+      expect(link.$fetch()).to.eventually.be.null;
+      $rootScope.$apply();
     });
   });
 
