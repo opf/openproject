@@ -29,6 +29,15 @@
 import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 import {opApiModule} from "../../../angular-modules";
 
+interface IServiceWithList extends restangular.IService {
+  getList(subElement?: any, queryParams?: any, headers?: any): restangular.ICollectionPromise<any>;
+  getList<T>(subElement?: any, queryParams?: any, headers?: any): restangular.ICollectionPromise<T>;
+  post(subElement: any, elementToPost: any, queryParams?: any, headers?: any): ng.IPromise<any>;
+  post<T>(subElement: any, elementToPost: T, queryParams?: any, headers?: any): ng.IPromise<T>;
+  post(elementToPost: any, queryParams?: any, headers?: any): ng.IPromise<any>;
+  post<T>(elementToPost: T, queryParams?: any, headers?: any): ng.IPromise<T>;
+}
+
 export class ApiWorkPackagesService {
   protected wpBaseApi;
 
@@ -74,14 +83,14 @@ export class ApiWorkPackagesService {
     return this.wpApiPath(projectIdentifier).one('available_projects').get();
   }
 
-  public wpApiPath(projectIdentifier?:any):restangular.IElement {
+  public wpApiPath(projectIdentifier?:any):IServiceWithList {
     var parent;
 
     if (!!projectIdentifier) {
       parent = this.apiV3.one('projects', projectIdentifier);
     }
 
-    return this.apiV3.one('work_packages', parent);
+    return <IServiceWithList> this.apiV3.service('work_packages', parent);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
