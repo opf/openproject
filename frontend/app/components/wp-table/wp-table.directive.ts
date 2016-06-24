@@ -112,12 +112,9 @@ function wpTable(
         }
       });
 
-      if ($state.includes('work-packages.list.details')) {
-        scope.desiredSplitViewState = $state.$current.name;
-      } else {
-        scope.desiredSplitViewState = 'work-packages.list.details.overview';
-      }
-
+      // Set and keep the current details tab state remembered
+      // for the open-in-details button in each WP row.
+      scope.desiredSplitViewState = keepTab.currentDetailsState();
       scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
         scope.desiredSplitViewState = tabs.details;
       });
