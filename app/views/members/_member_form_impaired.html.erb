@@ -66,12 +66,12 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="grid-block">
-      <div class="grid-block medium-6">
-        <div class="grid-block" id="principal_results">
+      <div class="grid-block">
+        <div class="grid-block medium-4" id="principal_results">
           <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
         </div>
-        <div class="grid-block roles">
-          <fieldset class="form--fieldset">
+        <div class="grid-block medium-4 roles">
+          <fieldset class="form--fieldset medium-11">
             <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
             <%= labeled_check_box_tags 'member[role_ids][]', roles %>
           </fieldset>
