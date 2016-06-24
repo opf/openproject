@@ -27,12 +27,11 @@
 // ++
 
 import {wpDirectivesModule} from "../../angular-modules";
-import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
 import IAnimateProvider = angular.IAnimateProvider;
 import ITranscludeFunction = angular.ITranscludeFunction;
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 
 
 function getBlockNodes(nodes) {
@@ -66,7 +65,7 @@ function disableWatchers(element: any) {
 }
 
 function wpVirtualScrollRow($animate: any,
-  workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+                            workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
   return {
     multiElement: true,
     transclude: 'element',
@@ -76,10 +75,10 @@ function wpVirtualScrollRow($animate: any,
     $$tlb: true,
 
     link: ($scope: IScope,
-      $element: IRootElementService,
-      $attr: any,
-      ctrl: any,
-      $transclude: ITranscludeFunction) => {
+           $element: IRootElementService,
+           $attr: any,
+           ctrl: any,
+           $transclude: ITranscludeFunction) => {
 
       new RowDisplay($animate, $scope, $element, $attr, $transclude, workPackageTableVirtualScrollService);
     }
@@ -95,23 +94,24 @@ class RowDisplay {
   private previousElements: any;
 
   private dummyRow: HTMLElement;
-  private visible: boolean = undefined;
   private index: number;
   private viewport: [number, number] = [0, 5];
+  private visible: boolean = undefined;
+  private clone: JQuery;
 
   constructor(private $animate: any,
-    private $scope: angular.IScope,
-    private $element: angular.IRootElementService,
-    private $attr: any,
-    private $transclude: angular.ITranscludeFunction,
-    private workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+              private $scope: angular.IScope,
+              private $element: angular.IRootElementService,
+              private $attr: any,
+              private $transclude: angular.ITranscludeFunction,
+              private workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
 
     this.index = $scope.$eval($attr.wpVirtualScrollRow);
 
     scopedObservable($scope, workPackageTableVirtualScrollService.viewportChanges)
       .subscribe(vp => {
         this.viewport = vp;
-        this.show();
+        this.viewportChanged();
       });
 
   }
@@ -125,34 +125,45 @@ class RowDisplay {
     return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
   }
 
-  private show() {
-    const renderRow = this.isRowInViewportOffset();
+  private viewportChanged() {
+    const isRowInViewport = this.isRowInViewportOffset();
     const enableWatchers = this.isRowInViewport();
 
-    if (this.visible !== undefined) {
-      if (renderRow && this.visible) {
-        return;
-      } else if (!renderRow && !this.visible) {
-        return;
-      }
+    if (this.visible === undefined) {
+      // First run
+      this.renderRow(isRowInViewport);
+    } else if (!this.visible && isRowInViewport) {
+      this.hide();
+      this.renderRow(true);
+    } else if (!this.visible && !isRowInViewport) {
+      this.renderRow(false);
     }
 
-    this.hide();
+    if (this.clone) {
+      this.adjustWatchers(this.clone, enableWatchers);
+    }
+  }
 
+  renderRow(renderRow: boolean) {
+    this.hide();
     if (!this.childScope) {
       if (renderRow) {
+        // render work package row
         this.$transclude((clone: any, newScope: any) => {
+          this.clone = clone;
           this.childScope = newScope;
+          this.visible = true;
+
           clone[clone.length++] = document.createComment(' wp-virtual-scroll: ' + this.index + ' ');
           this.block = {
             clone: clone
           };
-          this.visible = true;
           this.$animate.enter(clone, this.$element.parent(), this.$element);
         });
       } else {
-        this.dummyRow = createDummyRow("Loading...");
+        // render placeholder row
         this.visible = false;
+        this.dummyRow = createDummyRow("Loading...");
         this.$animate.enter(this.dummyRow, this.$element.parent(), this.$element);
       }
     }
@@ -179,6 +190,31 @@ class RowDisplay {
     }
   }
 
+  private adjustWatchers(element: JQuery, enableWatchers: boolean) {
+    const data = angular.element(element).data();
+    if (!data.hasOwnProperty("$scope")) {
+      return;
+    }
+
+    const scope = data.$scope;
+    if (!enableWatchers) {
+      if (scope.$$watchers && scope.$$watchers.length > 0) {
+        scope.__backup_watchers = scope.$$watchers;
+        scope.$$watchers = [];
+      }
+    } else {
+      if (scope.__backup_watchers && scope.__backup_watchers.length > 0) {
+        scope.$$watchers = scope.__backup_watchers;
+        scope.__backup_watchers = [];
+      }
+    }
+
+
+      angular.forEach(angular.element(element).children(), (child: JQuery) => {
+        this.adjustWatchers(child, enableWatchers);
+      });
+
+  }
 
 }
 
@@ -199,9 +235,6 @@ class WorkPackageTableVirtualScrollService {
 
   setTableElement(element: IRootElementService) {
     this.element = element;
-
-    const childs = element.children();
-    console.log(childs);
   }
 
   updateScrollInfo() {
