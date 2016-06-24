@@ -121,16 +121,18 @@ class RowDisplay {
   }
 
   private isRowInViewportOffset() {
-    const offset = this.workPackageTableVirtualScrollService.viewportOffset;
-    return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
+    return true;
+    // const offset = this.workPackageTableVirtualScrollService.viewportOffset;
+    // return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
   }
 
   private viewportChanged() {
     const isRowInViewport = this.isRowInViewportOffset();
     const enableWatchers = this.isRowInViewport();
 
-    if (this.visible === undefined) {
-      // First run
+    const firstRun = this.visible === undefined;
+
+    if (firstRun) {
       this.renderRow(isRowInViewport);
     } else if (!this.visible && isRowInViewport) {
       this.hide();
@@ -139,7 +141,7 @@ class RowDisplay {
       this.renderRow(false);
     }
 
-    if (this.clone) {
+    if (!firstRun && this.clone) {
       this.adjustWatchers(this.clone, enableWatchers);
     }
   }
