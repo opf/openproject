@@ -232,6 +232,46 @@ describe('HalResource service', () => {
     });
   });
 
+  describe('when setting a property that is a resource to null', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          resource: {
+            method: 'get',
+            href: 'resource/1'
+          }
+        }
+      };
+      resource = new HalResource(source);
+      resource.resource = null;
+    });
+
+    it('should be null', () => {
+      expect(resource.resource).to.be.null;
+    });
+
+    it('should set the respective link href to null', () => {
+      expect(resource.$source._links.resource.href).to.be.null;
+    });
+  });
+
+  describe('when a property that is a resource has a null href', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          property: {
+            href: null
+          }
+        }
+      };
+      resource = new HalResource(source);
+    });
+
+    it('should be null', () => {
+      expect(resource.property).to.be.null;
+    });
+  });
+
   describe('when using $plain', () => {
     var plain;
 
