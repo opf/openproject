@@ -27,13 +27,14 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class IdDisplayField extends DisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
   public text: Object;
 
 
-  constructor(public resource:HalResource,
+  constructor(public resource:WorkPackageResource,
               public name:string,
               public schema) {
     super(resource, name, schema);

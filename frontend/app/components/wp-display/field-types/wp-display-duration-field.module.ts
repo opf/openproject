@@ -27,6 +27,7 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class DurationDisplayField extends DisplayField {
 
@@ -35,7 +36,7 @@ export class DurationDisplayField extends DisplayField {
 
   isManualRenderer = true;
 
-  constructor(public resource:HalResource,
+  constructor(public resource:WorkPackageResource,
               public name:string,
               public schema) {
     super(resource, name, schema);

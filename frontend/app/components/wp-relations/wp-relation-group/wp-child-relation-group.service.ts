@@ -45,7 +45,7 @@ export class WorkPackageChildRelationsGroup extends WorkPackageRelationGroup {
     return relation.$load();
   }
 
-  public addWpRelation() {
+  public addWpRelation():ng.IPromise<any> {
     return this.workPackage.project.$load()
       .then(() => {
         const args = [
@@ -60,7 +60,7 @@ export class WorkPackageChildRelationsGroup extends WorkPackageRelationGroup {
           args[0] = 'work-packages.new';
         }
 
-        $state.go(...args);
+        (<any>$state).go(...args);
       });
   }
 
@@ -91,8 +91,8 @@ export class WorkPackageChildRelationsGroup extends WorkPackageRelationGroup {
   }
 }
 
-function wpChildRelationsGroupService() {
-  [$state, $q] = arguments;
+function wpChildRelationsGroupService(...args) {
+  [$state, $q] = args;
   return WorkPackageChildRelationsGroup;
 }
 

@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageNotificationService {
+import {openprojectModule} from '../../angular-modules';
 
+export class WorkPackageNotificationService {
   constructor(protected I18n,
               protected $state,
               protected NotificationsService,
-              protected loadingIndicator) { }
+              protected loadingIndicator) {
+  }
 
   public showSave(workPackage) {
     var message = 'js.notice_successful_' + (workPackage.inlineCreated ? 'create' : 'update');
@@ -39,9 +41,8 @@ export class WorkPackageNotificationService {
       message: this.I18n.t(message),
       link: {
         target: _ => {
-          this.loadingIndicator.mainPage = this.$state.go.apply(this.$state,
-                                                                ["work-packages.show.activity",
-                                                                 {workPackageId: workPackage.id}]);
+          this.loadingIndicator.mainPage =
+            this.$state.go('work-packages.show.activity', {workPackageId: workPackage.id});
         },
         text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
       }
@@ -53,13 +54,13 @@ export class WorkPackageNotificationService {
   }
 
   public showGeneralError() {
-    this.NotificationsService.addError(I18n.t('js.error.internal'));
+    this.NotificationsService.addError(this.I18n.t('js.error.internal'));
   }
 
   private showCustomError(errorResource, workPackage) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
-      let attributeName  = workPackage.schema[errorResource.details.attribute].name;
+      let attributeName = workPackage.schema[errorResource.details.attribute].name;
       let attributeType = workPackage.schema[errorResource.details.attribute].type.toLowerCase();
       let i18nString = 'js.work_packages.error.format.' + attributeType;
 
@@ -68,13 +69,11 @@ export class WorkPackageNotificationService {
       }
 
       this.NotificationsService.addError(this.I18n.t(i18nString,
-                                                     { attribute: attributeName }));
+        {attribute: attributeName}));
 
       return true;
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
   private showApiErrorMessages(errorResource) {
@@ -91,6 +90,4 @@ export class WorkPackageNotificationService {
   }
 }
 
-angular
-  .module('openproject')
-  .service('WorkPackageNotificationService', WorkPackageNotificationService);
+openprojectModule.service('WorkPackageNotificationService', WorkPackageNotificationService);

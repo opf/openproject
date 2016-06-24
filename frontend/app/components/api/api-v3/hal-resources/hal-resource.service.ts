@@ -27,12 +27,14 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
+import {HalLinkInterface} from '../hal-link/hal-link.service';
 import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
-import ObservableArray = require('observable-array');
+
+const ObservableArray:any = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
+var HalLink;
 var halResourceTypesStorage:HalResourceTypesStorageService;
 
 export class HalResource {
@@ -167,7 +169,7 @@ function initializeResource(halResource:HalResource) {
 
           if (Array.isArray(link)) {
             var items = link.map(item => createLinkedResource(linkName, item.$link));
-            var property:Array = new ObservableArray(...items).on('change', () => {
+            var property:Array<HalResource> = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
                   property.splice(property.indexOf(item), 1);
@@ -246,8 +248,8 @@ function initializeResource(halResource:HalResource) {
   }
 }
 
-function halResourceService() {
-  [$q, lazy, HalLink, halResourceTypesStorage] = arguments;
+function halResourceService(...args) {
+  [$q, lazy, HalLink, halResourceTypesStorage] = args;
   return HalResource;
 }
 

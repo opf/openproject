@@ -28,15 +28,14 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageSingleViewController {
-  public workPackage:any|WorkPackageResource;
+  public workPackage:WorkPackageResourceInterface;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public filesExist:() => boolean;
-  public attachments:any;
+  public attachments: any;
   public text:any;
   public scope:any;
 
@@ -127,13 +126,8 @@ export class WorkPackageSingleViewController {
       });
     });
 
-    if (this.workPackage.attachments) {
-      this.wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    }
-
     this.text.idLabel = this.workPackage.type.name;
+
     if (!this.workPackage.isNew) {
       this.text.idLabel += ' #' + this.workPackage.id;
     }

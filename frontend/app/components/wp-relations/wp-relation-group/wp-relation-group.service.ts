@@ -100,7 +100,7 @@ export class WorkPackageRelationGroup {
     return deferred.promise;
   }
 
-  public addWpRelation(wpId:number):ng.IPromise {
+  public addWpRelation(wpId:number):ng.IPromise<any> {
     return this.workPackage.addRelation({
       to_id: wpId,
       relation_type: this.id
@@ -126,8 +126,8 @@ export class WorkPackageRelationGroup {
   }
 }
 
-function wpRelationGroupService() {
-  [$q, $http, PathHelper] = arguments;
+function wpRelationGroupService(...args) {
+  [$q, $http, PathHelper] = args;
   return WorkPackageRelationGroup;
 }
 

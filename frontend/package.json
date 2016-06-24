@@ -51,11 +51,13 @@
     "ts-loader": "^0.7.2",
     "typescript": "^1.7.5",
     "url-loader": "^0.5.5",
-    "webpack": "^1.7.3",
+    "webpack": "^1.13.1",
+    "webpack-fail-plugin": "^1.0.4",
     "yaml-loader": "^0.1.0"
   },
   "scripts": {
-    "test": "npm run webpack && npm run karma",
+    "pretest": "npm run webpack",
+    "test": "npm run karma",
     "karma": "./scripts/karma-runner.js",
     "postinstall": "./node_modules/.bin/bower install --config.interactive=false",
     "webpack": "./node_modules/.bin/webpack --colors --progress",

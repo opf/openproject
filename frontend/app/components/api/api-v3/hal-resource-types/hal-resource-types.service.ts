@@ -62,9 +62,8 @@ export class HalResourceTypesService {
     });
 
     types
-      .map(typeConfig => [typeConfig.typeName, typeConfig.attrTypes])
-      .forEach(typeAttrConfig => {
-        this.halResourceTypesStorage.setResourceTypeAttributes(...typeAttrConfig);
+      .forEach(typeConfig => {
+        this.halResourceTypesStorage.setResourceTypeAttributes(typeConfig.typeName, typeConfig.attrTypes);
       });
   }
 }

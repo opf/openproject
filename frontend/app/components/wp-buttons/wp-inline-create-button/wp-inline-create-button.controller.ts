@@ -28,9 +28,8 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
-import {WorkPackageCreateService} from "../../wp-create/wp-create.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
   public query:op.Query;

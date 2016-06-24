@@ -29,6 +29,7 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WpAttachmentsService} from './wp-attachments.service';
 
+
 export class WorkPackageAttachmentsController {
   public workPackage:any;
 
@@ -36,7 +37,6 @@ export class WorkPackageAttachmentsController {
   public fetchingConfiguration:boolean = false;
   public files:File[] = [];
   public hasRightToUpload:boolean = false;
-  public I18n:any;
   public loading:boolean = false;
   public rejectedFiles:any[] = [];
 
@@ -142,12 +142,12 @@ function wpAttachmentsDirective():ng.IDirective {
     scope: {
       workPackage: '&',
     },
+
     templateUrl: (element:ng.IAugmentedJQuery, attrs:ng.IAttributes):string => {
       if (attrs.hasOwnProperty('edit')) {
         return '/components/work-packages/wp-attachments/wp-attachments-edit.directive.html';
-      } else {
-        return '/components/work-packages/wp-attachments/wp-attachments.directive.html';
       }
+      return '/components/work-packages/wp-attachments/wp-attachments.directive.html';
     }
   };
 }
