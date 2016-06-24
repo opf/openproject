@@ -89,7 +89,9 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       <% end %>
-      <div id="main" class="<%= initial_classes %>">
+      <div id="main"
+           class="<%= initial_classes %>"
+           ng-class="{ 'hidden-navigation': !showNavigation }">
         <% if (side_displayed && show_decoration) %>
           <div id="main-menu" ng-controller="MainMenuController as mainMenu">
             <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
