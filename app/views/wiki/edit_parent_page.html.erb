@@ -36,10 +36,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="box">
     <p>
       <%= f.select :parent_id,
-            ("<option value=''>"+ I18n.t('js.placeholders.default') +"</option>").html_safe + wiki_page_options_for_select(@parent_pages,
-                                                                                  @page.parent),
-            {label: WikiPage.human_attribute_name(:parent_title) },
-            {class: "parent-select"} %>
+            wiki_page_options_for_select(@parent_pages),
+            { label: WikiPage.human_attribute_name(:parent_title),
+              include_blank: t('placeholders.default') },
+            { class: "parent-select" } %>
     </p>
 
     <%= javascript_tag do -%>
