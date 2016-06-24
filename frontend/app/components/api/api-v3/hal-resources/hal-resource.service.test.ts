@@ -234,14 +234,21 @@ describe('HalResource service', () => {
 
   describe('when using $plain', () => {
     var plain;
-    source = {hello: 'world'};
 
     beforeEach(() => {
+      source = {
+        _links: {self: {href: 'bunny'}},
+        rabbit: 'fluffy'
+      };
       plain = new HalResource(source).$plain();
     });
 
     it('should return an object that is equal to the source', () => {
       expect(plain).to.eql(source);
+    });
+
+    it('should not be the exact same object', () => {
+      expect(plain).not.to.equal(source);
     });
   });
 
