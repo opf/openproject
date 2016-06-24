@@ -48,7 +48,6 @@ require('angular-i18n/angular-locale_' + documentLang + '.js');
 
 require('angular-ui-router');
 
-require('angular-ui-date');
 require('angular-truncate');
 
 require('angular-busy/dist/angular-busy');

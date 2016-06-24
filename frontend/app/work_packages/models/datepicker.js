@@ -26,151 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, ConfigurationService, $timeout) {
-  var datepickerFormat = 'yy-mm-dd',
-    addButton = function(appendTo, text, className, callback) {
-      return jQuery('<button>', {
-          text: text
-        })
-        .addClass('ui-state-default ui-priority-primary ui-corner-all ' + className)
-        .appendTo(appendTo)
-        .on('click', callback);
-    };
+module.exports = function(TimezoneService, ConfigurationService) {
+  var datepickerFormat = 'yy-mm-dd';
 
-  function Datepicker(datepickerElem, textboxElem, date) {
+  function Datepicker(datepickerElem, date, options) {
     this.date = date;
-    this.prevDate = TimezoneService.formattedISODate(this.date);
     this.datepickerCont = angular.element(datepickerElem);
-    this.textbox = angular.element(textboxElem);
-    this.editTimerId = 0;
-    this._disabled = false;
-    this.initialize();
-    this.setDate(this.date);
+    this.datepickerInstance = null;
+    this.initialize(options);
   }
 
-  Datepicker.prototype.addDoneButton = function() {
-    var self = this;
-    setTimeout(function() {
-      var buttonPane = self.datepickerCont.find('.ui-datepicker-buttonpane');
-
-      if (buttonPane.find('.ui-datepicker-done').length !== 0) {
-        return;
-      }
-
-      addButton(buttonPane, 'Done', 'ui-datepicker-done', function(e) {
-        self.onDone();
-        e.preventDefault();
-      });
-    }, 1);
-  };
-
-  Datepicker.prototype.setDate = function(date) {
-    if (date) {
-      this.datepickerCont.datepicker('option', 'defaultDate', TimezoneService.formattedISODate(date));
-      this.datepickerCont.datepicker('option', 'setDate', TimezoneService.formattedISODate(date));
-      this.textbox.val(TimezoneService.formattedISODate(date));
-    } else {
-      this.datepickerCont.datepicker('option', 'defaultDate', null);
-      this.datepickerCont.datepicker('option', 'setDate', null);
-      this.textbox.val('');
-      this.textbox.change();
-    }
-  };
-
-  Datepicker.prototype.initialize = function() {
+  Datepicker.prototype.initialize = function(options) {
     var self = this,
         firstDayOfWeek = ConfigurationService.startOfWeekPresent() ?
-        ConfigurationService.startOfWeek() :
-        jQuery.datepicker._defaults.firstDay;
-    this.datepickerCont.datepicker({
+          ConfigurationService.startOfWeek() :
+          jQuery.datepicker._defaults.firstDay;
+
+    var mergedOptions = angular.extend({}, options, {
       firstDay: firstDayOfWeek,
       showWeeks: true,
       changeMonth: true,
+      changeYear: true,
       dateFormat: datepickerFormat,
       defaultDate: TimezoneService.formattedISODate(self.date),
       inline: true,
-      showButtonPanel: true,
-      beforeShow: function() {
-        self.addDoneButton();
-      },
-      onChangeMonthYear: function() {
-        self.addDoneButton();
-      },
-      alterOffset: function(offset) {
-        var wHeight = angular.element(window).height(),
-          dpHeight = angular.element('#ui-datepicker-div').height(),
-          inputTop = self.datepickerCont.offset().top,
-          inputHeight = self.datepickerCont.innerHeight();
-
-        if ((inputTop + inputHeight + dpHeight) > wHeight) {
-          offset.top -= inputHeight - 4;
-        }
-        return offset;
-      },
-      onSelect: function(selectedDate) {
-        if (!selectedDate || selectedDate === self.prevDate) {
-          return;
-        }
-        self.prevDate = TimezoneService.parseISODate(selectedDate);
-        $timeout(function() {
-          self.onChange(TimezoneService.formattedISODate(self.prevDate));
-        });
-        self.textbox.focus();
-        self.datepickerCont.hide();
-        self.addDoneButton();
-      }
+      showButtonPanel: true
     });
+
+    this.datepickerInstance = this.datepickerCont.datepicker(mergedOptions);
+  };
+
+  Datepicker.prototype.clear = function() {
+    this.datepickerInstance.datepicker('setDate' , null);
   };
 
   Datepicker.prototype.hide = function() {
-    this.datepickerCont.hide();
-  };
-
-  Datepicker.prototype.show = function() {
-    if(!this._disabled) {
-      this.datepickerCont.show();
-    }
-  };
-
-  Datepicker.prototype.focus = function() {
-    this.textbox.click().focus();
-  };
-
-  Datepicker.prototype.disable = function () {
-    this._disabled = true;
-    this.hide();
-  };
-
-  Datepicker.prototype.enable = function () {
-    this._disabled = false;
-  };
-
-  Datepicker.prototype.setState = function (enable) {
-    this[enable ? 'enable' : 'disable']();
-  };
-
-  Datepicker.prototype.onChange = angular.noop;
-  Datepicker.prototype.onDone = angular.noop;
-  Datepicker.prototype.onEdit = function() {
-    var self = this;
-    if (self.textbox.val().trim() === '') {
-      self.onChange(null);
-      self.textbox.val('');
-      $timeout.cancel(self.editTimerId);
-      return;
-    }
-    $timeout.cancel(self.editTimerId);
-    self.editTimerId = $timeout(function() {
-      var date = self.textbox.val(),
-        isValid = TimezoneService.isValidISODate(date);
-
-      if (isValid) {
-        self.prevDate = TimezoneService.parseISODate(date);
-        self.onChange(TimezoneService.formattedISODate(self.prevDate));
-      } else {
-        self.textbox.val(TimezoneService.formattedISODate(self.prevDate));
-      }
-    }, 1000);
+    this.datepickerInstance.datepicker('hide');
   };
 
   return Datepicker;

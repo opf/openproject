@@ -100,7 +100,7 @@ export class WorkPackageEditFieldController {
 
     return this.buildEditField().then(() => {
       this._active = this.field.schema.writable;
-      if (this._active && !alreadyActive) {
+      if (this._active && (!alreadyActive || this.errorenous)) {
         this.focusField();
       }
       return this._active;

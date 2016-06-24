@@ -159,7 +159,6 @@ export const wpButtonsModule = angular.module('openproject.wpButtons',
 
 // main app
 export const openprojectModule = angular.module('openproject', [
-  'ui.date',
   'ui.router',
   'openproject.config',
   'openproject.uiComponents',

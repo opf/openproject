@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "../wp-edit-field/wp-edit-field.module";
+import {EditField} from '../wp-edit-field/wp-edit-field.module';
 
 export class DateEditField extends EditField {
-  public template:string = '/components/wp-edit/field-types/wp-edit-date-field.directive.html'
+  public template:string = '/components/wp-edit/field-types/wp-edit-date-field.directive.html';
 }

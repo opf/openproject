@@ -61,9 +61,8 @@
 
       <div
           class="attributes-key-value--key"
-          ng-hide="$ctrl.hideEmptyFields &&
-                   $ctrl.singleViewWp.canHideField(field.fields[0]) &&
-                   $ctrl.singleViewWp.canHideField(field.fields[1])"
+          ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
+                   $ctrl.shouldHideField(field.fields[1])"
           ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
                  $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
                  $ctrl.singleViewWp.isSpecified(field.fields[1]) "
@@ -74,9 +73,8 @@
         <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field.label)"> *</span>
       </div>
       <div
-          ng-hide="$ctrl.hideEmptyFields &&
-                   $ctrl.singleViewWp.canHideField(field.fields[0]) &&
-                   $ctrl.singleViewWp.canHideField(field.fields[1])"
+          ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
+                   $ctrl.shouldHideField(field.fields[1])"
           ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
                  $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
                  $ctrl.singleViewWp.isSpecified(field.fields[1]) "
