@@ -60,5 +60,20 @@ RSpec.feature 'Keep current details tab', js: true, selenium: true do
     wp_table.click_on_row(wp1)
     wp_split.expect_subject
     wp_split.expect_tab :relations
+
+    # open work package full screen by button
+    wp_full = wp_table.open_full_screen_by_button(wp2)
+    wp_full.expect_tab :relations
+
+    wp_full.open_in_split_view
+    wp_split.expect_tab :relations
+
+    # Assert that overview tab is mapped to activity in show
+    wp_split.visit_tab! :overview
+    wp_split.expect_tab :overview
+
+    wp_split.open_in_full_view
+    wp_full.expect_tab :activity
+
   end
 end

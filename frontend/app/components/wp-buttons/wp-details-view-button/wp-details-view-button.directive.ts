@@ -59,7 +59,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
     angular.extend(params, this.$state.params);
 
     this.loadingIndicator.mainPage = this.$state.go.apply(
-      this.$state, [this.keepTab.currentDetailsTab, params]);
+      this.$state, [this.keepTab.currentDetailsState, params]);
   }
 }
 

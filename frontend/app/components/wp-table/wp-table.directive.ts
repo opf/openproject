@@ -114,7 +114,7 @@ function wpTable(
 
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
-      scope.desiredSplitViewState = keepTab.currentDetailsState();
+      scope.desiredSplitViewState = keepTab.currentDetailsState;
       scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
         scope.desiredSplitViewState = tabs.details;
       });

@@ -59,6 +59,14 @@ module Pages
       end
     end
 
+    def open_in_split_view
+      find('#work-packages-details-view-button').click
+    end
+
+    def open_in_full_view
+      find('#work-packages-show-view-button').click
+    end
+
     def ensure_page_loaded
       tries = 0
       begin
