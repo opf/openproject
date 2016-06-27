@@ -66,6 +66,8 @@ module API
             case custom_field.field_format
             when 'list'
               custom_field.possible_values
+            when 'version'
+              assignable_values(:version, nil)
             end
           end
 

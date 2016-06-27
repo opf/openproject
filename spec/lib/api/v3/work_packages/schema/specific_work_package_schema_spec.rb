@@ -283,9 +283,20 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
   describe '#assignable_custom_field_values' do
     let(:list_cf) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+    let(:version_cf) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
 
-    it "be the custom fields' possible values" do
+    it "is a list custom fields' possible values" do
       expect(subject.assignable_custom_field_values(list_cf)).to eql list_cf.possible_values
+    end
+
+    it "is a version custom fields' project values" do
+      result = double('versions')
+
+      allow(work_package)
+        .to receive(:assignable_versions)
+        .and_return(result)
+
+      expect(subject.assignable_custom_field_values(version_cf)).to eql result
     end
   end
 end

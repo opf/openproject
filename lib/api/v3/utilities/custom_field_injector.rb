@@ -184,8 +184,8 @@ module API
                                                 type: 'Version',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  customized.assignable_values(:version,
-                                                                               current_user)
+                                                  customized
+                                                    .assignable_custom_field_values(custom_field)
                                                 },
                                                 writable: true,
                                                 value_representer: Versions::VersionRepresenter,
@@ -219,7 +219,8 @@ module API
                                                 type: 'StringObject',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  customized.assignable_custom_field_values(custom_field)
+                                                  customized
+                                                    .assignable_custom_field_values(custom_field)
                                                 },
                                                 value_representer: representer,
                                                 writable: true,

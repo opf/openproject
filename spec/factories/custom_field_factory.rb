@@ -89,6 +89,11 @@ FactoryGirl.define do
         field_format 'list'
         possible_values ['1', '2', '3', '4', '5', '6', '7']
       end
+
+      factory :version_wp_custom_field do
+        sequence(:name) do |n| "Version work package custom field #{n}" end
+        field_format 'version'
+      end
     end
 
     factory :issue_custom_field, class: WorkPackageCustomField do

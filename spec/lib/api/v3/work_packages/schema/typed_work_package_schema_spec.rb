@@ -87,9 +87,14 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
   describe '#assignable_custom_field_values' do
     let(:list_cf) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+    let(:version_cf) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
 
-    it 'is nil' do
+    it 'is nil for a list cf' do
       expect(subject.assignable_custom_field_values(list_cf)).to be_nil
+    end
+
+    it 'is nil for a version cf' do
+      expect(subject.assignable_custom_field_values(version_cf)).to be_nil
     end
   end
 end
