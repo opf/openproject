@@ -37,7 +37,6 @@ module.exports = function($uiViewScroll,
     UserService,
     ConfigurationService,
     AutoCompleteHelper,
-    EditableFieldsState,
     TextileService) {
   return {
     restrict: 'E',
@@ -131,7 +130,7 @@ module.exports = function($uiViewScroll,
         scope.previewHtml = '';
         if (scope.isPreview) {
           TextileService.renderWithWorkPackageContext(
-            EditableFieldsState.workPackage.form,
+            scope.workPackage,
             scope.activity.editedComment
           ).then(function(r) {
             scope.previewHtml = $sce.trustAsHtml(r.data);

@@ -242,6 +242,13 @@ module API
           } if current_user_allowed_to(:add_work_package_notes, context: represented.project)
         end
 
+        link :previewMarkup do
+          {
+            href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
+            method: :post
+          }
+        end
+
         linked_property :parent,
                         path: :work_package,
                         title_getter: -> (*) { represented.parent.subject },
