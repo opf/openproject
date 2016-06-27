@@ -31,8 +31,13 @@ import {opApiModule} from '../../../angular-modules';
 function apiV3Config(apiV3, HalResource) {
   apiV3.addResponseInterceptor((data, operation, what) => {
     apiV3.addElementTransformer(what, HalResource.create);
+
     if (data) {
-      data._plain = angular.copy(data);
+      // lodash's clone seems to have better performance in our situation
+      // when compared to angular.clone
+      // see also:
+      // https://github.com/angular/angular.js/issues/11099
+      data._plain = _.clone(data, true);
 
       if (data._type === 'Collection') {
         const resp = [];

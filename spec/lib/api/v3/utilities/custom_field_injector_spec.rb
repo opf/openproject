@@ -57,13 +57,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
              defines_assignable_values?: true,
              available_custom_fields: [custom_field])
     }
-    let(:versions) { [] }
 
     subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
-
-    before do
-      allow(schema).to receive(:assignable_values).with(:version, anything).and_return(versions)
-    end
 
     describe 'basic custom field' do
       it_behaves_like 'has basic schema properties' do
@@ -121,13 +116,18 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     describe 'version custom field' do
       let(:custom_field) {
-        FactoryGirl.build(:custom_field,
-                          field_format: 'version',
+        FactoryGirl.build(:version_wp_custom_field,
                           is_required: true)
       }
+
       let(:assignable_versions) { FactoryGirl.build_list(:version, 3) }
 
       before do
+        allow(schema)
+          .to receive(:assignable_custom_field_values)
+          .with(custom_field)
+          .and_return(assignable_versions)
+
         allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double)
       end
 
@@ -141,20 +141,28 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'links to allowed values directly' do
         let(:path) { cf_path }
-        let(:hrefs) { versions.map { |version| api_v3_paths.version version.id } }
+        let(:hrefs) { assignable_versions.map { |version| api_v3_paths.version version.id } }
       end
 
       it 'embeds allowed values' do
         # N.B. we do not use the stricter 'links to and embeds allowed values directly' helper
         # because this would not allow us to easily mock the VersionRepresenter away
-        is_expected.to have_json_size(versions.size).at_path("#{cf_path}/_embedded/allowedValues")
+        is_expected
+          .to have_json_size(assignable_versions.size)
+          .at_path("#{cf_path}/_embedded/allowedValues")
       end
     end
 
     describe 'list custom field' do
+      before do
+        allow(schema)
+          .to receive(:assignable_custom_field_values)
+          .with(custom_field)
+          .and_return(custom_field.possible_values)
+      end
+
       let(:custom_field) {
-        FactoryGirl.build(:custom_field,
-                          field_format: 'list',
+        FactoryGirl.build(:list_wp_custom_field,
                           is_required: true,
                           possible_values: values)
       }

@@ -62,6 +62,15 @@ module API
             end
           end
 
+          def assignable_custom_field_values(custom_field)
+            case custom_field.field_format
+            when 'list'
+              custom_field.possible_values
+            when 'version'
+              assignable_values(:version, nil)
+            end
+          end
+
           def available_custom_fields
             # we might have received a (currently) invalid work package
             return [] if project.nil? || type.nil?

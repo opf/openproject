@@ -144,7 +144,7 @@ module API
           when 'user'
             inject_user_schema(custom_field, customized)
           when 'list'
-            inject_list_schema(custom_field)
+            inject_list_schema(custom_field, customized)
           else
             inject_basic_schema(custom_field)
           end
@@ -184,8 +184,8 @@ module API
                                                 type: 'Version',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  customized.assignable_values(:version,
-                                                                               current_user)
+                                                  customized
+                                                    .assignable_custom_field_values(custom_field)
                                                 },
                                                 writable: true,
                                                 value_representer: Versions::VersionRepresenter,
@@ -213,13 +213,14 @@ module API
                                           }
         end
 
-        def inject_list_schema(custom_field)
+        def inject_list_schema(custom_field, customized)
           representer = StringObjects::StringObjectRepresenter
           @class.schema_with_allowed_collection property_name(custom_field.id),
                                                 type: 'StringObject',
                                                 name_source: -> (*) { custom_field.name },
                                                 values_callback: -> (*) {
-                                                  custom_field.possible_values
+                                                  customized
+                                                    .assignable_custom_field_values(custom_field)
                                                 },
                                                 value_representer: representer,
                                                 writable: true,
