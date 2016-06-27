@@ -26,35 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function foundationModal($timeout, ModalFactory) {
-  var foundationModalController = function(scope, element) {
-    var modal = new ModalFactory({
-      template: element.find('.foundation-modal--template').html(),
+import {FoundationModalContainerController} from "./foundation-modal-container.directive";
+function foundationModal(ModalFactory) {
+  var foundationModalLink = function(scope,
+    element,
+    attr,
+    foundationModalContainer
+  ) {
+    var modal;
+
+    modal = new ModalFactory({
+      template: element.html(),
       class: scope.modalClass,
       // Allows you to pass in properties to the scope of the modal
       contentScope: {
-        close: function() {
+        close: function () {
+          foundationModalContainer.hide();
           modal.deactivate();
         }
       }
     });
 
-    if(scope.modalStartOnShow) {
-      modal.activate();
-    } else {
-      element.find('.foundation-modal--activate-link').click(function() {
-        modal.activate();
-      });
-    }
+    modal.activate();
   };
 
   return {
-    restrict: 'E',
+    restrict: 'A',
+    require: '^foundationModalContainer',
     scope: {
       modalClass: '@',
-      modalStartOnShow: '='
     },
-    link: foundationModalController
+    link: foundationModalLink
   };
 }
 
