@@ -280,4 +280,12 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
   end
+
+  describe '#assignable_custom_field_values' do
+    let(:list_cf) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+
+    it "be the custom fields' possible values" do
+      expect(subject.assignable_custom_field_values(list_cf)).to eql list_cf.possible_values
+    end
+  end
 end

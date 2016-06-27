@@ -152,6 +152,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'list custom field' do
+      before do
+        allow(schema)
+          .to receive(:assignable_custom_field_values)
+          .with(custom_field)
+          .and_return(custom_field.possible_values)
+      end
+
       let(:custom_field) {
         FactoryGirl.build(:custom_field,
                           field_format: 'list',

@@ -84,4 +84,12 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
       is_expected.not_to be_milestone
     end
   end
+
+  describe '#assignable_custom_field_values' do
+    let(:list_cf) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+
+    it 'is nil' do
+      expect(subject.assignable_custom_field_values(list_cf)).to be_nil
+    end
+  end
 end
