@@ -82,7 +82,7 @@ export class WikiTextareaEditField extends EditField {
     if (this.isPreview) {
       this.isBusy = true;
       this.workPackage.getForm().then(form => {
-        var previewLink = form.$links.previewMarkup.$route;
+        var previewLink = form.$links.previewMarkup.$link.$route;
         previewLink
           .customPOST(this.fieldVal.raw, void 0, void 0, {'Content-Type': 'text/plain; charset=UTF-8'})
           .then(result => {

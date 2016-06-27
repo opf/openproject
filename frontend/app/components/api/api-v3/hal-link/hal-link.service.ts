@@ -77,7 +77,6 @@ export class HalLink implements HalLinkInterface {
 
     _.extend(func, {
       $link: this,
-      $route: this.$route,
       href: this.href,
       title: this.title,
       method: this.method,
