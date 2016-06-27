@@ -189,6 +189,8 @@ function initializeResource(halResource:HalResource) {
 
             return createLinkedResource(linkName, link);
           }
+
+          return null;
         },
 
         val => setter(val, linkName)
@@ -236,15 +238,18 @@ function initializeResource(halResource:HalResource) {
   }
 
   function setter(val, linkName) {
-    if (val && val.$link) {
+    if (!val) {
+      halResource.$source._links[linkName] = {href: null};
+    }
+    else if (val.$link) {
       const link = val.$link;
 
       if (link.href) {
         halResource.$source._links[linkName] = link;
       }
-
-      return val;
     }
+
+    return val;
   }
 }
 
