@@ -1528,6 +1528,9 @@ en:
   permission_view_wiki_edits: "View wiki history"
   permission_view_wiki_pages: "View wiki"
 
+  placeholders:
+    default: "-"
+
   project:
     destroy:
       confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."

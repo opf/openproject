@@ -50,7 +50,7 @@ Feature: Parent wiki page
     When I go to the wiki page "Test page" for the project called "Test"
     And I click on "More"
     And I follow "Change parent page"
-    And I select "" from "Parent page"
+    And I select "-" from "Parent page"
     And I press "Save"
     Then I should be on the wiki page "Test page" for the project called "Test"
     And the breadcrumbs should not have the element "Parent page"

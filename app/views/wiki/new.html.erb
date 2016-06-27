@@ -51,10 +51,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field -required">
         <%= f.fields_for :page, @page do |page_fields| %>
           <%= page_fields.select :parent_id,
-                "<option value=''></option>".html_safe + wiki_page_options_for_select(@wiki.pages,
-                                                                                      @page.parent),
-                {label: WikiPage.human_attribute_name(:parent_title)},
-                {class: "parent-select form--select"} %>
+                                 wiki_page_options_for_select(@wiki.pages),
+                                 { label: WikiPage.human_attribute_name(:parent_title),
+                                   include_blank: t('placeholders.default') },
+                                 { class: "parent-select form--select" } %>
         <% end%>
       </div>
     <% end %>
