@@ -35,8 +35,8 @@ export class KeepTabService {
     'ngInject';
 
     this.updateTabs();
-    $rootScope.$on('$stateChangeSuccess', () => {
-      this.updateTabs();
+    $rootScope.$on('$stateChangeSuccess', (_event, toState) => {
+      this.updateTabs(toState);
     });
   }
 
@@ -66,20 +66,33 @@ export class KeepTabService {
     return this.currentTab;
   }
 
+  protected notify() {
+    // Notify when updated
+    this.subject.onNext({
+      show: this.currentShowState,
+      details: this.currentDetailsState
+    });
+  }
+
   protected updateTab(stateName:string) {
     if (this.$state.includes(stateName)) {
       const current = this.$state.current.name;
       this.currentTab = current.split('.').pop();
 
-      // Notify when updated
-      this.subject.onNext({
-        show: this.currentShowState,
-        details: this.currentDetailsState
-      });
+      this.notify();
     }
   }
 
-  protected updateTabs() {
+  protected updateTabs(toState?:any) {
+
+    // Ignore the switch from show#activity to details#activity
+    // and show details#overview instead
+
+    if (toState && toState.name === 'work-packages.show.activity') {
+      this.currentTab = 'overview';
+      return this.notify();
+    }
+
     this.updateTab('work-packages.show.*');
     this.updateTab('work-packages.list.details.*');
   }

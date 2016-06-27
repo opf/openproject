@@ -107,6 +107,21 @@ describe('keepTab service', () => {
     });
   });
 
+  describe('when opening show#activity', () => {
+    beforeEach(() => {
+      var includes = sinon.stub($state, 'includes');
+      includes.withArgs('work-packages.show.*').returns(true);
+      includes.withArgs('work-packages.list.details.*').returns(false);
+
+      $state.current.name = 'work-packages.show.activity';
+      $rootScope.$emit('$stateChangeSuccess', $state.current);
+    });
+
+    it('should set the tab to overview', () => {
+      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.overview');
+    });
+  });
+
   describe('when opening a details route', () => {
     beforeEach(() => {
       var includes = sinon.stub($state, 'includes');
