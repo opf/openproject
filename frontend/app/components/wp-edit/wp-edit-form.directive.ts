@@ -44,7 +44,7 @@ export class WorkPackageEditFormController {
   constructor(protected $scope:ng.IScope,
               protected $q,
               protected $rootScope,
-              protected WorkPackageNotificationService,
+              protected wpNotificationsService,
               protected QueryService,
               protected loadingIndicator,
               protected wpEditModeState:WorkPackageEditModeStateService,
@@ -128,15 +128,15 @@ export class WorkPackageEditFormController {
         angular.forEach(this.fields, field => field.setErrors([]));
         deferred.resolve(this.workPackage);
 
-        this.WorkPackageNotificationService.showSave(this.workPackage, this.loadingIndicator);
+        this.wpNotificationsService.showSave(this.workPackage, this.loadingIndicator);
         this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {
         if (!(error.data instanceof ErrorResource)) {
-          this.WorkPackageNotificationService.showGeneralError;
+          this.wpNotificationsService.showGeneralError;
           return deferred.reject([]);
         }
-        this.WorkPackageNotificationService.showError(error.data, this.workPackage);
+        this.wpNotificationsService.showError(error.data, this.workPackage);
         this.handleSubmissionErrors(error.data, deferred);
       });
 
