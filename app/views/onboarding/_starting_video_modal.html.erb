@@ -27,28 +27,30 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id="top-menu" class="onboarding--top-menu">
-  <%= homescreen_user_avatar %>
-  <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
-  <a class="icon-context icon-close" ng-click="close()"></a>
-</div>
+<div foundation-modal modal-class="onboarding--start-modal" class="foundation-modal--template">
+  <div id="top-menu" class="onboarding--top-menu">
+    <%= homescreen_user_avatar %>
+    <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
+    <a class="icon-context icon-close" ng-click="close()"></a>
+  </div>
 
-<div class="onboarding--main">
-  <h2><%= I18n.t('top_menu.getting_started') %></h2>
-  <div class="onboarding--video-block">
-    <div class="onboarding--video-text">
-      <span><%= I18n.t('onboarding.text_getting_started') %></span>
-    </div>
-    <div class="onboarding--video">
-      <iframe src="<%= OpenProject::Configuration.onboarding_video_url %>" height="282" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+  <div class="onboarding--main">
+    <h2><%= I18n.t('top_menu.getting_started') %></h2>
+    <div class="onboarding--video-block">
+      <div class="onboarding--video-text">
+        <span><%= I18n.t('onboarding.text_getting_started') %></span>
+      </div>
+      <div class="onboarding--video">
+        <iframe src="<%= OpenProject::Configuration.onboarding_video_url %>" height="282" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="onboarding--footer">
-  <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
-  <button class="button -highlight -large"
-          ng-click="close()"
-          title=<%= l(:label_next)%>> <%= l(:label_next)%>
-  </button>
+  <div class="onboarding--footer">
+    <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
+    <button class="button -highlight -large"
+            ng-click="close()"
+            title=<%= l(:label_next)%>> <%= l(:label_next)%>
+    </button>
+  </div>
 </div>

@@ -35,9 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <foundation-modal-container showing="<%= !!params[:first_time_user] %>">
-  <div foundation-modal modal-class="onboarding--start-modal" class="foundation-modal--template">
-    <%= render partial: '/onboarding/starting_video_modal' %>
-  </div>
+  <%= render partial: '/onboarding/starting_video_modal' %>
 </foundation-modal-container>
 
 <%= render partial: 'announcements/show' %>
