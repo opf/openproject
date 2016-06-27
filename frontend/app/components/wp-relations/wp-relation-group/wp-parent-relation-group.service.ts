@@ -28,9 +28,19 @@
 
 import {WorkPackageRelationGroup} from './wp-relation-group.service';
 import {wpTabsModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
+import {ErrorResource} from "../../api/api-v3/hal-resources/error-resource.service";
 
 var HalResource;
 var PathHelper:any;
+var wpCacheService:WorkPackageCacheService;
+var wpNotificationsService:WorkPackageNotificationService;
+var $q:ng.IQService;
 
 export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   public get canAddRelation():boolean {
@@ -46,9 +56,7 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   }
 
   public addWpRelation(wpId:number) {
-    this.workPackage.parentId = wpId;
-
-    return this.workPackage.save().then(() => {
+    return this.changeParent(wpId).then(() => {
       this.workPackage.parent.$load().then(parent => {
         this.relations[0] = parent;
       });
@@ -56,12 +64,29 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   }
 
   public removeWpRelation() {
-    this.workPackage.parentId = null;
-
-    return this.workPackage.save().then(() => {
+    return this.changeParent(null).then(() => {
       this.relations.pop();
       return 0;
     });
+  }
+
+  protected changeParent(parentId:number) {
+    var params = {
+      parentId: parentId,
+      lockVersion: this.workPackage.lockVersion
+    };
+
+    return this.workPackage.changeParent(params)
+      .then((wp) => {
+        this.workPackage = wp;
+        return wpCacheService.updateWorkPackage(wp);
+      })
+      .catch(error => {
+        if (!(error.data instanceof ErrorResource)) {
+          wpNotificationsService.showGeneralError();
+        }
+        wpNotificationsService.showError(error.data, this.workPackage);
+      });
   }
 
   protected init() {
@@ -73,10 +98,10 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
 }
 
 function wpParentRelationGroupService(...args) {
-  [HalResource, PathHelper] = args;
+  [HalResource, PathHelper, wpCacheService, wpNotificationsService] = args;
   return WorkPackageParentRelationGroup;
 }
 
-wpParentRelationGroupService.$inject = ['HalResource', 'PathHelper'];
+wpParentRelationGroupService.$inject = ['HalResource', 'PathHelper', 'wpCacheService', 'wpNotificationsService'];
 
 wpTabsModule.factory('WorkPackageParentRelationGroup', wpParentRelationGroupService);

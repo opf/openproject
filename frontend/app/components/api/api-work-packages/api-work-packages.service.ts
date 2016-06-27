@@ -59,12 +59,12 @@ export class ApiWorkPackagesService {
 
   /**
    * Loads a WorkPackage.
-   * 
+   *
    * @param id The ID of the WorkPackage.
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
   public loadWorkPackageById(id: number) {
-    return this.apiV3.one("work_packages", id).get();
+    return this.apiV3.one("work_packages", id).get({});
   }
 
   /**

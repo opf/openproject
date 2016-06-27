@@ -60,7 +60,7 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addComment(comment:HalResource):ng.IPromise<any>;
   addRelation(relation:any):ng.IPromise<any>;
   addWatcher(watcher:HalResource):ng.IPromise<any>;
-  changeParent(newParent:WorkPackageResource):ng.IPromise<any>;
+  changeParent(params:any):ng.IPromise<any>;
   copy():ng.IPromise<WorkPackageResource>;
   delete():ng.IPromise<any>;
   logTime():ng.IPromise<any>;
