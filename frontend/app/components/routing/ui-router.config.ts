@@ -130,11 +130,6 @@ openprojectModule
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',
-        resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
-        },
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })

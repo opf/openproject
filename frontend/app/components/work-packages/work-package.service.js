@@ -38,158 +38,13 @@ function WorkPackageService($http,
                             $state,
                             PathHelper,
                             UrlParamsHelper,
-                            HALAPIResource,
                             DEFAULT_FILTER_PARAMS,
                             DEFAULT_PAGINATION_OPTIONS,
-                            AuthorisationService,
-                            EditableFieldsState,
-                            WorkPackageFieldService,
-                            NotificationsService,
-                            ProjectService,
-                            inplaceEditErrors) {
+                            NotificationsService) {
 
-  var workPackage,
-      workPackageCache = $cacheFactory('workPackageCache');
-
-  function getPendingChanges(workPackage) {
-    var data = {
-      // _links: {}
-    };
-    if (workPackage.form) {
-      _.forEach(workPackage.form.pendingChanges, function (value, field) {
-        if (WorkPackageFieldService.isSpecified(workPackage, field)) {
-          if (field === 'date') {
-            if (WorkPackageFieldService.isMilestone(workPackage)) {
-              data['date'] = value ? value : null;
-              return;
-            }
-            data['startDate'] = value['startDate'];
-            data['dueDate'] = value['dueDate'];
-            return;
-          }
-          if (WorkPackageFieldService.isSavedAsLink(workPackage, field)) {
-            data._links = data._links || {};
-            data._links[field] = value ? value.props : {href: null};
-          } else {
-            data[field] = value;
-          }
-        }
-      });
-    }
-
-    if (_.isEmpty(data)) {
-      return null;
-    } else {
-      return JSON.stringify(data);
-    }
-  }
-
-  function setAvailableProject(projectIdentifier) {
-    if (projectIdentifier) {
-      return ProjectService.getProject(projectIdentifier).then(function(data) {
-        return PathHelper.apiV3ProjectPath(data.id);
-      });
-    }
-
-    availableProjects = HALAPIResource.setup(PathHelper.apiV3AvailableProjectsPath());
-
-    return availableProjects.fetch().then(function(projects) {
-      var first = projects.embedded.elements[0];
-      return first.url();
-    });
-  }
+  var workPackageCache = $cacheFactory('workPackageCache');
 
   var WorkPackageService = {
-    initializeWorkPackage: function (projectIdentifier, initialData) {
-      var changes = _.clone(initialData) || { _links: {} };
-      var wp = {
-        isNew: true,
-        embedded: {},
-        props: {},
-        links: {
-          update: HALAPIResource
-              .setup(PathHelper
-                  .apiV3WorkPackageFormPath(projectIdentifier)),
-          updateImmediately: HALAPIResource.setup(
-            PathHelper.apiV3WorkPackagesPath(projectIdentifier),
-            { method: 'post' }
-          )
-        }
-      };
-
-      var deferred = $q.defer();
-      setAvailableProject(projectIdentifier).then(function(projectPath) {
-        // Set the project link
-        changes._links.project = { href: projectPath };
-
-        var options = { ajax: {
-            method: 'POST',
-            headers: {
-              Accept: 'application/hal+json'
-            },
-            data: JSON.stringify(changes),
-            contentType: 'application/json; charset=utf-8'
-          }};
-
-        wp.links.update.fetch(options)
-          .then(function(form) {
-            wp.form = form;
-            EditableFieldsState.workPackage = wp;
-            inplaceEditErrors.errors = null;
-
-            wp.props = _.clone(form.embedded.payload.props);
-            wp.links = _.extend(wp.links, _.clone(form.embedded.payload.links));
-
-            deferred.resolve(wp);
-          });
-      });
-
-      return deferred.promise;
-    },
-
-    initializeWorkPackageFromCopy: function (workPackage) {
-      var projectIdentifier = workPackage.embedded.project.props.identifier;
-      var initialData = _.clone(workPackage.form.embedded.payload.props);
-
-      initialData._links = _.clone(workPackage.form.embedded.payload.links);
-      delete initialData.lockVersion;
-
-      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
-    },
-
-    initializeWorkPackageWithParent: function (parentWorkPackage) {
-      var projectIdentifier = parentWorkPackage.embedded.project.props.identifier;
-
-      var initialData = {
-        _links: {
-          parent: {
-            href: PathHelper.apiV3WorkPackagePath(parentWorkPackage.props.id)
-          }
-        }
-      };
-
-      return WorkPackageService.initializeWorkPackage(projectIdentifier, initialData);
-    },
-
-
-    getWorkPackage: function (id) {
-      var path = PathHelper.apiV3WorkPackagePath(id),
-          resource = HALAPIResource.setup(path);
-
-      return resource.fetch().then(function (wp) {
-        return $q.all([
-          WorkPackageService.loadWorkPackageForm(wp),
-          wp.links.schema.fetch()
-        ]).then(function (result) {
-          wp.form = result[0];
-          wp.schema = result[1];
-          workPackage = wp;
-          EditableFieldsState.workPackage = wp;
-          inplaceEditErrors.errors = null;
-          return wp;
-        });
-      });
-    },
 
     getWorkPackagesByQueryId: function (projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
@@ -218,89 +73,6 @@ function WorkPackageService($http,
       }
 
       return WorkPackageService.doQuery(url, params);
-    },
-
-    loadWorkPackageForm: function (workPackage) {
-      if (this.authorizedFor(workPackage, 'update')) {
-        var options = {
-          ajax: {
-            method: 'POST',
-            headers: {
-              Accept: 'application/hal+json'
-            },
-            data: getPendingChanges(workPackage),
-            contentType: 'application/json; charset=utf-8'
-          }, force: true
-        };
-
-        return workPackage.links.update.fetch(options).then(function (form) {
-          workPackage.form = form;
-          return form;
-        });
-      }
-
-      return $q.when();
-    },
-
-    authorizedFor: function (workPackage, action) {
-      var modelName = 'work_package' + workPackage.id;
-
-      AuthorisationService.initModelAuth(modelName, workPackage.links);
-
-      return AuthorisationService.can(modelName, action);
-    },
-
-    updateWithPayload: function (workPackage, payload) {
-      var options = {
-        ajax: {
-          method: 'PATCH',
-          url: workPackage.links.updateImmediately.href,
-          headers: {
-            Accept: 'application/hal+json'
-          },
-          data: JSON.stringify(payload),
-          contentType: 'application/json; charset=utf-8'
-        }, force: true
-      };
-      return workPackage.links.updateImmediately.fetch(options);
-    },
-
-    updateWorkPackage: function (workPackage) {
-      var options = {
-        ajax: {
-          method: workPackage.links.updateImmediately.props.method,
-          url: workPackage.links.updateImmediately.props.href,
-          headers: {
-            Accept: 'application/hal+json'
-          },
-          data: getPendingChanges(workPackage),
-          contentType: 'application/json; charset=utf-8'
-        }, force: true
-      };
-      return workPackage.links.updateImmediately.fetch(options);
-    },
-
-    addWorkPackageRelation: function (workPackage, toId, relationType) {
-      var options = {
-        ajax: {
-          method: 'POST',
-          data: JSON.stringify({
-            to_id: toId,
-            relation_type: relationType
-          }),
-          contentType: 'application/json; charset=utf-8'
-        }
-      };
-      return workPackage.links.addRelation.fetch(options).then(function (relation) {
-        return relation;
-      });
-    },
-
-    removeWorkPackageRelation: function (relation) {
-      var options = {ajax: {method: 'DELETE'}};
-      return relation.links.remove.fetch(options).then(function (response) {
-        return response;
-      });
     },
 
     doQuery: function (url, params) {
@@ -358,22 +130,10 @@ function WorkPackageService($http,
       return promise;
     },
 
-    toggleWatch: function (workPackage) {
-      var toggleWatchLink = (workPackage.links.watch === undefined) ?
-          workPackage.links.unwatch : workPackage.links.watch;
-      var fetchOptions = {method: toggleWatchLink.props.method};
-
-      if (toggleWatchLink.props.payload !== undefined) {
-        fetchOptions.contentType = 'application/json; charset=utf-8';
-        fetchOptions.data = JSON.stringify(toggleWatchLink.props.payload);
-      }
-
-      return toggleWatchLink.fetch({ajax: fetchOptions});
-    },
-
     cache: function () {
       return workPackageCache;
     }
+
   };
 
   return WorkPackageService;

@@ -37,6 +37,7 @@ angular
 function WorkPackageDetailsController($scope,
                                       $state,
                                       $rootScope,
+                                      $q,
                                       I18n,
                                       PathHelper,
                                       UsersHelper,
@@ -46,99 +47,23 @@ function WorkPackageDetailsController($scope,
                                       wpCacheService) {
 
   $scope.wpEditModeState = wpEditModeState;
+  $scope.I18n = I18n;
+  $scope.initializedWorkPackage = $q.defer();
 
-  // TODO This is an ugly hack since most of this controller relies on the old HALAPIResource.
-  // We should move all that to the new WorkPackageResource.
   scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp:WorkPackageResource) => {
       $scope.workPackageResource = wp;
+
       wp.schema.$load();
+      WorkPackageService.cache().put('preselectedWorkPackageId', wp.id);
+
+      $scope.focusAnchorLabel = getFocusAnchorLabel(
+        $state.current.url.replace(/\//, ''),
+        wp
+      );
+
+      $scope.initializedWorkPackage.resolve();
     });
-
-  $scope.initializedWorkPackage = WorkPackageService.getWorkPackage($state.params.workPackageId)
-    .then(function (workPackage) {
-      return init(workPackage);
-    });
-
-  function init(workPackage) {
-
-    var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function () {
-      refreshWorkPackage();
-    });
-    $scope.$on('$destroy', refreshRequiredFunction);
-
-    // initialization
-    setWorkPackageScopeProperties(workPackage);
-
-    $scope.I18n = I18n;
-    WorkPackageService.cache().put('preselectedWorkPackageId', $scope.workPackage.props.id);
-    $scope.maxDescriptionLength = 800;
-
-    // expose to child controllers
-    $scope.outputMessage = outputMessage;
-    $scope.outputError = outputError;
-
-    // toggles
-    $scope.toggleStates = {
-      hideFullDescription: true,
-      hideAllAttributes: true
-    };
-
-    $scope.focusAnchorLabel = getFocusAnchorLabel(
-      $state.current.url.replace(/\//, ''),
-      $scope.workPackage
-    );
-  }
-
-  function refreshWorkPackage() {
-    WorkPackageService.getWorkPackage($scope.workPackage.props.id)
-      .then(function (workPackage) {
-        setWorkPackageScopeProperties(workPackage);
-        $scope.$broadcast('workPackageRefreshed');
-      });
-  }
-
-  function outputMessage(message, isError) {
-    if (!!isError) {
-      NotificationsService.addError(message);
-    }
-    else {
-      NotificationsService.addSuccess(message);
-    }
-  }
-
-  function outputError(error) {
-    outputMessage(error.message || I18n.t('js.work_packages.error.general'), true);
-  }
-
-  function setWorkPackageScopeProperties(workPackage) {
-    $scope.workPackage = workPackage;
-    $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-      workPackage.links.hasOwnProperty('watch');
-
-    // watchers
-    if (workPackage.links.watchers) {
-      $scope.watchers = workPackage.embedded.watchers.embedded.elements;
-    }
-
-    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackage.props.id);
-
-    // Type
-    $scope.type = workPackage.embedded.type;
-
-    // Author
-    $scope.author = workPackage.embedded.author;
-    $scope.authorPath = PathHelper.userPath($scope.author.props.id);
-    $scope.authorActive = UsersHelper.isActive($scope.author);
-
-    // Attachments
-    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
-
-  }
-
-  $scope.canViewWorkPackageWatchers = function () {
-    return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
-  };
 
   $scope.onWorkPackageSave = function () {
     $rootScope.$emit('workPackagesRefreshInBackground');
@@ -148,8 +73,8 @@ function WorkPackageDetailsController($scope,
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
       params = {
         tab: tabLabel,
-        type: workPackage.embedded.type.props.name,
-        subject: workPackage.props.subject
+        type: workPackage.type.name,
+        subject: workPackage.subject
       };
 
     return I18n.t('js.label_work_package_details_you_are_here', params);

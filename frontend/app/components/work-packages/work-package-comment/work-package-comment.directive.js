@@ -30,19 +30,14 @@ angular
   .module('openproject.workPackages.directives')
   .directive('workPackageComment', workPackageComment);
 
-function workPackageComment($timeout, $location, EditableFieldsState, FocusHelper,
-  inplaceEditMultiStorage, ConfigurationService, inplaceEditAll) {
+function workPackageComment($timeout, $location, FocusHelper, ActivityService, ConfigurationService) {
 
   function commentFieldDirectiveController($scope, $element) {
-    var field = {
-          name: 'activity'
-        },
-        commentStore = inplaceEditMultiStorage.stores.comment;
+    var field = { name: 'activity' };
 
     $scope.field = field;
 
     var ctrl = this;
-    ctrl.state = EditableFieldsState;
     ctrl.field = 'activity-comment';
 
     ctrl.editTitle = I18n.t('js.label_add_comment_title');
@@ -50,8 +45,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
     ctrl.cancelTitle = I18n.t('js.label_cancel_comment');
     ctrl.placeholder = I18n.t('js.label_add_comment_title');
 
-    ctrl.state.isBusy = false;
-    ctrl.isEditing = inplaceEditAll.state;
+    ctrl.isEditing = false;
     ctrl.isRequired = true;
     ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
 
@@ -70,7 +64,7 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
         return;
       }
 
-      inplaceEditMultiStorage.save();
+      ActivityService.createComment(ctrl.workPackage, ctrl.writeValue);
     };
 
     ctrl.initialize = function(withText) {
@@ -86,7 +80,6 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
       }
 
       field.value = ctrl.writeValue;
-      commentStore.value = field.value;
     };
     ctrl.initialize();
 
@@ -111,42 +104,18 @@ function workPackageComment($timeout, $location, EditableFieldsState, FocusHelpe
     ctrl.discardEditing = function() {
       ctrl.writeValue = { raw: '' };
       ctrl.isEditing = false;
-      EditableFieldsState.isBusy = false;
     };
 
-    ctrl.isActive = function() {
-      if (inplaceEditAll.state) {
-        return false;
+    $element.bind('keydown keypress', function(e) {
+      if (e.keyCode === 27) {
+        $scope.$apply(function() {
+          ctrl.discardEditing();
+        });
       }
-      return ctrl.field === EditableFieldsState.currentField;
-    };
-
-    ctrl.markActive = function() {
-      commentStore.active = true;
-      EditableFieldsState.currentField = ctrl.field;
-    };
-
-    if (!inplaceEditAll.state) {
-      $element.bind('keydown keypress', function(e) {
-        if (e.keyCode === 27) {
-          $scope.$apply(function() {
-            ctrl.discardEditing();
-          });
-        }
-      });
-    }
+    });
 
     $scope.$on('workPackage.comment.quoteThis', function(evt, quote) {
       ctrl.startEditing(quote);
-    });
-
-    $scope.$on('inplaceEditMultiStorage.save.comment', function (event, promise) {
-      promise.then(function() {
-        ctrl.discardEditing();
-
-        var nextActivity = ctrl.activities.length + 1;
-        $location.hash('activity-' + (nextActivity));
-      });
     });
   }
 
