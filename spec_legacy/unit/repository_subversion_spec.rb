@@ -158,21 +158,20 @@ describe Repository::Subversion, type: :model do
   end
 
   it 'should log encoding ignore setting' do
-    with_settings commit_logs_encoding: 'windows-1252' do
-      s1 = "\xC2\x80"
-      s2 = "\xc3\x82\xc2\x80"
-      if s1.respond_to?(:force_encoding)
-        s1.force_encoding('ISO-8859-1')
-        s2.force_encoding('UTF-8')
-        assert_equal s1.encode('UTF-8'), s2
-      end
-      c = Changeset.new(repository: @repository,
-                        comments:   s2,
-                        revision:   '123',
-                        committed_on: Time.now)
-      assert c.save
-      assert_equal s2, c.comments
+    Setting.commit_logs_encoding = 'windows-1252'
+    s1 = "\xC2\x80"
+    s2 = "\xc3\x82\xc2\x80"
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding('ISO-8859-1')
+      s2.force_encoding('UTF-8')
+      assert_equal s1.encode('UTF-8'), s2
     end
+    c = Changeset.new(repository: @repository,
+                      comments:   s2,
+                      revision:   '123',
+                      committed_on: Time.now)
+    assert c.save
+    assert_equal s2, c.comments
   end
 
   it 'should previous' do

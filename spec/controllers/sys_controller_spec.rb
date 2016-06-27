@@ -60,6 +60,9 @@ describe SysController, type: :controller do
     allow(Setting).to receive(:sys_api_key).and_return(api_key)
     allow(Setting).to receive(:sys_api_enabled?).and_return(true)
     allow(Setting).to receive(:repository_authentication_caching_enabled?).and_return(true)
+
+    Rails.cache.clear
+    RequestStore.clear!
   end
 
   describe 'svn' do
@@ -516,11 +519,6 @@ describe SysController, type: :controller do
     end
   end
 
-  before(:each) do
-    Rails.cache.clear
-    allow(Rails.cache).to receive(:kind_of?).with(anything).and_return(false)
-  end
-
   describe '#cached_user_login' do
     let(:cache_key) {
       OpenProject::RepositoryAuthentication::CACHE_PREFIX +
@@ -544,18 +542,6 @@ describe SysController, type: :controller do
     end
 
     it 'should use cache' do
-      # allow the cache to return something reasonable for
-      # other requests, while ensuring that it is not queried
-      # with the cache key in question
-
-      # unfortunately, and_call_original currently fails
-      allow(Rails.cache).to receive(:fetch) do |*args|
-        expect(args.first).not_to eq(cache_key)
-
-        name = args.first.split('/').last
-        Marshal.dump(Setting.send(:find_or_default, name).value)
-      end
-      # Rails.cache.should_receive(:fetch).with(anything).and_call_original
       expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
         .and_return(Marshal.dump(valid_user.id.to_s))
       controller.send(:cached_user_login, valid_user.login, valid_user_password)
@@ -567,16 +553,9 @@ describe SysController, type: :controller do
       end
 
       it 'should not use a cache' do
-        # allow the cache to return something reasonable for
-        # other requests, while ensuring that it is not queried
-        # with the cache key in question
-        #
-        # unfortunately, and_call_original currently fails
-        allow(Rails.cache).to receive(:fetch) do |*args|
+        allow(Rails.cache).to receive(:fetch).and_wrap_original do |m, *args, &block|
           expect(args.first).not_to eq(cache_key)
-
-          name = args.first.split('/').last
-          Marshal.dump(Setting.send(:find_or_default, name).value)
+          m.call(*args, &block)
         end
 
         controller.send(:cached_user_login, valid_user.login, valid_user_password)
