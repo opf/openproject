@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe 'Work package relations tab', js: true, selenium: true do
   let(:user) { FactoryGirl.create :admin }
-  let(:work_package) { FactoryGirl.create(:work_package) }
+
+  let(:project) { FactoryGirl.create :project }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
 
   before do
@@ -36,23 +38,53 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'create parent relationship' do
-    let(:parent) { FactoryGirl.create(:work_package) }
-    let(:work_package) { FactoryGirl.create(:work_package) }
-
+    let(:parent) { FactoryGirl.create(:work_package, project: project) }
     include_context 'ui-select helpers'
 
-    it 'shows the parent relationship expanded' do
-      within '.relation.parent' do
-        # Expand parent
-        find('.parent-toggle-link').click
+    let(:user_role) do
+      FactoryGirl.create :role, permissions: permissions
+    end
+    let(:user) do
+      FactoryGirl.create :user,
+                         member_in_project: project,
+                         member_through_role: user_role
+    end
 
-        form = find('.choice--select')
-        ui_select_choose(form, parent.subject)
+    context 'with insufficient permissions' do
+      let(:permissions) {
+        [ :view_work_packages, :edit_work_packages ]
+      }
 
-        click_button 'Change parent'
+      it 'does not allow editing the parent' do
+        within '.relation.parent' do
+          # Expand parent
+          find('.parent-toggle-link').click
 
-        expect(page).to have_selector('.parent .work_package',
-                                      text: "##{parent.id} #{parent.type}: #{parent.subject}")
+          expect(page).to have_no_selector('.choice--select')
+          expect(page).to have_selector('.content', text: I18n.t('js.relations.empty'))
+
+        end
+      end
+    end
+
+    context 'with permissions' do
+      let(:permissions) {
+        [ :view_work_packages, :manage_subtasks ]
+      }
+
+      it 'shows the parent relationship expanded' do
+        within '.relation.parent' do
+          # Expand parent
+          find('.parent-toggle-link').click
+
+          form = find('.choice--select')
+          ui_select_choose(form, parent.subject)
+
+          click_button 'Change parent'
+
+          expect(page).to have_selector('.parent .work_package',
+                                        text: "##{parent.id} #{parent.type}: #{parent.subject}")
+        end
       end
     end
   end
