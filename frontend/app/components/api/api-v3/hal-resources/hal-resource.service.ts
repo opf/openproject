@@ -184,7 +184,7 @@ function initializeResource(halResource:HalResource) {
 
           if (link.href) {
             if (link.method !== 'get') {
-              return HalLink.asFunc(link);
+              return HalLink.callable(link);
             }
 
             return createLinkedResource(linkName, link);
@@ -218,7 +218,7 @@ function initializeResource(halResource:HalResource) {
 
   function setupLinks() {
     setupProperty('links',
-      link => Array.isArray(link) ? link.map(HalLink.asFunc) : HalLink.asFunc(link));
+      link => Array.isArray(link) ? link.map(HalLink.callable) : HalLink.callable(link));
   }
 
   function setupEmbedded() {

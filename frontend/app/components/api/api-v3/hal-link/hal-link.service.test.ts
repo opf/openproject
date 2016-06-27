@@ -166,14 +166,14 @@ describe('HalLink service', () => {
     });
 
 
-    describe('when using the link function wrapper', () => {
+    describe('when making the link callable', () => {
       var func;
       const runChecks = () => {
         it('should return a function that fetches the data', () => {
           func();
 
           $httpBackend.expectGET('/api/link').respond(200);
-          $httpBackend.flush()
+          $httpBackend.flush();
         });
 
         it('should pass the params to $fetch', () => {
@@ -184,16 +184,16 @@ describe('HalLink service', () => {
         });
       };
 
-      describe('when using $toFunc', () => {
+      describe('when using the instance method', () => {
         beforeEach(() => {
-          func = link.$toFunc();
+          func = link.$callable();
         });
         runChecks();
       });
 
-      describe('when using the static factory function', () => {
+      describe('when using the static factory method', () => {
         beforeEach(() => {
-          func = HalLink.asFunc(link);
+          func = HalLink.callable(link);
           link = func.$link;
         });
         runChecks();
