@@ -51,9 +51,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     context 'with insufficient permissions' do
-      let(:permissions) {
-        [ :view_work_packages, :edit_work_packages ]
-      }
+      let(:permissions) { %i(view_work_packages edit_work_packages) }
 
       it 'does not allow editing the parent' do
         within '.relation.parent' do
@@ -68,9 +66,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     context 'with permissions' do
-      let(:permissions) {
-        [ :view_work_packages, :manage_subtasks ]
-      }
+      let(:permissions) { %i(view_work_packages manage_subtasks) }
 
       it 'shows the parent relationship expanded' do
         within '.relation.parent' do

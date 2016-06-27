@@ -47,7 +47,6 @@ module WorkPackages
 
     def user_allowed_to_edit
       with_unchanged_project_id do
-
         next if @can.allowed?(model, :edit)
         next user_allowed_to_change_parent if @can.allowed?(model, :manage_subtasks)
 

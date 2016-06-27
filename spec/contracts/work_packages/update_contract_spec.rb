@@ -133,7 +133,10 @@ describe WorkPackages::UpdateContract do
 
     context 'if the user has edit and subtasks permissions' do
       let(:permissions) { [:edit_work_packages, :view_work_packages, :manage_subtasks] }
-      it('is valid') { expect(contract.errors).to be_empty }
+
+      it('is valid') do
+        expect(contract.errors).to be_empty
+      end
 
       describe 'invalid lock version' do
         before do
@@ -154,7 +157,9 @@ describe WorkPackages::UpdateContract do
     context 'with manage_subtasks permission' do
       let(:permissions) { [:view_work_packages, :manage_subtasks] }
 
-      it('is valid') { expect(contract.errors).to be_empty }
+      it('is valid') do
+        expect(contract.errors).to be_empty
+      end
 
       describe 'changing more than the parent_id' do
         before do
