@@ -172,7 +172,7 @@ describe('HalLink service', () => {
         it('should return a function that fetches the data', () => {
           func();
 
-          $httpBackend.expectGET('/api/link').respond(200);
+          $httpBackend.expectPOST('foo').respond(200);
           $httpBackend.flush();
         });
 
@@ -182,7 +182,30 @@ describe('HalLink service', () => {
 
           expect($fetch.calledWith('hello')).to.be.true;
         });
+
+        it('should have the href property of the link', () => {
+          expect(func.href).to.equal(link.href);
+        });
+
+        it('should have the title property of the link', () => {
+          expect(func.title).to.equal(link.title);
+        });
+
+        it('should have the method property of the link', () => {
+          expect(func.method).to.equal(link.method);
+        });
+
+        it('should have the templated property of the link', () => {
+          expect(func.templated).to.equal(link.templated);
+        });
       };
+
+      beforeEach(() => {
+        link.href = 'foo';
+        link.title = 'title';
+        link.method = 'post';
+        link.templated = true;
+      });
 
       describe('when using the instance method', () => {
         beforeEach(() => {

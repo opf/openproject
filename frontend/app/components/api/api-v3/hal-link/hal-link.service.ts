@@ -74,8 +74,15 @@ export class HalLink implements HalLinkInterface {
 
   public $callable() {
     const func:any = (...params) => this.$fetch(...params);
-    func.$link = this;
-    func.$route = this.$route;
+
+    _.extend(func, {
+      $link: this,
+      $route: this.$route,
+      href: this.href,
+      title: this.title,
+      method: this.method,
+      templated: this.templated
+    });
 
     return func;
   }
