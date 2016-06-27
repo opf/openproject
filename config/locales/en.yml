@@ -29,6 +29,7 @@ en:
         participants_attended: "Attendees"
         participants_invited: "Invitees"
         start_time: "Time"
+        start_time_hour: "Starting time"
     errors:
       messages:
         invalid_time_format: "is not a valid time. Required format: HH:MM"

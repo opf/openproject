@@ -142,7 +142,7 @@ describe MeetingsController, type: :controller do
           expect(response).to render_template :new
           expect(response.body)
             .to have_selector '#errorExplanation li',
-                              text: "Start time hour " +
+                              text: "Starting time " +
                                     I18n.t('activerecord.errors.messages.invalid_time_format')
         end
       end
