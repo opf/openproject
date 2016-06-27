@@ -43,10 +43,10 @@ describe 'time entry report', type: :feature, js: true do
   let(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
   let!(:project_time_entry2) {
     FactoryGirl.create(:time_entry,
-                      project: project2,
-                      spent_on: 1.year.ago,
-                      work_package: work_package2,
-                      hours: 5.0)
+                       project: project2,
+                       spent_on: 1.year.ago,
+                       work_package: work_package2,
+                       hours: 5.0)
   }
   let(:user) { FactoryGirl.create(:admin) }
 
@@ -65,7 +65,6 @@ describe 'time entry report', type: :feature, js: true do
         expect(page).to have_selector('.time-entry .hours', text: 2.5, count: 2)
       end
     end
-
 
     context 'for all projects' do
       before do

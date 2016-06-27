@@ -197,14 +197,15 @@ function generateProjectIdentifier() {
 function observeProjectName() {
   jQuery('#project_name').keyup(function() {
     if(!projectIdentifierLocked) {
-      jQuery('project_identifier').setValue(generateProjectIdentifier());
+      jQuery('#project_identifier').val(generateProjectIdentifier());
     }
   });
 }
 
 function observeProjectIdentifier() {
   jQuery('#project_identifier').keyup(function() {
-    if($('project_identifier').getValue() !== '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
+    if(jQuery('#project_identifier').getValue() !== '' &&
+       jQuery('#project_identifier').getValue() != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;

@@ -68,8 +68,8 @@ module ApplicationHelper
   end
 
   def link_to_function(content, function, html_options = {})
-     onclick = "#{function}; return false;"
-     content_tag(:a, content, html_options.merge(onclick: onclick))
+    onclick = "#{function}; return false;"
+    content_tag(:a, content, html_options.merge(onclick: onclick))
   end
 
   def required_field_name(name = '')
