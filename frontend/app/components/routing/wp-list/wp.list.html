@@ -18,14 +18,13 @@
       <li class="toolbar-item hidden-for-mobile">
         <wp-filter-button
             filters="query.filters"
-            ng-disabled="editAll.state">
+            ng-disabled="wpEditModeState.active">
         </wp-filter-button>
       </li>
       <li class="toolbar-item hidden-for-mobile">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
             <wp-list-view-button
-                edit-all="editAll"
                 project-identifier="projectIdentifier">
             </wp-list-view-button>
           </li>
@@ -46,7 +45,7 @@
           {{ I18n.t('js.button_settings') }}
         </label>
         <button id="work-packages-settings-button"
-                ng-disabled="editAll.state"
+                ng-disabled="wpEditModeState.active"
                 title="{{ I18n.t('js.button_settings') }}"
                 class="button last work-packages-settings-button"
                 has-dropdown-menu
@@ -65,7 +64,7 @@
 
 <div class="work-packages--split-view"
      cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}"
-     ng-class="{'edit-all-mode': editAll.state}">
+     ng-class="{'edit-all-mode': wpEditModeState.active}">
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">
       <wp-table ng-if="rows && columns"

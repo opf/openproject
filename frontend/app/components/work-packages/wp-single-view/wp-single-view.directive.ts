@@ -56,7 +56,6 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected inplaceEditAll,
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 
