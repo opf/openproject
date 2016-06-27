@@ -144,4 +144,308 @@ describe WorkPackage, type: :model do
       it_behaves_like 'behind schedule'
     end
   end
+
+  describe 'rescheduling' do
+    let(:work_package1_start) { Date.today }
+    let(:work_package1_due) { Date.today + 3 }
+    let(:work_package1) {
+      FactoryGirl.create(:work_package,
+                         start_date: work_package1_start,
+                         due_date: work_package1_due)
+    }
+    let(:work_package2_start) { nil }
+    let(:work_package2_due) { nil }
+    let(:work_package2) {
+      FactoryGirl.create(:work_package,
+                         start_date: work_package2_start,
+                         due_date: work_package2_due)
+    }
+    let(:delay) { 0 }
+    let(:follows_relation) {
+      FactoryGirl.create(:relation,
+                         relation_type: Relation::TYPE_PRECEDES,
+                         from: work_package1,
+                         to: work_package2,
+                         delay: delay)
+    }
+
+    context 'for preceds/follows relationships' do
+      shared_examples_for 'scheduled work package' do
+        before do
+          work_package2.reload
+        end
+
+        it 'start_date' do
+          expect(work_package2.start_date).to eql expected_start
+        end
+
+        it 'due_date' do
+          expect(work_package2.due_date).to eql expected_due
+        end
+      end
+
+      before do
+        follows_relation
+      end
+
+      context 'upon relationship generation' do
+        context 'when the following work package has no dates set' do
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package1_due + 1 }
+            let(:expected_due) { work_package1_due + 1 }
+          end
+
+          context 'when a delay is set' do
+            let(:delay) { 3 }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package1_due + delay + 1 }
+              let(:expected_due) { work_package1_due + delay + 1 }
+            end
+          end
+        end
+
+        context 'when the following work package has the start date set' do
+          context 'when that date is behind the preceding due date' do
+            let(:work_package2_start) { work_package1_due + 4 }
+
+            it_behaves_like 'scheduled work package' do
+              # not rescheduled
+              let(:expected_start) { work_package2_start }
+              let(:expected_due) { nil }
+            end
+
+            context 'when a delay is set and is small enough to fit' do
+              let(:delay) { 3 }
+
+              it_behaves_like 'scheduled work package' do
+                # not rescheduled
+                let(:expected_start) { work_package2_start }
+                let(:expected_due) { nil }
+              end
+            end
+
+            context 'when a delay is set that is to big to fit' do
+              let(:delay) { 6 }
+
+              it_behaves_like 'scheduled work package' do
+                let(:expected_start) { work_package1_due + delay + 1 }
+                let(:expected_due) { work_package1_due + delay + 1 }
+              end
+            end
+          end
+
+          context 'when that date is before the preceding due date' do
+            let(:work_package2_start) { work_package1_due - 2 }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package1_due + 1 }
+              let(:expected_due) { work_package1_due + 1 }
+            end
+
+            context 'when a delay is set' do
+              let(:delay) { 2 }
+
+              it_behaves_like 'scheduled work package' do
+                let(:expected_start) { work_package1_due + delay + 1 }
+                let(:expected_due) { work_package1_due + delay + 1 }
+              end
+            end
+          end
+        end
+
+        context 'when the following work package has the due date set' do
+          context 'when that date is behind the preceding due date' do
+            let(:work_package2_due) { work_package1_due + 2 }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package1_due + 1 }
+              let(:expected_due) { work_package1_due + 1 }
+            end
+
+            context 'when a delay is set and is small enough to fit' do
+              let(:delay) { 3 }
+
+              it_behaves_like 'scheduled work package' do
+                let(:expected_start) { work_package1_due + delay + 1 }
+                let(:expected_due) { work_package1_due + delay + 1 }
+              end
+            end
+
+            context 'when a delay is set that is to big to fit' do
+              let(:delay) { 6 }
+
+              it_behaves_like 'scheduled work package' do
+                let(:expected_start) { work_package1_due + delay + 1 }
+                let(:expected_due) { work_package1_due + delay + 1 }
+              end
+            end
+          end
+
+          context 'when that date is before the preceding due date' do
+            let(:work_package2_due) { work_package1_due - 2 }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package1_due + 1 }
+              let(:expected_due) { work_package1_due + 1 }
+            end
+
+            context 'when a delay is set' do
+              let(:delay) { 2 }
+
+              it_behaves_like 'scheduled work package' do
+                let(:expected_start) { work_package1_due + delay + 1 }
+                let(:expected_due) { work_package1_due + delay + 1 }
+              end
+            end
+          end
+        end
+      end
+
+      context 'upon preceding work package due date update' do
+        let(:work_package2_start) { work_package1_due + 2 }
+        let(:work_package2_due) { work_package1_due + 5 }
+
+        before do
+          work_package1.reload
+          work_package2.reload
+        end
+
+        context 'when the date is moved forward into the following work package dates' do
+          let(:new_work_package1_due) { work_package2.start_date + 1 }
+
+          before do
+            work_package1.due_date = new_work_package1_due
+            work_package1.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { new_work_package1_due + 1 }
+            let(:expected_due) { new_work_package1_due + 4 }
+          end
+        end
+
+        context 'when the date is moved forward but not inside the following work package dates' do
+          let(:new_work_package1_due) { work_package1_due + 1 }
+
+          before do
+            work_package1.due_date = new_work_package1_due
+            work_package1.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+        end
+
+        context 'when the date is moved backwards' do
+          let(:new_work_package1_due) { work_package1_due - 1 }
+
+          before do
+            work_package1.due_date = new_work_package1_due
+            work_package1.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            # not updated
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+        end
+      end
+
+      context 'upon removing the start and due date of the preceding work package' do
+        let(:work_package2_start) { work_package1_due + 2 }
+        let(:work_package2_due) { work_package1_due + 5 }
+
+        before do
+          work_package1.reload
+          work_package2.reload
+
+          work_package1.start_date, work_package1.due_date = nil
+          work_package1.save!
+        end
+
+        it_behaves_like 'scheduled work package' do
+          let(:expected_start) { work_package2_start }
+          let(:expected_due) { work_package2_due }
+        end
+      end
+
+      context 'upon removing the start and due date of the following work package' do
+        let(:work_package2_start) { work_package1_due + 2 }
+        let(:work_package2_due) { work_package1_due + 5 }
+
+        before do
+          work_package1.reload
+          work_package2.reload
+
+          work_package2.start_date, work_package2.due_date = nil
+          work_package2.save!
+        end
+
+        it_behaves_like 'scheduled work package' do
+          let(:expected_start) { nil }
+          let(:expected_due) { nil }
+        end
+      end
+
+      context 'upon moving the following work package inside the preceding work package dates' do
+        let(:work_package2_start) { work_package1_due + 2 }
+        let(:work_package2_due) { work_package1_due + 5 }
+
+        before do
+          work_package1.reload
+          work_package2.reload
+
+          work_package2.start_date = work_package1_start
+        end
+
+        it 'should be invalid' do
+          expect(work_package2).to be_invalid
+        end
+      end
+
+      context 'upon updating the delay' do
+        let(:delay) { 5 }
+        let(:work_package2_start) { work_package1_due + 6 }
+        let(:work_package2_due) { work_package1_due + 8 }
+
+        before do
+          work_package1.reload
+          work_package2.reload
+        end
+
+        context 'when increasing the delay' do
+          let(:new_delay) { 7 }
+
+          before do
+            follows_relation.delay = new_delay
+            follows_relation.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package1_due + new_delay + 1 }
+            let(:expected_due) { work_package1_due + new_delay + 3 }
+          end
+        end
+
+        context 'when reducing the delay' do
+          let(:new_delay) { 3 }
+
+          before do
+            follows_relation.delay = new_delay
+            follows_relation.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            # not changed
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+        end
+      end
+    end
+  end
 end
