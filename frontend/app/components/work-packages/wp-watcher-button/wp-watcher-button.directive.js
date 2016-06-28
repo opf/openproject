@@ -51,9 +51,9 @@ function WorkPackageWatcherButtonController($rootScope, WorkPackageService) {
   var vm = this,
       workPackage = vm.workPackage;
 
-  vm.isWatched = workPackage.links.hasOwnProperty('unwatch');
-  vm.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-    workPackage.links.hasOwnProperty('watch');
+  vm.isWatched = workPackage.hasOwnProperty('unwatch');
+  vm.displayWatchButton = workPackage.hasOwnProperty('unwatch') ||
+    workPackage.hasOwnProperty('watch');
 
 
   vm.toggleWatch = function() {

@@ -68,6 +68,10 @@ function WorkPackageDetailsController($scope,
     $rootScope.$emit('workPackagesRefreshInBackground');
   };
 
+  $scope.canViewWorkPackageWatchers = function() {
+    return !!($scope.workPackageResource && $scope.workPackageResource.watchers !== undefined);
+  };
+
   function getFocusAnchorLabel(tab, workPackage) {
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
       params = {

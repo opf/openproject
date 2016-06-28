@@ -85,8 +85,8 @@ function wpDetailsToolbar(
     link: function(scope, attr, element) {
       var authorization = new WorkPackageAuthorization(scope.workPackage);
 
-      scope.displayWatchButton = scope.workPackage.links.hasOwnProperty('unwatch') ||
-        scope.workPackage.links.hasOwnProperty('watch');
+      scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
+        scope.workPackage.hasOwnProperty('watch');
 
       scope.I18n = I18n;
       scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
@@ -107,7 +107,7 @@ function wpDetailsToolbar(
       scope.wpEditModeState = wpEditModeState;
 
       function deleteSelectedWorkPackage() {
-        var workPackageDeletionId = scope.workPackage.props.id;
+        var workPackageDeletionId = scope.workPackage.id;
         var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
 
         promise.success(function() {

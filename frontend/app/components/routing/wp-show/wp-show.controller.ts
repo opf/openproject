@@ -34,7 +34,6 @@ function WorkPackageShowController($scope,
                                    $state,
                                    $window,
                                    PERMITTED_MORE_MENU_ACTIONS,
-                                   workPackage,
                                    I18n,
                                    PathHelper,
                                    WorkPackageService,
@@ -46,23 +45,37 @@ function WorkPackageShowController($scope,
 
   $scope.wpEditModeState = wpEditModeState;
 
-  scopedObservable($scope, wpCacheService.loadWorkPackage(workPackage.props.id))
+  scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp: WorkPackageResource) => {
       $scope.workPackageResource = wp;
       wp.schema.$load();
+
+      // Listen to the event globally, as listeners are not necessarily
+      // in the child scope
+      var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
+        wpCacheService.updateWorkPackage($scope.workPackageResource);
+      });
+      $scope.$on('$destroy', refreshRequiredFunction);
+
+      AuthorisationService.initModelAuth('work_package', $scope.workPackageResource);
+
+      var authorization = new WorkPackageAuthorization($scope.workPackageResource);
+      $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
+        getPermittedPluginActions(authorization));
+      $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
+
+      // END stuff copied from details toolbar directive...
+
+      $scope.I18n = I18n;
+      $scope.$parent.preselectedWorkPackageId = $scope.workPackageResource.id;
+      $scope.maxDescriptionLength = 800;
+      $scope.projectIdentifier = $scope.workPackageResource.project.identifier;
+
+      // initialization
+      setWorkPackageScopeProperties($scope.workPackageResource);
+
     });
 
-  // Listen to the event globally, as listeners are not necessarily
-  // in the child scope
-  var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
-    refreshWorkPackage();
-  });
-  $scope.$on('$destroy', refreshRequiredFunction);
-
-  AuthorisationService.initModelAuth('work_package', workPackage.links);
-
-  // initialization
-  setWorkPackageScopeProperties(workPackage);
 
   // stuff copied from details toolbar directive...
   function getPermittedActions(authorization, permittedMoreMenuActions) {
@@ -100,7 +113,7 @@ function WorkPackageShowController($scope,
     return augmentedPluginActions;
   }
   function deleteSelectedWorkPackage() {
-    var promise = WorkPackageService.performBulkDelete([$scope.workPackage.props.id], true);
+    var promise = WorkPackageService.performBulkDelete([$scope.workPackageResource.id], true);
 
     promise.success(function() {
       $state.go('work-packages.list', {projectPath: $scope.projectIdentifier});
@@ -116,26 +129,6 @@ function WorkPackageShowController($scope,
         break;
     }
   };
-  var authorization = new WorkPackageAuthorization($scope.workPackage);
-  $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-    getPermittedPluginActions(authorization));
-  $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
-
-  // END stuff copied from details toolbar directive...
-
-  $scope.I18n = I18n;
-  $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
-  $scope.maxDescriptionLength = 800;
-  $scope.projectIdentifier = $scope.workPackage.embedded.project.props.identifier;
-
-
-  function refreshWorkPackage() {
-    WorkPackageService.getWorkPackage($scope.workPackage.props.id)
-      .then(function(workPackage) {
-        setWorkPackageScopeProperties(workPackage);
-        $scope.$broadcast('workPackageRefreshed');
-      });
-  }
 
   function outputMessage(message, isError) {
     $scope.$emit('flashMessage', {
@@ -153,39 +146,36 @@ function WorkPackageShowController($scope,
 
 
   function setWorkPackageScopeProperties(workPackage){
-    $scope.workPackage = workPackage;
-    $scope.isWatched = workPackage.links.hasOwnProperty('unwatch');
-    $scope.displayWatchButton = workPackage.links.hasOwnProperty('unwatch') ||
-      workPackage.links.hasOwnProperty('watch');
+    $scope.isWatched = workPackage.hasOwnProperty('unwatch');
+    $scope.displayWatchButton = workPackage.hasOwnProperty('unwatch') ||
+      workPackage.hasOwnProperty('watch');
 
     // watchers
-    if(workPackage.links.watchers) {
-      $scope.watchers = workPackage.embedded.watchers.embedded.elements;
+    if(workPackage.watchers) {
+      $scope.watchers = workPackage.watchers.elements;
     }
 
-    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackage.props.id);
+    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackageResource.id);
 
     // Type
-    $scope.type = workPackage.embedded.type;
+    $scope.type = workPackage.type;
 
     // Author
-    $scope.author = workPackage.embedded.author;
-    $scope.authorPath = PathHelper.userPath($scope.author.props.id);
+    $scope.author = workPackage.author;
+    $scope.authorPath = $scope.author.showUserPath;
     $scope.authorActive = $scope.author.isActive;
 
     // Attachments
-    $scope.attachments = workPackage.embedded.attachments.embedded.elements;
+    $scope.attachments = workPackage.attachments.elements;
+
+    $scope.focusAnchorLabel = getFocusAnchorLabel(
+      $state.current.url.replace(/\//, ''),
+      $scope.workPackageResource
+    );
   }
 
-  $scope.toggleWatch = function() {
-    // Toggle early to avoid delay.
-    $scope.isWatched = !$scope.isWatched;
-    WorkPackageService.toggleWatch($scope.workPackage)
-      .then(function() { refreshWorkPackage() }, outputError);
-  };
-
   $scope.canViewWorkPackageWatchers = function() {
-    return !!($scope.workPackage && $scope.workPackage.embedded.watchers !== undefined);
+    return !!($scope.workPackageResource && $scope.workPackageResource.watchers !== undefined);
   };
 
   // toggles
@@ -199,17 +189,12 @@ function WorkPackageShowController($scope,
     var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
       params = {
         tab: tabLabel,
-        type: workPackage.embedded.type.props.name,
-        subject: workPackage.props.subject
+        type: workPackage.type.name,
+        subject: workPackage.subject
       };
 
     return I18n.t('js.label_work_package_details_you_are_here', params);
   }
-
-  $scope.focusAnchorLabel = getFocusAnchorLabel(
-    $state.current.url.replace(/\//, ''),
-    $scope.workPackage
-  );
 }
 
 angular

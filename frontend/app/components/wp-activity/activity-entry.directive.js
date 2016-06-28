@@ -45,10 +45,10 @@ function activityEntry(PathHelper) {
     },
 
     link: function(scope) {
-      var projectId = scope.workPackage.project.props.id;
+      var projectId = scope.workPackage.project.id;
       scope.autocompletePath = PathHelper.workPackageJsonAutoCompletePath(projectId);
 
-      scope.activityType = scope.activity.props._type;
+      scope.activityType = scope.activity._type;
       scope.activityLabel = I18n.t('js.label_activity_no', { activityNo: scope.activityNo });
     }
   };

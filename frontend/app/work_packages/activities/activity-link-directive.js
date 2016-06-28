@@ -9,7 +9,7 @@ module.exports = function() {
       onFocus: '&'
     },
     link: function(scope) {
-      scope.workPackageId = scope.workPackage.props.id;
+      scope.workPackageId = scope.workPackage.id;
       scope.activityHtmlId = 'activity-' + scope.activityNo;
     }
   };

@@ -31,8 +31,8 @@ module.exports = function(ProjectService, $state, PathHelper) {
   var WorkPackageAuthorization = function (workPackage) {
     this.workPackage = workPackage;
 
-    if (angular.isDefined(this.workPackage.embedded.project)) {
-      this.project = workPackage.embedded.project;
+    if (angular.isDefined(this.workPackage.project)) {
+      this.project = workPackage.project;
     }
     else {
       this.project = ProjectService.getWorkPackageProject(this.workPackage).then(function(project) {
@@ -41,19 +41,19 @@ module.exports = function(ProjectService, $state, PathHelper) {
     }
 
     this.allActions = {
-                        workPackage: this.workPackage.links,
-                        project: this.project.links
+                        workPackage: this.workPackage,
+                        project: this.project
                       };
   };
 
   WorkPackageAuthorization.prototype = {
     copyLink: function() {
       if ($state.current.name.indexOf('work-packages.show') === 0){
-        return PathHelper.workPackageCopyPath(this.workPackage.props.id);
+        return PathHelper.workPackageCopyPath(this.workPackage.id);
       }
       else if ($state.current.name.indexOf('work-packages.list.details') === 0) {
-        return PathHelper.workPackageDetailsCopyPath(this.project.props.identifier,
-                                                     this.workPackage.props.id);
+        return PathHelper.workPackageDetailsCopyPath(this.project.identifier,
+                                                     this.workPackage.id);
       }
     },
     linkForAction: function(action) {

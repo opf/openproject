@@ -29,7 +29,7 @@
 module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $timeout, $http) {
   'use strict';
   var upload = function(workPackage, files) {
-    var uploadPath = workPackage.links.addAttachment.url();
+    var uploadPath = workPackage.addAttachment.$link.href;
     // for file in files build some promises, create a notification per WP,
     // notify the noticiation (wat?) about progress
     var uploads = _.map(files, function(file) {
@@ -48,8 +48,8 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
 
     // notify the user
     var message = I18n.t('js.label_upload_notification', {
-      id: workPackage.props.id,
-      subject: workPackage.props.subject
+      id: workPackage.id,
+      subject: workPackage.subject
     });
 
     var notification = NotificationsService.addWorkPackageUpload(message, uploads);
@@ -65,7 +65,7 @@ module.exports = function(Upload, PathHelper, I18n, NotificationsService, $q, $t
     return allUploadsDone.promise;
   },
   load = function(workPackage, reload) {
-    var path = workPackage.links.attachments.url(),
+    var path = workPackage.attachments.$link.href,
         attachments = $q.defer();
     $http.get(path, { cache: !reload }).success(function(response) {
       attachments.resolve(response._embedded.elements);

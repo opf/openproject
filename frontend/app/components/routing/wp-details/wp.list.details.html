@@ -19,11 +19,7 @@
             ui-sref-active="selected">
           <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
         </li>
-
-        <li ng-if="!workPackage">
-          <span class="ui-state-disabled" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
-        </li>
-        <li ng-if="workPackage && canViewWorkPackageWatchers()"
+        <li ng-if="canViewWorkPackageWatchers()"
             ui-sref="work-packages.list.details.watchers({})"
             ui-sref-active="selected">
           <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
@@ -40,8 +36,8 @@
 
     </div>
 
-    <div class="bottom-toolbar" ng-if="workPackage">
-      <wp-details-toolbar work-package='workPackage'></wp-details-toolbar>
+    <div class="bottom-toolbar" ng-if="workPackageResource">
+      <wp-details-toolbar work-package='workPackageResource'></wp-details-toolbar>
       <edit-actions-bar
           ng-show="wpEditModeState.active"
           on-save="wpEditModeState.save()"

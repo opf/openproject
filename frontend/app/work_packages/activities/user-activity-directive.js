@@ -81,7 +81,7 @@ module.exports = function($uiViewScroll,
         scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
       });
 
-      scope.postedComment = $sce.trustAsHtml(scope.activity.props.comment.html);
+      scope.postedComment = $sce.trustAsHtml(scope.activity.comment.html);
       if(scope.postedComment) {
         scope.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
           activityNo: scope.activityNo
@@ -89,7 +89,7 @@ module.exports = function($uiViewScroll,
       }
       scope.details = [];
 
-      angular.forEach(scope.activity.props.details, function(detail) {
+      angular.forEach(scope.activity.details, function(detail) {
         this.push($sce.trustAsHtml(detail.html));
       }, scope.details);
 
@@ -100,7 +100,7 @@ module.exports = function($uiViewScroll,
       });
 
       scope.editComment = function() {
-        scope.activity.editedComment = scope.activity.props.comment.raw;
+        scope.activity.editedComment = scope.activity.comment.raw;
         scope.inEdit = true;
       };
 
@@ -111,7 +111,7 @@ module.exports = function($uiViewScroll,
       scope.quoteComment = function() {
         scope.$emit(
           'workPackage.comment.quoteThis',
-          quotedText(scope.activity.props.comment.raw)
+          quotedText(scope.activity.comment.raw)
         );
       };
 

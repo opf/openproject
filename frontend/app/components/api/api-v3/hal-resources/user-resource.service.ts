@@ -52,10 +52,13 @@ export class UserResource extends HalResource {
     return ['active', 'registered'];
   }
 
+  public get showUserPath() {
+    return this.showUser.$link.href;
+  }
+
   public get isActive() {
     return UserResource.active_user_statuses.indexOf(this.status) >= 0;
   }
-},
 }
 
 function userResource() {

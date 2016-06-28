@@ -79,7 +79,9 @@ export class WorkPackageRelationsController {
         this.wpToAddId = null;
         this.handleSuccess(-1);
       })
-      .catch(error => error.data.showErrorNotification());
+      .catch(error => {
+        error.data.showErrorNotification();
+      });
   }
 
   public canRemoveRelation(relation?):boolean {
