@@ -301,6 +301,25 @@ describe WorkPackage, type: :model do
             end
           end
         end
+
+        context 'when the preceding work package has only the start date set' do
+          let(:work_package1_due) { nil }
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package1_start + 1 }
+            let(:expected_due) { work_package1_start + 1 }
+          end
+        end
+
+        context 'when the preceding work package has no dates set' do
+          let(:work_package1_start) { nil }
+          let(:work_package1_due) { nil }
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { nil }
+            let(:expected_due) { nil }
+          end
+        end
       end
 
       context 'upon preceding work package due date update' do
@@ -355,6 +374,20 @@ describe WorkPackage, type: :model do
           end
         end
 
+        context 'when the due date is removed' do
+          let(:new_work_package1_due) { nil }
+
+          before do
+            work_package1.due_date = new_work_package1_due
+            work_package1.save!
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+        end
+
         context 'when there is another work package also preceding the wp' do
           let(:work_package3) {
             FactoryGirl.create(:work_package,
@@ -384,7 +417,65 @@ describe WorkPackage, type: :model do
             it_behaves_like 'scheduled work package' do
               # moved backwards as much as possible
               let(:expected_start) { work_package3.due_date + delay + 1 }
-              let(:expected_due) { work_package3.due_date + delay + 1 + (work_package3.due_date - work_package3.start_date) }
+              let(:expected_due) {
+                work_package3.due_date + delay + 1 +
+                  (work_package3.due_date - work_package3.start_date)
+              }
+            end
+          end
+        end
+      end
+
+      context 'upon preceding work package start date update' do
+        let(:work_package2_start) { work_package1_due + 2 }
+        let(:work_package2_due) { work_package1_due + 5 }
+
+        context 'when moving backwards' do
+          let(:new_work_package1_start) { work_package1_start - 6 }
+
+          before do
+            work_package1.start_date = new_work_package1_start
+            work_package1.save
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+
+          context 'when the preceding work package has no due date set' do
+            let(:work_package2_start) { work_package1_start + 2 }
+            let(:work_package2_due) { work_package1_start + 5 }
+            let(:work_package1_due) { nil }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package2_start - 6 }
+              let(:expected_due) { work_package2_due - 6 }
+            end
+          end
+        end
+
+        context 'when moving forward' do
+          let(:new_work_package1_start) { work_package1_start + 6 }
+
+          before do
+            work_package1.start_date = new_work_package1_start
+            work_package1.save
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+
+          context 'when the preceding work package has no due date set' do
+            let(:work_package2_start) { work_package1_start + 2 }
+            let(:work_package2_due) { work_package1_start + 5 }
+            let(:work_package1_due) { nil }
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package2_start + delay + 5 }
+              let(:expected_due) { work_package2_due + delay + 5 }
             end
           end
         end

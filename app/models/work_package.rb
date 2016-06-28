@@ -371,12 +371,22 @@ class WorkPackage < ActiveRecord::Base
 
   # Updates start/due dates of following issues
   def reschedule_following_issues
-    due_date_delta = (due_date || due_date_was || 0) - (due_date_was || due_date || 0)
+    delta = date_rescheduling_delta
 
-    if due_date_delta < 0
-      relations_from.each { |r| r.move_target_dates_by(due_date_delta) }
+    if delta < 0
+      relations_from.each { |r| r.move_target_dates_by(delta) }
     elsif start_date_changed? || due_date_changed?
       relations_from.each(&:set_dates_of_target)
+    end
+  end
+
+  def date_rescheduling_delta
+    if due_date.present?
+      due_date - (due_date_was || 0)
+    elsif start_date.present?
+      start_date - (start_date_was || 0)
+    else
+      0
     end
   end
 
