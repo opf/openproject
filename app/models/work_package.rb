@@ -302,11 +302,6 @@ class WorkPackage < ActiveRecord::Base
     self
   end
 
-  # Returns true if the work_package is overdue
-  def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
   # ACTS AS JOURNALIZED
   def activity_type
     'work_packages'
