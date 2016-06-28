@@ -340,7 +340,8 @@ describe WorkPackage, type: :model do
         end
 
         context 'when the date is moved backwards' do
-          let(:new_work_package1_due) { work_package1_due - 1 }
+          let(:move_by) { -1 }
+          let(:new_work_package1_due) { work_package1_due + move_by }
 
           before do
             work_package1.due_date = new_work_package1_due
@@ -348,9 +349,8 @@ describe WorkPackage, type: :model do
           end
 
           it_behaves_like 'scheduled work package' do
-            # not updated
-            let(:expected_start) { work_package2_start }
-            let(:expected_due) { work_package2_due }
+            let(:expected_start) { work_package2_start + move_by }
+            let(:expected_due) { work_package2_due + move_by }
           end
         end
       end

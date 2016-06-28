@@ -34,6 +34,22 @@ module WorkPackage::SchedulingRules
     # add class-methods (validations, scope) here
   end
 
+  def reschedule_by(delta)
+    return if delta == 0
+
+    if leaf?
+      self.start_date += delta
+      self.due_date += delta
+      save
+    else
+      leaves.each do |leaf|
+        # this depends on the "update_parent_attributes" after save hook
+        # updating the start/end date of each work package between leaf and self
+        leaf.reschedule_by(delta)
+      end
+    end
+  end
+
   def reschedule_after(date)
     return if date.nil?
     if leaf?
