@@ -29,15 +29,19 @@
 import {opApiModule} from '../../../angular-modules';
 
 function apiV3Config(apiV3, HalResource) {
+  const transformed:string[] = [];
+
   apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, HalResource.create);
+    if (transformed.indexOf(what) < 0) {
+      transformed.push(what);
+
+      apiV3.addElementTransformer(what, element => {
+        return HalResource.create(element);
+      });
+    }
 
     if (data) {
-      // lodash's clone seems to have better performance in our situation
-      // when compared to angular.clone
-      // see also:
-      // https://github.com/angular/angular.js/issues/11099
-      data._plain = _.clone(data, true);
+      data._plain = data.restangularized ? data.plain() : _.cloneDeep(data);
 
       if (data._type === 'Collection') {
         const resp = [];
