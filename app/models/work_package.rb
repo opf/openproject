@@ -374,10 +374,10 @@ class WorkPackage < ActiveRecord::Base
     if start_date_changed?
       relations_from.each(&:set_dates_of_target)
     elsif due_date_changed?
-      due_date_delta = (due_date_was || due_date || 0) - (due_date || 0)
-      if due_date_delta > 0
+      due_date_delta = (due_date || 0) - (due_date_was || due_date || 0)
+      if due_date_delta < 0
         # due date moved back
-        relations_from.each { |r| r.move_target_dates_by( -1 * due_date_delta) }
+        relations_from.each { |r| r.move_target_dates_by(due_date_delta) }
       else
         relations_from.each(&:set_dates_of_target)
       end
