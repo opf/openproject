@@ -90,4 +90,4 @@ export class WorkPackageNotificationService {
   }
 }
 
-openprojectModule.service('WorkPackageNotificationService', WorkPackageNotificationService);
+openprojectModule.service('wpNotificationsService', WorkPackageNotificationService);

@@ -118,4 +118,57 @@ describe WorkPackages::UpdateContract do
       end
     end
   end
+
+  describe 'parent_id' do
+    let(:parent) { FactoryGirl.create(:work_package) }
+
+    before do
+      work_package.parent_id = parent.id
+      contract.validate
+    end
+
+    context 'if the user has only edit permissions' do
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+    end
+
+    context 'if the user has edit and subtasks permissions' do
+      let(:permissions) { [:edit_work_packages, :view_work_packages, :manage_subtasks] }
+
+      it('is valid') do
+        expect(contract.errors).to be_empty
+      end
+
+      describe 'invalid lock version' do
+        before do
+          work_package.lock_version = 9999
+          contract.validate
+        end
+
+        it { expect(contract.errors.symbols_for(:base)).to include(:error_conflict) }
+      end
+    end
+
+    context 'no write access' do
+      let(:permissions) { [:view_work_packages] }
+
+      it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+    end
+
+    context 'with manage_subtasks permission' do
+      let(:permissions) { [:view_work_packages, :manage_subtasks] }
+
+      it('is valid') do
+        expect(contract.errors).to be_empty
+      end
+
+      describe 'changing more than the parent_id' do
+        before do
+          work_package.subject = 'Foobar!'
+          contract.validate
+        end
+
+        it { expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized) }
+      end
+    end
+  end
 end

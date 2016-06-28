@@ -47,7 +47,19 @@ module WorkPackages
 
     def user_allowed_to_edit
       with_unchanged_project_id do
-        errors.add :base, :error_unauthorized unless @can.allowed?(model, :edit)
+        next if @can.allowed?(model, :edit)
+        next user_allowed_to_change_parent if @can.allowed?(model, :manage_subtasks)
+
+        errors.add :base, :error_unauthorized
+      end
+    end
+
+    def user_allowed_to_change_parent
+      allowed_changes = { parent_id: true, lock_version: true }
+
+      model.changed.each do |key|
+        next if allowed_changes[key.to_sym]
+        return errors.add :base, :error_unauthorized
       end
     end
 
