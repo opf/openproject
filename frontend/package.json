@@ -52,7 +52,6 @@
     "typescript": "^1.7.5",
     "url-loader": "^0.5.5",
     "webpack": "^1.13.1",
-    "webpack-fail-plugin": "^1.0.4",
     "yaml-loader": "^0.1.0"
   },
   "scripts": {
