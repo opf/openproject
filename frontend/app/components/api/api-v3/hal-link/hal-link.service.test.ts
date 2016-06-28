@@ -166,14 +166,14 @@ describe('HalLink service', () => {
     });
 
 
-    describe('when using the link function wrapper', () => {
+    describe('when making the link callable', () => {
       var func;
       const runChecks = () => {
         it('should return a function that fetches the data', () => {
           func();
 
-          $httpBackend.expectGET('/api/link').respond(200);
-          $httpBackend.flush()
+          $httpBackend.expectPOST('foo').respond(200);
+          $httpBackend.flush();
         });
 
         it('should pass the params to $fetch', () => {
@@ -182,18 +182,41 @@ describe('HalLink service', () => {
 
           expect($fetch.calledWith('hello')).to.be.true;
         });
+
+        it('should have the href property of the link', () => {
+          expect(func.href).to.equal(link.href);
+        });
+
+        it('should have the title property of the link', () => {
+          expect(func.title).to.equal(link.title);
+        });
+
+        it('should have the method property of the link', () => {
+          expect(func.method).to.equal(link.method);
+        });
+
+        it('should have the templated property of the link', () => {
+          expect(func.templated).to.equal(link.templated);
+        });
       };
 
-      describe('when using $toFunc', () => {
+      beforeEach(() => {
+        link.href = 'foo';
+        link.title = 'title';
+        link.method = 'post';
+        link.templated = true;
+      });
+
+      describe('when using the instance method', () => {
         beforeEach(() => {
-          func = link.$toFunc();
+          func = link.$callable();
         });
         runChecks();
       });
 
-      describe('when using the static factory function', () => {
+      describe('when using the static factory method', () => {
         beforeEach(() => {
-          func = HalLink.asFunc(link);
+          func = HalLink.callable(link);
           link = func.$link;
         });
         runChecks();

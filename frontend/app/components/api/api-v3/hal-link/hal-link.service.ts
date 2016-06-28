@@ -43,8 +43,8 @@ export class HalLink implements HalLinkInterface {
     return new HalLink(link.href, link.title, link.method, link.templated);
   }
 
-  public static asFunc(link) {
-    return HalLink.fromObject(link).$toFunc();
+  public static callable(link) {
+    return HalLink.fromObject(link).$callable();
   }
 
   /**
@@ -72,10 +72,16 @@ export class HalLink implements HalLinkInterface {
     return this.$route[this.method === 'delete' && 'remove' || this.method](...params);
   }
 
-  public $toFunc() {
+  public $callable() {
     const func:any = (...params) => this.$fetch(...params);
-    func.$link = this;
-    func.$route = this.$route;
+
+    _.extend(func, {
+      $link: this,
+      href: this.href,
+      title: this.title,
+      method: this.method,
+      templated: this.templated
+    });
 
     return func;
   }
