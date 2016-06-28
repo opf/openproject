@@ -13,13 +13,13 @@
     </a>
   </span>
   <span class="user" ng-if="!userActive">{{ userName }}</span>
-  <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.props.createdAt" /></span>
+  <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.createdAt" /></span>
   <div class="comments-number">
     <activity-link work-package="workPackage"
                    activity-no="activityNo"
                    ></activity-link>
     <div class="comments-icons"
-         ng-show="activity.props._type == 'Activity::Comment' && (focussing() || accessibilityModeEnabled)">
+         ng-show="activity._type == 'Activity::Comment' && (focussing() || accessibilityModeEnabled)">
       <accessible-by-keyboard ng-if="userCanQuote"
                               execute="quoteComment()"
                               link-title="{{ I18n.t('js.label_quote_comment') }}">
@@ -74,7 +74,7 @@
     </div>
     <span ng-if="!inEdit"
           class="message"
-          ng-show="activity.props._type == 'Activity::Comment'"
+          ng-show="activity._type == 'Activity::Comment'"
           ng-bind-html="postedComment"/>
     <ul class="work-package-details-activities-messages" ng-if="!isInitial">
       <li ng-repeat="detail in details track by $index">

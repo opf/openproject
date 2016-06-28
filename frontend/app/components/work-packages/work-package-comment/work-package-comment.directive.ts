@@ -47,6 +47,7 @@ export class CommentFieldDirectiveController {
   constructor(protected $scope,
               protected $timeout,
               protected $q,
+              protected $element,
               protected ActivityService,
               protected ConfigurationService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -65,8 +66,10 @@ export class CommentFieldDirectiveController {
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 
-    $scope.$on('workPackage.comment.quoteThis', function (evt, quote) {
+    $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
       this.field.initializeFieldValue(quote);
+      this.editing = true;
+      this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
   }
 
@@ -96,7 +99,7 @@ export class CommentFieldDirectiveController {
       return;
     }
 
-    this.$scope.$evalAsync(() => this.field.isBusy = true);
+    this.field.isBusy = true;
     this.loadingPromise = this.ActivityService.createComment(this.workPackage, this.field.value)
       .then(() => {
         this.editing = false;
@@ -116,6 +119,7 @@ export class CommentFieldDirectiveController {
 
   public handleUserCancel() {
     this.editing = false;
+    this.field.initializeFieldValue();
   }
 }
 
