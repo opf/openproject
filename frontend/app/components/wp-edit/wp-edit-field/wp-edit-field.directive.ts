@@ -144,8 +144,10 @@ export class WorkPackageEditFieldController {
     if (this.isEditable) {
       this.handleUserActivate();
     }
+
     event.stopImmediatePropagation();
   }
+
 
   public get isEditable(): boolean {
     return this._editable && this.workPackage.isEditable;
@@ -270,14 +272,21 @@ export class WorkPackageEditFieldController {
   protected updateDisplayAttributes() {
     this.__d__inplaceEditReadValue = this.__d__inplaceEditReadValue || this.$element.find(".__d__inplace-edit--read-value");
 
-    if (this.isEditable) {
-      this.__d__inplaceEditReadValue.attr("role", "button");
-      this.__d__inplaceEditReadValue.attr("tabindex", "0");
-    }
-    else {
-      this.__d__inplaceEditReadValue.removeAttr("role");
-      this.__d__inplaceEditReadValue.removeAttr("tabindex");
-    }
+    // Unfortunately, ID fields are Edit fields at the moment
+    // and we need to treat them differently
+    const isIDField = this.fieldName === 'id';
+
+    // Usability: Highlight non-editable fields
+    const readOnly = !(this.isEditable || isIDField );
+    this.__d__inplaceEditReadValue.toggleClass("-read-only", readOnly);
+
+    // Accessibility: Mark editable fields as button role
+    const role = this.isEditable ? 'button' : null;
+    this.__d__inplaceEditReadValue.attr("role", role);
+
+    // Accessibility: Allow tab on all fields except id
+    const tabIndex = isIDField ? -1 : 0;
+    this.__d__inplaceEditReadValue.attr("tabindex", tabIndex);
   }
 }
 
