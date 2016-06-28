@@ -130,6 +130,11 @@ module ::TypesHelper
       else
         value
       end
+    elsif name == 'date' && !@type.is_milestone
+      values = [@type.attribute_visibility['start_date'],
+                @type.attribute_visibility['due_date']]
+
+      BaseTypeService::Functions.max_visibility values
     else
       @type.attribute_visibility[name]
     end
