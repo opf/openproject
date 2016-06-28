@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
@@ -33,6 +35,7 @@ angular
 function wpTable(
   WorkPackagesTableService,
   WorkPackageService,
+  keepTab:KeepTabService,
   QueryService,
   $window,
   $rootScope,
@@ -107,6 +110,13 @@ function wpTable(
           if (!totalSumsFetched()) { fetchTotalSums(); }
           if (!sumsSchemaFetched()) { fetchSumsSchema(); }
         }
+      });
+
+      // Set and keep the current details tab state remembered
+      // for the open-in-details button in each WP row.
+      scope.desiredSplitViewState = keepTab.currentDetailsState;
+      scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
+        scope.desiredSplitViewState = tabs.details;
       });
 
       function applyGrouping() {
@@ -210,7 +220,10 @@ function wpTable(
             setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
           }
 
-          openWhenInSplitView(row.object);
+          // Avoid bubbling of elements within the details link
+          if ($event.target.parentElement.className.indexOf('wp-table--details-link') === -1) {
+            openWhenInSplitView(row.object);
+          }
         }
       };
 

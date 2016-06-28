@@ -64,7 +64,7 @@ describe('wpListViewButton directive', () => {
     });
 
     it("should redirect user to 'work-packages.list'", () => {
-      expect(go.withArgs(keepTab.currentDetailsTab).calledOnce).to.be.true;
+      expect(go.withArgs(keepTab.currentDetailsState).calledOnce).to.be.true;
     });
   });
 });

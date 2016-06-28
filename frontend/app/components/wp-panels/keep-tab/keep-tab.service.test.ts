@@ -50,30 +50,75 @@ describe('keepTab service', () => {
 
   describe('when initially invoked, or when an unsupported route is opened', () => {
     it('should have the correct default value for the currentShowTab', () => {
-      expect(keepTab.currentShowTab).to.eq(defaults.showTab);
+      expect(keepTab.currentShowState).to.eq(defaults.showTab);
+      expect(keepTab.currentShowTab).to.eq('activity');
     });
 
     it('should have the correct default value for the currentDetailsTab', () => {
-      expect(keepTab.currentDetailsTab).to.eq(defaults.detailsTab);
+      expect(keepTab.currentDetailsState).to.eq(defaults.detailsTab);
+      expect(keepTab.currentDetailsTab).to.eq('overview');
     });
   });
 
   describe('when opening a show route', () => {
+    var includes;
+
+    beforeEach(() => {
+      includes = sinon.stub($state, 'includes');
+      includes.withArgs('work-packages.show.*').returns(true);
+      includes.withArgs('work-packages.list.details.*').returns(false);
+
+      $state.current.name = 'work-packages.show.relations';
+      $rootScope.$emit('$stateChangeSuccess');
+    });
+
+    it('should update the currentShowTab value', () => {
+      expect(keepTab.currentShowState).to.eq('work-packages.show.relations');
+    });
+
+    it('should also update the value of currentDetailsTab', () => {
+      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.relations');
+    });
+
+    it('should propagate the previous change', () => {
+      var cb = sinon.spy();
+
+      var expected = {
+        show: 'work-packages.show.relations',
+        details: 'work-packages.list.details.relations'
+      }
+
+      keepTab.observable.subscribe(cb);
+      expect(cb).to.have.been.calledWith(expected);
+    });
+
+    it('should correctly change when switching back', () => {
+      includes.withArgs('work-packages.show.*').returns(false);
+      includes.withArgs('work-packages.list.details.*').returns(true);
+
+      $state.current.name = 'work-packages.list.details.overview';
+      $rootScope.$emit('$stateChangeSuccess');
+
+
+      expect(keepTab.currentShowState).to.eq('work-packages.show.activity');
+      expect(keepTab.currentShowTab).to.eq('activity');
+      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.overview');
+      expect(keepTab.currentDetailsTab).to.eq('overview');
+    });
+  });
+
+  describe('when opening show#activity', () => {
     beforeEach(() => {
       var includes = sinon.stub($state, 'includes');
       includes.withArgs('work-packages.show.*').returns(true);
       includes.withArgs('work-packages.list.details.*').returns(false);
 
-      $state.current.name = 'new-show-route';
-      $rootScope.$emit('$stateChangeSuccess');
+      $state.current.name = 'work-packages.show.activity';
+      $rootScope.$emit('$stateChangeSuccess', $state.current);
     });
 
-    it('should update the currentShowTab value', () => {
-      expect(keepTab.currentShowTab).to.eq('new-show-route');
-    });
-
-    it('should keep the previous value of currentDetailsTab', () => {
-      expect(keepTab.currentDetailsTab).to.eq(defaults.detailsTab);
+    it('should set the tab to overview', () => {
+      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.overview');
     });
   });
 
@@ -83,16 +128,35 @@ describe('keepTab service', () => {
       includes.withArgs('work-packages.list.details.*').returns(true);
       includes.withArgs('work-packages.show.*').returns(false);
 
-      $state.current.name = 'new-details-route';
+      $state.current.name = 'work-packages.list.details.activity';
       $rootScope.$emit('$stateChangeSuccess');
     });
 
     it('should update the currentShowTab value', () => {
-      expect(keepTab.currentDetailsTab).to.eq('new-details-route');
+      expect(keepTab.currentDetailsState).to.eq('work-packages.list.details.activity');
+      expect(keepTab.currentDetailsTab).to.eq('activity');
     });
 
-    it('should keep the previous value of currentDetailsTab', () => {
-      expect(keepTab.currentShowTab).to.eq(defaults.showTab);
+    it('should also update the value of currentDetailsTab', () => {
+      expect(keepTab.currentShowState).to.eq('work-packages.show.activity');
+      expect(keepTab.currentShowTab).to.eq('activity');
     });
+
+    it('should propagate the previous and next change', () => {
+      var cb = sinon.spy();
+
+      var expected = {
+        details: 'work-packages.list.details.activity',
+        show: 'work-packages.show.activity'
+      };
+
+      keepTab.observable.subscribe(cb);
+      expect(cb).to.have.been.calledWith(expected);
+
+      $rootScope.$emit('$stateChangeSuccess');
+
+      expect(cb).to.have.been.calledTwice;
+    });
+
   });
 });

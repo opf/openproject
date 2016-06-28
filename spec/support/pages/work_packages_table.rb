@@ -64,6 +64,11 @@ module Pages
       split_page
     end
 
+    def click_on_row(work_package)
+      loading_indicator_saveguard
+      page.driver.browser.mouse.double_click(row(work_package).native)
+    end
+
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       page.driver.browser.mouse.double_click(row(work_package).native)

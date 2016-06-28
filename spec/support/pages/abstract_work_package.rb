@@ -43,6 +43,12 @@ module Pages
       visit path(tab)
     end
 
+    def expect_tab(tab)
+      within(container) do
+        expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.camelize)
+      end
+    end
+
     def edit_field(attribute, context)
       WorkPackageField.new(context, attribute)
     end
@@ -51,6 +57,14 @@ module Pages
       within(container) do
         expect(page).to have_content(work_package.subject)
       end
+    end
+
+    def open_in_split_view
+      find('#work-packages-details-view-button').click
+    end
+
+    def open_in_full_view
+      find('#work-packages-show-view-button').click
     end
 
     def ensure_page_loaded

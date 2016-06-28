@@ -57,7 +57,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
       var params = {
         workPackageId: this.$state.params.workPackageId || this.workPackageId || this.nextWpFunc()
       };
-      args = [this.keepTab.currentShowTab, params];
+      args = [this.keepTab.currentShowState, params];
 
       angular.extend(params, this.$state.params);
     }
