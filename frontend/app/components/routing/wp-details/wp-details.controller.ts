@@ -47,8 +47,9 @@ function WorkPackageDetailsController($scope,
 
   $scope.wpEditModeState = wpEditModeState;
   $scope.I18n = I18n;
-  $scope.initializedWorkPackage = $q.defer();
 
+  var deferred = $q.defer();
+  $scope.initializedWorkPackage = deferred.promise;
   scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp:WorkPackageResource) => {
       $scope.workPackageResource = wp;
@@ -61,7 +62,8 @@ function WorkPackageDetailsController($scope,
         wp
       );
 
-      $scope.initializedWorkPackage.resolve();
+      $scope.showStaticPagePath = PathHelper.workPackagePath(wp);
+      deferred.resolve();
     });
 
   $scope.onWorkPackageSave = function () {
