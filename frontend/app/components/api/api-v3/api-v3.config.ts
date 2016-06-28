@@ -41,11 +41,7 @@ function apiV3Config(apiV3, HalResource) {
     }
 
     if (data) {
-      // lodash's clone seems to have better performance in our situation
-      // when compared to angular.clone
-      // see also:
-      // https://github.com/angular/angular.js/issues/11099
-      data._plain = _.clone(data, true);
+      data._plain = data.restangularized ? data.plain() : _.cloneDeep(data);
 
       if (data._type === 'Collection') {
         const resp = [];
