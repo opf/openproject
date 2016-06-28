@@ -83,7 +83,7 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
       })
       .catch(error => {
         if (!(error.data instanceof ErrorResource)) {
-          wpNotificationsService.showGeneralError();
+          return wpNotificationsService.showGeneralError();
         }
         wpNotificationsService.showError(error.data, this.workPackage);
       });
