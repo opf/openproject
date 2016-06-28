@@ -306,147 +306,129 @@ describe('HalResource service', () => {
     });
   });
 
-  describe('when transforming an object with _links', () => {
+  describe('when creating a resource form a source with linked resources', () => {
     beforeEach(() => {
       source = {
-        _type: 'Hello',
         _links: {
-          post: {
-            href: '/api/v3/hello',
-            method: 'post'
-          },
-          put: {
-            href: '/api/v3/hello',
-            method: 'put'
-          },
-          patch: {
-            href: '/api/v3/hello',
-            method: 'patch'
-          },
-          'get': {
-            href: '/api/v3/hello',
-          },
-          'delete': {
-            href: '/api/v3/hello',
-            method: 'delete'
-          },
           self: {
-            href: '/api/v3/hello',
-            title: 'some title'
+            href: 'unicorn/69'
+          },
+          beaver: {
+            href: 'justin/420'
           }
         }
       };
-
       resource = new HalResource(source);
     });
 
-    it('should return an empty $embedded object', () => {
-      expect(resource.$embedded).to.eql({});
+    it('should have no "self" property', () => {
+      expect(resource.self).to.not.exist;
     });
 
-    describe('when after the $links property is generated', () => {
-      it('should exist', () => {
-        expect(resource.$links).to.exist;
-      });
+    it('should have a beaver', () => {
+      expect(resource.beaver).to.exist;
+    });
 
-      it('should not have the original `_links` property', () => {
-        expect(resource._links).to.not.exist;
-      });
+    it('should have no "_links" property', () => {
+      expect(resource._links).to.not.exist;
+    });
 
-      it('should have callable links', () => {
-        expect(resource.$links).to.respondTo('self');
-        expect(resource.$links).to.respondTo('put');
-        expect(resource.$links).to.respondTo('post');
-      });
+    it('should leave the source accessible', () => {
+      expect(resource.$source).to.eql(source);
+    });
 
-      it('should not be restangularized', () => {
-        expect(resource.$links.restangularized).to.not.be.ok;
-      });
+    it('should have a callable self link', () => {
+      expect(() => resource.$links.self()).to.not.throw(Error);
+    });
 
-      it('should have a links property with the same keys as the original _links', () => {
-        const transformedLinks = Object.keys(resource.$links);
-        const plainLinks = Object.keys(source._links);
+    it('should have a callable beaver', () => {
+      expect(() => resource.$links.beaver()).to.not.throw(Error);
+    });
 
-        expect(transformedLinks).to.have.members(plainLinks);
-      });
+    it('should have a $links property with the keys of its source _links', () => {
+      const transformedLinks = Object.keys(resource.$links);
+      const plainLinks = Object.keys(source._links);
+
+      expect(transformedLinks).to.have.members(plainLinks);
     });
   });
 
-  describe('when transforming an object with _embedded', () => {
+  describe('when creating a resource from a source with embedded resources', () => {
     beforeEach(() => {
       source = {
-        _type: 'Hello',
         _embedded: {
-          resource: {
-            _links: {},
-            _embedded: {
-              first: {
-                _embedded: {
-                  second: {
-                    _links: {},
-                    property: 'yet another value'
-                  }
-                },
-                property: 'another value'
-
-              }
-            },
-            propertyResource: {
-              _links: {}
-            }
-          },
-          property: 'value'
+          resource: {_links: {}},
         }
       };
 
       resource = new HalResource(source);
-    });
-
-    it('should not be restangularized', () => {
-      expect(resource.restangularized).to.not.be.ok;
-    });
-
-    it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true;
-    });
-
-    it('should have a new "embedded" property', () => {
-      expect(resource.$embedded);
     });
 
     it('should not have the original _embedded property', () => {
       expect(resource._embedded).to.not.be.ok;
     });
 
-    it('should transform its resources', () => {
-      expect(resource.$embedded.resource.$isHal).to.be.true;
+    it('should have a property, that is a loaded resource', () => {
+      expect(resource.resource.$loaded).to.be.true;
     });
 
-    it('should not transform its properties', () => {
-      expect(resource.$embedded.property.$isHal).to.not.be.ok;
+    it('should have an embedded resource, that is loaded', () => {
+      expect(resource.$embedded.resource.$loaded).to.be.true;
     });
 
-    describe('when transforming nested embedded resources', () => {
-      var first;
-      var second;
+    it('should have a property that is the resource', () => {
+      expect(resource.resource).to.equal(resource.$embedded.resource);
+    });
+
+    it.skip('should have a callable link to that resource', () => {
+      expect(() => resource.$links.resource()).to.not.throw(Error);
+    });
+
+    describe('when overriding the property with a resource', () => {
+      var link;
 
       beforeEach(() => {
+        link = {href: 'pony'};
+        resource.resource = HalResource.fromLink(link);
+      });
+
+      it('should set the property to that resource', () => {
+        expect(resource.resource.href).to.equal(link.href);
+      });
+
+      it.skip('should set the corresponding link', () => {
+        expect(resource.$links.resource.$link.href).to.equal(link.href);
+      });
+    });
+
+    describe('when the embedded resources are nested', () => {
+      var first;
+      var deep;
+
+      beforeEach(() => {
+        source._embedded.resource._embedded = {
+          first: {
+            _embedded: {
+              second: {
+                _links: {},
+                property: 'yet another value'
+              }
+            },
+            property: 'another value'
+          }
+        };
+
         first = resource.$embedded.resource.$embedded.first;
-        second = resource.$embedded.resource.$embedded.first.$embedded.second;
+        deep = resource.$embedded.resource.$embedded.first.$embedded.second;
       });
 
-      it('should transform properties that are resources', () => {
-        expect(resource.$embedded.resource.propertyResource.$isHal).to.be.true;
-      });
-
-      it('should transform all nested resources recursively', () => {
-        expect(first.$isHal).to.be.true;
-        expect(second.$isHal).to.be.true;
+      it('should crate all nested resources recursively', () => {
+        expect(deep.$isHal).to.be.true;
       });
 
       it('should transfer the properties of the nested resources correctly', () => {
         expect(first.property).to.eq('another value');
-        expect(second.property).to.eq('yet another value');
+        expect(deep.property).to.eq('yet another value');
       });
     });
   });
@@ -538,34 +520,12 @@ describe('HalResource service', () => {
   describe('when transforming an object with an _embedded list with the list element having _links', () => {
     beforeEach(() => {
       source = {
-        _type: 'Hello',
         _embedded: {
-          elements: [
-            {
-              _type: 'ListElement',
-              _links: {}
-            },
-            {
-              _type: 'ListElement',
-              _links: {}
-            }
-          ]
+          elements: [{_links: {}}, {_links: {}}]
         }
       };
 
       resource = new HalResource(source);
-    });
-
-    it('should not be restangularized', () => {
-      expect(resource.restangularized).to.not.be.ok;
-    });
-
-    it('should be transformed', () => {
-      expect(resource.$isHal).to.be.true;
-    });
-
-    it('should have a new "embedded" property', () => {
-      expect(resource.$embedded);
     });
 
     it('should not have the original _embedded property', () => {
