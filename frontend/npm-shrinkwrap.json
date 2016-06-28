@@ -2420,9 +2420,6 @@
         }
       }
     },
-    "webpack-fail-plugin": {
-      "version": "1.0.4"
-    },
     "yaml-loader": {
       "version": "0.1.0",
       "dependencies": {
