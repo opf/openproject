@@ -27,28 +27,24 @@
 // ++
 
 describe('WatchersPanelController', function() {
-  var $controller, $rootScope, locals;
+  var $controller, $rootScope, $q, locals;
 
-  var workPackage = {
-    links: {
-      watchers: {
-        url: function() {
-          return '/work_packages/123/watchers';
-        }
-      },
-      availableWatchers: {
-        url: function() {
-          return '/work_packages/123/available_watchers';
-        }
-      }
+  var emptyLink = {
+    $load: function() {
+      return $q.when([]);
     }
+  }
+  var workPackage = {
+    watchers: emptyLink,
+    availableWatchers: emptyLink
   };
 
   beforeEach(angular.mock.module('openproject.workPackages.controllers'));
 
-  beforeEach(inject(['$controller', '$rootScope', function(ctrl, root) {
+  beforeEach(inject(['$controller', '$rootScope', '$q', function(ctrl, root, _$q_) {
     $controller = ctrl;
     $rootScope = root;
+    $q = _$q_;
 
     locals = {
       $scope: $rootScope.$new()
