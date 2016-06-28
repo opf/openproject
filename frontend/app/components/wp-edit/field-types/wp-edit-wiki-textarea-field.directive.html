@@ -18,6 +18,9 @@
         <span ng-bind-html="vm.field.previewHtml"></span>
     </div>
     <wp-edit-field-controls ng-show="!vm.inEditMode"
+                            field-controller="vm"
+                            on-save="vm.submit()"
+                            on-cancel="vm.handleUserCancel()"
                             save-title="{{ vm.field.text.saveTitle }}"
                             cancel-title="{{ vm.field.text.cancelTitle }}">
     </wp-edit-field-controls>

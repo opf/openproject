@@ -1,7 +1,7 @@
 <div class="inplace-edit--dashboard">
   <div class="inplace-edit--controls"
-       ng-hide="!vm.fieldCtrl.active">
-    <accessible-by-keyboard execute="vm.fieldCtrl.submit()"
+       ng-hide="!vm.fieldController.active">
+    <accessible-by-keyboard execute="vm.onSave()"
                             ng-disabled="vm.field.required && vm.field.isEmpty()"
                             is-disabled="vm.field.required && vm.field.isEmpty()"
                             link-title="{{ vm.saveTitle }}"
@@ -9,7 +9,7 @@
       <icon-wrapper icon-name="checkmark" icon-title="{{ vm.saveTitle }}">
       </icon-wrapper>
     </accessible-by-keyboard>
-    <accessible-by-keyboard execute="vm.fieldCtrl.handleUserCancel()"
+    <accessible-by-keyboard execute="vm.onCancel()"
                             link-title="{{ vm.cancelTitle }}"
                             class="inplace-edit--control inplace-edit--control--cancel">
       <icon-wrapper icon-name="close" icon-title="{{ vm.cancelTitle }}">

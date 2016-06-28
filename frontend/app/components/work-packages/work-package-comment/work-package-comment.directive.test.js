@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-describe('workPackageCommentDirectiveTest', function() {
+describe.only('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
   var workPackageFieldService = {};
   var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
@@ -132,7 +132,7 @@ describe('workPackageCommentDirectiveTest', function() {
 
       describe('when clicking the inplace edit', function() {
         beforeEach(function() {
-          commentSection.find('.inplace-editing--trigger-link').click();
+          commentSection.find('.inplace-_editing--trigger-link').click();
         });
 
         it('does not allow sending comment with an empty message', function() {

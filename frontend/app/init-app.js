@@ -94,6 +94,9 @@ opApp
         });
       }
     ])
+    .value('cgBusyDefaults', {
+      message: I18n.t('js.label_please_wait')
+    })
     .run([
       '$http',
       '$rootScope',

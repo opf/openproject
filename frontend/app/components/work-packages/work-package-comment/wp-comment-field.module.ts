@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,43 +24,39 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
-/* globals URI */
+// ++
 
-module.exports = function(
-  HALAPIResource,
-  $http,
-  I18n,
-  NotificationsService
-  ) {
-  var ActivityService = {
-    createComment: function(workPackage, comment) {
-      return workPackage.addComment(
-        { comment: comment},
-        { 'Content-Type': 'application/json; charset=UTF-8' }
-      );
-    },
+import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 
-    updateComment: function(activity, comment) {
-      var options = {
-        ajax: {
-          method: 'PATCH',
-          data: JSON.stringify({ comment: comment }),
-          contentType: "application/json; charset=utf-8"
-        }
-      };
+export class WorkPackageCommentField extends WikiTextareaEditField {
 
-      return activity.update(
-        { comment: comment },
-        { 'Content-Type': 'application/json; charset=UTF-8' }
-      ).then(function(activity) {
-        NotificationsService.addSuccess(
-          I18n.t('js.work_packages.comment_updated')
-        );
-        return activity;
-      });
+  public fieldVal = { raw: '' };
+
+  constructor(workPackage, protected I18n) {
+    super(workPackage, 'comment', {name: I18n.t('js.label_comment')});
+
+    this.initializeFieldValue();
+    this.workPackage = workPackage;
+  }
+
+  public get value() {
+    return this.fieldVal;
+  }
+
+  public get required() {
+    return true;
+  }
+
+  public initializeFieldValue(withText?:string) {
+    if (!withText) {
+      return this.fieldVal.raw = '';
     }
-  };
 
-  return ActivityService;
-};
+    if (this.fieldVal.raw.length > 0) {
+      this.fieldVal.raw += '\n';
+    }
+
+    this.fieldVal.raw += withText;
+  }
+
+}
