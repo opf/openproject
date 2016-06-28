@@ -353,6 +353,40 @@ describe WorkPackage, type: :model do
             let(:expected_due) { work_package2_due + move_by }
           end
         end
+
+        context 'when there is another work package also preceding the wp' do
+          let(:work_package3) {
+            FactoryGirl.create(:work_package,
+                               start_date: work_package1_start,
+                               due_date: work_package1_due)
+          }
+          let(:follows_relation2) {
+            FactoryGirl.create(:relation,
+                               relation_type: Relation::TYPE_PRECEDES,
+                               from: work_package3,
+                               to: work_package2)
+          }
+
+          before do
+            follows_relation2
+          end
+
+          context 'when the date is moved backwards' do
+            let(:move_by) { -3 }
+            let(:new_work_package1_due) { work_package1_due + move_by }
+
+            before do
+              work_package1.due_date = new_work_package1_due
+              work_package1.save!
+            end
+
+            it_behaves_like 'scheduled work package' do
+              # moved backwards as much as possible
+              let(:expected_start) { work_package3.due_date + delay + 1 }
+              let(:expected_due) { work_package3.due_date + delay + 1 + (work_package3.due_date - work_package3.start_date) }
+            end
+          end
+        end
       end
 
       context 'upon removing the start and due date of the preceding work package' do

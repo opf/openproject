@@ -38,8 +38,16 @@ module WorkPackage::SchedulingRules
     return if delta == 0
 
     if leaf?
-      self.start_date += delta
-      self.due_date += delta
+      current_buffer = soonest_start - start_date
+
+      max_allowed_delta = if current_buffer < delta
+                            delta
+                          else
+                            current_buffer
+                          end
+
+      self.start_date += max_allowed_delta
+      self.due_date += max_allowed_delta
       save
     else
       leaves.each do |leaf|
