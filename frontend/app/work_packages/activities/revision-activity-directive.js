@@ -30,8 +30,7 @@ module.exports = function($compile,
     $sce,
     I18n,
     PathHelper,
-    ActivityService,
-    UsersHelper) {
+    ActivityService) {
   return {
     restrict: 'E',
     replace: true,
@@ -52,7 +51,7 @@ module.exports = function($compile,
           scope.userId = user.id;
           scope.userName = user.name;
           scope.userAvatar = user.avatar;
-          scope.userActive = UsersHelper.isActive(user);
+          scope.userActive = user.isActive;
           scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
         });
       }

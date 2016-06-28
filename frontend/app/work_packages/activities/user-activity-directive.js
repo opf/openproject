@@ -33,8 +33,6 @@ module.exports = function($uiViewScroll,
     I18n,
     PathHelper,
     ActivityService,
-    UsersHelper,
-    UserService,
     ConfigurationService,
     AutoCompleteHelper,
     TextileService) {
@@ -75,12 +73,11 @@ module.exports = function($uiViewScroll,
       scope.userCanQuote = !!scope.workPackage.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      var resource = UserService.getUserByResource(scope.activity.user);
-      resource.then(function(user) {
-        scope.userId = user.props.id;
-        scope.userName = user.props.name;
-        scope.userAvatar = user.props.avatar;
-        scope.userActive = UsersHelper.isActive(user);
+      scope.activity.user.$load().then(function(user) {
+        scope.userId = user.id;
+        scope.userName = user.name;
+        scope.userAvatar = user.avatar;
+        scope.userActive = user.isActive;
         scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
       });
 

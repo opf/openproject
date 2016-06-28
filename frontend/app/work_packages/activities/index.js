@@ -35,8 +35,6 @@ angular.module('openproject.workPackages.activities')
     'I18n',
     'PathHelper',
     'ActivityService',
-    'UsersHelper',
-    'UserService',
     'ConfigurationService',
     'AutoCompleteHelper',
     'TextileService',
@@ -48,7 +46,6 @@ angular.module('openproject.workPackages.activities')
     'I18n',
     'PathHelper',
     'ActivityService',
-    'UsersHelper',
     require('./revision-activity-directive')
   ])
   .directive('activityLink', [

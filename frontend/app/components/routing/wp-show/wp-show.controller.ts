@@ -37,7 +37,6 @@ function WorkPackageShowController($scope,
                                    workPackage,
                                    I18n,
                                    PathHelper,
-                                   UsersHelper,
                                    WorkPackageService,
                                    WorkPackageAuthorization,
                                    HookService,
@@ -172,7 +171,7 @@ function WorkPackageShowController($scope,
     // Author
     $scope.author = workPackage.embedded.author;
     $scope.authorPath = PathHelper.userPath($scope.author.props.id);
-    $scope.authorActive = UsersHelper.isActive($scope.author);
+    $scope.authorActive = $scope.author.isActive;
 
     // Attachments
     $scope.attachments = workPackage.embedded.attachments.embedded.elements;

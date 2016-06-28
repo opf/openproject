@@ -26,14 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(ACTIVE_USER_STATUSES) {
-  var UsersHelper = {
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
 
-    isActive: function(user){
-      return ACTIVE_USER_STATUSES.indexOf(user.props.status) >= 0;
-    },
+export class UserResource extends HalResource {
 
-  };
+  // Properties
+  public id:number|string;
+  public login:string;
+  public firstName:string;
+  public lastName:string;
+  public name:string;
+  public email:string;
+  public avatar:string;
+  public status:string;
 
-  return UsersHelper;
-};
+  // Links
+  public lock:HalResource;
+  public unlock:HalResource;
+  public delete:HalResource;
+  public showUser:HalResource;
+
+
+  public static get active_user_statuses() {
+    return ['active', 'registered'];
+  }
+
+  public get isActive() {
+    return UserResource.active_user_statuses.indexOf(this.status) >= 0;
+  }
+},
+}
+
+function userResource() {
+  return UserResource;
+}
+
+opApiModule.factory('UserResource', userResource);

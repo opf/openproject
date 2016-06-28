@@ -39,6 +39,7 @@ function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
       }
     },
     Error: 'ErrorResource',
+    User: 'UserResource',
     Collection: 'CollectionResource'
   });
 }
