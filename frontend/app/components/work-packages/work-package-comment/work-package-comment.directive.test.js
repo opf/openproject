@@ -102,7 +102,7 @@ describe('workPackageCommentDirectiveTest', function() {
   describe('activity comments', function() {
     describe('without comment link in work package', function() {
       beforeEach(function() {
-        scope.workPackage.links.addComment = undefined;
+        scope.workPackage.addComment = undefined;
         compile();
       });
 

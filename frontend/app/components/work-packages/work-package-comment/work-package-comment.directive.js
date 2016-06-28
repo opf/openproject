@@ -47,7 +47,7 @@ function workPackageComment($timeout, $location, FocusHelper, ActivityService, C
 
     ctrl.isEditing = false;
     ctrl.isRequired = true;
-    ctrl.canAddComment = !!ctrl.workPackage.links.addComment;
+    ctrl.canAddComment = !!ctrl.workPackage.addComment;
 
     ctrl.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 

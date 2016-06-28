@@ -34,7 +34,7 @@ const panels = {
     return {
       url: '/overview',
       reloadOnSearch: false,
-      template: '<overview-panel work-package="workPackage"></overview-panel>'
+      template: '<overview-panel work-package="workPackageResource"></overview-panel>'
     };
   },
 
@@ -42,16 +42,16 @@ const panels = {
     return {
       url: '/watchers',
       reloadOnSearch: false,
-      template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
-    };
+      template: '<watchers-panel ng-if="workPackageResource" work-package="workPackageResource"></watchers-panel>'
+    }
   },
 
   get activity() {
     return {
       url: '/activity',
       reloadOnSearch: false,
-      template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
-    };
+      template: '<activity-panel ng-if="workPackageResource" work-package="workPackageResource"></activity-panel>'
+    }
   },
 
   get activityDetails() {

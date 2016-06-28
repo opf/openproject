@@ -52,26 +52,26 @@ function wpActivity($filter, $q, ConfigurationService){
       var aggregated = [], promises = [];
 
       var add = function (data) {
-        aggregated.push(data.embedded.elements);
+        aggregated.push(data.elements);
       };
 
-      promises.push(workPackage.links.activities.fetch().then(add));
+      promises.push(workPackage.activities.$load().then(add));
 
-      if (workPackage.links.revisions) {
-        promises.push(workPackage.links.revisions.fetch().then(add));
+      if (workPackage.revisions) {
+        promises.push(workPackage.revisions.$load().then(add));
       }
 
       return $q.all(promises).then(function () {
         activities.length = 0;
         activities.push.apply(activities, $filter('orderBy')(
-          _.flatten(aggregated), 'props.createdAt', reverse
+          _.flatten(aggregated), 'createdAt', reverse
         ));
       });
     },
 
     info: function (activity, index) {
       var activityDate = function (activity) {
-        return $filter('date')(activity.props.createdAt, 'longDate')
+        return $filter('date')(activity.createdAt, 'longDate')
       };
 
       var orderedIndex = function(idx, forceReverse) {
@@ -100,7 +100,7 @@ function wpActivity($filter, $q, ConfigurationService){
         isInitial: function(forceReverse) {
           var activityNo = this.number(forceReverse);
 
-          if (activity.props._type.indexOf('Activity') !== 0) {
+          if (activity._type.indexOf('Activity') !== 0) {
             return false;
           }
 
@@ -110,7 +110,7 @@ function wpActivity($filter, $q, ConfigurationService){
 
           while (--activityNo > 0) {
             var idx = orderedIndex(activityNo, forceReverse) - 1;
-            if (activities[idx].props._type.indexOf('Activity') === 0) {
+            if (activities[idx]._type.indexOf('Activity') === 0) {
               return false;
             }
           }

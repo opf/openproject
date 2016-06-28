@@ -45,7 +45,7 @@ function activityEntry(PathHelper) {
     },
 
     link: function(scope) {
-      var projectId = scope.workPackage.embedded.project.props.id;
+      var projectId = scope.workPackage.project.props.id;
       scope.autocompletePath = PathHelper.workPackageJsonAutoCompletePath(projectId);
 
       scope.activityType = scope.activity.props._type;

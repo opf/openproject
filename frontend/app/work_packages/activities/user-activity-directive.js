@@ -71,11 +71,11 @@ module.exports = function($uiViewScroll,
       scope.userPath = PathHelper.userPath;
       scope.inEdit = false;
       scope.inPreview = false;
-      scope.userCanEdit = !!scope.activity.links.update;
-      scope.userCanQuote = !!scope.workPackage.links.addComment;
+      scope.userCanEdit = !!scope.activity.update;
+      scope.userCanQuote = !!scope.workPackage.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      var resource = UserService.getUserByResource(scope.activity.links.user);
+      var resource = UserService.getUserByResource(scope.activity.user);
       resource.then(function(user) {
         scope.userId = user.props.id;
         scope.userName = user.props.name;

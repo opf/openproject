@@ -44,26 +44,26 @@ module.exports = function($compile,
     },
     link: function(scope, element) {
       scope.I18n = I18n;
-      if (scope.activity.links.author === undefined) {
-        scope.userName = scope.activity.props.authorName;
+      if (scope.activity.author === undefined) {
+        scope.userName = scope.activity.authorName;
       } else {
         scope.userPath = PathHelper.userPath;
-        scope.activity.links.author.fetch().then(function(user) {
-          scope.userId = user.props.id;
-          scope.userName = user.props.name;
-          scope.userAvatar = user.props.avatar;
+        scope.activity.author.$load().then(function(user) {
+          scope.userId = user.id;
+          scope.userName = user.name;
+          scope.userAvatar = user.avatar;
           scope.userActive = UsersHelper.isActive(user);
           scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
         });
       }
 
-      scope.project = scope.workPackage.embedded.project;
-      scope.revision = scope.activity.props.identifier;
-      scope.formattedRevision = scope.activity.props.formattedIdentifier;
-      scope.revisionPath = scope.activity.links.showRevision.href;
-      scope.message = $sce.trustAsHtml(scope.activity.props.message.html);
+      scope.project = scope.workPackage.project;
+      scope.revision = scope.activity.identifier;
+      scope.formattedRevision = scope.activity.formattedIdentifier;
+      scope.revisionPath = scope.activity.showRevision.$link.href;
+      scope.message = $sce.trustAsHtml(scope.activity.message.html);
 
-      var date = '<op-date-time date-time-value="activity.props.createdAt"/></op-date-time>';
+      var date = '<op-date-time date-time-value="activity.createdAt"/></op-date-time>';
       var link = [
         '<a ng-href="{{ revisionPath }}" title="{{ revision }}">',
         '{{ I18n.t("js.label_committed_link", { revision_identifier: formattedRevision }) }}',
