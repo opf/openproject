@@ -160,29 +160,30 @@ describe WorkPackage, type: :model do
                          start_date: work_package2_start,
                          due_date: work_package2_due)
     }
-    let(:delay) { 0 }
-    let(:follows_relation) {
-      FactoryGirl.create(:relation,
-                         relation_type: Relation::TYPE_PRECEDES,
-                         from: work_package1,
-                         to: work_package2,
-                         delay: delay)
-    }
+
+    shared_examples_for 'scheduled work package' do
+      before do
+        work_package2.reload
+      end
+
+      it 'start_date' do
+        expect(work_package2.start_date).to eql expected_start
+      end
+
+      it 'due_date' do
+        expect(work_package2.due_date).to eql expected_due
+      end
+    end
 
     context 'for preceds/follows relationships' do
-      shared_examples_for 'scheduled work package' do
-        before do
-          work_package2.reload
-        end
-
-        it 'start_date' do
-          expect(work_package2.start_date).to eql expected_start
-        end
-
-        it 'due_date' do
-          expect(work_package2.due_date).to eql expected_due
-        end
-      end
+      let(:delay) { 0 }
+      let(:follows_relation) {
+        FactoryGirl.create(:relation,
+                           relation_type: Relation::TYPE_PRECEDES,
+                           from: work_package1,
+                           to: work_package2,
+                           delay: delay)
+      }
 
       before do
         follows_relation
@@ -477,6 +478,64 @@ describe WorkPackage, type: :model do
             # not changed
             let(:expected_start) { work_package2_start }
             let(:expected_due) { work_package2_due }
+          end
+        end
+      end
+    end
+
+    [Relation::TYPE_BLOCKS,
+     Relation::TYPE_DUPLICATES,
+     Relation::TYPE_RELATES].each do |relation_type|
+      context "for #{relation_type} relationships" do
+        let(:blocks_relation) {
+          FactoryGirl.create(:relation,
+                             relation_type: relation_type,
+                             from: work_package1,
+                             to: work_package2)
+        }
+
+        context 'upon relationship generation' do
+          before do
+            blocks_relation
+          end
+
+          it_behaves_like 'scheduled work package' do
+            let(:expected_start) { work_package2_start }
+            let(:expected_due) { work_package2_due }
+          end
+        end
+
+        context 'when updating the due date of the blocking work package' do
+          let(:work_package2_start) { work_package1_due + 1 }
+          let(:work_package2_due) { work_package1_due + 5 }
+
+          before do
+            blocks_relation
+          end
+
+          context 'forwards' do
+            before do
+              work_package1.due_date += 5
+              work_package1.save
+            end
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package2_start }
+              let(:expected_due) { work_package2_due }
+            end
+          end
+
+          context 'backwards' do
+            before do
+              work_package1.start_date -= 5
+              work_package1.due_date -= 5
+              work_package1.save
+            end
+
+            it_behaves_like 'scheduled work package' do
+              let(:expected_start) { work_package2_start }
+              let(:expected_due) { work_package2_due }
+            end
           end
         end
       end

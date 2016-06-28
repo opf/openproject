@@ -99,7 +99,7 @@ class Relation < ActiveRecord::Base
   end
 
   def move_target_dates_by(delta)
-    to.reschedule_by(delta)
+    to.reschedule_by(delta) if relation_type == TYPE_PRECEDES
   end
 
   def set_dates_of_target
