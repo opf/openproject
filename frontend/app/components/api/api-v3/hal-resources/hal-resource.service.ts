@@ -80,7 +80,18 @@ export class HalResource {
     this._name = name;
   }
 
+  /**
+   * Alias for $href.
+   * Please use $href instead.
+   *
+   * @deprecated
+   * @returns {string}
+   */
   public get href():string {
+    return this.$link.href;
+  }
+
+  public get $href():string {
     return this.$link.href;
   }
 
