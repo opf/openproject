@@ -29,8 +29,16 @@
 import {opApiModule} from '../../../angular-modules';
 
 function apiV3Config(apiV3, HalResource) {
+  const transformed:string[] = [];
+
   apiV3.addResponseInterceptor((data, operation, what) => {
-    apiV3.addElementTransformer(what, HalResource.create);
+    if (transformed.indexOf(what) < 0) {
+      transformed.push(what);
+
+      apiV3.addElementTransformer(what, element => {
+        return HalResource.create(element);
+      });
+    }
 
     if (data) {
       // lodash's clone seems to have better performance in our situation
