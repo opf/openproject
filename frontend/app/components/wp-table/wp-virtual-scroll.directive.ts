@@ -50,11 +50,13 @@ function getBlockNodes(nodes) {
   return $(blockNodes);
 }
 
-function createDummyRow(content: any) {
+function createDummyRow(content: any, columnCount: number) {
   const tr = document.createElement('tr');
-  const td = document.createElement('td');
-  td.innerHTML = content;
-  tr.appendChild(td);
+  for (let i = 0; i < columnCount; i++) {
+    const td = document.createElement('td');
+    td.innerHTML = content;
+    tr.appendChild(td);
+  }
   return tr;
 }
 
@@ -158,7 +160,10 @@ class RowDisplay {
       } else {
         // render placeholder row
         this.visible = false;
-        this.dummyRow = createDummyRow("&nbsp;");
+        this.dummyRow = createDummyRow(
+          "&nbsp;",
+          this.workPackageTableVirtualScrollService.columnCount);
+
         this.$animate.enter(this.dummyRow, this.$element.parent(), this.$element);
       }
     }
@@ -215,10 +220,6 @@ class RowDisplay {
 
 class WorkPackageTableVirtualScrollService {
 
-  private rowHeight: number = 44;
-
-  private element: JQuery;
-
   private lastRowsAboveCount: number;
 
   private lastRowsInViewport: number;
@@ -227,18 +228,13 @@ class WorkPackageTableVirtualScrollService {
 
   public viewportChanges: Rx.Subject<[number, number]> = new Rx.ReplaySubject<[number, number]>(1);
 
+  public columnCount = 1;
+
   constructor(private $rootScope: angular.IRootScopeService) {
   }
 
-  setTableElement(element: IRootElementService) {
-    this.element = element;
-  }
+  updateScrollInfo(rowsAboveCount: number, rowsInViewport: number) {
 
-  updateScrollInfo() {
-    const scrollTop = this.element.scrollTop();
-    const height = this.element.outerHeight();
-    const rowsAboveCount = Math.floor(scrollTop / this.rowHeight);
-    const rowsInViewport = Math.round(height / this.rowHeight) + 1;
 
     if (rowsAboveCount !== this.lastRowsAboveCount || rowsInViewport !== this.lastRowsInViewport) {
       runInScopeDigest(this.$rootScope, () => {
@@ -250,6 +246,9 @@ class WorkPackageTableVirtualScrollService {
     this.lastRowsInViewport = rowsInViewport;
   }
 
+  setColumnCount(columnCount: number) {
+    this.columnCount = columnCount;
+  }
 }
 
 wpDirectivesModule.service("workPackageTableVirtualScrollService", WorkPackageTableVirtualScrollService);
@@ -258,22 +257,35 @@ wpDirectivesModule.service("workPackageTableVirtualScrollService", WorkPackageTa
 function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
   return {
     restrict: 'A',
-    link: ($scope: IScope, $element: IRootElementService) => {
+    link: ($scope: IScope, $element: IRootElementService, attr: any) => {
 
-      workPackageTableVirtualScrollService.setTableElement($element);
+      // Number of columns a placeholder row should have
+      let columnCount = $scope.$eval(attr.columnCount);
+      columnCount = columnCount ? columnCount : 1;
+      workPackageTableVirtualScrollService.setColumnCount(columnCount);
+
+      // Row height in pixel
+      let rowHeight = attr.rowHeight;
+
+      const updateScrollInfo = () => {
+        const scrollTop = $element.scrollTop();
+        const height = $element.outerHeight();
+        const rowsAboveCount = Math.floor(scrollTop / rowHeight);
+        const rowsInViewport = Math.round(height / rowHeight) + 1;
+        workPackageTableVirtualScrollService.updateScrollInfo(
+          rowsAboveCount,
+          rowsInViewport);
+      };
 
       let scrollTimeout: any;
       $element.on("scroll", () => {
         scrollTimeout && clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-          //$scope.$applyAsync(() => {
-          workPackageTableVirtualScrollService.updateScrollInfo();
-          //});
-        }, 10);
+          updateScrollInfo();
+        }, 0);
       });
 
-      workPackageTableVirtualScrollService.updateScrollInfo();
-
+      updateScrollInfo();
     }
   };
 }
