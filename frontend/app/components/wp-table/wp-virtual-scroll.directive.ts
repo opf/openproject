@@ -58,12 +58,6 @@ function createDummyRow(content: any) {
   return tr;
 }
 
-function disableWatchers(element: any) {
-  var data = element.data();
-  console.log(data);
-
-}
-
 function wpVirtualScrollRow($animate: any,
                             workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
   return {
@@ -164,7 +158,7 @@ class RowDisplay {
       } else {
         // render placeholder row
         this.visible = false;
-        this.dummyRow = createDummyRow("Loading...");
+        this.dummyRow = createDummyRow("&nbsp;");
         this.$animate.enter(this.dummyRow, this.$element.parent(), this.$element);
       }
     }
@@ -210,10 +204,9 @@ class RowDisplay {
       }
     }
 
-
-      angular.forEach(angular.element(element).children(), (child: JQuery) => {
-        this.adjustWatchers(child, enableWatchers);
-      });
+    angular.forEach(angular.element(element).children(), (child: JQuery) => {
+      this.adjustWatchers(child, enableWatchers);
+    });
 
   }
 
@@ -236,7 +229,7 @@ class WorkPackageTableVirtualScrollService {
 
   constructor(private $rootScope: angular.IRootScopeService) {
   }
-  
+
   setTableElement(element: IRootElementService) {
     this.element = element;
   }
@@ -276,7 +269,7 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
           //$scope.$applyAsync(() => {
           workPackageTableVirtualScrollService.updateScrollInfo();
           //});
-        }, 500);
+        }, 10);
       });
 
       workPackageTableVirtualScrollService.updateScrollInfo();
