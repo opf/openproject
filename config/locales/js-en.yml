@@ -161,6 +161,7 @@ en:
     label_share: "Share"
     label_show_attributes: "Show all attributes"
     label_show_in_menu: "Show page in menu"
+    label_skip_table: "Skip table"
     label_sort_by: "Sort by"
     label_sorted_by: "sorted by"
     label_sort_higher: "Move up"
