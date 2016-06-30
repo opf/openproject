@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'securerandom'
+
 module SettingsHelper
   include OpenProject::FormTagHelper
 
@@ -56,9 +58,6 @@ module SettingsHelper
   end
 
   def setting_multiselect(setting, choices, options = {})
-    setting_values = Setting.send(setting)
-    setting_values = [] unless setting_values.is_a?(Array)
-
     setting_label(setting, options) +
       content_tag(:span, class: 'form--field-container -vertical') {
         hidden_field_tag("settings[#{setting}][]", '') +
@@ -83,11 +82,22 @@ module SettingsHelper
 
   def setting_text_field(setting, options = {})
     unit = options.delete(:unit)
+    unit_html = ''
+
+    if unit
+      unit_id = SecureRandom.uuid
+      options[:'aria-describedby'] = unit_id
+      unit_html = content_tag(:span,
+                              unit,
+                              class: 'form--field-affix',
+                              :'aria-hidden' => true,
+                              id: unit_id)
+    end
 
     setting_label(setting, options) +
       wrap_field_outer(options) {
         styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
-          (unit ? content_tag(:span, unit, class: 'form--field-affix') : '')
+          unit_html
       }
   end
 

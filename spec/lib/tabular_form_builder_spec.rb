@@ -41,7 +41,7 @@ describe TabularFormBuilder do
                       mail:       'jj@lost-mail.com',
                       failed_login_count: 45)
   }
-  let(:builder)  { TabularFormBuilder.new(:user, resource, helper, {}) }
+  let(:builder) { TabularFormBuilder.new(:user, resource, helper, {}) }
 
   describe '#text_field' do
     let(:options) { { title: 'Name', class: 'custom-class' } }
@@ -112,18 +112,41 @@ describe TabularFormBuilder do
     end
 
     context 'with affixes' do
+      let(:random_id) { 'random_id' }
+
+      before do
+        allow(SecureRandom)
+          .to receive(:uuid)
+          .and_return(random_id)
+      end
+
       context 'with a prefix' do
         let(:options) { { title: 'Name', prefix: %{<span style="color:red">Prefix</span>} } }
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
-            <span class="form--field-affix"><span style="color:red">Prefix</span></span>
+            <span class="form--field-affix"
+                  id="#{random_id}"
+                  aria-hidden="true">
+              <span style="color:red">Prefix</span>
+            </span>
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" title="Name" type="text"
-                value="JJ Abrams" />
+                     id="user_name"
+                     name="user[name]"
+                     title="Name"
+                     type="text"
+                     value="JJ Abrams" />
             </span>
           }).within_path('span.form--field-container')
+        end
+
+        it 'includes the prefix hidden in the label' do
+          expect(output).to be_html_eql(%{
+            <span class="hidden-for-sighted">
+              <span style="color:red">Prefix</span>
+            </span>
+          }).within_path('label.form--label')
         end
       end
 
@@ -134,10 +157,18 @@ describe TabularFormBuilder do
           expect(output).to be_html_eql(%{
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" title="Name" type="text"
-                value="JJ Abrams" />
+                     id="user_name"
+                     name="user[name]"
+                     title="Name"
+                     type="text"
+                     aria-describedby="#{random_id}"
+                     value="JJ Abrams" />
             </span>
-            <span class="form--field-affix"><span style="color:blue">Suffix</span></span>
+            <span class="form--field-affix"
+                  aria-hidden="true"
+                  id="#{random_id}">
+              <span style="color:blue">Suffix</span>
+            </span>
           }).within_path('span.form--field-container')
         end
       end
@@ -148,18 +179,39 @@ describe TabularFormBuilder do
             title: 'Name',
             prefix: %{<span style="color:yellow">PREFIX</span>},
             suffix: %{<span style="color:green">SUFFIX</span>}
-          } }
+          }
+        }
 
         it 'should output elements' do
           expect(output).to be_html_eql(%{
-            <span class="form--field-affix"><span style="color:yellow">PREFIX</span></span>
+            <span class="form--field-affix"
+                  id="#{random_id}"
+                  aria-hidden="true">
+              <span style="color:yellow">PREFIX</span>
+            </span>
             <span class="form--text-field-container">
               <input class="form--text-field"
-                id="user_name" name="user[name]" title="Name" type="text"
-                value="JJ Abrams" />
+                     id="user_name"
+                     name="user[name]"
+                     title="Name"
+                     type="text"
+                     aria-describedby="#{random_id}"
+                     value="JJ Abrams" />
             </span>
-            <span class="form--field-affix"><span style="color:green">SUFFIX</span></span>
+            <span class="form--field-affix"
+                  aria-hidden="true"
+                  id="#{random_id}">
+              <span style="color:green">SUFFIX</span>
+            </span>
           }).within_path('span.form--field-container')
+        end
+
+        it 'includes the prefix hidden in the label' do
+          expect(output).to be_html_eql(%{
+            <span class="hidden-for-sighted">
+              <span style="color:yellow">PREFIX</span>
+            </span>
+          }).within_path('label.form--label')
         end
       end
     end
@@ -560,7 +612,6 @@ JJ Abrams</textarea>
           </label>
         }).at_path('label')
       end
-
 
       context 'with a label specified as string' do
         let(:text) { 'My own label' }

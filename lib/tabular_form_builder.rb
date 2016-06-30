@@ -28,6 +28,7 @@
 #++
 
 require 'action_view/helpers/form_helper'
+require 'securerandom'
 
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
@@ -119,16 +120,28 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
-    # TODO (Rails 4): switch to SafeBuffer#prepend
-    ret = content_tag(:span, prefix.html_safe, class: 'form--field-affix').concat(ret) if prefix
-    ret.concat content_tag(:span, suffix.html_safe, class: 'form--field-affix') if suffix
+    if prefix
+      ret.prepend content_tag(:span,
+                              prefix.html_safe,
+                              class: 'form--field-affix',
+                              id: options[:prefix_id],
+                              :'aria-hidden' => true)
+    end
+
+    if suffix
+      ret.concat content_tag(:span,
+                             suffix.html_safe,
+                             class: 'form--field-affix',
+                             id: options[:suffix_id],
+                             :'aria-hidden' => true)
+    end
 
     field_container_wrap_field(ret, options)
   end
 
-  def merge_required_attributes(required, options=nil)
+  def merge_required_attributes(required, options = nil)
     if required
-      options.merge!({ required: true, :'aria-required' => 'true' })
+      options.merge!(required: true, :'aria-required' => 'true')
     end
   end
 
@@ -193,13 +206,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     label_options[:class] << 'form--label'
 
-
     content = h(text)
     if @object.try(:errors) && @object.errors.include?(field)
       label_options[:class] << ' -error'
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
-       content << content_tag('p', error_label, class: 'hidden-for-sighted')
+      content << content_tag('p', error_label, class: 'hidden-for-sighted')
     end
 
     if options.delete(:required)
@@ -217,6 +229,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                           end
     label_options[:lang] = options[:lang]
     label_options.reject! do |_k, v| v.nil? end
+
+    if options[:prefix]
+      content << content_tag(:span, options[:prefix].html_safe, class: 'hidden-for-sighted')
+    end
 
     @template.label(@object_name, field, content, label_options)
   end
@@ -323,6 +339,15 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def extract_from(options)
     label_options = options.dup
     input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
+
+    if options[:suffix]
+      options[:suffix_id] ||= SecureRandom.uuid
+
+      input_options[:'aria-describedby'] ||= options[:suffix_id]
+    end
+    if options[:prefix]
+      options[:prefix_id] ||= SecureRandom.uuid
+    end
 
     [input_options, label_options]
   end
