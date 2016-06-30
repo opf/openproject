@@ -159,6 +159,18 @@ function WorkPackagesListController($scope,
     AuthorisationService.initModelAuth("query", meta.query._links);
   }
 
+  $scope.setAnchorToNextPage = function () {
+    anchor = '';
+    if(jQuery('.pagination-number').last().hasClass('-current')) {
+      anchor = PaginationService.getPage() - 1
+    }
+    else {
+      anchor = PaginationService.getPage() + 1;
+    }
+
+    $location.hash('pagination--' + anchor);
+  }
+
   $scope.maintainBackUrl = function () {
     $scope.backUrl = $location.url();
   };
