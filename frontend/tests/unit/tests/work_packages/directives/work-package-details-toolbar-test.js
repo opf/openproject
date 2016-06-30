@@ -97,20 +97,14 @@ describe('workPackageDetailsToolbar', function() {
 
   beforeEach(function() {
     var workPackage = {
-      links: {
-        logTime: { href: 'log_timeMeLink' },
-        duplicate: { href: 'duplicateMeLink' },
-        move: { href: 'moveMeLink' },
-        delete: { href: 'deleteMeLink' },
-        plugin_action_1: { href: 'plugin_actionMeLink' },
-        plugin_action_2: { href: 'plugin_actionMeLink' }
-      },
-      embedded: {
-        project: {
-          links: {
-            createWorkPackage: { href: 'createWorkPackageLink' }
-          }
-        }
+      logTime: { href: 'log_timeMeLink' },
+      duplicate: { href: 'duplicateMeLink' },
+      move: { href: 'moveMeLink' },
+      delete: { href: 'deleteMeLink' },
+      plugin_action_1: { href: 'plugin_actionMeLink' },
+      plugin_action_2: { href: 'plugin_actionMeLink' },
+      project: {
+        createWorkPackage: { href: 'createWorkPackageLink' }
       }
     };
 
