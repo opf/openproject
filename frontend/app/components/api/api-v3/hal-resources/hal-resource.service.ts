@@ -40,6 +40,11 @@ var halResourceTypesStorage:HalResourceTypesStorageService;
 export class HalResource {
   public static _type:string;
 
+  public static init(source:any) {
+    const resourceClass = halResourceTypesStorage.getResourceClassOfType(source._type);
+    return new resourceClass(source);
+  }
+
   public static create(element, force:boolean = false) {
     if (!force && !(element._embedded || element._links)) {
       return element;
