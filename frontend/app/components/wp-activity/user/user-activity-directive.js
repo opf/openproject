@@ -26,16 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($uiViewScroll,
-    $timeout,
-    $location,
-    $sce,
-    I18n,
-    PathHelper,
-    ActivityService,
-    ConfigurationService,
-    AutoCompleteHelper,
-    TextileService) {
+angular
+  .module('openproject.workPackages.activities')
+  .directive('userActivity', userActivity);
+
+function userActivity($uiViewScroll,
+                      $timeout,
+                      $location,
+                      $sce,
+                      I18n,
+                      PathHelper,
+                      ActivityService,
+                      ConfigurationService,
+                      AutoCompleteHelper,
+                      TextileService) {
   return {
     restrict: 'E',
     replace: true,
@@ -47,14 +51,14 @@ module.exports = function($uiViewScroll,
       activityLabel: '=',
       isInitial: '='
     },
-    link: function(scope, element) {
-      scope.$watch('inEdit', function(newVal, oldVal) {
+    link: function (scope, element) {
+      scope.$watch('inEdit', function (newVal, oldVal) {
         var textarea = element.find('.edit-comment-text');
-        if(newVal) {
-          $timeout(function() {
+        if (newVal) {
+          $timeout(function () {
             AutoCompleteHelper.enableTextareaAutoCompletion(textarea);
             textarea.focus();
-            textarea.on('keydown keypress', function(e) {
+            textarea.on('keydown keypress', function (e) {
               if (e.keyCode === 27) {
                 scope.inEdit = false;
               }
@@ -73,84 +77,84 @@ module.exports = function($uiViewScroll,
       scope.userCanQuote = !!scope.workPackage.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      scope.activity.user.$load().then(function(user) {
+      scope.activity.user.$load().then(function (user) {
         scope.userId = user.id;
         scope.userName = user.name;
         scope.userAvatar = user.avatar;
         scope.userActive = user.isActive;
-        scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
+        scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
       });
 
       scope.postedComment = $sce.trustAsHtml(scope.activity.comment.html);
-      if(scope.postedComment) {
+      if (scope.postedComment) {
         scope.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
           activityNo: scope.activityNo
         });
       }
       scope.details = [];
 
-      angular.forEach(scope.activity.details, function(detail) {
+      angular.forEach(scope.activity.details, function (detail) {
         this.push($sce.trustAsHtml(detail.html));
       }, scope.details);
 
-      $timeout(function() {
-        if($location.hash() === 'activity-' + scope.activityNo) {
+      $timeout(function () {
+        if ($location.hash() === 'activity-' + scope.activityNo) {
           $uiViewScroll(element);
         }
       });
 
-      scope.editComment = function() {
+      scope.editComment = function () {
         scope.activity.editedComment = scope.activity.comment.raw;
         scope.inEdit = true;
       };
 
-      scope.cancelEdit = function() {
+      scope.cancelEdit = function () {
         scope.inEdit = false;
       };
 
-      scope.quoteComment = function() {
+      scope.quoteComment = function () {
         scope.$emit(
           'workPackage.comment.quoteThis',
           quotedText(scope.activity.comment.raw)
         );
       };
 
-      scope.updateComment = function() {
-        ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function(){
+      scope.updateComment = function () {
+        ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function () {
           scope.$emit('workPackageRefreshRequired');
           scope.inEdit = false;
         });
       };
 
-      scope.toggleCommentPreview = function() {
+      scope.toggleCommentPreview = function () {
         scope.isPreview = !scope.isPreview;
         scope.previewHtml = '';
         if (scope.isPreview) {
           TextileService.renderWithWorkPackageContext(
             scope.workPackage,
             scope.activity.editedComment
-          ).then(function(r) {
+          ).then(function (r) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
-          }, function() {
+          }, function () {
             scope.isPreview = false;
           });
         }
       };
 
       var focused = false;
-      scope.focus = function() {
-        $timeout(function() {
+      scope.focus = function () {
+        $timeout(function () {
           focused = true;
         });
       };
 
-      scope.blur = function() {
-        $timeout(function() {
+      scope.blur = function () {
+        $timeout(function () {
           focused = false;
         });
       };
 
-      scope.focussing = function() {
+      scope.focussing = function () {
         return focused;
       };
 
@@ -159,7 +163,9 @@ module.exports = function($uiViewScroll,
 
       function quotedText(rawComment) {
         var quoted = rawComment.split("\n")
-          .map(function(line){ return "\n> " + line; })
+          .map(function (line) {
+            return "\n> " + line;
+          })
           .join('');
         return scope.userName + " wrote:" + quoted;
       }

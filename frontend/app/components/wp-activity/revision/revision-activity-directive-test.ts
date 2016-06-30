@@ -27,8 +27,9 @@
 //++
 
 
+import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 describe('revisionActivity Directive', function () {
-  var compile, element, rootScope, scope, I18n;
+  var compile, element, rootScope, scope, I18n, $q;
 
   beforeEach(angular.mock.module('openproject.workPackages.activities'));
   beforeEach(function () {
@@ -43,11 +44,12 @@ describe('revisionActivity Directive', function () {
     );
   });
 
-  beforeEach(inject(function ($rootScope, $compile, _I18n_) {
+  beforeEach(inject(function ($rootScope, $compile, _I18n_, _$q_) {
     var html;
     html = '<revision-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial"></revision-activity>';
 
     rootScope = $rootScope;
+    $q = _$q_;
     scope = $rootScope.$new();
 
     I18n = _I18n_;
@@ -68,28 +70,23 @@ describe('revisionActivity Directive', function () {
   describe('with a valid revision', function () {
     beforeEach(function () {
       scope.workPackage = {
-        links: {
-          revisions: true
-        },
-        embedded: {},
-        props: {}
+        revisions: true
       };
       scope.activity = {
-        links: {
-          showRevision: '/project/foo/repository/revision/1234',
+        showRevision: {
+          $link: { href: '/project/foo/repository/revision/1234' },
         },
-        props: {
-          'id': 1,
-          'identifier': '11f4b07dff4f4ce9548a52b7d002daca7cd63ec6',
-          'formattedIdentifier': '11f4b07',
-          'authorName': 'some developer',
-          'message': {
-            'format': 'plain',
-            'raw': 'This revision provides new features\n\nAn elaborate description',
-            'html': '<p>This revision provides new features<br><br>An elaborate description</p>'
-          },
-          'createdAt': '2015-07-21T13:36:59Z'
-        }
+
+        id: 1,
+        identifier: '11f4b07dff4f4ce9548a52b7d002daca7cd63ec6',
+        formattedIdentifier: '11f4b07',
+        authorName: 'some developer',
+        message: {
+          format: 'plain',
+          raw: 'This revision provides new features\n\nAn elaborate description',
+          html: '<p>This revision provides new features<br><br>An elaborate description</p>'
+        },
+        createdAt: '2015-07-21T13:36:59Z'
       };
       compile();
     });
@@ -105,20 +102,14 @@ describe('revisionActivity Directive', function () {
 
     describe('with linked author', function () {
       beforeEach(function () {
-        scope.activity.links.author = {
-          fetch: function () {
-            return {
-              then: function (cb) {
-                cb({
-                  props: {
-                    id: 1,
-                    name: 'Some Dude',
-                    avatar: 'avatar.png',
-                    status: 'active'
-                  }
-                });
-              }
-            };
+        scope.activity.author = {
+          $load: function () {
+            return $q.when(new UserResource({
+              id: 1,
+              name: 'Some Dude',
+              avatar: 'avatar.png',
+              status: 'active'
+            }, true));
           }
         };
         compile();
@@ -134,7 +125,7 @@ describe('revisionActivity Directive', function () {
       it('should render commit message', function () {
         var message = element.find('span.user-comment > span.message').html();
 
-        expect(message).to.eq(scope.activity.props.message.html);
+        expect(message).to.eq(scope.activity.message.html);
       });
     });
   });

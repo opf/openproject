@@ -26,11 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($compile,
-    $sce,
-    I18n,
-    PathHelper,
-    ActivityService) {
+angular
+  .module('openproject.workPackages.activities')
+  .directive('revisionActivity', revisionActivity);
+
+function revisionActivity($compile,
+                          $sce,
+                          I18n,
+                          PathHelper,
+                          ActivityService) {
   return {
     restrict: 'E',
     replace: true,
@@ -41,18 +45,18 @@ module.exports = function($compile,
       activityLabel: '=',
       activityNo: '=',
     },
-    link: function(scope, element) {
+    link: function (scope, element) {
       scope.I18n = I18n;
       if (scope.activity.author === undefined) {
         scope.userName = scope.activity.authorName;
       } else {
         scope.userPath = PathHelper.userPath;
-        scope.activity.author.$load().then(function(user) {
+        scope.activity.author.$load().then(function (user) {
           scope.userId = user.id;
           scope.userName = user.name;
           scope.userAvatar = user.avatar;
           scope.userActive = user.isActive;
-          scope.userLabel = I18n.t('js.label_author', { user: scope.userName });
+          scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
         });
       }
 
@@ -75,7 +79,7 @@ module.exports = function($compile,
           date: date
         });
 
-      scope.$watch('combinedRevisionLink', function(html) {
+      scope.$watch('combinedRevisionLink', function (html) {
         var span = angular.element(html),
           link = element.find('.revision-activity--revision-link');
 
