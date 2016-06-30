@@ -28,7 +28,6 @@
 /* globals URI */
 
 module.exports = function(
-  HALAPIResource,
   $http,
   I18n,
   NotificationsService

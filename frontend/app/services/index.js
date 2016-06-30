@@ -28,7 +28,6 @@
 
 angular.module('openproject.services')
   .service('ActivityService', [
-    'HALAPIResource',
     '$http',
     'I18n',
     'NotificationsService',
@@ -60,7 +59,6 @@ angular.module('openproject.services')
     './timezone-service')])
   .service('TypeService', ['$http', 'PathHelper', require('./type-service')])
   .service('UserService', [
-    'HALAPIResource',
     '$http',
     'PathHelper',
     'CacheService',
