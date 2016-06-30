@@ -35,7 +35,7 @@ export class WpAttachmentsFormattableController {
     this.viewMode = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
 
     const workPackage:WorkPackageResourceInterface = (this.$scope as any).workPackage;
-    const dropData:DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
+    const dropData:DropModel = new DropModel(this.$location, evt.originalEvent.dataTransfer, workPackage);
 
     var description:any;
 
