@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
     jQuery('#tr_' + field).show();
     jQuery('#filter_spacer').show();
-    check_box.checked = true;
+    check_box.prop('checked', true);
     toggle_filter(field);
     select.selectedIndex = 0;
 
