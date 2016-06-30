@@ -197,44 +197,56 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {}, translation_form = nil)
-    options = options.dup
-    return ''.html_safe if options.delete(:no_label)
+    return ''.html_safe if options[:no_label]
 
     text = get_localized_field(field, options[:label])
-    label_options = { class: '', title: text }
-    id = element_id(translation_form) if translation_form
-
-    label_options[:class] << 'form--label'
+    label_options = { class: 'form--label', title: text }
 
     content = h(text)
+    label_for_field_errors(content, label_options, field)
+    label_for_field_required(content, label_options, options[:required])
+    label_for_field_for(options, label_options, translation_form, field)
+    label_for_field_prefix(content, options)
+
+    label_options[:lang] = options[:lang]
+    label_options.reject! do |_k, v| v.nil? end
+
+    @template.label(@object_name, field, content, label_options)
+  end
+
+  def label_for_field_errors(content, options, field)
     if @object.try(:errors) && @object.errors.include?(field)
-      label_options[:class] << ' -error'
+      options[:class] << ' -error'
       error_label = I18n.t('errors.field_erroneous_label',
                            full_errors: @object.errors.full_messages_for(field).join(' '))
       content << content_tag('p', error_label, class: 'hidden-for-sighted')
     end
+  end
 
-    if options.delete(:required)
-      label_options[:class] << ' -required'
+  def label_for_field_required(content, options, is_required)
+    if is_required
+      options[:class] << ' -required'
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
                              :'aria-hidden' => true)
     end
+  end
+
+  def label_for_field_for(options, label_options, translation_form, field)
+    id = element_id(translation_form) if translation_form
 
     label_options[:for] = if options[:for]
                             options[:for]
                           elsif options[:multi_locale] && id
                             id.sub(/\_id$/, "_#{field}")
                           end
-    label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v| v.nil? end
+  end
 
+  def label_for_field_prefix(content, options)
     if options[:prefix]
       content << content_tag(:span, options[:prefix].html_safe, class: 'hidden-for-sighted')
     end
-
-    @template.label(@object_name, field, content, label_options)
   end
 
   def get_localized_field(field, label)
