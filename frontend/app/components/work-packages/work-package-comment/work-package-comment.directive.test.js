@@ -28,13 +28,14 @@
 
 /*jshint expr: true*/
 
-describe.only('workPackageCommentDirectiveTest', function() {
+describe('workPackageCommentDirectiveTest', function() {
   var I18n, ActivityService, compile, scope, element, stateParams, q, commentCreation;
   var workPackageFieldService = {};
   var html = "<work-package-comment work-package='workPackage' activities='activities'></work-package-comment>";
   stateParams = {};
 
   beforeEach(angular.mock.module('ui.router',
+                    'openproject',
                     'openproject.api',
                     'openproject.models',
                     'openproject.layout',
@@ -90,8 +91,10 @@ describe.only('workPackageCommentDirectiveTest', function() {
 
   beforeEach(function() {
     var workPackage = {
-      links: {
-        addComment: { href: 'addComment' },
+      addComment: {
+        $link: {
+          href: 'addComment'
+        }
       }
     };
 
@@ -107,8 +110,7 @@ describe.only('workPackageCommentDirectiveTest', function() {
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.work-packages--activity--add-comment').hasClass('ng-hide'))
-          .to.equal(true);
+        expect(element.find('.work-packages--activity--add-comment').length).to.equal(0);
       });
     });
 
@@ -126,13 +128,13 @@ describe.only('workPackageCommentDirectiveTest', function() {
       });
 
       it('should display a placeholder in the comments field', function() {
-        var readvalue = commentSection.find('.inplace-edit--read-value');
+        var readvalue = commentSection.find('.inplace-edit--read-value > span');
         expect(readvalue.text().trim()).to.equal('trans_title');
       });
 
       describe('when clicking the inplace edit', function() {
         beforeEach(function() {
-          commentSection.find('.inplace-_editing--trigger-link').click();
+          commentSection.find('.inplace-editing--trigger-link').click();
         });
 
         it('does not allow sending comment with an empty message', function() {
