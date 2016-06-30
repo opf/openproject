@@ -24,8 +24,6 @@ describe Meeting, type: :model do
   it { is_expected.to belong_to :project }
   it { is_expected.to belong_to :author }
   it { is_expected.to validate_presence_of :title }
-  it { is_expected.to validate_presence_of :start_time }
-  it { skip; is_expected.to accept_nested_attributes_for :participants } # geht das?
 
   let(:project) { FactoryGirl.create(:project) }
   let(:user1) { FactoryGirl.create(:user) }
@@ -47,7 +45,7 @@ describe Meeting, type: :model do
   end
 
   describe 'start_date' do
-    it { expect(@m.start_date).to eq(Date.tomorrow) }
+    it { expect(@m.start_date).to eq(Date.tomorrow.iso8601) }
   end
 
   describe 'start_month' do
@@ -62,8 +60,44 @@ describe Meeting, type: :model do
     it { expect(@m.end_time).to eq(Date.tomorrow + 11.hours) }
   end
 
-  describe 'time-sorted finder' do
-    it { skip }
+  describe 'date validations' do
+    it 'marks invalid start dates' do
+      @m.start_date = '-'
+      expect(@m.start_date).to eq('-')
+      expect { @m.start_time }.to raise_error(ArgumentError)
+      expect(@m).not_to be_valid
+      expect(@m.errors.count).to eq(1)
+    end
+
+    it 'marks invalid start hours' do
+      @m.start_time_hour = '-'
+      expect(@m.start_time_hour).to eq('-')
+      expect { @m.start_time }.to raise_error(ArgumentError)
+      expect(@m).not_to be_valid
+      expect(@m.errors.count).to eq(1)
+    end
+
+    it 'is not invalid when setting date_time explicitly' do
+      @m.start_time = DateTime.now
+      expect(@m).to be_valid
+    end
+
+    it 'is invalid when setting date_time wrong' do
+      @m.start_time = '-'
+      expect(@m).not_to be_valid
+    end
+
+    it 'accepts changes after invalid dates' do
+      @m.start_date = '-'
+      expect { @m.start_time }.to raise_error(ArgumentError)
+      expect(@m).not_to be_valid
+
+      @m.start_date = Date.today.iso8601
+      expect(@m).to be_valid
+
+      @m.save!
+      expect(@m.start_time).to eq(Date.today + 10.hours)
+    end
   end
 
   describe 'Journalized Objects' do
@@ -159,7 +193,8 @@ describe Meeting, type: :model do
 
       project.save!
 
-      meeting.start_time = DateTime.new(2013, 3, 27, 15, 35)
+      meeting.start_date = '2013-03-27'
+      meeting.start_time_hour = '15:35'
       meeting.participants.build(user: user2)
       meeting.save!
     end

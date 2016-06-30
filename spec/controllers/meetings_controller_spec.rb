@@ -21,8 +21,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingsController, type: :controller do
-  before(:each) do
-    @p = mock_model(Project)
+  let(:project) { FactoryGirl.build :project }
+
+  before do
+    allow(Project).to receive(:find).and_return(project)
+
     allow(@controller).to receive(:authorize)
     allow(@controller).to receive(:check_if_login_required)
   end
@@ -30,10 +33,10 @@ describe MeetingsController, type: :controller do
   describe 'GET' do
     describe 'index' do
       before(:each) do
-        allow(Project).to receive(:find).and_return(@p)
         @ms = [mock_model(Meeting), mock_model(Meeting), mock_model(Meeting)]
         allow(@ms).to receive(:from_tomorrow).and_return(@ms)
-        allow(@p).to receive(:meetings).and_return(@ms)
+
+        allow(project).to receive(:meetings).and_return(@ms)
         [:with_users_by_date, :page, :per_page].each do |meth|
           expect(@ms).to receive(meth).and_return(@ms)
         end
@@ -42,7 +45,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'index', project_id: @p.id
+          get 'index', project_id: project.id
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
@@ -53,7 +56,7 @@ describe MeetingsController, type: :controller do
       before(:each) do
         @m = mock_model(Meeting)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
-        allow(@m).to receive(:project).and_return(@p)
+        allow(@m).to receive(:project).and_return(project)
         allow(allow(@m).to receive(:agenda)).to receive(:present?).and_return(false)
       end
       describe 'html' do
@@ -66,7 +69,7 @@ describe MeetingsController, type: :controller do
 
     describe 'new' do
       before(:each) do
-        allow(Project).to receive(:find).and_return(@p)
+        allow(Project).to receive(:find).and_return(project)
         @m = mock_model(Meeting)
         allow(@m).to receive(:project=)
         allow(@m).to receive(:author=)
@@ -74,7 +77,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'new', project_id: @p.id
+          get 'new', project_id: project.id
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meeting)).to eql @m }
@@ -85,7 +88,7 @@ describe MeetingsController, type: :controller do
       before(:each) do
         @m = mock_model(Meeting)
         allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
-        allow(@m).to receive(:project).and_return(@p)
+        allow(@m).to receive(:project).and_return(project)
       end
       describe 'html' do
         before(:each) do
@@ -93,6 +96,55 @@ describe MeetingsController, type: :controller do
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meeting)).to eql @m }
+      end
+    end
+
+    describe 'create' do
+      render_views
+
+      before do
+        allow(Project).to receive(:find).and_return(project)
+        post :create, project_id: project.id,
+                      meeting: {
+                        title: 'Foobar',
+                        duration: '1.0',
+                      }.merge(params)
+      end
+
+      describe 'invalid start_date' do
+        let(:params) {
+          {
+            start_date: '-',
+            start_time_hour: '10:00'
+          }
+        }
+
+        it 'renders an error' do
+          expect(response).to be_success
+          expect(response).to render_template :new
+          expect(response.body)
+            .to have_selector '#errorExplanation li',
+                              text: "Start date " +
+                                    I18n.t('activerecord.errors.messages.not_an_iso_date')
+        end
+      end
+
+      describe 'invalid start_time_hour' do
+        let(:params) {
+          {
+            start_date: '2015-06-01',
+            start_time_hour: '-'
+          }
+        }
+
+        it 'renders an error' do
+          expect(response).to be_success
+          expect(response).to render_template :new
+          expect(response.body)
+            .to have_selector '#errorExplanation li',
+                              text: "Starting time " +
+                                    I18n.t('activerecord.errors.messages.invalid_time_format')
+        end
       end
     end
   end
