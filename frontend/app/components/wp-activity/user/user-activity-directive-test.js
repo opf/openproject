@@ -47,7 +47,7 @@ describe('userActivity Directive', function() {
       });
     });
 
-    beforeEach(inject(function($rootScope, $compile, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService, UsersHelper, UserService) {
+    beforeEach(inject(function($rootScope, $compile, $q, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService) {
       var html;
       html = '<user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity>';
 
@@ -65,51 +65,37 @@ describe('userActivity Directive', function() {
       describe('with a valid user', function(){
         beforeEach(inject(function($q) {
           scope.workPackage = {
-            links: {
-              addComment: true
-            },
-            props: {
-              id: null
-            }
+            addComment: true,
+            id: 123
           };
           scope.activity = {
-            links: {
-              user: {
-                props: { href: '/api/v3/users/1' },
-                fetch: function() {
-                  var deferred = $q.defer();
-                  deferred.resolve({
-                    props: {
-                      id: 1,
-                      name: "John Doe",
-                      avatar: 'avatar.png',
-                      status: 1
-                    }
-                  });
-
-                  return deferred.promise;
-                }
+            user: {
+              $load: function() {
+                return $q.when({
+                  id: 1,
+                  name: "John Doe",
+                  avatar: 'avatar.png',
+                  status: 1
+                });
               }
             },
-            props: {
-              comment: {
+            comment: {
+              format: 'textile',
+              raw: 'This is my *comment* with _some_ markup.',
+              html: '<p>This is my <strong>comment</strong> with <em>some</em> markup.</p>'
+            },
+            details: [
+              {
                 format: 'textile',
-                raw: 'This is my *comment* with _some_ markup.',
-                html: '<p>This is my <strong>comment</strong> with <em>some</em> markup.</p>'
+                raw: 'Status changed',
+                html: '<strong>Status</strong> changed'
               },
-              details: [
-                {
-                  format: 'textile',
-                  raw: 'Status changed',
-                  html: '<strong>Status</strong> changed'
-                },
-                {
-                  format: 'textile',
-                  raw: 'Type changed',
-                  html: '<strong>Type</strong> changed'
-                },
-              ]
-            }
+              {
+                format: 'textile',
+                raw: 'Type changed',
+                html: '<strong>Type</strong> changed'
+              }
+            ]
           };
           scope.isInitial = false;
           compile();
@@ -126,25 +112,14 @@ describe('userActivity Directive', function() {
 
           describe('when being empty', function() {
             beforeEach(inject(function($q) {
-              scope.activity.links.user = {
-                props: {
-                  href: '/api/v3/users/2'
-                },
-                fetch: function() {
-                  var deferred = $q.defer();
-                  deferred.resolve({
-                    props: {
-                      id: 2,
-                      name: "John Doe",
-                      avatar: '',
-                      status: 1
-                    }
-                  });
-
-                  return deferred.promise;
-                }
+              scope.activity.user.$load = function() {
+                return $q.when({
+                  id: 1,
+                  name: "John Doe",
+                  avatar: '',
+                  status: 1
+                });
               };
-
               compile();
             }));
 
@@ -159,7 +134,7 @@ describe('userActivity Directive', function() {
           it('should render activity comment', function() {
             var comment = element.find('span.user-comment > span.message').html();
 
-            expect(comment).to.eq(scope.activity.props.comment.html);
+            expect(comment).to.eq(scope.activity.comment.html);
           });
         });
 
@@ -169,8 +144,8 @@ describe('userActivity Directive', function() {
             var detail1 = list.find(':nth-child(1) .message').html();
             var detail2 = list.find(':nth-child(2) .message').html();
 
-            expect(detail1).to.eq(scope.activity.props.details[0].html);
-            expect(detail2).to.eq(scope.activity.props.details[1].html);
+            expect(detail1).to.eq(scope.activity.details[0].html);
+            expect(detail2).to.eq(scope.activity.details[1].html);
           });
 
           context('for initial journal', function() {
