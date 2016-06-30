@@ -41,7 +41,7 @@ export class WpAttachmentsService {
   }
 
   public upload(workPackage:WorkPackageResourceInterface, files:File[]):ng.IPromise<any> {
-    const uploadPath:string = workPackage.$links.attachments.$link.href;
+    const uploadPath:string = workPackage.attachments.href;
     const uploads = _.map(files, (file:File) => {
       var options:Object = {
         fields: {
@@ -79,11 +79,11 @@ export class WpAttachmentsService {
               reload:boolean = false):ng.IPromise<any[]> {
     const loadedAttachments = this.$q.defer();
 
-    const path:string = workPackage.$links.attachments.$link.href;
+    const path:string = workPackage.attachments.href;
     this.$http.get(path, {cache: !reload})
       .success((response:any) => {
         _.remove(this.attachments);
-        _.extend(this.attachments, response._embedded.elements);
+        _.extend(this.attachments, response.elements);
         loadedAttachments.resolve(this.attachments);
       })
       .error(err => {
@@ -95,7 +95,7 @@ export class WpAttachmentsService {
 
   public remove(fileOrAttachment:any):void {
     if (fileOrAttachment._type === 'Attachment') {
-      const path:string = fileOrAttachment._links.self.href;
+      const path:string = fileOrAttachment.href;
 
       this.$http.delete(path)
         .success(() => {

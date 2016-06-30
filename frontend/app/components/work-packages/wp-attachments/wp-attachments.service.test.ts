@@ -28,7 +28,7 @@
 
 declare const WebKitBlobBuilder:any;
 
-describe('wpAttachments', () => {
+describe('wpAttachments service', () => {
   var wpAttachments;
   var $httpBackend;
 
@@ -36,14 +36,7 @@ describe('wpAttachments', () => {
     id: 1,
     $isHal: true,
     attachments: {
-        href: '/api/v3/work_packages/1/attachments',
-      },
-    $links: {
-      attachments:{
-        $link:{
-          href:'/api/v3/work_packages/1/attachments'
-        }
-      }
+      href: '/api/v3/work_packages/1/attachments',
     }
   };
 
@@ -51,11 +44,7 @@ describe('wpAttachments', () => {
   var attachment = {
     id: 1,
     _type: "Attachment",
-    _links: {
-      self: {
-        href: "/api/v3/attachments/1"
-      }
-    }
+    href: "/api/v3/attachments/1"
   };
 
   beforeEach(angular.mock.module('openproject.workPackages'));
@@ -73,9 +62,7 @@ describe('wpAttachments', () => {
   describe('loading attachments', () => {
     beforeEach(() => {
       $httpBackend.expectGET('/api/v3/work_packages/1/attachments').respond({
-        _embedded: {
-          elements: [1,2,3]
-        }
+        elements: [1,2,3]
       });
     });
 
