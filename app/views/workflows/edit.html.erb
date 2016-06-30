@@ -69,7 +69,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: 'form',
                  locals: { name: 'always', workflows: @workflows['always'] } %>
 
-      <fieldset class="form--fieldset -collapsible" style="margin-top: 0.5em;">
+      <% author_expanded = @workflows['author'].present? ? '' : 'collapsed' %>
+      <% assignee_expanded = @workflows['assignee'].present? ? '' : 'collapsed' %>
+      <fieldset class="form--fieldset -collapsible <%= author_expanded %>"
+                style="margin-top: 0.5em;">
         <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
           <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a>
         </legend>
@@ -79,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       </fieldset>
 
-      <fieldset class="form--fieldset -collapsible">
+      <fieldset class="form--fieldset -collapsible <%= assignee_expanded %>">
         <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
           <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a>
         </legend>
