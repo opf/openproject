@@ -48,7 +48,7 @@ describe('WorkPackageDetailsController', function() {
         type: {
           name: 'Milestone'
         },
-        href: "it's a me, it's... you know...",
+        href: "it's a me, it's... you know..."
       };
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.layout', 'openproject.services',
@@ -108,7 +108,7 @@ describe('WorkPackageDetailsController', function() {
   describe('#scope.canViewWorkPackageWatchers', function() {
     describe('when the work package does not contain the embedded watchers property', function() {
       beforeEach(function() {
-        workPackage.watchers = void(0);
+        workPackage.watchers = null;
         buildController();
       });
 

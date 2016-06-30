@@ -43,7 +43,7 @@ function revisionActivity($compile,
       workPackage: '=',
       activity: '=',
       activityLabel: '=',
-      activityNo: '=',
+      activityNo: '='
     },
     link: function (scope, element) {
       scope.I18n = I18n;
@@ -89,4 +89,4 @@ function revisionActivity($compile,
 
     }
   };
-};
+}
