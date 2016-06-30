@@ -22,7 +22,6 @@
     "moment-timezone": "0.4.x",
     "angular-context-menu": "nickmessing/angular-context-menu#a908eccaec323cd66973d58af4965694bdff16a1",
     "angular-busy": "~4.1.1",
-    "hyperagent": "manwithtwowatches/hyperagent#v0.4.2",
     "lodash": "~2.4.1",
     "foundation-apps": "1.1.0",
     "bourbon": "~4.2.1",
