@@ -82,13 +82,16 @@
     .work-package--placeholder
       padding: 0 10px 0 0px
 
+// Mark focused, non-editable read-values
+.inplace-edit--read-value.-read-only
+  &:focus, &:hover
+    color: $inplace-edit--color--disabled
+    background: $inplace-edit--bg-color--disabled
+  cursor: not-allowed
+
 // Default cursor on non-editable and id fields
 .wp-table--cell-span
   padding: 0 5px 0 5px
-  cursor: not-allowed
-
-  &.id
-    cursor: pointer
 
 // Animations on leaving work packages
 .wp--row.-animated-leave
