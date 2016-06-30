@@ -95,7 +95,9 @@ module WorkPackage::Validations
 
   def validate_start_date_before_soonest_start_date
     if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :invalid
+      errors.add :start_date,
+                 :violates_relationships,
+                 soonest_start: soonest_start
     end
   end
 

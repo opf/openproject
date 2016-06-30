@@ -98,6 +98,10 @@ class Relation < ActiveRecord::Base
     set_dates_of_target
   end
 
+  def move_target_dates_by(delta)
+    to.reschedule_by(delta) if relation_type == TYPE_PRECEDES
+  end
+
   def set_dates_of_target
     soonest_start = successor_soonest_start
     if soonest_start && to
