@@ -28,7 +28,7 @@
 
 
 import {opApiModule} from '../../../../angular-modules';
-import {HalResource} from '../hal-resources/hal-resource.service';
+import {HalResource} from '../hal-resource/hal-resource.service';
 
 export class HalResourceTypesStorageService {
   private config:any = {};

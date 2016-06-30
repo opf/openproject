@@ -27,7 +27,7 @@
 // ++
 
 import {WorkPackageCacheService} from "./work-package-cache.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "../api/hal/hal-resource/work-package-resource.service";
 
 
 describe('WorkPackageCacheService', () => {

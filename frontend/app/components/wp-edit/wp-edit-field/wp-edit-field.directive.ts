@@ -26,36 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
-import {WorkPackageEditFieldService} from "./wp-edit-field.service";
-import {EditField} from "./wp-edit-field.module";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageEditFormController} from './../wp-edit-form.directive';
+import {WorkPackageEditFieldService} from './wp-edit-field.service';
+import {EditField} from './wp-edit-field.module';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {WorkPackageResource} from '../../api/hal/hal-resource/work-package-resource.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 
 export class WorkPackageEditFieldController {
-  public formCtrl: WorkPackageEditFormController;
-  public fieldForm: ng.IFormController;
-  public fieldName: string;
-  public fieldType: string;
-  public fieldIndex: number;
-  public fieldLabel: string;
-  public field: EditField;
-  public errorenous: boolean;
-  public errors: Array<string>;
-  public workPackage: WorkPackageResource;
+  public formCtrl:WorkPackageEditFormController;
+  public fieldForm:ng.IFormController;
+  public fieldName:string;
+  public fieldType:string;
+  public fieldIndex:number;
+  public fieldLabel:string;
+  public field:EditField;
+  public errorenous:boolean;
+  public errors:Array<string>;
+  public workPackage:WorkPackageResource;
 
-  protected _active: boolean = false;
-  protected _forceFocus: boolean = false;
+  protected _active:boolean = false;
+  protected _forceFocus:boolean = false;
 
   // Since we load the schema asynchronously
   // all fields are initially viewed as uneditable until it is loaded
-  protected _editable: boolean = false;
+  protected _editable:boolean = false;
 
-  private __d__inplaceEditReadValue: JQuery;
+  private __d__inplaceEditReadValue:JQuery;
 
-  constructor(protected wpEditField: WorkPackageEditFieldService,
+  constructor(protected wpEditField:WorkPackageEditFieldService,
               protected $scope,
               protected $element,
               protected $timeout,
@@ -63,7 +63,7 @@ export class WorkPackageEditFieldController {
               protected FocusHelper,
               protected NotificationsService,
               protected ConfigurationService,
-              protected wpCacheService: WorkPackageCacheService,
+              protected wpCacheService:WorkPackageCacheService,
               protected I18n) {
 
   }
@@ -148,48 +148,47 @@ export class WorkPackageEditFieldController {
     event.stopImmediatePropagation();
   }
 
-
-  public get isEditable(): boolean {
+  public get isEditable():boolean {
     return this._editable && this.workPackage.isEditable;
   }
 
-  public get inEditMode(): boolean {
+  public get inEditMode():boolean {
     return this.formCtrl.inEditMode;
   }
 
-  public isRequired(): boolean {
+  public isRequired():boolean {
     return this.workPackage.schema[this.fieldName].required;
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return !this.workPackage[this.fieldName];
   }
 
-  public isChanged(): boolean {
+  public isChanged():boolean {
     return this.workPackage.$pristine[this.fieldName] !== this.workPackage[this.fieldName];
   }
 
-  public isErrorenous(): boolean {
+  public isErrorenous():boolean {
     return this.errorenous;
   }
 
-  public isSubmittable(): boolean {
+  public isSubmittable():boolean {
     return !(this.inEditMode ||
-             (this.isRequired() && this.isEmpty()) ||
-             (this.isErrorenous() && !this.isChanged()));
+    (this.isRequired() && this.isEmpty()) ||
+    (this.isErrorenous() && !this.isChanged()));
   }
 
-  public get errorMessageOnLabel(): string {
+  public get errorMessageOnLabel():string {
     if (_.isEmpty(this.errors)) {
       return '';
     }
     else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
-                         { messages: this.errors.join(" ") });
+        {messages: this.errors.join(' ')});
     }
   }
 
-  public set editable(enabled: boolean) {
+  public set editable(enabled:boolean) {
     this._editable = enabled;
   }
 
@@ -214,7 +213,7 @@ export class WorkPackageEditFieldController {
     });
   }
 
-  public handleUserBlur(): boolean {
+  public handleUserBlur():boolean {
     if (!this.isSubmittable()) {
       return;
     }
@@ -262,7 +261,7 @@ export class WorkPackageEditFieldController {
     }
   }
 
-  protected buildEditField(): ng.IPromise<any> {
+  protected buildEditField():ng.IPromise<any> {
     return this.formCtrl.loadSchema().then(schema => {
       this.field = <EditField>this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
       this.workPackage.storePristine(this.fieldName);
@@ -270,7 +269,7 @@ export class WorkPackageEditFieldController {
   }
 
   protected updateDisplayAttributes() {
-    this.__d__inplaceEditReadValue = this.__d__inplaceEditReadValue || this.$element.find(".__d__inplace-edit--read-value");
+    this.__d__inplaceEditReadValue = this.__d__inplaceEditReadValue || this.$element.find('.__d__inplace-edit--read-value');
 
     // Unfortunately, ID fields are Edit fields at the moment
     // and we need to treat them differently
@@ -278,31 +277,31 @@ export class WorkPackageEditFieldController {
 
     // Usability: Highlight non-editable fields
     const readOnly = !(this.isEditable || isIDField );
-    this.__d__inplaceEditReadValue.toggleClass("-read-only", readOnly);
+    this.__d__inplaceEditReadValue.toggleClass('-read-only', readOnly);
 
     // Accessibility: Mark editable fields as button role
     const role = this.isEditable ? 'button' : null;
-    this.__d__inplaceEditReadValue.attr("role", role);
+    this.__d__inplaceEditReadValue.attr('role', role);
 
     // Accessibility: Allow tab on all fields except id
     const tabIndex = isIDField ? -1 : 0;
-    this.__d__inplaceEditReadValue.attr("tabindex", tabIndex);
+    this.__d__inplaceEditReadValue.attr('tabindex', tabIndex);
   }
 }
 
-function wpEditField(wpCacheService: WorkPackageCacheService) {
+function wpEditField(wpCacheService:WorkPackageCacheService) {
 
   function wpEditFieldLink(scope,
                            element,
                            attrs,
-                           controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
+                           controllers:[WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
     var formCtrl = controllers[0];
     controllers[1].formCtrl = formCtrl;
 
     formCtrl.registerField(scope.vm);
     scopedObservable(scope, wpCacheService.loadWorkPackage(formCtrl.workPackage.id))
-      .subscribe((wp: WorkPackageResource) => {
+      .subscribe((wp:WorkPackageResource) => {
         scope.vm.workPackage = wp;
         scope.vm.initializeField();
       });

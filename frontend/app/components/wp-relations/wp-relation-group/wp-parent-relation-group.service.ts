@@ -28,19 +28,14 @@
 
 import {WorkPackageRelationGroup} from './wp-relation-group.service';
 import {wpTabsModule} from '../../../angular-modules';
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
-import {ErrorResource} from "../../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {ErrorResource} from '../../api/hal/hal-resource/error-resource.service';
 
 var HalResource;
 var PathHelper:any;
 var wpCacheService:WorkPackageCacheService;
 var wpNotificationsService:WorkPackageNotificationService;
-var $q:ng.IQService;
 
 export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   public get canAddRelation():boolean {
@@ -102,6 +97,11 @@ function wpParentRelationGroupService(...args) {
   return WorkPackageParentRelationGroup;
 }
 
-wpParentRelationGroupService.$inject = ['HalResource', 'PathHelper', 'wpCacheService', 'wpNotificationsService'];
+wpParentRelationGroupService.$inject = [
+  'HalResource',
+  'PathHelper',
+  'wpCacheService',
+  'wpNotificationsService'
+];
 
 wpTabsModule.factory('WorkPackageParentRelationGroup', wpParentRelationGroupService);

@@ -27,7 +27,7 @@
 //++
 
 import {wpTabsModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/hal/hal-resource/work-package-resource.service';
 
 export interface WorkPackageRelationsConfigInterface {
   name:string;

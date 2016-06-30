@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {EditField} from "../wp-edit-field/wp-edit-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {EditField} from '../wp-edit-field/wp-edit-field.module';
+import {WorkPackageResource} from '../../api/hal/hal-resource/work-package-resource.service';
 
 export class WikiTextareaEditField extends EditField {
 
@@ -35,10 +35,10 @@ export class WikiTextareaEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
 
   // Dependencies
-  protected $sce:ng.ISCEService = <ng.ISCEService> this.$injector.get("$sce");
-  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> this.$injector.get("TextileService");
-  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> this.$injector.get("$timeout");
-  protected I18n:op.I18n = <op.I18n> this.$injector.get("I18n");
+  protected $sce:ng.ISCEService = <ng.ISCEService> this.$injector.get('$sce');
+  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> this.$injector.get('TextileService');
+  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> this.$injector.get('$timeout');
+  protected I18n:op.I18n = <op.I18n> this.$injector.get('I18n');
 
   // wp resource
   protected workPackage:WorkPackageResource;

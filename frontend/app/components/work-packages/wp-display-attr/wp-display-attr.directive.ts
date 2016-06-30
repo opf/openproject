@@ -26,14 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {HalResource} from "../../api/hal/hal-resource/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-package-cache.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "../../api/hal/hal-resource/work-package-resource.service";
 
 export class WorkPackageDisplayAttributeController {
 

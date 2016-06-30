@@ -7,7 +7,7 @@ import {
   FieldModel,
   SingleAttachmentModel
 } from './wp-attachments-formattable.models';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/hal/hal-resource/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {openprojectModule} from '../../../angular-modules';

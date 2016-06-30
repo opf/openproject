@@ -26,21 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service"
+import {DisplayField} from '../wp-display-field/wp-display-field.module';
+import {HalResource} from '../../api/hal/hal-resource/hal-resource.service';
 
 export class BooleanDisplayField extends DisplayField {
-  
-  isManualRenderer = true;
 
+  public isManualRenderer = true;
   public WorkPackagesHelper:op.WorkPackagesHelper;
 
   constructor(public resource:HalResource,
               public name:string,
               public schema) {
     super(resource, name, schema);
-
-    this.WorkPackagesHelper = <op.WorkPackagesHelper>this.$injector.get('WorkPackagesHelper');
+    this.WorkPackagesHelper = <op.WorkPackagesHelper> this.$injector.get('WorkPackagesHelper');
   }
 
   public get valueString() {

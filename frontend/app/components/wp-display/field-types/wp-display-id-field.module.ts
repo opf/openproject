@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {DisplayField} from '../wp-display-field/wp-display-field.module';
+import {WorkPackageResource} from '../../api/hal/hal-resource/work-package-resource.service';
 
 export class IdDisplayField extends DisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
-  public text: Object;
 
+  public template:string = '/components/wp-display/field-types/wp-display-id-field.directive.html';
+  public text:any;
 
   constructor(public resource:WorkPackageResource,
               public name:string,
@@ -41,19 +41,17 @@ export class IdDisplayField extends DisplayField {
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-    }
+    };
   }
 
   public get value() {
     if (this.resource.isNew) {
       return null;
     }
-    else {
-      return this.resource[this.name];
-    }
+    return this.resource[this.name];
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return false;
   }
 }

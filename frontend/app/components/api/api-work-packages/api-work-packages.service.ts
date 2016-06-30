@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
-import {opApiModule} from "../../../angular-modules";
+import {HalResource} from '../hal/hal-resource/hal-resource.service';
+import {opApiModule} from '../../../angular-modules';
 
 interface IServiceWithList extends restangular.IService {
   getList(subElement?: any, queryParams?: any, headers?: any): restangular.ICollectionPromise<any>;
@@ -64,7 +64,7 @@ export class ApiWorkPackagesService {
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
   public loadWorkPackageById(id: number) {
-    return this.apiV3.one("work_packages", id).get({});
+    return this.apiV3.one('work_packages', id).get({});
   }
 
   /**

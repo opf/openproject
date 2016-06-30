@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
-import {Field, FieldFactory} from "../../wp-field/wp-field.module";
-import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
+import {HalResource} from '../../api/hal/hal-resource/hal-resource.service';
+import {Field, FieldFactory} from '../../wp-field/wp-field.module';
+import {WorkPackageDisplayAttributeController} from '../../work-packages/wp-display-attr/wp-display-attr.directive';
 
 export class DisplayField extends Field {
 
@@ -72,7 +72,7 @@ export class DisplayField extends Field {
   }
 
   public render(element: JQuery, fieldDisplay: WorkPackageDisplayAttributeController): void {
-    element.attr("title", fieldDisplay.displayText);
+    element.attr('title', fieldDisplay.displayText);
     element.text(fieldDisplay.displayText);
   }
 
@@ -80,7 +80,6 @@ export class DisplayField extends Field {
               public name: string,
               public schema) {
     super(resource, name, schema);
-
     this.I18n = <op.I18n>this.$injector.get('I18n');
   }
 }
@@ -103,7 +102,6 @@ export class DisplayFieldFactory extends FieldFactory {
 
   protected static getSpecificType(type: string): string {
     let fields = DisplayFieldFactory.fields;
-
     return fields[type];
   }
 }

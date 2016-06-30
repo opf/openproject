@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from '../api/hal/hal-resource/hal-resource.service';
 
 export class Field {
   public static type:string;
