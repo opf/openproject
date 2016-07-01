@@ -34,7 +34,7 @@ import {scopedObservable} from '../../../helpers/angular-rx-utils';
 export class ActivityPanelController {
 
   public workPackage:WorkPackageResourceInterface;
-  public activities:any[];
+  public activities:any[] = [];
   public reverse:boolean;
 
   constructor(public $scope,

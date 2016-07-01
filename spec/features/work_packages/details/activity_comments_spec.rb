@@ -90,15 +90,14 @@ describe 'activity comments', js: true, selenium: true do
         it do
           expect(comment_field.editing?).to be true
           comment_field.input_element.set 'this is a comment'
+
+          # Escape should NOT cancel the editing
           comment_field.cancel_by_escape
-          expect(comment_field.editing?).to be false
+          expect(comment_field.editing?).to be true
 
           expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
 
-          comment_field.activate!
-
-          expect(comment_field.editing?).to be true
-          comment_field.input_element.set 'this is a comment'
+          # Click should cancel the editing
           comment_field.cancel_by_click
           expect(comment_field.editing?).to be false
 
