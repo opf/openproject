@@ -26,17 +26,47 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('activityPanel', activityPanel);
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
 
-function activityPanel(){
+export class ActivityPanelController {
+
+  public workPackage:WorkPackageResourceInterface;
+  public activities:any[];
+  public reverse:boolean;
+
+  constructor(public $scope,
+              public wpCacheService:WorkPackageCacheService,
+              public wpActivity) {
+
+    this.reverse = wpActivity.order === 'asc';
+    wpActivity.aggregateActivities(this.workPackage).then(activities => {
+      this.activities = activities;
+    });
+
+    scopedObservable($scope, wpCacheService.loadWorkPackage(<number> this.workPackage.id))
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.workPackage = wp;
+        wpActivity.aggregateActivities(wp);
+      });
+
+  }
+
+  public info(activity, index) {
+    return this.wpActivity.info(this.activities, activity, index);
+  }
+}
+
+
+function activityPanelDirective() {
   return {
     restrict: 'E',
-    templateUrl: function (element, attrs) {
+    templateUrl: (element, attrs) => {
       var path = '/components/wp-panels/activity-panel/',
-          type = attrs.template || 'default';
-      
+        type = attrs.template || 'default';
+
       return path + 'activity-panel-' + type + '.directive.html';
     },
 
@@ -45,7 +75,9 @@ function activityPanel(){
     },
 
     bindToController: true,
-    controller: 'ActivityPanelController',
+    controller: ActivityPanelController,
     controllerAs: 'vm'
   };
 }
+
+wpDirectivesModule.directive('activityPanel', activityPanelDirective);

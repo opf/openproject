@@ -31,6 +31,7 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 export class CommentFieldDirectiveController {
 
   public workPackage:WorkPackageResourceInterface;
@@ -50,6 +51,7 @@ export class CommentFieldDirectiveController {
               protected $element,
               protected ActivityService,
               protected ConfigurationService,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService,
               protected I18n) {
@@ -104,6 +106,8 @@ export class CommentFieldDirectiveController {
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
+        debugger;
+        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
       })
       .catch(error => {
         if (error.data instanceof ErrorResource) {
