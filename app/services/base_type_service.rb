@@ -66,9 +66,7 @@ class BaseTypeService
     values = [type.attribute_visibility.delete('start_date'),
               type.attribute_visibility.delete('due_date')]
 
-    new_value = values.detect { |x| ['visible', 'default', 'hidden'].include?(x) } || 'default'
-
-    type.attribute_visibility['date'] = new_value
+    type.attribute_visibility['date'] = max_visibility values
   end
 
   def set_date_non_milestone_attribute_visibility
@@ -92,4 +90,14 @@ class BaseTypeService
 
     type.custom_field_ids = active_cf_ids
   end
+
+  module Functions
+    module_function
+
+    def max_visibility(values)
+      ['visible', 'default', 'hidden'].detect { |v| values.include?(v) } || 'default'
+    end
+  end
+
+  include Functions
 end

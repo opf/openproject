@@ -112,26 +112,45 @@ module ::TypesHelper
   end
 
   ##
+  # Checks visibility of a work package type's attribute.
+  #
+  # @param name [String] Name of the field of which to check the visibility.
+  # @param type [Type] Work package type whose field visibility is checked.
+  # @return [String] Either 'hidden', 'default' or 'visible'.
+  def attr_visibility(name, type)
+    if name =~ /^custom_field_/
+      custom_field_visibility name, type
+    elsif name == 'date' && !type.is_milestone
+      non_milestone_date_field_visibility type
+    else
+      type.attribute_visibility[name]
+    end
+  end
+
+  #
   # Bases visibility of custom fields on `type.custom_field_ids`
   # if no visibility is defined yet. After the first update
   # attribute_visibility and custom_field_ids will be kept in sync
   # by the type service.
-  def attr_visibility(name)
-    if name =~ /^custom_field_/
-      id = name.split('_').last.to_i
-      value = @type.attribute_visibility[name]
+  def custom_field_visibility(name, type)
+    id = name.split('_').last.to_i
+    value = type.attribute_visibility[name]
 
-      if value.nil? || value == 'hidden'
-        if @type.custom_field_ids.include?(id)
-          'default'
-        else
-          'hidden'
-        end
+    if value.nil? || value == 'hidden'
+      if type.custom_field_ids.include?(id)
+        'default'
       else
-        value
+        'hidden'
       end
     else
-      @type.attribute_visibility[name]
+      value
     end
+  end
+
+  def non_milestone_date_field_visibility(type)
+    values = [type.attribute_visibility['start_date'],
+              type.attribute_visibility['due_date']]
+
+    BaseTypeService::Functions.max_visibility values
   end
 end
