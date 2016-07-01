@@ -275,12 +275,12 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
           rowsInViewport);
       };
 
-      let scrollTimeout: any;
+      // let scrollTimeout: any;
       $element.on("scroll", () => {
-        scrollTimeout && clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
+        // scrollTimeout && clearTimeout(scrollTimeout);
+        // scrollTimeout = setTimeout(() => {
           updateScrollInfo();
-        }, 100);
+        // }, 0);
       });
 
       updateScrollInfo();
