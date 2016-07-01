@@ -27,7 +27,7 @@
 // ++
 
 describe('Watchers panel directive', function () {
-  var $compile, $rootScope, element;
+  var $compile, $rootScope, $httpBackend, element;
 
 
   beforeEach(angular.mock.module('openproject.services', function($provide) {
@@ -44,10 +44,16 @@ describe('Watchers panel directive', function () {
 
   beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(inject(function (_$compile_, _$rootScope_) {
+  beforeEach(inject(function (_$compile_, _$rootScope_, _$httpBackend_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
+    $httpBackend = _$httpBackend_;
 
+    $rootScope.workPackage = {
+      id: 1234
+    };
+
+    $httpBackend.expectGET('/api/v3/work_packages/1234').respond({});
     element = $compile('<watchers-panel work-package="workPackage"></watchers-panel>')($rootScope);
     $rootScope.$digest();
   }));

@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WatchersPanelController} from './watchers-panel.controller';
 angular
   .module('openproject.workPackages.controllers')
   .directive('watchersPanel', watchersPanel);
@@ -39,7 +40,7 @@ function watchersPanel()  {
     },
 
     bindToController: true,
-    controller: 'WatchersPanelController',
+    controller: WatchersPanelController,
     controllerAs: 'vm'
   };
 }

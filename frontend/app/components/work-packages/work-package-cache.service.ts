@@ -64,7 +64,7 @@ export class WorkPackageCacheService {
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): Rx.Observable<WorkPackageResource> {
     if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
-      this.apiWorkPackages.loadWorkPackageById(workPackageId).then(wp => {
+      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
         this.updateWorkPackage(wp);
       });
     }

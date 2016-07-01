@@ -1,13 +1,11 @@
-<div id="detail-panel-watchers">
+<div id="detail-panel-watchers"
+     cg-busy="vm.loadingPromise">
   <div class="notification-box -error" ng-show="vm.error">
     <div class="notification-box--content">
       <p>{{ ::vm.text.loadingError }}</p>
     </div>
   </div>
-  <div ng-show="vm.loading">
-    <p>{{ ::vm.text.loading }}</p>
-  </div>
-  <div ng-hide="vm.loading || vm.error">
+  <div ng-hide="vm.error">
     <div class="work-package--watchers work-package--details--long-field"
          ng-class="{'-read-only': !vm.allowedToRemove}">
       <work-package-watcher watcher="watcher"
