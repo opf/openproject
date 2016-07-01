@@ -91,7 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                   <td>
                     <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                    <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
+                    <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name, @type)) %>
                     <%= check_box_tag "type[attribute_visibility][#{name}]",
                                       'default',
                                       active_checked,
@@ -101,7 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <td>
                     <%= check_box_tag "type[attribute_visibility][#{name}]",
                                       'visible',
-                                      attr_visibility(name) == 'visible',
+                                      attr_visibility(name, @type) == 'visible',
                                       id: "type_attribute_visibility_visible_#{name}",
                                       title: I18n.t('tooltip.attribute_visibility.visible'),
                                       disabled: !active_checked %>
