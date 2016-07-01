@@ -234,8 +234,6 @@ class WorkPackageTableVirtualScrollService {
   }
 
   updateScrollInfo(rowsAboveCount: number, rowsInViewport: number) {
-
-
     if (rowsAboveCount !== this.lastRowsAboveCount || rowsInViewport !== this.lastRowsInViewport) {
       runInScopeDigest(this.$rootScope, () => {
         this.viewportChanges.onNext([rowsAboveCount, rowsAboveCount + rowsInViewport]);
@@ -271,7 +269,7 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
         const scrollTop = $element.scrollTop();
         const height = $element.outerHeight();
         const rowsAboveCount = Math.floor(scrollTop / rowHeight);
-        const rowsInViewport = Math.round(height / rowHeight) + 1;
+        const rowsInViewport = Math.round(height / rowHeight) + 5;
         workPackageTableVirtualScrollService.updateScrollInfo(
           rowsAboveCount,
           rowsInViewport);
@@ -282,7 +280,7 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
         scrollTimeout && clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           updateScrollInfo();
-        }, 0);
+        }, 100);
       });
 
       updateScrollInfo();
