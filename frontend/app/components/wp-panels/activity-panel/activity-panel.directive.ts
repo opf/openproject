@@ -42,16 +42,14 @@ export class ActivityPanelController {
               public wpActivity) {
 
     this.reverse = wpActivity.order === 'asc';
-    wpActivity.aggregateActivities(this.workPackage).then(activities => {
-      this.activities = activities;
-    });
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(<number> this.workPackage.id))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        wpActivity.aggregateActivities(wp);
+        this.wpActivity.aggregateActivities(this.workPackage).then(activities => {
+          this.activities = activities;
+        });
       });
-
   }
 
   public info(activity, index) {

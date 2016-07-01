@@ -64,12 +64,16 @@ export class WorkPackagesActivityService {
     }
 
     return this.$q.all(promises).then(() => {
-      return this.$filter('orderBy')(
-        _.flatten(aggregated),
-        'createdAt',
-        this.isReversed
-      );
+      return this.sortedActivityList(aggregated);
     });
+  }
+
+  protected sortedActivityList(activities, attr:string = 'createdAt') {
+    return this.$filter('orderBy')(
+      _.flatten(activities),
+      attr,
+      this.isReversed
+    );
   }
 
   public info(activities, activity, index) {

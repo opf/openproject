@@ -41,11 +41,11 @@ export class CommentFieldDirectiveController {
   protected text:Object;
 
   protected editing = false;
-  protected busy = false;
   protected canAddComment:boolean;
   protected showAbove:boolean;
 
   constructor(protected $scope,
+              protected $rootScope,
               protected $timeout,
               protected $q,
               protected $element,
@@ -106,8 +106,10 @@ export class CommentFieldDirectiveController {
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
-        debugger;
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+
+        this.workPackage.activities.$load(true).then(() => {
+          this.wpCacheService.updateWorkPackage(this.workPackage);
+        });
       })
       .catch(error => {
         if (error.data instanceof ErrorResource) {
