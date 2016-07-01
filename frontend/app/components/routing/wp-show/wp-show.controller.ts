@@ -52,10 +52,9 @@ function WorkPackageShowController($scope,
 
       // Listen to the event globally, as listeners are not necessarily
       // in the child scope
-      var refreshRequiredFunction = $rootScope.$on('workPackageRefreshRequired', function() {
-        wpCacheService.updateWorkPackage($scope.workPackageResource);
+      $rootScope.$on('workPackageRefreshRequired', function() {
+        setWorkPackageScopeProperties($scope.workPackageResource);
       });
-      $scope.$on('$destroy', refreshRequiredFunction);
 
       AuthorisationService.initModelAuth('work_package', $scope.workPackageResource);
 
