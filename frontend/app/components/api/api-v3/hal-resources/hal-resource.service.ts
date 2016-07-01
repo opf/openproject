@@ -100,7 +100,7 @@ export class HalResource {
       }
     }
 
-    this.$self = this.$links.self({}, {caching: {enabled: !force}}).then(source => {
+    this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
       this.$loaded = true;
       this.$initialize(source);
       return this;
@@ -116,6 +116,20 @@ export class HalResource {
   protected $initialize(source) {
     this.$source = source.$source || source;
     initializeResource(this);
+  }
+
+  /**
+   * $load by default uses the $http cache. This will likely be replaced by
+   the HAL cache, but while it lasts, it should be ignored when using
+   force.
+   */
+  protected $loadHeaders(force:boolean) {
+    var headers:any = {};
+    if (force) {
+      headers.caching = { enabled: false };
+    }
+
+    return headers;
   }
 }
 
