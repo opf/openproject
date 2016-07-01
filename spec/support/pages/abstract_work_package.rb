@@ -186,7 +186,7 @@ module Pages
     end
 
     def save_comment
-      label = I18n.t('js.label_add_comment')
+      label = 'Comment: Save'
       add_comment_container.find(:xpath, "//a[@title='#{label}']").click
     end
 
