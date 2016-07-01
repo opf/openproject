@@ -8,6 +8,10 @@ ru:
         participants_attended: Участники
         participants_invited: Приглашенные
         start_time: Время
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: Повестка дня
       meeting_minutes: Протокол(-ы)

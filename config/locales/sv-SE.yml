@@ -8,6 +8,10 @@ sv:
         participants_attended: Deltagare
         participants_invited: Inbjudna
         start_time: Tid
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: Agenda
       meeting_minutes: Protokoll

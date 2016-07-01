@@ -8,6 +8,10 @@ ar:
         participants_attended: الحضور
         participants_invited: المدعوّون
         start_time: الوقت
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: جدول الأعمال
       meeting_minutes: محضر الجلسة

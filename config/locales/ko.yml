@@ -8,6 +8,10 @@ ko:
         participants_attended: 참석자
         participants_invited: 초대된 사람
         start_time: 시간
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: 의제
       meeting_minutes: 의사록

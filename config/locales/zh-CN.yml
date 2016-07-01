@@ -8,6 +8,10 @@ zh:
         participants_attended: 出席者
         participants_invited: 受邀者
         start_time: 时间
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: 议程
       meeting_minutes: 会议记录

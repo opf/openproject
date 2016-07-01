@@ -8,6 +8,10 @@ pt-BR:
         participants_attended: Presentes
         participants_invited: Convidados
         start_time: Horário
+        start_time_hour: Starting time
+    errors:
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
     models:
       meeting_agenda: Agenda
       meeting_minutes: Atas
