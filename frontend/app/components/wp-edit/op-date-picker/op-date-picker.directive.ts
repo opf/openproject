@@ -71,6 +71,7 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
     };
     datePickerInstance = new DatePicker(input, ngModel.$viewValue, options);
 
+    datePickerInstance.show();
   }
 }
 
