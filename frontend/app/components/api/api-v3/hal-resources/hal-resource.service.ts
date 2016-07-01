@@ -40,8 +40,8 @@ var halResourceTypesStorage:HalResourceTypesStorageService;
 export class HalResource {
   public static _type:string;
 
-  public static create(element) {
-    if (!(element._embedded || element._links)) {
+  public static create(element, force:boolean = false) {
+    if (!force && !(element._embedded || element._links)) {
       return element;
     }
 
@@ -89,16 +89,18 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public $load() {
-    if (this.$loaded) {
-      return $q.when(this);
+  public $load(force = false) {
+    if (!force) {
+      if (this.$loaded) {
+        return $q.when(this);
+      }
+
+      if (!this.$loaded && this.$self) {
+        return this.$self;
+      }
     }
 
-    if (!this.$loaded && this.$self) {
-      return this.$self;
-    }
-
-    this.$self = this.$links.self().then(source => {
+    this.$self = this.$links.self({}, {caching: {enabled: !force}}).then(source => {
       this.$loaded = true;
       this.$initialize(source);
       return this;
@@ -225,7 +227,7 @@ function initializeResource(halResource:HalResource) {
       });
 
       if (Array.isArray(element)) {
-        return element.map(HalResource.create);
+        return element.map((source) => HalResource.create(source, true));
       }
 
       return HalResource.create(element);
