@@ -45,9 +45,6 @@ export class WorkPackageCacheService {
 
   updateWorkPackage(wp: WorkPackageResource) {
     this.updateWorkPackageList([wp]);
-
-    // romanroe: TODO Remove. Only required for 'old' API consumers.
-    this.$rootScope.$broadcast('workPackageRefreshRequired');
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {

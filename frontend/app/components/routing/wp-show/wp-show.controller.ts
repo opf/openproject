@@ -50,12 +50,6 @@ function WorkPackageShowController($scope,
       $scope.workPackageResource = wp;
       wp.schema.$load();
 
-      // Listen to the event globally, as listeners are not necessarily
-      // in the child scope
-      $rootScope.$on('workPackageRefreshRequired', function() {
-        setWorkPackageScopeProperties($scope.workPackageResource);
-      });
-
       AuthorisationService.initModelAuth('work_package', $scope.workPackageResource);
 
       var authorization = new WorkPackageAuthorization($scope.workPackageResource);

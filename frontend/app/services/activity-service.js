@@ -56,6 +56,7 @@ module.exports = function(
         NotificationsService.addSuccess(
           I18n.t('js.work_packages.comment_updated')
         );
+
         return activity;
       });
     }

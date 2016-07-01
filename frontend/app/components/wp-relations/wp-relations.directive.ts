@@ -119,7 +119,6 @@ export class WorkPackageRelationsController {
 
   private handleSuccess(index) {
     this.updateFocus(index);
-    this.$scope.$emit('workPackageRefreshRequired');
     this.$scope.$emit('workPackagesRefreshInBackground');
   }
 }
