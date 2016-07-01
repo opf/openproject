@@ -34,6 +34,8 @@ export class SelectEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text;
 
+  public currentValueInvalid:boolean = false;
+
   constructor(workPackage, fieldName, schema) {
     super(workPackage, fieldName, schema);
 
@@ -44,16 +46,28 @@ export class SelectEditField extends EditField {
     };
 
     if (angular.isArray(this.schema.allowedValues)) {
-      this.options = angular.copy(this.schema.allowedValues);
-      this.addEmptyOption();
+      this.setValues(this.schema.allowedValues);
     } else if (this.schema.allowedValues) {
       this.schema.allowedValues.$load().then((values) => {
-        this.options = angular.copy(values.elements);
-        this.addEmptyOption();
+        this.setValues(values.elements);
       });
     } else {
-      this.options = [];
+      this.setValues([]);
     }
+  }
+
+  private setValues(availableValues) {
+    this.options = angular.copy(availableValues);
+    this.addEmptyOption();
+    this.checkCurrentValueValidity();
+  }
+
+  private checkCurrentValueValidity() {
+    this.currentValueInvalid = (this.value &&
+                                !_.some(this.options, (option) => (option.href === this.value.href))
+                               ) ||
+                               (!this.value &&
+                                this.schema.required);
   }
 
   private addEmptyOption() {
