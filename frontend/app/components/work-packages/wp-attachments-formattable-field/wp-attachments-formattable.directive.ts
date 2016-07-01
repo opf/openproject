@@ -27,15 +27,16 @@ export class WpAttachmentsFormattableController {
 
   }
 
-  public handleDrop = (evt:DragEvent):void => {
+  public handleDrop = (evt:JQueryEventObject):void => {
     evt.preventDefault();
     evt.stopPropagation();
 
     const textarea:ng.IAugmentedJQuery = this.$element.find('textarea');
     this.viewMode = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
 
+    const originalEvent = (evt.originalEvent as DragEvent);
     const workPackage:WorkPackageResourceInterface = (this.$scope as any).workPackage;
-    const dropData:DropModel = new DropModel(this.$location, evt.dataTransfer, workPackage);
+    const dropData:DropModel = new DropModel(this.$location, originalEvent.dataTransfer, workPackage);
 
     var description:any;
 
