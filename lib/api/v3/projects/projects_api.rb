@@ -55,6 +55,7 @@ module API
             mount API::V3::WorkPackages::WorkPackagesByProjectAPI
             mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsByProjectAPI
+            mount API::V3::TimeEntries::TimeEntriesByProjectAPI
             mount API::V3::Types::TypesByProjectAPI
           end
         end

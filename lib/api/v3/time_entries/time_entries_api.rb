@@ -27,33 +27,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::TimeEntries::TimeEntriesAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module TimeEntries
+      class TimeEntriesAPI < ::API::OpenProjectAPI
+        resources :time_entries do
+          route_param :id do
+            before do
+              @time_entries = TimeEntry.find(params[:id])
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+              authorized_for_time_entry?(@time_entries)
+            end
+
+            helpers do
+              def authorized_for_time_entry?(time_entries)
+                Rails.logger.warn "time_entries_api.rb - authorized_for"
+                project = time_entries.project
+
+                permissions = [:view_work_packages, :view_time_entries]
+
+                authorize_any(permissions, projects: project, user: current_user)
+              end
+
+              def authorized_to_add_time_entry?(time_entries)
+                project = time_entries.project
+
+                permissions = [:log_time]
+
+                authorize_any(permissions, projects: project, user: current_user)
+              end
+            end
+
+            get do
+              res = TimeEntryRepresenter.new(@time_entries, current_user: current_user)
+              Rails.logger.warn "res: #{res}"
+              res
+            end
+
+            #mount ::API::V3::TimeEntries::TimeEntriesByProjectAPI
+          end
+        end
       end
     end
   end

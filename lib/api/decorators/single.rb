@@ -65,7 +65,16 @@ module API
 
       def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
+          Rails.logger.warn "\n\n\n\nNew Request:"
+          Rails.logger.warn "path first: #{path}"
           path = _type.underscore unless path
+          
+          Rails.logger.warn "path: #{path}"
+          Rails.logger.warn "id: #{id_attribute}"
+          Rails.logger.warn "title: #{instance_eval(&title_getter)}"
+          Rails.logger.warn "id_att: #{represented.send(id_attribute)}"
+          Rails.logger.warn api_v3_paths.send(path, represented.send(id_attribute))
+          
           link_object = { href: api_v3_paths.send(path, represented.send(id_attribute)) }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title

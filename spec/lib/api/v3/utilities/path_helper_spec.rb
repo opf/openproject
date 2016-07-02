@@ -260,6 +260,18 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe '#time_entries' do
+    subject { helper.time_enries 42 }
+
+    it_behaves_like 'api v3 path', '/time_entries/42'
+  end
+
+  describe '#time_entries_by_project' do
+    subject { helper.time_entries_by_project 42 }
+
+    it_behaves_like 'api v3 path', '/projects/42/time_entries'
+  end
+
   describe 'schemas paths' do
     describe '#work_package_schema' do
       subject { helper.work_package_schema 1, 2 }
