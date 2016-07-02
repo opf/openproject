@@ -1,4 +1,4 @@
-# OpenProject 4.0 Development Setup on Debian 7.7
+# OpenProject 5.x Development Setup on Debian 7.7
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed. However, we can skip some parts of the installation guide, so that we can get up a development environment a little easier.
 
@@ -84,15 +84,28 @@ Switch to your development directory. In this guide we develop straight in the `
 [dev@debian]# npm -g install bower
 ```
 
+If the first step fails with `OSError: Command make --jobs=2 failed with error code 2` try:
+
+```bash
+[dev@debian]# rm -r nodeenv
+[dev@debian]# # for Ubuntu 12.04 virtualenv needed to be installed
+[dev@debian]# sudo pip install virtualenv
+[dev@debian]# virtualenv nodeenv
+[dev@debian]# source ./nodeenv/bin/activate
+[dev@debian]# pip install nodeenv
+[dev@debian]# nodeenv -p --prebuilt
+[dev@debian]# npm -g install bower
+```
+
 As a reference, the following Node.js and NPM versions have been installed on our system:
 
 ```bash
 [dev@debian]# node --version
-                      v0.10.32
+                      v6.2.2
 [dev@debian]# npm --version
-                      1.4.28
+                      3.9.5
 [dev@debian]# bower --version
-                      1.3.12
+                      1.7.9
 ```
 
 ## Install OpenProject
@@ -102,7 +115,10 @@ As a reference, the following Node.js and NPM versions have been installed on ou
 [dev@debian]# cd openproject
 [dev@debian]# bundle install
 [dev@debian]# npm install
+[dev@debian]# npm run webpack
+[dev@debian]# cd frontend
 [dev@debian]# bower install
+[dev@debian]# cd ..
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).
