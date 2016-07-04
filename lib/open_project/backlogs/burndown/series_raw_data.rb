@@ -97,19 +97,20 @@ module OpenProject::Backlogs::Burndown
         date_journals.date,
         SUM(work_package_journals.story_points) as story_points
       FROM
-        (
-          #{authoritative_journal_for_date(dates)}
-        ) AS date_journals
+        work_package_journals
       JOIN journals AS id_journals
-        ON date_journals.journable_id = id_journals.journable_id
-        AND date_journals.version = id_journals.version
-        AND id_journals.journable_type = 'WorkPackage'
-      LEFT JOIN work_package_journals
-        ON work_package_journals.journal_id = id_journals.id
+      ON work_package_journals.journal_id = id_journals.id
         AND #{fixed_version_query}
         AND #{project_id_query}
         AND #{type_id_query}
         AND #{status_query}
+      JOIN
+        (
+          #{authoritative_journal_for_date(dates)}
+        ) AS date_journals
+      ON date_journals.journable_id = id_journals.journable_id
+        AND date_journals.version = id_journals.version
+        AND id_journals.journable_type = 'WorkPackage'
       GROUP BY date_journals.date
       ORDER BY date_journals.date
       SQL
@@ -137,6 +138,18 @@ module OpenProject::Backlogs::Burndown
             MAX(j.version) as version
           FROM
             journals AS j
+          WHERE
+            j.journable_id IN (
+              SELECT journable_id
+              FROM
+                journals
+              JOIN
+                work_package_journals
+              ON journals.id = work_package_journals.journal_id
+                AND #{fixed_version_query}
+                AND #{project_id_query}
+                AND #{type_id_query}
+                AND #{status_query})
           GROUP BY
             CAST(j.created_at AS DATE),
             j.journable_type,
