@@ -76,7 +76,7 @@ export class WpAttachmentsFormattableController {
                      i >= updatedAttachments.length - dropData.filesCount;
                      i--) {
                   description.insertAttachmentLink(
-                    updatedAttachments[i]._links.downloadLocation.href,
+                    updatedAttachments[i].downloadLocation.href,
                     InsertMode.ATTACHMENT,
                     true);
                 }
