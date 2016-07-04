@@ -47,12 +47,12 @@ function WorkPackageShowController($scope,
 
   scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp: WorkPackageResource) => {
-      $scope.workPackageResource = wp;
+      $scope.workPackage = wp;
       wp.schema.$load();
 
-      AuthorisationService.initModelAuth('work_package', $scope.workPackageResource);
+      AuthorisationService.initModelAuth('work_package', $scope.workPackage);
 
-      var authorization = new WorkPackageAuthorization($scope.workPackageResource);
+      var authorization = new WorkPackageAuthorization($scope.workPackage);
       $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
         getPermittedPluginActions(authorization));
       $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
@@ -60,12 +60,12 @@ function WorkPackageShowController($scope,
       // END stuff copied from details toolbar directive...
 
       $scope.I18n = I18n;
-      $scope.$parent.preselectedWorkPackageId = $scope.workPackageResource.id;
+      $scope.$parent.preselectedWorkPackageId = $scope.workPackage.id;
       $scope.maxDescriptionLength = 800;
-      $scope.projectIdentifier = $scope.workPackageResource.project.identifier;
+      $scope.projectIdentifier = $scope.workPackage.project.identifier;
 
       // initialization
-      setWorkPackageScopeProperties($scope.workPackageResource);
+      setWorkPackageScopeProperties($scope.workPackage);
 
     });
 
@@ -106,7 +106,7 @@ function WorkPackageShowController($scope,
     return augmentedPluginActions;
   }
   function deleteSelectedWorkPackage() {
-    var promise = WorkPackageService.performBulkDelete([$scope.workPackageResource.id], true);
+    var promise = WorkPackageService.performBulkDelete([$scope.workPackage.id], true);
 
     promise.success(function() {
       $state.go('work-packages.list', {projectPath: $scope.projectIdentifier});
@@ -148,7 +148,7 @@ function WorkPackageShowController($scope,
       $scope.watchers = workPackage.watchers.elements;
     }
 
-    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackageResource.id);
+    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackage.id);
 
     // Type
     $scope.type = workPackage.type;
@@ -163,12 +163,12 @@ function WorkPackageShowController($scope,
 
     $scope.focusAnchorLabel = getFocusAnchorLabel(
       $state.current.url.replace(/\//, ''),
-      $scope.workPackageResource
+      $scope.workPackage
     );
   }
 
   $scope.canViewWorkPackageWatchers = function() {
-    return !!($scope.workPackageResource && $scope.workPackageResource.watchers !== undefined);
+    return !!($scope.workPackage && $scope.workPackage.watchers !== undefined);
   };
 
   // toggles

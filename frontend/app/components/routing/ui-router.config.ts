@@ -34,7 +34,7 @@ const panels = {
     return {
       url: '/overview',
       reloadOnSearch: false,
-      template: '<overview-panel work-package="workPackageResource"></overview-panel>'
+      template: '<overview-panel work-package="workPackage"></overview-panel>'
     };
   },
 
@@ -42,7 +42,7 @@ const panels = {
     return {
       url: '/watchers',
       reloadOnSearch: false,
-      template: '<watchers-panel ng-if="workPackageResource" work-package="workPackageResource"></watchers-panel>'
+      template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
     }
   },
 
@@ -50,7 +50,7 @@ const panels = {
     return {
       url: '/activity',
       reloadOnSearch: false,
-      template: '<activity-panel ng-if="workPackageResource" work-package="workPackageResource"></activity-panel>'
+      template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
     }
   },
 
@@ -66,8 +66,8 @@ const panels = {
       url: '/relations',
       reloadOnSearch: false,
       template: ` <relations-panel
-                    ng-if="workPackageResource"
-                    work-package="workPackageResource"
+                    ng-if="workPackage"
+                    work-package="workPackage"
                   ></relations-panel>`
     };
   }

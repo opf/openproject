@@ -52,7 +52,7 @@ function WorkPackageDetailsController($scope,
   $scope.initializedWorkPackage = deferred.promise;
   scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
     .subscribe((wp:WorkPackageResource) => {
-      $scope.workPackageResource = wp;
+      $scope.workPackage = wp;
 
       wp.schema.$load();
       WorkPackageService.cache().put('preselectedWorkPackageId', wp.id);
@@ -71,7 +71,7 @@ function WorkPackageDetailsController($scope,
   };
 
   $scope.canViewWorkPackageWatchers = function() {
-    return !!($scope.workPackageResource && $scope.workPackageResource.watchers !== undefined);
+    return !!($scope.workPackage && $scope.workPackage.watchers !== undefined);
   };
 
   function getFocusAnchorLabel(tab, workPackage) {
