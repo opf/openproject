@@ -57,10 +57,10 @@ export class WorkPackagesActivityService {
       aggregated.push(data.elements);
     };
 
-    promises.push(workPackage.activities.$load().then(add));
+    promises.push(workPackage.activities.$load(true).then(add));
 
     if (workPackage.revisions) {
-      promises.push(workPackage.revisions.$load().then(add));
+      promises.push(workPackage.revisions.$load(true).then(add));
     }
 
     return this.$q.all(promises).then(() => {
