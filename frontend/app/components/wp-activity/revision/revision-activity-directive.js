@@ -50,12 +50,12 @@ function revisionActivity($compile,
       if (scope.activity.author === undefined) {
         scope.userName = scope.activity.authorName;
       } else {
-        scope.userPath = PathHelper.userPath;
         scope.activity.author.$load().then(function (user) {
           scope.userId = user.id;
           scope.userName = user.name;
           scope.userAvatar = user.avatar;
           scope.userActive = user.isActive;
+          scope.userPath = user.showUser;
           scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
         });
       }

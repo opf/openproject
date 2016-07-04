@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 angular
   .module('openproject.workPackages.activities')
   .directive('userActivity', userActivity);
@@ -71,18 +72,18 @@ function userActivity($uiViewScroll,
       });
 
       scope.I18n = I18n;
-      scope.userPath = PathHelper.userPath;
       scope.inEdit = false;
       scope.inPreview = false;
       scope.userCanEdit = !!scope.activity.update;
       scope.userCanQuote = !!scope.workPackage.addComment;
       scope.accessibilityModeEnabled = ConfigurationService.accessibilityModeEnabled();
 
-      scope.activity.user.$load().then(function (user) {
+      scope.activity.user.$load().then((user:UserResource) => {
         scope.userId = user.id;
         scope.userName = user.name;
         scope.userAvatar = user.avatar;
         scope.userActive = user.isActive;
+        scope.userPath = user.showUser.href;
         scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
       });
 

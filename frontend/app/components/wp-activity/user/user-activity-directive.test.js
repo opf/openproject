@@ -75,6 +75,9 @@ describe('userActivity Directive', function() {
                   id: 1,
                   name: "John Doe",
                   avatar: 'avatar.png',
+                  showUser: {
+                    href: '/users/1'
+                  },
                   status: 1
                 });
               }
@@ -117,6 +120,9 @@ describe('userActivity Directive', function() {
                   id: 1,
                   name: "John Doe",
                   avatar: '',
+                  showUser: {
+                    href: '/users/1'
+                  },
                   status: 1
                 });
               };
