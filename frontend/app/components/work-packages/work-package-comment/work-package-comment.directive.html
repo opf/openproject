@@ -27,8 +27,7 @@
             link-class="inplace-editing--trigger-link"
             aria-label="{{ ::vm.text.editTitle }}"
             execute="vm.activate()">
-            <span class="inplace-edit--read-value"
-                  ng-class="{'-default': fieldController.isEmpty()}">
+            <span class="inplace-edit--read-value -default">
               <span ng-bind="::vm.text.placeholder"></span>
             </span>
             <span class="inplace-edit--icon-wrapper">
@@ -37,6 +36,6 @@
           </accessible-by-keyboard>
         </div>
       </div>
-    <ng-transclude ng-if="vm.showAbove"></ng-transclude>
   </div>
+  <ng-transclude ng-if="vm.showAbove"></ng-transclude>
 </div>
