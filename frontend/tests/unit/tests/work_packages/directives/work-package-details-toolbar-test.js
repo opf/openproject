@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('workPackageDetailsToolbar', function() {
-  var I18n, HookService, compile, scope, element, stateParams;
+  var I18n, $q, HookService, compile, scope, element, stateParams;
   var html = "<wp-details-toolbar work-package='workPackage'></wp-details-toolbar>";
   stateParams = {};
 
@@ -56,7 +56,8 @@ describe('workPackageDetailsToolbar', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope, $compile, _I18n_, _HookService_) {
+  beforeEach(inject(function($rootScope, $compile, _I18n_, _HookService_, _$q_) {
+    $q = _$q_;
     I18n = _I18n_;
     HookService = _HookService_;
     var stub = sinon.stub(I18n, 't');
@@ -104,6 +105,7 @@ describe('workPackageDetailsToolbar', function() {
       plugin_action_1: { href: 'plugin_actionMeLink' },
       plugin_action_2: { href: 'plugin_actionMeLink' },
       project: {
+        $load: function() { return $q.when(true) },
         createWorkPackage: { href: 'createWorkPackageLink' }
       }
     };

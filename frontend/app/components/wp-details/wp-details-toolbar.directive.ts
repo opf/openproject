@@ -83,28 +83,31 @@ function wpDetailsToolbar(
     },
 
     link: function(scope, attr, element) {
-      var authorization = new WorkPackageAuthorization(scope.workPackage);
 
-      scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
-        scope.workPackage.hasOwnProperty('watch');
+      scope.workPackage.project.$load().then(() => {
+        var authorization = new WorkPackageAuthorization(scope.workPackage);
 
-      scope.I18n = I18n;
-      scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-        getPermittedPluginActions(authorization));
-      scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
+        scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
+          scope.workPackage.hasOwnProperty('watch');
 
-      scope.triggerMoreMenuAction = function(action, link) {
-        switch (action) {
-          case 'delete':
-            deleteSelectedWorkPackage();
-            break;
-          default:
-            $window.location.href = link;
-            break;
-        }
-      };
+        scope.I18n = I18n;
+        scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
+          getPermittedPluginActions(authorization));
+        scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
 
-      scope.wpEditModeState = wpEditModeState;
+        scope.triggerMoreMenuAction = function(action, link) {
+          switch (action) {
+            case 'delete':
+              deleteSelectedWorkPackage();
+              break;
+            default:
+              $window.location.href = link;
+              break;
+          }
+        };
+
+        scope.wpEditModeState = wpEditModeState;
+      });
 
       function deleteSelectedWorkPackage() {
         var workPackageDeletionId = scope.workPackage.id;
