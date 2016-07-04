@@ -95,15 +95,4 @@ describe('wpAttachments service', () => {
       $httpBackend.flush();
     });
   });
-
-  describe('deleting an attachment', () => {
-    beforeEach(() => {
-      $httpBackend.expectDELETE('/api/v3/attachments/1').respond({});
-    });
-
-    it('should remove an attachment', () => {
-      wpAttachments.remove(attachment);
-      $httpBackend.flush();
-    });
-  });
 });

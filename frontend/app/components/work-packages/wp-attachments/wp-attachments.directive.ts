@@ -28,10 +28,12 @@
 
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WpAttachmentsService} from './wp-attachments.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 
 export class WorkPackageAttachmentsController {
   public workPackage:any;
+  public hideEmptyFields:boolean;
 
   public attachments:any[] = [];
   public fetchingConfiguration:boolean = false;
@@ -47,19 +49,18 @@ export class WorkPackageAttachmentsController {
   public size:any;
 
   private currentlyFocussing;
-  private editMode:boolean;
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
               protected $attrs:ng.IAttributes,
+              protected $rootScope,
               protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:any,
               protected ConfigurationService:any,
               protected ConversionService:any) {
 
-    this.attachments = this.wpAttachments.getCurrentAttachments();
-    this.editMode = $attrs.hasOwnProperty('edit');
     this.workPackage = $scope.vm.workPackage();
 
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
@@ -74,6 +75,9 @@ export class WorkPackageAttachmentsController {
       this.loadAttachments();
     }
 
+    $rootScope.$on('work_packages.attachment.add', file => {
+      this.attachments.push(file);
+    });
   }
 
   public upload():void {
@@ -92,25 +96,25 @@ export class WorkPackageAttachmentsController {
     }
   };
 
-  public loadAttachments():void {
-    if (this.editMode) {
-      this.loading = true;
-      this.wpAttachments.load(this.workPackage, true)
-        .then(attachments => {
-          this.attachments = attachments;
-        }).finally(() => {
+  public loadAttachments():ng.IPromise<any> {
+    this.loading = true;
+    return this.wpAttachments.load(this.workPackage, true)
+      .then(attachments => {
+        this.attachments = attachments;
+      }).finally(() => {
         this.loading = false;
       });
-    }
-  };
+  }
 
   public remove(file):void {
-    if (this.workPackage.isNew) {
-      _.remove(this.wpAttachments.attachments, file);
-    } else {
-      this.wpAttachments.remove(file);
+    if (file._type === 'Attachment') {
+      file.delete().catch(error => {
+        this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+      });
     }
-  };
+
+    _.remove(this.attachments, file);
+  }
 
   public focus(attachment:any):void {
     this.currentlyFocussing = attachment;
@@ -144,14 +148,9 @@ function wpAttachmentsDirective():ng.IDirective {
     restrict: 'E',
     scope: {
       workPackage: '&',
+      hideEmptyFields: '='
     },
-
-    templateUrl: (element:ng.IAugmentedJQuery, attrs:ng.IAttributes):string => {
-      if (attrs.hasOwnProperty('edit')) {
-        return '/components/work-packages/wp-attachments/wp-attachments-edit.directive.html';
-      }
-      return '/components/work-packages/wp-attachments/wp-attachments.directive.html';
-    }
+    templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
   };
 }
 

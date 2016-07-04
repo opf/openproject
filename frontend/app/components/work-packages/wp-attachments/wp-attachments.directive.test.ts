@@ -36,6 +36,7 @@ describe('WorkPackageAttachmentsDirective', () => {
   var isolatedScope;
   var workPackage = {$links: {}};
 
+  beforeEach(angular.mock.module('openproject'));
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(angular.mock.module('openproject.templates'));
 
@@ -62,7 +63,7 @@ describe('WorkPackageAttachmentsDirective', () => {
     apiPromise = $q.when('');
     loadPromise = $q.when([]);
 
-    var html = '<wp-attachments edit work-package="workPackage"></wp-attachments>';
+    var html = '<wp-attachments work-package="workPackage"></wp-attachments>';
 
     element = angular.element(html);
     rootScope = $rootScope;

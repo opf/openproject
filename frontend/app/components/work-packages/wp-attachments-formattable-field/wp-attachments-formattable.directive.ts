@@ -92,7 +92,7 @@ export class WpAttachmentsFormattableController {
           dropData.files.forEach((file:File) => {
             description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
             file['isPending'] = true;
-            this.wpAttachments.attachments.push(file);
+            this.$rootScope.$emit('work_packages.attachment.add', file);
           });
           description.save();
         }

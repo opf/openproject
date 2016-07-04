@@ -120,12 +120,6 @@ export class WorkPackageSingleViewController {
       });
     });
 
-    if (this.workPackage.attachments) {
-      this.wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    }
-
     this.text.idLabel = this.workPackage.type.name;
     if (!this.workPackage.isNew) {
       this.text.idLabel += ' #' + this.workPackage.id;
