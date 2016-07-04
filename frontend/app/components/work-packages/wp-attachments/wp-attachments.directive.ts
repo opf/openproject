@@ -95,7 +95,10 @@ export class WorkPackageAttachmentsController {
   public loadAttachments():void {
     if (this.editMode) {
       this.loading = true;
-      this.wpAttachments.load(this.workPackage, true).finally(() => {
+      this.wpAttachments.load(this.workPackage, true)
+        .then(attachments => {
+          this.attachments = attachments;
+        }).finally(() => {
         this.loading = false;
       });
     }

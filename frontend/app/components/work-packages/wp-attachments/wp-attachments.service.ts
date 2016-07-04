@@ -28,6 +28,10 @@
 
 import {wpServicesModule} from '../../../angular-modules.ts';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  CollectionResource,
+  CollectionResourceInterface
+} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 export class WpAttachmentsService {
   public attachments:File[] = [];
@@ -77,20 +81,11 @@ export class WpAttachmentsService {
 
   public load(workPackage:WorkPackageResourceInterface,
               reload:boolean = false):ng.IPromise<any[]> {
-    const loadedAttachments = this.$q.defer();
 
-    const path:string = workPackage.attachments.href;
-    this.$http.get(path, {cache: !reload})
-      .success((response:any) => {
-        _.remove(this.attachments);
-        _.extend(this.attachments, response.elements);
-        loadedAttachments.resolve(this.attachments);
-      })
-      .error(err => {
-        loadedAttachments.reject(err);
-      });
-
-    return loadedAttachments.promise;
+    return workPackage.attachments.$load(reload).then((collection:CollectionResourceInterface) => {
+      this.attachments = collection.elements;
+      return this.attachments;
+    });
   };
 
   public remove(fileOrAttachment:any):void {

@@ -42,6 +42,7 @@ export class WorkPackageSingleViewController {
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public attachments:any;
+  public filesExist:boolean = false;
   public text:any;
   public scope:any;
 
@@ -76,10 +77,6 @@ export class WorkPackageSingleViewController {
       this.wpNotificationsService.showSave(this.workPackage);
     });
   }
-
-  public filesExist = function () {
-    return this.wpAttachments.getCurrentAttachments().length > 0;
-  };
 
   public shouldHideGroup(group) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);

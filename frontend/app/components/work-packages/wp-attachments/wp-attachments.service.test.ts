@@ -29,16 +29,9 @@
 declare const WebKitBlobBuilder:any;
 
 describe('wpAttachments service', () => {
+  var $q;
   var wpAttachments;
   var $httpBackend;
-
-  var workPackage = {
-    id: 1,
-    $isHal: true,
-    attachments: {
-      href: '/api/v3/work_packages/1/attachments',
-    }
-  };
 
   // mock me an attachment
   var attachment = {
@@ -47,9 +40,21 @@ describe('wpAttachments service', () => {
     href: "/api/v3/attachments/1"
   };
 
+  var workPackage = {
+    id: 1,
+    $isHal: true,
+    attachments: {
+      $load: () => {
+        return $q.when({ elements: [attachment] });
+      },
+      href: '/api/v3/work_packages/1/attachments',
+    }
+  };
+
   beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_) => {
+  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_, _$q_) => {
+    $q = _$q_;
     wpAttachments = _wpAttachments_;
     $httpBackend = _$httpBackend_;
   }));
@@ -60,17 +65,10 @@ describe('wpAttachments service', () => {
   });
 
   describe('loading attachments', () => {
-    beforeEach(() => {
-      $httpBackend.expectGET('/api/v3/work_packages/1/attachments').respond({
-        elements: [1,2,3]
-      });
-    });
-
     it('should retrieve attachments for a given work pacakge', () => {
       wpAttachments.load(workPackage).then(result => {
-        expect(result).to.eql([1,2,3]);
+        expect(result).to.eql([attachment]);
       });
-      $httpBackend.flush();
     });
   });
 
