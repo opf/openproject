@@ -66,8 +66,9 @@ window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 opApp
     .config([
       '$locationProvider',
+      '$animateProvider',
       '$httpProvider',
-      function($locationProvider, $httpProvider) {
+      function($locationProvider, $animateProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
             'meta[name=csrf-token]').attr('content');
@@ -90,6 +91,10 @@ opApp
             }
           };
         });
+
+
+        // Enable nganimate only for the following class
+        $animateProvider.classNameFilter(/-animated/);
       }
     ])
     .value('cgBusyDefaults', {
