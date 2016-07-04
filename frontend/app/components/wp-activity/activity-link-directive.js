@@ -1,4 +1,4 @@
-module.exports = function() {
+function activityLink() {
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/activities/_link.html',
@@ -13,4 +13,8 @@ module.exports = function() {
       scope.activityHtmlId = 'activity-' + scope.activityNo;
     }
   };
-};
+}
+
+angular
+  .module('openproject.workPackages.activities')
+  .directive('activityLink', activityLink);
