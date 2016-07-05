@@ -103,7 +103,6 @@ export class WorkPackageSingleViewController {
   public setFocus() {
     if (!this.firstTimeFocused) {
       this.firstTimeFocused = true;
-      angular.element(this.$window).trigger('resize');
       angular.element('.work-packages--details--subject .focus-input').focus();
     }
   }
