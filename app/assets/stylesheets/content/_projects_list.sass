@@ -29,13 +29,16 @@
 ul.projects
   margin: 0
   padding-left: 1em
+
   &.root
     margin: 0
     padding: 0
+
   ul
     border: none
     &.projects
       border-left: 3px solid #e0e0e0
+
   li
     &.root
       list-style-type: none
@@ -43,27 +46,12 @@ ul.projects
     &.child
       list-style-type: none
       margin-top: 1em
-  div.root a.project
-    font-weight: bold
-    margin: 0 0 10px 0
 
-.nosidebar ul.projects
-  margin: 24px 0 0
-  ul
-    margin: 0
-
-.nosidebar ul.projects li
-  list-style: none outside none
-  background: none
-
-ul.projects
   a
     font-weight: bold
-  li div.root
-    margin-bottom: 12px
 
   .description
-    height: 100px
+    max-height: 100px
     position: relative
     overflow-y: hidden
 
@@ -73,8 +61,24 @@ ul.projects
       height: 100%
       width: 100%
       content: ""
-      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 90%)
+      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 80%)
       pointer-events: none
 
-ul.projects div.root a.project
-  font-family: inherit
+  div.root
+    margin-bottom: 12px
+
+    a.project
+      font-weight: bold
+      margin: 0 0 10px 0
+      font-family: inherit
+
+  .nosidebar &
+    margin: 24px 0 0
+
+    ul
+      margin: 0
+
+    li
+      list-style: none outside none
+      background: none
+
