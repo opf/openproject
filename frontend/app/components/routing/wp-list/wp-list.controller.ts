@@ -80,11 +80,6 @@ function WorkPackagesListController($scope,
       });
   }
 
-  function clearUrlQueryParams() {
-    $location.search('query_props', null);
-    $location.search('query_id', null);
-  }
-
   function setupPage(json, queryParamsPresent) {
     // Init query
     var metaData = json.meta;
