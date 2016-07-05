@@ -29,43 +29,64 @@
 require 'spec_helper'
 
 describe 'Angular expression escaping', type: :feature do
-  let(:login_field) { find('#username') }
+  include OpenProject::TextFormatting
 
-  before do
-    visit signin_path
-    within('#login-form') do
-      fill_in('username', with: login_string)
-      click_link_or_button I18n.t(:button_login)
+  describe 'login field' do
+    let(:login_field) { find('#username') }
+
+    before do
+      visit signin_path
+      within('#login-form') do
+        fill_in('username', with: login_string)
+        click_link_or_button I18n.t(:button_login)
+      end
+
+      expect(current_path).to eq signin_path
     end
 
-    expect(current_path).to eq signin_path
-  end
-
-  describe 'Simple expression' do
-    let(:login_string) { '{{ 3 + 5 }}' }
-
-    it 'does not evaluate the expression' do
-      expect(login_field.value).to eq('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
-    end
-  end
-
-  context 'With JavaScript evaluation', js: true do
     describe 'Simple expression' do
       let(:login_string) { '{{ 3 + 5 }}' }
 
       it 'does not evaluate the expression' do
-        expect(login_field.value).to eq(login_string)
+        expect(login_field.value).to eq('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
       end
     end
 
-    describe 'Angular 1.3 Sandbox evading' do
-      let(:login_string) { "{{'a'.constructor.prototype.charAt=[].join;$eval('x=alert(1)'); }" }
+    context 'With JavaScript evaluation', js: true do
+      describe 'Simple expression' do
+        let(:login_string) { '{{ 3 + 5 }}' }
 
-      it 'does not evaluate the expression' do
-        expect(login_field.value).to eq(login_string)
-        expect { page.driver.browser.switch_to.alert }
-          .to raise_error(::Selenium::WebDriver::Error::NoAlertPresentError)
+        it 'does not evaluate the expression' do
+          expect(login_field.value).to eq(login_string)
+        end
       end
+
+      describe 'Angular 1.3 Sandbox evading' do
+        let(:login_string) { "{{'a'.constructor.prototype.charAt=[].join;$eval('x=alert(1)'); }" }
+
+        it 'does not evaluate the expression' do
+          expect(login_field.value).to eq(login_string)
+          expect { page.driver.browser.switch_to.alert }
+            .to raise_error(::Selenium::WebDriver::Error::NoAlertPresentError)
+        end
+      end
+    end
+  end
+
+  describe '#text_format' do
+    let(:text) { '{{hello_world}} {{ 3 + 5 }}' }
+    subject(:html) { format_text(text) }
+
+    it 'expands the macro' do
+      expect(html).to start_with('<p>Hello world!')
+    end
+
+    it 'escapes the expression' do
+      expect(html).to include('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
+    end
+
+    it 'marks the string as safe' do
+      expect(html).to be_html_safe
     end
   end
 end
