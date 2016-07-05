@@ -89,7 +89,7 @@ class RowDisplay {
   private childScope: IScope;
   private previousElements: any;
 
-  private dummyRow: HTMLElement;
+  private dummyRow: HTMLElement = null;
   private index: number;
   private viewport: [number, number] = [0, 5];
   private visible: boolean = undefined;
@@ -142,10 +142,13 @@ class RowDisplay {
   }
 
   renderRow(renderRow: boolean) {
-    this.hide();
     if (!this.childScope) {
       if (renderRow) {
         // render work package row
+        // console.log("renderRow() - work package");
+
+        this.hide();
+
         this.$transclude((clone: any, newScope: any) => {
           this.clone = clone;
           this.childScope = newScope;
@@ -157,8 +160,12 @@ class RowDisplay {
           };
           this.$animate.enter(clone, this.$element.parent(), this.$element);
         });
-      } else {
+      } else if (this.dummyRow === null) {
         // render placeholder row
+        // console.log("renderRow() - placeholder");
+
+        this.hide();
+
         this.visible = false;
         this.dummyRow = createDummyRow(
           "&nbsp;",
@@ -191,12 +198,11 @@ class RowDisplay {
   }
 
   private adjustWatchers(element: JQuery, enableWatchers: boolean) {
-    const data = angular.element(element).data();
-    if (!data.hasOwnProperty("$scope")) {
+    const scope: any = angular.element(element).scope();
+    if (scope === undefined) {
       return;
     }
 
-    const scope = data.$scope;
     if (!enableWatchers) {
       if (scope.$$watchers && scope.$$watchers.length > 0) {
         scope.__backup_watchers = scope.$$watchers;
@@ -275,12 +281,16 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
           rowsInViewport);
       };
 
-      // let scrollTimeout: any;
+      let scrollTimeout: any;
       $element.on("scroll", () => {
-        // scrollTimeout && clearTimeout(scrollTimeout);
-        // scrollTimeout = setTimeout(() => {
+        scrollTimeout && clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
           updateScrollInfo();
-        // }, 0);
+        }, 40);
+      });
+
+      window.addEventListener('resize', () => {
+        updateScrollInfo();
       });
 
       updateScrollInfo();
