@@ -50,21 +50,6 @@ The only views that currently rely on `angular` are:
 - Timelines
 - some private plugins
 
-That should change over the course of development, especially to get rid of the `prototype.js` dependency.
-
 Keep in mind, that there are places in the application where JavaScript code is safely stored away in a ruby method, an example would be the `ApplicationHelper`s own `user_specific_javascript_includes`.
 
 A quick search for `jQuery` over all ruby files usually yields very good starting points and clues how and where to start refactoring.
-
-## `protoype.js` and plugins
-
-Prototype and some of it's related plugins are used in several of OpenProjects plugins. 
-
-One extreme example is [`MyProjectPage`](https://github.com/finnlabs/openproject-my_project_page), which duplicates functionality from the core application. It uses [`Sortable`](http://madrobby.github.io/scriptaculous/sortable/) to achieve drag and drop functionality. It's a very old library (~2009) that is not maintained actively anymore.
-
-Be that as it may, the `prototype.js` dependency cannot be fully removed as long as the plugins rely on it.
-
-There are basically two approaches here:
-
-1. Remove it completely and see what breaks
-2. Move the `prototype.js` to the plugins that need it and remove the dependency from the core

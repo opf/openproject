@@ -235,7 +235,7 @@
     var new_menu;
     $(this).each(function () {
       new_menu = new TopMenu($(this));
-      top_menus.each(function (menu) {
+      top_menus.forEach(function (menu) {
         menu.menu_container.on("openedMenu", function () {
           new_menu.closing();
         });
