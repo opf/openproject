@@ -32,6 +32,7 @@ import {
   CollectionResource,
   CollectionResourceInterface
 } from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 export class WpAttachmentsService {
 
@@ -51,14 +52,6 @@ export class WpAttachmentsService {
       this.dismissNotification(notification);
     });
   }
-
-  public load(workPackage:WorkPackageResourceInterface,
-              reload:boolean = false):ng.IPromise<any[]> {
-
-    return workPackage.attachments.$load(reload).then((collection:CollectionResourceInterface) => {
-      return collection.elements;
-    });
-  };
 
   /**
    * Transform the given files to the ng-file-uploader parameters.

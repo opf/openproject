@@ -29,6 +29,10 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WpAttachmentsService} from './wp-attachments.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 
 export class WorkPackageAttachmentsController {
@@ -52,8 +56,8 @@ export class WorkPackageAttachmentsController {
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
-              protected $attrs:ng.IAttributes,
               protected $rootScope,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -79,9 +83,11 @@ export class WorkPackageAttachmentsController {
       this.attachments.push(file);
     });
 
-    $rootScope.$on('work_packages.attachment.updated', () => {
-      this.attachments = this.workPackage.attachments.elements;
-    });
+    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp: WorkPackageResourceInterface) => {
+        this.workPackage = wp;
+        this.loadAttachments(false);
+      });
   }
 
   public upload():void {
@@ -96,16 +102,19 @@ export class WorkPackageAttachmentsController {
       this.wpAttachments.upload(this.workPackage, this.files).then(() => {
         this.files = [];
         this.loadAttachments();
+        this.wpCacheService.loadWorkPackageLinks(this.workPackage, 'activities');
       });
     }
   };
 
   public loadAttachments(refresh:boolean = true):ng.IPromise<any> {
     this.loading = true;
-    return this.wpAttachments.load(this.workPackage, refresh)
-      .then(attachments => {
-        this.attachments = attachments;
-      }).finally(() => {
+    return this.workPackage.attachments.$load(refresh)
+      .then((collection:CollectionResourceInterface) => {
+        this.attachments = collection.elements;
+        return this.attachments;
+      })
+      .finally(() => {
         this.loading = false;
       });
   }
