@@ -360,13 +360,18 @@ ul.projects
     margin-bottom: 12px
 
   .description
-    height: 30px
+    height: 100px
+    position: relative
     overflow-y: hidden
 
-    *
-      @include text-shortener
+    &:after
+      position: absolute
+      bottom: 0
+      height: 100%
       width: 100%
-
+      content: ""
+      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 90%)
+      pointer-events: none
 
 .profile-wrap
   float: right
