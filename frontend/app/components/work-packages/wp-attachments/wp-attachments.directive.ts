@@ -83,11 +83,13 @@ export class WorkPackageAttachmentsController {
       this.attachments.push(file);
     });
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
-      .subscribe((wp: WorkPackageResourceInterface) => {
-        this.workPackage = wp;
-        this.loadAttachments(false);
-      });
+    if (!this.workPackage.isNew) {
+      scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+        .subscribe((wp:WorkPackageResourceInterface) => {
+          this.workPackage = wp;
+          this.loadAttachments(false);
+        });
+    }
   }
 
   public upload():void {
