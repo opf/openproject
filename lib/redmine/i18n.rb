@@ -88,8 +88,8 @@ module Redmine
     #
     # @param i18n_key [String] The I18n key to translate.
     # @param links [Hash] Link names mapped to URLs.
-    def link_translate(i18n_key, links = {})
-      translation = ::I18n.t(i18n_key.to_s)
+    def link_translate(i18n_key, links: {}, locale: ::I18n.locale)
+      translation = ::I18n.t(i18n_key.to_s, locale: locale)
       result = translation.scan(link_regex).inject(translation) do |t, matches|
         link, text, key = matches
         href = String(links[key.to_sym])

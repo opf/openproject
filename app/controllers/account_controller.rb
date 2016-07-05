@@ -164,7 +164,8 @@ class AccountController < ApplicationController
 
       if user.save
         token.destroy
-        flash[:notice] = with_accessibility_notice I18n.t(:notice_account_activated)
+        flash[:notice] = with_accessibility_notice :notice_account_activated,
+                                                   locale: user.language
       else
         flash[:error] = I18n.t(:notice_activation_failed)
       end
@@ -408,7 +409,8 @@ class AccountController < ApplicationController
     if @user.save
       session[:auth_source_registration] = nil
       self.logged_user = @user
-      flash[:notice] = with_accessibility_notice l(:notice_account_activated)
+      flash[:notice] = with_accessibility_notice :notice_account_activated,
+                                                 locale: @user.language
       redirect_to controller: '/my', action: 'account'
     end
     # Otherwise render register view again
@@ -479,7 +481,8 @@ class AccountController < ApplicationController
       self.logged_user = user
       opts[:after_login].call user if opts[:after_login]
 
-      flash[:notice] = with_accessibility_notice l(:notice_account_registered_and_logged_in)
+      flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
+                                                 locale: user.language
       redirect_after_login(user)
     else
       yield if block_given?
@@ -568,8 +571,12 @@ class AccountController < ApplicationController
     end
   end
 
-  def with_accessibility_notice(text)
-    notice = link_translate(:notice_accessibility_mode, url: my_settings_url)
+  def with_accessibility_notice(key, locale:)
+    locale = locale.presence || I18n.locale
+    text = I18n.t(key, locale: locale)
+    notice = link_translate(:notice_accessibility_mode,
+                            links: { url: my_settings_url },
+                            locale: locale)
 
     "#{text} #{notice}".html_safe
   end
