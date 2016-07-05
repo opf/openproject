@@ -34,9 +34,11 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
-<foundation-modal-container showing="<%= !!params[:first_time_user] %>">
-  <%= render partial: '/onboarding/starting_video_modal' %>
-</foundation-modal-container>
+<% if params[:first_time_user] %>
+  <foundation-modal-container showing="true">
+    <%= render partial: '/onboarding/starting_video_modal' %>
+  </foundation-modal-container>
+<% end %>
 
 <%= render partial: 'announcements/show' %>
 
