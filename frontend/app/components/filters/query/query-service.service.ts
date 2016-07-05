@@ -97,16 +97,16 @@ function QueryService($rootScope,
     updateQuery: function(values:any, afterUpdate) {
       var queryData = <any> {
       };
-      if(!!values.displaySums) {
+      if (!!values.displaySums) {
         queryData.displaySums = values.displaySums;
       }
-      if(!!values.columns) {
+      if (!!values.columns) {
         queryData.columns = values.columns;
       }
-      if(!!values.groupBy) {
+      if (!!values.groupBy) {
         queryData.groupBy = values.groupBy;
       }
-      if(!!values.sortCriteria) {
+      if (!!values.sortCriteria) {
         queryData.sortCriteria = values.sortCriteria;
       }
       query.update(queryData);
