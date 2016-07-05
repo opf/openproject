@@ -192,7 +192,7 @@ end
 
 group :development do
   gem 'letter_opener'
-  gem 'thin'
+  gem 'thin', '~> 1.7.0'
   gem 'faker'
   gem 'quiet_assets'
   gem 'livingstyleguide', '~> 2.0.0.pre.1'
