@@ -190,6 +190,14 @@ function WorkPackagesListController($scope,
     $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');
   });
 
+  $scope.$watchCollection(function(){
+      return $state.params;
+  }, function(params) {
+    if ($scope.query && UrlParamsHelper.encodeQueryJsonParams($scope.query) !== params.query_props) {
+      initialSetup();
+    }
+  });
+
   $rootScope.$on('queryStateChange', function () {
     $scope.maintainUrlQueryState();
     $scope.maintainBackUrl();
