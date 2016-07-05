@@ -114,8 +114,8 @@ function QueryService($rootScope,
       QueryService.getAvailableFilters(query.projectId)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          if(queryData.filters && queryData.filters.length) {
-            query.setFilters(queryData.filters);
+          if(values.filters && values.filters.length) {
+            query.setFilters(values.filters);
           }
 
           return query;
