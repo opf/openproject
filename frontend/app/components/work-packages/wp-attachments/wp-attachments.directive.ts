@@ -78,6 +78,10 @@ export class WorkPackageAttachmentsController {
     $rootScope.$on('work_packages.attachment.add', file => {
       this.attachments.push(file);
     });
+
+    $rootScope.$on('work_packages.attachment.updated', () => {
+      this.attachments = this.workPackage.attachments.elements;
+    });
   }
 
   public upload():void {
@@ -96,9 +100,9 @@ export class WorkPackageAttachmentsController {
     }
   };
 
-  public loadAttachments():ng.IPromise<any> {
+  public loadAttachments(refresh:boolean = true):ng.IPromise<any> {
     this.loading = true;
-    return this.wpAttachments.load(this.workPackage, true)
+    return this.wpAttachments.load(this.workPackage, refresh)
       .then(attachments => {
         this.attachments = attachments;
       }).finally(() => {

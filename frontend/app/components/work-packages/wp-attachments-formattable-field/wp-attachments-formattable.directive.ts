@@ -56,6 +56,7 @@ export class WpAttachmentsFormattableController {
         if (!dropData.isDelayedUpload) {
           this.wpAttachments.upload(workPackage, dropData.files).then(() => {
             this.wpAttachments.load(workPackage, true).then((updatedAttachments:any) => {
+              this.$rootScope.$emit('work_packages.attachment.updated');
               if (angular.isUndefined(updatedAttachments)) {
                 return;
               }
