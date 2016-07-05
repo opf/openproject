@@ -74,13 +74,3 @@ Feature: Tracking Time
     Then I should not see a total spent time of 0 hours
     When I click "Apply"
     Then I should see a total spent time of 0 hours
-
-  @javascript
-  Scenario: Selecting month for spent time report
-    When I go to the time entry report page of issue "issue1"
-     And I select "Year" from "Details"
-     And I select "Project" from "Add"
-    Then I should not see a total spent time of 4 hours
-
-    When I click "Apply" within ".timelog-report-selection"
-    Then I should see a total spent time of 4 hours

@@ -61,7 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </ul>
   </fieldset>
 <% end %>
-<%# TODO: remove the prototype stuff from the DOM -%>
 <% if @type && @role && @statuses.any? %>
     <%= form_tag({}, id: 'workflow_form' ) do %>
       <%= hidden_field_tag 'type_id', @type.id %>
@@ -70,7 +69,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: 'form',
                  locals: { name: 'always', workflows: @workflows['always'] } %>
 
-      <fieldset class="form--fieldset -collapsible" style="margin-top: 0.5em;">
+      <% author_expanded = @workflows['author'].present? ? '' : 'collapsed' %>
+      <% assignee_expanded = @workflows['assignee'].present? ? '' : 'collapsed' %>
+      <fieldset class="form--fieldset -collapsible <%= author_expanded %>"
+                style="margin-top: 0.5em;">
         <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
           <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a>
         </legend>
@@ -78,10 +80,9 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= render partial: 'form',
                      locals: { name: 'author', workflows: @workflows['author'] } %>
         </div>
-      <%= javascript_tag "hideFieldset($('author_workflows'))" unless @workflows['author'].present? %>
       </fieldset>
 
-      <fieldset class="form--fieldset -collapsible">
+      <fieldset class="form--fieldset -collapsible <%= assignee_expanded %>">
         <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
           <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a>
         </legend>
@@ -89,7 +90,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= render partial: 'form',
                      locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
         </div>
-        <%= javascript_tag "hideFieldset($('assignee_workflows'))" unless @workflows['assignee'].present? %>
       </fieldset>
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <% end %>

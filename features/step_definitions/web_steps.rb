@@ -298,20 +298,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
     while !is_done
       is_done = page.evaluate_script(%{
         (function (){
-          var done = true;
-
-          if (window.jQuery) {
-            if (document.ajaxActive) {
-              done = false;
-            }
-          }
-          if (window.Prototype && window.Ajax) {
-            if (window.Ajax.activeRequestCount != 0) {
-              done = false;
-            }
-          }
-
-          return done;
+          return !(window.jQuery && document.ajaxActive);
         }())
       }.gsub("\n", ''))
     end

@@ -67,6 +67,11 @@ module ApplicationHelper
     end
   end
 
+  def link_to_function(content, function, html_options = {})
+    onclick = "#{function}; return false;"
+    content_tag(:a, content, html_options.merge(onclick: onclick))
+  end
+
   def required_field_name(name = '')
     safe_join [name, ' ', content_tag('span', '*', class: 'required')]
   end
@@ -113,11 +118,6 @@ module ApplicationHelper
                   onclick: (html_options[:onclick] ? "#{html_options[:onclick]}; " : '') +
                             "#{function};"
     ))
-  end
-
-  def prompt_to_remote(name, text, param, url, html_options = {})
-    html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
-    link_to name, {}, html_options
   end
 
   def format_activity_title(text)

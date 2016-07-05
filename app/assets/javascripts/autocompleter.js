@@ -108,7 +108,7 @@
     setInputValue: function () {
       var values = [];
       if (hasAttribute(this.fakeInput, "data-selected")) {
-        JSON.parse(this.fakeInput.attr('data-selected')).each(function (elem) {
+        JSON.parse(this.fakeInput.attr('data-selected')).forEach(function (elem) {
           values.push(elem[1]);
         });
 
