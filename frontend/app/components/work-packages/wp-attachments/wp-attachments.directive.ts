@@ -76,7 +76,7 @@ export class WorkPackageAttachmentsController {
     });
 
     if (this.workPackage && this.workPackage.attachments) {
-      this.loadAttachments();
+      this.loadAttachments(false);
     }
 
     $rootScope.$on('work_packages.attachment.add', file => {
