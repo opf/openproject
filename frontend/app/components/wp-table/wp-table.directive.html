@@ -1,9 +1,6 @@
 <div class="generic-table--container work-package-table--container"
   ng-class="{ '-with-footer': displaySums }">
-  <div class="generic-table--results-container"
-       wp-virtual-scroll-table
-       column-count="columns.length + 1"
-       row-height="44">
+  <div class="generic-table--results-container">
     <table interactive-table class="keyboard-accessible-list generic-table">
       <colgroup>
         <col highlight-col />
@@ -99,7 +96,7 @@
 
         <!-- Work package rows -->
 
-        <tr wp-virtual-scroll-row="$index"
+        <tr
             wp-row
             id="work-package-{{ ::row.object.id }}"
             class="wp--row"
