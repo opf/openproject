@@ -69,28 +69,21 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: 'form',
                  locals: { name: 'always', workflows: @workflows['always'] } %>
 
-      <% author_expanded = @workflows['author'].present? ? '' : 'collapsed' %>
-      <% assignee_expanded = @workflows['assignee'].present? ? '' : 'collapsed' %>
-      <fieldset class="form--fieldset -collapsible <%= author_expanded %>"
-                style="margin-top: 0.5em;">
-        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-          <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_author) %></a>
-        </legend>
-        <div id="author_workflows" style="margin: 0.5em 0 0.5em 0;">
-          <%= render partial: 'form',
-                     locals: { name: 'author', workflows: @workflows['author'] } %>
-        </div>
-      </fieldset>
+      <% author_expanded = @workflows['author'].present? ? 'true' : '' %>
+      <% assignee_expanded = @workflows['assignee'].present? ? 'true' : '' %>
+       
+      <collapsible-section initially-expanded="<%= author_expanded %>"
+                           id="author_workflows"
+                           section-title="<%= t(:label_additional_workflow_transitions_for_author) %>">
+        <%= render partial: 'form', locals: { name: 'author', workflows: @workflows['author'] } %>
+      </collapsible-section>
 
-      <fieldset class="form--fieldset -collapsible <%= assignee_expanded %>">
-        <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-          <a href="javascript:"><%= l(:label_additional_workflow_transitions_for_assignee) %></a>
-        </legend>
-        <div id="assignee_workflows" style="margin: 0.5em 0 0.5em 0;">
-          <%= render partial: 'form',
-                     locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
-        </div>
-      </fieldset>
+      <collapsible-section initially-expanded="<%= assignee_expanded %>"
+                           id="assignee_workflows"
+                           section-title="<%= t(:label_additional_workflow_transitions_for_assignee) %>">
+        <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
+      </collapsible-section>
+
       <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <% end %>
 <% end %>
