@@ -57,6 +57,7 @@ describe('wpAttachments service', () => {
     }
   };
 
+  beforeEach(angular.mock.module('openproject'));
   beforeEach(angular.mock.module('openproject.workPackages'));
 
   beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_, _$q_) => {

@@ -103,8 +103,7 @@ export class WorkPackageAttachmentsController {
     if (this.files.length > 0) {
       this.wpAttachments.upload(this.workPackage, this.files).then(() => {
         this.files = [];
-        this.loadAttachments();
-        this.wpCacheService.loadWorkPackageLinks(this.workPackage, 'activities');
+        this.wpCacheService.loadWorkPackageLinks(this.workPackage, 'attachments', 'activities');
       });
     }
   };
