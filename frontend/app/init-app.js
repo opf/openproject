@@ -98,12 +98,14 @@ opApp
       '$http',
       '$rootScope',
       '$window',
+      '$animate',
       'TimezoneService',
       'CacheService',
       'KeyboardShortcutService',
       function($http,
                $rootScope,
                $window,
+               $animate,
                TimezoneService,
                CacheService,
                KeyboardShortcutService) {
@@ -113,6 +115,9 @@ opApp
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
         // See https://github.com/opf/rails-angular-xss for more information.
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = '{{';
+
+        // Disable animations
+        $animate.enabled(false);
 
         $rootScope.showNavigation =
             $window.sessionStorage.getItem('openproject:navigation-toggle') !==

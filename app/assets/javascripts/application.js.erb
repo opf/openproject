@@ -28,12 +28,6 @@
 
 //= require ./bundles/openproject-global
 
-//# require jquery_noconflict
-//= require prototype
-//= require effects
-//= require dragdrop
-//= require controls
-
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
 //= require lib/jquery.is_visible_within
@@ -65,14 +59,6 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
-
-//source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
-if (typeof []._reverse == 'undefined') {
-  jQuery.fn.reverse = Array.prototype.reverse;
-} else {
-  jQuery.fn.reverse = Array.prototype._reverse;
-}
-
 
 jQuery(document).ready(function ($) {
   //remove modal layout=false if we ctrl-click!

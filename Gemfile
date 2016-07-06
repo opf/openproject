@@ -123,11 +123,6 @@ gem 'sass', '~> 3.4.12'
 gem 'autoprefixer-rails'
 gem 'bourbon', '~> 4.2.0'
 
-gem 'prototype-rails', git: 'https://github.com/rails/prototype-rails.git', branch: '4.2'
-# remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
-# replace those with :remote => true
-gem 'prototype_legacy_helper', '0.0.0', git: 'https://github.com/rails/prototype_legacy_helper.git'
-
 # small wrapper around the command line
 gem 'cocaine'
 
