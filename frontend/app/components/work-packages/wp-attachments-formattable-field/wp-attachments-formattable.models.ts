@@ -2,7 +2,7 @@ import {IApplyAttachmentMarkup} from './wp-attachments-formattable.interfaces';
 import {InsertMode} from './wp-attachments-formattable.enums';
 import {
   WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
+} from '../../api/hal/hal-resource/work-package-resource.service';
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class EditorModel implements IApplyAttachmentMarkup {

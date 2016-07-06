@@ -26,15 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module'
-import {FieldFactory} from '../../wp-field/wp-field.module'
+import {Field} from '../../wp-field/wp-field.module';
+import {FieldFactory} from '../../wp-field/wp-field.module';
 
-export class EditField extends Field{
+export class EditField extends Field {
 }
 
-export class EditFieldFactory extends FieldFactory{
-
+export class EditFieldFactory extends FieldFactory {
   protected static fields = {};
   protected static classes = {};
 }

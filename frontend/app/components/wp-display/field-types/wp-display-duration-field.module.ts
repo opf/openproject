@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {DisplayField} from '../wp-display-field/wp-display-field.module';
+import {WorkPackageResource} from '../../api/hal/hal-resource/work-package-resource.service';
 
 export class DurationDisplayField extends DisplayField {
 
   private WorkPackagesHelper:any;
   private TimezoneService:any;
 
-  isManualRenderer = true;
+  public isManualRenderer = true;
 
   constructor(public resource:WorkPackageResource,
               public name:string,

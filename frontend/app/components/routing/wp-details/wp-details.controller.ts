@@ -27,7 +27,7 @@
 // ++
 
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "../../api/hal/hal-resource/work-package-resource.service";
 import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
 angular

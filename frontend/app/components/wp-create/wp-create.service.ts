@@ -28,7 +28,7 @@
 
 import {wpServicesModule} from '../../angular-modules';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {HalResource} from '../api/hal/hal-resource/hal-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
 export class WorkPackageCreateService {

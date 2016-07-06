@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {ErrorResource} from '../api/hal/hal-resource/error-resource.service';
 import {WorkPackageEditModeStateService} from './wp-edit-mode-state.service';
 import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.directive';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';

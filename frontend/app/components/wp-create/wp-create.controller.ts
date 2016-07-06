@@ -28,7 +28,7 @@
 
 import {wpDirectivesModule} from "../../angular-modules";
 import {WorkPackageCreateService} from "./wp-create.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResource} from "../api/hal/hal-resource/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
