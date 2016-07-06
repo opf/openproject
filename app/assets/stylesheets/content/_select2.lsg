@@ -55,7 +55,7 @@ jQuery(function($) {
 ```
 @javascript
 
-angular.module('openproject-style-guide').controller('UiSelectExample', ['$scope', function($scope) {
+angular.module('openproject').controller('UiSelectExample', ['$scope', function($scope) {
   $scope.disabled = undefined;
 
   $scope.enable = function() {
