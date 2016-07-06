@@ -48,6 +48,12 @@ describe('wpAttachments service', () => {
         return $q.when({ elements: [attachment] });
       },
       href: '/api/v3/work_packages/1/attachments',
+    },
+    activities: {
+      $load: () => {
+        return $q.when({ elements: [] });
+      },
+      href: '/api/v3/work_packages/1/activities',
     }
   };
 
@@ -62,14 +68,6 @@ describe('wpAttachments service', () => {
   afterEach(() => {
     $httpBackend.verifyNoOutstandingRequest();
     $httpBackend.verifyNoOutstandingExpectation();
-  });
-
-  describe('loading attachments', () => {
-    it('should retrieve attachments for a given work pacakge', () => {
-      wpAttachments.load(workPackage).then(result => {
-        expect(result).to.eql([attachment]);
-      });
-    });
   });
 
   describe('creating an attachment', () => {
