@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%= l(:setting_welcome_text) %></legend>
       <div class="form--field"><%= setting_text_field :welcome_title, size: 30 %></div>
       <div class="form--field">
-        <%= setting_text_area :welcome_text, cols: 60, rows: 5, class: 'wiki-edit', :'ng-non-bindable' => '' %>
+        <%= setting_text_area :welcome_text, cols: 60, rows: 5, class: 'wiki-edit' %>
         <%= wikitoolbar_for 'settings_welcome_text' %>
       </div>
       <div class="form--field"><%= setting_check_box :welcome_on_homescreen %></div>
