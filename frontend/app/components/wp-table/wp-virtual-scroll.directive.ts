@@ -145,8 +145,6 @@ class RowDisplay {
     if (!this.childScope) {
       if (renderRow) {
         // render work package row
-        // console.log("renderRow() - work package");
-
         this.hide();
 
         this.$transclude((clone: any, newScope: any) => {
@@ -162,8 +160,6 @@ class RowDisplay {
         });
       } else if (this.dummyRow === null) {
         // render placeholder row
-        // console.log("renderRow() - placeholder");
-
         this.hide();
 
         this.visible = false;
