@@ -100,6 +100,8 @@ export class HalResource {
       }
     }
 
+    // Reset and load this resource
+    this.$loaded = false;
     this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
       this.$loaded = true;
       this.$initialize(source);
