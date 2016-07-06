@@ -57,6 +57,7 @@ Feature: Create new meetings
         And I click on "Create"
        Then I should see "Title can't be blank"
 
+  @javascript
   Scenario Outline: Create a new meeting with a title and a date, time, and duration with no and different time zones set
       Given the role "user" may have the following rights:
             | view_meetings   |

@@ -241,7 +241,7 @@ class Meeting < ActiveRecord::Base
       raise ArgumentError, 'Provided composite start_time is invalid.'
     end
 
-    DateTime.new(
+    Time.zone.local(
       date.year,
       date.month,
       date.day,

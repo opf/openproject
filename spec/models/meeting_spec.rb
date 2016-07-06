@@ -186,6 +186,27 @@ describe Meeting, type: :model do
     end
   end
 
+  describe 'Timezones' do
+    shared_examples 'uses that zone' do |zone|
+      it do
+        @m.start_date = '2016-07-01'
+        expect(@m.start_time.zone).to eq(zone)
+      end
+    end
+
+    context 'default zone' do
+      it_behaves_like 'uses that zone', 'UTC'
+    end
+
+    context 'other timezone set' do
+      before do
+        Time.zone = 'EST'
+      end
+
+      it_behaves_like 'uses that zone', 'EST'
+    end
+  end
+
   describe 'Copied meetings' do
     before do
       project.add_member user1, [role]
