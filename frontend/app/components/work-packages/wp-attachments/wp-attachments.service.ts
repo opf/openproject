@@ -33,6 +33,7 @@ import {
   CollectionResourceInterface
 } from '../../api/api-v3/hal-resources/collection-resource.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WpAttachmentsService {
 
@@ -41,7 +42,8 @@ export class WpAttachmentsService {
               protected $http:ng.IHttpService,
               protected Upload,
               protected I18n,
-              protected NotificationsService) {
+              protected NotificationsService,
+              protected wpNotificationsService:WorkPackageNotificationService) {
   }
 
   public upload(workPackage:WorkPackageResourceInterface, files:File[]):ng.IPromise<any> {
@@ -50,6 +52,8 @@ export class WpAttachmentsService {
 
     return this.$q.all(uploads).then(() => {
       this.dismissNotification(notification);
+    }).catch(error => {
+      this.wpNotificationsService.handleErrorResponse(error, workPackage);
     });
   }
 
