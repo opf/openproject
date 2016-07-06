@@ -26,21 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//= require ../javascripts/bundles/openproject-global
-//= require ../javascripts/tooltips
+//= require application
 
+window.openProject = {
+  environment: 'dev'
+};
+
+angular.element(document).ready(function() {
+  angular.bootstrap(document, ['openproject']);
+});
 angular.module('openproject-style-guide', ['ui.select', 'ngSanitize']);
 
-// Add uiComponents to the styleguide.
-// In order to be able to do that, we have to mock some
-// services that directives in uiComponents rely on.
-angular.module('openproject-style-guide')
-  .service('ActivityService', function() {} )
-  .service('ConfigurationService', function() {} )
-  .service('AutoCompleteHelper', function() {} )
-  .service('NotificationsService', function() {
-    return {
-      addError: function() {},
-      addSuccess: function() {}
-    };
-}).requires.push('openproject.uiComponents');
