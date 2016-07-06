@@ -33,6 +33,7 @@ import {WorkPackageCacheService} from "../work-packages/work-package-cache.servi
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource|any;
@@ -52,7 +53,7 @@ export class WorkPackageCreateController {
               protected $rootScope:IRootScopeService,
               protected $q:ng.IQService,
               protected I18n:op.I18n,
-              protected NotificationsService,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
@@ -98,21 +99,8 @@ export class WorkPackageCreateController {
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');
-        this.notifySuccess();
+        this.wpNotificationsService.showSave(wp, true);
       });
-  }
-
-  private notifySuccess() {
-    this.NotificationsService.addSuccess({
-      message: this.I18n.t('js.notice_successful_create'),
-      link: {
-        target: () => {
-          this.loadingIndicator.mainPage =
-            this.$state.go('work-packages.show.activity', this.$state.params);
-        },
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-      }
-    });
   }
 }
 

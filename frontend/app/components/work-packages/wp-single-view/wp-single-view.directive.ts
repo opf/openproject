@@ -33,6 +33,7 @@ import {
   WorkPackageResourceInterface
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
@@ -53,7 +54,7 @@ export class WorkPackageSingleViewController {
               protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
-              protected NotificationsService,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
               protected inplaceEditAll,
               protected wpAttachments,
@@ -72,17 +73,8 @@ export class WorkPackageSingleViewController {
     };
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
-
     $scope.$on('workPackageUpdatedInEditor', () => {
-      NotificationsService.addSuccess({
-        message: I18n.t('js.notice_successful_update'),
-        link: {
-          target: () => {
-            loadingIndicator.mainPage = $state.go('work-packages.show.activity', $state.params);
-          },
-          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-        }
-      });
+      this.wpNotificationsService.showSave(this.workPackage);
     });
   }
 
