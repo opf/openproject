@@ -94,7 +94,7 @@ opApp
 
 
         // Enable nganimate only for the following class
-        $animateProvider.classNameFilter(/-animated/);
+        $animateProvider.classNameFilter(/\-ng\-animated/);
       }
     ])
     .value('cgBusyDefaults', {
