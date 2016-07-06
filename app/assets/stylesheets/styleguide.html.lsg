@@ -59,6 +59,10 @@
       font-size: 30px
 
 
+@head
+  <base href="/assets/styleguide.html"/>
+
+
 @header
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
@@ -68,13 +72,13 @@
 
   <nav class="styleguide-nav">
     <ul class="styleguide-nav--menu-items">
-      <li><a href="#color-variables">Colors</a></li>
-      <li><a href="#fonts">Fonts</a></li>
-      <li><a href="#forms">Forms</a></li>
-      <li><a href="#notifications">Notifications</a></li>
-      <li><a href="#buttons">Buttons</a></li>
-      <li><a href="#boxes">Boxes</a></li>
-      <li><a href="#pagination">Pagination</a></li>
+      <li><a target="_self" href="#color-variables">Colors</a></li>
+      <li><a target="_self" href="#fonts">Fonts</a></li>
+      <li><a target="_self" href="#forms">Forms</a></li>
+      <li><a target="_self" href="#notifications">Notifications</a></li>
+      <li><a target="_self" href="#buttons">Buttons</a></li>
+      <li><a target="_self" href="#boxes">Boxes</a></li>
+      <li><a target="_self" href="#pagination">Pagination</a></li>
     </ul>
   </nav>
 
