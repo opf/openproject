@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,23 +24,44 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-//= require ../javascripts/bundles/openproject-global
-//= require ../javascripts/tooltips
+import {wpDirectivesModule} from "../../../angular-modules";
 
-angular.module('openproject-style-guide', ['ui.select', 'ngSanitize']);
+export class CollapsibleSectionController {
+  public text:any;
+  public expanded:boolean = false;
+  public sectionTitle:string;
 
-// Add uiComponents to the styleguide.
-// In order to be able to do that, we have to mock some
-// services that directives in uiComponents rely on.
-angular.module('openproject-style-guide')
-  .service('ActivityService', function() {} )
-  .service('ConfigurationService', function() {} )
-  .service('AutoCompleteHelper', function() {} )
-  .service('NotificationsService', function() {
-    return {
-      addError: function() {},
-      addSuccess: function() {}
-    };
-}).requires.push('openproject.uiComponents');
+  constructor(public $scope:ng.IScope,
+              public $attrs:ng.IAttributes) {
+
+
+    if ($attrs['initiallyExpanded']) {
+      this.expanded = true;
+    }
+  }
+
+  public toggle() {
+    this.expanded = !this.expanded;
+  }
+}
+
+function CollapsibleSection() {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    templateUrl: '/components/common/collapsible-section/collapsible-section.directive.html',
+
+    scope: {
+      sectionTitle: '@'
+    },
+
+    bindToController: true,
+    controller: CollapsibleSectionController,
+    controllerAs: '$ctrl'
+  };
+}
+
+wpDirectivesModule.directive('collapsibleSection', CollapsibleSection);
