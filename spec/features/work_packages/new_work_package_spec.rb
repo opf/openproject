@@ -22,6 +22,8 @@ describe 'new work package', js: true do
 
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }
+  let(:project_field) { WorkPackageField.new page.find('wp-single-view'), :project }
+  let(:type_field) { WorkPackageField.new page.find('wp-single-view'), :type }
 
   let(:notification) { PageObjects::Notifications.new(page) }
 
@@ -39,7 +41,7 @@ describe 'new work package', js: true do
     end
   end
 
-  def create_work_package(type)
+  def create_work_package(type, project)
     loading_indicator_saveguard
 
     wp_page.click_add_wp_button
@@ -47,7 +49,10 @@ describe 'new work package', js: true do
     loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
-    wp_page.select_type(type)
+    project_field.set_value project
+    sleep 1
+
+    type_field.set_value type
     sleep 1
   end
 
@@ -58,7 +63,7 @@ describe 'new work package', js: true do
 
   shared_examples 'work package creation workflow' do
     before do
-      create_work_package('Task')
+      create_work_package('Task', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
@@ -74,9 +79,10 @@ describe 'new work package', js: true do
 
       subject_field.expect_state_text(subject)
 
-      create_work_package('Bug')
+      create_work_package('Bug', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
-      expect(page).to have_selector(wp_page.type_field_selector + ' option[selected]', text: 'Bug')
+      expect(page).to have_select(WorkPackage.human_attribute_name(:type),
+                                  selected: 'Bug')
     end
 
     context 'with missing values' do
@@ -162,7 +168,7 @@ describe 'new work package', js: true do
     end
   end
 
-  context 'split screen' do
+  context 'project split screen' do
     let(:safeguard_selector) { '.work-packages--details-content.-create-mode' }
     let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -176,7 +182,7 @@ describe 'new work package', js: true do
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
 
-      create_work_package('Task')
+      create_work_package('Task', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
       wp_page.subject_field.set('new work package')
@@ -194,6 +200,18 @@ describe 'new work package', js: true do
     before do
       wp_page.visit!
       wp_page.ensure_page_loaded
+    end
+
+    it_behaves_like 'work package creation workflow'
+  end
+
+  context 'global split screen' do
+    let(:safeguard_selector) { '.work-packages--details-content.-create-mode' }
+    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(nil) }
+
+    before do
+      wp_table.visit!
     end
 
     it_behaves_like 'work package creation workflow'

@@ -69,7 +69,8 @@ export class WorkPackageSingleViewController {
           startDate: I18n.t('js.label_no_start_date'),
           dueDate: I18n.t('js.label_no_due_date')
         }
-      }
+      },
+      idLabel: ''
     };
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
@@ -92,6 +93,17 @@ export class WorkPackageSingleViewController {
     if (!this.firstTimeFocused) {
       this.firstTimeFocused = true;
       angular.element('.work-packages--details--subject .focus-input').focus();
+    }
+  }
+
+  public setIdLabel() {
+    if (!this.workPackage.type) {
+      return;
+    }
+
+    this.text.idLabel = this.workPackage.type.name;
+    if (!this.workPackage.isNew) {
+      this.text.idLabel += ' #' + this.workPackage.id;
     }
   }
 
@@ -120,10 +132,6 @@ export class WorkPackageSingleViewController {
       });
     });
 
-    this.text.idLabel = this.workPackage.type.name;
-    if (!this.workPackage.isNew) {
-      this.text.idLabel += ' #' + this.workPackage.id;
-    }
   }
 }
 
@@ -136,6 +144,9 @@ function wpSingleViewDirective() {
 
     controllers[1].formCtrl = controllers[0];
 
+    scope.$watch(_ => controllers[1].workPackage.type, _ => {
+      controllers[1].setIdLabel();
+    });
   }
   return {
     restrict: 'E',
