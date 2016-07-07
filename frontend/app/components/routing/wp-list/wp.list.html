@@ -67,7 +67,7 @@
      cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}"
      ng-class="{'edit-all-mode': editAll.state}">
 
-<a href="" class="hidden-for-sighted skip-navigation-link" ng-click="setAnchorToNextPage()">{{ I18n.t('js.label_skip_table') }}</a>
+<a href="" role="link" class="hidden-for-sighted skip-navigation-link" ng-click="setAnchorToNextPage()">{{ I18n.t('js.label_skip_table') }}</a>
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">
       <wp-table ng-if="rows && columns"
