@@ -38,7 +38,6 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
   public workPackage:WorkPackageResourceInterface;
-  public filesExist:boolean;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
@@ -95,6 +94,10 @@ export class WorkPackageSingleViewController {
       angular.element('.work-packages--details--subject .focus-input').focus();
     }
   }
+  
+  public filesExist() {
+    return this.wpAttachments.attachments.length > 0;
+  }
 
   private init(wp) {
     this.workPackage = wp;
@@ -120,12 +123,6 @@ export class WorkPackageSingleViewController {
         return left.localeCompare(right);
       });
     });
-
-    if (this.workPackage.attachments) {
-      this.wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    }
 
     this.text.idLabel = this.workPackage.type.name;
     if (!this.workPackage.isNew) {
