@@ -104,10 +104,19 @@ module OpenProject
         replace_toc(text, @parsed_headings)
       end
 
+      escape_non_macros(text)
       text.html_safe
     end
     deprecated_alias :textilizable, :format_text
     deprecated_alias :textilize,    :format_text
+
+    ##
+    # Escape double curly braces after macro expansion.
+    # This will avoid arbitrary angular expressions to be evaluated in
+    # formatted text marked html_safe.
+    def escape_non_macros(text)
+      text.gsub!('{{', '{{ DOUBLE_LEFT_CURLY_BRACE }}')
+    end
 
     def parse_non_pre_blocks(text)
       s = StringScanner.new(text)

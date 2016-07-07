@@ -4,14 +4,14 @@
   <div class="comments-number">
     <activity-link work-package="workPackage"
                    activity-no="activityNo"
-                   on-focus="focus()",
+                   on-focus="focus()"
                    on-blur="blur()"></activity-link>
   </div>
   <div ng-if="userAvatar">
     <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
   </div>
   <span class="user" ng-if="userActive">
-    <a ng-href="{{ userPath(userId) }}"
+    <a ng-href="{{ userPath }}"
        aria-label="{{ userLabel }}"
        ng-bind="userName"></a>
   </span>

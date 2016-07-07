@@ -64,6 +64,10 @@ module.exports = function(TimezoneService, ConfigurationService) {
     this.datepickerInstance.datepicker('hide');
   };
 
+  Datepicker.prototype.show = function() {
+    this.datepickerInstance.datepicker('show');
+  };
+
   return Datepicker;
 };
 

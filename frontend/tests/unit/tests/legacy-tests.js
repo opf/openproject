@@ -81,8 +81,9 @@ describe("OpenProject instance `getFullUrl`", function() {
 describe("OpenProject instance `fetchProjects`", function() {
 
   var defaultOptions = {
-    url          : new RegExp('.*/projects/level_list\\.json'),
-    responseTime : 0
+    logging: false,
+    url: new RegExp('.*/projects/level_list\\.json'),
+    responseTime: 0
   };
 
   beforeEach(function() {

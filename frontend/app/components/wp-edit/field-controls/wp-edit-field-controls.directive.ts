@@ -31,40 +31,30 @@ import {EditField} from "../wp-edit-field/wp-edit-field.module";
 
 
 export class WorkPackageFieldControlsController {
-  public fieldCtrl: WorkPackageEditFieldController;
-  public cancelTitle: string;
-  public saveTitle: string;
-
-  constructor() {
-  }
+  public cancelTitle:string;
+  public saveTitle:string;
+  public fieldController:any;
+  public onSave:any;
+  public onCancel:any;
 
   public get field():EditField {
-    return this.fieldCtrl.field;
+    return this.fieldController.field;
   }
 }
-
-function wpEditFieldLink(
-  scope,
-  element,
-  attrs,
-  controllers: [WorkPackageEditFieldController]) {
-
-  scope.vm.fieldCtrl = controllers[0];
-}
-
 
 function wpEditFieldControls() {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-edit/field-controls/wp-edit-field-controls.directive.html',
-    require: ['^wpEditField'],
 
     scope: {
+      fieldController: '=',
+      onSave: '&',
+      onCancel: '&',
       cancelTitle: '@',
       saveTitle: '@'
     },
 
-    link: wpEditFieldLink,
     controller: WorkPackageFieldControlsController,
     controllerAs: 'vm',
     bindToController: true

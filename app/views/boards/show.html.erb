@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <hr class="form--separator" />
       <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-      <%= link_to l(:button_cancel), '', onclick: 'Element.hide("add-message")', class: 'button' %>
+      <%= link_to l(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
     <% end %>
     <div id="preview"></div>
   <% end %>
@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
                     class: 'button -alt-highlight',
-                    onclick: 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;') do %>
+                    onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
         <i class="button--icon icon-add"></i>
         <span class="button--text"><%= l(:label_message_new) %></span>
       <% end %>

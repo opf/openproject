@@ -112,7 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         <%= hidden_field_tag 'member[role_ids][]', '' %>
                         <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
                           <%= link_to_function l(:button_cancel),
-                        "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;",
+                        "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide();",
                         class: 'button -small' %></p>
                       <% end %>
                     <% end %>
@@ -127,7 +127,7 @@ See doc/COPYRIGHT.rdoc for more details.
                            ['icon icon-remove', I18n.t(:button_remove)]
                          end
                       %>
-                      <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", class: 'icon icon-edit', title: l(:button_edit) %>
+                      <%= link_to_function '', "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show();", class: 'icon icon-edit', title: l(:button_edit) %>
                       <%= link_to('', {controller: '/members', action: 'destroy', id: member, page: params[:page]},
                         method: :delete,
                         data: { confirm: ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil) },

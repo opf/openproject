@@ -34,6 +34,9 @@ angular.module('openproject.uiComponents',
   .run(['$rootScope', function($rootScope){
     $rootScope.I18n = I18n;
   }]);
+export const animationsModule = angular.module('openproject.animations', [
+  'ngAnimate'
+]);
 export const configModule = angular.module('openproject.config', []);
 export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
@@ -160,6 +163,7 @@ export const wpButtonsModule = angular.module('openproject.wpButtons',
 // main app
 export const openprojectModule = angular.module('openproject', [
   'ui.router',
+  'openproject.animations',
   'openproject.config',
   'openproject.uiComponents',
   'openproject.timelines',

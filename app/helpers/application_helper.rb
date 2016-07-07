@@ -115,11 +115,6 @@ module ApplicationHelper
     ))
   end
 
-  def prompt_to_remote(name, text, param, url, html_options = {})
-    html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
-    link_to name, {}, html_options
-  end
-
   def format_activity_title(text)
     h(truncate_single_line(text, length: 100))
   end

@@ -28,39 +28,40 @@
 
 declare const WebKitBlobBuilder:any;
 
-describe('wpAttachments', () => {
+describe('wpAttachments service', () => {
+  var $q;
   var wpAttachments;
   var $httpBackend;
-
-  var workPackage = {
-    id: 1,
-    $isHal: true,
-    attachments: {
-        href: '/api/v3/work_packages/1/attachments',
-      },
-    $links: {
-      attachments:{
-        $link:{
-          href:'/api/v3/work_packages/1/attachments'
-        }
-      }
-    }
-  };
 
   // mock me an attachment
   var attachment = {
     id: 1,
     _type: "Attachment",
-    _links: {
-      self: {
-        href: "/api/v3/attachments/1"
-      }
+    href: "/api/v3/attachments/1"
+  };
+
+  var workPackage = {
+    id: 1,
+    $isHal: true,
+    attachments: {
+      $load: () => {
+        return $q.when({ elements: [attachment] });
+      },
+      href: '/api/v3/work_packages/1/attachments',
+    },
+    activities: {
+      $load: () => {
+        return $q.when({ elements: [] });
+      },
+      href: '/api/v3/work_packages/1/activities',
     }
   };
 
+  beforeEach(angular.mock.module('openproject'));
   beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_) => {
+  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_, _$q_) => {
+    $q = _$q_;
     wpAttachments = _wpAttachments_;
     $httpBackend = _$httpBackend_;
   }));
@@ -68,23 +69,6 @@ describe('wpAttachments', () => {
   afterEach(() => {
     $httpBackend.verifyNoOutstandingRequest();
     $httpBackend.verifyNoOutstandingExpectation();
-  });
-
-  describe('loading attachments', () => {
-    beforeEach(() => {
-      $httpBackend.expectGET('/api/v3/work_packages/1/attachments').respond({
-        _embedded: {
-          elements: [1,2,3]
-        }
-      });
-    });
-
-    it('should retrieve attachments for a given work pacakge', () => {
-      wpAttachments.load(workPackage).then(result => {
-        expect(result).to.eql([1,2,3]);
-      });
-      $httpBackend.flush();
-    });
   });
 
   describe('creating an attachment', () => {
@@ -107,17 +91,6 @@ describe('wpAttachments', () => {
     it('should create an attachment for a given work package', () => {
       var files = createFiles();
       wpAttachments.upload(workPackage, files);
-      $httpBackend.flush();
-    });
-  });
-
-  describe('deleting an attachment', () => {
-    beforeEach(() => {
-      $httpBackend.expectDELETE('/api/v3/attachments/1').respond({});
-    });
-
-    it('should remove an attachment', () => {
-      wpAttachments.remove(attachment);
       $httpBackend.flush();
     });
   });

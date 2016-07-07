@@ -113,11 +113,12 @@ export class WorkPackageEditFormController {
   }
 
   public updateWorkPackage() {
-    if (!this.workPackage.dirty) {
-      return this.$q.when();
+    if (!(this.workPackage.dirty || this.workPackage.isNew)) {
+      return this.$q.when(this.workPackage);
     }
 
     var deferred = this.$q.defer();
+    var isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
     this.$rootScope.$emit('notifications.clearAll');
@@ -128,7 +129,7 @@ export class WorkPackageEditFormController {
         angular.forEach(this.fields, field => field.setErrors([]));
         deferred.resolve(this.workPackage);
 
-        this.wpNotificationsService.showSave(this.workPackage, this.loadingIndicator);
+        this.wpNotificationsService.showSave(this.workPackage, isInitial);
         this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {

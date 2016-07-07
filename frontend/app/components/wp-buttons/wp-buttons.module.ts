@@ -27,6 +27,7 @@
 // ++
 
 import {opDirective} from '../open-project.module';
+import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 
 interface ButtonControllerText {
   activate: string;

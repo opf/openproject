@@ -36,14 +36,14 @@ See doc/COPYRIGHT.rdoc for more details.
       <!--[form:type]-->
       <div class="form--field -wide-label"><%= f.text_field :name, required: true, disabled: @type.is_standard? %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_in_roadmap %></div>
-      <div class="form--field -wide-label"><%= f.select :color_id, options_for_colors(controller.type) %></div>
+      <div class="form--field -wide-label"><%= f.select :color_id, options_for_colors(@type) %></div>
       <div class="form--field -wide-label"><%= f.check_box :in_aggregation %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_default, label:  t(:label_type_default_new_projects) %></div>
       <div class="form--field -wide-label"><%= f.check_box :is_milestone %></div>
 
-      <% if controller.type.new_record? && @types.any? %>
+      <% if @type.new_record? && @types.any? %>
         <div class="form--field -wide-label">
-          <%= styled_label_tag 'copy_workflow_from', l(:label_copy_workflow_from) %>
+          <%= styled_label_tag 'copy_workflow_from', t(:label_copy_workflow_from) %>
           <%= styled_select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@types, :id, :name)) %>
         </div>
       <% end %>
@@ -91,7 +91,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                   <td>
                     <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                    <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name)) %>
+                    <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name, @type)) %>
                     <%= check_box_tag "type[attribute_visibility][#{name}]",
                                       'default',
                                       active_checked,
@@ -101,7 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <td>
                     <%= check_box_tag "type[attribute_visibility][#{name}]",
                                       'visible',
-                                      attr_visibility(name) == 'visible',
+                                      attr_visibility(name, @type) == 'visible',
                                       id: "type_attribute_visibility_visible_#{name}",
                                       title: I18n.t('tooltip.attribute_visibility.visible'),
                                       disabled: !active_checked %>
@@ -117,7 +117,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if @projects.any? %>
         <fieldset class="form--fieldset -collapsible" id="type_project_ids">
           <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-            <%= l(:label_project_plural) %>
+            <%= t(:label_project_plural) %>
           </legend>
           <div>
             <div class="form--fieldset-control">
@@ -127,7 +127,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
             <%= project_nested_ul(@projects) do |p|
               content_tag('label',
-                check_box_tag('type[project_ids][]', p.id, controller.type.projects.include?(p), id: nil) +
+                check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
                   ' ' + h(p), class: 'form--label-with-check-box')
             end %>
             <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
@@ -140,7 +140,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="grid-block">
   <div class="generic-table--action-buttons">
-  <%= styled_button_tag l(controller.type.new_record? ? :button_create : :button_save),
+  <%= styled_button_tag t(@type.new_record? ? :button_create : :button_save),
       class: '-highlight -with-icon icon-checkmark' %>
   </div>
 </div>

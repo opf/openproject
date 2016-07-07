@@ -108,11 +108,10 @@ module.exports = function($timeout, $window){
         if(!getTable().is(':visible')) {
           return;
         }
-        $timeout(function() {
-          invalidateWidths();
-          setTableContainerWidths();
-          setHeaderFooterWidths();
-        });
+
+        invalidateWidths();
+        setTableContainerWidths();
+        setHeaderFooterWidths();
       };
 
       var cloneSpacer = function() {

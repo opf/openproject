@@ -33,6 +33,7 @@ import {
   WorkPackageResourceInterface
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
@@ -41,6 +42,7 @@ export class WorkPackageSingleViewController {
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public attachments:any;
+  public filesExist:boolean = false;
   public text:any;
   public scope:any;
 
@@ -53,9 +55,8 @@ export class WorkPackageSingleViewController {
               protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
-              protected NotificationsService,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected inplaceEditAll,
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 
@@ -72,23 +73,10 @@ export class WorkPackageSingleViewController {
     };
 
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
-
     $scope.$on('workPackageUpdatedInEditor', () => {
-      NotificationsService.addSuccess({
-        message: I18n.t('js.notice_successful_update'),
-        link: {
-          target: () => {
-            loadingIndicator.mainPage = $state.go('work-packages.show.activity', $state.params);
-          },
-          text: I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-        }
-      });
+      this.wpNotificationsService.showSave(this.workPackage);
     });
   }
-
-  public filesExist = function () {
-    return this.wpAttachments.getCurrentAttachments().length > 0;
-  };
 
   public shouldHideGroup(group) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
@@ -103,7 +91,6 @@ export class WorkPackageSingleViewController {
   public setFocus() {
     if (!this.firstTimeFocused) {
       this.firstTimeFocused = true;
-      angular.element(this.$window).trigger('resize');
       angular.element('.work-packages--details--subject .focus-input').focus();
     }
   }
@@ -132,12 +119,6 @@ export class WorkPackageSingleViewController {
         return left.localeCompare(right);
       });
     });
-
-    if (this.workPackage.attachments) {
-      this.wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    }
 
     this.text.idLabel = this.workPackage.type.name;
     if (!this.workPackage.isNew) {

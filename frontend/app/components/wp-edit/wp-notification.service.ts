@@ -27,6 +27,8 @@
 // ++
 
 import {openprojectModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n,
@@ -35,18 +37,24 @@ export class WorkPackageNotificationService {
               protected loadingIndicator) {
   }
 
-  public showSave(workPackage) {
-    var message = 'js.notice_successful_' + (workPackage.inlineCreated ? 'create' : 'update');
-    this.NotificationsService.addSuccess({
-      message: this.I18n.t(message),
-      link: {
-        target: _ => {
-          this.loadingIndicator.mainPage =
-            this.$state.go('work-packages.show.activity', {workPackageId: workPackage.id});
-        },
-        text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-      }
-    });
+  public showSave(workPackage: WorkPackageResourceInterface, isCreate:boolean = false) {
+    var message:any = {
+      message: this.I18n.t('js.notice_successful_' + (isCreate ? 'create' : 'update')),
+    };
+
+    // Don't show the 'Show in full screen' link  if we're there already
+    if (!this.$state.includes('work-packages.show')) {
+      message.link = this.showInFullScreenLink(workPackage);
+    }
+
+    this.NotificationsService.addSuccess(message);
+  }
+
+  public handleErrorResponse(error, workPackage) {
+    if (!(error.data instanceof ErrorResource)) {
+      return this.showGeneralError();
+    }
+    this.showError(error.data, workPackage);
   }
 
   public showError(errorResource, workPackage) {
@@ -87,6 +95,16 @@ export class WorkPackageNotificationService {
     }
 
     return true;
+  }
+
+  private showInFullScreenLink(workPackage) {
+    return {
+      target: () => {
+        this.loadingIndicator.mainPage =
+          this.$state.go('work-packages.show.activity', { workPackageId: workPackage.id });
+      },
+      text: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+    };
   }
 }
 

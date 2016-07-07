@@ -215,26 +215,6 @@ div
     text-align: right
     white-space: nowrap
 
-ul.projects
-  margin: 0
-  padding-left: 1em
-  &.root
-    margin: 0
-    padding: 0
-  ul
-    border: none
-    &.projects
-      border-left: 3px solid #e0e0e0
-  li
-    &.root
-      list-style-type: none
-      margin-bottom: 1em
-    &.child
-      list-style-type: none
-      margin-top: 1em
-  div.root a.project
-    font-weight: bold
-    margin: 0 0 10px 0
 
 #type_project_ids
   ul
@@ -344,30 +324,6 @@ li
   &.root
     margin-bottom: 24px
 
-.nosidebar ul.projects
-  margin: 24px 0 0
-  ul
-    margin: 0
-
-.nosidebar ul.projects li
-  list-style: none outside none
-  background: none
-
-ul.projects
-  a
-    font-weight: bold
-  li div.root
-    margin-bottom: 12px
-
-  .description
-    height: 30px
-    overflow-y: hidden
-
-    *
-      @include text-shortener
-      width: 100%
-
-
 .profile-wrap
   float: right
   position: relative
@@ -410,9 +366,6 @@ form#issue-list
 
 tr.context-menu-selection td.priority
   background: none !important
-
-ul.projects div.root a.project
-  font-family: inherit
 
 div.issue div#relations
   margin-top: 25px

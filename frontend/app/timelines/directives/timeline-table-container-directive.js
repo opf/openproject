@@ -130,7 +130,7 @@ module.exports = function(TimelineLoaderService, TimelineTableHelper, SvgHelper,
           scope.timeline,
           {
             url_prefix                : PathHelper.staticBase,
-            project_prefix            : PathHelper.projectsPath()
+            project_prefix            : '/projects'
           }
         );
 

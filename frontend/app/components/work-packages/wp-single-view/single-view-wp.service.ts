@@ -135,7 +135,7 @@ export class SingleViewWorkPackage {
   }
 
   public isEditable(field) {
-    // no form - no editing
+    // no form - no _editing
     if (!this.workPackage.form) {
       return false;
     }

@@ -1,8 +1,8 @@
 <div class="work-packages--details">
-  <div wp-edit-form="workPackageResource"
+  <div wp-edit-form="workPackage"
        wp-edit-form-on-save="onWorkPackageSave()"
        has-edit-mode="true"
-       ng-if="workPackageResource">
+       ng-if="workPackage">
     <div id="tabs">
       <ul class="tabrow">
         <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
@@ -19,11 +19,7 @@
             ui-sref-active="selected">
           <a href="" ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
         </li>
-
-        <li ng-if="!workPackage">
-          <span class="ui-state-disabled" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
-        </li>
-        <li ng-if="workPackage && canViewWorkPackageWatchers()"
+        <li ng-if="canViewWorkPackageWatchers()"
             ui-sref="work-packages.list.details.watchers({})"
             ui-sref-active="selected">
           <a href="" ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
@@ -48,5 +44,5 @@
           on-cancel="wpEditModeState.cancel()"
       ></edit-actions-bar>
     </div>
-</div>
+  </div>
 </div>

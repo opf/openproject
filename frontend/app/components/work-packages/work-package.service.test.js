@@ -75,39 +75,4 @@ describe('WorkPackageService', function() {
       expect(deleteFunction).to.have.been.calledWith('/work_packages/bulk', { params: { 'ids[]': [1, 2] } });
     });
   });
-
-  describe('getWorkPackage', function() {
-    var setupFunction;
-    var workPackageId = 5;
-    var apiResource;
-    var apiFetchResource;
-
-    beforeEach(inject(function($q) {
-      apiResource = {
-        fetch: function() {
-          var deferred = $q.defer();
-          deferred.resolve({ id: workPackageId } );
-          return deferred.promise;
-        }
-      };
-    }));
-
-    beforeEach(inject(function(HALAPIResource) {
-      setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
-    }));
-
-    beforeEach(inject(function() {
-      apiFetchResource = WorkPackageService.getWorkPackage(workPackageId);
-    }));
-
-    it('makes an api setup call', function() {
-      expect(setupFunction).to.have.been.calledWith("/api/v3/work_packages/" + workPackageId);
-    });
-
-    it('returns work package', function() {
-      apiFetchResource.then(function(wp){
-        expect(wp.id).to.equal(workPackageId);
-      });
-    });
-  });
 });

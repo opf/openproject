@@ -43,6 +43,10 @@ function foundationModal(ModalFactory) {
         close: function () {
           foundationModalContainer.hide();
           modal.deactivate();
+
+          // modal.destroy SHOULD be enough, but it is actually delayed
+          // by foundation by 3 seconds...
+          angular.element('.' + scope.modalClass).remove();
         }
       }
     });
