@@ -168,8 +168,7 @@ function WorkPackagesListController($scope,
   $scope.loadQuery = function (queryId) {
     loadingIndicator.mainPage = $state.go('work-packages.list',
       {'query_id': queryId,
-       'query_props': null},
-      {reload: true});
+       'query_props': null});
   };
 
   function updateResults() {
@@ -193,7 +192,9 @@ function WorkPackagesListController($scope,
   $scope.$watchCollection(function(){
       return $state.params;
   }, function(params) {
-    if ($scope.query && UrlParamsHelper.encodeQueryJsonParams($scope.query) !== params.query_props) {
+    if ($scope.query &&
+        (params.query_id !== $scope.query.id ||
+         UrlParamsHelper.encodeQueryJsonParams($scope.query) !== params.query_props)) {
       initialSetup();
     }
   });
