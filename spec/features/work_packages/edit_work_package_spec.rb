@@ -102,6 +102,25 @@ describe 'edit work package', js: true do
                               category: category.name
   end
 
+  it 'correctly assigns and un-assigns users' do
+    wp_page.view_all_attributes
+
+    wp_page.update_attributes assignee: manager.name
+    wp_page.expect_attributes assignee: manager.name
+
+    wp_page.update_attributes assignee: '-'
+    wp_page.expect_attributes assignee: '-'
+
+    # Ensure the value is not only stored in the WP resource
+    wp_page.visit!
+    wp_page.ensure_page_loaded
+    wp_page.view_all_attributes
+    wp_page.expect_attributes assignee: '-'
+
+    work_package.reload
+    expect(work_package.assigned_to).to be_nil
+  end
+
   context 'switching to custom field with required CF' do
     let(:custom_field) {
       FactoryGirl.create(
