@@ -159,6 +159,9 @@ function WorkPackagesListController($scope,
   }
 
   $scope.setAnchorToNextPage = function () {
+    setTimeout(function(){
+      history.replaceState({}, document.title, location.href.substr(0, location.href.length-location.hash.length))
+    }, 100);
     anchor = '';
     if(jQuery('.pagination-number').last().hasClass('-current')) {
       anchor = PaginationService.getPage() - 1
