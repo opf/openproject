@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% buttons = {:edit => false} %>
 <%= call_hook(:principal_roles_edit_button_needed, :buttons => buttons) %>
 <% if buttons[:edit]%>
-    <%= link_to_function l(:button_edit), "return false;", :class => 'icon icon-edit' %>
+    <%= link_to_function l(:button_edit), '', :class => 'icon icon-edit' %>
 <%end%>
     <%= link_to(l(:button_delete),
                 principal_role,
