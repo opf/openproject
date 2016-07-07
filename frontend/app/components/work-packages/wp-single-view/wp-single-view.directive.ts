@@ -38,6 +38,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
   public workPackage:WorkPackageResourceInterface;
+  public filesExist:boolean;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
@@ -77,10 +78,6 @@ export class WorkPackageSingleViewController {
       this.wpNotificationsService.showSave(this.workPackage);
     });
   }
-
-  public filesExist = function () {
-    return this.wpAttachments.getCurrentAttachments().length > 0;
-  };
 
   public shouldHideGroup(group) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
