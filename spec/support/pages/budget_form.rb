@@ -71,15 +71,13 @@ module Pages
     end
 
     def add_unit_costs_row!
-      link = find('#material_budget_items_fieldset a', text: 'Add planned costs')
-      link.native.send_keys :return
+      find('#material_budget_items_fieldset a', text: 'Add planned costs').click
 
       @unit_rows = unit_rows + 1
     end
 
     def add_labor_costs_row!
-      link = find('#labor_budget_items_fieldset a', text: 'Add planned costs')
-      link.native.send_keys :return
+      find('#labor_budget_items_fieldset a', text: 'Add planned costs').click
 
       @labor_rows = labor_rows + 1
     end
