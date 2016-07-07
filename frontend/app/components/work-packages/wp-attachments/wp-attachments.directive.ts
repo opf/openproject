@@ -169,14 +169,14 @@ function wpAttachmentsDirective():ng.IDirective {
     controller: WorkPackageAttachmentsController,
     controllerAs: 'vm',
     replace: true,
-    require: ['^wpSingleView'],
+    require: ['?^wpSingleView'],
     restrict: 'E',
     scope: {
       workPackage: '&',
       hideEmptyFields: '='
     },
     link: function(scope,element,attrs,controllers){
-      (scope as any).wpSingleView = controllers[0];
+      (scope as any).wpSingleView = !controllers[0] ? {} : controllers[0];
     },
     templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
   };
