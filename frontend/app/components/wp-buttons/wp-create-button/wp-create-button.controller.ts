@@ -34,7 +34,7 @@ export default class WorkPackageCreateButtonController {
   public types:any;
   public stateName:string;
 
-  public allowed;
+  public allowed:boolean;
 
   constructor(protected $state,
               protected I18n) {
