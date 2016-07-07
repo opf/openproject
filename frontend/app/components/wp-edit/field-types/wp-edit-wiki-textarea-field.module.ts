@@ -76,6 +76,7 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public togglePreview() {
+    const previewText = '' + this.fieldVal.raw;
     this.isPreview = !this.isPreview;
     this.previewHtml = '';
 
@@ -84,9 +85,11 @@ export class WikiTextareaEditField extends EditField {
       this.workPackage.getForm().then(form => {
         var previewLink = form.$links.previewMarkup.$link.$route;
         previewLink
-          .customPOST(this.fieldVal.raw, void 0, void 0, {'Content-Type': 'text/plain; charset=UTF-8'})
+          .customPOST(previewText, void 0, void 0, {'Content-Type': 'text/plain; charset=UTF-8'})
           .then(result => {
             this.previewHtml = this.$sce.trustAsHtml(result);
+          })
+          .finally(() => {
             this.isBusy = false;
           });
       });
