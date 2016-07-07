@@ -43,7 +43,7 @@ const panels = {
       url: '/watchers',
       reloadOnSearch: false,
       template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
-    }
+    };
   },
 
   get activity() {
@@ -51,7 +51,7 @@ const panels = {
       url: '/activity',
       reloadOnSearch: false,
       template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
-    }
+    };
   },
 
   get activityDetails() {
