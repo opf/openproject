@@ -36,11 +36,12 @@ export interface HalLinkInterface {
   method:string;
   title?:string;
   templated?:boolean;
+  payload?:any;
 }
 
 export class HalLink implements HalLinkInterface {
   public static fromObject(link):HalLink {
-    return new HalLink(link.href, link.title, link.method, link.templated);
+    return new HalLink(link.href, link.title, link.method, link.templated, link.payload);
   }
 
   public static callable(link) {
@@ -57,7 +58,8 @@ export class HalLink implements HalLinkInterface {
   constructor(public href:string = null,
               public title:string = '',
               public method:string = 'get',
-              public templated:boolean = false) {
+              public templated:boolean = false,
+              public payload?:any) {
   }
 
   public $fetch(...params) {
@@ -80,7 +82,8 @@ export class HalLink implements HalLinkInterface {
       href: this.href,
       title: this.title,
       method: this.method,
-      templated: this.templated
+      templated: this.templated,
+      payload: this.payload
     });
 
     return func;

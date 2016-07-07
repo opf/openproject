@@ -35,6 +35,7 @@ describe('workPackageCommentDirectiveTest', function() {
   stateParams = {};
 
   beforeEach(angular.mock.module('ui.router',
+                    'openproject',
                     'openproject.api',
                     'openproject.models',
                     'openproject.layout',
@@ -90,8 +91,10 @@ describe('workPackageCommentDirectiveTest', function() {
 
   beforeEach(function() {
     var workPackage = {
-      links: {
-        addComment: { href: 'addComment' },
+      addComment: {
+        $link: {
+          href: 'addComment'
+        }
       }
     };
 
@@ -102,13 +105,12 @@ describe('workPackageCommentDirectiveTest', function() {
   describe('activity comments', function() {
     describe('without comment link in work package', function() {
       beforeEach(function() {
-        scope.workPackage.links.addComment = undefined;
+        scope.workPackage.addComment = undefined;
         compile();
       });
 
       it('should not display the comments form', function() {
-        expect(element.find('.work-packages--activity--add-comment').hasClass('ng-hide'))
-          .to.equal(true);
+        expect(element.find('.work-packages--activity--add-comment').length).to.equal(0);
       });
     });
 
@@ -126,7 +128,7 @@ describe('workPackageCommentDirectiveTest', function() {
       });
 
       it('should display a placeholder in the comments field', function() {
-        var readvalue = commentSection.find('.inplace-edit--read-value');
+        var readvalue = commentSection.find('.inplace-edit--read-value > span');
         expect(readvalue.text().trim()).to.equal('trans_title');
       });
 

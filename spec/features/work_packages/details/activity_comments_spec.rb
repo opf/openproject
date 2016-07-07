@@ -90,15 +90,14 @@ describe 'activity comments', js: true, selenium: true do
         it do
           expect(comment_field.editing?).to be true
           comment_field.input_element.set 'this is a comment'
+
+          # Escape should NOT cancel the editing
           comment_field.cancel_by_escape
-          expect(comment_field.editing?).to be false
+          expect(comment_field.editing?).to be true
 
           expect(page).to_not have_selector('.user-comment .message', text: 'this is a comment')
 
-          comment_field.activate!
-
-          expect(comment_field.editing?).to be true
-          comment_field.input_element.set 'this is a comment'
+          # Click should cancel the editing
           comment_field.cancel_by_click
           expect(comment_field.editing?).to be false
 
@@ -148,6 +147,33 @@ describe 'activity comments', js: true, selenium: true do
 
           expect(page).to have_selector('.user-comment > .message', count: 2)
           expect(page).to have_selector('.user-comment > .message blockquote')
+        end
+      end
+
+      describe 'with an existing comment' do
+        it 'allows to edit an existing comment' do
+          comment_field.input_element.set 'Comment with *bold text*'
+          comment_field.submit_by_click
+
+          expect(page).to have_selector('.user-comment .message strong', text: 'bold text')
+          expect(page).to have_selector('.user-comment .message', text: 'Comment with bold text')
+
+          # Hover the new activity
+          activity = page.find('#activity-2')
+          page.driver.browser.action.move_to(activity.native).perform
+
+          # Check the edit textarea
+          activity.find('.icon-edit').click
+          edit = WorkPackageTextAreaField.new wp_page,
+                                              'comment',
+                                              selector: '.user-comment--form'
+
+          edit.expect_value 'Comment with *bold text*'
+          edit.set_value 'Comment with _italic text_'
+
+          edit.submit_by_click
+          expect(page).to have_selector('.user-comment .message em', text: 'italic text')
+          expect(page).to have_selector('.user-comment .message', text: 'Comment with italic text')
         end
       end
     end

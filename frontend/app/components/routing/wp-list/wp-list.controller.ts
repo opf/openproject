@@ -43,7 +43,6 @@ function WorkPackagesListController($scope,
                                     UrlParamsHelper,
                                     OPERATORS_AND_LABELS_BY_FILTER_TYPE,
                                     loadingIndicator,
-                                    inplaceEditAll,
                                     I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
@@ -78,11 +77,6 @@ function WorkPackagesListController($scope,
           });
         }
       });
-  }
-
-  function clearUrlQueryParams() {
-    $location.search('query_props', null);
-    $location.search('query_id', null);
   }
 
   function setupPage(json, queryParamsPresent) {
@@ -172,10 +166,9 @@ function WorkPackagesListController($scope,
   };
 
   $scope.loadQuery = function (queryId) {
-    // Clear unsaved changes to current query
-    wpListService.clearUrlQueryParams();
     loadingIndicator.mainPage = $state.go('work-packages.list',
-      {'query_id': queryId},
+      {'query_id': queryId,
+       'query_props': null},
       {reload: true});
   };
 
@@ -192,8 +185,6 @@ function WorkPackagesListController($scope,
   // Go
 
   initialSetup();
-
-  $scope.editAll = inplaceEditAll;
 
   $scope.$watch(QueryService.getQueryName, function (queryName) {
     $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');

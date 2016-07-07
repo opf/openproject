@@ -27,15 +27,31 @@
 //++
 import {WorkPackageAttachmentsController} from './wp-attachments.directive';
 
-describe('WorkPackageAttachmentsDirective', () => {
+describe('wp-attachments.directive', () => {
   var compile;
   var controller:WorkPackageAttachmentsController;
   var element;
+  var $q;
   var rootScope;
   var scope;
   var isolatedScope;
-  var workPackage = {$links: {}};
+  var workPackage = {
+    id: 1234,
+    attachments: {
+      $load: () => {
+        return $q.when({ elements: [] });
+      },
+      href: '/api/v3/work_packages/1/attachments',
+    },
+    activities: {
+      $load: () => {
+        return $q.when({ elements: [] });
+      },
+      href: '/api/v3/work_packages/1/activities',
+    }
+  };
 
+  beforeEach(angular.mock.module('openproject'));
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(angular.mock.module('openproject.templates'));
 
@@ -58,11 +74,15 @@ describe('WorkPackageAttachmentsDirective', () => {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(angular.mock.inject(function ($rootScope, $compile, $q) {
+  beforeEach(angular.mock.inject(function ($rootScope, $compile, $httpBackend, _$q_) {
+    $q = _$q_;
     apiPromise = $q.when('');
     loadPromise = $q.when([]);
 
-    var html = '<wp-attachments edit work-package="workPackage"></wp-attachments>';
+    // Skip the work package cache update
+    $httpBackend.expectGET('/api/v3/work_packages/1234').respond(200, {});
+
+    var html = '<wp-attachments work-package="workPackage"></wp-attachments>';
 
     element = angular.element(html);
     rootScope = $rootScope;

@@ -3467,15 +3467,17 @@ Note that due to sharing this might be more than the versions *defined* by that 
 
 ## Actions
 
-| Link                | Description                                                          | Condition                         |
-|:-------------------:|----------------------------------------------------------------------| --------------------------------- |
-| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package |
-| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package |
-| watch               | Add current user to WP watchers                                      | logged in; not watching           |
-| unwatch             | Remove current user from WP watchers                                 | logged in; watching               |
-| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher       |
-| removeWatcher       | Remove any user from WP watchers                                     | **Permission**: delete watcher    |
-| addAttachment       | Attach a file to the WP                                              | **Permission**: edit work package |
+| Link                | Description                                                          | Condition                              |
+|:-------------------:|----------------------------------------------------------------------| ---------------------------------------|
+| update              | Form endpoint that aids in preparing and performing edits on a WP    | **Permission**: edit work package      |
+| updateImmediately   | Directly perform edits on a work package                             | **Permission**: edit work package      |
+| watch               | Add current user to WP watchers                                      | logged in; not watching                |
+| unwatch             | Remove current user from WP watchers                                 | logged in; watching                    |
+| addWatcher          | Add any user to WP watchers                                          | **Permission**: add watcher            |
+| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response |                                        |
+| addComment          | Post comment to WP                                                   | **Permission**: add work package notes |
+| removeWatcher       | Remove any user from WP watchers                                     | **Permission**: delete watcher         |
+| addAttachment       | Attach a file to the WP                                              | **Permission**: edit work package      |
 
 ## Linked Properties
 

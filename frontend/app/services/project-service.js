@@ -81,7 +81,7 @@ module.exports = function($http, PathHelper, apiV3) {
     },
 
     getWorkPackageProject: function(workPackage) {
-      return ProjectService.doQuery(workPackage.links.project.props.href);
+      return ProjectService.doQuery(workPackage.project.$link.href);
     },
 
     doQuery: function(url, params) {

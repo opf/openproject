@@ -57,12 +57,12 @@ module Api::Experimental::Concerns::V3Naming
                         "#{v3_to_internal_name(criteria.first, append_id: false)}:#{criteria.last}"
                       }.join(',')
                     end if params[:sort]
-    params[:group_by] = params.delete(:groupBy)
-    params[:project_id] = params.delete(:projectId)
-    params[:display_sums] = params.delete(:displaySums)
-    params[:is_public] = params.delete(:isPublic)
-    params[:user_id] = params.delete(:userId)
-    params[:query_id] = params.delete(:queryId)
+    params[:group_by] = params.delete(:groupBy) || params[:group_by]
+    params[:project_id] = params.delete(:projectId) || params[:project_id]
+    params[:display_sums] = params.delete(:displaySums) || params[:display_sums]
+    params[:is_public] = params.delete(:isPublic) || params[:is_public]
+    params[:user_id] = params.delete(:userId) || params[:user_id]
+    params[:query_id] = params.delete(:queryId) || params[:query_id]
   end
 
   def json_query_as_v3(json_query)

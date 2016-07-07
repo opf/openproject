@@ -191,7 +191,6 @@ declare namespace op {
     enableCaching();
     disableCaching();
     cachedPromise(promiseFn, key, options?);
-    loadResource(resource, force);
   }
 
   /**

@@ -33,79 +33,22 @@ describe('WorkPackageDetailsController', function() {
   var stateParams = {};
   var I18n = { t: angular.identity },
       workPackage = {
-        props: {
-        },
-        embedded: {
-          author: {
-            props: {
-              id: 1,
-              status: 'active'
-            }
-          },
-          id: 99,
-          project: {
-            props: {
-              id: 1
-            }
-          },
-          activities: {
-            links: {
-              self: { href: "/api/v3/work_packages/820/activities" }
-            },
-            _type: "Collection",
-            total: 0,
-            count: 0,
-            embedded: {
-              elements: []
-            }
-          },
-          watchers: [],
-          attachments: {
-            links: {
-              self: { href: "/api/v3/work_packages/820/attachments" }
-            },
-            _type: "Collection",
-            total: 0,
-            count: 0,
-            embedded: {
-              elements: []
-            }
-          },
-          type: {
-            props: {
-              name: 'Milestone'
-            }
-          },
-          relations: [
-            {
-              props: {
-                _type: "Relation::Relates"
-              },
-              links: {
-                relatedFrom: {
-                  fetch: sinon.spy()
-                },
-                relatedTo: {
-                  fetch: sinon.spy()
-                }
-              }
-            }
-          ]
-        },
-        links: {
-          self: { href: "it's a me, it's... you know..." },
-          availableWatchers: {
-            fetch: function() { return {then: angular.noop}; }
-          },
-          schema: {
-            fetch: function() { return {then: angular.noop}; }
+        author: {
+          props: {
+            id: 1,
+            status: 'active'
           }
         },
-        link: {
-          addWatcher: {
-            fetch: function() { return {then: angular.noop}; }
+        id: 99,
+        project: {
+          props: {
+            id: 1
           }
-        }
+        },
+        type: {
+          name: 'Milestone'
+        },
+        href: "it's a me, it's... you know..."
       };
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.layout', 'openproject.services',
@@ -165,7 +108,7 @@ describe('WorkPackageDetailsController', function() {
   describe('#scope.canViewWorkPackageWatchers', function() {
     describe('when the work package does not contain the embedded watchers property', function() {
       beforeEach(function() {
-        workPackage.embedded.watchers = undefined;
+        workPackage.watchers = null;
         buildController();
       });
 
@@ -178,7 +121,7 @@ describe('WorkPackageDetailsController', function() {
 
     describe('when the work package contains the embedded watchers property', function() {
       beforeEach(function() {
-        workPackage.embedded.watchers = [];
+        workPackage.watchers = [];
         return buildController();
       });
 

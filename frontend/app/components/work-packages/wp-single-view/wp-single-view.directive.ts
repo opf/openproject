@@ -42,6 +42,7 @@ export class WorkPackageSingleViewController {
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public attachments:any;
+  public filesExist:boolean = false;
   public text:any;
   public scope:any;
 
@@ -56,7 +57,6 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected inplaceEditAll,
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 

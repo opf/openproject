@@ -43,7 +43,7 @@ const panels = {
       url: '/watchers',
       reloadOnSearch: false,
       template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
-    };
+    }
   },
 
   get activity() {
@@ -51,7 +51,7 @@ const panels = {
       url: '/activity',
       reloadOnSearch: false,
       template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
-    };
+    }
   },
 
   get activityDetails() {
@@ -66,8 +66,8 @@ const panels = {
       url: '/relations',
       reloadOnSearch: false,
       template: ` <relations-panel
-                    ng-if="workPackageResource"
-                    work-package="workPackageResource"
+                    ng-if="workPackage"
+                    work-package="workPackage"
                   ></relations-panel>`
     };
   }
@@ -130,11 +130,6 @@ openprojectModule
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: 'vm',
-        resolve: {
-          workPackage: (WorkPackageService, $stateParams) => {
-            return WorkPackageService.getWorkPackage($stateParams.workPackageId);
-          }
-        },
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })

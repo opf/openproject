@@ -32,28 +32,18 @@ angular
 
 function wpWatchers($http, $q) {
 
-  var getWatchers = function(path) {
-    return function() {
-      var watchers = $q.defer();
-
-      $http.get(path).success(function(data) {
-        watchers.resolve(data._embedded.elements);
-
-      }).error(function(err) {
-        watchers.reject(err);
-      });
-
-      return watchers.promise;
-    };
+  var getWatchers = function(link) {
+    return link.$load().then(function(resource) {
+      return resource.elements;
+    });
   };
 
   var watching = function(workPackage) {
-    var path = workPackage.links.watchers.url();
-    return getWatchers(path)();
+    return getWatchers(workPackage.watchers);
   };
 
   var available = function(workPackage) {
-    var link = workPackage.links.availableWatchers;
+    var link = workPackage.availableWatchers;
 
     // If the user has the permission to view watchers, but not
     // add them, this link will not be available.
@@ -61,7 +51,7 @@ function wpWatchers($http, $q) {
       return $q.when([]);
     }
 
-    return getWatchers(link.url())();
+    return getWatchers(link);
   };
 
   var all = function(workPackage) {
@@ -86,9 +76,9 @@ function wpWatchers($http, $q) {
 
   var add = function(workPackage, watcher) {
     var added = $q.defer(),
-      path = workPackage.links.addWatcher.props.href,
-      method = workPackage.links.addWatcher.props.method,
-      payload = { user: { href: watcher._links.self.href } };
+      path = workPackage.addWatcher.$link.href,
+      method = workPackage.addWatcher.$link.method,
+      payload = { user: { href: watcher.href } };
 
     $http[method](path, payload).then(function() {
       added.resolve(watcher);
@@ -102,8 +92,8 @@ function wpWatchers($http, $q) {
 
   var remove = function(workPackage, watcher) {
     var removed = $q.defer(),
-      path = workPackage.links.removeWatcher.props.href,
-      method = workPackage.links.removeWatcher.props.method;
+      path = workPackage.removeWatcher.$link.href,
+      method = workPackage.removeWatcher.$link.method;
 
     path = path.replace(/\{user\_id\}/, watcher.id);
 

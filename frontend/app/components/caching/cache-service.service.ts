@@ -123,17 +123,6 @@ function CacheService($q, CacheFactory) {
       _promises[key] = deferred.promise;
       return deferred.promise;
     },
-
-    loadResource: function(resource, force) {
-      return CacheService.cachedPromise(
-        (_ => resource.fetch()),
-        resource.props.href,
-        {
-          cache: CacheService.temporaryCache(),
-          force: force
-        }
-      );
-    }
   };
 
   return CacheService;

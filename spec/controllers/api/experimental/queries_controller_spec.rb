@@ -164,11 +164,11 @@ describe Api::Experimental::QueriesController, type: :controller do
     context 'within a project' do
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'project_id' => project.id,
           'format' => 'json' }
@@ -183,11 +183,11 @@ describe Api::Experimental::QueriesController, type: :controller do
     context 'without a project' do
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'format' => 'json' }
       end
@@ -219,11 +219,11 @@ describe Api::Experimental::QueriesController, type: :controller do
       let(:query) { FactoryGirl.create(:query, project: project, user: user) }
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,
@@ -265,11 +265,11 @@ describe Api::Experimental::QueriesController, type: :controller do
 
           describe 'w/o other changes' do
             let(:change_public_state_only_params) do
-              { 'f' => ['status_id'],
+              { 'f' => ['status'],
                 'is_public' => 'true',
                 'name' => query.name,
-                'op' => { 'status_id' => 'o' },
-                'v' => { 'status_id' => [''] },
+                'op' => { 'status' => 'o' },
+                'v' => { 'status' => [''] },
                 'query_id' => query.id,
                 'id' => query.id,
                 'project_id' => project.id,
@@ -321,11 +321,11 @@ describe Api::Experimental::QueriesController, type: :controller do
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,
@@ -361,11 +361,11 @@ describe Api::Experimental::QueriesController, type: :controller do
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,
@@ -386,11 +386,11 @@ describe Api::Experimental::QueriesController, type: :controller do
 
       let(:valid_params) do
         { 'c' => ['type', 'status', 'priority', 'assigned_to'],
-          'f' => ['status_id'],
+          'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
           'name' => 'sdfsdfsdf',
-          'op' => { 'status_id' => 'o' },
+          'op' => { 'status' => 'o' },
           'sort' => 'parent:desc',
           'query_id' => query.id,
           'id' => query.id,

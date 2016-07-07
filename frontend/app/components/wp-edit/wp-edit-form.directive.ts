@@ -113,8 +113,8 @@ export class WorkPackageEditFormController {
   }
 
   public updateWorkPackage() {
-    if (!this.workPackage.dirty) {
-      return this.$q.when();
+    if (!(this.workPackage.dirty || this.workPackage.isNew)) {
+      return this.$q.when(this.workPackage);
     }
 
     var deferred = this.$q.defer();

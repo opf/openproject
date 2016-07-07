@@ -40,8 +40,8 @@ var halResourceTypesStorage:HalResourceTypesStorageService;
 export class HalResource {
   public static _type:string;
 
-  public static create(element) {
-    if (!(element._embedded || element._links)) {
+  public static create(element, force:boolean = false) {
+    if (!force && !(element._embedded || element._links)) {
       return element;
     }
 
@@ -89,16 +89,20 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public $load() {
-    if (this.$loaded) {
-      return $q.when(this);
+  public $load(force = false) {
+    if (!force) {
+      if (this.$loaded) {
+        return $q.when(this);
+      }
+
+      if (!this.$loaded && this.$self) {
+        return this.$self;
+      }
     }
 
-    if (!this.$loaded && this.$self) {
-      return this.$self;
-    }
-
-    this.$self = this.$links.self().then(source => {
+    // Reset and load this resource
+    this.$loaded = false;
+    this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
       this.$loaded = true;
       this.$initialize(source);
       return this;
@@ -114,6 +118,20 @@ export class HalResource {
   protected $initialize(source) {
     this.$source = source.$source || source;
     initializeResource(this);
+  }
+
+  /**
+   * $load by default uses the $http cache. This will likely be replaced by
+   the HAL cache, but while it lasts, it should be ignored when using
+   force.
+   */
+  protected $loadHeaders(force:boolean) {
+    var headers:any = {};
+    if (force) {
+      headers.caching = { enabled: false };
+    }
+
+    return headers;
   }
 }
 
@@ -194,7 +212,11 @@ function initializeResource(halResource:HalResource) {
   }
 
   function setEmbeddedAsProperties() {
-    Object.keys(halResource.$embedded).forEach(name => {
+    if (!halResource.$source._embedded) {
+      return;
+    }
+
+    Object.keys(halResource.$source._embedded).forEach(name => {
       lazy(halResource, name, () => halResource.$embedded[name], val => setter(val, name));
     });
   }
@@ -225,7 +247,7 @@ function initializeResource(halResource:HalResource) {
       });
 
       if (Array.isArray(element)) {
-        return element.map(HalResource.create);
+        return element.map((source) => HalResource.create(source, true));
       }
 
       return HalResource.create(element);

@@ -175,7 +175,7 @@ module Pages
     end
 
     def update_comment(comment)
-      add_comment_container.fill_in 'inplace-edit--write-value--activity', with: comment
+      add_comment_container.fill_in 'value', with: comment
     end
 
     def preview_comment
@@ -186,7 +186,7 @@ module Pages
     end
 
     def save_comment
-      label = I18n.t('js.label_add_comment')
+      label = 'Comment: Save'
       add_comment_container.find(:xpath, "//a[@title='#{label}']").click
     end
 

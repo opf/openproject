@@ -27,23 +27,12 @@
 //++
 
 module.exports = function(
-  HALAPIResource,
   $http,
   PathHelper,
   CacheService) {
 
   var registeredUserIds = [];
   var UserService = {
-    getUser: function(id) {
-      var path = PathHelper.apiV3UserPath(id),
-        resource = HALAPIResource.setup(path);
-
-      return UserService.getUserByResource(resource);
-    },
-
-    getUserByResource: function(user, force) {
-      return CacheService.loadResource(user, force);
-    },
 
     getUsers: function(projectIdentifier) {
       var url, params;

@@ -80,13 +80,11 @@ describe('workPackageContextMenu', () => {
   describe('when the context menu context contains one work package', () => {
     var I18n;
     var actions = ['edit', 'move'];
-    var actionLinks = {
+    var workPackage = {
+      id: 123,
       update: '/work_packages/123/edit',
       move: '/work_packages/move/new?ids%5B%5D=123',
-    };
-    var workPackage = Factory.build('PlanningElement');
-    workPackage.$source = { _links: actionLinks };
-    workPackage.$links = actionLinks;
+    }
 
     var directListElements;
 
@@ -108,7 +106,7 @@ describe('workPackageContextMenu', () => {
     });
 
     it('lists link tags for any permitted action', () =>{
-      expect(directListElements.length).to.equal(4);
+      expect(directListElements.length).to.equal(5);
     });
 
     it('assigns a css class named by the action', () =>{
@@ -124,12 +122,7 @@ describe('workPackageContextMenu', () => {
     });
 
     describe('when delete is permitted on a work package', () => {
-      var actionLinks = {
-        'delete': '/work_packages/bulk',
-      };
-      var workPackage = Factory.build('PlanningElement');
-      workPackage.$source = { _links: actionLinks };
-      workPackage.$links = actionLinks;
+      workPackage['delete'] = '/work_packages/bulk';
 
       beforeEach(() => {
         $rootScope.rows = [];

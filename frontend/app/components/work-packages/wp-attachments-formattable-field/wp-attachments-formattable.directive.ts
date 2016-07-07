@@ -12,6 +12,7 @@ import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 export class WpAttachmentsFormattableController {
   private viewMode:ViewMode = ViewMode.SHOW;
@@ -20,11 +21,11 @@ export class WpAttachmentsFormattableController {
               protected $element:ng.IAugmentedJQuery,
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state,
-              protected $stateParams,
               protected loadingIndicator,
               protected keepTab:KeepTabService) {
 

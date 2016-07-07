@@ -151,7 +151,7 @@ export class SingleAttachmentModel {
       this.fileName = attachment.fileName || attachment.name;
       this.fileExtension = this.fileName.split('.').pop().toLowerCase();
       this.isAnImage = this.imageFileExtensions.indexOf(this.fileExtension) > -1;
-      this.url = angular.isDefined(attachment._links) ? attachment._links.downloadLocation.href : '';
+      this.url = angular.isDefined(attachment.downloadLocation) ? attachment.downloadLocation.$link.href : '';
     }
   }
 
