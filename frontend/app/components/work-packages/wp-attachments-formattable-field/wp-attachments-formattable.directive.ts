@@ -102,7 +102,7 @@ export class WpAttachmentsFormattableController {
         updatedAttachmentsList.resolve(collection.elements);
       });
     });
-    
+
     return updatedAttachmentsList.promise;
   }
 
@@ -135,8 +135,7 @@ export class WpAttachmentsFormattableController {
   protected insertDelayedAttachments(dropData:DropModel, description):void{
     dropData.files.forEach((file:File) => {
       description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
-      file['isPending'] = true;
-      this.wpAttachments.attachments.push(file);
+      // implement pending attachments logic when create is ready
     });
     description.save();
   }
@@ -192,6 +191,7 @@ function wpAttachmentsFormattable() {
       if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
         return;
       }
+      console.log(controllers);
       scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],
