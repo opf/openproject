@@ -152,25 +152,23 @@ function WorkPackagesListController($scope,
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
+    $scope.perPage = PaginationService.getPerPage();
 
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
     AuthorisationService.initModelAuth("query", meta.query._links);
   }
 
-  $scope.setAnchorToNextPage = function () {
+  $scope.setAnchorToNextElement = function () {
     setTimeout(function(){
       history.replaceState({}, document.title, location.href.substr(0, location.href.length-location.hash.length))
     }, 100);
-    anchor = '';
     if(jQuery('.pagination-number').last().hasClass('-current')) {
-      anchor = PaginationService.getPage() - 1
+      $location.hash('pagination--prev-link');
     }
     else {
-      anchor = PaginationService.getPage() + 1;
+      $location.hash('pagination--next-link');
     }
-
-    $location.hash('pagination--' + anchor);
   }
 
   $scope.maintainBackUrl = function () {
