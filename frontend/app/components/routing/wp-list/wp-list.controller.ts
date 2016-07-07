@@ -79,11 +79,6 @@ function WorkPackagesListController($scope,
       });
   }
 
-  function clearUrlQueryParams() {
-    $location.search('query_props', null);
-    $location.search('query_id', null);
-  }
-
   function setupPage(json, queryParamsPresent) {
     // Init query
     var metaData = json.meta;
@@ -171,10 +166,9 @@ function WorkPackagesListController($scope,
   };
 
   $scope.loadQuery = function (queryId) {
-    // Clear unsaved changes to current query
-    wpListService.clearUrlQueryParams();
     loadingIndicator.mainPage = $state.go('work-packages.list',
-      {'query_id': queryId},
+      {'query_id': queryId,
+       'query_props': null},
       {reload: true});
   };
 
