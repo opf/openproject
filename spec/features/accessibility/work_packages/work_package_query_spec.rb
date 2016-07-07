@@ -237,29 +237,20 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     end
 
     shared_examples_for 'context menu' do
-      describe 'activate' do
-        before do
-          expect(page).to have_selector(source_link)
-          element = find(source_link)
-          element.native.send_keys(keys)
-        end
+      it 'resets the context menu focus properly' do
+        expect(page).to have_selector(source_link)
+        element = find(source_link)
+        element.native.send_keys(keys)
 
-        it {
-          expect(page).to have_focus_on(target_link) if sets_focus
-        }
+        # Expect to open and focus the menu
+        expect(page).to have_focus_on(target_link) if sets_focus
+        element = find(target_link)
 
-        describe 'reset' do
-          before do
-            expect(page).to have_selector(target_link)
-            element = find(target_link)
-            element.native.send_keys(:escape)
-            expect(page).not_to have_selector(target_link)
-          end
+        element.native.send_keys(:escape)
+        expect(page).not_to have_selector(target_link)
 
-          it {
-            expect(page).to have_focus_on(source_link) if sets_focus
-          }
-        end
+        # Expect reset focus on originating element
+        expect(page).to have_focus_on(source_link) if sets_focus
       end
     end
 
