@@ -94,10 +94,6 @@ export class WorkPackageSingleViewController {
       angular.element('.work-packages--details--subject .focus-input').focus();
     }
   }
-  
-  public filesExist() {
-    return this.wpAttachments.attachments.length > 0;
-  }
 
   private init(wp) {
     this.workPackage = wp;

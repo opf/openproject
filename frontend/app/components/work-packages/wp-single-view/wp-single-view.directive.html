@@ -102,7 +102,6 @@
 
   <wp-attachments
       work-package="$ctrl.workPackage"
-      data-ng-show="$ctrl.filesExist()"
-      hide-empty-fields="$ctrl.hideEmptyFields">
+      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist">
   </wp-attachments>
 </div>

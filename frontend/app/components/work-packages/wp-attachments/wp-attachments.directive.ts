@@ -34,7 +34,6 @@ import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collection-resource.service';
 
-
 export class WorkPackageAttachmentsController {
   public workPackage:any;
   public hideEmptyFields:boolean;
@@ -53,6 +52,7 @@ export class WorkPackageAttachmentsController {
   public size:any;
 
   private currentlyFocussing;
+  public wpSingleView:ng.IScope;
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
@@ -112,11 +112,12 @@ export class WorkPackageAttachmentsController {
     this.loading = true;
     return this.workPackage.attachments.$load(refresh)
       .then((collection:CollectionResourceInterface) => {
-        this.attachments = collection.elements;
-        return this.attachments;
+        this.attachments.length = 0;
+        angular.extend(this.attachments, collection.elements);
       })
       .finally(() => {
         this.loading = false;
+        this.$scope.wpSingleView.filesExist = this.attachments.length > 0;
       });
   }
 
@@ -168,10 +169,14 @@ function wpAttachmentsDirective():ng.IDirective {
     controller: WorkPackageAttachmentsController,
     controllerAs: 'vm',
     replace: true,
+    require: ['^wpSingleView'],
     restrict: 'E',
     scope: {
       workPackage: '&',
       hideEmptyFields: '='
+    },
+    link: function(scope,element,attrs,controllers){
+      (scope as any).wpSingleView = controllers[0];
     },
     templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
   };

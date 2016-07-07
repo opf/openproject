@@ -13,6 +13,10 @@ import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directiv
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {
+  CollectionResource,
+  CollectionResourceInterface
+} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 export class WpAttachmentsFormattableController {
   private viewMode:ViewMode = ViewMode.SHOW;
@@ -92,12 +96,13 @@ export class WpAttachmentsFormattableController {
 
   protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel){
     const updatedAttachmentsList = this.$q.defer();
+
     this.wpAttachments.upload(workPackage, dropData.files).then(() => {
-      this.wpAttachments.load(workPackage, true).then((updatedAttachments:any) => {
-        updatedAttachmentsList.resolve(updatedAttachments);
+      workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
+        updatedAttachmentsList.resolve(collection.elements);
       });
     });
-
+    
     return updatedAttachmentsList.promise;
   }
 
@@ -187,7 +192,6 @@ function wpAttachmentsFormattable() {
       if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
         return;
       }
-
       scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],
