@@ -4,11 +4,8 @@ describe 'inline create work package', js: true do
   let(:type) { FactoryGirl.create(:type) }
   let(:types) { [type] }
 
-  let(:role) do
-    FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages]
-  end
+  let(:permissions) { %i(view_work_packages add_work_packages)}
+  let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:user) do
     FactoryGirl.create :user,
                        member_in_project: project,
@@ -84,10 +81,6 @@ describe 'inline create work package', js: true do
     end
 
     context 'when user may not create work packages' do
-      let(:user) {
-        FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-      }
-      let(:role) { FactoryGirl.create(:role, permissions: permissions) }
       let(:permissions) { [:view_work_packages] }
 
       it 'renders the work package, but no create row' do
@@ -134,6 +127,29 @@ describe 'inline create work package', js: true do
       let(:callback) {
         ->() { }
       }
+    end
+
+    context 'user has permissions in other project' do
+      let(:permissions) { [:view_work_packages] }
+
+      let(:project2) { FactoryGirl.create :project }
+      let(:role2) {
+        FactoryGirl.create :role,
+                           permissions: [:view_work_packages,
+                                         :add_work_packages]
+      }
+      let!(:membership) {
+        FactoryGirl.create :member,
+                           user: user,
+                           project: project2,
+                           roles: [role2]
+      }
+
+      it 'renders the work packages, but no create' do
+        wp_table.expect_work_package_listed(existing_wp)
+        expect(page).to have_no_selector('.wp-inline-create--add-link')
+        expect(page).to have_selector('.add-work-package[disabled]')
+      end
     end
   end
 end
