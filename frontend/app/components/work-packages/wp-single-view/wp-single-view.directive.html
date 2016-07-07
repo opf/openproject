@@ -1,4 +1,4 @@
-<div ng-if="$ctrl.workPackage && $ctrl.workPackage.schema">
+<div ng-if="$ctrl.workPackage && $ctrl.formCtrl">
   <div class="attributes-group">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
@@ -101,8 +101,7 @@
   </div>
 
   <wp-attachments
-      edit
       work-package="$ctrl.workPackage"
-      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist()">
+      hide-empty-fields="$ctrl.hideEmptyFields">
   </wp-attachments>
 </div>

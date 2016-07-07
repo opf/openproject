@@ -35,10 +35,10 @@ export class WikiTextareaEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
 
   // Dependencies
-  protected $sce:ng.ISCEService = <ng.ISCEService> this.$injector.get("$sce");
-  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> this.$injector.get("TextileService");
-  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> this.$injector.get("$timeout");
-  protected I18n:op.I18n = <op.I18n> this.$injector.get("I18n");
+  protected $sce:ng.ISCEService = <ng.ISCEService> WikiTextareaEditField.$injector.get("$sce");
+  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> WikiTextareaEditField.$injector.get("TextileService");
+  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> WikiTextareaEditField.$injector.get("$timeout");
+  protected I18n:op.I18n = <op.I18n> WikiTextareaEditField.$injector.get("I18n");
 
   // wp resource
   protected workPackage:WorkPackageResource;

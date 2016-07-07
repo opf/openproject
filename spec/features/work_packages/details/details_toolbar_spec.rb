@@ -20,7 +20,7 @@ describe 'Work package details toolbar', js: true, selenium: true do
         click_button 'Watch'
       end
 
-      wait_until_requests_completed!
+      expect(page).to have_selector('.work-packages--details-toolbar button', text: 'Unwatch')
 
       expect(work_package.reload.watcher_users).to include(user)
       expect(page).to have_selector('.work-packages--details-toolbar button', text: 'Unwatch')

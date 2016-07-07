@@ -43,7 +43,6 @@ function WorkPackagesListController($scope,
                                     UrlParamsHelper,
                                     OPERATORS_AND_LABELS_BY_FILTER_TYPE,
                                     loadingIndicator,
-                                    inplaceEditAll,
                                     I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
@@ -192,8 +191,6 @@ function WorkPackagesListController($scope,
   // Go
 
   initialSetup();
-
-  $scope.editAll = inplaceEditAll;
 
   $scope.$watch(QueryService.getQueryName, function (queryName) {
     $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');

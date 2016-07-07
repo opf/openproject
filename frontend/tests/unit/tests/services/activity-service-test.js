@@ -31,6 +31,7 @@
 describe('ActivityService', function() {
 
   var $httpBackend,
+      $q,
       ActivityService,
       ConfigurationService,
       accessibilityModeEnabled;
@@ -38,7 +39,8 @@ describe('ActivityService', function() {
   beforeEach(angular.mock.module('openproject.api', 'openproject.services', 'openproject.config',
     'openproject.models'));
 
-  beforeEach(inject(function(_$httpBackend_, _ActivityService_,  _ConfigurationService_) {
+  beforeEach(inject(function(_$q_, _$httpBackend_, _ActivityService_,  _ConfigurationService_) {
+    $q = _$q_;
     $httpBackend   = _$httpBackend_;
     ActivityService = _ActivityService_;
     ConfigurationService = _ConfigurationService_;
@@ -53,8 +55,8 @@ describe('ActivityService', function() {
     var activityUrl = '/api/v3/work_packages/10/activities';
     var workPackage = {
       id: 5,
-      links: {
-        addComment: { url: function() { return activityUrl; } }
+      addComment: function() {
+        return $q.when(true);
       }
     };
 

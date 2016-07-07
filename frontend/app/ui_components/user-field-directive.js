@@ -34,8 +34,8 @@ module.exports = function(PathHelper) {
     scope: { user: '=' },
     link: function(scope) {
       scope.$watch('user', function() {
-        if (scope.user && scope.user.props && scope.user.props.name) {
-          scope.userName = scope.user.props.name;
+        if (scope.user && scope.user.name) {
+          scope.userName = scope.user.name;
         }
       });
 

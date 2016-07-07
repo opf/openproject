@@ -28,6 +28,7 @@
 
 import {openprojectModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 
 export class WorkPackageNotificationService {
   constructor(protected I18n,
@@ -47,6 +48,13 @@ export class WorkPackageNotificationService {
     }
 
     this.NotificationsService.addSuccess(message);
+  }
+
+  public handleErrorResponse(error, workPackage) {
+    if (!(error.data instanceof ErrorResource)) {
+      return this.showGeneralError();
+    }
+    this.showError(error.data, workPackage);
   }
 
   public showError(errorResource, workPackage) {

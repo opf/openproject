@@ -42,6 +42,7 @@ export class WorkPackageSingleViewController {
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
   public attachments:any;
+  public filesExist:boolean = false;
   public text:any;
   public scope:any;
 
@@ -56,7 +57,6 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected inplaceEditAll,
               protected wpAttachments,
               protected SingleViewWorkPackage) {
 
@@ -77,10 +77,6 @@ export class WorkPackageSingleViewController {
       this.wpNotificationsService.showSave(this.workPackage);
     });
   }
-
-  public filesExist = function () {
-    return this.wpAttachments.getCurrentAttachments().length > 0;
-  };
 
   public shouldHideGroup(group) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
@@ -123,12 +119,6 @@ export class WorkPackageSingleViewController {
         return left.localeCompare(right);
       });
     });
-
-    if (this.workPackage.attachments) {
-      this.wpAttachments.hasAttachments(this.workPackage).then(bool => {
-        this.filesExist = bool;
-      });
-    }
 
     this.text.idLabel = this.workPackage.type.name;
     if (!this.workPackage.isNew) {

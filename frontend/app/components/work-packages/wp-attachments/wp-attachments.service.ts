@@ -28,21 +28,40 @@
 
 import {wpServicesModule} from '../../../angular-modules.ts';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  CollectionResource,
+  CollectionResourceInterface
+} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WpAttachmentsService {
-  public attachments:File[] = [];
 
   constructor(protected $q:ng.IQService,
               protected $timeout:ng.ITimeoutService,
               protected $http:ng.IHttpService,
               protected Upload,
               protected I18n,
-              protected NotificationsService) {
+              protected NotificationsService,
+              protected wpNotificationsService:WorkPackageNotificationService) {
   }
 
   public upload(workPackage:WorkPackageResourceInterface, files:File[]):ng.IPromise<any> {
-    const uploadPath:string = workPackage.$links.attachments.$link.href;
-    const uploads = _.map(files, (file:File) => {
+    const uploads = this.asNgUpload(files, workPackage.attachments.href);
+    const notification = this.addUploadNotification(workPackage, uploads);
+
+    return this.$q.all(uploads).then(() => {
+      this.dismissNotification(notification);
+    }).catch(error => {
+      this.wpNotificationsService.handleErrorResponse(error, workPackage);
+    });
+  }
+
+  /**
+   * Transform the given files to the ng-file-uploader parameters.
+   */
+  protected asNgUpload(files:File[], uploadPath:string) {
+    return _.map(files, (file:File) => {
       var options:Object = {
         fields: {
           metadata: {
@@ -55,77 +74,27 @@ export class WpAttachmentsService {
       };
       return this.Upload.upload(options);
     });
+  }
 
-    // notify the user
+  /**
+   * Add a temporary notification for the current work package upload process
+   */
+  protected addUploadNotification(workPackage, uploads) {
     const message = this.I18n.t('js.label_upload_notification', {
       id: workPackage.id,
       subject: workPackage.subject
     });
 
-    const notification = this.NotificationsService.addWorkPackageUpload(message, uploads);
-    const allUploadsDone = this.$q.defer();
-    this.$q.all(uploads).then(() => {
-      this.$timeout(() => { // let the notification linger for a bit
-        this.NotificationsService.remove(notification);
-        allUploadsDone.resolve();
-      }, 700);
-    }, function (err) {
-      allUploadsDone.reject(err);
-    });
-    return allUploadsDone.promise;
+    return this.NotificationsService.addWorkPackageUpload(message, uploads);
   }
 
-  public load(workPackage:WorkPackageResourceInterface,
-              reload:boolean = false):ng.IPromise<any[]> {
-    const loadedAttachments = this.$q.defer();
-
-    const path:string = workPackage.$links.attachments.$link.href;
-    this.$http.get(path, {cache: !reload})
-      .success((response:any) => {
-        _.remove(this.attachments);
-        _.extend(this.attachments, response._embedded.elements);
-        loadedAttachments.resolve(this.attachments);
-      })
-      .error(err => {
-        loadedAttachments.reject(err);
-      });
-
-    return loadedAttachments.promise;
-  };
-
-  public remove(fileOrAttachment:any):void {
-    if (fileOrAttachment._type === 'Attachment') {
-      const path:string = fileOrAttachment._links.self.href;
-
-      this.$http.delete(path)
-        .success(() => {
-          _.remove(this.attachments, fileOrAttachment);
-        });
-    } else {
-      // pending attachment
-      _.remove(this.attachments, fileOrAttachment);
-    }
-  };
-
-  public hasAttachments(workPackage:WorkPackageResourceInterface):ng.IPromise<boolean> {
-    return this.load(workPackage).then((attachments:any) => {
-      return attachments.length > 0;
-    });
-  };
-
-  public getCurrentAttachments():any[] {
-    return this.attachments;
-  };
-
-  public resetAttachmentsList():void {
-    this.attachments.length = 0;
-  };
-
-  // not in use until furinvaders create is merged
-  public uploadPendingAttachments = (wp:WorkPackageResourceInterface):ng.IPromise<any> => {
-    if (angular.isDefined(wp) && this.attachments.length > 0) {
-      return this.upload(wp, this.attachments);
-    }
+  /**
+   * Remove the temporary upload notification after some time.
+   */
+  protected dismissNotification(notification) {
+    this.$timeout(() => {
+      this.NotificationsService.remove(notification);
+    }, 700);
   }
 }
 

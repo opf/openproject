@@ -11,6 +11,11 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {openprojectModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {
+  CollectionResource,
+  CollectionResourceInterface
+} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 export class WpAttachmentsFormattableController {
   private viewMode:ViewMode = ViewMode.SHOW;
@@ -19,6 +24,7 @@ export class WpAttachmentsFormattableController {
               protected $element:ng.IAugmentedJQuery,
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
               protected $timeout:ng.ITimeoutService) {
 
@@ -55,7 +61,9 @@ export class WpAttachmentsFormattableController {
       if (dropData.filesAreValidForUploading()) {
         if (!dropData.isDelayedUpload) {
           this.wpAttachments.upload(workPackage, dropData.files).then(() => {
-            this.wpAttachments.load(workPackage, true).then((updatedAttachments:any) => {
+            workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
+              const updatedAttachments = collection.elements;
+              this.wpCacheService.updateWorkPackage(workPackage);
               if (angular.isUndefined(updatedAttachments)) {
                 return;
               }
@@ -76,7 +84,7 @@ export class WpAttachmentsFormattableController {
                      i >= updatedAttachments.length - dropData.filesCount;
                      i--) {
                   description.insertAttachmentLink(
-                    updatedAttachments[i]._links.downloadLocation.href,
+                    updatedAttachments[i].downloadLocation.href,
                     InsertMode.ATTACHMENT,
                     true);
                 }
@@ -92,7 +100,7 @@ export class WpAttachmentsFormattableController {
           dropData.files.forEach((file:File) => {
             description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
             file['isPending'] = true;
-            this.wpAttachments.attachments.push(file);
+            this.$rootScope.$emit('work_packages.attachment.add', file);
           });
           description.save();
         }

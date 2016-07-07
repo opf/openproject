@@ -36,6 +36,7 @@ import {
 import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
 import {ErrorResource} from "../../api/api-v3/hal-resources/error-resource.service";
 
+var $q:ng.IQService;
 var HalResource;
 var PathHelper:any;
 var wpCacheService:WorkPackageCacheService;
@@ -82,10 +83,11 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
         return wpCacheService.updateWorkPackage(wp);
       })
       .catch(error => {
-        if (!(error.data instanceof ErrorResource)) {
-          return wpNotificationsService.showGeneralError();
+        if (error.data instanceof ErrorResource) {
+          wpNotificationsService.showError(error.data, this.workPackage);
+        } else {
+          wpNotificationsService.showGeneralError();
         }
-        wpNotificationsService.showError(error.data, this.workPackage);
       });
   }
 
@@ -98,10 +100,12 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
 }
 
 function wpParentRelationGroupService(...args) {
-  [HalResource, PathHelper, wpCacheService, wpNotificationsService] = args;
+  [$q, HalResource, PathHelper, wpCacheService, wpNotificationsService] = args;
   return WorkPackageParentRelationGroup;
 }
 
-wpParentRelationGroupService.$inject = ['HalResource', 'PathHelper', 'wpCacheService', 'wpNotificationsService'];
+wpParentRelationGroupService.$inject = [
+  '$q', 'HalResource', 'PathHelper', 'wpCacheService', 'wpNotificationsService'
+];
 
 wpTabsModule.factory('WorkPackageParentRelationGroup', wpParentRelationGroupService);

@@ -41,10 +41,7 @@ function WorkPackageContextMenuHelper(PERMITTED_BULK_ACTIONS, WorkPackagesTableS
       singularPermittedActions.push({
         icon: allowedAction.icon,
         text: allowedAction.text,
-        link: workPackage
-          .$source
-          ._links[allowedAction.link]
-          .href
+        link: workPackage[allowedAction.link].href
       });
     });
 
@@ -92,14 +89,14 @@ function WorkPackageContextMenuHelper(PERMITTED_BULK_ACTIONS, WorkPackagesTableS
     var allowedActions = [];
 
     angular.forEach(actions, function(action) {
-      if (workPackage.$links.hasOwnProperty(action.link)) {
+      if (workPackage.hasOwnProperty(action.link)) {
         action.text = I18n.t('js.button_' + action.icon);
         allowedActions.push(action);
       }
     });
 
     angular.forEach(HookService.call('workPackageTableContextMenu'), function(action) {
-      if (workPackage.$links.hasOwnProperty(action.link)) {
+      if (workPackage.hasOwnProperty(action.link)) {
         var index = action.indexBy ? action.indexBy(allowedActions) : allowedActions.length;
         allowedActions.splice(index, 0, action)
       }

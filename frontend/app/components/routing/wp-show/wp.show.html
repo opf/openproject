@@ -1,14 +1,14 @@
 <div class="work-packages--show-view"
      ng-class="{'edit-all-mode': wpEditModeState.active}"
-     wp-edit-form="workPackageResource"
+     wp-edit-form="workPackage"
      has-edit-mode="true"
-     ng-if="workPackageResource">
+     ng-if="workPackage">
   <div class="toolbar-container">
     <div wp-toolbar id="toolbar">
       <ul id="toolbar-items" class="toolbar-items">
         <li class="toolbar-item">
           <wp-create-button project-identifier="projectIdentifier"
-                            allowed="!!workPackageResource.$links.addChild"
+                            allowed="!!workPackage.$links.addChild"
                             ng-hide="wpEditModeState.active"
                             state-name="work-packages.new"></wp-create-button>
         </li>

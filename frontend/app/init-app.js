@@ -74,8 +74,6 @@ opApp
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
         // prepend a given base path to requests performed via $http
         //
-        // NOTE: this does not apply to Hyperagent-based queries, which instead use
-        //       jQuery's AJAX implementation.
         $httpProvider.interceptors.push(function($q) {
           return {
             'request': function(config) {
@@ -94,6 +92,9 @@ opApp
         });
       }
     ])
+    .value('cgBusyDefaults', {
+      message: I18n.t('js.label_please_wait')
+    })
     .run([
       '$http',
       '$rootScope',

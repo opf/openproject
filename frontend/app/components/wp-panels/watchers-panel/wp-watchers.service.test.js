@@ -29,99 +29,78 @@
 
 describe('wpWatchers', function() {
   var wpWatchers;
+  var $q;
 
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(inject(['wpWatchers', function(_wpWatchers_) {
+  beforeEach(inject(['wpWatchers', '$q', function(_wpWatchers_, _$q_) {
       wpWatchers = _wpWatchers_;
+      $q = _$q_;
     }]
   ));
 
   context('for workPackage', function() {
 
-    var availableWatchersPath = '/work_packages/123/available_watchers',
+    var $httpBackend = null,
         watchersPath = '/work_packages/123/watchers',
-        workPackage = {
-          links: {
-            watchers: {
-              url: function() {
-                return watchersPath;
-              }
-            },
-            availableWatchers: {
-              url: function() {
-                return availableWatchersPath;
-              }
-            },
-            addWatcher: {
-              props: {
-                href: watchersPath,
-                method: 'post'
-              }
-            },
-            removeWatcher: {
-              props: {
-                href: '/work_packages/123/watchers/{user_id}',
-                method: 'delete'
-              }
-            }
-          }
-        },
-        $httpBackend = null,
         watchers = {
-          _embedded: {
-            elements: [
-              {
-                id: 1,
-                name: 'Florian'
-              },
-              {
-                id: 2,
-                name: 'Breanne'
-              }
-            ]
-          }
+          elements: [
+            {
+              id: 1,
+              name: 'Florian'
+            },
+            {
+              id: 2,
+              name: 'Breanne'
+            }
+          ]
         },
         availableWatchers = {
-          _embedded: {
-            elements: [
-              {
-                id: 1,
-                name: 'Florian'
-              },
-              {
-                id: 2,
-                name: 'Breanne'
-              },
-              {
-                id: 3,
-                name: 'Supreme OP Overlord'
-              },
-              {
-                id: 4,
-                name: 'Ford Prefect'
-              }
-            ]
+          elements: [
+            {
+              id: 1,
+              name: 'Florian'
+            },
+            {
+              id: 2,
+              name: 'Breanne'
+            },
+            {
+              id: 3,
+              name: 'Supreme OP Overlord'
+            },
+            {
+              id: 4,
+              name: 'Ford Prefect'
+            }
+          ]
+        },
+        workPackage = {
+          watchers: {
+            $load: function() {
+              return $q.when(watchers);
+            }
+          },
+          availableWatchers: {
+            $load: function() {
+              return $q.when(availableWatchers);
+            }
+          },
+          addWatcher: {
+            $link: {
+              href: watchersPath,
+              method: 'post'
+            }
+          },
+          removeWatcher: {
+            $link: {
+              href: '/work_packages/123/watchers/{user_id}',
+              method: 'delete'
+            }
           }
         };
-
-    afterEach(function() {
-      $httpBackend.verifyNoOutstandingRequest();
-      $httpBackend.verifyNoOutstandingExpectation();
-    });
-
     describe('load watchers', function () {
-
-      beforeEach(inject(['$httpBackend', function(_$httpBackend_) {
-        $httpBackend = _$httpBackend_;
-      }]));
-
-
       it('should load both available and watching users', function() {
-
-        $httpBackend.expectGET(watchersPath).respond(watchers);
-        $httpBackend.expectGET(availableWatchersPath).respond(availableWatchers);
-
         wpWatchers.forWorkPackage(workPackage).then(function(users) {
           expect(users).to.have.keys(['available', 'watching']);
           expect(users.watching.length).to.eql(2);
@@ -138,8 +117,6 @@ describe('wpWatchers', function() {
             }
           ]);
         });
-
-        $httpBackend.flush();
       });
     });
 
@@ -154,9 +131,7 @@ describe('wpWatchers', function() {
 
         var watcher = {
           id: 3,
-          _links: {
-            self: '/users/123'
-          }
+          href: '/users/123'
         };
 
         wpWatchers.addForWorkPackage(workPackage, watcher);

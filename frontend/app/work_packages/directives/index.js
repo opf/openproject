@@ -45,15 +45,6 @@ angular.module('openproject.workPackages.directives')
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')])
-  .directive('workPackageAttachments', [
-    'WorkPackageAttachmentsService',
-    'NotificationsService',
-    'I18n',
-    'ConfigurationService',
-    'ConversionService',
-    'FocusHelper',
-    require('./work-package-attachments-directive')
-  ])
   .directive('workPackageWatcher', [
     'I18n',
     require('./work-package-watcher-directive')

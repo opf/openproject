@@ -61,10 +61,17 @@ export class ApiWorkPackagesService {
    * Loads a WorkPackage.
    *
    * @param id The ID of the WorkPackage.
+   * @param force Bypass any cached value?
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
-  public loadWorkPackageById(id: number) {
-    return this.apiV3.one("work_packages", id).get({});
+  public loadWorkPackageById(id: number, force = false) {
+    var header:any = {};
+
+    if (force) {
+      header.caching = { enabled: false };
+    }
+
+    return this.apiV3.one("work_packages", id).get({}, header);
   }
 
   /**

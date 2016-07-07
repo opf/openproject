@@ -35,10 +35,20 @@ function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
       className: 'WorkPackageResource',
       attrTypes: {
         parent: 'WorkPackage',
-        children: 'WorkPackage'
+        children: 'WorkPackage',
       }
     },
+    Activity: {
+      user: 'User'
+    },
+    'Activity::Comment': {
+      user: 'User'
+    },
+    'Activity::Revision': {
+      user: 'User'
+    },
     Error: 'ErrorResource',
+    User: 'UserResource',
     Collection: 'CollectionResource'
   });
 }
