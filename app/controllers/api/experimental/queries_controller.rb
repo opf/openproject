@@ -67,7 +67,7 @@ module Api::Experimental
     end
 
     def grouped
-      @user_queries = visible_queries.select { |query| !query.is_public? }.map { |query| [query.name, query.id] }
+      @user_queries = visible_queries.reject(&:is_public?).map { |query| [query.name, query.id] }
       @queries = visible_queries.select(&:is_public?).map { |query| [query.name, query.id] }
 
       respond_to do |format|
