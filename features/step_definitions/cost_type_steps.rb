@@ -78,7 +78,7 @@ end
 Then(/^the cost type "(.*?)" should be listed as deleted on the index page$/) do |name|
   check(I18n.t(:caption_show_locked))
 
-  click_link(I18n.t(:button_apply))
+  find('.simple-filters--controls a', text: I18n.t(:button_apply)).click
 
   within '.locked_cost_types' do
     should have_text(name)
