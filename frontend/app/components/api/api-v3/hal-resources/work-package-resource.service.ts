@@ -118,6 +118,13 @@ export class WorkPackageResource extends HalResource {
     return isNaN(Number(this.id));
   }
 
+  public get isMilestone(): boolean {
+    /**
+     * it would be better if this was not deduced but rather taken from the type
+     */
+    return this.hasOwnProperty('date');
+  }
+
   /**
    * Returns true if any field is in edition in this resource.
    */
