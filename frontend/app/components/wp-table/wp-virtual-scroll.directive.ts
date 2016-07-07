@@ -240,6 +240,7 @@ class WorkPackageTableVirtualScrollService {
       runInScopeDigest(this.$rootScope, () => {
         this.viewportChanges.onNext([rowsAboveCount, rowsAboveCount + rowsInViewport]);
       });
+      window.dispatchEvent(new Event('resize'));
     }
 
     this.lastRowsAboveCount = rowsAboveCount;
@@ -258,6 +259,8 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
   return {
     restrict: 'A',
     link: ($scope: IScope, $element: IRootElementService, attr: any) => {
+      // flag to avoid endless loops
+      let updateActive = false;
 
       // Number of columns a placeholder row should have
       let columnCount = $scope.$eval(attr.columnCount);
@@ -268,13 +271,21 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
       let rowHeight = attr.rowHeight;
 
       const updateScrollInfo = () => {
-        const scrollTop = $element.scrollTop();
-        const height = $element.outerHeight();
-        const rowsAboveCount = Math.floor(scrollTop / rowHeight);
-        const rowsInViewport = Math.round(height / rowHeight) + 5;
-        workPackageTableVirtualScrollService.updateScrollInfo(
-          rowsAboveCount,
-          rowsInViewport);
+        if (updateActive) {
+          return;
+        }
+        updateActive = true;
+        try {
+          const scrollTop = $element.scrollTop();
+          const height = $element.outerHeight();
+          const rowsAboveCount = Math.floor(scrollTop / rowHeight);
+          const rowsInViewport = Math.round(height / rowHeight) + 5;
+          workPackageTableVirtualScrollService.updateScrollInfo(
+            rowsAboveCount,
+            rowsInViewport);
+        } finally {
+          updateActive = false;
+        }
       };
 
       let scrollTimeout: any;
