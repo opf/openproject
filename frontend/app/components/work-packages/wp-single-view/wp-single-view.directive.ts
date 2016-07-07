@@ -32,7 +32,7 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
