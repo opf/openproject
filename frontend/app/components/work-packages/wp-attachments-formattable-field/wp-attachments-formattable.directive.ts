@@ -24,12 +24,13 @@ export class WpAttachmentsFormattableController {
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state,
+              protected $stateParams,
               protected loadingIndicator,
               protected keepTab:KeepTabService) {
 
     $element.on('drop', this.handleDrop);
     $element.on('dragover',this.highlightDroppable);
-    $element.on('dragleave drop',this.removeHighlight);
+    $element.on('dragleave',this.removeHighlight);
     $element.on('dragenter dragleave dragover', this.prevDefault);
   }
 
@@ -84,6 +85,8 @@ export class WpAttachmentsFormattableController {
     } else {
       this.insertUrls(dropData,description);
     }
+    this.openDetailsView(workPackage.id);
+    this.removeHighlight();
   };
 
   protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel){
@@ -139,6 +142,14 @@ export class WpAttachmentsFormattableController {
 
     description.insertWebLink(insertUrl, insertMode);
     description.save();
+  }
+
+  protected openDetailsView(wpId):void {
+    if(this.$state.current.name.indexOf('work-packages.list') > -1 && this.$state.params.workPackageId !== wpId){
+      this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
+        workPackageId: wpId
+      });
+    }
   }
 
   protected prevDefault(evt:DragEvent):void {
