@@ -212,7 +212,11 @@ function initializeResource(halResource:HalResource) {
   }
 
   function setEmbeddedAsProperties() {
-    Object.keys(halResource.$embedded).forEach(name => {
+    if (!halResource.$source._embedded) {
+      return;
+    }
+
+    Object.keys(halResource.$source._embedded).forEach(name => {
       lazy(halResource, name, () => halResource.$embedded[name], val => setter(val, name));
     });
   }
