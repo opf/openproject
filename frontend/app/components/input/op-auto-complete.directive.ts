@@ -29,7 +29,7 @@
 import {openprojectModule} from "../../angular-modules";
 function opAutoComplete(AutoCompleteHelper) {
   return {
-    restrict: 'A',
+    restrict: 'AC',
     scope: false,
     link: function(scope, element) {
       AutoCompleteHelper.enableTextareaAutoCompletion(element);
