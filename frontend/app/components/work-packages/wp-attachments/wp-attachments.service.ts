@@ -37,6 +37,8 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 
 export class WpAttachmentsService {
 
+  public pendingAttachments:File[] = [];
+
   constructor(protected $q:ng.IQService,
               protected $timeout:ng.ITimeoutService,
               protected $http:ng.IHttpService,
@@ -51,10 +53,15 @@ export class WpAttachmentsService {
     const notification = this.addUploadNotification(workPackage, uploads);
 
     return this.$q.all(uploads).then(() => {
+      this.pendingAttachments.length = 0;
       this.dismissNotification(notification);
     }).catch(error => {
       this.wpNotificationsService.handleErrorResponse(error, workPackage);
     });
+  }
+
+  public uploadPendingAttachments(workPackage:WorkPackageResourceInterface) {
+    return this.upload(workPackage, this.pendingAttachments);
   }
 
   /**

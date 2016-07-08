@@ -36,13 +36,12 @@ import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directiv
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
-  public formCtrl: WorkPackageEditFormController;
+  public formCtrl:WorkPackageEditFormController;
   public workPackage:WorkPackageResourceInterface;
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public attachments:any;
-  public filesExist:boolean = false;
+  public attachments:Array<any>;
   public text:any;
   public scope:any;
 
@@ -140,7 +139,7 @@ function wpSingleViewDirective() {
   function wpSingleViewLink(scope,
                             element,
                             attrs,
-                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
+                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
 
@@ -148,6 +147,7 @@ function wpSingleViewDirective() {
       controllers[1].setIdLabel();
     });
   }
+
   return {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
