@@ -10,6 +10,7 @@ import {
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {
@@ -26,11 +27,16 @@ export class WpAttachmentsFormattableController {
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
-              protected $timeout:ng.ITimeoutService) {
+              protected $timeout:ng.ITimeoutService,
+              protected $q:ng.IQService,
+              protected $state,
+              protected loadingIndicator,
+              protected keepTab:KeepTabService) {
 
     $element.on('drop', this.handleDrop);
+    $element.on('dragover',this.highlightDroppable);
+    $element.on('dragleave',this.removeHighlight);
     $element.on('dragenter dragleave dragover', this.prevDefault);
-
   }
 
   public handleDrop = (evt:JQueryEventObject):void => {
@@ -60,65 +66,111 @@ export class WpAttachmentsFormattableController {
     if (dropData.isUpload) {
       if (dropData.filesAreValidForUploading()) {
         if (!dropData.isDelayedUpload) {
-          this.wpAttachments.upload(workPackage, dropData.files).then(() => {
-            workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
-              const updatedAttachments = collection.elements;
-              this.wpCacheService.updateWorkPackage(workPackage);
-              if (angular.isUndefined(updatedAttachments)) {
-                return;
-              }
 
-              updatedAttachments.sort(function (a, b) {
-                return a.id > b.id ? 1 : -1;
-              });
+          this.uploadFiles(workPackage,dropData).then((updatedAttachments:any)=>{
+            if (angular.isUndefined(updatedAttachments)) {
+              return;
+            }
+            updatedAttachments = this.sortAttachments(updatedAttachments);
 
-              if (dropData.filesCount === 1) {
-                const currentFile:SingleAttachmentModel =
-                  new SingleAttachmentModel(updatedAttachments[updatedAttachments.length - 1]);
-                description.insertAttachmentLink(
-                  currentFile.url,
-                  (currentFile.isAnImage) ? InsertMode.INLINE : InsertMode.ATTACHMENT);
-              }
-              else if (dropData.filesCount > 1) {
-                for (let i:number = updatedAttachments.length - 1;
-                     i >= updatedAttachments.length - dropData.filesCount;
-                     i--) {
-                  description.insertAttachmentLink(
-                    updatedAttachments[i].downloadLocation.href,
-                    InsertMode.ATTACHMENT,
-                    true);
-                }
-              }
-              description.save();
-            }, err => {
-              console.log('error while reloading attachments', err);
-            });
-          }, function (err) {
-            console.log(err);
+            if (dropData.filesCount === 1) {
+              this.insertSingleAttachment(updatedAttachments, description);
+            }
+            else if (dropData.filesCount > 1) {
+              this.insertMultipleAttachments(dropData, updatedAttachments, description);
+            }
+
+            description.save();
+
           });
         } else {
-          dropData.files.forEach((file:File) => {
-            description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
-            file['isPending'] = true;
-            this.$rootScope.$emit('work_packages.attachment.add', file);
-          });
-          description.save();
+          this.insertDelayedAttachments(dropData,description);
         }
       }
     } else {
-      const insertUrl:string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
-      const insertAlternative:InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
-      const insertMode:InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
-
-      description.insertWebLink(insertUrl, insertMode);
-      description.save();
+      this.insertUrls(dropData,description);
     }
+    this.openDetailsView(workPackage.id);
+    this.removeHighlight();
   };
+
+  protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel){
+    const updatedAttachmentsList = this.$q.defer();
+
+    this.wpAttachments.upload(workPackage, dropData.files).then(() => {
+      workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
+        updatedAttachmentsList.resolve(collection.elements);
+      });
+    });
+
+    return updatedAttachmentsList.promise;
+  }
+
+  protected sortAttachments(updatedAttachments:any){
+    updatedAttachments.sort(function (a:any, b:any) {
+      return a.id > b.id ? 1 : -1;
+    });
+    return updatedAttachments;
+  }
+
+  protected insertSingleAttachment(updatedAttachments:any, description:any){
+    const currentFile:SingleAttachmentModel =
+      new SingleAttachmentModel(updatedAttachments[updatedAttachments.length - 1]);
+    description.insertAttachmentLink(
+      currentFile.url,
+      (currentFile.isAnImage) ? InsertMode.INLINE : InsertMode.ATTACHMENT);
+  }
+
+  protected insertMultipleAttachments(dropData:DropModel,updatedAttachments:any,description:any):void{
+    for (let i:number = updatedAttachments.length - 1;
+         i >= updatedAttachments.length - dropData.filesCount;
+         i--) {
+      description.insertAttachmentLink(
+        updatedAttachments[i]._links.downloadLocation.href,
+        InsertMode.ATTACHMENT,
+        true);
+    }
+  }
+
+  protected insertDelayedAttachments(dropData:DropModel, description):void{
+    dropData.files.forEach((file:File) => {
+      description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
+      // implement pending attachments logic when create is ready
+    });
+    description.save();
+  }
+
+  protected insertUrls(dropData: DropModel,description):void{
+    const insertUrl:string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
+    const insertAlternative:InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
+    const insertMode:InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
+
+    description.insertWebLink(insertUrl, insertMode);
+    description.save();
+  }
+
+  protected openDetailsView(wpId):void {
+    if(this.$state.current.name.indexOf('work-packages.list') > -1 && this.$state.params.workPackageId !== wpId){
+      this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
+        workPackageId: wpId
+      });
+    }
+  }
 
   protected prevDefault(evt:DragEvent):void {
     evt.preventDefault();
     evt.stopPropagation();
   }
+
+  protected highlightDroppable=()=>{
+    if(!this.$element.hasClass('is-droppable')){
+      this.$element.addClass('is-droppable');
+    }
+  };
+
+  protected removeHighlight=()=>{
+    this.$element.removeClass('is-droppable');
+  };
 }
 
 interface IAttachmentScope extends ng.IScope {
@@ -139,7 +191,6 @@ function wpAttachmentsFormattable() {
       if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
         return;
       }
-
       scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],

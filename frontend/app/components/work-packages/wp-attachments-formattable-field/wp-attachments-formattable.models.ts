@@ -42,17 +42,17 @@ export class MarkupModel {
       return '';
     }
 
-    var markup:string = '';
+    var markup:string = ' ';
 
     switch (insertMode) {
       case InsertMode.ATTACHMENT:
-        markup = 'attachment:' + insertUrl.split('/').pop();
+        markup += 'attachment:' + insertUrl.split('/').pop();
         break;
       case InsertMode.DELAYED_ATTACHMENT:
-        markup = 'attachment:' + insertUrl;
+        markup += 'attachment:' + insertUrl;
         break;
       case InsertMode.INLINE:
-        markup = '!' + insertUrl + '!';
+        markup += '!' + insertUrl + '!';
         break;
       case InsertMode.LINK:
         markup += insertUrl;
