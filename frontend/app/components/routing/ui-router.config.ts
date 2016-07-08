@@ -43,7 +43,7 @@ const panels = {
       url: '/watchers',
       reloadOnSearch: false,
       template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
-    }
+    };
   },
 
   get activity() {
@@ -51,7 +51,7 @@ const panels = {
       url: '/activity',
       reloadOnSearch: false,
       template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
-    }
+    };
   },
 
   get activityDetails() {
@@ -99,6 +99,12 @@ openprojectModule
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('full-create'),
         onExit: () => angular.element('body').removeClass('full-create'),
+        params: {
+          // value: null makes the parameter optional
+          // squash: true avoids duplicate slashes when the paramter is not provided
+          projectPath: {value: null, squash: true},
+          projects: {value: null, squash: true}
+        }
       })
 
       .state('work-packages.copy', {
