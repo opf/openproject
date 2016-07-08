@@ -68,7 +68,6 @@
 
   <accessible-by-keyboard
     link-class="hidden-for-sighted skip-navigation-link"
-    ng-if="totalEntries/perPage > 1"
     aria-label="{{ ::text.text_jump_to_pagination }}"
     execute="setAnchorToNextElement()">
     <span ng-bind="::text.jump_to_pagination"></span>

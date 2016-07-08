@@ -156,7 +156,6 @@ function WorkPackagesListController($scope,
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
-    $scope.perPage = PaginationService.getPerPage();
 
     // Authorisation
     AuthorisationService.initModelAuth("work_package", meta._links);
@@ -165,7 +164,8 @@ function WorkPackagesListController($scope,
 
   $scope.setAnchorToNextElement = function () {
     // Skip to next when visible, otherwise skip to previous
-    const visibleLink = jQuery('#pagination--next-link, #pagination--prev-link')
+    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
+    const visibleLink = jQuery(selectors)
                           .not(':hidden')
                           .first();
 

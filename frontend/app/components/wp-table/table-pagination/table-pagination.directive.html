@@ -49,14 +49,21 @@
         <a ng-click="showPage(paginationOptions.page + 1)"
            rel="next"
            class="pagination--next-link"
-           aria-label="{{ ::text.label_previous }}"
+           aria-label="{{ ::text.label_next }}"
            data-click-on-keypress="[13, 32]"
            ng-bind="::text.next"
            id="pagination--next-link"
            role="link"></a>
       </li>
 
-      <li class="pagination--range" title="{{ currentRange }}">{{ currentRange }}</li>
+      <li class="pagination--range">
+        <span ng-bind="currentRange"></span>
+        <span ng-if="pageNumbers.length === 1"
+              id="pagination-empty-text"
+              tabindex="0"
+              class="hidden-for-sighted"
+              ng-bind="::text.no_other_page"></span>
+      </li>
     </ul>
   </nav>
 
