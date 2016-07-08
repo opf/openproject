@@ -56,7 +56,6 @@ export class WorkPackageAttachmentsController {
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
-              protected $rootScope,
               protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
@@ -74,12 +73,12 @@ export class WorkPackageAttachmentsController {
       this.settings.maximumFileSize = settings.maximumAttachmentFileSize;
       this.fetchingConfiguration = false;
     });
-
+    
     if (this.workPackage && this.workPackage.attachments) {
       this.loadAttachments(false);
     }
 
-    $rootScope.$on('work_packages.attachment.add', file => {
+    $scope.$on('work_packages.attachment.add', (evt,file) => {
       this.attachments.push(file);
     });
 
@@ -89,6 +88,13 @@ export class WorkPackageAttachmentsController {
           this.workPackage = wp;
           this.loadAttachments(false);
         });
+    }else{
+      this.attachments = this.wpAttachments.pendingAttachments;
+      // the controller gets initialized before the link function where we require the controller
+      // so we have to wait until we cann access wpSingleView's controller..
+      angular.element(document).on('load',()=>{
+        this.$scope.wpSingleView.filesExist = this.wpAttachments.pendingAttachments.length > 0;
+      });
     }
   }
 
@@ -122,14 +128,15 @@ export class WorkPackageAttachmentsController {
   }
 
   public remove(file):void {
-    if (file._type === 'Attachment') {
-      file.delete()
-        .then(() => this.attachmentsChanged())
-        .catch(error => {
-          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-        });
+    if(!this.workPackage.isNew){
+      if (file._type === 'Attachment') {
+        file.delete()
+          .then(() => this.attachmentsChanged())
+          .catch(error => {
+            this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          });
+      }
     }
-
     _.remove(this.attachments, file);
   }
 

@@ -32,7 +32,7 @@ import {WorkPackageCacheService} from '../../../work-packages/work-package-cache
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
-
+import {WpAttachmentsService} from '../../../work-packages/wp-attachments/wp-attachments.service'
 interface WorkPackageResourceEmbedded {
   activities:HalResource|any;
   assignee:HalResource|any;
@@ -74,6 +74,7 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
 var $q:IQService;
 var apiWorkPackages:ApiWorkPackagesService;
+var wpAttachments:WpAttachmentsService;
 var wpCacheService:WorkPackageCacheService;
 var NotificationsService:any;
 var $stateParams:any;
@@ -261,10 +262,13 @@ export class WorkPackageResource extends HalResource {
 
         this.saveResource(payload)
           .then(workPackage => {
+            wpAttachments.uploadPendingAttachments(workPackage);
+            
             this.$initialize(workPackage);
             this.$pristine = {};
 
             deferred.resolve(this);
+
           })
           .catch(error => {
             deferred.reject(error);
@@ -355,7 +359,7 @@ export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, 
 }
 
 function wpResource(...args) {
-  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = args;
+  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService, wpAttachments] = args;
   return WorkPackageResource;
 }
 
@@ -364,7 +368,8 @@ wpResource.$inject = [
   '$stateParams',
   'apiWorkPackages',
   'wpCacheService',
-  'NotificationsService'
+  'NotificationsService',
+  'wpAttachments'
 ];
 
 opApiModule.factory('WorkPackageResource', wpResource);

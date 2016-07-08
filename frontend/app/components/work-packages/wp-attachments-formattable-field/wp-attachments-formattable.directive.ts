@@ -126,17 +126,18 @@ export class WpAttachmentsFormattableController {
          i >= updatedAttachments.length - dropData.filesCount;
          i--) {
       description.insertAttachmentLink(
-        updatedAttachments[i]._links.downloadLocation.href,
+        updatedAttachments[i].downloadLocation.href,
         InsertMode.ATTACHMENT,
         true);
     }
   }
 
   protected insertDelayedAttachments(dropData:DropModel, description):void{
-    dropData.files.forEach((file:File) => {
-      description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
-      // implement pending attachments logic when create is ready
-    });
+    for(var i = 0; i < dropData.files.length; i++){
+      description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
+      this.$rootScope.$broadcast('work_packages.attachment.add',dropData.files[i]);
+    }
+
     description.save();
   }
 
@@ -191,6 +192,7 @@ function wpAttachmentsFormattable() {
       if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
         return;
       }
+
       scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],
