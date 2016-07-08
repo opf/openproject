@@ -9,7 +9,8 @@
            ng-bind="::text.previous"
            data-click-on-keypress="[13, 32]"
            id= "pagination--prev-link"
-           role="link"></a>
+           role="link"
+           href=""></a>
       </li>
 
       <li ng-if="prePageNumbers.length" ng-repeat="pageNumber in prePageNumbers"
@@ -18,6 +19,7 @@
            rel="next"
            data-click-on-keypress="[13, 32]"
            role="link"
+           href=""
            ng-bind="pageNumber"></a>
       </li>
       <li ng-if="prePageNumbers.length" class="pagination--space">…</li>
@@ -32,6 +34,7 @@
            data-click-on-keypress="[13, 32]"
            rel="next"
            role="link"
+           href=""
            ng-bind="pageNumber"></a>
       </li>
 
@@ -42,6 +45,7 @@
            rel="next"
            data-click-on-keypress="[13, 32]"
            role="link"
+           href=""
            ng-bind="pageNumber"></a>
       </li>
       <li ng-show="totalEntries && paginationOptions.page < pageNumbers[pageNumbers.length - 1]"
@@ -53,7 +57,8 @@
            data-click-on-keypress="[13, 32]"
            ng-bind="::text.next"
            id="pagination--next-link"
-           role="link"></a>
+           role="link"
+           href=""></a>
       </li>
 
       <li class="pagination--range">
@@ -79,6 +84,7 @@
          <a ng-click="selectPerPage(perPageOption)"
             data-click-on-keypress="[13, 32]"
             role="link"
+            href=""
             ng-bind="perPageOption"></a>
        </span>
 

@@ -49,7 +49,7 @@ function tablePagination(PaginationService) {
         next: I18n.t('js.label_next'),
         label_next: I18n.t('js.pagination.pages.next'),
         per_page: I18n.t('js.label_per_page'),
-        no_other_page: I18n.t('js.pagination.no_other_page'),
+        no_other_page: I18n.t('js.pagination.no_other_page')
       };
 
       scope.selectPerPage = function(perPage){
