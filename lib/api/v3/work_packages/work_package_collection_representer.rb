@@ -41,11 +41,13 @@ module API
         def initialize(models,
                        self_link,
                        query: {},
+                       project: nil,
                        groups:,
                        total_sums:,
                        page: nil,
                        per_page: nil,
                        current_user:)
+          @project = project
           @groups = groups
           @total_sums = total_sums
 
@@ -67,14 +69,14 @@ module API
           {
             href: api_v3_paths.create_work_package_form,
             method: :post
-          } if current_user.allowed_to?(:add_work_packages, nil, global: true)
+          } if current_user_allowed_to_add_work_packages?
         end
 
         link :createWorkPackageImmediate do
           {
             href: api_v3_paths.work_packages,
             method: :post
-          } if current_user.allowed_to?(:add_work_packages, nil, global: true)
+          } if current_user_allowed_to_add_work_packages?
         end
 
         collection :elements,
@@ -122,7 +124,12 @@ module API
 
         private
 
-        attr_reader :groups,
+        def current_user_allowed_to_add_work_packages?
+          current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+        end
+
+        attr_reader :project,
+                    :groups,
                     :total_sums
       end
     end

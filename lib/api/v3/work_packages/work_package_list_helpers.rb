@@ -184,6 +184,7 @@ module API
           ::API::V3::WorkPackages::WorkPackageCollectionRepresenter.new(
             work_packages,
             self_link,
+            project: project,
             query: query_params,
             page: params[:offset] ? params[:offset].to_i : nil,
             per_page: params[:pageSize] ? params[:pageSize].to_i : nil,

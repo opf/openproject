@@ -38,6 +38,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:query) { {} }
   let(:groups) { nil }
   let(:total_sums) { nil }
+  let(:project) { nil }
 
   let(:page_parameter) { nil }
   let(:page_size_parameter) { nil }
@@ -49,6 +50,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       work_packages,
       self_base_link,
       query: query,
+      project: project,
       groups: groups,
       total_sums: total_sums,
       page: page_parameter,
@@ -106,6 +108,20 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         is_expected
           .to be_json_eql(:post.to_json)
           .at_path('_links/createWorkPackageImmediate/method')
+      end
+
+      context 'in project context' do
+        let(:project) { FactoryGirl.build_stubbed :project }
+
+        it 'has no link to create work_packages' do
+          is_expected
+            .to_not have_json_path('_links/createWorkPackage')
+        end
+
+        it 'has no link to create work_packages immediately' do
+          is_expected
+            .to_not have_json_path('_links/createWorkPackageImmediate')
+        end
       end
     end
 
