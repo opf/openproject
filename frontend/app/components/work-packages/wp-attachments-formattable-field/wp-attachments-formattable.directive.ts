@@ -162,7 +162,10 @@ export class WpAttachmentsFormattableController {
     evt.stopPropagation();
   }
 
-  protected highlightDroppable=()=>{
+  protected highlightDroppable=(evt:JQueryEventObject)=>{
+    // use the browser's native implementation for showing the user
+    // that one can drop data on this area
+    (evt.originalEvent as DragEvent).dataTransfer.dropEffect = 'copy';
     if(!this.$element.hasClass('is-droppable')){
       this.$element.addClass('is-droppable');
     }

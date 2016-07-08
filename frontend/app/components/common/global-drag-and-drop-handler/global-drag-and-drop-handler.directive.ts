@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,42 +24,27 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-.attachments-container
-  float: left
-  margin: 0 0 30px 0
-  width: 100%
-  ul
-    margin: 0
-    padding: 0
-    list-style-type: none
-    li
-      margin: 0
-      padding: 0
-      line-height: 20px
+import {wpDirectivesModule} from "../../../angular-modules";
 
-.add-file
-  float: left
-  padding: 8px 0 0 10px
-  i
-    padding: 0 2px 0 0
+export class GlobalDragAndDropHandlerLink {
+  
+  constructor(protected $scope:ng.IScope,
+              protected $element:ng.IAugmentedJQuery) {
 
-.upload-file
-  display: block
-  width: 100%
-  float: left
-  margin: 20px 0 0 0
-  padding: 20px 0 0 0
-  border-top: 1px solid #ddd
+    $element.on('dragenter dragover dragleave drop',(evt:JQueryEventObject)=>{
+      evt.preventDefault();
+    })
 
-.is-droppable
-  transition: background 0.2s ease, border 0.2s ease
-  border: 1px dotted #35c53f
-  background: #d8fdd1 !important
-  form
-    background: white
-    textarea
-      background: #e6fde4
-      border: 0
+  }
+}
 
+function GlobalDragAndDropHandler() {
+  return {
+    restrict: 'A',
+    link: GlobalDragAndDropHandlerLink
+  };
+}
+
+wpDirectivesModule.directive('globalDragAndDropHandler', GlobalDragAndDropHandler);
