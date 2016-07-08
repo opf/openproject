@@ -98,6 +98,10 @@ export class WatchersPanelController {
     this.loadingPromise = this.wpWatchers.addForWorkPackage(this.workPackage, watcher)
       .then(watcher => {
         this.$scope.$broadcast('watchers.add.finished', watcher);
+
+        // Forcefully reload the resource to update the watch/unwatch links
+        // should the current user have been added
+        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
       })
       .finally(() => {
         delete watcher.loading;
@@ -111,6 +115,10 @@ export class WatchersPanelController {
       .then(watcher => {
         this.remove(watcher, this.watching);
         this.add(watcher, this.available);
+
+        // Forcefully reload the resource to update the watch/unwatch links
+        // should the current user have been removed
+        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
       });
   };
 
