@@ -26,62 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+import {wpControllersModule} from '../../../angular-modules';
+import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackageDetailsController', WorkPackageDetailsController);
+export class WorkPackageDetailsController extends WorkPackageViewController {
 
-function WorkPackageDetailsController($scope,
-                                      $state,
-                                      $rootScope,
-                                      $q,
-                                      I18n,
-                                      PathHelper,
-                                      WorkPackageService,
-                                      NotificationsService,
-                                      wpEditModeState:WorkPackageEditModeStateService,
-                                      wpCacheService) {
-
-  $scope.wpEditModeState = wpEditModeState;
-  $scope.I18n = I18n;
-
-  var deferred = $q.defer();
-  $scope.initializedWorkPackage = deferred.promise;
-  scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
-    .subscribe((wp:WorkPackageResource) => {
-      $scope.workPackage = wp;
-
-      wp.schema.$load();
-      WorkPackageService.cache().put('preselectedWorkPackageId', wp.id);
-
-      $scope.focusAnchorLabel = getFocusAnchorLabel(
-        $state.current.url.replace(/\//, ''),
-        wp
-      );
-
-      $scope.showStaticPagePath = PathHelper.workPackagePath(wp);
-      deferred.resolve();
-    });
-
-  $scope.onWorkPackageSave = function () {
-    $rootScope.$emit('workPackagesRefreshInBackground');
-  };
-
-  $scope.canViewWorkPackageWatchers = function() {
-    return !!($scope.workPackage && $scope.workPackage.watchers !== undefined);
-  };
-
-  function getFocusAnchorLabel(tab, workPackage) {
-    var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
-      params = {
-        tab: tabLabel,
-        type: workPackage.type.name,
-        subject: workPackage.subject
-      };
-
-    return I18n.t('js.label_work_package_details_you_are_here', params);
+  constructor(public $injector,
+              public $scope,
+              public $state) {
+    super($injector, $scope, $state.params['workPackageId']);
   }
+
+  public onWorkPackageSave() {
+    this.$rootScope.$emit('workPackagesRefreshInBackground');
+  };
 }
+
+wpControllersModule.controller('WorkPackageDetailsController', WorkPackageDetailsController);

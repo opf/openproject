@@ -26,52 +26,76 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+import {wpControllersModule} from '../../../angular-modules';
+import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
-function WorkPackageShowController($scope,
-                                   $rootScope,
-                                   $state,
-                                   $window,
-                                   PERMITTED_MORE_MENU_ACTIONS,
-                                   I18n,
-                                   PathHelper,
-                                   WorkPackageService,
-                                   WorkPackageAuthorization,
-                                   HookService,
-                                   AuthorisationService,
-                                   wpCacheService,
-                                   wpEditModeState) {
+export class WorkPackageShowController extends WorkPackageViewController {
 
-  $scope.wpEditModeState = wpEditModeState;
+  // Permitted actions for WP toolbar
+  public permittedActions:any;
+  public actionsAvailable:boolean;
 
-  scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.workPackageId))
-    .subscribe((wp: WorkPackageResource) => {
-      $scope.workPackage = wp;
-      wp.schema.$load();
+  // Watcher properties
+  public isWatched:boolean;
+  public displayWatchButton:boolean;
+  public watchers:any;
 
-      AuthorisationService.initModelAuth('work_package', $scope.workPackage);
+  // Properties
+  public type:HalResource;
+  public author:UserResource;
+  public authorPath:string;
+  public authorActive:boolean;
+  public attachments:any;
 
-      var authorization = new WorkPackageAuthorization($scope.workPackage);
-      $scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-        getPermittedPluginActions(authorization));
-      $scope.actionsAvailable = Object.keys($scope.permittedActions).length > 0;
+  constructor(public $injector,
+              public $scope,
+              public $state,
+              public $window,
+              public HookService,
+              public AuthorisationService,
+              public WorkPackageAuthorization,
+              public PERMITTED_MORE_MENU_ACTIONS) {
+    super($injector, $scope, $state.params['workPackageId']);
+  }
 
-      // END stuff copied from details toolbar directive...
+  protected init() {
+    super.init();
 
-      $scope.I18n = I18n;
-      $scope.$parent.preselectedWorkPackageId = $scope.workPackage.id;
-      $scope.maxDescriptionLength = 800;
-      $scope.projectIdentifier = $scope.workPackage.project.identifier;
+    this.AuthorisationService.initModelAuth('work_package', this.workPackage);
 
-      // initialization
-      setWorkPackageScopeProperties($scope.workPackage);
+    var authorization = new this.WorkPackageAuthorization(this.workPackage);
+    this.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
+      this.getPermittedPluginActions(authorization));
+    this.actionsAvailable = Object.keys(this.permittedActions).length > 0;
 
+    // initialization
+    this.setWorkPackageScopeProperties(this.workPackage);
+  }
+
+  public deleteSelectedWorkPackage() {
+    var promise = this.WorkPackageService.performBulkDelete([this.workPackage.id], true);
+
+    promise.success(function () {
+      this.$state.go('work-packages.list', { projectPath: this.projectIdentifier });
     });
+  }
 
+  public triggerMoreMenuAction(action, link) {
+    switch (action) {
+      case 'delete':
+        this.deleteSelectedWorkPackage();
+        break;
+      default:
+        this.$window.location.href = link;
+        break;
+    }
+  };
 
-  // stuff copied from details toolbar directive...
-  function getPermittedActions(authorization, permittedMoreMenuActions) {
+  private getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
     var augmentedActions = { };
 
@@ -84,9 +108,9 @@ function WorkPackageShowController($scope,
     return augmentedActions;
   }
 
-  function getPermittedPluginActions(authorization) {
+  private getPermittedPluginActions(authorization) {
     var pluginActions = [];
-    angular.forEach(HookService.call('workPackageDetailsMoreMenu'), function(action) {
+    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
       pluginActions = pluginActions.concat(action);
     });
 
@@ -105,91 +129,27 @@ function WorkPackageShowController($scope,
 
     return augmentedPluginActions;
   }
-  function deleteSelectedWorkPackage() {
-    var promise = WorkPackageService.performBulkDelete([$scope.workPackage.id], true);
 
-    promise.success(function() {
-      $state.go('work-packages.list', {projectPath: $scope.projectIdentifier});
-    });
-  }
-  $scope.triggerMoreMenuAction = function(action, link) {
-    switch (action) {
-      case 'delete':
-        deleteSelectedWorkPackage();
-        break;
-      default:
-        $window.location.href = link;
-        break;
-    }
-  };
-
-  function outputMessage(message, isError) {
-    $scope.$emit('flashMessage', {
-      isError: !!isError,
-      text: message
-    });
-  }
-
-  function outputError(error) {
-    outputMessage(error.message || I18n.t('js.work_packages.error.general'), true);
-  }
-
-  $scope.outputMessage = outputMessage; // expose to child controllers
-  $scope.outputError = outputError; // expose to child controllers
-
-
-  function setWorkPackageScopeProperties(workPackage){
-    $scope.isWatched = workPackage.hasOwnProperty('unwatch');
-    $scope.displayWatchButton = workPackage.hasOwnProperty('unwatch') ||
-      workPackage.hasOwnProperty('watch');
+  private setWorkPackageScopeProperties(wp:WorkPackageResourceInterface) {
+    this.isWatched = wp.hasOwnProperty('unwatch');
+    this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
 
     // watchers
-    if(workPackage.watchers) {
-      $scope.watchers = workPackage.watchers.elements;
+    if (wp.watchers) {
+      this.watchers = (wp.watchers as any).elements;
     }
 
-    $scope.showStaticPagePath = PathHelper.workPackagePath($scope.workPackage.id);
-
     // Type
-    $scope.type = workPackage.type;
+    this.type = wp.type;
 
     // Author
-    $scope.author = workPackage.author;
-    $scope.authorPath = $scope.author.showUserPath;
-    $scope.authorActive = $scope.author.isActive;
+    this.author = wp.author;
+    this.authorPath = this.author.showUserPath;
+    this.authorActive = this.author.isActive;
 
     // Attachments
-    $scope.attachments = workPackage.attachments.elements;
-
-    $scope.focusAnchorLabel = getFocusAnchorLabel(
-      $state.current.url.replace(/\//, ''),
-      $scope.workPackage
-    );
-  }
-
-  $scope.canViewWorkPackageWatchers = function() {
-    return !!($scope.workPackage && $scope.workPackage.watchers !== undefined);
-  };
-
-  // toggles
-
-  $scope.toggleStates = {
-    hideFullDescription: true,
-    hideAllAttributes: true
-  };
-
-  function getFocusAnchorLabel(tab, workPackage) {
-    var tabLabel = I18n.t('js.work_packages.tabs.' + tab),
-      params = {
-        tab: tabLabel,
-        type: workPackage.type.name,
-        subject: workPackage.subject
-      };
-
-    return I18n.t('js.label_work_package_details_you_are_here', params);
+    this.attachments = wp.attachments.elements;
   }
 }
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackageShowController', WorkPackageShowController);
+wpControllersModule.factory('WorkPackageShowController', WorkPackageShowController);
