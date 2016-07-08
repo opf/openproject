@@ -54,16 +54,21 @@ export class WorkPackageRelationsService {
   }
 
   public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {
-    return this.relationsConfig.map(config => {
-      if (config.type === 'parent') {
-        return new this.WorkPackageParentRelationGroup(workPackage, config);
-      }
+    let configsOfInterest = this.relationsConfig;
 
-      if (config.type === 'children') {
-        return new this.WorkPackageChildRelationsGroup(workPackage, config);
-      }
+    if (workPackage.isMilestone) {
+      configsOfInterest = _.reject(configsOfInterest, {name: 'children'});
+    }
 
-      return new this.WorkPackageRelationGroup(workPackage, config);
+    return configsOfInterest.map(config => {
+      switch (config.type) {
+        case 'parent':
+          return new this.WorkPackageParentRelationGroup(workPackage, config);
+        case 'children':
+          return new this.WorkPackageChildRelationsGroup(workPackage, config);
+        default:
+          return new this.WorkPackageRelationGroup(workPackage, config);
+      }
     });
   }
 }
