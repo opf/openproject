@@ -161,7 +161,6 @@ en:
     label_share: "Share"
     label_show_attributes: "Show all attributes"
     label_show_in_menu: "Show page in menu"
-    label_skip_table: "Skip table"
     label_sort_by: "Sort by"
     label_sorted_by: "sorted by"
     label_sort_higher: "Move up"
@@ -201,6 +200,11 @@ en:
     label_wait: "Please wait for configuration..."
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
+
+    pagination:
+      pages:
+        next: "Forward to the next page"
+        previous: "Back to the previous page"
 
     placeholders:
       default: '-'
@@ -422,6 +426,9 @@ en:
         updatedAt: "Updated on"
         versionName: "Version"
         version: "Version"
+      jump_marks:
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
       placeholders:
         default: "-"
         description: "Click to enter description..."

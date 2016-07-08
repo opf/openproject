@@ -48,6 +48,10 @@ function WorkPackagesListController($scope,
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
   $scope.I18n = I18n;
+  $scope.text = {
+    'jump_to_pagination': I18n.t('js.work_packages.jump_marks.pagination'),
+    'text_jump_to_pagination': I18n.t('js.work_packages.jump_marks.label_pagination')
+  };
 
   // Setup
   function initialSetup() {
@@ -160,15 +164,14 @@ function WorkPackagesListController($scope,
   }
 
   $scope.setAnchorToNextElement = function () {
-    setTimeout(function(){
-      history.replaceState({}, document.title, location.href.substr(0, location.href.length-location.hash.length))
-    }, 100);
-    if(jQuery('.pagination-number').last().hasClass('-current')) {
-      $location.hash('pagination--prev-link');
-    }
-    else {
-      $location.hash('pagination--next-link');
-    }
+    // Skip to next when visible, otherwise skip to previous
+    const visibleLink = jQuery('#pagination--next-link, #pagination--prev-link')
+                          .not(':hidden')
+                          .first();
+
+   if (visibleLink.length) {
+     visibleLink.focus();
+   }
   }
 
   $scope.maintainBackUrl = function () {

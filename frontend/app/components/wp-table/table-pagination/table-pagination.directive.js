@@ -43,6 +43,13 @@ function tablePagination(PaginationService) {
     link: function(scope) {
       scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
+      scope.text = {
+        previous: I18n.t('js.label_previous'),
+        label_previous: I18n.t('js.pagination.pages.previous'),
+        next: I18n.t('js.label_next'),
+        label_next: I18n.t('js.pagination.pages.next'),
+        per_page: I18n.t('js.label_per_page')
+      };
 
       scope.selectPerPage = function(perPage){
         PaginationService.setPerPage(perPage);
