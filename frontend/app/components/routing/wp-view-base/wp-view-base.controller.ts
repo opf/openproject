@@ -49,11 +49,14 @@ export class WorkPackageViewController {
   // (when a WP has loaded).
   public initialized:ng.IPromise<any>;
 
+  // Static texts
+  public text:any = {};
+
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResourceInterface;
   public projectIdentifier:string;
 
-  public focusAnchorLabel:string;
+  protected focusAnchorLabel:string;
   public showStaticPagePath:string;
 
   constructor(public $injector, public $scope, protected workPackageId) {
@@ -62,10 +65,12 @@ export class WorkPackageViewController {
 
     var deferred = this.$q.defer();
     this.initialized = deferred.promise;
+    this.initializeTexts();
 
     scopedObservable($scope, this.wpCacheService.loadWorkPackage(workPackageId))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
+        this.init();
         deferred.resolve();
       });
   }
@@ -77,10 +82,19 @@ export class WorkPackageViewController {
   }
 
   /**
+   * Provide static translations
+   */
+  protected initializeTexts() {
+    this.text.tabs = {};
+    ['overview', 'activity', 'relations', 'watchers'].forEach(tab => {
+      this.text.tabs[tab] = this.I18n.t('js.work_packages.tabs.' + tab);
+    });
+  }
+
+  /**
    * Initialize controller after workPackage resource has been loaded.
    */
   protected init() {
-
     // Ensure the schema is being loaded as soon as possible
     this.workPackage.schema.$load();
 
@@ -110,7 +124,7 @@ export class WorkPackageViewController {
     return this.focusAnchorLabel = tabLabel;
   }
 
-  public get canViewWorkPackageWatchers() {
+  public canViewWorkPackageWatchers() {
     return !!(this.workPackage && this.workPackage.watchers);
   }
 }
