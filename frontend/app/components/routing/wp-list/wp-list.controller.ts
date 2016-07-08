@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
@@ -87,7 +87,7 @@ function WorkPackagesListController($scope,
     var cachedQuery = QueryService.getQuery();
     var urlQueryId = $state.params.query_id;
 
-    if (cachedQuery && urlQueryId && cachedQuery.id == urlQueryId) {
+    if (cachedQuery && urlQueryId && cachedQuery.id === urlQueryId) {
       // Augment current unsaved query with url param data
       var updateData = angular.extend(queryData, {columns: columnData});
       $scope.query = QueryService.updateQuery(updateData);
@@ -149,8 +149,8 @@ function WorkPackagesListController($scope,
     $scope.resource = json.resource;
 
     // Authorisation
-    AuthorisationService.initModelAuth("work_package", meta._links);
-    AuthorisationService.initModelAuth("query", meta.query._links);
+    AuthorisationService.initModelAuth('work_package', meta._links);
+    AuthorisationService.initModelAuth('query', meta.query._links);
   }
 
   $scope.maintainBackUrl = function () {
@@ -168,8 +168,7 @@ function WorkPackagesListController($scope,
   $scope.loadQuery = function (queryId) {
     loadingIndicator.mainPage = $state.go('work-packages.list',
       {'query_id': queryId,
-       'query_props': null},
-      {reload: true});
+       'query_props': null});
   };
 
   function updateResults() {
@@ -188,6 +187,16 @@ function WorkPackagesListController($scope,
 
   $scope.$watch(QueryService.getQueryName, function (queryName) {
     $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');
+  });
+
+  $scope.$watchCollection(function(){
+      return $state.params;
+  }, function(params) {
+    if ($scope.query &&
+        (params.query_id !== $scope.query.id ||
+         UrlParamsHelper.encodeQueryJsonParams($scope.query) !== params.query_props)) {
+      initialSetup();
+    }
   });
 
   $rootScope.$on('queryStateChange', function () {
@@ -228,7 +237,7 @@ function WorkPackagesListController($scope,
   $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
 
   $scope.openWorkPackageInFullView = function (id, force) {
-    if (force || $state.current.url != "") {
+    if (force || $state.current.url !== '') {
       loadingIndicator.mainPage = $state.go('work-packages.show', {
         workPackageId: id,
         query_props: $state.params.query_props

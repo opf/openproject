@@ -97,16 +97,16 @@ function QueryService($rootScope,
     updateQuery: function(values:any, afterUpdate) {
       var queryData = <any> {
       };
-      if(!!values.displaySums) {
+      if (!!values.displaySums) {
         queryData.displaySums = values.displaySums;
       }
-      if(!!values.columns) {
+      if (!!values.columns) {
         queryData.columns = values.columns;
       }
-      if(!!values.groupBy) {
+      if (!!values.groupBy) {
         queryData.groupBy = values.groupBy;
       }
-      if(!!values.sortCriteria) {
+      if (!!values.sortCriteria) {
         queryData.sortCriteria = values.sortCriteria;
       }
       query.update(queryData);
@@ -114,8 +114,8 @@ function QueryService($rootScope,
       QueryService.getAvailableFilters(query.projectId)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          if(queryData.filters && queryData.filters.length) {
-            query.setFilters(queryData.filters);
+          if(values.filters && values.filters.length) {
+            query.setFilters(values.filters);
           }
 
           return query;

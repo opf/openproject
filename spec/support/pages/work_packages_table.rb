@@ -47,6 +47,12 @@ module Pages
       end
     end
 
+    def expect_no_work_package_listed
+      within(table_container) do
+        expect(page).to have_selector('#empty-row-notification')
+      end
+    end
+
     def click_inline_create
       find('.wp-inline-create--add-link').click
       expect(page).to have_selector('.wp--row.-new')
@@ -62,6 +68,26 @@ module Pages
       row_element.find('.wp-table--details-link').click
 
       split_page
+    end
+
+    def add_filter(label, operator, value)
+      open_filter_section
+
+      select(label, from: 'Add filter:')
+
+      filter_name = get_filter_name(label)
+
+      select(operator, from: "operators-#{filter_name}") if operator
+      select(value, from: "values-#{filter_name}") if value
+    end
+
+    def expect_filter(label, operator, value)
+      open_filter_section
+
+      filter_name = get_filter_name(label)
+
+      expect(page).to have_select("operators-#{filter_name}", selected: operator) if operator
+      expect(page).to have_select("values-#{filter_name}", selected: value) if value
     end
 
     def click_on_row(work_package)
@@ -104,6 +130,12 @@ module Pages
       WorkPackageField.new(context, attribute)
     end
 
+    def open_filter_section
+      unless page.has_selector?('#work-packages-filter-toggle-button.-active')
+        click_button('work-packages-filter-toggle-button')
+      end
+    end
+
     private
 
     def path
@@ -112,6 +144,14 @@ module Pages
 
     def table_container
       find('#content .work-package-table--container')
+    end
+
+    def get_filter_name(label)
+      filter_container = page
+                         .find('.advanced-filters--filter-name', text: label)
+                         .first(:xpath, './..')
+
+      filter_container['id'].gsub('filter_', '')
     end
   end
 end
