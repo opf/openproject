@@ -68,9 +68,10 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.AuthorisationService.initModelAuth('work_package', this.workPackage);
 
     var authorization = new this.WorkPackageAuthorization(this.workPackage);
-    this.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
+    this.$scope.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
       this.getPermittedPluginActions(authorization));
-    this.actionsAvailable = Object.keys(this.permittedActions).length > 0;
+    this.$scope.actionsAvailable = Object.keys(this.$scope.permittedActions).length > 0;
+    this.$scope.triggerMoreMenuAction = this.triggerMoreMenuAction.bind(this);
 
     // initialization
     this.setWorkPackageScopeProperties(this.workPackage);
@@ -152,4 +153,4 @@ export class WorkPackageShowController extends WorkPackageViewController {
   }
 }
 
-wpControllersModule.factory('WorkPackageShowController', WorkPackageShowController);
+wpControllersModule.controller('WorkPackageShowController', WorkPackageShowController);

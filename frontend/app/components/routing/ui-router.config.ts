@@ -135,7 +135,7 @@ openprojectModule
         url: '/work_packages/{workPackageId:[0-9]+}?query_id&query_props',
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
-        controllerAs: 'vm',
+        controllerAs: '$ctrl',
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
