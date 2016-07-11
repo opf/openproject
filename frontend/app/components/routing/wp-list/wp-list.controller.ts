@@ -48,6 +48,10 @@ function WorkPackagesListController($scope,
   $scope.projectIdentifier = $state.params.projectPath || null;
   $scope.loadingIndicator = loadingIndicator;
   $scope.I18n = I18n;
+  $scope.text = {
+    'jump_to_pagination': I18n.t('js.work_packages.jump_marks.pagination'),
+    'text_jump_to_pagination': I18n.t('js.work_packages.jump_marks.label_pagination')
+  };
 
   // Setup
   function initialSetup() {
@@ -151,6 +155,18 @@ function WorkPackagesListController($scope,
     // Authorisation
     AuthorisationService.initModelAuth('work_package', meta._links);
     AuthorisationService.initModelAuth('query', meta.query._links);
+  }
+
+  $scope.setAnchorToNextElement = function () {
+    // Skip to next when visible, otherwise skip to previous
+    const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
+    const visibleLink = jQuery(selectors)
+                          .not(':hidden')
+                          .first();
+
+   if (visibleLink.length) {
+     visibleLink.focus();
+   }
   }
 
   $scope.maintainBackUrl = function () {
