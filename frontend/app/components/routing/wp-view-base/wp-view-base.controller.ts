@@ -47,7 +47,7 @@ export class WorkPackageViewController {
 
   // Helper promise to detect when the controller has been initialized
   // (when a WP has loaded).
-  public initialized:ng.IPromise<any>;
+  public initialized:ng.IDeferred<any>;
 
   // Static texts
   public text:any = {};
@@ -63,15 +63,20 @@ export class WorkPackageViewController {
     this.$inject('$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
                  'wpEditModeState', 'PathHelper', 'I18n');
 
-    var deferred = this.$q.defer();
-    this.initialized = deferred.promise;
+    this.initialized = this.$q.defer();
     this.initializeTexts();
+  }
 
-    scopedObservable($scope, this.wpCacheService.loadWorkPackage(workPackageId))
+  /**
+   * Observe changes of work package and re-run initialization.
+   * Needs to be run explicitly by descendants.
+   */
+  protected observeWorkPackage() {
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackageId))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.init();
-        deferred.resolve();
+        this.initialized.resolve();
       });
   }
 

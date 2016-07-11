@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
@@ -60,6 +59,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
               public WorkPackageAuthorization,
               public PERMITTED_MORE_MENU_ACTIONS) {
     super($injector, $scope, $state.params['workPackageId']);
+    this.observeWorkPackage();
   }
 
   protected init() {

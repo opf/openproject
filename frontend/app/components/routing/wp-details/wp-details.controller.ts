@@ -35,6 +35,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
               public $scope,
               public $state) {
     super($injector, $scope, $state.params['workPackageId']);
+    this.observeWorkPackage();
   }
 
   public onWorkPackageSave() {
