@@ -127,16 +127,17 @@ describe('WorkPackageDetailsController', () => {
       isTimezoneSet: sinon.stub().returns(false)
     });
 
-    $provide.value('$state', {go: () => false});
     $provide.constant('$stateParams', stateParams);
   }));
 
   beforeEach(angular.mock.inject(($rootScope,
                                   $controller,
+                                  $state,
                                   $timeout,
                                   $q,
                                   $httpBackend,
                                   WorkPackageService) => {
+    $state.params = stateParams;
     $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
 
     WorkPackageService.getWorkPackage = () => {
@@ -163,8 +164,8 @@ describe('WorkPackageDetailsController', () => {
       });
 
       $timeout.flush();
+      promise = ctrl.initialized.promise;
 
-      promise = scope.initializedWorkPackage;
     };
   }));
 

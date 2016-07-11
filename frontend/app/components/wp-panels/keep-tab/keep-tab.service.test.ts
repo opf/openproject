@@ -84,6 +84,7 @@ describe('keepTab service', () => {
       var cb = sinon.spy();
 
       var expected = {
+        active: 'relations',
         show: 'work-packages.show.relations',
         details: 'work-packages.list.details.relations'
       }
@@ -146,6 +147,7 @@ describe('keepTab service', () => {
       var cb = sinon.spy();
 
       var expected = {
+        active: 'activity',
         details: 'work-packages.list.details.activity',
         show: 'work-packages.show.activity'
       };
