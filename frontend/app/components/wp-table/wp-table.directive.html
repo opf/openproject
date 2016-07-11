@@ -117,8 +117,7 @@
               !row.object['leaf?'] && 'parent' || '',
               row.level > 0 && 'child idnt' || '',
               row.level > 0 && ('idnt-' + row.level) || '',
-              row.object.isNew && '-new' || '',
-              !(row.object.isNew || row.object.inlineCreate) && '-animated' || '',
+              row.object.isNew && '-new' || ''
             ]"
             ng-show="!groupByColumn || groupExpanded[row.groupName]"
 
