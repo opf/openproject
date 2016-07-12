@@ -378,12 +378,9 @@ module API
           watchers = represented.watcher_users.order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
           self_link = api_v3_paths.work_package_watchers(represented.id)
 
-          # FIXME/LEGACY: we pass the WP as context?!? that makes a difference!!!
-          # tl;dr: the embedded user representer must not be better than any other user representer
           Users::UserCollectionRepresenter.new(watchers,
                                                self_link,
-                                               current_user: current_user,
-                                               work_package: represented)
+                                               current_user: current_user)
         end
 
         def attachments
