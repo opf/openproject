@@ -62,7 +62,7 @@ module BasicData
           is_in_roadmap:        values[3],
           in_aggregation:       values[4],
           is_milestone:         values[5],
-          attribute_visibility: visibility[name]
+          attribute_visibility: visibility[name].stringify_keys
         }
       end
     end
@@ -84,9 +84,19 @@ module BasicData
     end
 
     def visibility_table
-      map = ['hidden', 'default', 'visible']
+      table = coded_visibility_table.map do |key, values|
+        [key, values.map { |i| coded_visibility_table_value_map[i] }]
+      end
 
-      table = { # columns correspond to #type_names above
+      Hash[table]
+    end
+
+    def coded_visibility_table_value_map
+      ['hidden', 'default', 'visible']
+    end
+
+    def coded_visibility_table
+      { # columns correspond to #type_names above
         estimated_time:  [1, 1, 1, 1, 1, 1, 1],
         spent_time:      [1, 1, 1, 1, 1, 1, 1],
         percentage_done: [1, 1, 1, 1, 1, 1, 1],
@@ -96,11 +106,7 @@ module BasicData
         version:         [1, 1, 1, 2, 2, 2, 2],
         start_date:      [2, 2, 2, 1, 1, 1, 1], # mind that start_date and due_date will
         due_date:        [2, 2, 2, 1, 1, 1, 1], # affect each other - they're shown together
-      }.map do |key, values|
-        [key, values.map { |i| map[i] }]
-      end
-
-      Hash[table]
+      }
     end
 
     def visibility_data

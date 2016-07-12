@@ -90,6 +90,9 @@ opApp
             }
           };
         });
+
+        // add global event handlers
+        angular.element('body').attr('global-drag-and-drop-handler','');
       }
     ])
     .value('cgBusyDefaults', {
