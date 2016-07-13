@@ -1215,9 +1215,6 @@
         }
       }
     },
-    "json-loader": {
-      "version": "0.5.1"
-    },
     "json5": {
       "version": "0.4.0"
     },
@@ -2049,14 +2046,14 @@
                     "bl": {
                       "version": "1.0.3"
                     },
+                    "boom": {
+                      "version": "2.10.1"
+                    },
                     "block-stream": {
                       "version": "0.0.8"
                     },
                     "caseless": {
                       "version": "0.11.0"
-                    },
-                    "boom": {
-                      "version": "2.10.1"
                     },
                     "chalk": {
                       "version": "1.1.3"
@@ -2067,11 +2064,11 @@
                     "commander": {
                       "version": "2.9.0"
                     },
-                    "cryptiles": {
-                      "version": "2.0.5"
-                    },
                     "core-util-is": {
                       "version": "1.0.2"
+                    },
+                    "cryptiles": {
+                      "version": "2.0.5"
                     },
                     "debug": {
                       "version": "2.2.0"
@@ -2085,6 +2082,9 @@
                     "delegates": {
                       "version": "1.0.0"
                     },
+                    "ecc-jsbn": {
+                      "version": "0.1.1"
+                    },
                     "escape-string-regexp": {
                       "version": "1.0.5"
                     },
@@ -2093,9 +2093,6 @@
                     },
                     "extsprintf": {
                       "version": "1.0.2"
-                    },
-                    "ecc-jsbn": {
-                      "version": "0.1.1"
                     },
                     "forever-agent": {
                       "version": "0.6.1"
@@ -2109,6 +2106,9 @@
                     "gauge": {
                       "version": "1.2.7"
                     },
+                    "generate-object-property": {
+                      "version": "1.2.0"
+                    },
                     "generate-function": {
                       "version": "2.0.0"
                     },
@@ -2121,26 +2121,23 @@
                     "har-validator": {
                       "version": "2.0.6"
                     },
-                    "generate-object-property": {
-                      "version": "1.2.0"
-                    },
                     "has-ansi": {
                       "version": "2.0.0"
                     },
                     "has-unicode": {
                       "version": "2.0.0"
                     },
-                    "hawk": {
-                      "version": "3.1.3"
-                    },
                     "hoek": {
                       "version": "2.16.3"
                     },
-                    "inherits": {
-                      "version": "2.0.1"
+                    "hawk": {
+                      "version": "3.1.3"
                     },
                     "http-signature": {
                       "version": "1.1.1"
+                    },
+                    "inherits": {
+                      "version": "2.0.1"
                     },
                     "ini": {
                       "version": "1.3.4"
@@ -2163,11 +2160,11 @@
                     "jodid25519": {
                       "version": "1.0.2"
                     },
-                    "json-schema": {
-                      "version": "0.2.2"
-                    },
                     "jsbn": {
                       "version": "0.1.0"
+                    },
+                    "json-schema": {
+                      "version": "0.2.2"
                     },
                     "json-stringify-safe": {
                       "version": "5.0.1"
@@ -2211,11 +2208,11 @@
                     "node-uuid": {
                       "version": "1.4.7"
                     },
-                    "npmlog": {
-                      "version": "2.0.3"
-                    },
                     "oauth-sign": {
                       "version": "0.8.1"
+                    },
+                    "npmlog": {
+                      "version": "2.0.3"
                     },
                     "once": {
                       "version": "1.3.3"
@@ -2253,11 +2250,11 @@
                     "stringstream": {
                       "version": "0.0.5"
                     },
-                    "strip-json-comments": {
-                      "version": "1.0.4"
-                    },
                     "strip-ansi": {
                       "version": "3.0.1"
+                    },
+                    "strip-json-comments": {
+                      "version": "1.0.4"
                     },
                     "supports-color": {
                       "version": "2.0.0"
@@ -2274,14 +2271,14 @@
                     "tunnel-agent": {
                       "version": "0.4.2"
                     },
+                    "tweetnacl": {
+                      "version": "0.14.3"
+                    },
                     "uid-number": {
                       "version": "0.0.6"
                     },
                     "util-deprecate": {
                       "version": "1.0.2"
-                    },
-                    "tweetnacl": {
-                      "version": "0.14.3"
                     },
                     "verror": {
                       "version": "1.3.6"
@@ -2415,30 +2412,6 @@
             },
             "source-list-map": {
               "version": "0.1.6"
-            }
-          }
-        }
-      }
-    },
-    "yaml-loader": {
-      "version": "0.1.0",
-      "dependencies": {
-        "js-yaml": {
-          "version": "3.2.7",
-          "dependencies": {
-            "argparse": {
-              "version": "1.0.2",
-              "dependencies": {
-                "lodash": {
-                  "version": "3.6.0"
-                },
-                "sprintf-js": {
-                  "version": "1.0.2"
-                }
-              }
-            },
-            "esprima": {
-              "version": "2.0.0"
             }
           }
         }
