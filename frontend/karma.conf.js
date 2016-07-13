@@ -48,6 +48,10 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // I18n.js is provided by the Asset pipeline,
+      // which is unavailable for unit tests.
+      // For testing, shim its functionality
+      'tests/unit/lib/i18n-js.shim.js',
       '../app/assets/javascripts/bundles/openproject-global.css',
       '../app/assets/javascripts/bundles/openproject-global.js',
 
