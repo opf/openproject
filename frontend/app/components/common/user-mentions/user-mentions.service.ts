@@ -42,7 +42,7 @@ export class UserMentions {
     }else {
       wpResource = wp;
     }
-    if ((wpResource as WorkPackageResourceInterface).availableWatchers) {
+    if (angular.isDefined(wpResource) && (wpResource as WorkPackageResourceInterface).availableWatchers) {
       doLoading((wpResource as WorkPackageResourceInterface));
     } else {
       availableWatchers.reject();
