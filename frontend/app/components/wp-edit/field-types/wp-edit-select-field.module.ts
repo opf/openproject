@@ -56,7 +56,7 @@ export class SelectEditField extends EditField {
   }
 
   private setValues(availableValues) {
-    this.options = angular.copy(availableValues);
+    this.options = availableValues;
     this.addEmptyOption();
     this.checkCurrentValueValidity();
   }
