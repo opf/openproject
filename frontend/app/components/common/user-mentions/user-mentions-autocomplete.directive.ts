@@ -46,7 +46,7 @@ export class MentionsAutoComplete {
 
 function mentionsAutoCompleteDirective():ng.IDirective {
   return {
-    require: ['?^wpEditField', '?^workPackageComment'],
+    require: ['?^wpSingleView', '?^workPackageComment'],
     restrict: 'AC',
     controller: MentionsAutoComplete,
     link: function(scope, element, attrs, controllers){
