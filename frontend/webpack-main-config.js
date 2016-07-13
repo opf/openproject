@@ -57,7 +57,6 @@ var loaders = [
   {test: /[\/]dragula\.js$/, loader: 'expose?dragula'},
   {test: /[\/]moment\.js$/, loader: 'expose?moment'},
   {test: /[\/]mousetrap\.js$/, loader: 'expose?Mousetrap'},
-  {test: /[\/]vendor[\/]i18n\.js$/, loader: 'expose?I18n'},
   {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract(
@@ -140,6 +139,10 @@ function getWebpackMainConfig() {
 
     ts: {
       configFileName: path.resolve(__dirname, 'tsconfig.json')
+    },
+
+    externals: {
+      "I18n": "I18n"
     },
 
     plugins: [
