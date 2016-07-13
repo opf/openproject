@@ -251,7 +251,7 @@ If this works the certificate (`cert.pem`) and private key (`privkey.pem`) will 
 
 Now this Let's Encryt certificate is only valid for 90 days. To renew it automatically all you have to do is to add the following entry to your crontab (run `crontab -e`):
 
-    0 1 * * * certbot renew --quiet --post-hook "service apache2 restart"
+    0 1 * * * certbot-auto renew --quiet --post-hook "service apache2 restart"
     
 This will execute `certbot renew` every day at 1am. The command checks if the certificate is expired and renews it if that is the case. The web server is restarted in a post hook in order for it to pick up the new certificate.
 
