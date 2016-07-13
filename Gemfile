@@ -122,6 +122,7 @@ gem 'sass-rails', '~> 5.0.3'
 gem 'sass', '~> 3.4.12'
 gem 'autoprefixer-rails'
 gem 'bourbon', '~> 4.2.0'
+gem 'i18n-js', '>= 3.0.0.rc13'
 
 gem 'prototype-rails', git: 'https://github.com/rails/prototype-rails.git', branch: '4.2'
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
