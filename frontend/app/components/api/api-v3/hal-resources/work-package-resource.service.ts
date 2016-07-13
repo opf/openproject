@@ -77,6 +77,7 @@ var apiWorkPackages:ApiWorkPackagesService;
 var wpCacheService:WorkPackageCacheService;
 var NotificationsService:any;
 var $stateParams:any;
+var UserMentions:any;
 
 export class WorkPackageResource extends HalResource {
   public static fromCreateForm(form) {
@@ -264,6 +265,7 @@ export class WorkPackageResource extends HalResource {
             this.$initialize(workPackage);
             this.$pristine = {};
 
+            UserMentions.parseWatchers(workPackage,workPackage.description.raw);
             deferred.resolve(this);
           })
           .catch(error => {
@@ -355,7 +357,7 @@ export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, 
 }
 
 function wpResource(...args) {
-  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = args;
+  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService,UserMentions] = args;
   return WorkPackageResource;
 }
 
@@ -364,7 +366,8 @@ wpResource.$inject = [
   '$stateParams',
   'apiWorkPackages',
   'wpCacheService',
-  'NotificationsService'
+  'NotificationsService',
+  'UserMentions',
 ];
 
 opApiModule.factory('WorkPackageResource', wpResource);

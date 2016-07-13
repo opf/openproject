@@ -72,7 +72,7 @@ export class WorkPackageSingleViewController {
       },
       idLabel: ''
     };
-
+    
     scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
     $scope.$on('workPackageUpdatedInEditor', () => {
       this.wpNotificationsService.showSave(this.workPackage);
