@@ -37,13 +37,14 @@ export class MentionsAutoComplete {
     this.UserMentions.availableWatchers.forEach((watcher:UserResource) => {
       users.push({name: watcher.firstName + ' ' + watcher.lastName, id: watcher.id});
     });
+
     return users;
   }
 }
 
 function mentionsAutoCompleteDirective():ng.IDirective {
   return {
-    require: ['^wpEditForm'],
+    require: ['?^wpEditForm'],
     restrict: 'AC',
     controller: MentionsAutoComplete,
     link: function(scope, element, attrs, controllers){

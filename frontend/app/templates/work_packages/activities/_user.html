@@ -75,7 +75,7 @@
     <span ng-if="!inEdit"
           class="message"
           ng-show="activity._type == 'Activity::Comment'"
-          ng-bind-html="postedComment"/>
+          ng-bind-html="postedComment | UserMentionsFilter"/>
     <ul class="work-package-details-activities-messages" ng-if="!isInitial">
       <li ng-repeat="detail in details track by $index">
         <span class="message" ng-bind-html="detail"/>
