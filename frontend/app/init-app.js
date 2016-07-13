@@ -26,18 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-// standard locales
-I18n.translations.en = require("locales/js-en.yml").en;
-
-I18n.addTranslations = function(locale, translations) {
-  if (I18n.translations[locale] === undefined) {
-    I18n.translations[locale] = translations;
-  }
-  else {
-    I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
-  }
-};
-
 require('angular-animate');
 require('angular-aria');
 require('angular-modal');
