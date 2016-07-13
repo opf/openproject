@@ -39,7 +39,6 @@
     "file-loader": "^0.8.1",
     "glob": "^4.5.3",
     "html-loader": "^0.2.3",
-    "json-loader": "^0.5.1",
     "json5": "^0.4.0",
     "lodash": "^2.4.2",
     "ng-annotate-loader": "0.0.10",
@@ -51,8 +50,7 @@
     "ts-loader": "^0.7.2",
     "typescript": "^1.7.5",
     "url-loader": "^0.5.5",
-    "webpack": "^1.13.1",
-    "yaml-loader": "^0.1.0"
+    "webpack": "^1.13.1"
   },
   "scripts": {
     "pretest": "npm run webpack",
