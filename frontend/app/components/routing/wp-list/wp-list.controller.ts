@@ -206,7 +206,10 @@ function WorkPackagesListController($scope,
   });
 
   $scope.$watchCollection(function(){
-      return $state.params;
+    return {
+      query_id: $state.params.query_id,
+      query_props: $state.params.query_props
+    };
   }, function(params) {
     if ($scope.query &&
         (params.query_id !== $scope.query.id ||
