@@ -30,13 +30,14 @@ module.exports = function($http, PathHelper) {
   var getAtWhoParameters = function(url, textarea) {
     return {
       at: '#',
-      start_with_space: false,
-      search_key: 'id_subject',
-      tpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
+      startWithSpace: false,
+      searchKey: 'id_subject',
+      displayTpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
+      insertTpl: "${atwho-at}${id}",
       limit: 10,
       textarea: textarea,
       callbacks: {
-        remote_filter: function(query, callback) {
+        remoteFilter: function(query, callback) {
           if (query.length > 0) {
             $http.get(url, { params: { q: query, scope: 'all' } }).
               success(function(data) {
