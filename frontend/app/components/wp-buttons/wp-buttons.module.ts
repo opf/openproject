@@ -51,8 +51,8 @@ export abstract class WorkPackageButtonController {
     this.text = {
       activate: this.I18n.t('js.label_activate'),
       deactivate: this.I18n.t('js.label_deactivate'),
-      label: this.I18n.t(this.labelKey),
-      buttonText: this.I18n.t(this.textKey)
+      label: this.labelKey ? this.I18n.t(this.labelKey) : '',
+      buttonText: this.textKey ? this.I18n.t(this.textKey) : ''
     };
   }
 
