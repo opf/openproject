@@ -79,7 +79,8 @@ module API
           'Project'
         end
 
-        self.to_eager_load = [:enabled_modules, :project_type]
+        self.to_eager_load = [:project_type]
+        self.checked_permissions = [:add_work_packages]
       end
     end
   end

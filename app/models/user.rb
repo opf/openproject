@@ -629,6 +629,10 @@ class User < Principal
   end
 
   def allowed_to_in_project?(action, project, options = {})
+    if project_authorization_cache.cached?(action)
+      return project_authorization_cache.allowed?(action, project)
+    end
+
     # No action allowed on archived projects
     return false unless project.active?
     # No action allowed on disabled modules
@@ -636,15 +640,7 @@ class User < Principal
     # Admin users are authorized for anything else
     return true if admin?
 
-    candidates_for_project_allowance(project).any? do |candidate|
-      denied = allowance_evaluators.any? do |filter|
-        filter.denied_for_project? candidate, action, project, options
-      end
-
-      !denied && allowance_evaluators.any? do |filter|
-        filter.granted_for_project? candidate, action, project, options
-      end
-    end
+    project_allowance_evaluators_grant(action, project, options)
   end
 
   # Is the user allowed to do the specified action on any project?
@@ -653,16 +649,11 @@ class User < Principal
     # Admin users are always authorized
     return true if admin?
 
-    # authorize if user has at least one membership granting this permission
-    candidates_for_global_allowance.any? do |candidate|
-      denied = allowance_evaluators.any? do |evaluator|
-        evaluator.denied_for_global? candidate, action, options
-      end
+    global_allowance_evaluators_grant(action, options)
+  end
 
-      !denied && allowance_evaluators.any? do |evaluator|
-        evaluator.granted_for_global? candidate, action, options
-      end
-    end
+  def preload_projects_allowed_to(actions)
+    project_authorization_cache.cache(actions)
   end
 
   # Utility method to help check if a user should be notified about an
@@ -796,6 +787,35 @@ class User < Principal
 
   def candidates_for_project_allowance(project)
     allowance_evaluators.map { |f| f.project_granting_candidates(project) }.flatten.uniq
+  end
+
+  def project_allowance_evaluators_grant(action, project, options)
+    candidates_for_project_allowance(project).any? do |candidate|
+      denied = allowance_evaluators.any? { |filter|
+        filter.denied_for_project? candidate, action, project, options
+      }
+
+      !denied && allowance_evaluators.any? do |filter|
+        filter.granted_for_project? candidate, action, project, options
+      end
+    end
+  end
+
+  def global_allowance_evaluators_grant(action, options)
+    # authorize if user has at least one membership granting this permission
+    candidates_for_global_allowance.any? do |candidate|
+      denied = allowance_evaluators.any? { |evaluator|
+        evaluator.denied_for_global? candidate, action, options
+      }
+
+      !denied && allowance_evaluators.any? do |evaluator|
+        evaluator.granted_for_global? candidate, action, options
+      end
+    end
+  end
+
+  def project_authorization_cache
+    @project_authorization_cache ||= ProjectAuthorizationCache.new(self)
   end
 
   def former_passwords_include?(password)
