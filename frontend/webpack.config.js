@@ -26,10 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var getWebpackMainConfig = require('./webpack-main-config');
-var getWebpackTestConfig = require('./webpack-test-config');
+var mainConfigs = require('./webpack/openproject.config');
+var testConfig = require('./webpack/openproject-tests')();
 
-module.exports = [
-    getWebpackMainConfig(),
-    getWebpackTestConfig()
-];
+module.exports = mainConfigs.concat(testConfig);
+
+

@@ -50,6 +50,7 @@ npm-debug.log*
 /.loadpath
 /app/assets/javascripts/bundles/*.*
 /app/assets/javascripts/locales/*.*
+/app/assets/javascripts/plugins/*.*
 /config/additional_environment.rb
 /config/configuration.yml
 /config/database.yml

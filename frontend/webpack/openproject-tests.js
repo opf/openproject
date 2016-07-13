@@ -26,5 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var mainConfigs = require('./webpack/openproject.config');
-module.exports = mainConfigs();
+var path = require('path');
+var _ = require('lodash');
+var config = require('./base-config.js')();
+
+function getWebpackTestConfig() {
+  config.entry = {
+    'tests': './openproject-tests.js'
+  };
+
+  config.stats.errors = false;
+  config.stats.errorDetails = false;
+
+  config.name = 'OpenProject Tests';
+  config.output = {
+    filename: 'openproject-test-bundle.js',
+    path: path.resolve(__dirname, '..', 'tests'),
+  };
+
+  return config;
+}
+
+module.exports = getWebpackTestConfig;

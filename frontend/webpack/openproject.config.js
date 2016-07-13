@@ -26,20 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var path = require('path');
-var getWebpackMainConfig = require('./webpack-main-config');
+var applicationConfig = require('./openproject-application');
+var localesConfig = require('./openproject-locales');
+var pluginConfig = require('./openproject-plugins');
 
-function getWebpackTestConfig() {
-  var webpackConfig = getWebpackMainConfig();
+module.exports = [
+  applicationConfig(),
+  localesConfig(),
+  pluginConfig()
+];
 
-  webpackConfig.entry = './openproject-tests.js';
-  webpackConfig.output = {
-    path: path.join(__dirname, '/tests'),
-    filename: 'openproject-test-bundle.js'
-  };
-
-  return webpackConfig;
-}
-
-
-module.exports = getWebpackTestConfig;
