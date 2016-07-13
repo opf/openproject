@@ -34,6 +34,7 @@ export class UserMentions {
       // Permissions are set for a given project and a user role but not specifically for 
       // wps. For wp creation we can access any wp of the same project to check permissions
       // and get a list of available watchers
+
       this.$http.get(wp.project.href + '/work_packages/').then((res:any) => {
         var sampleWp = res.data._embedded.elements[0];
         wpResource = new WorkPackageResource(sampleWp);
@@ -41,8 +42,11 @@ export class UserMentions {
     }else {
       wpResource = wp;
     }
-
-    doLoading((wpResource as WorkPackageResourceInterface));
+    if ((wpResource as WorkPackageResourceInterface).availableWatchers) {
+      doLoading((wpResource as WorkPackageResourceInterface));
+    } else {
+      availableWatchers.reject();
+    }
 
 
     return availableWatchers.promise;
