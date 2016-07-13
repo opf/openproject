@@ -41,27 +41,27 @@ module API
           'user' => 'User',
           'version' => 'Version',
           'list' => 'StringObject'
-        }
+        }.freeze
 
-        LINK_FORMATS = ['list', 'user', 'version']
+        LINK_FORMATS = ['list', 'user', 'version'].freeze
 
         PATH_METHOD_MAP = {
           'user' => :user,
           'version' => :version,
           'list' => :string_object
-        }
+        }.freeze
 
         NAMESPACE_MAP = {
           'user' => 'users',
           'version' => 'versions',
           'list' => 'string_objects'
-        }
+        }.freeze
 
         REPRESENTER_MAP = {
           'user' => Users::UserRepresenter,
           'version' => Versions::VersionRepresenter,
           'list' => StringObjects::StringObjectRepresenter
-        }
+        }.freeze
 
         class << self
           def create_value_representer(customizable, representer)
