@@ -1,4 +1,4 @@
-fallbacks: false
+fallbacks: :en
 translations:
   - file: "app/assets/javascripts/locales/%{locale}.js"
     only: '*.js'
