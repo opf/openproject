@@ -44,6 +44,17 @@ export class KeepTabService {
     return this.subject;
   }
 
+  /**
+   * Return the last active tab.
+   */
+  public get lastActiveTab():string {
+    if (this.isCurrentState('show')) {
+      return this.currentShowTab;
+    }
+
+    return this.currentDetailsTab;
+  }
+
   public get currentShowState():string {
     return 'work-packages.show.' + this.currentShowTab;
   }
@@ -69,17 +80,28 @@ export class KeepTabService {
   protected notify() {
     // Notify when updated
     this.subject.onNext({
+      active: this.lastActiveTab,
       show: this.currentShowState,
       details: this.currentDetailsState
     });
   }
 
   protected updateTab(stateName:string) {
-    if (this.$state.includes(stateName)) {
+    if (this.isCurrentState(stateName)) {
       const current = this.$state.current.name;
       this.currentTab = current.split('.').pop();
 
       this.notify();
+    }
+  }
+
+  protected isCurrentState(stateName:string) {
+    if (stateName === 'show') {
+      return this.$state.includes('work-packages.show.*');
+    }
+
+    if (stateName === 'details') {
+      return this.$state.includes('work-packages.list.details.*');
     }
   }
 
@@ -93,8 +115,8 @@ export class KeepTabService {
       return this.notify();
     }
 
-    this.updateTab('work-packages.show.*');
-    this.updateTab('work-packages.list.details.*');
+    this.updateTab('show');
+    this.updateTab('details');
   }
 }
 

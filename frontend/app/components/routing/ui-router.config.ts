@@ -34,7 +34,7 @@ const panels = {
     return {
       url: '/overview',
       reloadOnSearch: false,
-      template: '<overview-panel work-package="workPackage"></overview-panel>'
+      template: '<overview-panel work-package="$ctrl.workPackage"></overview-panel>'
     };
   },
 
@@ -42,7 +42,7 @@ const panels = {
     return {
       url: '/watchers',
       reloadOnSearch: false,
-      template: '<watchers-panel ng-if="workPackage" work-package="workPackage"></watchers-panel>'
+      template: '<watchers-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></watchers-panel>'
     };
   },
 
@@ -50,7 +50,7 @@ const panels = {
     return {
       url: '/activity',
       reloadOnSearch: false,
-      template: '<activity-panel ng-if="workPackage" work-package="workPackage"></activity-panel>'
+      template: '<activity-panel ng-if="$ctrl.workPackage" work-package="$ctrl.workPackage"></activity-panel>'
     };
   },
 
@@ -66,8 +66,8 @@ const panels = {
       url: '/relations',
       reloadOnSearch: false,
       template: ` <relations-panel
-                    ng-if="workPackage"
-                    work-package="workPackage"
+                    ng-if="$ctrl.workPackage"
+                    work-package="$ctrl.workPackage"
                   ></relations-panel>`
     };
   }
@@ -135,7 +135,7 @@ openprojectModule
         url: '/work_packages/{workPackageId:[0-9]+}?query_id&query_props',
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
-        controllerAs: 'vm',
+        controllerAs: '$ctrl',
         onEnter: () => angular.element('body').addClass('action-show'),
         onExit: () => angular.element('body').removeClass('action-show')
       })
@@ -184,6 +184,7 @@ openprojectModule
         url: '/details/{workPackageId:[0-9]+}',
         templateUrl: '/components/routing/wp-details/wp.list.details.html',
         controller: 'WorkPackageDetailsController',
+        controllerAs: '$ctrl',
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-details'),
         onExit: () => angular.element('body').removeClass('action-details')
