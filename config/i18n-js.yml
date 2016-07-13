@@ -1,0 +1,4 @@
+fallbacks: false
+translations:
+  - file: "app/assets/javascripts/locales/%{locale}.js"
+    only: '*.js'

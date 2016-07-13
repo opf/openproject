@@ -13,6 +13,7 @@ OpenProject::Application.configure do
     date-de-DE.js
     date-en-US.js
     jstoolbar/lang/*.js
+    locales/*.js
     members_form.js
     members_select_boxes.js
     new_user.js
