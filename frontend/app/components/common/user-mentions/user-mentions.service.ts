@@ -30,15 +30,13 @@ export class UserMentions {
       }
     };
 
-    var sampleWp: WorkPackageResource | WorkPackageResourceInterface;
-
     if (wp.isNew) {
       // Permissions are set for a given project and a user role but not specifically for 
       // wps. For wp creation we can access any wp of the same project to check permissions
       // and get a list of available watchers
 
       this.$http.get(wp.project.href + '/work_packages/').then((res:any) => {
-        sampleWp = res.data._embedded.elements[0];
+        var sampleWp = res.data._embedded.elements[0];
         wpResource = new WorkPackageResource(sampleWp);
       });
     }else {
@@ -55,7 +53,7 @@ export class UserMentions {
   }
 
   public parseWatchers(wp: WorkPackageResourceInterface, parseText:string) {
-    if (parseText.length > 0) {
+    if (angular.isDefined(wp) && parseText.length > 0) {
       (wp.watchers as any).$load().then((currentWatchers:any) => {
         currentWatchers = currentWatchers.$embedded.elements;
 
