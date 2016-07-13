@@ -125,6 +125,6 @@ end
 
 %w(spec).each do |type|
   if Rake::Task.task_defined?("#{type}:prepare")
-    Rake::Task["#{type}:prepare"].enhance(['assets:webpack'])
+    Rake::Task["#{type}:prepare"].enhance(['assets:prepare_op'])
   end
 end

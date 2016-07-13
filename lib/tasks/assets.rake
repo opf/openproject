@@ -34,13 +34,16 @@
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(['assets:compile_environment', 'assets:export_locales'])
+  .enhance(['assets:compile_environment', 'assets:prepare_op'])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
-  task compile_environment: :webpack do
+  task compile_environment: :prepare_op do
     Rake::Task['assets:environment'].invoke
   end
+
+  desc 'Prepare locales and webpack assets'
+  task prepare_op: [:webpack, :export_locales]
 
   desc 'Compile assets with webpack'
   task :webpack do
