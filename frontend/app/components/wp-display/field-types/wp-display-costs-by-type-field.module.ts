@@ -50,6 +50,8 @@ export class CostsByTypeDisplayField extends DisplayField {
   };
 
   public isEmpty(): boolean {
-    return !this.value || this.value.elements.length === 0;
+    return !this.value ||
+           !this.value.elements ||
+           this.value.elements.length === 0;
   }
 }
