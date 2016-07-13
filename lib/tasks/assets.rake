@@ -34,7 +34,7 @@
 # Otherwise Sprockets cannot find the files that webpack produces.
 Rake::Task['assets:precompile']
   .clear_prerequisites
-  .enhance(['assets:compile_environment'])
+  .enhance(['assets:compile_environment', 'assets:export_locales'])
 
 namespace :assets do
   # In this task, set prerequisites for the assets:precompile task
@@ -48,6 +48,9 @@ namespace :assets do
       sh '$(npm bin)/webpack --config webpack.production.config.js'
     end
   end
+
+  desc 'Export frontend locale files'
+  task export_locales: ['i18n:js:export']
 
   task :clobber do
     rm_rf FileList["#{Rails.root}/app/assets/javascripts/bundles/*"]
