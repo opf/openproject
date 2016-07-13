@@ -10,8 +10,10 @@ export class MentionsAutoComplete {
               protected $element,
               protected UserMentions,
               protected wpWatchers) {
+
     var wpLoaded = $scope.$watch(function(){ return $scope.workPackage; }, (wp) => {
       if (angular.isDefined(wp)) {
+        console.log($scope.workPackage);
         this.workPackage = $scope.workPackage;
         UserMentions.loadAvailableWatchers(this.workPackage).then(() => {
           wpLoaded();
@@ -44,11 +46,11 @@ export class MentionsAutoComplete {
 
 function mentionsAutoCompleteDirective():ng.IDirective {
   return {
-    require: ['?^wpEditForm'],
+    require: ['?^wpEditField', '?^workPackageComment'],
     restrict: 'AC',
     controller: MentionsAutoComplete,
     link: function(scope, element, attrs, controllers){
-      (scope as any).workPackage = controllers[0].workPackage;
+      (scope as any).workPackage = controllers[0] ? controllers[0].workPackage : controllers[1].workPackage;
     }
   };
 }
