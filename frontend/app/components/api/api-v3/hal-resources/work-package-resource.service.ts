@@ -265,7 +265,7 @@ export class WorkPackageResource extends HalResource {
             this.$initialize(workPackage);
             this.$pristine = {};
 
-            UserMentions.parseWatchers(workPackage,workPackage.description.raw);
+            UserMentions.parseWatchers(workPackage, workPackage.description.raw);
             deferred.resolve(this);
           })
           .catch(error => {
