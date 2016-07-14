@@ -164,8 +164,6 @@ export class WpAttachmentsFormattableController {
   }
 
   protected highlightDroppable = (evt:JQueryEventObject) => {
-    // use the browser's native implementation for showing the user
-    // that one can drop data on this area
     (evt.originalEvent as DragEvent).dataTransfer.dropEffect = 'copy';
     if (!this.$element.hasClass('is-droppable')) {
       this.$element.addClass('is-droppable');
@@ -195,7 +193,6 @@ function wpAttachmentsFormattable() {
       if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
         return;
       }
-
       scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],
