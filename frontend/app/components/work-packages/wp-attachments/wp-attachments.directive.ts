@@ -67,7 +67,9 @@ export class WorkPackageAttachmentsController {
     this.workPackage = $scope.vm.workPackage();
 
     this.attachments = this.workPackage.isNew ? wpAttachments.pendingAttachments : this.attachments;
-    $scope.vm.wpSingleViewCtrl.attachments = this.attachments;
+    if (angular.isDefined($scope.vm.wpSingleViewCtrl)) {
+      $scope.vm.wpSingleViewCtrl.attachments = this.attachments;
+    }
 
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
 
