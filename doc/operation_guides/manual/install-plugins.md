@@ -25,7 +25,7 @@ steps of the OpenProject installation:
 ```bash
 [openproject@debian]# cd ~/openproject-ce
 [openproject@debian]# bundle install
-[openproject@debian]# bower install
+[openproject@debian]# npm install
 [openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate db:seed assets:precompile
 ```
 

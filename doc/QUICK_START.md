@@ -150,6 +150,5 @@ Please see [here](./development/setting-up-development-environment.md)
 [Node.js]:http://nodejs.org/
 [Bundler]:http://bundler.io/
 [npm]:https://www.npmjs.org/
-[Bower]:http://bower.io/
 [foreman-defaults]:http://ddollar.github.io/foreman/#DEFAULT-OPTIONS
 [foreman-env]:http://ddollar.github.io/foreman/#ENVIRONMENT

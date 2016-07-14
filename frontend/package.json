@@ -47,7 +47,6 @@
     "at.js": "^1.5.1",
     "autoprefixer": "^6.3.6",
     "bourbon": "~4.2.1",
-    "bower": "^1.4.1",
     "bundle-loader": "^0.5.4",
     "contra": "^1.9.4",
     "crossvent": "^1.5.4",

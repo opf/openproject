@@ -5,7 +5,6 @@ stage:
   before:
     - pushd frontend;
       npm install --unsafe-perm --ignore-scripts;
-      bower install --allow-root;
       popd
     - cp config/configuration.yml.example config/configuration.yml
     - cp config/database.teatro.yml config/database.yml

@@ -470,27 +470,6 @@ If you need to restart the server (for example after a configuration change), do
   With each new OpenProject core version, the plug-ins might need to be updated. Please make sure that the plug-in versions of all you plug-ins works with the OpenProject version you use.
   Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.1.0, the plug-in should also have the version 4.1.0).
 
-* **I get an error during @bower install@. What can I do?**
-
-  We heard that `bower install` can fail, if your server is behind a firewall which does not allow `git://` URLs. The error looks like this:
-
-  ```
-  ECMDERR Failed to execute "git ls-remote --tags --heads git://github.com/finnlabs/angular-modal.git", exit code of #128
-
-  Additional error details:
-  fatal: unable to connect to github.com:
-  github.com[0: 192.30.252.131]: errno=Connection refused
-
-  npm ERR! OpenProject@0.1.0 postinstall: `./node_modules/bower/bin/bower install`
-  ```
-
-  The solution is to configure git to use `https://` URLs instead of `git://` URLs lke this:
-
-  ```bash
-  git config --global url."https://".insteadOf git://
-  ```
-
-
 ## Questions, Comments, and Feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
