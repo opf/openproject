@@ -82,7 +82,6 @@ export class WorkPackageAttachmentsController {
     }
 
     $scope.$on('work_packages.attachment.add', (evt, file) => {
-      //this.files.push(file);
       this.attachments.push(file);
     });
 
