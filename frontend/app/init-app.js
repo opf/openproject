@@ -65,9 +65,14 @@ window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
 opApp
     .config([
+      '$compileProvider',
       '$locationProvider',
       '$httpProvider',
-      function($locationProvider, $httpProvider) {
+      function($compileProvider, $locationProvider, $httpProvider) {
+
+        // Disable debugInfo outside development mode
+        $compileProvider.debugInfoEnabled(window.openProject.environment === 'development');
+
         $locationProvider.html5Mode(true);
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
             'meta[name=csrf-token]').attr('content');
