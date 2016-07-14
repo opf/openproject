@@ -151,6 +151,7 @@ function WorkPackagesListController($scope,
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
+    $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
 
     // Authorisation
     AuthorisationService.initModelAuth('work_package', meta._links);

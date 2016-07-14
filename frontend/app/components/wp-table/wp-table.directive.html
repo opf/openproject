@@ -59,14 +59,14 @@
         <!-- Group headers -->
 
         <tr wp-group-header
-            ng-repeat-start="row in rows track by row.object.id+row.groupName"
+            ng-repeat-start="row in rows track by row.object.id"
             ng-if="!!groupByColumn &&
                    ($first || row.groupName !== rows[$index-1].groupName)"
             ng-show="row.groupName != undefined"
             ng-class="{
               group: true,
-              open: groupExpanded[currentGroup],
-              closed: !groupExpanded[currentGroup],
+              open: groupExpanded[$ctrl.currentGroup],
+              closed: !groupExpanded[$ctrl.currentGroup],
               keyboard_hover: true
             }"
             id="group-header-{{ row.groupName }}">
@@ -74,23 +74,23 @@
             <div ng-class="[
                     'expander',
                     'icon-context',
-                    'icon-' + (groupExpanded[currentGroup] && 'minus2' || 'plus')
+                    'icon-' + (groupExpanded[$ctrl.currentGroup] && 'minus2' || 'plus')
                   ]"
-                  ng-click="toggleCurrentGroup()">
+                  ng-click="$ctrl.toggleCurrentGroup()">
               <span ng-class="{
                 'hidden-for-sighted': true,
-                expand: !groupExpanded[currentGroup],
-                collapse: groupExpanded[currentGroup]
+                expand: !groupExpanded[$ctrl.currentGroup],
+                collapse: groupExpanded[$ctrl.currentGroup]
               }">
-                {{ groupExpanded[currentGroup] && text.collapse || text.expand }}
+                {{ groupExpanded[$ctrl.currentGroup] && text.collapse || text.expand }}
               </span>
               <span class="hidden-for-sighted collapse">{{ text.collapse }}</span>
             </div>
 
             <div>
-              {{ currentGroupObject.value }}
+              {{ $ctrl.currentGroupName }}
               <span class="count">
-                ({{ currentGroupObject.count }})
+                ({{ $ctrl.currentGroupObject.count }})
               </span>
             </div>
 
