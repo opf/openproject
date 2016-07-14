@@ -179,6 +179,9 @@ declare namespace op {
   }
 
   interface I18n {
+    fallbacks: boolean;
+    defaultLocale: string;
+    translations: { [key: string]: any };
     t(translateId:string, parameters?:any):string;
   }
 

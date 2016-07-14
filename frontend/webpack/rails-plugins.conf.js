@@ -33,13 +33,13 @@ require('shelljs/global');
 var path = require('path'),
     _    = require('lodash');
 
-var PLUGIN_INFO_CMD_PATH = path.join(__dirname, '..', 'bin', 'plugin_info');
+var PLUGIN_INFO_CMD_PATH = path.join(__dirname, '..', '..', 'bin', 'plugin_info');
 
 function runPluginsInfo() {
   var currentWorkingDir = process.cwd();
   // Make sure we're in the root directory to launch the plugin_info script
   process.chdir(path.join(__dirname, '..'));
-  var fullCmd = exec(PLUGIN_INFO_CMD_PATH, { silent: false });
+  var fullCmd = exec(PLUGIN_INFO_CMD_PATH, { silent: true });
   process.chdir(currentWorkingDir);
   return fullCmd.code === 0 ? fullCmd.output : '{}';
 }
@@ -70,5 +70,6 @@ var OpenProjectPlugins = {
   }
 };
 
+exports.allPluginNamesPaths       = OpenProjectPlugins.allPluginNamesPaths();
 exports.pluginNamesPaths          = OpenProjectPlugins.pluginNamesPaths();
 exports.pluginDirectories         = OpenProjectPlugins.pluginDirectories();

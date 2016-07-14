@@ -48,6 +48,10 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // I18n.js is provided by the Asset pipeline,
+      // which is unavailable for unit tests.
+      // For testing, shim its functionality
+      'tests/unit/lib/i18n-js.shim.js',
       '../app/assets/javascripts/bundles/openproject-global.css',
       '../app/assets/javascripts/bundles/openproject-global.js',
 
@@ -58,8 +62,6 @@ module.exports = function (config) {
       '../app/assets/javascripts/date-en-US.js',
 
       'tests/unit/lib/rosie.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/jquery-mockjax/jquery.mockjax.js',
       'tests/unit/tests/asset_functions.js',
 
       'tests/openproject-test-bundle.js'

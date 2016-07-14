@@ -45,8 +45,6 @@ app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));
 app.use('/assets', express.static(railsRoot + '/app/assets/images'));
 app.use('/javascripts', express.static(railsRoot + '/public/javascripts'));
 
-app.use('/bower_components', express.static(appRoot + '/bower_components'));
-
 app.get('/work_packages*', function(req, res) {
   fs.readFile(appRoot + '/public/index.html', 'utf8', function(err, text) {
     res.send(text);

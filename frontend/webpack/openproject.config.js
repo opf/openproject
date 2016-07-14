@@ -26,26 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class LoadLocales {
-  public static I18n:op.I18n;
+var applicationConfig = require('./openproject-application');
+var localesConfig = require('./openproject-locales');
+var pluginConfig = require('./openproject-plugins');
 
-  public static files(localeFiles) {
-    localeFiles.keys().forEach(function(localeFile) {
-      var locale_matches = localeFile.match(/js-((\w{2})(-\w{2})?)\.yml/);
-      var locale_with_country = locale_matches[1];
-      var locale_without_country = locale_matches[2];
+module.exports = [
+  applicationConfig(),
+  localesConfig(),
+  pluginConfig()
+];
 
-      var localizations = localeFiles(localeFile)[locale_without_country];
-      var locale = locale_without_country;
-
-      // Some locales e.g. es-ES have a language postfix but within the yml files
-      // that postfix is lacking.
-      if (!localizations) {
-        localizations = localeFiles(localeFile)[locale_with_country];
-        locale = locale_with_country;
-      }
-
-      this.I18n.addTranslations(locale, localizations);
-    });
-  }
-}

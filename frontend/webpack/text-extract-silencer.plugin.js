@@ -25,6 +25,18 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+var _ = require('lodash');
 
-var mainConfigs = require('./webpack/openproject.config');
-module.exports = mainConfigs();
+function TextExtractSilencerPlugin() {}
+TextExtractSilencerPlugin.prototype.apply = function(compiler) {
+
+  // Filter webpack output for child extracts,
+  // since that will output all typescript warnings
+  compiler.plugin('done', function(stats) {
+    stats.compilation.children = _.remove(stats.compilation.children, function(child) {
+      return child.name !== 'extract-text-webpack-plugin';
+    });
+  });
+};
+
+module.exports = TextExtractSilencerPlugin;

@@ -42,6 +42,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
     <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag "locales/#{I18n.locale}" %>
+    <%= javascript_include_tag "locales/#{I18n.locale}.libraries" %>
     <!-- user specific tags -->
     <%= user_specific_javascript_includes %>
     <!-- project specific tags -->

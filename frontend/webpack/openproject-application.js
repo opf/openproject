@@ -26,5 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var mainConfigs = require('./webpack/openproject.config');
-module.exports = mainConfigs();
+var webpack = require('webpack');
+var fs = require('fs');
+var path = require('path');
+var _ = require('lodash');
+var pathConfig = require('./rails-plugins.conf');
+var config = require('./base-config.js')();
+
+function getApplicationConfig() {
+  var appRoot = path.resolve(__dirname, '..', 'app');
+
+  config.name = 'OpenProject Application';
+  config.context = appRoot;
+  config.entry = {
+    'global': './global.js',
+    'core-app': './openproject-app.js',
+  };
+
+  config.output = {
+    filename: 'openproject-[name].js',
+    path: path.join(__dirname, '..' , '..', 'app', 'assets', 'javascripts', 'bundles'),
+    publicPath: '/assets/bundles/'
+  };
+
+  return config;
+}
+
+module.exports = getApplicationConfig;

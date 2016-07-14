@@ -27,19 +27,24 @@
 // ++
 
 var path = require('path');
-var getWebpackMainConfig = require('./webpack-main-config');
+var _ = require('lodash');
+var config = require('./base-config.js')();
 
 function getWebpackTestConfig() {
-  var webpackConfig = getWebpackMainConfig();
-
-  webpackConfig.entry = './openproject-tests.js';
-  webpackConfig.output = {
-    path: path.join(__dirname, '/tests'),
-    filename: 'openproject-test-bundle.js'
+  config.entry = {
+    'tests': './openproject-tests.js'
   };
 
-  return webpackConfig;
-}
+  config.stats.errors = false;
+  config.stats.errorDetails = false;
 
+  config.name = 'OpenProject Tests';
+  config.output = {
+    filename: 'openproject-test-bundle.js',
+    path: path.resolve(__dirname, '..', 'tests'),
+  };
+
+  return config;
+}
 
 module.exports = getWebpackTestConfig;

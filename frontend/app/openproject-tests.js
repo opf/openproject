@@ -28,6 +28,9 @@
 
 require('./init-app');
 
+require('angular-mocks/ngMock.js');
+require('jquery-mockjax/jquery.mockjax.js');
+
 var requireComponent;
 
 require('../tests/unit/tests/timeline_stubs.js');

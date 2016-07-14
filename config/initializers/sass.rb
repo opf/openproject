@@ -26,4 +26,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Sass.load_paths << Rails.root.join('frontend', 'bower_components', 'foundation-apps', 'scss')
+Sass.load_paths << Rails.root.join('frontend', 'node_modules', 'foundation-apps', 'scss')

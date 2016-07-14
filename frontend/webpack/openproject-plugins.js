@@ -26,5 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var mainConfigs = require('./webpack/openproject.config');
-module.exports = mainConfigs();
+var webpack = require('webpack');
+var fs = require('fs');
+var path = require('path');
+var _ = require('lodash');
+var pathConfig = require('./rails-plugins.conf');
+var config = require('./base-config.js')();
+
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+function getPluginConfig() {
+
+  config.name = 'OpenProject Plugins';
+  config.entry = {};
+
+  _.forEach(pathConfig.pluginNamesPaths, function (pluginPath, name) {
+    config.entry[name.replace(/^openproject\-/, '')] = name;
+    config.resolve.alias[name] = pluginPath;
+    config.resolve.root.push(path.resolve(pluginPath, 'frontend', 'app'));
+  });
+
+  config.output = {
+    filename: 'openproject-[name].js',
+    path: path.join(__dirname, '..', '..', 'app', 'assets', 'javascripts', 'plugins'),
+    publicPath: '/assets/plugins/'
+  };
+
+  return config;
+}
+
+module.exports = getPluginConfig;

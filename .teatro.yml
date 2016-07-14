@@ -5,7 +5,6 @@ stage:
   before:
     - pushd frontend;
       npm install --unsafe-perm --ignore-scripts;
-      bower install --allow-root;
       popd
     - cp config/configuration.yml.example config/configuration.yml
     - cp config/database.teatro.yml config/database.yml
@@ -15,5 +14,5 @@ stage:
     - bundle exec rake db:create db:migrate
     - bundle exec rake db:seed RAILS_ENV=development
 
-  assets: bundle exec rake assets:webpack RAILS_ENV=development
+  assets: bundle exec rake assets:precompile RAILS_ENV=development
   run: foreman start -f Procfile.dev -c all=1,assets=0

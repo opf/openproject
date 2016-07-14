@@ -26,29 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-// standard locales
-I18n.translations.en = require("locales/js-en.yml").en;
+require('expose?_!lodash');
+require('expose?angular!angular');
 
-I18n.addTranslations = function(locale, translations) {
-  if (I18n.translations[locale] === undefined) {
-    I18n.translations[locale] = translations;
-  }
-  else {
-    I18n.translations[locale] = _.merge(I18n.translations[locale], translations);
-  }
-};
+// 'includes' is not a function in older versions of lodash, so we need to substitute
+// due to the update related to https://github.com/mgonto/restangular/issues/1314
+_.includes = _.includes || _.include || _.contains;
 
 require('angular-animate');
 require('angular-aria');
 require('angular-modal');
 
-// depends on the html element having a 'lang' attribute
-var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
-require('angular-i18n/angular-locale_' + documentLang + '.js');
-
+require('angular-sanitize');
 require('angular-ui-router');
-
 require('angular-truncate');
+
+require('ui-select/dist/select.min.js');
+require('ui-select/dist/select.min.css');
 
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
@@ -59,6 +53,9 @@ require('angular-cache');
 require('mousetrap');
 require('ngFileUpload');
 
+require('restangular');
+require('rxjs');
+
 var opApp = require('./angular-modules.ts').default;
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
@@ -67,16 +64,16 @@ opApp
     .config([
       '$locationProvider',
       '$httpProvider',
-      function($locationProvider, $httpProvider) {
+      function ($locationProvider, $httpProvider) {
         $locationProvider.html5Mode(true);
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
-            'meta[name=csrf-token]').attr('content');
+          'meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
         // prepend a given base path to requests performed via $http
         //
         $httpProvider.interceptors.push(function($q) {
           return {
-            'request': function(config) {
+            'request': function (config) {
               // OpenProject can run in a subpath e.g. https://mydomain/open_project.
               // We append the path found as the base-tag value to all http requests
               // to the server except:
@@ -95,9 +92,6 @@ opApp
         angular.element('body').attr('global-drag-and-drop-handler','');
       }
     ])
-    .value('cgBusyDefaults', {
-      message: I18n.t('js.label_please_wait')
-    })
     .run([
       '$http',
       '$rootScope',
