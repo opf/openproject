@@ -79,7 +79,6 @@ describe 'Switching types in work package table', js: true do
     # Switch type
     type_field.activate!
     type_field.set_value type_bug.name
-    type_field.save!
 
     wp_table.expect_notification(
       type:    :error,
@@ -113,7 +112,6 @@ describe 'Switching types in work package table', js: true do
 
     type_field.activate!
     type_field.set_value type_task.name
-    type_field.save!
 
     wp_table.expect_notification(
       message: 'Successful update. Click here to open this work package in fullscreen view.'

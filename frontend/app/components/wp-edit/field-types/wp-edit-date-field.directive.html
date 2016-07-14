@@ -8,6 +8,7 @@
          transform-date-value
          ng-blur="vm.onlyInAccessibilityMode(vm.handleUserBlur)"
          ng-required="vm.field.required"
+         ng-disabled="vm.workPackage.inFlight"
          focus="vm.shouldFocus()"
          focus-priority="vm.shouldFocus()"
          ng-attr-id="{{vm.htmlId}}" />

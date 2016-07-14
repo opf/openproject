@@ -121,7 +121,7 @@ module Pages
         field.activate_edition
 
         field.set_value value
-        field.save!
+        field.save! if field.input_element.tag_name != 'select' # select fields are saved on change
 
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications

@@ -85,7 +85,6 @@ describe 'Inline editing work packages', js: true do
 
       status_field.activate!
       status_field.set_value(status2.name)
-      status_field.save!
 
       subject_field.expect_inactive!
       status_field.expect_inactive!
