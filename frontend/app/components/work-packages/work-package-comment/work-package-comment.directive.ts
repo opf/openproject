@@ -54,6 +54,7 @@ export class CommentFieldDirectiveController {
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService,
+              protected UserMentions,
               protected I18n) {
 
     this.text = {
@@ -104,6 +105,7 @@ export class CommentFieldDirectiveController {
     this.field.isBusy = true;
     this.loadingPromise = this.ActivityService.createComment(this.workPackage, this.field.value)
       .then(() => {
+        this.UserMentions.parseWatchers(this.workPackage, this.field.value.raw);
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 

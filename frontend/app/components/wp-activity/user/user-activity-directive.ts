@@ -87,7 +87,7 @@ function userActivity($uiViewScroll,
         scope.userLabel = I18n.t('js.label_author', {user: scope.userName});
       });
 
-      scope.postedComment = $sce.trustAsHtml(scope.activity.comment.html);
+      scope.postedComment = scope.activity.comment.html;
       if (scope.postedComment) {
         scope.activityLabelWithComment = I18n.t('js.label_activity_with_comment_no', {
           activityNo: scope.activityNo
