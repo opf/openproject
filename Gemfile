@@ -239,7 +239,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'housekeeping/locales'
+  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # TODO: Make this group :optional when bundler v10.x
