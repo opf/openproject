@@ -41,7 +41,7 @@ export class WorkPackageSingleViewController {
   public singleViewWp;
   public groupedFields:any[] = [];
   public hideEmptyFields:boolean = true;
-  public attachments:any;
+  public attachments:Array<any>;
   public text:any;
   public scope:any;
 
