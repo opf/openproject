@@ -57,7 +57,6 @@ var loaders = [
   {test: /[\/]dragula\.js$/, loader: 'expose?dragula'},
   {test: /[\/]moment\.js$/, loader: 'expose?moment'},
   {test: /[\/]mousetrap\.js$/, loader: 'expose?Mousetrap'},
-  {test: /[\/]vendor[\/]i18n\.js$/, loader: 'expose?I18n'},
   {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract(
@@ -68,7 +67,6 @@ var loaders = [
   {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
   {test: /\.gif$/, loader: 'file-loader'},
   {test: /\.jpg$/, loader: 'file-loader'},
-  {test: /js-[\w|-]{2,5}\.yml$/, loader: 'json!yaml'},
   {test: /[\/].*\.js$/, loader: 'ng-annotate?map=true'}
 ];
 
@@ -140,6 +138,10 @@ function getWebpackMainConfig() {
 
     ts: {
       configFileName: path.resolve(__dirname, 'tsconfig.json')
+    },
+
+    externals: {
+      "I18n": "I18n"
     },
 
     plugins: [

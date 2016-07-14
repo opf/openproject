@@ -129,11 +129,7 @@ These plugins must contain a `package.json` in the root directory of the plugin.
 Plugins are responsible for loading their own assets, including additional
 images, styles and I18n translations.
 
-To load translation strings use the provided `I18n.addTranslation` function:
-
-    ```js
-    I18n.addTranslations('en', require('../../config/locales/js-en.yml').en);
-    ```
+Translations are processed by I18n.js through Rails and will be picked up from `config/locales/js-<locale>.js`.
 
 Pure frontend plugins should be considered _a work in progress_. As such, it is
 currently recommended to create hybrid plugins (see below).

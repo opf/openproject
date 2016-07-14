@@ -53,8 +53,6 @@ var OpenProjectPlugins = {
     return _.reduce(this.allPluginNamesPaths(), function(obj, pluginPath, pluginName) {
       if (test('-e', path.join(pluginPath, 'package.json'))) {
         obj[pluginName] = pluginPath;
-      } else {
-        console.info('INFO: plugin "%s" does not provide a package.json', pluginName);
       }
       return obj;
     }, {});

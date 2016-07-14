@@ -34,8 +34,6 @@
 // See: https://github.com/webpack/style-loader/issues/31
 require('polyfill-function-prototype-bind');
 
-require('i18n');
-
 require('jquery');
 require('jquery-migrate/jquery-migrate');
 require('jquery-ujs');
