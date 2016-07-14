@@ -1,12 +1,9 @@
 export class WpDisplayFormattableFieldHelper {
   constructor(protected $scope,
-              protected $element,
-              protected $timeout) {
-    $timeout(function () {
+              protected $element) {
       $element.on('click', 'a', function (evt) {
         evt.stopPropagation();
       });
-    });
   }
 }
 
