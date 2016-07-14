@@ -26,12 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// load all js locales
-var LoadLocales = require('app/plugins/load-locales.module').LoadLocales;
-var localeFiles = require.context('../../config/locales', false, /js-[\w|-]{2,5}\.yml$/);
-
-LoadLocales.files(localeFiles);
-
 var CostsByTypeDisplayField = require('./components/wp-display/field-types/wp-display-costs-by-type-field.module').CostsByTypeDisplayField;
 
 // Register Budget as select inline edit
