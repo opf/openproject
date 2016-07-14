@@ -180,10 +180,10 @@ Redmine::AccessControl.map do |map|
                    {}
 
     wpt.permission :add_work_package_watchers,
-                   watchers: [:new, :create]
+                   {}
 
     wpt.permission :delete_work_package_watchers,
-                   watchers: :destroy
+                   {}
   end
 
   map.project_module :time_tracking do |time|
