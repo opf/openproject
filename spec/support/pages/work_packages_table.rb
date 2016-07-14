@@ -130,6 +130,11 @@ module Pages
       WorkPackageField.new(context, attribute)
     end
 
+    def click_setting_item(label)
+      find('#work-packages-settings-button').click
+      find('#settingsDropdown .menu-item', text: label).click
+    end
+
     def open_filter_section
       unless page.has_selector?('#work-packages-filter-toggle-button.-active')
         click_button('work-packages-filter-toggle-button')
