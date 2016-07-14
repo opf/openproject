@@ -1,6 +1,7 @@
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Heavily borrows from foundation-apps ModalFactory. Copyright (c) 2014 ZURB, inc.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +27,98 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {FoundationModalContainerController} from "./foundation-modal-container.directive";
+import {FoundationModalContainerController} from './foundation-modal-container.directive';
+export class FoundationModalController {
+  public id:string;
+  public containerCtrl:FoundationModalContainerController;
+  public attached:boolean = false;
+  public destroyed:boolean = false;
+  public modalElement:ng.IAugmentedJQuery;
+  public modalScope:any;
+  public template:string;
+
+  constructor(protected $element:ng.IAugmentedJQuery,
+              protected $attrs:ng.IAttributes,
+              protected $scope:ng.IScope,
+              protected $rootScope:ng.IScope,
+              protected $q:ng.IQService,
+              protected $compile:ng.ICompileService,
+              protected $timeout:ng.ITimeoutService,
+              protected FoundationApi) {
+    // User inner html as template
+    this.template = $element.html();
+
+    // Use or generate random ID
+    this.id = $attrs['id'] || FoundationApi.generateUuid();
+
+    if (document.getElementById(this.id)) {
+      throw 'Error: Modal ID ' + this.id + ' already exists.';
+    }
+
+    // Build the modalElement to insert
+    this.modalScope = $rootScope.$new();
+    this.modalScope.$ctrl = this;
+    this.modalScope.active = false;
+    this.modalElement = angular.element('<zf-modal id="' + this.id + '">' + this.template + '</zf-modal>');
+
+    // Set some defaults
+    this.modalElement.attr('overlay-close', 'false');
+
+    // Activate modal
+    this.activate();
+  }
+
+  public activate() {
+    this.$timeout(() => {
+      this.init();
+      this.FoundationApi.publish(this.id, 'show');
+    }, 0, false);
+  }
+
+  public deactivate() {
+    this.$timeout(() => {
+      this.init();
+      this.FoundationApi.publish(this.id, 'hide');
+    }, 0, false);
+  }
+
+  public toggle() {
+    this.$timeout(() => {
+      this.init();
+      this.FoundationApi.publish(this.id, 'toggle');
+    }, 0, false);
+  }
+
+  protected init() {
+    if (!this.attached) {
+      angular.element(document.body).append(this.modalElement);
+
+      this.$compile(this.modalElement)(this.modalScope);
+      this.modalScope.active = true;
+      this.attached = true;
+    }
+  }
+
+  public close() {
+    // Remove modal element
+    this.deactivate();
+    this.modalElement.remove();
+    this.destroyed = true;
+    this.FoundationApi.unsubscribe(this.id);
+
+    // Close container
+    this.containerCtrl.hide();
+  }
+}
+
+
 function foundationModal(ModalFactory) {
-  var foundationModalLink = function(scope,
-    element,
-    attr,
-    foundationModalContainer
-  ) {
-    var modal;
+  var foundationModalLink = function (scope,
+                                      element,
+                                      attr,
+                                      containerCtrl: FoundationModalContainerController) {
 
-    modal = new ModalFactory({
-      template: element.html(),
-      class: scope.modalClass,
-      // Allows you to pass in properties to the scope of the modal
-      contentScope: {
-        close: function () {
-          foundationModalContainer.hide();
-          modal.deactivate();
-
-          // modal.destroy SHOULD be enough, but it is actually delayed
-          // by foundation by 3 seconds...
-          angular.element('.' + scope.modalClass).remove();
-        }
-      }
-    });
-
-    modal.activate();
+    scope.$ctrl.containerCtrl = containerCtrl;
   };
 
   return {
@@ -60,7 +127,9 @@ function foundationModal(ModalFactory) {
     scope: {
       modalClass: '@',
     },
-    link: foundationModalLink
+    link: foundationModalLink,
+    controller: FoundationModalController,
+    controllerAs: '$ctrl',
   };
 }
 

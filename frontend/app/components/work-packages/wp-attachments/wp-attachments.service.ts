@@ -37,6 +37,8 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 
 export class WpAttachmentsService {
 
+  public pendingAttachments:File[] = [];
+
   constructor(protected $q:ng.IQService,
               protected $timeout:ng.ITimeoutService,
               protected $http:ng.IHttpService,
@@ -59,12 +61,9 @@ export class WpAttachmentsService {
   }
 
   public uploadPendingAttachments(workPackage:WorkPackageResourceInterface) {
-    return this.upload(workPackage,this.pendingAttachments);
+    return this.upload(workPackage, this.pendingAttachments);
   }
-  
-  public pendingAttachments: Array<File> = [];
 
-  
   /**
    * Transform the given files to the ng-file-uploader parameters.
    */

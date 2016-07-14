@@ -124,23 +124,37 @@ module RepositoriesHelper
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
         text = link_to(h(text),
-                       controller: '/repositories',
-                       action: 'show',
-                       project_id: @project,
-                       path: path_param,
-                       rev: @changeset.identifier)
+                       { controller: '/repositories',
+                         action: 'show',
+                         project_id: @project,
+                         path: path_param,
+                         rev: @changeset.identifier },
+                       title: l(:label_folder))
 
         output << "<li class='#{style} icon icon-folder-#{calculate_folder_action(s)}'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = without_leading_slash(to_path_param(@repository.relative_path(c.path)))
+        case c.action
+        when 'A'
+          title_text =  l(:label_added)
+        when 'D'
+          title_text =  l(:label_deleted)
+        when 'C'
+          title_text =  l(:label_copied)
+        when 'R'
+          title_text =  l(:label_renamed)
+        else
+          title_text =  l(:label_modified)
+        end
         text = link_to(h(text),
-                       controller: '/repositories',
-                       action: 'entry',
-                       project_id: @project,
-                       path: path_param,
-                       rev: @changeset.identifier) unless c.action == 'D'
+                       { controller: '/repositories',
+                         action: 'entry',
+                         project_id: @project,
+                         path: path_param,
+                         rev: @changeset.identifier },
+                       title: title_text) unless c.action == 'D'
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
         text << raw(' (' + link_to(l(:label_diff),
                                    controller: '/repositories',
@@ -151,11 +165,20 @@ module RepositoriesHelper
         text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
         case c.action
         when 'A'
-          output << "<li class='#{style} icon icon-add'>#{text}</li>"
+          output << "<li class='#{style} icon icon-add'
+                         title='#{l(:label_added)}'>#{text}</li>"
         when 'D'
-          output << "<li class='#{style} icon icon-delete'>#{text}</li>"
+          output << "<li class='#{style} icon icon-delete'
+                         title='#{l(:label_deleted)}'>#{text}</li>"
+        when 'C'
+          output << "<li class='#{style} icon icon-copy'
+                         title='#{l(:label_copied)}'>#{text}</li>"
+        when 'R'
+          output << "<li class='#{style} icon icon-rename'
+                         title='#{l(:label_renamed)}'>#{text}</li>"
         else
-          output << "<li class='#{style} icon icon-arrow-right5'>#{text}</li>"
+          output << "<li class='#{style} icon icon-arrow-left-right'
+                         title='#{l(:label_modified)}'>#{text}</li>"
         end
       end
     end

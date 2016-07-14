@@ -41,7 +41,7 @@ export class HalResourceTypesService {
       const value = config[typeName];
       const result = {
         typeName: typeName,
-        className: value.className || this.halResourceTypesStorage.defaultClass.name,
+        className: value.className || this.getClassName(this.halResourceTypesStorage.defaultClass),
         attrTypes: value.attrTypes || {}
       };
 
@@ -65,6 +65,19 @@ export class HalResourceTypesService {
       .forEach(typeConfig => {
         this.halResourceTypesStorage.setResourceTypeAttributes(typeConfig.typeName, typeConfig.attrTypes);
       });
+  }
+
+  /**
+   * IE11 has no support for <Function>.name, thus polyfill the actual class name
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/name
+   * @param cls
+   */
+  protected getClassName(cls:Function) {
+    if (cls.hasOwnProperty('name')) {
+      return cls.name;
+    }
+
+    return cls.toString().match(/^function\s*([^\s(]+)/)[1];
   }
 }
 

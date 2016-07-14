@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,25 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class User::ProjectAuthorizationCache
+  attr_accessor :user
 
-describe ::API::V3::Projects::ProjectCollectionRepresenter do
-  let(:self_link) { '/api/v3/versions/1/projects' }
-  let(:projects) { FactoryGirl.build_list(:project, 3) }
-  let(:current_user) { FactoryGirl.build(:user) }
-  let(:representer) {
-    described_class.new(projects, self_link, current_user: current_user)
-  }
-
-  context 'generation' do
-    subject(:collection) { representer.to_json }
-
-    it_behaves_like 'unpaginated APIv3 collection', 3, 'versions/1/projects', 'Project'
+  def initialize(user)
+    self.user = user
   end
 
-  describe '.checked_permissions' do
-    it 'lists add_work_packages' do
-      expect(described_class.checked_permissions).to match_array([:add_work_packages])
+  def cache(actions)
+    Array(actions).each do |action|
+      allowed_project_ids = Project.where(Project.allowed_to_condition(user, action)).pluck(:id)
+
+      projects_by_actions[normalized_permission_name(action)] = allowed_project_ids
     end
+  end
+
+  def cached?(action)
+    projects_by_actions[normalized_permission_name(action)]
+  end
+
+  def allowed?(action, project)
+    projects_by_actions[normalized_permission_name(action)].include? project.id
+  end
+
+  private
+
+  def normalized_permission_name(action)
+    Redmine::AccessControl.permission(action)
+  end
+
+  def projects_by_actions
+    @projects_by_actions ||= {}
   end
 end

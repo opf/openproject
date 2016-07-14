@@ -65,6 +65,13 @@
 <div class="work-packages--split-view"
      cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}"
      ng-class="{'edit-all-mode': wpEditModeState.active}">
+
+  <accessible-by-keyboard
+    link-class="hidden-for-sighted skip-navigation-link"
+    aria-label="{{ ::text.text_jump_to_pagination }}"
+    execute="setAnchorToNextElement()">
+    <span ng-bind="::text.jump_to_pagination"></span>
+  </accessible-by-keyboard>
   <div class="work-packages--list">
     <div class="work-packages--list-table-area">
       <wp-table ng-if="rows && columns"

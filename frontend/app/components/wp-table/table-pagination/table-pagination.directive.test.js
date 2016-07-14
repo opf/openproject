@@ -60,16 +60,16 @@ describe('tablePagination Directive', function () {
     it('should display the correct page range', function () {
       var range = element.find('.pagination--range');
 
-      expect(range.text()).to.equal('(0 - 0/0)');
+      expect(range.text().trim()).to.equal('(0 - 0/0)');
       expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.true;
 
       scope.tableEntries = 11;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/11)');
+      expect(range.text().trim()).to.equal('(1 - 10/11)');
 
       scope.tableEntries = 663;
       scope.$apply();
-      expect(range.text()).to.equal('(1 - 10/663)');
+      expect(range.text().trim()).to.equal('(1 - 10/663)');
     });
 
     it('should display the "next" link correctly', function() {

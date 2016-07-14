@@ -36,6 +36,7 @@ import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collec
 
 export class WorkPackageAttachmentsController {
   public workPackage:any;
+  public wpSingleViewCtrl;
   public hideEmptyFields:boolean;
 
   public attachments:any[] = [];
@@ -52,7 +53,6 @@ export class WorkPackageAttachmentsController {
   public size:any;
 
   private currentlyFocussing;
-  public wpSingleView:ng.IScope;
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
@@ -66,6 +66,9 @@ export class WorkPackageAttachmentsController {
 
     this.workPackage = $scope.vm.workPackage();
 
+    this.attachments = this.workPackage.isNew ? wpAttachments.pendingAttachments : this.attachments;
+    $scope.vm.wpSingleViewCtrl.attachments = this.attachments;
+
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
 
     this.fetchingConfiguration = true;
@@ -73,12 +76,13 @@ export class WorkPackageAttachmentsController {
       this.settings.maximumFileSize = settings.maximumAttachmentFileSize;
       this.fetchingConfiguration = false;
     });
-    
+
     if (this.workPackage && this.workPackage.attachments) {
       this.loadAttachments(false);
     }
 
-    $scope.$on('work_packages.attachment.add', (evt,file) => {
+    $scope.$on('work_packages.attachment.add', (evt, file) => {
+      //this.files.push(file);
       this.attachments.push(file);
     });
 
@@ -86,15 +90,10 @@ export class WorkPackageAttachmentsController {
       scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
         .subscribe((wp:WorkPackageResourceInterface) => {
           this.workPackage = wp;
-          this.loadAttachments(false);
+          this.loadAttachments(true);
         });
-    }else{
+    } else {
       this.attachments = this.wpAttachments.pendingAttachments;
-      // the controller gets initialized before the link function where we require the controller
-      // so we have to wait until we cann access wpSingleView's controller..
-      angular.element(document).on('load',()=>{
-        this.$scope.wpSingleView.filesExist = this.wpAttachments.pendingAttachments.length > 0;
-      });
     }
   }
 
@@ -123,12 +122,11 @@ export class WorkPackageAttachmentsController {
       })
       .finally(() => {
         this.loading = false;
-        this.$scope.wpSingleView.filesExist = this.attachments.length > 0;
       });
   }
 
   public remove(file):void {
-    if(!this.workPackage.isNew){
+    if (!this.workPackage.isNew) {
       if (file._type === 'Attachment') {
         file.delete()
           .then(() => this.attachmentsChanged())
@@ -137,7 +135,7 @@ export class WorkPackageAttachmentsController {
           });
       }
     }
-    _.remove(this.attachments, file);
+    _.pull(this.attachments, file);
   }
 
   public focus(attachment:any):void {
@@ -176,14 +174,11 @@ function wpAttachmentsDirective():ng.IDirective {
     controller: WorkPackageAttachmentsController,
     controllerAs: 'vm',
     replace: true,
-    require: ['?^wpSingleView'],
     restrict: 'E',
     scope: {
       workPackage: '&',
-      hideEmptyFields: '='
-    },
-    link: function(scope,element,attrs,controllers){
-      (scope as any).wpSingleView = !controllers[0] ? {} : controllers[0];
+      hideEmptyFields: '=',
+      wpSingleViewCtrl: '='
     },
     templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
   };

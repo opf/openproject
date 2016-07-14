@@ -110,4 +110,10 @@ describe ::API::V3::Projects::ProjectRepresenter do
       end
     end
   end
+
+  describe '.checked_permissions' do
+    it 'lists add_work_packages' do
+      expect(described_class.checked_permissions).to match_array([:add_work_packages])
+    end
+  end
 end

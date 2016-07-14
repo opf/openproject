@@ -38,6 +38,9 @@ module API
           end
 
           get do
+            checked_permissions = Projects::ProjectCollectionRepresenter.checked_permissions
+            current_user.preload_projects_allowed_to(checked_permissions)
+
             available_projects = WorkPackage
                                  .allowed_target_projects_on_move(current_user)
                                  .includes(Projects::ProjectCollectionRepresenter.to_eager_load)

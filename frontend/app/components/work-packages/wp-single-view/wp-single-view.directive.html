@@ -101,7 +101,8 @@
   </div>
 
   <wp-attachments
+      wp-single-view-ctrl="$ctrl"
       work-package="$ctrl.workPackage"
-      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.filesExist">
+      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.attachments.length > 0">
   </wp-attachments>
 </div>
