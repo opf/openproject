@@ -65,9 +65,6 @@ function WorkPackagesListController($scope,
         wpCacheService.updateWorkPackageList(json.work_packages);
 
         setupPage(json, !!$state.params.query_props);
-        QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function (data) {
-          $scope.availableUnusedColumns = data;
-        });
 
         QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
         QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data) {
