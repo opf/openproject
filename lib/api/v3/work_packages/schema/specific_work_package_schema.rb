@@ -83,8 +83,7 @@ module API
                 :estimated_time,
                 :start_date,
                 :due_date,
-                :date,
-                :priority].include? property
+                :date].include? property
               return false unless @work_package.leaf?
             end
 

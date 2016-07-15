@@ -269,9 +269,9 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     context 'priority' do
-      it 'is not writable when the work package is a parent' do
+      it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject.writable?(:priority)).to be false
+        expect(subject.writable?(:priority)).to be true
       end
 
       it 'is writable when the work package is a leaf' do

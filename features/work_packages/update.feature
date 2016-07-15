@@ -86,7 +86,6 @@ Feature: Updating work packages
     Then the work package should be shown with the following values:
       | Subject        | parent                   |
     And there should not be a "Progress \(%\)" field
-    And there should not be a "Priority" field
     And there should not be a "Start date" field
     And there should not be a "End date" field
     And there should not be a "Estimated time" field
