@@ -132,9 +132,9 @@ describe('Work Package Relations Directive', () => {
 
   var shouldBehaveLikeHasTableHeader = () => {
     it('should have a table head', () => {
-      var column0 = angular.element(element.find('.workpackages table thead td:nth-child(1)'));
-      var column1 = angular.element(element.find('.workpackages table thead td:nth-child(2)'));
-      var column2 = angular.element(element.find('.workpackages table thead td:nth-child(3)'));
+      var column0 = angular.element(element.find('.workpackages table thead th:nth-child(1)'));
+      var column1 = angular.element(element.find('.workpackages table thead th:nth-child(2)'));
+      var column2 = angular.element(element.find('.workpackages table thead th:nth-child(3)'));
 
       expect(angular.element(column0).text()).to.eq(I18n.t('js.work_packages.properties.subject'));
       expect(angular.element(column1).text()).to.eq(I18n.t('js.work_packages.properties.status'));
