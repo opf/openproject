@@ -86,6 +86,19 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       this.setRows(WorkPackagesTableHelper.buildRows(workPackages, groupBy, splitViewWorkPackageId));
     },
 
+    buildGroupHeaders: function(resource) {
+      var groups = {};
+
+      if (resource.groups) {
+        resource.groups.forEach(function(group) {
+          group.value = group.value || '';
+          groups[group.value] = group;
+        });
+      }
+
+      return groups;
+    },
+
     setRows: function(rows) {
       workPackagesTableData.rows = rows;
     },

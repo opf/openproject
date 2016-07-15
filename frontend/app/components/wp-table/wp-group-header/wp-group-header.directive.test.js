@@ -71,7 +71,7 @@ describe('workPackageGroupHeader Directive', function() {
         });
 
         it('should toggle current group expansion to be false', function() {
-          scope.toggleCurrentGroup();
+          scope.$ctrl.toggleCurrentGroup();
           expect(scope.groupExpanded['llama']).to.be.false;
         });
       });

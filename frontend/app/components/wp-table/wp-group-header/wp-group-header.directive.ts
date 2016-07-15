@@ -26,37 +26,57 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpGroupHeader', wpGroupHeader);
+import {wpDirectivesModule} from '../../../angular-modules';
+
+export class WorkPackageGroupHeaderController {
+  constructor(public $scope, public I18n) {
+    this.pushGroup(this.currentGroup);
+  }
+
+  public get resource() {
+    return this.$scope.resource;
+  }
+
+  public get currentGroup() {
+    return this.$scope.row.groupName;
+  }
+
+  public get currentGroupObject() {
+    return this.$scope.groupHeaders[this.currentGroup];
+  }
+
+  /**
+   * Return the group name. As the internal value may be emtpy (''),
+   * we return the default placeholder in that case.
+   */
+  public get currentGroupName() {
+    const value = this.currentGroupObject.value;
+
+    if (value === '') {
+      return this.I18n.t('js.placeholders.default');
+    }
+
+    return value;
+  }
+
+  public toggleCurrentGroup() {
+    this.$scope.groupExpanded[this.currentGroup] = !this.$scope.groupExpanded[this.currentGroup];
+  }
+
+  public pushGroup(group) {
+    if (this.$scope.groupExpanded[group] === undefined) {
+      this.$scope.groupExpanded[group] = true;
+    }
+  }
+}
 
 function wpGroupHeader() {
   return {
     restrict: 'A',
-    link: function(scope) {
-
-      scope.currentGroup = scope.row.groupName;
-
-      scope.currentGroupObject = _.find(scope.resource.groups, function(o) {
-        var value = o.value == null ? '' : o.value;
-        return value === scope.row.groupName;
-      });
-
-      if (scope.currentGroupObject && scope.currentGroupObject.value === null) {
-        scope.currentGroupObject.value = I18n.t('js.placeholders.default');
-      }
-
-      pushGroup(scope.currentGroup);
-
-      scope.toggleCurrentGroup = function() {
-        scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
-      };
-
-      function pushGroup(group) {
-        if (scope.groupExpanded[group] === undefined) {
-          scope.groupExpanded[group] = true;
-        }
-      }
-    }
+    controller: WorkPackageGroupHeaderController,
+    controllerAs: '$ctrl',
+    bindToController: true,
   };
 }
+
+wpDirectivesModule.directive('wpGroupHeader', wpGroupHeader);

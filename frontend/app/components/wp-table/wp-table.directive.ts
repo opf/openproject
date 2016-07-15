@@ -53,6 +53,7 @@ function wpTable(
       rows: '=',
       query: '=',
       groupBy: '=',
+      groupHeaders: '=',
       displaySums: '=',
       isSmaller: '=',
       resource: '=',
