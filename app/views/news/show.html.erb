@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to(edit_news_path(@news),
         accesskey: accesskey(:edit),
         class: 'button',
-        onclick: 'Element.show("edit-news"); return false;') do %>
+        onclick: 'jQuery("#edit-news").show(); return false;') do %>
         <i class="button--icon icon-edit"></i>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>

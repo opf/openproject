@@ -180,13 +180,9 @@ OpenProject::Application.routes.draw do
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
   scope ':object_type/:object_id', constraints: OpenProject::Acts::Watchable::Routes do
-    resources :watchers, only: [:new, :create]
-
     match '/watch' => 'watchers#watch', via: :post
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
-
-  resources :watchers, only: [:destroy]
 
   resources :projects, except: [:edit] do
     member do
