@@ -171,7 +171,9 @@ openprojectModule
         controller: 'WorkPackageCreateController',
         controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        onEnter: () => angular.element('body').addClass('action-create'),
+        onExit: () => angular.element('body').removeClass('action-create')
       })
       .state('work-packages.list.copy', {
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',

@@ -136,6 +136,12 @@
 .work-package--details-container
   position: relative
   padding:  0
+
+// This rule is necessary to show the border only
+// when its needed. Otherwise the border would be visible
+// in the list view too.
+.action-details .work-package--details-container,
+.action-create .work-package--details-container,
   border-left: 4px solid #eee
   border-top: 4px solid #eee
 
