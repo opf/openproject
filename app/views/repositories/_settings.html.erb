@@ -43,8 +43,6 @@ See doc/COPYRIGHT.rdoc for more details.
   </legend>
 
   <%= error_messages_for 'repository' %>
-  <%# Hide the select for existing repositories %>
-  <% if is_creation_form %>
   <div class="form--field -required">
     <%= label_tag('scm_vendor', l('repositories.scm_vendor'), class: "form--label") %>
     <div class="form--field-container">
@@ -53,7 +51,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
   </div>
-  <% end %>
 
   <%# Show (selected) type options %>
   <% unless @repository.nil? %>
