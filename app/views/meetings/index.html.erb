@@ -39,7 +39,7 @@ See doc/COPYRIGHT.md for more details.
   <h3 class="month_year"><%= "#{month_name(month)} #{year}" %></h3>
   <div class="meetings_by_date">
   <% meetings_by_start_date.each do |date,meetings| -%>
-    <h3 id="<%= date.strftime("%m-%d-%Y") %>" class="date"><%= format_activity_day(date) %></h3>
+    <h4 id="<%= date.strftime("%m-%d-%Y") %>" class="date"><%= format_activity_day(date) %></h4>
     <dl class="meetings">
     <% meetings.each do |meeting| -%>
       <dt class="meeting" id="meeting-<%= meeting.id %>">
