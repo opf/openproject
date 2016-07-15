@@ -61,42 +61,22 @@ class MembersController < ApplicationController
       members = new_members_from_params
       @project.members << members
     end
-    respond_to do |format|
-      if members.present? && members.all?(&:valid?)
-        flash.notice = members_added_notice members
 
-        format.html do
-          redirect_to project_members_path(project_id: @project)
-        end
+    if members.present? && members.all?(&:valid?)
+      flash.notice = members_added_notice members
 
-        format.js
+      redirect_to project_members_path(project_id: @project)
+    else
+      if members.present? && params[:member]
+        @member = members.first
       else
-        format.html do
-          if members.present? && params[:member]
-            @member = members.first
-          else
-            flash.error = l(:error_check_user_and_role)
-          end
+        flash.error = l(:error_check_user_and_role)
+      end
 
-          set_roles_and_principles!
+      set_roles_and_principles!
 
-          render 'new'
-        end
-
-        format.js do
-          @pagination_url_options = { controller: 'projects', action: 'settings', id: @project }
-          render(:update) do |page|
-            if params[:member]
-              page.replace_html 'new-member-message',
-                                partial: 'members/member_errors',
-                                locals: { member: members.first }
-            else
-              page.replace_html 'new-member-message',
-                                partial: 'members/common_error',
-                                locals: { message: l(:error_check_user_and_role) }
-            end
-          end
-        end
+      respond_to do |format|
+        format.html { render 'new' }
       end
     end
   end
