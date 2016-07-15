@@ -70,5 +70,6 @@ var OpenProjectPlugins = {
   }
 };
 
+exports.allPluginNamesPaths       = OpenProjectPlugins.allPluginNamesPaths();
 exports.pluginNamesPaths          = OpenProjectPlugins.pluginNamesPaths();
 exports.pluginDirectories         = OpenProjectPlugins.pluginDirectories();

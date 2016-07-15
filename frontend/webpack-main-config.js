@@ -45,6 +45,16 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function (entries, plu
   return entries;
 }, {});
 
+/** Extract available locales from openproject-translations plugin */
+var translations = path.resolve(pathConfig.allPluginNamesPaths['openproject-translations'], 'config', 'locales');
+var localeIds = ['en'];
+fs.readdirSync(translations).forEach(function (file) {
+  var matches = file.match( /^js-(.+)\.yml$/);
+  if (matches && matches.length > 1) {
+    localeIds.push(matches[1]);
+  }
+});
+
 var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
 var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), function (entry) {
   return entry && entry.charAt(0) !== '#';
@@ -149,12 +159,26 @@ function getWebpackMainConfig() {
       // errors are detected (this includes TS warnings)
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
       TypeScriptDiscruptorPlugin,
+
+      // Extract CSS into its own bundle
       new ExtractTextPlugin('openproject-[name].css'),
+
+      // Global variables provided in all entries
+      // We should avoid this since it reduces webpack
+      // strengths to discover dependency use.
       new webpack.ProvidePlugin({
         '_': 'lodash',
         'URI': 'URIjs',
         'URITemplate': 'URIjs/src/URITemplate'
       }),
+
+      // Restrict loaded ngLocale locales to the ones we load from translations
+      new webpack.ContextReplacementPlugin(
+        /(angular-i18n)/,
+        new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$')
+      ),
+
+      // Resolve bower dependencies
       new webpack.ResolverPlugin([
         new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
             'bower.json', ['main'])
