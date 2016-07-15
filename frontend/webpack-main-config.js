@@ -175,7 +175,7 @@ function getWebpackMainConfig() {
       // Restrict loaded ngLocale locales to the ones we load from translations
       new webpack.ContextReplacementPlugin(
         /(angular-i18n)/,
-        new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$')
+        new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$', 'i')
       ),
 
       // Resolve bower dependencies
