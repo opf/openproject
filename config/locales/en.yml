@@ -1802,6 +1802,7 @@ en:
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
+  text_comment_wiki_page: "Comment to wiki page: %{page}"
   text_custom_field_possible_values_info: "One line for each value"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
