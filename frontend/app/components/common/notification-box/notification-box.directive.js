@@ -50,6 +50,15 @@ function notificationBox($timeout, I18n, ConfigurationService) {
       }
     };
 
+    /**
+     * Execute the link callback from content.link.target
+     * and close this notification.
+     */
+    scope.executeTarget = function() {
+      scope.content.link.target();
+      scope.remove();
+    };
+
     scope.$on('upload.error', function() {
       if (scope.content.type === 'upload') {
         scope.content.type = 'error';
