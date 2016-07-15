@@ -10,28 +10,14 @@
   div_content.before('<%= render_flash_messages %>');
   <% end %>
 
-  var toggleContent = function(content, selected) {
-    var targetName = '#toggleable-attributes-group--content-' + selected,
-        oldTargets = content.not(targetName),
-        newTarget  = $(targetName);
+  var toggleContent = function(content,selected) {
+    var targetName = '#git-' + selected,
+        oldTargets = content.find('.attributes-group').not(targetName);
+        newTarget  = jQuery(targetName);
 
-    // would work with fieldset#disabled, but that's bugged up unto IE11
-    // https://connect.microsoft.com/IE/feedbackdetail/view/962368/
-    //
-    // Ugly workaround: disable all inputs manually, but
-    // spare enabling inputs marked with `aria-disabled`
-    oldTargets
-      .slideUp(500)
-      .prop('hidden', true)
-      .find('input,select')
-      .prop('disabled', true);
+    oldTargets.hide();
 
-    newTarget
-      .slideDown(500)
-      .prop('hidden', false)
-      .find('input,select')
-      .not('[aria-disabled="true"]')
-      .prop('disabled', false);
+    newTarget.show();
   };
 
   $('#tab-content-repository')
@@ -42,7 +28,7 @@
       name = fs.attr('data-switch'),
       switches = fs.find('[name="' + name + '"]'),
       headers = fs.find('.attributes-group--header-text'),
-      content = fs.find('.attributes-group--content.-toggleable');
+      content = $(el);
 
     // If only one choice, skip setup
     if (switches.length === 1) {
