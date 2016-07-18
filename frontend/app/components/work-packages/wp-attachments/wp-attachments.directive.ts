@@ -87,15 +87,31 @@ export class WorkPackageAttachmentsController {
       this.attachments.push(file);
     });
 
-    if (!this.workPackage.isNew) {
-      scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
-        .subscribe((wp:WorkPackageResourceInterface) => {
-          this.workPackage = wp;
-          this.loadAttachments(true);
-        });
-    } else {
+    if (this.workPackage.isNew) {
       this.attachments = this.wpAttachments.pendingAttachments;
+      this.registerCreateObserver();
+    } else {
+      this.registerEditObserver();
     }
+  }
+
+  private registerEditObserver() {
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.workPackage = wp;
+        this.loadAttachments(true);
+      });
+  }
+
+  private registerCreateObserver() {
+    scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.wpAttachments.uploadPendingAttachments(wp).then(() => {
+          // Reload the work package after attachments are uploaded to
+          // provide the correct links, in e.g., the description
+          this.wpCacheService.loadWorkPackage(<number> wp.id, true);
+        })
+      });
   }
 
   public upload():void {
