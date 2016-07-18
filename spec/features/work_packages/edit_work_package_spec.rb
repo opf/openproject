@@ -70,6 +70,20 @@ describe 'edit work package', js: true do
     wp_page.ensure_page_loaded
   end
 
+  it 'does not hide empty fields while they are being edited' do
+    expect(page).not_to have_text("Progress (%)")
+
+    wp_page.view_all_attributes
+    wp_page.update_attributes percentageDone: '42'
+
+    expect(page).to have_text("42% Total")
+
+    wp_page.visit!
+    wp_page.update_attributes({ percentageDone: '0' }, save: false)
+
+    expect(page).to have_text("Progress (%)")
+  end
+
   it 'allows updating and seeing the results' do
     wp_page.view_all_attributes
 

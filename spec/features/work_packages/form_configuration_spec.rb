@@ -110,5 +110,41 @@ describe 'form configuration: ', js: true do
         wp_page.expect_attributes Version: nil
       end
     end
+
+    context 'during creation' do
+      context 'with version having default visibility' do
+        before do
+          type.attribute_visibility['version'] = 'default'
+          type.save!
+
+          wp_page.visit!
+
+          wp_page.expect_attribute_hidden :version
+
+          wp_page.open_new
+        end
+
+        it 'version is not shown' do
+          expect(page).not_to have_text 'Version'
+        end
+      end
+
+      context 'with version always shown' do
+        before do
+          type.attribute_visibility['version'] = 'visible'
+          type.save!
+
+          wp_page.visit!
+
+          wp_page.expect_attributes Version: nil
+
+          wp_page.open_new
+        end
+
+        it 'version is shown' do
+          expect(page).to have_text 'Version'
+        end
+      end
+    end
   end
 end
