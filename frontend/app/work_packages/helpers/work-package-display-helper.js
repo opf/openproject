@@ -64,33 +64,10 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
         }
         return WorkPackageFieldService.isHideable(workPackage, field);
       },
-      isFieldHideableOnCreate = function(workPackage, field) {
-        if (!workPackage) {
-          return true;
-        }
-        if (!isSpecified(workPackage, field)) {
-          return true;
-        }
-
-        if (!isEditable(workPackage, field)) {
-          return true;
-        }
-
-        if (_.contains(unhideableFields, field)) {
-          return !WorkPackageFieldService.isEditable(workPackage, field);
-        }
-
-        return WorkPackageFieldService.isHideable(workPackage, field);
-      },
       shouldHideField = function(workPackage, field, hideEmptyFields) {
         var hidden = WorkPackageFieldService.getVisibility(workPackage, field) === 'hidden';
 
         return isFieldHideable(workPackage, field) && (hideEmptyFields || hidden);
-      },
-      shouldHideFieldOnCreate = function(workPackage, field, hideEmptyFields) {
-        var hidden = WorkPackageFieldService.getVisibility(workPackage, field) === 'hidden';
-
-        return isFieldHideableOnCreate(workPackage, field) && (hideEmptyFields || hidden);
       },
       isSpecified = function (workPackage, field) {
         if (!workPackage) {
@@ -134,9 +111,7 @@ module.exports = function(WorkPackageFieldService, $window, $timeout) {
     isGroupEmpty: isGroupEmpty,
     shouldHideGroup: shouldHideGroup,
     isFieldHideable: isFieldHideable,
-    isFieldHideableOnCreate: isFieldHideableOnCreate,
     shouldHideField: shouldHideField,
-    shouldHideFieldOnCreate: shouldHideFieldOnCreate,
     isSpecified: isSpecified,
     isEditable: isEditable,
     hasNiceStar: hasNiceStar,
