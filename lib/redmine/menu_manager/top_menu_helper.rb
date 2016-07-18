@@ -86,7 +86,7 @@ module Redmine::MenuManager::TopMenuHelper
       label: avatar.presence || '',
       label_options: {
         title: User.current.name,
-        class: (avatar.present? ? '' : 'icon-user icon-context')
+        class: (avatar.present? ? '' : 'icon-user')
       },
       items: items,
       options: { drop_down_id: 'user-menu', menu_item_class: 'last-child -hide-icon' }
