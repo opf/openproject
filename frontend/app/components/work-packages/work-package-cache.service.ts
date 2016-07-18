@@ -50,7 +50,6 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-
     this.updateWorkPackageList([wp]);
   }
 
