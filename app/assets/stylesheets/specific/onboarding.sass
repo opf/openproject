@@ -33,9 +33,11 @@
   overflow-y: auto
 
 .onboarding--top-menu
-  @extend #top-menu
   display: flex
   align-items: center
+  background-color: $header-bg-color
+  height: $header-height
+  border-bottom: $header-border-bottom-width solid $header-border-bottom-color
 
   .avatar,
   .icon-context
