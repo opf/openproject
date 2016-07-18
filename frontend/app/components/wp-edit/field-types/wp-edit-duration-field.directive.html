@@ -4,6 +4,7 @@
        ng-model="vm.workPackage[vm.fieldName]"
        transform-duration-value
        ng-required="vm.field.required"
+       ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
        ng-disabled="vm.workPackage.inFlight"
        focus="vm.shouldFocus()"

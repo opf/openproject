@@ -4,6 +4,7 @@
         ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
         ng-change="vm.submit()"
         ng-required="vm.field.required"
+        ng-focus="vm.handleUserFocus()"
         ng-blur="vm.handleUserBlur()"
         ng-disabled="vm.workPackage.inFlight"
         focus="vm.shouldFocus()"

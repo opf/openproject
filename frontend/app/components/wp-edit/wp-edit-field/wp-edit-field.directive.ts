@@ -47,6 +47,7 @@ export class WorkPackageEditFieldController {
   public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
+  protected _hasFocus: boolean = false;
   protected _forceFocus: boolean = false;
 
   // Since we load the schema asynchronously
@@ -198,6 +199,10 @@ export class WorkPackageEditFieldController {
     this._editable = enabled;
   }
 
+  public hasFocus() {
+    return this.active && this._hasFocus;
+  }
+
   public shouldFocus() {
     return this._forceFocus || this.formCtrl.firstActiveField === this.fieldName;
   }
@@ -219,7 +224,13 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public handleUserFocus() {
+    this._hasFocus = true;
+  }
+
   public handleUserBlur(): boolean {
+    this._hasFocus = false;
+
     if (!this.isSubmittable()) {
       return;
     }

@@ -83,7 +83,7 @@ export class WorkPackageSingleViewController {
   }
 
   public shouldHideField(field) {
-    let hideEmpty = !this.formCtrl.fields[field].active && this.hideEmptyFields;
+    let hideEmpty = !this.formCtrl.fields[field].hasFocus() && this.hideEmptyFields;
 
     return this.singleViewWp.shouldHideField(field, hideEmpty);
   };
