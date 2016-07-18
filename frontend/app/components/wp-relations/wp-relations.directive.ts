@@ -28,6 +28,8 @@
 
 import {wpTabsModule} from '../../angular-modules';
 import {WorkPackageRelationGroup} from './wp-relation-group/wp-relation-group.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 const iconArrowClasses = ['icon-arrow-up1', 'icon-arrow-down1'];
 
@@ -35,6 +37,7 @@ export class WorkPackageRelationsController {
   public btnTitle:string;
   public btnIcon:string = '<i class="icon-hierarchy icon-add"></i>';
 
+  public workPackage:WorkPackageResource;
   public relationGroup:WorkPackageRelationGroup;
   public focusElementIndex:number = -2;
   public wpToAddId:number = null;
@@ -54,7 +57,10 @@ export class WorkPackageRelationsController {
     return this.expand;
   }
 
-  constructor(protected $scope, protected I18n, protected NotificationsService) {
+  constructor(protected $scope,
+              protected I18n,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected NotificationsService) {
     this.text = {
       title: I18n.t('js.relation_labels.' + this.relationGroup.id),
       table: {
@@ -79,9 +85,7 @@ export class WorkPackageRelationsController {
         this.wpToAddId = null;
         this.handleSuccess(-1);
       })
-      .catch(error => {
-        error.data.showErrorNotification();
-      });
+      .catch(error => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
   }
 
   public canRemoveRelation(relation?):boolean {
@@ -93,7 +97,7 @@ export class WorkPackageRelationsController {
       .then(index => {
         this.handleSuccess(index);
       })
-      .catch(error => error.data.showErrorNotification());
+      .catch(error => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
   }
 
   public toggleExpand() {
@@ -131,6 +135,7 @@ function wpRelationsDirective() {
 
     scope: {
       relationGroup: '=',
+      workPackage: '=',
       btnTitle: '=buttonTitle',
     },
 
