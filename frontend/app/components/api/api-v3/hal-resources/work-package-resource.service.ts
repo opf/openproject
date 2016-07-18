@@ -111,6 +111,7 @@ export class WorkPackageResource extends HalResource {
   public subject:string;
   public lockVersion:number;
   public description:any;
+  public inFlight:boolean;
 
   private form;
 
@@ -254,6 +255,7 @@ export class WorkPackageResource extends HalResource {
 
   public save() {
     var deferred = $q.defer();
+    this.inFlight = true;
 
     this.updateForm(this.$source)
       .then(form => {
@@ -270,10 +272,14 @@ export class WorkPackageResource extends HalResource {
             deferred.reject(error);
           })
           .finally(() => {
+            this.inFlight = false;
             wpCacheService.updateWorkPackage(this);
           });
       })
-      .catch(deferred.reject);
+      .catch(() => {
+        this.inFlight = false;
+        deferred.reject();
+      });
 
     return deferred.promise;
   }

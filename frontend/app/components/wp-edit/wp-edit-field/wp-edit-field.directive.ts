@@ -180,7 +180,8 @@ export class WorkPackageEditFieldController {
   public isSubmittable(): boolean {
     return !(this.inEditMode ||
              (this.isRequired() && this.isEmpty()) ||
-             (this.isErrorenous() && !this.isChanged()));
+             (this.isErrorenous() && !this.isChanged()) ||
+             this.workPackage.inFlight);
   }
 
   public get errorMessageOnLabel(): string {
@@ -189,7 +190,7 @@ export class WorkPackageEditFieldController {
     }
     else {
       return this.I18n.t('js.inplace.errors.messages_on_field',
-                         { messages: this.errors.join(" ") });
+                         { messages: this.errors.join(' ') });
     }
   }
 
