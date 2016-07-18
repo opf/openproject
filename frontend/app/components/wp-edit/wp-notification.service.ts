@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from '../../angular-modules';
+import {wpServicesModule} from '../../angular-modules.ts';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 
@@ -108,4 +108,4 @@ export class WorkPackageNotificationService {
   }
 }
 
-openprojectModule.service('wpNotificationsService', WorkPackageNotificationService);
+wpServicesModule.service('wpNotificationsService', WorkPackageNotificationService);

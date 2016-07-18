@@ -33,6 +33,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
 
   constructor(public $injector,
               public $scope,
+              public $rootScope,
               public $state) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();

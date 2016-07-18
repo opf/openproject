@@ -32,7 +32,6 @@ import {WorkPackageCacheService} from '../../../work-packages/work-package-cache
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
-
 interface WorkPackageResourceEmbedded {
   activities:HalResource|any;
   assignee:HalResource|any;
@@ -256,6 +255,7 @@ export class WorkPackageResource extends HalResource {
   public save() {
     var deferred = $q.defer();
     this.inFlight = true;
+    const wasNew = this.isNew;
 
     this.updateForm(this.$source)
       .then(form => {
@@ -267,6 +267,7 @@ export class WorkPackageResource extends HalResource {
             this.$pristine = {};
 
             deferred.resolve(this);
+
           })
           .catch(error => {
             deferred.reject(error);
@@ -274,6 +275,9 @@ export class WorkPackageResource extends HalResource {
           .finally(() => {
             this.inFlight = false;
             wpCacheService.updateWorkPackage(this);
+            if (wasNew) {
+              wpCacheService.newWorkPackageCreated(this);
+            }
           });
       })
       .catch(() => {

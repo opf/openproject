@@ -36,6 +36,7 @@ import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collec
 
 export class WorkPackageAttachmentsController {
   public workPackage:any;
+  public wpSingleViewCtrl;
   public hideEmptyFields:boolean;
 
   public attachments:any[] = [];
@@ -52,11 +53,9 @@ export class WorkPackageAttachmentsController {
   public size:any;
 
   private currentlyFocussing;
-  public wpSingleView:ng.IScope;
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
-              protected $rootScope,
               protected wpCacheService:WorkPackageCacheService,
               protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
@@ -66,6 +65,11 @@ export class WorkPackageAttachmentsController {
               protected ConversionService:any) {
 
     this.workPackage = $scope.vm.workPackage();
+
+    this.attachments = this.workPackage.isNew ? wpAttachments.pendingAttachments : this.attachments;
+    if (angular.isDefined($scope.vm.wpSingleViewCtrl)) {
+      $scope.vm.wpSingleViewCtrl.attachments = this.attachments;
+    }
 
     this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
 
@@ -79,17 +83,35 @@ export class WorkPackageAttachmentsController {
       this.loadAttachments(false);
     }
 
-    $rootScope.$on('work_packages.attachment.add', file => {
+    $scope.$on('work_packages.attachment.add', (evt, file) => {
       this.attachments.push(file);
     });
 
-    if (!this.workPackage.isNew) {
-      scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
-        .subscribe((wp:WorkPackageResourceInterface) => {
-          this.workPackage = wp;
-          this.loadAttachments(false);
-        });
+    if (this.workPackage.isNew) {
+      this.attachments = this.wpAttachments.pendingAttachments;
+      this.registerCreateObserver();
+    } else {
+      this.registerEditObserver();
     }
+  }
+
+  private registerEditObserver() {
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.workPackage = wp;
+        this.loadAttachments(true);
+      });
+  }
+
+  private registerCreateObserver() {
+    scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.wpAttachments.uploadPendingAttachments(wp).then(() => {
+          // Reload the work package after attachments are uploaded to
+          // provide the correct links, in e.g., the description
+          this.wpCacheService.loadWorkPackage(<number> wp.id, true);
+        })
+      });
   }
 
   public upload():void {
@@ -117,20 +139,20 @@ export class WorkPackageAttachmentsController {
       })
       .finally(() => {
         this.loading = false;
-        this.$scope.wpSingleView.filesExist = this.attachments.length > 0;
       });
   }
 
   public remove(file):void {
-    if (file._type === 'Attachment') {
-      file.delete()
-        .then(() => this.attachmentsChanged())
-        .catch(error => {
-          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-        });
+    if (!this.workPackage.isNew) {
+      if (file._type === 'Attachment') {
+        file.delete()
+          .then(() => this.attachmentsChanged())
+          .catch(error => {
+            this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          });
+      }
     }
-
-    _.remove(this.attachments, file);
+    _.pull(this.attachments, file);
   }
 
   public focus(attachment:any):void {
@@ -169,14 +191,11 @@ function wpAttachmentsDirective():ng.IDirective {
     controller: WorkPackageAttachmentsController,
     controllerAs: 'vm',
     replace: true,
-    require: ['?^wpSingleView'],
     restrict: 'E',
     scope: {
       workPackage: '&',
-      hideEmptyFields: '='
-    },
-    link: function(scope,element,attrs,controllers){
-      (scope as any).wpSingleView = !controllers[0] ? {} : controllers[0];
+      hideEmptyFields: '=',
+      wpSingleViewCtrl: '='
     },
     templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
   };
