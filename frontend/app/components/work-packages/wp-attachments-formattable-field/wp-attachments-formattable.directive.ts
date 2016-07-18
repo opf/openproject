@@ -34,8 +34,8 @@ export class WpAttachmentsFormattableController {
               protected keepTab:KeepTabService) {
 
     $element.on('drop', this.handleDrop);
-    $element.on('dragover',this.highlightDroppable);
-    $element.on('dragleave',this.removeHighlight);
+    $element.on('dragover', this.highlightDroppable);
+    $element.on('dragleave', this.removeHighlight);
     $element.on('dragenter dragleave dragover', this.prevDefault);
   }
 
@@ -67,7 +67,7 @@ export class WpAttachmentsFormattableController {
       if (dropData.filesAreValidForUploading()) {
         if (!dropData.isDelayedUpload) {
 
-          this.uploadFiles(workPackage,dropData).then((updatedAttachments:any)=>{
+          this.uploadFiles(workPackage, dropData).then((updatedAttachments:any) => {
             if (angular.isUndefined(updatedAttachments)) {
               return;
             }
@@ -84,17 +84,17 @@ export class WpAttachmentsFormattableController {
 
           });
         } else {
-          this.insertDelayedAttachments(dropData,description);
+          this.insertDelayedAttachments(dropData, description);
         }
       }
     } else {
-      this.insertUrls(dropData,description);
+      this.insertUrls(dropData, description);
     }
     this.openDetailsView(workPackage.id);
     this.removeHighlight();
   };
 
-  protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel){
+  protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel) {
     const updatedAttachmentsList = this.$q.defer();
 
     this.wpAttachments.upload(workPackage, dropData.files).then(() => {
@@ -106,14 +106,14 @@ export class WpAttachmentsFormattableController {
     return updatedAttachmentsList.promise;
   }
 
-  protected sortAttachments(updatedAttachments:any){
+  protected sortAttachments(updatedAttachments:any) {
     updatedAttachments.sort(function (a:any, b:any) {
       return a.id > b.id ? 1 : -1;
     });
     return updatedAttachments;
   }
 
-  protected insertSingleAttachment(updatedAttachments:any, description:any){
+  protected insertSingleAttachment(updatedAttachments:any, description:any) {
     const currentFile:SingleAttachmentModel =
       new SingleAttachmentModel(updatedAttachments[updatedAttachments.length - 1]);
     description.insertAttachmentLink(
@@ -121,26 +121,27 @@ export class WpAttachmentsFormattableController {
       (currentFile.isAnImage) ? InsertMode.INLINE : InsertMode.ATTACHMENT);
   }
 
-  protected insertMultipleAttachments(dropData:DropModel,updatedAttachments:any,description:any):void{
+  protected insertMultipleAttachments(dropData:DropModel, updatedAttachments:any, description:any):void {
     for (let i:number = updatedAttachments.length - 1;
          i >= updatedAttachments.length - dropData.filesCount;
          i--) {
       description.insertAttachmentLink(
-        updatedAttachments[i]._links.downloadLocation.href,
+        updatedAttachments[i].downloadLocation.href,
         InsertMode.ATTACHMENT,
         true);
     }
   }
 
-  protected insertDelayedAttachments(dropData:DropModel, description):void{
-    dropData.files.forEach((file:File) => {
-      description.insertAttachmentLink(file.name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
-      // implement pending attachments logic when create is ready
-    });
+  protected insertDelayedAttachments(dropData:DropModel, description):void {
+    for (var i = 0; i < dropData.files.length; i++) {
+      description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
+      this.$rootScope.$broadcast('work_packages.attachment.add', dropData.files[i]);
+    }
+
     description.save();
   }
 
-  protected insertUrls(dropData: DropModel,description):void{
+  protected insertUrls(dropData: DropModel, description):void {
     const insertUrl:string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
     const insertAlternative:InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
     const insertMode:InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
@@ -150,7 +151,7 @@ export class WpAttachmentsFormattableController {
   }
 
   protected openDetailsView(wpId):void {
-    if(this.$state.current.name.indexOf('work-packages.list') > -1 && this.$state.params.workPackageId !== wpId){
+    if (this.$state.current.name.indexOf('work-packages.list') > -1 && this.$state.params.workPackageId !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
         workPackageId: wpId
       });
@@ -162,16 +163,14 @@ export class WpAttachmentsFormattableController {
     evt.stopPropagation();
   }
 
-  protected highlightDroppable=(evt:JQueryEventObject)=>{
-    // use the browser's native implementation for showing the user
-    // that one can drop data on this area
+  protected highlightDroppable = (evt:JQueryEventObject) => {
     (evt.originalEvent as DragEvent).dataTransfer.dropEffect = 'copy';
-    if(!this.$element.hasClass('is-droppable')){
+    if (!this.$element.hasClass('is-droppable')) {
       this.$element.addClass('is-droppable');
     }
   };
 
-  protected removeHighlight=()=>{
+  protected removeHighlight = () => {
     this.$element.removeClass('is-droppable');
   };
 }

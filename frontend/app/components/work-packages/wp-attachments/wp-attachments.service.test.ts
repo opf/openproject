@@ -32,12 +32,13 @@ describe('wpAttachments service', () => {
   var $q;
   var wpAttachments;
   var $httpBackend;
+  var wpNotificationsService;
 
   // mock me an attachment
   var attachment = {
     id: 1,
-    _type: "Attachment",
-    href: "/api/v3/attachments/1"
+    _type: 'Attachment',
+    href: '/api/v3/attachments/1'
   };
 
   var workPackage = {
@@ -60,10 +61,11 @@ describe('wpAttachments service', () => {
   beforeEach(angular.mock.module('openproject'));
   beforeEach(angular.mock.module('openproject.workPackages'));
 
-  beforeEach(angular.mock.inject((_wpAttachments_, _$httpBackend_, _$q_) => {
+  beforeEach(angular.mock.inject((_wpAttachments_, _wpNotificationsService_, _$httpBackend_, _$q_) => {
     $q = _$q_;
     wpAttachments = _wpAttachments_;
     $httpBackend = _$httpBackend_;
+    wpNotificationsService = _wpNotificationsService_
   }));
 
   afterEach(() => {
