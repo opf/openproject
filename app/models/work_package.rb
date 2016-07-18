@@ -40,9 +40,9 @@ class WorkPackage < ActiveRecord::Base
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled)
+  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
-    %w(start_date due_date estimated_hours done_ratio)
+    %w(start_date due_date estimated_hours done_ratio).freeze
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   belongs_to :project
