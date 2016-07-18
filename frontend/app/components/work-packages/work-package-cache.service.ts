@@ -37,10 +37,16 @@ export class WorkPackageCacheService {
 
   private workPackageCache: {[id: number]: WorkPackageResource} = {};
 
-  workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
+  private workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
+
+  private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
 
   /*@ngInject*/
   constructor(private $rootScope: IScope, private apiWorkPackages: ApiWorkPackagesService) {
+  }
+
+  newWorkPackageCreated(wp: WorkPackageResource) {
+    this.newWorkPackageCreatedSubject.onNext(wp);
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
@@ -62,11 +68,11 @@ export class WorkPackageCacheService {
   /**
    * Invalidate a set of links in the given work package.
    * This is a temporary fix for un-/reloading a known set of links.
-   * 
+   *
    * @param workPackage
    * @param args A list of links to forcefully $load
    */
-  loadWorkPackageLinks(workPackage, ...args:string[]) {
+  loadWorkPackageLinks(workPackage, ...args: string[]) {
     args.forEach((arg) => {
       workPackage[arg].$load(true);
     });
@@ -81,8 +87,12 @@ export class WorkPackageCacheService {
     }
 
     return this.workPackagesSubject
-        .map(cache => cache[workPackageId])
-        .filter(wp => wp !== undefined);
+      .map(cache => cache[workPackageId])
+      .filter(wp => wp !== undefined);
+  }
+
+  onNewWorkPackage(): Rx.Observable<WorkPackageResource> {
+    return this.newWorkPackageCreatedSubject.asObservable();
   }
 
 }
