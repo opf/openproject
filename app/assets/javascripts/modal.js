@@ -128,7 +128,7 @@ var ModalHelper = (function() {
 
         jQuery(this).trigger("loaded");
 
-        modalDiv.parent().show();
+        modalDiv.parent().css('visibility', 'visible');
 
         modalIframe.attr("height", modalDiv.height());
 
@@ -198,7 +198,7 @@ var ModalHelper = (function() {
   };
 
   ModalHelper.prototype.loading = function() {
-    this.modalDiv.parent().hide();
+    this.modalDiv.parent().css('visibility', 'hidden');
 
     this.loadingModal = true;
     this.showLoadingModal();
