@@ -70,11 +70,11 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
 
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
-      this.wpCacheService.updateWorkPackage(wp);
       this._wp = wp;
       this._wp.inlineCreated = true;
 
       this.query.applyDefaultsFromFilters(this._wp);
+      this.wpCacheService.updateWorkPackage(this._wp);
       this.rows.push({level: 0, ancestors: [], object: this._wp, parent: void 0});
       this.hide();
     });
