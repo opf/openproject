@@ -41,36 +41,154 @@ describe WatcherNotificationMailer do
   end
 
   describe 'watcher setup' do
-    let(:project)       { FactoryGirl.create(:project) }
-    let(:work_package)  { FactoryGirl.create(:work_package, project: project) }
+    let(:work_package) {
+      work_package = FactoryGirl.build_stubbed(:work_package)
+      journal = FactoryGirl.build_stubbed(:work_package_journal)
+
+      allow(work_package).to receive(:journals).and_return([journal])
+      work_package
+    }
 
     let(:watcher_setter) do
-      FactoryGirl.create(:user,
-                        mail_notification: 'all',
-                        member_in_project: project)
+      FactoryGirl.build_stubbed(:user,
+                                mail_notification: watching_setting,
+                                preference: user_pref)
     end
+
+    let(:watching_setting) { 'all' }
+    let(:self_notified) { true }
+    let(:watching_user) {
+      FactoryGirl.build_stubbed(:user,
+                                mail_notification: watching_setting,
+                                preference: user_pref)
+    }
+    let(:user_pref) {
+      pref = FactoryGirl.build_stubbed(:user_preference)
+
+      allow(pref).to receive(:self_notified?).and_return(self_notified)
+
+      pref
+    }
 
     let(:watcher) do
-      FactoryGirl.create(:watcher, user: FactoryGirl.create(:user,
-                                          mail_notification: 'all',
-                                          member_in_project: project),
-                                  watchable: work_package)
+      FactoryGirl.build_stubbed(:watcher, user: watching_user,
+                                          watchable: work_package)
     end
 
-    context 'watcher_added and user wants to be notified' do
-      it 'notifies the watcher' do
-        expect(Delayed::Job).to receive(:enqueue)
-        call_listener(watcher, watcher_setter)
+    shared_examples_for 'notifies the added watcher for' do |setting|
+      let(:watching_setting) { setting }
+
+      context 'when added by a different user
+               and has self_notified activated' do
+        let(:self_notified) { true }
+
+        it 'notifies the watcher' do
+          expect(Delayed::Job).to receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
+      end
+
+      context 'when added by a different user
+               and has self_notified deactivated' do
+        let(:self_notified) { false }
+
+        it 'notifies the watcher' do
+          expect(Delayed::Job).to receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
+      end
+
+      context 'but when watcher is added by theirself
+               and has self_notified deactivated' do
+        let(:watching_user) { watcher_setter }
+        let(:self_notified) { false }
+
+        it 'does not notify the watcher' do
+          expect(Delayed::Job).to_not receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
+      end
+
+      context 'but when watcher is added by theirself
+               and has self_notified activated' do
+        let(:watching_user) { watcher_setter }
+        let(:self_notified) { true }
+
+        it 'notifies the watcher' do
+          expect(Delayed::Job).to receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
       end
     end
 
-    context 'watcher_added and user does NOT want to be notified' do
-      it 'does not notify the watcher' do
-        allow(watcher.user).to receive(:notify_about?).with(watcher).and_return(false)
-        expect(Delayed::Job).not_to receive(:enqueue)
-        call_listener(watcher, watcher_setter)
+    shared_examples_for 'does not notify the added watcher for' do |setting|
+      let(:watching_setting) { setting }
+
+      context 'when added by a different user' do
+        it 'does not notify the watcher' do
+          expect(Delayed::Job).to_not receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
+      end
+
+      context 'when watcher is added by theirself' do
+        let(:watching_user) { watcher_setter }
+        let(:self_notified) { false }
+
+        it 'does not notify the watcher' do
+          expect(Delayed::Job).to_not receive(:enqueue)
+          call_listener(watcher, watcher_setter)
+        end
+      end
+    end
+
+    it_behaves_like 'does not notify the added watcher for', 'none'
+
+    it_behaves_like 'notifies the added watcher for', 'all'
+
+    it_behaves_like 'notifies the added watcher for', 'only_my_events'
+
+    it_behaves_like 'notifies the added watcher for', 'only_owner' do
+      before do
+        work_package.author = watching_user
+      end
+    end
+    it_behaves_like 'does not notify the added watcher for', 'only_owner' do
+      before do
+        work_package.author = watcher_setter
+      end
+    end
+
+    it_behaves_like 'notifies the added watcher for', 'only_assigned' do
+      before do
+        work_package.assigned_to = watching_user
+      end
+    end
+    it_behaves_like 'does not notify the added watcher for', 'only_assigned' do
+      before do
+        work_package.assigned_to = watcher_setter
+      end
+    end
+
+    it_behaves_like 'notifies the added watcher for', 'selected' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      before do
+        work_package.project = project
+        allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
+      end
+    end
+    it_behaves_like 'does not notify the added watcher for', 'selected' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      before do
+        work_package.project = project
+        allow(watching_user).to receive(:notified_projects_ids).and_return([])
+      end
+    end
+    it_behaves_like 'does not notify the added watcher for', 'selected' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      before do
+        allow(watching_user).to receive(:notified_projects_ids).and_return([project.id])
       end
     end
   end
 end
-
