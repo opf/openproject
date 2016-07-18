@@ -63,7 +63,7 @@ See doc/COPYRIGHT.md for more details.
       <p class="author"><%= authoring @meeting.created_at, @meeting.author %></p>
     </div>
     <div class="grid-content small-6">
-      <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_date %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
+      <p><strong><%= Meeting.human_attribute_name(:start_time) %></strong>: <%= format_date @meeting.start_time %> <%= format_time @meeting.start_time, false %> - <%= format_time @meeting.end_time, false %> <%= Time.zone %></p>
     </div>
     <div class="grid-content small-6">
       <p><strong><%= Meeting.human_attribute_name(:location) %></strong>: <%=h @meeting.location %></p>
