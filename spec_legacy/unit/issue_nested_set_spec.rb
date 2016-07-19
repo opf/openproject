@@ -197,25 +197,6 @@ describe 'IssueNestedSet', type: :model do
     end
   end
 
-  it 'should parent priority should be the highest child priority' do
-    parent = create_issue!(priority: IssuePriority.find_by(name: 'Normal'))
-    # Create children
-    child1 = create_issue!(priority: IssuePriority.find_by(name: 'High'), parent_id: parent.id)
-    assert_equal 'High', parent.reload.priority.name
-    child2 = create_issue!(priority: IssuePriority.find_by(name: 'Immediate'), parent_id: child1.id)
-    assert_equal 'Immediate', child1.reload.priority.name
-    assert_equal 'Immediate', parent.reload.priority.name
-    child3 = create_issue!(priority: IssuePriority.find_by(name: 'Low'), parent_id: parent.id)
-    assert_equal 'Immediate', parent.reload.priority.name
-    # Destroy a child
-    child1.destroy
-    assert_equal 'Low', parent.reload.priority.name
-    # Update a child
-    child3.reload.priority = IssuePriority.find_by(name: 'Normal')
-    child3.save!
-    assert_equal 'Normal', parent.reload.priority.name
-  end
-
   it 'should parent dates should be lowest start and highest due dates' do
     parent = create_issue!
     create_issue!(start_date: '2010-01-25', due_date: '2010-02-15', parent_id: parent.id)

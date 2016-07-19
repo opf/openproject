@@ -310,7 +310,7 @@ describe WorkPackage, type: :model do
 
         # sanity check
         expect(child_pe.journals.size).to eq(1)
-        expect(pe.journals.size).to eq(2)
+        expect(pe.journals.size).to eq(1)
 
         # update child
         child_pe.reload
@@ -319,7 +319,7 @@ describe WorkPackage, type: :model do
         # reload parent to avoid stale journal caches
         pe.reload
 
-        expect(pe.journals.size).to eq(3)
+        expect(pe.journals.size).to eq(2)
         changes = pe.journals.last.details
 
         expect(changes.size).to eq(1)

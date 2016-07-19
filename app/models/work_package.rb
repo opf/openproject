@@ -40,9 +40,9 @@ class WorkPackage < ActiveRecord::Base
 
   include OpenProject::Journal::AttachmentHelper
 
-  DONE_RATIO_OPTIONS = %w(field status disabled)
+  DONE_RATIO_OPTIONS = %w(field status disabled).freeze
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
-    %w(priority_id start_date due_date estimated_hours done_ratio)
+    %w(start_date due_date estimated_hours done_ratio).freeze
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   belongs_to :project
@@ -559,8 +559,6 @@ class WorkPackage < ActiveRecord::Base
 
     return unless p
 
-    p.inherit_priority_from_children
-
     p.inherit_dates_from_children
 
     p.inherit_done_ratio_from_leaves
@@ -579,14 +577,6 @@ class WorkPackage < ActiveRecord::Base
 
   def update_parent_attributes
     recalculate_attributes_for(parent_id) if parent_id.present?
-  end
-
-  def inherit_priority_from_children
-    # priority = highest priority of children
-    if priority_position =
-        children.joins(:priority).maximum("#{IssuePriority.table_name}.position")
-      self.priority = IssuePriority.find_by(position: priority_position)
-    end
   end
 
   def inherit_dates_from_children
