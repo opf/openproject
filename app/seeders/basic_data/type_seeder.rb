@@ -118,10 +118,19 @@ module BasicData
           [field, table[field][i] || 'default']
         end
 
-        [name, Hash[field_entries]]
+        [name, merge_dates_for_milestones(name, Hash[field_entries])]
       end
 
       Hash[type_entries]
+    end
+
+    def merge_dates_for_milestones(type_name, attributes)
+      if type_table[type_name].last
+        attributes[:date] = attributes.delete :start_date
+        attributes.delete :due_date
+      end
+
+      attributes
     end
   end
 end
