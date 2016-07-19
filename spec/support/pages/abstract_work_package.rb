@@ -59,6 +59,12 @@ module Pages
       end
     end
 
+    def open_new
+      within '#toolbar-items' do
+        click_on 'Work package'
+      end
+    end
+
     def open_in_split_view
       find('#work-packages-details-view-button').click
     end
@@ -111,17 +117,18 @@ module Pages
                                     text: "##{parent.id} #{parent.type.name}: #{parent.subject}")
     end
 
-    def update_attributes(key_value_map)
-      set_attributes(key_value_map)
+    def update_attributes(key_value_map, save: true)
+      set_attributes(key_value_map, save: save)
     end
 
-    def set_attributes(key_value_map)
+    def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
         field = work_package_field key
         field.activate_edition
 
         field.set_value value
-        field.save! if field.input_element.tag_name != 'select' # select fields are saved on change
+        # select fields are saved on change
+        field.save! if save && field.input_element.tag_name != 'select'
 
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications

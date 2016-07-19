@@ -4,6 +4,7 @@
        ng-model="vm.workPackage[vm.fieldName]"
        ng-false-value="false"
        ng-change="vm.submit()"
+       ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
        ng-disabled="vm.workPackage.inFlight"
        focus="vm.shouldFocus()"

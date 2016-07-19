@@ -58,6 +58,13 @@ describe 'edit work package', js: true do
   let(:version) { FactoryGirl.create :version, project: project }
   let(:category) { FactoryGirl.create :category, project: project }
 
+  let(:visit_before) { true }
+
+  def visit!
+    wp_page.visit!
+    wp_page.ensure_page_loaded
+  end
+
   before do
     login_as(manager)
 
@@ -66,8 +73,24 @@ describe 'edit work package', js: true do
     priority2
     workflow
 
-    wp_page.visit!
-    wp_page.ensure_page_loaded
+    if visit_before
+      visit!
+    end
+  end
+
+  context 'with progress' do
+    let(:visit_before) { false }
+
+    before do
+      work_package.update done_ratio: 42
+      visit!
+    end
+
+    it 'does not hide empty progress while it is being edited' do
+      wp_page.update_attributes({ percentageDone: '0' }, save: false)
+
+      expect(page).to have_text("Progress (%)")
+    end
   end
 
   it 'allows updating and seeing the results' do
