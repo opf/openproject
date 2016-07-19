@@ -298,17 +298,18 @@ Feature: Scrum Master
 
   @javascript
   Scenario: View epic, stories, tasks, subtasks in the work_package list
-   Given I am on the work_packages index page
-    Then I should see "Epic 1" within "#content"
-     And I should see "Story D" within "#content"
-     And I should see "Story E" within "#content"
-     And I should see "Task 10" within "#content"
-     And I should see "Task 11" within "#content"
-     And I should see "Subtask 1" within "#content"
-     And I should see "Subtask 2" within "#content"
-     And I should see "Subtask 3" within "#content"
-     And I should see "Subfeature" within "#content"
-     And I should see "Subsubtask" within "#content"
+    When I go to the work_packages index page
+     And the work package table has finished loading
+    Then I should see "Epic 1" within ".work-package-table--container table"
+     And I should see "Story D" within ".work-package-table--container table"
+     And I should see "Story E" within ".work-package-table--container table"
+     And I should see "Task 10" within ".work-package-table--container table"
+     And I should see "Task 11" within ".work-package-table--container table"
+     And I should see "Subtask 1" within ".work-package-table--container table"
+     And I should see "Subtask 2" within ".work-package-table--container table"
+     And I should see "Subtask 3" within ".work-package-table--container table"
+     And I should see "Subfeature" within ".work-package-table--container table"
+     And I should see "Subsubtask" within ".work-package-table--container table"
 
   Scenario: Move a task with subtasks around in the taskboard
    Given I am on the taskboard for "Sprint 005"
