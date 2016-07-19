@@ -26,20 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-var mainConfig = require('./webpack-main-config')();
-var webpack = require('webpack');
-
-// Add uglifyjs plugin
-mainConfig.plugins.push(
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-    },
-    mangle: false,
-    sourceMap: false
-  })
-);
+var mainConfig = require('./webpack-main-config');
 
 module.exports = [
-  mainConfig
+  mainConfig()
 ];
