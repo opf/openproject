@@ -69,7 +69,7 @@ See doc/COPYRIGHT.md for more details.
       <span aria-hidden="true"><%= Meeting.human_attribute_name(:duration) %>
         <span class="form--label-required" aria-hidden="true">*</span>
       </span>
-      <span class="hidden-for-sighted" lang="en"><%= l(:text_in_hours)%>  <%=l(:text_hours_between, min: 1, max: 168) %></span>
+      <span class="hidden-for-sighted"><%= t(:text_duration_in_hours) %></span>
     </label>
 
     <div class="form--field-container">
