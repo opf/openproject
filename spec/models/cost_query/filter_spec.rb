@@ -282,7 +282,6 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     [
       CostQuery::Filter::UserId,
       CostQuery::Filter::CostTypeId,
-      CostQuery::Filter::WorkPackageId,
       CostQuery::Filter::AuthorId,
       CostQuery::Filter::ActivityId,
       CostQuery::Filter::PriorityId,
@@ -301,6 +300,15 @@ describe CostQuery, type: :model, reporting_query_helper: true do
     ].each do |filter|
       it "should only allow default+null operators for #{filter}" do
         expect(filter.new.available_operators.uniq.sort).to eq((CostQuery::Operator.default_operators + CostQuery::Operator.null_operators).sort)
+      end
+    end
+
+    #filter for specific objects, which can only have the default operator
+    [
+      CostQuery::Filter::WorkPackageId,
+    ].each do |filter|
+      it "should only allow default operators for #{filter}" do
+        expect(filter.new.available_operators.uniq).to match_array([CostQuery::Operator.default_operator])
       end
     end
 
