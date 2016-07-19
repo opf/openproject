@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResourceInterface,
+  WorkPackageResource
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {wpServicesModule} from '../../angular-modules';
 
@@ -50,11 +53,17 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addSuccess(message);
   }
 
-  public handleErrorResponse(error, workPackage) {
-    if (!(error.data instanceof ErrorResource)) {
+  public handleErrorResponse(error, workPackage?:WorkPackageResource) {
+    const errorResource = error.data;
+    if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError();
     }
-    this.showError(error.data, workPackage);
+
+    if (workPackage) {
+      return this.showError(errorResource, workPackage);
+    }
+
+    this.showApiErrorMessages(errorResource);
   }
 
   public showError(errorResource, workPackage) {

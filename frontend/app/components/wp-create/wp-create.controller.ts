@@ -59,19 +59,21 @@ export class WorkPackageCreateController {
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    this.newWorkPackageFromParams($state.params).then(wp => {
-      this.newWorkPackage = wp;
-      this.wpEditModeState.start();
-      wpCacheService.updateWorkPackage(wp);
+    this.newWorkPackageFromParams($state.params)
+      .then(wp => {
+        this.newWorkPackage = wp;
+        this.wpEditModeState.start();
+        wpCacheService.updateWorkPackage(wp);
 
-      if ($state.params.parent_id) {
-        scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
-          .subscribe(parent => {
-            this.parentWorkPackage = parent;
-            this.newWorkPackage.parent = parent;
-          });
-      }
-    });
+        if ($state.params.parent_id) {
+          scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
+            .subscribe(parent => {
+              this.parentWorkPackage = parent;
+              this.newWorkPackage.parent = parent;
+            });
+        }
+      })
+      .catch(error => this.wpNotificationsService.handleErrorResponse(error));
   }
 
   protected newWorkPackageFromParams(stateParams) {

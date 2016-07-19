@@ -216,4 +216,26 @@ describe 'new work package', js: true do
 
     it_behaves_like 'work package creation workflow'
   end
+
+  context 'as a user with no permissions' do
+    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
+    let(:wp_page) { ::Pages::Page.new }
+
+    let(:paths) {
+      [
+        new_work_packages_path,
+        new_split_work_packages_path,
+        new_project_work_packages_path(project),
+        new_split_project_work_packages_path(project)
+      ]
+    }
+
+    it 'shows a 403 error on creation paths' do
+      paths.each do |path|
+        visit path
+        wp_page.expect_notification(type: :error, message: I18n.t('api_v3.errors.code_403'))
+      end
+    end
+  end
 end
