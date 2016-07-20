@@ -207,6 +207,25 @@ module OpenProject::Backlogs
              }
     end
 
+    extend_api_response(:v3, :work_packages, :work_package_sums) do
+      property :story_points,
+               render_nil: true,
+               if: -> (*) {
+                 ::Setting.work_package_list_summable_columns.include?('story_points')
+               }
+
+      property :remaining_time,
+               render_nil: true,
+               exec_context: :decorator,
+               getter: -> (*) {
+                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                               allow_nil: true)
+               },
+               if: -> (*) {
+                 ::Setting.work_package_list_summable_columns.include?('remaining_hours')
+               }
+    end
+
     add_api_attribute on: :work_package, ar_name: :story_points
     add_api_attribute on: :work_package, ar_name: :remaining_hours, api_name: :remaining_time do
       if !model.new_record? &&
