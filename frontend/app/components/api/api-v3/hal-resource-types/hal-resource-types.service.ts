@@ -27,13 +27,13 @@
 // ++
 
 import {opApiModule} from '../../../../angular-modules';
-import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 export class HalResourceTypesService {
   constructor(protected $injector,
-              protected halResourceTypesStorage:HalResourceTypesStorageService,
+              protected halResourceFactory:HalResourceFactoryService,
               HalResource) {
-    halResourceTypesStorage.defaultClass = HalResource;
+    halResourceFactory.defaultClass = HalResource;
   }
 
   public setResourceTypeConfig(config) {
@@ -41,7 +41,7 @@ export class HalResourceTypesService {
       const value = config[typeName];
       const result = {
         typeName: typeName,
-        className: value.className || this.getClassName(this.halResourceTypesStorage.defaultClass),
+        className: value.className || this.getClassName(this.halResourceFactory.defaultClass),
         attrTypes: value.attrTypes || {}
       };
 
@@ -57,13 +57,13 @@ export class HalResourceTypesService {
     });
 
     types.forEach(typeConfig => {
-      this.halResourceTypesStorage
+      this.halResourceFactory
         .setResourceType(typeConfig.typeName, this.$injector.get(typeConfig.className));
     });
 
     types
       .forEach(typeConfig => {
-        this.halResourceTypesStorage.setResourceTypeAttributes(typeConfig.typeName, typeConfig.attrTypes);
+        this.halResourceFactory.setResourceTypeAttributes(typeConfig.typeName, typeConfig.attrTypes);
       });
   }
 

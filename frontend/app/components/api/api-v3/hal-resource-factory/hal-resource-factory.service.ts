@@ -30,7 +30,7 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 
-export class HalResourceTypesStorageService {
+export class HalResourceFactoryService {
   private config:any = {};
 
   public get defaultClass() {
@@ -80,4 +80,4 @@ export class HalResourceTypesStorageService {
   }
 }
 
-opApiModule.service('halResourceTypesStorage', HalResourceTypesStorageService);
+opApiModule.service('halResourceFactory', HalResourceFactoryService);

@@ -28,11 +28,11 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalResourceTypesService} from './hal-resource-types.service';
-import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 describe('halResourceTypes service', () => {
   var halResourceTypes:HalResourceTypesService;
-  var halResourceTypesStorage:HalResourceTypesStorageService;
+  var halResourceFactory:HalResourceFactoryService;
   var config:any;
   var compareCls:typeof HalResource;
 
@@ -49,20 +49,20 @@ describe('halResourceTypes service', () => {
     $provide.value('FooResource', FooResource);
   }));
 
-  beforeEach(angular.mock.inject(function (_halResourceTypes_, _halResourceTypesStorage_) {
-    [halResourceTypes, halResourceTypesStorage] = _.toArray(arguments);
+  beforeEach(angular.mock.inject(function (_halResourceTypes_, _halResourceFactory_) {
+    [halResourceTypes, halResourceFactory] = _.toArray(arguments);
   }));
 
   const expectResourceClassAdded = () => {
     it('should add the respective class object to the storage', () => {
-      const cls = halResourceTypesStorage.getResourceClassOfType('Other');
+      const cls = halResourceFactory.getResourceClassOfType('Other');
       expect(cls).to.equal(compareCls);
     });
   };
 
   const expectAttributeClassAdded = () => {
     it('should add the attribute type config to the storage', () => {
-      const cls = halResourceTypesStorage.getResourceClassOfAttribute('Other', 'attr');
+      const cls = halResourceFactory.getResourceClassOfAttribute('Other', 'attr');
       expect(cls).to.equal(compareCls);
     });
   };
@@ -72,7 +72,7 @@ describe('halResourceTypes service', () => {
   });
 
   it('should have added HalResource as the default type', () => {
-    expect(halResourceTypesStorage.defaultClass).to.equal(HalResource);
+    expect(halResourceFactory.defaultClass).to.equal(HalResource);
   });
 
   describe('when configuring the type with class and attributes', () => {
@@ -107,7 +107,7 @@ describe('halResourceTypes service', () => {
 
   describe('when configuring the type with only the attribute types', () => {
     beforeEach(() => {
-      compareCls = halResourceTypesStorage.defaultClass;
+      compareCls = halResourceFactory.defaultClass;
       config = {
         Other: {
           attr: 'Other'
