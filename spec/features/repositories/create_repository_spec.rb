@@ -82,8 +82,8 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       find("option[value='#{vendor}']").select_option
     end
 
-    shared_examples 'displays only the type' do |type|
-      it 'should display one type, but expanded' do
+    shared_examples 'has only the type which is hidden' do |type, vendor|
+      it 'should display one type' do
         # There seems to be an issue with how the
         # select is accessed after the async form loading
         # Thus we explitly find it here to allow some wait
@@ -95,16 +95,14 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         scm_type = find('input[name="scm_type"]')
 
         expect(scm_type.value).to eq(type)
-        expect(scm_type[:selected]).to be_truthy
-        expect(scm_type[:disabled]).to be_falsey
 
-        content = find("#toggleable-attributes-group--content-#{type}")
+        content = find("#"+"#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to be_falsey
+        expect(content[:style]).to match("display: none")
       end
     end
 
-    shared_examples 'displays collapsed type' do |type|
+    shared_examples 'has hidden type' do |type, vendor|
       let(:selector) { find("input[name='scm_type'][value='#{type}']") }
 
       it 'should display a collapsed type' do
@@ -112,26 +110,32 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         expect(selector[:selected]).to be_falsey
         expect(selector[:disabled]).to be_falsey
 
-        content = find("#toggleable-attributes-group--content-#{type}", visible: false)
+        content = find("#"+"#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:hidden]).to be_truthy
+        expect(content[:style]).to match("display: none")
       end
     end
 
-    shared_examples 'has managed and other type' do |type|
-      it_behaves_like 'displays collapsed type', type
-      it_behaves_like 'displays collapsed type', 'managed'
+    shared_examples 'has managed and other type' do |type, vendor|
+      it_behaves_like 'has hidden type', type, vendor
+      it_behaves_like 'has hidden type', 'managed', vendor
 
       it 'can toggle between the two' do
         find("input[name='scm_type'][value='#{type}']").set(true)
-        content = find("#toggleable-attributes-group--content-#{type}")
+        content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
+        content = find("#"+"#{vendor}-#{type}", visible: false)
+        expect(content).not_to be_nil
+        expect(content[:style]).not_to match("display: none")
 
         find('input[type="radio"][value="managed"]').set(true)
-        content = find('#toggleable-attributes-group--content-managed')
+        content = find('#attributes-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
+        content = find("#"+"#{vendor}-managed", visible: false)
+        expect(content).not_to be_nil
+        expect(content[:style]).not_to match("display: none")
       end
     end
 
@@ -143,7 +147,6 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
         expect(page).to have_selector('div.flash.notice',
                                       text: I18n.t('repositories.create_successful'))
-        expect(page).to have_selector('input[name="scm_type"][value="managed"]:checked')
         expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
       end
     end
@@ -165,14 +168,14 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     context 'with Subversion selected' do
       let(:vendor) { 'subversion' }
 
-      it_behaves_like 'displays only the type', 'existing'
+      it_behaves_like 'has only the type which is hidden', 'existing', 'subversion'
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
         let(:config) {
           { subversion: { manages: tmpdir } }
         }
-        it_behaves_like 'has managed and other type', 'existing'
+        it_behaves_like 'has managed and other type', 'existing', 'subversion'
         it_behaves_like 'it can create the managed repository'
         it_behaves_like 'it can create the repository of type with url',
                         'existing',
@@ -183,12 +186,12 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     context 'with Git selected' do
       let(:vendor) { 'git' }
 
-      it_behaves_like 'displays only the type', 'local'
+      it_behaves_like 'has only the type which is hidden', 'local', 'git'
       context 'and managed repositories, but not ours' do
         let(:config) {
           { subversion: { manages: '/tmp/whatever' } }
         }
-        it_behaves_like 'displays only the type', 'local'
+        it_behaves_like 'has only the type which is hidden', 'local', 'git'
       end
 
       context 'and managed repositories' do
@@ -197,7 +200,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
           { git: { manages: tmpdir } }
         }
 
-        it_behaves_like 'has managed and other type', 'local'
+        it_behaves_like 'has managed and other type', 'local', 'git'
         it_behaves_like 'it can create the managed repository'
         it_behaves_like 'it can create the repository of type with url',
                         'local',

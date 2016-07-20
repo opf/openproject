@@ -54,8 +54,8 @@ describe 'Repository Settings', type: :feature, js: true do
 
   shared_examples 'manages the repository' do |type|
     it 'displays the repository' do
-      expect(page).not_to have_selector('select[name="scm_vendor"]')
-      expect(find("#toggleable-attributes-group--content-#{type}", visible: true))
+      expect(page).to have_selector('select[name="scm_vendor"]')
+      expect(find("#attributes-group--content-#{type}", visible: true))
         .not_to be_nil
     end
 
@@ -74,6 +74,7 @@ describe 'Repository Settings', type: :feature, js: true do
         expect(dangerzone.disabled?).to be true
 
         dangerzone.confirm_with(project.identifier)
+        binding.pry
         expect(dangerzone.disabled?).to be false
 
         dangerzone.danger_button.click

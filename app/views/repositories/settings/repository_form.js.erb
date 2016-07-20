@@ -16,8 +16,20 @@
         oldTargets = content.find('.attributes-group').not(targetName);
         newTarget  = jQuery(targetName);
 
+    // would work with fieldset#disabled, but that's bugged up unto IE11
+    // https://connect.microsoft.com/IE/feedbackdetail/view/962368/
+    //
+    // Ugly workaround: disable all inputs manually, but
+    // spare enabling inputs marked with `aria-disabled`
+    oldTargets
+      .find('input,select')
+      .prop('disabled', true);
     oldTargets.hide();
 
+    newTarget
+      .find('input,select')
+      .not('[aria-disabled="true"]')
+      .prop('disabled', false);
     newTarget.show();
   };
 
