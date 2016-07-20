@@ -4,14 +4,15 @@
   $('#tab-content-repository').html('<%= escape_javascript content %>');
 
   <% unless flash.empty? %>
-  <%# TODO: Double flash from regular flash %>
-  var div_content = $('#content');
-  div_content.parent().find('.flash').remove();
-  div_content.before('<%= render_flash_messages %>');
+    <%# TODO: Double flash from regular flash %>
+    var div_content = $('#content');
+    div_content.parent().find('.flash').remove();
+    div_content.before('<%= render_flash_messages %>');
   <% end %>
 
   var toggleContent = function(content,selected) {
-    var targetName = '#git-' + selected,
+    var vendor = $('#scm_vendor').val(),
+        targetName = '#' + vendor + '-' + selected,
         oldTargets = content.find('.attributes-group').not(targetName);
         newTarget  = jQuery(targetName);
 
@@ -30,24 +31,8 @@
       headers = fs.find('.attributes-group--header-text'),
       content = $(el);
 
-    // If only one choice, skip setup
-    if (switches.length === 1) {
-      return;
-    }
-
     // Focus on first header
     headers.first().focus();
-
-    // Clickable headers
-    headers.on('click keydown', function (e) {
-      if (e.type == 'click' || e.keyCode == 13 || e.keyCode == 32) {
-        var input = $(this).find('input');
-        if (!input.prop('checked')) {
-          input.prop('checked', true)
-               .trigger('change');
-        }
-      }
-    });
 
     // Toggle content
     switches.on('change', function() {
