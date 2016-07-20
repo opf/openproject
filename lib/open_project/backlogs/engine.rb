@@ -189,6 +189,24 @@ module OpenProject::Backlogs
              show_if: -> (*) { represented.project && represented.project.backlogs_enabled? }
     end
 
+    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
+      schema :story_points,
+             type: 'Integer',
+             required: false,
+             show_if: -> (*) {
+               ::Setting.work_package_list_summable_columns.include?('story_points')
+             }
+
+      schema :remaining_time,
+             type: 'Duration',
+             name_source: :remaining_hours,
+             required: false,
+             writable: false,
+             show_if: -> (*) {
+               ::Setting.work_package_list_summable_columns.include?('remaining_hours')
+             }
+    end
+
     add_api_attribute on: :work_package, ar_name: :story_points
     add_api_attribute on: :work_package, ar_name: :remaining_hours, api_name: :remaining_time do
       if !model.new_record? &&
