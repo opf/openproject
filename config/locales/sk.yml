@@ -52,6 +52,7 @@ sk:
   permission_create_meeting_minutes: Spravovať zápisnice zo stretnutí
   permission_send_meeting_minutes_notification: Rozposielať notifikácie na revízie zápisníc zo stretnutí
   project_module_meetings: Stretnutia
+  text_duration_in_hours: Duration in hours
   text_in_hours: v hodinách
   text_meeting_agenda_for_meeting: 'agenda stretnutia "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: Neuložené obsah zápisnice stretnutia bude stratený! Chcete pokračovať?

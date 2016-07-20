@@ -52,6 +52,7 @@ hr:
   permission_create_meeting_minutes: Upravljaj minutama
   permission_send_meeting_minutes_notification: Pošalji notifikaciju o uređenim minutama
   project_module_meetings: Sastanci
+  text_duration_in_hours: Duration in hours
   text_in_hours: u satima
   text_meeting_agenda_for_meeting: 'dnevni red za sastank "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: Nepohranjeni sadržaj u minutama biti će izgubljen! Da li želite nastaviti?

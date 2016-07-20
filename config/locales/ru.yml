@@ -52,6 +52,7 @@ ru:
   permission_create_meeting_minutes: Управление протоколами
   permission_send_meeting_minutes_notification: Отправить уведомление о рецензии протокола
   project_module_meetings: Совещания
+  text_duration_in_hours: Duration in hours
   text_in_hours: в часах
   text_meeting_agenda_for_meeting: 'Повестка дня встречи «%{meeting}»'
   text_meeting_agenda_open_are_you_sure: Несохраненное содержимое протокола будет потеряно! Продолжить?

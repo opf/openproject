@@ -52,6 +52,7 @@
   permission_create_meeting_minutes: Håndter referater
   permission_send_meeting_minutes_notification: Send påminning om gjennomgang av referater
   project_module_meetings: Møter
+  text_duration_in_hours: Duration in hours
   text_in_hours: i timer
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: Ulagret innhold i refarat går tapt! Vil du fortsette?

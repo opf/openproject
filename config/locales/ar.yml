@@ -52,6 +52,7 @@ ar:
   permission_create_meeting_minutes: إدارة محضر الجلسة
   permission_send_meeting_minutes_notification: أرسِل إشعارًا لمراجعة محضر الجلسة
   project_module_meetings: الاجتماعات
+  text_duration_in_hours: Duration in hours
   text_in_hours: في الساعات
   text_meeting_agenda_for_meeting: 'جدول أعمال للاجتماع "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: سيتم فقدان محتوى محضر الجلسة التي لم يتم حفظها! هل تريد المتابعة؟

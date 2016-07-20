@@ -52,6 +52,7 @@ es:
   permission_create_meeting_minutes: Gestionar minutos
   permission_send_meeting_minutes_notification: Enviar notificaciones de revisión para los minutos
   project_module_meetings: Reuniones
+  text_duration_in_hours: Duration in hours
   text_in_hours: en horas
   text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: ¡El contenido no guardado de los minutos se perderá! ¿Continuar?

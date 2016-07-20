@@ -52,6 +52,7 @@ ko:
   permission_create_meeting_minutes: 의사록 관리
   permission_send_meeting_minutes_notification: 의사록에 대한 검토 알림 보내기
   project_module_meetings: 미팅
+  text_duration_in_hours: Duration in hours
   text_in_hours: ' 시간'
   text_meeting_agenda_for_meeting: '미팅 "%{meeting}"에 대한 의제'
   text_meeting_agenda_open_are_you_sure: 의사록의 저장되지 않은 콘텐츠는 손실됩니다! 계속하시겠습니까?

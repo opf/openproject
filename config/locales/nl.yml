@@ -52,6 +52,7 @@ nl:
   permission_create_meeting_minutes: Manage minutes
   permission_send_meeting_minutes_notification: Send review notification for minutes
   project_module_meetings: Vergaderingen
+  text_duration_in_hours: Duration in hours
   text_in_hours: in uren
   text_meeting_agenda_for_meeting: 'agenda voor de vergadering "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: Niet-opgeslagen inhoud in de notulen zullen verloren gaan! Blijven?

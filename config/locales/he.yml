@@ -52,6 +52,7 @@ he:
   permission_create_meeting_minutes: נהל דקות
   permission_send_meeting_minutes_notification: שלח הודעה סקירה עבור דקות
   project_module_meetings: פגישות
+  text_duration_in_hours: Duration in hours
   text_in_hours: בשעות
   text_meeting_agenda_for_meeting: 'סדר היום לפגישה "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: תוכן שלא נשמר בדקות יאבד! האם להמשיך?
