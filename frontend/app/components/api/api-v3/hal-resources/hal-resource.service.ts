@@ -28,20 +28,20 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalLinkInterface} from '../hal-link/hal-link.service';
-import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 const ObservableArray:any = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
 var HalLink;
-var halResourceTypesStorage:HalResourceTypesStorageService;
+var halResourceFactory:HalResourceFactoryService;
 
 export class HalResource {
   public static _type:string;
 
   public static init(source:any) {
-    const resourceClass = halResourceTypesStorage.getResourceClassOfType(source._type);
+    const resourceClass = halResourceFactory.getResourceClassOfType(source._type);
     return new resourceClass(source);
   }
 
@@ -50,7 +50,7 @@ export class HalResource {
       return element;
     }
 
-    const resourceClass = halResourceTypesStorage.getResourceClassOfType(element._type);
+    const resourceClass = halResourceFactory.getResourceClassOfType(element._type);
     return new resourceClass(element);
   }
 
@@ -274,7 +274,7 @@ function initializeResource(halResource:HalResource) {
     var resource = HalResource.getEmptyResource();
     resource._links.self = link;
 
-    const resourceClass = halResourceTypesStorage
+    const resourceClass = halResourceFactory
       .getResourceClassOfAttribute(halResource.constructor._type, linkName);
 
     return new resourceClass(resource, false);
@@ -297,7 +297,7 @@ function initializeResource(halResource:HalResource) {
 }
 
 function halResourceService(...args) {
-  [$q, lazy, HalLink, halResourceTypesStorage] = args;
+  [$q, lazy, HalLink, halResourceFactory] = args;
   return HalResource;
 }
 
@@ -305,7 +305,7 @@ halResourceService.$inject = [
   '$q',
   'lazy',
   'HalLink',
-  'halResourceTypesStorage'
+  'halResourceFactory'
 ];
 
 opApiModule.factory('HalResource', halResourceService);
