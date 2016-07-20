@@ -23,10 +23,12 @@
                   ng-disabled="locked"
                   ng-model="selection.watcher"
                   title="{{ ::I18n.t('js.watchers.label_search_watchers') }}"
+                  append-to-body="true"
                   reset-search-input="true"
                   theme="select2">
               <ui-select-match>{{ $select.selected.name }}</ui-select-match>
               <ui-select-choices
+                      position="down"
                       repeat="watcher as watcher in watchers | filter: $select.search">
                   <div aria-label="{{ watcher.name }}" ng-bind-html="watcher.name | highlight: $select.search"></div>
               </ui-select-choices>
