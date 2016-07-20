@@ -57,7 +57,9 @@ module API
 
       property :sums,
                exec_context: :decorator,
-               getter: -> (*) { sums },
+               getter: -> (*) {
+                 ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(sums) if sums
+               },
                render_nil: false
 
       def has_sums?
@@ -72,7 +74,6 @@ module API
 
       attr_reader :sums,
                   :count
-
     end
   end
 end

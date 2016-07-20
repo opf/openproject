@@ -219,10 +219,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing sums' do
-      let(:total_sums) { { custom: 'object' } }
+      let(:total_sums) { OpenStruct.new({ estimated_hours: 1 }) }
 
       it 'renders the groups object as json' do
-        is_expected.to be_json_eql(total_sums.to_json).at_path('totalSums')
+        expected = { 'estimatedTime': 'PT1H' }
+        is_expected.to be_json_eql(expected.to_json).at_path('totalSums')
       end
 
       it 'has a link to the sums schema' do
