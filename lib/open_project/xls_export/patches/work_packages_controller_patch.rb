@@ -3,66 +3,75 @@ module OpenProject::XlsExport
     module WorkPackagesControllerPatch
       def self.included(base) # :nodoc:
         base.send(:include, InstanceMethods)
-
-
-        base.class_eval do
-        end
       end
 
       module InstanceMethods
-
         # If the index action is called, hook the xls format into the issues controller
         def respond_to(&block)
-          if ((params["action"] && params["action"].to_sym == :index or params[:action] == "all") && params["format"].to_s.downcase == "xls")
+          if export_xls?
             super do |format|
               yield format
-              format.xls do
-                @issues = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                                        :order => sort_clause).work_packages
-                send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
-                          :type => "application/vnd.ms-excel",
-                          :filename => FilenameHelper.sane_filename(
-                            "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} " +
-                            "#{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"))
-              end
+
+              define_xls_format! format
             end
           else
             super(&block)
           end
         end
 
-        # Convert an issues query with associated issues to xls using the queries columns as headers
-        def build_spreadsheet(project, issues, query, options)
-          columns = query.columns
-
-          sb = SpreadsheetBuilder.new("#{I18n.t(:label_work_package_plural)}")
-          formatters = OpenProject::XlsExport::Formatters.for_columns(columns)
-
-          headers = columns.collect(&:caption)
-          headers << WorkPackage.human_attribute_name(:description) if options[:show_descriptions]
-          sb.add_headers headers, 0
-
-          issues.each do |work_package|
-            row = (columns.collect do |column|
-                    cv = formatters[column].format work_package, column
-                    cv = cv.in_time_zone(current_user.time_zone) if cv.is_a?(ActiveSupport::TimeWithZone)
-                    (cv.respond_to? :name) ? cv.name : cv
-                  end)
-            row << work_package.description if options[:show_descriptions]
-            sb.add_row(row)
+        def export_xls?
+          if action = params["action"]
+            format_xls? && (action.to_sym == :index || action == "all")
           end
+        end
 
-          columns.each_with_index do |column, i|
-            options = formatters[column].format_options column
-            sb.add_format_option_to_column i, options
+        def format_xls?
+          params["format"].to_s.downcase == "xls"
+        end
+
+        def show_relations?
+          params[:show_relations]
+        end
+
+        def xls_export_associations
+          associations = [:assigned_to, :type, :priority, :category, :fixed_version]
+
+          if show_relations?
+            associations + [:relations]
+          else
+            associations
           end
+        end
 
-          sb
+        def xls_export_results(query)
+          query.results include: xls_export_associations, order: sort_clause
+        end
+
+        def xls_export_filename
+          FilenameHelper.sane_filename(
+            "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} " +
+            "#{format_time_as_date(Time.now, '%Y-%m-%d')}.xls")
+        end
+
+        def define_xls_format!(format)
+          format.xls do
+            @issues = xls_export_results(@query).work_packages
+            data = issues_to_xls params.slice(:show_descriptions, :show_relations)
+
+            send_data data, type: "application/vnd.ms-excel", filename: xls_export_filename
+          end
         end
 
         # Return an xls file from a spreadsheet builder
         def issues_to_xls(options)
-          build_spreadsheet(@project, @issues, @query, options).xls
+          export = OpenProject::XlsExport::WorkPackageXlsExport.new(
+            project: @project, work_packages: @issues, query: @query,
+            current_user: current_user,
+            with_descriptions: options[:show_descriptions],
+            with_relations: options[:show_relations]
+          )
+
+          export.to_xls
         end
       end
     end

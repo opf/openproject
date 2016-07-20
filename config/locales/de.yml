@@ -4,3 +4,8 @@ de:
   sentence_separator_or: "oder"
   different_formats: Andere Formate
   xls_with_descriptions: XLS mit Beschreibungen
+  xls_with_relations: XLS mit Beziehungen
+
+  xls_export:
+    child_of: untergeordnetes AP von
+    parent_of: übergeordnetes AP von
