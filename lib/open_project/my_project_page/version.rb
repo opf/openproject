@@ -20,6 +20,6 @@
 
 module OpenProject
   module MyProjectPage
-    VERSION = "6.0.0"
+    VERSION = "6.0.1"
   end
 end
