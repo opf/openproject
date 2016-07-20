@@ -29,7 +29,7 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalResourceTypesService} from './hal-resource-types.service';
 
-function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
+function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
   halResourceTypes.setResourceTypeConfig({
     WorkPackage: {
       className: 'WorkPackageResource',
@@ -53,4 +53,4 @@ function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
   });
 }
 
-opApiModule.run(halResourceTypesStorage);
+opApiModule.run(halResourceTypesConfig);
