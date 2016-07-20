@@ -47,6 +47,17 @@ module API
                           }
                         }
         end
+
+        def inject_property_value(custom_field)
+          @class.property property_name(custom_field.id),
+                          getter: property_value_getter_for(custom_field),
+                          setter: property_value_setter_for(custom_field),
+                          render_nil: true,
+                          if: -> (*) {
+                            setting = ::Setting.work_package_list_summable_columns
+                            setting.include?("cf_#{custom_field.id}")
+                          }
+        end
       end
     end
   end

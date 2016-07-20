@@ -147,31 +147,23 @@ module API
         end
 
         def format_query_sums(sums)
-          sums = format_column_keys sums
-          format_durations! sums
+          OpenStruct.new(format_column_keys(sums))
         end
 
         def format_column_keys(hash_by_column)
-          converter = API::Utilities::PropertyNameConverter
           ::Hash[
             hash_by_column.map { |column, value|
-              column_name = converter.from_ar_name(column.name.to_s)
+              match = /cf_(\d+)/.match(column.name.to_s)
+
+              column_name = if match
+                              "custom_field_#{match[1]}"
+                            else
+                              column.name.to_s
+                            end
+
               [column_name, value]
             }
           ]
-        end
-
-        def format_durations!(sums)
-          formatter = ::API::V3::Utilities::DateTimeFormatter
-          # FIXME: this knowledge should not be hardcoded... probably decide with the help of
-          # a WorkPackageSchema?
-          %w(estimatedTime spentTime).each do |attribute|
-            if sums.include? attribute
-              sums[attribute] = formatter.format_duration_from_hours sums[attribute]
-            end
-          end
-
-          sums
         end
 
         def collection_representer(work_packages, project:, query_params:, groups:, sums:)

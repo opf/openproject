@@ -105,6 +105,11 @@ module API
 
         property :total_sums,
                  exec_context: :decorator,
+                 getter: -> (*) {
+                   if total_sums
+                     ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(total_sums)
+                   end
+                 },
                  render_nil: false
 
         # Eager load elements used in the representer later
