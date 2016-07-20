@@ -44,6 +44,10 @@ export class HalRequestService {
    * @returns {IPromise<HalResource>}
    */
   public request(method:string, href:string, data?:any):ng.IPromise<HalResource> {
+    if (!href) {
+      return this.$q.when(null);
+    }
+
     return this.$http({
       method: method,
       url: href,

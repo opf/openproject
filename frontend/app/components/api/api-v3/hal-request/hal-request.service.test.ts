@@ -32,11 +32,12 @@ import {HalResource} from '../hal-resources/hal-resource.service';
 
 describe('halRequest service', () => {
   var $httpBackend:ng.IHttpBackendService;
+  var $rootScope:ng.IRootScopeService;
   var halRequest:HalRequestService;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$httpBackend_, _halRequest_) {
-    [$httpBackend, halRequest] = _.toArray(arguments);
+  beforeEach(angular.mock.inject(function (_$httpBackend_, _$rootScope_, _halRequest_) {
+    [$httpBackend, $rootScope, halRequest] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
@@ -96,6 +97,24 @@ describe('halRequest service', () => {
     describe('when calling request()', () => {
       runRequests(() => {
         promise = halRequest.request(method, 'href', data);
+      });
+    });
+
+    describe('when requesting a null href', () => {
+      beforeEach(() => {
+        promise = halRequest.request('get', null);
+      });
+
+      afterEach(() => {
+        $rootScope.$apply();
+      });
+
+      it('should return a fulfilled promise', () => {
+        expect(promise).to.eventually.be.fulfilled;
+      });
+
+      it('should return a null promise', () => {
+        expect(promise).to.eventually.be.null;
       });
     });
   });
