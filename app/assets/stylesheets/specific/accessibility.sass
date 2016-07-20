@@ -69,3 +69,8 @@ body.accessibility-mode
     .id a,
     .inplace-edit form
       margin: 3px
+
+  // Allow a greater sensible area to click input checkboxes
+  // On the WP table this is not neccessary because the whole cell is clickable
+  table:not(.work-package-table) input[type='checkbox']
+    width: 100%
