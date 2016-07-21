@@ -198,6 +198,7 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
 
   scope.switchToSelectedQuery = function(queryId) {
     scope.transitionMethod(queryId);
+    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
   }
 
   scope.reload = function(modelId, newTitle) {
