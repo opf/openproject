@@ -55,24 +55,20 @@ describe('halResourceTypes service', () => {
 
   const expectResourceClassAdded = () => {
     it('should add the respective class object to the storage', () => {
-      const cls = halResourceFactory.getResourceClassOfType('Other');
-      expect(cls).to.equal(compareCls);
+      const resource = halResourceFactory.createHalResource({_type: 'Other'});
+      expect(resource).to.be.an.instanceOf(compareCls);
     });
   };
 
   const expectAttributeClassAdded = () => {
     it('should add the attribute type config to the storage', () => {
-      const cls = halResourceFactory.getResourceClassOfAttribute('Other', 'attr');
-      expect(cls).to.equal(compareCls);
+      const resource = halResourceFactory.createLinkedHalResource({}, 'Other', 'attr');
+      expect(resource).to.be.an.instanceOf(compareCls);
     });
   };
 
   it('should exist', () => {
     expect(halResourceTypes).to.exist;
-  });
-
-  it('should have added HalResource as the default type', () => {
-    expect(halResourceFactory.defaultClass).to.equal(HalResource);
   });
 
   describe('when configuring the type with class and attributes', () => {

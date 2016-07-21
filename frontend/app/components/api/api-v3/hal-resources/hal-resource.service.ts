@@ -40,18 +40,12 @@ var halResourceFactory:HalResourceFactoryService;
 export class HalResource {
   public static _type:string;
 
-  public static init(source:any) {
-    const resourceClass = halResourceFactory.getResourceClassOfType(source._type);
-    return new resourceClass(source);
-  }
-
   public static create(element, force:boolean = false) {
     if (!force && !(element._embedded || element._links)) {
       return element;
     }
 
-    const resourceClass = halResourceFactory.getResourceClassOfType(element._type);
-    return new resourceClass(element);
+    return halResourceFactory.createHalResource(element);
   }
 
   public static fromLink(link:HalLinkInterface) {
@@ -143,8 +137,9 @@ export class HalResource {
    */
   protected $loadHeaders(force:boolean) {
     var headers:any = {};
+
     if (force) {
-      headers.caching = { enabled: false };
+      headers.caching = {enabled: false};
     }
 
     return headers;
@@ -271,13 +266,11 @@ function initializeResource(halResource:HalResource) {
   }
 
   function createLinkedResource(linkName, link) {
-    var resource = HalResource.getEmptyResource();
+    const resource = HalResource.getEmptyResource();
+    const type = halResource.constructor._type;
     resource._links.self = link;
 
-    const resourceClass = halResourceFactory
-      .getResourceClassOfAttribute(halResource.constructor._type, linkName);
-
-    return new resourceClass(resource, false);
+    return halResourceFactory.createLinkedHalResource(resource, type, linkName);
   }
 
   function setter(val:HalResource, linkName:string) {

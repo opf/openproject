@@ -26,21 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 
-export class HalResourceFactoryService {
-  private config:any = {};
+interface HalResourceFactoryConfigInterface {
+  cls?:typeof HalResource;
+  attrCls?:{[attrName:string]:typeof HalResource};
+}
 
+export class HalResourceFactoryService {
+  protected config:{[typeName:string]:HalResourceFactoryConfigInterface} = {};
+
+  /**
+   * Get the default class.
+   * Initially, it's HalResource.
+   *
+   * @returns {HalResource}
+   */
   public get defaultClass() {
-    return this.config.__default__.cls;
+    return this.getResourceClassOfType('__default__');
   }
 
+  /**
+   * Set the default class.
+   *
+   * @param cls
+   */
   public set defaultClass(cls:typeof HalResource) {
     this.setResourceType('__default__', cls);
   }
 
+  /**
+   * Configure the resource class for a resource type.
+   *
+   * @param typeName
+   * @param cls
+   */
   public setResourceType(typeName:string, cls:typeof HalResource) {
     cls._type = typeName;
     this.config[typeName] = {
@@ -49,33 +70,96 @@ export class HalResourceFactoryService {
     };
   }
 
+  /**
+   * Set the attribute configuration for a certain type.
+   *
+   * @param typeName
+   * @param attrTypes
+   */
   public setResourceTypeAttributes(typeName:string, attrTypes) {
     Object.keys(attrTypes).forEach(attrName => {
       attrTypes[attrName] = this.getResourceClassOfType(attrTypes[attrName]);
     });
 
+    if (!this.config[typeName]) {
+      this.config[typeName] = {};
+    }
+
     this.config[typeName].attrCls = attrTypes;
   }
 
-  public getResourceClassOfType(type:string) {
+  /**
+   * Create a HalResource from a source object.
+   * If a _type attribute is defined and the type is configured, the
+   * respective class will be used for instantiation.
+   *
+   * @param source
+   * @returns {HalResource}
+   */
+  public createHalResource(source:any):HalResource {
+    const resourceClass = this.getResourceClassOfType(source._type);
+    return new resourceClass(source);
+  }
+
+  /**
+   * Create an unloaded HalResource that is a linked property of its parent.
+   *
+   * @param source
+   * @param parentType
+   * @param linkName
+   */
+  public createLinkedHalResource(source:any, parentType:string, linkName:string):HalResource {
+    const resourceClass = this.getResourceClassOfAttribute(parentType, linkName);
+    return new resourceClass(source, false);
+  }
+
+  /**
+   * Get the configured resource class of a type.
+   *
+   * @param type
+   * @returns {HalResource}
+   */
+  protected getResourceClassOfType(type:string):typeof HalResource {
     return this.getTypeConfig(type).cls;
   }
 
-  public getResourceClassOfAttribute(type:string, attribute:string) {
+  /**
+   * Get the resource class for an attribute.
+   * Return the default class, if it does not exist.
+   *
+   * @param type
+   * @param attribute
+   * @returns {any}
+   */
+  protected getResourceClassOfAttribute(type:string, attribute:string):typeof HalResource {
     const typeConfig = this.getTypeConfig(type);
     const resourceClass = typeConfig.attrCls[attribute];
 
     if (resourceClass) {
       return resourceClass;
     }
-    return this.getResourceClassOfType('__default__');
+
+    return this.defaultClass;
   }
 
+  /**
+   * Get the string of the type or the default string, if it doesn't exist.
+   *
+   * @param type
+   * @returns {string}
+   */
   protected getType(type:string):string {
     return this.config[type] ? type : '__default__';
   }
 
-  protected getTypeConfig(type:string) {
+  /**
+   * Get the type config for a certain type.
+   * Return the default config, if it doesn't exist.
+   *
+   * @param type
+   * @returns {any}
+   */
+  protected getTypeConfig(type:string):HalResourceFactoryConfigInterface {
     return this.config[this.getType(type)];
   }
 }
