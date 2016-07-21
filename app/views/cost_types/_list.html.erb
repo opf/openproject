@@ -37,9 +37,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         </colgroup>
         <thead>
           <tr>
-            <%= sort_header_tag CostType.model_name.human, :caption => CostType.model_name.human %>
-            <%= sort_header_tag CostType.human_attribute_name(:unit), :caption => CostType.human_attribute_name(:unit) %>
-            <%= sort_header_tag CostType.human_attribute_name(:unit_plural), :caption => CostType.human_attribute_name(:unit_plural) %>
+            <%= sort_header_tag 'name', :caption => CostType.model_name.human %>
+            <%= sort_header_tag 'unit', :caption => CostType.human_attribute_name(:unit) %>
+            <%= sort_header_tag 'unit_plural', :caption => CostType.human_attribute_name(:unit_plural) %>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
