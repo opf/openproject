@@ -1,3 +1,27 @@
+# OpenProject 5.0.x to OpenProject 6.0 Debian/Ubuntu Upgrade Guide
+
+Upgrading your OpenProject 5.0.x installation to 6.0 is very easy. Please upgrade your OpenProject installation first to the latest stable 6.0 path.
+If you checked out the OpenProject installation through Git, you can use the `stable/6` branch which points to the latest stable release.
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# git fetch && git checkout stable/6
+```
+
+After upgrading the installation files, you need to migrate the installation to OpenProject 6.0 with the following steps:
+
+```bash
+[openproject@debian]# cd /home/openproject/openproject
+[openproject@debian]# npm install
+[openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate
+[openproject@debian]# RAILS_ENV="production" bundle exec rake db:seed
+[openproject@debian]# RAILS_ENV="production" bundle exec rake assets:precompile
+[openproject@debian]# touch tmp/restart.txt
+```
+
+After performing these steps, the server should be running OpenProject 6.0.x.
+
+
 # OpenProject 4.2 to OpenProject 5.0 Debian/Ubuntu Upgrade Guide
 
 One of the main new features of OpenProject 5.0 is that it provides management of repositories directly within the user interface (with so-called *managed* repositories).
