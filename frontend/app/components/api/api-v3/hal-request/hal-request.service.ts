@@ -28,11 +28,12 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 export class HalRequestService {
   constructor(protected $q:ng.IQService,
               protected $http:ng.IHttpService,
-              protected HalResource) {
+              protected halResourceFactory:HalResourceFactoryService) {
   }
 
   /**
@@ -48,13 +49,11 @@ export class HalRequestService {
       return this.$q.when(null);
     }
 
-    return this.$http({
-      method: method,
-      url: href,
-      data: data
-    })
-      .then(response => this.HalResource.init(response.data))
-      .catch(response => this.HalResource.init(response.data));
+    const config = {method: method, url: href, data: data};
+    const createResource =
+      response => this.halResourceFactory.createHalResource(response.data);
+
+    return this.$http(config).then(createResource, createResource);
   }
 
   /**
