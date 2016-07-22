@@ -12,7 +12,7 @@ class AnnouncementsController < ApplicationController
     @announcement.attributes = announcement_params
 
     if @announcement.save
-      flash[:success] = t(:notice_successful_update)
+      flash[:notice] = t(:notice_successful_update)
     end
 
     redirect_to action: 'edit'
