@@ -31,7 +31,7 @@ describe AnnouncementsController, type: :controller do
 
     it 'edits the announcement' do
       expect(response).to redirect_to action: :edit
-      expect(controller).to set_flash[:success].to I18n.t(:notice_successful_update)
+      expect(controller).to set_flash[:notice].to I18n.t(:notice_successful_update)
     end
   end
 end
