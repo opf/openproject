@@ -36,6 +36,9 @@ class WikiPage < ActiveRecord::Base
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
   acts_as_tree dependent: :nullify, order: 'title'
 
+  # Generate slug of the title
+  acts_as_url :title, url_attribute: :slug
+
   acts_as_watchable
   acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
                 description: :text,
@@ -237,7 +240,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def to_param
-    CGI.escape title
+    slug
   end
 
   def is_only_wiki_page?

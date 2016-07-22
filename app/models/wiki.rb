@@ -64,13 +64,16 @@ class Wiki < ActiveRecord::Base
     find_page(title) || WikiPage.new(wiki: self, title: title)
   end
 
-  # find the page with the given title
+  ##
+  # Find the page with the given title.
+  # Tries the original title and the legacy titleized format.
   def find_page(title, options = {})
     title = start_page if title.blank?
-    page = pages.where(['LOWER(title) = LOWER(?)', title]).first
+
+    page = pages.where(slug: title.to_url).first
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
-      redirect = redirects.where(['LOWER(title) = LOWER(?)', title]).first
+      redirect = matching_redirect(title)
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
     end
     page
@@ -104,5 +107,21 @@ class Wiki < ActiveRecord::Base
     wiki_menu_item.index_page = true
 
     wiki_menu_item.save!
+  end
+
+  private
+
+  ##
+  # Locate the redirect from an existing page.
+  # Tries to find a redirect for the given slug,
+  # falls back to finding a redirect for the title
+  def matching_redirect(title)
+    page = redirects.where(title: title.to_url).first
+
+    if page.nil?
+      page = redirects.where(title: title).first
+    end
+
+    page
   end
 end

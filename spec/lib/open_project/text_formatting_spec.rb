@@ -314,6 +314,11 @@ describe OpenProject::TextFormatting do
                            wiki: wiki_1,
                            title: 'Another page'
       }
+      let(:wiki_page_1_3) {
+        FactoryGirl.create :wiki_page_with_content,
+                           wiki: wiki_1,
+                           title: '<script>alert("FOO")</script>'
+      }
 
       before do
         project_2.reload
@@ -330,12 +335,20 @@ describe OpenProject::TextFormatting do
 
         wiki_1.pages << wiki_page_1_1
         wiki_1.pages << wiki_page_1_2
+        wiki_1.pages << wiki_page_1_3
       end
 
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
         it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/CookBook%20documentation\">CookBook documentation</a></p>") }
+      end
+
+      context 'Arbitrary wiki link' do
+        title = '<script>alert("FOO")</script>'
+        subject { format_text("[[#{title}]]") }
+
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki?id=#{CGI.escape(title)}\">#{h(title)}</a></p>") }
       end
 
       context 'Plain wiki page link' do

@@ -244,6 +244,8 @@ module OpenProject
               page = $1
               anchor = $2
             end
+            # Unescape the escaped entities from textile
+            page = CGI.unescapeHTML(page)
             # check if page exists
             wiki_page = link_project.wiki.find_page(page)
             url = case options[:wiki_links]

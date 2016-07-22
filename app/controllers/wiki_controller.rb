@@ -370,8 +370,7 @@ class WikiController < ApplicationController
   private
 
   def wiki_page_title
-    title = params[:id]
-    CGI.unescape(title) if title.present?
+    params[:id]
   end
 
   def find_wiki
