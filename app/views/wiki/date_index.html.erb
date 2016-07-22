@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <h3><%= format_date(date) %></h3>
   <ul>
     <% @pages_by_date[date].each do |page| %>
-      <li><%= link_to page.pretty_title, project_wiki_path(page.project, page) %></li>
+      <li><%= link_to page.title, project_wiki_path(page.project, page) %></li>
     <% end %>
   </ul>
 <% end %>

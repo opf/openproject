@@ -129,10 +129,6 @@ class WikiPage < ActiveRecord::Base
     wiki.redirects.where(redirects_to: title).each(&:destroy)
   end
 
-  def pretty_title
-    WikiPage.pretty_title(title)
-  end
-
   def content_for_version(version = nil)
     journal = content.versions.find_by(version: version.to_i) if version
 
@@ -161,10 +157,6 @@ class WikiPage < ActiveRecord::Base
     version = version ? version.to_i : content.version
     c = content.versions.find_by(version: version)
     c ? WikiAnnotate.new(c) : nil
-  end
-
-  def self.pretty_title(str)
-    (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
 
   def project
@@ -200,7 +192,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def parent_title
-    @parent_title || (parent && parent.pretty_title)
+    @parent_title || (parent && parent.title)
   end
 
   def parent_title=(t)
@@ -235,7 +227,7 @@ class WikiPage < ActiveRecord::Base
     if item = menu_item
       item.name
     else
-      pretty_title
+      title
     end
   end
 
