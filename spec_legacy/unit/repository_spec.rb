@@ -33,12 +33,7 @@ describe Repository, type: :model do
 
   before do
     @repository = Project.find(1).repository
-  end
-
-  around do |example|
-    with_settings enabled_scm: %w(subversion) do
-      example.run
-    end
+    Setting.enabled_scm = %w(subversion)
   end
 
   it 'should create' do

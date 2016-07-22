@@ -280,8 +280,9 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  it 'should create should preserve modules on validation failure' do
-    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
+  context 'with default modules',
+          with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
+    it 'should create should preserve modules on validation failure' do
       session[:user_id] = 1
       assert_no_difference 'Project.count' do
         post :create, project: {
