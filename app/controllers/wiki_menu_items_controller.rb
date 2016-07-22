@@ -151,7 +151,7 @@ class WikiMenuItemsController < ApplicationController
     menu_item = if item = page.menu_item
                   item.tap { |item| item.parent_id = nil }
                 else
-                  wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
+                  wiki.wiki_menu_items.build(title: page.title, name: page.title)
     end
 
     menu_item.options = options

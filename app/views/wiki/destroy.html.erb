@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: @page.pretty_title %>
-<% html_title l(:button_delete), @page.pretty_title %>
+<%= toolbar title: @page.title %>
+<% html_title l(:button_delete), @page.title %>
 <%= form_tag({}, method: :delete) do %>
   <div class="box">
     <p><strong><%= l(:text_wiki_page_destroy_question, descendants: @descendants_count) %></strong></p>

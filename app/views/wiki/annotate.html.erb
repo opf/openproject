@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:project_module_wiki), l(:label_history), l(:text_comment_wiki_page, page: @page.pretty_title)  %>
+<% html_title l(:project_module_wiki), l(:label_history), l(:text_comment_wiki_page, page: @page.title)  %>
 
 <% content_for :action_menu_specific do %>
   <%= link_to(l(:button_edit),
@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
               accesskey: accesskey(:edit)) %>
   <%= link_to(l(:label_history), {action: 'history', id: @page}, class: 'icon icon-wiki') %>
 <% end %>
-<h2 class='legacy-heading'><%= h(@page.pretty_title) %></h2>
+<h2 class='legacy-heading'><%= h(@page.title) %></h2>
 <%= render partial: 'layouts/action_menu_specific' %>
 <p>
   <%= Version.model_name.human %> <%= link_to h(@annotate.content.version), action: 'show', id: @page, version: @annotate.content.version %>
