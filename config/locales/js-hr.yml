@@ -2,5 +2,5 @@ hr:
   js:
     work_packages:
       properties:
-        storyPoints: Točke scenarija
+        storyPoints: Točke priče
         remainingTime: Preostali sati

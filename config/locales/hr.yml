@@ -4,7 +4,7 @@ hr:
       work_package:
         position: Pozicija
         remaining_hours: Preostali sati
-        story_points: Točke scenarija
+        story_points: Točke priče
         backlogs_work_package_type: Backlog tip
     errors:
       models:
@@ -21,7 +21,7 @@ hr:
         sprint:
           cannot_end_before_it_starts: Period razvoja ne može završiti prije nego li je započeo.
   backlogs:
-    add_new_story: Novi scenarij
+    add_new_story: Nova priča
     any: bilo koji
     backlog_settings: Backlog postavke
     burndown_graph: Burndown graf
@@ -48,7 +48,7 @@ hr:
     remaining_hours_ideal: Preostali vrijeme (idealno)
     show_burndown_chart: Burndown graf
     story: Scenarij
-    story_points: Točke scenarija
+    story_points: Točke priče
     story_points_ideal: Točke scenarija (idealno)
     task: Zadaća
     task_color: Boja zadaće
