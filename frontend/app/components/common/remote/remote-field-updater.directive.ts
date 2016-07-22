@@ -53,7 +53,7 @@ function remoteFieldUpdater($http) {
         });
       }
 
-      input.on('keyup', _.debounce(updater, 250));
+      input.on('keyup', _.throttle(updater, 250));
     }
   };
 }
