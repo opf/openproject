@@ -57,6 +57,9 @@ module OpenProject
       if revision.present?
         revision.strip[0..8]
       end
+    rescue => e
+      Rails.logger.warn("Tried to parse version REVISION, but failed with #{e.message}.")
+      nil
     end
 
     def self.product_version
