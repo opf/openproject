@@ -15,7 +15,7 @@ configuration wizard, which will help you get everything up and running quickly.
   handles SSL termination (if SSL is used) and distributes/forwards web
 requests to the Unicorn processes.
 * MySQL (database management system) – this component is used to store and
-  retrieve data.
+  retrieve data. We do support PostgreSQL as well, but it is not part of the automatic wizard. To configure this instead, see below.
 * Unicorn (application server) – this component hosts the actual application.
   By default, there is two unicorn processes running in parallel on the app
 server machine.
@@ -113,7 +113,31 @@ Note that all commands should either be run as root or should be prepended with
     sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles11/stable/5" "openproject"
     sudo zypper install openproject
 
-# Configuration
+# Customization
+
+The OpenProject installation wizard currently supports setting up for MySQL databases only. However, OpenProject itself supports both MySQL and PostgreSQL. To configure the package to use an existing database, see the section below. To install or configure a MySQL database, skip to _Configuration_.
+
+The OpenProject package is configured through ENV parameters that are passed to the `openproject` user. You can read the current ENV parameters with `openproject run env`. To write/read individual parameters, use `openproject config:set PARAMETER=VALUE` and `openproject config:get PARAMETER`.
+
+For instance if you wanted to change the session store you would do:
+
+    sudo openproject config:set SESSION_STORE=active_record_store
+
+This is handy to configure options that are not available in the installer (yet). In most cases though, you should always try to `configure` the application first.
+
+## Configuring for an existing a PostgreSQL database
+
+The MySQL wizard of the OpenProject installer internally sets the `DATABASE_URL`  (See [DATABASE_URL](http://edgeguides.rubyonrails.org/configuring.html) in the Rails Guides for more information).
+
+You can set this `DATABASE_URL` parameter yourself to either a MySQL or PostgreSQL database URL.
+
+    openproject config:set DATABASE_URL="postgresql://[user[:password]@][host][:port][/dbname][?param1=value1&...]
+
+**Then, when configuring the addon, select skip in the MySQL installation wizard.** The database specified using the URL will be used by Rails automatically for preparing the database.
+
+You can use these ENV parameters to customize OpenProject. See [OpenProject Configuration](https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md).
+
+# Package Configuration
 
 After the installation of the OpenProject package the system has to be
 configured to use this package and operate the OpenProject application.
@@ -291,16 +315,3 @@ openproject configure
 
 Using `configure` will take your previous decisions in the installer and simply re-apply them, which is an idempotent operation. It will detect the Gemfile config option being set and re-bundle the application.
 
-## Manually set configuration options
-
-The installation wizard should take care of setting the most important
-configuration options automatically based on your choices. However you might
-want to tweak an option not supported by the wizard, in which case you can
-directly set it using the `config:set` command of the `openproject` CLI.
-
-For instance if you wanted to change the session store you would do:
-
-    sudo openproject config:set SESSION_STORE=active_record_store
-    sudo service openproject restart
-
-In most cases though, you should always try to `reconfigure` the application first.
