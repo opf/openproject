@@ -49,9 +49,14 @@ export class HalRequestService {
       return this.$q.when(null);
     }
 
-    const config = {method: method, url: href, data: data};
+    const config:any = {method: method, url: href, data: data};
     const createResource =
       response => this.halResourceFactory.createHalResource(response.data);
+
+    if (method === 'get') {
+      delete config.data;
+      config.params = data;
+    }
 
     return this.$http(config).then(createResource, createResource);
   }
@@ -60,10 +65,11 @@ export class HalRequestService {
    * Perform a GET request and return a resource promise.
    *
    * @param href
+   * @param params
    * @returns {ng.IPromise<HalResource>}
    */
-  public get(href:string):ng.IPromise<HalResource> {
-    return this.request('get', href);
+  public get(href:string, params?:any):ng.IPromise<HalResource> {
+    return this.request('get', href, params);
   }
 
   /**

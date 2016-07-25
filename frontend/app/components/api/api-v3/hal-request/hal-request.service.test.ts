@@ -67,9 +67,10 @@ describe('halRequest service', () => {
         describe(`when performing a ${requestMethod} request`, () => {
           beforeEach(() => {
             method = requestMethod;
+            data = {foo: 'bar'};
 
-            if (method !== 'get') {
-              data = {foo: 'bar'};
+            if (method === 'get') {
+              data = null;
             }
 
             callback();
@@ -97,6 +98,19 @@ describe('halRequest service', () => {
     describe('when calling request()', () => {
       runRequests(() => {
         promise = halRequest.request(method, 'href', data);
+      });
+    });
+
+    describe('when requesting a GET resource with parameters', () => {
+      const params = {foo: 'bar'};
+
+      beforeEach(() => {
+        promise = halRequest.get('href', params);
+      });
+
+      it('should append the parameters at the end of the requested url', () => {
+        $httpBackend.expectGET('href?foo=bar').respond(200, {});
+        $httpBackend.flush();
       });
     });
 
