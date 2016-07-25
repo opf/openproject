@@ -64,13 +64,15 @@ class Wiki < ActiveRecord::Base
     find_page(title) || WikiPage.new(wiki: self, title: title)
   end
 
-  # find the page with the given title
+  ##
+  # Find the page with the given title.
+  # Tries the original title and the legacy titleized format.
   def find_page(title, options = {})
     title = start_page if title.blank?
-    page = pages.where(['LOWER(title) = LOWER(?)', title]).first
+    page = matching_page(pages, title)
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
-      redirect = redirects.where(['LOWER(title) = LOWER(?)', title]).first
+      redirect = matching_page(redirects, title)
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
     end
     page
@@ -111,5 +113,30 @@ class Wiki < ActiveRecord::Base
     wiki_menu_item.index_page = true
 
     wiki_menu_item.save!
+  end
+
+  private
+
+  ##
+  # Locate an existing page.
+  # Tries to locate the original title first (since arbitrary content allowed since 6.0),
+  # and falls back to the titleized title to avoid breaking old links.
+  def matching_page(records, title)
+    find_by_title(records, title) || find_by_title(records, Wiki.titleize(title))
+  end
+
+  def find_by_title(records, title)
+    records.where(['LOWER(title) = LOWER(?)', title]).first
+  end
+
+  ##
+  # Turn the page title into the legacy titleized format
+  # which was used to identify title slugs in < 6.0.
+  def self.titleize(title)
+    # replace spaces with _ and remove unwanted caracters
+    title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
+    # upcase the first letter
+    title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
+    title
   end
 end
