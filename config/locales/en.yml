@@ -4,8 +4,8 @@ en:
   sentence_separator_or: "or"
   different_formats: Different formats
   label_xls: XLS
-  label_xls_with_descriptions: XLS with Descriptions
-  label_xls_with_relations: XLS with Relations
+  label_xls_with_descriptions: XLS with descriptions
+  label_xls_with_relations: XLS with relations
 
   xls_export:
     child_of: child of
