@@ -33,50 +33,15 @@ import IRootElementService = angular.IRootElementService;
 import IAnimateProvider = angular.IAnimateProvider;
 import ITranscludeFunction = angular.ITranscludeFunction;
 
-
-// function getBlockNodes(nodes) {
-//   var node = nodes[0];
-//   var endNode = nodes[nodes.length - 1];
-//   var blockNodes = [node];
-//
-//   do {
-//     node = node.nextSibling;
-//     if (!node) {
-//       break;
-//     }
-//     blockNodes.push(node);
-//   } while (node !== endNode);
-//
-//   return $(blockNodes);
-// }
-
-// function createDummyRow(content: any, columnCount: number) {
-//   const tr = document.createElement('tr');
-//   for (let i = 0; i < columnCount; i++) {
-//     const td = document.createElement('td');
-//     td.innerHTML = content;
-//     tr.appendChild(td);
-//   }
-//   return tr;
-// }
-
-function wpVirtualScrollRow($animate: any,
-                            workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+function wpVirtualScrollRow(workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
   return {
-    // multiElement: true,
-    // transclude: 'element',
-    // priority: 600,
-    // terminal: true,
     restrict: 'A',
-    // $$tlb: true,
 
     link: ($scope: IScope,
            $element: IRootElementService,
-           $attr: any,
-           ctrl: any,
-           $transclude: ITranscludeFunction) => {
+           $attr: any) => {
 
-      new RowDisplay($animate, $scope, $element, $attr, $transclude, workPackageTableVirtualScrollService);
+      new RowDisplay($scope, $element, $attr, workPackageTableVirtualScrollService);
     }
   };
 }
@@ -85,133 +50,41 @@ wpDirectivesModule.directive('wpVirtualScrollRow', wpVirtualScrollRow);
 
 class RowDisplay {
 
-  // private block: any;
-  // private childScope: IScope;
-  // private previousElements: any;
-
-  // private dummyRow: HTMLElement = null;
   private index: number;
   private viewport: [number, number] = [0, 0];
-  // private visible: boolean = undefined;
-  // private clone: JQuery;
   private watchersEnabled = true;
 
-  constructor(private $animate: any,
-    private $scope: angular.IScope,
-    private $element: angular.IRootElementService,
-    private $attr: any,
-    private $transclude: angular.ITranscludeFunction,
-    private workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
+  constructor(private $scope: angular.IScope,
+              private $element: angular.IRootElementService,
+              private $attr: any,
+              private workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
 
     this.index = $scope.$eval($attr.wpVirtualScrollRow);
 
-    // console.log("subscirbe für index:" + this.index);
     scopedObservable($scope, workPackageTableVirtualScrollService.viewportChanges)
       .subscribe(vp => {
-        // console.log("viewport changed für index: " + this.index);
         this.viewport = vp;
         this.viewportChanged();
       });
+
+    workPackageTableVirtualScrollService.requestUpdate();
   }
 
   private isRowInViewport() {
     const offsetTop = this.$element.offset().top;
     const top = this.viewport[0];
     const bottom = this.viewport[1];
-    // console.log("isRowInViewport: " + this.index + ", " + offsetTop);
     return (offsetTop > top && offsetTop < bottom);
-
-    // console.log(this.index + ": " + offsetTop);
-    // console.log(window.outerHeight);
-    // return this.index >= this.viewport[0] && this.index <= this.viewport[1];
   }
 
-  // private isRowInViewportOffset() {
-  // return true;
-  // const offset = this.workPackageTableVirtualScrollService.viewportOffset;
-  // return this.index >= (this.viewport[0] - offset) && this.index <= (this.viewport[1] + offset);
-  // }
-
   private viewportChanged() {
-    // const isRowInViewport = this.isRowInViewportOffset();
     const enableWatchers = this.isRowInViewport();
-
-    // const firstRun = this.visible === undefined;
-
-    // if (firstRun) {
-    //   this.renderRow(isRowInViewport);
-    // } else if (!this.visible && isRowInViewport) {
-    //   this.hide();
-    //   this.renderRow(true);
-    // } else if (!this.visible && !isRowInViewport) {
-    //   this.renderRow(false);
-    // }
-
-    // if (!firstRun && this.clone) {
     if (this.watchersEnabled !== enableWatchers) {
       this.adjustWatchers(this.$element, enableWatchers);
     }
-
-    // this.adjustWatchers(this.clone, enableWatchers);
-    // }
   }
 
-  /*
-   renderRow(renderRow: boolean) {
-   if (!this.childScope) {
-   if (renderRow) {
-   // render work package row
-   this.hide();
-
-   this.$transclude((clone: any, newScope: any) => {
-   this.clone = clone;
-   this.childScope = newScope;
-   this.visible = true;
-
-   clone[clone.length++] = document.createComment(' wp-virtual-scroll: ' + this.index + ' ');
-   this.block = {
-   clone: clone
-   };
-   this.$animate.enter(clone, this.$element.parent(), this.$element);
-   });
-   } else if (this.dummyRow === null) {
-   // render placeholder row
-   this.hide();
-
-   this.visible = false;
-   this.dummyRow = createDummyRow(
-   "&nbsp;",
-   this.workPackageTableVirtualScrollService.columnCount);
-
-   this.$animate.enter(this.dummyRow, this.$element.parent(), this.$element);
-   }
-   }
-   }
-
-   private hide() {
-   this.dummyRow && this.$element.parent()[0].removeChild(this.dummyRow);
-   this.dummyRow = null;
-
-   if (this.previousElements) {
-   this.previousElements.remove();
-   this.previousElements = null;
-   }
-   if (this.childScope) {
-   this.childScope.$destroy();
-   this.childScope = null;
-   }
-   if (this.block) {
-   this.previousElements = getBlockNodes(this.block.clone);
-   this.$animate.leave(this.previousElements).then(() => {
-   this.previousElements = null;
-   });
-   this.block = null;
-   }
-   }
-   */
-
   private adjustWatchers(element: JQuery, enableWatchers: boolean) {
-    // console.log("adjustWatchers für index: " + this.index);
     this.watchersEnabled = enableWatchers;
 
     const scope: any = angular.element(element).scope();
@@ -221,13 +94,11 @@ class RowDisplay {
 
     if (!enableWatchers) {
       if (scope.$$watchers && scope.$$watchers.length > 0) {
-        // console.log("disable watcher:" + this.index);
         scope.__backup_watchers = scope.$$watchers;
         scope.$$watchers = [];
       }
     } else {
       if (scope.__backup_watchers && scope.__backup_watchers.length > 0) {
-        // console.log("enable watcher:" + this.index);
         scope.$$watchers = scope.__backup_watchers;
         scope.__backup_watchers = [];
       }
@@ -244,35 +115,26 @@ class RowDisplay {
 
 class WorkPackageTableVirtualScrollService {
 
-  private lastTop: number;
-
-  private lastBottom: number;
-
-  // public viewportOffset = 0;
-
   public viewportChanges: Rx.Subject<[number, number]> = new Rx.ReplaySubject<[number, number]>(0);
 
-  // public columnCount = 1;
+  private requestedUpdateTimeout: any;
 
+  /*@ngInject*/
   constructor(private $rootScope: angular.IRootScopeService) {
   }
 
-  updateScrollInfo(top: number, bottom: number) {
-    // if (top !== this.lastTop || bottom !== this.lastBottom) {
-      runInScopeDigest(this.$rootScope, () => {
-        // console.log("updateScrollInfo - onNext");
-        this.viewportChanges.onNext([top, bottom]);
-      });
-      // window.dispatchEvent(new Event('resize'));
-    // }
-
-    this.lastTop = top;
-    this.lastBottom = bottom;
+  updateScrollInfo() {
+    runInScopeDigest(this.$rootScope, () => {
+      this.viewportChanges.onNext([-50, window.innerHeight + 50]);
+    });
   }
 
-  // setColumnCount(columnCount: number) {
-  //   this.columnCount = columnCount;
-  // }
+  requestUpdate() {
+    this.requestedUpdateTimeout && clearTimeout(this.requestedUpdateTimeout);
+    this.requestedUpdateTimeout = setTimeout(() => {
+      this.updateScrollInfo();
+    }, 1000);
+  }
 }
 
 wpDirectivesModule.service("workPackageTableVirtualScrollService", WorkPackageTableVirtualScrollService);
@@ -285,27 +147,13 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
       // flag to avoid endless loops
       let updateActive = false;
 
-      // Number of columns a placeholder row should have
-      // let columnCount = $scope.$eval(attr.columnCount);
-      // columnCount = columnCount ? columnCount : 1;
-      // workPackageTableVirtualScrollService.setColumnCount(columnCount);
-
-      // Row height in pixel
-      // let rowHeight = attr.rowHeight;
-
       const updateScrollInfo = () => {
         if (updateActive) {
           return;
         }
         updateActive = true;
         try {
-          // const scrollTop = $element.scrollTop();
-          // const height = $element.outerHeight();
-          // const rowsAboveCount = Math.floor(scrollTop / rowHeight);
-          // const rowsInViewport = Math.round(height / rowHeight) + 5;
-          workPackageTableVirtualScrollService.updateScrollInfo(
-            -50,
-            window.innerHeight + 50);
+          workPackageTableVirtualScrollService.updateScrollInfo();
         } finally {
           updateActive = false;
         }
@@ -316,14 +164,12 @@ function wpVirtualScrollTable(workPackageTableVirtualScrollService: WorkPackageT
         scrollTimeout && clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           updateScrollInfo();
-        }, 1000);
+        }, 2000);
       });
 
       window.addEventListener('resize', () => {
         updateScrollInfo();
       });
-
-      updateScrollInfo();
     }
   };
 }
