@@ -33,17 +33,13 @@ describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var $rootScope;
   var HalLink;
-  var apiV3;
   var link:HalLink;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
                                            _$rootScope_,
-                                           _apiV3_,
                                            _HalLink_) {
-    [$httpBackend, $rootScope, apiV3, HalLink] = _.toArray(arguments);
-
-    apiV3.setDefaultHttpFields({cache: false});
+    [$httpBackend, $rootScope, HalLink] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
@@ -119,25 +115,22 @@ describe('HalLink service', () => {
       expect(result.hello).to.eq(response.hello);
     });
 
-    it('should not return a restangularized result', () => {
-      expect(result.restangularized).to.not.be.ok;
-    });
-
     it('should return a HalResource', () => {
       expect(result.$isHal).to.be.true;
     });
 
     it('should perform a GET request by default', () => {
       link.$fetch();
-      $httpBackend.expectGET('/api/link').respond(200);
+      $httpBackend.expectGET('/api/link').respond(200, {});
       $httpBackend.flush();
     });
 
-    it('should pass parameters as query params to the request', () => {
-      link.$fetch({
-        hello: 'world'
-      });
-      $httpBackend.expectGET('/api/link?hello=world').respond(200);
+    it('should send the provided data', () => {
+      const data = {hello: 'world'};
+      link.method = 'post';
+
+      link.$fetch(data);
+      $httpBackend.expect('POST', '/api/link', data).respond(200, {});
       $httpBackend.flush();
     });
 
@@ -145,7 +138,7 @@ describe('HalLink service', () => {
       link.method = 'post';
 
       link.$fetch();
-      $httpBackend.expectPOST('/api/link').respond(200);
+      $httpBackend.expectPOST('/api/link').respond(200, {});
       $httpBackend.flush();
     });
 
@@ -153,7 +146,7 @@ describe('HalLink service', () => {
       link.method = 'put';
 
       link.$fetch();
-      $httpBackend.expectPUT('/api/link').respond(200);
+      $httpBackend.expectPUT('/api/link').respond(200, {});
       $httpBackend.flush();
     });
 
@@ -161,10 +154,9 @@ describe('HalLink service', () => {
       link.method = 'patch';
 
       link.$fetch();
-      $httpBackend.expectPATCH('/api/link').respond(200);
+      $httpBackend.expectPATCH('/api/link').respond(200, {});
       $httpBackend.flush();
     });
-
 
     describe('when making the link callable', () => {
       var func;
@@ -172,7 +164,7 @@ describe('HalLink service', () => {
         it('should return a function that fetches the data', () => {
           func();
 
-          $httpBackend.expectPOST('foo').respond(200);
+          $httpBackend.expectPOST('foo').respond(200, {});
           $httpBackend.flush();
         });
 

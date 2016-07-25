@@ -27,9 +27,12 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
+import {HalRequestService} from '../hal-request/hal-request.service';
+import {HalResource} from '../hal-resources/hal-resource.service';
+import FunctionBind = _.FunctionBind;
 
 var $q:ng.IQService;
-var apiV3:restangular.IService;
+var halRequest:HalRequestService;
 
 export interface HalLinkInterface {
   href:string;
@@ -39,20 +42,29 @@ export interface HalLinkInterface {
   payload?:any;
 }
 
+interface CallableHalLink extends HalLinkInterface {
+  (data?):ng.IPromise<HalResource>;
+}
+
 export class HalLink implements HalLinkInterface {
+  /**
+   * Create the HalLink from an object with the HalLinkInterface.
+   *
+   * @param link
+   * @returns {HalLink}
+   */
   public static fromObject(link):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated, link.payload);
   }
 
-  public static callable(link) {
-    return HalLink.fromObject(link).$callable();
-  }
-
   /**
-   *  Return the restangular element.
+   * Return a function that fetches the resource.
+   *
+   * @param link
+   * @return {CallableHalLink}
    */
-  public get $route():restangular.IElement {
-    return apiV3.oneUrl('route', this.href);
+  public static callable(link):CallableHalLink {
+    return HalLink.fromObject(link).$callable();
   }
 
   constructor(public href:string = null,
@@ -62,22 +74,25 @@ export class HalLink implements HalLinkInterface {
               public payload?:any) {
   }
 
-  public $fetch(...params) {
-    if (!this.href) {
-      return $q.when(null);
-    }
-
-    if (this.method === 'post') {
-      params.unshift('');
-    }
-
-    return this.$route[this.method === 'delete' && 'remove' || this.method](...params);
+  /**
+   * Fetch the resource.
+   *
+   * @param data
+   * @returns {ng.IPromise<HalResource>}
+   */
+  public $fetch(data?:any):ng.IPromise<HalResource> {
+    return halRequest.request(this.method, this.href, data);
   }
 
-  public $callable() {
-    const func:any = (...params) => this.$fetch(...params);
+  /**
+   * Return a function that fetches the resource.
+   *
+   * @returns {CallableHalLink}
+   */
+  public $callable():CallableHalLink {
+    const linkFunc:any = data => this.$fetch(data);
 
-    _.extend(func, {
+    _.extend(linkFunc, {
       $link: this,
       href: this.href,
       title: this.title,
@@ -86,15 +101,15 @@ export class HalLink implements HalLinkInterface {
       payload: this.payload
     });
 
-    return func;
+    return linkFunc;
   }
 }
 
 function halLinkService(...args) {
-  [$q, apiV3] = args;
+  [$q, halRequest] = args;
   return HalLink;
 }
 
-halLinkService.$inject = ['$q', 'apiV3'];
+halLinkService.$inject = ['$q', 'halRequest'];
 
 opApiModule.factory('HalLink', halLinkService);
