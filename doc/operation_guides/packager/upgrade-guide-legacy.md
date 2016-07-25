@@ -1,15 +1,14 @@
 # Upgrade your pre-5.0 OpenProject installation (DEB/RPM Packages)
 
-Starting with OpenProject 4.1 stable releases will have their own branch on github. According to this the OpenProject release 5.0 is tracked via the release/5.0 branch. We provide a stable branch
-`stable/5` to contain all minor upgrades to OpenProject 5.x.
+Starting with OpenProject 4.1 stable releases will have their own branch on github. According to this the OpenProject release 6.0 is tracked via the stable/6 branch. We provide a stable branch `stable/<VERSION>` to contain all minor upgrades to OpenProject <VERSION>.x.
 
 For OpenProject 4.2, two packages existed: The OpenProject Core and Community Edition.
 Starting with OpenProject 5.0, both editions have been integrated into the single OpenProject package, which now contains a standard set of the most-used plugins previously contained in the Community Edition.
 
 This guide contains two guides:
 
-* The upgrade guide for OpenProject Core 4.2. to OpenProject 5.0
-* The migration guide to OpenProject 5.0 from OpenProject Community Edition 4.2.
+* The upgrade guide for OpenProject Core 4.2. to OpenProject 6.0
+* The migration guide to OpenProject 6.0 from OpenProject Community Edition 4.2.
 
 Please jump directly to the part of this guide depending on your OpenProject version (Core Edition or Community Edition) and operating system.
 
@@ -24,14 +23,14 @@ To avoid trying to update the deprecated 4.2 package, remove the following entry
 
 ### Debian 7.6 Wheezy 64bits server
 
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
     sudo openproject configure
 
 ### Ubuntu 14.04 Trusty 64bits server
 
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
     sudo openproject configure
@@ -40,7 +39,7 @@ To avoid trying to update the deprecated 4.2 package, remove the following entry
 
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/5
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
     sudo openproject configure
@@ -49,14 +48,14 @@ To avoid trying to update the deprecated 4.2 package, remove the following entry
 
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/5
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
     sudo openproject configure
 
 ### SUSE Linux Enterprise Server 12
 
-    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/5" "openproject"
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/6" "openproject"
     sudo zypper install openproject
     sudo openproject configure
 
@@ -108,7 +107,7 @@ To avoid installing the deprecated 4.2 package, remove the following entry:
 
 ### Step 6: Move the existing application and configuration files
 
-As the OpenProject 5.0 package is identitical to the core in regards to paths, you'll need to reference the configuration and application (e.g., attachments, SVN repositories) files to the path that is expected from the new package.
+As the OpenProject 6.0 package is identitical to the core in regards to paths, you'll need to reference the configuration and application (e.g., attachments, SVN repositories) files to the path that is expected from the new package.
 
     # Move openproject-ce configuration
     sudo mv /etc/openproject-ce /etc/openproject
@@ -133,7 +132,7 @@ Note:
 * For RedHat, the path should be changed to `/etc/httpd/conf.d/openproject-ce.conf`.
 * For SLES, the path should be changed to `/etc/apache2/vhosts.d/openproject-ce.conf`.
 
-### Step 8: Install the OpenProject 5.0 package and select database
+### Step 8: Install the OpenProject 6.0 package and select database
 
 The rest of the installation is mostly identical to the installation guide of the OpenProject 5.0 package:
 https://www.openproject.org/open-source/packaged-installation/packaged-installation-guide/
@@ -165,7 +164,7 @@ The other installation steps (mysql/db_source_host, mysql/ssl) may again be skip
 
 There will be other new steps in the installation wizard for which we will provide additional information in the packager installation guide.
 
-Once the wizard has completed, the OpenProject instance should be updated to 5.0.0 while re-using your existing database.
+Once the wizard has completed, the OpenProject instance should be updated to 6.0.x while re-using your existing database.
 
 **Note:** This last step is a workaround for the package upgrading process. We are working on making this step optional.
 The workaround is necessary since since the package appname changed from `openproject-ce` to `openproject`, and the installer wizard automatically sets the database to the app name when selecting an automatic installation of MySQL. Instead, the updater should respect an existing database (user-) name in its configuration.
