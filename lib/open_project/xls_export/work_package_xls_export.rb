@@ -206,7 +206,7 @@ module OpenProject
 
       def work_package_relations(work_package)
         work_package.relations.select do |rel|
-          rel.other_work_package(work_package).visible?
+          rel.other_work_package(work_package).visible? current_user
         end
       end
     end
