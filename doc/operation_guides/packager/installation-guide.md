@@ -53,7 +53,7 @@ Note that all commands should either be run as root or should be prepended with
     sudo apt-get install apt-transport-https
 
     sudo wget -qO - https://deb.packager.io/key | apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
@@ -63,14 +63,14 @@ Note that all commands should either be run as root or should be prepended with
     sudo apt-get install apt-transport-https
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce jessie stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce jessie stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
 ## Ubuntu 14.04 Trusty
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/5" | sudo tee /etc/apt/sources.list.d/openproject.list
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce trusty stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
     sudo apt-get update
     sudo apt-get install openproject
 
@@ -79,7 +79,7 @@ Note that all commands should either be run as root or should be prepended with
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/5
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -88,7 +88,7 @@ Note that all commands should either be run as root or should be prepended with
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/5
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -97,20 +97,20 @@ Note that all commands should either be run as root or should be prepended with
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/5
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
 ## Suse Linux Enterprise Server 12
 
     sudo rpm --import https://rpm.packager.io/key
-    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/5" "openproject"
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles12/stable/6" "openproject"
     sudo zypper install openproject
 
 ## Suse Linux Enterprise Server 11
 
     wget https://rpm.packager.io/key -O packager.key && sudo rpm --import packager.key
-    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles11/stable/5" "openproject"
+    sudo zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles11/stable/6" "openproject"
     sudo zypper install openproject
 
 # Customization
