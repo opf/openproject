@@ -29,18 +29,8 @@ module OpenProject::XlsExport
           params["format"].to_s.downcase == "xls"
         end
 
-        def show_relations?
-          params[:show_relations]
-        end
-
         def xls_export_associations
-          associations = [:assigned_to, :type, :priority, :category, :fixed_version]
-
-          if show_relations?
-            associations + [:relations]
-          else
-            associations
-          end
+          [:assigned_to, :type, :priority, :category, :fixed_version]
         end
 
         def xls_export_results(query)
