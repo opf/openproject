@@ -157,9 +157,11 @@ module OpenProject
       #               that the respective work package is either a
       #               parent or a child.
       def related_work_packages(work_package)
-        family = [work_package.parent].compact + work_package.leaves
+        family = ([work_package.parent].compact + work_package.leaves)
+          .select { |wp| wp.visible? current_user }
+          .map { |wp| [wp, nil] }
 
-        family.map { |wp| [wp, nil] } + relation_work_packages(work_package)
+        family + relation_work_packages(work_package)
       end
 
       ##
