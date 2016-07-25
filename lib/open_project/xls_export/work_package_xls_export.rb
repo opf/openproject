@@ -191,7 +191,7 @@ module OpenProject
           relation.relation_type_for work_package
         elsif work_package.parent_id == other.id
           I18n.t 'xls_export.child_of'
-        elsif work_package.leaves.where(id: other.id)
+        elsif work_package.leaves.where(id: other.id).exists?
           I18n.t 'xls_export.parent_of'
         end
       end
