@@ -92,6 +92,7 @@ module Api
         if Redmine::Plugin.all.sort.map(&:id).include?(:openproject_xls_export)
           export_formats.push(identifier: 'xls', format: 'xls', label_locale: 'label_format_xls')
           export_formats.push(identifier: 'xls-descr', format: 'xls', label_locale: 'label_format_xls_with_descriptions', flags: ['show_descriptions'])
+          export_formats.push(identifier: 'xls', format: 'xls', label_locale: 'label_format_xls_with_relations', flags: ['show_relations'])
         end
         export_formats
       end
