@@ -176,7 +176,6 @@ group :test do
   gem 'timecop', '~> 0.8'
   gem 'webmock', '~> 1.24.2', require: false
 
-  gem 'rb-readline', '~> 0.5.1' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', require: false
