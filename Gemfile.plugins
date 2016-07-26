@@ -2,6 +2,6 @@
 # The tested plugin will be moved to the path `./plugins/this`
 # whereas OpenProject will be checked out to `.`.
 
-gem 'openproject-xls', path: 'plugins/this'
+gem 'openproject-xls_export', path: 'plugins/this'
 
 # If the plugin has any dependencies declare them here:
