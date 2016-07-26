@@ -163,11 +163,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <li style="display:none" id="filter_spacer" class="advanced-filters--spacer"></li>
 
   <li class="advanced-filters--add-filter">
-    <label for="add_filter_select" class="advanced-filters--add-filter-label">
+    <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
       <i class="icon-add icon4"></i>
       <%= l(:label_filter_add) %>
     </label>
     <label for="add_filter_select" class="hidden-for-sighted">
+      {{ I18n.t('js.work_packages.label_filter_add') }}
       {{ I18n.t('js.filter.description.text_open_filter') }}
       {{ I18n.t('js.filter.description.text_close_filter') }}
     </label>
