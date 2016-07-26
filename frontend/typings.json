@@ -23,6 +23,7 @@
     "rx.time-lite": "github:DefinitelyTyped/DefinitelyTyped/rx/rx.time-lite.d.ts#99c4fb76b5d941939ba53e61d0daee4bd74f150f",
     "sinon": "github:DefinitelyTyped/DefinitelyTyped/sinon/sinon.d.ts#40c60850ad6c8175a62d5ab48c4e016ea5b3dffe",
     "sinon-chai": "registry:dt/sinon-chai#2.7.0+20160317120654",
+    "urijs": "registry:dt/urijs#1.15.1+20160526132152",
     "webpack-env": "github:DefinitelyTyped/DefinitelyTyped/webpack/webpack-env.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908"
   }
 }
