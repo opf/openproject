@@ -149,7 +149,7 @@ module ApplicationHelper
           title = if options[:timestamp] && page.updated_on
                     l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
                   end
-          concat link_to(page.pretty_title, project_wiki_path(page.project, page),
+          concat link_to(page.title, project_wiki_path(page.project, page),
                          title: title)
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end

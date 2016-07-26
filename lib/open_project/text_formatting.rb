@@ -245,15 +245,16 @@ module OpenProject
               anchor = $2
             end
             # check if page exists
-            wiki_page = link_project.wiki.find_page(page)
+            wiki_page_title = Wiki.from_param(page)
+            wiki_page = link_project.wiki.find_page(wiki_page_title)
             url = case options[:wiki_links]
                   when :local; "#{title}.html"
                   when :anchor; "##{title}"   # used for single-file wiki export
                   else
-                    wiki_page_id = page.present? ? page : nil
+                    wiki_page_id = wiki_page_title.present? ? wiki_page_title : nil
                     url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
-            link_to(h(title || page), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
+            link_to(h(title || wiki_page_title), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
             # project or wiki doesn't exist
             all
