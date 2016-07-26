@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "devDependencies": {
     "body-parser": "^1.2.0",
-    "chai": "~1.9.1",
-    "chai-as-promised": "^4.1.1",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.3.0",
     "exec": "0.0.6",
     "json2htmlcov": "~0.1.1",
     "karma": "~0.12.3",
@@ -21,8 +21,8 @@
     "mocha": "~1.18.2",
     "mocha-jenkins-reporter": "^0.1.2",
     "phantomjs": "~1.9.2",
-    "sinon": "~1.9.1",
-    "sinon-chai": "~2.5.0",
+    "sinon": "^1.17.5",
+    "sinon-chai": "^2.8.0",
     "sorted-object": "^1.0.0",
     "webpack-dev-server": "^1.6.5"
   },
