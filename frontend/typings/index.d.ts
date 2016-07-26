@@ -20,4 +20,5 @@
 /// <reference path="globals/rx/index.d.ts" />
 /// <reference path="globals/sinon-chai/index.d.ts" />
 /// <reference path="globals/sinon/index.d.ts" />
+/// <reference path="globals/urijs/index.d.ts" />
 /// <reference path="globals/webpack-env/index.d.ts" />
