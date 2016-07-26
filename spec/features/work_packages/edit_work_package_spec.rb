@@ -42,7 +42,19 @@ describe 'edit work package', js: true do
   let(:type) { FactoryGirl.create :type, custom_fields: [cf_all, cf_tp1] }
   let(:type2) { FactoryGirl.create :type, custom_fields: [cf_all, cf_tp2] }
   let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
-  let(:work_package) { FactoryGirl.create(:work_package, author: dev, project: project, type: type) }
+  let(:work_package) {
+    work_package = FactoryGirl.create(:work_package,
+                                      author: dev,
+                                      project: project,
+                                      type: type,
+                                      created_at: 5.days.ago.to_date.to_s(:db))
+
+    note_journal = work_package.journals.last
+    note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
+
+    work_package
+  }
+  let(:status) { work_package.status }
 
   let(:new_subject) { 'Some other subject' }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -72,6 +84,7 @@ describe 'edit work package', js: true do
     dev
     priority2
     workflow
+    status
 
     if visit_before
       visit!
@@ -123,6 +136,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
+    wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
   it 'correctly assigns and un-assigns users' do
@@ -130,6 +144,7 @@ describe 'edit work package', js: true do
 
     wp_page.update_attributes assignee: manager.name
     wp_page.expect_attributes assignee: manager.name
+    wp_page.expect_activity_message("Assignee set to #{manager.name}")
 
     wp_page.update_attributes assignee: '-'
     wp_page.expect_attributes assignee: '-'

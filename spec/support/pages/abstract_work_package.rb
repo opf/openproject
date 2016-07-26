@@ -106,6 +106,11 @@ module Pages
       expect(page).to have_selector(container + ' .user', text: user.name)
     end
 
+    def expect_activity_message(message)
+      expect(page).to have_selector('.work-package-details-activities-messages .message',
+                                    text: message)
+    end
+
     def expect_parent(parent = nil)
       parent ||= work_package.parent
 
