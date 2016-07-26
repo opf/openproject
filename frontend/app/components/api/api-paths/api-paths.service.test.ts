@@ -26,9 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "./api-paths.service";
-import { expect } from 'chai';
-
+import {ApiPathsService} from './api-paths.service';
 
 describe('apiPaths', () => {
   var apiPaths:ApiPathsService;
@@ -42,41 +40,7 @@ describe('apiPaths', () => {
     apiPaths = _apiPaths_;
   }));
 
-  describe('when with app_base_path', () => {
-    beforeEach(() => {
-      //reset internal caching of the basePath
-      apiPaths.basePath = undefined;
-      $document.find('head').append('<meta name="app_base_path" content="my_path" />');
-    });
-
-    afterEach(() => {
-      $document.find('meta').remove();
-      //reset internal caching of the basePath
-      apiPaths.basePath = undefined;
-    });
-
-    it('should get the app base path from the app_base_path meta tag', () => {
-      expect(apiPaths.appBasePath).to.eq('my_path');
-    });
-
-    it('should remove trailing slashes from the appBasePath', () => {
-      $document.find('meta').remove();
-      $document.find('head').append('<meta name="app_base_path" content="my_path/" />');
-
-      expect(apiPaths.appBasePath).to.eq('my_path');
-    });
-
-    it('should prepend the paths with the app base path', () => {
-      expect(apiPaths.path('v3')).to.eq('my_path/api/v3/');
-      expect(apiPaths.v3).to.eq('my_path/api/v3/');
-    });
-  });
-
   describe('when without app_base_path', () => {
-    it('should return the root path as appBasePath', () => {
-      expect(apiPaths.appBasePath).to.eq('');
-    });
-
     describe('when using path()', () => {
       it('should return an api experimental path', () => {
         expect(apiPaths.path('experimental')).to.eq('/api/experimental/');

@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,40 +24,23 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {opApiModule} from '../../../angular-modules';
 
 /**
- * Replaces the PathHelper service in its function, providing a way to generate safe paths
- * without having to store them directly in a service.
+ * Return the app base path, which is defined in the 'app_base_path' meta tag.
+ * Return an empty string, if that meta tag isn't present.
+ *
+ * @param $document
  */
-export class ApiPathsService {
-  protected paths:{[name:string]:string};
+function appBasePathService($document) {
+  const basePathValue =
+    $document
+      .find('meta[name="app_base_path"]')
+      .attr('content');
 
-  constructor(protected $document, protected appBasePath) {
-    this.paths = {
-      v3: 'api/v3/',
-      v2: 'api/v2/',
-      experimental: 'api/experimental/'
-    };
-  }
-
-  public path(name:string):string {
-    return this.appBasePath + '/' + this.paths[name];
-  }
-
-  public get v3():string {
-    return this.path('v3');
-  }
-
-  public get v2():string {
-    return this.path('v2');
-  }
-
-  public get experimental():string {
-    return this.path('experimental');
-  }
+  return basePathValue && basePathValue.replace(/\/$/, '') || '';
 }
 
-opApiModule.service('apiPaths', ApiPathsService);
+opApiModule.factory('appBasePath', appBasePathService);
