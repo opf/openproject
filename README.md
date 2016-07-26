@@ -33,6 +33,21 @@ from the file `Gemfile.plugins` and run:
 
 `bundle install`
 
+Configuration
+-------------
+
+The plugin adds 3 export formats to the work package index. They are all enabled by default.
+However, they can be disabled via the OpenProject configuration (`configuration.yml`):
+
+```
+  default:
+    xls_export:
+      disabled_formats:
+        - xls
+        - xls_with_descriptions
+        - xls_with_relations
+```
+
 Bug Reporting
 -------------
 

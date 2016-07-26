@@ -11,6 +11,12 @@ module OpenProject::XlsExport
     patches [:WorkPackagesController, :QueryColumn]
     # disabled since not yet migrated: :CostReportsController
 
+    initializer 'xls_export.mixins' do
+      require_relative 'patches/api/experimental/export_formats'
+
+      Api::Experimental::WorkPackagesController.prepend OpenProject::XlsExport::ExportFormats
+    end
+
     initializer 'xls_export.register_hooks' do
       # don't use require_dependency to not reload hooks in development mode
 
