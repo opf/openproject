@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {openprojectModule} from '../../../angular-modules';
+import {opApiModule} from '../../../angular-modules';
 
 /**
  * Wraps the URITemplate library to make it available in angular.
@@ -34,4 +34,4 @@ import {openprojectModule} from '../../../angular-modules';
  * @see https://medialize.github.io/URI.js/docs.html
  */
 
-openprojectModule.value('URI', URI);
+opApiModule.value('URI', URI);
