@@ -26,51 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from './api-paths.service';
+import {opApiModule, opServicesModule} from '../../../angular-modules';
 
 describe('apiPaths', () => {
-  var apiPaths:ApiPathsService;
-  var $document:ng.IDocumentService;
+  var apiPaths:any;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
+  beforeEach(angular.mock.module(
+    opApiModule.name,
+    opServicesModule.name
+  ));
 
-  beforeEach(angular.mock.inject((_$document_, _apiPaths_) => {
-    $document = _$document_;
+  beforeEach(angular.mock.inject(function (_apiPaths_) {
     apiPaths = _apiPaths_;
   }));
 
-  describe('when without app_base_path', () => {
-    describe('when using path()', () => {
-      it('should return an api experimental path', () => {
-        expect(apiPaths.path('experimental')).to.eq('/api/experimental/');
-      });
+  it('should exist', () => {
+    expect(apiPaths).to.exist;
+  });
 
-      it('should return an api v2 path', () => {
-        expect(apiPaths.path('v2')).to.eq('/api/v2/');
-      });
+  it('should have a ex property', () => {
+    expect(apiPaths).to.have.property('ex');
+  });
 
-      it('should return an api v3 path', () => {
-        expect(apiPaths.path('v3')).to.eq('/api/v3/');
-      });
-    });
-
-    describe('when using v3', () => {
-      it('should return an api v3 path', () => {
-        expect(apiPaths.v3).to.eq('/api/v3/');
-      });
-    });
-
-    describe('when using v2', () => {
-      it('should return an api v3 path', () => {
-        expect(apiPaths.v2).to.eq('/api/v2/');
-      });
-    });
-
-    describe('when using experimental', () => {
-      it('should return an api experimental path', () => {
-        expect(apiPaths.experimental).to.eq('/api/experimental/');
-      });
-    });
+  it('should have a v3 property', () => {
+    expect(apiPaths).to.have.property('v3');
   });
 });
