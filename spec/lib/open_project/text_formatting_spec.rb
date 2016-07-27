@@ -341,86 +341,86 @@ describe OpenProject::TextFormatting do
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/CookBook%20documentation\">CookBook documentation</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>") }
       end
 
       context 'Arbitrary wiki link' do
         title = '<script>alert("FOO")</script>'
         subject { format_text("[[#{title}]]") }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki?id=#{CGI.escape(title)}\">#{h(title)}</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>") }
       end
 
       context 'Plain wiki page link' do
         subject { format_text('[[Another page|Page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another%20page\">Page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>") }
       end
 
       context 'Wiki link with anchor' do
         subject { format_text('[[CookBook documentation#One-section]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/CookBook%20documentation#One-section\">CookBook documentation</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>") }
       end
 
       context 'Wiki page link with anchor' do
         subject { format_text('[[Another page#anchor|Page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another%20page#anchor\">Page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>") }
       end
 
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/Unknown%20page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">Unknown page</a></p>") }
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/Unknown%20page\">404</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
         subject { format_text('[[onlinestore:]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki\">onlinestore</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>") }
       end
 
       context "Link to another project's wiki with label" do
         subject { format_text('[[onlinestore:|Wiki]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki\">Wiki</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>") }
       end
 
       context "Link to another project's wiki page" do
         subject { format_text('[[onlinestore:Start page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/Start%20page\">Start page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>") }
       end
 
       context "Link to another project's wiki page with label" do
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/Start%20page\">Text</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>") }
       end
 
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/Unknown%20page\">Unknown page</a></p>") }
+        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/unknown-page\">Unknown page</a></p>") }
       end
 
       context 'Struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]]-') }
 
-        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another%20page\">Page</a></del></p>") }
+        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
       end
 
       context 'Named struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]] link-') }
 
-        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/Another%20page\">Page</a> link</del></p>") }
+        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
       end
 
       context 'Escaped link to wiki page' do

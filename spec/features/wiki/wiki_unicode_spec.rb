@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Wiki unicode title spec', type: :feature do
+describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
   let(:wiki_page_1) {
@@ -46,24 +46,35 @@ describe 'Wiki unicode title spec', type: :feature do
 
   let(:wiki_body) {
     <<-EOS
-    [[Base de données]]
+    [[Base de données]] should link to wiki_page_2
 
-    [[Base_de_données]]
+    [[Base_de_données]] should link to wiki_page_2
 
-    [[Base%20de%20données]]
+    [[base-de-donnees]] should link to wiki_page_2
+
+    [[base-de-donnees-1]] should link to wiki_page_3
 
     [[<script>alert("FOO")</script>]]
 
-    [[&lt;script&gt;alert(&quot;FOO&quot;)&lt;/script&gt;]]
     EOS
+  }
+
+  let(:expected_slugs) {
+    [
+      'base-de-donnees',
+      'base-de-donnees',
+      'base-de-donnees',
+      'base-de-donnees-1',
+      'alert-foo',
+    ]
   }
 
   let(:expected_titles) {
     [
       'Base de données',
-      'Base_de_données',
       'Base de données',
-      '<script>alert("FOO")</script>',
+      'Base de données',
+      'Base_de_données',
       '<script>alert("FOO")</script>'
     ]
   }
@@ -93,6 +104,7 @@ describe 'Wiki unicode title spec', type: :feature do
       target_link = all('div.wiki-content a.wiki-page')[i]
 
       expect(target_link.text).to eq(title)
+      expect(target_link[:href]).to match("\/wiki\/#{expected_slugs[i]}")
       target_link.click
 
       expect(page).to have_selector('h1.wiki-title', text: title)
