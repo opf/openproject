@@ -4,17 +4,26 @@ class AddSlugToWikiPages < ActiveRecord::Migration
     add_index :wiki_pages, [:wiki_id, :slug], name: 'wiki_pages_wiki_id_slug', unique: true
 
     migrate_titles
+
+    # Disallow null values from now on
+    # Adding this above is impossible due to columns having NULL values before `migrate_titles`
     change_column_null :wiki_pages, :slug, true
   end
 
   def down
     remove_column :wiki_pages, :slug
+    rollback_titles
+  end
 
-    # Restore the old title
+  ##
+  #
+  # Restore the old title wherever possible
+  # This tries to remove the slug usages without guaranteeing that links
+  # will be valid afterwards.
+  def rollback_titles
     ActiveRecord::Base.transaction do
       WikiPage.select(:id, :wiki_id, :title).find_each do |page|
-        # Save the title with spaces restored
-        # And generate the url slug
+        # Undo the spaced title
         old_title = page.title.gsub(' ', '_')
 
         page.update_columns(title: old_title)
@@ -22,7 +31,6 @@ class AddSlugToWikiPages < ActiveRecord::Migration
       end
     end
   end
-
 
   ##
   # OpenProject < 6.0.0 processed wiki titles in a specific fashion (#titleize)
