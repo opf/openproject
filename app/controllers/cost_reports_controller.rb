@@ -208,7 +208,7 @@ class CostReportsController < ApplicationController
       user.allowed_to?(:save_cost_reports, @project, options) or
         user.allowed_to?(:save_private_cost_reports, @project, options)
 
-    when :save, :delete, :rename
+    when :save, :destroy, :rename
       if report.is_public?
         user.allowed_to?(:save_cost_reports, @project, options)
       else
