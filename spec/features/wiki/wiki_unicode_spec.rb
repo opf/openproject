@@ -52,7 +52,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
 
     [[base-de-donnees]] should link to wiki_page_2
 
-    [[base-de-donnees-1]] should link to wiki_page_3
+    [[base-de-donnees-1]] should link to wiki_page_3 (slug duplicate!)
 
     [[<script>alert("FOO")</script>]]
 
