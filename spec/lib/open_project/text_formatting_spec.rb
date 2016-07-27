@@ -522,7 +522,7 @@ RAW
 
       let(:expected) {
         <<-EXPECTED
-<p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/CookBook%20documentation">CookBook documentation</a></p>
+<p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
 <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
 <pre>
 [[CookBook documentation]]
