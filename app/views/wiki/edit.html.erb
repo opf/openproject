@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <%= toolbar title: @page.title %>
-<% html_title l(:label_edit), @page.title %>
+<% html_title t(:label_edit), @page.title %>
 <%= labelled_tabular_form_for @content, as: :content, url: {action: 'update', id: @page}, html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
   <%= f.hidden_field :lock_version %>
   <%= error_messages_for 'content' %>
@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial: 'attachments/form' %>
 
   <hr class="form--separator" />
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview' %>
   <%= wikitoolbar_for 'content_text' %>
 <% end %>
