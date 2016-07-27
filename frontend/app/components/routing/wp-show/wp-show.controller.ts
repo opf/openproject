@@ -65,15 +65,8 @@ export class WorkPackageShowController extends WorkPackageViewController {
   protected init() {
     super.init();
 
-    this.AuthorisationService.initModelAuth('work_package', this.workPackage);
-
-    var authorization = new this.WorkPackageAuthorization(this.workPackage);
-    this.$scope.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
-      this.getPermittedPluginActions(authorization));
-    this.$scope.actionsAvailable = Object.keys(this.$scope.permittedActions).length > 0;
-    this.$scope.triggerMoreMenuAction = this.triggerMoreMenuAction.bind(this);
-
     // initialization
+    this.initializeAllowedActions();
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
@@ -95,6 +88,22 @@ export class WorkPackageShowController extends WorkPackageViewController {
         break;
     }
   };
+
+  /**
+   * Load allowed links on this work package.
+   * For copying, requires the project to be loaded.
+   */
+  private initializeAllowedActions() {
+    this.workPackage.project.$load().then(() => {
+      this.AuthorisationService.initModelAuth('work_package', this.workPackage);
+
+      var authorization = new this.WorkPackageAuthorization(this.workPackage);
+      this.$scope.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
+        this.getPermittedPluginActions(authorization));
+      this.$scope.actionsAvailable = Object.keys(this.$scope.permittedActions).length > 0;
+      this.$scope.triggerMoreMenuAction = this.triggerMoreMenuAction.bind(this);
+    });
+  }
 
   private getPermittedActions(authorization, permittedMoreMenuActions) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
