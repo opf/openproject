@@ -232,7 +232,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def to_param
-    slug
+    slug || title.to_url
   end
 
   def is_only_wiki_page?
