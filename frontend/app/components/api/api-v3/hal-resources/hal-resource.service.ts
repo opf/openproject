@@ -102,18 +102,13 @@ export class HalResource {
 
     // Reset and load this resource
     this.$loaded = false;
-    this.$self = this.$links.self({}, this.$loadHeaders(true)).then(source => {
+    this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
       this.$loaded = true;
       this.$initialize(source);
       return this;
     });
 
     return this.$self;
-  }
-
-  public $unload() {
-    this.$loaded = false;
-    this.$self = null;
   }
 
   public $plain() {
