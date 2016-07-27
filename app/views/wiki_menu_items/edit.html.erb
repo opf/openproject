@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p class="item-name">
   <%= form.label :name, l(:label_menu_item_name), {id: 'item-name'} %>
   <% if @wiki_menu_item.name.nil? %>
-  <%= form.text_field :name, size: 20, value: @page_title.gsub("_"," ") %>
+  <%= form.text_field :name, size: 20, value: @page_title %>
   <% else %>
   <%= form.text_field :name, size: 20 %>
   <% end %>

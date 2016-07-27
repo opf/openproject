@@ -51,5 +51,5 @@ Feature: Renaming a wiki page
     And I click on "Rename"
     And I fill in "New WikiPage" for "Title"
     And I press "Rename"
-    Then I should be on the wiki page "New WikiPage" of the project called "project1"
+    Then I should be on the wiki page "new-wikipage" of the project called "project1"
     And I should see "Successful update." within ".notice"
