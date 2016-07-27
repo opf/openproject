@@ -130,7 +130,7 @@ class WikiPage < ActiveRecord::Base
 
   # Remove redirects to this page
   def remove_redirects
-    wiki.redirects.where(redirects_to: title).each(&:destroy)
+    wiki.redirects.where(redirects_to: slug).each(&:destroy)
   end
 
   def content_for_version(version = nil)
