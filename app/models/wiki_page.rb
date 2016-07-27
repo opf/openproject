@@ -56,7 +56,6 @@ class WikiPage < ActiveRecord::Base
   attr_accessor :redirect_existing_links
 
   validates_presence_of :title
-  validates_uniqueness_of :title, scope: :wiki_id, case_sensitive: false
   validates_associated :content
 
   validate :validate_consistency_of_parent_title

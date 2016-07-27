@@ -50,19 +50,19 @@ class AddSlugToWikiPages < ActiveRecord::Migration
     ActiveRecord::Base.transaction do
       WikiPage.select(:id, :wiki_id, :title).find_each do |page|
         # Restore the spaces in the old title (`pretty_title` in wiki.rb)
+        old_title = page.title
         pretty_title = page.title.gsub('_', ' ')
-
-        # Generate a URL slug from the title using stringex
-        slug = pretty_title.to_url
-
-        # Generate a redirect from the old title to the slug
-        if page.title != slug
-          WikiRedirect.create(title: page.title, wiki_id: page.wiki_id, redirects_to: slug)
-        end
 
         # Save the title with spaces restored
         # And generate the url slug
-        page.update_columns(title: pretty_title, slug: slug)
+        page.title = pretty_title
+        page.save!
+
+        # Generate a redirect from the old title to the slug
+        if page.title != page.slug
+          WikiRedirect.where(title: old_title, wiki_id: page.wiki_id).delete_all
+          WikiRedirect.create(title: old_title, wiki_id: page.wiki_id, redirects_to: page.slug)
+        end
       end
     end
   end

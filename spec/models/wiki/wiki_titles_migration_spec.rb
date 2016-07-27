@@ -107,8 +107,11 @@ describe Wiki, type: :model do
     end
 
     context 'trying to create same page' do
-      it 'raises an error' do
-        expect { wiki_page }.to raise_error(ActiveRecord::RecordInvalid)
+      it 'will create a new slug' do
+        expect { wiki_page }.not_to raise_error
+        wiki_page.reload
+
+        expect(wiki_page.slug).to eq('cookbook-documentation-1')
       end
     end
   end
