@@ -38,7 +38,7 @@ module Redmine
         end
 
         def initial_page_content(page)
-          page.pretty_title.to_s
+          page.title.to_s
         end
       end
     end

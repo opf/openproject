@@ -346,9 +346,9 @@ EXPECTED
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Last page'
 
     to_test = { "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
-                 "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/Page\">Link title</a></td>" +
-                 "<td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Other%20Page\">Other title</a></td>" +
-                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/Last%20page\">Last page</a></td></tr>"
+                 "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/page\">Link title</a></td>" +
+                 "<td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/other-page\">Other title</a></td>" +
+                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/last-page\">Last page</a></td></tr>"
     }
 
     to_test.each { |text, result| assert_dom_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }

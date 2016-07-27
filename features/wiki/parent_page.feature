@@ -44,7 +44,7 @@ Feature: Parent wiki page
     And I follow "Change parent page"
     When I select "Parent page" from "Parent page"
     And I press "Save"
-    Then I should be on the wiki page "Test page" for the project called "Test"
+    Then I should be on the wiki page "test-page" for the project called "Test"
     And the breadcrumbs should have the element "Parent page"
     # no check removing the parent
     When I go to the wiki page "Test page" for the project called "Test"
@@ -52,5 +52,5 @@ Feature: Parent wiki page
     And I follow "Change parent page"
     And I select "-" from "Parent page"
     And I press "Save"
-    Then I should be on the wiki page "Test page" for the project called "Test"
+    Then I should be on the wiki page "test-page" for the project called "Test"
     And the breadcrumbs should not have the element "Parent page"

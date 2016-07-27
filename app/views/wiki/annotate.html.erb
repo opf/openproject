@@ -27,20 +27,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title l(:project_module_wiki), l(:label_history), l(:text_comment_wiki_page, page: @page.pretty_title)  %>
+<% html_title t(:project_module_wiki), t(:label_history), t(:text_comment_wiki_page, page: @page.title)  %>
 
 <% content_for :action_menu_specific do %>
-  <%= link_to(l(:button_edit),
+  <%= link_to(t(:button_edit),
               {action: 'edit', id: @page},
               class: 'icon icon-edit',
               accesskey: accesskey(:edit)) %>
-  <%= link_to(l(:label_history), {action: 'history', id: @page}, class: 'icon icon-wiki') %>
+  <%= link_to(t(:label_history), {action: 'history', id: @page}, class: 'icon icon-wiki') %>
 <% end %>
-<h2 class='legacy-heading'><%= h(@page.pretty_title) %></h2>
+<h2 class='legacy-heading'><%= h(@page.title) %></h2>
 <%= render partial: 'layouts/action_menu_specific' %>
 <p>
   <%= Version.model_name.human %> <%= link_to h(@annotate.content.version), action: 'show', id: @page, version: @annotate.content.version %>
-  <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : l(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>
+  <em>(<%= h(@annotate.content.journable.author ? @annotate.content.journable.author.name : t(:label_user_anonymous)) %>, <%= format_time(@annotate.content.journable.updated_on) %>)</em>
 </p>
 <% colors = Hash.new {|k,v| k[v] = (k.size % 12) } %>
 <table class="filecontent annotate">

@@ -39,6 +39,23 @@ describe WikiPage, type: :model do
     let(:project) { model_instance.wiki.project }
   end
 
+  describe '#create' do
+
+    context 'when another project with same title exists' do
+      let(:project2) { FactoryGirl.create(:project) }
+      let(:wiki2) { project2.wiki }
+      let!(:wiki_page1) { FactoryGirl.create(:wiki_page, wiki: wiki, title: 'asdf') }
+      let!(:wiki_page2) { FactoryGirl.create(:wiki_page, wiki: wiki2, title: 'asdf') }
+
+      it 'scopes the slug correctly' do
+        pages = WikiPage.where(title: 'asdf')
+        expect(pages.count).to eq(2)
+        expect(pages.first.slug).to eq('asdf')
+        expect(pages.last.slug).to eq('asdf')
+      end
+    end
+  end
+
   describe '#nearest_parent_menu_item' do
     let(:child_page) { FactoryGirl.create(:wiki_page, parent: wiki_page, wiki: wiki) }
     let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: child_page.title, parent: wiki_page.menu_item) }
