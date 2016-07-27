@@ -48,7 +48,7 @@ class Widget::Settings < Widget::Base
       end
       render_widget(Widget::Controls::Clear, @subject, to: widgets)
       render_widget(Widget::Controls::Delete, @subject, to: widgets,
-                                                        can_delete: allowed_to?(:delete, @subject, current_user))
+                                                        can_delete: allowed_to?(:destroy, @subject, current_user))
     end
   end
 
