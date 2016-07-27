@@ -115,12 +115,12 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def get_data_from_params(params)
-    @page_title = CGI.unescape(params[:id])
-    wiki_id = @project.wiki.id
+    wiki = @project.wiki
 
-    @page = WikiPage.find_by(title: @page_title, wiki_id: wiki_id)
-    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(navigatable_id: @page.wiki.id, title: @page_title)
-    possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
+    @page = wiki.find_page(params[:id])
+    @page_title = @page.title
+    @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(navigatable_id: wiki.id, title: @page_title)
+    possible_parent_menu_items = MenuItems::WikiMenuItem.main_items(wiki.id) - [@wiki_menu_item]
 
     @parent_menu_item_options = possible_parent_menu_items.map { |item| [item.name, item.id] }
 
