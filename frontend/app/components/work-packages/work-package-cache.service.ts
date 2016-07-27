@@ -74,7 +74,7 @@ export class WorkPackageCacheService {
    */
   loadWorkPackageLinks(workPackage, ...args: string[]) {
     args.forEach((arg) => {
-      workPackage[arg].$unload();
+      workPackage[arg].$load(true);
     });
     return this.updateWorkPackage(workPackage);
   }
