@@ -7,7 +7,7 @@ class AddSlugToWikiPages < ActiveRecord::Migration
 
     # Disallow null values from now on
     # Adding this above is impossible due to columns having NULL values before `migrate_titles`
-    change_column_null :wiki_pages, :slug, true
+    change_column_null :wiki_pages, :slug, false
   end
 
   def down
