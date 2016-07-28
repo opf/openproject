@@ -4,18 +4,18 @@ require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true, selenium: true do
   let(:user) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create(:type_standard, custom_fields: [custom_field]) }
+  let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
   let(:project) {
     FactoryGirl.create :project,
                        types: [type],
-                       work_package_custom_fields: [custom_field]
+                       work_package_custom_fields: custom_fields
   }
-
+  let(:custom_fields) { [custom_field] }
   let(:work_package) {
     FactoryGirl.create :work_package,
                        type: type,
                        project: project,
-                       custom_values: { custom_field.id => 123 }
+                       custom_values: initial_custom_values
   }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
@@ -32,8 +32,10 @@ describe 'custom field inplace editor', js: true, selenium: true do
   end
 
   def expect_update(value, update_args)
-    field.input_element.set value
-    field.submit_by_enter
+    wp_field = update_args.delete(:field) { field }
+
+    wp_field.set_value value
+    wp_field.submit_by_enter if wp_field.field_type == 'input'
     wp_page.expect_notification(update_args)
   end
 
@@ -41,6 +43,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
     let(:custom_field) {
       FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
     }
+    let(:initial_custom_values) { { custom_field.id => 'foo' } }
     let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
 
     it_behaves_like 'a previewable field'
@@ -48,10 +51,68 @@ describe 'custom field inplace editor', js: true, selenium: true do
     it_behaves_like 'an autocomplete field'
   end
 
+  describe 'custom field lists' do
+    let(:custom_field1) {
+      FactoryGirl.create(:list_wp_custom_field,
+                        is_required: false,
+                        possible_values: %w(foo bar baz))
+    }
+    let(:custom_field2) {
+      FactoryGirl.create(:list_wp_custom_field,
+                        is_required: false,
+                        possible_values: %w(X Y Z))
+    }
+
+    let(:custom_fields) { [custom_field1, custom_field2] }
+    let(:field1) {
+      f = wp_page.edit_field(:customField1)
+      f.field_type = 'select'
+      f
+    }
+    let(:field2) {
+      f = wp_page.edit_field(:customField2)
+      f.field_type = 'select'
+      f
+    }
+    let(:initial_custom_values) { {} }
+
+    it 'properly updates both values' do
+      field1.activate_edition
+      expect_update 'bar',
+                    message: I18n.t('js.notice_successful_update'),
+                    field: field1
+
+
+      field2.activate_edition
+      expect_update 'Y',
+                    message: I18n.t('js.notice_successful_update'),
+                    field: field2
+
+      wp_page.expect_attributes customField1: 'bar',
+                                customField2: 'Y'
+
+      field1.activate_edition
+      field1.expect_value('/api/v3/string_objects?value=bar')
+      field1.cancel_by_escape
+
+      field2.activate_edition
+      field2.expect_value('/api/v3/string_objects?value=Y')
+      expect_update 'X',
+                    message: I18n.t('js.notice_successful_update'),
+                    field: field2
+
+      wp_page.expect_attributes customField1: 'bar',
+                                customField2: 'X'
+
+      wp_page.dismiss_notification!
+    end
+  end
+
   describe 'integer type' do
     let(:custom_field) {
       FactoryGirl.create(:integer_issue_custom_field, args.merge(name: 'MyNumber'))
     }
+    let(:initial_custom_values) { { custom_field.id => 123 } }
     let(:fieldName) { "customField#{custom_field.id}" }
 
     context 'with length restrictions' do
