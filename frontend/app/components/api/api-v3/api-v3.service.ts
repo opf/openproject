@@ -26,14 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "../api-paths/api-paths.service";
-import {opApiModule} from "../../../angular-modules";
+import {opApiModule} from '../../../angular-modules';
 
-function apiV3Service(apiPaths:ApiPathsService,
+function apiV3Service(apiPaths,
                       Restangular:restangular.IService) {
 
   return Restangular.withConfig(RestangularConfigurer => {
-    RestangularConfigurer.setBaseUrl(apiPaths.v3);
+    RestangularConfigurer.setBaseUrl(apiPaths.v3());
   });
 }
 

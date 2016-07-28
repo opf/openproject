@@ -26,15 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "../api-paths/api-paths.service";
+import {opApiModule} from '../../../angular-modules';
 
 
-function apiExperimentalService(apiPaths:ApiPathsService, Restangular: restangular.IService) {
+function apiExperimentalService(apiPaths, Restangular: restangular.IService) {
   return Restangular.withConfig((RestangularConfigurer) => {
-    RestangularConfigurer.setBaseUrl(apiPaths.experimental);
+    RestangularConfigurer.setBaseUrl(apiPaths.ex());
   });
 }
 
-angular
-  .module('openproject.api')
-  .factory('apiExperimental', apiExperimentalService);
+opApiModule.factory('apiExperimental', apiExperimentalService);

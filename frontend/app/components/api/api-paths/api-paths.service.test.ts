@@ -26,87 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ApiPathsService} from "./api-paths.service";
-import { expect } from 'chai';
-
+import {opApiModule, opServicesModule} from '../../../angular-modules';
 
 describe('apiPaths', () => {
-  var apiPaths:ApiPathsService;
-  var $document:ng.IDocumentService;
+  var apiPaths:any;
 
-  beforeEach(angular.mock.module('openproject.api'));
-  beforeEach(angular.mock.module('openproject.services'));
+  beforeEach(angular.mock.module(
+    opApiModule.name,
+    opServicesModule.name
+  ));
 
-  beforeEach(angular.mock.inject((_$document_, _apiPaths_) => {
-    $document = _$document_;
+  beforeEach(angular.mock.inject(function (_apiPaths_) {
     apiPaths = _apiPaths_;
   }));
 
-  describe('when with app_base_path', () => {
-    beforeEach(() => {
-      //reset internal caching of the basePath
-      apiPaths.basePath = undefined;
-      $document.find('head').append('<meta name="app_base_path" content="my_path" />');
-    });
-
-    afterEach(() => {
-      $document.find('meta').remove();
-      //reset internal caching of the basePath
-      apiPaths.basePath = undefined;
-    });
-
-    it('should get the app base path from the app_base_path meta tag', () => {
-      expect(apiPaths.appBasePath).to.eq('my_path');
-    });
-
-    it('should remove trailing slashes from the appBasePath', () => {
-      $document.find('meta').remove();
-      $document.find('head').append('<meta name="app_base_path" content="my_path/" />');
-
-      expect(apiPaths.appBasePath).to.eq('my_path');
-    });
-
-    it('should prepend the paths with the app base path', () => {
-      expect(apiPaths.path('v3')).to.eq('my_path/api/v3/');
-      expect(apiPaths.v3).to.eq('my_path/api/v3/');
-    });
+  it('should exist', () => {
+    expect(apiPaths).to.exist;
   });
 
-  describe('when without app_base_path', () => {
-    it('should return the root path as appBasePath', () => {
-      expect(apiPaths.appBasePath).to.eq('');
-    });
+  it('should have a ex property', () => {
+    expect(apiPaths).to.have.property('ex');
+  });
 
-    describe('when using path()', () => {
-      it('should return an api experimental path', () => {
-        expect(apiPaths.path('experimental')).to.eq('/api/experimental/');
-      });
-
-      it('should return an api v2 path', () => {
-        expect(apiPaths.path('v2')).to.eq('/api/v2/');
-      });
-
-      it('should return an api v3 path', () => {
-        expect(apiPaths.path('v3')).to.eq('/api/v3/');
-      });
-    });
-
-    describe('when using v3', () => {
-      it('should return an api v3 path', () => {
-        expect(apiPaths.v3).to.eq('/api/v3/');
-      });
-    });
-
-    describe('when using v2', () => {
-      it('should return an api v3 path', () => {
-        expect(apiPaths.v2).to.eq('/api/v2/');
-      });
-    });
-
-    describe('when using experimental', () => {
-      it('should return an api experimental path', () => {
-        expect(apiPaths.experimental).to.eq('/api/experimental/');
-      });
-    });
+  it('should have a v3 property', () => {
+    expect(apiPaths).to.have.property('v3');
   });
 });

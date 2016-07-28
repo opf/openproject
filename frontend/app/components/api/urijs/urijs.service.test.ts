@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,32 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {opApiModule} from '../../../angular-modules';
-import {PathBuilderService} from '../path-builder/path-builder.service';
 
-/**
- * Provide paths for the API requests.
- */
-export class ApiPathsServiceProvider {
-  /**
-   * Configuration object for the pathBuilder service
-   * @type {any}
-   */
-  public pathConfig:any = {};
+describe('URI service', () => {
+  var URI;
 
-  /**
-   * Return the service.
-   *
-   * @param appBasePath
-   * @param pathBuilder
-   * @return {Array}
-   */
-  public $get(appBasePath:string, pathBuilder:PathBuilderService) {
-    const config:any = pathBuilder.buildPaths({base: [appBasePath, this.pathConfig]});
-    return config.base;
-  }
-}
+  beforeEach(angular.mock.module(opApiModule.name));
+  beforeEach(angular.mock.inject(function (_URI_) {
+    URI = _URI_;
+  }));
 
-opApiModule.provider('apiPaths', ApiPathsServiceProvider);
+  it('should exist', () => {
+    expect(URI).to.exist;
+  });
+});
+
