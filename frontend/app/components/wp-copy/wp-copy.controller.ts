@@ -29,14 +29,17 @@
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCreateController} from '../wp-create/wp-create.controller';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams) {
     var deferred = this.$q.defer();
 
     scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId))
-      .subscribe((wp:WorkPackageResource) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.createCopyFrom(wp).then(newWorkPackage => {
           deferred.resolve(newWorkPackage);
         });
@@ -45,9 +48,9 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     return deferred.promise;
   }
 
-  private createCopyFrom(wp:WorkPackageResource) {
+  private createCopyFrom(wp:WorkPackageResourceInterface) {
     return wp.getForm().then(form => {
-      return this.wpCreate.copyWorkPackage(form);
+      return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
     });
   }
 }
