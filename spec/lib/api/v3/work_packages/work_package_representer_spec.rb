@@ -426,7 +426,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           it_behaves_like 'has a titled link' do
             let(:link) { 'version' }
             let(:href) { api_v3_paths.version(version.id) }
-            let(:title) { version.to_s_for_project(project) }
+            let(:title) { version.to_s }
           end
 
           it 'has the version embedded' do
