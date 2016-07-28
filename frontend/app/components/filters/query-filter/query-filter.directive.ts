@@ -101,7 +101,7 @@ function queryFilterDirective($timeout,
 
       function addStandardOptions(options) {
         if (scope.filter.modelName === 'user') {
-          options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
+          options.unshift([I18n.t('js.label_me'), 'me']);
         }
 
         return options;
