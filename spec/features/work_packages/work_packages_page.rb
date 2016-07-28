@@ -63,7 +63,7 @@ class WorkPackagesPage
   end
 
   def add_column!(name)
-    click_on 'work-packages-settings-button'
+    open_settings!
     click_on 'Columns ...'
 
     search_column! name
