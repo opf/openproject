@@ -85,7 +85,7 @@ FactoryGirl.define do
       type 'WorkPackageCustomField'
 
       factory :list_wp_custom_field do
-        sequence(:name) do |n| "List work package custom field #{n}" end
+        sequence(:name) do |n| "List CF #{n}" end
         field_format 'list'
         possible_values ['1', '2', '3', '4', '5', '6', '7']
       end
