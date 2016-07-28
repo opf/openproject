@@ -15,6 +15,10 @@ describe "WorkPackageXlsExport" do
   let(:single) { FactoryGirl.create :work_package, project: project, subject: 'Single' }
   let(:followed) { FactoryGirl.create :work_package, project: project, subject: 'Followed' }
 
+  let(:child_2_child) do
+    FactoryGirl.create :work_package, parent: child_2, project: project, subject: "Child 2's child"
+  end
+
   let(:relation) do
     child_2.new_relation.tap do |r|
       r.to = followed
@@ -25,7 +29,10 @@ describe "WorkPackageXlsExport" do
   end
 
   let(:work_packages) do
-    [parent, child_1, child_2, single, followed]
+    work_packages = [parent, child_1, child_2, single, followed]
+    child_2_child
+
+    work_packages
   end
 
   let(:current_user) { FactoryGirl.create :admin } # may export relations
@@ -69,10 +76,6 @@ describe "WorkPackageXlsExport" do
     end
   end
 
-  it 'writes 9 rows' do
-    expect(sheet.rows.size).to eq 9 # 2 header rows + 7 content rows
-  end
-
   it 'the first header row devides the sheet into work packages and relation columns' do
     expect(sheet.rows.first.take(7))
       .to eq ['Work packages', nil, nil, nil, nil, nil, 'Relations']
@@ -88,10 +91,9 @@ describe "WorkPackageXlsExport" do
   end
 
   it 'duplicates rows for each relation' do
+    c2id = child_2.id
     expect(sheet.column(1).drop(2))
-      .to eq [
-        parent.id, parent.id, child_1.id, child_2.id, child_2.id, single.id, followed.id
-      ]
+      .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id]
   end
 
   # expected row and column indices
@@ -99,8 +101,8 @@ describe "WorkPackageXlsExport" do
   PARENT = 2
   CHILD_1 = 4
   CHILD_2 = 5
-  SINGLE = 7
-  FOLLOWED = 8
+  SINGLE = 8
+  FOLLOWED = 9
   RELATION = 7
   RELATED_SUBJECT = 11
 
@@ -122,9 +124,14 @@ describe "WorkPackageXlsExport" do
     expect(sheet.row(CHILD_2)[RELATED_SUBJECT]).to eq 'Parent'
   end
 
+  it "shows Child 2 as parent of Child 2's child" do
+    expect(sheet.row(CHILD_2 + 1)[RELATION]).to eq 'parent of'
+    expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq "Child 2's child"
+  end
+
   it 'shows Child 2 as following Followed' do
-    expect(sheet.row(CHILD_2 + 1)[RELATION]).to eq 'follows'
-    expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq 'Followed'
+    expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq 'follows'
+    expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq 'Followed'
   end
 
   it 'shows no relation information for Single' do
