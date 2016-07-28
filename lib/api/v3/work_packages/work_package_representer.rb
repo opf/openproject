@@ -269,7 +269,7 @@ module API
         linked_property :version,
                         getter: :fixed_version,
                         title_getter: -> (*) {
-                          represented.fixed_version.to_s_for_project(represented.project)
+                          represented.fixed_version.to_s
                         },
                         embed_as: ::API::V3::Versions::VersionRepresenter
 
