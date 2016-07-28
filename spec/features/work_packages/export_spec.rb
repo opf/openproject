@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Query selection', type: :feature do
+describe 'work package export', type: :feature do
   let(:project) { FactoryGirl.create :project_with_types, types: [type_a, type_b] }
   let(:current_user) { FactoryGirl.create :admin }
 
