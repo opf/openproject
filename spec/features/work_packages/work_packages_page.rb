@@ -29,6 +29,7 @@
 class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::Select2
   include RSpec::Matchers
 
   def initialize(project = nil)
@@ -55,6 +56,28 @@ class WorkPackagesPage
 
   def visit_calendar
     visit index_path + '/calendar'
+  end
+
+  def open_settings!
+    click_on 'work-packages-settings-button'
+  end
+
+  def add_column!(name)
+    click_on 'work-packages-settings-button'
+    click_on 'Columns ...'
+
+    search_column! name
+    select_found_column! name
+    click_on 'Apply'
+  end
+
+  def search_column!(column)
+    input = find 'input.select2-input.ui-select-search'
+    input.set column
+  end
+
+  def select_found_column!(value)
+    find('.select2-results div', text: value, match: :first).click
   end
 
   def click_work_packages_menu_item
@@ -99,6 +122,10 @@ class WorkPackagesPage
     else
       find('#inplace-edit--write-value--subject')
     end
+  end
+
+  def ensure_loaded
+    ensure_index_page_loaded
   end
 
   private
