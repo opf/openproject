@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= call_hook :search_index_head %>
 <% end %>
 <%= toolbar title: l(:label_search) %>
-<%= styled_form_tag(search_path(@project), method: :get) do %>
+<%= styled_form_tag(search_path(@project), method: :get, id: 'search-form') do %>
   <fieldset class="simple-filters--container" id="search-filter">
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
@@ -45,9 +45,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="simple-filters--filter-value">
           <%= project_select_tag %>
         </div>
-      </li>
-      <li class="simple-filters--controls">
-        <%= styled_submit_tag l(:button_submit), name: 'submit', class: 'button -highlight -small' %>
       </li>
     </ul>
     <ul class="simple-filter--trailing-labels">
@@ -78,6 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </ul>
   </fieldset>
 <% end %>
+<%= styled_submit_tag l(:button_submit), name: 'submit', form: 'search-form', class: 'button -highlight' %>
 <% if @results %>
   <div id="search-results-counts">
     <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
