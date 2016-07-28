@@ -58,9 +58,11 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
 
   public addWpRelation(wpId:number) {
     return this.changeParent(wpId).then(() => {
-      this.workPackage.parent.$load().then(parent => {
-        this.relations[0] = parent;
-      });
+      if (this.workPackage.parent) {
+        this.workPackage.parent.$load().then(parent => {
+          this.relations[0] = parent;
+        });
+      }
     });
   }
 
