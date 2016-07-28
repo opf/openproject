@@ -1,9 +1,9 @@
 <div class="description attributes-group" id="<%= vendor %>-<%= type %>" style="<%=existing ? 'display: block' : 'display: none' %> ">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text">
+      <span class="attributes-group--header-text">
         <%= l("repositories.#{vendor}.#{type}_url") %>
-      </h3>
+      </span>
     </div>
     <% unless repository.new_record? %>
     <div class="attributes-group--header-control">
