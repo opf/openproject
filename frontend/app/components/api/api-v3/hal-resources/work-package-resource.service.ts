@@ -266,16 +266,15 @@ export class WorkPackageResource extends HalResource {
           .then(workPackage => {
             this.$initialize(workPackage);
             this.$pristine = {};
-
+            wpCacheService.loadWorkPackageLinks(this, 'activities');
             deferred.resolve(this);
-
           })
           .catch(error => {
             deferred.reject(error);
+            wpCacheService.updateWorkPackage(this);
           })
           .finally(() => {
             this.inFlight = false;
-            wpCacheService.updateWorkPackage(this);
             if (wasNew) {
               wpCacheService.newWorkPackageCreated(this);
             }

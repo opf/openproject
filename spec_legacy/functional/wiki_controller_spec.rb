@@ -99,7 +99,7 @@ describe WikiController, type: :controller do
                  id: 'New page',
                  content: { comments: 'Created the page',
                             text: "h1. New page\n\nThis is a new page" }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'New+page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'new-page'
     page = wiki.find_page('New page')
     assert !page.new_record?
     refute_nil page.content
@@ -141,7 +141,7 @@ describe WikiController, type: :controller do
         end
       end
     end
-    assert_redirected_to '/projects/ecookbook/wiki/Another+page'
+    assert_redirected_to '/projects/ecookbook/wiki/another-page'
 
     page.reload
     assert_equal 'edited', page.content.text
@@ -310,7 +310,7 @@ describe WikiController, type: :controller do
     patch :rename, project_id: 1, id: 'Another page',
                    page: { title: 'Another renamed page',
                            redirect_existing_links: 1 }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+renamed+page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'another-renamed-page'
     # Check redirects
     refute_nil wiki.find_page('Another page')
     assert_nil wiki.find_page('Another page', with_redirect: false)
@@ -318,10 +318,10 @@ describe WikiController, type: :controller do
 
   it 'should rename without redirect' do
     session[:user_id] = 2
-    patch :rename, project_id: 1, id: 'Another page',
+    patch :rename, project_id: 1, id: 'another-page',
                    page: { title: 'Another renamed page',
                            redirect_existing_links: '0' }
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+renamed+page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'another-renamed-page'
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
   end
@@ -406,9 +406,9 @@ describe WikiController, type: :controller do
       it { should_assign_to :pages }
       it { should_respond_with_content_type 'text/html' }
       it 'should export all of the wiki pages to a single html file' do
-        assert_select 'a[name=?]', 'CookBook+documentation'
-        assert_select 'a[name=?]', 'Another+page'
-        assert_select 'a[name=?]', 'Page+with+an+inline+image'
+        assert_select 'a[name=?]', 'cookbook-documentation'
+        assert_select 'a[name=?]', 'another-page'
+        assert_select 'a[name=?]', 'page-with-an-inline-image'
       end
     end
 
@@ -447,7 +447,7 @@ describe WikiController, type: :controller do
     assert !page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '1'
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'Another+page'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'another-page'
     assert page.reload.protected?
   end
 
@@ -456,7 +456,7 @@ describe WikiController, type: :controller do
     assert page.protected?
     session[:user_id] = 2
     post :protect, project_id: 1, id: page.title, protected: '0'
-    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'CookBook+documentation'
+    assert_redirected_to action: 'show', project_id: 'ecookbook', id: 'cookbook-documentation'
     assert !page.reload.protected?
   end
 

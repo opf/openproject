@@ -65,6 +65,9 @@ gem 'tzinfo-data'
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
+# Generate url slugs with #to_url and other string niceties
+gem 'stringex', '~> 2.6.1'
+
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem 'svg-graph', github: 'why-el/svg-graph', branch: 'silence-class-access-warning'

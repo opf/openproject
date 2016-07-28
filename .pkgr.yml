@@ -9,11 +9,11 @@ targets:
     <<: *debian
   ubuntu-14.04:
     <<: *debian
-  fedora-20: &redhat
+  ubuntu-16.04:
+    <<: *debian
+  centos-6: &redhat
     build_dependencies:
       - ImageMagick-devel
-  centos-6:
-    <<: *redhat
   centos-7:
     <<: *redhat
     dependencies:

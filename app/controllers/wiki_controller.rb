@@ -226,7 +226,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
-    @original_title = @page.pretty_title
+    @original_title = @page.title
     if request.patch? && @page.update_attributes(permitted_params.wiki_page_rename)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
@@ -370,8 +370,7 @@ class WikiController < ApplicationController
   private
 
   def wiki_page_title
-    title = params[:id]
-    CGI.unescape(title) if title.present?
+    params[:id]
   end
 
   def find_wiki

@@ -530,6 +530,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.11)
+    stringex (2.6.1)
     structured_warnings (0.2.0)
     syck (1.0.5)
     sys-filesystem (1.1.5)
@@ -685,6 +686,7 @@ DEPENDENCIES
   simplecov
   sprockets (~> 3.5.2)
   sqlite3
+  stringex (~> 2.6.1)
   svg-graph!
   syck (~> 1.0.5)
   sys-filesystem (~> 1.1.4)

@@ -201,7 +201,7 @@ class UserMailer < BaseMailer
     message_id @wiki_content, user
 
     with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.pretty_title)}"
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}"
       mail_for_author author, to: user.mail, subject: subject
     end
   end
@@ -222,7 +222,7 @@ class UserMailer < BaseMailer
     message_id @wiki_content, user
 
     with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.pretty_title)}"
+      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}"
       mail_for_author author, to: user.mail, subject: subject
     end
   end

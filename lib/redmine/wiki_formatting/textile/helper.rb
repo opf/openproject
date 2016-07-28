@@ -54,7 +54,7 @@ module Redmine
         end
 
         def initial_page_content(_page)
-          "h1. #{@page.pretty_title}"
+          "h1. #{@page.title}"
         end
 
         def heads_for_wiki_formatter
