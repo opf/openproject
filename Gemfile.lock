@@ -70,7 +70,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 4e3acb4e6622daa7a37c2278055d5b7e26c137b9
+  revision: d97689dfcbfe8f4200fcf777ab91aaf32abe0fc9
   branch: dev
   specs:
     openproject-translations (6.1.0)
