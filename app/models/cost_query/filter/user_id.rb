@@ -33,7 +33,7 @@ class CostQuery::Filter::UserId < Report::Filter::Base
                 .distinct
 
     values = users.map { |u| [u.name, u.id] }
-    values.unshift ["<< #{::I18n.t(:label_me)} >>", User.current.id.to_s] if User.current.logged?
+    values.unshift [::I18n.t(:label_me), User.current.id.to_s] if User.current.logged?
     values
   end
 end

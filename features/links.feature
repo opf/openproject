@@ -32,7 +32,6 @@ Feature: Cost Reporting Linkage
     And I send the query
 
     Then I should see "User"
-    # And I should see "<< me >>"
     # And I should see "me"
     And I should see "There is currently nothing to display."
     And I should not see "0.00"
