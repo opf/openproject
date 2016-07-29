@@ -34,15 +34,19 @@ describe('v3Path service', () => {
 
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_v3Path_, _apiPaths_) {
-    [v3Path, apiPaths] = arguments;
+    [v3Path, apiPaths] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
     expect(v3Path).to.exist;
   });
 
-  it('should be the same as apiPath.v3', () => {
+  it('should be the same object as apiPaths.v3', () => {
     expect(v3Path).to.equal(apiPaths.v3);
+  });
+
+  it('should return the same value as apiPats.v3', () => {
+    expect(v3Path()).to.equal(apiPaths.v3());
   });
 });
 
