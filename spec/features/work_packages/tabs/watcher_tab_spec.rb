@@ -62,11 +62,11 @@ describe 'Watcher tab', js: true, selenium: true do
       trigger = find('.work-package--watchers-lookup .inplace-editing--trigger-container')
       trigger.click
 
-      form = find('.work-package--watchers-lookup')
-      form.click
+      input = find('input.ui-select-search')
+      input.click
+      input.send_keys [user.name, :return]
 
-      form.find('.ui-select-search').send_keys [user.name, :return]
-      form.find('.inplace-edit--control--save').click
+      find('.inplace-edit--control--save a').click
 
       # Expect the addition of the user to toggle WP watch button
       expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
