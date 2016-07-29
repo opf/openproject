@@ -88,10 +88,23 @@ class RowDisplay {
     this.watchersEnabled = enableWatchers;
 
     const scope: any = angular.element(element).scope();
-    if (scope === undefined) {
+    if (scope === undefined || !element.length) {
       return;
     }
 
+    // Do not toggle watch state on table rows themselves
+    // since watchers are needed for, e.g., group collapsing
+    if (element[0].tagName !== 'TR') {
+      this.setWatchState(scope, enableWatchers);
+    }
+
+    angular.forEach(angular.element(element).children(), (child: JQuery) => {
+      this.adjustWatchers(child, enableWatchers);
+    });
+
+  }
+
+  private setWatchState(scope, enableWatchers: boolean) {
     if (!enableWatchers) {
       if (scope.$$watchers && scope.$$watchers.length > 0) {
         scope.__backup_watchers = scope.$$watchers;
@@ -103,13 +116,7 @@ class RowDisplay {
         scope.__backup_watchers = [];
       }
     }
-
-    angular.forEach(angular.element(element).children(), (child: JQuery) => {
-      this.adjustWatchers(child, enableWatchers);
-    });
-
   }
-
 }
 
 
