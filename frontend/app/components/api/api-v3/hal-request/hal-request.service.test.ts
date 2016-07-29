@@ -29,10 +29,13 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalRequestService} from './hal-request.service';
 import {HalResource} from '../hal-resources/hal-resource.service';
+import IPromise = angular.IPromise;
+import IRootScopeService = angular.IRootScopeService;
+import IHttpBackendService = angular.IHttpBackendService;
 
 describe('halRequest service', () => {
-  var $httpBackend:ng.IHttpBackendService;
-  var $rootScope:ng.IRootScopeService;
+  var $httpBackend:IHttpBackendService;
+  var $rootScope:IRootScopeService;
   var halRequest:HalRequestService;
 
   beforeEach(angular.mock.module(opApiModule.name));
@@ -46,9 +49,11 @@ describe('halRequest service', () => {
 
   describe('when requesting data', () => {
     var resource:HalResource;
-    var promise:ng.IPromise<HalResource>;
+    var promise:IPromise<HalResource>;
     var method:string;
     var data:any;
+    var headers = {Accept: 'foo'};
+
     const methods = ['get', 'put', 'post', 'patch', 'delete'];
     const runExpectations = () => {
       it('should return a HalResource', () => {
@@ -56,7 +61,11 @@ describe('halRequest service', () => {
       });
     };
     const respond = status => {
-      $httpBackend.expect(method.toUpperCase(), 'href', data).respond(status, {});
+      $httpBackend.expect(method.toUpperCase(), 'href', data, (headers:any) => {
+        return headers.Accept === 'foo';
+      })
+        .respond(status, {});
+
       promise
         .then(res => resource = res)
         .catch(res => resource = res);
@@ -91,13 +100,13 @@ describe('halRequest service', () => {
 
     describe('when calling the http methods of the service', () => {
       runRequests(() => {
-        promise = halRequest[method]('href', data);
+        promise = halRequest[method]('href', data, headers);
       });
     });
 
     describe('when calling request()', () => {
       runRequests(() => {
-        promise = halRequest.request(method, 'href', data);
+        promise = halRequest.request(method, 'href', data, headers);
       });
     });
 

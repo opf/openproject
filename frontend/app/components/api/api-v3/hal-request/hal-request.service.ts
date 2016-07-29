@@ -29,6 +29,7 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
+import IPromise = angular.IPromise;
 
 export class HalRequestService {
   constructor(protected $q:ng.IQService,
@@ -42,14 +43,15 @@ export class HalRequestService {
    * @param method
    * @param href
    * @param data
+   * @param headers
    * @returns {IPromise<HalResource>}
    */
-  public request(method:string, href:string, data?:any):ng.IPromise<HalResource> {
+  public request(method:string, href:string, data?:any, headers:any = {}):IPromise<HalResource> {
     if (!href) {
       return this.$q.when(null);
     }
 
-    const config:any = {method: method, url: href, data: data};
+    const config:any = {method: method, url: href, data: data, headers: headers};
     const createResource =
       response => this.halResourceFactory.createHalResource(response.data);
 
@@ -66,20 +68,22 @@ export class HalRequestService {
    *
    * @param href
    * @param params
+   * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public get(href:string, params?:any):ng.IPromise<HalResource> {
-    return this.request('get', href, params);
+  public get(href:string, params?:any, headers?:any):IPromise<HalResource> {
+    return this.request('get', href, params, headers);
   }
 
   /**
    * Perform a PUT request and return a resource promise.
    * @param href
    * @param data
+   * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public put(href:string, data?:any):ng.IPromise<HalResource> {
-    return this.request('put', href, data);
+  public put(href:string, data?:any, headers?:any):IPromise<HalResource> {
+    return this.request('put', href, data, headers);
   }
 
   /**
@@ -87,10 +91,11 @@ export class HalRequestService {
    *
    * @param href
    * @param data
+   * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public post(href:string, data?:any):ng.IPromise<HalResource> {
-    return this.request('post', href, data);
+  public post(href:string, data?:any, headers?:any):IPromise<HalResource> {
+    return this.request('post', href, data, headers);
   }
 
   /**
@@ -98,10 +103,11 @@ export class HalRequestService {
    *
    * @param href
    * @param data
+   * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public patch(href:string, data?:any):ng.IPromise<HalResource> {
-    return this.request('patch', href, data);
+  public patch(href:string, data?:any, headers?:any):IPromise<HalResource> {
+    return this.request('patch', href, data, headers);
   }
 
   /**
@@ -109,10 +115,11 @@ export class HalRequestService {
    *
    * @param href
    * @param data
+   * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public delete(href:string, data?:any):ng.IPromise<HalResource> {
-    return this.request('delete', href, data);
+  public delete(href:string, data?:any, headers?:any):IPromise<HalResource> {
+    return this.request('delete', href, data, headers);
   }
 }
 
