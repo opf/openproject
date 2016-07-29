@@ -212,7 +212,7 @@ export class SingleViewWorkPackage {
   }
 
   public hasNiceStar(field) {
-    return this.isRequired(field) && this.isEditable(field);
+    return this.isRequired(field) && this.workPackage.schema[field].writable;
   }
 
   public isGroupHideable(groupedFields, groupName) {
