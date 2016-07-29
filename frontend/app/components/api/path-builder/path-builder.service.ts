@@ -28,6 +28,86 @@
 
 import {opApiModule} from '../../../angular-modules';
 
+class PathTemplate {
+  /**
+   * The template string of the path segment.
+   */
+  public template:string;
+  /**
+   * The children of the path segment.
+   */
+  public children = {};
+  /**
+   * The optional parents of the path segment.
+   * Parents are only prepended to the path segment, if a parameter of the same name as the parent
+   * is provided.
+   */
+  public parents = {};
+
+  /**
+   * Create the object while initialising its optional parents and children.
+   *
+   * @param config
+   * @param parent
+   */
+  constructor(public config?, public parent?:PathTemplate) {
+    var children;
+    var parents;
+
+    if (!Array.isArray(config)) {
+      this.config = [config];
+    }
+
+    [this.template = '', children = {}, parents = {}] = this.config;
+
+    angular.forEach(children, (childConfig, childName) => {
+      this.children[childName] = new PathTemplate(childConfig, this);
+    });
+
+    angular.forEach(parents, (parentConfig, parentName) => {
+      this.parents[parentName] = new PathTemplate(parentConfig, this.parent);
+    });
+  }
+
+  /**
+   * Return the path as a callable instance.
+   * Children of the pathTemplate object are properties of the callable.
+   *
+   * @return {(params?:{})=>string}
+   */
+  public callable() {
+    const callable = (params = {}) => {
+      return URI.expand(this.build(params), params).valueOf();
+    };
+
+    angular.forEach(this.children, (child, childName) => {
+      callable[childName] = child.callable();
+    });
+
+    return callable;
+  }
+
+  /**
+   * Merge parent templates (if any) with the current template recursively.
+   *
+   * @param params
+   * @return {string}
+   */
+  public build(params) {
+    Object.keys(params).forEach(name => {
+      console.log('NAME', name, params, this.parents);
+      const parent = this.parents[name];
+
+      if (parent) {
+        this.parent = parent;
+        return;
+      }
+    });
+    var parent = this.parent ? this.parent.build(params) + '/' : '';
+    return parent + this.template;
+  }
+}
+
 /**
  * Allows defining flexible paths using urijs.
  *
@@ -36,9 +116,6 @@ import {opApiModule} from '../../../angular-modules';
  * URITemplates: https://tools.ietf.org/html/rfc6570#section-2.1
  */
 export class PathBuilderService {
-  constructor(protected URI) {
-  }
-
   /**
    * Return a collection of callable paths.
    *
@@ -49,48 +126,11 @@ export class PathBuilderService {
   public buildPaths(templates:any) {
     const pathCollection = {};
 
-    angular.forEach(templates, (template, name) => {
-      pathCollection[name] = this.buildPath(template);
+    angular.forEach(templates, (config, name) => {
+      pathCollection[name] = new PathTemplate(config).callable();
     });
 
     return pathCollection;
-  }
-
-  /**
-   * Return a callable path, that receives arguments to pass to the URITemplate.
-   *
-   * @param config: A string or an array where the first argument is the template and the second
-   * is config for nested paths.
-   * @return A callable path
-   */
-  protected buildPath(config) {
-    const isArray = Array.isArray(config);
-    const template = isArray ? config[0] : config;
-    const callable = this.getCallable(template);
-
-    if (isArray) {
-      angular.forEach(config[1], (config, name) => {
-        if (Array.isArray(config)) {
-          config[0] = template + '/' + config[0];
-        } else {
-          config = template + '/' + config;
-        }
-
-        callable[name] = this.buildPath(config);
-      });
-    }
-
-    return callable;
-  }
-
-  /**
-   * Return a function wrapper for `URI.expand()`.
-   *
-   * @param template
-   * @return {(values?:{})=>boolean|string}
-   */
-  private getCallable(template:string) {
-    return (values = {}) => this.URI.expand(template, values).valueOf();
   }
 }
 
