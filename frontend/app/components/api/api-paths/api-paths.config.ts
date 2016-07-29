@@ -30,7 +30,9 @@ import {opApiModule} from '../../../angular-modules';
 import {ApiPathsServiceProvider} from './api-paths.service';
 
 function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
-  const projects = ['projects{/project}'];
+  const projects = ['projects{/project}', {
+    subProjects: 'sub_projects'
+  }];
   const workPackages = ['work_packages{/wp}', {
     form: 'form',
     availableProjects: 'available_projects'
@@ -38,11 +40,7 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
     project: projects
   }];
 
-  const ex = {
-    wps: workPackages
-  };
-
-  const v3 = {
+  const config = {
     wp: workPackages,
     wps: workPackages,
     projects: projects,
@@ -50,8 +48,8 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
   };
 
   apiPathsProvider.pathConfig = {
-    ex: ['api/experimental', ex],
-    v3: ['api/v3', v3]
+    ex: ['api/experimental', config],
+    v3: ['api/v3', config]
   };
 }
 

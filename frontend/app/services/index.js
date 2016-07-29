@@ -45,12 +45,6 @@ angular.module('openproject.services')
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])
-  .service('ProjectService', [
-    '$http',
-    'PathHelper',
-    'apiV3',
-    require('./project-service')
-  ])
   .service('RoleService', ['$http', 'PathHelper', require('./role-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
