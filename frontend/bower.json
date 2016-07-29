@@ -25,7 +25,7 @@
     "lodash": "~2.4.1",
     "foundation-apps": "1.1.0",
     "bourbon": "~4.2.1",
-    "angular-ui-select": "~0.13.2",
+    "angular-ui-select": "~0.18.1",
     "mousetrap": "~1.4.6",
     "ng-file-upload": "~5.0.9",
     "restangular": "~1.5.1",
