@@ -100,7 +100,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.visit!
     wp_table.visit_query(assignee_query)
     wp_table.visit_query(version_query)
-    wp_table.add_filter('Assignee', 'is', '<< me >>')
+    wp_table.add_filter('Assignee', 'is', 'me')
 
     wp_table.expect_no_work_package_listed
 
@@ -140,6 +140,6 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_no_work_package_listed
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Version', 'is', version.name)
-    wp_table.expect_filter('Assignee', 'is', '<< me >>')
+    wp_table.expect_filter('Assignee', 'is', 'me')
   end
 end
