@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= include_gon %>
 
 <div ng-controller="TimelinesController" ng-init="init(<%= timeline.id %>)">
-  <timeline-container timeline-id="{{ timeline.id }}">
+  <timeline-container timeline-id="<%= timeline.id %>">
     <timeline-toolbar timeline="timeline"></timeline-toolbar>
     <timeline-table-container timeline="timeline"></timeline-table-container>
   </timeline-container>
