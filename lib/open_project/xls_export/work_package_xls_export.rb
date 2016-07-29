@@ -157,7 +157,7 @@ module OpenProject
       #               that the respective work package is either a
       #               parent or a child.
       def related_work_packages(work_package)
-        family = ([work_package.parent].compact + work_package.leaves)
+        family = ([work_package.parent].compact + work_package.children)
           .select { |wp| wp.visible? current_user }
           .map { |wp| [wp, nil] }
 
@@ -191,7 +191,7 @@ module OpenProject
           relation.relation_type_for work_package
         elsif work_package.parent_id == other.id
           I18n.t 'xls_export.child_of'
-        elsif work_package.leaves.where(id: other.id).exists?
+        elsif work_package.children.where(id: other.id).exists?
           I18n.t 'xls_export.parent_of'
         end
       end
