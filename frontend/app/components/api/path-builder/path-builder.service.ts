@@ -95,7 +95,6 @@ class PathTemplate {
    */
   public build(params) {
     Object.keys(params).forEach(name => {
-      console.log('NAME', name, params, this.parents);
       const parent = this.parents[name];
 
       if (parent) {
