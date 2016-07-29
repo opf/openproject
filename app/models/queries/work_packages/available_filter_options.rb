@@ -49,7 +49,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     available_work_package_filters.has_key?(key.to_s)
   end
 
-  def get_custom_field_options(custom_fields)
+  def get_custom_field_options(custom_fields, v3_naming: false)
     filters = {}
     custom_fields.select(&:is_filter?).each do |field|
       case field.field_format
@@ -72,7 +72,11 @@ module Queries::WorkPackages::AvailableFilterOptions
       else
         options = { type: :string, order: 20 }
       end
-      filters["cf_#{field.id}"] = options.merge(name: field.name)
+
+      filter_key = "cf_#{field.id}"
+      filter_key = API::Utilities::PropertyNameConverter.from_ar_name(filter_key) if v3_naming
+
+      filters[filter_key] = options.merge(name: field.name)
     end
     filters
   end
