@@ -26,54 +26,56 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {opApiModule, opServicesModule, opViewModelsModule} from '../../angular-modules';
 
-describe('ProjectService', function() {
+describe('ProjectService', () => {
+  var $httpBackend;
+  var ProjectService;
+  beforeEach(angular.mock.module(opApiModule.name,
+    opServicesModule.name,
+    opViewModelsModule.name
+  ));
 
-  var $httpBackend, ProjectService;
-  beforeEach(angular.mock.module('openproject.api', 'openproject.services', 'openproject.models'));
-
-  beforeEach(inject(function(_$httpBackend_, _ProjectService_) {
-    $httpBackend   = _$httpBackend_;
-    ProjectService = _ProjectService_;
+  beforeEach(angular.mock.inject(function (_$httpBackend_, _ProjectService_) {
+    [$httpBackend, ProjectService] = _.toArray(arguments);
   }));
 
-  afterEach(function() {
+  afterEach(() => {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  describe('getProject', function() {
-    beforeEach(function() {
+  describe('getProject', () => {
+    beforeEach(() => {
       $httpBackend.when('GET', '/api/experimental/projects/superProject')
         .respond({
-          "project": {
-            "id": 99,
-            "name": "Super-Duper Project",
-            "parent_id": null,
-            "leaf?": true
+          project: {
+            id: 99,
+            name: 'Super-Duper Project',
+            parent_id: null,
+            'leaf?': true
           }
         });
     });
 
-    it('sends a successful get request', function() {
+    it('sends a successful get request', () => {
       $httpBackend.expectGET('/api/experimental/projects/superProject');
 
-      var callback = sinon.spy(),
-        project    = ProjectService.getProject('superProject').then(callback);
+      var callback = sinon.spy();
+      var project = ProjectService.getProject('superProject').then(callback);
 
       $httpBackend.flush();
       expect(callback).to.have.been.calledWith(sinon.match({
-        name: "Super-Duper Project"
+        name: 'Super-Duper Project'
       }));
     });
 
-    it('sends a unsuccessful get request', function() {
+    it('sends a unsuccessful get request', () => {
       $httpBackend.expectGET('/api/experimental/projects/superProject').respond(401);
 
-      var success = sinon.spy(),
-        error    = sinon.spy(),
-        project  = ProjectService.getProject('superProject').then(success, error);
+      var success = sinon.spy();
+      var error = sinon.spy();
+      var project = ProjectService.getProject('superProject').then(success, error);
 
       $httpBackend.flush();
       expect(success).not.to.have.been.called;
