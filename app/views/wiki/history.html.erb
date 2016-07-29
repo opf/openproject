@@ -42,19 +42,44 @@ See doc/COPYRIGHT.rdoc for more details.
           <col highlight-col>
           <col>
         </colgroup>
+        <caption class="hidden-for-sighted">
+          <span>
+            <%= t(:text_table_difference_description, entries: t(:label_wiki_page) + ' ' + t(:label_version_plural)) %>
+          </span>
+        </caption>
         <thead>
           <tr>
             <th class="-short">
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
-                  <span>
+                  <span aria-describedby="wiki-id--description">
                     #
+                  </span>
+                  <label id="wiki-id--description" class="hidden-for-sighted">
+                    <%= t(:label_wiki_page_id) %>
+                  </label>
+                </div>
+              </div>
+            </th>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer hidden-for-sighted">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= t(:description_compare_from) + ' ' + t(:label_version) %>
                   </span>
                 </div>
               </div>
             </th>
-            <th></th>
-            <th></th>
+            <th>
+              <div class="generic-table--sort-header-outer hidden-for-sighted">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= t(:description_compare_to) + ' ' + t(:label_version) %>
+                  </span>
+                </div>
+              </div>
+            </th>
             <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
@@ -93,13 +118,13 @@ See doc/COPYRIGHT.rdoc for more details.
               <td class="id -short"><%= link_to h(ver.version), action: 'show', id: @page, project_id: @page.project, version: ver.version %></td>
               <td class="checkbox -short">
                 <% if show_diff && (line_num < @versions.size)  %>
-                  <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_from) + " " + h(ver.version.to_s) %></label>
+                  <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_from) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
                   <%= radio_button_tag('version', ver.version, (line_num==1), id: "cb-#{line_num}", onclick: "$('cbto-#{line_num+1}').checked=true;") %>
                 <% end %>
               </td>
               <td class="checkbox -short">
                 <% if show_diff && (line_num > 1) %>
-                  <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_to) + " " + h(ver.version.to_s) %></label>
+                  <label for="<%="cbto-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_to) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
                   <%= radio_button_tag('version_from', ver.version, (line_num==2), id: "cbto-#{line_num}") %>
                 <% end %>
               </td>
