@@ -28,7 +28,6 @@
     "angular-ui-select": "~0.18.1",
     "mousetrap": "~1.4.6",
     "ng-file-upload": "~5.0.9",
-    "restangular": "~1.5.1",
     "rxjs": "^4.1.0",
     "ng-dialog": "^0.6.2"
   },

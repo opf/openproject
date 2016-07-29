@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule} from "../../../angular-modules";
+import {opApiModule} from '../../angular-modules';
 
 function apiV3CacheConfig($provide) {
-  // Add caching wrapper around $http using angular-cache
   $provide.decorator('$http', ($delegate:ng.IHttpService, CacheService:op.CacheService) => {
     var $http = $delegate;
-    var wrapper = function() {
+    var wrapper = function () {
       var args = arguments;
       var request = args[0];
       var requestable = () => $http.apply($http, args);
@@ -45,7 +44,7 @@ function apiV3CacheConfig($provide) {
         delete request.headers.caching;
       }
 
-      // Do not cache anything but GET coming from Restangular
+      // Do not cache anything but GET 
       if (!useCaching || (request.method && request.method !== 'GET')) {
         request.cache = false;
         return requestable();
@@ -59,7 +58,9 @@ function apiV3CacheConfig($provide) {
     // Decorate all fns with our cached wrapper
     Object.keys($http).forEach(key => {
       let prop = $http[key];
-      let fn = function() { return prop.apply($http, arguments) };
+      let fn = function () {
+        return prop.apply($http, arguments);
+      };
 
       wrapper[key] = angular.isFunction(prop) ? fn : prop;
     });

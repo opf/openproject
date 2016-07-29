@@ -27,15 +27,16 @@
 //++
 
 //TODO: Finish implementation. See wp-list.controller.js
+import {opApiModule} from '../../../angular-modules';
+import IHttpService = angular.IHttpService;
+
 export class ApiMetaDataService {
-  constructor(protected apiExperimental:restangular.IService) {
+  constructor(protected $http:IHttpService, protected apiPaths) {
   }
 
   public getWorkPackagesListMetaData() {
-    return this.apiExperimental.one('work_packages').get().then(result => result.meta);
+    return this.$http.get(this.apiPaths.ex.wps()).then((result:any) => result.meta);
   }
 }
 
-angular
-  .module('openproject.api')
-  .service('apiMetaData', ApiMetaDataService);
+opApiModule.service('apiMetaData', ApiMetaDataService);

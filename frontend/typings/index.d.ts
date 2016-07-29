@@ -11,7 +11,6 @@
 /// <reference path="globals/moment/index.d.ts" />
 /// <reference path="globals/ng-dialog/index.d.ts" />
 /// <reference path="globals/promises-a-plus/index.d.ts" />
-/// <reference path="globals/restangular/index.d.ts" />
 /// <reference path="globals/rosie/index.d.ts" />
 /// <reference path="globals/rx-lite/index.d.ts" />
 /// <reference path="globals/rx.binding-lite/index.d.ts" />

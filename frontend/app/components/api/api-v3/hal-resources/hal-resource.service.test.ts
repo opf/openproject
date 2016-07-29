@@ -43,10 +43,8 @@ describe('HalResource service', () => {
     $provide.value('OtherResource', OtherResource);
   }));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _halResourceFactory_,
-                                           apiV3) {
+                                           _halResourceFactory_) {
     [$httpBackend, halResourceFactory] = _.toArray(arguments);
-    apiV3.setDefaultHttpFields({cache: false});
   }));
 
   it('should exist', () => {

@@ -30,8 +30,24 @@ import {opApiModule} from '../../../angular-modules';
 import {ApiPathsServiceProvider} from './api-paths.service';
 
 function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
-  const ex = {};
-  const v3 = {};
+  const projects = ['projects{/project}'];
+  const workPackages = ['work_packages{/wp}', {
+    form: 'form',
+    availableProjects: 'available_projects'
+  }, {
+    project: projects
+  }];
+
+  const ex = {
+    wps: workPackages
+  };
+
+  const v3 = {
+    wp: workPackages,
+    wps: workPackages,
+    projects: projects,
+    project: projects
+  };
 
   apiPathsProvider.pathConfig = {
     ex: ['api/experimental', ex],

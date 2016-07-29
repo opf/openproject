@@ -167,9 +167,7 @@ function initializeResource(halResource:HalResource) {
   }
 
   function proxyProperties() {
-    var source = halResource.$source.restangularized ? halResource.$source.plain() : halResource.$source;
-
-    _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
+    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach(property => {
       Object.defineProperty(halResource, property, {
         get() {
           return halResource.$source[property];
