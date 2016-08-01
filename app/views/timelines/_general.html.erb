@@ -96,7 +96,8 @@ See doc/COPYRIGHT.rdoc for more details.
                             { selected: timeline.selected_columns,
                               no_label: true },
                             { multiple: true,
-                              size: 12 } %>
+                              size: 12,
+                              id: "timeline_options_columns_" } %>
             <% else %>
               <%= ff.hidden_field :columns,
                                   name: "timeline[options][columns][]",

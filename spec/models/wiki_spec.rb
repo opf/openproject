@@ -29,24 +29,27 @@
 require 'spec_helper'
 
 describe Wiki, type: :model do
-  let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
-  let(:start_page) { 'The wiki start page' }
 
-  it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryGirl.create(:wiki) }
-    let(:watch_permission) { :view_wiki_pages }
-    let(:project) { model_instance.project }
-  end
+  describe 'creation' do
+    let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
+    let(:start_page) { 'The wiki start page' }
 
-  describe '#create' do
-    let(:wiki) { project.create_wiki start_page: start_page }
-
-    it 'creates a wiki menu item on creation' do
-      expect(wiki.wiki_menu_items).to be_one
+    it_behaves_like 'acts_as_watchable included' do
+      let(:model_instance) { FactoryGirl.create(:wiki) }
+      let(:watch_permission) { :view_wiki_pages }
+      let(:project) { model_instance.project }
     end
 
-    it 'sets the wiki menu item title to the name of the start page' do
-      expect(wiki.wiki_menu_items.first.title).to eq(start_page)
+    describe '#create' do
+      let(:wiki) { project.create_wiki start_page: start_page }
+
+      it 'creates a wiki menu item on creation' do
+        expect(wiki.wiki_menu_items).to be_one
+      end
+
+      it 'sets the wiki menu item title to the name of the start page' do
+        expect(wiki.wiki_menu_items.first.title).to eq(start_page)
+      end
     end
   end
 end

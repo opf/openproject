@@ -59,7 +59,7 @@ module Api::Experimental
                       else
                         WorkPackageCustomField.for_all
                       end
-      @custom_field_filters = @query.get_custom_field_options(custom_fields)
+      @custom_field_filters = @query.get_custom_field_options(custom_fields, v3_naming: true)
 
       respond_to do |format|
         format.api

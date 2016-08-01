@@ -1,14 +1,9 @@
-<div class="description attributes-group">
+<div class="description attributes-group" id="<%= vendor %>-<%= type %>" style="<%=existing ? 'display: block' : 'display: none' %> ">
   <div class="attributes-group--header">
     <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"
-          tabindex="0">
-        <%= label_tag :scm_type, l("repositories.#{vendor}.#{type}_title"), class: 'hidden-for-sighted' %>
-        <input type="radio"
-           value="<%= type %>"
-           name="scm_type"
-           <%= existing ? 'disabled' : '' %>
-           <%= alone ? 'checked' : '' %>><%= l("repositories.#{vendor}.#{type}_title") %></h3>
+      <span class="attributes-group--header-text">
+        <%= l("repositories.#{vendor}.#{type}_url") %>
+      </span>
     </div>
     <% unless repository.new_record? %>
     <div class="attributes-group--header-control">
@@ -27,9 +22,8 @@
   </div>
 
   <p><%= l("repositories.#{vendor}.#{type}_introduction") %></p>
-  <div id="toggleable-attributes-group--content-<%= type %>"
-       class="attributes-group--content -toggleable single-attribute"
-       <%= alone ? '' : 'hidden' %>>
+  <div id="attributes-group--content-<%= type %>"
+       class="attributes-group--contentsingle-attribute">
 
     <%= render partial: "/repositories/settings/#{vendor}/#{type}",
                locals: { form: form, repository: repository } %>

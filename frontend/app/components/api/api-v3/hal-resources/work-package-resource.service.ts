@@ -242,10 +242,17 @@ export class WorkPackageResource extends HalResource {
       const schema = form.$embedded.schema;
 
       angular.forEach(schema, (field, name) => {
-        if (this[name] && field && field.writable && field.$isHal
-          && (Array.isArray(field.allowedValues) && field.allowedValues.length > 0)) {
+        // Assign only links from schema when an href is set
+        // and field is writable.
+        // (exclude plain properties and null values)
+        const isHalField = field.writable && this[name] && this[name].href;
 
-          this[name] = _.where(field.allowedValues, {name: this[name].name})[0];
+        // Assign only values from embedded schema that have an expanded
+        // allowedValues set (type, status, custom field lists, etc.)
+        const hasAllowedValues = Array.isArray(field.allowedValues) && field.allowedValues.length > 0;
+
+        if (isHalField && hasAllowedValues) {
+          this[name] = _.find(field.allowedValues, { href: this[name].href});
         }
       });
 
@@ -266,16 +273,15 @@ export class WorkPackageResource extends HalResource {
           .then(workPackage => {
             this.$initialize(workPackage);
             this.$pristine = {};
-
+            wpCacheService.loadWorkPackageLinks(this, 'activities');
             deferred.resolve(this);
-
           })
           .catch(error => {
             deferred.reject(error);
+            wpCacheService.updateWorkPackage(this);
           })
           .finally(() => {
             this.inFlight = false;
-            wpCacheService.updateWorkPackage(this);
             if (wasNew) {
               wpCacheService.newWorkPackageCreated(this);
             }

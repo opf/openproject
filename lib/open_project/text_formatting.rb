@@ -244,16 +244,19 @@ module OpenProject
               page = $1
               anchor = $2
             end
+            # Unescape the escaped entities from textile
+            page = CGI.unescapeHTML(page)
             # check if page exists
             wiki_page = link_project.wiki.find_page(page)
+            wiki_title = wiki_page.nil? ? page : wiki_page.title
             url = case options[:wiki_links]
                   when :local; "#{title}.html"
                   when :anchor; "##{title}"   # used for single-file wiki export
                   else
-                    wiki_page_id = page.present? ? page : nil
+                    wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
                     url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
-            link_to(h(title || page), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
+            link_to(h(title || wiki_title), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
             # project or wiki doesn't exist
             all

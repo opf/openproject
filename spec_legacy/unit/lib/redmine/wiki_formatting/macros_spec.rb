@@ -70,8 +70,8 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
   it 'should macro child pages' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child+1\">Child 1</a></li>" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child+2\">Child 2</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/child-1\">Child 1</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/child-2\">Child 2</a></li>" +
                 '</ul></p>'
 
     @project = Project.find(1)
@@ -86,10 +86,10 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
 
   it 'should macro child pages with option' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Another+page\">Another page</a>" +
+                "<li><a href=\"/projects/ecookbook/wiki/another-page\">Another page</a>" +
                 "<ul class=\"pages-hierarchy\">" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child+1\">Child 1</a></li>" +
-                "<li><a href=\"/projects/ecookbook/wiki/Child+2\">Child 2</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/child-1\">Child 1</a></li>" +
+                "<li><a href=\"/projects/ecookbook/wiki/child-2\">Child 2</a></li>" +
                 '</ul></li></ul></p>'
 
     @project = Project.find(1)

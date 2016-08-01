@@ -38,7 +38,10 @@ module QueriesHelper
 
   def add_filter_from_params
     @query.filters = []
-    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+    @query.add_filters(
+      fields_from_params(@query, params),
+      operators_from_params(@query, params),
+      values_from_params(@query, params))
   end
 
   # Retrieve query from session or build a new query
@@ -63,6 +66,7 @@ module QueriesHelper
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
+
         @query.group_by = params[:group_by]
         @query.display_sums = params[:display_sums].present? && params[:display_sums] == 'true'
         @query.column_names = column_names_from_params params
@@ -107,5 +111,56 @@ module QueriesHelper
                          .select(:id, :name, :is_public, :project_id)
     end
     @visible_queries
+  end
+
+  module_function
+
+  def fields_from_params(query, params)
+    fix_field_array(query, params[:fields] || params[:f]).compact
+  end
+
+  def operators_from_params(query, params)
+    fix_field_hash(query, params[:operators] || params[:op])
+  end
+
+  def values_from_params(query, params)
+    fix_field_hash(query, params[:values] || params[:v])
+  end
+
+  def fix_field_hash(query, field_hash)
+    return nil if field_hash.nil?
+
+    names = field_hash.keys
+    entries = names
+      .zip(fix_field_array(query, names))
+      .select { |_name, field| field.present? }
+      .map { |name, field| [field, field_hash[name]] }
+
+    Hash[entries]
+  end
+
+  ##
+  # Maps given field names coming from the frontend to the actual names
+  # as expected by the query. This works slightly different to what happens
+  # in #column_names_from_params. For instance while they column name is
+  # :type the expected field name is :type_id.
+  #
+  # Examples:
+  #   * status => status_id
+  #   * progresssDone => done_ratio
+  #   * assigned => assigned_to
+  #   * customField1 => cf_1
+  #
+  # @param query [Query] Query for which to get the correct field names.
+  # @param field_names [Array] Field names as read from the params.
+  # @return [Array] Returns a list of fixed field names. The list may contain nil values
+  #                 for fields which could not be found.
+  def fix_field_array(query, field_names)
+    context = WorkPackage.new
+    available_keys = query.available_work_package_filters.keys
+
+    field_names
+      .map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
+      .map { |name| available_keys.find { |k| k =~ /#{name}(_id)?$/ } }
   end
 end

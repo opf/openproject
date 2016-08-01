@@ -41,12 +41,14 @@ describe('wp-attachments.directive', () => {
       $load: () => {
         return $q.when({ elements: [] });
       },
+      $unload: angular.noop,
       href: '/api/v3/work_packages/1/attachments',
     },
     activities: {
       $load: () => {
         return $q.when({ elements: [] });
       },
+      $unload: angular.noop,
       href: '/api/v3/work_packages/1/activities',
     }
   };

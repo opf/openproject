@@ -133,12 +133,10 @@ export class WorkPackageEditFormController {
         this.successHandler({workPackage: this.workPackage, fields: this.fields});
       })
       .catch((error) => {
-        if (!(error.data instanceof ErrorResource)) {
-          this.wpNotificationsService.showGeneralError;
-          return deferred.reject([]);
+        this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+        if (error.data instanceof ErrorResource) {
+          this.handleSubmissionErrors(error.data, deferred);
         }
-        this.wpNotificationsService.showError(error.data, this.workPackage);
-        this.handleSubmissionErrors(error.data, deferred);
       });
 
     return deferred.promise;

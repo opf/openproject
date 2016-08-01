@@ -35,7 +35,7 @@ module WikiHelper
       pages[parent].each do |page|
         indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : ''
 
-        s << [(indent + h(page.pretty_title)).html_safe, page.id]
+        s << [(indent + h(page.title)).html_safe, page.id]
         s += wiki_page_options_for_select(pages, page, level + 1)
       end
     end

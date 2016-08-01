@@ -36,6 +36,12 @@ class WikiPage < ActiveRecord::Base
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
   acts_as_tree dependent: :nullify, order: 'title'
 
+  # Generate slug of the title
+  acts_as_url :title,
+              url_attribute: :slug,
+              scope: :wiki_id, # Unique slugs per WIKI
+              sync_url: true # Keep slug updated on #rename
+
   acts_as_watchable
   acts_as_event title: Proc.new { |o| "#{Wiki.model_name.human}: #{o.title}" },
                 description: :text,
@@ -50,7 +56,6 @@ class WikiPage < ActiveRecord::Base
   attr_accessor :redirect_existing_links
 
   validates_presence_of :title
-  validates_uniqueness_of :title, scope: :wiki_id, case_sensitive: false
   validates_associated :content
 
   validate :validate_consistency_of_parent_title
@@ -101,14 +106,15 @@ class WikiPage < ActiveRecord::Base
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
-      wiki.redirects.where(redirects_to: @previous_title).each do |r|
+      previous_slug = @previous_title.to_url
+      wiki.redirects.where(redirects_to: previous_slug).each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
       end
       # Remove redirects for the new title
-      wiki.redirects.where(title: title).each(&:destroy)
+      wiki.redirects.where(title: slug).each(&:destroy)
       # Create a redirect to the new title
-      wiki.redirects << WikiRedirect.new(title: @previous_title, redirects_to: title) unless redirect_existing_links == '0'
+      wiki.redirects << WikiRedirect.new(title: previous_slug, redirects_to: slug) unless redirect_existing_links == '0'
 
       # Change title of dependent wiki menu item
       dependent_item = MenuItems::WikiMenuItem.find_by(navigatable_id: wiki.id, title: @previous_title)
@@ -123,11 +129,7 @@ class WikiPage < ActiveRecord::Base
 
   # Remove redirects to this page
   def remove_redirects
-    wiki.redirects.where(redirects_to: title).each(&:destroy)
-  end
-
-  def pretty_title
-    WikiPage.pretty_title(title)
+    wiki.redirects.where(redirects_to: slug).each(&:destroy)
   end
 
   def content_for_version(version = nil)
@@ -158,10 +160,6 @@ class WikiPage < ActiveRecord::Base
     version = version ? version.to_i : content.version
     c = content.versions.find_by(version: version)
     c ? WikiAnnotate.new(c) : nil
-  end
-
-  def self.pretty_title(str)
-    (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
 
   def project
@@ -197,7 +195,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def parent_title
-    @parent_title || (parent && parent.pretty_title)
+    @parent_title || (parent && parent.title)
   end
 
   def parent_title=(t)
@@ -232,12 +230,12 @@ class WikiPage < ActiveRecord::Base
     if item = menu_item
       item.name
     else
-      pretty_title
+      title
     end
   end
 
   def to_param
-    CGI.escape title
+    slug || title.to_url
   end
 
   def is_only_wiki_page?
