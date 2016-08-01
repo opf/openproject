@@ -26,19 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper, apiV3) {
-  var indentedName = function(name, level) {
+import {opServicesModule} from '../../angular-modules';
+
+function projectService($http, apiPaths, halRequest) {
+  var indentedName = function (name, level) {
     var indentation = '';
-    
+
     for (var i = 0; i < level; i++) {
       indentation = indentation + '--';
     }
-    
-    return indentation + " " + name;
+
+    return indentation + ' ' + name;
   };
-  var assignAncestorLevels = function(projects) {
+  var assignAncestorLevels = function (projects) {
     var ancestors = [];
-    
+
     angular.forEach(projects, function (project) {
       while (ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
         // this helper method only reflects hierarchies if nested projects follow one another
@@ -52,49 +54,51 @@ module.exports = function($http, PathHelper, apiV3) {
         ancestors.push(project);
       }
     });
-    
+
     return projects;
   };
 
   var ProjectService = {
-    getProject: function(projectIdentifier) {
-      var url = PathHelper.apiProjectPath(projectIdentifier);
+    getProject: function (projectIdentifier) {
+      const url = apiPaths.ex.project({project: projectIdentifier});
 
-      return $http.get(url).then(function(response) {
+      return $http.get(url).then(function (response) {
         return response.data.project;
       });
     },
 
-    getProjects: function() {
-      var url = PathHelper.apiProjectsPath();
+    getProjects: function () {
+      const url = apiPaths.ex.projects();
 
       return ProjectService.doQuery(url)
-        .then(function(projects){
+        .then(function (projects) {
           return assignAncestorLevels(projects);
         });
     },
 
-    getSubProjects: function(projectIdentifier) {
-      var url = PathHelper.apiProjectSubProjectsPath(projectIdentifier);
-
+    getSubProjects: function (projectIdentifier) {
+      const url = apiPaths.ex.project.subProjects({project: projectIdentifier});
       return ProjectService.doQuery(url);
     },
 
-    getWorkPackageProject: function(workPackage) {
+    getWorkPackageProject: function (workPackage) {
       return ProjectService.doQuery(workPackage.project.$link.href);
     },
 
-    doQuery: function(url, params) {
-      return $http.get(url, { params: params })
-        .then(function(response){
+    doQuery: function (url, params?) {
+      return $http.get(url, {params: params})
+        .then(function (response) {
           return response.data.projects;
         });
     },
 
     fetchProjectResource: function (projectIdentifier) {
-      return apiV3.one('projects', projectIdentifier).get();
+      var url = apiPaths.v3.project({project: projectIdentifier});
+      return halRequest.get(url);
     }
   };
 
   return ProjectService;
-};
+}
+
+opServicesModule.factory('ProjectService', projectService);
