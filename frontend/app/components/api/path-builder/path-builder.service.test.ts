@@ -147,6 +147,15 @@ describe('pathBuilder service', () => {
       });
     });
 
+    describe('when passing false values as params to a path with a parent', () => {
+      testCallablePath(() => {
+        path = pathCollection.withParent;
+        params = {stringParent: null};
+        withParams = 'hello';
+        withoutParams = 'hello';
+      });
+    });
+
     describe('when the path has a parent', () => {
       beforeEach(() => {
         path = pathCollection.withParent;

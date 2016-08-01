@@ -95,6 +95,10 @@ class PathTemplate {
    */
   public build(params) {
     Object.keys(params).forEach(name => {
+      if (!params[name]) {
+        delete params[name];
+        return;
+      }
       const parent = this.parents[name];
 
       if (parent) {
