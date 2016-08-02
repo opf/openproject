@@ -60,7 +60,9 @@ export class HalRequestService {
       config.params = data;
     }
 
-    return this.$http(config).then(createResource, createResource);
+    return this.$http(config)
+      .then(createResource)
+      .catch(response => this.$q.reject(createResource(response)));
   }
 
   /**

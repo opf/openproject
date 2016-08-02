@@ -47,8 +47,11 @@ describe('halRequest service', () => {
     expect(halRequest).to.exist;
   });
 
+  afterEach(() => {
+    $rootScope.$apply();
+  });
+
   describe('when requesting data', () => {
-    var resource:HalResource;
     var promise:IPromise<HalResource>;
     var method:string;
     var data:any;
@@ -57,18 +60,16 @@ describe('halRequest service', () => {
     const methods = ['get', 'put', 'post', 'patch', 'delete'];
     const runExpectations = () => {
       it('should return a HalResource', () => {
-        expect(resource).to.be.an.instanceOf(HalResource);
+        expect(promise).to.eventually.be.an.instanceOf(HalResource);
       });
     };
     const respond = status => {
-      $httpBackend.expect(method.toUpperCase(), 'href', data, (headers:any) => {
-        return headers.Accept === 'foo';
-      })
+      $httpBackend
+        .expect(method.toUpperCase(), 'href', data, (headers:any) => {
+          return headers.Accept === 'foo';
+        })
         .respond(status, {});
 
-      promise
-        .then(res => resource = res)
-        .catch(res => resource = res);
       $httpBackend.flush();
     };
     const runRequests = callback => {
@@ -93,6 +94,10 @@ describe('halRequest service', () => {
           describe('when an error occurs', () => {
             beforeEach(() => respond(400));
             runExpectations();
+
+            it('should be rejected with an instance of HalResource', () => {
+              expect(promise).to.eventually.be.rejectedWith(HalResource);
+            });
           });
         });
       });
@@ -126,10 +131,6 @@ describe('halRequest service', () => {
     describe('when requesting a null href', () => {
       beforeEach(() => {
         promise = halRequest.request('get', null);
-      });
-
-      afterEach(() => {
-        $rootScope.$apply();
       });
 
       it('should return a fulfilled promise', () => {
