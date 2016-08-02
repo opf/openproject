@@ -27,38 +27,47 @@
 #++
 
 module Components
-  class WorkPackagesContextMenu
-    include Capybara::DSL
-    include RSpec::Matchers
+  module WorkPackages
+    class Filters
+      include Capybara::DSL
+      include RSpec::Matchers
 
-    def open_for(work_package)
-      find("#work-package-#{work_package.id}").right_click
-      expect_open
-    end
-
-    def expect_open
-      expect(page).to have_selector(selector)
-    end
-
-    def expect_closed
-      expect(page).to have_no_selector(selector)
-    end
-
-    def choose(target)
-      find("#{selector} a", text: target).click
-    end
-
-    def expect_options(options)
-      expect_open
-      options.each do |text|
-        expect(page).to have_selector("#{selector} a", text: text)
+      def open
+        filter_button.click
+        expect_open
       end
-    end
 
-    private
+      def expect_filter_count(num)
+        expect(filter_button).to have_selector('.badge', text: num)
+      end
 
-    def selector
-      '#work-package-context-menu'
+      def expect_open
+        expect(page).to have_selector(filters_selector, visible: true)
+      end
+
+      def expect_closed
+        expect(page).to have_selector(filters_selector, visible: :hidden)
+      end
+
+      def remove_filter(field)
+        page.within(filters_selector) do
+          find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+        end
+      end
+
+      private
+
+      def filter_button
+        find(button_selector)
+      end
+
+      def button_selector
+        '#work-packages-filter-toggle-button'
+      end
+
+      def filters_selector
+        '.work-packages--filters-optional-container'
+      end
     end
   end
 end
