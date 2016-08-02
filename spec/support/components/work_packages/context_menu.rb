@@ -27,38 +27,40 @@
 #++
 
 module Components
-  class WorkPackagesContextMenu
-    include Capybara::DSL
-    include RSpec::Matchers
+  module WorkPackages
+    class ContextMenu
+      include Capybara::DSL
+      include RSpec::Matchers
 
-    def open_for(work_package)
-      find("#work-package-#{work_package.id}").right_click
-      expect_open
-    end
-
-    def expect_open
-      expect(page).to have_selector(selector)
-    end
-
-    def expect_closed
-      expect(page).to have_no_selector(selector)
-    end
-
-    def choose(target)
-      find("#{selector} a", text: target).click
-    end
-
-    def expect_options(options)
-      expect_open
-      options.each do |text|
-        expect(page).to have_selector("#{selector} a", text: text)
+      def open_for(work_package)
+        find("#work-package-#{work_package.id}").right_click
+        expect_open
       end
-    end
 
-    private
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
 
-    def selector
-      '#work-package-context-menu'
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
+
+      def choose(target)
+        find("#{selector} a", text: target).click
+      end
+
+      def expect_options(options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_selector("#{selector} a", text: text)
+        end
+      end
+
+      private
+
+      def selector
+        '#work-package-context-menu'
+      end
     end
   end
 end
