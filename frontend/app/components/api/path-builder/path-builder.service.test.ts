@@ -177,11 +177,32 @@ describe('pathBuilder service', () => {
     });
 
     describe('when the path is a child of a path with a parent', () => {
-      testCallablePath(() => {
+      beforeEach(() => {
         path = pathCollection.withParentAndChild.child;
-        params = {child: 'childId', parent: 'parentId'};
-        withParams = 'parent/parentId/world/child/childId';
-        withoutParams = 'world/child';
+      });
+
+      describe('when only the child id is set', () => {
+        testCallablePath(() => {
+          params = {child: 'childId', parent: null};
+          withParams = 'world/child/childId';
+          withoutParams = 'world/child';
+        });
+      });
+
+      describe('when only the parent id is set', () => {
+        testCallablePath(() => {
+          params = {parent: 'parentId', child: null};
+          withParams = 'parent/parentId/world/child';
+          withoutParams = 'world/child';
+        });
+      });
+
+      describe('when both ids are set', () => {
+        testCallablePath(() => {
+          params = {child: 'childId', parent: 'parentId'};
+          withParams = 'parent/parentId/world/child/childId';
+          withoutParams = 'world/child';
+        });
       });
     });
   });

@@ -77,6 +77,7 @@ class PathTemplate {
    */
   public callable() {
     const callable = (params = {}) => {
+      params = _.pick(params, value => !!value);
       return URI.expand(this.build(params), params).valueOf();
     };
 
@@ -95,10 +96,6 @@ class PathTemplate {
    */
   public build(params) {
     Object.keys(params).forEach(name => {
-      if (!params[name]) {
-        delete params[name];
-        return;
-      }
       const parent = this.parents[name];
 
       if (parent) {
