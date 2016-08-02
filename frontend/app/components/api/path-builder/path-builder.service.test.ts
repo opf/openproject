@@ -174,6 +174,17 @@ describe('pathBuilder service', () => {
           params = {arrayParent: 'parentId'};
         });
       });
+
+      describe('when the parent was set, but gets reset afterwards', () => {
+        beforeEach(() => {
+          path({stringParent: 'parentId'});
+          result = path();
+        });
+
+        it('should not include the path segment of the parent', () => {
+          expect(result).to.equal('hello');
+        });
+      });
     });
 
     describe('when the path is a child of a path with a parent', () => {

@@ -77,7 +77,6 @@ class PathTemplate {
    */
   public callable() {
     const callable = (params = {}) => {
-      params = _.pick(params, value => !!value);
       return URI.expand(this.build(params), params).valueOf();
     };
 
@@ -95,16 +94,17 @@ class PathTemplate {
    * @return {string}
    */
   public build(params) {
-    Object.keys(params).forEach(name => {
-      const parent = this.parents[name];
+    var parent:PathTemplate = null;
+    params = _.pick(params, value => !!value);
 
-      if (parent) {
-        this.parent = parent;
-        return;
-      }
+    Object.keys(params).forEach(name => {
+      parent = this.parents[name];
     });
-    var parent = this.parent ? this.parent.build(params) + '/' : '';
-    return parent + this.template;
+
+    parent = parent || this.parent;
+    const parentTemplate = parent ? parent.build(params) + '/' : '';
+
+    return parentTemplate + this.template;
   }
 }
 
