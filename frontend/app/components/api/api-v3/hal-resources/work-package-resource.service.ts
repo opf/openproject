@@ -201,7 +201,7 @@ export class WorkPackageResource extends HalResource {
   public getForm() {
     if (!this.form) {
       this.updateForm(this.$source).catch(error => {
-        NotificationsService.addError(error.data.message);
+        NotificationsService.addError(error.message);
       });
     }
 

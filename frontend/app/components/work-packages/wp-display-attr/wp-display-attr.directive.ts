@@ -89,9 +89,7 @@ export class WorkPackageDisplayAttributeController {
     if (this.isEmpty) {
       return this.placeholder;
     }
-    else {
-      return this.field.valueString;
-    }
+    return this.field.valueString;
   }
 
   protected updateAttribute(wp) {

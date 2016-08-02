@@ -28,20 +28,15 @@
 
 import {WorkPackageRelationGroup} from './wp-relation-group.service';
 import {wpTabsModule} from '../../../angular-modules';
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
-import {ErrorResource} from "../../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 
 var $q:ng.IQService;
 var HalResource;
 var PathHelper:any;
 var wpCacheService:WorkPackageCacheService;
 var wpNotificationsService:WorkPackageNotificationService;
-var $q:ng.IQService;
 
 export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   public get canAddRelation():boolean {
@@ -85,9 +80,10 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
         return wpCacheService.updateWorkPackage(wp);
       })
       .catch(error => {
-        if (error.data instanceof ErrorResource) {
-          wpNotificationsService.showError(error.data, this.workPackage);
-        } else {
+        if (error instanceof ErrorResource) {
+          wpNotificationsService.showError(error, this.workPackage);
+        }
+        else {
           wpNotificationsService.showGeneralError();
         }
       });
@@ -95,8 +91,7 @@ export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
 
   protected init() {
     if (this.workPackage.parent) {
-      this.workPackage.parent.$load()
-        .then(parent => this.relations.push(parent));
+      this.workPackage.parent.$load().then(parent => this.relations.push(parent));
     }
   }
 }
