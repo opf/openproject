@@ -133,12 +133,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.json
       format.html do
-        if request.xhr?
-          partial = 'members/autocomplete_for_member'
-        else
-          partial = 'members/member_form'
-        end
-        render partial: partial,
+        render partial: 'members/autocomplete_for_member',
                locals: { project: @project,
                          principals: @principals,
                          roles: Role.find_all_givable }

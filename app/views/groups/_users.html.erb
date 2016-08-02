@@ -77,24 +77,23 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= styled_form_tag(members_of_group_path(@group), method: :post, remote: true) do |f| %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
-          <div class="form--field -vertical">
-            <%= styled_label_tag "user_search", l(:label_user_search) %>
-            <div class="form--field-container">
-              <%= styled_text_field_tag 'user_search', nil %>
+          <remote-field-updater
+             url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group) %>"
+             request-key="q">
+            <div class="form--field -vertical">
+              <%= styled_label_tag "user_search", l(:label_user_search) %>
+              <div class="form--field-container">
+                <%= styled_text_field_tag 'user_search',
+                                          nil,
+                                          class: 'remote-field--input' %>
+              </div>
             </div>
-          </div>
-          <div class="form--field -vertical">
-            <%= observe_field(:user_search,
-                          frequency: 0.5,
-                          update: :users,
-                          url: { controller: '/groups', action: 'autocomplete_for_user', id: @group },
-                          with: 'q',
-                          method: :get)
-                      %>
-            <div id="users" class="form--field-container -vertical">
-              <%= principals_check_box_tags 'user_ids[]', users %>
+            <div class="form--field -vertical">
+              <div id="users" class="remote-field--target form--field-container -vertical">
+                <%= principals_check_box_tags 'user_ids[]', users %>
+              </div>
             </div>
-          </div>
+          </remote-field-updater>
           <div><%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
         </fieldset>
       <% end %>
