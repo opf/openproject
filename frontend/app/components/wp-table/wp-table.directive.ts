@@ -125,6 +125,11 @@ function wpTable(
           scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
           scope.grouped = scope.groupByColumn !== undefined;
           scope.groupExpanded = {};
+
+          // Open new groups by default
+          Object.keys(scope.groupHeaders).forEach((key) => {
+            scope.groupExpanded[key] = true;
+          });
         }
       }
 
