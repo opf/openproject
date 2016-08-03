@@ -119,7 +119,7 @@ openprojectModule
       })
 
       .state('work-packages.edit', {
-        url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
+        url: '/{projects}/{projectPath}/work_packages/{workPackageId:[0-9]+}/edit',
         params: {
           projectPath: {value: null, squash: true},
           projects: {value: null, squash: true},
