@@ -41,7 +41,6 @@ var HalResource;
 var PathHelper:any;
 var wpCacheService:WorkPackageCacheService;
 var wpNotificationsService:WorkPackageNotificationService;
-var $q:ng.IQService;
 
 export class WorkPackageParentRelationGroup extends WorkPackageRelationGroup {
   public get canAddRelation():boolean {

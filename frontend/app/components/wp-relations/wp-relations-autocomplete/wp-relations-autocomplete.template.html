@@ -13,18 +13,10 @@
         <ui-select-choices
           refresh-delay="250"
           refresh="autocompleteWorkPackages($select.search)"
-          repeat="item.id as item in options">
+          repeat="item.id as item in options | filter: item.config.canAdd">
             <div ng-bind="item.to_s"></div>
         </ui-select-choices>
       </ui-select>
-    </div>
-    <div class="choice--button">
-      <button class="button"
-              title="{{ $ctrl.btnTitle }}"
-              ng-bind-html="$ctrl.btnIcon + ' ' + $ctrl.btnTitle"
-              ng-click="$ctrl.addRelation()"
-              ng-disabled="add_relation_form.$invalid">
-      </button>
     </div>
   </div>
 </form>
