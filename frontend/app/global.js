@@ -73,6 +73,8 @@ require('angular-ui-select/dist/select.css');
 require('restangular');
 
 require('rxjs');
+require('ng-dialog/js/ngDialog.min.js');
+require('ng-dialog/css/ngDialog.min.css');
 
 
 // ****
