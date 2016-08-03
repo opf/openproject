@@ -160,7 +160,9 @@ openprojectModule
           // value: null makes the parameter optional
           // squash: true avoids duplicate slashes when the paramter is not provided
           projectPath: {value: null, squash: true},
-          projects: {value: null, squash: true}
+          projects: {value: null, squash: true},
+          query_id: {value: null},
+          query_props: {value: null}
         },
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
