@@ -175,6 +175,7 @@ export const openprojectModule = angular.module('openproject', [
   'foundation.modal',
   'ngAria',
   'ngSanitize',
+  'ngDialog',
   'truncate',
   'openproject.layout',
   'cgBusy',
