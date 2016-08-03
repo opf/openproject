@@ -117,8 +117,9 @@ class WikiPage < ActiveRecord::Base
       wiki.redirects << WikiRedirect.new(title: previous_slug, redirects_to: slug) unless redirect_existing_links == '0'
 
       # Change title of dependent wiki menu item
-      dependent_item = MenuItems::WikiMenuItem.find_by(navigatable_id: wiki.id, title: @previous_title)
+      dependent_item = MenuItems::WikiMenuItem.find_by(navigatable_id: wiki.id, name: previous_slug)
       if dependent_item
+        dependent_item.name = slug
         dependent_item.title = title
         dependent_item.save!
       end
@@ -205,7 +206,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def menu_item
-    MenuItems::WikiMenuItem.find_by(title: title, navigatable_id: wiki_id)
+    MenuItems::WikiMenuItem.find_by(name: slug, navigatable_id: wiki_id)
   end
 
   def nearest_menu_item
