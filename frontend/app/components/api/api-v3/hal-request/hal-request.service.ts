@@ -52,8 +52,13 @@ export class HalRequestService {
     }
 
     const config:any = {method: method, url: href, data: data, headers: headers};
-    const createResource =
-      response => this.halResourceFactory.createHalResource(response.data);
+    const createResource = response => {
+      if (!response.data) {
+        return null;
+      }
+
+      return this.halResourceFactory.createHalResource(response.data);
+    };
 
     if (method === 'get') {
       delete config.data;

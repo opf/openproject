@@ -58,17 +58,12 @@ describe('halRequest service', () => {
     var headers = {Accept: 'foo'};
 
     const methods = ['get', 'put', 'post', 'patch', 'delete'];
-    const runExpectations = () => {
-      it('should return a HalResource', () => {
-        expect(promise).to.eventually.be.an.instanceOf(HalResource);
-      });
-    };
-    const respond = status => {
+    const respond = (status, response) => {
       $httpBackend
         .expect(method.toUpperCase(), 'href', data, (headers:any) => {
           return headers.Accept === 'foo';
         })
-        .respond(status, {});
+        .respond(status, response);
 
       $httpBackend.flush();
     };
@@ -87,16 +82,25 @@ describe('halRequest service', () => {
           });
 
           describe('when no error occurs', () => {
-            beforeEach(() => respond(200));
-            runExpectations();
+            beforeEach(() => respond(200, {}));
+            it('should return a HalResource', () => {
+              expect(promise).to.eventually.be.an.instanceOf(HalResource);
+            });
           });
 
           describe('when an error occurs', () => {
-            beforeEach(() => respond(400));
-            runExpectations();
+            beforeEach(() => respond(400, {}));
 
             it('should be rejected with an instance of HalResource', () => {
               expect(promise).to.eventually.be.rejectedWith(HalResource);
+            });
+          });
+
+          describe('when the server does not respond with a result', () => {
+            beforeEach(() => respond(200, null));
+
+            it('should return nothing as well', () => {
+              expect(promise).to.eventually.be.null;
             });
           });
         });
