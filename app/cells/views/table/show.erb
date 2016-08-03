@@ -26,32 +26,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title t(:label_member_plural) -%>
-<%= toolbar title: t(:label_member_plural) do %>
-  <% if authorize_for(:members, :new) %>
-      <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= I18n.t(:button_add_member) %></span>
-      </a>
-  <% end %>
-<% end %>
 
-<%= error_messages_for 'member' %>
-
-<div>
-  <% if Member.any? %>
-    <%= cell Members::UserFilterCell, params, groups: @groups, roles: @roles, status: @status %>
-    &nbsp;
-    <%=
-      cell Members::TableCell, @members, project: @project,
-                                         available_roles: @roles,
-                                         authorize_update: authorize_for('members', 'update')
-    %>
-  <% else %>
-    <%=
-      no_results_box(
-        action_url: new_project_member_path,
-        display_action: authorize_for(:members, :new))
-    %>
-  <% end %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table interactive-table class="generic-table">
+      <colgroup>
+        <% headers.each do |_name, _options| %>
+          <col highlight-col>
+        <% end %>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <% headers.each do |name, options| %>
+            <%= sort_header_tag name, options %>
+          <% end %>
+          <th>
+            <%# last column for buttons %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for row in rows -%>
+          <%= render_row row %>
+        <% end -%>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
 </div>
+<%= pagination_links_full rows %>

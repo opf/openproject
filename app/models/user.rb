@@ -95,16 +95,17 @@ class User < Principal
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
-  scope :blocked, -> { create_blocked_scope(true) }
-  scope :not_blocked, -> { create_blocked_scope(false) }
+  scope :blocked, -> { create_blocked_scope(self, true) }
+  scope :not_blocked, -> { create_blocked_scope(self, false) }
 
-  def self.create_blocked_scope(blocked)
+  def self.create_blocked_scope(scope, blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     blocked_if_login_since = Time.now - block_duration
     negation = blocked ? '' : 'NOT'
-    where("#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
-          Setting.brute_force_block_after_failed_logins.to_i,
-          blocked_if_login_since)
+    scope.where(
+      "#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
+      Setting.brute_force_block_after_failed_logins.to_i,
+      blocked_if_login_since)
   end
 
   acts_as_customizable

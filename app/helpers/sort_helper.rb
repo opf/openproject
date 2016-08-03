@@ -311,10 +311,10 @@ module SortHelper
     caption = options.delete(:caption) || column.to_s.humanize
 
     if column.to_s == @sort_criteria.first_key
-      order = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
-      order + " #{l(:label_sorted_by, "\"#{caption}\"")}"
+      order = @sort_criteria.first_asc? ? t(:label_ascending) : t(:label_descending)
+      order + " #{t(:label_sorted_by, value: "\"#{caption}\"")}"
     else
-      l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+      t(:label_sort_by, value: "\"#{caption}\"") unless options[:title]
     end
   end
 end

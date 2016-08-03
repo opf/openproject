@@ -54,39 +54,12 @@ class UsersController < ApplicationController
   include PaginationHelper
 
   def index
-    sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname mail admin created_on last_login_on)
-
-    scope = User
-    scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
-    c = ARCondition.new
-
-    if params[:status] == 'blocked'
-      @status = :blocked
-      scope = scope.blocked
-    elsif params[:status] == 'all'
-      @status = :all
-      scope = scope.not_builtin
-    else
-      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if @status == User::STATUSES[:active]
-      c << ['status = ?', @status]
-    end
-
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR '\
-            'LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name, name]
-    end
-
-    @users = scope.order(sort_clause)
-             .where(c.conditions)
-             .page(page_param)
-             .per_page(per_page_param)
+    @groups = Group.all.sort
+    @status = params[:status] ? params[:status] : User::STATUSES[:active]
+    @users = Users::UserFilterCell.filter User.all, params
 
     respond_to do |format|
       format.html do
-        @groups = Group.all.sort
         render layout: !request.xhr?
       end
     end
