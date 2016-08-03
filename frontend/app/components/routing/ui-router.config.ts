@@ -122,12 +122,15 @@ openprojectModule
         url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
         params: {
           projectPath: {value: null, squash: true},
-          projects: {value: null, squash: true}
+          projects: {value: null, squash: true},
         },
 
-        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
-          $state.go('work-packages.list.details.overview', $stateParams);
+          // Transitioning to a new state may cause a reported issue
+          // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
+          // I believe we should replace this with an explicit edit state
+          $timeout(() => $state.go('work-packages.list.details.overview', $stateParams, { notify: false }));
         }
       })
 
@@ -142,9 +145,12 @@ openprojectModule
       .state('work-packages.show.edit', {
         url: '/edit',
         reloadOnSearch: false,
-        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
-          $state.go('work-packages.show', $stateParams);
+          // Transitioning to a new state may cause a reported issue
+          // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
+          // I believe we should replace this with an explicit edit state
+          $timeout(() => $state.go('work-packages.show', $stateParams, { notify: false }));
         }
       })
       .state('work-packages.show.activity', panels.activity)

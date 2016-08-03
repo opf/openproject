@@ -34,14 +34,17 @@ export class WorkPackageEditModeStateService {
   
   private _active: boolean = false;
 
-  constructor(protected $rootScope, protected $window, protected $q, protected I18n) {
+  constructor(protected $rootScope, protected ConfigurationService, protected $window, protected $q, protected I18n) {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const cancelEventName = 'beforeunload.confirm_cancel';
+    const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
-    // Show confirmation message when transitioning to a new state
-    // that's not withing the current param.
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-      if (this.active && toParams.workPackageId !== fromParams.workPackageId) {
+      // Show confirmation message when transitioning to a new state
+      // that's not withing the current param.
+      if (requiresConfirmation &&
+          this.active &&
+          toParams.workPackageId !== fromParams.workPackageId) {
 
         if (!$window.confirm(confirmText)) {
           return event.preventDefault();
@@ -53,7 +56,7 @@ export class WorkPackageEditModeStateService {
 
     // Show confirmation message when browsing to a new page
     angular.element($window).on(cancelEventName, (event) => {
-      if (this.active) {
+      if (requiresConfirmation && this.active) {
         event.returnValue = confirmText;
         event.preventDefault();
 
