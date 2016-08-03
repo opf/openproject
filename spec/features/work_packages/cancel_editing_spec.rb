@@ -32,7 +32,9 @@ describe 'Cancel editing work package', js: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:paths) {
     [
       new_work_packages_path,
@@ -44,6 +46,7 @@ describe 'Cancel editing work package', js: true do
 
   before do
     work_package
+    work_package2
     login_as(user)
   end
 
@@ -58,14 +61,33 @@ describe 'Cancel editing work package', js: true do
     expect(subject.value).to eq(val)
   end
 
+  def move_to_home_page(alert: true)
+    find('.home-link').click
+
+    page.driver.browser.switch_to.alert.accept if alert
+    expect(page).to have_selector('h2', text: 'OpenProject')
+  end
+
   it 'shows an alert when moving to other pages' do
     paths.each do |path|
       expect_active_edit(path)
-      find('.home-link').click
-
-      page.driver.browser.switch_to.alert.accept
-      expect(page).to have_selector('h2', text: 'OpenProject')
+      move_to_home_page
     end
+  end
+
+  it 'shows an alert when moving to other states' do
+    expect_active_edit(new_split_work_packages_path)
+    loading_indicator_saveguard
+    wp_table.expect_work_package_listed(work_package2)
+
+    wp_table.open_split_view(work_package2)
+    page.driver.browser.switch_to.alert.dismiss
+
+    expect(page).to have_selector('.wp-edit-field.subject.-active')
+    expect(wp_page).not_to have_alert_dialog
+
+    # Actually move somewhere to accept the beforeunload
+    move_to_home_page
   end
 
   it 'cancels the editing when clicking the button' do
@@ -104,5 +126,27 @@ describe 'Cancel editing work package', js: true do
     # Visiting another page does not create alert
     find('.home-link').click
     expect(wp_page).not_to have_alert_dialog
+  end
+
+  context 'when user does not want to be warned' do
+    before do
+      FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
+    end
+
+    it 'does not alert when moving anywhere' do
+      # Moving to angular states
+      expect_active_edit(new_split_work_packages_path)
+      wp_table.expect_work_package_listed(work_package2)
+
+      wp_table.open_split_view(work_package2)
+      expect(wp_page).not_to have_alert_dialog
+
+      expect(page).to have_no_selector('.wp-edit-field.subject.-active')
+      expect(page).to have_selector('.work-packages--details--subject', text: work_package2.subject)
+
+      # Moving somewhere else
+      expect_active_edit(new_split_work_packages_path)
+      move_to_home_page(alert: false)
+    end
   end
 end
