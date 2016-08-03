@@ -42,11 +42,9 @@ export class WorkPackageEditModeStateService {
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
       // Show confirmation message when transitioning to a new state
       // that's not withing the current param.
-      if (requiresConfirmation &&
-          this.active &&
-          toParams.workPackageId !== fromParams.workPackageId) {
+      if (this.active && toParams.workPackageId !== fromParams.workPackageId) {
 
-        if (!$window.confirm(confirmText)) {
+        if (requiresConfirmation && !$window.confirm(confirmText)) {
           return event.preventDefault();
         }
 
