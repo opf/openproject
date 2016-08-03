@@ -79,13 +79,6 @@ class Wiki < ActiveRecord::Base
     page
   end
 
-  ##
-  # Unescape the given title from user input to retrieve the
-  # unicode title of a wiki page
-  def self.from_param(title)
-    CGI.unescape(CGI.unescapeHTML(title))
-  end
-
   # Finds a page by title
   # The given string can be of one of the forms: "title" or "project:title"
   # Examples:
