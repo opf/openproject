@@ -98,8 +98,7 @@ function wpContextMenuController($scope,
       workPackageId: selected[0].id
     };
 
-    wpEditModeState.start();
-    $state.transitionTo('work-packages.show', params);
+    $state.transitionTo('work-packages.show.edit', params);
   }
 
   function getWorkPackagesFromSelectedRows() {

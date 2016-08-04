@@ -64,7 +64,8 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
           impaired: false,
           time_zone: '',
           others: {
-            comments_sorting: 'asc'
+            comments_sorting: 'asc',
+            warn_on_leaving_unsaved: true
           }
         }
       };
@@ -88,6 +89,9 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     },
     commentsSortedInDescendingOrder: function () {
       return this.settings.user_preferences.others.comments_sorting === 'desc';
+    },
+    warnOnLeavingUnsaved: function () {
+      return this.settings.user_preferences.others.warn_on_leaving_unsaved === true;
     },
     isTimezoneSet: function () {
       return this.settings.user_preferences.time_zone !== '';

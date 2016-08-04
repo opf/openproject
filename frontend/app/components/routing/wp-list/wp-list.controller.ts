@@ -261,7 +261,7 @@ function WorkPackagesListController($scope,
 
       loadingIndicator.mainPage = $state.go(
         'work-packages.show',
-        angular.extend(params, $state.params)
+        angular.extend($state.params, params)
       );
     }
   };

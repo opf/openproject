@@ -124,7 +124,8 @@ describe('WorkPackageDetailsController', () => {
 
   beforeEach(angular.mock.module('openproject.templates', function ($provide) {
     $provide.constant('ConfigurationService', {
-      isTimezoneSet: sinon.stub().returns(false)
+      isTimezoneSet: sinon.stub().returns(false),
+      warnOnLeavingUnsaved: sinon.stub().returns(false)
     });
 
     $provide.constant('$stateParams', stateParams);
