@@ -82,7 +82,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
       find("option[value='#{vendor}']").select_option
     end
 
-    shared_examples 'has only the type which is hidden' do |type, vendor|
+    shared_examples 'has only the type which is selected' do |type, vendor|
       it 'should display one type' do
         # There seems to be an issue with how the
         # select is accessed after the async form loading
@@ -98,7 +98,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
         content = find("#"+"#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        expect(content[:style]).to match("display: none")
+        scm_type.should be_checked
       end
     end
 
@@ -168,7 +168,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     context 'with Subversion selected' do
       let(:vendor) { 'subversion' }
 
-      it_behaves_like 'has only the type which is hidden', 'existing', 'subversion'
+      it_behaves_like 'has only the type which is selected', 'existing', 'subversion'
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
@@ -186,12 +186,12 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     context 'with Git selected' do
       let(:vendor) { 'git' }
 
-      it_behaves_like 'has only the type which is hidden', 'local', 'git'
+      it_behaves_like 'has only the type which is selected', 'local', 'git'
       context 'and managed repositories, but not ours' do
         let(:config) {
           { subversion: { manages: '/tmp/whatever' } }
         }
-        it_behaves_like 'has only the type which is hidden', 'local', 'git'
+        it_behaves_like 'has only the type which is selected', 'local', 'git'
       end
 
       context 'and managed repositories' do
