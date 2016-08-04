@@ -134,7 +134,9 @@ export class WpAttachmentsFormattableController {
 
   protected insertDelayedAttachments(dropData:DropModel, description):void {
     for (var i = 0; i < dropData.files.length; i++) {
-      description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), InsertMode.ATTACHMENT, true);
+      var currentFile = new SingleAttachmentModel(dropData.files[i]);
+      var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
+      description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), insertMode, true);
       this.$rootScope.$broadcast('work_packages.attachment.add', dropData.files[i]);
     }
 
