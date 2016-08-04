@@ -26,42 +26,56 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class FoundationModalContainerController {
-  protected showing:boolean;
-  protected activationSelector:string;
+import IAugmentedJQuery = angular.IAugmentedJQuery;
+import {IDialogService} from 'ng-dialog';
+export class ModalWrapperController {
+  private modalBody:string;
+  public modal:any;
+  public modalParams:any;
 
-  constructor(protected $element, protected $timeout) {
-    if (this.activationSelector) {
-      angular.element(this.activationSelector).click(() => {
-        $timeout(() => this.showing = true);
-      });
+  private modalOptions:any = {
+    plain: true,
+    closeByEscape: true,
+    closeByDocument: false,
+    className: 'ngdialog-theme-openproject'
+  };
+
+  constructor(protected $element,
+              protected $scope,
+              protected $attrs:ng.IAttributes,
+              protected ngDialog:IDialogService) {
+
+    // Set template from wrapped element
+    const wrappedElement = $element.find('.modal-wrapper--content');
+    this.modalBody = wrappedElement.html();
+
+    angular.extend(this.modalOptions, this.modalParams || {});
+    this.modalOptions.template = this.modalBody;
+
+    if (!!$attrs['initialize']) {
+      this.initialize();
+    } else {
+      $element.find('.modal-wrapper--activation-link').click(() => this.initialize());
     }
   }
 
-  public get isShowing() {
-    return !!this.showing;
-  }
-
-  public hide() {
-    this.showing = false;
+  public initialize() {
+    this.modal = this.ngDialog.open(this.modalOptions);
   }
 }
 
-function foundationModalContainer() {
+function modalWrapper() {
   return {
     restrict: 'E',
-    transclude: true,
     scope: {
-      activationSelector: '@',
-      showing: '=?'
+      modalParams: '='
     },
     bindToController: true,
-    controller: FoundationModalContainerController,
+    controller: ModalWrapperController,
     controllerAs: '$ctrl',
-    templateUrl: '/components/common/modal/foundation-modal-container.directive.html'
   };
 }
 
 angular
   .module('openproject.uiComponents')
-  .directive('foundationModalContainer', foundationModalContainer);
+  .directive('modalWrapper', modalWrapper);

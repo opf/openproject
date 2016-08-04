@@ -19,66 +19,40 @@
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public LicenseÏ
+// You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Align ngDialog's close button
-.onboarding-modal .ngdialog-close
-  line-height: $header-height
 
-.onboarding--top-menu
+// Hide modal content forwarded from rails
+.modal-wrapper--content
+  display: none
+
+.ngdialog-theme-openproject
   display: flex
   align-items: center
-  background-color: $header-bg-color
-  height: $header-height
-  border-bottom: $header-border-bottom-width solid $header-border-bottom-color
+  justify-content: center
 
-  .avatar,
-  .icon-context
-    margin-left: 1.5em
-  h2
-    color: $header-item-font-color
-    padding: 0 0.5em
-    font-size: 1.25rem
+  .ngdialog-overlay
+    z-index: 99
 
-  .icon-close
+  .ngdialog-content
+    background: $body-background
+    max-width: 600px
+    z-index: 100
+    // Required for close icon
+    position: relative
+
+  .ngdialog-close
+    cursor: pointer
     position: absolute
-    top: 1rem
-    right: 0.5rem
-    z-index: 1000
-    color: $header-item-font-color
+    right: 0
+    top: 0
 
-
-.onboarding--main
-  margin-top: 1em
-  padding: 0 1.5rem
-
-  .onboarding--video-block
-    display: flex
-    justify-content: space-between
-    flex-direction: column
-
-    .onboarding--video-text
-      line-height: 1.25
-
-    .onboarding--video
-      margin: 2em 0
-      align-self: center
-      width: 100%
-
-      iframe
-        width: 100%
-
-.onboarding--footer
-  display: flex
-  align-items: center
-  margin: 1em 0
-  margin-top: 0
-  justify-content: flex-end
-
-  .button
-    margin: 0 1.5rem 0 1rem
+    &:before
+      @include icon-common
+      @extend .icon-context
+      @extend .icon-close:before

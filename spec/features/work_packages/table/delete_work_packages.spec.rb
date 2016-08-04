@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Delete work package', js: true do
   let(:user) { FactoryGirl.create(:admin) }
-  let(:context_menu) { Components::WorkPackagesContextMenu.new }
+  let(:context_menu) { Components::WorkPackages::ContextMenu.new }
 
   before do
     login_as(user)

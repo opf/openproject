@@ -7,13 +7,13 @@
     "jquery-ui": "~1.10.4",
     "select2": "3.5.2",
     "jquery.atwho": "0.5.1",
-    "angular": "~1.3.14",
-    "angular-animate": "~1.3.14",
-    "angular-aria": "~1.3.14",
+    "angular": "~1.3.20",
+    "angular-animate": "~1.3.20",
+    "angular-aria": "~1.3.20",
     "angular-ui-router": "0.2.18",
     "angular-i18n": "~1.3.0",
     "angular-modal": "finnlabs/angular-modal#d45eb9ceb720b8785613ba89ba0f14f8ab197569",
-    "angular-sanitize": "~1.3.14",
+    "angular-sanitize": "~1.3.20",
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-elastic": "2.5.0",
     "angular-cache": "~4.3.2",
@@ -29,7 +29,8 @@
     "mousetrap": "~1.4.6",
     "ng-file-upload": "~5.0.9",
     "restangular": "~1.5.1",
-    "rxjs": "^4.1.0"
+    "rxjs": "^4.1.0",
+    "ng-dialog": "^0.6.2"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
@@ -39,7 +40,7 @@
   },
   "resolutions": {
     "jquery": "1.11.0",
-    "angular": "1.3.14",
-    "angular-animate": "1.3.14"
+    "angular": "1.3.20",
+    "angular-animate": "1.3.20"
   }
 }

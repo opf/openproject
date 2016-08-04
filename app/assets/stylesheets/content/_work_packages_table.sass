@@ -28,10 +28,12 @@
 
 // Show details view button when hovering
 .wp-table--details-link
-  display: none
-
-  .issue:hover &
-    display: inline-block
+  .issue:hover &,
+  &:focus
+    position: relative
+    left: 0
+    width: 1.5rem
+    height: 1.5rem
 
     .icon
       position: relative
