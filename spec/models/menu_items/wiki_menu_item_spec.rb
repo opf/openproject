@@ -43,7 +43,7 @@ describe MenuItems::WikiMenuItem, type: :model do
     @project.reload
 
     wiki_item = @project.wiki.wiki_menu_items.first
-    expect(wiki_item.name).to eql 'Wiki'
+    expect(wiki_item.name).to eql 'wiki'
     expect(wiki_item.title).to eql 'Wiki'
     expect(wiki_item.slug).to eql 'wiki'
     expect(wiki_item.options[:index_page]).to eql true

@@ -87,6 +87,10 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
+  def slug
+    read_attribute(:slug).presence || title.try(:to_url)
+  end
+
   def delete_wiki_menu_item
     menu_item.destroy if menu_item
     # ensure there is a menu item for the wiki

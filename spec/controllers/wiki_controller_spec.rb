@@ -260,21 +260,21 @@ describe WikiController, type: :controller do
     describe '- main menu links' do
       before do
         @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
-                                                                                    name:    'Item for Page with Content',
-                                                                                    title:   @page_with_content.title)
+                                                                                    title:    'Item for Page with Content',
+                                                                                    name:   @page_with_content.slug)
 
         @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
-                                                                                name:    'Item for new WikiPage',
-                                                                                title:   'NewWikiPage')
+                                                                                title:    'Item for new WikiPage',
+                                                                                name:   'new-wiki-page')
 
         @other_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
-                                                               name:    'Item for other page',
-                                                               title:   @unrelated_page.title)
+                                                               title:    'Item for other page',
+                                                               name:   @unrelated_page.slug)
       end
 
       shared_examples_for 'all wiki menu items' do
         it 'is inactive, when an unrelated page is shown' do
-          get 'show', id: @unrelated_page.title, project_id: @project.id
+          get 'show', id: @unrelated_page.slug, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -284,7 +284,7 @@ describe WikiController, type: :controller do
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
-          get 'show', id: @other_wiki_menu_item.title, project_id: @project.id
+          get 'show', id: @other_wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -294,7 +294,7 @@ describe WikiController, type: :controller do
         end
 
         it 'is active, when the given wiki menu item is shown' do
-          get 'show', id: @wiki_menu_item.title, project_id: @project.id
+          get 'show', id: @wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -306,7 +306,7 @@ describe WikiController, type: :controller do
       shared_examples_for 'all existing wiki menu items' do
         # TODO: Add tests for new and toc options within menu item
         it 'is active on parents item, when new page is shown' do
-          get 'new_child', id: @wiki_menu_item.title, project_id: @project.identifier
+          get 'new_child', id: @wiki_menu_item.name, project_id: @project.identifier
 
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
@@ -316,7 +316,7 @@ describe WikiController, type: :controller do
         end
 
         it 'is inactive, when a toc page is shown' do
-          get 'index', id: @wiki_menu_item.title, project_id: @project.id
+          get 'index', id: @wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_no_selected_menu_item_in(:project_menu)
@@ -328,7 +328,7 @@ describe WikiController, type: :controller do
 
       shared_examples_for 'all wiki menu items with child pages' do
         it 'is active, when the given wiki menu item is an ancestor of the shown page' do
-          get 'show', id: @child_page.title, project_id: @project.id
+          get 'show', id: @child_page.slug, project_id: @project.id
 
           expect(response).to be_success
           expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
@@ -361,8 +361,8 @@ describe WikiController, type: :controller do
       describe '- wiki_menu_item containing special chars only' do
         before do
           @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
-                                                                name:    '?',
-                                                                title:   'Help')
+                                                                title:    '?',
+                                                                name:   'help')
           @other_wiki_menu_item = @other_menu_item
         end
 
