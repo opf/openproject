@@ -34,10 +34,10 @@ import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.servi
 export class RelationsPanelController {
   public workPackage:WorkPackageResourceInterface;
   public relationTitles;
-  public relationGroups;
+  public relationGroups = [];
 
-  constructor(I18n: op.I18n,
-              wpRelations:WorkPackageRelationsService) {
+  constructor(protected I18n: op.I18n,
+              protected wpRelations:WorkPackageRelationsService) {
 
     this.relationTitles = {
       parent: I18n.t('js.relation_buttons.change_parent'),
@@ -51,10 +51,20 @@ export class RelationsPanelController {
       follows: I18n.t('js.relation_buttons.add_follows')
     };
 
-    this.workPackage.relations.$load().then(() => {
-      this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
+    this.refreshRelations();
+  }
+
+  public refreshRelations() {
+    this.workPackage.relations.$load(true).then((res) => {
+      // TODO: having to update the relations manually after $load feels awkward..
+      this.workPackage.relations = res;
+
+      this.relationGroups.length = 0;
+      angular.extend(this.relationGroups, this.wpRelations.getWpRelationGroups(this.workPackage));
     });
   }
+
+
 }
 
 function relationsPanelDirective() {

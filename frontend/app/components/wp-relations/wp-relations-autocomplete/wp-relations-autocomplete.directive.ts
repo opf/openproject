@@ -29,19 +29,20 @@
 import {wpTabsModule} from "../../../angular-modules";
 import {WorkPackageRelationsController} from "../wp-relations.directive";
 
-function addWpRelationDirective(I18n) {
+function wpRelationsAutocompleteDirective(I18n) {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/add-wp-relation/add-wp-relation.directive.html',
-
-    link: function (scope) {
-      scope.text = {
-        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {field: scope.$ctrl.text.title})
-      };
+    require: '^wpRelationsCreate',
+    templateUrl: '/components/wp-relations/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
+    link: function (scope, element, attrs, wpRelationCreateCtrl) {
+      console.log('addWpRelation scope.$ctrl', scope.$ctrl);
+      console.log('addWpRelation scope.$ctrl', wpRelationCreateCtrl);
       scope.autocompleteWorkPackages = (term) => {
-        if (!term) return;
+        if (!term || !wpRelationCreateCtrl.selectedRelationType) {
+          return;
+        }
 
-        scope.$ctrl.relationGroup.findRelatableWorkPackages(term).then(workPackages => {
+        wpRelationCreateCtrl.selectedRelationType.findRelatableWorkPackages(term).then(workPackages => {
           scope.options = workPackages;
         });
       };
@@ -49,4 +50,4 @@ function addWpRelationDirective(I18n) {
   };
 }
 
-wpTabsModule.directive('addWpRelation', addWpRelationDirective);
+wpTabsModule.directive('wpRelationsAutocomplete', wpRelationsAutocompleteDirective);

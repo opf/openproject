@@ -1,0 +1,41 @@
+<div>
+    <div class="wp-inline-create-button">
+        <a class="wp-inline-create--add-link" ng-click="createCtrl.toggleRelationsCreateForm()" ng-if="!createCtrl.showRelationsCreateForm">
+            <i class="icon icon-add"></i>
+            <span>Create new relation</span>
+        </a>
+    </div>
+    <div ng-if="createCtrl.showRelationsCreateForm">
+        <!-- TODO: get foundation's grid system to work.. -->
+        <table style="width:100%">
+            <tbody>
+            <tr>
+                <td style="width: 30%">
+                    <select
+                            class="relationTypeSelect"
+                            ng-model="createCtrl.selectedRelationType"
+                            ng-options="createCtrl.relationTitles[relationType.name] for relationType in createCtrl.availableRelationTypes">
+                    </select>
+                </td>
+                <td style="width: 50%;">
+                    <wp-relations-autocomplete></wp-relations-autocomplete>
+                </td>
+                <td style="width: 10%; text-align:right;">
+                        <span style="text-align:right" ng-click="createCtrl.toggleRelationsCreateForm()" class="icon-context icon-button icon-remove " title="Remove relation" icon-name="remove" icon-title="Remove relation">
+                          <span class="hidden-for-sighted ng-binding">Remove relation</span>
+                        </span>
+                </td>
+                <td style="width: 10%; text-align:right;">
+                        <span style="text-align:right" ng-click="createCtrl.createRelation()" class="icon-context icon-button icon-checkmark" title="Save relation" icon-name="checkmark" icon-title="Remove relation">
+                          <span class="hidden-for-sighted ng-binding">Save relation</span>
+                        </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
