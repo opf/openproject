@@ -52,7 +52,7 @@ module Redmine::MenuManager::MenuHelper
     MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
-                  { controller: '/wiki', action: 'show', id: CGI.escape(main_item.title) },
+                  { controller: '/wiki', action: 'show', id: main_item.slug },
                   param: :project_id,
                   caption: main_item.name,
                   after: :repository,
@@ -60,13 +60,12 @@ module Redmine::MenuManager::MenuHelper
 
         main_item.children.each do |child|
           menu.push "#{child.item_class}".to_sym,
-                    { controller: '/wiki', action: 'show', id: CGI.escape(child.title) },
+                    { controller: '/wiki', action: 'show', id: child.slug },
                     param: :project_id,
                     caption: child.name,
                     html:    { class: 'icon2 icon-wiki2' },
                     parent: "#{main_item.item_class}".to_sym
         end
-        # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
       end
     end
   end

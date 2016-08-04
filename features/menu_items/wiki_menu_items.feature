@@ -119,9 +119,9 @@ Feature: Wiki menu items
   Scenario: When I delete the last wiki page with a menu item I can select a new menu item and the menu item is replaced
     Given the project "Awesome Project" has a wiki menu item with the following:
       | title | AwesomePage |
-      | name  | AwesomePage |
+      | name  | awesomepage |
     And the wiki menu item of the wiki page "Wiki" of project "Awesome Project" has been deleted
-    When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
+    When I go to the wiki page "awesomepage" for the project called "Awesome Project"
     And I click on "More"
     And I click on "Configure menu item"
     And I choose "Do not show this wikipage in project navigation"

@@ -98,14 +98,14 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Wiki-menu-item', 'Wiki'
+          assert_select '#main-menu a.wiki-menu-item', 'wiki'
         end
       end
 
       describe 'with custom wiki menu item' do
         before do
-          main_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'Example', title: 'Example')
-          sub_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'Sub', title: 'Sub', parent_id: main_item.id)
+          main_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'example', title: 'Example')
+          sub_item = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id, name: 'sub', title: 'Sub', parent_id: main_item.id)
         end
 
         it 'renders show' do
@@ -117,13 +117,13 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Example-menu-item', 'Example'
+          assert_select '#main-menu a.example-menu-item', 'example'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', @params
 
-          assert_select '#main-menu a.Sub-menu-item', 'Sub'
+          assert_select '#main-menu a.sub-menu-item', 'sub'
         end
       end
     end

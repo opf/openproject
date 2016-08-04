@@ -36,8 +36,12 @@ class MenuItems::WikiMenuItem < MenuItem
       .order('id ASC')
   }
 
+  def slug
+    name.to_url
+  end
+
   def item_class
-    title.dasherize
+    slug
   end
 
   def index_page

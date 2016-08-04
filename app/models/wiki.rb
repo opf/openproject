@@ -79,13 +79,6 @@ class Wiki < ActiveRecord::Base
     page
   end
 
-  ##
-  # Unescape the given title from user input to retrieve the
-  # unicode title of a wiki page
-  def self.from_param(title)
-    CGI.unescape(CGI.unescapeHTML(title))
-  end
-
   # Finds a page by title
   # The given string can be of one of the forms: "title" or "project:title"
   # Examples:
@@ -108,7 +101,7 @@ class Wiki < ActiveRecord::Base
 
   def create_menu_item_for_start_page
     wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
-      item.name = 'Wiki'
+      item.name = 'wiki'
     }
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
