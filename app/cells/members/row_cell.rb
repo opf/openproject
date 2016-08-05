@@ -11,7 +11,9 @@ module Members
     end
 
     def row_css_class
-      "member"
+      group = user ? "" : "group"
+
+      "member #{group}".strip
     end
 
     def lastname

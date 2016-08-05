@@ -1,7 +1,6 @@
 ##
 # Abstract cell. Subclass this for a concrete table.
 class TableCell < RailsCell
-  include ToolbarHelper
   include UsersHelper
   include SortHelper
   include PaginationHelper
