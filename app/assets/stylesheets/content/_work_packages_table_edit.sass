@@ -97,6 +97,15 @@
     .error.macro-unavailable
       display: inline-block
 
+// Style no-label fields (long text, description, ..) with padding
+.-editable.-no-label:not(.-active)
+  margin-left: -0.375rem
+
+  .wp-table--cell-span
+    display: block
+    padding: 5px
+    padding-right: 0
+
 // Mark focused, non-editable read-values
 .inplace-edit--read-value.-read-only
   &:focus, &:hover
