@@ -32,6 +32,15 @@ import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-fa
 import IPromise = angular.IPromise;
 
 export class HalRequestService {
+  /**
+   * Default headers sent with every request.
+   */
+  public defaultHeaders = {
+    caching: {
+      enabled: true
+    }
+  };
+
   constructor(protected $q:ng.IQService,
               protected $http:ng.IHttpService,
               protected halResourceFactory:HalResourceFactoryService) {
@@ -39,12 +48,6 @@ export class HalRequestService {
 
   /**
    * Perform a HTTP request and return a HalResource promise.
-   *
-   * @param method
-   * @param href
-   * @param data
-   * @param headers
-   * @returns {IPromise<HalResource>}
    */
   public request(method:string, href:string, data?:any, headers:any = {}):IPromise<HalResource> {
     if (!href) {
@@ -55,7 +58,15 @@ export class HalRequestService {
       data = data || {};
     }
 
-    const config:any = {method: method, url: href, data: data, headers: headers};
+    headers = angular.extend({}, this.defaultHeaders, headers);
+
+    const config:any = {
+      method: method,
+      url: href,
+      data: data,
+      headers: headers,
+      cache: headers.caching.enabled
+    };
     const createResource = response => {
       if (!response.data) {
         return null;

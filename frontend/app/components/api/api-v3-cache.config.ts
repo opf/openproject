@@ -36,16 +36,15 @@ function apiV3CacheConfig($provide) {
       var request = args[0];
       var requestable = () => $http.apply($http, args);
       var useCaching = request.cache;
+      request.method = request.method.toUpperCase();
 
       // Override cache values from headers
       if (request.headers && request.headers.caching) {
-        let cacheOptions = request.headers.caching;
-        useCaching = cacheOptions.enabled;
-        delete request.headers.caching;
+        useCaching = request.headers.caching.enabled;
       }
 
       // Do not cache anything but GET 
-      if (!useCaching || (request.method && request.method !== 'GET')) {
+      if (!useCaching || request.method !== 'GET') {
         request.cache = false;
         return requestable();
       }

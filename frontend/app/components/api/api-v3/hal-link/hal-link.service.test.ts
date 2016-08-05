@@ -28,6 +28,7 @@
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalLink} from './hal-link.service';
+import {HalRequestService} from '../hal-request/hal-request.service';
 
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
@@ -38,8 +39,10 @@ describe('HalLink service', () => {
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
                                            _$rootScope_,
-                                           _HalLink_) {
+                                           _HalLink_,
+                                           halRequest:HalRequestService) {
     [$httpBackend, $rootScope, HalLink] = _.toArray(arguments);
+    halRequest.defaultHeaders.caching.enabled = false;
   }));
 
   it('should exist', () => {
@@ -90,6 +93,18 @@ describe('HalLink service', () => {
 
     it('should throw no error', () => {
       expect(() => link.$fetch()).not.to.throw(Error);
+    });
+  });
+
+  describe('when passing headers to $fetch', () => {
+    beforeEach(() => {
+      link = HalLink.fromObject({href: 'foobar'});
+      link.$fetch({param: 'foo'}, {foo: 'bar'});
+    });
+
+    it('should send the headers', () => {
+      $httpBackend.expectGET('foobar?param=foo', headers => headers.foo === 'bar').respond(200, {});
+      $httpBackend.flush();
     });
   });
 

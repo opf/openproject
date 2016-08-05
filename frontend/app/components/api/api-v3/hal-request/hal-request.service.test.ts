@@ -67,12 +67,60 @@ describe('halRequest service', () => {
     });
   });
 
+  describe('when requesting the same GET resource multiple times', () => {
+    var headers:any;
+
+    const testRequest = prepare => {
+      beforeEach(prepare);
+
+      it('should perform requests according to the cache options', () => {
+        $httpBackend.expectGET('something').respond(200, '', (headers) => {
+          return headers.caching.enabled === true;
+        });
+
+        if (headers.caching && headers.caching.enabled === false) {
+          $httpBackend.expectGET('something').respond(200, '');
+        }
+      });
+    };
+    const testMethods = () => {
+      describe('when using request()', () => {
+        testRequest(() => {
+          halRequest.request('get', 'something', {}, headers);
+          halRequest.request('get', 'something', {}, headers);
+        });
+      });
+
+      describe('when using get()', () => {
+        testRequest(() => {
+          halRequest.get('something', {}, headers);
+          halRequest.get('something', {}, headers);
+        });
+      });
+    };
+
+    beforeEach(() => {
+      halRequest.defaultHeaders.caching = {enabled: true};
+      headers = {};
+    });
+
+    testMethods();
+
+    describe('when sending a no cache header', () => {
+      beforeEach(() => {
+        headers = {caching: {enabled: false}};
+      });
+
+      testMethods();
+    });
+  });
+
   describe('when requesting data', () => {
     var promise:IPromise<HalResource>;
     var method:string;
     var data:any;
     var expectedData:any;
-    var headers = {Accept: 'foo'};
+    var headers = {Accept: 'foo', caching: {enabled: false}};
 
     const methods = ['get', 'put', 'post', 'patch', 'delete'];
     const respond = (status, response) => {

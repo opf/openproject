@@ -29,6 +29,7 @@
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
+import {HalRequestService} from '../hal-request/hal-request.service';
 
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
@@ -43,8 +44,10 @@ describe('HalResource service', () => {
     $provide.value('OtherResource', OtherResource);
   }));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _halResourceFactory_) {
+                                           _halResourceFactory_,
+                                           halRequest:HalRequestService) {
     [$httpBackend, halResourceFactory] = _.toArray(arguments);
+    halRequest.defaultHeaders.caching.enabled = false;
   }));
 
   it('should exist', () => {

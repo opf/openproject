@@ -49,9 +49,6 @@ interface CallableHalLink extends HalLinkInterface {
 export class HalLink implements HalLinkInterface {
   /**
    * Create the HalLink from an object with the HalLinkInterface.
-   *
-   * @param link
-   * @returns {HalLink}
    */
   public static fromObject(link):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated, link.payload);
@@ -59,9 +56,6 @@ export class HalLink implements HalLinkInterface {
 
   /**
    * Return a function that fetches the resource.
-   *
-   * @param link
-   * @return {CallableHalLink}
    */
   public static callable(link):CallableHalLink {
     return HalLink.fromObject(link).$callable();
@@ -76,12 +70,10 @@ export class HalLink implements HalLinkInterface {
 
   /**
    * Fetch the resource.
-   *
-   * @param data
-   * @returns {ng.IPromise<HalResource>}
    */
-  public $fetch(data?:any):ng.IPromise<HalResource> {
-    return halRequest.request(this.method, this.href, data);
+  public $fetch(...params):ng.IPromise<HalResource> {
+    const [data, headers] = params;
+    return halRequest.request(this.method, this.href, data, headers);
   }
 
   /**
@@ -90,7 +82,7 @@ export class HalLink implements HalLinkInterface {
    * @returns {CallableHalLink}
    */
   public $callable():CallableHalLink {
-    const linkFunc:any = data => this.$fetch(data);
+    const linkFunc:any = (...params) => this.$fetch(...params);
 
     _.extend(linkFunc, {
       $link: this,
