@@ -98,6 +98,11 @@
     padding: 5px
     padding-right: 0
 
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
+
 // Mark focused, non-editable read-values
 .inplace-edit--read-value.-read-only
   &:focus, &:hover
