@@ -105,7 +105,8 @@ class User < Principal
     scope.where(
       "#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
       Setting.brute_force_block_after_failed_logins.to_i,
-      blocked_if_login_since)
+      blocked_if_login_since
+    )
   end
 
   acts_as_customizable

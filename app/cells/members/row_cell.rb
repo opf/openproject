@@ -29,7 +29,7 @@ module Members
         link = mail_to(user.mail)
 
         if member.user && member.user.invited?
-          i = "<i title=\"#{t("text_user_invited")}\" class=\"icon icon-mail1\"></i>".html_safe
+          i = content_tag "i", "", title: t("text_user_invited"), class: "icon icon-mail1"
 
           link + i
         else
@@ -55,7 +55,8 @@ module Members
         row: self,
         params: controller.params,
         roles: table.available_roles,
-        context: { controller: controller })
+        context: { controller: controller }
+      )
     end
 
     def groups
@@ -87,7 +88,8 @@ module Members
         '',
         edit_javascript,
         class: 'icon icon-edit',
-        title: t(:button_edit))
+        title: t(:button_edit)
+      )
     end
 
     def edit_javascript
@@ -103,21 +105,30 @@ module Members
     end
 
     def delete_link
-      delete_class, delete_title = if model.disposable?
-        ['icon icon-delete', I18n.t(:title_remove_and_delete_user)]
-      else
-        ['icon icon-remove', I18n.t(:button_remove)]
-      end
+      delete_class, delete_title = delete_link_class_and_title
 
       link_to(
         '',
         { controller: '/members', action: 'destroy', id: model, page: params[:page] },
         method: :delete,
-        data: {
-          confirm: ((!User.current.admin? && model.include?(User.current)) ?
-            t(:text_own_membership_delete_confirmation) : nil)
-        },
-        title: delete_title, class: delete_class) if model.deletable?
+        data: { confirm: delete_link_confirmation },
+        title: delete_title,
+        class: delete_class
+      ) if model.deletable?
+    end
+
+    def delete_link_class_and_title
+      if model.disposable?
+        ['icon icon-delete', I18n.t(:title_remove_and_delete_user)]
+      else
+        ['icon icon-remove', I18n.t(:button_remove)]
+      end
+    end
+
+    def delete_link_confirmation
+      if !User.current.admin? && model.include?(User.current)
+        t(:text_own_membership_delete_confirmation)
+      end
     end
 
     def column_css_class(column)

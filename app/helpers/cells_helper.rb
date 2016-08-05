@@ -4,7 +4,7 @@ module CellsHelper
   # instead of a standard rails view.
   def render_cell(name, model, opts = {})
     opts[:context] = { controller: self } if self.is_a? ActionController::Base
-    render_options = opts.delete(:render_options) || { }
+    render_options = opts.delete(:render_options) || {}
 
     cell = cell(name, model, opts)
     rendered = cell.call

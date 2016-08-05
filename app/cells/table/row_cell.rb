@@ -34,7 +34,7 @@ module Table
       Hash[entries]
     end
 
-    def column_title(column)
+    def column_title(_column)
       nil
     end
 

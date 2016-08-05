@@ -44,13 +44,15 @@ class TableCell < RailsCell
 
       "#{mod}::#{class_name}".constantize
     rescue NameError
-      raise NameError,
+      raise(
+        NameError,
         "#{mod}::#{class_name} required by #{mod}::TableCell not defined. " +
         "Expected to be defined in `app/cells/#{mod.underscore}/#{class_name.underscore}.rb`."
+      )
     end
 
     def namespace
-      self.name.split("::")[0..-2].join("::").presence
+      name.split("::")[0..-2].join("::").presence
     end
   end
 

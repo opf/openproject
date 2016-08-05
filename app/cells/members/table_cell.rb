@@ -66,7 +66,8 @@ module Members
               ON group_users.user_id = members.user_id
             LEFT JOIN (SELECT id, lastname AS group_name FROM users) AS groups
               ON groups.id = group_users.group_id
-          ")
+          "
+        )
     end
   end
 end
