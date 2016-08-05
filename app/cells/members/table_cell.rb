@@ -28,7 +28,7 @@ module Members
     end
 
     def order_by_type_first(query)
-      query.order("type ASC")
+      query.order("users.type ASC")
     end
 
     def join_group(sort_clause, query)
