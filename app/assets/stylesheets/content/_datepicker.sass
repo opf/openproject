@@ -196,6 +196,8 @@ $dp-shadow-box-opacity: 1
     filter: Alpha(Opacity = 100)
     font-weight: bold
 
-.ui-datepicker--container
-  z-index: 100
+// ui-datepicker arbitrarily sets the css z-index using JS
+// So we have to override that value.
+#ui-datepicker-div
+  z-index: 100 !important
   position: absolute
