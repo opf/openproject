@@ -75,8 +75,8 @@ table.generic-table tbody tr.issue .checkbox
 
 .work-package--details--long-field
   .inplace-edit--read .inplace-edit--read-value
-    // Width 94% to leave enough place for an icon
-    width: 94%
+    // Use the whole space and leave room for the icon on the right
+    width: calc(100% - 37px)
     span.deleting
       opacity: 0.5
 
@@ -118,7 +118,7 @@ a.inplace-editing--trigger-link,
 .inplace-edit--icon-wrapper
   display: inline-block
   text-align: center
-  width: 5%
+  width: 32px
   line-height: 2.5
   background: $gray-light
   border-left: 1px solid $inplace-edit--border-color
