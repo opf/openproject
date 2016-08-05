@@ -43,6 +43,10 @@
 .wp-edit-field
   padding-left: 0
 
+  // Remove overflow with ellipsis
+  text-overflow: ellipsis
+  overflow: hidden
+
   // Avoid jumping subject field
   &:first-of-type
     padding: 0
@@ -50,7 +54,6 @@
     padding: 0
 
   &.-error
-
     .wp-table--cell-span,
     .wp-inline-edit--field
       background: $nm-color-error-background
@@ -62,9 +65,16 @@
   form
     width: 100%
 
-  .-hidden-overflow
-    overflow: hidden
-    text-overflow: ellipsis
+  // Style actual edit inputs
+  select, input
+    // Full width to inline-edit inputs
+    width: 100%
+    // Same height as the row - padding
+    height: 24px
+    padding-top: 0
+    padding-bottom: 0
+    line-height: normal
+    font-size: 14px
 
 // Editable fields cursor
 .-editable .wp-table--cell-span
