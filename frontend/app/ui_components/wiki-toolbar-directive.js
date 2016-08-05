@@ -80,7 +80,7 @@ module.exports = function() {
   }
 
   return {
-    restrict: 'A',
+    restrict: 'AC',
     transclude: false,
     link: link,
     scope: {
