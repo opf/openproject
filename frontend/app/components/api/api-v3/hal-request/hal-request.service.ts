@@ -51,6 +51,10 @@ export class HalRequestService {
       return this.$q.when(null);
     }
 
+    if (method === 'post') {
+      data = data || {};
+    }
+
     const config:any = {method: method, url: href, data: data, headers: headers};
     const createResource = response => {
       if (!response.data) {
