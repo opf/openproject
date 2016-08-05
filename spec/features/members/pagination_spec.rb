@@ -55,7 +55,7 @@ feature 'members pagination', type: :feature, js: true do
     members_page.add_user! 'Peter Pan', as: 'Manager'
 
     members_page.go_to_page! 2
-    expect(members_page).to have_user 'Peter Pan'
+    expect(members_page).to have_user 'Alice Alison' # members are sorted by last name desc
   end
 
   scenario 'Paginating after removing a member' do
@@ -63,22 +63,22 @@ feature 'members pagination', type: :feature, js: true do
     members_page.set_items_per_page! 1
 
     members_page.visit!
-    members_page.remove_user! 'Alice Alison'
+    members_page.remove_user! 'Peter Pan'
     expect(members_page).to have_user 'Bob Bobbit'
 
     members_page.go_to_page! 2
-    expect(members_page).to have_user 'Peter Pan'
+    expect(members_page).to have_user 'Alice Alison'
   end
 
   scenario 'Paginating after updating a member' do
     members_page.set_items_per_page! 1
 
     members_page.visit!
-    members_page.edit_user! 'Alice Alison', add_roles: ['Manager']
+    members_page.edit_user! 'Bob Bobbit', add_roles: ['Developer']
     expect(page).to have_text 'Successful update'
-    expect(members_page).to have_user 'Alice Alison', roles: ['Developer', 'Manager']
+    expect(members_page).to have_user 'Bob Bobbit', roles: ['Developer', 'Manager']
 
     members_page.go_to_page! 2
-    expect(members_page).to have_user 'Bob Bobbit'
+    expect(members_page).to have_user 'Alice Alison'
   end
 end
