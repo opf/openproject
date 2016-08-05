@@ -73,11 +73,15 @@ export class WorkPackageEditFormController {
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
           field.initializeField(this.workPackage);
+          window.setTimeout(function() {
+            jQuery('.work-packages--details--subject input')[0].focus();
+          }, 1000);
         }
 
         // Disable the field if is active
         if (!state && field.active) {
           field.reset();
+          jQuery('.work-packages--details-toolbar .button')[0].focus();
         }
       });
     });
