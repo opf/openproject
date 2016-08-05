@@ -26,6 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+.work-package-table--container table.generic-table tbody td
+  padding-left: 0
+  line-height: 24px
+
+// Styles for inline editable attributes
+.work-package-table--container td.-editable
+  padding-top: 0
+  padding-bottom: 0
+  display: table-cell
+  width: auto
+
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
+
 // Show details view button when hovering
 .wp-table--details-link
   .issue:hover &,
@@ -44,17 +58,6 @@
   &:hover
     text-decoration: none
 
-.wp-table--cancel-create-link
-  .icon
-    position: relative
-    left: 0.25rem
-    font-size: 12px
-    &:before
-      color: $body-font-color
-      padding: 0 0 0 0.2rem
-  &:hover
-    text-decoration: none
-
 table.generic-table tbody tr.issue .checkbox
   overflow: visible
   padding-left: 5px
@@ -70,71 +73,55 @@ table.generic-table tbody tr.issue .checkbox
   overflow: visible
   width: 100%
 
-.work-package--details--long-field
-  .inplace-edit--read .inplace-edit--read-value
-    // Use the whole space and leave room for the icon on the right
-    width: calc(100% - 42px)
-    padding: 3px
-    line-height: 2
-    span.deleting
-      opacity: 0.5
+//
+// INLINE CREATE
+//
+.wp-inline-create-button-row td
+  padding: 0
 
-    img.avatar-mini
-      float: inherit
+.wp-inline-create-button
+  border-bottom: none
 
-.inplace-edit--textarea
-  line-height: normal
+  a
+    width: 100%
+    padding: 0.5rem 0
+    display: block
+    line-height: 1.6
 
-// *** NOTE ***
-// Following code handles trigger-links and inplace icons
-// It is used for example for the attachements list
+    &:hover
+      background: #e4f7fb
+    
 
-// need to specify the a explicitly as otherwise
-// the default class will win
-a.inplace-editing--trigger-link,
-.inplace-editing--trigger-link,
-  &:hover,
-  &:focus,
-  &.-focus
-    text-decoration: none
-    color: $body-font-color
+.wp-inline-create--add-link
+  font-weight: bold
 
-    .inplace-editing--container,
-    .wp-edit-field
-      border-color: $inplace-edit--border-color
-
-      &.-active
-        border-color: transparent
-
-    .inplace-edit--icon-wrapper
-      visibility: visible
-
-  .inplace-edit--read-value
-    display: inline-block
-    span
-      line-height: 2
-    i
-      vertical-align: middle
-
-// Do not hover trigger-link when element is read-only
-.-read-only
-  .inplace-editing--trigger-link:hover .inplace-editing--container
-    border-color: transparent
-
-.inplace-edit--icon-wrapper
-  display: inline-block
-  text-align: center
-  width: 32px
-  line-height: 2.5
-  background: $gray-light
-  border-left: 1px solid $inplace-edit--border-color
-  color: $body-font-color
-  visibility: hidden
-  float: right
-
-  .icon-context:before
-    // HACK: overriding default padding here
-    padding-right: 0
+  .icon::before
+    padding-left: 7px
+    padding-right: 10px
+    font-size: 11px
 
   &:hover
     text-decoration: none
+
+.wp--row.-new,
+tr.context-menu-selection.-new
+  background: #BEF3CA
+
+  &:hover
+    background: darken(#BEF3CA, 5%)
+
+  .wp-table--cell-span:hover
+    border-color: #35c53f
+
+.wp-table--cancel-create-link
+  .icon
+    position: relative
+    left: 0.25rem
+    font-size: 12px
+    &:before
+      color: $body-font-color
+      padding: 0 0 0 0.2rem
+  &:hover
+    text-decoration: none
+
+

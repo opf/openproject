@@ -26,24 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Explicit styles for input-esque trigger appearance
-.work-packages--activity--add-comment,
-.work-package--watchers-lookup
-  .inplace-editing--container
-    border: 1px solid #eee
 
-// Explicit styling for the comment container
-.work-packages--activity--add-comment
-  margin: 20px 0
+// Avoid overlapping text selection in FF
+// https://community.openproject.com/work_packages/23742
+.inplace-edit--textarea
+  line-height: normal
 
-  // Styles the comment trigger link similar to attachment
-  // but without icon and actual link
-  a.inplace-editing--trigger-link
-    color: $body-font-color
-    font-style: italic
-
-  .inplace-edit--read-value
-    padding-left: 5px
+.inplace-edit--write-value
+  textarea
+    font-size: 1rem
+    line-height: 1.6
 
 // Leave room below textarea for inplace edit controls
 .textarea-wrapper
