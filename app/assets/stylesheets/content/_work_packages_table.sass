@@ -73,7 +73,9 @@ table.generic-table tbody tr.issue .checkbox
 .work-package--details--long-field
   .inplace-edit--read .inplace-edit--read-value
     // Use the whole space and leave room for the icon on the right
-    width: calc(100% - 37px)
+    width: calc(100% - 42px)
+    padding: 3px
+    line-height: 2
     span.deleting
       opacity: 0.5
 
@@ -106,6 +108,10 @@ a.inplace-editing--trigger-link,
 
   .inplace-edit--read-value
     display: inline-block
+    span
+      line-height: 2
+    i
+      vertical-align: middle
 
 // Do not hover trigger-link when element is read-only
 .-read-only
@@ -121,6 +127,7 @@ a.inplace-editing--trigger-link,
   border-left: 1px solid $inplace-edit--border-color
   color: $body-font-color
   visibility: hidden
+  float: right
 
   .icon-context:before
     // HACK: overriding default padding here
