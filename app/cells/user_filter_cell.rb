@@ -8,10 +8,18 @@ class UserFilterCell < RailsCell
     def filter(query, params)
       [query]
         .map { |q| filter_name q, params[:name] }
-        .map { |q| filter_status q, params[:status].presence || User::STATUSES[:active] }
+        .map { |q| filter_status q, status_param(params) }
         .map { |q| filter_group q, params[:group_id] }
         .map { |q| filter_role q, params[:role_id] }
         .first
+    end
+
+    ##
+    # Returns the selected status from the parameters
+    # or the default status to be filtered by (active)
+    # if no status is given.
+    def status_param(params)
+      params[:status].presence || User::STATUSES[:active]
     end
 
     def filter_name(query, name)

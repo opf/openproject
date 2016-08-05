@@ -13,7 +13,7 @@ module Table
     end
 
     def column_value(column)
-      self.send column
+      send column
     end
 
     def row_css_id

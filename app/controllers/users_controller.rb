@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def index
     @groups = Group.all.sort
-    @status = params[:status] ? params[:status] : User::STATUSES[:active]
+    @status = Users::UserFilterCell.status_param params
     @users = Users::UserFilterCell.filter User.all, params
 
     respond_to do |format|

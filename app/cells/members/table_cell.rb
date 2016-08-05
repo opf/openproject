@@ -22,16 +22,9 @@ module Members
     # Also implements sorting by group which is not trivial
     # due to it being a relation via 3 corners (member -> group_users -> users).
     def sort_collection(query)
-      order_by, _ = [sort_clause]
-        .map { |c| fix_groups_order c }
-        .map { |c| fix_roles_order c }
+      order_by = fix_roles_order(fix_groups_order(sort_clause))
 
-      sorted, _ = [query]
-        .map { |q| order_by_type_first q }
-        .map { |q| join_group sort_clause, q }
-        .map { |q| q.order order_by }
-
-      sorted
+      join_group(sort_clause, order_by_type_first(query)).order(order_by)
     end
 
     def order_by_type_first(query)
