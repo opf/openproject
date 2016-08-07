@@ -1,5 +1,5 @@
 module Users
-  class RowCell < Table::RowCell
+  class RowCell < ::RowCell
     include AvatarHelper
     include UsersHelper
 

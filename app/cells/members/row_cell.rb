@@ -1,5 +1,5 @@
 module Members
-  class RowCell < Table::RowCell
+  class RowCell < ::RowCell
     property :user
 
     def member
