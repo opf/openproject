@@ -4,8 +4,8 @@ describe 'Work package table log unit costs', js: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:work_package) { FactoryGirl.create(:work_package) }
 
-  let(:wp_table) { Pages::WorkPackagesTable.new }
-  let(:menu) { Components::WorkPackagesContextMenu.new }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:menu) { ::Components::WorkPackages::ContextMenu.new }
 
   def goto_context_menu
     # Go to table
