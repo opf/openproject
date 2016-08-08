@@ -38,7 +38,7 @@ function createFieldsetToggleStateLabel(legend, text) {
     legendLink.append(toggleLabel);
   }
 
-  toggleLabel.text(text);
+  toggleLabel.text(' ' + text);
 }
 
 function setFieldsetToggleState(fieldset) {
