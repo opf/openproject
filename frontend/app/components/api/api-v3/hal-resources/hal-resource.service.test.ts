@@ -28,11 +28,11 @@
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
-import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
-  var halResourceTypesStorage:HalResourceTypesStorageService;
+  var halResourceFactory:HalResourceFactoryService;
   var resource;
   var source;
 
@@ -43,9 +43,9 @@ describe('HalResource service', () => {
     $provide.value('OtherResource', OtherResource);
   }));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _halResourceTypesStorage_,
+                                           _halResourceFactory_,
                                            apiV3) {
-    [$httpBackend, halResourceTypesStorage] = _.toArray(arguments);
+    [$httpBackend, halResourceFactory] = _.toArray(arguments);
     apiV3.setDefaultHttpFields({cache: false});
   }));
 
@@ -54,7 +54,7 @@ describe('HalResource service', () => {
   });
 
   it('should be instantiable using a default object', () => {
-    expect(new HalResource().href).to.equal(null);
+    expect(new HalResource().$href).to.equal(null);
   });
 
   it('should set its source to _plain if _plain is a property of the source', () => {
@@ -87,8 +87,8 @@ describe('HalResource service', () => {
           }
         };
 
-        halResourceTypesStorage.setResourceType('Other', OtherResource);
-        halResourceTypesStorage.setResourceTypeAttributes('Other', {
+        halResourceFactory.setResourceType('Other', OtherResource);
+        halResourceFactory.setResourceTypeAttributes('Other', {
           someResource: 'Other'
         });
 
