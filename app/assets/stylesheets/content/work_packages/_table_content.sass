@@ -26,6 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+.work-package-table--container table.generic-table tbody td
+  padding-left: 0
+  line-height: 24px
+
+// Styles for inline editable attributes
+.work-package-table--container td.-editable
+  padding-top: 0
+  padding-bottom: 0
+  display: table-cell
+  width: auto
+
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
+
 // Show details view button when hovering
 .wp-table--details-link
   .issue:hover &,
@@ -44,6 +58,61 @@
   &:hover
     text-decoration: none
 
+table.generic-table tbody tr.issue .checkbox
+  overflow: visible
+  padding-left: 5px
+
+.wp-table--cell .ui-datepicker
+  margin-left: -38%
+
+
+.inplace-editing--container
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+
+//
+// INLINE CREATE
+//
+.wp-inline-create-button-row td
+  padding: 0
+
+.wp-inline-create-button
+  border-bottom: none
+
+  a
+    width: 100%
+    padding: 0.5rem 0
+    display: block
+    line-height: 1.6
+
+    &:hover
+      background: #e4f7fb
+    
+
+.wp-inline-create--add-link
+  font-weight: bold
+
+  .icon::before
+    padding-left: 7px
+    padding-right: 10px
+    font-size: 11px
+
+  &:hover
+    text-decoration: none
+
+.wp--row.-new,
+tr.context-menu-selection.-new
+  background: #BEF3CA
+
+  &:hover
+    background: darken(#BEF3CA, 5%)
+
+  .wp-table--cell-span:hover
+    border-color: #35c53f
+
 .wp-table--cancel-create-link
   .icon
     position: relative
@@ -55,12 +124,4 @@
   &:hover
     text-decoration: none
 
-table.generic-table tbody tr.issue .checkbox
-  overflow: visible
-  padding-left: 5px
 
-.wp--row .wp-table--cell
-  overflow: visible
-
-.wp-table--cell .ui-datepicker
-  margin-left: -38%
