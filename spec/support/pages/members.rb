@@ -64,9 +64,17 @@ module Pages
       find_user(user_name).find('a[data-method=delete]').click
     end
 
-    def has_added_user?(name)
-      has_text? "Added #{name} to the project" and
-        has_css? 'tr', text: name
+    def remove_group!(group_name)
+      find_group(group_name).find('a[data-method=delete]').click
+    end
+
+    def has_added_user?(name, visible: true, css: "tr")
+      has_text?("Added #{name} to the project") and ((not visible) or
+        has_css?(css, text: user_name_to_text(name)))
+    end
+
+    def has_added_group?(name, visible: true)
+      has_added_user? name, visible: visible, css: "tr.group"
     end
 
     ##
@@ -77,14 +85,29 @@ module Pages
     # @param group_membership [Boolean] True if the member is added through a group.
     #                                   Such members cannot be removed separately which
     #                                   is why there must be only an edit and no delete button.
-    def has_user?(name, roles: nil, group_membership: nil)
-      has_selector?('tr', text: name) &&
-        (roles.nil? || has_roles?(name, roles)) &&
+    def has_user?(name, roles: nil, group_membership: nil, group: false)
+      css = group ? "tr.group" : "tr"
+      has_selector?(css, text: user_name_to_text(name)) &&
+        (roles.nil? || has_roles?(name, roles, group: group)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end
 
+    def has_group?(name, roles: nil)
+      has_user?(name, roles: roles, group: true)
+    end
+
     def find_user(name)
-      find('tr', text: name)
+      find('tr', text: user_name_to_text(name))
+    end
+
+    def find_group(name)
+      find('tr.group', text: user_name_to_text(name))
+    end
+
+    def user_name_to_text(name)
+      # the members table shows last name and first name separately
+      # let's just look for the last name
+      name.split(" ").last
     end
 
     def edit_user!(name, add_roles: [], remove_roles: [])
@@ -104,8 +127,8 @@ module Pages
         user.has_no_selector?('a[title=Delete]')
     end
 
-    def has_roles?(user_name, roles)
-      user = find_user(user_name)
+    def has_roles?(user_name, roles, group: false)
+      user = group ? find_group(user_name) : find_user(user_name)
 
       Array(roles).all? { |role| user.has_text? role }
     end

@@ -113,6 +113,9 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.1'
 gem 'prawn-table', '~> 0.2.2'
 
+gem 'cells-rails', '~> 0.0.6'
+gem 'cells-erb', '~> 0.0.8'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+

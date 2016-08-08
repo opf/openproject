@@ -26,32 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title t(:label_member_plural) -%>
-<%= toolbar title: t(:label_member_plural) do %>
-  <% if authorize_for(:members, :new) %>
-      <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
-        <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= I18n.t(:button_add_member) %></span>
-      </a>
-  <% end %>
-<% end %>
 
-<%= error_messages_for 'member' %>
-
-<div>
-  <% if Member.any? %>
-    <%= cell Members::UserFilterCell, params, groups: @groups, roles: @roles, status: @status %>
-    &nbsp;
-    <%=
-      cell Members::TableCell, @members, project: @project,
-                                         available_roles: @roles,
-                                         authorize_update: authorize_for('members', 'update')
-    %>
-  <% else %>
-    <%=
-      no_results_box(
-        action_url: new_project_member_path,
-        display_action: authorize_for(:members, :new))
-    %>
+<tr <%= "id=\"#{row_css_id}\"" if row_css_id %> class="<%= row_css_class %>">
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>"
+        <%= title = column_title(column); "title=\"#{title}\"" if title %>
+    >
+      <%= column_value(column) %>
+    </td>
   <% end %>
-</div>
+  <td class="buttons">
+    <% button_links.each do |link| %>
+      <%= link %>
+    <% end %>
+  </td>
+</tr>

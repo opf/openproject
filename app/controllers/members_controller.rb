@@ -34,12 +34,7 @@ class MembersController < ApplicationController
   before_filter :find_project_by_project_id, only: [:autocomplete_for_member]
   before_filter :authorize
 
-  include Pagination::Controller
-  include PaginationHelper
-
-  paginate_model User
-  search_for User, :search_in_project
-  search_options_for User, lambda { |_| { project: @project } }
+  include CellsHelper
 
   @@scripts = ['hideOnLoad', 'init_members_cb']
 
@@ -48,8 +43,10 @@ class MembersController < ApplicationController
   end
 
   def index
+    @groups = Group.all.sort
     @roles = Role.find_all_givable
-    @members = index_members @project
+    @members = Members::UserFilterCell.filter index_members(@project), params
+    @status = params[:status] ? params[:status] : User::STATUSES[:active]
   end
 
   def new
@@ -154,16 +151,14 @@ class MembersController < ApplicationController
     /\A\S+@\S+\.\S+\z/
   end
 
+  ##
+  # Queries all members for this project.
+  # Pagination and order is taken care of by the TableCell.
   def index_members(project)
-    order = User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s).join(', ')
-
     project
       .member_principals
       .includes(:roles, :principal, :member_roles)
-      .order(order)
-      .page(params[:page])
       .references(:users)
-      .per_page(per_page_param)
   end
 
   def self.tab_scripts

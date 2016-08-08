@@ -59,7 +59,7 @@ feature 'group memberships through groups page', type: :feature do
     group_page.add_user! 'Hannibal'
 
     members_page.visit!
-    expect(members_page).to have_user 'A-Team', roles: ['Manager']
+    expect(members_page).to have_group 'A-Team', roles: ['Manager']
     expect(members_page).to have_user 'Peter Pan', roles: ['Manager']
     expect(members_page).to have_user 'Hannibal Smith', roles: ['Manager']
   end
