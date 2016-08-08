@@ -50,7 +50,8 @@ class Widget::GroupBys < Widget::Base
       out += render_group_caption type
 
       out += label_tag "add_group_by_#{type}",
-                       l(:"label_group_by_add"),
+                       l(:"label_group_by_add") + ' ' +
+                       I18n.t('js.filter.description.text_open_filter'),
                        class: 'hidden-for-sighted'
 
       out += content_tag :select, id: "add_group_by_#{type}", class: 'advanced-filters--select' do
