@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
+import {wpDirectivesModule} from '../../angular-modules';
 import {WpAttachmentsService} from './wp-attachments.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {WorkPackageCacheService} from '../work-package-cache.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {CollectionResourceInterface} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {CollectionResourceInterface} from '../api/api-v3/hal-resources/collection-resource.service';
 
 export class WorkPackageAttachmentsController {
   public workPackage:any;
@@ -190,7 +190,7 @@ function wpAttachmentsDirective():ng.IDirective {
       hideEmptyFields: '=',
       wpSingleViewCtrl: '='
     },
-    templateUrl: '/components/work-packages/wp-attachments/wp-attachments.directive.html'
+    templateUrl: '/components/wp-attachments/wp-attachments.directive.html'
   };
 }
 

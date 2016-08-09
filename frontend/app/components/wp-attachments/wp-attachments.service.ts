@@ -26,14 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpServicesModule} from '../../../angular-modules.ts';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {
-  CollectionResource,
-  CollectionResourceInterface
-} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {WorkPackageCacheService} from '../work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {wpServicesModule} from '../../angular-modules.ts';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 
 export class WpAttachmentsService {
 

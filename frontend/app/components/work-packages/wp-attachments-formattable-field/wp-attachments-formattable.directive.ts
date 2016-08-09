@@ -1,4 +1,4 @@
-import {WpAttachmentsService} from './../wp-attachments/wp-attachments.service';
+import {WpAttachmentsService} from '../../wp-attachments/wp-attachments.service';
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {
   DropModel,
@@ -7,14 +7,15 @@ import {
   FieldModel,
   SingleAttachmentModel
 } from './wp-attachments-formattable.models';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {
-  CollectionResource,
   CollectionResourceInterface
 } from '../../api/api-v3/hal-resources/collection-resource.service';
 import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
