@@ -30,25 +30,30 @@ import {opApiModule, opServicesModule} from '../../../angular-modules';
 
 describe('apiPaths', () => {
   var apiPaths:any;
+  var appBasePath:string;
 
   beforeEach(angular.mock.module(
     opApiModule.name,
     opServicesModule.name
   ));
 
-  beforeEach(angular.mock.inject(function (_apiPaths_) {
-    apiPaths = _apiPaths_;
+  beforeEach(angular.mock.inject(function (_apiPaths_, _appBasePath_) {
+    [apiPaths, appBasePath] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
     expect(apiPaths).to.exist;
   });
 
-  it('should have a ex property', () => {
+  it('should have an `ex` property', () => {
     expect(apiPaths).to.have.property('ex');
   });
 
-  it('should have a v3 property', () => {
+  it('should have a `v3` property', () => {
     expect(apiPaths).to.have.property('v3');
+  });
+
+  it('should return the appBasePath', () => {
+    expect(apiPaths()).to.equal(appBasePath);
   });
 });

@@ -134,8 +134,8 @@ export class WorkPackageEditFormController {
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-        if (error.data instanceof ErrorResource) {
-          this.handleSubmissionErrors(error.data, deferred);
+        if (error instanceof ErrorResource) {
+          this.handleSubmissionErrors(error, deferred);
         }
       });
 
@@ -143,7 +143,6 @@ export class WorkPackageEditFormController {
   }
 
   private handleSubmissionErrors(error:any, deferred:any) {
-
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();

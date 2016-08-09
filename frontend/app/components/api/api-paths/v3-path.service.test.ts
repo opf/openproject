@@ -26,16 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//TODO: Finish implementation. See wp-list.controller.js
-export class ApiMetaDataService {
-  constructor(protected apiExperimental:restangular.IService) {
-  }
+import {opApiModule} from '../../../angular-modules';
 
-  public getWorkPackagesListMetaData() {
-    return this.apiExperimental.one('work_packages').get().then(result => result.meta);
-  }
-}
+describe('v3Path service', () => {
+  var v3Path;
+  var apiPaths;
 
-angular
-  .module('openproject.api')
-  .service('apiMetaData', ApiMetaDataService);
+  beforeEach(angular.mock.module(opApiModule.name));
+  beforeEach(angular.mock.inject(function (_v3Path_, _apiPaths_) {
+    [v3Path, apiPaths] = _.toArray(arguments);
+  }));
+
+  it('should exist', () => {
+    expect(v3Path).to.exist;
+  });
+
+  it('should be the same object as apiPaths.v3', () => {
+    expect(v3Path).to.equal(apiPaths.v3);
+  });
+
+  it('should return the same value as apiPats.v3', () => {
+    expect(v3Path()).to.equal(apiPaths.v3());
+  });
+});
+

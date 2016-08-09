@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,15 +24,18 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
 import {opApiModule} from '../../../angular-modules';
 
-
-function apiExperimentalService(apiPaths, Restangular: restangular.IService) {
-  return Restangular.withConfig((RestangularConfigurer) => {
-    RestangularConfigurer.setBaseUrl(apiPaths.ex());
-  });
+/**
+ * This is a apiPaths.v3 convenience wrapper.
+ *
+ * @param apiPaths
+ * @return {Array|api.v3}
+ */
+function v3PathsService(apiPaths) {
+  return apiPaths.v3;
 }
 
-opApiModule.factory('apiExperimental', apiExperimentalService);
+opApiModule.factory('v3Path', v3PathsService);

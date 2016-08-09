@@ -193,9 +193,6 @@ declare namespace op {
     cachedPromise(promiseFn, key, options?);
   }
 
-  /**
-   * OpenProject API results with Restangular
-   */
   interface FieldSchema {
     type:string;
     writable:boolean;

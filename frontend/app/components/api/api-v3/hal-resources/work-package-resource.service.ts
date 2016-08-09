@@ -32,6 +32,7 @@ import {WorkPackageCacheService} from '../../../work-packages/work-package-cache
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
+
 interface WorkPackageResourceEmbedded {
   activities:HalResource|any;
   assignee:HalResource|any;
@@ -200,7 +201,7 @@ export class WorkPackageResource extends HalResource {
   public getForm() {
     if (!this.form) {
       this.updateForm(this.$source).catch(error => {
-        NotificationsService.addError(error.data.message);
+        NotificationsService.addError(error.message);
       });
     }
 
@@ -315,7 +316,7 @@ export class WorkPackageResource extends HalResource {
 
   protected saveResource(payload):ng.IPromise<any> {
     if (this.isNew) {
-      return apiWorkPackages.wpApiPath().post(payload);
+      return apiWorkPackages.createWorkPackage(payload);
     }
     return this.$links.updateImmediately(payload);
   }

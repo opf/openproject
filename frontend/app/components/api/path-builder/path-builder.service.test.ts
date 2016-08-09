@@ -46,6 +46,7 @@ describe('pathBuilder service', () => {
     var pathConfig:any;
     var path:any;
     var result;
+    var params:any;
     var withoutParams;
     var withParams;
 
@@ -72,7 +73,7 @@ describe('pathBuilder service', () => {
 
       describe('when calling it with params', () => {
         beforeEach(() => {
-          result = path({param: 'param'});
+          result = path(params);
         });
 
         it('should generate a path with the param', () => {
@@ -84,15 +85,22 @@ describe('pathBuilder service', () => {
     beforeEach(() => {
       pathConfig = {
         string: 'foo{/param}',
-        array: [
-          'bar{/param}',
-          {
-            nestedString: 'nested-string',
-            nestedArray: ['nested-array', {}]
-          }
-        ]
+        array: ['bar{/param}', {
+          nestedString: 'nested-string',
+          nestedArray: ['nested-array', {}]
+        }],
+        withParent: ['hello{/param}', {}, {
+          stringParent: 'parent/{stringParent}',
+          arrayParent: ['parent/{arrayParent}']
+        }],
+        withParentAndChild: ['world', {
+          child: 'child{/child}'
+        }, {
+          parent: 'parent/{parent}'
+        }]
       };
       pathCollection = pathBuilder.buildPaths(pathConfig);
+      params = {param: 'param'};
     });
 
     it('should return the path collection', () => {
@@ -135,6 +143,76 @@ describe('pathBuilder service', () => {
           path = path.nestedArray;
           withParams = 'bar/param/nested-array';
           withoutParams = 'bar/nested-array';
+        });
+      });
+    });
+
+    describe('when passing false values as params to a path with a parent', () => {
+      testCallablePath(() => {
+        path = pathCollection.withParent;
+        params = {stringParent: null};
+        withParams = 'hello';
+        withoutParams = 'hello';
+      });
+    });
+
+    describe('when the path has a parent', () => {
+      beforeEach(() => {
+        path = pathCollection.withParent;
+        withParams = 'parent/parentId/hello';
+        withoutParams = 'hello';
+      });
+
+      describe('when the parent is a string', () => {
+        testCallablePath(() => {
+          params = {stringParent: 'parentId'};
+        });
+      });
+
+      describe('when the parent is a array', () => {
+        testCallablePath(() => {
+          params = {arrayParent: 'parentId'};
+        });
+      });
+
+      describe('when the parent was set, but gets reset afterwards', () => {
+        beforeEach(() => {
+          path({stringParent: 'parentId'});
+          result = path();
+        });
+
+        it('should not include the path segment of the parent', () => {
+          expect(result).to.equal('hello');
+        });
+      });
+    });
+
+    describe('when the path is a child of a path with a parent', () => {
+      beforeEach(() => {
+        path = pathCollection.withParentAndChild.child;
+      });
+
+      describe('when only the child id is set', () => {
+        testCallablePath(() => {
+          params = {child: 'childId', parent: null};
+          withParams = 'world/child/childId';
+          withoutParams = 'world/child';
+        });
+      });
+
+      describe('when only the parent id is set', () => {
+        testCallablePath(() => {
+          params = {parent: 'parentId', child: null};
+          withParams = 'parent/parentId/world/child';
+          withoutParams = 'world/child';
+        });
+      });
+
+      describe('when both ids are set', () => {
+        testCallablePath(() => {
+          params = {child: 'childId', parent: 'parentId'};
+          withParams = 'parent/parentId/world/child/childId';
+          withoutParams = 'world/child';
         });
       });
     });

@@ -26,19 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule, opServicesModule} from "../../../angular-modules";
+import {opApiModule} from '../../angular-modules';
 
-describe('apiExperimental service', () => {
-  var apiExperimental;
+function apiV3CacheConfig($provide) {
+  $provide.decorator('$http', ($delegate:ng.IHttpService, CacheService:op.CacheService) => {
+    var $http = $delegate;
+    var wrapper = function () {
+      var args = arguments;
+      var request = args[0];
+      var requestable = () => $http.apply($http, args);
+      var useCaching = request.cache;
+      request.method = request.method.toUpperCase();
 
-  beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.module(opServicesModule.name));
+      // Override cache values from headers
+      if (request.headers && request.headers.caching) {
+        useCaching = request.headers.caching.enabled;
+      }
 
-  beforeEach(angular.mock.inject((_apiExperimental_) => {
-    apiExperimental = _apiExperimental_;
-  }));
+      // Do not cache anything but GET 
+      if (!useCaching || request.method !== 'GET') {
+        request.cache = false;
+        return requestable();
+      }
 
-  it('should exist', () => {
-    expect(apiExperimental).to.exist;
+      if (useCaching) {
+        return CacheService.cachedPromise(requestable, request.url);
+      }
+    };
+
+    // Decorate all fns with our cached wrapper
+    Object.keys($http).forEach(key => {
+      let prop = $http[key];
+      let fn = function () {
+        return prop.apply($http, arguments);
+      };
+
+      wrapper[key] = angular.isFunction(prop) ? fn : prop;
+    });
+
+    return wrapper;
   });
-});
+}
+
+opApiModule.config(apiV3CacheConfig);
