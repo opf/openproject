@@ -332,7 +332,6 @@ module OpenProject::Costs
       require 'open_project/costs/hooks'
       require 'open_project/costs/hooks/activity_hook'
       require 'open_project/costs/hooks/work_package_hook'
-      require 'open_project/costs/hooks/project_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'
     end
@@ -354,6 +353,9 @@ module OpenProject::Costs
     end
 
     config.to_prepare do
+      require 'open_project/costs/patches/members_patch'
+      OpenProject::Costs::Members.mixin!
+
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject
 
