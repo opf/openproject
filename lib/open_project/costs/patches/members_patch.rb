@@ -57,20 +57,17 @@ module OpenProject::Costs
               LEFT JOIN rates ON rates.id = (
                 SELECT rate_union.id
                 FROM (
-                  #{project_rates}
-                  UNION
-                  #{parent_project_rates}
-                  UNION
-                  #{default_rates}
+                  #{project_rates} UNION #{parent_project_rates} UNION #{default_rates}
                 ) AS rate_union
+                LEFT JOIN projects ON rate_union.project_id = projects.id
                 WHERE rate_union.user_id = members.user_id AND rate_union.rate IS NOT NULL
-                GROUP BY project_id, valid_from, id
+                GROUP BY project_id, valid_from, projects.lft, rate_union.id
                 ORDER BY
                   CASE
                     WHEN project_id = #{project.id} THEN 0
                     WHEN project_Id IS NOT NULL then 1
                     ELSE 2
-                  END ASC, valid_from DESC
+                  END ASC, projects.lft DESC, valid_from DESC
                 LIMIT 1
               )
             "
@@ -87,12 +84,8 @@ module OpenProject::Costs
       def parent_project_rates
         "
           SELECT * FROM (
-            SELECT rates.* FROM rates INNER JOIN projects ON rates.project_id = projects.id
-            WHERE project_id IN (#{parent_project_ids})
-              AND user_id = members.user_id
-              AND valid_from <= '#{rate_valid_from}'
-            ORDER BY projects.lft DESC
-            LIMIT 1
+            SELECT rates.* FROM rates
+            WHERE project_id IN (#{parent_project_ids}) AND valid_from <= '#{rate_valid_from}'
           ) AS parent_project_rates
         "
       end
