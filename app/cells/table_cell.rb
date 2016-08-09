@@ -67,11 +67,12 @@ class TableCell < RailsCell
   def sort_and_paginate_collection(ar_collection)
     return ar_collection unless ar_collection.is_a? ActiveRecord::QueryMethods
 
-    paginate_collection sort_collection(ar_collection)
+    # sort_clause from SortHelper
+    paginate_collection sort_collection(ar_collection, sort_clause)
   end
 
-  def sort_collection(query)
-    query.order sort_clause # sort_clause from SortHelper
+  def sort_collection(query, sort_clause)
+    query.order sort_clause
   end
 
   def paginate_collection(query)

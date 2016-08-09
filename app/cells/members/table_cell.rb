@@ -21,7 +21,7 @@ module Members
     # Adjusts the order so that groups always come first.
     # Also implements sorting by group which is not trivial
     # due to it being a relation via 3 corners (member -> group_users -> users).
-    def sort_collection(query)
+    def sort_collection(query, sort_clause)
       order_by = fix_roles_order(fix_groups_order(sort_clause))
 
       join_group(sort_clause, order_by_type_first(query)).order(order_by)
