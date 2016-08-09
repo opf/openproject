@@ -27,7 +27,7 @@
 #++
 
 module Redmine::MenuManager::TopMenu::WorkPackagesMenu
-   def render_work_packages_top_menu_node
+  def render_work_packages_top_menu_node
     render_menu_dropdown_with_items(
       label: l(:label_work_package_plural),
       label_options: { id: 'work-packages-menu', class: 'icon5 icon-work-packages' },
@@ -41,19 +41,23 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
   private
 
   def work_packages_items
-    [work_packages_new_item,
-      work_packages_all,
-      work_packages_filter_assigned_to_me,
-      work_packages_filter_reported_by_me,
-      work_packages_filter_responsible_for,
-      work_packages_filter_watched_by_me]
+    result = []
+    if User.current.allowed_to?(:add_work_packages, @project, global: @project.nil?)
+      result += [work_packages_new_item]
+    end
+    result += [work_packages_all,
+               work_packages_filter_assigned_to_me,
+               work_packages_filter_reported_by_me,
+               work_packages_filter_responsible_for,
+               work_packages_filter_watched_by_me]
   end
 
   def work_packages_new_item
     Redmine::MenuManager::MenuItem.new(
       :new_work_package,
       { controller: '/work_packages', action: 'new', project_id: @project },
-      caption: t(:label_work_package_new),
+      caption:
+        t(:label_work_package_new),
       html: {
         class: "icon-add icon4",
         accesskey: OpenProject::AccessKeys.key_for(:new_work_package)
@@ -65,7 +69,8 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
     Redmine::MenuManager::MenuItem.new(
       :list_work_packages,
       { controller: '/work_packages', action: 'index' },
-      caption: t(:label_work_package_view_all)
+      caption:
+        t(:label_work_package_view_all)
     )
   end
 
@@ -73,7 +78,8 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
     Redmine::MenuManager::MenuItem.new(
       :work_packages_filter_assigned_to_me,
       work_packages_assigned_to_me_path,
-      caption: t(:label_assigned_to_me_work_packages)
+      caption:
+        t(:label_assigned_to_me_work_packages)
     )
   end
 
@@ -81,7 +87,8 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
     Redmine::MenuManager::MenuItem.new(
       :work_packages_filter_reported_by_me,
       work_packages_reported_by_me_path,
-      caption: t(:label_reported_work_packages)
+      caption:
+        t(:label_reported_work_packages)
     )
   end
 
@@ -89,7 +96,8 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
     Redmine::MenuManager::MenuItem.new(
       :work_packages_filter_responsible_for,
       work_packages_responsible_for_path,
-      caption: t(:label_responsible_for_work_packages)
+      caption:
+        t(:label_responsible_for_work_packages)
     )
   end
 
@@ -97,7 +105,8 @@ module Redmine::MenuManager::TopMenu::WorkPackagesMenu
     Redmine::MenuManager::MenuItem.new(
       :work_packages_filter_watched_by_me,
       work_packages_watched_path,
-      caption: t(:label_watched_work_packages)
+      caption:
+        t(:label_watched_work_packages)
     )
   end
 end
