@@ -146,7 +146,7 @@ export const opApiModule = angular.module('openproject.api', [
   'openproject.services'
 ]);
 
-angular.module('openproject.templates', []);
+export const opTemplatesModule = angular.module('openproject.templates', []);
 
 // refactoring
 angular.module('openproject.inplace-edit', []);
