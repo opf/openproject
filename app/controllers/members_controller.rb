@@ -43,10 +43,11 @@ class MembersController < ApplicationController
   end
 
   def index
-    @groups = Group.all.sort
-    @roles = Role.find_all_givable
+    roles = Role.find_all_givable
+
     @members = Members::UserFilterCell.filter index_members(@project), params
-    @status = params[:status] ? params[:status] : User::STATUSES[:active]
+    @members_table_options = members_table_options roles
+    @members_filter_options = members_filter_options roles
   end
 
   def new
@@ -139,6 +140,25 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def authorize_for(controller, action)
+    current_user.allowed_to?({ controller: controller, action: action }, @project)
+  end
+
+  def members_table_options(roles)
+    {
+      project: @project,
+      available_roles: roles,
+      authorize_update: authorize_for('members', 'update')
+    }
+  end
+
+  def members_filter_options(roles)
+    groups = Group.all.sort
+    status = params[:status] ? params[:status] : User::STATUSES[:active]
+
+    { groups: groups, roles: roles, status: status }
+  end
 
   def suggest_invite_via_email?(user, query, principals)
     user.admin? && # only admins may add new users via email

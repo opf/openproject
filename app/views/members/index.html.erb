@@ -40,13 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div>
   <% if Member.any? %>
-    <%= cell Members::UserFilterCell, params, groups: @groups, roles: @roles, status: @status %>
+    <%= cell Members::UserFilterCell, params, @members_filter_options %>
     &nbsp;
-    <%=
-      cell Members::TableCell, @members, project: @project,
-                                         available_roles: @roles,
-                                         authorize_update: authorize_for('members', 'update')
-    %>
+    <%= cell Members::TableCell, @members, @members_table_options %>
   <% else %>
     <%=
       no_results_box(
