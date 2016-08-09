@@ -70,7 +70,15 @@ export class SelectEditField extends EditField {
   }
 
   private addEmptyOption() {
-    if (!this.schema.required) {
+    // Empty options are not available for required fields
+    if (this.schema.required) {
+      return;
+    }
+
+    // Since we use the original schema values, avoid adding
+    // the option if one is returned / exists already.
+    const emptyOption = _.find(this.options, { name: this.text.placeholder });
+    if (emptyOption === undefined) {
       this.options.unshift({
         name: this.text.placeholder,
       });
