@@ -31,7 +31,6 @@ require 'concerns/omniauth_login'
 module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
-  include Redmine::MenuManager::TopMenu::WorkPackagesMenu
 
   def render_top_menu_left
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
@@ -106,6 +105,17 @@ module Redmine::MenuManager::TopMenuHelper
     render partial: partial
   end
 
+  def render_work_packages_top_menu_node(items = work_packages_menu_items)
+    render_menu_dropdown_with_items(
+      label: l(:label_work_package_plural),
+      label_options: { id: 'work-packages-menu', class: 'icon5 icon-work-packages' },
+      items: items,
+      options: {
+        drop_down_class: 'drop-down--work-packages'
+      }
+    )
+  end
+
   def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
       label: l(:label_modules),
@@ -129,6 +139,10 @@ module Redmine::MenuManager::TopMenuHelper
   # Menu items for the modules top menu
   def more_top_menu_items
     split_top_menu_into_main_or_more_menus[:modules]
+  end
+
+  def work_packages_menu_items
+    split_top_menu_into_main_or_more_menus[:work_packages]
   end
 
   def project_menu_items

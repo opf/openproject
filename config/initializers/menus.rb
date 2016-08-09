@@ -39,14 +39,6 @@ Redmine::MenuManager.map :top_menu do |menu|
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
-  menu.push :work_packages,
-            { controller: '/work_packages', project_id: nil, action: 'index' },
-            context: :modules,
-            caption: I18n.t('label_work_package_plural'),
-            if: Proc.new {
-              (User.current.logged? || !Setting.login_required?) &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
@@ -62,13 +54,44 @@ Redmine::MenuManager.map :top_menu do |menu|
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_time_entries, nil, global: true)
             }
-  menu.push :help, OpenProject::Static::Links.help_link,
-            last: true,
-            caption: '',
-            html: { accesskey: OpenProject::AccessKeys.key_for(:help),
-                    title: I18n.t('label_help'),
-                    class: 'icon5 icon-help1',
-                    target: '_blank' }
+
+  menu.push :new_work_packages,
+            { controller: '/work_packages', action: 'new', project_id: @project },
+            context: :work_packages,
+            caption: I18n.t(:label_work_package_new),
+            html: {
+              class: "icon-add icon4 form--separator",
+              accesskey: OpenProject::AccessKeys.key_for(:new_work_package)
+            },
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:add_work_packages, @project, global: @project.nil?)
+            }
+  menu.push :list_work_packages,
+            { controller: '/work_packages', action: 'index' },
+            context: :work_packages,
+            caption: I18n.t(:label_all)
+
+  menu.push :work_packages_filter_assigned_to_me,
+            :work_packages_assigned_to_me_path,
+            context: :work_packages,
+            caption: I18n.t(:label_assigned_to_me)
+
+
+  menu.push :work_packages_filter_reported_by_me,
+            :work_packages_reported_by_me_path,
+            context: :work_packages,
+            caption: I18n.t(:label_reported_by_me)
+
+  menu.push :work_packages_filter_responsible_for,
+            :work_packages_responsible_for_path,
+            context: :work_packages,
+            caption: I18n.t(:label_responsible_for)
+
+  menu.push :work_packages_filter_watched_by_me,
+            :work_packages_watched_path,
+            context: :work_packages,
+            caption: I18n.t(:label_watched_by_me)
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
