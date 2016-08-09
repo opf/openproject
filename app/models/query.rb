@@ -376,10 +376,10 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.descendants.map(&:id)
+          ids += project.descendants.pluck(:id)
         end
       elsif Setting.display_subprojects_work_packages?
-        ids += project.descendants.map(&:id)
+        ids += project.descendants.pluck(:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
