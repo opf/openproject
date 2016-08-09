@@ -77,7 +77,6 @@ Redmine::MenuManager.map :top_menu do |menu|
             context: :work_packages,
             caption: I18n.t(:label_assigned_to_me)
 
-
   menu.push :work_packages_filter_reported_by_me,
             :work_packages_reported_by_me_path,
             context: :work_packages,
