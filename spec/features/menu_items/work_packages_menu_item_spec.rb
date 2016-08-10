@@ -39,7 +39,10 @@ feature 'Work packages top menu items', js: true, selenium: true do
   let(:responsible_wp_item) { I18n.t('label_responsible_for') }
   let(:watched_wp_item) { I18n.t('label_watched_by_me') }
 
-  let(:all_items) { [new_wp_item, all_wp_item, assigned_wp_item, reported_wp_item, responsible_wp_item, watched_wp_item] }
+  let(:all_items) {
+    [new_wp_item, all_wp_item, assigned_wp_item,
+     reported_wp_item, responsible_wp_item, watched_wp_item]
+  }
 
   def has_menu_items(*labels)
     labels.each do |l|
@@ -68,7 +71,12 @@ feature 'Work packages top menu items', js: true, selenium: true do
     end
 
     it 'displays all items' do
-      has_menu_items(new_wp_item, all_wp_item, assigned_wp_item, reported_wp_item, responsible_wp_item, watched_wp_item)
+      has_menu_items(new_wp_item,
+                     all_wp_item,
+                     assigned_wp_item,
+                     reported_wp_item,
+                     responsible_wp_item,
+                     watched_wp_item)
     end
 
     it 'visits the new work package page' do
@@ -115,13 +123,18 @@ feature 'Work packages top menu items', js: true, selenium: true do
     end
 
     it 'displays all options' do
-      has_menu_items(new_wp_item, all_wp_item, assigned_wp_item, reported_wp_item, responsible_wp_item, watched_wp_item)
+      has_menu_items(new_wp_item,
+                     all_wp_item,
+                     assigned_wp_item,
+                     reported_wp_item,
+                     responsible_wp_item,
+                     watched_wp_item)
     end
   end
 
   context 'as a user without any permission', allowed_to: false do
     it 'shows no top menu entry Work packages' do
-      has_menu_items()
+      has_menu_items
       expect(page).not_to have_css('#work-packages-menu')
     end
   end
