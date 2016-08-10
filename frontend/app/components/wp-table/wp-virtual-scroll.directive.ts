@@ -88,13 +88,13 @@ class RowDisplay {
     this.watchersEnabled = enableWatchers;
 
     const scope: any = angular.element(element).scope();
-    if (scope === undefined || !element.length) {
+    if (scope === undefined) {
       return;
     }
 
     // Do not toggle watch state on table rows themselves
     // since watchers are needed for, e.g., group collapsing
-    if (element[0].tagName !== 'TR') {
+    if (!(element.length > 0 && element[0].tagName === 'TR')) {
       this.setWatchState(scope, enableWatchers);
     }
 

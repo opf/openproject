@@ -255,10 +255,14 @@ function WorkPackagesListController($scope,
 
   $scope.openWorkPackageInFullView = function (id, force) {
     if (force || $state.current.url !== '') {
-      loadingIndicator.mainPage = $state.go('work-packages.show', {
-        workPackageId: id,
-        query_props: $state.params.query_props
-      });
+      var params = {
+        workPackageId: id
+      }
+
+      loadingIndicator.mainPage = $state.go(
+        'work-packages.show',
+        angular.extend($state.params, params)
+      );
     }
   };
 }

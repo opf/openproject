@@ -51,6 +51,7 @@ describe('workPackageDetailsToolbar', function() {
     var configurationService = {};
 
     configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+    configurationService.warnOnLeavingUnsaved = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);

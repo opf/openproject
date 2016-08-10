@@ -206,10 +206,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        'table.keyboard-accessible-list tbody tr:first-child td.id a'
+        'table.keyboard-accessible-list tbody tr:first-child .wp-table--details-link'
       end
       let(:second_link_selector) do
-        'table.keyboard-accessible-list tbody tr:nth-child(2) td.id a'
+        'table.keyboard-accessible-list tbody tr:nth-child(2) .wp-table--details-link'
       end
 
       it 'navigates with J' do

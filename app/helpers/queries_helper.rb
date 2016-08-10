@@ -156,6 +156,8 @@ module QueriesHelper
   # @return [Array] Returns a list of fixed field names. The list may contain nil values
   #                 for fields which could not be found.
   def fix_field_array(query, field_names)
+    return [] if field_names.nil?
+
     context = WorkPackage.new
     available_keys = query.available_work_package_filters.keys
 

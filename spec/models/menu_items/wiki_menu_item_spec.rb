@@ -43,8 +43,9 @@ describe MenuItems::WikiMenuItem, type: :model do
     @project.reload
 
     wiki_item = @project.wiki.wiki_menu_items.first
-    expect(wiki_item.name).to eql 'Wiki'
+    expect(wiki_item.name).to eql 'wiki'
     expect(wiki_item.title).to eql 'Wiki'
+    expect(wiki_item.slug).to eql 'wiki'
     expect(wiki_item.options[:index_page]).to eql true
     expect(wiki_item.options[:new_wiki_page]).to eql true
   end
@@ -53,8 +54,8 @@ describe MenuItems::WikiMenuItem, type: :model do
     wikipage = FactoryGirl.create(:wiki_page, title: 'Oldtitle')
 
     menu_item_1 = FactoryGirl.create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
-                                                      name:    'Item 1',
-                                                      title:   'Oldtitle')
+                                                      title:    'Item 1',
+                                                      name:   wikipage.slug)
 
     wikipage.title = 'Newtitle'
     wikipage.save!

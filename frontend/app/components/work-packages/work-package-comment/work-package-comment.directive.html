@@ -2,7 +2,7 @@
   <div id="work-package-comment-container">
 
     <ng-transclude ng-if="!vm.showAbove"></ng-transclude>
-    <div class="work-package-field work-packages--activity--add-comment" ng-if="vm.canAddComment">
+    <div class="work-package--details--long-field work-packages--activity--add-comment" ng-if="vm.canAddComment">
       <div class="wp-edit-field inplace-edit"
            cg-busy="{promise: vm.loadingPromise}"
            ng-switch="vm.active">

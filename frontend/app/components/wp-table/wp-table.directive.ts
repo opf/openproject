@@ -125,6 +125,11 @@ function wpTable(
           scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
           scope.grouped = scope.groupByColumn !== undefined;
           scope.groupExpanded = {};
+
+          // Open new groups by default
+          Object.keys(scope.groupHeaders).forEach((key) => {
+            scope.groupExpanded[key] = true;
+          });
         }
       }
 
@@ -278,6 +283,7 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     tableSummary: I18n.t('js.work_packages.table.summary'),
     tableSummaryHints: [
       I18n.t('js.work_packages.table.text_inline_edit'),
+      I18n.t('js.work_packages.table.text_select_hint'),
       I18n.t('js.work_packages.table.text_sort_hint')
     ].join(' ')
   };

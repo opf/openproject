@@ -174,7 +174,7 @@ group :test do
   gem 'fuubar'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.2'
-  gem 'selenium-webdriver', '~> 2.52.0'
+  gem 'selenium-webdriver', '~> 2.53.4'
   gem 'poltergeist'
   gem 'timecop', '~> 0.8'
   gem 'webmock', '~> 1.24.2', require: false

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,36 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MenuItems::WikiMenuItem < MenuItem
-  belongs_to :wiki, foreign_key: 'navigatable_id'
-
-  scope :main_items, -> (wiki_id) {
-    where(navigatable_id: wiki_id, parent_id: nil)
-      .includes(:children)
-      .order('id ASC')
-  }
-
-  def slug
-    name.to_url
-  end
-
-  def item_class
-    slug
-  end
-
-  def index_page
-    !!options[:index_page]
-  end
-
-  def index_page=(value)
-    options[:index_page] = value
-  end
-
-  def new_wiki_page
-    !!options[:new_wiki_page]
-  end
-
-  def new_wiki_page=(value)
-    options[:new_wiki_page] = value
-  end
+# Scrolls a native element into view using JS
+def scroll_to_element(element)
+  script = <<-JS
+    arguments[0].scrollIntoView(true);
+  JS
+  Capybara.current_session.driver.browser.execute_script(script, element.native)
 end

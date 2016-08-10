@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,36 +26,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MenuItems::WikiMenuItem < MenuItem
-  belongs_to :wiki, foreign_key: 'navigatable_id'
+module Components
+  module WorkPackages
+    class ContextMenu
+      include Capybara::DSL
+      include RSpec::Matchers
 
-  scope :main_items, -> (wiki_id) {
-    where(navigatable_id: wiki_id, parent_id: nil)
-      .includes(:children)
-      .order('id ASC')
-  }
+      def open_for(work_package)
+        find("#work-package-#{work_package.id}").right_click
+        expect_open
+      end
 
-  def slug
-    name.to_url
-  end
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
 
-  def item_class
-    slug
-  end
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
 
-  def index_page
-    !!options[:index_page]
-  end
+      def choose(target)
+        find("#{selector} a", text: target).click
+      end
 
-  def index_page=(value)
-    options[:index_page] = value
-  end
+      def expect_options(options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_selector("#{selector} a", text: text)
+        end
+      end
 
-  def new_wiki_page
-    !!options[:new_wiki_page]
-  end
+      private
 
-  def new_wiki_page=(value)
-    options[:new_wiki_page] = value
+      def selector
+        '#work-package-context-menu'
+      end
+    end
   end
 end

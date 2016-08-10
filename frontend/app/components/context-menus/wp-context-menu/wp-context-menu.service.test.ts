@@ -48,7 +48,8 @@ describe('workPackageContextMenu', () => {
   beforeEach(angular.mock.module('openproject.templates', ($provide) => {
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false),
-      accessibilityModeEnabled: sinon.stub().returns(false)
+      accessibilityModeEnabled: sinon.stub().returns(false),
+      warnOnLeavingUnsaved: sinon.stub().returns(false)
     };
 
     $provide.constant('ConfigurationService', configurationService);

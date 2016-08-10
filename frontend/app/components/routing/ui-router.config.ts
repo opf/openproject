@@ -119,15 +119,18 @@ openprojectModule
       })
 
       .state('work-packages.edit', {
-        url: '/{projects}/{projectPath}/work_packages/{workPackageId}/edit',
+        url: '/{projects}/{projectPath}/work_packages/{workPackageId:[0-9]+}/edit',
         params: {
           projectPath: {value: null, squash: true},
-          projects: {value: null, squash: true}
+          projects: {value: null, squash: true},
         },
 
-        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
-          $state.go('work-packages.list.details.overview', $stateParams);
+          // Transitioning to a new state may cause a reported issue
+          // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
+          // I believe we should replace this with an explicit edit state
+          $timeout(() => $state.go('work-packages.list.details.overview', $stateParams, { notify: false }));
         }
       })
 
@@ -142,9 +145,12 @@ openprojectModule
       .state('work-packages.show.edit', {
         url: '/edit',
         reloadOnSearch: false,
-        onEnter: ($state, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
-          $state.go('work-packages.show', $stateParams);
+          // Transitioning to a new state may cause a reported issue
+          // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
+          // I believe we should replace this with an explicit edit state
+          $timeout(() => $state.go('work-packages.show', $stateParams, { notify: false }));
         }
       })
       .state('work-packages.show.activity', panels.activity)
@@ -160,7 +166,9 @@ openprojectModule
           // value: null makes the parameter optional
           // squash: true avoids duplicate slashes when the paramter is not provided
           projectPath: {value: null, squash: true},
-          projects: {value: null, squash: true}
+          projects: {value: null, squash: true},
+          query_id: {value: null},
+          query_props: {value: null}
         },
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
