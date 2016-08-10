@@ -1,0 +1,43 @@
+// Explicit styles for input-esque trigger appearance
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup
+  .inplace-editing--container
+    border: 1px solid #eee
+
+// Explicit styling for the comment and watcher container
+.work-packages--activity--add-comment,
+.work-package--watchers-lookup
+  margin: 20px 0
+
+  // Styles the comment trigger link similar to attachment
+  // but without icon and actual link
+  a.inplace-editing--trigger-link
+    color: $body-font-color
+    font-style: italic
+
+  .inplace-edit--read-value
+    padding-left: 5px
+
+
+// Editing existing comments
+.comments-form
+  float: left
+  width: 100%
+  margin: 10px 0 100px 0
+  textarea
+    border: 1px solid #dddddd
+    padding: 8px
+    border-radius: 2px
+    font-size: 0.8125rem
+    width: 100%
+  button
+    float: right
+    font-size: 0.8125rem
+    background: linear-gradient(to bottom, white 0%, #eeeeee 74%, #eeeeee 100%) repeat scroll 0 0 rgba(0, 0, 0, 0)
+    border: 1px solid #CCCCCC
+    border-radius: 2px
+    color: #222222
+    margin: 10px 0 0 0
+    padding: 4px 10px 2px
+    cursor: pointer
+    height: 32px

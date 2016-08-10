@@ -83,6 +83,7 @@ describe('WorkPackageContextMenuHelper', function() {
     var configurationService = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
+    configurationService.warnOnLeavingUnsaved = sinon.stub().returns(false);
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);

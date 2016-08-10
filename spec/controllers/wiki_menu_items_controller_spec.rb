@@ -36,7 +36,7 @@ describe WikiMenuItemsController, type: :controller do
   let(:wiki) { project.wiki }
 
   let(:wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # first wiki page without child pages
-  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, title: wiki_page.title) }
+  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, wiki: wiki, name: wiki_page.slug) }
 
   before :each do
     # log in user
@@ -46,20 +46,20 @@ describe WikiMenuItemsController, type: :controller do
   describe '#edit' do
     # more wiki pages with menu items
     let(:another_wiki_page) { FactoryGirl.create(:wiki_page, wiki: wiki) } # second wiki page with two child pages
-    let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: another_wiki_page.title) }
+    let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, name: another_wiki_page.slug) }
 
     # child pages of another_wiki_page
     let(:child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
-    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: child_page.title) }
+    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, name: child_page.slug) }
     let(:another_child_page) { FactoryGirl.create(:wiki_page, parent: another_wiki_page, wiki: wiki) }
-    let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: another_child_page.title, parent: top_level_wiki_menu_item) }
+    let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, name: another_child_page.slug, parent: top_level_wiki_menu_item) }
 
     let(:grand_child_page) { FactoryGirl.create(:wiki_page, parent: child_page, wiki: wiki) }
-    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, title: grand_child_page.title) }
+    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, wiki: wiki, name: grand_child_page.slug) }
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
-        before do get :edit, project_id: project.id, id: child_page.title end
+        before do get :edit, project_id: project.id, id: child_page.slug end
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
@@ -72,7 +72,7 @@ describe WikiMenuItemsController, type: :controller do
         before do
           # ensure the parent page of grand_child_page is not a main item
           child_page_wiki_menu_item.tap { |page| page.parent = top_level_wiki_menu_item }.save
-          get :edit, project_id: project.id, id: grand_child_page.title
+          get :edit, project_id: project.id, id: grand_child_page.slug
         end
 
         subject { response }
@@ -84,7 +84,7 @@ describe WikiMenuItemsController, type: :controller do
     end
 
     context 'when a parent wiki menu item has already been configured' do
-      before do get :edit, project_id: project.id, id: another_child_page.title end
+      before do get :edit, project_id: project.id, id: another_child_page.slug end
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do

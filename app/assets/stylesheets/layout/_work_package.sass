@@ -90,23 +90,23 @@
     height: auto
 
   > .work-packages--split-view
-    +flex-grow(1)
     min-height: 100px
 
 .work-packages--split-view
   +display(flex)
   width: 100%
+  height: 100%
 
 .work-packages--list
-  +flex-grow(1)
-  position: relative
+  +flex(2)
+  overflow-x: auto
+  height: 100%
+
+.action-details .work-package--details-container
+  flex: 1
 
 .work-packages--list-table-area
-  position: absolute
-  top:      0
-  bottom:   55px
-  right:    0
-  width:    100%
+  height: calc(100% - 55px)
 
   table
     tr
@@ -126,8 +126,6 @@
           white-space: normal
 
 .work-packages--list-pagination-area
-  position: absolute
-  bottom:   0
   width:    100%
   height:   55px
   padding:  3px 10px 0 0

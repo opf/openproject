@@ -66,11 +66,22 @@ body.accessibility-mode
   // Neccessary to have enough space for the border in IE
   .work-packages--page-container
     .inplace-edit .inplace-edit--read-value,
-    .id a,
-    .inplace-edit form
+    .inplace-edit .inplace-edit--read,
+    .inplace-edit form,
+    .id a
       margin: 3px
+      max-width: calc(100% - 6px)
+    .inplace-edit form
+      display: block
+    .inplace-edit .inplace-edit--read-value
+      display: inline-block
 
   // Allow a greater sensible area to click input checkboxes
   // On the WP table this is not neccessary because the whole cell is clickable
   table:not(.work-package-table) input[type='checkbox']
     width: 100%
+
+  // Show WP skip links for motorically handicapped users
+  .skip-navigation-link:focus
+    top: auto
+    left: auto

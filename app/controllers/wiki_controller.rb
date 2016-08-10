@@ -388,7 +388,7 @@ class WikiController < ApplicationController
   end
 
   def build_wiki_page_and_content
-    @page = WikiPage.new wiki: @wiki
+    @page = WikiPage.new wiki: @wiki, title: wiki_page_title.presence || I18n.t(:label_wiki_page)
     @page.content = WikiContent.new page: @page
 
     @content = @page.content_for_version nil

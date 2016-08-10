@@ -30,22 +30,39 @@ import {openprojectModule} from "../../angular-modules";
 import {WorkPackageEditFormController} from "./wp-edit-form.directive";
 
 export class WorkPackageEditModeStateService {
-  public form: WorkPackageEditFormController;
-  
-  private _active: boolean = false;
+  public form:WorkPackageEditFormController;
 
-  constructor(protected $rootScope, protected $window, protected $q, protected I18n) {
+  private _active:boolean = false;
+
+  constructor(protected $rootScope, protected ConfigurationService, protected $window, protected $q, protected I18n) {
+    const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
+    const cancelEventName = 'beforeunload.confirm_cancel';
+    const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
-      if (this.active && fromParams.workPackageId
-        && toParams.workPackageId !== fromParams.workPackageId) {
-
-        if (!$window.confirm(I18n.t('js.work_packages.confirm_edit_cancel'))) {
+      // Show confirmation message when transitioning to a new state
+      // that's not withing the edit mode.
+      if (this.active && !this.allowedStateChange(toState, toParams, fromState, fromParams)) {
+        if (requiresConfirmation && !$window.confirm(confirmText)) {
           return event.preventDefault();
         }
 
         this.cancel();
       }
+    });
+
+    // Show confirmation message when browsing to a new page
+    angular.element($window).on(cancelEventName, (event) => {
+      if (requiresConfirmation && this.active) {
+        event.returnValue = confirmText;
+        event.preventDefault();
+
+        return confirmText;
+      }
+    });
+
+    $rootScope.$on('$destroy', () => {
+      return angular.element($window).off(cancelEventName);
     });
   }
 
@@ -62,22 +79,22 @@ export class WorkPackageEditModeStateService {
     }
     return this._active = false;
   }
-  
+
   public save() {
     if (this.active) {
       return this.form.updateWorkPackage().then(wp => {
         // Doesn't use cancel() since that resets all values
         this.form.closeAllFields();
         this._active = false;
-        
+
         return wp;
       });
     }
 
     return this.$q.reject();
   }
-  
-  public register(form: WorkPackageEditFormController) {
+
+  public register(form:WorkPackageEditFormController) {
     this.form = form;
 
     // Activate form when it registers after the
@@ -89,6 +106,17 @@ export class WorkPackageEditModeStateService {
 
   public get active() {
     return this._active;
+  }
+
+  private allowedStateChange(toState, toParams, fromState, fromParams) {
+
+    // In new/copy mode, transitions to the same controller are allowed
+    if (fromState.name.match(/\.(new|copy)$/)) {
+      return fromState.controller === toState.controller;
+    }
+
+    // When editing an existing WP, transitions on the same WP id are allowed
+    return toParams.workPackageId !== undefined && toParams.workPackageId === fromParams.workPackageId;
   }
 }
 

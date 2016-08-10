@@ -123,7 +123,8 @@
             wp-edit-form="row.object"
             wp-edit-form-on-error="handleErroneousColumns(workPackage, fields, attributes)"
             wp-edit-form-on-save="onWorkPackageSave(workPackage, fields)"
-            wp-attachments-formattable>
+            wp-attachments-formattable
+            tabindex="-1">
           <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
             <accessible-checkbox name="ids[]"
                                  checkbox-id="work_package{{row.object.id}}"
