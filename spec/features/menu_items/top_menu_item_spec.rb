@@ -64,12 +64,14 @@ feature 'Top menu items', js: true, selenium: true do
     end
 
     it 'visits the time sheet page' do
+      expect(page).to have_content(time_entries_item)
       click_link time_entries_item
       expect(current_path).to eq(time_entries_path)
     end
 
     it 'visits the news page' do
-      modules.click_link news_item
+      expect(page).to have_content(news_item)
+      click_link news_item
       expect(current_path).to eq(news_index_path)
     end
   end

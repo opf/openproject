@@ -106,6 +106,9 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_work_packages_top_menu_node(items = work_packages_menu_items)
+    if items.empty?
+      return nil
+    end
     render_menu_dropdown_with_items(
       label: l(:label_work_package_plural),
       label_options: { id: 'work-packages-menu', class: 'icon5 icon-work-packages' },
