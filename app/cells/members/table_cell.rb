@@ -21,18 +21,18 @@ module Members
     # Adjusts the order so that groups always come first.
     # Also implements sorting by group which is not trivial
     # due to it being a relation via 3 corners (member -> group_users -> users).
-    def sort_collection(query, sort_clause)
+    def sort_collection(query, sort_clause, sort_columns)
       order_by = fix_roles_order(fix_groups_order(sort_clause))
 
-      join_group(sort_clause, order_by_type_first(query)).order(order_by)
+      join_group(sort_columns, order_by_type_first(query)).order(order_by)
     end
 
     def order_by_type_first(query)
       query.order("users.type ASC")
     end
 
-    def join_group(sort_clause, query)
-      if sort_clause =~ /groups/
+    def join_group(sort_columns, query)
+      if sort_columns.include? :groups
         join_group_lastname query
       else
         query

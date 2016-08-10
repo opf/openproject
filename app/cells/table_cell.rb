@@ -68,10 +68,16 @@ class TableCell < RailsCell
     return ar_collection unless ar_collection.is_a? ActiveRecord::QueryMethods
 
     # sort_clause from SortHelper
-    paginate_collection sort_collection(ar_collection, sort_clause)
+    paginate_collection sort_collection(ar_collection, sort_clause, sort_columns.map(&:to_sym))
   end
 
-  def sort_collection(query, sort_clause)
+  ##
+  # Sorts the data to be displayed.
+  #
+  # @param query [ActiveRecord::QueryMethods] An active record collection.
+  # @param sort_clause [String] The SQL used as the sort clause.
+  # @param _sort_columns [Array[Symbol]] Columns that are used to sort.
+  def sort_collection(query, sort_clause, _sort_columns)
     query.order sort_clause
   end
 

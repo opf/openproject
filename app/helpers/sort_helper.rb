@@ -218,6 +218,10 @@ module SortHelper
     @sort_criteria.to_sql
   end
 
+  def sort_columns
+    @sort_criteria.criteria.map(&:first)
+  end
+
   # Determines whether the current selected sort criteria
   # is identical to the default
   def default_sort_order?
