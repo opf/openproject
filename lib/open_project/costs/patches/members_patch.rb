@@ -35,10 +35,14 @@ module OpenProject::Costs
     end
 
     module TableCell
-      def sort_collection(query, sort_clause)
-        q = super query, sort_clause.gsub(/current_rate/, 'COALESCE(rate, 0.0)')
+      def sort_collection(query, sort_clause, sort_columns)
+        q = super query, sort_clause.gsub(/current_rate/, 'COALESCE(rate, 0.0)'), sort_columns
 
-        join_rate q
+        if sort_columns.include? :current_rate
+          join_rate q
+        else
+          q
+        end
       end
 
       ##
