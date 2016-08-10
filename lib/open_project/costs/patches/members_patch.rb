@@ -111,7 +111,7 @@ module OpenProject::Costs
       end
 
       def project
-        context[:controller].instance_variable_get('@project')
+        options[:project]
       end
     end
 
@@ -134,7 +134,7 @@ module OpenProject::Costs
       end
 
       def project
-        context[:controller].instance_variable_get('@project')
+        table.project
       end
 
       def column_css_class(name)
