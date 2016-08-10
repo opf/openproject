@@ -35,9 +35,10 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {CollectionResourceInterface} from '../api/api-v3/hal-resources/collection-resource.service';
 
 export class WorkPackageAttachmentsController {
-  public workPackage:any;
+  public text:any;
+
+  public workPackage:WorkPackageResourceInterface;
   public wpSingleViewCtrl;
-  public hideEmptyFields:boolean;
 
   public attachments:any[] = [];
   public fetchingConfiguration:boolean = false;
@@ -47,12 +48,12 @@ export class WorkPackageAttachmentsController {
   public rejectedFiles:any[] = [];
 
   public settings = {
-    maximumFileSize: Number
+    maximumFileSize: null
   };
 
   public size:any;
 
-  private currentlyFocussing;
+  private currentlyFocusing;
 
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
@@ -60,18 +61,24 @@ export class WorkPackageAttachmentsController {
               protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected I18n:any,
+              protected I18n:op.I18n,
               protected ConfigurationService:any,
               protected ConversionService:any) {
 
-    this.workPackage = $scope.vm.workPackage();
-
     this.attachments = this.workPackage.isNew ? wpAttachments.pendingAttachments : this.attachments;
-    if (angular.isDefined($scope.vm.wpSingleViewCtrl)) {
-      $scope.vm.wpSingleViewCtrl.attachments = this.attachments;
+
+    this.text = {
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
+      destroyConfirmation: I18n.t('js.text_attachment_destroy_confirmation'),
+      removeFile: arg => I18n.t('js.label_remove_file', arg)
+    };
+
+    if (angular.isDefined(this.wpSingleViewCtrl)) {
+      this.wpSingleViewCtrl.attachments = this.attachments;
     }
 
-    this.hasRightToUpload = !!(angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew);
+    this.hasRightToUpload = angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew;
 
     this.fetchingConfiguration = true;
     ConfigurationService.api().then(settings => {
@@ -90,13 +97,15 @@ export class WorkPackageAttachmentsController {
     if (this.workPackage.isNew) {
       this.attachments = this.wpAttachments.pendingAttachments;
       this.registerCreateObserver();
-    } else {
+    }
+    else {
+
       this.registerEditObserver();
     }
   }
 
   private registerEditObserver() {
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id))
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(<number> this.workPackage.id))
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadAttachments(true);
@@ -119,6 +128,7 @@ export class WorkPackageAttachmentsController {
       this.files.forEach((file) => {
         this.attachments.push(file);
       });
+
       return;
     }
 
@@ -132,6 +142,7 @@ export class WorkPackageAttachmentsController {
 
   public loadAttachments(refresh:boolean = true):ng.IPromise<any> {
     this.loading = true;
+
     return this.workPackage.attachments.$load(refresh)
       .then((collection:CollectionResourceInterface) => {
         this.attachments.length = 0;
@@ -143,24 +154,23 @@ export class WorkPackageAttachmentsController {
   }
 
   public remove(file):void {
-    if (!this.workPackage.isNew) {
-      if (file._type === 'Attachment') {
-        file.delete()
-          .then(() => this.workPackage.updateAttachments())
-          .catch(error => {
-            this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-          });
-      }
+    if (!this.workPackage.isNew && file._type === 'Attachment') {
+      file.delete()
+        .then(() => this.workPackage.updateAttachments())
+        .catch(error => {
+          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+        });
     }
+
     _.pull(this.attachments, file);
   }
 
   public focus(attachment:any):void {
-    this.currentlyFocussing = attachment;
+    this.currentlyFocusing = attachment;
   };
 
-  public focussing(attachment:any):boolean {
-    return this.currentlyFocussing === attachment;
+  public focusing(attachment:any):boolean {
+    return this.currentlyFocusing === attachment;
   };
 
   public filterFiles(files):void {
@@ -180,17 +190,16 @@ export class WorkPackageAttachmentsController {
 
 function wpAttachmentsDirective():ng.IDirective {
   return {
-    bindToController: true,
-    controller: WorkPackageAttachmentsController,
-    controllerAs: 'vm',
-    replace: true,
     restrict: 'E',
+    templateUrl: '/components/wp-attachments/wp-attachments.directive.html',
     scope: {
-      workPackage: '&',
-      hideEmptyFields: '=',
+      workPackage: '=',
       wpSingleViewCtrl: '='
     },
-    templateUrl: '/components/wp-attachments/wp-attachments.directive.html'
+
+    bindToController: true,
+    controller: WorkPackageAttachmentsController,
+    controllerAs: '$ctrl'
   };
 }
 

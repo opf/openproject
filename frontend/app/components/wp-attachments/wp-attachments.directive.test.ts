@@ -25,29 +25,27 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {WorkPackageAttachmentsController} from './wp-attachments.directive';
 
-describe('wp-attachments.directive', () => {
-  var compile;
+import {WorkPackageAttachmentsController} from './wp-attachments.directive';
+import {
+  openprojectModule, wpDirectivesModule, opTemplatesModule,
+  wpServicesModule, opConfigModule
+} from '../../angular-modules';
+import IQService = angular.IQService;
+
+describe('wpAttachments directive', () => {
+  var $q:IQService;
   var controller:WorkPackageAttachmentsController;
-  var element;
-  var $q;
-  var rootScope;
-  var scope;
-  var isolatedScope;
+  var files;
   var workPackage = {
     id: 1234,
     attachments: {
-      $load: () => {
-        return $q.when({ elements: [] });
-      },
+      $load: () => $q.when({elements: []}),
       $unload: angular.noop,
       href: '/api/v3/work_packages/1/attachments',
     },
     activities: {
-      $load: () => {
-        return $q.when({ elements: [] });
-      },
+      $load: () => $q.when({elements: []}),
       $unload: angular.noop,
       href: '/api/v3/work_packages/1/activities',
     },
@@ -55,88 +53,71 @@ describe('wp-attachments.directive', () => {
     updateAttachments: () => null
   };
 
-  beforeEach(angular.mock.module('openproject'));
-  beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(angular.mock.module('openproject.templates'));
+  beforeEach(angular.mock.module(
+    openprojectModule.name,
+    wpDirectivesModule.name,
+    opTemplatesModule.name
+  ));
 
-  var loadPromise,
-    wpAttachments = {
-      load: () => loadPromise,
-      getCurrentAttachments: () => [],
-      upload: angular.noop
-    },
-    apiPromise,
-    configurationService = {
-      api: () => apiPromise
-    };
+  var loadPromise;
+  var wpAttachments = {
+    load: () => loadPromise,
+    getCurrentAttachments: () => [],
+    upload: angular.noop
+  };
+  var apiPromise;
+  var configurationService = {api: () => apiPromise};
 
-  beforeEach(angular.mock.module('openproject.workPackages.services', function ($provide) {
-    $provide.constant('wpAttachments', wpAttachments);
+  beforeEach(angular.mock.module(wpServicesModule.name, $provide => {
+    $provide.value('wpAttachments', wpAttachments);
   }));
 
-  beforeEach(angular.mock.module('openproject.config', function ($provide) {
-    $provide.constant('ConfigurationService', configurationService);
+  beforeEach(angular.mock.module(opConfigModule, $provide => {
+    $provide.value('ConfigurationService', configurationService);
   }));
 
   beforeEach(angular.mock.inject(function ($rootScope, $compile, $httpBackend, _$q_) {
     $q = _$q_;
+
+    files = [{type: 'directory'}, {type: 'file'}];
     apiPromise = $q.when('');
     loadPromise = $q.when([]);
 
     // Skip the work package cache update
     $httpBackend.expectGET('/api/v3/work_packages/1234').respond(200, {});
 
-    var html = '<wp-attachments work-package="workPackage"></wp-attachments>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
+    const element = angular.element('<wp-attachments work-package="workPackage"></wp-attachments>');
+    const scope = $rootScope.$new();
 
     scope.workPackage = workPackage;
 
-    compile = () => {
-      $compile(element)(scope);
-      scope.$digest();
-    };
+    $compile(element)(scope);
+    scope.$digest();
+    element.isolateScope();
+
+    controller = element.controller('wpAttachments');
   }));
 
-  describe('filterFiles', () => {
+  describe('when using filterFiles', () => {
     beforeEach(() => {
-      compile();
-      isolatedScope = element.isolateScope();
-      controller = element.controller('wpAttachments');
+      controller.filterFiles(files);
     });
 
-    it('filters out attachments of type directory', () => {
-      var files = [{type: 'directory'}, {type: 'file'}];
-
-      controller.filterFiles(files);
-
+    it('should filter out attachments of type `directory`', () => {
       expect(files).to.eql([{type: 'file'}]);
     });
   });
 
-
-  describe('uploadFilteredFiles', () => {
-    var files = <File[]>[{type: 'directory'}, {type: 'file'}],
-      dumbPromise = {
-        then: call => call()
-      };
+  describe('when using uploadFilteredFiles', () => {
+    var uploadStub;
 
     beforeEach(() => {
-      compile();
-      isolatedScope = element.isolateScope();
-      controller = element.controller('wpAttachments');
+      controller.files = files;
+      uploadStub = wpAttachments.upload = sinon.stub().returns({then: call => call()});
+      controller.uploadFilteredFiles(files);
     });
 
-    it('triggers uploading of non directory files', () => {
-      //need to have files to be able to trigger uploads
-      controller.files = files;
-
-      var uploadStub = wpAttachments.upload = sinon.stub().returns(dumbPromise);
-
-      controller.uploadFilteredFiles(files);
-
+    it('should trigger uploading of non directory files', () => {
       expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
     });
   });
