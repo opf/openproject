@@ -410,10 +410,10 @@ module API
 
         self.to_eager_load = [{ children: { project: :enabled_modules } },
                               { parent: { project: :enabled_modules } },
-                              { project: :enabled_modules },
+                              { project: [:enabled_modules, :work_package_custom_fields] },
                               :status,
                               :priority,
-                              :type,
+                              { type: :custom_fields },
                               :fixed_version,
                               { custom_values: :custom_field },
                               :author,
