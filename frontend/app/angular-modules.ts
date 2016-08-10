@@ -37,7 +37,7 @@ angular.module('openproject.uiComponents',
 export const animationsModule = angular.module('openproject.animations', [
   'ngAnimate'
 ]);
-export const configModule = angular.module('openproject.config', []);
+export const opConfigModule = angular.module('openproject.config', []);
 export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
   'openproject.helpers',
