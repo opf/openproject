@@ -17,6 +17,7 @@ import {
   CollectionResource,
   CollectionResourceInterface
 } from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
 
 export class WpAttachmentsFormattableController {
   private viewMode:ViewMode = ViewMode.SHOW;
@@ -26,6 +27,7 @@ export class WpAttachmentsFormattableController {
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
+              protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpAttachments:WpAttachmentsService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
@@ -153,7 +155,9 @@ export class WpAttachmentsFormattableController {
   }
 
   protected openDetailsView(wpId):void {
-    if (this.$state.current.name.indexOf('work-packages.list') > -1 && this.$state.params.workPackageId !== wpId) {
+    if (this.$state.current.name.indexOf('work-packages.list') > -1 &&
+        !this.wpEditModeState.active &&
+        this.$state.params.workPackageId !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
         workPackageId: wpId
       });
