@@ -34,7 +34,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/my', action: 'page' },
             context: :main,
             html: { class: 'icon5 icon-star' },
-            if: Proc.new { User.current.logged? }
+            if: Proc.new { User.current.logged? },
+            omit_path_check: true
 
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
@@ -66,15 +67,16 @@ Redmine::MenuManager.map :top_menu do |menu|
   # Redmine::MenuManager::TopMenuHelper#render_work_packages_top_menu_node
 
   menu.push :new_work_packages,
-            { controller: '/work_packages', action: 'new' },
+            { controller: '/work_packages', action: 'index', state: 'new' },
+            param: :project_id,
             context: :work_packages,
             caption: I18n.t(:label_work_package_new),
             html: {
               class: "icon-add icon4 form--separator",
               accesskey: OpenProject::AccessKeys.key_for(:new_work_package)
             },
-            if: Proc.new {
-              User.current.allowed_to?(:add_work_packages, nil, global: true)
+            if: Proc.new { |project|
+              User.current.allowed_to?(:add_work_packages, project, global: project.nil?)
             }
 
   menu.push :list_work_packages,
@@ -92,7 +94,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               User.current.logged? &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
+            },
+            omit_path_check: true
 
   menu.push :work_packages_filter_reported_by_me,
             :work_packages_reported_by_me_path,
@@ -101,7 +104,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               User.current.logged? &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
+            },
+            omit_path_check: true
 
   menu.push :work_packages_filter_responsible_for,
             :work_packages_responsible_for_path,
@@ -110,7 +114,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               User.current.logged? &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
+            },
+            omit_path_check: true
 
   menu.push :work_packages_filter_watched_by_me,
             :work_packages_watched_path,
@@ -119,7 +124,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               User.current.logged? &&
                 User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
+            },
+            omit_path_check: true
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -269,7 +275,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             html: { class: 'icon2 icon-roadmap' }
 
   menu.push :work_packages,
-            { controller: '/work_packages', action: 'index' },
+            { controller: '/work_packages', action: 'index', state: nil },
             param: :project_id,
             caption: :label_work_package_plural,
             html: {

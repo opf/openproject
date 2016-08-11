@@ -79,7 +79,7 @@ module Redmine::MenuManager::MenuHelper
     Redmine::MenuManager.loose :project_menu do |menu|
       query_menu_items.each do |query_menu_item|
         # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
-        url = { controller: '/work_packages', action: 'index', params: { query_id: query_menu_item.navigatable_id } }
+        url = { controller: '/work_packages', action: 'index', state: nil, params: { query_id: query_menu_item.navigatable_id } }
         menu.push query_menu_item.unique_name,
                   url,
                   param: :project_id,
@@ -112,13 +112,13 @@ module Redmine::MenuManager::MenuHelper
   # Render a dropdown menu item with the given MenuItem children.
   # Caller may add additional items through the optional block.
   # Remaining options are passed through to +render_menu_dropdown+.
-  def render_menu_dropdown_with_items(label:, label_options:, items:, options: {})
+  def render_menu_dropdown_with_items(label:, label_options:, items:, project: nil, options: {})
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
     render_menu_dropdown(label_node, options) do
       items.each do |item|
-        concat render_menu_node(item)
+        concat render_menu_node(item, project)
       end
 
       concat(yield) if block_given?
@@ -238,8 +238,7 @@ module Redmine::MenuManager::MenuHelper
     block_given? ? nil : items
   end
 
-  def extract_node_details(node, project = nil)
-    item = node
+  def extract_node_details(item, project = nil)
     url = case item.url
     when Hash
       project.nil? ? item.url : { item.param => project }.merge(item.url)
@@ -263,9 +262,7 @@ module Redmine::MenuManager::MenuHelper
     if node.condition && !node.condition.call(project)
       # Condition that doesn't pass
       return false
-    end
-
-    if project
+    elsif project && !node.omit_path_check
       return user && user.allowed_to?(node.url, project)
     else
       # outside a project, all menu items allowed

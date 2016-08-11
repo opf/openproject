@@ -140,14 +140,14 @@ feature 'Work packages top menu items', js: true, selenium: true do
   end
 
   context 'as an anonymous user' do
-    let(:work_packages) { find(:css, '#work-packages-menu') }
     let(:user) { FactoryGirl.create :anonymous }
+    let(:work_packages) { find(:css, '#work-packages-menu') }
     before do
       work_packages.click
     end
 
     it 'displays only add new work package' do
-      has_menu_items(new_wp_item)
+      has_menu_items(new_wp_item, all_wp_item)
     end
   end
 end
