@@ -31,6 +31,7 @@ require 'spec_helper'
 feature 'Work packages top menu items', js: true, selenium: true do
   include WorkPackagesFilterHelper
   let(:user) { FactoryGirl.create :user }
+  let(:project) { FactoryGirl.create(:project, is_public: false) }
 
   let(:new_wp_item) { I18n.t('label_work_package_new') }
   let(:all_wp_item) { I18n.t('label_all') }
@@ -53,20 +54,16 @@ feature 'Work packages top menu items', js: true, selenium: true do
     end
   end
 
-  before do |ex|
+  before do
     allow(User).to receive(:current).and_return user
-
-    if ex.metadata.key?(:allowed_to)
-      allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
-    end
-
-    visit root_path
   end
 
   context 'as an admin' do
     let(:work_packages) { find(:css, '#work-packages-menu') }
     let(:user) { FactoryGirl.create :admin }
     before do
+      visit root_path
+
       work_packages.click
     end
 
@@ -114,11 +111,27 @@ feature 'Work packages top menu items', js: true, selenium: true do
       click_link watched_wp_item
       expect(page).to have_current_path(work_packages_watched_path)
     end
+
+    it 'visits the projects new work package page' do
+      visit project_path(project)
+      work_packages.click
+      expect(page).to have_content(new_wp_item)
+      click_link new_wp_item
+      expect(page).to have_current_path(new_project_work_packages_path(project))
+    end
   end
 
-  context 'as a user with permissions', allowed_to: true do
+  context 'as a user with permissions' do
+    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) {
+      FactoryGirl.create(:role, permissions: [:create_work_packages,
+                                              :add_work_packages,
+                                              :view_work_packages])
+    }
     let(:work_packages) { find(:css, '#work-packages-menu') }
     before do
+      visit root_path
+
       work_packages.click
     end
 
@@ -133,16 +146,48 @@ feature 'Work packages top menu items', js: true, selenium: true do
   end
 
   context 'as a user without any permission', allowed_to: false do
+    before do
+      visit root_path
+    end
+
     it 'shows no top menu entry Work packages' do
       has_menu_items
       expect(page).not_to have_css('#work-packages-menu')
     end
   end
 
-  context 'as an anonymous user' do
-    let(:user) { FactoryGirl.create :anonymous }
+  context 'as a user who is logged in but is not allowed to add work packages' do
+    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
     let(:work_packages) { find(:css, '#work-packages-menu') }
     before do
+      visit root_path
+
+      work_packages.click
+    end
+
+    it 'displays no add new work package option' do
+      has_menu_items(all_wp_item,
+                     assigned_wp_item,
+                     reported_wp_item,
+                     responsible_wp_item,
+                     watched_wp_item)
+    end
+  end
+
+  context 'as a user who is not logged in' do
+    let(:user) { FactoryGirl.create(:anonymous) }
+    let(:role) {
+      FactoryGirl.create(:anonymous_role,
+                         permissions: [:create_work_packages,
+                                       :add_work_packages,
+                                       :view_work_packages])
+    }
+    let(:work_packages) { find(:css, '#work-packages-menu') }
+    before do
+      role
+
+      visit root_path
       work_packages.click
     end
 

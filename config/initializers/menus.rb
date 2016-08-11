@@ -46,7 +46,8 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)
-            }
+            },
+            omit_path_check: true
   menu.push :time_sheet,
             { controller: '/time_entries', project_id: nil, action: 'index' },
             context: :modules,
@@ -54,14 +55,16 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_time_entries, nil, global: true)
-            }
+            },
+            omit_path_check: true
   menu.push :help, OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
                     class: 'icon5 icon-help1',
-                    target: '_blank' }
+                    target: '_blank' },
+            omit_path_check: true
 
   # work packages menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_work_packages_top_menu_node
@@ -132,13 +135,16 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'projects' },
             html: { class: 'hidden-for-mobile' },
-            if: Proc.new { User.current.admin? }
+            if: Proc.new { User.current.admin? },
+            omit_path_check: true
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             html: { class: 'hidden-for-mobile' },
-            if: Proc.new { User.current.logged? }
+            if: Proc.new { User.current.logged? },
+            omit_path_check: true
   menu.push :logout, :signout_path,
-            if: Proc.new { User.current.logged? }
+            if: Proc.new { User.current.logged? },
+            omit_path_check: true
 end
 
 Redmine::MenuManager.map :application_menu do |_menu|

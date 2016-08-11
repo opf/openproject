@@ -33,7 +33,6 @@ module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::ProjectsMenu
 
   def render_top_menu_left(project)
-
     items = split_top_menu_into_main_or_more_menus(project)
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
       [render_main_top_menu_nodes(items[:main]),
