@@ -29,14 +29,28 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title t(:label_member_plural) -%>
 <%= toolbar title: t(:label_member_plural) do %>
   <% if authorize_for(:members, :new) %>
-      <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
+      <a href="#" id="add-member-button" title="Add Member" class="button -alt-highlight">
         <i class="button--icon icon-add"></i>
         <span class="button--text"><%= I18n.t(:button_add_member) %></span>
       </a>
   <% end %>
 <% end %>
 
+<%= javascript_include_tag "members_form.js" %>
+
 <%= error_messages_for 'member' %>
+
+<div>
+  <% if @roles.any? %>
+    <%= render partial: "members/member_form",
+               locals: { project: @project, roles: @roles } %>
+  <% else %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to I18n.t('button_back'), :back, class: 'button' %>
+  <% end %>
+</div>
 
 <div>
   <% if Member.any? %>

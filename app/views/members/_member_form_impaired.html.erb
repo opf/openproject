@@ -27,9 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_member_new) %>
-<%= toolbar title: t(:label_member_new) %>
-
 <%= labelled_tabular_form_for(:member,
              url: {controller: '/members', action: 'create', project_id: project},
              method: :post,

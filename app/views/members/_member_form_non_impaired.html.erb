@@ -29,9 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= javascript_include_tag "members_select_boxes.js" %>
 
-<% html_title I18n.t(:label_member_new) %>
-<%= toolbar title: I18n.t(:label_member_new) %>
-
 <%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
                      method: :post,
                      html: {id: "members_add_form", class: "form -vertical"}) do |f| %>

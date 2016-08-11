@@ -48,9 +48,7 @@ class MembersController < ApplicationController
     @members = Members::UserFilterCell.filter index_members(@project), params
     @members_table_options = members_table_options roles
     @members_filter_options = members_filter_options roles
-  end
 
-  def new
     set_roles_and_principles!
   end
 
