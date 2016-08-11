@@ -354,7 +354,21 @@ class Project < ActiveRecord::Base
     if perm = Redmine::AccessControl.permission(permission)
       unless perm.project_module.nil?
         # If the permission belongs to a project module, make sure the module is enabled
-        base_statement << " AND #{table_alias}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}')"
+        enabled_module_statement = "SELECT em.project_id FROM #{EnabledModule.table_name} em"
+
+        if options[:project] && options[:with_subprojects]
+          enabled_module_statement << " JOIN #{table_alias} ON #{table_alias}.id = em.project_id"
+        end
+
+        enabled_module_statement << " WHERE em.name='#{perm.project_module}'"
+
+        if options[:project]
+          project_statement = "em.project_id = #{options[:project].id}"
+          project_statement << " OR (#{table_alias}.lft > #{options[:project].lft} AND #{table_alias}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
+
+          enabled_module_statement << " AND (#{project_statement})"
+        end
+        base_statement << " AND #{table_alias}.id IN (#{enabled_module_statement})"
       end
     end
     if options[:project]

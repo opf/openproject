@@ -258,7 +258,7 @@ function QueryService($rootScope,
     },
 
     getProjectCustomFieldFilters: function(projectIdentifier) {
-      return QueryService.doQuery(PathHelper.apiProjectCustomFieldsPath(projectIdentifier));
+      return QueryService.doQuery(PathHelper.apiProjectCustomFieldsPath(projectIdentifier), {}, 'GET', null, null, true);
     },
 
     getCustomFieldFilters: function() {
@@ -471,7 +471,7 @@ function QueryService($rootScope,
       return QueryService.doQuery(url, null, 'PATCH', success, failure);
     },
 
-    doQuery: function(url:string, params:any = {}, method:string = 'GET', success?:any, failure?:any) {
+    doQuery: function(url:string, params:any = {}, method:string = 'GET', success?:any, failure?:any, cache:boolean = false) {
       success = success || function(response){
         return response.data;
       };
@@ -482,7 +482,7 @@ function QueryService($rootScope,
         url: url,
         params: params,
         headers: {
-          'caching': { enabled: false },
+          'caching': { enabled: cache },
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       }).then(success, failure);

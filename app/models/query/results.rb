@@ -113,7 +113,9 @@ class ::Query::Results
   end
 
   def all_total_sums
-    query.available_columns.inject({}) { |result, column|
+    query.available_columns.select { |column|
+      column.summable? && Setting.work_package_list_summable_columns.include?(column.name.to_s)
+    }.inject({}) { |result, column|
       sum = total_sum_of(column)
       result[column] = sum unless sum.nil?
       result

@@ -364,9 +364,9 @@ class Query < ActiveRecord::Base
 
   def project_statement
     project_clauses = []
+    subproject_filter = filter_for 'subproject_id'
     if project && !project.descendants.active.empty?
       ids = [project.id]
-      subproject_filter = filter_for 'subproject_id'
       if subproject_filter
         case subproject_filter.operator
         when '='
@@ -376,16 +376,18 @@ class Query < ActiveRecord::Base
           # main project only
         else
           # all subprojects
-          ids += project.descendants.map(&:id)
+          ids += project.descendants.pluck(:id)
         end
       elsif Setting.display_subprojects_work_packages?
-        ids += project.descendants.map(&:id)
+        ids += project.descendants.pluck(:id)
       end
       project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses << WorkPackage.visible_condition(User.current)
+    project_clauses << WorkPackage.visible_condition(User.current,
+                                                     project: project,
+                                                     with_subprojects: !subproject_filter.nil?)
     project_clauses.join(' AND ')
   end
 
