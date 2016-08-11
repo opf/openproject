@@ -24,8 +24,4 @@ class RailsCell < Cell::ViewModel
   def controller
     context[:controller]
   end
-
-  def get_html_title
-    @html_title
-  end
 end
