@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.5'
+gem 'rails', '~> 4.2.7', '>= 4.2.7.1'
 gem 'actionpack-action_caching'
 gem 'actionpack-xml_parser'
 gem 'activerecord-session_store'
