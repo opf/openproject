@@ -28,9 +28,13 @@
 #++
 
 class MyController < ApplicationController
+  include Concerns::PasswordConfirmation
   layout 'my'
 
   before_filter :require_login
+  before_filter :require_password_confirmation,
+                only: [:account],
+                if: ->() { request.patch? }
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]

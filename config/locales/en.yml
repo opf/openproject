@@ -1424,6 +1424,7 @@ en:
   notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
+  notice_password_confirmation_failed: "Your password is not correct. The changes were not saved."
   notice_project_not_deleted: "The project wasn't deleted."
   notice_successful_connection: "Successful connection."
   notice_successful_create: "Successful creation."

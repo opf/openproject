@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @user, as: :user, url: { action: 'account' },
                           lang: current_language,
-                          html: { id: 'my_account_form', class: 'form -wide-labels' } do |f| %>
+                          html: { id: 'my_account_form', class: 'request-for-confirmation form -wide-labels' } do |f| %>
   <section class="form--section">
     <div class="form--field">
       <label class="form--label" for="username">
