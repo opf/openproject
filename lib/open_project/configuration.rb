@@ -313,6 +313,11 @@ module OpenProject
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
       def extract_value(key, value)
+
+        # YAML parses '' as false, but empty ENV variables will be passed as that.
+        # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
+        return value if value == ''
+
         YAML.load(value)
       rescue => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
