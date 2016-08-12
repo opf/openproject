@@ -139,7 +139,11 @@ export class WorkPackageEditFieldController {
 
         // Activate the field automatically when in editAllMode
         if (this.inEditMode && this.isEditable) {
-          this.activate();
+          // Set focus on the first field
+          if(this.fieldName === 'subject')
+            this.activate(true);
+          else
+            this.activate();
         }
       }
     });
