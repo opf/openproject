@@ -26,29 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(document).ready(function($) {
-  $("#tab-content-members").submit('#members_add_form', function () {
-    var error = $('.errorExplanation, .flash');
-    if (error) {
-      error.remove();
-    }
-  });
+function findFilter() {
+  var filter =  jQuery('.simple-filters--container');
 
-  // Hide unneccessary content when page is loaded
-  hideAddMemberForm();
-  hideFilter(filter = findFilter());
-});
+  // Find the filter elements on the page
+  if(filter.length == 0)
+    filter = jQuery('.advanced-filters--container');
+  else if(filter.length == 0)
+     filter = nil;
 
-function toggleMemberFilter(filter = findFilter()) {
-  toggleFilter(filter);
-  hideAddMemberForm();
+  return filter;
 }
 
-function showAddMemberForm() {
-  jQuery('#members_add_form').show();
-  hideFilter(filter = findFilter());
+function toggleFilter(filter) {
+  filter.toggleClass('collapsed');
 }
 
-function hideAddMemberForm() {
-  jQuery('#members_add_form').hide();
+function hideFilter(filter) {
+  filter.addClass('collapsed');
 }

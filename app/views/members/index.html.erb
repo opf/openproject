@@ -28,11 +28,14 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 <%= toolbar title: t(:label_member_plural) do %>
+  <button id="filter-member-button" title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+    <i class="button--icon icon-filter"></i>
+  </button>
   <% if authorize_for(:members, :new) %>
-      <a href="#" id="add-member-button" title="Add Member" class="button -alt-highlight">
+      <button id="add-member-button" title="<%= I18n.t(:button_add_member) %>" onClick="showAddMemberForm()" class="button -alt-highlight">
         <i class="button--icon icon-add"></i>
         <span class="button--text"><%= I18n.t(:button_add_member) %></span>
-      </a>
+      </button>
   <% end %>
 <% end %>
 
