@@ -121,6 +121,13 @@ export class HalResource {
     return this.$self;
   }
 
+  /**
+   * Update the resource ignoring the cache.
+   */
+  public $update() {
+    return this.$load(true);
+  }
+
   public $plain() {
     return angular.copy(this.$source);
   }
@@ -155,8 +162,6 @@ function initializeResource(halResource:HalResource) {
   setEmbeddedAsProperties();
 
   function setSource() {
-    halResource.$source = halResource.$source._plain || halResource.$source;
-
     if (!halResource.$source._links) {
       halResource.$source._links = {};
     }
