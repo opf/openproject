@@ -39,7 +39,7 @@ jQuery(document).ready(function($) {
   hideFilter(filter = findFilter());
 });
 
-function toggleMemberFilter(filter = findFilter()) {
+function toggleMemberFilter() {
   toggleFilter(filter);
   hideAddMemberForm();
 }

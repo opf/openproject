@@ -28,9 +28,12 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 <%= toolbar title: t(:label_member_plural) do %>
-  <button id="filter-member-button" title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
-    <i class="button--icon icon-filter"></i>
-  </button>
+
+  <% if @members.any? %>
+    <button id="filter-member-button" title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+      <i class="button--icon icon-filter"></i>
+    </button>
+  <% end %>
   <% if authorize_for(:members, :new) %>
       <button id="add-member-button" title="<%= I18n.t(:button_add_member) %>" onClick="showAddMemberForm()" class="button -alt-highlight">
         <i class="button--icon icon-add"></i>
@@ -56,15 +59,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div>
-  <% if Member.any? %>
+  <% if @members.any? %>
     <%= cell Members::UserFilterCell, params, @members_filter_options %>
     &nbsp;
     <%= cell Members::TableCell, @members, @members_table_options %>
   <% else %>
-    <%=
-      no_results_box(
-        action_url: new_project_member_path,
-        display_action: authorize_for(:members, :new))
-    %>
+    <%= no_results_box %>
   <% end %>
 </div>

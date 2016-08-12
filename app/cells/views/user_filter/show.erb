@@ -30,7 +30,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({}, method: :get) do %>
   <fieldset class="simple-filters--container">
     <legend><%= t(:label_filter_plural) %></legend>
-    <ul class="simple-filters--filters <%= groups.present? ? "-columns-3" : '' %>">
+    <% custom_class = ''
+      if groups.present? || roles.present?
+        custom_class = '-columns-3'
+      end
+      if groups.present? && roles.present?
+        custom_class = '-columns-4'
+      end
+    %>
+    <ul class="simple-filters--filters <%= custom_class %>">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
           <%= select_tag 'status', users_status_options_for_select(status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value' %>
