@@ -27,17 +27,62 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
+import {WorkPackageResource} from './work-package-resource.service';
+import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import IHttpBackendService = angular.IHttpBackendService;
+import SinonStub = Sinon.SinonStub;
 
 describe('WorkPackageResource service', () => {
+  var $httpBackend:IHttpBackendService;
   var WorkPackageResource;
+  var wpCacheService:WorkPackageCacheService;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_WorkPackageResource_) {
-    [WorkPackageResource] = arguments;
+  beforeEach(angular.mock.inject(function (_$httpBackend_,
+                                           _WorkPackageResource_,
+                                           _wpCacheService_) {
+    [$httpBackend, WorkPackageResource, wpCacheService] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
     expect(WorkPackageResource).to.exist;
+  });
+
+  describe('when the resource was created', () => {
+    var source:any;
+    var resource:WorkPackageResource;
+    var updateWorkPackageStub:SinonStub;
+
+    beforeEach(() => {
+      source = {
+        _links: {
+          activities: {
+            href: 'activities'
+          }
+        }
+      };
+      resource = new WorkPackageResource(source);
+      updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
+    });
+
+    afterEach(() => {
+      updateWorkPackageStub.restore();
+    });
+
+    describe('when updating the activities', () => {
+      beforeEach(() => {
+        resource.updateActivities();
+
+        $httpBackend
+          .expectGET('activities', headers => headers.caching.enabled === false)
+          .respond(200, {});
+        $httpBackend.flush();
+      });
+
+      it('should update the work package cache', () => {
+        expect(updateWorkPackageStub.calledWith(resource)).to.be.true;
+      });
+    });
   });
 });
 
