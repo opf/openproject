@@ -50,7 +50,9 @@ describe('wp-attachments.directive', () => {
       },
       $unload: angular.noop,
       href: '/api/v3/work_packages/1/activities',
-    }
+    },
+    updateLinkedResources: () => null,
+    updateAttachments: () => null
   };
 
   beforeEach(angular.mock.module('openproject'));

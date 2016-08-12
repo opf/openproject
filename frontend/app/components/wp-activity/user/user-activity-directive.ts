@@ -123,7 +123,7 @@ function userActivity($uiViewScroll,
 
       scope.updateComment = function () {
         ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function () {
-          wpCacheService.loadWorkPackageLinks(scope.workPackage, 'activities');
+          scope.workPackage.updateActivities();
           scope.inEdit = false;
         });
       };

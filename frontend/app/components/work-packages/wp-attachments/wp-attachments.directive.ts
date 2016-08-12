@@ -110,7 +110,7 @@ export class WorkPackageAttachmentsController {
           // Reload the work package after attachments are uploaded to
           // provide the correct links, in e.g., the description
           this.wpCacheService.loadWorkPackage(<number> wp.id, true);
-        })
+        });
       });
   }
 
@@ -125,7 +125,7 @@ export class WorkPackageAttachmentsController {
     if (this.files.length > 0) {
       this.wpAttachments.upload(this.workPackage, this.files).then(() => {
         this.files = [];
-        this.attachmentsChanged();
+        this.workPackage.updateAttachments();
       });
     }
   };
@@ -146,7 +146,7 @@ export class WorkPackageAttachmentsController {
     if (!this.workPackage.isNew) {
       if (file._type === 'Attachment') {
         file.delete()
-          .then(() => this.attachmentsChanged())
+          .then(() => this.workPackage.updateAttachments())
           .catch(error => {
             this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
           });
@@ -175,13 +175,6 @@ export class WorkPackageAttachmentsController {
   public uploadFilteredFiles(files):void {
     this.filterFiles(files);
     this.upload();
-  }
-
-  /**
-   * Update the work package links affected by attachments: activities and attachments themselves
-   */
-  protected attachmentsChanged() {
-    this.wpCacheService.loadWorkPackageLinks(this.workPackage, 'attachments', 'activities');
   }
 }
 

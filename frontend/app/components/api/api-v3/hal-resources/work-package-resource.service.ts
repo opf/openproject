@@ -34,7 +34,7 @@ import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
 
 interface WorkPackageResourceEmbedded {
-  activities:HalResource|any;
+  activities:CollectionResourceInterface;
   assignee:HalResource|any;
   attachments:HalResource|any;
   author:HalResource|any;
@@ -112,6 +112,7 @@ export class WorkPackageResource extends HalResource {
   public lockVersion:number;
   public description:any;
   public inFlight:boolean;
+  public activities:CollectionResourceInterface;
 
   private form;
 
@@ -119,7 +120,7 @@ export class WorkPackageResource extends HalResource {
     return isNaN(Number(this.id));
   }
 
-  public get isMilestone(): boolean {
+  public get isMilestone():boolean {
     /**
      * it would be better if this was not deduced but rather taken from the type
      */
@@ -253,7 +254,7 @@ export class WorkPackageResource extends HalResource {
         const hasAllowedValues = Array.isArray(field.allowedValues) && field.allowedValues.length > 0;
 
         if (isHalField && hasAllowedValues) {
-          this[name] = _.find(field.allowedValues, { href: this[name].href});
+          this[name] = _.find(field.allowedValues, {href: this[name].href});
         }
       });
 
@@ -274,7 +275,7 @@ export class WorkPackageResource extends HalResource {
           .then(workPackage => {
             this.$initialize(workPackage);
             this.$pristine = {};
-            wpCacheService.loadWorkPackageLinks(this, 'activities');
+            this.updateActivities();
             deferred.resolve(this);
           })
           .catch(error => {
@@ -351,6 +352,31 @@ export class WorkPackageResource extends HalResource {
         this[key] = formPayload[key];
       }
     });
+  }
+
+  /**
+   * Invalidate a set of linked resource in the given work package.
+   * Inform the cache service about the work package update.
+   */
+  public updateLinkedResources(...resourceNames) {
+    resourceNames.forEach(name => this[name].$update());
+    wpCacheService.updateWorkPackage(this);
+  }
+
+  /**
+   * Get updated activities from the server and inform the cache service about the work
+   * package update.
+   */
+  public updateActivities() {
+    this.updateLinkedResources('activities');
+  }
+
+  /**
+   * Get updated attachments and activities from the server and inform the cache service
+   * about the update.
+   */
+  public updateAttachments() {
+    this.updateLinkedResources('activities', 'attachments');
   }
 
   /**
