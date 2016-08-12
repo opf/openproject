@@ -15,9 +15,10 @@
     <% roles.each do |role| %>
       <label><%= role_checkbox(role) %> <%= h role %></label>
     <% end %>
-    </p>
+  </p>
   <%= hidden_field_tag "member[role_ids][]", "" %>
   <p>
     <%= submit_tag t(:button_change), class: "button -highlight -small" %>
     <%= link_to_function t(:button_cancel), row.cancel_edit_javascript, class: 'button -small' %>
+  </p>
 </form>
