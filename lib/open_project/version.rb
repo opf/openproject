@@ -34,7 +34,7 @@ module OpenProject
   module VERSION #:nodoc:
     MAJOR = 5
     MINOR = 0
-    PATCH = 20
+    PATCH = 21
     TINY  = PATCH # Redmine compat
 
     # Used by semver to define the special version (if any).
