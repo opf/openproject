@@ -155,8 +155,6 @@ function initializeResource(halResource:HalResource) {
   setEmbeddedAsProperties();
 
   function setSource() {
-    halResource.$source = halResource.$source._plain || halResource.$source;
-
     if (!halResource.$source._links) {
       halResource.$source._links = {};
     }

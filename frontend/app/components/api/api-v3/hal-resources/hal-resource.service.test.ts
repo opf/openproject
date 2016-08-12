@@ -58,13 +58,6 @@ describe('HalResource service', () => {
     expect(new HalResource().$href).to.equal(null);
   });
 
-  it('should set its source to _plain if _plain is a property of the source', () => {
-    source = {_plain: {prop: true}};
-    resource = new HalResource(source);
-
-    expect(resource.prop).to.exist;
-  });
-
   describe('when creating a resource using the create factory method', () => {
     describe('when there is no type configuration', () => {
       beforeEach(() => {
