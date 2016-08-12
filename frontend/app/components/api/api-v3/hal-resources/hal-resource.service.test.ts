@@ -58,6 +58,26 @@ describe('HalResource service', () => {
     expect(new HalResource().$href).to.equal(null);
   });
 
+  describe('when updating a loaded resource using `$update()`', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          self: {
+            href: 'hello'
+          }
+        }
+      };
+      resource = new HalResource(source);
+      resource.$update();
+    });
+
+    it('should perform a no-cache request', () => {
+      const expectHeaders = headers => headers.caching.enabled === false;
+      $httpBackend.expectGET('hello', expectHeaders).respond(200, {});
+      $httpBackend.flush();
+    });
+  });
+
   describe('when creating a resource using the create factory method', () => {
     describe('when there is no type configuration', () => {
       beforeEach(() => {

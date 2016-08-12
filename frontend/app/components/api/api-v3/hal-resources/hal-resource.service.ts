@@ -121,6 +121,13 @@ export class HalResource {
     return this.$self;
   }
 
+  /**
+   * Update the resource ignoring the cache.
+   */
+  public $update() {
+    return this.$load(true);
+  }
+
   public $plain() {
     return angular.copy(this.$source);
   }
