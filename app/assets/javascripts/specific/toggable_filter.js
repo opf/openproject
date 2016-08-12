@@ -30,18 +30,18 @@ function findFilter() {
   var filter =  jQuery('.simple-filters--container');
 
   // Find the filter elements on the page
-  if(filter.length == 0)
+  if(filter.length === 0)
     filter = jQuery('.advanced-filters--container');
-  else if(filter.length == 0)
+  else if(filter.length === 0)
      filter = nil;
 
   return filter;
 }
 
-function toggleFilter(filter) {
-  filter.toggleClass('collapsed');
-}
-
 function hideFilter(filter) {
   filter.addClass('collapsed');
+}
+
+function showFilter(filter) {
+  filter.removeClass('collapsed');
 }

@@ -34,19 +34,35 @@ jQuery(document).ready(function($) {
     }
   });
 
-  // Hide unneccessary content when page is loaded
+  // Show/Hide content when page is loaded
+  if (localStorage.getItem("showFilter") === "true") {
+    showFilter(filter = findFilter());
+  }
+  else {
+    hideFilter(filter = findFilter());
+    // In case showFilter is not set yet
+    localStorage.setItem("showFilter", 'false')
+  }
+
   hideAddMemberForm();
-  hideFilter(filter = findFilter());
 });
 
 function toggleMemberFilter() {
-  toggleFilter(filter);
-  hideAddMemberForm();
+  if (localStorage.getItem("showFilter") === "true") {
+    localStorage.setItem("showFilter", 'false');
+    hideFilter(filter);
+  }
+  else {
+    localStorage.setItem("showFilter", 'true');
+    showFilter(filter);
+    hideAddMemberForm();
+  }
 }
 
 function showAddMemberForm() {
   jQuery('#members_add_form').show();
   hideFilter(filter = findFilter());
+  localStorage.setItem("showFilter", 'false');
 }
 
 function hideAddMemberForm() {
