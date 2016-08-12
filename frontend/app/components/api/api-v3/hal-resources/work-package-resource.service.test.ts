@@ -61,8 +61,9 @@ describe('WorkPackageResource service', () => {
       });
       $httpBackend.flush();
     };
-    const expectWpCacheUpdateWith = (...urls) => {
+    const testWpCacheUpdateWith = (prepare, ...urls) => {
       beforeEach(() => {
+        prepare();
         expectUncachedRequests(urls);
       });
 
@@ -91,21 +92,21 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when updating multiple linked resource', () => {
-      var linkNames = ['activities', 'attachments'];
-
-      beforeEach(() => {
-        workPackage.updateLinkedResources(...linkNames);
-      });
-
-      expectWpCacheUpdateWith(...linkNames);
+      testWpCacheUpdateWith(() => {
+        workPackage.updateLinkedResources('activities', 'attachments');
+      }, 'activities', 'attachments');
     });
 
     describe('when updating the activities', () => {
-      beforeEach(() => {
+      testWpCacheUpdateWith(() => {
         workPackage.updateActivities();
-      });
+      }, 'activities');
+    });
 
-      expectWpCacheUpdateWith('activities');
+    describe('when updating the attachments', () => {
+      testWpCacheUpdateWith(() => {
+        workPackage.updateAttachments();
+      }, 'activities', 'attachments');
     });
   });
 });

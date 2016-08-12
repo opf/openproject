@@ -372,6 +372,14 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
+   * Get updated attachments and activities from the server and inform the cache service
+   * about the update.
+   */
+  public updateAttachments() {
+    this.updateLinkedResources('activities', 'attachments');
+  }
+
+  /**
    * Assign values from the form for a newly created work package resource.
    * @param form
    */
