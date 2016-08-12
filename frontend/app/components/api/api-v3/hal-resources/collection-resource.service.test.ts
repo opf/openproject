@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opApiModule, opServicesModule} from "../../../../angular-modules";
+import {opApiModule, opServicesModule} from '../../../../angular-modules';
 
-const expect = chai.expect;
-
-describe('CollectionResource', () => {
+describe('CollectionResource service', () => {
   var CollectionResource;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
@@ -38,17 +36,7 @@ describe('CollectionResource', () => {
     CollectionResource = _CollectionResource_;
   }));
 
-  describe('getElements', () => {
-    it('returns the embedded elements', () => {
-      var source = {
-        $embedded: {
-          elements: [1, 2, 3]
-        }
-      };
-
-      var resource = new CollectionResource(source);
-
-      expect(resource.getElements()).to.eql(source.$embedded.elements);
-    });
+  it('should exist', () => {
+    expect(CollectionResource).to.exist;
   });
 });

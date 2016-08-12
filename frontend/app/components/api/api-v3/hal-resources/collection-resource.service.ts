@@ -34,9 +34,6 @@ interface CollectionResourceEmbedded {
 }
 
 export class CollectionResource extends HalResource {
-  public getElements() {
-    return this.$embedded.elements;
-  }
 }
 
 export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
