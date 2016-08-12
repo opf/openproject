@@ -2,7 +2,7 @@ class UserFilterCell < RailsCell
   include UsersHelper
   include ActionView::Helpers::FormOptionsHelper
 
-  options :groups, :status, :roles
+  options :groups, :status, :roles, :clear_url
 
   class << self
     def filter(query, params)
