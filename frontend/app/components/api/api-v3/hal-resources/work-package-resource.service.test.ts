@@ -50,18 +50,39 @@ describe('WorkPackageResource service', () => {
 
   describe('when the resource was created', () => {
     var source:any;
-    var resource:WorkPackageResource;
+    var workPackage:WorkPackageResource;
     var updateWorkPackageStub:SinonStub;
+
+    const expectUncachedRequests = (urls) => {
+      urls.forEach(url => {
+        $httpBackend
+          .expectGET(url, headers => headers.caching.enabled === false)
+          .respond(200, {});
+      });
+      $httpBackend.flush();
+    };
+    const expectWpCacheUpdateWith = (...urls) => {
+      beforeEach(() => {
+        expectUncachedRequests(urls);
+      });
+
+      it('should update the work package cache', () => {
+        expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+      });
+    };
 
     beforeEach(() => {
       source = {
         _links: {
           activities: {
             href: 'activities'
+          },
+          attachments: {
+            href: 'attachments'
           }
         }
       };
-      resource = new WorkPackageResource(source);
+      workPackage = new WorkPackageResource(source);
       updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
     });
 
@@ -69,19 +90,22 @@ describe('WorkPackageResource service', () => {
       updateWorkPackageStub.restore();
     });
 
+    describe('when updating multiple linked resource', () => {
+      var linkNames = ['activities', 'attachments'];
+
+      beforeEach(() => {
+        workPackage.updateLinkedResources(...linkNames);
+      });
+
+      expectWpCacheUpdateWith(...linkNames);
+    });
+
     describe('when updating the activities', () => {
       beforeEach(() => {
-        resource.updateActivities();
-
-        $httpBackend
-          .expectGET('activities', headers => headers.caching.enabled === false)
-          .respond(200, {});
-        $httpBackend.flush();
+        workPackage.updateActivities();
       });
 
-      it('should update the work package cache', () => {
-        expect(updateWorkPackageStub.calledWith(resource)).to.be.true;
-      });
+      expectWpCacheUpdateWith('activities');
     });
   });
 });

@@ -355,12 +355,20 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
+   * Invalidate a set of linked resource in the given work package.
+   * Inform the cache service about the work package update.
+   */
+  public updateLinkedResources(...resourceNames) {
+    resourceNames.forEach(name => this[name].$update());
+    wpCacheService.updateWorkPackage(this);
+  }
+
+  /**
    * Get updated activities from the server and inform the cache service about the work
    * package update.
    */
   public updateActivities() {
-    this.activities.$update();
-    wpCacheService.updateWorkPackage(this);
+    this.updateLinkedResources('activities');
   }
 
   /**

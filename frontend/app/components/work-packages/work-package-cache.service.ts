@@ -65,20 +65,6 @@ export class WorkPackageCacheService {
     this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  /**
-   * Invalidate a set of links in the given work package.
-   * This is a temporary fix for un-/reloading a known set of links.
-   *
-   * @param workPackage
-   * @param args A list of links to forcefully $load
-   */
-  loadWorkPackageLinks(workPackage, ...args: string[]) {
-    args.forEach((arg) => {
-      workPackage[arg].$load(true);
-    });
-    return this.updateWorkPackage(workPackage);
-  }
-
   loadWorkPackage(workPackageId: number, forceUpdate = false): Rx.Observable<WorkPackageResource> {
     if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
       this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {

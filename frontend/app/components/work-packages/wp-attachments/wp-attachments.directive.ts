@@ -181,7 +181,7 @@ export class WorkPackageAttachmentsController {
    * Update the work package links affected by attachments: activities and attachments themselves
    */
   protected attachmentsChanged() {
-    this.wpCacheService.loadWorkPackageLinks(this.workPackage, 'attachments', 'activities');
+    this.workPackage.updateLinkedResources('attachments', 'activities');
   }
 }
 
