@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <ul class="simple-filters--filters <%= groups.present? ? "-columns-3" : '' %>">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
-          <%= select_tag 'status', users_status_options_for_select(status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value' %>
+          <%= select_tag 'status', user_status_options, onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value' %>
       </li>
       <% if groups.present? %>
         <li class="simple-filters--filter">

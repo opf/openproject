@@ -161,7 +161,8 @@ class MembersController < ApplicationController
       groups: groups,
       roles: roles,
       status: status,
-      clear_url: project_members_path(@project)
+      clear_url: project_members_path(@project),
+      project: @project
     }
   end
 
