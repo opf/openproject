@@ -1,5 +1,5 @@
-module OpenProject
-  module UserStatusOptions
+class User
+  module StatusOptions
     module_function
 
     ##
