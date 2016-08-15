@@ -29,16 +29,32 @@
 import {opApiModule} from '../../../../angular-modules';
 import {CollectionResource} from './collection-resource.service';
 import {HalResource} from './hal-resource.service';
+import {
+  OpenProjectFileUploadService,
+  UploadFile
+} from '../../op-file-upload/op-file-upload.service';
+import IPromise = angular.IPromise;
+
+var opFileUpload: OpenProjectFileUploadService;
 
 export class AttachmentCollectionResource extends CollectionResource {
+  /**
+   * Upload the given files to the $href property of this resource.
+   */
+  public upload(files: UploadFile[]): IPromise<any> {
+    return opFileUpload.upload(this.$href, files);
+  }
 }
 
 export interface AttachmentCollectionResourceInterface extends AttachmentCollectionResource {
-  elements:HalResource[];
+  elements: HalResource[];
 }
 
-function attachmentCollectionResourceService() {
+function attachmentCollectionResourceService(...args) {
+  [opFileUpload] = args;
   return AttachmentCollectionResource;
 }
+
+attachmentCollectionResourceService.$inject = ['opFileUpload'];
 
 opApiModule.factory('AttachmentCollectionResource', attachmentCollectionResourceService);

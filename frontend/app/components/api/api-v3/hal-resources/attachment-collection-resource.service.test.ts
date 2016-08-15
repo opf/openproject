@@ -27,16 +27,51 @@
 // ++
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import {AttachmentCollectionResource} from './attachment-collection-resource.service';
+import {OpenProjectFileUploadService} from '../../op-file-upload/op-file-upload.service';
+import SinonStub = Sinon.SinonStub;
 
 describe('AttachmentCollectionResource service', () => {
   var AttachmentCollectionResource;
+  var opFileUpload: OpenProjectFileUploadService;
 
-  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_) {
-    [AttachmentCollectionResource] = _.toArray(arguments);
+  beforeEach(angular.mock.module(
+    opApiModule.name,
+    opServicesModule.name
+  ));
+  beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_,
+                                           _opFileUpload_) {
+    [
+      AttachmentCollectionResource,
+      opFileUpload
+    ] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
     expect(AttachmentCollectionResource).to.exist;
+  });
+
+  describe('when creating an attachment collection', () => {
+    var collection: AttachmentCollectionResource;
+
+    beforeEach(() => {
+      collection = new AttachmentCollectionResource({
+        _links: {self: {href: 'attachments'}}
+      }, true);
+    });
+
+    describe('when uploading files', () => {
+      var files: any[] = [{}, {}];
+      var uploadStub: SinonStub;
+
+      beforeEach(() => {
+        uploadStub = sinon.stub(opFileUpload, 'upload');
+        collection.upload(files);
+      });
+
+      it('should call the `opFileUpload` service accordingly', () => {
+        expect(uploadStub.calledWith(collection.$href, files)).to.be.true;
+      });
+    });
   });
 });
