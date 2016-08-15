@@ -35,37 +35,14 @@ module UsersHelper
   # @param extra [Hash] A hash containing extra entries with a count for each.
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
-    counts = user_count_by_status extra: extra
+    statuses = OpenProject::UserStatusOptions.user_statuses_with_count extra: extra
+    options = statuses.map do |name, values|
+      count, value = values
 
-    # use non-numerical values as index to prevent clash with normal user
-    # statuses
-    status_symbols = { all: :all }
-    status_symbols.merge!(User::STATUSES.except(:builtin))
-    status_symbols[:blocked] = :blocked
-    status_symbols.merge!(extra.map { |key, value| [key, key] }.to_h)
+      ["#{translate_user_status(name)} (#{count})", value]
+    end
 
-    statuses = status_symbols.map { |name, index|
-      i = (counts.include?(index) && index) || User::STATUSES[index] # :active => 1
-      count = counts[i]
-
-      ["#{translate_user_status(name.to_s)} (#{count.to_i})", i] if count
-    }
-    options_for_select(statuses.compact, selected)
-  end
-
-  def user_count_by_status(extra: {})
-    counts = User.group(:status).count.to_hash
-
-    counts
-      .merge(
-        blocked: User.blocked.count,
-        all: User.not_builtin.count,
-        active: User.active.not_blocked.count
-      )
-      .merge(extra)
-      .reject { |_, v| v.nil? }
-      .map { |k, v| [User::STATUSES[k] || k, v] }
-      .to_h
+    options_for_select options, selected
   end
 
   def translate_user_status(status_name)
