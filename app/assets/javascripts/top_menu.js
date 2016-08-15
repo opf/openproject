@@ -132,7 +132,7 @@
           self.toggleClick($(this));
           return false;
         });
-        $(it).hover(function () {
+        $(it).hover(function() {
           // only do something if the menu is in hover mode
           // AND the dropdown we hover on is not currently open anyways
           if (self.hover && self.isClosed($(this))) {
@@ -157,8 +157,8 @@
       dropdown.trigger("opened", dropdown);
     },
 
-    close: function (dropdown) {
-      this.slideUp(dropdown);
+    close: function (dropdown, immediate) {
+      this.slideUp(dropdown, immediate);
       dropdown.trigger("closed", dropdown);
     },
 
@@ -166,7 +166,7 @@
       var self = this;
       this.openDropdowns().each(function (ix, it) {
         if ($(it) != $(dropdown)) {
-          self.close($(it));
+          self.close($(it), true);
         }
       });
     },
@@ -191,10 +191,17 @@
       toDrop.slideDown(animationRate).attr("aria-expanded","true");
     },
 
-    slideUp: function (dropdown) {
+    slideUp: function (dropdown, immediate) {
       var toDrop = $(dropdown).find("> ul");
       dropdown.removeClass("open");
-      toDrop.slideUp(animationRate).attr("aria-expanded","false");
+
+      if (immediate) {
+        toDrop.hide();
+      } else {
+        toDrop.slideUp(animationRate);
+      }
+
+      toDrop.attr("aria-expanded","false");
     },
 
     // If there is ANY input, it will have precedence over links,

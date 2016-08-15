@@ -28,22 +28,46 @@
 
 (function($) {
 
+  function getMSIEVersion() {
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf("MSIE ");
+
+      // IE <= 10
+      if (msie !== -1) {
+        return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
+      }
+
+      // IE 11
+      msie = ua.indexOf('Trident/');
+      if (msie > 0) {
+        // IE 11 => return version number
+        var rv = ua.indexOf('rv:');
+        return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+      }
+  }
+
   $(function() {
 
+    var ieVersion = getMSIEVersion();
+    var isIE = ieVersion !== undefined && ieVersion <= 11;
+    var additionalMessage = I18n.t("js.unsupported_browser.update_message");
+
     var agent = navigator.userAgent;
-    if (agent.match(/MSIE [789]\.0/) === null &&                // IE 7-9
-        agent.match(/MSIE 10\.\d/) === null &&                // IE 10.0, 10.6
-        agent.match(/Firefox\/(([1-2][0-9]|3[0-7])\.)/) === null) { // Firefox 10-37
-      return;
+    if (isIE || agent.match(/Firefox\/(([1-2][0-9]|3[0-7])\.)/)) { // Firefox 10-37
+
+      if (isIE) {
+        additionalMessage = I18n.t("js.unsupported_browser.update_ie_user");
+      }
+
+      $().topShelf({
+        id: 'op.unsupported_browsers',
+        title: I18n.t("js.unsupported_browser.title"),
+        message: I18n.t("js.unsupported_browser.message") + '<br/>' + additionalMessage,
+        link: I18n.t("js.unsupported_browser.learn_more"),
+        close: I18n.t("js.unsupported_browser.close_warning"),
+        url: "https://www.openproject.org/open-source/download/systemrequirements/"
+      });
     }
-
-    $().topShelf({
-      title: I18n.t("js.unsupported_browser.title"),
-      message: I18n.t("js.unsupported_browser.message"),
-      link: I18n.t("js.unsupported_browser.learn_more"),
-      url: "https://www.openproject.org/supported_browsers"
-    });
-
   });
 
 }(jQuery));

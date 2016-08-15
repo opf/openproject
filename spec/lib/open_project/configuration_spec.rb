@@ -91,6 +91,9 @@ describe OpenProject::Configuration do
   describe '.load_overrides_from_environment_variables' do
     let(:config) {
       {
+        'someemptysetting' => nil,
+        'nil' => 'foobar',
+        'str_empty' => 'foobar',
         'somesetting' => 'foo',
         'some_list_entry' => nil,
         'nested' => {
@@ -110,7 +113,10 @@ describe OpenProject::Configuration do
 
     let(:env_vars) {
       {
+        'SOMEEMPTYSETTING' => '',
         'SOMESETTING' => 'bar',
+        'NIL' => '!!null',
+        'STR_EMPTY' => '!!str',
         'OPTEST_SOME__LIST__ENTRY' => '[foo, bar , xyz, whut wat]',
         'OPTEST_NESTED_KEY' => 'baz',
         'OPTEST_NESTED_DEEPLY__NESTED_KEY' => '42',
@@ -123,6 +129,18 @@ describe OpenProject::Configuration do
       stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
 
       OpenProject::Configuration.send :override_config!, config, env_vars
+    end
+
+    it 'should not parse the empty value' do
+      expect(config['someemptysetting']).to eq('')
+    end
+
+    it 'should parse the null identifier' do
+      expect(config['nil']).to be_nil
+    end
+
+    it 'should parse the empty string' do
+      expect(config['str_empty']).to eq('')
     end
 
     it 'should override the previous setting value' do

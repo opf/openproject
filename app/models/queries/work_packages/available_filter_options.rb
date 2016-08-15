@@ -153,7 +153,7 @@ module Queries::WorkPackages::AvailableFilterOptions
         @available_work_package_filters['subproject_id'] = { type: :list_subprojects, order: 13, values: subprojects.map { |s| [s.name, s.id.to_s] }, name: I18n.t('query_fields.subproject_id') }
       end
     end
-    add_custom_fields_options(project.all_work_package_custom_fields)
+    add_custom_fields_options(project.all_work_package_custom_fields(include: :translations))
   end
 
   def add_user_options
@@ -202,7 +202,8 @@ module Queries::WorkPackages::AvailableFilterOptions
     unless system_shared_versions.empty?
       @available_work_package_filters['fixed_version_id'] = { type: :list_optional, order: 7, values: system_shared_versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }, name: WorkPackage.human_attribute_name('fixed_version_id') }
     end
-    add_custom_fields_options(WorkPackageCustomField.where(is_filter: true, is_for_all: true))
+    add_custom_fields_options(WorkPackageCustomField.where(is_filter: true, is_for_all: true)
+                                                    .includes(:translations))
   end
 
   def add_custom_fields_options(custom_fields)
