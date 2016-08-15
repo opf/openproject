@@ -55,69 +55,83 @@ describe('WorkPackageResource service', () => {
     expect(WorkPackageResource).to.exist;
   });
 
-  describe('when the resource was created', () => {
+  describe('when the work package is created', () => {
     var source: any;
     var workPackage: WorkPackageResourceInterface;
-    var updateWorkPackageStub: SinonStub;
 
-    const expectUncachedRequests = (urls) => {
-      urls.forEach(url => {
-        $httpBackend
-          .expectGET(url, headers => headers.caching.enabled === false)
-          .respond(200, {});
-      });
-      $httpBackend.flush();
-    };
-    const testWpCacheUpdateWith = (prepare, ...urls) => {
-      beforeEach(() => {
-        prepare();
-        expectUncachedRequests(urls);
-      });
-
-      it('should update the work package cache', () => {
-        expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
-      });
-    };
-
-    beforeEach(() => {
-      source = {
-        _links: {
-          activities: {
-            href: 'activities'
-          },
-          attachments: {
-            href: 'attachments'
-          }
-        }
-      };
+    const createWorkPackage = () => {
       workPackage = new WorkPackageResource(source);
-      updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
-    });
+    };
 
-    afterEach(() => {
-      updateWorkPackageStub.restore();
-    });
+    describe('when creating an empty work package', () => {
+      beforeEach(() => {
+        source = {};
+        createWorkPackage();
+      });
 
-    it('should have attachments that are of type `AttachmentCollectionResource`', () => {
-      expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
+      it('should have an attachments property of type `AttachmentCollectionResource`', () => {
+        expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
+      });
+
+      it('should return true for `isNew`', () => {
+        expect(workPackage.isNew).to.be.true;
+      });
     });
 
     describe('when updating multiple linked resource', () => {
+      var updateWorkPackageStub: SinonStub;
+
+      const testWpCacheUpdateWith = (prepare, ...urls) => {
+        beforeEach(() => {
+          prepare();
+
+          urls.forEach(href => {
+            $httpBackend
+              .expectGET(href, headers => headers.caching.enabled === false)
+              .respond(200, {_links: {self: {href}}});
+          });
+          $httpBackend.flush();
+        });
+
+        it('should update the work package cache', () => {
+          expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        });
+      };
+
+      beforeEach(() => {
+        source = {
+          _links: {
+            activities: {
+              href: 'activities'
+            },
+            attachments: {
+              href: 'attachments'
+            }
+          }
+        };
+        updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
+        createWorkPackage();
+      });
+
+      afterEach(() => {
+        updateWorkPackageStub.restore();
+      });
+
       testWpCacheUpdateWith(() => {
         workPackage.updateLinkedResources('activities', 'attachments');
       }, 'activities', 'attachments');
-    });
 
-    describe('when updating the activities', () => {
-      testWpCacheUpdateWith(() => {
-        workPackage.updateActivities();
-      }, 'activities');
-    });
+      describe('when updating the activities', () => {
+        testWpCacheUpdateWith(() => {
+          workPackage.updateActivities();
+        }, 'activities');
+      });
 
-    describe('when updating the attachments', () => {
-      testWpCacheUpdateWith(() => {
-        workPackage.updateAttachments();
-      }, 'activities', 'attachments');
+      describe('when updating the attachments', () => {
+        testWpCacheUpdateWith(() => {
+          workPackage.updateAttachments();
+        }, 'activities', 'attachments');
+      });
     });
   });
 });

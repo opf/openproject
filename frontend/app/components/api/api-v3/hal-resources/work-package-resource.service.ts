@@ -173,12 +173,11 @@ export class WorkPackageResource extends HalResource {
   constructor($source, $loaded) {
     super($source, $loaded);
 
-    if (this.attachments) {
-      this.attachments = new AttachmentCollectionResource(
-        this.attachments.$source,
-        this.attachments.$loaded
-      );
-    }
+    var attachments = this.attachments || {$source: void 0, $loaded: void 0};
+    this.attachments = new AttachmentCollectionResource(
+      attachments.$source,
+      attachments.$loaded
+    );
   }
 
   public requiredValueFor(fieldName): boolean {
