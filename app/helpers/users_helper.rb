@@ -30,23 +30,19 @@
 module UsersHelper
   include OpenProject::FormTagHelper
 
-  def users_status_options_for_select(selected)
-    user_count_by_status = User.group(:status).count.to_hash
-    user_count_by_status.merge! blocked: User.blocked.count,
-                                all: User.not_builtin.count,
-                                User::STATUSES[:active] =>
-                                  User.active.not_blocked.count
-    # use non-numerical values as index to prevent clash with normal user
-    # statuses
-    status_symbols = { all: :all }
-    status_symbols.merge!(User::STATUSES.reject { |n, _i| n == :builtin })
-    status_symbols[:blocked] = :blocked
+  ##
+  # @param selected The option to be marked as selected.
+  # @param extra [Hash] A hash containing extra entries with a count for each.
+  #                     For example: { random: 42 }
+  def users_status_options_for_select(selected, extra: {})
+    statuses = User::StatusOptions.user_statuses_with_count extra: extra
+    options = statuses.map do |name, values|
+      count, value = values
 
-    statuses = status_symbols.map { |name, index|
-      ["#{translate_user_status(name.to_s)} (#{user_count_by_status[index].to_i})",
-       index]
-    }
-    options_for_select(statuses, selected)
+      ["#{translate_user_status(name)} (#{count})", value]
+    end
+
+    options_for_select options, selected
   end
 
   def translate_user_status(status_name)

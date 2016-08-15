@@ -157,7 +157,13 @@ class MembersController < ApplicationController
     groups = Group.all.sort
     status = params[:status] ? params[:status] : User::STATUSES[:active]
 
-    { groups: groups, roles: roles, status: status }
+    {
+      groups: groups,
+      roles: roles,
+      status: status,
+      clear_url: project_members_path(@project),
+      project: @project
+    }
   end
 
   def suggest_invite_via_email?(user, query, principals)
