@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, ConfigurationService) {
+module.exports = function(TimezoneService, ConfigurationService, $timeout) {
   var datepickerFormat = 'yy-mm-dd';
 
   function Datepicker(datepickerElem, date, options) {
@@ -49,7 +49,6 @@ module.exports = function(TimezoneService, ConfigurationService) {
       changeYear: true,
       dateFormat: datepickerFormat,
       defaultDate: TimezoneService.formattedISODate(self.date),
-      inline: true,
       showButtonPanel: true
     });
 
@@ -62,10 +61,42 @@ module.exports = function(TimezoneService, ConfigurationService) {
 
   Datepicker.prototype.hide = function() {
     this.datepickerInstance.datepicker('hide');
+    this.datepickerCont.scrollParent().off('scroll');
   };
 
   Datepicker.prototype.show = function() {
     this.datepickerInstance.datepicker('show');
+    this.hideDuringScroll();
+  };
+
+  Datepicker.prototype.reshow = function() {
+    this.datepickerInstance.datepicker('show');
+  };
+
+  Datepicker.prototype.hideDuringScroll = function() {
+    var hide = jQuery.proxy(function() { this.datepickerInstance.datepicker('hide'); }, this),
+        show = jQuery.proxy(function() { this.datepickerInstance.datepicker('show'); }, this),
+        reshowTimeout,
+        scrollParent = this.datepickerCont.scrollParent(),
+        visibleAndActive = jQuery.proxy(this.visibleAndActive, this);
+
+    scrollParent.scroll(function() {
+      hide();
+
+      $timeout.cancel(reshowTimeout);
+
+      reshowTimeout = $timeout(function() {
+        if(visibleAndActive()) {
+          show();
+        }
+      }, 50);
+    });
+  };
+
+  Datepicker.prototype.visibleAndActive = function() {
+    var input = this.datepickerCont;
+    return document.elementFromPoint(input.offset().left, input.offset().top) === input[0] &&
+      document.activeElement === input[0];
   };
 
   return Datepicker;
