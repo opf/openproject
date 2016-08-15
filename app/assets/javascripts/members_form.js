@@ -44,7 +44,10 @@ jQuery(document).ready(function($) {
     localStorage.setItem("showFilter", 'false')
   }
 
-  hideAddMemberForm();
+  // hide member form by default unless there's an error
+  if (jQuery("#errorExplanation").text() == "") {
+    hideAddMemberForm();
+  }
 });
 
 function toggleMemberFilter() {

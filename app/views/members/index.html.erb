@@ -27,9 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_member_plural) -%>
-<%= toolbar title: t(:label_member_plural) do %>
 
-  <% if @members.any? %>
+<% any_members = Member.any? %>
+
+<%= toolbar title: t(:label_member_plural) do %>
+  <% if any_members %>
     <li class="toolbar-item">
       <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
         <i class="button--icon icon-filter"></i>
@@ -63,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div>
-  <% if @members.any? %>
+  <% if any_members %>
     <%= cell Members::UserFilterCell, params, @members_filter_options %>
     &nbsp;
     <%= cell Members::TableCell, @members, @members_table_options %>
