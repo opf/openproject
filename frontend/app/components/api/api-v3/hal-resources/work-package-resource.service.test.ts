@@ -27,21 +27,28 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {WorkPackageResource} from './work-package-resource.service';
+import {WorkPackageResourceInterface} from './work-package-resource.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import IHttpBackendService = angular.IHttpBackendService;
 import SinonStub = Sinon.SinonStub;
 
 describe('WorkPackageResource service', () => {
-  var $httpBackend:IHttpBackendService;
+  var $httpBackend: IHttpBackendService;
   var WorkPackageResource;
-  var wpCacheService:WorkPackageCacheService;
+  var AttachmentCollectionResource;
+  var wpCacheService: WorkPackageCacheService;
 
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
                                            _WorkPackageResource_,
+                                           _AttachmentCollectionResource_,
                                            _wpCacheService_) {
-    [$httpBackend, WorkPackageResource, wpCacheService] = _.toArray(arguments);
+    [
+      $httpBackend,
+      WorkPackageResource,
+      AttachmentCollectionResource,
+      wpCacheService
+    ] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
@@ -49,9 +56,9 @@ describe('WorkPackageResource service', () => {
   });
 
   describe('when the resource was created', () => {
-    var source:any;
-    var workPackage:WorkPackageResource;
-    var updateWorkPackageStub:SinonStub;
+    var source: any;
+    var workPackage: WorkPackageResourceInterface;
+    var updateWorkPackageStub: SinonStub;
 
     const expectUncachedRequests = (urls) => {
       urls.forEach(url => {
@@ -89,6 +96,10 @@ describe('WorkPackageResource service', () => {
 
     afterEach(() => {
       updateWorkPackageStub.restore();
+    });
+
+    it('should have attachments that are of type `AttachmentCollectionResource`', () => {
+      expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
     });
 
     describe('when updating multiple linked resource', () => {

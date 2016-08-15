@@ -32,51 +32,53 @@ import {WorkPackageCacheService} from '../../../work-packages/work-package-cache
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
+import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
 
 interface WorkPackageResourceEmbedded {
-  activities:CollectionResourceInterface;
-  assignee:HalResource|any;
-  attachments:HalResource|any;
-  author:HalResource|any;
-  availableWatchers:HalResource|any;
-  category:HalResource|any;
-  children:WorkPackageResourceInterface[];
-  parent:HalResource|any;
-  priority:HalResource|any;
-  project:HalResource|any;
-  relations:CollectionResourceInterface;
-  responsible:HalResource|any;
-  schema:HalResource|any;
-  status:HalResource|any;
-  timeEntries:HalResource[]|any[];
-  type:HalResource|any;
-  version:HalResource|any;
-  watchers:HalResource[]|any[];
+  activities: CollectionResourceInterface;
+  assignee: HalResource|any;
+  attachments: AttachmentCollectionResourceInterface;
+  author: HalResource|any;
+  availableWatchers: HalResource|any;
+  category: HalResource|any;
+  children: WorkPackageResourceInterface[];
+  parent: HalResource|any;
+  priority: HalResource|any;
+  project: HalResource|any;
+  relations: CollectionResourceInterface;
+  responsible: HalResource|any;
+  schema: HalResource|any;
+  status: HalResource|any;
+  timeEntries: HalResource[]|any[];
+  type: HalResource|any;
+  version: HalResource|any;
+  watchers: HalResource[]|any[];
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
-  addAttachment(attachment:HalResource):ng.IPromise<any>;
-  addChild(child:HalResource):ng.IPromise<any>;
-  addComment(comment:HalResource):ng.IPromise<any>;
-  addRelation(relation:any):ng.IPromise<any>;
-  addWatcher(watcher:HalResource):ng.IPromise<any>;
-  changeParent(params:any):ng.IPromise<any>;
-  copy():ng.IPromise<WorkPackageResource>;
-  delete():ng.IPromise<any>;
-  logTime():ng.IPromise<any>;
-  move():ng.IPromise<any>;
-  removeWatcher():ng.IPromise<any>;
-  self():ng.IPromise<any>;
-  update(payload:any):ng.IPromise<any>;
-  updateImmediately(payload:any):ng.IPromise<any>;
-  watch():ng.IPromise<any>;
+  addAttachment(attachment: HalResource): ng.IPromise<any>;
+  addChild(child: HalResource): ng.IPromise<any>;
+  addComment(comment: HalResource): ng.IPromise<any>;
+  addRelation(relation: any): ng.IPromise<any>;
+  addWatcher(watcher: HalResource): ng.IPromise<any>;
+  changeParent(params: any): ng.IPromise<any>;
+  copy(): ng.IPromise<WorkPackageResource>;
+  delete(): ng.IPromise<any>;
+  logTime(): ng.IPromise<any>;
+  move(): ng.IPromise<any>;
+  removeWatcher(): ng.IPromise<any>;
+  self(): ng.IPromise<any>;
+  update(payload: any): ng.IPromise<any>;
+  updateImmediately(payload: any): ng.IPromise<any>;
+  watch(): ng.IPromise<any>;
 }
 
-var $q:IQService;
-var apiWorkPackages:ApiWorkPackagesService;
-var wpCacheService:WorkPackageCacheService;
-var NotificationsService:any;
-var $stateParams:any;
+var $q: IQService;
+var $stateParams: any;
+var apiWorkPackages: ApiWorkPackagesService;
+var wpCacheService: WorkPackageCacheService;
+var NotificationsService: any;
+var AttachmentCollectionResource;
 
 export class WorkPackageResource extends HalResource {
   public static fromCreateForm(form) {
@@ -102,25 +104,26 @@ export class WorkPackageResource extends HalResource {
     return wp;
   }
 
-  public $embedded:WorkPackageResourceEmbedded;
-  public $links:WorkPackageResourceLinks;
-  public id:number|string;
+  public $embedded: WorkPackageResourceEmbedded;
+  public $links: WorkPackageResourceLinks;
+  public id: number|string;
   public schema;
-  public $pristine:{ [attribute:string]:any } = {};
-  public parentId:number;
-  public subject:string;
-  public lockVersion:number;
-  public description:any;
-  public inFlight:boolean;
-  public activities:CollectionResourceInterface;
+  public $pristine: { [attribute: string]: any } = {};
+  public parentId: number;
+  public subject: string;
+  public lockVersion: number;
+  public description: any;
+  public inFlight: boolean;
+  public activities: CollectionResourceInterface;
+  public attachments: AttachmentCollectionResourceInterface;
 
   private form;
 
-  public get isNew():boolean {
+  public get isNew(): boolean {
     return isNaN(Number(this.id));
   }
 
-  public get isMilestone():boolean {
+  public get isMilestone(): boolean {
     /**
      * it would be better if this was not deduced but rather taken from the type
      */
@@ -130,11 +133,11 @@ export class WorkPackageResource extends HalResource {
   /**
    * Returns true if any field is in edition in this resource.
    */
-  public get dirty():boolean {
+  public get dirty(): boolean {
     return this.modifiedFields.length > 0;
   }
 
-  public get modifiedFields():string[] {
+  public get modifiedFields(): string[] {
     var modified = [];
 
     angular.forEach(this.$pristine, (value, key) => {
@@ -152,16 +155,33 @@ export class WorkPackageResource extends HalResource {
     return modified;
   }
 
-  public get isLeaf():boolean {
+  public get isLeaf(): boolean {
     var children = this.$links.children;
     return !(children && children.length > 0);
   }
 
-  public get isEditable():boolean {
+  public get isEditable(): boolean {
     return !!this.$links.update || this.isNew;
   }
 
-  public requiredValueFor(fieldName):boolean {
+  /**
+   * Initialise the work package resource.
+   *
+   * Make the attachments an `AttachmentCollectionResource`. This should actually
+   * be done automatically, but the backend does not provide typed collections yet.
+   */
+  constructor($source, $loaded) {
+    super($source, $loaded);
+
+    if (this.attachments) {
+      this.attachments = new AttachmentCollectionResource(
+        this.attachments.$source,
+        this.attachments.$loaded
+      );
+    }
+  }
+
+  public requiredValueFor(fieldName): boolean {
     var fieldSchema = this.schema[fieldName];
 
     // The field schema may be undefined if a custom field
@@ -173,7 +193,7 @@ export class WorkPackageResource extends HalResource {
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
-  public allowedValuesFor(field):ng.IPromise<HalResource[]> {
+  public allowedValuesFor(field): ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
     this.getForm().then(form => {
@@ -297,7 +317,7 @@ export class WorkPackageResource extends HalResource {
     return deferred.promise;
   }
 
-  public storePristine(attribute:string) {
+  public storePristine(attribute: string) {
     if (this.$pristine.hasOwnProperty(attribute)) {
       return;
     }
@@ -305,7 +325,7 @@ export class WorkPackageResource extends HalResource {
     this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
-  public restoreFromPristine(attribute:string) {
+  public restoreFromPristine(attribute: string) {
     if (this.$pristine[attribute]) {
       this[attribute] = this.$pristine[attribute];
     }
@@ -315,7 +335,7 @@ export class WorkPackageResource extends HalResource {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  protected saveResource(payload):ng.IPromise<any> {
+  protected saveResource(payload): ng.IPromise<any> {
     if (this.isNew) {
       return apiWorkPackages.createWorkPackage(payload);
     }
@@ -399,7 +419,13 @@ export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, 
 }
 
 function wpResource(...args) {
-  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = args;
+  [
+    $q,
+    $stateParams,
+    apiWorkPackages,
+    wpCacheService,
+    NotificationsService,
+    AttachmentCollectionResource] = args;
   return WorkPackageResource;
 }
 
@@ -408,7 +434,8 @@ wpResource.$inject = [
   '$stateParams',
   'apiWorkPackages',
   'wpCacheService',
-  'NotificationsService'
+  'NotificationsService',
+  'AttachmentCollectionResource'
 ];
 
 opApiModule.factory('WorkPackageResource', wpResource);
