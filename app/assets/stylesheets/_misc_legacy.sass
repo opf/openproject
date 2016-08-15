@@ -605,8 +605,7 @@ a.impaired--empty-link,
     .box-actions
       margin-top: -60px
 
-// Avoid content cut off in IE
-#new-member-message + div.grid-block
-  min-height: 6rem
-  div.grid-block
-    overflow: visible
+
+// Override default margin to allow correct vertical alignment
+#members_add_form .grid-block .button
+  margin-bottom: 0

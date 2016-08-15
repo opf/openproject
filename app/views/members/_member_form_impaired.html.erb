@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    id: 'member-add-submit',
                    class: 'button -highlight -with-icon icon-checkmark',
                    style: roles.any? && (principals.any? && principals.size <= 20) ? "": "display:none" %>
-      <%= link_to I18n.t('button_cancel'), :back, class: 'button' %>
+      <%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
     </remote-field-updater>
   </div>
 

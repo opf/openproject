@@ -56,15 +56,18 @@ function toggleMemberFilter() {
     localStorage.setItem("showFilter", 'true');
     showFilter(filter);
     hideAddMemberForm();
+    jQuery('.simple-filters--filter:first-of-type select').focus();
   }
 }
 
 function showAddMemberForm() {
   jQuery('#members_add_form').show();
+  jQuery('#members_add_form #principal_search').focus();
   hideFilter(filter = findFilter());
   localStorage.setItem("showFilter", 'false');
 }
 
 function hideAddMemberForm() {
   jQuery('#members_add_form').hide();
+  jQuery('#add-member-button').focus();
 }
