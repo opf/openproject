@@ -33,4 +33,44 @@ jQuery(document).ready(function($) {
       error.remove();
     }
   });
+
+  // Show/Hide content when page is loaded
+  if (localStorage.getItem("showFilter") === "true") {
+    showFilter(filter = findFilter());
+  }
+  else {
+    hideFilter(filter = findFilter());
+    // In case showFilter is not set yet
+    localStorage.setItem("showFilter", 'false')
+  }
+
+  // hide member form by default unless there's an error
+  if (jQuery("#errorExplanation").text() == "") {
+    hideAddMemberForm();
+  }
 });
+
+function toggleMemberFilter() {
+  if (localStorage.getItem("showFilter") === "true") {
+    localStorage.setItem("showFilter", 'false');
+    hideFilter(filter);
+  }
+  else {
+    localStorage.setItem("showFilter", 'true');
+    showFilter(filter);
+    hideAddMemberForm();
+    jQuery('.simple-filters--filter:first-of-type select').focus();
+  }
+}
+
+function showAddMemberForm() {
+  jQuery('#members_add_form').show();
+  jQuery('#members_add_form #principal_search').focus();
+  hideFilter(filter = findFilter());
+  localStorage.setItem("showFilter", 'false');
+}
+
+function hideAddMemberForm() {
+  jQuery('#members_add_form').hide();
+  jQuery('#add-member-button').focus();
+}

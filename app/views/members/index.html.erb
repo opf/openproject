@@ -27,27 +27,49 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title t(:label_member_plural) -%>
+
+<% any_members = Member.any? %>
+
 <%= toolbar title: t(:label_member_plural) do %>
+  <% if any_members %>
+    <li class="toolbar-item">
+      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+        <i class="button--icon icon-filter"></i>
+      </button>
+    </li>
+  <% end %>
   <% if authorize_for(:members, :new) %>
-      <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
+    <li class="toolbar-item">
+      <button id="add-member-button" title="<%= I18n.t(:button_add_member) %>" onClick="showAddMemberForm()" class="button -alt-highlight">
         <i class="button--icon icon-add"></i>
         <span class="button--text"><%= I18n.t(:button_add_member) %></span>
-      </a>
+      </button>
+    </li>
   <% end %>
 <% end %>
+
+<%= javascript_include_tag "members_form.js" %>
 
 <%= error_messages_for 'member' %>
 
 <div>
-  <% if Member.any? %>
+  <% if @roles.any? %>
+    <%= render partial: "members/member_form",
+               locals: { project: @project, roles: @roles } %>
+  <% else %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to I18n.t('button_back'), :back, class: 'button' %>
+  <% end %>
+</div>
+
+<div>
+  <% if any_members %>
     <%= cell Members::UserFilterCell, params, @members_filter_options %>
     &nbsp;
     <%= cell Members::TableCell, @members, @members_table_options %>
   <% else %>
-    <%=
-      no_results_box(
-        action_url: new_project_member_path,
-        display_action: authorize_for(:members, :new))
-    %>
+    <%= no_results_box %>
   <% end %>
 </div>

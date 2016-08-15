@@ -27,9 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_member_new) %>
-<%= toolbar title: t(:label_member_new) %>
-
 <%= labelled_tabular_form_for(:member,
              url: {controller: '/members', action: 'create', project_id: project},
              method: :post,
@@ -75,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    id: 'member-add-submit',
                    class: 'button -highlight -with-icon icon-checkmark',
                    style: roles.any? && (principals.any? && principals.size <= 20) ? "": "display:none" %>
-      <%= link_to I18n.t('button_cancel'), :back, class: 'button' %>
+      <%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
     </remote-field-updater>
   </div>
 

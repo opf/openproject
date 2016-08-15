@@ -43,15 +43,7 @@ class MembersController < ApplicationController
   end
 
   def index
-    roles = Role.find_all_givable
-
-    @members = Members::UserFilterCell.filter index_members(@project), params
-    @members_table_options = members_table_options roles
-    @members_filter_options = members_filter_options roles
-  end
-
-  def new
-    set_roles_and_principles!
+    set_index_data!
   end
 
   def create
@@ -68,13 +60,13 @@ class MembersController < ApplicationController
       if members.present? && params[:member]
         @member = members.first
       else
-        flash.error = l(:error_check_user_and_role)
+        flash.error = t(:error_check_user_and_role)
       end
 
-      set_roles_and_principles!
+      set_index_data!
 
       respond_to do |format|
-        format.html { render 'new' }
+        format.html { render 'index' }
       end
     end
   end
@@ -189,6 +181,14 @@ class MembersController < ApplicationController
 
   def self.tab_scripts
     @@scripts.join('(); ') + '();'
+  end
+
+  def set_index_data!
+    set_roles_and_principles!
+
+    @members = Members::UserFilterCell.filter index_members(@project), params
+    @members_table_options = members_table_options @roles
+    @members_filter_options = members_filter_options @roles
   end
 
   def set_roles_and_principles!
