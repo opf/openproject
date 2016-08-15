@@ -31,7 +31,7 @@ import {CollectionResource} from './collection-resource.service';
 import {HalResource} from './hal-resource.service';
 import {
   OpenProjectFileUploadService,
-  UploadFile
+  UploadFile, UploadResult
 } from '../../op-file-upload/op-file-upload.service';
 import IPromise = angular.IPromise;
 
@@ -41,7 +41,7 @@ export class AttachmentCollectionResource extends CollectionResource {
   /**
    * Upload the given files to the $href property of this resource.
    */
-  public upload(files: UploadFile[]): IPromise<any> {
+  public upload(files: UploadFile[]): UploadResult {
     return opFileUpload.upload(this.$href, files);
   }
 }

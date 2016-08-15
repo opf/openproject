@@ -34,6 +34,11 @@ export interface UploadFile extends File {
   description: string;
 }
 
+export interface UploadResult {
+  uploads: IPromise<any>[];
+  upload: IPromise<any>;
+}
+
 export class OpenProjectFileUploadService {
   constructor(protected $q: IQService,
               protected Upload) {
@@ -42,8 +47,8 @@ export class OpenProjectFileUploadService {
   /**
    * Upload multiple files using `ngFileUpload` and return a single promise.
    */
-  public upload(url: string, files: UploadFile[]): IPromise<any> {
-    return this.$q.all(_.map(files, (file: UploadFile) => this.Upload.upload({
+  public upload(url: string, files: UploadFile[]): UploadResult {
+    const uploads = _.map(files, (file: UploadFile) => this.Upload.upload({
       file, url,
       fields: {
         metadata: {
@@ -51,7 +56,10 @@ export class OpenProjectFileUploadService {
           fileName: file.name,
         }
       }
-    })));
+    }));
+    const upload = this.$q.all(uploads);
+
+    return {uploads, upload};
   }
 }
 

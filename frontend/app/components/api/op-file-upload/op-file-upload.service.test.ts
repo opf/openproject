@@ -80,8 +80,12 @@ describe('opFileUpload service', () => {
       }));
     });
 
-    it('should return a resolved promise', () => {
-      expect(result).to.eventually.be.fulfilled;
+    it('should return a result object that contains each upload in an array', () => {
+      expect(result.uploads).to.have.length(files.length);
+    });
+
+    it('should return a resolved promise that is the summary of the uploads', () => {
+      expect(result.upload).to.eventually.be.fulfilled;
     });
   });
 });
