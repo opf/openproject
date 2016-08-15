@@ -31,23 +31,38 @@ import {WorkPackageResourceInterface} from './work-package-resource.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import IHttpBackendService = angular.IHttpBackendService;
 import SinonStub = Sinon.SinonStub;
+import IQService = angular.IQService;
+import IRootScopeService = angular.IRootScopeService;
+import IPromise = angular.IPromise;
 
 describe('WorkPackageResource service', () => {
   var $httpBackend: IHttpBackendService;
+  var $rootScope: IRootScopeService;
+  var $q: IQService;
   var WorkPackageResource;
   var AttachmentCollectionResource;
   var wpCacheService: WorkPackageCacheService;
+  var NotificationsService: any;
+  var wpNotificationsService: any;
 
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
+                                           _$rootScope_,
+                                           _$q_,
                                            _WorkPackageResource_,
                                            _AttachmentCollectionResource_,
-                                           _wpCacheService_) {
+                                           _wpCacheService_,
+                                           _NotificationsService_,
+                                           _wpNotificationsService_) {
     [
       $httpBackend,
+      $rootScope,
+      $q,
       WorkPackageResource,
       AttachmentCollectionResource,
-      wpCacheService
+      wpCacheService,
+      NotificationsService,
+      wpNotificationsService
     ] = _.toArray(arguments);
   }));
 
@@ -78,7 +93,73 @@ describe('WorkPackageResource service', () => {
       });
     });
 
-    describe('when updating multiple linked resource', () => {
+    describe('when adding multiple attachments to the work package', () => {
+      var file: any = {};
+      var files: any[] = [file, file];
+      var attachmentsUploadStub;
+      var deferred;
+      var uploadNotificationStub;
+
+      beforeEach(() => {
+        deferred = $q.defer();
+        source = {
+          _links: {
+            attachments: {
+              href: 'attachments'
+            }
+          }
+        };
+        createWorkPackage();
+
+        const uploadResult = {uploads: [deferred.promise], upload: deferred.promise};
+        attachmentsUploadStub = sinon
+          .stub(workPackage.attachments, 'upload')
+          .returns(uploadResult);
+        uploadNotificationStub = sinon.stub(NotificationsService, 'addWorkPackageUpload');
+
+        workPackage.uploadAttachments(files);
+      });
+
+      it('should call the upload method of the attachment collection resource', () => {
+        expect(attachmentsUploadStub.calledWith(files)).to.be.true;
+      });
+
+      it('should add an upload notification', () => {
+        expect(uploadNotificationStub.calledOnce).to.be.true;
+      });
+
+      describe('when the upload fails', () => {
+        var notificationStub;
+        var error = 'err';
+
+        beforeEach(() => {
+          deferred.reject(error);
+          notificationStub = sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          $rootScope.$apply();
+        });
+
+        it('should call the error response notification', () => {
+          expect(notificationStub.calledWith(error, workPackage)).to.be.true;
+        });
+      });
+
+      describe('when the upload succeeds', () => {
+        var removeStub;
+
+        beforeEach(() => {
+          deferred.resolve();
+          removeStub = sinon.stub(NotificationsService, 'remove');
+          $rootScope.$apply();
+        });
+
+        it('should remove the upload notification', angular.mock.inject($timeout => {
+          $timeout.flush();
+          expect(removeStub.calledOnce).to.be.true;
+        }));
+      });
+    });
+
+    describe('when updating multiple linked resources', () => {
       var updateWorkPackageStub: SinonStub;
 
       const testWpCacheUpdateWith = (prepare, ...urls) => {
@@ -134,5 +215,6 @@ describe('WorkPackageResource service', () => {
       });
     });
   });
-});
+})
+;
 

@@ -30,9 +30,12 @@ import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
-import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
 import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
+import {UploadFile} from '../../op-file-upload/op-file-upload.service';
+import IQService = angular.IQService;
+import IPromise = angular.IPromise;
+import ITimeoutService = angular.ITimeoutService;
 
 interface WorkPackageResourceEmbedded {
   activities: CollectionResourceInterface;
@@ -75,9 +78,12 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
 var $q: IQService;
 var $stateParams: any;
+var $timeout: ITimeoutService;
+var I18n: op.I18n;
 var apiWorkPackages: ApiWorkPackagesService;
 var wpCacheService: WorkPackageCacheService;
 var NotificationsService: any;
+var wpNotificationsService: any;
 var AttachmentCollectionResource;
 
 export class WorkPackageResource extends HalResource {
@@ -178,6 +184,28 @@ export class WorkPackageResource extends HalResource {
       attachments.$source,
       attachments.$loaded
     );
+  }
+
+  /**
+   * Upload the given attachments, update the resource and notify the user about the
+   * changes.
+   */
+  public uploadAttachments(files: UploadFile[]): IPromise<any> {
+    const {uploads, upload} = this.attachments.upload(files);
+    const message = I18n.t('js.label_upload_notification', this);
+    const notification = NotificationsService.addWorkPackageUpload(message, uploads);
+
+    upload
+      .then(() => {
+        $timeout(() => {
+          NotificationsService.remove(notification);
+        }, 700);
+      })
+      .catch(error => {
+        wpNotificationsService.handleErrorResponse(error, this);
+      });
+
+    return upload;
   }
 
   public requiredValueFor(fieldName): boolean {
@@ -421,9 +449,12 @@ function wpResource(...args) {
   [
     $q,
     $stateParams,
+    $timeout,
+    I18n,
     apiWorkPackages,
     wpCacheService,
     NotificationsService,
+    wpNotificationsService,
     AttachmentCollectionResource] = args;
   return WorkPackageResource;
 }
@@ -431,9 +462,12 @@ function wpResource(...args) {
 wpResource.$inject = [
   '$q',
   '$stateParams',
+  '$timeout',
+  'I18n',
   'apiWorkPackages',
   'wpCacheService',
   'NotificationsService',
+  'wpNotificationsService',
   'AttachmentCollectionResource'
 ];
 
