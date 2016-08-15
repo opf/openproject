@@ -148,7 +148,12 @@
       &:nth-last-child(2)
         margin-bottom: 6px
 
-  .drop-down--help
+  // Hack: Neccessary because we cannot include a <hr>-tag for the separator
+  // in the wp-menu. The class is now added to the link element.
+  .drop-down--work-packages .form--separator
+    padding-bottom: 2.25rem
+
+  .drop-down
     .form--separator
       margin-bottom: 5px
     .drop-down--help-headline
