@@ -106,6 +106,9 @@ describe('WorkPackageResource service', () => {
           _links: {
             attachments: {
               href: 'attachments'
+            },
+            activities: {
+              href: 'activities'
             }
           }
         };
@@ -156,11 +159,17 @@ describe('WorkPackageResource service', () => {
           $timeout.flush();
           expect(removeStub.calledOnce).to.be.true;
         }));
+
+        it('should return an attachment collection resource promise', () => {
+          expect(deferred.promise).to.eventually.have.property('$href', 'attachments');
+          $rootScope.$apply();
+        });
       });
     });
 
     describe('when updating multiple linked resources', () => {
       var updateWorkPackageStub: SinonStub;
+      var promise: any;
 
       const testWpCacheUpdateWith = (prepare, ...urls) => {
         beforeEach(() => {
@@ -176,6 +185,12 @@ describe('WorkPackageResource service', () => {
 
         it('should update the work package cache', () => {
           expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        });
+      };
+
+      const testLinkedResource = href => {
+        it('should return a promise that returns the ' + href, () => {
+          expect(promise).to.eventually.have.property('$href', href);
         });
       };
 
@@ -195,23 +210,24 @@ describe('WorkPackageResource service', () => {
       });
 
       afterEach(() => {
+        $rootScope.$apply();
         updateWorkPackageStub.restore();
       });
 
-      testWpCacheUpdateWith(() => {
-        workPackage.updateLinkedResources('activities', 'attachments');
-      }, 'activities', 'attachments');
-
       describe('when updating the activities', () => {
         testWpCacheUpdateWith(() => {
-          workPackage.updateActivities();
+          promise = workPackage.updateActivities();
         }, 'activities');
+
+        testLinkedResource('activities');
       });
 
       describe('when updating the attachments', () => {
         testWpCacheUpdateWith(() => {
-          workPackage.updateAttachments();
+          promise = workPackage.updateAttachments();
         }, 'activities', 'attachments');
+
+        testLinkedResource('attachments');
       });
     });
   });

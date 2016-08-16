@@ -189,6 +189,7 @@ export class WorkPackageResource extends HalResource {
   /**
    * Upload the given attachments, update the resource and notify the user about the
    * changes.
+   * Return an updated CollectionResource, that holds the uploaded attachments.
    */
   public uploadAttachments(files: UploadFile[]): IPromise<any> {
     const {uploads, upload} = this.attachments.upload(files);
@@ -200,6 +201,8 @@ export class WorkPackageResource extends HalResource {
         $timeout(() => {
           NotificationsService.remove(notification);
         }, 700);
+
+        return this.updateAttachments();
       })
       .catch(error => {
         wpNotificationsService.handleErrorResponse(error, this);
@@ -404,26 +407,38 @@ export class WorkPackageResource extends HalResource {
   /**
    * Invalidate a set of linked resource in the given work package.
    * Inform the cache service about the work package update.
+   *
+   * Return a promise, that returns a hash object where the keys are the link
+   * names and the values are promises that return the respective resources.
    */
-  public updateLinkedResources(...resourceNames) {
-    resourceNames.forEach(name => this[name].$update());
+  protected updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
+    const resources: {[id: string]: IPromise<HalResource>} = {};
+    resourceNames.forEach(name => resources[name] = this[name].$update());
     wpCacheService.updateWorkPackage(this);
+
+    return $q.all(resources);
   }
 
   /**
    * Get updated activities from the server and inform the cache service about the work
    * package update.
+   * Return a promise with the activities.
    */
-  public updateActivities() {
-    this.updateLinkedResources('activities');
+  public updateActivities(): IPromise<HalResource> {
+    return this
+      .updateLinkedResources('activities')
+      .then((resources: any) => resources.activities);
   }
 
   /**
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
+   * Return a promise with the attachments.
    */
-  public updateAttachments() {
-    this.updateLinkedResources('activities', 'attachments');
+  public updateAttachments(): IPromise<HalResource> {
+    return this
+      .updateLinkedResources('activities', 'attachments')
+      .then((resources: any) => resources.attachments);
   }
 
   /**
