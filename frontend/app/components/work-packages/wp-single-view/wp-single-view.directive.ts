@@ -56,7 +56,6 @@ export class WorkPackageSingleViewController {
               protected wpCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected wpAttachments,
               protected SingleViewWorkPackage) {
 
     var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;

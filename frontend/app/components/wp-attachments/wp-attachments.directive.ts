@@ -27,7 +27,6 @@
 //++
 
 import {wpDirectivesModule} from '../../angular-modules';
-import {WpAttachmentsService} from './wp-attachments.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -58,14 +57,11 @@ export class WorkPackageAttachmentsController {
   constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpAttachments:WpAttachmentsService,
               protected NotificationsService:any,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
               protected ConfigurationService:any,
               protected ConversionService:any) {
-
-    this.attachments = this.workPackage.isNew ? wpAttachments.pendingAttachments : this.attachments;
 
     this.text = {
       dropFiles: I18n.t('js.label_drop_files'),
@@ -95,11 +91,9 @@ export class WorkPackageAttachmentsController {
     });
 
     if (this.workPackage.isNew) {
-      this.attachments = this.wpAttachments.pendingAttachments;
       this.registerCreateObserver();
     }
     else {
-
       this.registerEditObserver();
     }
   }
@@ -115,7 +109,7 @@ export class WorkPackageAttachmentsController {
   private registerCreateObserver() {
     scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
-        this.wpAttachments.uploadPendingAttachments(wp).then(() => {
+        wp.uploadAttachments(this.attachments).then(() => {
           // Reload the work package after attachments are uploaded to
           // provide the correct links, in e.g., the description
           this.wpCacheService.loadWorkPackage(<number> wp.id, true);
@@ -133,9 +127,8 @@ export class WorkPackageAttachmentsController {
     }
 
     if (this.files.length > 0) {
-      this.wpAttachments.upload(this.workPackage, this.files).then(() => {
+      this.workPackage.uploadAttachments(<any> this.files).then(() => {
         this.files = [];
-        this.workPackage.updateAttachments();
       });
     }
   };

@@ -50,7 +50,8 @@ describe('wpAttachments directive', () => {
       href: '/api/v3/work_packages/1/activities',
     },
     updateLinkedResources: () => null,
-    updateAttachments: () => null
+    updateAttachments: () => null,
+    uploadAttachments: () => null
   };
 
   beforeEach(angular.mock.module(
@@ -60,17 +61,8 @@ describe('wpAttachments directive', () => {
   ));
 
   var loadPromise;
-  var wpAttachments = {
-    load: () => loadPromise,
-    getCurrentAttachments: () => [],
-    upload: angular.noop
-  };
   var apiPromise;
   var configurationService = {api: () => apiPromise};
-
-  beforeEach(angular.mock.module(wpServicesModule.name, $provide => {
-    $provide.value('wpAttachments', wpAttachments);
-  }));
 
   beforeEach(angular.mock.module(opConfigModule, $provide => {
     $provide.value('ConfigurationService', configurationService);
@@ -113,12 +105,12 @@ describe('wpAttachments directive', () => {
 
     beforeEach(() => {
       controller.files = files;
-      uploadStub = wpAttachments.upload = sinon.stub().returns({then: call => call()});
+      uploadStub = sinon.stub(workPackage, 'uploadAttachments').returns({then: call => call()});
       controller.uploadFilteredFiles(files);
     });
 
     it('should trigger uploading of non directory files', () => {
-      expect(uploadStub.calledWith(workPackage, [{type: 'file'}])).to.be.true;
+      expect(uploadStub.calledWith([{type: 'file'}])).to.be.true;
     });
   });
 });
