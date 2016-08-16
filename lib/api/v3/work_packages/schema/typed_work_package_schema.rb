@@ -44,7 +44,7 @@ module API
           end
 
           def available_custom_fields
-            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
+            project.all_work_package_custom_fields(include: :translations).to_a & type.custom_fields.includes(:translations).to_a
           end
         end
       end

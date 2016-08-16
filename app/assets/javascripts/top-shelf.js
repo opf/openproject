@@ -39,14 +39,22 @@
     var opts = mergeOptions(options);
     var message = this;
     var topShelf = $("<div/>").addClass(opts.className);
+    var link = $("<a/>").append(' ' + opts.link).attr({"href": opts.url});
+
+    if (window.localStorage.getItem(opts.id)) {
+      return;
+    }
+
+    var closeLink = $("<a/>").append(opts.close);
+    closeLink.click(function() {
+      window.localStorage.setItem(opts.id, '1');
+      topShelf.remove();
+    });
 
     if (message.length === 0) {
       topShelf.append($("<h1/>").append(opts.title))
-              .append($("<p/>").append(opts.message))
-              .append($("<h2/>").append(
-                $("<a/>").append(opts.link)
-                         .attr({"href": opts.url})
-              ));
+              .append($("<p/>").append(opts.message).append(link))
+              .append($("<h2/>").append(closeLink));
     } else {
       topShelf.append(message);
     }

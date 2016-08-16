@@ -76,6 +76,9 @@ module Api
 
       def query_as_json(query, user)
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
+        # prefer using the identifier throughout the frontend so that we can
+        # cache the requests more efficiently
+        json_query["project_id"] = @project.identifier if @project
 
         json_query[:_links] = allowed_links_on_query(query, user)
 
