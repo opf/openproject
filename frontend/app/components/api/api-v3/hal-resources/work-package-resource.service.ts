@@ -187,9 +187,10 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Upload the given attachments, update the resource and notify the user about the
-   * changes.
-   * Return an updated CollectionResource, that holds the uploaded attachments.
+   * Upload the given attachments, update the resource and the attachments.
+   * Notify the user about the changes.
+   *
+   * Return an updated AttachmentCollectionResource.
    */
   public uploadAttachments(files: UploadFile[]): IPromise<any> {
     const {uploads, upload} = this.attachments.upload(files);
@@ -403,11 +404,10 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Invalidate a set of linked resource in the given work package.
-   * Inform the cache service about the work package update.
+   * Invalidate a set of linked resources of this work package.
+   * And inform the cache service about the work package update.
    *
-   * Return a promise, that returns a hash object where the keys are the link
-   * names and the values are promises that return the respective resources.
+   * Return a promise with the linked resources as properties.
    */
   protected updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
@@ -420,6 +420,7 @@ export class WorkPackageResource extends HalResource {
   /**
    * Get updated activities from the server and inform the cache service about the work
    * package update.
+   *
    * Return a promise with the activities.
    */
   public updateActivities(): IPromise<HalResource> {
@@ -431,6 +432,7 @@ export class WorkPackageResource extends HalResource {
   /**
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
+   *
    * Return a promise with the attachments.
    */
   public updateAttachments(): IPromise<HalResource> {
