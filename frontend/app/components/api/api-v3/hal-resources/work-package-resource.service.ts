@@ -196,7 +196,7 @@ export class WorkPackageResource extends HalResource {
     const message = I18n.t('js.label_upload_notification', this);
     const notification = NotificationsService.addWorkPackageUpload(message, uploads);
 
-    upload
+    return upload
       .then(() => {
         $timeout(() => {
           NotificationsService.remove(notification);
@@ -207,8 +207,6 @@ export class WorkPackageResource extends HalResource {
       .catch(error => {
         wpNotificationsService.handleErrorResponse(error, this);
       });
-
-    return upload;
   }
 
   public requiredValueFor(fieldName): boolean {
