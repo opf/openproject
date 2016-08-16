@@ -36,7 +36,7 @@
     </div>
 
     <div class="bottom-toolbar" ng-if="$ctrl.workPackage">
-      <wp-details-toolbar work-package='$ctrl.workPackage'></wp-details-toolbar>
+      <wp-details-toolbar ng-show="!$ctrl.wpEditModeState.active" work-package='$ctrl.workPackage'></wp-details-toolbar>
       <edit-actions-bar
           ng-show="$ctrl.wpEditModeState.active"
           on-save="$ctrl.wpEditModeState.save()"
