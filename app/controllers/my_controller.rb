@@ -32,7 +32,7 @@ class MyController < ApplicationController
   layout 'my'
 
   before_filter :require_login
-  before_filter :require_password_confirmation,
+  before_filter :check_password_confirmation,
                 only: [:account],
                 if: ->() { request.patch? }
 

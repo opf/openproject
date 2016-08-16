@@ -1716,6 +1716,7 @@ en:
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name"
+  setting_internal_password_confirmation: "Password confirmation for account changes"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -1781,6 +1782,10 @@ en:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    instructions:
+      internal_password_confirmation: |
+        Require internally authenticated users to confirm their password upon changing their own account details (e.g., their email address).
+        Note: Even when checking this option, externally authenticated users do not have a password and will not be prompted on account changes.
 
   show_hide_project_menu: "Expand/Collapse project menu"
 
