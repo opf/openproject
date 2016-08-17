@@ -36,7 +36,7 @@ export interface UploadFile extends File {
 
 export interface UploadResult {
   uploads: IPromise<any>[];
-  upload: IPromise<any>;
+  finished: IPromise<any>;
 }
 
 export class OpenProjectFileUploadService {
@@ -57,9 +57,9 @@ export class OpenProjectFileUploadService {
         }
       }
     }));
-    const upload = this.$q.all(uploads);
+    const finished = this.$q.all(uploads);
 
-    return {uploads, upload};
+    return {uploads, finished};
   }
 }
 

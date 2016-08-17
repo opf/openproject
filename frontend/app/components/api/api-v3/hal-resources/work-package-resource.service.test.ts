@@ -243,7 +243,7 @@ describe('WorkPackageResource service', () => {
         uploadFilesDeferred = $q.defer();
         const uploadResult = {
           uploads: [uploadFilesDeferred.promise],
-          upload: uploadFilesDeferred.promise
+          finished: uploadFilesDeferred.promise
         };
         attachmentsUploadStub = sinon.stub(workPackage.attachments, 'upload').returns(uploadResult);
         uploadNotificationStub = sinon.stub(NotificationsService, 'addWorkPackageUpload');

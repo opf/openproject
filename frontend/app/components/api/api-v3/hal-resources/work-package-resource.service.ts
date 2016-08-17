@@ -193,11 +193,11 @@ export class WorkPackageResource extends HalResource {
    * Return an updated AttachmentCollectionResource.
    */
   public uploadAttachments(files: UploadFile[]): IPromise<any> {
-    const {uploads, upload} = this.attachments.upload(files);
+    const {uploads, finished} = this.attachments.upload(files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = NotificationsService.addWorkPackageUpload(message, uploads);
 
-    return upload
+    return finished
       .then(() => {
         $timeout(() => {
           NotificationsService.remove(notification);

@@ -85,7 +85,7 @@ describe('opFileUpload service', () => {
     });
 
     it('should return a resolved promise that is the summary of the uploads', () => {
-      expect(result.upload).to.eventually.be.fulfilled;
+      expect(result.finished).to.eventually.be.fulfilled;
     });
   });
 });
