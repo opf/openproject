@@ -34,34 +34,30 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {CollectionResourceInterface} from '../api/api-v3/hal-resources/collection-resource.service';
 
 export class WorkPackageAttachmentsController {
-  public text:any;
+  public text: any;
 
-  public workPackage:WorkPackageResourceInterface;
-  public wpSingleViewCtrl;
+  public workPackage: WorkPackageResourceInterface;
 
-  public attachments:any[] = [];
-  public fetchingConfiguration:boolean = false;
-  public files:File[] = [];
-  public hasRightToUpload:boolean = false;
-  public loading:boolean = false;
-  public rejectedFiles:any[] = [];
+  public attachments: any[] = [];
+  public fetchingConfiguration: boolean = false;
+  public files: File[] = [];
+  public hasRightToUpload: boolean = false;
+  public loading: boolean = false;
+  public rejectedFiles: any[] = [];
 
   public settings = {
     maximumFileSize: null
   };
 
-  public size:any;
+  public size: any;
 
   private currentlyFocusing;
 
-  constructor(protected $scope:any,
-              protected $element:ng.IAugmentedJQuery,
-              protected wpCacheService:WorkPackageCacheService,
-              protected NotificationsService:any,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected I18n:op.I18n,
-              protected ConfigurationService:any,
-              protected ConversionService:any) {
+  constructor(protected $scope: any,
+              protected wpCacheService: WorkPackageCacheService,
+              protected wpNotificationsService: WorkPackageNotificationService,
+              protected I18n: op.I18n,
+              protected ConfigurationService: any) {
 
     this.text = {
       dropFiles: I18n.t('js.label_drop_files'),
@@ -70,11 +66,7 @@ export class WorkPackageAttachmentsController {
       removeFile: arg => I18n.t('js.label_remove_file', arg)
     };
 
-    if (angular.isDefined(this.wpSingleViewCtrl)) {
-      this.wpSingleViewCtrl.attachments = this.attachments;
-    }
-
-    this.hasRightToUpload = angular.isDefined(this.workPackage.addAttachment) || this.workPackage.isNew;
+    this.hasRightToUpload = !!this.workPackage.addAttachment || this.workPackage.isNew;
 
     this.fetchingConfiguration = true;
     ConfigurationService.api().then(settings => {
@@ -100,7 +92,7 @@ export class WorkPackageAttachmentsController {
 
   private registerEditObserver() {
     scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(<number> this.workPackage.id))
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadAttachments(true);
       });
@@ -108,7 +100,7 @@ export class WorkPackageAttachmentsController {
 
   private registerCreateObserver() {
     scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp: WorkPackageResourceInterface) => {
         wp.uploadAttachments(this.attachments).then(() => {
           // Reload the work package after attachments are uploaded to
           // provide the correct links, in e.g., the description
@@ -117,27 +109,24 @@ export class WorkPackageAttachmentsController {
       });
   }
 
-  public upload():void {
+  public upload(): void {
     if (this.workPackage.isNew) {
-      this.files.forEach((file) => {
-        this.attachments.push(file);
-      });
-
-      return;
+      this.attachments.push(...this.files);
     }
-
-    if (this.files.length > 0) {
-      this.workPackage.uploadAttachments(<any> this.files).then(() => {
-        this.files = [];
-      });
+    else if (this.files.length > 0) {
+      this.workPackage
+        .uploadAttachments(<any> this.files)
+        .then(() => {
+          this.files = [];
+        });
     }
   };
 
-  public loadAttachments(refresh:boolean = true):ng.IPromise<any> {
+  public loadAttachments(refresh: boolean = true): ng.IPromise<any> {
     this.loading = true;
 
     return this.workPackage.attachments.$load(refresh)
-      .then((collection:CollectionResourceInterface) => {
+      .then((collection: CollectionResourceInterface) => {
         this.attachments.length = 0;
         angular.extend(this.attachments, collection.elements);
       })
@@ -146,48 +135,48 @@ export class WorkPackageAttachmentsController {
       });
   }
 
-  public remove(file):void {
+  public remove(file): void {
     if (!this.workPackage.isNew && file._type === 'Attachment') {
-      file.delete()
-        .then(() => this.workPackage.updateAttachments())
+      file
+        .delete()
+        .then(() => {
+          this.workPackage.updateAttachments();
+        })
         .catch(error => {
-          this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+          this.wpNotificationsService.handleErrorResponse(error, this.workPackage)
         });
     }
 
     _.pull(this.attachments, file);
   }
 
-  public focus(attachment:any):void {
+  public focus(attachment: any): void {
     this.currentlyFocusing = attachment;
   };
 
-  public focusing(attachment:any):boolean {
+  public focusing(attachment: any): boolean {
     return this.currentlyFocusing === attachment;
   };
 
-  public filterFiles(files):void {
+  public filterFiles(files): void {
     // Directories cannot be uploaded and as such, should not become files in
     // the sense of this directive.  The files within the directories will
     // be taken though.
-    _.remove(files, (file:any) => {
-      return file.type === 'directory';
-    });
+    _.remove(files, (file: any) => file.type === 'directory');
   };
 
-  public uploadFilteredFiles(files):void {
+  public uploadFilteredFiles(files): void {
     this.filterFiles(files);
     this.upload();
   }
 }
 
-function wpAttachmentsDirective():ng.IDirective {
+function wpAttachmentsDirective(): ng.IDirective {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-attachments/wp-attachments.directive.html',
     scope: {
-      workPackage: '=',
-      wpSingleViewCtrl: '='
+      workPackage: '='
     },
 
     bindToController: true,

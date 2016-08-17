@@ -36,25 +36,22 @@ import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directiv
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
-  public formCtrl:WorkPackageEditFormController;
-  public workPackage:WorkPackageResourceInterface;
+  public formCtrl: WorkPackageEditFormController;
+  public workPackage: WorkPackageResourceInterface;
   public singleViewWp;
-  public groupedFields:any[] = [];
-  public hideEmptyFields:boolean = true;
-  public attachments:Array<any>;
-  public text:any;
-  public scope:any;
+  public groupedFields: any[] = [];
+  public hideEmptyFields: boolean = true;
+  public attachments: any[] = [];
+  public text: any;
+  public scope: any;
 
-  protected firstTimeFocused:boolean = false;
+  protected firstTimeFocused: boolean = false;
 
   constructor(protected $scope,
-              protected $window,
-              protected $state,
               protected $stateParams,
-              protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpNotificationsService: WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
               protected SingleViewWorkPackage) {
 
@@ -75,6 +72,10 @@ export class WorkPackageSingleViewController {
     $scope.$on('workPackageUpdatedInEditor', () => {
       this.wpNotificationsService.showSave(this.workPackage);
     });
+
+    if (this.workPackage && this.workPackage.attachments) {
+      this.attachments = this.workPackage.attachments.elements;
+    }
   }
 
   public shouldHideGroup(group) {
@@ -112,7 +113,7 @@ export class WorkPackageSingleViewController {
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();
 
-      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
+      var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
 
       angular.forEach(schema, (prop, propName) => {
@@ -138,7 +139,7 @@ function wpSingleViewDirective() {
   function wpSingleViewLink(scope,
                             element,
                             attrs,
-                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
+                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
 
