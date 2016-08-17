@@ -188,7 +188,9 @@ openprojectModule
         controller: 'WorkPackageCopyController',
         controllerAs: '$ctrl',
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
-        reloadOnSearch: false
+        reloadOnSearch: false,
+        onEnter: () => angular.element('body').addClass('action-details'),
+        onExit: () => angular.element('body').removeClass('action-details')
       })
       .state('work-packages.list.details', {
         url: '/details/{workPackageId:[0-9]+}',
