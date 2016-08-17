@@ -331,4 +331,80 @@ describe User, 'allowed scope' do
       expect(User.allowed(action, project)).to eq []
     end
   end
+
+  context 'w/ only asking for members
+           w/o the project being public
+           w/o the user being member in the project
+           w/ the user being admin' do
+    before do
+      user.update_attribute(:admin, true)
+    end
+
+    it 'should return the user' do
+      expect(User.allowed_members(action, project)).to be_empty
+    end
+  end
+
+  context 'w/ only asking for members
+           w/o the project being public
+           w/ the user being member in the project
+           w/ the role having the necessary permission' do
+    before do
+      role.permissions << action
+      role.save!
+
+      member.save!
+    end
+
+    it 'should return the user' do
+      expect(User.allowed_members(action, project)).to match_array [user]
+    end
+  end
+
+  context 'w/ only asking for members
+           w/o the project being public
+           w/o the user being member in the project
+           w/ the user being admin' do
+    before do
+      user.update_attribute(:admin, true)
+    end
+
+    it 'should return the user' do
+      expect(User.allowed_members(action, project)).to be_empty
+    end
+  end
+
+  context 'w/ only asking for members
+           w/ the project being public
+           w/ the user being member in the project
+           w/ the role having the necessary permission' do
+    before do
+      project.update_attribute(:is_public, true)
+
+      role.permissions << action
+      role.save!
+
+      member.save!
+    end
+
+    it 'should return the user' do
+      expect(User.allowed_members(action, project)).to match_array [user]
+    end
+  end
+
+  context 'w/ only asking for members
+           w/ the project being public
+           w/o the user being member in the project
+           w/ the role having the necessary permission' do
+    before do
+      project.update_attribute(:is_public, true)
+
+      role.permissions << action
+      role.save!
+    end
+
+    it 'should return the user' do
+      expect(User.allowed_members(action, project)).to be_empty
+    end
+  end
 end

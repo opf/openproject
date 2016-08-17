@@ -30,8 +30,6 @@
 require 'digest/sha1'
 
 class User < Principal
-  include User::Authorization
-
   USER_FORMATS_STRUCTURE = {
     firstname_lastname:       [:firstname, :lastname],
     firstname:                [:firstname],
@@ -593,6 +591,10 @@ class User < Principal
 
   def self.allowed(action, project)
     Authorization.users(action, project)
+  end
+
+  def self.allowed_members(action, project)
+    Authorization.users(action, project).where.not(members: { id: nil })
   end
 
   def allowed_to?(action, context, options = {})

@@ -79,12 +79,6 @@ describe Watcher do
     assert_equal 1, @issue.watchers.count
   end
 
-  it 'should addable_watcher_users' do
-    addable_watcher_users = @issue.addable_watcher_users
-    assert_kind_of Array, addable_watcher_users
-    assert_kind_of User, addable_watcher_users.first
-  end
-
   it 'should recipients' do
     @user.update_attribute :mail_notification, 'all'
 
