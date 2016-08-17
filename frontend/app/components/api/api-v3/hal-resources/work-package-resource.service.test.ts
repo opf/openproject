@@ -45,13 +45,6 @@ describe('WorkPackageResource service', () => {
   var NotificationsService: any;
   var wpNotificationsService: any;
 
-  var source: any;
-  var workPackage: WorkPackageResourceInterface;
-
-  const createWorkPackage = () => {
-    workPackage = new WorkPackageResource(source);
-  };
-
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
                                            _$rootScope_,
@@ -77,6 +70,24 @@ describe('WorkPackageResource service', () => {
     expect(WorkPackageResource).to.exist;
   });
 
+  var source: any;
+  var workPackage: WorkPackageResourceInterface;
+
+  const createWorkPackage = () => {
+    workPackage = new WorkPackageResource(source);
+  };
+
+  const expectUncachedRequest = href => {
+    $httpBackend
+      .expectGET(href, headers => headers.caching.enabled === false)
+      .respond(200, {_links: {self: {href}}});
+  };
+
+  const expectUncachedRequests = (...urls) => {
+    urls.forEach(expectUncachedRequest);
+    $httpBackend.flush();
+  };
+
   describe('when creating an empty work package', () => {
     beforeEach(() => {
       source = {};
@@ -92,18 +103,86 @@ describe('WorkPackageResource service', () => {
     });
   });
 
+  describe('when updating multiple linked resources', () => {
+    var updateWorkPackageStub: SinonStub;
+
+    const expectCacheUpdate = () => {
+      it('should update the work package cache', () => {
+        expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+      });
+    };
+
+    beforeEach(() => {
+      updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
+    });
+
+    afterEach(() => {
+      $rootScope.$apply();
+      updateWorkPackageStub.restore();
+    });
+
+    describe('when the resources are properties of the work package', () => {
+      var result;
+
+      const testResultIsResource = (href, prepare) => {
+        beforeEach(prepare);
+        expectCacheUpdate();
+
+        it('should be a promise with a resource where the $href  is ' + href, () => {
+          expect(result).to.eventually.have.property('$href', href);
+        });
+      };
+
+      beforeEach(() => {
+        source = {
+          _links: {
+            attachments: {href: 'attachmentsHref'},
+            activities: {href: 'activitiesHref'}
+          }
+        };
+        createWorkPackage();
+      });
+
+      describe('when updating the properties using updateLinkedResources()', () => {
+        var results;
+
+        beforeEach(() => {
+          results = workPackage.updateLinkedResources('attachments', 'activities');
+          expectUncachedRequests('attachmentsHref', 'activitiesHref');
+        });
+
+        it('should return a result, that has the same properties as the updated ones', () => {
+          expect(results).to.eventually.be.fulfilled.then(results => {
+            expect(Object.keys(results)).to.have.members(['attachments', 'activities']);
+          });
+        });
+
+        testResultIsResource('attachmentsHref', () => {
+          results.then(results => result = $q.when(results.attachments));
+        });
+
+        testResultIsResource('activitiesHref', () => {
+          results.then(results => result = $q.when(results.activities));
+        });
+      });
+
+      describe('when updating the activities', () => {
+        testResultIsResource('activitiesHref', () => {
+          result = workPackage.updateActivities();
+          expectUncachedRequests('activitiesHref');
+        });
+      });
+
+      describe('when updating the attachments', () => {
+        testResultIsResource('attachmentsHref', () => {
+          result = workPackage.updateAttachments();
+          expectUncachedRequests('activitiesHref', 'attachmentsHref');
+        });
+      });
+    });
+  });
+
   describe('when a work package is created with attachments and activities', () => {
-    const expectUncachedRequest = href => {
-      $httpBackend
-        .expectGET(href, headers => headers.caching.enabled === false)
-        .respond(200, {_links: {self: {href}}});
-    };
-
-    const expectMultipleUncachedRequests = (...hrefs) => {
-      hrefs.forEach(expectUncachedRequest);
-      $httpBackend.flush();
-    };
-
     beforeEach(() => {
       source = {
         _links: {
@@ -168,7 +247,7 @@ describe('WorkPackageResource service', () => {
           uploadFilesDeferred.resolve();
           removeStub = sinon.stub(NotificationsService, 'remove');
 
-          expectMultipleUncachedRequests('activities', 'attachments');
+          expectUncachedRequests('activities', 'attachments');
           $rootScope.$apply();
         });
 
@@ -180,46 +259,6 @@ describe('WorkPackageResource service', () => {
         it('should return an attachment collection resource promise', () => {
           expect(uploadAttachmentsPromise).to.eventually.have.property('$href', 'attachments');
           $rootScope.$apply();
-        });
-      });
-    });
-
-    describe('when updating multiple linked resources', () => {
-      var updateWorkPackageStub: SinonStub;
-      var promise: any;
-
-      const testWpCacheUpdateWith = (href, prepare) => {
-        beforeEach(prepare);
-
-        it('should update the work package cache', () => {
-          expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
-        });
-
-        it('should return a promise with a resource where the $href  is ' + href, () => {
-          expect(promise).to.eventually.have.property('$href', href);
-        });
-      };
-
-      beforeEach(() => {
-        updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
-      });
-
-      afterEach(() => {
-        $rootScope.$apply();
-        updateWorkPackageStub.restore();
-      });
-
-      describe('when updating the activities', () => {
-        testWpCacheUpdateWith('activities', () => {
-          promise = workPackage.updateActivities();
-          expectMultipleUncachedRequests('activities');
-        });
-      });
-
-      describe('when updating the attachments', () => {
-        testWpCacheUpdateWith('attachments', () => {
-          promise = workPackage.updateAttachments();
-          expectMultipleUncachedRequests('activities', 'attachments');
         });
       });
     });

@@ -407,9 +407,9 @@ export class WorkPackageResource extends HalResource {
    * Invalidate a set of linked resources of this work package.
    * And inform the cache service about the work package update.
    *
-   * Return a promise with the linked resources as properties.
+   * Return a promise that returns the linked resources as properties.
    */
-  protected updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
+  public updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
     resourceNames.forEach(name => resources[name] = this[name].$update());
     wpCacheService.updateWorkPackage(this);
@@ -421,7 +421,7 @@ export class WorkPackageResource extends HalResource {
    * Get updated activities from the server and inform the cache service about the work
    * package update.
    *
-   * Return a promise with the activities.
+   * Return a promise that returns the activities.
    */
   public updateActivities(): IPromise<HalResource> {
     return this
@@ -433,7 +433,7 @@ export class WorkPackageResource extends HalResource {
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
    *
-   * Return a promise with the attachments.
+   * Return a promise that returns the attachments.
    */
   public updateAttachments(): IPromise<HalResource> {
     return this
