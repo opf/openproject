@@ -67,8 +67,19 @@ class CostReportsController < ApplicationController
     end unless performed?
   end
 
-  current_menu_item :index do
-    :cost_reports_global
+  current_menu_item :index do |controller|
+    url_helper = OpenProject::StaticRouting::StaticUrlHelpers.new
+
+    case controller.current_path
+    when url_helper.new_global_cost_reports_path
+      :cost_reports_global
+    else
+      :cost_reports
+    end
+  end
+
+  def current_path
+    request.fullpath
   end
 
   def drill_down
