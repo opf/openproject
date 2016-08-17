@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,36 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class OpenProject::PrincipalAllowanceEvaluator::Base
-  def initialize(user)
-    @user = user
+class Authorization::AbstractQuery
+  class_attribute :model
+
+  def self.query(*args)
+    arel = transformed_query(*args)
+
+    model.joins(joins(arel))
+         .where(wheres(arel))
+         .distinct
   end
 
-  def granted_for_global?(_candidate, _action, _options)
-    false
+  def self.transformed_query(*args)
+    run_transformations(*args)
   end
 
-  def denied_for_global?(_candidate, _action, _options)
-    false
+  class_attribute :transformations
+
+  self.transformations = ::Authorization::QueryTransformations.new
+
+  def self.inherited(subclass)
+    subclass.transformations = transformations.copy
   end
 
-  def granted_for_project?(_candidate, _action, _project, _options = {})
-    false
+  def self.run_transformations(*args)
+    query = base_query
+
+    transformator = Authorization::QueryTransformationVisitor.new(transformations: transformations,
+                                                                  args: args)
+
+    transformator.accept(query)
+
+    query
   end
 
-  def denied_for_project?(_candidate, _action, _project, _options = {})
-    false
+  def self.wheres(arel)
+    arel.ast.cores.last.wheres.last
   end
 
-  def global_granting_candidates
-    []
-  end
-
-  def project_granting_candidates(_project)
-    []
-  end
-
-  def self.eager_load_for_project_authorization(_project)
-    nil
+  def self.joins(arel)
+    arel.join_sources
   end
 end

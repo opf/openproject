@@ -242,6 +242,29 @@ describe User, 'allowed_to?' do
       end
     end
 
+    context 'w/ the user being member in the project
+             w/ the project being public
+             w/ non members being allowed the action
+             w/o the role being allowed the action' do
+      before do
+        project.is_public = true
+        project.save!
+
+        non_member = Role.non_member
+
+        non_member.permissions << permission
+        non_member.save!
+
+        member.save!
+
+        final_setup_step
+      end
+
+      it 'should be false' do
+        expect(user.allowed_to?(permission, project)).to be_falsey
+      end
+    end
+
     context 'w/ the user being anonymous
              w/ the project being public
              w/ anonymous being allowed the action' do
