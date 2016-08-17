@@ -32,11 +32,9 @@ module Members
     end
 
     def join_group(sort_columns, query)
-      if sort_columns.include? :groups
-        join_group_lastname query
-      else
-        query
-      end
+      # we always join groups and group_users so we can later
+      # filter by group in Members::UserFilterCell
+      join_group_lastname query
     end
 
     def fix_groups_order(sort_clause)
