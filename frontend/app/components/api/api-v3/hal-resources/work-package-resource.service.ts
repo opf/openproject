@@ -176,8 +176,8 @@ export class WorkPackageResource extends HalResource {
    * Make the attachments an `AttachmentCollectionResource`. This should actually
    * be done automatically, but the backend does not provide typed collections yet.
    */
-  constructor($source, $loaded) {
-    super($source, $loaded);
+  protected $initialize(source) {
+    super.$initialize(source);
 
     var attachments = this.attachments || {$source: void 0, $loaded: void 0};
     this.attachments = new AttachmentCollectionResource(

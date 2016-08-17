@@ -128,7 +128,7 @@ export class WorkPackageAttachmentsController {
     return this.workPackage.attachments.$load(refresh)
       .then((collection: CollectionResourceInterface) => {
         this.attachments.length = 0;
-        angular.extend(this.attachments, collection.elements);
+        this.attachments.push(...collection.elements);
       })
       .finally(() => {
         this.loading = false;
