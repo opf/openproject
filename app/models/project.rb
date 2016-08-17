@@ -340,67 +340,8 @@ class Project < ActiveRecord::Base
       .references(:projects)
   end
 
-  # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
-  #
-  # Valid options:
-  # * project: limit the condition to project
-  # * with_subprojects: limit the condition to project and its subprojects
-  # * member: limit the condition to the user projects
-  # * project_alias: the alias to use for the project's table - default: 'projects'
   def self.allowed_to_condition(user, permission, options = {})
-    table_alias = options.fetch(:project_alias, Project.table_name)
-
-    base_statement = "#{table_alias}.status=#{Project::STATUS_ACTIVE}"
-    if perm = Redmine::AccessControl.permission(permission)
-      unless perm.project_module.nil?
-        # If the permission belongs to a project module, make sure the module is enabled
-        enabled_module_statement = "SELECT em.project_id FROM #{EnabledModule.table_name} em"
-
-        if options[:project] && options[:with_subprojects]
-          enabled_module_statement << " JOIN #{table_alias} ON #{table_alias}.id = em.project_id"
-        end
-
-        enabled_module_statement << " WHERE em.name='#{perm.project_module}'"
-
-        if options[:project]
-          project_statement = "em.project_id = #{options[:project].id}"
-          project_statement << " OR (#{table_alias}.lft > #{options[:project].lft} AND #{table_alias}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
-
-          enabled_module_statement << " AND (#{project_statement})"
-        end
-        base_statement << " AND #{table_alias}.id IN (#{enabled_module_statement})"
-      end
-    end
-    if options[:project]
-      project_statement = "#{table_alias}.id = #{options[:project].id}"
-      project_statement << " OR (#{table_alias}.lft > #{options[:project].lft} AND #{table_alias}.rgt < #{options[:project].rgt})" if options[:with_subprojects]
-      base_statement = "(#{project_statement}) AND (#{base_statement})"
-    end
-
-    if user.admin?
-      base_statement
-    else
-      statement_by_role = {}
-      if user.logged?
-        if Role.non_member.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.non_member] = "#{table_alias}.is_public = #{connection.quoted_true}"
-        end
-        user.projects_by_role.each do |role, projects|
-          if role.allowed_to?(permission)
-            statement_by_role[role] = "#{table_alias}.id IN (#{projects.map(&:id).join(',')})"
-          end
-        end
-      else
-        if Role.anonymous.allowed_to?(permission) && !options[:member]
-          statement_by_role[Role.anonymous] = "#{table_alias}.is_public = #{connection.quoted_true}"
-        end
-      end
-      if statement_by_role.empty?
-        '1=0'
-      else
-        "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
-      end
-    end
+    Authorization::ProjectQuery.query(user, permission, options)
   end
 
   # Returns the Systemwide and project specific activities
