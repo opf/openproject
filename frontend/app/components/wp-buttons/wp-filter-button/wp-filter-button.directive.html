@@ -1,15 +1,11 @@
-<label for="{{ ::vm.buttonId }}"
-       ng-attr-accesskey="{{ ::vm.accessKey }}"
-       class="hidden-for-sighted">
-
-  {{ vm.label }}
-</label>
 <button id="{{ ::vm.buttonId }}"
         class="button"
         title="{{ vm.label }}"
         ng-click="vm.performAction()"
+        ng-attr-accesskey="{{ ::vm.accessKey }}"
         ng-disabled="vm.disabled"
-        ng-class="{ '-active': vm.isActive() }">
+        ng-class="{ '-active': vm.isActive() }"
+        aria-label="{{ vm.label }}">
   <i class="{{ ::vm.iconClass }} button--icon"></i>
   <span class="button--text" ng-bind="::vm.buttonText"></span>
   <span class="badge -secondary">{{ vm.filterCount }}</span>
