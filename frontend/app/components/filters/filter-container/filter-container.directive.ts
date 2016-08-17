@@ -31,6 +31,7 @@ import {filtersModule} from '../../../angular-modules';
 function filterContainerDirective(wpFiltersService) {
   return {
     restrict: 'E',
+    replace: true,
     templateUrl: '/components/filters/filter-container/filter-container.directive.html',
 
     link: (scope) => {
