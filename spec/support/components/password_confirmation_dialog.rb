@@ -26,25 +26,48 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# Acts as a filter for actions that require password confirmation to have
-# passed before it may be accessed.
-module Concerns::PasswordConfirmation
-  def check_password_confirmation
-    return true unless password_confirmation_required?
+module Components
+  class PasswordConfirmationDialog
+    include Capybara::DSL
+    include RSpec::Matchers
 
-    password = params[:_password_confirmation]
-    return true if password.present? && current_user.check_password?(password)
+    def confirm_flow_with(password, should_fail: false)
+      expect_open
 
-    flash[:error] = I18n.t(:notice_password_confirmation_failed)
-    redirect_to :back
-    false
-  end
+      expect(submit_button[:disabled]).to be_truthy
+      fill_in 'request_for_confirmation_password', with: password
 
-  ##
-  # Returns whether password confirmation has been enabled globally
-  # AND the current user is internally authenticated.
-  def password_confirmation_required?
-    Setting.internal_password_confirmation? && !User.current.uses_external_authentication?
+      expect(submit_button[:disabled]).to be_falsey
+      submit(should_fail)
+    end
+
+    def expect_open
+      expect(page).to have_selector(selector)
+    end
+
+    def expect_closed
+      expect(page).to have_no_selector(selector)
+    end
+
+    def submit_button
+      page.find('.request-for-confirmation--submit-button')
+    end
+
+    private
+
+    def selector
+      '.request-for-confirmation--modal'
+    end
+
+    def submit(should_fail)
+      submit_button.click
+
+      if should_fail
+        expect(page).to have_selector('.flash.error',
+                                      text: I18n.t(:notice_password_confirmation_failed))
+      else
+        expect(page).to have_no_selector('.flash.error')
+      end
+    end
   end
 end

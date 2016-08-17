@@ -30,28 +30,77 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 describe 'my', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create :admin }
+  let(:user_password) { 'bob' * 4 }
+  let(:user) do
+    FactoryGirl.create(:user,
+                       mail: 'old@mail.com',
+                       login: 'bob',
+                       password: user_password,
+                       password_confirmation: user_password
+                      )
+  end
+
+  ##
+  # Expecations for a successful account change
+  def expect_changed!
+    expect(page).to have_content 'Account was successfully updated.'
+
+    user.reload
+    expect(user.mail).to eq 'foo@mail.com'
+    expect(user.name).to eq 'Foo Bar'
+  end
 
   before do
-    allow(User).to receive(:current).and_return current_user
+    login_as(user)
   end
 
   context 'user' do
-    it 'in settings they can edit their account details' do
-      visit my_account_path
+    context '#account' do
+      let(:dialog) { ::Components::PasswordConfirmationDialog.new }
 
-      fill_in 'user[mail]', with: 'foo@mail.com'
-      fill_in 'user[firstname]', with: 'Foo'
-      fill_in 'user[lastname]', with: 'Bar'
-      click_on 'Save'
+      before do
+        visit my_account_path
 
-      expect(page).to have_content 'Account was successfully updated.'
-      expect(current_path).to eq my_account_path
+        fill_in 'user[mail]', with: 'foo@mail.com'
+        fill_in 'user[firstname]', with: 'Foo'
+        fill_in 'user[lastname]', with: 'Bar'
+        click_on 'Save'
+      end
 
-      u = User.find(current_user.id)
-      expect(u.mail).to eq 'foo@mail.com'
-      expect(u.firstname).to eq 'Foo'
-      expect(u.lastname).to eq 'Bar'
+      context 'when confirmation disabled',
+              with_settings: { internal_password_confirmation?: false } do
+        it 'does not request confirmation' do
+          expect_changed!
+        end
+      end
+
+      context 'when confirmation required',
+              with_settings: { internal_password_confirmation?: true } do
+        it 'requires the password for a regular user' do
+          dialog.confirm_flow_with(user_password)
+          expect_changed!
+        end
+
+        it 'declines the change when invalid password is given' do
+          dialog.confirm_flow_with(user_password + 'INVALID', should_fail: true)
+
+          user.reload
+          expect(user.mail).to eq('old@mail.com')
+        end
+
+        context 'as admin' do
+          let(:user) {
+            FactoryGirl.create :admin,
+                               password: user_password,
+                               password_confirmation: user_password
+          }
+
+          it 'requires the password' do
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+        end
+      end
     end
 
     it 'in Access Tokens they can generate and view their API key' do
@@ -63,7 +112,7 @@ describe 'my', type: :feature, js: true do
       expect(page).not_to have_content 'Missing API access key'
 
       find(:xpath, "//tr[contains(.,'API')]/td/a", text: 'Show').click
-      expect(page).to have_content "Your API access key is: #{current_user.api_token.value}"
+      expect(page).to have_content "Your API access key is: #{user.api_token.value}"
     end
 
     it 'in Access Tokens they can generate and view their RSS key' do
@@ -79,7 +128,7 @@ describe 'my', type: :feature, js: true do
       expect(page).not_to have_content 'Missing RSS access key'
 
       find(:xpath, "//tr[contains(.,'RSS')]/td/a", text: 'Show').click
-      expect(page).to have_content "Your RSS access key is: #{current_user.rss_token.value}"
+      expect(page).to have_content "Your RSS access key is: #{user.rss_token.value}"
     end
   end
 end
