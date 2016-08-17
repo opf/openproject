@@ -591,6 +591,10 @@ class User < Principal
     end
   end
 
+  def self.allowed(action, project)
+    Authorization.users(action, project)
+  end
+
   def allowed_to?(action, context, options = {})
     authorization_service.call(action, context, options).result
   end

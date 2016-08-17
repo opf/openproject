@@ -28,6 +28,10 @@
 #++
 
 class Authorization
+  def self.users(action, project)
+    Authorization::UserAllowedQuery.query(action, project)
+  end
+
   def self.roles(user, project = nil)
     if project
       Authorization::UserProjectRolesQuery.query(user, project)
