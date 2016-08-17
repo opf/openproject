@@ -51,7 +51,7 @@ export class HalRequestService {
    */
   public request(method:string, href:string, data?:any, headers:any = {}):IPromise<HalResource> {
     if (!href) {
-      return this.$q.when(null);
+      return this.$q.reject();
     }
 
     if (method === 'post') {

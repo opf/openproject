@@ -58,12 +58,8 @@ describe('halRequest service', () => {
       promise = halRequest.request('get', null);
     });
 
-    it('should return a fulfilled promise', () => {
-      expect(promise).to.eventually.be.fulfilled;
-    });
-
-    it('should return a null promise', () => {
-      expect(promise).to.eventually.be.null;
+    it('should return a rejected promise', () => {
+      expect(promise).to.eventually.be.rejected;
     });
   });
 
