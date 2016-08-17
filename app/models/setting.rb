@@ -157,11 +157,11 @@ class Setting < ActiveRecord::Base
     if new_setting.save
       new_value = new_setting.value
 
-      # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_setting)
-
       # Delete the cache
       clear_cache(old_cache_key)
+
+      # fire callbacks for name and pass as much information as possible
+      fire_callbacks(name, new_value, old_setting)
 
       new_value
     else
