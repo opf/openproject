@@ -105,6 +105,7 @@ describe('WorkPackageResource service', () => {
 
   describe('when updating multiple linked resources', () => {
     var updateWorkPackageStub: SinonStub;
+    var result;
 
     const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
@@ -122,8 +123,6 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when the resources are properties of the work package', () => {
-      var result;
-
       const testResultIsResource = (href, prepare) => {
         beforeEach(prepare);
         expectCacheUpdate();
@@ -177,6 +176,41 @@ describe('WorkPackageResource service', () => {
         testResultIsResource('attachmentsHref', () => {
           result = workPackage.updateAttachments();
           expectUncachedRequests('activitiesHref', 'attachmentsHref');
+        });
+      });
+    });
+
+    describe('when the linked resource are not properties of the work package', () => {
+      const expectRejectedWithCacheUpdate = prepare => {
+        beforeEach(prepare);
+
+        it('should return a rejected promise', () => {
+          expect(result).to.eventually.be.rejected;
+        });
+
+        expectCacheUpdate();
+      };
+
+      beforeEach(() => {
+        source = {};
+        createWorkPackage();
+      });
+
+      describe('when using updateLinkedResources', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateLinkedResources('attachments', 'activities');
+        });
+      });
+
+      describe('when using updateActivities', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateActivities();
+        });
+      });
+
+      describe('when using updateAttachments', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateAttachments();
         });
       });
     });

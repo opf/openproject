@@ -408,10 +408,15 @@ export class WorkPackageResource extends HalResource {
    * And inform the cache service about the work package update.
    *
    * Return a promise that returns the linked resources as properties.
+   * Return a rejected promise, if the resource is not a property of the work package.
    */
   public updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
-    resourceNames.forEach(name => resources[name] = this[name].$update());
+
+    resourceNames.forEach(name => {
+      const linked = this[name];
+      resources[name] = linked ? linked.$update() : $q.reject();
+    });
     wpCacheService.updateWorkPackage(this);
 
     return $q.all(resources);
@@ -421,7 +426,8 @@ export class WorkPackageResource extends HalResource {
    * Get updated activities from the server and inform the cache service about the work
    * package update.
    *
-   * Return a promise that returns the activities.
+   * Return a promise that returns the activities. Reject, if the work package has
+   * no activities.
    */
   public updateActivities(): IPromise<HalResource> {
     return this
@@ -433,7 +439,8 @@ export class WorkPackageResource extends HalResource {
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
    *
-   * Return a promise that returns the attachments.
+   * Return a promise that returns the attachments. Reject, if the work package has
+   * no attachments.
    */
   public updateAttachments(): IPromise<HalResource> {
     return this
