@@ -207,7 +207,7 @@ div
     background: #bfb
 
 tr.dir
-  span
+  a
     &.dir-expander
       @include icon-common
       cursor: pointer
@@ -216,13 +216,13 @@ tr.dir
         margin-left: 5px
         padding: 0
   &.loading
-    span.dir-expander:before
+    .dir-expander:before
       @extend .icon-loading1:before
   &.collapsed
-    span.dir-expander:before
+    .dir-expander:before
       @extend .icon-plus:before
   &.open
-    span.dir-expander:before
+    .dir-expander:before
       @extend .icon-minus1:before
 
 tr
