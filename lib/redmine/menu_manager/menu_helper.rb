@@ -143,7 +143,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_drop_down_label_node(label, selected, options = {})
-    options[:title] ||= label
+    options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
     options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
 
@@ -209,7 +209,7 @@ module Redmine::MenuManager::MenuHelper
     link_text << you_are_here_info(selected)
     link_text << content_tag(:span, caption, lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)
-    html_options[:title] ||= caption
+    html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
 
     link_to link_text, url, html_options
   end
