@@ -326,6 +326,9 @@ export class WorkPackageResource extends HalResource {
             this.$pristine = {};
             this.updateActivities();
             deferred.resolve(this);
+            if (wasNew) {
+              wpCacheService.newWorkPackageCreated(this);
+            }
           })
           .catch(error => {
             deferred.reject(error);
@@ -333,9 +336,6 @@ export class WorkPackageResource extends HalResource {
           })
           .finally(() => {
             this.inFlight = false;
-            if (wasNew) {
-              wpCacheService.newWorkPackageCreated(this);
-            }
           });
       })
       .catch(() => {
