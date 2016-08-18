@@ -60,23 +60,18 @@ function sortHeader(){
 
       function setFullTitleAndSummary() {
         scope.fullTitle = scope.headerTitle;
-        var summaryContent;
 
         if(scope.currentSortDirection) {
           var ascending = scope.currentSortDirection === 'asc';
-          summaryContent = [
+          var summaryContent = [
             ascending ? I18n.t('js.label_ascending') : I18n.t('js.label_descending'),
             I18n.t('js.label_sorted_by'),
-            scope.headerTitle + '.',
-            I18n.t('js.work_packages.table.text_sort_hint')
+            scope.headerTitle + '.'
           ]
-        } else {
-          summaryContent = [
-            I18n.t('js.work_packages.table.text_sort_hint')
-          ]
+
+          jQuery('#wp-table-sort-summary').text(summaryContent.join(" "));
         }
 
-        jQuery('#wp-table-sort-summary').text(summaryContent.join(" "));
       }
 
       function setActiveColumnClass() {
