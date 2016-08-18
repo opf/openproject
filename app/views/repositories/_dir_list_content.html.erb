@@ -34,7 +34,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= h(entry.kind) %>">
     <td class="filename" style="padding-left: <%=18 * depth%>px;">
       <% if entry.dir? %>
-        <span class="icon-context dir-expander"
+        <a class="icon-context dir-expander"
+              title="<%= I18n.t('js.label_expand') %>"
+              href="javascript:"
               data-element="<%= "##{tr_id}" %>"
               data-url="<%= url_for(action: 'show',
                                     project_id: @project,
@@ -43,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                     depth: (depth + 1),
                                     parent_id: tr_id) %>">
           &nbsp
-        </span>
+        </a>
       <% end %>
       <%=  link_to h(ent_name),
           {action: (entry.dir? ? 'show' : 'changes'), project_id: @project, path: to_path_param(ent_path), rev: @rev},
