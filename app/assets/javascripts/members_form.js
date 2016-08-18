@@ -54,10 +54,12 @@ function toggleMemberFilter() {
   if (localStorage.getItem("showFilter") === "true") {
     localStorage.setItem("showFilter", 'false');
     hideFilter(filter);
+    jQuery('#filter-member-button').removeClass('-pressed');
   }
   else {
     localStorage.setItem("showFilter", 'true');
     showFilter(filter);
+    jQuery('#filter-member-button').addClass('-pressed');
     hideAddMemberForm();
     jQuery('.simple-filters--filter:first-of-type select').focus();
   }
@@ -67,10 +69,13 @@ function showAddMemberForm() {
   jQuery('#members_add_form').show();
   jQuery('#members_add_form #principal_search').focus();
   hideFilter(filter = findFilter());
+  jQuery('#filter-member-button').removeClass('-pressed');
   localStorage.setItem("showFilter", 'false');
+  jQuery('#add-member-button').prop('disabled', true);
 }
 
 function hideAddMemberForm() {
   jQuery('#members_add_form').hide();
   jQuery('#add-member-button').focus();
+  jQuery('#add-member-button').prop('disabled', false);
 }
