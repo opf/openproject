@@ -27,41 +27,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::AbstractUserQuery < Authorization::AbstractQuery
+  def self.base_query
+    # It is unfortunate, that we have to have the first
+    # join statement as part of the base_scope.
+    #
+    # It would be better to simply start with the users_table
+    # and apply the join as a transformation. But a table
+    # can not be traversed by the visitor and wrapping
+    # the users_table in a Arel::SelectManager leads to invalid sql.
+    users_table
+      .outer_join(members_table)
+      .on(users_members_join)
+  end
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+  transformations.register :all, :member_roles_join do |statement|
+    statement.outer_join(member_roles_table)
+             .on(members_member_roles_join)
+  end
 
-      accept_key_auth :index, :show
+  def self.members_member_roles_join
+    members_table[:id].eq(member_roles_table[:member_id])
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
+  def self.users_members_join
+    users_table[:id].eq(members_table[:user_id])
+  end
 
-        respond_to do |format|
-          format.api
-        end
-      end
+  def self.members_table
+    Member.arel_table
+  end
 
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
+  def self.users_table
+    User.arel_table
+  end
 
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
-    end
+  def self.member_roles_table
+    MemberRole.arel_table
+  end
+
+  def self.roles_table
+    Role.arel_table
   end
 end

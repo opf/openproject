@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,41 +26,48 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+require 'spec_helper'
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+describe Authorization::QueryTransformation do
+  let(:on) { 'on' }
+  let(:name) { 'name' }
+  let(:after) { 'after' }
+  let(:before) { 'before' }
+  let(:block) { -> (*args) { args } }
 
-      accept_key_auth :index, :show
+  let(:instance) do
+    described_class.new on,
+                        name,
+                        after,
+                        before,
+                        block
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
+  context 'initialize' do
+    it 'sets on' do
+      expect(instance.on).to eql on
+    end
 
-        respond_to do |format|
-          format.api
-        end
-      end
+    it 'sets name' do
+      expect(instance.name).to eql name
+    end
 
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
+    it 'sets after' do
+      expect(instance.after).to eql after
+    end
 
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
+    it 'sets before' do
+      expect(instance.before).to eql before
+    end
+
+    it 'sets block' do
+      expect(instance.block).to eql block
+    end
+  end
+
+  context 'apply' do
+    it 'calls the block' do
+      expect(instance.apply(1, 2, 3)).to match_array [1, 2, 3]
     end
   end
 end

@@ -27,41 +27,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::QueryTransformation
+  attr_accessor :on, :name, :after, :before, :block
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+  def initialize(on,
+                 name,
+                 after,
+                 before,
+                 block)
 
-      accept_key_auth :index, :show
+    self.on = on
+    self.name = name
+    self.after = after
+    self.before = before
+    self.block = block
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
-
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
-    end
+  def apply(*args)
+    block.call(*args)
   end
 end

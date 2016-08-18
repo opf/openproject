@@ -434,9 +434,15 @@ class Query < ActiveRecord::Base
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
-          project_ids = User.current.projects_by_role.map { |r, p| p if r.permissions.include? :view_work_package_watchers }.flatten.compact.map(&:id).uniq
-          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
-                       " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
+          sql_parts << <<-SQL
+            #{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'}
+              (SELECT #{db_table}.watchable_id
+               FROM #{db_table}
+               WHERE #{db_table}.watchable_type='WorkPackage'
+                 AND #{sql_for_field field, '=', values, db_table, db_field})
+                 AND #{Project.table_name}.id IN
+                   (#{Project.allowed_to_condition(User.current, :view_work_package_watchers)})
+          SQL
           sql << "(#{sql_parts.join(' OR ')})"
         end
       elsif field == 'member_of_group' # named field

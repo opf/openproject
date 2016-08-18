@@ -33,7 +33,7 @@ module API
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
 
-          available_watchers = @work_package.possible_watcher_users
+          available_watchers = @work_package.addable_watcher_users.includes(:preference)
           self_link = api_v3_paths.available_watchers(@work_package.id)
 
           ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,

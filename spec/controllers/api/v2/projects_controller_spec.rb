@@ -32,6 +32,8 @@ describe Api::V2::ProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    Role.anonymous
+    Role.non_member
     allow(User).to receive(:current).and_return current_user
   end
 

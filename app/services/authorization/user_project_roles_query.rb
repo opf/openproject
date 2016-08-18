@@ -27,41 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::UserProjectRolesQuery < Authorization::UserRolesQuery
+  transformations.register :all, :project_where_projection do |statement, user, _|
+    statement.where(users_table[:id].eq(user.id))
+  end
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+  transformations.register users_members_join, :project_id_limit do |statement, _, project|
+    statement.and(members_table[:project_id].eq(project.id))
+  end
 
-      accept_key_auth :index, :show
+  transformations.register roles_member_roles_join, :builtin_role do |statement, user, project|
+    if project.is_public?
+      builtin_role = if user.logged?
+                       Role::BUILTIN_NON_MEMBER
+                     else
+                       Role::BUILTIN_ANONYMOUS
+                     end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
+      builtin_role_condition = members_table[:id]
+                               .eq(nil)
+                               .and(roles_table[:builtin]
+                                    .eq(builtin_role))
 
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
-
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
+      statement = statement.or(builtin_role_condition)
     end
+
+    statement
   end
 end

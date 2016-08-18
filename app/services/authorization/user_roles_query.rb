@@ -27,41 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::UserRolesQuery < Authorization::AbstractUserQuery
+  self.model = Role
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+  def self.query(*args)
+    arel = transformed_query(*args)
 
-      accept_key_auth :index, :show
+    model.where(roles_table[:id].in(arel))
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
+  transformations.register :all, :roles_join do |statement|
+    statement.outer_join(roles_table)
+             .on(roles_member_roles_join)
+  end
 
-        respond_to do |format|
-          format.api
-        end
-      end
+  transformations.register :all, :project do |statement|
+    statement.project(roles_table[:id])
+  end
 
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
-
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
-    end
+  def self.roles_member_roles_join
+    roles_table[:id].eq(member_roles_table[:role_id])
   end
 end

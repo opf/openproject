@@ -27,41 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::UserGlobalRolesQuery < Authorization::UserRolesQuery
+  transformations.register roles_member_roles_join,
+                           :builtin_role do |statement, user|
+    builtin_role = if user.logged?
+                     Role::BUILTIN_NON_MEMBER
+                   else
+                     Role::BUILTIN_ANONYMOUS
+                   end
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+    builtin_role_condition = roles_table[:builtin].eq(builtin_role)
 
-      accept_key_auth :index, :show
+    statement.or(builtin_role_condition)
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
-
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
-    end
+  transformations.register :all, :global_group_where_projection do |statement, user|
+    statement.group(roles_table[:id])
+             .where(users_table[:id].eq(user.id))
   end
 end

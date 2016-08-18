@@ -27,41 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-    class PlanningElementTypesController < TypesController
-      include ::Api::V2::ApiController
+class Authorization::AbstractQuery
+  class_attribute :model
 
-      # Before filters are inherited from TypesController.
-      # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+  def self.query(*args)
+    arel = transformed_query(*args)
 
-      accept_key_auth :index, :show
+    model.joins(joins(arel))
+         .where(wheres(arel))
+         .distinct
+  end
 
-      def index
-        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
+  def self.transformed_query(*args)
+    run_transformations(*args)
+  end
 
-        respond_to do |format|
-          format.api
-        end
-      end
+  class_attribute :transformations
 
-      def show
-        @type = if @project.nil?
-                  ::Type.find_by(id: params[:id])
-                else
-                  @project.types.find_by(id: params[:id])
-                end
+  self.transformations = ::Authorization::QueryTransformations.new
 
-        if @type
-          respond_to do |format|
-            format.api
-          end
-        else
-          render_404
-        end
-      end
-    end
+  def self.inherited(subclass)
+    subclass.transformations = transformations.copy
+  end
+
+  def self.run_transformations(*args)
+    query = base_query
+
+    transformator = Authorization::QueryTransformationVisitor.new(transformations: transformations,
+                                                                  args: args)
+
+    transformator.accept(query)
+
+    query
+  end
+
+  def self.wheres(arel)
+    arel.ast.cores.last.wheres.last
+  end
+
+  def self.joins(arel)
+    arel.join_sources
   end
 end
