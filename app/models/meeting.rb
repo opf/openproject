@@ -138,7 +138,7 @@ class Meeting < ActiveRecord::Base
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
     changeable_participants = changeable_participants + \
-                              project.users.includes(memberships: [:roles, :project]).select { |u| self.visible?(u) }
+                              User.allowed_members(:view_meetings, project)
 
     changeable_participants.uniq(&:id)
   end
