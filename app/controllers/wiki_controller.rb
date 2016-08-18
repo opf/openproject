@@ -150,6 +150,7 @@ class WikiController < ApplicationController
       return
     end
     @content = @page.content_for_version(params[:version])
+    @content.updated_on = params[:updated_on]
     if User.current.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'html'
         export = render_to_string action: 'export', layout: false

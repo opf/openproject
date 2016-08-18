@@ -115,7 +115,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% line_num = 1 %>
           <% @versions.each do |ver| %>
             <tr class="wiki-page-version">
-              <td class="id -short"><%= link_to h(ver.version), action: 'show', id: @page, project_id: @page.project, version: ver.version %></td>
+              <td class="id -short"><%= link_to h(ver.version), action: 'show', id: @page, project_id: @page.project, version: ver.version, updated_on: ver.created_at %></td>
               <td class="checkbox -short">
                 <% if show_diff && (line_num < @versions.size)  %>
                   <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%= t(:description_compare_from) + ' ' + t(:label_version) + " " + h(ver.version.to_s) %></label>
