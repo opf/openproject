@@ -159,7 +159,7 @@ function addFileField() {
   var clone = $('attachment_template').cloneNode(true);
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
-  jQuery('attachments_fields').appendChild(clone);
+  jQuery('#attachments_fields')[0].appendChild(clone);
 }
 
 function randomKey(size) {
