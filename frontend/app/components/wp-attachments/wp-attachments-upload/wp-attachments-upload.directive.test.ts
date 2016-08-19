@@ -130,29 +130,21 @@ describe('wpAttachmentsUpload directive', () => {
     });
   };
 
-  const testFileUpload = additional => {
+  const testFileUpload = test => {
     describe('when uploading files', () => {
       var file;
-      var directory;
       var files;
-      var filtered;
 
       beforeEach(() => {
         file = {type: 'file'};
-        directory = {type: 'directory'};
-        files = [file, directory];
-        filtered = [file];
+        files = [file, file];
         controller.files = files;
 
         const ngfController: any = wrapperElement.controller('ngfDrop');
         ngfController.ngfChange();
       });
 
-      it('should remove files of type `directory`', () => {
-        expect(controller.files).to.have.members(filtered);
-      });
-
-      additional();
+      test();
     });
   };
 

@@ -59,8 +59,6 @@ export class WorkPackageUploadDirectiveController {
    * upload the files and reset the files array.
    */
   public upload(): void {
-    _.remove(this.files, (file: any) => file.type === 'directory');
-
     if (this.workPackage.isNew) {
       this.attachments.push(...this.files);
     }

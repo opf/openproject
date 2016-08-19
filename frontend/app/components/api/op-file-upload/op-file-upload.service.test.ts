@@ -51,7 +51,9 @@ describe('opFileUpload service', () => {
       name: 'name',
       description: 'description'
     };
-    const files = [file, file];
+    const directory: any = {type: 'directory'};
+    const files = [file, file, directory, directory];
+    const filtered = [file, file];
 
     beforeEach(() => {
       uploadStub = sinon.stub(Upload, 'upload');
@@ -63,8 +65,12 @@ describe('opFileUpload service', () => {
       uploadStub.restore();
     });
 
-    it('should call upload once for every file', () => {
-      expect(uploadStub.callCount).to.equal(files.length);
+    it('should call upload once for every file, that is no directory', () => {
+      expect(uploadStub.callCount).to.equal(filtered.length);
+    });
+
+    it('should not mutate the original files array', () => {
+      expect(files).to.have.length(4);
     });
 
     it('should call upload with the correct parameters', () => {
@@ -81,7 +87,7 @@ describe('opFileUpload service', () => {
     });
 
     it('should return a result object that contains each upload in an array', () => {
-      expect(result.uploads).to.have.length(files.length);
+      expect(result.uploads).to.have.length(filtered.length);
     });
 
     it('should return a resolved promise that is the summary of the uploads', () => {

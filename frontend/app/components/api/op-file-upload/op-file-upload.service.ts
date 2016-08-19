@@ -46,19 +46,24 @@ export class OpenProjectFileUploadService {
 
   /**
    * Upload multiple files using `ngFileUpload` and return a single promise.
+   * Ignore directories.
    */
   public upload(url: string, files: UploadFile[]): UploadResult {
-    const uploads = _.map(files, (file: UploadFile) => this.Upload.upload({
-      file, url,
-      fields: {
-        metadata: {
-          description: file.description,
-          fileName: file.name,
-        }
-      }
-    }));
-    const finished = this.$q.all(uploads);
+    files = _.filter(files, file => file.type !== 'directory');
+    const uploads = _.map(files, (file: UploadFile) => {
+      const params = {
+        fields: {
+          metadata: {
+            description: file.description,
+            fileName: file.name,
+          }
+        },
+        file, url
+      };
 
+      return this.Upload.upload(params);
+    });
+    const finished = this.$q.all(uploads);
     return {uploads, finished};
   }
 }
