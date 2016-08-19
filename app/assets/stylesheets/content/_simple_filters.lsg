@@ -8,6 +8,7 @@ By default, simple filters have a two columned layout.
 @full-width
 
 <fieldset class="simple-filters--container">
+  <a title="Close filter" class="simple-filters--close icon-context icon-close" onClick="hideFilter(jQuery(this.parentElement))"></a>
   <legend>Simple Filters</legend>
   <ul class="simple-filters--filters">
     <li class="simple-filters--filter">
@@ -34,12 +35,13 @@ By default, simple filters have a two columned layout.
 </fieldset>
 ```
 
-If desired, the simple filter can have three columns.
+If desired, the simple filter can have three columns. Analogical the filter can also have four columns with '-columns-4'.
 
 ```
 @full-width
 
 <fieldset class="simple-filters--container">
+  <a title="Close filter" class="simple-filters--close icon-context icon-close" onClick="hideFilter(jQuery(this.parentElement))"></a>
   <legend>Simple Filters</legend>
   <ul class="simple-filters--filters -columns-3">
     <li class="simple-filters--filter">
