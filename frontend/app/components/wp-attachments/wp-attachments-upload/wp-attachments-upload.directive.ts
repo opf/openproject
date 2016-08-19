@@ -34,7 +34,6 @@ export class WorkPackageUploadDirectiveController {
   public workPackage: WorkPackageResourceInterface;
   public attachments: any[];
   public text: any;
-  public canUpload: boolean = false;
   public maxFileSize: number;
   public files: File[] = [];
   public rejectedFiles: File[] = [];
@@ -44,7 +43,6 @@ export class WorkPackageUploadDirectiveController {
       dropFiles: I18n.t('js.label_drop_files'),
       dropFilesHint: I18n.t('js.label_drop_files_hint')
     };
-    this.canUpload = !!this.workPackage.addAttachment || this.workPackage.isNew;
 
     ConfigurationService.api().then(settings => {
       this.maxFileSize = settings.maximumAttachmentFileSize;

@@ -45,6 +45,24 @@ describe('WorkPackageResource service', () => {
   var NotificationsService: any;
   var wpNotificationsService: any;
 
+  var source: any;
+  var workPackage: WorkPackageResourceInterface;
+
+  const createWorkPackage = () => {
+    workPackage = new WorkPackageResource(source);
+  };
+
+  const expectUncachedRequest = href => {
+    $httpBackend
+      .expectGET(href, headers => headers.caching.enabled === false)
+      .respond(200, {_links: {self: {href}}});
+  };
+
+  const expectUncachedRequests = (...urls) => {
+    urls.forEach(expectUncachedRequest);
+    $httpBackend.flush();
+  };
+
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
                                            _$rootScope_,
@@ -64,35 +82,16 @@ describe('WorkPackageResource service', () => {
       NotificationsService,
       wpNotificationsService
     ] = _.toArray(arguments);
+
+    source = {};
   }));
 
   it('should exist', () => {
     expect(WorkPackageResource).to.exist;
   });
 
-  var source: any;
-  var workPackage: WorkPackageResourceInterface;
-
-  const createWorkPackage = () => {
-    workPackage = new WorkPackageResource(source);
-  };
-
-  const expectUncachedRequest = href => {
-    $httpBackend
-      .expectGET(href, headers => headers.caching.enabled === false)
-      .respond(200, {_links: {self: {href}}});
-  };
-
-  const expectUncachedRequests = (...urls) => {
-    urls.forEach(expectUncachedRequest);
-    $httpBackend.flush();
-  };
-
   describe('when creating an empty work package', () => {
-    beforeEach(() => {
-      source = {};
-      createWorkPackage();
-    });
+    beforeEach(createWorkPackage);
 
     it('should have an attachments property of type `AttachmentCollectionResource`', () => {
       expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
@@ -100,6 +99,42 @@ describe('WorkPackageResource service', () => {
 
     it('should return true for `isNew`', () => {
       expect(workPackage.isNew).to.be.true;
+    });
+  });
+
+  describe('when retrieving `canAddAttachment`', () => {
+    beforeEach(createWorkPackage);
+
+    const expectValue = (value, prepare = angular.noop) => {
+      value = value.toString();
+
+      beforeEach(prepare);
+      it('should be ' + value, () => {
+        expect(workPackage.canAddAttachments).to.be[value];
+      });
+    };
+
+    describe('when the work package is new', () => {
+      expectValue(true);
+    });
+
+    describe('when the work package is not new', () => {
+      expectValue(false, () => {
+        workPackage.id = 420;
+      });
+    });
+
+    describe('when the work work package has no `addAttachment` link and is not new', () => {
+      expectValue(false, () => {
+        workPackage.id = 69;
+        workPackage.$links.addAttachment = null;
+      });
+    });
+
+    describe('when the work work package has an `addAttachment` link', () => {
+      expectValue(true, () => {
+        workPackage.$links.addAttachment = <any> angular.noop;
+      });
     });
   });
 
@@ -297,6 +332,5 @@ describe('WorkPackageResource service', () => {
       });
     });
   });
-})
-;
+});
 

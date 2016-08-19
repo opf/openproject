@@ -75,7 +75,7 @@ describe('wpAttachmentsUpload directive', () => {
           work-package="workPackage"></wp-attachments-upload>`;
 
     uploadAttachments = sinon.stub().returns($q.when());
-    workPackage = {uploadAttachments};
+    workPackage = {canAddAttachments: false, uploadAttachments};
 
     const scope: any = $rootScope.$new();
     scope.workPackage = workPackage;
@@ -107,29 +107,6 @@ describe('wpAttachmentsUpload directive', () => {
     expect(controller.maxFileSize).to.eq(mockMaxSize);
   });
 
-  const testDirectiveIsDisplayed = () => {
-    it('should display the directive', () => {
-      expect(wrapperElement).to.have.length(1);
-    });
-  };
-
-  const testCanUploadIsTrue = prepare => {
-    beforeEach(() => {
-      prepare();
-      compile();
-    });
-
-    testDirectiveIsDisplayed();
-
-    it('should set the controller property `canUpload` to true', () => {
-      expect(controller.canUpload).to.be.true;
-    });
-
-    it('should set the max size property of the element to the configured value', () => {
-      expect(wrapperElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
-    });
-  };
-
   const testFileUpload = test => {
     describe('when uploading files', () => {
       var file;
@@ -148,35 +125,50 @@ describe('wpAttachmentsUpload directive', () => {
     });
   };
 
-  describe('when the work package has an `addAttachment` property', () => {
-    testCanUploadIsTrue(() => {
-      workPackage.addAttachment = true;
+  describe('when it is possible to add attachments to the work package', () => {
+    beforeEach(() => {
+      workPackage.canAddAttachments = true;
+      compile();
     });
 
-    testFileUpload(() => {
-      it('should have called uploadAttachments() with the given files', () => {
-        expect(uploadAttachments.calledWith(controller.files)).to.be.true;
-      });
-
-      it('should reset the files array', () => {
-        $rootScope.$apply();
-        expect(controller.files).to.have.length(0);
-      });
-    });
-  });
-
-  describe('when the work package is new', () => {
-    testCanUploadIsTrue(() => {
-      workPackage.isNew = true;
+    it('should display the directive', () => {
+      expect(wrapperElement).to.have.length(1);
     });
 
-    testFileUpload(() => {
-      it('should have updated the attachments property of the controller', () => {
-        expect(controller.attachments).to.have.members(controller.files);
+    it('should set the max size property of the element to the configured value', () => {
+      expect(wrapperElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
+    });
+
+    describe('when the work package is not new', () => {
+      beforeEach(() => {
+        workPackage.isNew = false;
       });
 
-      it('should not have called the uploadAttachments method of the work package', () => {
-        expect(uploadAttachments.called).to.be.false;
+      testFileUpload(() => {
+        it('should have called uploadAttachments() with the given files', () => {
+          expect(uploadAttachments.calledWith(controller.files)).to.be.true;
+        });
+
+        it('should reset the files array', () => {
+          $rootScope.$apply();
+          expect(controller.files).to.have.length(0);
+        });
+      });
+    });
+
+    describe('when the work package is new', () => {
+      beforeEach(() => {
+        workPackage.isNew = true;
+      });
+
+      testFileUpload(() => {
+        it('should have updated the attachments property of the controller', () => {
+          expect(controller.attachments).to.have.members(controller.files);
+        });
+
+        it('should not have called the uploadAttachments method of the work package', () => {
+          expect(uploadAttachments.called).to.be.false;
+        });
       });
     });
   });

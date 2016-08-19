@@ -171,6 +171,16 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
+   * Return whether the user is able to upload an attachment.
+   *
+   * If either the `addAttachment` link is provided or the resource is being created,
+   * adding attachments is allowed.
+   */
+  public get canAddAttachments(): boolean {
+    return !!this.$links.addAttachment || this.isNew;
+  }
+
+  /**
    * Initialise the work package resource.
    *
    * Make the attachments an `AttachmentCollectionResource`. This should actually
