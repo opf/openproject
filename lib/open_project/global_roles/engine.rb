@@ -47,7 +47,26 @@ module OpenProject::GlobalRoles
     end
 
     config.to_prepare do
-      User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
+      principal_roles_table = PrincipalRole.arel_table
+      query = Authorization::UserGlobalRolesQuery
+      roles_table = query.roles_table
+      users_table = query.users_table
+
+      query.transformations
+           .register :all,
+                     :principal_roles_join,
+                     before: [:roles_join] do |statement, user|
+
+        statement.outer_join(principal_roles_table)
+                 .on(users_table[:id].eq(principal_roles_table[:principal_id]))
+      end
+
+      query.transformations
+           .register query.roles_member_roles_join,
+                     :or_is_principal_role do |statement, user|
+
+        statement.or(principal_roles_table[:role_id].eq(roles_table[:id]))
+      end
     end
   end
 end
