@@ -41,10 +41,7 @@ describe('AttachmentCollectionResource service', () => {
   ));
   beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_,
                                            _opFileUpload_) {
-    [
-      AttachmentCollectionResource,
-      opFileUpload
-    ] = _.toArray(arguments);
+    [AttachmentCollectionResource, opFileUpload] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
@@ -60,17 +57,40 @@ describe('AttachmentCollectionResource service', () => {
       }, true);
     });
 
-    describe('when uploading files', () => {
-      var files: any[] = [{}, {}];
+    it('should have no pending attachments', () => {
+      expect(collection.pending).to.have.length(0);
+    });
+
+    describe('when using upload()', () => {
       var uploadStub: SinonStub;
+      var calledWith;
+      var params;
+
+      const testUploadMethod = prepare => {
+        beforeEach(() => {
+          prepare();
+          collection.upload(params);
+        });
+
+        it('should upload the files as expected', () => {
+          expect(uploadStub.calledWith(collection.$href, calledWith)).to.be.true;
+        });
+      };
 
       beforeEach(() => {
         uploadStub = sinon.stub(opFileUpload, 'upload');
-        collection.upload(files);
       });
 
-      it('should call the `opFileUpload` service accordingly', () => {
-        expect(uploadStub.calledWith(collection.$href, files)).to.be.true;
+      describe('when using it without parameters', () => {
+        testUploadMethod(() => {
+          calledWith = collection.pending;
+        });
+      });
+
+      describe('when using it with parameters', () => {
+        testUploadMethod(() => {
+          calledWith = params = [{}, {}];
+        });
       });
     });
   });

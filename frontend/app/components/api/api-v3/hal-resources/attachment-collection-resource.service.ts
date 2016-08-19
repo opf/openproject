@@ -39,9 +39,14 @@ var opFileUpload: OpenProjectFileUploadService;
 
 export class AttachmentCollectionResource extends CollectionResource {
   /**
+   * Pending attachments - files that are ready to be uploaded.
+   */
+  public pending: UploadFile[] = [];
+
+  /**
    * Upload the given files to the $href property of this resource.
    */
-  public upload(files: UploadFile[]): UploadResult {
+  public upload(files: UploadFile[] = this.pending): UploadResult {
     return opFileUpload.upload(this.$href, files);
   }
 }
