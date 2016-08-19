@@ -35,24 +35,9 @@ import IQService = angular.IQService;
 
 describe('wpAttachments directive', () => {
   var $q:IQService;
-  var controller:WorkPackageAttachmentsController;
   var files;
-  var workPackage = {
-    id: 1234,
-    attachments: {
-      $load: () => $q.when({elements: []}),
-      $unload: angular.noop,
-      href: '/api/v3/work_packages/1/attachments',
-    },
-    activities: {
-      $load: () => $q.when({elements: []}),
-      $unload: angular.noop,
-      href: '/api/v3/work_packages/1/activities',
-    },
-    updateLinkedResources: () => null,
-    updateAttachments: () => null,
-    uploadAttachments: () => null
-  };
+  var controller:WorkPackageAttachmentsController;
+  var workPackage = {};
 
   beforeEach(angular.mock.module(
     openprojectModule.name,
@@ -62,11 +47,6 @@ describe('wpAttachments directive', () => {
 
   var loadPromise;
   var apiPromise;
-  var configurationService = {api: () => apiPromise};
-
-  beforeEach(angular.mock.module(opConfigModule, $provide => {
-    $provide.value('ConfigurationService', configurationService);
-  }));
 
   beforeEach(angular.mock.inject(function ($rootScope, $compile, $httpBackend, _$q_) {
     $q = _$q_;
@@ -89,28 +69,4 @@ describe('wpAttachments directive', () => {
 
     controller = element.controller('wpAttachments');
   }));
-
-  describe('when using filterFiles', () => {
-    beforeEach(() => {
-      controller.filterFiles(files);
-    });
-
-    it('should filter out attachments of type `directory`', () => {
-      expect(files).to.eql([{type: 'file'}]);
-    });
-  });
-
-  describe('when using uploadFilteredFiles', () => {
-    var uploadStub;
-
-    beforeEach(() => {
-      controller.files = files;
-      uploadStub = sinon.stub(workPackage, 'uploadAttachments').returns({then: call => call()});
-      controller.uploadFilteredFiles(files);
-    });
-
-    it('should trigger uploading of non directory files', () => {
-      expect(uploadStub.calledWith([{type: 'file'}])).to.be.true;
-    });
-  });
 });

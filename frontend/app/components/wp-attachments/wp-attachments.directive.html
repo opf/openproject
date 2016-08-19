@@ -42,24 +42,8 @@
     </div>
   </div>
 
-  <div
-      ng-show="$ctrl.hasRightToUpload"
-      ngf-drop
-      ng-model="$ctrl.files"
-      ng-model-rejected="$ctrl.rejectedFiles"
-      ngf-select
-      class="work-package--attachments--drop-box"
-      ngf-multiple="true"
-      ngf-change="$ctrl.uploadFilteredFiles($files)"
-      ngf-max-size="{{::$ctrl.maximumFileSize}}"
-      role="link"
-      click-on-keypress="[13, 32]">
-    <div class="work-package--attachments--label">
-      <i class="icon-attachment"></i>
-      <p>
-        {{ ::$ctrl.text.dropFiles }} <br>
-        {{ ::$ctrl.text.dropFilesHint }}
-      </p>
-    </div>
-  </div>
+  <wp-attachments-upload
+      attachments="$ctrl.attachments"
+      work-package="$ctrl.workPackage"
+  ></wp-attachments-upload>
 </div>

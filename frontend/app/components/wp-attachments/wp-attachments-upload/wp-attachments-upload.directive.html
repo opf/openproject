@@ -1,0 +1,19 @@
+<div
+    ng-if="$ctrl.canUpload"
+    ngf-drop
+    ng-model="$ctrl.files"
+    ng-model-rejected="$ctrl.rejectedFiles"
+    ngf-select
+    class="work-package--attachments--drop-box"
+    ngf-multiple="true"
+    ngf-change="$ctrl.upload()"
+    ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+    click-on-keypress="[13, 32]">
+  <div class="work-package--attachments--label">
+    <i class="icon-attachment"></i>
+    <p>
+      {{ ::$ctrl.text.dropFiles }} <br>
+      {{ ::$ctrl.text.dropFilesHint }}
+    </p>
+  </div>
+</div>

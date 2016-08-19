@@ -34,45 +34,23 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {CollectionResourceInterface} from '../api/api-v3/hal-resources/collection-resource.service';
 
 export class WorkPackageAttachmentsController {
-  public text: any;
-
   public workPackage: WorkPackageResourceInterface;
-
+  public text: any;
   public attachments: any[] = [];
-  public fetchingConfiguration: boolean = false;
-  public files: File[] = [];
-  public hasRightToUpload: boolean = false;
-  public loading: boolean = false;
-  public rejectedFiles: any[] = [];
-
-  public settings = {
-    maximumFileSize: null
-  };
-
   public size: any;
+  public loading: boolean = false;
 
   private currentlyFocusing;
 
   constructor(protected $scope: any,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
-              protected I18n: op.I18n,
-              protected ConfigurationService: any) {
+              protected I18n: op.I18n) {
 
     this.text = {
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint'),
       destroyConfirmation: I18n.t('js.text_attachment_destroy_confirmation'),
       removeFile: arg => I18n.t('js.label_remove_file', arg)
     };
-
-    this.hasRightToUpload = !!this.workPackage.addAttachment || this.workPackage.isNew;
-
-    this.fetchingConfiguration = true;
-    ConfigurationService.api().then(settings => {
-      this.settings.maximumFileSize = settings.maximumAttachmentFileSize;
-      this.fetchingConfiguration = false;
-    });
 
     if (this.workPackage && this.workPackage.attachments) {
       this.loadAttachments(false);
@@ -109,19 +87,6 @@ export class WorkPackageAttachmentsController {
       });
   }
 
-  public upload(): void {
-    if (this.workPackage.isNew) {
-      this.attachments.push(...this.files);
-    }
-    else if (this.files.length > 0) {
-      this.workPackage
-        .uploadAttachments(<any> this.files)
-        .then(() => {
-          this.files = [];
-        });
-    }
-  };
-
   public loadAttachments(refresh: boolean = true): ng.IPromise<any> {
     this.loading = true;
 
@@ -152,22 +117,10 @@ export class WorkPackageAttachmentsController {
 
   public focus(attachment: any): void {
     this.currentlyFocusing = attachment;
-  };
+  }
 
   public focusing(attachment: any): boolean {
     return this.currentlyFocusing === attachment;
-  };
-
-  public filterFiles(files): void {
-    // Directories cannot be uploaded and as such, should not become files in
-    // the sense of this directive.  The files within the directories will
-    // be taken though.
-    _.remove(files, (file: any) => file.type === 'directory');
-  };
-
-  public uploadFilteredFiles(files): void {
-    this.filterFiles(files);
-    this.upload();
   }
 }
 
