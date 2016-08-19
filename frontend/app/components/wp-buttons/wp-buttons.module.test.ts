@@ -139,7 +139,7 @@ describe('WP button directives', () => {
     });
 
     it('should not have a label with an access key', () => {
-      expect(label.attr('accesskey')).not.to.eq(controller.activeAccessKey);
+      expect(button.attr('accesskey')).not.to.eq(controller.activeAccessKey);
     });
 
     it("should have the button class set to '-active' ", () => {
@@ -155,11 +155,11 @@ describe('WP button directives', () => {
 
   describe('when not active', () => {
     it('should have a label with an access key attribute', () => {
-      expect(parseInt(label.attr('accesskey'))).to.eq(controller.activeAccessKey);
+      expect(parseInt(button.attr('accesskey'))).to.eq(controller.activeAccessKey);
     });
 
     it("should have the 'activate' prefix in the text values", () => {
-      expect(label.text()).to.contain('activate');
+      expect(button.text()).to.contain('activate');
     });
   });
 });
