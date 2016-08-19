@@ -606,6 +606,27 @@ a.impaired--empty-link,
       margin-top: -60px
 
 
-// Override default margin to allow correct vertical alignment
-#members_add_form .button
-  margin-bottom: 0
+#members_add_form
+  .-flex
+    display: flex
+    align-items: center
+
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
+    // workaround to put the button next to the select box
+    flex-basis: 100%
+    margin-right: 65%
+
+    margin-bottom: 0
+    margin-left: 1rem
+    margin-top: 0.5rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
+
+@include breakpoint(680px down)
+  #members_add_form
+    .-flex
+      align-items: flex-start
+      flex-direction: column
+    #add-member--submit-button
+      margin-left: 0
