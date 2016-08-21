@@ -37,6 +37,7 @@ Please jump directly to the part of this guide depending on your OpenProject ver
     sudo openproject configure
 
 ### CentOS / RHEL 6 64 bits server
+At the moment there is no CentOS / RHEL 7 repo available. Please use the "Fedora 20" configuration instead.
 
     echo "[openproject]
     name=Repository for opf/openproject application.
@@ -77,6 +78,7 @@ Please jump directly to the part of this guide depending on your OpenProject ver
     sudo openproject-ce configure
 
 ### CentOS / RHEL 6 64 bits server
+At the moment there is no CentOS / RHEL 7 repo available. Please use the "Fedora 20" configuration instead.
 
     echo "[pkgr-openproject-community]
     name=Repository for finnlabs/pkgr-openproject-community application.
