@@ -148,6 +148,7 @@ RSpec.configure do |config|
 
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = true
+    c.verify_partial_doubles = true
   end
 
   # include spec/api for API request specs
