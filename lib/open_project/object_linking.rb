@@ -33,7 +33,7 @@ module OpenProject
     def link_to_user(user, options = {})
       if user.is_a?(User)
         name = user.name(options.delete(:format))
-        if user.active? || user.registered?
+        if user.active? || user.registered? || user.invited?
           link_to(name, user, options)
         else
           name

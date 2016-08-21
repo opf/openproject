@@ -55,7 +55,7 @@ Redmine::AccessControl.map do |map|
 
   map.permission :manage_members,
                  { projects: :settings,
-                   members: [:create, :update, :destroy, :autocomplete_for_member] },
+                   members: [:index, :new, :create, :update, :destroy, :autocomplete_for_member] },
                  require: :member
 
   map.permission :manage_versions,

@@ -45,7 +45,8 @@ OpenProject::Application.routes.draw do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
-    match '/account/register', action: 'register', via: [:get, :post]
+    match '/account/register', action: 'register', via: [:get, :post, :patch]
+    get 'signup'
 
     # omniauth routes
     match '/auth/:provider/callback', action: 'omniauth_login',
@@ -323,7 +324,7 @@ OpenProject::Application.routes.draw do
 
     resources :categories, except: [:index, :show], shallow: true
 
-    resources :members, only: [:create, :update, :destroy], shallow: true do
+    resources :members, only: [:index, :new, :create, :update, :destroy], shallow: true do
       get :autocomplete, on: :collection
     end
 

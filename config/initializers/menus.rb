@@ -267,6 +267,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             if: Proc.new { |p| p.project_type.try :allows_association },
             html: { class: 'icon2 icon-dependency' }
 
+  menu.push :members,
+            { controller: :members, action: :index },
+            param: :project_id,
+            caption: :label_member_plural,
+            html: { class: 'icon2 icon-group' }
+
   menu.push :settings,
             { controller: '/projects', action: 'settings' },
             caption: :label_project_settings,

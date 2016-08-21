@@ -27,6 +27,7 @@
 #++
 
 en:
+  label_invitation: Invitation
   account:
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
@@ -52,6 +53,9 @@ en:
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
     login_with_auth_provider: "or sign in with your existing account"
+    signup_with_auth_provider: "or sign up using"
+    signup_with_password: "using user name and password."
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -903,7 +907,7 @@ en:
   label_preview: "Preview"
   label_previous: "Previous"
   label_previous_week: "Previous week"
-  label_principal_search: "Search for users or groups"
+  label_principal_search: "Search for users or groups, or invite users via email"
   label_profile: "Profile"
   label_project_all: "All Projects"
   label_project_copy_notifications: "Send email notifications during the project copy"
@@ -1367,6 +1371,8 @@ en:
   show_hide_project_menu: "Show/Hide project menu"
 
   status_active: "active"
+  status_invited: invited
+  status_registered: registered
 
   # Used in array.to_sentence.
   support:
@@ -1671,6 +1677,7 @@ en:
     lock: "Lock permanently"
     locked: "locked permanently"
     registered: "registered"
+    invited: invited
     reset_failed_logins: "Reset failed logins"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     unlock: "Unlock"
@@ -1678,6 +1685,7 @@ en:
     no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
     password_change_unsupported: Change of password is not supported.
     authorization_rejected: "You are not allowed to sign in."
+    invite: Invite user via e-mail
 
   version_status_closed: "closed"
   version_status_locked: "locked"

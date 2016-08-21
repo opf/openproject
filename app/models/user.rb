@@ -39,7 +39,8 @@ class User < Principal
     builtin: 0,
     active: 1,
     registered: 2,
-    locked: 3
+    locked: 3,
+    invited: 4
   }
 
   USER_FORMATS_STRUCTURE = {
@@ -233,12 +234,12 @@ class User < Principal
   register_allowance_evaluator OpenProject::PrincipalAllowanceEvaluator::Default
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.try_to_login(login, password, session)
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
     user = if user
-             try_authentication_for_existing_user(user, password)
+             try_authentication_for_existing_user(user, password, session)
            else
              try_authentication_and_create_user(login, password)
     end
@@ -251,8 +252,11 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password)
+  def self.try_authentication_for_existing_user(user, password, session = nil)
+    activate_user! user, session if session
+
     return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+
     if user.auth_source
       # user has an external authentication method
       return nil unless user.auth_source.authenticate(user.login, password)
@@ -263,6 +267,19 @@ class User < Principal
       return nil if user.password_expired?
     end
     user
+  end
+
+  def self.activate_user!(user, session)
+    if session[:invitation_token]
+      token = Token.find_by_value session[:invitation_token]
+      invited_id = token && token.user.id
+
+      if user.id == invited_id
+        user.activate!
+        token.destroy!
+        session.delete :invitation_token
+      end
+    end
   end
 
   # Tries to authenticate with available sources and creates user on success
@@ -346,6 +363,10 @@ class User < Principal
     self.status = STATUSES[:registered]
   end
 
+  def invite
+    self.status = STATUSES[:invited]
+  end
+
   def lock
     self.status = STATUSES[:locked]
   end
@@ -356,6 +377,22 @@ class User < Principal
 
   def register!
     update_attribute(:status, STATUSES[:registered])
+  end
+
+  def invite!
+    update_attribute(:status, STATUSES[:invited])
+  end
+
+  def registered?
+    status == STATUSES[:registered]
+  end
+
+  def invited?
+    status == STATUSES[:invited]
+  end
+
+  def active?
+    status == STATUSES[:active]
   end
 
   def lock!
