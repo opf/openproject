@@ -57,12 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
         <div class="form--field"><%= setting_text_field :password_count_former_banned, size: 6 %></div>
         <div class="form--field"><%= setting_check_box :lost_password, label: :label_password_lost %></div>
-        <div class="form--field">
-          <%= setting_check_box :internal_password_confirmation %>
-          <span class="form--field-instructions">
-            <%= simple_format t('settings.instructions.internal_password_confirmation') %>
-          </span>
-        </div>
       <% else %>
         <div class="form--field">
           <label><%= I18n.t :note %></label>

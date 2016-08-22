@@ -332,6 +332,3 @@ repository_checkout_data:
 api_max_page_size:
   format: int
   default: 500
-internal_password_confirmation:
-  format: boolean
-  default: 1

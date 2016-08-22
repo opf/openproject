@@ -45,6 +45,7 @@ module Concerns::PasswordConfirmation
   # Returns whether password confirmation has been enabled globally
   # AND the current user is internally authenticated.
   def password_confirmation_required?
-    Setting.internal_password_confirmation? && !User.current.uses_external_authentication?
+    OpenProject::Configuration.internal_password_confirmation? &&
+      !User.current.uses_external_authentication?
   end
 end

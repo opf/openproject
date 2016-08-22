@@ -36,8 +36,7 @@ describe 'my', type: :feature, js: true do
                        mail: 'old@mail.com',
                        login: 'bob',
                        password: user_password,
-                       password_confirmation: user_password
-                      )
+                       password_confirmation: user_password)
   end
 
   ##
@@ -68,14 +67,14 @@ describe 'my', type: :feature, js: true do
       end
 
       context 'when confirmation disabled',
-              with_settings: { internal_password_confirmation?: false } do
+              with_config: { internal_password_confirmation: false } do
         it 'does not request confirmation' do
           expect_changed!
         end
       end
 
       context 'when confirmation required',
-              with_settings: { internal_password_confirmation?: true } do
+              with_config: { internal_password_confirmation: true } do
         it 'requires the password for a regular user' do
           dialog.confirm_flow_with(user_password)
           expect_changed!
