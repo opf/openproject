@@ -1,12 +1,12 @@
 <div
     ng-if="$ctrl.workPackage.canAddAttachments"
     ngf-drop
-    ng-model="$ctrl.workPackage.attachments.pending"
+    ng-model="$ctrl.workPackage.pendingAttachments"
     ng-model-rejected="$ctrl.rejectedFiles"
     ngf-select
     class="work-package--attachments--drop-box"
     ngf-multiple="true"
-    ngf-change="$ctrl.workPackage.uploadAttachments()"
+    ngf-change="$ctrl.workPackage.uploadPendingAttachments()"
     ngf-max-size="{{ ::$ctrl.maxFileSize }}"
     click-on-keypress="[13, 32]">
   <div class="work-package--attachments--label">

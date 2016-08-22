@@ -123,6 +123,8 @@ export class WorkPackageResource extends HalResource {
   public activities: CollectionResourceInterface;
   public attachments: AttachmentCollectionResourceInterface;
 
+  public pendingAttachments: UploadFile[] = [];
+
   private form;
 
   public get isNew(): boolean {
@@ -194,6 +196,16 @@ export class WorkPackageResource extends HalResource {
       attachments.$source,
       attachments.$loaded
     );
+  }
+
+  /**
+   * Upload the pending attachments if the work package exists.
+   * Do nothing, if the work package is being created.
+   */
+  public uploadPendingAttachments() {
+    if (!this.isNew) {
+      this.uploadAttachments(this.pendingAttachments);
+    }
   }
 
   /**
@@ -330,10 +342,13 @@ export class WorkPackageResource extends HalResource {
             this.$initialize(workPackage);
             this.$pristine = {};
             this.updateActivities();
-            deferred.resolve(this);
+
             if (wasNew) {
+              this.uploadPendingAttachments();
               wpCacheService.newWorkPackageCreated(this);
             }
+
+            deferred.resolve(this);
           })
           .catch(error => {
             deferred.reject(error);

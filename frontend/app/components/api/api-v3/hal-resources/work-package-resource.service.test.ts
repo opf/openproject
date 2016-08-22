@@ -46,7 +46,7 @@ describe('WorkPackageResource service', () => {
   var wpNotificationsService: any;
 
   var source: any;
-  var workPackage: WorkPackageResourceInterface;
+  var workPackage: any;
 
   const createWorkPackage = () => {
     workPackage = new WorkPackageResource(source);
@@ -261,7 +261,8 @@ describe('WorkPackageResource service', () => {
           activities: {
             href: 'activities'
           }
-        }
+        },
+        isNew: false
       };
       createWorkPackage();
     });
@@ -331,6 +332,35 @@ describe('WorkPackageResource service', () => {
         });
       });
     });
+
+    describe('when using uploadPendingAttachments', () => {
+      var uploadAttachmentsStub: SinonStub;
+
+      beforeEach(() => {
+        uploadAttachmentsStub = sinon.stub(workPackage, 'uploadAttachments');
+      });
+
+      describe('when the work package is new', () => {
+        beforeEach(() => {
+          workPackage.isNew = true;
+          workPackage.uploadPendingAttachments();
+        });
+
+        it('should not be called', () => {
+          expect(uploadAttachmentsStub.called).to.be.false;
+        });
+      });
+
+      describe('when the work package is not new', () => {
+        beforeEach(() => {
+          workPackage.isNew = false;
+          workPackage.uploadPendingAttachments();
+        });
+
+        it('should call the uploadAttachments method with the pendingAttachments', () => {
+          expect(uploadAttachmentsStub.calledWith(workPackage.pendingAttachments)).to.be.true;
+        });
+      });
+    });
   });
 });
-

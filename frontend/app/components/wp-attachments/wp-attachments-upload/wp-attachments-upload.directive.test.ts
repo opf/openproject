@@ -45,7 +45,7 @@ describe('wpAttachmentsUpload directive', () => {
   var wrapperElement: IAugmentedJQuery;
 
   var workPackage: any;
-  var uploadAttachments: SinonStub;
+  var uploadPendingAttachmentsStub: SinonStub;
   var mockMaxSize: number = 123;
 
   beforeEach(angular.mock.module(
@@ -74,11 +74,11 @@ describe('wpAttachmentsUpload directive', () => {
           attachments="attachments"
           work-package="workPackage"></wp-attachments-upload>`;
 
-    uploadAttachments = sinon.stub().returns($q.when());
+    uploadPendingAttachmentsStub = sinon.stub().returns($q.when());
     workPackage = {
       canAddAttachments: false,
       attachments: {pending: []},
-      uploadAttachments
+      uploadPendingAttachments: uploadPendingAttachmentsStub
     };
 
     const scope: any = $rootScope.$new();
@@ -127,7 +127,7 @@ describe('wpAttachmentsUpload directive', () => {
     });
 
     it('should have the ngModel property set to the pending attachments', () => {
-      expect(ngfController.ngModel).to.equal(workPackage.attachments.pending);
+      expect(ngfController.ngModel).to.equal(workPackage.pendingAttachments);
     });
 
     describe('when uploading files', () => {
@@ -136,7 +136,7 @@ describe('wpAttachmentsUpload directive', () => {
       });
 
       it('should call `uploadAttachments()`', () => {
-        expect(uploadAttachments.calledOnce).to.be.true;
+        expect(uploadPendingAttachmentsStub.calledOnce).to.be.true;
       });
     });
   });
