@@ -36,7 +36,7 @@ See doc/COPYRIGHT.md for more details.
 <div class="meetings meetings_by_month_year" id="activity">
 <% @meetings_by_start_year_month_date.each do |year,meetings_by_start_month_date| -%>
 <% meetings_by_start_month_date.each do |month,meetings_by_start_date| -%>
-  <h3 class="month_year"><%= "#{month_name(month)} #{year}" %></h3>
+  <h3 class="month_year"><%= ::I18n.t('date.month_names')[month] + " #{year}" %></h3>
   <div class="meetings_by_date">
   <% meetings_by_start_date.each do |date,meetings| -%>
     <h4 id="<%= date.strftime("%m-%d-%Y") %>" class="date"><%= format_activity_day(date) %></h4>
