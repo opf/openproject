@@ -54,7 +54,7 @@ module Redmine::MenuManager::MenuHelper
         menu.push "#{main_item.item_class}".to_sym,
                   { controller: '/wiki', action: 'show', id: main_item.slug },
                   param: :project_id,
-                  caption: main_item.name,
+                  caption: main_item.title,
                   after: :repository,
                   html: { class: 'icon2 icon-wiki' }
 
@@ -62,7 +62,7 @@ module Redmine::MenuManager::MenuHelper
           menu.push "#{child.item_class}".to_sym,
                     { controller: '/wiki', action: 'show', id: child.slug },
                     param: :project_id,
-                    caption: child.name,
+                    caption: child.title,
                     html:    { class: 'icon2 icon-wiki2' },
                     parent: "#{main_item.item_class}".to_sym
         end
