@@ -56,7 +56,7 @@ describe('wpAttachmentsUpload directive', () => {
     ($compileProvider: ICompileProvider) => {
       $compileProvider.directive('ngfDrop', () => ({
         restrict: 'A',
-        scope: {ngfChange: '&'},
+        scope: {ngfChange: '&', ngModel: '='},
 
         controller: angular.noop,
         controllerAs: '$ctrl',
@@ -75,13 +75,14 @@ describe('wpAttachmentsUpload directive', () => {
           work-package="workPackage"></wp-attachments-upload>`;
 
     uploadAttachments = sinon.stub().returns($q.when());
-    workPackage = {canAddAttachments: false, uploadAttachments};
+    workPackage = {
+      canAddAttachments: false,
+      attachments: {pending: []},
+      uploadAttachments
+    };
 
     const scope: any = $rootScope.$new();
     scope.workPackage = workPackage;
-    scope.attachments = [];
-
-    workPackage.uploadAttachments = uploadAttachments;
 
     ConfigurationService.api = () => $q.when({maximumAttachmentFileSize: mockMaxSize});
 
@@ -107,28 +108,14 @@ describe('wpAttachmentsUpload directive', () => {
     expect(controller.maxFileSize).to.eq(mockMaxSize);
   });
 
-  const testFileUpload = test => {
-    describe('when uploading files', () => {
-      var file;
-      var files;
-
-      beforeEach(() => {
-        file = {type: 'file'};
-        files = [file, file];
-        controller.files = files;
-
-        const ngfController: any = wrapperElement.controller('ngfDrop');
-        ngfController.ngfChange();
-      });
-
-      test();
-    });
-  };
-
   describe('when it is possible to add attachments to the work package', () => {
+    var ngfController;
+
     beforeEach(() => {
       workPackage.canAddAttachments = true;
       compile();
+
+      ngfController = wrapperElement.controller('ngfDrop');
     });
 
     it('should display the directive', () => {
@@ -139,36 +126,17 @@ describe('wpAttachmentsUpload directive', () => {
       expect(wrapperElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
     });
 
-    describe('when the work package is not new', () => {
-      beforeEach(() => {
-        workPackage.isNew = false;
-      });
-
-      testFileUpload(() => {
-        it('should have called uploadAttachments() with the given files', () => {
-          expect(uploadAttachments.calledWith(controller.files)).to.be.true;
-        });
-
-        it('should reset the files array', () => {
-          $rootScope.$apply();
-          expect(controller.files).to.have.length(0);
-        });
-      });
+    it('should have the ngModel property set to the pending attachments', () => {
+      expect(ngfController.ngModel).to.equal(workPackage.attachments.pending);
     });
 
-    describe('when the work package is new', () => {
+    describe('when uploading files', () => {
       beforeEach(() => {
-        workPackage.isNew = true;
+        ngfController.ngfChange();
       });
 
-      testFileUpload(() => {
-        it('should have updated the attachments property of the controller', () => {
-          expect(controller.attachments).to.have.members(controller.files);
-        });
-
-        it('should not have called the uploadAttachments method of the work package', () => {
-          expect(uploadAttachments.called).to.be.false;
-        });
+      it('should call `uploadAttachments()`', () => {
+        expect(uploadAttachments.calledOnce).to.be.true;
       });
     });
   });

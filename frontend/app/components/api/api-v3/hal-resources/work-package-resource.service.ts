@@ -197,22 +197,21 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Upload the given attachments, update the resource and the attachments.
-   * Notify the user about the changes.
+   * Upload the given attachments, update the resource and notify the user.
+   *
+   * If no files are provided, the attachment collection will upload its pending
+   * attachments.
    *
    * Return an updated AttachmentCollectionResource.
    */
-  public uploadAttachments(files: UploadFile[]): IPromise<any> {
+  public uploadAttachments(files?: UploadFile[]): IPromise<any> {
     const {uploads, finished} = this.attachments.upload(files);
     const message = I18n.t('js.label_upload_notification', this);
     const notification = NotificationsService.addWorkPackageUpload(message, uploads);
 
     return finished
       .then(() => {
-        $timeout(() => {
-          NotificationsService.remove(notification);
-        }, 700);
-
+        $timeout(() => NotificationsService.remove(notification), 700);
         return this.updateAttachments();
       })
       .catch(error => {

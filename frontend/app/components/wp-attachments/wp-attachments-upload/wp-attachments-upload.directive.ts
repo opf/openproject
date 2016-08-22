@@ -32,10 +32,8 @@ import IDirective = angular.IDirective;
 
 export class WorkPackageUploadDirectiveController {
   public workPackage: WorkPackageResourceInterface;
-  public attachments: any[];
   public text: any;
   public maxFileSize: number;
-  public files: File[] = [];
   public rejectedFiles: File[] = [];
 
   constructor(I18n, ConfigurationService) {
@@ -48,24 +46,6 @@ export class WorkPackageUploadDirectiveController {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
   }
-
-  /**
-   * Upload the files provided by ngFileUpload.
-   *
-   * If the work package is being created, add the files to the provided attachments array.
-   * If the work package exists and the user has the permission to upload,
-   * upload the files and reset the files array.
-   */
-  public upload(): void {
-    if (this.workPackage.isNew) {
-      this.attachments.push(...this.files);
-    }
-    else if (this.files.length > 0) {
-      this.workPackage.uploadAttachments(<any> this.files).then(() => {
-        this.files = [];
-      });
-    }
-  };
 }
 
 function wpUploadDirective(): IDirective {
@@ -74,8 +54,7 @@ function wpUploadDirective(): IDirective {
     templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
 
     scope: {
-      workPackage: '=',
-      attachments: '='
+      workPackage: '='
     },
 
     controller: WorkPackageUploadDirectiveController,
