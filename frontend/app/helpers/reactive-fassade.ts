@@ -1,4 +1,4 @@
-import {scopedObservable, runInScopeDigest} from "./utils/angular-rx-utils";
+import {scopedObservable, runInScopeDigest} from "./angular-rx-utils";
 import Observable = Rx.Observable;
 import IScope = angular.IScope;
 import IPromise = Rx.IPromise;
@@ -130,14 +130,25 @@ interface PromiseLike<T> {
 
 export class State<T> extends StoreElement {
 
+  private hasValue = false;
+
+  private putFromPromiseCalled = false;
+
   private subject = new Rx.ReplaySubject<T>(1);
 
   private observable: Observable<T>;
 
   constructor() {
     super();
-    this.observable = this.subject
-      .filter(val => val !== null);
+    this.observable = this.subject.filter(val => val !== null);
+  }
+
+  /**
+   * Returns true if this state either has a value of if
+   * a value is awaited from a promise (via putFromPromise).
+   */
+  public isPristine(): boolean {
+    return !this.hasValue && !this.putFromPromiseCalled;
   }
 
   public clear() {
@@ -152,6 +163,7 @@ export class State<T> extends StoreElement {
   public putFromPromise(promise: PromiseLike<T>) {
     this.log("putFromPromise");
     this.clear();
+    this.putFromPromiseCalled = true;
     promise.then((value: T) => {
       this.setState(value);
     });
@@ -166,6 +178,7 @@ export class State<T> extends StoreElement {
   }
 
   private setState(val: T) {
+    this.hasValue = val !== null && val !== undefined;
     this.subject.onNext(val);
   }
 
@@ -175,59 +188,32 @@ export class State<T> extends StoreElement {
 
 }
 
-interface NumberMap<T> {
-  [id: number]: T;
-}
 export class MultiState<T> extends StoreElement {
 
-  private subject = new Rx.BehaviorSubject<NumberMap<T>>({});
-
-  private observable: Observable<NumberMap<T>>;
+  private states: {[id: string]: State<T>} = {};
 
   constructor() {
     super();
-    this.observable = this.subject;
-    // .filter(val => val !== null);
   }
 
-  public clear() {
-    this.setState({});
+  put(id: string, value: T): State<T> {
+    this.log("put " + id);
+    const state = this.get(id);
+    state.put(value);
+    return state;
   }
 
-  public put(id: number, value: T) {
-    this.log("put");
-
-    this.observable.take(1).subscribe(map => {
-      const copy: any = _.assign({}, map);
-      copy[id] = value;
-      this.setState(copy);
-    });
+  get(id: string): State<T> {
+    if (this.states[id] === undefined) {
+      this.states[id] = new State<T>();
+    }
+    return this.states[id];
   }
-
-  public get(id: number): IPromise<T> {
-    return this.observable
-      .map(val => val[id])
-      .filter(val => val !== undefined)
-      .take(1)
-      .toPromise();
-  }
-
-  // public observe(scope: IScope): Observable<T> {
-  //     return this.scopedObservable(scope);
-  // }
-
-  private setState(map: NumberMap<T>) {
-    this.subject.onNext(map);
-  }
-
-  // private scopedObservable(scope: IScope): Observable<T> {
-  //     return scope ? scopedObservable(scope, this.observable) : this.observable;
-  // }
 
 }
 
 function traverse(elem: any, path: string) {
-  const values = _.toPairs(elem);
+  const values = (_ as any).toPairs(elem);
   for (let [key, value] of values) {
     let location = path.length > 0 ? path + "." + key : key;
     if (value instanceof StoreElement) {
@@ -273,16 +259,18 @@ export function initStates(states: any) {
 /////////////////////////////////////////////////////////////////
 
 
-
 // const ms = new MultiState<string>();
-// ms.get(1).then(val => {
-//     console.log("a:" + val);
+//
+// ms.get("1").get().then(val => {
+//   console.log("a:" + val);
 // });
 //
-// ms.get(2).then(val => {
-//     console.log("b:" + val);
+// ms.get("1").observe(null).subscribe(val => {
+//   console.log("b:" + val);
 // });
-
-// ms.put(1, "aaa");
-// ms.put(3, "ccc");
+//
+// ms.put("1", "aaa");
+// ms.put("2", "bbb");
+// ms.put("3", "ccc");
+// ms.put("1", "aaaaaaaaaa");
 

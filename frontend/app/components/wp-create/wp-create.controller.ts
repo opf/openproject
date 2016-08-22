@@ -30,7 +30,6 @@ import {wpDirectivesModule} from "../../angular-modules";
 import {WorkPackageCreateService} from "./wp-create.service";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
@@ -66,7 +65,7 @@ export class WorkPackageCreateController {
         wpCacheService.updateWorkPackage(wp);
 
         if ($state.params.parent_id) {
-          scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
+          wpCacheService.loadWorkPackage($state.params.parent_id).observe($scope)
             .subscribe(parent => {
               this.parentWorkPackage = parent;
               this.newWorkPackage.parent = parent;

@@ -30,14 +30,16 @@
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
+import {states} from "../../states";
 import IScope = angular.IScope;
+import {State} from "../../helpers/reactive-fassade";
 
 
 export class WorkPackageCacheService {
 
-  private workPackageCache: {[id: number]: WorkPackageResource} = {};
+  // private workPackageCache: {[id: number]: WorkPackageResource} = {};
 
-  private workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
+  // private workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
 
   private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
 
@@ -50,31 +52,46 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-    this.updateWorkPackageList([wp]);
+    // this.updateWorkPackageList([wp]);
+    states.workPackages.put(wp.id.toString(), wp);
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (const wp of list) {
-      var cached = this.workPackageCache[wp.id];
-      if (cached && cached.dirty) {
-        this.workPackageCache[wp.id] = cached;
-      } else {
-        this.workPackageCache[wp.id] = wp;
-      }
+      // var cached = this.workPackageCache[wp.id];
+
+      // TODO RR Question: This check doesn't seem to be right!?
+      // if (cached && cached.dirty) {
+      //   this.workPackageCache[wp.id] = cached;
+      // } else {
+      //   this.workPackageCache[wp.id] = wp;
+      // }
+
+      states.workPackages.put(wp.id.toString(), wp);
     }
-    this.workPackagesSubject.onNext(this.workPackageCache);
+    // this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  loadWorkPackage(workPackageId: number, forceUpdate = false): Rx.Observable<WorkPackageResource> {
-    if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
-      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
-        this.updateWorkPackage(wp);
-      });
-    }
+  loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
+    // if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
+    //   this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
+    //     this.updateWorkPackage(wp);
+    //   });
+    // }
+    //
+    // return this.workPackagesSubject
+    //   .map(cache => cache[workPackageId])
+    //   .filter(wp => wp !== undefined);
 
-    return this.workPackagesSubject
-      .map(cache => cache[workPackageId])
-      .filter(wp => wp !== undefined);
+    const state = states.workPackages.get(workPackageId.toString());
+    if (forceUpdate || state.isPristine()) {
+      // state.clear();
+      // this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
+      //   state.put(wp);
+      // });
+      state.putFromPromise(this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+    }
+    return state;
   }
 
   onNewWorkPackage(): Rx.Observable<WorkPackageResource> {

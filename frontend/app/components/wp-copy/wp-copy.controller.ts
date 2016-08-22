@@ -28,7 +28,6 @@
 
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCreateController} from '../wp-create/wp-create.controller';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
@@ -38,7 +37,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams) {
     var deferred = this.$q.defer();
 
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId))
+    this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).observe(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.createCopyFrom(wp).then(newWorkPackage => {
           deferred.resolve(newWorkPackage);

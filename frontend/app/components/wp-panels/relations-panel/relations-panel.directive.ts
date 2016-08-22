@@ -28,7 +28,6 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 
 export class RelationsPanelController {
