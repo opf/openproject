@@ -1,8 +1,7 @@
-<div>
-  <div
-      class="work-package--attachments--files"
-      ng-show="$ctrl.attachments.length > 0">
-    <div class="work-package--details--long-field">
+<div
+    class="work-package--attachments--files"
+    ng-show="$ctrl.attachments.length > 0">
+  <div class="work-package--details--long-field">
         <span
             class="inplace-edit--read"
             ng-repeat="attachment in $ctrl.attachments track by attachment.name+$index">
@@ -39,8 +38,5 @@
             </span>
           </span>
         </span>
-    </div>
   </div>
-
-  <wp-attachments-upload work-package="$ctrl.workPackage"></wp-attachments-upload>
 </div>
