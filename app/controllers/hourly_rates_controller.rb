@@ -68,6 +68,11 @@ class HourlyRatesController < ApplicationController
     render action: 'edit', layout: !request.xhr?
   end
 
+  current_menu_item :edit do
+    :cost_objects
+  end
+
+
   def update
     # TODO: copied over from edit
     # remove code where appropriate
