@@ -57,40 +57,18 @@ describe('AttachmentCollectionResource service', () => {
       }, true);
     });
 
-    it('should have no pending attachments', () => {
-      expect(collection.pending).to.have.length(0);
-    });
-
     describe('when using upload()', () => {
       var uploadStub: SinonStub;
-      var calledWith;
       var params;
 
-      const testUploadMethod = prepare => {
-        beforeEach(() => {
-          prepare();
-          collection.upload(params);
-        });
-
-        it('should upload the files as expected', () => {
-          expect(uploadStub.calledWith(collection.$href, calledWith)).to.be.true;
-        });
-      };
-
       beforeEach(() => {
+        params = [{}, {}];
         uploadStub = sinon.stub(opFileUpload, 'upload');
+        collection.upload(params);
       });
 
-      describe('when using it without parameters', () => {
-        testUploadMethod(() => {
-          calledWith = collection.pending;
-        });
-      });
-
-      describe('when using it with parameters', () => {
-        testUploadMethod(() => {
-          calledWith = params = [{}, {}];
-        });
+      it('should upload the files as expected', () => {
+        expect(uploadStub.calledWith(collection.$href, params)).to.be.true;
       });
     });
   });
