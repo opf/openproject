@@ -70,11 +70,7 @@ class WikiController < ApplicationController
   attr_reader :page, :related_page
 
   current_menu_item :index do |controller|
-    controller.current_menu_item_sym :related_page, '_toc'
-  end
-
-  current_menu_item :new_child do |controller|
-    controller.current_menu_item_sym :page, '_new_page'
+    controller.current_menu_item_sym :related_page
   end
 
   current_menu_item do |controller|
