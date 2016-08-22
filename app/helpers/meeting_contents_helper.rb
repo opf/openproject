@@ -36,7 +36,12 @@ module MeetingContentsHelper
     menu << meeting_agenda_toggle_status_link(content, content_type)
     menu << meeting_content_edit_link(content_type) if can_edit_meeting_content?(content, content_type)
     menu << meeting_content_history_link(content_type, content.meeting)
-    menu << meeting_content_notify_link(content_type, content.meeting) if saved_meeting_content_text_present?(content)
+
+    if saved_meeting_content_text_present?(content)
+      menu << meeting_content_notify_link(content_type, content.meeting)
+      menu << meeting_content_icalendar_link(content_type, content.meeting)
+    end
+
     menu.join(' ')
   end
 
@@ -120,6 +125,16 @@ module MeetingContentsHelper
                               action: 'notify', meeting_id: meeting },
                             method: :put,
                             class: 'button icon-context icon-mail1'
+    end
+  end
+  
+  def meeting_content_icalendar_link(content_type, meeting)
+    content_tag :li, '', class: 'toolbar-item' do
+      link_to_if_authorized l(:label_icalendar),
+                            { controller: '/' + content_type.pluralize,
+                              action: 'icalendar', meeting_id: meeting },
+                            method: :put,
+                            class: 'button icon-context icon-calendar2'
     end
   end
 end

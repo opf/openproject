@@ -25,6 +25,7 @@ module OpenProject
           :create_meeting_agendas,
           :close_meeting_agendas,
           :send_meeting_agendas_notification,
+          :send_meeting_agendas_icalendar,
           :create_meeting_minutes,
           :send_meeting_minutes_notification
         ]
