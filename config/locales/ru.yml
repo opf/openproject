@@ -37,6 +37,7 @@ ru:
   label_meeting_date_time: Дата/Время
   label_meeting_diff: Различия
   label_notify: Отправка на рецензию
+  label_icalendar: Send iCalendar
   label_version: Версия
   label_time_zone: Часовой пояс
   label_start_date: Дата начала
@@ -59,3 +60,4 @@ ru:
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
   text_review_meeting_agenda: '%{author} поставил %{link} для рецензии.'
   text_review_meeting_minutes: '%{author} поставил %{link} для рецензии.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

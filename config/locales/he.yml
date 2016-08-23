@@ -37,6 +37,7 @@ he:
   label_meeting_date_time: תאריך/שעה
   label_meeting_diff: Diff
   label_notify: שלח לבדיקה
+  label_icalendar: Send iCalendar
   label_version: גירסה
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@ he:
   text_meeting_minutes_for_meeting: 'דקות לפגישה "%{meeting}"'
   text_review_meeting_agenda: 'על %{author} לשים את %{link} לבדיקה.'
   text_review_meeting_minutes: 'על %{author} לשים את %{link} לבדיקה.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

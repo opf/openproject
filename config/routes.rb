@@ -33,6 +33,7 @@ OpenProject::Application.routes.draw do
         put :close
         put :open
         put :notify
+        put :icalendar
         post :preview
       end
 

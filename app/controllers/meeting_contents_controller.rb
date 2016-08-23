@@ -83,19 +83,25 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      author_mail = @content.meeting.author.mail
-      do_not_notify_author = @content.meeting.author.preference[:no_self_notified]
+      service = MeetingNotificationService.new(@meeting, @content_type)
+      result = service.call(@content, :content_for_review)
 
-      recipients_with_errors = []
-      @content.meeting.participants.each do |recipient|
-        begin
-          next if recipient.mail == author_mail && do_not_notify_author
-          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver_now
-        rescue
-          recipients_with_errors << recipient
-        end
+      if result.success?
+        flash[:notice] = l(:notice_successful_notification)
+      else
+        flash[:error] = l(:error_notification_with_errors,
+                          recipients: result.errors.map(&:name).join('; '))
       end
-      if recipients_with_errors == []
+    end
+    redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+  end
+  
+  def icalendar
+    unless @content.new_record?
+      service = MeetingNotificationService.new(@meeting, @content_type)
+      result = service.call(@content, :icalendar_notification)
+
+      if result.success?
         flash[:notice] = l(:notice_successful_notification)
       else
         flash[:error] = l(:error_notification_with_errors,

@@ -18,6 +18,8 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
+require 'icalendar'
+
 class MeetingMailer < UserMailer
   def content_for_review(content, content_type, address)
     @meeting = content.meeting
@@ -28,5 +30,34 @@ class MeetingMailer < UserMailer
 
     subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
     mail to: address, subject: subject
+  end
+  
+  def icalendar_notification(content, content_type, address)
+    @meeting = content.meeting
+    @content_type = content_type
+    
+    open_project_headers 'Project' => @meeting.project.identifier,
+                         'Meeting-Id' => @meeting.id
+    headers['Content-Type'] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
+    headers['Content-Transfer-Encoding'] = '8bit'
+    subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
+    now = DateTime.now.strftime("%Y%m%dT%H%M%SZ")
+    author = Icalendar::Values::CalAddress.new("mailto:#{@meeting.author.mail}",
+                                               cn: @meeting.author.name)
+
+    # Create a calendar with an event (standard method)
+    entry = ::Icalendar::Calendar.new
+    entry.event do |e|
+      e.dtstart     = @meeting.start_time
+      e.dtend       = @meeting.end_time
+      e.url         = meeting_url(@meeting)
+      e.summary     = "[#{@meeting.project.name}] #{@meeting.title}"
+      e.description = subject
+      e.uid         = "#{@meeting.id}@#{@meeting.project.identifier}"
+      e.organizer   = author
+    end
+
+    attachments['meeting.ics'] = entry.to_ical
+    mail(to: address, subject: subject)
   end
 end

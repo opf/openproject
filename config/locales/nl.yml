@@ -37,6 +37,7 @@ nl:
   label_meeting_date_time: Datum/Tijd
   label_meeting_diff: Diff
   label_notify: Verzenden voor revisie
+  label_icalendar: Send iCalendar
   label_version: Versie
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@ nl:
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_review_meeting_agenda: '%{author} heeft de %{link} geselecteerd voor herziening.'
   text_review_meeting_minutes: '%{author} heeft de %{link} geselecteerd voor herziening.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

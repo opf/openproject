@@ -37,6 +37,7 @@
   label_meeting_date_time: Dato/klokkeslett
   label_meeting_diff: Forskjell
   label_notify: Send till gjennomgang
+  label_icalendar: Send iCalendar
   label_version: Versjon
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_review_meeting_agenda: '%{author} har lagt opp %{link} for gjennomgang.'
   text_review_meeting_minutes: '%{author} har lagt opp %{link} for gjennomgang.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

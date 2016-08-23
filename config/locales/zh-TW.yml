@@ -37,6 +37,7 @@ zh:
   label_meeting_date_time: 日期 / 時間
   label_meeting_diff: 比較
   label_notify: 送出審閱
+  label_icalendar: Send iCalendar
   label_version: 版本
   label_time_zone: 時區
   label_start_date: 開始日期
@@ -59,3 +60,4 @@ zh:
   text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
   text_review_meeting_agenda: '%{author} 已經放上 %{link} 來審閱'
   text_review_meeting_minutes: '%{author} 已經放上 %{link} 來審閱'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'
