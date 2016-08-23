@@ -37,6 +37,7 @@ ko:
   label_meeting_date_time: 날짜/시간
   label_meeting_diff: 차이
   label_notify: 검토를 위해 보내기
+  label_icalendar: Send iCalendar
   label_version: 버전
   label_time_zone: 표준 시간대
   label_start_date: 시작일
@@ -59,3 +60,4 @@ ko:
   text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
   text_review_meeting_agenda: '%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다.'
   text_review_meeting_minutes: '%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

@@ -37,6 +37,7 @@ pl:
   label_meeting_date_time: Data/Czas
   label_meeting_diff: Różnice
   label_notify: Wyślij do przeglądu
+  label_icalendar: Send iCalendar
   label_version: Wersja
   label_time_zone: Strefa czasowa
   label_start_date: Data rozpoczęcia
@@ -59,3 +60,4 @@ pl:
   text_meeting_minutes_for_meeting: 'protokół ze spotkania "%{meeting}"'
   text_review_meeting_agenda: '%{author} umieścił %{link} do przeglądu.'
   text_review_meeting_minutes: '%{author} umieścił %{link} do przeglądu.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

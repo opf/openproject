@@ -37,6 +37,7 @@ ar:
   label_meeting_date_time: التاريخ/الوقت
   label_meeting_diff: الاختلاف
   label_notify: إرسال للمراجعة
+  label_icalendar: Send iCalendar
   label_version: النسخة
   label_time_zone: المنطقة الزمنية
   label_start_date: تاريخ البدء
@@ -59,3 +60,4 @@ ar:
   text_meeting_minutes_for_meeting: 'محضر الجسلة للاجتماع "%{meeting}"'
   text_review_meeting_agenda: '%{author} طرح %{link} للمراجعة.'
   text_review_meeting_minutes: '%{author} طرح %{link} للمراجعة.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

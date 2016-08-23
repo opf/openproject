@@ -37,6 +37,7 @@ hr:
   label_meeting_date_time: Datum/vrijeme
   label_meeting_diff: Razl
   label_notify: Šalji na pregled
+  label_icalendar: Send iCalendar
   label_version: Verzija
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@ hr:
   text_meeting_minutes_for_meeting: 'minute za sastanak "%{meeting}"'
   text_review_meeting_agenda: '%{author} je dodao poveznicu %{link} za provjeru.'
   text_review_meeting_minutes: '%{author} je dodao poveznicu %{link} za provjeru.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

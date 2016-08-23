@@ -37,6 +37,7 @@ da:
   label_meeting_date_time: Dato/tidspunkt
   label_meeting_diff: Uenigheder
   label_notify: Send til vurdering
+  label_icalendar: Send iCalendar
   label_version: Version
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@ da:
   text_meeting_minutes_for_meeting: 'referat  for mødet "%{meeting}"'
   text_review_meeting_agenda: '%{author} har lagt dette %{link} ud til vurdering.'
   text_review_meeting_minutes: '%{author} har lagt dette %{link} ud til vurdering.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

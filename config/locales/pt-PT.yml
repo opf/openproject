@@ -37,6 +37,7 @@ pt:
   label_meeting_date_time: Data/Hora
   label_meeting_diff: Diferença
   label_notify: Enviar para revisão
+  label_icalendar: Send iCalendar
   label_version: Versão
   label_time_zone: Fuso horário
   label_start_date: Data de início
@@ -59,3 +60,4 @@ pt:
   text_meeting_minutes_for_meeting: 'minutos para a reunião "%{meeting}"'
   text_review_meeting_agenda: '%{author} colocou o %{link} para revisão.'
   text_review_meeting_minutes: '%{author} colocou o %{link} para revisão.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'

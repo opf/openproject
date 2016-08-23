@@ -37,6 +37,7 @@ sv:
   label_meeting_date_time: Datum/tid
   label_meeting_diff: Skillnad
   label_notify: Skicka för granskning
+  label_icalendar: Send iCalendar
   label_version: Version
   label_time_zone: Time zone
   label_start_date: Start date
@@ -59,3 +60,4 @@ sv:
   text_meeting_minutes_for_meeting: 'protokollet för mötet "%{meeting}"'
   text_review_meeting_agenda: '%{author} har lagt upp %{link} för granskning.'
   text_review_meeting_minutes: '%{author} har lagt upp %{link} för granskning.'
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'
