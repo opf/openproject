@@ -31,9 +31,10 @@ module OpenProject::Costs::Patches::UserPatch
 
   module InstanceMethods
     def allowed_to_condition_with_project_id(permission, projects = nil)
-      project_condition = Project.allowed_to_condition(self, permission, project: projects)
+      scope = Project.allowed_to(self, permission)
+      scope = scope.where(id: projects) if projects
 
-      ids = Project.where(project_condition).pluck(:id)
+      ids = scope.pluck(:id)
 
       ids.empty? ?
         '1=0' :

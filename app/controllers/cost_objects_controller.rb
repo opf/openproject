@@ -60,13 +60,11 @@ class CostObjectsController < ApplicationController
     sort_init 'id', 'desc'
     sort_update sort_columns
 
-    allowed_condition = Project.allowed_to(User.current,
-                                           :view_cost_objects,
-                                           project: @project)
-
-    @cost_objects = CostObject.order(sort_clause)
-                    .includes(:project, :author)
-                    .merge(allowed_condition)
+    @cost_objects = CostObject
+                    .visible(current_user)
+                    .order(sort_clause)
+                    .includes(:author)
+                    .where(project_id: @project.id)
                     .page(page_param)
                     .per_page(per_page_param)
 

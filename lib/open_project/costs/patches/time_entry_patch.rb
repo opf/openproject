@@ -24,36 +24,52 @@ module OpenProject::Costs::Patches::TimeEntryPatch
 
     base.send(:include, InstanceMethods)
 
-    # Same as typing in the class t.update_costs
+    # Same as typing in the class
     base.class_eval do
       belongs_to :rate, -> { where(type: ['HourlyRate', 'DefaultHourlyRate']) }, class_name: 'Rate'
 
       before_save :update_costs
 
-      def self.visible_condition(user, table_alias: nil, project: nil)
-        options = {}
-        options[:project_alias] = table_alias if table_alias
-        options[:project] = project if project
+      scope :visible, -> (*args) {
+        user = args.first || User.current
+        project = args[1]
 
-        %{ (#{Project.allowed_to_condition(user,
-                                           :view_time_entries,
-                                           options)} OR
-             (#{Project.allowed_to_condition(user,
-                                             :view_own_time_entries,
-                                             options)} AND
-              #{TimeEntry.table_name}.user_id = #{user.id})) }
-      end
+        table = self.arel_table
+
+        view_allowed = Project.allowed_to(user, :view_time_entries).select(:id)
+        view_own_allowed = Project.allowed_to(user, :view_own_time_entries).select(:id)
+
+        view_or_view_own = table[:project_id]
+                           .in(view_allowed.arel)
+                           .or(table[:project_id]
+                               .in(view_own_allowed.arel)
+                               .and(table[:user_id].eq(user.id)))
+
+        scope = where(view_or_view_own)
+
+        if project
+          scope = scope.where(project_id: project.id)
+        end
+
+        scope
+      }
 
       scope :visible_costs, lambda{|*args|
         user = args.first || User.current
         project = args[1]
 
-        view_hourly_rates = %{ (#{Project.allowed_to_condition(user, :view_hourly_rates, project: project)} OR
-                                (#{Project.allowed_to_condition(user, :view_own_hourly_rate, project: project)} AND #{TimeEntry.table_name}.user_id = #{user.id})) }
-        view_time_entries = TimeEntry.visible_condition(user, project: project)
+        table = self.arel_table
 
-        includes(:project, :user)
-          .where([view_time_entries, view_hourly_rates].join(' AND '))
+        view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
+        view_own_allowed = Project.allowed_to(user, :view_own_hourly_rates).select(:id)
+
+        view_or_view_own = table[:project_id]
+                           .in(view_allowed.arel)
+                           .or(table[:project_id]
+                               .in(view_own_allowed.arel)
+                               .and(table[:user_id].eq(user.id)))
+
+        visible(user, project).where(view_or_view_own)
       }
 
       def self.costs_of(work_packages:)

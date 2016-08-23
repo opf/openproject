@@ -66,23 +66,27 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 
         false
       when 'reassign'
-        reassign_to = WorkPackage
-                      .where(Project.allowed_to_condition(user, :edit_cost_entries))
-                      .includes(:project)
-                      .references(:projects)
-                      .find_by_id(to_do[:reassign_to_id])
-
-        if reassign_to.nil?
-          work_packages.each do |wp|
-            wp.errors.add(:base, :is_not_a_valid_target_for_cost_entries, id: to_do[:reassign_to_id])
-          end
-
-          false
-        else
-          WorkPackage.update_cost_entries(work_packages.map(&:id), "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
-        end
+        reassign_cost_entries_before_destruction(work_packages, user, to_do[:reassign_to_id])
       else
         false
+      end
+    end
+
+    def reassign_cost_entries_before_destruction(work_packages, user, ids)
+      reassign_to = WorkPackage
+                    .joins(:project)
+                    .merge(Project.allowed_to(user, :edit_cost_entries))
+                    .find_by_id(ids)
+
+      if reassign_to.nil?
+        work_packages.each do |wp|
+          wp.errors.add(:base, :is_not_a_valid_target_for_cost_entries, id: ids)
+        end
+
+        false
+      else
+        condition = "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}"
+        WorkPackage.update_cost_entries(work_packages.map(&:id), condition)
       end
     end
 

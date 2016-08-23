@@ -44,6 +44,12 @@ class CostObject < ActiveRecord::Base
     CostObject.replace_author_with_deleted_user user
   end
 
+  def self.visible(user)
+    includes(:project)
+      .references(:projects)
+      .merge(Project.allowed_to(user, :view_cost_objects))
+  end
+
   def initialize(attributes = nil)
     super
     self.author = User.current if self.new_record?

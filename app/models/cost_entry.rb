@@ -37,26 +37,42 @@ class CostEntry < ActiveRecord::Base
   after_initialize :after_initialize
   validate :validate
 
-  scope :visible, lambda { |*args|
-    where(CostEntry.visible_condition(args[0] || User.current, args[1]))
-      .includes([:project, :user])
-      .references(:project)
+  scope :visible, -> (*args) {
+    user = args.first || User.current
+    project = args[1]
+
+    table = self.arel_table
+
+    view_allowed = Project.allowed_to(user, :view_cost_entries).select(:id)
+    view_own_allowed = Project.allowed_to(user, :view_own_cost_entries).select(:id)
+
+    view_or_view_own = table[:project_id]
+                       .in(view_allowed.arel)
+                       .or(table[:project_id]
+                           .in(view_own_allowed.arel)
+                           .and(table[:user_id].eq(user.id)))
+
+    scope = where(view_or_view_own)
+
+    if project
+      scope = scope.where(project_id: project.id)
+    end
+
+    scope
+  }
+
+  scope :visible_costs, lambda{|*args|
+    user = args.first || User.current
+    project = args[1]
+
+    table = self.arel_table
+
+    view_allowed = Project.allowed_to(user, :view_cost_rates).select(:id)
+
+    visible(user, project).where(table[:project_id].in(view_allowed.arel))
   }
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
-
-  def self.visible_condition(user, project)
-    %{ (#{Project.allowed_to_condition(user, :view_cost_entries, project: project)} OR
-         (#{Project.allowed_to_condition(user, :view_own_cost_entries, project: project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }
-  end
-
-  scope :visible_costs, lambda{|*args|
-    view_cost_rates = Project.allowed_to_condition((args.first || User.current), :view_cost_rates, project: args[1])
-    view_cost_entries = CostEntry.visible_condition((args.first || User.current), args[1])
-
-    where([view_cost_entries, view_cost_rates].join(' AND '))
-      .includes([:project, :user])
-  }
 
   def self.costs_of(work_packages:)
     # N.B. Because of an AR quirks the code below uses statements like
