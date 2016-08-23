@@ -32,6 +32,8 @@ en:
       hide: "Hide"
       loading: "Loading ..."
     close_popup_title: "Close popup"
+    close_filter_title: "Close filter"
+    close_form_title: "Close form"
 
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."

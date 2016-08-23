@@ -31,10 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
                      method: :post,
-                     html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
+                     html: {id: "members_add_form", class: "form -vertical -bordered -medium-compressed"}) do |f| %>
+
+  <a title="{{ ::I18n.t('js.close_form_title') }}" class="form--close icon-context icon-close" onClick="hideAddMemberForm()"></a>
   <div id="new-member-message"></div>
   <div class="grid-block">
-    <div class="grid-content medium-5 small-12">
+    <div class="grid-content medium-5 small-12 collapse -flex">
       <div class="form--field">
         <%
            user_id_title = I18n.t(:label_principal_search)
@@ -51,10 +53,11 @@ See doc/COPYRIGHT.rdoc for more details.
                          :'data-ajaxURL' => url_for(controller: "/members", action: "autocomplete_for_member"),
                          :'data-projectId' => project.id,
                          no_label: true,
+                         placeholder: I18n.t(:button_add_member),
                          class: "select2-select remote" %>
       </div>
     </div>
-    <div class="grid-content medium-5 small-12">
+    <div class="grid-content medium-7 small-12 -flex -with-button">
       <div class="form--field">
         <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
         <div class="form--field-container">
@@ -70,11 +73,11 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       </div>
-    </div>
-    <div class="v-align">
-      <%= f.button l(:button_add), id: 'member-add-submit',
-            class: 'button -highlight -with-icon icon-checkmark' %>
-      <%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()' %>
+      <div id="member-add-submit-button--container">
+        <%= f.button l(:button_add), id: 'member-add-submit',
+              class: 'button -highlight -with-icon icon-checkmark',
+              id: 'add-member--submit-button' %>
+      </div>
     </div>
   </div>
 <% end %>

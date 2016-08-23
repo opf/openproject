@@ -606,6 +606,42 @@ a.impaired--empty-link,
       margin-top: -60px
 
 
-// Override default margin to allow correct vertical alignment
-#members_add_form .grid-block .button
-  margin-bottom: 0
+#members_add_form
+  .-flex
+    display: flex
+    align-items: flex-end
+
+    .form--field,
+    #member-add-submit-button--container
+      margin-bottom: 1px
+      flex-basis: 50%
+
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
+    margin-bottom: 0
+    margin-left: 1rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
+
+@include breakpoint(680px down)
+  #members_add_form .-flex
+    align-items: flex-start
+
+    &.-with-button
+      flex-direction: column
+      // Workaround for safari and IE
+      // They are not able to get the correct height with flex-direction: column
+      height: 120px
+
+    #add-member--submit-button
+      margin-left: 0
+    .form--field
+      margin-bottom: 1rem
+
+@media screen and (max-width: 970px) and (min-width: 681px)
+  #members_add_form .-flex.-with-button
+    .form--field
+      max-width: 50%
+      select
+        max-width: 66%
+

@@ -54,6 +54,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 // specific definition.
 .form
   display: block
+  position: relative
 
   &.-inline
     display: inline
@@ -65,6 +66,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
 
     &.-compressed
       padding: 10px 20px 0 20px
+
+    &.-medium-compressed
+      padding: 10px 20px 20px 20px
 
   &.danger-zone
     border: 1px solid $content-form-danger-zone-bg-color
@@ -135,6 +139,13 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     .errorSpan
       flex-basis: 50%
       margin-right: 0.5rem
+
+  .form--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
 
 .form--separator
   border: 0
