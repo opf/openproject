@@ -33,11 +33,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:wiki_menu_item_for, title: @page_title) %>
 <%= form_for @wiki_menu_item, html: {id: 'wiki_menu_item_form', class: 'menu-item-form', method: :put}, url: wiki_menu_item_path(@project, @page) do |form| %>
 <p class="item-name">
-  <%= form.label :name, l(:label_menu_item_name), {id: 'item-name'} %>
-  <% if @wiki_menu_item.name.nil? %>
-  <%= form.text_field :name, size: 20, value: @page_title %>
+  <%= form.label :title, l(:label_menu_item_name), {id: 'item-name'} %>
+  <% if @wiki_menu_item.title.nil? %>
+  <%= form.text_field :title, size: 20, value: @page_title %>
   <% else %>
-  <%= form.text_field :name, size: 20 %>
+  <%= form.text_field :title, size: 20 %>
   <% end %>
 </p>
 <br>

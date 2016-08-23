@@ -62,8 +62,8 @@ class WikiMenuItemsController < ApplicationController
       end
     else
       @wiki_menu_item.navigatable_id = @page.wiki.id
-      @wiki_menu_item.name = wiki_menu_item_params[:name]
-      @wiki_menu_item.title = @page_title
+      @wiki_menu_item.name = @page.slug
+      @wiki_menu_item.title = wiki_menu_item_params[:title] || @page_title
 
       if wiki_menu_setting == 'sub_item'
         @wiki_menu_item.parent_id = parent_wiki_menu_item
