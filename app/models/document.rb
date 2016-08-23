@@ -53,8 +53,8 @@ class Document < ActiveRecord::Base
 
   scope :visible, lambda {
     includes(:project)
-      .where(Project.allowed_to_condition(User.current, :view_documents))
       .references(:projects)
+      .merge(Project.allowed_to(User.current, :view_documents))
   }
 
   scope :with_attachments, lambda {
