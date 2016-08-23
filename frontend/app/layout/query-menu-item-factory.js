@@ -51,10 +51,8 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
 
         // Add hidden info for blind users
         element.prop('title', I18n.t('js.description_current_position') + element.prop('title'));
-        var hiddenLabel = document.createElement('span');
-        hiddenLabel.addClassName('hidden-for-sighted');
-        hiddenLabel.innerHTML = I18n.t('js.description_current_position');
-        element[0].insertBefore(hiddenLabel, element[0].firstChild);
+        var hiddenLabel = jQuery("<span class='hidden-for-sighted'>" + I18n.t('js.description_current_position') + "</span>")[0];
+        element.prepend(hiddenLabel);
       }
       scope.$on('openproject.layout.activateMenuItem', setActiveState);
 
