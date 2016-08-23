@@ -81,6 +81,10 @@ class MeetingsController < ApplicationController
   def new
   end
 
+  current_menu_item :new do
+    :meetings
+  end
+
   def copy
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
