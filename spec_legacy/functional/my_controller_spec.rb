@@ -57,27 +57,6 @@ describe MyController, type: :controller do
     assert_equal User.find(2), assigns(:user)
   end
 
-  it 'should update account' do
-    patch :account,
-          user: {
-            firstname: 'Joe',
-            login: 'root', # should not be allowed
-            admin: 1,
-            group_ids: ['10'],
-            custom_field_values: { '4' => '0100562500' }
-          }
-
-    assert_redirected_to '/my/account'
-    user = User.find(2)
-    assert_equal user, assigns(:user)
-    assert_equal 'Joe', user.firstname
-    assert_equal 'jsmith', user.login
-    assert_equal '0100562500', user.custom_value_for(4).value
-    # ignored
-    assert !user.admin?
-    assert user.groups.empty?
-  end
-
   it 'should page layout' do
     get :page_layout
     assert_response :success
