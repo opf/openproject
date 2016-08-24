@@ -33,6 +33,7 @@ describe ReportingsController, type: :controller do
 
   before do
     allow(User).to receive(:current).and_return current_user
+    FactoryGirl.create(:non_member)
   end
 
   describe 'index.html' do

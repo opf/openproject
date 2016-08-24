@@ -75,28 +75,6 @@ describe Project, type: :model do
     end
   end
 
-  describe '#find_visible' do
-    it 'should find the project by id if the user is project member' do
-      become_member_with_permissions(project, user, :view_work_packages)
-
-      expect(Project.find_visible(user, project.id)).to eq(project)
-    end
-
-    it 'should find the project by identifier if the user is project member' do
-      become_member_with_permissions(project, user, :view_work_packages)
-
-      expect(Project.find_visible(user, project.identifier)).to eq(project)
-    end
-
-    it 'should not find the project by identifier if the user is no project member' do
-      expect { Project.find_visible(user, project.identifier) }.to raise_error ActiveRecord::RecordNotFound
-    end
-
-    it 'should not find the project by id if the user is no project member' do
-      expect { Project.find_visible(user, project.id) }.to raise_error ActiveRecord::RecordNotFound
-    end
-  end
-
   context 'when the wiki module is enabled' do
     let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 

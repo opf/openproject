@@ -53,6 +53,7 @@ class Changeset < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(repository: :project)
+      .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_changesets))
   }
 

@@ -53,6 +53,7 @@ class News < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(:project)
+      .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_news))
   }
 
@@ -66,10 +67,15 @@ class News < ActiveRecord::Base
   end
 
   def self.latest_for(user, count: 5)
-    limit(count)
-      .newest_first
-      .includes(:project, :author)
-      .merge(Project.allowed_to(user, :view_news))
+    scope = newest_first
+            .includes(:author)
+            .visible(user)
+
+    if count > 0
+      scope.limit(count)
+    else
+      scope
+    end
   end
 
   # table_name shouldn't be needed :(

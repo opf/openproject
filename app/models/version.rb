@@ -51,7 +51,7 @@ class Version < ActiveRecord::Base
 
   scope :open, -> { where(status: 'open') }
   scope :visible, ->(*args) {
-    includes(:project)
+    joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 

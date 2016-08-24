@@ -167,7 +167,7 @@ class Project < ActiveRecord::Base
   }
   scope :active, -> { where(status: STATUS_ACTIVE) }
   scope :public_projects, -> { where(is_public: true) }
-  scope :visible, ->(user = User.current) { where(Project.visible_by(user)) }
+  scope :visible, ->(user = User.current) { Project.visible_by(user) }
   scope :newest, -> { order(created_on: :desc) }
 
   # timelines stuff
@@ -313,35 +313,20 @@ class Project < ActiveRecord::Base
     save
   end
 
-  # Returns a SQL :conditions string used to find all active projects for the specified user.
+  # Returns all projects the user is allowed to see.
   #
-  # Examples:
-  #     Projects.visible_by(admin)        => "projects.status = 1"
-  #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user = nil)
-    user ||= User.current
-    if user && user.admin?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-    elsif user && user.memberships.any?
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.map(&:project_id).join(',')}))"
-    else
-      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-    end
+  # Employs the :view_project permission to perform the
+  # authorization check as the permissino is public, meaning it is granted
+  # to everybody having at least one role in a project regardless of the
+  # role's permissions.
+  def self.visible_by(user = User.current)
+    allowed_to(user, :view_project)
   end
 
-  # Returns a ActiveRecord::Relation to find all projects for which +user+ has the given +permission+
-  #
-  # Valid options:
-  # * project: limit the condition to project
-  # * with_subprojects: limit the condition to project and its subprojects
-  # * member: limit the condition to the user projects
-  def self.allowed_to(user, permission, options = {})
-    where(allowed_to_condition(user, permission, options))
-      .references(:projects)
-  end
-
-  def self.allowed_to_condition(user, permission, options = {})
-    Authorization::ProjectQuery.query(user, permission, options)
+  # Returns a ActiveRecord::Relation to find all projects for which
+  # +user+ has the given +permission+
+  def self.allowed_to(user, permission)
+    Authorization.projects(permission, user)
   end
 
   # Returns the Systemwide and project specific activities
@@ -399,12 +384,6 @@ class Project < ActiveRecord::Base
     cond = "#{Project.table_name}.id = #{id}"
     cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
     cond
-  end
-
-  def self.find_visible(user, *args)
-    where(Project.visible_by(user)).scoping do
-      find(*args)
-    end
   end
 
   def active?

@@ -70,6 +70,7 @@ class Message < ActiveRecord::Base
 
   scope :visible, -> (*args) {
     includes(board: :project)
+      .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
 

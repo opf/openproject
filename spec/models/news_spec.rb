@@ -49,30 +49,34 @@ describe News, type: :model do
   end
 
   describe '.latest' do
+    before do
+      Role.anonymous
+    end
+
     it 'includes news elements from projects where news module is enabled' do
-      expect(News.latest).to include news
+      expect(News.latest).to match_array [news]
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
-      EnabledModule.delete_all(['project_id = ? AND name = ?', project.id, 'news'])
-      project.reload
+      EnabledModule.where(project_id: project.id, name: 'news').delete_all
 
-      expect(News.latest).not_to include news
+      expect(News.latest).to be_empty
     end
 
     it 'only includes news elements from projects that are visible to the user' do
       private_project = FactoryGirl.create(:project, is_public: false)
-      private_news    = FactoryGirl.create(:news, project: private_project)
+      FactoryGirl.create(:news, project: private_project)
 
       latest_news = News.latest(user: User.anonymous)
-      expect(latest_news).to include news
-      expect(latest_news).not_to include private_news
+      expect(latest_news).to match_array [news]
     end
 
     it 'limits the number of returned news elements' do
       News.delete_all
 
-      10.times { FactoryGirl.create(:news, project: project) }
+      10.times do
+        FactoryGirl.create(:news, project: project)
+      end
 
       expect(News.latest(user: User.current, count:  2).size).to eq(2)
       expect(News.latest(user: User.current, count:  6).size).to eq(6)
@@ -82,13 +86,19 @@ describe News, type: :model do
     it 'returns five news elements by default' do
       News.delete_all
 
-      2.times { FactoryGirl.create(:news, project: project) }
+      2.times do
+        FactoryGirl.create(:news, project: project)
+      end
       expect(News.latest.size).to eq(2)
 
-      3.times { FactoryGirl.create(:news, project: project) }
+      3.times do
+        FactoryGirl.create(:news, project: project)
+      end
       expect(News.latest.size).to eq(5)
 
-      2.times { FactoryGirl.create(:news, project: project) }
+      2.times do
+        FactoryGirl.create(:news, project: project)
+      end
       expect(News.latest.size).to eq(5)
     end
   end

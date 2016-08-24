@@ -385,9 +385,6 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses << WorkPackage.visible_condition(User.current,
-                                                     project: project,
-                                                     with_subprojects: !subproject_filter.nil?)
     project_clauses.join(' AND ')
   end
 
@@ -441,7 +438,7 @@ class Query < ActiveRecord::Base
                WHERE #{db_table}.watchable_type='WorkPackage'
                  AND #{sql_for_field field, '=', values, db_table, db_field})
                  AND #{Project.table_name}.id IN
-                   (#{Project.allowed_to_condition(User.current, :view_work_package_watchers)})
+                   (#{Project.allowed_to(User.current, :view_work_package_watchers).to_sql})
           SQL
           sql << "(#{sql_parts.join(' OR ')})"
         end
@@ -497,7 +494,7 @@ class Query < ActiveRecord::Base
       filters_clauses << sql
     end if filters.present? and valid?
 
-    (filters_clauses << project_statement).join(' AND ')
+    (filters_clauses << project_statement).reject(&:empty?).join(' AND ')
   end
 
   # Returns the result set
@@ -509,20 +506,19 @@ class Query < ActiveRecord::Base
   # Returns the journals
   # Valid options are :order, :offset, :limit
   def work_package_journals(options = {})
-    query = Journal.includes(:user)
-            .where(journable_type: WorkPackage.to_s)
-            .joins('INNER JOIN work_packages ON work_packages.id = journals.journable_id')
-            .joins('INNER JOIN projects ON work_packages.project_id = projects.id')
-            .joins('INNER JOIN users AS authors ON work_packages.author_id = authors.id')
-            .joins('INNER JOIN types ON work_packages.type_id = types.id')
-            .joins('INNER JOIN statuses ON work_packages.status_id = statuses.id')
-            .where(statement)
-            .order(options[:order])
-            .limit(options[:limit])
-            .offset(options[:offset])
-            .references(:users)
+    Journal.includes(:user)
+           .where(journable_type: WorkPackage.to_s)
+           .joins('INNER JOIN work_packages ON work_packages.id = journals.journable_id')
+           .joins('INNER JOIN projects ON work_packages.project_id = projects.id')
+           .joins('INNER JOIN users AS authors ON work_packages.author_id = authors.id')
+           .joins('INNER JOIN types ON work_packages.type_id = types.id')
+           .joins('INNER JOIN statuses ON work_packages.status_id = statuses.id')
+           .order(options[:order])
+           .limit(options[:limit])
+           .offset(options[:offset])
+           .references(:users)
+           .merge(WorkPackage.visible)
 
-    query
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
