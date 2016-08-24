@@ -66,12 +66,12 @@ function sortHeader(){
           var summaryContent = [
             ascending ? I18n.t('js.label_ascending') : I18n.t('js.label_descending'),
             I18n.t('js.label_sorted_by'),
-            scope.headerTitle + '.',
-            I18n.t('js.work_packages.table.text_sort_hint')
-          ];
+            scope.headerTitle + '.'
+          ]
 
           jQuery('#wp-table-sort-summary').text(summaryContent.join(" "));
         }
+
       }
 
       function setActiveColumnClass() {

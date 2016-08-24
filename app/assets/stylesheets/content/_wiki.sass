@@ -196,7 +196,15 @@ blockquote
     padding: 0 0 0 0
 
 .toolbar-container ~ .wiki-content
-  margin-top: -64px
+  margin-top: 0
+
+.wiki-version--details
+  .navigate-left
+    margin: 0 1.5rem 0 0
+  .navigate-right
+    margin: 0 0 0 1.5rem
+  span
+    vertical-align: middle
 
 @include breakpoint(680px down)
   .toolbar-container ~ .wiki-content
