@@ -28,20 +28,16 @@
 #++
 
 class Authorization::AbstractUserQuery < Authorization::AbstractQuery
-  def self.base_query
-    # It is unfortunate, that we have to have the first
-    # join statement as part of the base_scope.
-    #
-    # It would be better to simply start with the users_table
-    # and apply the join as a transformation. But a table
-    # can not be traversed by the visitor and wrapping
-    # the users_table in a Arel::SelectManager leads to invalid sql.
-    users_table
+  transformations.register :all,
+                           :users_members_join do |statement|
+    statement
       .outer_join(members_table)
       .on(users_members_join)
   end
 
-  transformations.register :all, :member_roles_join do |statement|
+  transformations.register :all,
+                           :member_roles_join,
+                           after: [:users_members_join] do |statement|
     statement.outer_join(member_roles_table)
              .on(members_member_roles_join)
   end

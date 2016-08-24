@@ -45,7 +45,7 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
     if project.active? && project.allows_to?(action)
       statement.where(roles_table[:id].not_eq(nil).or(users_table[:admin].eq(true)))
     else
-      statement.where(Arel.sql('1 = 0'))
+      statement.where(Arel::Nodes::Equality.new(1, 0))
     end
   end
 
