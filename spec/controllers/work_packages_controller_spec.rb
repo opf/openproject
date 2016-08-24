@@ -165,18 +165,6 @@ describe WorkPackagesController, type: :controller do
             expect(response).to render_template('work_packages/index')
           end
         end
-
-        context 'when a query has been previously selected' do
-          let(:query) do
-            FactoryGirl.build_stubbed(:query).tap { |q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: '>=', values: [10])] }
-          end
-
-          before do allow(session).to receive(:query).and_return query end
-
-          it 'preserves the query' do
-            expect(assigns['query'].filters).to eq(query.filters)
-          end
-        end
       end
 
       describe 'csv' do
@@ -210,24 +198,46 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', params.merge(format: 'pdf')) }
 
         requires_export_permission do
-          before do
-            pdf_data = 'pdfdata'
-            mock_pdf = double('pdf export')
-            mock_pdf.stub(:render).and_return(pdf_data)
+          context 'w/ a valid query' do
+            before do
+              pdf_data = 'pdfdata'
+              mock_pdf = double('pdf export')
+              allow(mock_pdf)
+                .to receive(:render)
+                .and_return(pdf_data)
 
-            expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
+              expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
 
-            expect(controller).to receive(:send_data).with(pdf_data,
-                                                           type: 'application/pdf',
-                                                           filename: 'export.pdf') do |*_args|
-              # We need to render something because otherwise
-              # the controller will and he will not find a suitable template
-              controller.render text: 'success'
+              expect(controller).to receive(:send_data).with(pdf_data,
+                                                             type: 'application/pdf',
+                                                             filename: 'export.pdf') do |*_args|
+                # We need to render something because otherwise
+                # the controller will and he will not find a suitable template
+                controller.render text: 'success'
+              end
+            end
+
+            it 'should fulfill the defined should_receives' do
+              call_action
             end
           end
 
-          it 'should fulfill the defined should_receives' do
-            call_action
+          context 'with invalid query' do
+            let(:params) { { query_id: 'hokusbogus' } }
+
+            context 'when a non-existant query has been previously selected' do
+              before do
+                allow(controller)
+                  .to receive(:retrieve_query)
+                  .and_raise(ActiveRecord::RecordNotFound)
+
+                call_action
+              end
+
+              it 'renders a 404' do
+                expect(response.response_code).to be === 404
+              end
+            end
           end
         end
       end
@@ -248,21 +258,6 @@ describe WorkPackagesController, type: :controller do
           it 'should fulfill the defined should_receives' do
             call_action
           end
-        end
-      end
-    end
-
-    describe 'with invalid query' do
-      context 'when a non-existant query has been previously selected' do
-        let(:call_action) { get('index', project_id: project.id, query_id: 'hokusbogus') }
-        before do call_action end
-
-        it 'renders a 404' do
-          expect(response.response_code).to be === 404
-        end
-
-        it 'preserves the project' do
-          expect(assigns['project']).to be === project
         end
       end
     end
@@ -329,7 +324,9 @@ describe WorkPackagesController, type: :controller do
       it 'respond with a pdf' do
         pdf_data = 'foobar'
         pdf = double('pdf')
-        pdf.stub(:render).and_return(pdf_data)
+        allow(pdf)
+          .to receive(:render)
+          .and_return(pdf_data)
 
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
         expect(WorkPackage::Exporter).to receive(:work_package_to_pdf).and_return(pdf)
