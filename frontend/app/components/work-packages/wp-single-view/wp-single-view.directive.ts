@@ -105,6 +105,10 @@ export class WorkPackageSingleViewController {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
 
+    if (this.workPackage.attachments) {
+      this.workPackage.attachments.updateElements();
+    }
+
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();
 
