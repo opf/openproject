@@ -121,6 +121,16 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
         .indexOf(columnName);
     },
 
+    getPreviousColumn: function(columns, columnName) {
+      return columns.filter(function(column) {
+        var index = WorkPackagesTableHelper.getColumnIndexByName(columns, columnName);
+        var currentColumnIndex = WorkPackagesTableHelper.getColumnIndexByName(columns, column.name);
+        if(currentColumnIndex === index - 1) {
+          return column;
+        }
+      });
+    },
+
     detectColumnByName: function(columns, columnName) {
       return columns[WorkPackagesTableHelper.getColumnIndexByName(columns, columnName)];
     },

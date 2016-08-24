@@ -110,6 +110,8 @@ export class CommentFieldDirectiveController {
         this.workPackage.activities.$load(true).then(() => {
           this.wpCacheService.updateWorkPackage(this.workPackage);
         });
+
+        this.focusCommentField();
       })
       .catch(error => {
         if (error.data instanceof ErrorResource) {
@@ -126,6 +128,13 @@ export class CommentFieldDirectiveController {
   public handleUserCancel() {
     this.editing = false;
     this.field.initializeFieldValue();
+    this.focusCommentField();
+  }
+
+  private focusCommentField() {
+    window.setTimeout(function(){
+      jQuery('.work-packages--activity--add-comment .inplace-editing--trigger-link')[0].focus();
+    }, 100);
   }
 }
 
