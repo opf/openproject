@@ -34,7 +34,6 @@ class WorkPackages::MovesController < ApplicationController
 
   def new
     prepare_for_work_package_move
-    render layout: false if request.xhr?
   end
 
   def create
