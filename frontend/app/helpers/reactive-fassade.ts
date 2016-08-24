@@ -3,126 +3,120 @@ import Observable = Rx.Observable;
 import IScope = angular.IScope;
 import IPromise = Rx.IPromise;
 
-let logFn: (msg: string) => any = null;
-
-export function setStateLogFunction(fn: (msg: string) => any) {
-  logFn = fn;
-}
-
 export abstract class StoreElement {
 
   public pathInStore: string = null;
 
+  public logFn: (msg: any) => any = null;
+
   log(msg: string) {
-    if (this.pathInStore === null || logFn === null) {
-      return;
+    if (this.pathInStore && this.logFn) {
+      this.logFn("[" + this.pathInStore + "] " + msg);
     }
-
-    logFn("[" + this.pathInStore + "] " + msg);
   }
 }
 
 
-type LoaderFn = () => IPromise<any>;
-
-export class LoadingState<T> extends StoreElement {
-
-  private counter = 0;
-
-  private subject = new Rx.ReplaySubject<[number, T]>(1);
-
-  private observable: Observable<[number, T]>;
-
-  private lastLoadRequestedTimestamp: number = 0;
-
-  public minimumTimeoutInMs: number;
-
-  private loaderFn: LoaderFn = (): any => {
-    throw "loaderFn not defined";
-  };
-
-  constructor(minimumTimeoutInMs: number = 5000) {
-    super();
-    this.minimumTimeoutInMs = minimumTimeoutInMs;
-    this.observable = this.subject
-      .filter(val => val[1] !== null);
-  }
-
-  public clear() {
-    this.log("clear");
-    this.lastLoadRequestedTimestamp = 0;
-    this.setState(this.counter++, null);
-  }
-
-  public setLoaderFn(loaderFn: LoaderFn) {
-    this.log("setLoaderFn");
-    this.loaderFn = loaderFn;
-  }
-
-  // Force
-
-  public forceLoadAndGet(scope: IScope): IPromise<T> {
-    const currentCounter = this.counter++;
-    this.lastLoadRequestedTimestamp = Date.now();
-
-    this.log("loader called");
-    return this.loaderFn().then(val => {
-      runInScopeDigest(scope, () => {
-        this.setState(currentCounter, val);
-      });
-      return val;
-    });
-  }
-
-  public forceLoadAndObserve(scope: IScope): Observable<T> {
-    const currentCounter = this.counter;
-    this.forceLoadAndGet(null);
-    return this.scopedObservable(scope)
-      .skipWhile((val) => {
-        return val[0] < currentCounter;
-      })
-      .map(val => val[1]);
-  }
-
-  // Maybe
-
-  public maybeLoadAndGet(scope: IScope): IPromise<T> {
-    if (this.isTimeoutPassed()) {
-      return this.forceLoadAndGet(scope);
-    } else {
-      return this.get();
-    }
-  }
-
-  public maybeLoadAndObserve(scope: IScope): Observable<T> {
-    this.maybeLoadAndGet(null);
-    return this.observe(scope);
-  }
-
-  // Passive
-
-  public get(): IPromise<T> {
-    return this.observable.take(1).map(val => val[1]).toPromise();
-  }
-
-  public observe(scope: IScope): Observable<T> {
-    return this.scopedObservable(scope).map(val => val[1]);
-  }
-
-  // --------------------------------------------------------------
-
-  private setState(counter: number, val: T) {
-    this.subject.onNext([counter, val]);
-  }
-
-  private isTimeoutPassed(): boolean {
-    return (Date.now() - this.lastLoadRequestedTimestamp) > this.minimumTimeoutInMs;
-  }
-
-  private scopedObservable(scope: IScope): Observable<[number, T]> {
-    return scope ? scopedObservable(scope, this.observable) : this.observable;
-  }
-}
+// type LoaderFn = () => IPromise<any>;
+//
+// export class LoadingState<T> extends StoreElement {
+//
+//   private counter = 0;
+//
+//   private subject = new Rx.ReplaySubject<[number, T]>(1);
+//
+//   private observable: Observable<[number, T]>;
+//
+//   private lastLoadRequestedTimestamp: number = 0;
+//
+//   public minimumTimeoutInMs: number;
+//
+//   private loaderFn: LoaderFn = (): any => {
+//     throw "loaderFn not defined";
+//   };
+//
+//   constructor(minimumTimeoutInMs: number = 5000) {
+//     super();
+//     this.minimumTimeoutInMs = minimumTimeoutInMs;
+//     this.observable = this.subject
+//       .filter(val => val[1] !== null);
+//   }
+//
+//   public clear() {
+//     this.log("clear");
+//     this.lastLoadRequestedTimestamp = 0;
+//     this.setState(this.counter++, null);
+//   }
+//
+//   public setLoaderFn(loaderFn: LoaderFn) {
+//     this.log("setLoaderFn");
+//     this.loaderFn = loaderFn;
+//   }
+//
+//   // Force
+//
+//   public forceLoadAndGet(scope: IScope): IPromise<T> {
+//     const currentCounter = this.counter++;
+//     this.lastLoadRequestedTimestamp = Date.now();
+//
+//     this.log("loader called");
+//     return this.loaderFn().then(val => {
+//       runInScopeDigest(scope, () => {
+//         this.setState(currentCounter, val);
+//       });
+//       return val;
+//     });
+//   }
+//
+//   public forceLoadAndObserve(scope: IScope): Observable<T> {
+//     const currentCounter = this.counter;
+//     this.forceLoadAndGet(null);
+//     return this.scopedObservable(scope)
+//       .skipWhile((val) => {
+//         return val[0] < currentCounter;
+//       })
+//       .map(val => val[1]);
+//   }
+//
+//   // Maybe
+//
+//   public maybeLoadAndGet(scope: IScope): IPromise<T> {
+//     if (this.isTimeoutPassed()) {
+//       return this.forceLoadAndGet(scope);
+//     } else {
+//       return this.get();
+//     }
+//   }
+//
+//   public maybeLoadAndObserve(scope: IScope): Observable<T> {
+//     this.maybeLoadAndGet(null);
+//     return this.observe(scope);
+//   }
+//
+//   // Passive
+//
+//   public get(): IPromise<T> {
+//     return this.observable.take(1).map(val => val[1]).toPromise();
+//   }
+//
+//   public observe(scope: IScope): Observable<T> {
+//     return this.scopedObservable(scope).map(val => val[1]);
+//   }
+//
+//   // --------------------------------------------------------------
+//
+//   private setState(counter: number, val: T) {
+//     this.subject.onNext([counter, val]);
+//   }
+//
+//   private isTimeoutPassed(): boolean {
+//     return (Date.now() - this.lastLoadRequestedTimestamp) > this.minimumTimeoutInMs;
+//   }
+//
+//   private scopedObservable(scope: IScope): Observable<[number, T]> {
+//     return scope ? scopedObservable(scope, this.observable) : this.observable;
+//   }
+// }
 
 interface PromiseLike<T> {
   then(callback: (value: T) => any): any;
@@ -130,7 +124,7 @@ interface PromiseLike<T> {
 
 export class State<T> extends StoreElement {
 
-  private hasValue = false;
+  private timestampOfLastValue = -1;
 
   private putFromPromiseCalled = false;
 
@@ -148,25 +142,36 @@ export class State<T> extends StoreElement {
    * a value is awaited from a promise (via putFromPromise).
    */
   public isPristine(): boolean {
-    return !this.hasValue && !this.putFromPromiseCalled;
+    return this.timestampOfLastValue === -1 && !this.putFromPromiseCalled;
   }
 
-  public clear() {
+  public clear(): this {
+    this.log("State#clear()");
     this.setState(null);
+    return this;
   }
 
-  public put(value: T) {
-    this.log("put");
+  public put(value: T): this {
+    this.log("State#put(...)");
     this.setState(value);
+    return this;
   }
 
-  public putFromPromise(promise: PromiseLike<T>) {
-    this.log("putFromPromise");
+  public putFromPromise(promise: PromiseLike<T>): this {
     this.clear();
     this.putFromPromiseCalled = true;
     promise.then((value: T) => {
+      this.log("State#putFromPromise(...)");
       this.setState(value);
     });
+    return this;
+  }
+
+  public putFromPromiseIfPristine(promise: PromiseLike<T>): this {
+    if (this.isPristine()) {
+      this.putFromPromise(promise);
+    }
+    return this;
   }
 
   public get(): IPromise<T> {
@@ -178,7 +183,7 @@ export class State<T> extends StoreElement {
   }
 
   private setState(val: T) {
-    this.hasValue = val !== null && val !== undefined;
+    this.timestampOfLastValue = val !== null && val !== undefined ? Date.now() : -1;
     this.subject.onNext(val);
   }
 
@@ -197,7 +202,7 @@ export class MultiState<T> extends StoreElement {
   }
 
   put(id: string, value: T): State<T> {
-    this.log("put " + id);
+    this.log("MultiState#put(" + id + ")");
     const state = this.get(id);
     state.put(value);
     return state;
@@ -212,20 +217,27 @@ export class MultiState<T> extends StoreElement {
 
 }
 
-function traverse(elem: any, path: string) {
-  const values = (_ as any).toPairs(elem);
-  for (let [key, value] of values) {
+function traverse(elem: any, path: string, logFn: (msg: any) => any) {
+
+  for (const key in elem) {
+    if (!elem.hasOwnProperty(key)) {
+      continue;
+    }
+    const value = elem[key];
+
     let location = path.length > 0 ? path + "." + key : key;
     if (value instanceof StoreElement) {
       value.pathInStore = location;
+      value.logFn = logFn;
     } else {
-      traverse(value, location);
+      traverse(value, location, logFn);
     }
   }
+
 }
 
-export function initStates(states: any) {
-  return traverse(states, "");
+export function initStates(states: any, logFn?: (msg: any) => any) {
+  return traverse(states, "", logFn);
 }
 
 

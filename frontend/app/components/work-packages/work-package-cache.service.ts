@@ -84,13 +84,16 @@ export class WorkPackageCacheService {
     //   .filter(wp => wp !== undefined);
 
     const state = states.workPackages.get(workPackageId.toString());
-    if (forceUpdate || state.isPristine()) {
-      // state.clear();
+    if (forceUpdate) {
+      state.clear();
       // this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
       //   state.put(wp);
       // });
-      state.putFromPromise(this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
     }
+
+    state.putFromPromiseIfPristine(
+      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+
     return state;
   }
 
