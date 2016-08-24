@@ -27,7 +27,6 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {WorkPackageResourceInterface} from './work-package-resource.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import IHttpBackendService = angular.IHttpBackendService;
 import SinonStub = Sinon.SinonStub;
@@ -49,6 +48,7 @@ describe('WorkPackageResource service', () => {
   var workPackage: any;
 
   const createWorkPackage = () => {
+    source = source || {};
     workPackage = new WorkPackageResource(source);
   };
 
@@ -359,6 +359,83 @@ describe('WorkPackageResource service', () => {
 
         it('should call the uploadAttachments method with the pendingAttachments', () => {
           expect(uploadAttachmentsStub.calledWith(workPackage.pendingAttachments)).to.be.true;
+        });
+      });
+    });
+  });
+
+  describe('when using removeAttachment', () => {
+    var file;
+    var attachment;
+
+    beforeEach(() => {
+      file = {};
+      attachment = {
+        $isHal: true,
+        'delete': sinon.stub()
+      };
+
+      createWorkPackage();
+      workPackage.attachments = {elements: [attachment]};
+      workPackage.pendingAttachments.push(file);
+    });
+
+    describe('when the attachment is a regular file', () => {
+      beforeEach(() => {
+        workPackage.removeAttachment(file);
+      });
+
+      it('should be removed from the pending attachments', () => {
+        expect(workPackage.pendingAttachments).to.have.length(0);
+      });
+    });
+
+    describe('when the attachment is an attachment resource', () => {
+      var deletion;
+
+      beforeEach(() => {
+        deletion = $q.defer();
+        attachment.delete.returns(deletion.promise);
+        sinon.stub(workPackage, 'updateAttachments');
+
+        workPackage.removeAttachment(attachment);
+      });
+
+      it('should call its delete method', () => {
+        expect(attachment.delete.calledOnce).to.be.true;
+      });
+
+      describe('when the deletion gets resolved', () => {
+        beforeEach(() => {
+          deletion.resolve();
+          $rootScope.$apply();
+        });
+
+        it('should call updateAttachments()', () => {
+          expect(workPackage.updateAttachments.calledOnce).to.be.true;
+        });
+      });
+
+      describe('when an error occurs', () => {
+        var error;
+
+        beforeEach(() => {
+          error = {foo: 'bar'};
+          sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          deletion.reject(error);
+          $rootScope.$apply();
+        });
+
+        it('should call the handleErrorResponse notification', () => {
+          const calledWithErrorAndWorkPackage = wpNotificationsService
+            .handleErrorResponse
+            .calledWith(error, workPackage);
+
+          expect(calledWithErrorAndWorkPackage).to.be.true;
+        });
+
+        it('should not remove the attachment from the elements array', () => {
+          expect(workPackage.attachments.elements).to.have.length(1);
         });
       });
     });

@@ -1,0 +1,16 @@
+<div class="work-package--attachments--files">
+  <div class="work-package--details--long-field">
+    <span
+        class="inplace-edit--read"
+        ng-include="::$ctrl.itemTemplateUrl"
+        ng-if="$ctrl.workPackage.pendingAttachments"
+        ng-repeat="attachment in $ctrl.workPackage.pendingAttachments track by attachment.name+$index">
+    </span>
+    <span
+        class="inplace-edit--read"
+        ng-include="::$ctrl.itemTemplateUrl"
+        ng-if="$ctrl.workPackage.attachments.elements"
+        ng-repeat="attachment in $ctrl.workPackage.attachments.elements track by attachment.name+$index">
+    </span>
+  </div>
+</div>

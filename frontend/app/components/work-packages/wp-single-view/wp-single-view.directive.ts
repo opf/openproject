@@ -41,7 +41,6 @@ export class WorkPackageSingleViewController {
   public singleViewWp;
   public groupedFields: any[] = [];
   public hideEmptyFields: boolean = true;
-  public attachments: any[] = [];
   public text: any;
   public scope: any;
 
@@ -72,10 +71,6 @@ export class WorkPackageSingleViewController {
     $scope.$on('workPackageUpdatedInEditor', () => {
       this.wpNotificationsService.showSave(this.workPackage);
     });
-
-    if (this.workPackage && this.workPackage.attachments) {
-      this.attachments = this.workPackage.attachments.elements;
-    }
   }
 
   public shouldHideGroup(group) {

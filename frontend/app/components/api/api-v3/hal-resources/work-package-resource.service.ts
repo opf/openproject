@@ -199,6 +199,29 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
+   * Remove the given attachment either from the pending attachments or from
+   * the attachment collection, if it is a resource.
+   *
+   * Removing it from the elements array assures that the view gets updated immediately.
+   * If an error occurs, the user gets notified and the attachment is pushed to the elements.
+   */
+  public removeAttachment(attachment) {
+    if (attachment.$isHal) {
+      attachment.delete()
+        .then(() => {
+          this.updateAttachments();
+        })
+        .catch(error => {
+          wpNotificationsService.handleErrorResponse(error, this);
+          this.attachments.elements.push(attachment);
+        });
+    }
+
+    _.pull(this.attachments.elements, attachment);
+    _.pull(this.pendingAttachments, attachment);
+  }
+
+  /**
    * Upload the pending attachments if the work package exists.
    * Do nothing, if the work package is being created.
    */
