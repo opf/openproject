@@ -41,6 +41,8 @@ describe 'layouts/admin', type: :view do
 
     allow(User).to receive(:current).and_return admin
     allow(view).to receive(:current_user).and_return admin
+    allow(view)
+      .to receive(:render_to_string)
   end
 
   # All password-based authentication is to be hidden and disabled if
