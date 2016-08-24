@@ -119,7 +119,8 @@ describe('wpAttachmentList directive', () => {
 
       workPackage.attachments = {
         elements: attachments,
-        $load: sinon.stub()
+        $load: sinon.stub(),
+        updateElements: sinon.stub()
       };
       workPackage.pendingAttachments = attachments;
       workPackage.removeAttachment = sinon.stub();
@@ -133,8 +134,8 @@ describe('wpAttachmentList directive', () => {
       expect(template.root).to.have.length(1);
     });
 
-    it('should load the attachments', () => {
-      expect(workPackage.attachments.$load.calledOnce).to.be.true;
+    it('should update the elements of the attachments', () => {
+      expect(workPackage.attachments.updateElements.calledOnce).to.be.true;
     });
 
     it('should show the existing and pending attachments', () => {

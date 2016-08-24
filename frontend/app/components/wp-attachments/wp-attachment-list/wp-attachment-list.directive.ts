@@ -47,9 +47,7 @@ export class WorkPackageAttachmentListController {
     };
 
     if (this.workPackage.attachments) {
-      this.workPackage.attachments.$load().then(attachments => {
-        this.workPackage.attachments.elements = attachments.elements;
-      });
+      this.workPackage.attachments.updateElements();
     }
   }
 

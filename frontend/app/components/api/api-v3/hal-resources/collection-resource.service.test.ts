@@ -27,16 +27,50 @@
 // ++
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
+import IQService = angular.IQService;
+import IRootScopeService = angular.IRootScopeService;
 
 describe('CollectionResource service', () => {
+  var $q;
+  var $rootScope;
   var CollectionResource;
 
+  var source;
+  var collection;
+
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject((_CollectionResource_) => {
-    CollectionResource = _CollectionResource_;
+  beforeEach(angular.mock.inject(function (_$q_, _$rootScope_, _CollectionResource_) {
+    [$q, $rootScope, CollectionResource] = _.toArray(arguments);
   }));
+
+  function createCollection() {
+    source = source || {};
+    collection = new CollectionResource(source);
+  }
 
   it('should exist', () => {
     expect(CollectionResource).to.exist;
+  });
+
+  describe('when using updateElements', () => {
+    var elements;
+    var result;
+
+    beforeEach(() => {
+      createCollection();
+      elements = [{}, {}];
+      sinon.stub(collection, '$load').returns($q.when({elements}));
+
+      result = collection.updateElements();
+      $rootScope.$apply();
+    });
+
+    it('should set the elements of the resource so the new value', () => {
+      expect(collection.elements).to.equal(elements);
+    });
+
+    it('should return a promise with the elements as the result', () => {
+      expect(result).to.eventually.equal(elements);
+    });
   });
 });
