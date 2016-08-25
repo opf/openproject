@@ -37,63 +37,65 @@
       </div>
     </div>
 
-    <div
-        class="attributes-key-value"
-        ng-repeat="field in group.attributes">
+    <div class="-columns-2">
       <div
-          class="attributes-key-value--key"
-          ng-hide="$ctrl.shouldHideField(field)"
-          ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
-          wp-replacement-label="field">
-
-        {{$ctrl.singleViewWp.getLabel(field)}}
-
-        <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
-      </div>
-      <div
-          ng-hide="$ctrl.shouldHideField(field)"
-          ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
-          wp-edit-field="field"
-          wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
-          wp-edit-field-wrapper-classes="'-small'"
-          class="attributes-key-value--value-container">
-      </div>
-
-      <div
-          class="attributes-key-value--key"
-          ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
-                   $ctrl.shouldHideField(field.fields[1])"
-          ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
-                 $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
-                 $ctrl.singleViewWp.isSpecified(field.fields[1]) "
-          wp-replacement-label="field.label">
-
-        {{$ctrl.singleViewWp.getLabel(field.label)}}
-
-        <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field.label)"> *</span>
-      </div>
-      <div
-          ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
-                   $ctrl.shouldHideField(field.fields[1])"
-          ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
-                 $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
-                 $ctrl.singleViewWp.isSpecified(field.fields[1]) "
-          class="attributes-key-value--value-container -minimal">
-
+          class="attributes-key-value"
+          ng-repeat="field in group.attributes">
         <div
-            wp-edit-field="field.fields[0]"
-            wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[0])"
-            wp-edit-field-wrapper-classes="'-small -shrink'"
-            display-placeholder="::$ctrl.text.fields[field.label][field.fields[0]]">
+            class="attributes-key-value--key"
+            ng-hide="$ctrl.shouldHideField(field)"
+            ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
+            wp-replacement-label="field">
+
+          {{$ctrl.singleViewWp.getLabel(field)}}
+
+          <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field)"> *</span>
+        </div>
+        <div
+            ng-hide="$ctrl.shouldHideField(field)"
+            ng-if="$ctrl.singleViewWp.isSingleField(field) && $ctrl.singleViewWp.isSpecified(field)"
+            wp-edit-field="field"
+            wp-edit-field-label="$ctrl.singleViewWp.getLabel(field)"
+            wp-edit-field-wrapper-classes="'-small'"
+            class="attributes-key-value--value-container">
         </div>
 
-        <span class="attributes-key-value--value-separator"></span>
-
         <div
-            wp-edit-field="field.fields[1]"
-            wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[1])"
-            wp-edit-field-wrapper-classes="'-small -shrink'"
-            display-placeholder="::$ctrl.text.fields[field.label][field.fields[1]]">
+            class="attributes-key-value--key"
+            ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
+                     $ctrl.shouldHideField(field.fields[1])"
+            ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
+                   $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
+                   $ctrl.singleViewWp.isSpecified(field.fields[1]) "
+            wp-replacement-label="field.label">
+
+          {{$ctrl.singleViewWp.getLabel(field.label)}}
+
+          <span class="required" ng-if="$ctrl.singleViewWp.hasNiceStar(field.label)"> *</span>
+        </div>
+        <div
+            ng-hide="$ctrl.shouldHideField(field.fields[0]) &&
+                     $ctrl.shouldHideField(field.fields[1])"
+            ng-if="!$ctrl.singleViewWp.isSingleField(field) &&
+                   $ctrl.singleViewWp.isSpecified(field.fields[0]) &&
+                   $ctrl.singleViewWp.isSpecified(field.fields[1]) "
+            class="attributes-key-value--value-container -minimal">
+
+          <div
+              wp-edit-field="field.fields[0]"
+              wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[0])"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-placeholder="::$ctrl.text.fields[field.label][field.fields[0]]">
+          </div>
+
+          <span class="attributes-key-value--value-separator"></span>
+
+          <div
+              wp-edit-field="field.fields[1]"
+              wp-edit-field-label="$ctrl.singleViewWp.getLabel(field.fields[1])"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-placeholder="::$ctrl.text.fields[field.label][field.fields[1]]">
+          </div>
         </div>
       </div>
     </div>

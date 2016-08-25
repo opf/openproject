@@ -299,3 +299,14 @@
   .work-package--attachments--filename
     width: rem-calc(354)
     display: inline-block
+
+// Implement two column layout for WP full screen view
+@media screen and (min-width: 62rem)
+  .action-show .attributes-group
+    .-columns-2
+      column-count: 2
+
+      .attributes-key-value
+        -webkit-column-break-inside: avoid
+        page-break-inside: avoid
+        break-inside: avoid
