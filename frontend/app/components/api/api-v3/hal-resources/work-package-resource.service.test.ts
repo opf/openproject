@@ -337,7 +337,10 @@ describe('WorkPackageResource service', () => {
       var uploadAttachmentsStub: SinonStub;
 
       beforeEach(() => {
-        uploadAttachmentsStub = sinon.stub(workPackage, 'uploadAttachments');
+        workPackage.pendingAttachments.push({}, {});
+        uploadAttachmentsStub = sinon
+          .stub(workPackage, 'uploadAttachments')
+          .returns($q.when());
       });
 
       describe('when the work package is new', () => {
@@ -359,6 +362,16 @@ describe('WorkPackageResource service', () => {
 
         it('should call the uploadAttachments method with the pendingAttachments', () => {
           expect(uploadAttachmentsStub.calledWith(workPackage.pendingAttachments)).to.be.true;
+        });
+
+        describe('when the upload succeeds', () => {
+          beforeEach(() => {
+            $rootScope.$apply();
+          });
+
+          it('should reset the pending attachments', () => {
+            expect(workPackage.pendingAttachments).to.have.length(0);
+          });
         });
       });
     });

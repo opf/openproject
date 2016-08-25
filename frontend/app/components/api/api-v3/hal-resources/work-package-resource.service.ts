@@ -227,7 +227,8 @@ export class WorkPackageResource extends HalResource {
    */
   public uploadPendingAttachments() {
     if (!this.isNew) {
-      this.uploadAttachments(this.pendingAttachments);
+      this.uploadAttachments(this.pendingAttachments)
+        .then(() => this.pendingAttachments = []);
     }
   }
 
