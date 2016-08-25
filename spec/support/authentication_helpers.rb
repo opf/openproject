@@ -40,6 +40,15 @@ module AuthenticationHelpers
 
     allow(User).to receive(:current).and_return(user)
   end
+
+  def login_with(login, password)
+    visit '/login'
+    within('#login-form') do
+      fill_in 'username', with: login
+      fill_in 'password', with: password
+      click_button I18n.t(:button_login)
+    end
+  end
 end
 
 RSpec.configure do |config|
