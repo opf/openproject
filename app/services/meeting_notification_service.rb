@@ -25,7 +25,7 @@ class MeetingNotificationService
         MeetingMailer.send(action, content, content_type, recipient.mail).deliver_now
       rescue => e
         Rails.logger.error {
-          "Failed to deliver icalendar notification to #{recipient.login}: #{e.message}"
+          "Failed to deliver #{action} notification to #{recipient.mail}: #{e.message}"
         }
         recipients_with_errors << recipient
       end
