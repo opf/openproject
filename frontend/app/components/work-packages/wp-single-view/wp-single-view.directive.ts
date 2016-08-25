@@ -36,27 +36,22 @@ import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directiv
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
-  public formCtrl:WorkPackageEditFormController;
-  public workPackage:WorkPackageResourceInterface;
+  public formCtrl: WorkPackageEditFormController;
+  public workPackage: WorkPackageResourceInterface;
   public singleViewWp;
-  public groupedFields:any[] = [];
-  public hideEmptyFields:boolean = true;
-  public attachments:Array<any>;
-  public text:any;
-  public scope:any;
+  public groupedFields: any[] = [];
+  public hideEmptyFields: boolean = true;
+  public text: any;
+  public scope: any;
 
-  protected firstTimeFocused:boolean = false;
+  protected firstTimeFocused: boolean = false;
 
   constructor(protected $scope,
-              protected $window,
-              protected $state,
               protected $stateParams,
-              protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpNotificationsService: WorkPackageNotificationService,
               protected WorkPackagesOverviewService,
-              protected wpAttachments,
               protected SingleViewWorkPackage) {
 
     var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;
@@ -110,10 +105,14 @@ export class WorkPackageSingleViewController {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
 
+    if (this.workPackage.attachments) {
+      this.workPackage.attachments.updateElements();
+    }
+
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();
 
-      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
+      var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
 
       angular.forEach(schema, (prop, propName) => {
@@ -139,7 +138,7 @@ function wpSingleViewDirective() {
   function wpSingleViewLink(scope,
                             element,
                             attrs,
-                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
+                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
 

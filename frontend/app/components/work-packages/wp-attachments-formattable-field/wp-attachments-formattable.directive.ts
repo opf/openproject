@@ -1,4 +1,3 @@
-import {WpAttachmentsService} from './../wp-attachments/wp-attachments.service';
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {
   DropModel,
@@ -7,16 +6,14 @@ import {
   FieldModel,
   SingleAttachmentModel
 } from './wp-attachments-formattable.models';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {
-  CollectionResource,
-  CollectionResourceInterface
-} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
 
 export class WpAttachmentsFormattableController {
@@ -28,7 +25,6 @@ export class WpAttachmentsFormattableController {
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpEditModeState:WorkPackageEditModeStateService,
-              protected wpAttachments:WpAttachmentsService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state,
@@ -68,45 +64,36 @@ export class WpAttachmentsFormattableController {
     if (dropData.isUpload) {
       if (dropData.filesAreValidForUploading()) {
         if (!dropData.isDelayedUpload) {
+          workPackage
+            .uploadAttachments(<any> dropData.files)
+            .then(attachments => attachments.elements)
+            .then((updatedAttachments:any) => {
+              if (angular.isUndefined(updatedAttachments)) {
+                return;
+              }
+              updatedAttachments = this.sortAttachments(updatedAttachments);
 
-          this.uploadFiles(workPackage, dropData).then((updatedAttachments:any) => {
-            if (angular.isUndefined(updatedAttachments)) {
-              return;
-            }
-            updatedAttachments = this.sortAttachments(updatedAttachments);
+              if (dropData.filesCount === 1) {
+                this.insertSingleAttachment(updatedAttachments, description);
+              }
+              else if (dropData.filesCount > 1) {
+                this.insertMultipleAttachments(dropData, updatedAttachments, description);
+              }
 
-            if (dropData.filesCount === 1) {
-              this.insertSingleAttachment(updatedAttachments, description);
-            }
-            else if (dropData.filesCount > 1) {
-              this.insertMultipleAttachments(dropData, updatedAttachments, description);
-            }
-
-            description.save();
-
+              description.save();
           });
-        } else {
+        }
+        else {
           this.insertDelayedAttachments(dropData, description);
         }
       }
-    } else {
+    }
+    else {
       this.insertUrls(dropData, description);
     }
     this.openDetailsView(workPackage.id);
     this.removeHighlight();
   };
-
-  protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel) {
-    const updatedAttachmentsList = this.$q.defer();
-
-    this.wpAttachments.upload(workPackage, dropData.files).then(() => {
-      workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
-        updatedAttachmentsList.resolve(collection.elements);
-      });
-    });
-
-    return updatedAttachmentsList.promise;
-  }
 
   protected sortAttachments(updatedAttachments:any) {
     updatedAttachments.sort(function (a:any, b:any) {

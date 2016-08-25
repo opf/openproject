@@ -1,0 +1,31 @@
+<span class="inplace-editing--trigger-container">
+  <span class="inplace-editing--trigger-link"
+        ng-class="{'-focus': $ctrl.isFocused(attachment)}">
+    <span class="inplace-editing--container">
+      <span class="inplace-edit--read-value">
+        <i class="icon-attachment"></i>
+        <a
+            class="work-package--attachments--filename"
+            ng-href="{{ ::attachment.downloadLocation.href || '#' }}"
+            download
+            ng-focus="$ctrl.focus(attachment)"
+            ng-blur="$ctrl.undoFocus()">
+
+          {{ ::attachment.fileName || attachment.name }}
+        </a>
+      </span>
+      <a
+          href=""
+          class="inplace-edit--icon-wrapper"
+          ng-focus="$ctrl.focus(attachment)"
+          ng-blur="$ctrl.undoFocus()"
+          ng-click="$ctrl.workPackage.removeAttachment(attachment)"
+          confirm-popup="{{ ::$ctrl.text.destroyConfirmation }}">
+        <icon-wrapper
+            icon-name="delete"
+            icon-title="{{ ::$ctrl.text.removeFile({fileName: attachment.fileName}) }}">
+        </icon-wrapper>
+      </a>
+    </span>
+  </span>
+</span>

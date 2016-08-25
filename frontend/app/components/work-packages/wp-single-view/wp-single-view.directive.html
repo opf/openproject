@@ -98,11 +98,21 @@
       </div>
     </div>
   </div>
-  </div>
+</div>
 
-  <wp-attachments
-      wp-single-view-ctrl="$ctrl"
-      work-package="$ctrl.workPackage"
-      data-ng-show="!$ctrl.hideEmptyFields || $ctrl.attachments.length > 0">
-  </wp-attachments>
+<div class="work-packages--attachments attributes-group">
+  <div
+      class="work-packages--atachments-container"
+      ng-if="!$ctrl.hideEmptyFields || $ctrl.workPackage.attachments.elements.length">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ ::$ctrl.I18n.t('js.label_attachments') }}
+        </h3>
+      </div>
+    </div>
+
+    <wp-attachment-list work-package="$ctrl.workPackage"></wp-attachment-list>
+    <wp-attachments-upload work-package="$ctrl.workPackage"></wp-attachments-upload>
+  </div>
 </div>

@@ -27,87 +27,430 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {WorkPackageResource} from './work-package-resource.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import IHttpBackendService = angular.IHttpBackendService;
 import SinonStub = Sinon.SinonStub;
+import IQService = angular.IQService;
+import IRootScopeService = angular.IRootScopeService;
+import IPromise = angular.IPromise;
 
 describe('WorkPackageResource service', () => {
-  var $httpBackend:IHttpBackendService;
+  var $httpBackend: IHttpBackendService;
+  var $rootScope: IRootScopeService;
+  var $q: IQService;
   var WorkPackageResource;
-  var wpCacheService:WorkPackageCacheService;
+  var AttachmentCollectionResource;
+  var wpCacheService: WorkPackageCacheService;
+  var NotificationsService: any;
+  var wpNotificationsService: any;
+
+  var source: any;
+  var workPackage: any;
+
+  const createWorkPackage = () => {
+    source = source || {};
+    workPackage = new WorkPackageResource(source);
+  };
+
+  const expectUncachedRequest = href => {
+    $httpBackend
+      .expectGET(href, headers => headers.caching.enabled === false)
+      .respond(200, {_links: {self: {href}}});
+  };
+
+  const expectUncachedRequests = (...urls) => {
+    urls.forEach(expectUncachedRequest);
+    $httpBackend.flush();
+  };
 
   beforeEach(angular.mock.module(opApiModule.name));
   beforeEach(angular.mock.inject(function (_$httpBackend_,
+                                           _$rootScope_,
+                                           _$q_,
                                            _WorkPackageResource_,
-                                           _wpCacheService_) {
-    [$httpBackend, WorkPackageResource, wpCacheService] = _.toArray(arguments);
+                                           _AttachmentCollectionResource_,
+                                           _wpCacheService_,
+                                           _NotificationsService_,
+                                           _wpNotificationsService_) {
+    [
+      $httpBackend,
+      $rootScope,
+      $q,
+      WorkPackageResource,
+      AttachmentCollectionResource,
+      wpCacheService,
+      NotificationsService,
+      wpNotificationsService
+    ] = _.toArray(arguments);
+
+    source = {};
   }));
 
   it('should exist', () => {
     expect(WorkPackageResource).to.exist;
   });
 
-  describe('when the resource was created', () => {
-    var source:any;
-    var workPackage:WorkPackageResource;
-    var updateWorkPackageStub:SinonStub;
+  describe('when creating an empty work package', () => {
+    beforeEach(createWorkPackage);
 
-    const expectUncachedRequests = (urls) => {
-      urls.forEach(url => {
-        $httpBackend
-          .expectGET(url, headers => headers.caching.enabled === false)
-          .respond(200, {});
+    it('should have an attachments property of type `AttachmentCollectionResource`', () => {
+      expect(workPackage.attachments).to.be.instanceOf(AttachmentCollectionResource);
+    });
+
+    it('should return true for `isNew`', () => {
+      expect(workPackage.isNew).to.be.true;
+    });
+  });
+
+  describe('when retrieving `canAddAttachment`', () => {
+    beforeEach(createWorkPackage);
+
+    const expectValue = (value, prepare = angular.noop) => {
+      value = value.toString();
+
+      beforeEach(prepare);
+      it('should be ' + value, () => {
+        expect(workPackage.canAddAttachments).to.be[value];
       });
-      $httpBackend.flush();
     };
-    const testWpCacheUpdateWith = (prepare, ...urls) => {
-      beforeEach(() => {
-        prepare();
-        expectUncachedRequests(urls);
-      });
 
+    describe('when the work package is new', () => {
+      expectValue(true);
+    });
+
+    describe('when the work package is not new', () => {
+      expectValue(false, () => {
+        workPackage.id = 420;
+      });
+    });
+
+    describe('when the work work package has no `addAttachment` link and is not new', () => {
+      expectValue(false, () => {
+        workPackage.id = 69;
+        workPackage.$links.addAttachment = null;
+      });
+    });
+
+    describe('when the work work package has an `addAttachment` link', () => {
+      expectValue(true, () => {
+        workPackage.$links.addAttachment = <any> angular.noop;
+      });
+    });
+  });
+
+  describe('when updating multiple linked resources', () => {
+    var updateWorkPackageStub: SinonStub;
+    var result;
+
+    const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
         expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
       });
     };
 
     beforeEach(() => {
-      source = {
-        _links: {
-          activities: {
-            href: 'activities'
-          },
-          attachments: {
-            href: 'attachments'
-          }
-        }
-      };
-      workPackage = new WorkPackageResource(source);
       updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
     });
 
     afterEach(() => {
+      $rootScope.$apply();
       updateWorkPackageStub.restore();
     });
 
-    describe('when updating multiple linked resource', () => {
-      testWpCacheUpdateWith(() => {
-        workPackage.updateLinkedResources('activities', 'attachments');
-      }, 'activities', 'attachments');
+    describe('when the resources are properties of the work package', () => {
+      const testResultIsResource = (href, prepare) => {
+        beforeEach(prepare);
+        expectCacheUpdate();
+
+        it('should be a promise with a resource where the $href  is ' + href, () => {
+          expect(result).to.eventually.have.property('$href', href);
+        });
+      };
+
+      beforeEach(() => {
+        source = {
+          _links: {
+            attachments: {href: 'attachmentsHref'},
+            activities: {href: 'activitiesHref'}
+          }
+        };
+        createWorkPackage();
+      });
+
+      describe('when updating the properties using updateLinkedResources()', () => {
+        var results;
+
+        beforeEach(() => {
+          results = workPackage.updateLinkedResources('attachments', 'activities');
+          expectUncachedRequests('attachmentsHref', 'activitiesHref');
+        });
+
+        it('should return a result, that has the same properties as the updated ones', () => {
+          expect(results).to.eventually.be.fulfilled.then(results => {
+            expect(Object.keys(results)).to.have.members(['attachments', 'activities']);
+          });
+        });
+
+        testResultIsResource('attachmentsHref', () => {
+          results.then(results => result = $q.when(results.attachments));
+        });
+
+        testResultIsResource('activitiesHref', () => {
+          results.then(results => result = $q.when(results.activities));
+        });
+      });
+
+      describe('when updating the activities', () => {
+        testResultIsResource('activitiesHref', () => {
+          result = workPackage.updateActivities();
+          expectUncachedRequests('activitiesHref');
+        });
+      });
+
+      describe('when updating the attachments', () => {
+        testResultIsResource('attachmentsHref', () => {
+          result = workPackage.updateAttachments();
+          expectUncachedRequests('activitiesHref', 'attachmentsHref');
+        });
+      });
     });
 
-    describe('when updating the activities', () => {
-      testWpCacheUpdateWith(() => {
-        workPackage.updateActivities();
-      }, 'activities');
+    describe('when the linked resource are not properties of the work package', () => {
+      const expectRejectedWithCacheUpdate = prepare => {
+        beforeEach(prepare);
+
+        it('should return a rejected promise', () => {
+          expect(result).to.eventually.be.rejected;
+        });
+
+        expectCacheUpdate();
+      };
+
+      beforeEach(() => {
+        source = {};
+        createWorkPackage();
+      });
+
+      describe('when using updateLinkedResources', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateLinkedResources('attachments', 'activities');
+        });
+      });
+
+      describe('when using updateActivities', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateActivities();
+        });
+      });
+
+      describe('when using updateAttachments', () => {
+        expectRejectedWithCacheUpdate(() => {
+          result = workPackage.updateAttachments();
+        });
+      });
+    });
+  });
+
+  describe('when a work package is created with attachments and activities', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          attachments: {
+            href: 'attachments'
+          },
+          activities: {
+            href: 'activities'
+          }
+        },
+        isNew: false
+      };
+      createWorkPackage();
     });
 
-    describe('when updating the attachments', () => {
-      testWpCacheUpdateWith(() => {
-        workPackage.updateAttachments();
-      }, 'activities', 'attachments');
+    describe('when adding multiple attachments to the work package', () => {
+      var file: any = {};
+      var files: any[] = [file, file];
+      var uploadFilesDeferred;
+      var uploadAttachmentsPromise;
+      var attachmentsUploadStub;
+      var uploadNotificationStub;
+
+      beforeEach(() => {
+        uploadFilesDeferred = $q.defer();
+        const uploadResult = {
+          uploads: [uploadFilesDeferred.promise],
+          finished: uploadFilesDeferred.promise
+        };
+        attachmentsUploadStub = sinon.stub(workPackage.attachments, 'upload').returns(uploadResult);
+        uploadNotificationStub = sinon.stub(NotificationsService, 'addWorkPackageUpload');
+
+        uploadAttachmentsPromise = workPackage.uploadAttachments(files);
+      });
+
+      it('should call the upload method of the attachment collection resource', () => {
+        expect(attachmentsUploadStub.calledWith(files)).to.be.true;
+      });
+
+      it('should add an upload notification', () => {
+        expect(uploadNotificationStub.calledOnce).to.be.true;
+      });
+
+      describe('when the upload fails', () => {
+        var notificationStub;
+        var error = 'err';
+
+        beforeEach(() => {
+          uploadFilesDeferred.reject(error);
+          notificationStub = sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          $rootScope.$apply();
+        });
+
+        it('should call the error response notification', () => {
+          expect(notificationStub.calledWith(error, workPackage)).to.be.true;
+        });
+      });
+
+      describe('when the upload succeeds', () => {
+        var removeStub;
+
+        beforeEach(() => {
+          uploadFilesDeferred.resolve();
+          removeStub = sinon.stub(NotificationsService, 'remove');
+
+          expectUncachedRequests('activities', 'attachments');
+          $rootScope.$apply();
+        });
+
+        it('should remove the upload notification', angular.mock.inject($timeout => {
+          $timeout.flush();
+          expect(removeStub.calledOnce).to.be.true;
+        }));
+
+        it('should return an attachment collection resource promise', () => {
+          expect(uploadAttachmentsPromise).to.eventually.have.property('$href', 'attachments');
+          $rootScope.$apply();
+        });
+      });
+    });
+
+    describe('when using uploadPendingAttachments', () => {
+      var uploadAttachmentsStub: SinonStub;
+
+      beforeEach(() => {
+        workPackage.pendingAttachments.push({}, {});
+        uploadAttachmentsStub = sinon
+          .stub(workPackage, 'uploadAttachments')
+          .returns($q.when());
+      });
+
+      describe('when the work package is new', () => {
+        beforeEach(() => {
+          workPackage.isNew = true;
+          workPackage.uploadPendingAttachments();
+        });
+
+        it('should not be called', () => {
+          expect(uploadAttachmentsStub.called).to.be.false;
+        });
+      });
+
+      describe('when the work package is not new', () => {
+        beforeEach(() => {
+          workPackage.isNew = false;
+          workPackage.uploadPendingAttachments();
+        });
+
+        it('should call the uploadAttachments method with the pendingAttachments', () => {
+          expect(uploadAttachmentsStub.calledWith(workPackage.pendingAttachments)).to.be.true;
+        });
+
+        describe('when the upload succeeds', () => {
+          beforeEach(() => {
+            $rootScope.$apply();
+          });
+
+          it('should reset the pending attachments', () => {
+            expect(workPackage.pendingAttachments).to.have.length(0);
+          });
+        });
+      });
+    });
+  });
+
+  describe('when using removeAttachment', () => {
+    var file;
+    var attachment;
+
+    beforeEach(() => {
+      file = {};
+      attachment = {
+        $isHal: true,
+        'delete': sinon.stub()
+      };
+
+      createWorkPackage();
+      workPackage.attachments = {elements: [attachment]};
+      workPackage.pendingAttachments.push(file);
+    });
+
+    describe('when the attachment is a regular file', () => {
+      beforeEach(() => {
+        workPackage.removeAttachment(file);
+      });
+
+      it('should be removed from the pending attachments', () => {
+        expect(workPackage.pendingAttachments).to.have.length(0);
+      });
+    });
+
+    describe('when the attachment is an attachment resource', () => {
+      var deletion;
+
+      beforeEach(() => {
+        deletion = $q.defer();
+        attachment.delete.returns(deletion.promise);
+        sinon.stub(workPackage, 'updateAttachments');
+
+        workPackage.removeAttachment(attachment);
+      });
+
+      it('should call its delete method', () => {
+        expect(attachment.delete.calledOnce).to.be.true;
+      });
+
+      describe('when the deletion gets resolved', () => {
+        beforeEach(() => {
+          deletion.resolve();
+          $rootScope.$apply();
+        });
+
+        it('should call updateAttachments()', () => {
+          expect(workPackage.updateAttachments.calledOnce).to.be.true;
+        });
+      });
+
+      describe('when an error occurs', () => {
+        var error;
+
+        beforeEach(() => {
+          error = {foo: 'bar'};
+          sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          deletion.reject(error);
+          $rootScope.$apply();
+        });
+
+        it('should call the handleErrorResponse notification', () => {
+          const calledWithErrorAndWorkPackage = wpNotificationsService
+            .handleErrorResponse
+            .calledWith(error, workPackage);
+
+          expect(calledWithErrorAndWorkPackage).to.be.true;
+        });
+
+        it('should not remove the attachment from the elements array', () => {
+          expect(workPackage.attachments.elements).to.have.length(1);
+        });
+      });
     });
   });
 });
-

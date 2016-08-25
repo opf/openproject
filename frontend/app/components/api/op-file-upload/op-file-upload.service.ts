@@ -26,30 +26,46 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {opApiModule} from '../../../../angular-modules';
+import {opApiModule} from '../../../angular-modules';
+import IQService = angular.IQService;
+import IPromise = angular.IPromise;
 
-interface CollectionResourceEmbedded {
-  elements: HalResource[];
+export interface UploadFile extends File {
+  description: string;
 }
 
-export class CollectionResource extends HalResource {
-  public elements: HalResource[];
+export interface UploadResult {
+  uploads: IPromise<any>[];
+  finished: IPromise<any>;
+}
+
+export class OpenProjectFileUploadService {
+  constructor(protected $q: IQService,
+              protected Upload) {
+  }
 
   /**
-   * Update the collection's elements and return them in a promise.
-   * This is useful, as angular does not recognize update made by $load.
+   * Upload multiple files using `ngFileUpload` and return a single promise.
+   * Ignore directories.
    */
-  public updateElements() {
-    return this.$load().then(collection =>  this.elements = collection.elements);
+  public upload(url: string, files: UploadFile[]): UploadResult {
+    files = _.filter(files, file => file.type !== 'directory');
+    const uploads = _.map(files, (file: UploadFile) => {
+      const params = {
+        fields: {
+          metadata: {
+            description: file.description,
+            fileName: file.name,
+          }
+        },
+        file, url
+      };
+
+      return this.Upload.upload(params);
+    });
+    const finished = this.$q.all(uploads);
+    return {uploads, finished};
   }
 }
 
-export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
-}
-
-function collectionResource() {
-  return CollectionResource;
-}
-
-opApiModule.factory('CollectionResource', collectionResource);
+opApiModule.service('opFileUpload', OpenProjectFileUploadService);

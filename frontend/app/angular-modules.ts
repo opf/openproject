@@ -37,7 +37,7 @@ angular.module('openproject.uiComponents',
 export const animationsModule = angular.module('openproject.animations', [
   'ngAnimate'
 ]);
-export const configModule = angular.module('openproject.config', []);
+export const opConfigModule = angular.module('openproject.config', []);
 export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
   'openproject.helpers',
@@ -146,7 +146,7 @@ export const opApiModule = angular.module('openproject.api', [
   'openproject.services'
 ]);
 
-angular.module('openproject.templates', []);
+export const opTemplatesModule = angular.module('openproject.templates', []);
 
 // refactoring
 angular.module('openproject.inplace-edit', []);

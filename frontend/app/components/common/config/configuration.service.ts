@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {configModule} from '../../../angular-modules';
+import {opConfigModule} from '../../../angular-modules';
 
 function ConfigurationService($q, $http, $window, PathHelper, I18n) {
   // fetches configuration from the ApiV3 endpoint
@@ -138,4 +138,4 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
   };
 }
 
-configModule.factory('ConfigurationService', ConfigurationService);
+opConfigModule.factory('ConfigurationService', ConfigurationService);

@@ -26,30 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
+import {CollectionResource} from './collection-resource.service';
+import {HalResource} from './hal-resource.service';
+import {
+  OpenProjectFileUploadService,
+  UploadFile, UploadResult
+} from '../../op-file-upload/op-file-upload.service';
+import IPromise = angular.IPromise;
 
-interface CollectionResourceEmbedded {
-  elements: HalResource[];
-}
+var opFileUpload: OpenProjectFileUploadService;
 
-export class CollectionResource extends HalResource {
-  public elements: HalResource[];
-
+export class AttachmentCollectionResource extends CollectionResource {
   /**
-   * Update the collection's elements and return them in a promise.
-   * This is useful, as angular does not recognize update made by $load.
+   * Upload the given files to the $href property of this resource.
    */
-  public updateElements() {
-    return this.$load().then(collection =>  this.elements = collection.elements);
+  public upload(files: UploadFile[]): UploadResult {
+    return opFileUpload.upload(this.$href, files);
   }
 }
 
-export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
+export interface AttachmentCollectionResourceInterface extends AttachmentCollectionResource {
+  elements: HalResource[];
 }
 
-function collectionResource() {
-  return CollectionResource;
+function attachmentCollectionResourceService(...args) {
+  [opFileUpload] = args;
+  return AttachmentCollectionResource;
 }
 
-opApiModule.factory('CollectionResource', collectionResource);
+attachmentCollectionResourceService.$inject = ['opFileUpload'];
+
+opApiModule.factory('AttachmentCollectionResource', attachmentCollectionResourceService);

@@ -27,50 +27,49 @@
 // ++
 
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
-import IQService = angular.IQService;
-import IRootScopeService = angular.IRootScopeService;
+import {AttachmentCollectionResource} from './attachment-collection-resource.service';
+import {OpenProjectFileUploadService} from '../../op-file-upload/op-file-upload.service';
+import SinonStub = Sinon.SinonStub;
 
-describe('CollectionResource service', () => {
-  var $q;
-  var $rootScope;
-  var CollectionResource;
+describe('AttachmentCollectionResource service', () => {
+  var AttachmentCollectionResource;
+  var opFileUpload: OpenProjectFileUploadService;
 
-  var source;
-  var collection;
-
-  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject(function (_$q_, _$rootScope_, _CollectionResource_) {
-    [$q, $rootScope, CollectionResource] = _.toArray(arguments);
+  beforeEach(angular.mock.module(
+    opApiModule.name,
+    opServicesModule.name
+  ));
+  beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_,
+                                           _opFileUpload_) {
+    [AttachmentCollectionResource, opFileUpload] = _.toArray(arguments);
   }));
 
-  function createCollection() {
-    source = source || {};
-    collection = new CollectionResource(source);
-  }
-
   it('should exist', () => {
-    expect(CollectionResource).to.exist;
+    expect(AttachmentCollectionResource).to.exist;
   });
 
-  describe('when using updateElements', () => {
-    var elements;
-    var result;
+  describe('when creating an attachment collection', () => {
+    var collection: AttachmentCollectionResource;
 
     beforeEach(() => {
-      createCollection();
-      elements = [{}, {}];
-      sinon.stub(collection, '$load').returns($q.when({elements}));
-
-      result = collection.updateElements();
-      $rootScope.$apply();
+      collection = new AttachmentCollectionResource({
+        _links: {self: {href: 'attachments'}}
+      }, true);
     });
 
-    it('should set the elements of the resource so the new value', () => {
-      expect(collection.elements).to.equal(elements);
-    });
+    describe('when using upload()', () => {
+      var uploadStub: SinonStub;
+      var params;
 
-    it('should return a promise with the elements as the result', () => {
-      expect(result).to.eventually.equal(elements);
+      beforeEach(() => {
+        params = [{}, {}];
+        uploadStub = sinon.stub(opFileUpload, 'upload');
+        collection.upload(params);
+      });
+
+      it('should upload the files as expected', () => {
+        expect(uploadStub.calledWith(collection.$href, params)).to.be.true;
+      });
     });
   });
 });

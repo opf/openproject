@@ -30,53 +30,61 @@ import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
-import IQService = angular.IQService;
 import {CollectionResourceInterface} from './collection-resource.service';
+import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
+import {UploadFile} from '../../op-file-upload/op-file-upload.service';
+import IQService = angular.IQService;
+import IPromise = angular.IPromise;
+import ITimeoutService = angular.ITimeoutService;
 
 interface WorkPackageResourceEmbedded {
-  activities:CollectionResourceInterface;
-  assignee:HalResource|any;
-  attachments:HalResource|any;
-  author:HalResource|any;
-  availableWatchers:HalResource|any;
-  category:HalResource|any;
-  children:WorkPackageResourceInterface[];
-  parent:HalResource|any;
-  priority:HalResource|any;
-  project:HalResource|any;
-  relations:CollectionResourceInterface;
-  responsible:HalResource|any;
-  schema:HalResource|any;
-  status:HalResource|any;
-  timeEntries:HalResource[]|any[];
-  type:HalResource|any;
-  version:HalResource|any;
-  watchers:HalResource[]|any[];
+  activities: CollectionResourceInterface;
+  assignee: HalResource|any;
+  attachments: AttachmentCollectionResourceInterface;
+  author: HalResource|any;
+  availableWatchers: HalResource|any;
+  category: HalResource|any;
+  children: WorkPackageResourceInterface[];
+  parent: HalResource|any;
+  priority: HalResource|any;
+  project: HalResource|any;
+  relations: CollectionResourceInterface;
+  responsible: HalResource|any;
+  schema: HalResource|any;
+  status: HalResource|any;
+  timeEntries: HalResource[]|any[];
+  type: HalResource|any;
+  version: HalResource|any;
+  watchers: HalResource[]|any[];
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
-  addAttachment(attachment:HalResource):ng.IPromise<any>;
-  addChild(child:HalResource):ng.IPromise<any>;
-  addComment(comment:HalResource):ng.IPromise<any>;
-  addRelation(relation:any):ng.IPromise<any>;
-  addWatcher(watcher:HalResource):ng.IPromise<any>;
-  changeParent(params:any):ng.IPromise<any>;
-  copy():ng.IPromise<WorkPackageResource>;
-  delete():ng.IPromise<any>;
-  logTime():ng.IPromise<any>;
-  move():ng.IPromise<any>;
-  removeWatcher():ng.IPromise<any>;
-  self():ng.IPromise<any>;
-  update(payload:any):ng.IPromise<any>;
-  updateImmediately(payload:any):ng.IPromise<any>;
-  watch():ng.IPromise<any>;
+  addAttachment(attachment: HalResource): ng.IPromise<any>;
+  addChild(child: HalResource): ng.IPromise<any>;
+  addComment(comment: HalResource): ng.IPromise<any>;
+  addRelation(relation: any): ng.IPromise<any>;
+  addWatcher(watcher: HalResource): ng.IPromise<any>;
+  changeParent(params: any): ng.IPromise<any>;
+  copy(): ng.IPromise<WorkPackageResource>;
+  delete(): ng.IPromise<any>;
+  logTime(): ng.IPromise<any>;
+  move(): ng.IPromise<any>;
+  removeWatcher(): ng.IPromise<any>;
+  self(): ng.IPromise<any>;
+  update(payload: any): ng.IPromise<any>;
+  updateImmediately(payload: any): ng.IPromise<any>;
+  watch(): ng.IPromise<any>;
 }
 
-var $q:IQService;
-var apiWorkPackages:ApiWorkPackagesService;
-var wpCacheService:WorkPackageCacheService;
-var NotificationsService:any;
-var $stateParams:any;
+var $q: IQService;
+var $stateParams: any;
+var $timeout: ITimeoutService;
+var I18n: op.I18n;
+var apiWorkPackages: ApiWorkPackagesService;
+var wpCacheService: WorkPackageCacheService;
+var NotificationsService: any;
+var wpNotificationsService: any;
+var AttachmentCollectionResource;
 
 export class WorkPackageResource extends HalResource {
   public static fromCreateForm(form) {
@@ -102,25 +110,28 @@ export class WorkPackageResource extends HalResource {
     return wp;
   }
 
-  public $embedded:WorkPackageResourceEmbedded;
-  public $links:WorkPackageResourceLinks;
-  public id:number|string;
+  public $embedded: WorkPackageResourceEmbedded;
+  public $links: WorkPackageResourceLinks;
+  public id: number|string;
   public schema;
-  public $pristine:{ [attribute:string]:any } = {};
-  public parentId:number;
-  public subject:string;
-  public lockVersion:number;
-  public description:any;
-  public inFlight:boolean;
-  public activities:CollectionResourceInterface;
+  public $pristine: { [attribute: string]: any } = {};
+  public parentId: number;
+  public subject: string;
+  public lockVersion: number;
+  public description: any;
+  public inFlight: boolean;
+  public activities: CollectionResourceInterface;
+  public attachments: AttachmentCollectionResourceInterface;
+
+  public pendingAttachments: UploadFile[] = [];
 
   private form;
 
-  public get isNew():boolean {
+  public get isNew(): boolean {
     return isNaN(Number(this.id));
   }
 
-  public get isMilestone():boolean {
+  public get isMilestone(): boolean {
     /**
      * it would be better if this was not deduced but rather taken from the type
      */
@@ -130,11 +141,11 @@ export class WorkPackageResource extends HalResource {
   /**
    * Returns true if any field is in edition in this resource.
    */
-  public get dirty():boolean {
+  public get dirty(): boolean {
     return this.modifiedFields.length > 0;
   }
 
-  public get modifiedFields():string[] {
+  public get modifiedFields(): string[] {
     var modified = [];
 
     angular.forEach(this.$pristine, (value, key) => {
@@ -152,16 +163,95 @@ export class WorkPackageResource extends HalResource {
     return modified;
   }
 
-  public get isLeaf():boolean {
+  public get isLeaf(): boolean {
     var children = this.$links.children;
     return !(children && children.length > 0);
   }
 
-  public get isEditable():boolean {
+  public get isEditable(): boolean {
     return !!this.$links.update || this.isNew;
   }
 
-  public requiredValueFor(fieldName):boolean {
+  /**
+   * Return whether the user is able to upload an attachment.
+   *
+   * If either the `addAttachment` link is provided or the resource is being created,
+   * adding attachments is allowed.
+   */
+  public get canAddAttachments(): boolean {
+    return !!this.$links.addAttachment || this.isNew;
+  }
+
+  /**
+   * Initialise the work package resource.
+   *
+   * Make the attachments an `AttachmentCollectionResource`. This should actually
+   * be done automatically, but the backend does not provide typed collections yet.
+   */
+  protected $initialize(source) {
+    super.$initialize(source);
+
+    var attachments = this.attachments || {$source: void 0, $loaded: void 0};
+    this.attachments = new AttachmentCollectionResource(
+      attachments.$source,
+      attachments.$loaded
+    );
+  }
+
+  /**
+   * Remove the given attachment either from the pending attachments or from
+   * the attachment collection, if it is a resource.
+   *
+   * Removing it from the elements array assures that the view gets updated immediately.
+   * If an error occurs, the user gets notified and the attachment is pushed to the elements.
+   */
+  public removeAttachment(attachment) {
+    if (attachment.$isHal) {
+      attachment.delete()
+        .then(() => {
+          this.updateAttachments();
+        })
+        .catch(error => {
+          wpNotificationsService.handleErrorResponse(error, this);
+          this.attachments.elements.push(attachment);
+        });
+    }
+
+    _.pull(this.attachments.elements, attachment);
+    _.pull(this.pendingAttachments, attachment);
+  }
+
+  /**
+   * Upload the pending attachments if the work package exists.
+   * Do nothing, if the work package is being created.
+   */
+  public uploadPendingAttachments() {
+    if (!this.isNew) {
+      this.uploadAttachments(this.pendingAttachments)
+        .then(() => this.pendingAttachments = []);
+    }
+  }
+
+  /**
+   * Upload the given attachments, update the resource and notify the user.
+   * Return an updated AttachmentCollectionResource.
+   */
+  public uploadAttachments(files: UploadFile[]): IPromise<any> {
+    const {uploads, finished} = this.attachments.upload(files);
+    const message = I18n.t('js.label_upload_notification', this);
+    const notification = NotificationsService.addWorkPackageUpload(message, uploads);
+
+    return finished
+      .then(() => {
+        $timeout(() => NotificationsService.remove(notification), 700);
+        return this.updateAttachments();
+      })
+      .catch(error => {
+        wpNotificationsService.handleErrorResponse(error, this);
+      });
+  }
+
+  public requiredValueFor(fieldName): boolean {
     var fieldSchema = this.schema[fieldName];
 
     // The field schema may be undefined if a custom field
@@ -173,7 +263,7 @@ export class WorkPackageResource extends HalResource {
     return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
   }
 
-  public allowedValuesFor(field):ng.IPromise<HalResource[]> {
+  public allowedValuesFor(field): ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
     this.getForm().then(form => {
@@ -276,6 +366,12 @@ export class WorkPackageResource extends HalResource {
             this.$initialize(workPackage);
             this.$pristine = {};
             this.updateActivities();
+
+            if (wasNew) {
+              this.uploadPendingAttachments();
+              wpCacheService.newWorkPackageCreated(this);
+            }
+
             deferred.resolve(this);
           })
           .catch(error => {
@@ -284,9 +380,6 @@ export class WorkPackageResource extends HalResource {
           })
           .finally(() => {
             this.inFlight = false;
-            if (wasNew) {
-              wpCacheService.newWorkPackageCreated(this);
-            }
           });
       })
       .catch(() => {
@@ -297,7 +390,7 @@ export class WorkPackageResource extends HalResource {
     return deferred.promise;
   }
 
-  public storePristine(attribute:string) {
+  public storePristine(attribute: string) {
     if (this.$pristine.hasOwnProperty(attribute)) {
       return;
     }
@@ -305,7 +398,7 @@ export class WorkPackageResource extends HalResource {
     this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
-  public restoreFromPristine(attribute:string) {
+  public restoreFromPristine(attribute: string) {
     if (this.$pristine[attribute]) {
       this[attribute] = this.$pristine[attribute];
     }
@@ -315,7 +408,7 @@ export class WorkPackageResource extends HalResource {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  protected saveResource(payload):ng.IPromise<any> {
+  protected saveResource(payload): ng.IPromise<any> {
     if (this.isNew) {
       return apiWorkPackages.createWorkPackage(payload);
     }
@@ -355,28 +448,48 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Invalidate a set of linked resource in the given work package.
-   * Inform the cache service about the work package update.
+   * Invalidate a set of linked resources of this work package.
+   * And inform the cache service about the work package update.
+   *
+   * Return a promise that returns the linked resources as properties.
+   * Return a rejected promise, if the resource is not a property of the work package.
    */
-  public updateLinkedResources(...resourceNames) {
-    resourceNames.forEach(name => this[name].$update());
+  public updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
+    const resources: {[id: string]: IPromise<HalResource>} = {};
+
+    resourceNames.forEach(name => {
+      const linked = this[name];
+      resources[name] = linked ? linked.$update() : $q.reject();
+    });
     wpCacheService.updateWorkPackage(this);
+
+    return $q.all(resources);
   }
 
   /**
    * Get updated activities from the server and inform the cache service about the work
    * package update.
+   *
+   * Return a promise that returns the activities. Reject, if the work package has
+   * no activities.
    */
-  public updateActivities() {
-    this.updateLinkedResources('activities');
+  public updateActivities(): IPromise<HalResource> {
+    return this
+      .updateLinkedResources('activities')
+      .then((resources: any) => resources.activities);
   }
 
   /**
    * Get updated attachments and activities from the server and inform the cache service
    * about the update.
+   *
+   * Return a promise that returns the attachments. Reject, if the work package has
+   * no attachments.
    */
-  public updateAttachments() {
-    this.updateLinkedResources('activities', 'attachments');
+  public updateAttachments(): IPromise<HalResource> {
+    return this
+      .updateLinkedResources('activities', 'attachments')
+      .then((resources: any) => resources.attachments);
   }
 
   /**
@@ -399,16 +512,29 @@ export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, 
 }
 
 function wpResource(...args) {
-  [$q, $stateParams, apiWorkPackages, wpCacheService, NotificationsService] = args;
+  [
+    $q,
+    $stateParams,
+    $timeout,
+    I18n,
+    apiWorkPackages,
+    wpCacheService,
+    NotificationsService,
+    wpNotificationsService,
+    AttachmentCollectionResource] = args;
   return WorkPackageResource;
 }
 
 wpResource.$inject = [
   '$q',
   '$stateParams',
+  '$timeout',
+  'I18n',
   'apiWorkPackages',
   'wpCacheService',
-  'NotificationsService'
+  'NotificationsService',
+  'wpNotificationsService',
+  'AttachmentCollectionResource'
 ];
 
 opApiModule.factory('WorkPackageResource', wpResource);

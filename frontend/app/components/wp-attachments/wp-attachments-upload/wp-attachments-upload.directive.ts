@@ -26,30 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {opApiModule} from '../../../../angular-modules';
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import IDirective = angular.IDirective;
 
-interface CollectionResourceEmbedded {
-  elements: HalResource[];
-}
+export class WorkPackageUploadDirectiveController {
+  public workPackage: WorkPackageResourceInterface;
+  public text: any;
+  public maxFileSize: number;
+  public rejectedFiles: File[] = [];
 
-export class CollectionResource extends HalResource {
-  public elements: HalResource[];
+  constructor(I18n, ConfigurationService) {
+    this.text = {
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint')
+    };
 
-  /**
-   * Update the collection's elements and return them in a promise.
-   * This is useful, as angular does not recognize update made by $load.
-   */
-  public updateElements() {
-    return this.$load().then(collection =>  this.elements = collection.elements);
+    ConfigurationService.api().then(settings => {
+      this.maxFileSize = settings.maximumAttachmentFileSize;
+    });
   }
 }
 
-export interface CollectionResourceInterface extends CollectionResourceEmbedded, CollectionResource {
+function wpUploadDirective(): IDirective {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
+
+    scope: {
+      workPackage: '='
+    },
+
+    controller: WorkPackageUploadDirectiveController,
+    controllerAs: '$ctrl',
+    bindToController: true
+  };
 }
 
-function collectionResource() {
-  return CollectionResource;
-}
-
-opApiModule.factory('CollectionResource', collectionResource);
+wpDirectivesModule.directive('wpAttachmentsUpload', wpUploadDirective);
