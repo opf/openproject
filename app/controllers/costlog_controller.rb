@@ -47,7 +47,7 @@ class CostlogController < ApplicationController
 
     cond = ARCondition.new
     if @project.nil?
-      cond << Project.allowed_to_condition(User.current, :view_cost_entries)
+      cond << "project_id IN (#{Project.allowed_to(User.current, :view_cost_entries).to_sql})"
     elsif @work_package.nil?
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     else
@@ -65,7 +65,7 @@ class CostlogController < ApplicationController
     respond_to do |format|
       format.html {
         @entries = CostEntry.includes(:project, :cost_type, :user, work_package: :type)
-                   .merge(Project.allowed_to(User.current, :view_cost_entries, project: @project))
+                   .merge(Project.allowed_to(User.current, :view_cost_entries))
                    .where(cond.conditions)
                    .order(sort_clause)
                    .page(page_param)
@@ -244,11 +244,11 @@ class CostlogController < ApplicationController
 
     @from, @to = @to, @from if @from && @to && @from > @to
     @from ||= (CostEntry.includes([:project, :user])
-              .where(Project.allowed_to_condition(User.current, :view_cost_entries))
-              .minimum(:spent_on) || Date.today) - 1
+                        .visible
+                        .minimum(:spent_on) || Date.today) - 1
     @to ||= (CostEntry.includes([:project, :user])
-            .where(Project.allowed_to_condition(User.current, :view_cost_entries))
-            .maximum(:spent_on) || Date.today)
+                      .visible
+                      .maximum(:spent_on) || Date.today)
   end
 
   def new_default_cost_entry

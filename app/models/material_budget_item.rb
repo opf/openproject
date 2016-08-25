@@ -26,16 +26,20 @@ class MaterialBudgetItem < ActiveRecord::Base
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  def self.visible_condition(user, project)
-    Project.allowed_to_condition(user,
-                                 :view_cost_rates,
-                                 project: project)
+  def self.visible(user)
+    includes(cost_object: :project)
+      .references(:projects)
+      .merge(Project.allowed_to(user, :view_cost_rates))
   end
 
   scope :visible_costs, lambda { |*args|
-    where(MaterialBudgetItem.visible_condition((args.first || User.current), args[1]))
-      .includes(cost_object: :project)
-      .references(:projects)
+    scope = visible(args.first || User.current)
+
+    if args[1]
+      scope = scope.where(cost_object: { projects_id: args[1].id })
+    end
+
+    scope
   }
 
   def costs

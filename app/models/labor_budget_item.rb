@@ -32,19 +32,29 @@ class LaborBudgetItem < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   # user_id correctness is ensured in VariableCostObject#*_labor_budget_item_attributes=
 
-  def self.visible_condition(user, project)
-    %{ (#{Project.allowed_to_condition(user,
-                                       :view_hourly_rates,
-                                       project: project)} OR
-         (#{Project.allowed_to_condition(user,
-                                         :view_own_hourly_rate,
-                                         project: project)} AND #{LaborBudgetItem.table_name}.user_id = #{user.id})) }
+  def self.visible(user, project)
+    table = self.arel_table
+
+    view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
+    view_own_allowed = Project.allowed_to(user, :view_own_hourly_rates).select(:id)
+
+    view_or_view_own = table[:project_id]
+                       .in(view_allowed.arel)
+                       .or(table[:project_id]
+                           .in(view_own_allowed.arel)
+                           .and(table[:user_id].eq(user.id)))
+
+    scope = includes([{ cost_object: :project }, :user])
+            .references(:projects)
+            where(view_or_view_own)
+
+    if project
+      scope = scope.where(cost_object: { projects_id: project.id })
+    end
   end
 
   scope :visible_costs, lambda{|*args|
-    includes([{ cost_object: :project }, :user])
-      .where(LaborBudgetItem.visible_condition((args.first || User.current), args[1]))
-      .references(:projects)
+    visible((args.first || User.current), args[1])
   }
 
   def costs
