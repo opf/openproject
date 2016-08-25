@@ -36,12 +36,7 @@ export class WorkPackageUploadDirectiveController {
   public maxFileSize: number;
   public rejectedFiles: File[] = [];
 
-  constructor(I18n, ConfigurationService) {
-    this.text = {
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint')
-    };
-
+  constructor(ConfigurationService) {
     ConfigurationService.api().then(settings => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });

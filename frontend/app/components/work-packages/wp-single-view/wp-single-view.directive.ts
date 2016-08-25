@@ -58,6 +58,8 @@ export class WorkPackageSingleViewController {
 
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
       fields: {
         date: {
           startDate: I18n.t('js.label_no_start_date'),
