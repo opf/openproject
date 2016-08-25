@@ -52,6 +52,7 @@ function wpUploadDirective(): IDirective {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
+    transclude: true,
 
     scope: {
       workPackage: '='

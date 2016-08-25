@@ -8,12 +8,6 @@
     ngf-multiple="true"
     ngf-change="$ctrl.workPackage.uploadPendingAttachments()"
     ngf-max-size="{{ ::$ctrl.maxFileSize }}"
-    click-on-keypress="[13, 32]">
-  <div class="work-package--attachments--label">
-    <i class="icon-attachment"></i>
-    <p>
-      {{ ::$ctrl.text.dropFiles }} <br>
-      {{ ::$ctrl.text.dropFilesHint }}
-    </p>
-  </div>
+    click-on-keypress="[13, 32]"
+    ng-transclude>
 </div>
