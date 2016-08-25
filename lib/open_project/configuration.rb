@@ -56,6 +56,9 @@ module OpenProject
       # where to store session data
       'session_store'           => :cache_store,
       'session_cookie_name'     => '_open_project_session',
+      # Destroy all sessions for current_user on logout
+      'drop_old_sessions_on_logout' => true,
+      'drop_old_sessions_on_login' => false,
       # url-path prefix
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
