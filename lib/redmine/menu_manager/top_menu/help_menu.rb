@@ -71,9 +71,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_onboarding_menu_item
-    controller = ApplicationController.new
-    controller.request = request
-    controller.render_to_string(partial: 'onboarding/menu_item')
+    render_to_string(partial: 'onboarding/menu_item')
   end
 
   def render_help_and_support(result)

@@ -43,6 +43,8 @@ describe 'layouts/base', type: :view do
     allow(view).to receive(:current_menu_item).and_return('overview')
     allow(view).to receive(:default_breadcrumb)
     allow(controller).to receive(:default_search_scope)
+    allow(view)
+      .to receive(:render_to_string)
   end
 
   describe 'projects menu visibility' do
@@ -130,7 +132,6 @@ describe 'layouts/base', type: :view do
       end
     end
   end
-
 
   describe 'icons' do
     before do
