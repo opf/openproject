@@ -49,8 +49,12 @@ export class WorkPackageUploadDirectiveController {
 }
 
 function wpUploadDirective(): IDirective {
+  function wpUploadDirectiveLink(scope, element) {
+    element.click(() => element.children().first().click());
+  }
+
   return {
-    restrict: 'E',
+    restrict: 'AE',
     templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
     transclude: true,
 
@@ -60,7 +64,9 @@ function wpUploadDirective(): IDirective {
 
     controller: WorkPackageUploadDirectiveController,
     controllerAs: '$ctrl',
-    bindToController: true
+    bindToController: true,
+
+    link: wpUploadDirectiveLink
   };
 }
 
