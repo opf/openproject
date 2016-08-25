@@ -21,20 +21,6 @@
             <i class="button--icon icon-edit"></i>
           </button>
         </li>
-        <li>
-
-          <div class="wp-upload-attachments-button">
-            <button class="button"
-                    ng-click=""
-                    ng-disabled="$ctrl.isDisabled()"
-                    aria-label="{{ ::$ctrl.text.create }}">
-
-              <i class="icon-attachment"></i>
-              <span class="button--text" ng-bind="::$ctrl.text.button" aria-hidden="true"></span>
-            </button>
-          </div>
-
-        </li>
         <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
           <wp-watcher-button work-package="$ctrl.workPackage" disabled="$ctrl.wpEditModeState.active"></wp-watcher-button>
         </li>
