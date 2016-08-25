@@ -53,7 +53,7 @@ class AdminUserSeeder < Seeder
       user.firstname = 'OpenProject'
       user.lastname = 'Admin'
       user.mail = ENV.fetch('ADMIN_EMAIL') { 'admin@example.net' }
-      user.mail_notification = User::USER_MAIL_OPTION_NON.first
+      user.mail_notification = User::USER_MAIL_OPTION_ONLY_MY_EVENTS.first
       user.language = I18n.locale.to_s
       user.status = User::STATUSES[:active]
       user.force_password_change = Rails.env != 'development'
