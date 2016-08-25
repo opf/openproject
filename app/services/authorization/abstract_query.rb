@@ -29,6 +29,7 @@
 
 class Authorization::AbstractQuery
   class_attribute :model
+  class_attribute :base_table
 
   def self.query(*args)
     arel = transformed_query(*args)
@@ -36,6 +37,12 @@ class Authorization::AbstractQuery
     model.joins(joins(arel))
          .where(wheres(arel))
          .distinct
+  end
+
+  def self.base_query
+    Arel::SelectManager
+      .new(nil)
+      .from(base_table || model.arel_table)
   end
 
   def self.transformed_query(*args)

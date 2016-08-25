@@ -55,6 +55,12 @@ module Redmine
         perm ? perm.actions : []
       end
 
+      def allow_actions(action_hash)
+        action = "#{action_hash[:controller]}/#{action_hash[:action]}"
+
+        permissions.select { |p| p.actions.include? action }
+      end
+
       def public_permissions
         @public_permissions ||= @permissions.select(&:public?)
       end

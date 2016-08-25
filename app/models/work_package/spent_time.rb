@@ -47,7 +47,8 @@ class WorkPackage::SpentTime
 
     wp_table = WorkPackage.arel_table
 
-    joined_aggregated_entries = wp_table.join(subselect, Arel::Nodes::OuterJoin)
+    joined_aggregated_entries = wp_table
+                                .outer_join(subselect)
                                 .on(subselect[:id].eq(wp_table[:id]))
 
     WorkPackage.joins(joined_aggregated_entries.join_sources)
@@ -73,7 +74,7 @@ class WorkPackage::SpentTime
   def join_descendants(select)
     descendants_join_condition = if work_package
                                    hierarchy_condition
-                                   .and(wp_target[:id].eq(work_package.id))
+                                     .and(wp_target[:id].eq(work_package.id))
                                  else
                                    hierarchy_condition
                                  end
@@ -93,32 +94,24 @@ class WorkPackage::SpentTime
     select
       .join(descendants_projects)
       .on(descendants_projects[:id].eq(wp_descendants[:project_id]))
-      .where(allowed_to_view_work_packages('descendants_projects'))
+      .where(allowed_to_view_work_packages)
   end
 
   def check_time_entry_visibility(select)
     select
-      .join(time_entry_projects, Arel::Nodes::OuterJoin)
-      .on(time_entry_projects[:id].eq(time_entries_table[:project_id]))
-      .where(allowed_to_view_time_entries('time_entry_projects'))
+      .where(allowed_to_view_time_entries)
   end
 
   def group_by_wp_id(select)
     select.group(wp_target[:id])
   end
 
-  def allowed_to_view_work_packages(table_alias)
-    allowed_to = Project.allowed_to_condition(user,
-                                              :view_work_packages,
-                                              project_alias: table_alias)
-
-    Arel::Nodes::SqlLiteral.new(allowed_to)
+  def allowed_to_view_work_packages
+    descendants_projects[:id].in(Project.allowed_to(user, :view_work_packages).select(:id).arel)
   end
 
-  def allowed_to_view_time_entries(table_alias)
-    allowed_to = TimeEntry.visible_condition(user, table_alias: table_alias)
-
-    Arel::Nodes::SqlLiteral.new(allowed_to)
+  def allowed_to_view_time_entries
+    time_entries_table[:id].in(TimeEntry.visible(user).select(:id).arel)
   end
 
   def hierarchy_condition

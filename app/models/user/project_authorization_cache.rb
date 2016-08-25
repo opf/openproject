@@ -35,7 +35,13 @@ class User::ProjectAuthorizationCache
   end
 
   def cache(actions)
-    Array(actions).each do |action|
+    cached_actions = if actions.is_a?(Array)
+                       actions
+                     else
+                       [actions]
+                     end
+
+    cached_actions.each do |action|
       allowed_project_ids = Project.allowed_to(user, action).pluck(:id)
 
       projects_by_actions[normalized_permission_name(action)] = allowed_project_ids

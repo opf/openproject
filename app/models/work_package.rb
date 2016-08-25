@@ -69,7 +69,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :visible, ->(*args) {
-    includes(:project)
+    joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
@@ -248,11 +248,6 @@ class WorkPackage < ActiveRecord::Base
   # As after_create is run before after_save, and journal creation is triggered by an
   # after_save hook, we rely on after_save and a specific version here.
   after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version == 0 }
-
-  # Returns a SQL conditions string used to find all work units visible by the specified user
-  def self.visible_condition(user, options = {})
-    Project.allowed_to_condition(user, :view_work_packages, options)
-  end
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'
@@ -548,6 +543,18 @@ class WorkPackage < ActiveRecord::Base
     end || 0.0
   end
 
+  # Returns a scope for the projects
+  # the user is allowed to move a work package to
+  def self.allowed_target_projects_on_move(user)
+    Project.allowed_to(user, :move_work_packages)
+  end
+
+  # Returns a scope for the projects
+  # the user is create a work package in
+  def self.allowed_target_projects_on_create(user)
+    Project.allowed_to(user, :add_work_packages)
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -691,18 +698,6 @@ class WorkPackage < ActiveRecord::Base
 
   def reload_lock_and_timestamps
     reload(select: [:lock_version, :created_at, :updated_at])
-  end
-
-  # Returns a scope for the projects
-  # the user is allowed to move a work package to
-  def self.allowed_target_projects_on_move(user)
-    Project.where(Project.allowed_to_condition(user, :move_work_packages))
-  end
-
-  # Returns a scope for the projects
-  # the user is create a work package in
-  def self.allowed_target_projects_on_create(user)
-    Project.where(Project.allowed_to_condition(user, :add_work_packages))
   end
 
   # Do not redefine alias chain on reload (see #4838)

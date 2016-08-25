@@ -48,6 +48,8 @@ feature 'Top menu items', js: true, selenium: true do
 
   before do |ex|
     allow(User).to receive(:current).and_return user
+    FactoryGirl.create(:anonymous_role)
+    FactoryGirl.create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
       allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
@@ -90,6 +92,7 @@ feature 'Top menu items', js: true, selenium: true do
 
   context 'as an anonymous user' do
     let(:user) { FactoryGirl.create :anonymous }
+
     it 'displays only news' do
       has_menu_items news_item
     end

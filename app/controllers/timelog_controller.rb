@@ -57,7 +57,9 @@ class TimelogController < ApplicationController
 
     cond = ARCondition.new
     if @issue
-      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
+      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} " +
+              "AND #{WorkPackage.table_name}.lft >= #{@issue.lft} " +
+              "AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     end
@@ -68,12 +70,16 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html do
         # Paginate results
-        @entry_count = TimeEntry.visible
+        @entry_count = TimeEntry
+                       .visible
                        .includes(:project, :work_package)
+                       .references(:projects)
                        .where(cond.conditions)
                        .count
-        @total_hours = TimeEntry.visible
+        @total_hours = TimeEntry
+                       .visible
                        .includes(:project, :work_package)
+                       .references(:projects)
                        .where(cond.conditions)
                        .sum(:hours).to_f
 
@@ -95,8 +101,10 @@ class TimelogController < ApplicationController
         gon.rabl template: 'app/views/timelog/index.rabl'
       end
       format.atom do
-        entries = TimeEntry.visible
+        entries = TimeEntry
+                  .visible
                   .includes(:project, :activity, :user, work_package: :type)
+                  .references(:projects)
                   .where(cond.conditions)
                   .order("#{TimeEntry.table_name}.created_on DESC")
                   .limit(Setting.feeds_limit.to_i)
@@ -105,9 +113,17 @@ class TimelogController < ApplicationController
       end
       format.csv do
         # Export all entries
-        @entries = TimeEntry.visible
-                   .includes(:project, :activity, :user, work_package: [:type, :assigned_to, :priority])
+        @entries = TimeEntry
+                   .visible
+                   .includes(:project,
+                             :activity,
+                             :user,
+                             work_package: [:type,
+                                            :assigned_to,
+                                            :priority])
+                   .references(:projects)
                    .where(cond.conditions)
+                   .distinct(false)
                    .order(sort_clause)
 
         charset = "charset=#{l(:general_csv_encoding).downcase}"
@@ -214,13 +230,23 @@ class TimelogController < ApplicationController
   private
 
   def total_entry_count(cond)
-    TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+    TimeEntry
+      .visible
+      .includes(:project, :activity, :user, work_package: :type)
+      .references(:projects)
       .where(cond.conditions).count
   end
 
   def set_entries(cond)
-    @entries = TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+    # .visible introduces a distinct which we don't need here and which interferes
+    # with the order on postgresql.
+    # The distinct is therefore explicitly removed
+    @entries = TimeEntry
+               .visible
+               .includes(:project, :activity, :user, work_package: :type)
+               .references(:projects)
                .where(cond.conditions)
+               .distinct(false)
                .order(sort_clause)
                .page(params[:page])
                .per_page(per_page_param)
@@ -245,9 +271,9 @@ class TimelogController < ApplicationController
 
   def project_id_from_params
     if params.has_key?(:project_id)
-      project_id = params[:project_id]
+      params[:project_id]
     elsif params.has_key?(:time_entry) && permitted_params.time_entry.has_key?(:project_id)
-      project_id = permitted_params.time_entry[:project_id]
+      permitted_params.time_entry[:project_id]
     end
   end
 

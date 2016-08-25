@@ -399,7 +399,12 @@ module OpenProject
                                class: 'attachment'
               end
             when 'project'
-              if p = Project.visible.where(['identifier = :s OR LOWER(name) = :s', { s: name.downcase }]).first
+              p = Project
+                  .visible
+                  .where(['projects.identifier = :s OR LOWER(projects.name) = :s',
+                          { s: name.downcase }])
+                  .first
+              if p
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end

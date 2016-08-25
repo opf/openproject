@@ -61,12 +61,14 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
+    @projects = Project.visible
+
     respond_to do |format|
       format.html do
-        @projects = Project.visible.order('lft')
+        @projects = @projects.order('lft')
       end
       format.atom do
-        projects = Project.visible
+        projects = @projects
                    .order('created_on DESC')
                    .limit(Setting.feeds_limit.to_i)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")

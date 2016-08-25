@@ -51,21 +51,12 @@ class TimeEntries::ReportsController < ApplicationController
     unless @criterias.empty?
       sql_select = @criterias.map { |criteria| @available_criterias[criteria][:sql] + ' AS ' + criteria }.join(', ')
       sql_group_by = @criterias.map { |criteria| @available_criterias[criteria][:sql] }.join(', ')
-      sql_condition = ''
-
-      if @project.nil?
-        sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
-      elsif @issue.nil?
-        sql_condition = @project.project_condition(Setting.display_subprojects_work_packages?)
-      else
-        sql_condition = "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
-      end
 
       sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
       sql << " FROM #{TimeEntry.table_name}"
       sql << time_report_joins
       sql << ' WHERE'
-      sql << ' (%s) AND' % sql_condition
+      sql << ' (%s) AND' % context_sql_condition
       sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from), ActiveRecord::Base.connection.quoted_date(@to)]
       sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
 
@@ -177,5 +168,23 @@ class TimeEntries::ReportsController < ApplicationController
 
   def default_breadcrumb
     I18n.t(:label_spent_time)
+  end
+
+  def context_sql_condition
+    if @project.nil?
+      project_context_sql_condition
+    elsif @issue.nil?
+      @project.project_condition(Setting.display_subprojects_work_packages?)
+    else
+      "#{WorkPackage.table_name}.root_id = #{@issue.root_id}" +
+        " AND #{WorkPackage.table_name}.lft >= #{@issue.lft}" +
+        " AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
+    end
+  end
+
+  def project_context_sql_condition
+    time_entry_table = TimeEntry.arel_table
+    allowed_project_ids = Project.allowed_to(User.current, :view_time_entries).select(:id).arel
+    time_entry_table[:project_id].in(allowed_project_ids).to_sql
   end
 end

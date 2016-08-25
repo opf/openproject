@@ -158,6 +158,11 @@ Before do
   end
 end
 
+Before do
+  FactoryGirl.create(:non_member)
+  FactoryGirl.create(:anonymous_role)
+end
+
 # Capybara.register_driver :selenium do |app|
 #     Capybara::Selenium::Driver.new(app, browser: :chrome)
 # end

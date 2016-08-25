@@ -27,95 +27,187 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Authorization::ProjectQuery
-  # Returns a SQL conditions string used to find all projects for which +user+
-  # has the given +permission+
-  #
-  # Valid options:
-  # * project: limit the condition to project
-  # * with_subprojects: limit the condition to project and its subprojects
-  # * member: limit the condition to the user projects
-  # * project_alias: the alias to use for the project's table - default: 'projects'
-  def self.query(user, permission, options = {})
-    table_alias = options.fetch(:project_alias, Project.table_name)
+class Authorization::ProjectQuery < Authorization::AbstractQuery
+  self.model = Project
 
-    base_statement = "#{table_alias}.status=#{Project::STATUS_ACTIVE}"
-    if perm = Redmine::AccessControl.permission(permission)
-      unless perm.project_module.nil?
-        # If the permission belongs to a project module, make sure the module is enabled
-        module_query = enabled_module_query(perm.project_module,
-                                            options[:project],
-                                            options[:with_subproject])
-        base_statement << " AND #{table_alias}.id IN (#{module_query})"
-      end
-    end
-    if options[:project]
-      project_statement = "#{table_alias}.id = #{options[:project].id}"
-      if options[:with_subprojects]
-        project_statement << " OR (#{descendants_condition(options[:project], table_alias)})"
-      end
-      base_statement = "(#{project_statement}) AND (#{base_statement})"
+  def self.projects_members_join(user)
+    projects_table[:id]
+      .eq(members_table[:project_id])
+      .and(members_table[:user_id].eq(user.id))
+      .and(project_active_condition)
+  end
+
+  def self.enabled_modules_join(action)
+    project_enabled_module_id_eq_condition
+      .and(enabled_module_name_eq_condition(action))
+      .and(project_active_condition)
+  end
+
+  def self.project_enabled_module_id_eq_condition
+    projects_table[:id]
+      .eq(enabled_modules_table[:project_id])
+  end
+
+  def self.enabled_module_name_eq_condition(action)
+    modules = action_project_modules(action)
+
+    enabled_modules_table[:name].in(modules)
+  end
+
+  def self.project_active_condition
+    projects_table[:status].eq(Project::STATUS_ACTIVE)
+  end
+
+  def self.members_member_roles_join
+    members_table[:id].eq(member_roles_table[:member_id])
+  end
+
+  def self.roles_having_permissions(action)
+    permissions_name = permissions(action).map(&:name)
+
+    condition = roles_having_permission(permissions_name[0])
+
+    permissions_name[1..-1].each do |permission|
+      condition = condition.or(roles_having_permission(permission))
     end
 
-    if user.admin?
-      base_statement
+    condition
+  end
+
+  def self.roles_having_permission(permission)
+    permission_roles_table[:permissions].matches("%#{permission}%")
+  end
+
+  def self.projects_table
+    Project.arel_table
+  end
+
+  def self.enabled_modules_table
+    EnabledModule.arel_table
+  end
+
+  def self.member_roles_table
+    MemberRole.arel_table
+  end
+
+  def self.members_table
+    Member.arel_table
+  end
+
+  def self.permission_roles_table
+    Role.arel_table.alias('permission_roles')
+  end
+
+  def self.assigned_roles_table
+    Role.arel_table.alias('assigned_roles')
+  end
+
+  def self.role_has_permission_and_is_assigned(user, action)
+    role_has_permission_condition(action)
+      .and(project_active_condition)
+      .and(assigned_roles_table[:id]
+           .eq(member_roles_table[:role_id])
+           .or(project_public_and_builtin_role_condition(user)))
+  end
+
+  def self.role_has_permission_condition(action)
+    if action_public?(action)
+      Arel::Nodes::Equality.new(1, 1)
     else
-      statement_by_role = {}
-      if user.logged?
-        if Role.non_member.allowed_to?(permission) && !options[:member]
-          non_member_statements = [public_project_condition(table_alias)]
-
-          member_project_ids = user.memberships.map(&:project_id)
-
-          unless member_project_ids.empty?
-            non_member_statements << "#{table_alias}.id NOT IN (#{member_project_ids.join(', ')})"
-          end
-
-          statement_by_role[Role.non_member] = non_member_statements.join(" AND ")
-        end
-        user.projects_by_role.each do |role, projects|
-          if role.allowed_to?(permission)
-            statement_by_role[role] = "#{table_alias}.id IN (#{projects.map(&:id).join(',')})"
-          end
-        end
-      elsif Role.anonymous.allowed_to?(permission) && !options[:member]
-        statement_by_role[Role.anonymous] = public_project_condition(table_alias)
-      end
-      if statement_by_role.empty?
-        '1=0'
-      else
-        "((#{base_statement}) AND (#{statement_by_role.values.join(' OR ')}))"
-      end
+      assigned_roles_table[:id].eq(permission_roles_table[:id])
     end
   end
 
-  def self.enabled_module_query(project_module, project, with_subprojects)
-    enabled_module_statement = "SELECT em.project_id FROM #{EnabledModule.table_name} em"
+  def self.project_public_and_builtin_role_condition(user)
+    builtin_role = if user.logged?
+                     Role::BUILTIN_NON_MEMBER
+                   else
+                     Role::BUILTIN_ANONYMOUS
+                   end
 
-    if project && with_subprojects
-      enabled_module_statement << " JOIN #{table_alias} ON #{table_alias}.id = em.project_id"
-    end
-
-    enabled_module_statement << " WHERE em.name='#{project_module}'"
-
-    if project
-      project_statement = "em.project_id = #{project.id}"
-
-      if with_subprojects
-        project_statement << " OR (#{descendants_condition(project, table_alias)})"
-      end
-
-      enabled_module_statement << " AND (#{project_statement})"
-    end
-
-    enabled_module_statement
+    projects_table[:is_public]
+      .eq(true)
+      .and(assigned_roles_table[:builtin].eq(builtin_role))
+      .and(member_roles_table[:id].eq(nil))
   end
 
-  def self.descendants_condition(project, table_alias)
-    "#{table_alias}.lft > #{project.lft} AND #{table_alias}.rgt < #{project.rgt}"
+  def self.permissions(action)
+    if action.is_a?(Hash)
+      Redmine::AccessControl.allow_actions(action)
+    else
+      [Redmine::AccessControl.permission(action)].compact
+    end
   end
 
-  def self.public_project_condition(table_alias)
-    "#{table_alias}.is_public = #{Project.connection.quoted_true}"
+  def self.action_project_modules(action)
+    permissions(action).map(&:project_module).compact.uniq
+  end
+
+  def self.action_public?(action)
+    permissions(action).all?(&:public?)
+  end
+
+  transformations.register :all,
+                           :members_join do |statement, user|
+    if user.admin?
+      statement
+    else
+      statement
+        .outer_join(members_table)
+        .on(projects_members_join(user))
+    end
+  end
+
+  transformations.register :all,
+                           :enabled_modules_join,
+                           after: [:members_join] do |statement, _, action|
+    if action_project_modules(action).empty?
+      statement
+    else
+      statement.join(enabled_modules_table)
+               .on(enabled_modules_join(action))
+    end
+  end
+
+  transformations.register :all,
+                           :members_member_roles_join,
+                           after: [:members_join] do |statement, user|
+    if user.admin?
+      statement
+    else
+      statement.outer_join(member_roles_table)
+               .on(members_member_roles_join)
+    end
+  end
+
+  transformations.register :all,
+                           :permission_roles_join do |statement, user, action|
+    if action_public?(action) || user.admin?
+      statement
+    else
+      statement.join(permission_roles_table)
+               .on(roles_having_permissions(action))
+    end
+  end
+
+  transformations.register :all,
+                           :assigned_roles_join,
+                           after: [:permission_roles_join,
+                                   :members_member_roles_join] do |statement, user, action|
+    if user.admin?
+      statement
+    else
+      statement.outer_join(assigned_roles_table)
+               .on(role_has_permission_and_is_assigned(user, action))
+    end
+  end
+
+  transformations.register :all,
+                           :assigned_role_exists_condition do |statement, user|
+    if user.admin?
+      statement.where(project_active_condition)
+    else
+      statement.where(assigned_roles_table[:id].not_eq(nil))
+    end
   end
 end
