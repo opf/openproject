@@ -55,7 +55,21 @@ function wpUploadDirective(): IDirective {
 
   return {
     restrict: 'AE',
-    templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
+    template: `
+      <div
+        class="wp-attachment-upload"
+        ng-if="$ctrl.workPackage.canAddAttachments"
+        ngf-drop
+        ng-model="$ctrl.workPackage.pendingAttachments"
+        ng-model-rejected="$ctrl.rejectedFiles"
+        ngf-select
+        ngf-multiple="true"
+        ngf-change="$ctrl.workPackage.uploadPendingAttachments()"
+        ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+        click-on-keypress="[13, 32]"
+        ng-transclude>
+      </div>`,
+
     transclude: true,
 
     scope: {
