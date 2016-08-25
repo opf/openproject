@@ -72,7 +72,8 @@
   border-radius: 2px
   border-width: 1px
   line-height: normal
-
+  display: inline-block
+  width: 100%
   &:hover,
   &:focus
     border-color: $inplace-edit--border-color
@@ -84,6 +85,9 @@
     width: 100%
     .error.macro-unavailable
       display: inline-block
+    p
+      word-wrap: break-word
+      margin-bottom: 0
 
 // Style no-label fields (long text, description, ..) with padding
 .wp-edit-field.-no-label:not(.-active)
