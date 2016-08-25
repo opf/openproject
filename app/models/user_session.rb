@@ -26,22 +26,29 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require "active_support/core_ext/module/attribute_accessors"
 
-# Be sure to restart your server when you modify this file.
+class UserSession < ActiveRecord::SessionStore::Session
+  belongs_to :user
 
-config = OpenProject::Configuration
+  ##
+  # Keep an index on the current user for the given session hash
+  before_save :set_user_id
 
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
+  ##
+  # Delete related sessions when an active session is destroyed
+  after_destroy :delete_user_sessions
 
-session_options = {
-  key:    config['session_cookie_name'],
-  path:   relative_url_root
-}
+  private
 
-OpenProject::Application.config.session_store session_store, session_options
+  def set_user_id
+    write_attribute(:user_id, data['user_id'])
+  end
 
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::UserSession
+  def delete_user_sessions
+    user_id = data['user_id']
+    return unless user_id && OpenProject::Configuration.drop_old_sessions_on_logout?
+
+    UserSession.where(user_id: user_id).delete_all
+  end
+end

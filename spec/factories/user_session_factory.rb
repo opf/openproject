@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,21 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+FactoryGirl.define do
+  factory :user_session do
+    sequence(:session_id) do |n| "session_#{n}" end
+    association :user
 
-config = OpenProject::Configuration
-
-session_store     = config['session_store'].to_sym
-relative_url_root = config['rails_relative_url_root'].presence
-
-session_options = {
-  key:    config['session_cookie_name'],
-  path:   relative_url_root
-}
-
-OpenProject::Application.config.session_store session_store, session_options
-
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::UserSession
+    callback(:after_build) do |session|
+      session.data = {}
+      session.data['user_id'] = session.user.id if session.user.present?
+    end
+  end
+end
