@@ -442,14 +442,11 @@ OpenProject::Application.routes.draw do
   resources :activity, :activities, only: :index, controller: 'activities'
 
   resources :users do
+    resources :memberships, controller: 'users/memberships', only: [:update, :create, :destroy]
+
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
-      match '/memberships/:membership_id/destroy' => 'users#destroy_membership', via: :post
-      match '/memberships/:membership_id' => 'users#edit_membership', via: :post
-      match '/memberships' => 'users#edit_membership', via: :post
       post :change_status
-      post :edit_membership
-      post :destroy_membership
       post :resend_invitation
       get :deletion_info
     end
