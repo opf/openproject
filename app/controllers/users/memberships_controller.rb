@@ -35,11 +35,11 @@ class Users::MembershipsController < ApplicationController
   before_filter :find_user
 
   def update
-    edit_or_create(request.patch?)
+    update_or_create(request.patch?)
   end
 
   def create
-    edit_or_create(request.post?)
+    update_or_create(request.post?)
   end
 
   def destroy
@@ -54,47 +54,20 @@ class Users::MembershipsController < ApplicationController
         redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
       end
 
-      format.js do
-        render(:update) { |page|
-          page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-          page.insert_html :top, 'tab-content-memberships',
-                           partial: 'members/common_notice',
-                           locals: { message: l(:notice_successful_delete) }
-        }
-      end
+      format.js {}
     end
   end
 
   private
 
-  def edit_or_create(save_record)
+  def update_or_create(save_record)
     @membership = Member.edit_membership(params[:id], permitted_params.membership, @user)
     @membership.save if save_record
     respond_to do |format|
-      if @membership.valid?
-        format.html do
-          redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-        end
-
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/common_notice',
-                             locals: { message: l(:notice_successful_update) }
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        end
-      else
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/member_errors',
-                             locals: { member: @membership }
-          }
-        end
+      format.html do
+        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
       end
+      format.js { render 'update_or_create' }
     end
   end
 

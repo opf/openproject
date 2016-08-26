@@ -617,26 +617,6 @@ describe 'routing', type: :routing do
     }
 
     it {
-      is_expected.to route(:post, '/users/123/memberships').to(controller: 'users',
-                                                               action: 'edit_membership',
-                                                               id: '123')
-    }
-
-    it {
-      is_expected.to route(:post, '/users/123/memberships/55').to(controller: 'users',
-                                                                  action: 'edit_membership',
-                                                                  id: '123',
-                                                                  membership_id: '55')
-    }
-
-    it {
-      is_expected.to route(:post, '/users/567/memberships/12/destroy').to(controller: 'users',
-                                                                          action: 'destroy_membership',
-                                                                          id: '567',
-                                                                          membership_id: '12')
-    }
-
-    it {
       is_expected.to route(:put, '/users/444').to(controller: 'users',
                                                   action: 'update',
                                                   id: '444')

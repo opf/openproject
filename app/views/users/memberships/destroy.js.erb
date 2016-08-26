@@ -1,0 +1,9 @@
+(function($) {
+  var memberships = $("<%= escape_javascript(render(partial: 'users/memberships')) %>");
+
+  $('#tab-content-memberships').html(memberships);
+
+  var notice = $("<%= escape_javascript(render(partial: 'members/common_notice',
+                                                 locals: { message: l(:notice_successful_delete) })) %>");
+  $('#tab-content-memberships').prepend(notice);
+})(jQuery);
