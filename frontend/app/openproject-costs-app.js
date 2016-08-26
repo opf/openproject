@@ -27,6 +27,7 @@
 //++
 
 var CostsByTypeDisplayField = require('./components/wp-display/field-types/wp-display-costs-by-type-field.module').CostsByTypeDisplayField;
+var CurrencyDisplayField = require('./components/wp-display/field-types/wp-display-currency-field.module').CurrencyDisplayField;
 
 // Register Budget as select inline edit
 angular
@@ -41,6 +42,7 @@ angular
   .run(['wpDisplayField', function(wpDisplayField) {
     wpDisplayField.extendFieldType('resource', ['Budget']);
     wpDisplayField.addFieldType(CostsByTypeDisplayField, 'costs', ['costsByType']);
+    wpDisplayField.addFieldType(CurrencyDisplayField, 'currency', ['laborCosts', 'materialCosts', 'overallCosts']);
   }]);
 
 // main app
