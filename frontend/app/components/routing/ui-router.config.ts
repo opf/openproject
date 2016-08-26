@@ -80,6 +80,14 @@ openprojectModule
                       .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
                         $state.go('work-packages.show.activity', $match, { location: 'replace' });
                         return true;
+                      })
+                      .when('/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
+                        $state.go('work-packages.list.details.overview', $match, { location: 'replace' });
+                        return true;
+                      })
+                      .when('/{projects}/{projectPath}/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
+                        $state.go('work-packages.list.details.overview', $match, { location: 'replace' });
+                        return true;
                       });
     $urlMatcherFactoryProvider.strictMode(false);
 
