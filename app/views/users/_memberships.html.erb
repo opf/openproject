@@ -88,13 +88,13 @@ See doc/COPYRIGHT.rdoc for more details.
                       </div>
                       <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
                         <%= link_to_function l(:button_cancel),
-                  "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide();",
+                                             "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
                   <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
-                    <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show();", class: 'icon icon-edit' %>
+                    <%= link_to_function l(:button_edit), "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();", class: 'icon icon-edit' %>
                     <%= link_to(l(:button_remove), { controller: 'users',
                                            action: 'destroy_membership',
                                            id: @user,
