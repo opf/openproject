@@ -1,12 +1,14 @@
-<div class="work-packages--details-toolbar" ng-hide="wpEditModeState.active && !wpEditModeState.form.isEditable">
-  <button class="button -highlight" accesskey="3" ng-click="wpEditModeState.start()" ng-disabled="!wpEditModeState.form.isEditable">
+<div class="work-packages--details-toolbar"
+     ng-hide="wpEditModeState.active && !wpEditModeState.form.isEditable">
+  <button class="button -highlight" accesskey="3" ng-click="wpEditModeState.start()"
+          ng-disabled="!wpEditModeState.form.isEditable">
     <i class="button--icon icon-edit"></i>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>
   <wp-watcher-button work-package="workPackage"
-                               show-text="true"
-                               disabled="wpEditModeState.active"
-                               ng-if="displayWatchButton">
+                     show-text="true"
+                     disabled="wpEditModeState.active"
+                     ng-if="displayWatchButton">
   </wp-watcher-button>
   <button class="button dropdown-relative"
           ng-disabled="!actionsAvailable"
@@ -17,4 +19,6 @@
     <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
     <i class="button--dropdown-indicator"></i>
   </button>
+
+  <wp-upload-button work-package="workPackage"></wp-upload-button>
 </div>

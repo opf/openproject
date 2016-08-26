@@ -38,11 +38,12 @@ import ICompileProvider = angular.ICompileProvider;
 describe('wpAttachmentsUpload directive', () => {
   var $rootScope: IRootScopeService;
   var $q: IQService;
+  var html: string;
   var compile: any;
   var element: IAugmentedJQuery;
   var controller: WorkPackageUploadDirectiveController;
 
-  var wrapperElement: IAugmentedJQuery;
+  var rootElement: IAugmentedJQuery;
 
   var workPackage: any;
   var uploadPendingAttachmentsStub: SinonStub;
@@ -69,10 +70,8 @@ describe('wpAttachmentsUpload directive', () => {
                                            ConfigurationService) {
     [$rootScope, $q] = _.toArray(arguments);
 
-    const html =
-      `<wp-attachments-upload
-          attachments="attachments"
-          work-package="workPackage"></wp-attachments-upload>`;
+    html = `<wp-attachments-upload attachments="attachments" work-package="workPackage">
+      </wp-attachments-upload>`;
 
     uploadPendingAttachmentsStub = sinon.stub().returns($q.when());
     workPackage = {
@@ -90,7 +89,7 @@ describe('wpAttachmentsUpload directive', () => {
       element = $compile(html)(scope);
       $rootScope.$apply();
       controller = element.controller('wpAttachmentsUpload');
-      wrapperElement = element.find('.work-package--attachments--drop-box');
+      rootElement = element.find('.wp-attachment-upload');
     };
 
     compile();
@@ -101,7 +100,7 @@ describe('wpAttachmentsUpload directive', () => {
   });
 
   it('should not be rendered', () => {
-    expect(wrapperElement).to.have.length(0);
+    expect(rootElement).to.have.length(0);
   });
 
   it('should have the provided maxFileSize', () => {
@@ -115,15 +114,15 @@ describe('wpAttachmentsUpload directive', () => {
       workPackage.canAddAttachments = true;
       compile();
 
-      ngfController = wrapperElement.controller('ngfDrop');
+      ngfController = rootElement.controller('ngfDrop');
     });
 
     it('should display the directive', () => {
-      expect(wrapperElement).to.have.length(1);
+      expect(rootElement).to.have.length(1);
     });
 
     it('should set the max size property of the element to the configured value', () => {
-      expect(wrapperElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
+      expect(rootElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
     });
 
     it('should have the ngModel property set to the pending attachments', () => {
@@ -137,6 +136,20 @@ describe('wpAttachmentsUpload directive', () => {
 
       it('should call `uploadAttachments()`', () => {
         expect(uploadPendingAttachmentsStub.calledOnce).to.be.true;
+      });
+    });
+
+    describe('when clicking the parent element', () => {
+      var clicked;
+
+      beforeEach(() => {
+        clicked = false;
+        rootElement.click(() => clicked = true);
+        element.click();
+      });
+
+      it('should click the first child', () => {
+        expect(clicked).to.be.true;
       });
     });
   });

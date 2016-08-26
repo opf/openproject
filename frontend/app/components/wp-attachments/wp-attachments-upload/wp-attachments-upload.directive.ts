@@ -36,12 +36,7 @@ export class WorkPackageUploadDirectiveController {
   public maxFileSize: number;
   public rejectedFiles: File[] = [];
 
-  constructor(I18n, ConfigurationService) {
-    this.text = {
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint')
-    };
-
+  constructor(ConfigurationService) {
     ConfigurationService.api().then(settings => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
@@ -49,9 +44,28 @@ export class WorkPackageUploadDirectiveController {
 }
 
 function wpUploadDirective(): IDirective {
+  function wpUploadDirectiveLink(scope, element) {
+    element.click(() => element.children().first().click());
+  }
+
   return {
-    restrict: 'E',
-    templateUrl: '/components/wp-attachments/wp-attachments-upload/wp-attachments-upload.directive.html',
+    restrict: 'AE',
+    template: `
+      <div
+        class="wp-attachment-upload"
+        ng-if="$ctrl.workPackage.canAddAttachments"
+        ngf-drop
+        ng-model="$ctrl.workPackage.pendingAttachments"
+        ng-model-rejected="$ctrl.rejectedFiles"
+        ngf-select
+        ngf-multiple="true"
+        ngf-change="$ctrl.workPackage.uploadPendingAttachments()"
+        ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+        click-on-keypress="[13, 32]"
+        ng-transclude>
+      </div>`,
+
+    transclude: true,
 
     scope: {
       workPackage: '='
@@ -59,7 +73,9 @@ function wpUploadDirective(): IDirective {
 
     controller: WorkPackageUploadDirectiveController,
     controllerAs: '$ctrl',
-    bindToController: true
+    bindToController: true,
+
+    link: wpUploadDirectiveLink
   };
 }
 
