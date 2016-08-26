@@ -28,13 +28,16 @@
 
 
 import {opServicesModule} from '../../../angular-modules';
+import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 
 var $filter:ng.IFilterService;
 var I18n:op.I18n;
-var TimezoneService:any;
-var currencyFilter:any;
+var wpDisplayField:WorkPackageDisplayFieldService;
 
 export class SingleViewWorkPackage {
+
+  private fields:Object = {};
+
   constructor(protected workPackage:any) {
   }
 
@@ -83,54 +86,17 @@ export class SingleViewWorkPackage {
     return schema[field].hasDefault;
   }
 
-  public isEmpty(field) {
-    var value = this.format(field);
-    if (!value ||
-      (value.format && !value.html) ||
-      (field === 'spentTime' && this.workPackage[field] === 'PT0S')) {
+  public isEmpty(fieldName) {
+    if (this.workPackage.schema[fieldName]) {
+      this.fields[fieldName] = this.fields[fieldName] ||
+                               wpDisplayField.getField(this.workPackage,
+                                                       fieldName,
+                                                       this.workPackage.schema[fieldName]);
 
+      return this.fields[fieldName].isEmpty();
+    }
+    else {
       return true;
-    }
-
-    if (value && _.isArray(value.elements)) {
-      return value.elements.length === 0;
-    }
-
-    return false;
-  }
-
-  public format(field) {
-    var schema = this.workPackage.schema;
-
-    var value = this.workPackage[field];
-    if (_.isUndefined(value)) {
-      return this.getValue(field);
-    }
-
-    if (value === null) {
-      return null;
-    }
-
-    var fieldMapping = {
-        dueDate: 'date',
-        startDate: 'date',
-        createdAt: 'datetime',
-        updatedAt: 'datetime'
-      }[field] || schema[field] && schema[field].type;
-
-    switch (fieldMapping) {
-      case('Duration'):
-        var hours = moment.duration(value).asHours();
-        var formattedHours = $filter('number')(hours, 2);
-        return I18n.t('js.units.hour', {count: formattedHours});
-      case('Boolean'):
-        return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
-      case('Date'):
-        return value;
-      case('Float'):
-        return $filter('number')(value);
-      default:
-        return this.formatValue(value, fieldMapping);
     }
   }
 
@@ -155,48 +121,6 @@ export class SingleViewWorkPackage {
 
   public getEmbeddedAllowedValues(field) {
     return this.workPackage.schema[field].$embedded.allowedValues;
-  }
-
-  public getValue(field) {
-    if (field === 'date') {
-      if (this.isMilestone()) {
-        return this.workPackage['dueDate'];
-      }
-      return {
-        startDate: this.workPackage['startDate'],
-        dueDate: this.workPackage['dueDate']
-      };
-    }
-    if (!_.isUndefined(this.workPackage[field])) {
-      return this.workPackage[field];
-    }
-    if (this.isEmbedded(field)) {
-      return this.workPackage.$embedded[field];
-    }
-
-    if (this.workPackage.$links[field] && this.workPackage.$links[field].$link.href !== null) {
-      return this.workPackage.$links[field];
-    }
-
-    return null;
-  }
-
-  public isMilestone() {
-    var formAvailable = !_.isUndefined(this.workPackage.form);
-    if (formAvailable) {
-      var allowedValues = this.workPackage.schema.type.allowedValues;
-      var currentType = this.workPackage.$links.type.$link.href;
-
-      return _.some(allowedValues, (allowedValue:any) => {
-        return allowedValue.href === currentType && allowedValue.isMilestone;
-      });
-    }
-
-    return this.workPackage.type.isMilestone;
-  }
-
-  public isEmbedded(field) {
-    return !_.isUndefined(this.workPackage.$embedded[field]);
   }
 
   public getLabel(field) {
@@ -239,41 +163,17 @@ export class SingleViewWorkPackage {
 
     return this.canHideField(field) && (hideEmptyFields || hidden);
   }
-
-  protected formatValue(value, dataType) {
-    switch (dataType) {
-      case 'datetime':
-        var dateTime;
-        if (value) {
-          dateTime = TimezoneService.formattedDatetime(value);
-        }
-        return dateTime || '';
-      case 'date':
-        return value ? TimezoneService.formattedDate(value) : '';
-      case 'currency':
-        return currencyFilter(value, 'EUR ');
-      case 'Duration':
-        return TimezoneService.formattedDuration(value);
-      case 'DateTime':
-        return TimezoneService.formattedDatetime(value);
-      case 'Date':
-        return TimezoneService.formattedDate(value);
-      default:
-        return value;
-    }
-  }
 }
 
 function singleViewWpService(...args) {
-  [$filter, I18n, TimezoneService, currencyFilter] = args;
+  [$filter, I18n, wpDisplayField] = args;
   return SingleViewWorkPackage;
 }
 
 singleViewWpService.$inject = [
   '$filter',
   'I18n',
-  'TimezoneService',
-  'currencyFilter'
+  'wpDisplayField'
 ];
 
 opServicesModule.factory('SingleViewWorkPackage', singleViewWpService);
