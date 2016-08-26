@@ -70,8 +70,18 @@ function ColumnContextMenuController($scope, columnContextMenu, QueryService,
 
     $scope.hideColumn = function(columnName) {
       columnContextMenu.close();
+      var previousColumn = WorkPackagesTableHelper.getPreviousColumn($scope.columns, columnName);
+
       QueryService.hideColumns(new Array(columnName));
       QueryService.getQuery().dirty = true;
+
+      window.setTimeout(function() {
+        if(previousColumn.length !== 0) {
+          jQuery('#' + previousColumn[0].title).focus();
+        } else {
+          jQuery('th.checkbox a').focus();
+        }
+      }, 100);
     };
 
     $scope.insertColumns = function() {
