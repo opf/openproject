@@ -40,6 +40,8 @@ class InitializeSessionService
       if drop_old_sessions?
         ::UserSession.where(user_id: user.id).delete_all
       end
+
+      ServiceResult.new(success: true, result: session)
     end
 
     private
