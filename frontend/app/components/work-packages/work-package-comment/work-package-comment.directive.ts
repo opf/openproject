@@ -43,6 +43,7 @@ export class CommentFieldDirectiveController {
   protected editing = false;
   protected canAddComment:boolean;
   protected showAbove:boolean;
+  protected _forceFocus: boolean = false;
 
   constructor(protected $scope,
               protected $rootScope,
@@ -88,10 +89,11 @@ export class CommentFieldDirectiveController {
   }
 
   public shouldFocus() {
-    return true;
+    return this._forceFocus;
   }
 
   public activate(withText?:string) {
+    this._forceFocus = true;
     this.field.initializeFieldValue(withText);
     return this.editing = true;
   }
@@ -110,8 +112,7 @@ export class CommentFieldDirectiveController {
         this.workPackage.activities.$load(true).then(() => {
           this.wpCacheService.updateWorkPackage(this.workPackage);
         });
-
-        this.focusCommentField();
+        this._forceFocus = true;
       })
       .catch(error => {
         if (error.data instanceof ErrorResource) {
@@ -128,13 +129,7 @@ export class CommentFieldDirectiveController {
   public handleUserCancel() {
     this.editing = false;
     this.field.initializeFieldValue();
-    this.focusCommentField();
-  }
-
-  private focusCommentField() {
-    window.setTimeout(function(){
-      jQuery('.work-packages--activity--add-comment .inplace-editing--trigger-link')[0].focus();
-    }, 100);
+    this._forceFocus = true;
   }
 }
 

@@ -132,7 +132,7 @@ function userActivity($uiViewScroll,
 
       scope.focusEditIcon = function () {
         // Find the according edit icon and focus it
-        jQuery('textarea.edit-comment-text').closest(".user-comment").siblings('.comments-number').find('.icon-edit').closest("a").focus();
+        jQuery('.edit-activity--' + scope.activityNo + ' a').focus();
       }
 
       scope.toggleCommentPreview = function () {
