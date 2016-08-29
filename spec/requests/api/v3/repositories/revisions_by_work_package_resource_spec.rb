@@ -77,6 +77,12 @@ describe 'API v3 Revisions by work package resource', type: :request do
       }
 
       it_behaves_like 'API V3 collection response', 5, 5, 'Revision'
+
+      context 'user unauthorized to view revisions' do
+        let(:permissions) { [:view_work_packages] }
+
+        it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
+      end
     end
 
     context 'user unauthorized to view work package' do
@@ -87,11 +93,29 @@ describe 'API v3 Revisions by work package resource', type: :request do
       end
     end
 
-    context 'user unauthorized to view revisions' do
-      let(:permissions) { [:view_work_packages] }
+    describe 'revisions linked from another project' do
+      let(:subproject) { FactoryGirl.create(:project, parent: project) }
+      let(:repository) { FactoryGirl.create(:repository_subversion, project: subproject) }
+      let!(:revisions) {
+        FactoryGirl.build_list(:changeset,
+                               2,
+                               comments: "This commit references ##{work_package.id}",
+                               repository: repository
+        )
+      }
 
-      it 'should respond with 403' do
-        expect(subject.status).to eq(403)
+      context 'with permissions in subproject' do
+        let(:current_user) {
+          FactoryGirl.create(:user,
+                             member_in_projects: [project, subproject],
+                             member_through_role: role)
+        }
+
+        it_behaves_like 'API V3 collection response', 2, 2, 'Revision'
+      end
+
+      context 'with no permission in subproject' do
+        it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
       end
     end
   end
