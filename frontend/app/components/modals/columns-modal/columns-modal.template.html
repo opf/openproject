@@ -1,49 +1,49 @@
 <div class="ng-modal-window columns-modal">
   <div class="ng-modal-inner">
     <div class="modal-header">
-      <a><i class="icon-close" ng-click="vm.closeMe()" title="{{ ::vm.text.closePopup }}"></i></a>
+      <a><i class="icon-close" ng-click="$ctrl.closeMe()" title="{{ ::$ctrl.text.closePopup }}"></i></a>
     </div>
 
-    <h3>{{ ::vm.text.columnsLabel }}</h3>
+    <h3>{{ ::$ctrl.text.columnsLabel }}</h3>
 
-    <div cg-busy="{promise: vm.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="!vm.impaired">
-      <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
+    <div cg-busy="{promise: $ctrl.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="!$ctrl.impaired">
+      <label for="selected_columns" class="hidden-for-sighted">{{ ::$ctrl.text.selectedColumns }}</label>
 
-      <ui-select multiple sortable="true" ng-model="vm.selectedColumns" theme="select2"
+      <ui-select multiple sortable="true" ng-model="$ctrl.selectedColumns" theme="select2"
                  id="selected_columns" focus
-                 aria-labelledby="column_multiselect_description" title="{{ ::vm.text.columnsLabel }}">
+                 aria-labelledby="column_multiselect_description" title="{{ ::$ctrl.text.columnsLabel }}">
 
         <ui-select-match>{{ $item.title }}</ui-select-match>
 
-        <ui-select-choices repeat="column in vm.unusedColumns | filter: { title: $select.search } | orderBy:'title'"
-                           refresh="vm.updateUnusedColumns($select.selected)" refresh-delay="0">
+        <ui-select-choices repeat="column in $ctrl.unusedColumns | filter: { title: $select.search } | orderBy:'title'"
+                           refresh="$ctrl.updateUnusedColumns($select.selected)" refresh-delay="0">
 
           <div ng-bind-html="column.title | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
 
       <span class="tooltip--right -multiline" tabindex="0" title
-            data-tooltip="{{ ::vm.text.multiSelectLabel }}"
+            data-tooltip="{{ ::$ctrl.text.multiSelectLabel }}"
             aria-labelledby="column_multiselect_description">
 
         <i class="icon icon-help1"></i>
       </span>
       <div class="hidden-for-sighted" id="column_multiselect_description">
-        {{ ::vm.text.multiSelectLabel }}
+        {{ ::$ctrl.text.multiSelectLabel }}
       </div>
     </div>
 
-    <div cg-busy="{promise: vm.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="vm.impaired">
-      <label for="selected_columns" class="hidden-for-sighted">{{ ::vm.text.selectedColumns }}</label>
+    <div cg-busy="{promise: $ctrl.promise, message: I18n.t('js.label_please_wait')}" class="columns-modal-content select2-modal-content" ng-if="$ctrl.impaired">
+      <label for="selected_columns" class="hidden-for-sighted">{{ ::$ctrl.text.selectedColumns }}</label>
 
-      <div ng-repeat="column in vm.availableColumns | orderBy:'title'">
+      <div ng-repeat="column in $ctrl.availableColumns | orderBy:'title'">
         <label class="form--label-with-check-box" for="column-{{column.title}}">
           <div class="form--check-box-container">
             <input id="column-{{column.title}}"
                    type="checkbox"
                    title="{{ column.title }}"
-                   ng-model="vm.selectedColumnMap[column.name]"
-                   ng-change="vm.setSelectedColumn(column)"
+                   ng-model="$ctrl.selectedColumnMap[column.name]"
+                   ng-change="$ctrl.setSelectedColumn(column)"
                    focus="$first" />
           </div>
           {{column.title}}
@@ -51,11 +51,11 @@
       </div>
     </div>
     <div>
-      <button class="button -highlight" ng-click="vm.updateSelectedColumns()">
-        {{ ::vm.text.applyButton }}
+      <button class="button -highlight" ng-click="$ctrl.updateSelectedColumns()">
+        {{ ::$ctrl.text.applyButton }}
       </button>
-      <button class="button" ng-click="vm.closeMe()">
-        {{ ::vm.text.cancelButton }}
+      <button class="button" ng-click="$ctrl.closeMe()">
+        {{ ::$ctrl.text.cancelButton }}
       </button>
     </div>
   </div>
