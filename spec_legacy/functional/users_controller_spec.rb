@@ -238,17 +238,4 @@ describe UsersController, type: :controller do
     assert_equal [u.mail], mail.to
     assert mail.body.encoded.include?('newpassPASS!')
   end
-
-  it 'should edit membership' do
-    post :edit_membership, id: 2, membership_id: 1,
-                           membership: { role_ids: [2] }
-    assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
-    assert_equal [2], Member.find(1).role_ids
-  end
-
-  it 'should destroy membership' do
-    post :destroy_membership, id: 2, membership_id: 1
-    assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
-    assert_nil Member.find_by(id: 1)
-  end
 end

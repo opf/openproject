@@ -36,8 +36,6 @@ class UsersController < ApplicationController
                                    :edit,
                                    :update,
                                    :change_status,
-                                   :edit_membership,
-                                   :destroy_membership,
                                    :destroy,
                                    :deletion_info,
                                    :resend_invitation]
@@ -220,37 +218,6 @@ class UsersController < ApplicationController
     redirect_back_or_default(action: 'edit', id: @user)
   end
 
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], permitted_params.membership, @user)
-    @membership.save if request.post?
-    respond_to do |format|
-      if @membership.valid?
-        format.html do
-          redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-        end
-
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/common_notice',
-                             locals: { message: l(:notice_successful_update) }
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        end
-      else
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/member_errors',
-                             locals: { member: @membership }
-          }
-        end
-      end
-    end
-  end
-
   def resend_invitation
     token = UserInvitation.reinvite_user @user.id
 
@@ -275,29 +242,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to self_delete ? signin_path : users_path
-      end
-    end
-  end
-
-  def destroy_membership
-    @membership = Member.find(params.delete(:membership_id))
-
-    if request.post? && @membership.deletable?
-      @membership.destroy && @membership = nil
-    end
-
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-
-      format.js do
-        render(:update) { |page|
-          page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-          page.insert_html :top, 'tab-content-memberships',
-                           partial: 'members/common_notice',
-                           locals: { message: l(:notice_successful_delete) }
-        }
       end
     end
   end
