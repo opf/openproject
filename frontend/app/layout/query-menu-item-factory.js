@@ -48,6 +48,11 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
         // No idea though, why these sometimes are null and sometimes are undefined.
         element.toggleClass('selected', $state.includes('work-packages') &&
                                         (scope.queryId == $stateParams.query_id));
+
+        // Add hidden info for blind users
+        element.prop('title', I18n.t('js.description_current_position') + element.prop('title'));
+        var hiddenLabel = jQuery("<span class='hidden-for-sighted'>" + I18n.t('js.description_current_position') + "</span>")[0];
+        element.prepend(hiddenLabel);
       }
       scope.$on('openproject.layout.activateMenuItem', setActiveState);
 

@@ -62,6 +62,7 @@ en:
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     description_available_columns: "Available Columns"
+    description_current_position: "You are here:"
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
