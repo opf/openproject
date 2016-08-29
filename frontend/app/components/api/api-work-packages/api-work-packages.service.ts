@@ -69,8 +69,8 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(projectIdentifier?:string):ng.IPromise<HalResource> {
-    return this.halRequest.post(this.v3Path.wp.form({project: projectIdentifier}));
+  public emptyCreateForm(request:any, projectIdentifier?:string):ng.IPromise<HalResource> {
+    return this.halRequest.post(this.v3Path.wp.form(projectIdentifier), request);
   }
 
   /**
