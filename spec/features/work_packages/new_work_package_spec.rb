@@ -189,6 +189,23 @@ describe 'new work package', js: true do
       save_work_package!
 
       expect(page).to have_selector('.wp--row input[type=checkbox]:checked')
+
+      # Editing the subject after creation
+      # Fix for WP #23879
+      new_wp = WorkPackage.last
+      new_subject = 'new subject'
+      table_subject = wp_table.edit_field(new_wp, :subject)
+      table_subject.activate!
+      table_subject.set_value new_subject
+      table_subject.submit_by_enter
+      table_subject.expect_state_text new_subject
+
+      new_wp.reload
+      expect(new_wp.subject).to eq(new_subject)
+
+      # Expect this to be synced
+      details_subject = wp_table.edit_field(new_wp, :subject)
+      details_subject.expect_state_text new_subject
     end
   end
 
