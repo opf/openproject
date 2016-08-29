@@ -28,8 +28,7 @@ OpenProject::Application.routes.draw do
 
   resources :cost_reports, except: :create do
     collection do
-      get :new_global, action: :index
-      post :index
+      match :index, via: [:get, :post]
       post :save_as, action: :create
       get :drill_down
       match :available_values, via: [:get, :post]

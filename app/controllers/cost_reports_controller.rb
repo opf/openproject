@@ -68,18 +68,11 @@ class CostReportsController < ApplicationController
   end
 
   current_menu_item :index do |controller|
-    url_helper = OpenProject::StaticRouting::StaticUrlHelpers.new
-
-    case controller.current_path
-    when url_helper.new_global_cost_reports_path
-      :cost_reports_global
-    else
-      :cost_reports
-    end
+    controller.menu_item_to_highlight_on_index
   end
 
-  def current_path
-    request.fullpath
+  def menu_item_to_highlight_on_index
+    @project ? :cost_reports : :cost_reports_global
   end
 
   def drill_down
