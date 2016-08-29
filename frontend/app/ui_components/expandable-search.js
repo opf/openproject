@@ -60,7 +60,7 @@ module.exports = function(ENTER_KEY) {
               // Hide unless icon clicked
               if (elem.find(':active,:focus').length === 0) {
                 setCollapsed(true);
-                $(elem).off('focusout');
+                elem.off('focusout');
               }
             }, 10);
           });
