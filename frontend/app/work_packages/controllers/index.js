@@ -36,18 +36,6 @@ angular.module('openproject.workPackages.controllers')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .factory('exportModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'ExportModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/export.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('ExportModalController', ['exportModal', 'QueryService',
-    'UrlParamsHelper',
-    require('./dialogs/export')
-  ])
   .factory('groupingModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'GroupByModalController',
