@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :user_password, class: UserPassword.active_type do
-    association :user
-    plain_password 'adminADMIN!'
+if OpenProject::Configuration.override_bcrypt_cost_factor?
+  cost_factor = OpenProject::Configuration.override_bcrypt_cost_factor.to_i
+  current = BCrypt::Engine.cost
 
-    factory :old_user_password do
-      created_at 1.year.ago
-      updated_at 1.year.ago
-    end
-  end
-
-  factory :legacy_sha1_password, class: UserPassword::SHA1 do
-    association :user
-    type 'UserPassword::SHA1'
-    plain_password 'mylegacypassword!'
-
-    # Avoid going through the after_save hook
-    # As it's no longer possible for Sha1 passwords
-    after(:build) do |obj|
-      obj.salt = SecureRandom.hex(16)
-      obj.hashed_password = obj.send(:derive_password!, obj.plain_password)
-      obj.plain_password = nil
-    end
+  if cost_factor < 8
+    Rails.logger.warn {
+      "Ignoring BCrypt cost factor #{cost_factor}. Using default (#{current})."
+    }
+  else
+    BCrypt::Engine.cost = cost_factor
   end
 end

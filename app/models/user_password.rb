@@ -35,11 +35,42 @@ class UserPassword < ActiveRecord::Base
 
   attr_accessor :plain_password
 
-  # Checks whether the stored password is the same as a given plaintext password
-  def same_as_plain_password?(plain_password)
-    UserPassword.secure_equals?(UserPassword.hash_with_salt(plain_password,
-                                                            salt),
-                                hashed_password)
+  ##
+  # Fixes the active UserPassword Type to use.
+  # This could allow for an entrypoint for plugins or customization
+  def self.active_type
+    UserPassword::Bcrypt
+  end
+
+  ##
+  # Determines whether the hashed value of +plain+ matches the stored password hash.
+  def matches_plaintext?(plain, update_legacy: true)
+    if hash_matches?(plain)
+
+      # Update hash if necessary
+      if update_legacy
+        rehash_as_active(plain)
+      end
+
+      return true
+    end
+
+    false
+  end
+
+  ##
+  # Rehash the password using the currently active strategy.
+  # This replaces the password and keeps expiry date identical.
+  def rehash_as_active(plain)
+    active_class = UserPassword.active_type
+
+    unless is_a?(active_class)
+      becomes!(active_class)
+      self.hashed_password = derive_password!(plain)
+      save!
+    end
+  rescue => e
+    Rails.logger.error("Unable to re-hash UserPassword for #{user.login}: #{e.message}")
   end
 
   def expired?
@@ -48,39 +79,25 @@ class UserPassword < ActiveRecord::Base
     created_at < (Time.now - days_valid)
   end
 
-  # Returns a 128bits random salt as a hex string (32 chars long)
-  def self.generate_salt
-    SecureRandom.hex(16)
-  end
+  protected
 
-  # Return password digest
-  def self.hash_password(plain_password)
-    Digest::SHA1.hexdigest(plain_password)
-  end
-
-  # Hash a plaintext password with a given salt
-  # The hashed password has following form: SHA1(salt + SHA1(password))
-  def self.hash_with_salt(plain_password, salt)
-    # We should really use a standard key-derivation function like bcrypt here
-    hash_password("#{salt}#{hash_password plain_password}")
-  end
-
-  # constant-time comparison algorithm to prevent timing attacks
-  def self.secure_equals?(a, b)
-    return false if a.blank? || b.blank? || a.bytesize != b.bytesize
-    l = a.unpack "C#{a.bytesize}"
-
-    res = 0
-    b.each_byte do |byte| res |= byte ^ l.shift end
-    res == 0
-  end
-
-  private
-
+  # Save hashed_password from the initially passed plain password
+  # if it is is set.
   def salt_and_hash_password!
     return if plain_password.nil?
-    self.salt = UserPassword.generate_salt
-    self.hashed_password = UserPassword.hash_with_salt(plain_password,
-                                                       salt)
+    self.hashed_password = derive_password!(plain_password)
+  end
+
+  # Require the implementation to provide a secure comparisation
+  def hash_matches?(_plain)
+    raise NotImplementedError, 'Must be overridden by subclass'
+  end
+
+  def generate_salt
+    raise NotImplementedError, 'Must be overridden by subclass'
+  end
+
+  def derive_password!(_input)
+    raise NotImplementedError, 'Must be overridden by subclass'
   end
 end

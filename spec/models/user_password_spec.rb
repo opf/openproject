@@ -30,7 +30,8 @@ require 'spec_helper'
 
 describe UserPassword, type: :model do
   let(:old_password) { FactoryGirl.create(:old_user_password) }
-  let(:password) { FactoryGirl.create(:user_password) }
+  let(:user) { FactoryGirl.create(:user) }
+  let(:password) { FactoryGirl.create(:user_password, user: user, plain_password: 'adminAdmin!') }
 
   describe '#expired?' do
     context 'with expiry value set',
@@ -49,6 +50,57 @@ describe UserPassword, type: :model do
       it 'should be false for an old password when password expiry is disabled' do
         expect(old_password.expired?).to be_falsey
       end
+    end
+  end
+
+  describe '#matches_plaintext?' do
+    it 'still matches the password' do
+      expect(password).to be_a(UserPassword.active_type)
+      expect(password.matches_plaintext?('adminAdmin!')).to be_truthy
+    end
+  end
+
+  describe '#rehash_as_active' do
+    let(:password) {
+      pass = FactoryGirl.build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
+      expect(pass).to receive(:salt_and_hash_password!).and_return nil
+
+      pass.save!
+      pass
+    }
+
+    before do
+      password
+      user.reload
+    end
+
+    it 'rehashed the password when correct' do
+      expect(user.current_password).to be_a(UserPassword::SHA1)
+      expect {
+        password.matches_plaintext?('adminAdmin!')
+      }.to_not change { user.passwords.count }
+
+      expect(user.current_password).to be_a(UserPassword::Bcrypt)
+    end
+
+    it 'does not alter the password when invalid' do
+      expect(password.matches_plaintext?('wat')).to be false
+      expect(password).to be_a(UserPassword::SHA1)
+    end
+
+    it 'does not alter the password when disabled' do
+      expect(password.matches_plaintext?('adminAdmin!', update_legacy: false)).to be true
+      expect(user.current_password).to be_a(UserPassword::SHA1)
+    end
+  end
+
+  describe '#save' do
+    let(:password) { FactoryGirl.build(:user_password) }
+
+    it 'saves correctly' do
+      expect(password).to receive(:salt_and_hash_password!).and_call_original
+      expect { password.save! }.not_to raise_error
+      expect(password).not_to be_expired
     end
   end
 end
