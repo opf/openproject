@@ -26,76 +26,86 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-  $scope, I18n, columnsModal,
-  exportModal, saveModal, settingsModal,
-  shareModal, sortingModal, groupingModal,
-  QueryService, AuthorisationService,
-  $window, $state, $timeout,
-  NotificationsService) {
-  $scope.$watch('query.displaySums', function(newValue) {
-    $timeout(function() {
+import {opWorkPackagesModule} from '../../../angular-modules';
+
+function SettingsDropdownMenuController($scope,
+                                        $window,
+                                        $state,
+                                        $timeout,
+                                        I18n,
+                                        columnsModal,
+                                        exportModal,
+                                        saveModal,
+                                        settingsModal,
+                                        shareModal,
+                                        sortingModal,
+                                        groupingModal,
+                                        QueryService,
+                                        AuthorisationService,
+                                        NotificationsService) {
+  $scope.$watch('query.displaySums', function (newValue) {
+    $timeout(function () {
       $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
-                                          : I18n.t('js.toolbar.settings.display_sums');
+        : I18n.t('js.toolbar.settings.display_sums');
     });
   });
 
-  $scope.saveQuery = function(event){
+  $scope.saveQuery = function (event) {
     event.stopPropagation();
     if (!$scope.query.isDirty()) {
       return;
     }
-    if($scope.query.isNew()) {
-      if( allowQueryAction(event, 'create') ){
+    if ($scope.query.isNew()) {
+      if (allowQueryAction(event, 'create')) {
         emitClosingEvents($scope);
         saveModal.activate();
       }
     } else {
-      if( allowQueryAction(event, 'update') ) {
+      if (allowQueryAction(event, 'update')) {
         QueryService.saveQuery()
-          .then(function(data){
+          .then(function (data) {
             if (data.status.isError) {
               NotificationsService.addError(data.status.text);
             }
             else {
               NotificationsService.addSuccess(data.status.text);
               $state.go('work-packages.list',
-                        { 'query_id': $scope.query.id, 'query_props': null },
-                        { notify: false });
+                {'query_id': $scope.query.id, 'query_props': null},
+                {notify: false});
             }
           });
       }
     }
   };
 
-  $scope.deleteQuery = function(event){
+  $scope.deleteQuery = function (event) {
     event.stopPropagation();
-    if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
+    if (allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed()) {
       QueryService.deleteQuery()
-        .then(function(data){
+        .then(function (data) {
           if (data.status.isError) {
-              NotificationsService.addError(data.status.text);
+            NotificationsService.addError(data.status.text);
           }
           else {
             NotificationsService.addSuccess(data.status.text);
             $state.go('work-packages.list',
-                      { 'query_id': null, 'query_props': null },
-                      { reload: true });
+              {'query_id': null, 'query_props': null},
+              {reload: true});
           }
         });
     }
   };
 
   // Modals
-  $scope.showSaveAsModal = function(event){
+  $scope.showSaveAsModal = function (event) {
     event.stopPropagation();
-    if( allowQueryAction(event, 'create') ) {
+    if (allowQueryAction(event, 'create')) {
       showExistingQueryModal.call(saveModal, event);
       updateFocusInModal('save-query-name');
     }
   };
 
-  $scope.showShareModal = function(event){
+  $scope.showShareModal = function (event) {
     event.stopPropagation();
     if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
@@ -103,45 +113,45 @@ module.exports = function(
     }
   };
 
-  $scope.showSettingsModal = function(event){
+  $scope.showSettingsModal = function (event) {
     event.stopPropagation();
-    if( allowQueryAction(event, 'update') ) {
+    if (allowQueryAction(event, 'update')) {
       showExistingQueryModal.call(settingsModal, event);
       updateFocusInModal('query_name');
     }
   };
 
-  $scope.showExportModal = function(event){
+  $scope.showExportModal = function (event) {
     event.stopPropagation();
-    if( allowWorkPackageAction(event, 'export') ) {
+    if (allowWorkPackageAction(event, 'export')) {
       showModal.call(exportModal);
-      setTimeout(function() {
+      setTimeout(function () {
         updateFocusInModal(jQuery("[id^='export-']").first().attr('id'));
       });
     }
   };
 
-  $scope.showColumnsModal = function(event){
+  $scope.showColumnsModal = function (event) {
     event.stopPropagation();
     showModal.call(columnsModal);
-    setTimeout(function() {
+    setTimeout(function () {
       updateFocusInModal(jQuery("[id^='column-']").first().attr('id'));
     });
   };
 
-  $scope.showGroupingModal = function(event){
+  $scope.showGroupingModal = function (event) {
     event.stopPropagation();
     showModal.call(groupingModal);
     updateFocusInModal('selected_columns_new');
   };
 
-  $scope.showSortingModal = function(event){
+  $scope.showSortingModal = function (event) {
     event.stopPropagation();
     showModal.call(sortingModal);
     updateFocusInModal('modal-sorting-attribute-0');
   };
 
-  $scope.toggleDisplaySums = function(){
+  $scope.toggleDisplaySums = function () {
     emitClosingEvents($scope);
     $scope.query.displaySums = !$scope.query.displaySums;
 
@@ -151,38 +161,37 @@ module.exports = function(
     angular.element($window).trigger('resize');
   };
 
-  $scope.showSettingsModalInvalid = function() {
+  $scope.showSettingsModalInvalid = function () {
     return AuthorisationService.cannot('query', 'update');
   };
 
-  $scope.showShareModalInvalid = function() {
+  $scope.showShareModalInvalid = function () {
     return (AuthorisationService.cannot('query', 'publicize') &&
-            AuthorisationService.cannot('query', 'star'));
+    AuthorisationService.cannot('query', 'star'));
   };
 
-  $scope.showExportModalInvalid = function() {
+  $scope.showExportModalInvalid = function () {
     return AuthorisationService.cannot('work_package', 'export');
   };
 
-  $scope.deleteQueryInvalid = function() {
+  $scope.deleteQueryInvalid = function () {
     return AuthorisationService.cannot('query', 'delete');
   };
 
-  $scope.showSaveModalInvalid = function() {
+  $scope.showSaveModalInvalid = function () {
     return $scope.query.isNew() || AuthorisationService.cannot('query', 'create');
   };
 
-  $scope.saveQueryInvalid = function() {
+  $scope.saveQueryInvalid = function () {
     return (!$scope.query.isDirty()) ||
       (
-        $scope.query.isDirty() &&
-        !$scope.query.isNew() &&
+        $scope.query.isDirty() && !$scope.query.isNew() &&
         AuthorisationService.cannot('query', 'update')
       ) ||
       ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
   };
 
-  function preventNewQueryAction(event){
+  function preventNewQueryAction(event) {
     if (event && $scope.query.isNew()) {
       event.stopPropagation();
       return false;
@@ -196,7 +205,7 @@ module.exports = function(
   }
 
   function showExistingQueryModal(event) {
-    if( preventNewQueryAction(event) ){
+    if (preventNewQueryAction(event)) {
       emitClosingEvents($scope);
       this.activate();
     }
@@ -211,7 +220,7 @@ module.exports = function(
   }
 
   function allowAction(event, modelName, action) {
-    if(AuthorisationService.can(modelName, action)){
+    if (AuthorisationService.can(modelName, action)) {
       return true;
     } else {
       event.stopPropagation();
@@ -229,8 +238,10 @@ module.exports = function(
   }
 
   function updateFocusInModal(element_id) {
-    setTimeout(function(){
+    setTimeout(function () {
       jQuery('#' + element_id).focus();
     }, 100);
   }
-};
+}
+
+opWorkPackagesModule.controller('SettingsDropdownMenuController', SettingsDropdownMenuController);

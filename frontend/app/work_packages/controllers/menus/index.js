@@ -28,34 +28,6 @@
 
 
 angular.module('openproject.workPackages')
-  .factory('SettingsDropdownMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-      return ngContextMenu({
-        controller: 'SettingsDropdownMenuController',
-        templateUrl: '/templates/work_packages/menus/settings_dropdown_menu.html',
-        container: '.toolbar'
-      });
-    }
-  ])
-  .controller('SettingsDropdownMenuController', [
-    '$scope',
-    'I18n',
-    'columnsModal',
-    'exportModal',
-    'saveModal',
-    'settingsModal',
-    'shareModal',
-    'sortingModal',
-    'groupingModal',
-    'QueryService',
-    'AuthorisationService',
-    '$window',
-    '$state',
-    '$timeout',
-    'NotificationsService',
-    require('./settings-dropdown-menu-controller')
-  ])
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
     {
       icon: 'edit',
