@@ -31,10 +31,12 @@ require 'open_project/static/links'
 
 module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
-    if OpenProject::Static::Links.help_link_overridden?
-      render_menu_node(item)
-    else
-      render_help_dropdown
+    Rails.cache.fetch("help_top_menu_node/#{OpenProject::Static::Links.help_link}") do
+      if OpenProject::Static::Links.help_link_overridden?
+        render_menu_node(item)
+      else
+        render_help_dropdown
+      end
     end
   end
 
