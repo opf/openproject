@@ -226,6 +226,7 @@ module Report::QueryUtils
   def map_field(key, value)
     case key.to_s
     when 'singleton_value', /_id$/ then convert_unless_nil(value) { |v| v.to_i }
+    when 'work_package_id', 'tweek', 'tmonth', 'tweek' then value.to_i
     else convert_unless_nil(value) { |v| v.to_s }
     end
   end
