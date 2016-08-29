@@ -4910,6 +4910,7 @@ Gets a list of projects that are available as projects to which the work package
 ## Revisions [GET]
 
 Gets a list of revisions that are linked to this work package, e.g., because it is referenced in the commit message of the revision.
+Only linked revisions from repositories are shown if the user has the view changesets permission in the defining project.
 
 + Parameters
     + id (required, integer, `1`) ... work package id
@@ -4922,7 +4923,7 @@ Gets a list of revisions that are linked to this work package, e.g., because it 
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** view changesets of the project this work package is contained in
+    **Required permission:** view work packages for the project the work package is contained in.
 
     *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
 
