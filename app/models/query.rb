@@ -385,9 +385,10 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
+    with_subprojects = Setting.display_subprojects_work_packages? || !subproject_filter.nil?
     project_clauses << WorkPackage.visible_condition(User.current,
                                                      project: project,
-                                                     with_subprojects: !subproject_filter.nil?)
+                                                     with_subprojects: with_subprojects)
     project_clauses.join(' AND ')
   end
 
