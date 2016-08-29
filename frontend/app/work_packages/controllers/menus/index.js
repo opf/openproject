@@ -28,15 +28,6 @@
 
 
 angular.module('openproject.workPackages')
-  .factory('ShowMoreDropdownMenu', [
-    'ngContextMenu',
-    function(ngContextMenu) {
-      return ngContextMenu({
-        templateUrl: '/templates/work_packages/menus/show_more_dropdown_menu.html',
-        container: '#action-show-more-dropdown-menu'
-      });
-    }
-  ])
   .factory('SettingsDropdownMenu', [
     'ngContextMenu',
     function(ngContextMenu) {
