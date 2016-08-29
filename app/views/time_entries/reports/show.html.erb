@@ -71,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="grid-block">
-      <%= link_to_function l(:button_apply), '$("query_form").submit()', class: 'button -highlight' %>
+      <%= submit_tag l(:button_apply), class: 'button -highlight' %>
       <%= link_to l(:button_clear), {project_id: @project, issue_id: @issue, period_type: params[:period_type], period: params[:period], from: @from, to: @to, columns: @columns}, class: 'button' %>
     </div>
   </div>

@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag "reassign_to_id", t(:description_wiki_subpages_reassign), class: "hidden-for-sighted" %>
         <%= select_tag 'reassign_to_id',
                        options_for_select(wiki_page_options_for_select(@reassignable_to)),
-                       onclick: "$('todo_reassign').checked = true;" %>
+                       onclick: "jQuery('#todo_reassign').attr('checked', true);" %>
       <% end %>
     </p>
   </div>
