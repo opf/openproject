@@ -29,7 +29,7 @@
 require 'support/pages/page'
 
 module Pages
-  class AbstractWorkPackageCreate < Page
+  class AbstractWorkPackageCreate < AbstractWorkPackage
     attr_reader :original_work_package,
                 :parent_work_package
 
