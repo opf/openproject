@@ -27,11 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+def aggregate_mocked_configuration(example, config)
+  # We have to manually check parent groups for with_config:,
+  # since they are being ignored otherwise
+  example.example_group.parents.each do |parent|
+    if parent.respond_to?(:metadata) && parent.metadata[:with_config]
+      config.reverse_merge!(parent.metadata[:with_config])
+    end
+  end
+
+  config
+end
+
 RSpec.configure do |config|
   config.before(:each) do |example|
-    if example.metadata[:with_config]
+    config = example.metadata[:with_config]
+    if config.present?
+      config = aggregate_mocked_configuration(example, config)
+
       allow(OpenProject::Configuration).to receive(:[]).and_call_original
-      example.metadata[:with_config].each do |k,v|
+      config.each do |k,v|
         allow(OpenProject::Configuration)
           .to receive(:[])
           .with(k.to_s)

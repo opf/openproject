@@ -26,31 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
+FactoryGirl.define do
+  factory :user_session do
+    sequence(:session_id) do |n| "session_#{n}" end
+    association :user
 
-module AuthenticationHelpers
-  def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
-      # If we want to mock having finished the login process
-      # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
-      # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id)
-    end
-
-    allow(User).to receive(:current).and_return(user)
-  end
-
-  def login_with(login, password)
-    visit '/login'
-    within('#login-form') do
-      fill_in 'username', with: login
-      fill_in 'password', with: password
-      click_button I18n.t(:button_login)
+    callback(:after_build) do |session|
+      session.data = {}
+      session.data['user_id'] = session.user.id if session.user.present?
     end
   end
-end
-
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
 end

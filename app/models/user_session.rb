@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,32 +26,29 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require "active_support/core_ext/module/attribute_accessors"
 
-require 'rack_session_access/capybara'
+class UserSession < ActiveRecord::SessionStore::Session
+  belongs_to :user
 
-module AuthenticationHelpers
-  def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
-      # If we want to mock having finished the login process
-      # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
-      # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id)
-    end
+  ##
+  # Keep an index on the current user for the given session hash
+  before_save :set_user_id
 
-    allow(User).to receive(:current).and_return(user)
+  ##
+  # Delete related sessions when an active session is destroyed
+  after_destroy :delete_user_sessions
+
+  private
+
+  def set_user_id
+    write_attribute(:user_id, data['user_id'])
   end
 
-  def login_with(login, password)
-    visit '/login'
-    within('#login-form') do
-      fill_in 'username', with: login
-      fill_in 'password', with: password
-      click_button I18n.t(:button_login)
-    end
-  end
-end
+  def delete_user_sessions
+    user_id = data['user_id']
+    return unless user_id && OpenProject::Configuration.drop_old_sessions_on_logout?
 
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
+    UserSession.where(user_id: user_id).delete_all
+  end
 end

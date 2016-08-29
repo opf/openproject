@@ -192,10 +192,10 @@ class ApplicationController < ActionController::Base
   # Sets the logged in user
   def logged_user=(user)
     reset_session
+
     if user && user.is_a?(User)
       User.current = user
-      session[:user_id] = user.id
-      session[:updated_at] = Time.now
+      InitializeSessionService.call(user, session)
     else
       User.current = User.anonymous
     end

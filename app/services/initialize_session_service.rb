@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,31 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rack_session_access/capybara'
+class InitializeSessionService
+  class << self
+    ##
+    # Initializes a new session for the given user.
+    # This services provides very little for what it is called,
+    # mainly caused due to the many ways a user can login.
+    def call(user, session)
+      session[:user_id] = user.id
+      session[:updated_at] = Time.now
 
-module AuthenticationHelpers
-  def login_as(user)
-    if is_a? RSpec::Rails::FeatureExampleGroup
-      # If we want to mock having finished the login process
-      # we must set the user_id in rack.session accordingly
-      # Otherwise e.g. calls to Warden will behave unexpectantly
-      # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id)
+      if drop_old_sessions?
+        ::UserSession.where(user_id: user.id).delete_all
+      end
+
+      ServiceResult.new(success: true, result: session)
     end
 
-    allow(User).to receive(:current).and_return(user)
-  end
+    private
 
-  def login_with(login, password)
-    visit '/login'
-    within('#login-form') do
-      fill_in 'username', with: login
-      fill_in 'password', with: password
-      click_button I18n.t(:button_login)
+    ##
+    # We can only drop old sessions if they're stored in the database
+    # and enabled by configuration.
+    def drop_old_sessions?
+      OpenProject::Configuration.session_store == :active_record_store &&
+        OpenProject::Configuration.drop_old_sessions_on_login?
     end
   end
-end
-
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
 end
