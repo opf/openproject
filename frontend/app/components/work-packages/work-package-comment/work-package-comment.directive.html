@@ -26,7 +26,8 @@
             span-class="inplace-editing--container"
             link-class="inplace-editing--trigger-link"
             aria-label="{{ ::vm.text.editTitle }}"
-            execute="vm.activate()">
+            execute="vm.activate()"
+            focus="vm.shouldFocus()">
             <span class="inplace-edit--read-value -default">
               <span ng-bind="::vm.text.placeholder"></span>
             </span>

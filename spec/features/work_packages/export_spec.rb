@@ -88,6 +88,8 @@ describe 'work package export', type: :feature do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
+    expect(page).not_to have_text(wp_2.description) # safeguard
+
     export!
 
     expect(page).to have_text(wp_1.description)
@@ -98,6 +100,8 @@ describe 'work package export', type: :feature do
   it 'shows only work packages of the filtered type', js: true do
     select 'Type', from: 'add_filter_select'
     select wp_3.type.name, from: 'values-type'
+
+    expect(page).not_to have_text(wp_2.description) # safeguard
 
     export!
 

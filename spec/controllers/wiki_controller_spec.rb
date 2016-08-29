@@ -277,7 +277,7 @@ describe WikiController, type: :controller do
           get 'show', id: @unrelated_page.slug, project_id: @project.id
 
           expect(response).to be_success
-          expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
@@ -287,7 +287,7 @@ describe WikiController, type: :controller do
           get 'show', id: @other_wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
-          expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
@@ -297,7 +297,7 @@ describe WikiController, type: :controller do
           get 'show', id: @wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
-          expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
@@ -309,20 +309,19 @@ describe WikiController, type: :controller do
           get 'new_child', id: @wiki_menu_item.name, project_id: @project.identifier
 
           expect(response).to be_success
-          expect(response).to have_no_selected_menu_item_in(:project_menu)
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end
 
-        it 'is inactive, when a toc page is shown' do
+        it 'is active, when a toc page is shown' do
           get 'index', id: @wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
-          expect(response).to have_no_selected_menu_item_in(:project_menu)
+          assert_select '#content h2', text: 'Index by title'
+          assert_select "#main-menu a.#{@wiki_menu_item.name}-menu-item.selected"
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
         end
       end
 
@@ -331,7 +330,7 @@ describe WikiController, type: :controller do
           get 'show', id: @child_page.slug, project_id: @project.id
 
           expect(response).to be_success
-          expect(response).to have_exactly_one_selected_menu_item_in(:project_menu)
+          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
         end

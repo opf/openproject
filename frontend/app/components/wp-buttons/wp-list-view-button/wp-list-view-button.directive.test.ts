@@ -64,8 +64,6 @@ describe('wpListViewButton directive', () => {
         projectIdentifier: controller.projectIdentifier
       };
 
-      console.log('BLUP:' + params.projectIdentifier);
-
       $state.params = {
         projectIdentifier: 'some-overwritten-value'
       };

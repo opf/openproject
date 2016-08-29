@@ -88,9 +88,15 @@ function WorkPackageService($http,
             return response.data;
           },
           function (failedResponse) {
-            NotificationsService.addError(
-                I18n.t('js.work_packages.query.errors.unretrievable_query')
-            );
+            var error = '';
+            if (failedResponse.status === 404) {
+              error = I18n.t('js.work_packages.query.errors.not_found');
+            }
+            else {
+              error = I18n.t('js.work_packages.query.errors.unretrievable_query');
+            }
+
+            NotificationsService.addError(error);
           }
       );
     },

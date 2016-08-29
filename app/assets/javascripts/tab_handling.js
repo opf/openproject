@@ -47,6 +47,10 @@ function showTab(name, url) {
   if ("replaceState" in window.history) {
     window.history.replaceState(null, document.title, url);
   }
+
+  window.setTimeout(function() {
+    jQuery('#tab-' + name).focus();
+  }, 100);
   return false;
 }
 

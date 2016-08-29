@@ -30,6 +30,8 @@ import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service'
 import {WorkPackageEditModeStateService} from './wp-edit-mode-state.service';
 import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.directive';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageEditFormController {
   public workPackage;
@@ -53,6 +55,11 @@ export class WorkPackageEditFormController {
     if (this.hasEditMode) {
       wpEditModeState.register(this);
     }
+
+    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+      .subscribe((wp: WorkPackageResource) => {
+        this.workPackage = wp;
+      });
   }
 
   public isFieldRequired() {

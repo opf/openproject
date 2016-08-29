@@ -35,6 +35,8 @@ class ApplicationController < ActionController::Base
   class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
 
+  helper_method :render_to_string
+
   protected
 
   include I18n

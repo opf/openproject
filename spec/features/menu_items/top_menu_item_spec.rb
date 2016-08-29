@@ -30,19 +30,27 @@ require 'spec_helper'
 
 feature 'Top menu items', js: true, selenium: true do
   let(:user) { FactoryGirl.create :user }
-  let(:modules) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+  let(:open_menu) { true }
 
-  let(:news_item) { I18n.t('label_news_plural') }
-  let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
-
-  let(:all_items) { [news_item, time_entries_item] }
-
-  def has_menu_items(*labels)
-    labels.each do |l|
-      expect(page).to have_link(l)
+  def has_menu_items?(*labels)
+    within '#top-menu' do
+      labels.each do |l|
+        expect(page).to have_link(l)
+      end
+      (all_items - labels).each do |l|
+        expect(page).not_to have_link(l)
+      end
     end
-    (all_items - labels).each do |l|
-      expect(page).not_to have_link(l)
+  end
+
+  def click_link_in_open_menu(title)
+    # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
+    # the click might be ignored
+
+    within '.drop-down.open ul[aria-expanded=true]' do
+      expect(page).not_to have_selector('[style~=overflow]')
+
+      page.find_link(title).find('span').click
     end
   end
 
@@ -56,45 +64,96 @@ feature 'Top menu items', js: true, selenium: true do
     end
 
     visit root_path
-    modules.click
+    top_menu.click if open_menu
   end
 
-  context 'as an admin' do
-    let(:user) { FactoryGirl.create :admin }
-    it 'displays all items' do
-      has_menu_items(time_entries_item, news_item)
+  describe 'Modules' do
+    let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+
+    let(:news_item) { I18n.t('label_news_plural') }
+    let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
+
+    let(:all_items) { [news_item, time_entries_item] }
+
+    context 'as an admin' do
+      let(:user) { FactoryGirl.create :admin }
+      it 'displays all items' do
+        has_menu_items?(time_entries_item, news_item)
+      end
+
+      it 'visits the time sheet page' do
+        click_link_in_open_menu(time_entries_item)
+        expect(page).to have_current_path(time_entries_path)
+      end
+
+      it 'visits the news page' do
+        click_link_in_open_menu(news_item)
+        expect(page).to have_current_path(news_index_path)
+      end
     end
 
-    it 'visits the time sheet page' do
-      expect(page).to have_content(time_entries_item)
-      click_link time_entries_item
-      expect(current_path).to eq(time_entries_path)
+    context 'as a regular user' do
+      it 'displays news only' do
+        has_menu_items? news_item
+      end
     end
 
-    it 'visits the news page' do
-      expect(page).to have_content(news_item)
-      click_link news_item
-      expect(current_path).to eq(news_index_path)
+    context 'as a user with permissions', allowed_to: true do
+      it 'displays all options' do
+        has_menu_items?(time_entries_item, news_item)
+      end
+    end
+
+    context 'as an anonymous user' do
+      let(:user) { FactoryGirl.create :anonymous }
+      it 'displays only news' do
+        has_menu_items? news_item
+      end
     end
   end
 
-  context 'as a regular user' do
-    it 'displays news only' do
-      has_menu_items news_item
+  describe 'Projects' do
+    let(:top_menu) { find(:css, '#projects-menu') }
+
+    let(:new_project) { I18n.t(:label_project_new) }
+    let(:all_projects) { I18n.t(:label_project_view_all) }
+    let(:all_items) { [new_project, all_projects] }
+
+    context 'as an admin' do
+      let(:user) { FactoryGirl.create :admin }
+      it 'displays all items' do
+        has_menu_items?(new_project, all_projects)
+      end
+
+      it 'visits the work package page' do
+        click_link_in_open_menu(new_project)
+
+        expect(page).to have_current_path(new_project_path)
+      end
+
+      it 'visits the projects page' do
+        click_link_in_open_menu(all_projects)
+
+        expect(page).to have_current_path(projects_path)
+      end
     end
-  end
 
-  context 'as a user with permissions', allowed_to: true do
-    it 'displays all options' do
-      has_menu_items(time_entries_item, news_item)
+    context 'as a user without project permission' do
+      before do
+        Role.non_member.update_attribute :permissions, [:view_project]
+      end
+      it 'does not display new_project' do
+        has_menu_items? all_projects
+      end
     end
-  end
 
-  context 'as an anonymous user' do
-    let(:user) { FactoryGirl.create :anonymous }
+    context 'as an anonymous user' do
+      let(:user) { FactoryGirl.create :anonymous }
+      let(:open_menu) { false }
 
-    it 'displays only news' do
-      has_menu_items news_item
+      it 'does not show the menu' do
+        expect(page).to have_no_selector('#projects-menu')
+      end
     end
   end
 end
