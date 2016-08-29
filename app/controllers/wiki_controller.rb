@@ -79,7 +79,8 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: wiki_page_title)
+    slug = wiki_page_title.nil? ? 'wiki' : wiki_page_title.to_url
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug: slug)
 
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)

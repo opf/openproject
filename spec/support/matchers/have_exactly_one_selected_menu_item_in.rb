@@ -52,7 +52,6 @@ RSpec::Matchers.define :have_exactly_one_selected_menu_item_in do |menu|
     menu_matches = menu_selector.select(html.root)
     if menu_matches.size == 1
       menu_item_matches = menu_item_selector.select(menu_matches.first)
-
       if menu_item_matches.size == 0
         "Expected to find exactly one selected menu item in #{menu}, but found none."
       elsif menu_item_matches.size > 1

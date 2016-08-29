@@ -261,7 +261,7 @@ describe WikiController, type: :controller do
       before do
         @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                                     title:    'Item for Page with Content',
-                                                                                    name:   'page-with-content')
+                                                                                    name:   @page_with_content.slug)
 
         @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, navigatable_id: @project.wiki.id,
                                                                                 title:    'Item for new WikiPage',
@@ -318,7 +318,6 @@ describe WikiController, type: :controller do
           get 'index', id: @wiki_menu_item.name, project_id: @project.id
 
           expect(response).to be_success
-          binding.pry
           assert_select '#content h2', text: 'Index by title'
           assert_select "#main-menu a.#{@wiki_menu_item.name}-menu-item.selected"
 
