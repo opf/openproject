@@ -36,23 +36,6 @@ angular.module('openproject.workPackages.controllers')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .factory('groupingModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'GroupByModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/group_by.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('GroupByModalController', [
-    '$scope',
-    '$filter',
-    'groupingModal',
-    'QueryService',
-    'WorkPackagesTableService',
-    'I18n',
-    require('./dialogs/group-by')
-  ])
   .factory('shareModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'ShareModalController',
