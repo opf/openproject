@@ -28,13 +28,33 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function groupingModalService(btfModal) {
-  return btfModal({
-    controller: 'GroupingModalController',
-    controllerAs: '$ctrl',
-    afterFocusOn: '#work-packages-settings-button',
-    templateUrl: ''
+function GroupingModalController($scope,
+                                 groupingModal,
+                                 QueryService,
+                                 WorkPackagesTableService,
+                                 I18n) {
+  this.name = 'GroupBy';
+  this.closeMe = groupingModal.deactivate;
+
+  var emptyOption = {title: I18n.t('js.inplace.clear_value_label')};
+
+  $scope.vm = {};
+
+  $scope.updateGroupBy = () => {
+    QueryService.setGroupBy($scope.vm.selectedColumnName);
+    groupingModal.deactivate();
+  };
+
+  $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
+
+  $scope.$watch('workPackageTableData.groupableColumns', groupableColumns => {
+    if (!groupableColumns) {
+      return;
+    }
+
+    $scope.vm.groupableColumns = [emptyOption].concat(groupableColumns);
+    $scope.vm.selectedColumnName = QueryService.getGroupBy();
   });
 }
 
-wpControllersModule.factory('groupingModal', groupingModalService);
+wpControllersModule.controller('GroupingModalController', GroupingModalController);
