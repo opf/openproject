@@ -173,43 +173,28 @@ class CostObjectsController < ApplicationController
   end
 
   def update_material_budget_item
-    element_id = params[:element_id] if params.has_key? :element_id
+    @element_id = params[:element_id] if params.has_key? :element_id
 
-    cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
+    @cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
 
-    units = BigDecimal.new(Rate.clean_currency(params[:units]))
-    costs = (units * cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
+    @units = BigDecimal.new(Rate.clean_currency(params[:units]))
+    @costs = (@units * @cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
 
-    if request.xhr?
-      render :update do |page|
-        if User.current.allowed_to? :view_cost_rates, @project
-          page.replace_html "#{element_id}_costs", number_to_currency(costs)
-        end
-        page.replace_html "#{element_id}_unit_name", h(units == 1.0 ? cost_type.unit : cost_type.unit_plural)
-      end
+    respond_to do |format|
+      format.js { render :update_material_budget_item }
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def update_labor_budget_item
-    element_id = params[:element_id] if params.has_key? :element_id
+    @element_id = params[:element_id] if params.has_key? :element_id
 
-    user = User.find(params[:user_id])
+    @user = User.find(params[:user_id])
 
-    hours = params[:hours].to_hours
-    costs = hours * user.rate_at(params[:fixed_date], @project).rate rescue 0.0
+    @hours = params[:hours].to_hours
+    @costs = @hours * @user.rate_at(params[:fixed_date], @project).rate rescue 0.0
 
-    if request.xhr?
-      render :update do |page|
-        if User.current.allowed_to?(:view_hourly_rates, @project, for: user)
-          page.replace_html "#{element_id}_costs", number_to_currency(costs)
-        end
-      end
-    end
-  rescue ActiveRecord::RecordNotFound
-    render :update do |page|
-      page.replace_html "#{element_id}_costs", number_to_currency(0.0)
+    respond_to do |format|
+      format.js { render :update_labor_budget_item }
     end
   end
 
