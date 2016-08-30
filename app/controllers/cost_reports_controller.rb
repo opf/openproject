@@ -67,8 +67,12 @@ class CostReportsController < ApplicationController
     end unless performed?
   end
 
-  current_menu_item :index do
-    :cost_reports_global
+  current_menu_item :index do |controller|
+    controller.menu_item_to_highlight_on_index
+  end
+
+  def menu_item_to_highlight_on_index
+    @project ? :cost_reports : :cost_reports_global
   end
 
   def drill_down
