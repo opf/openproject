@@ -36,24 +36,6 @@ angular.module('openproject.workPackages.controllers')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
   .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .factory('shareModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'ShareModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/share.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('ShareModalController', [
-    '$scope',
-    'shareModal',
-    'QueryService',
-    'AuthorisationService',
-    'queryMenuItemFactory',
-    'PathHelper',
-    'NotificationsService',
-    require('./dialogs/share')
-  ])
   .factory('sortingModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'SortingModalController',
