@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,75 +24,63 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+import {wpControllersModule} from '../../../angular-modules';
 
-describe('SettingsModalController', function() {
-  var scope, $q, defer, settingsModal, QueryService, NotificationsService;
-  var ctrl, buildController;
+describe('SettingsModalController', () => {
+  var scope;
+  var settingsModal;
+  var QueryService;
+  var NotificationsService;
+  var ctrl;
+  var buildController;
 
-  beforeEach(angular.mock.module('openproject.workPackages.controllers'));
-  beforeEach(inject(function($rootScope, $controller, _$q_) {
+  beforeEach(angular.mock.module(wpControllersModule.name));
+  beforeEach(angular.mock.inject(function ($rootScope, $controller, $q) {
     scope = $rootScope.$new();
-    $q    = _$q_;
 
     QueryService = {
-      getQuery: function() {
-        return {
-          name: 'Hey'
-        };
-      },
-      saveQuery: function() {
-        defer = $q.defer();
-        return defer.promise;
-      },
-      updateHighlightName: function() {}
+      getQuery: () => ({name: 'Hey'}),
+      saveQuery: () => $q.when({status: {text: 'Query updated!'}}),
+      updateHighlightName: angular.noop
     };
 
-    settingsModal = { deactivate: angular.noop };
-    NotificationsService = {
-      addSuccess: function() {}
-    };
+    settingsModal = {deactivate: angular.noop};
+    NotificationsService = {addSuccess: angular.noop};
 
-    buildController = function() {
-      ctrl = $controller("SettingsModalController", {
-        $scope:         scope,
-        settingsModal:  settingsModal,
-        QueryService:   QueryService,
-        NotificationsService: NotificationsService
+    buildController = () => {
+      ctrl = $controller('SettingsModalController', {
+        $scope: scope,
+        settingsModal,
+        QueryService,
+        NotificationsService
       });
     };
   }));
 
-  describe('updateQuery', function() {
-    beforeEach(function() {
+  describe('when using updateQuery', () => {
+    beforeEach(() => {
       buildController();
 
-      sinon.spy(scope, "$emit");
-      sinon.spy(settingsModal, "deactivate");
-      sinon.spy(QueryService, "updateHighlightName");
+      sinon.spy(scope, '$emit');
+      sinon.spy(settingsModal, 'deactivate');
+      sinon.spy(QueryService, 'updateHighlightName');
       sinon.spy(NotificationsService, 'addSuccess');
 
       scope.updateQuery();
-      defer.resolve({
-        status: {
-          text: 'Query updated!'
-        }
-      });
-
       scope.$digest();
     });
 
-    it('should deactivate the open modal', function() {
+    it('should deactivate the open modal', () => {
       expect(settingsModal.deactivate).to.have.been.called;
     });
 
-    it('should notfify success', function() {
+    it('should notfify success', () => {
       expect(NotificationsService.addSuccess).to.have.been.calledWith('Query updated!');
     });
 
-    it ('should update the query menu name', function() {
+    it('should update the query menu name', () => {
       expect(QueryService.updateHighlightName).to.have.been.called;
     });
   });
