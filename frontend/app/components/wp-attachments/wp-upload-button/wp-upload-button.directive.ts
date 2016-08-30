@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../angular-modules';
+import {opApiModule} from '../../../angular-modules';
 import IDirective = angular.IDirective;
 
 function wpUploadButtonDirective(): IDirective {
