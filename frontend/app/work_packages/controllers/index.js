@@ -70,24 +70,6 @@ angular.module('openproject.workPackages.controllers')
     'NotificationsService',
     require('./dialogs/save')
   ])
-  .factory('settingsModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'SettingsModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/settings.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('SettingsModalController', [
-    '$scope',
-    'settingsModal',
-    'QueryService',
-    'AuthorisationService',
-    '$rootScope',
-    'QUERY_MENU_ITEM_TYPE',
-    'NotificationsService',
-    require('./dialogs/settings')
-  ])
   .factory('shareModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'ShareModalController',
