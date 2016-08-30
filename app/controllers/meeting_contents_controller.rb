@@ -84,14 +84,15 @@ class MeetingContentsController < ApplicationController
   def notify
     unless @content.new_record?
       author_mail = @content.meeting.author.mail
-      do_not_notify_author = @content.meeting.author.preference[:no_self_notified]
+      do_not_notify_author = @content.meeting.author.pref[:no_self_notified]
 
       recipients_with_errors = []
       @content.meeting.participants.each do |recipient|
         begin
           next if recipient.mail == author_mail && do_not_notify_author
           MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver_now
-        rescue
+        rescue => e
+          logger.error { "Failed to send review notification to #{recipient}: #{e.message}" }
           recipients_with_errors << recipient
         end
       end
