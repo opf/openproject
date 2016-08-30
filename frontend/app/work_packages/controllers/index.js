@@ -35,20 +35,5 @@ angular.module('openproject.workPackages.controllers')
   .constant('USER_TYPE', 'user')
   .constant('TIME_ENTRY_TYPE', 'time_entry')
   .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1)
-  .factory('sortingModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'SortingModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/sorting.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('SortingModalController', ['sortingModal',
-    '$scope',
-    '$filter',
-    'QueryService',
-    'I18n',
-    require('./dialogs/sorting')
-  ]);
+  .constant('ADD_WATCHER_SELECT_INDEX', -1);
 require('./menus');
