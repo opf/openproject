@@ -53,23 +53,6 @@ angular.module('openproject.workPackages.controllers')
     'I18n',
     require('./dialogs/group-by')
   ])
-  .factory('saveModal', ['btfModal', function(btfModal) {
-    return btfModal({
-      controller: 'SaveModalController',
-      controllerAs: 'modal',
-      templateUrl: '/templates/work_packages/modals/save.html',
-      afterFocusOn: '#work-packages-settings-button'
-    });
-  }])
-  .controller('SaveModalController', [
-    '$scope',
-    'saveModal',
-    'QueryService',
-    'AuthorisationService',
-    '$state',
-    'NotificationsService',
-    require('./dialogs/save')
-  ])
   .factory('shareModal', ['btfModal', function(btfModal) {
     return btfModal({
       controller: 'ShareModalController',
