@@ -29,7 +29,7 @@
 declare const I18n: op.I18n;
 
 // global
-angular.module('openproject.uiComponents',
+export const opUiComponentsModule = angular.module('openproject.uiComponents',
   ['ui.select', 'ui.router', 'ngSanitize', 'openproject.workPackages.services'])
   .run(['$rootScope', function ($rootScope) {
     $rootScope.I18n = I18n;
