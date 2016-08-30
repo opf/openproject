@@ -26,16 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+
 import {wpControllersModule} from '../../../angular-modules';
 
-function settingsModalService(btfModal) {
-  return btfModal({
-    controller: 'SettingsModalController',
-    controllerAs: '$ctrl',
-    afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/settings-modal/settings-modal.service.html'
-  });
+function SettingsModalController($scope,
+                                 $rootScope,
+                                 QUERY_MENU_ITEM_TYPE,
+                                 settingsModal,
+                                 QueryService,
+                                 AuthorisationService,
+                                 NotificationsService) {
+
+  var query = QueryService.getQuery();
+
+  this.name = 'Settings';
+  this.closeMe = settingsModal.deactivate;
+  $scope.queryName = query.name;
+
+  $scope.updateQuery = () => {
+    query.name = $scope.queryName;
+    QueryService.saveQuery()
+      .then(data => {
+        QueryService.updateHighlightName();
+        settingsModal.deactivate();
+        NotificationsService.addSuccess(data.status.text);
+
+        $rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          queryId: query.id,
+          queryName: query.name
+        });
+
+        if (data.query) {
+          AuthorisationService.initModelAuth('query', data.query._links);
+        }
+      });
+  };
 }
 
-wpControllersModule.factory('settingsModal', settingsModalService);
-
+wpControllersModule.controller('SettingsModalController', SettingsModalController);
