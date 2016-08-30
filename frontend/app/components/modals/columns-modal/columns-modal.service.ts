@@ -76,7 +76,7 @@ function ColumnsModalController($scope,
     });
 
   function getColumnNames(arr) {
-    return _.map(arr, column => column.name);
+    return arr.map(column => column.name);
   }
 
   vm.updateSelectedColumns = () => {
@@ -97,7 +97,7 @@ function ColumnsModalController($scope,
   vm.updateUnusedColumns = selectedColumns => {
     var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = _.filter(vm.availableColumns, column => !_.contains(used, column.name));
+    vm.unusedColumns = vm.availableColumns.filter(column => !_.contains(used, column.name));
   };
 
   vm.setSelectedColumn = column => {
@@ -105,7 +105,7 @@ function ColumnsModalController($scope,
       vm.selectedColumns.push(column);
     }
     else {
-      _.remove(vm.selectedColumns, c => c.name === column.name);
+      _.remove(vm.selectedColumns, (c: any) => c.name === column.name);
     }
   };
 
