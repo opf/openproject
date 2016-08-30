@@ -360,17 +360,27 @@ export class WorkPackageResource extends HalResource {
     this.updateForm(this.$source)
       .then(form => {
         var payload = this.mergeWithForm(form);
+        const sentValues = Object.keys(this.$pristine);
 
         this.saveResource(payload)
           .then(workPackage => {
+
+            // Initialize any potentially new HAL values
             this.$initialize(workPackage);
-            this.$pristine = {};
             this.updateActivities();
 
             if (wasNew) {
               this.uploadPendingAttachments();
               wpCacheService.newWorkPackageCreated(this);
             }
+
+            // Remove only those pristine values that were submitted
+            angular.forEach(sentValues, (key) => {
+              delete this.$pristine[key];
+            });
+
+            // Forcefully refresh activities
+            wpCacheService.loadWorkPackageLinks(this, 'activities');
 
             deferred.resolve(this);
           })
