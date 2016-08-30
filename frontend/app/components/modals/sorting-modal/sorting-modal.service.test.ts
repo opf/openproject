@@ -28,7 +28,7 @@
 
 import {wpControllersModule, opServicesModule, opModelsModule} from '../../../angular-modules';
 
-describe('sortingModal', () => {
+describe('sortingModal service', () => {
   var scope;
   var ctrl;
   var buildController;
@@ -70,10 +70,12 @@ describe('sortingModal', () => {
     };
   }));
 
-  describe('setup', () => {
-    beforeEach(buildController);
+  describe('when setting up the controller', () => {
+    beforeEach(() => {
+      buildController();
+    });
 
-    it('formats the columns for select', () => {
+    it('should format the columns for select', () => {
       var columnData = scope.availableColumnsData[0];
 
       expect(columnData).to.have.property('id', 'parent');
@@ -89,7 +91,7 @@ describe('sortingModal', () => {
       buildController();
     });
 
-    it('is not contained by the available columns data', () => {
+    it('should not be contained by the available columns data', () => {
       expect(scope.availableColumnsData).to.not.contain({
         id: 'author',
         label: 'Author',
