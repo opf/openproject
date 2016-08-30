@@ -28,13 +28,18 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function exportModalService(btfModal) {
-  return btfModal({
-    controller: 'ExportModalController',
-    controllerAs: '$ctrl',
-    afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/export-modal/export-modal.service.html'
-  });
+class ExportModalController {
+  public name: string;
+  public closeMe: Function;
+  public exportOptions: any;
+
+  constructor(exportModal, QueryService, UrlParamsHelper) {
+    var query = QueryService.getQuery();
+
+    this.name = 'Export';
+    this.closeMe = exportModal.deactivate;
+    this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
+  }
 }
 
-wpControllersModule.factory('exportModal', exportModalService);
+wpControllersModule.controller('ExportModalController', ExportModalController);
