@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,59 +24,56 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+import {wpControllersModule, opServicesModule, opModelsModule} from '../../../angular-modules';
 
-describe('sortingModal', function() {
-  var $rootScope, scope;
-  var ctrl, buildController;
-  var QueryService, $httpBackend;
+describe('sortingModal', () => {
+  var scope;
+  var ctrl;
+  var buildController;
 
-  var columns = [
-    { name: 'parent', title: 'Parent', sortable: true },
-    { name: 'cheese', title: 'Cheesy column', sortable: true },
-    { name: 'cake', title: 'Cake', sortable: true }
+  var columns: any[] = [
+    {name: 'parent', title: 'Parent', sortable: true},
+    {name: 'cheese', title: 'Cheesy column', sortable: true},
+    {name: 'cake', title: 'Cake', sortable: true}
   ];
 
-  beforeEach(angular.mock.module('openproject.workPackages.controllers',
-                    'openproject.services',
-                    'openproject.models'));
+  beforeEach(angular.mock.module(
+    wpControllersModule.name,
+    opServicesModule.name,
+    opModelsModule.name
+  ));
 
-  beforeEach(inject(function($rootScope, $controller, $timeout, $filter, Sortation) {
+  beforeEach(angular.mock.inject(function ($rootScope,
+                                           $controller,
+                                           $timeout,
+                                           $filter,
+                                           Sortation) {
     scope = $rootScope.$new();
 
     scope.sortElements = [];
 
-    buildController = function() {
+    buildController = () => {
       ctrl = $controller('SortingModalController', {
         $scope: scope,
         sortingModal: {},
-        I18n: { t: angular.noop },
+        I18n: {t: angular.noop},
         $filter: $filter,
         QueryService: {
-          loadAvailableColumns: function() {
-            return $timeout(function() {
-              return columns;
-            });
-          },
-          getSortation: function() {
-            return new Sortation();
-          }
+          loadAvailableColumns: () => $timeout(() => columns),
+          getSortation: () => new Sortation()
         }
       });
 
       $timeout.flush();
     };
-
   }));
 
-  describe('setup', function() {
-    beforeEach(function() {
-      buildController();
-    });
+  describe('setup', () => {
+    beforeEach(buildController);
 
-    it('formats the columns for select', function() {
+    it('formats the columns for select', () => {
       var columnData = scope.availableColumnsData[0];
 
       expect(columnData).to.have.property('id', 'parent');
@@ -84,17 +81,20 @@ describe('sortingModal', function() {
     });
   });
 
-  describe('when a column is not sortable', function() {
-    var unsortableColumn = { name: 'author', title: 'Author' };
+  describe('when a column is not sortable', () => {
+    var unsortableColumn = {name: 'author', title: 'Author'};
 
-    beforeEach(function() {
+    beforeEach(() => {
       columns.push(unsortableColumn);
-
       buildController();
     });
 
-    it('is not contained by the available columns data', function() {
-      expect(scope.availableColumnsData).to.not.contain({id: 'author', label: 'Author', other: 'Author'});
+    it('is not contained by the available columns data', () => {
+      expect(scope.availableColumnsData).to.not.contain({
+        id: 'author',
+        label: 'Author',
+        other: 'Author'
+      });
     });
   });
 });
