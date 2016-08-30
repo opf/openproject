@@ -51,8 +51,10 @@ class WorkPackagesController < ApplicationController
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :authorize_on_work_package, only: :show
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export,
-                :load_query, only: :index
+                :protect_from_unauthorized_export, only: :index
+
+  before_filter :load_query,
+                :load_work_packages, only: :index, unless: ->() { request.format.html? }
 
   def show
     respond_to do |format|
@@ -82,8 +84,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    load_work_packages unless request.format.html?
-
     respond_to do |format|
       format.html do
         gon.settings = client_preferences

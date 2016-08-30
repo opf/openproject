@@ -54,7 +54,7 @@ module Redmine::MenuManager::MenuHelper
         menu.push "#{main_item.item_class}".to_sym,
                   { controller: '/wiki', action: 'show', id: main_item.slug },
                   param: :project_id,
-                  caption: main_item.name,
+                  caption: main_item.title,
                   after: :repository,
                   html: { class: 'icon2 icon-wiki' }
 
@@ -62,7 +62,7 @@ module Redmine::MenuManager::MenuHelper
           menu.push "#{child.item_class}".to_sym,
                     { controller: '/wiki', action: 'show', id: child.slug },
                     param: :project_id,
-                    caption: child.name,
+                    caption: child.title,
                     html:    { class: 'icon2 icon-wiki2' },
                     parent: "#{main_item.item_class}".to_sym
         end
@@ -143,7 +143,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_drop_down_label_node(label, selected, options = {})
-    options[:title] ||= label
+    options[:title] ||= selected ? t(:description_current_position) + label : label
     options[:aria] = { haspopup: 'true' }
     options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
 
@@ -155,7 +155,8 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def render_menu_node(node, project = nil)
-    return '' if project and not allowed_node?(node, User.current, project)
+    return '' unless allowed_node?(node, User.current, project)
+
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, project)
     else
@@ -209,7 +210,7 @@ module Redmine::MenuManager::MenuHelper
     link_text << you_are_here_info(selected)
     link_text << content_tag(:span, caption, lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)
-    html_options[:title] ||= caption
+    html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
 
     link_to link_text, url, html_options
   end

@@ -70,11 +70,7 @@ class WikiController < ApplicationController
   attr_reader :page, :related_page
 
   current_menu_item :index do |controller|
-    controller.current_menu_item_sym :related_page, '_toc'
-  end
-
-  current_menu_item :new_child do |controller|
-    controller.current_menu_item_sym :page, '_new_page'
+    controller.current_menu_item_sym :related_page
   end
 
   current_menu_item do |controller|
@@ -83,7 +79,8 @@ class WikiController < ApplicationController
 
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
-    @related_page = WikiPage.find_by(wiki_id: @wiki.id, title: wiki_page_title)
+    slug = wiki_page_title.nil? ? 'wiki' : wiki_page_title.to_url
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug: slug)
 
     load_pages_for_index
     @pages_by_parent_id = @pages.group_by(&:parent_id)

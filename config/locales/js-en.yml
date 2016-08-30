@@ -62,6 +62,7 @@ en:
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     description_available_columns: "Available Columns"
+    description_current_position: "You are here:"
     description_select_work_package: "Select work package #%{id}"
     description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
@@ -450,6 +451,7 @@ en:
         display_sums: "Display Sums"
         errors:
           unretrievable_query: "Unable to retrieve query from URL"
+          not_found: "There is no such query"
       table:
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."

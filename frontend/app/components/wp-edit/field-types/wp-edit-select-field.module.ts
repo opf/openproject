@@ -48,14 +48,27 @@ export class SelectEditField extends EditField {
       this.setValues(this.schema.allowedValues);
     } else if (this.schema.allowedValues) {
       this.schema.allowedValues.$load().then((values) => {
-        this.setValues(values.elements);
+        // The select options of the project shall be sorted
+        if(values.elements.first()._type === 'Project') {
+          this.setValues(values.elements, true)
+        } else {
+          this.setValues(values.elements);
+        }
       });
     } else {
       this.setValues([]);
     }
   }
 
-  private setValues(availableValues) {
+  private setValues(availableValues, sortValuesByName = false) {
+    if (sortValuesByName) {
+      availableValues.sort(function(a, b) {
+        var nameA = a.name.toLowerCase();
+        var nameB = b.name.toLowerCase();
+        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+      });
+    }
+
     this.options = availableValues;
     this.addEmptyOption();
     this.checkCurrentValueValidity();

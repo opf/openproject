@@ -112,6 +112,7 @@ function userActivity($uiViewScroll,
 
       scope.cancelEdit = function () {
         scope.inEdit = false;
+        this.focusEditIcon();
       };
 
       scope.quoteComment = function () {
@@ -126,7 +127,13 @@ function userActivity($uiViewScroll,
           wpCacheService.loadWorkPackageLinks(scope.workPackage, 'activities');
           scope.inEdit = false;
         });
+        this.focusEditIcon();
       };
+
+      scope.focusEditIcon = function () {
+        // Find the according edit icon and focus it
+        jQuery('.edit-activity--' + scope.activityNo + ' a').focus();
+      }
 
       scope.toggleCommentPreview = function () {
         scope.isPreview = !scope.isPreview;

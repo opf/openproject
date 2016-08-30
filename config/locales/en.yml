@@ -1526,6 +1526,7 @@ en:
   permission_view_work_package_watchers: "View watchers list"
   permission_view_work_packages: "View Work Packages"
   permission_view_messages: "View messages"
+  permission_view_members: "View members"
   permission_view_project_associations: "View project dependencies"
   permission_view_reportings: "View reportings"
   permission_view_time_entries: "View spent time"

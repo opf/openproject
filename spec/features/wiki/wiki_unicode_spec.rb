@@ -94,7 +94,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     find('#content_text').set(wiki_body)
     click_button 'Save'
 
-    expect(page).to have_selector('h1.wiki-title', text: 'wiki')
+    expect(page).to have_selector('.title-container h2', text: 'wiki')
     expect(page).to have_selector('a.wiki-page', count: 5)
   end
 
@@ -107,7 +107,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       expect(target_link[:href]).to match("\/wiki\/#{expected_slugs[i]}")
       target_link.click
 
-      expect(page).to have_selector('h1.wiki-title', text: title)
+      expect(page).to have_selector('.title-container h2', text: title)
     end
   end
 end

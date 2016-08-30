@@ -49,6 +49,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <hr class="form--separator" />
   <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel),
+      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
+      class: 'button' %>
   <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview' %>
   <%= wikitoolbar_for 'content_text' %>
 <% end %>

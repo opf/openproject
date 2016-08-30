@@ -96,6 +96,7 @@
                 content.after(response);
                 content.removeClass('loading');
                 content.addClass('loaded open');
+                content.find('a.dir-expander')[0].title = I18n.t('js.label_collapse');
               }
             });
           }
@@ -116,6 +117,7 @@
       });
 
       content.toggleClass('open collapsed')
+      content.find('a.dir-expander')[0].title = I18n.t('js.label_expand');
     }
 
     /**
@@ -133,6 +135,7 @@
       });
 
       content.toggleClass('open collapsed')
+      content.find('a.dir-expander')[0].title = I18n.t('js.label_collapse');
     }
 
     /**

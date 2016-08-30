@@ -14,8 +14,13 @@ class WikiMenuTitlesToSlug < ActiveRecord::Migration
   def migrate_menu_items
     ActiveRecord::Base.transaction do
       ::MenuItems::WikiMenuItem.includes(:wiki).find_each do |item|
+
+        # We need the associated wiki to be present
+        wiki = item.wiki
+        next if wiki.nil?
+
         # Find the page
-        wiki_page = item.wiki.find_page(item.title)
+        wiki_page = wiki.find_page(item.title)
 
         # Set the title to the actual slug
         # If the page could not be found, migrate the title to form a slug

@@ -168,7 +168,7 @@ module API
         link :revisions do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
-          } if current_user_allowed_to(:view_changesets, context: represented.project)
+          }
         end
 
         link :watch do

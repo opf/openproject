@@ -274,7 +274,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             html: { class: 'icon2 icon-cost-reports' }
 
   menu.push :members,
-            { controller: :members, action: :index },
+            { controller: '/members', action: 'index' },
             param: :project_id,
             caption: :label_member_plural,
             html: { class: 'icon2 icon-group' }
