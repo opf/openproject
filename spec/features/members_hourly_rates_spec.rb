@@ -64,10 +64,6 @@ describe 'hourly rates on a member', type: :feature, js: true do
   end
 
   it 'displays always the currently active rate' do
-    if ENV['CI']
-      pending 'this spec is failing on travis but is green locally'
-    end
-
     expect_current_rate_in_members_table('0.00 EUR')
 
     click_link('0.00 EUR')
@@ -89,6 +85,8 @@ describe 'hourly rates on a member', type: :feature, js: true do
     click_link('10.00 EUR')
 
     change_rate_date(from: Date.today, to: 5.days.ago)
+
+    find('.ui-datepicker-close').click rescue nil
 
     click_button 'Save'
 

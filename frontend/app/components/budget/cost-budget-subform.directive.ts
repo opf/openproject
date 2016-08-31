@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+/*eslint no-eval: "error"*/
 export class CostBudgetSubformController {
 
   // Container for rows
@@ -43,7 +44,7 @@ export class CostBudgetSubformController {
   // Updater URL for the rows contained here
   public updateUrl: string;
 
-  constructor(public $element, public wpNotificationsService) {
+  constructor(public $element, public $http, public wpNotificationsService) {
     this.container = $element.find('.budget-item-container');
     this.rowIndex = parseInt(this.itemCount);
 
@@ -71,12 +72,14 @@ export class CostBudgetSubformController {
     var row = this.$element.find('#' + row_identifier);
     var request = this.buildRefreshRequest(row, row_identifier);
 
-    jQuery.ajax({
+    this.$http({
       url: this.updateUrl,
       method: 'POST',
       data: request,
-      dataType: 'script'
-    }).fail(response => {
+      headers: { 'Accept': 'application/javascript' }
+    }).then(response => {
+      eval(response.data);
+    }).catch(response => {
       this.wpNotificationsService.handleErrorResponse(response);
     });
   }

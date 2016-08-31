@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<%= render :partial => 'shared/costs_header' %>
+<%= render partial: 'shared/costs_header' %>
 
 <% if(@cost_type.id) %>
   <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <%= toolbar title: CostType.model_name.human %>
 
+<costs-subform item-count="<%= @cost_type.rates.length %>">
 <%= labelled_tabular_form_for @cost_type do |f| %>
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
@@ -49,9 +50,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </div>
 
   <h3><%= t :caption_rate_history %></h3>
-  <%= javascript_tag do -%>
-    RatesForm = new Subform('<%= escape_javascript(render(:partial => "rate", :object => CostRate.new )) %>',<%= @cost_type.rates.length %>,'rates_body');
-  <% end -%>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table interactive-table class="generic-table">
@@ -83,7 +81,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             <th></th>
           </tr>
         </thead>
-        <tbody id="rates_body">
+        <tbody id="rates_body" class="subform-container">
+          <%= render partial: "rate", object: CostRate.new, locals: { templated: true } %>
           <% @cost_type.rates.sort do |a,b|
             case
             when !a.valid? && !b.valid?
@@ -96,17 +95,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               b.valid_from <=> a.valid_from
             end
           end.each_with_index do |rate, index| %>
-            <%= render :partial => 'rate', :object => rate, :locals => {:index => index} %>
+            <%= render partial: 'rate', object: rate, locals: {index: index} %>
           <%- end -%>
         </tbody>
       </table>
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div>
-    <label class="hidden-for-sighted", for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
-    <%= link_to_function t(:button_add_rate), "addRate($('add_rate_date'))", {:class => "button icon icon-add"} %>
+  <div class="generic-table--action-buttons">
+    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
+    <a href="javascript:" class="add-row-button button -alt-highlight -with-icon icon-add" title="<%= t(:button_add_rate) %>">
+      <%= t(:button_add_rate) %>
+    </a>
+    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
   </div>
-  <hr class="form--separator">
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
+</costs-subform>
