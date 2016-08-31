@@ -34,9 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
              complete: 'jQuery(\'#member-add-submit\').enable(); activateFlashError();',
              html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
   <div class="form--section">
-    <remote-field-updater
-       url="<%= url_for(controller: '/members', action: 'autocomplete_for_member', project_id: project) %>"
-       request-key="q">
+    <remote-field-updater url="<%= url_for(controller: '/members', action: 'autocomplete_for_member', project_id: project) %>">
       <div id="new-member-message"></div>
       <div class="grid-block">
         <div class="grid-block medium-6">
@@ -51,6 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= styled_label_tag :principal_search, user_id_title %>
             <%= styled_text_field_tag :principal_search,
                                       nil,
+                                      data: { :'remote-field-key' => 'q' },
                                       class: 'remote-field--input' %>
           </div>
         </div>
