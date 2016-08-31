@@ -28,13 +28,48 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function shareModalService(btfModal) {
-  return btfModal({
-    controller: 'ShareModalController',
-    controllerAs: '$ctrl',
-    afterFocusOn: '#work-packages-settings-button',
-    templateUrl: '/components/modals/share-modal/share-modal.service.html'
-  });
+function ShareModalController($scope,
+                              shareModal,
+                              QueryService,
+                              AuthorisationService,
+                              NotificationsService) {
+  this.name = 'Share';
+  this.closeMe = shareModal.deactivate;
+  $scope.query = QueryService.getQuery();
+
+  $scope.shareSettings = {
+    starred: $scope.query.starred
+  };
+
+  function closeAndReport(message) {
+    shareModal.deactivate();
+    NotificationsService.addSuccess(message.text);
+  }
+
+  $scope.cannot = AuthorisationService.cannot;
+
+  $scope.saveQuery = () => {
+    var messageObject;
+
+    QueryService.saveQuery()
+      .then(data => {
+        messageObject = data.status;
+        if (data.query) {
+          AuthorisationService.initModelAuth('query', data.query._links);
+        }
+
+        if ($scope.query.starred !== $scope.shareSettings.starred) {
+          QueryService.toggleQueryStarred($scope.query)
+            .then(data => {
+              closeAndReport(data.status || messageObject);
+              return $scope.query;
+            });
+        }
+        else {
+          closeAndReport(messageObject);
+        }
+      });
+  };
 }
 
-wpControllersModule.factory('shareModal', shareModalService);
+wpControllersModule.controller('ShareModalController', ShareModalController);
