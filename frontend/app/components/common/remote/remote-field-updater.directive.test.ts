@@ -43,8 +43,8 @@ describe('remote-field-updater directive', function() {
     $httpBackend = _$httpBackend_;
 
     var template = `
-      <remote-field-updater url="/foo/bar" request-key="q">
-        <input type="text" class="remote-field--input" />
+      <remote-field-updater url="/foo/bar">
+        <input type="text" class="remote-field--input" data-remote-field-key="q"/>
         <div class="remote-field--target"></div>
       </remote-field-updater>`;
     element = $compile(template)($rootScope);

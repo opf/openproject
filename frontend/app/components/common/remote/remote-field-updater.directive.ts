@@ -32,28 +32,60 @@ function remoteFieldUpdater($http) {
   return {
     restrict: 'E',
     scope: {
-      requestKey: '@',
-      url: '@'
+      url: '@',
+      method: '@'
     },
     link: (scope, element) => {
       const input = element.find('.remote-field--input');
       const target = element.find('.remote-field--target');
+      const htmlMode = target.length > 0;
+      const method = (scope.method || 'GET').toUpperCase();
+
+      function buildRequest(params) {
+        const request = {
+          url: scope.url,
+          method: method,
+          headers: {},
+        };
+
+        // In HTML mode, expect html response
+        if (htmlMode) {
+          request.headers['Accept'] = 'text/html';
+        } else {
+          request.headers['Accept'] = 'application/javascript';
+        }
+
+        // Append request to either URL params or body
+        // Angular doesn't differentiate between those two on its own.
+        if (method === 'GET') {
+          request['params'] = params;
+        } else {
+          request['data'] = params;
+        }
+
+        return request;
+      }
 
       function updater() {
-        const request = {};
-        request[scope.requestKey] = input.val();
+        var params = {};
 
-        $http.get(scope.url, {
-          params: request,
-          headers: {
-            "Accept": "text/html"
+        // Gather request keys
+        input.each((i, el) => {
+          var field = angular.element(el);
+          params[field.data('remoteFieldKey')] = field.val();
+        });
+
+        $http(buildRequest(params)).then(response => {
+          // Replace the given target
+          if (htmlMode) {
+            target.html(response.data);
+          } else {
+            eval(response.data);
           }
-        }).then(response => {
-          target.html(response.data);
         });
       }
 
-      input.on('keyup', _.throttle(updater, 250));
+      input.on('keyup change', _.throttle(updater, 1000, { leading: true }));
     }
   };
 }

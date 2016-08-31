@@ -77,15 +77,14 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= styled_form_tag(members_of_group_path(@group), method: :post, remote: true) do |f| %>
         <fieldset class="form--fieldset">
           <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
-          <remote-field-updater
-             url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group) %>"
-             request-key="q">
+          <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group) %>">
             <div class="form--field -vertical">
               <%= styled_label_tag "user_search", l(:label_user_search) %>
               <div class="form--field-container">
                 <%= styled_text_field_tag 'user_search',
                                           nil,
-                                          class: 'remote-field--input' %>
+                                          class: 'remote-field--input',
+                                          data: { :'remote-field-key' =>'q' } %>
               </div>
             </div>
             <div class="form--field -vertical">
