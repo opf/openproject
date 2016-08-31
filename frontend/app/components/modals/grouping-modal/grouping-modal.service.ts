@@ -33,7 +33,7 @@ function groupingModalService(btfModal) {
     controller: 'GroupingModalController',
     controllerAs: '$ctrl',
     afterFocusOn: '#work-packages-settings-button',
-    templateUrl: ''
+    templateUrl: '/components/modals/grouping-modal/grouping-modal.service.html'
   });
 }
 
