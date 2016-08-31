@@ -30,13 +30,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             :post :
             :put %>
 
+<remote-field-updater url="<%= url_for(controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project) %>"
+                      method="POST">
 <%= labelled_tabular_form_for @cost_entry, url: url, html: { method: method } do |f| %>
     <%= error_messages_for 'cost_entry' %>
     <%= back_url_hidden_field_tag %>
+    <%= f.hidden_field :element_id, value: 'cost_entry', class: 'remote-field--input', data: { :'remote-field-key' =>'element_id' } %>
 
     <div class="box">
       <div class="form--field">
-        <%= f.text_field :work_package_id, size: 6, required: true %>
+        <%= f.text_field :work_package_id, size: 6, required: true, autofocus: true %>
 
         <% if @cost_entry.work_package %>
           <div class="form--field-instructions">
@@ -45,7 +48,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <% end %>
       </div>
       <div class="form--field">
-        <%= f.text_field :spent_on, size: 10, required: true %>
+        <%= f.text_field :spent_on,
+                         size: 10,
+                         required: true,
+                         class: 'remote-field--input',
+                         data: { :'remote-field-key' =>'fixed_date' } %>
         <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= l(:label_date) %> <%=l(:text_hint_date_format) %></label>
         <%= calendar_for('cost_entry_spent_on') %>
       </div>
@@ -59,7 +66,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <% end %>
       <div class="form--field">
         <%# see above %>
-        <%= f.select :cost_type_id, cost_types_collection_for_select_options, required: true, prompt: true %></p>
+        <%= f.select :cost_type_id,
+                     cost_types_collection_for_select_options,
+                     { prompt: true },
+                     {
+                       required: true,
+                       class: 'remote-field--input',
+                       data: { :'remote-field-key' => 'cost_type_id' }
+                     } %></p>
       </div>
       <div class="form--field">
         <% if @cost_entry.cost_type.nil? %>
@@ -70,11 +84,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                            size: 6,
                            required: true,
                            suffix: h(suffix),
-                           suffix_id: 'cost_entry_unit_name' %>
+                           suffix_id: 'cost_entry_unit_name',
+                           class: 'remote-field--input',
+                           data: { :'remote-field-key' => 'units' } %>
         <% end %>
-          <%= observe_field( "cost_entry_cost_type_id", url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
-          <%= observe_field( "cost_entry_units", frequency: 1, url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(value) + '&fixed_date=' + encodeURIComponent(document.getElementById('cost_entry_spent_on').value) + '&element_id=cost_entry'") %>
-          <%= observe_field( "cost_entry_spent_on", frequency: 1, url: {controller: :cost_objects, action: :update_material_budget_item, project_id: @cost_entry.project}, with: "'cost_type_id=' + encodeURIComponent(document.getElementById('cost_entry_cost_type_id').value) + '&units=' + encodeURIComponent(document.getElementById('cost_entry_units').value) + '&fixed_date=' + encodeURIComponent(value) + '&element_id=cost_entry'") %>
       </div>
 
       <div class="form--field">
@@ -84,10 +97,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
             <a href="javascript:;" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
               <%= number_to_currency(@cost_entry.calculated_costs) %>
             </a>
-            <%= update_page_tag do |page|
-              page << "makeEditable('cost_entry_costs', 'cost_entry[overridden_costs]');"
-              page << "edit($('cost_entry_costs'), 'cost_entry[overridden_costs]', '#{number_to_currency(@cost_entry.overridden_costs)}');" if @cost_entry.overridden_costs
-            end %>
           <% else %>
             <span id="cost_entry_costs_editor" class="form--text-field-container">
               <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
@@ -104,3 +113,4 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
     <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
+</remote-field-updater>

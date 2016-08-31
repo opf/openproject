@@ -173,9 +173,9 @@ class CostObjectsController < ApplicationController
   end
 
   def update_material_budget_item
-    @element_id = params[:element_id] if params.has_key? :element_id
+    @element_id = params[:element_id] if params[:element_id].present?
 
-    @cost_type = CostType.find(params[:cost_type_id]) if params.has_key? :cost_type_id
+    @cost_type = CostType.find(params[:cost_type_id]) if params[:cost_type_id].present?
 
     @units = BigDecimal.new(Rate.clean_currency(params[:units]))
     @costs = (@units * @cost_type.rate_at(params[:fixed_date]).rate rescue 0.0)
@@ -186,9 +186,8 @@ class CostObjectsController < ApplicationController
   end
 
   def update_labor_budget_item
-    @element_id = params[:element_id] if params.has_key? :element_id
-
-    @user = User.find(params[:user_id])
+    @element_id = params[:element_id] if params[:element_id].present?
+    @user = User.find(params[:user_id]) if params[:user_id].present?
 
     @hours = params[:hours].to_hours
     @costs = @hours * @user.rate_at(params[:fixed_date], @project).rate rescue 0.0

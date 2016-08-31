@@ -25,7 +25,7 @@ describe 'updating a budget', type: :feature, js: true do
   let(:budget) { FactoryGirl.create :cost_object, author: user, project: project }
 
   before do
-    allow(User).to receive(:current).and_return user
+    login_as(user)
   end
 
   describe 'with new cost items' do
@@ -33,7 +33,7 @@ describe 'updating a budget', type: :feature, js: true do
       FactoryGirl.create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
     end
 
-    let(:page) { Pages::EditBudget.new budget.id }
+    let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
       project.add_member! user, FactoryGirl.create(:role)
@@ -43,22 +43,22 @@ describe 'updating a budget', type: :feature, js: true do
     end
 
     it 'creates the cost items' do
-      page.visit!
+      budget_page.visit!
       click_on 'Update'
 
-      page.add_unit_costs! 3, comment: 'Stimpak'
-      page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
+      budget_page.add_unit_costs! 3, comment: 'Stimpak'
+      budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
 
       click_on 'Submit'
-      expect(page).to have_content('Successful update')
+      expect(budget_page).to have_content('Successful update')
 
-      page.toggle_unit_costs!
-      expect(page.unit_costs_at(1)).to have_content '150.00 EUR'
-      expect(page.overall_unit_costs).to have_content '150.00 EUR'
+      budget_page.toggle_unit_costs!
+      expect(budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
+      expect(budget_page.overall_unit_costs).to have_content '150.00 EUR'
 
-      page.toggle_labor_costs!
-      expect(page.labor_costs_at(1)).to have_content '125.00 EUR'
-      expect(page.overall_labor_costs).to have_content '125.00 EUR'
+      budget_page.toggle_labor_costs!
+      expect(budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
+      expect(budget_page.overall_labor_costs).to have_content '125.00 EUR'
     end
   end
 
@@ -79,7 +79,7 @@ describe 'updating a budget', type: :feature, js: true do
                                              cost_object: budget
     end
 
-    let(:page) { Pages::EditBudget.new budget.id }
+    let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
       project.add_member! user, FactoryGirl.create(:role)
@@ -93,25 +93,25 @@ describe 'updating a budget', type: :feature, js: true do
     end
 
     it 'updates the cost items' do
-      page.visit!
+      budget_page.visit!
       click_on 'Update'
 
-      page.edit_unit_costs! material_budget_item.id, units: 5,
+      budget_page.edit_unit_costs! material_budget_item.id, units: 5,
                                                      comment: 'updated num stimpaks'
-      page.edit_labor_costs! labor_budget_item.id, hours: 3,
+      budget_page.edit_labor_costs! labor_budget_item.id, hours: 3,
                                                    user_name: user.name,
                                                    comment: 'updated treatment duration'
 
       click_on 'Submit'
-      expect(page).to have_content('Successful update')
+      expect(budget_page).to have_content('Successful update')
 
-      page.toggle_unit_costs!
-      expect(page.unit_costs_at(1)).to have_content '250.00 EUR'
-      expect(page.overall_unit_costs).to have_content '250.00 EUR'
+      budget_page.toggle_unit_costs!
+      expect(budget_page.unit_costs_at(1)).to have_content '250.00 EUR'
+      expect(budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
-      page.toggle_labor_costs!
-      expect(page.labor_costs_at(1)).to have_content '75.00 EUR'
-      expect(page.overall_labor_costs).to have_content '75.00 EUR'
+      budget_page.toggle_labor_costs!
+      expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
+      expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
     end
   end
 end

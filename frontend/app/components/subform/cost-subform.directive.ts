@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class CostBudgetSubformController {
+export class CostSubformController {
 
   // Container for rows
   private container: ng.IAugmentedJQuery;
@@ -40,53 +40,29 @@ export class CostBudgetSubformController {
   // subform item count as output by rails
   public itemCount: string;
 
-  // Updater URL for the rows contained here
-  public updateUrl: string;
-
-  constructor(public $element, public wpNotificationsService) {
-    this.container = $element.find('.budget-item-container');
+  constructor(public $element) {
+    this.container = $element.find('.subform-container');
     this.rowIndex = parseInt(this.itemCount);
 
-    // Refresh row on changes
-    $element.on('change', '.budget-item-value', (evt) => {
-      var row = angular.element(evt.target).closest('.cost_entry');
-      this.refreshRow(row.attr('id'));
-    });
-
-    $element.on('click', '.delete-budget-item', (evt) => {
-      var row = angular.element(evt.target).closest('.cost_entry');
+    $element.on('click', '.delete-row-button', (evt) => {
+      var row = angular.element(evt.target).closest('.subform-row');
       row.remove();
     });
 
     // Add new row handler
-    $element.find('.budget-add-row').click(() => {
-      this.addBudgetItem();
-    });
-  }
-
-  /**
-   * Refreshes the given row after updating values
-   */
-  public refreshRow(row_identifier) {
-    var row = this.$element.find('#' + row_identifier);
-    var request = this.buildRefreshRequest(row, row_identifier);
-
-    jQuery.ajax({
-      url: this.updateUrl,
-      method: 'POST',
-      data: request,
-      dataType: 'script'
-    }).fail(response => {
-      this.wpNotificationsService.handleErrorResponse(response);
+    $element.find('.add-row-button').click(() => {
+      this.addRow();
     });
   }
 
   /**
    * Adds a new empty budget item row with the correct index set
    */
-  public addBudgetItem() {
+  public addRow() {
     this.container.append(this.indexedTemplate);
     this.rowIndex += 1;
+
+    this.container.find('.subform-row:last-child input:first').focus();
   }
 
   /**
@@ -96,42 +72,21 @@ export class CostBudgetSubformController {
   private get indexedTemplate() {
     return this.rowTemplate.replace(/INDEX/g, this.rowIndex.toString());
   }
-
-  /**
-   * Returns the params for the update request
-   */
-  private buildRefreshRequest(row, row_identifier) {
-    var request = {
-      element_id: row_identifier,
-      fixed_date: angular.element('#cost_object_fixed_date').val()
-    };
-
-    // Augment common values with specific values for this type
-    row.find('.budget-item-value').each((_i, el) => {
-      var field = angular.element(el);
-      request[field.data('requestKey')] = field.val();
-    });
-
-    return request;
-  }
 }
 
-function costsBudgetSubform() {
+function costsSubform() {
   return {
     restrict: 'E',
-    scope: {
-      updateUrl: '@',
-      itemCount: '@'
-    },
+    scope: { itemCount: '@' },
     link: (scope, element, attr, ctrl) => {
-      const template = element.find('.budget-row-template');
+      const template = element.find('.subform-row-template');
       ctrl.rowTemplate = template[0].outerHTML;
       template.remove();
     },
     bindToController: true,
-    controller: CostBudgetSubformController,
+    controller: CostSubformController,
     controllerAs: '$ctrl'
   };
 }
 
-angular.module('openproject').directive('costsBudgetSubform', costsBudgetSubform);
+angular.module('openproject').directive('costsSubform', costsSubform);
