@@ -48,3 +48,8 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

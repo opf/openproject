@@ -172,29 +172,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   border: none;
 }
 
-.filter_rem { }
-
-/***** icons *****/
-/*
-  We hide the original content of things with class 'icon' and disply an icon instead.
-  This css class is optimized for usage report breadcrumbs.
-  Hint: The content of the title attribute is shown as a tooltip if the underlying DOM element is an <a>.
-*/
-.breadcrumb_icon {
-  padding: 3px 5px 0 16px;
-  cursor: pointer;
-  background: no-repeat left center;
-  border-style: none;
-  display: inline-block;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-#query-name-edit-button {
-  margin-left: 16px;
-  font-size: 12px;
-}
-
 .filter {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -227,20 +204,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 }
 
 /* ----- group by --- */
-#group_by_area {
+#group-by--area {
   margin: 5px 0 10px 0;
 }
 
+#group-by--area fieldset {
+  border: none;
+  padding: 0px;
+  margin-bottom: 1em;
+}
+
 .in_row {
-  float: left;
-  display: block;
+  display: inline-block;
   list-style: none;
   border-width: 0px;
 }
 
-.group_by_element {
-  margin-left: -15px;
+.group-by--selected-element {
   cursor: move;
+	position: relative;
+  background-color: #767676;
+  padding-left: 14px;
+  margin-left: 18px;
 }
 
 fieldset.collapsible.header_collapsible legend.in_row {
@@ -248,8 +233,7 @@ fieldset.collapsible.header_collapsible legend.in_row {
   background-image: inherit;
 }
 
-/* have #content here to overwrite line-heigth of other themes through being more specific*/
-#content .group_by_label {
+.group-by--label {
   margin: 0px;
   padding: 0px 18px 0 0;
   min-width: 60px;
@@ -257,24 +241,96 @@ fieldset.collapsible.header_collapsible legend.in_row {
   white-space: nowrap;
   font-weight: bold;
   color: #fff;
-  background-color: #767676;
-  height: 35px;
-  line-height: 35px;
+  height: 36px;
+  line-height: 36px;
   cursor: move;
 }
 
-.group_by_label.hover {
-  background-color: #3493B3 !important;
+.group-by--selected-element:after, .group-by--selected-element:before {
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	top: 50%;
+	border-width: 18px 0px 18px 14px;
+	margin-top: -18px;
 }
 
-.group_by_remove {
-  background-color: #767676;
-  line-height: 35px;
+.group-by--selected-element:after {
+	border-color: rgba(118, 118, 118, 0);
+	border-left-color: rgba(118, 118, 118, 1);
+	left: 100%;
+}
+
+.group-by--selected-element:before {
+	border-color: rgba(118, 118, 118, 1);
+	border-left-color: rgba(118, 118, 118, 0);
+	left: -14px;
+}
+
+.group-by--selected-element:hover:after {
+	border-color: rgba(52, 147, 179, 0);
+	border-left-color: rgba(52, 147, 179, 1);
+}
+.group-by--selected-element:hover:before {
+	border-color: rgba(52, 147, 179, 1);
+	border-left-color: rgba(52, 147, 179, 0);
+}
+
+.group-by--selected-element:hover {
+  background-color: #3493B3;
+}
+
+.group-by--remove {
+  line-height: 36px;
   cursor: pointer;
 }
 
-.group_by_remove.hover {
+.group-by--remove:hover {
   background-color: #3493B3 !important;
+}
+
+.group-by--control {
+  margin: 0;
+  padding: 0;
+}
+
+.group-by--selected-elements {
+  background-color: #EEE;
+}
+
+.group-by--caption {
+  position: relative;
+  color: #FFFFFF;
+  background-color: #4B4B4B;
+  font-weight: bold;
+  padding: 0 7px;
+  margin: 0;
+  height: 36px;
+  line-height: 36px;
+  min-width: 55px;
+  overflow: visible;
+}
+
+.group-by--caption:after {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.group-by--caption:after {
+	border-color: rgba(75, 75, 75, 0);
+	border-left-color: #4B4B4B;
+	border-width: 18px 0px 18px 14px;
+	margin-top: -18px;
+  z-index: 10;
 }
 
 /* Overwrite normal h3 definition - a h-tag is needed for accessibility purposes */
@@ -285,67 +341,6 @@ h3.reporting_formatting {
   padding:0px;
   color:#333;
   border:0px;
-}
-
-/* have #content here to overwrite line-heigth of other themes through being more specific*/
-#content .group_by_caption {
-  color: #FFFFFF;
-  background-color: #4B4B4B;
-  font-weight: bold;
-  padding: 0 7px;
-  margin: 0;
-  height: 35px;
-  line-height: 35px;
-  min-width: 55px;
-}
-
-.arrow {
-  height: 0;
-  width: 0;
-  border-style: solid;
-  border-width: 18px 11px 17px 9px;
-}
-
-.arrow_left {
-  border-color: #767676 #767676 #767676 transparent;
-}
-
-.arrow_left.hover {
-  border-color: #3493B3 #3493B3 #3493B3 transparent !important;
-}
-
-.arrow_right {
-  border-color: transparent transparent transparent #767676;
-}
-
-.arrow_right.hover {
-  border-color: transparent transparent transparent #3493B3 !important;
-}
-
-.arrow_group_by_caption {
-  border-color: transparent transparent transparent #4B4B4B;
-}
-
-.drag_container {
-  padding: 0;
-  height: 36px;
-  margin-bottom: 1em;
-  background-color: #EEE;
-}
-
-.drag_container select {
-  margin-right: 3px;
-  float: right;
-  width: auto;
-  padding: 0.2rem 1.5rem;
-}
-
-.drag_target {
-  min-height: 10px;
-}
-
-.drag_container_accept {
-  background-color: #F5F5C5;
 }
 
 /* -- end group-by -- */
@@ -364,105 +359,12 @@ td:hover .drill_down, th:hover .drill_down {
 
 /*Buttons*/
 
-.buttons .reporting_button {
-  background-image: url();
-  background-color: #008BD0;
-  border: none;
-  cursor: pointer;
-  margin: 0px;
-  overflow: visible;
-  text-align: center;
-  white-space: nowrap;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  padding: 4px;
-}
-
 .form_controls {
   margin-top: 6px;
 }
 
 .form_controls .button {
   margin-bottom: 0;
-}
-
-.buttons .reporting_button:hover {
-  background-color: #24B3E7;
-  background-image: url();
-}
-
-.buttons .reporting_button * em {
-  color: white;
-  display: block;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 17px;
-}
-
-.buttons .reporting_button > * {
-  display: inline-block;
-  margin: 0px;
-}
-
-.saved_queries .reporting_button {
-  float: left;
-  margin: 2px;
-}
-
-.buttons .apply {
-  background-image: url();
-  background-color: #008BD0;
-}
-
-.buttons .apply:hover {
-  background-color: #24B3E7;
-  background-image: url();
-}
-
-.buttons .secondary {
-  background-color: #767676;
-  background-image: url();
-}
-
-.buttons .secondary:hover {
-  background-color: #666666;
-  background-image: url();
-}
-
-.buttons .button span em {
-  color: white;
-  display: block;
-  font-style: normal;
-  font-weight: bold;
-  line-height: 17px;
-}
-
-.buttons .button span {
-  display: inline-block;
-  margin: 3px;
-}
-
-
-.buttons .button-icon {
-  padding: 0px 5px 0 16px;
-  cursor: pointer;
-  background: no-repeat left center;
-  border-style: none;
-  display: inline-block;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.button .icon-save {
-  background-image: url(<%= asset_path 'reporting_engine/disk.gif' %>);
-}
-
-.button .icon-delete {
-  background-image: url(<%= asset_path 'reporting_engine/delete.gif' %>);
-}
-
-.button .icon-clear {
-  background-image: url(<%= asset_path 'reporting_engine/remove.gif' %>);
 }
 
 div.button_form {
@@ -480,54 +382,6 @@ div.button_form {
 /***** Save and Delete Reports ****/
 #save_as_form, #delete_form {
   z-index: 999;
-}
-
-#progressbar, .hidden {
-  display: none;
-}
-
-#progressbar_container {
-  width: 300px;
-  height: 16px;
-  border: 1px solid #ccc;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  background-color: #767676;
-  background-repeat: repeat-x;
-}
-
-#progressbar_container div {
-    background-color:#fff;
-}
-
-/***** Ajax indicator ******/
-#ajax-indicator {
-  font-family: Verdana, sans-serif;
-  position: absolute; /* fixed not supported by IE */
-  background-color:#eee;
-  border: 1px solid #bbb;
-  top:35%;
-  left:40%;
-  width:20%;
-  font-weight:bold;
-  text-align:center;
-  padding:0.6em;
-  z-index:100;
-  filter:alpha(opacity=50);
-  opacity: 0.5;
-  line-height: 10px;
-  font-size: 18px;
-}
-
-html>body #ajax-indicator { position: fixed; }
-
-#ajax-indicator span {
-  background-position: 0% 40%;
-  background-repeat: no-repeat;
-  background-image: url(<%= asset_path 'reporting_engine/loading.gif' %>);
-  padding-left: 26px;
-  vertical-align: bottom;
 }
 
 /* Calendar Fixes */
