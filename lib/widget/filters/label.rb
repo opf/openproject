@@ -26,9 +26,6 @@ class Widget::Filters::Label < Widget::Filters::Base
       id:    filter_class.underscore_name,
       class: 'advanced-filters--filter-name'
     }
-    if engine::Filter.all.any? { |f| f.dependents.include?(filter_class) }
-      options.merge! class: 'dependent-filter-label'
-    end
     write(content_tag(:label, options) do
       h(filter_class.label)
     end)
