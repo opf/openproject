@@ -160,6 +160,7 @@ export const wpButtonsModule = angular.module('openproject.wpButtons',
   ['ui.router', 'openproject.services']);
 
 // main app
+var angularDragula:any = require('angular-dragula');
 export const openprojectModule = angular.module('openproject', [
   'ui.router',
   'openproject.animations',
@@ -174,6 +175,7 @@ export const openprojectModule = angular.module('openproject', [
   'foundation.modal',
   'ngAria',
   'ngSanitize',
+  angularDragula(angular),
   'ngDialog',
   'truncate',
   'openproject.layout',
