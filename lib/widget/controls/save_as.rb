@@ -28,7 +28,6 @@ class Widget::Controls::SaveAs < Widget::Controls
     end
     button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
     write(button + render_popup)
-    maybe_with_help
   end
 
   def cache_key

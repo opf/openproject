@@ -29,15 +29,10 @@ class Widget::Filters < Widget::Base
                                    class: 'hidden-for-sighted'
 
       add_filter_value = content_tag :div, class: 'advanced-filters--add-filter-value' do
-        value = select_tag 'add_filter_select',
-                           options_for_select([['', '']] + selectables),
-                           class: 'advanced-filters--select',
-                           name: nil
-        value += maybe_with_help icon: { class: 'filter-icon' },
-                                 tooltip: { class: 'filter-tip' },
-                                 instant_write: false # help associated with this kind of Widget
-
-        value
+        select_tag 'add_filter_select',
+                   options_for_select([['', '']] + selectables),
+                   class: 'advanced-filters--select',
+                   name: nil
       end
 
       (add_filter_label + add_filter_value).html_safe
@@ -99,21 +94,6 @@ class Widget::Filters < Widget::Base
         render_widget MultiValues, f, to: html, lazy: true
       end
     end
-    render_filter_help f, to: html
     render_widget RemoveButton, f, to: html
-  end
-
-  # #Renders help for a filter (chainable)
-  def render_filter_help(filter, options = {})
-    html = content_tag :td, width: '25px' do
-      if filter.help_text # help associated with the chainable this Widget represents
-        render_widget Widget::Controls::Help, filter.help_text
-      end
-    end
-    if canvas = options[:to]
-      canvas << "\n" << html
-    else
-      html
-    end
   end
 end

@@ -23,6 +23,5 @@ class Widget::Controls::Clear < Widget::Controls
                   '#',
                   id: 'query-link-clear',
                   class: 'button icon-context icon-undo')
-    maybe_with_help
   end
 end

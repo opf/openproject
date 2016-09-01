@@ -30,7 +30,6 @@ en:
   label_greater: ">"
   label_group_by: "Group by"
   label_group_by_add: "Add Group-by Attribute"
-  label_help: "Help"
   label_inactive: "«inactive»"
   label_less: "<"
   label_no: "No"
