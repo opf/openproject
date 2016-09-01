@@ -71,8 +71,4 @@ describe MyProjectsOverview, type: :model do
     expect(ce[1]).to eq("Title")
     expect(ce[2]).to eq("Content")
   end
-
-  it "should always show attachments" do
-    expect(@overview.attachments_visible?(nil)).to be true
-  end
 end

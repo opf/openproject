@@ -50,75 +50,73 @@ class MyProjectsOverviewsController < ApplicationController
       # Attach files and save them
       attachments = Attachment.attach_files(overview, params["attachments"])
       unless attachments[:unsaved].blank?
-        flash[:error] = l(:warning_attachments_not_saved, attachments[:unsaved].size)
+        render text: t(:warning_attachments_not_saved, attachments[:unsaved].size), status: 400
       end
     end
 
     overview.save_custom_element(block_name, block_title, textile)
-
-    redirect_to :back
+    render(partial: "block_textilizable",
+           locals: { user: user,
+                     project: project,
+                     block_title: block_title,
+                     block_name: block_name,
+                     textile: textile })
   end
 
   # Add a block to user's page
   # The block is added on top of the page
   # params[:block] : id of the block to add
   def add_block
-    block = params[:block].to_s.underscore
+    block = params[:block]
     if MyProjectsOverviewsController.available_blocks.keys.include? block
-      # remove if already present in a group
-      %w(top left right hidden).each {|f| overview.send(f).delete block }
-      # add it hidden
-      overview.hidden.unshift block
-      overview.save!
-      render partial: "block",
-             locals: { block_name: block }
+      render partial: "block", locals: { block_name: block, editing: true }
     elsif block == "custom_element"
-      overview.hidden.unshift overview.new_custom_element
+      new_block = overview.new_custom_element
+      overview.hidden << new_block
       overview.save!
       render(partial: "block_textilizable",
              locals: { user: user,
                        project: project,
                        block_title: l(:label_custom_element),
-                       block_name: overview.hidden.first.first,
-                       textile: overview.hidden.first.last })
+                       new_block: true,
+                       block_name: new_block.first,
+                       textile: new_block.last })
     else
       render nothing: true
     end
   end
 
-  # Remove a block to user's page
-  # params[:block] : id of the block to remove
-  def remove_block
-    @block = param_to_block(params[:block])
-    %w(top left right hidden).each {|f| overview.send(f).delete @block }
-    overview.save!
+  ##
+  # Handle saving the changes
+  def save_changes
+    # Save block states
+    %w(top left right hidden).each do |group|
+      active_blocks = param_to_blocks(params[group])
+      overview.send("#{group}=", active_blocks)
+    end
+
+    if overview.save
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to action: :page_layout
+    else
+      render :page_layout
+    end
   end
 
-  # Change blocks order on user's page
-  # params[:group] : group to order (top, left or right)
-  # params[:list-(top|left|right)] : array of block ids of the group
-  def order_blocks
-    group = params[:group]
-    if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).collect {|x| param_to_block(x) }
-      unless group_items.size < overview.send(group).size
-        # We are adding or re-ordering, not removing
-        # Remove group blocks if they are presents in other groups
-        overview.update_attributes('top' => (overview.top - group_items),
-                                   'left' => (overview.left - group_items),
-                                   'right' => (overview.right - group_items),
-                                   'hidden' => (overview.hidden - group_items))
-        overview.update_attribute(group, group_items)
+
+  def param_to_blocks(block_str)
+    blocks = []
+    block_str.split(',').select do |name|
+
+      if MyProjectsOverviewsController.available_blocks.keys.include?(name)
+        blocks << name
+      else
+        custom = overview.custom_elements.detect {|ary| ary.first == name }
+        blocks << custom unless custom.nil?
       end
     end
-  end
 
-  def param_to_block(param)
-    block = param.to_s.underscore
-    unless MyProjectsOverviewsController.available_blocks.keys.include? block
-      block = overview.custom_elements.detect {|ary| ary.first == block}
-    end
-    block
+    blocks
   end
 
   def destroy_attachment
@@ -283,11 +281,19 @@ class MyProjectsOverviewsController < ApplicationController
   end
 
   def block_options
-    @block_options = []
+    @block_options = [default_selected_option]
     MyProjectsOverviewsController.available_blocks.each do |k, v|
-      @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize]
+      @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k]
     end
     @block_options << [l(:label_custom_element), :custom_element]
+  end
+
+  def default_selected_option
+    [
+      "--- #{t(:actionview_instancetag_blank_option)} ---",
+      '',
+      { disabled: true, selected: true }
+    ]
   end
 
   def overview

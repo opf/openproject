@@ -21,31 +21,30 @@
 module MyProjectsOverviewsHelper
   include WorkPackagesFilterHelper
 
-  TOP = %w(top)
-  MIDDLE = %w(left right)
-  HIDDEN = %w(hidden)
-
   def field_list
-    TOP + MIDDLE + HIDDEN
+    top_fields + middle_fields + hidden_fields
   end
 
   def visible_fields
-    TOP + MIDDLE
+    top_fields + middle_fields
   end
 
-  # TODO: potentially dangerous, is there a better way? (via define_method?)
-  def method_missing(name)
-    constant_name = name.to_s.gsub('_fields', '').upcase
-    if MyProjectsOverviewsHelper.const_defined? constant_name
-      return MyProjectsOverviewsHelper.const_get constant_name
-    end
-    raise NoMethodError.new("tried to call method #{name}, but was not found!")
+  def top_fields
+    %w(top)
+  end
+
+  def middle_fields
+    %w(left right)
+  end
+
+  def hidden_fields
+    %w(hidden)
   end
 
   def grid_field(name)
-    css_classes = %w(block-receiver list-position) + [name]
+    css_classes = %w(block-receiver list-position widget-container) + [name]
     data = {
-      'ajax-url' => ajax_url(name),
+      dragula: name,
       position: name
     }
     construct_blocks(name: name, css_classes: css_classes, data: data)

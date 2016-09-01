@@ -30,8 +30,7 @@ OpenProject::Application.routes.draw do
 
   get  'my_projects_overview/:id/page_layout',                        to: "my_projects_overviews#page_layout",
                                                                       as: :my_projects_overview
-  post 'my_projects_overview/:id/page_layout/order_blocks',           to: "my_projects_overviews#order_blocks"
-  post 'my_projects_overview/:id/page_layout/remove_block',           to: "my_projects_overviews#remove_block"
+  post 'my_projects_overview/:id/page_layout/save_changes',           to: "my_projects_overviews#save_changes"
   post 'my_projects_overview/:id/page_layout/add_block',              to: "my_projects_overviews#add_block"
   put  'my_projects_overview/:id/page_layout/update_custom_element',  to: "my_projects_overviews#update_custom_element"
   post 'my_projects_overview/:id/page_layout/destroy_attachment',     to: "my_projects_overviews#destroy_attachment"
