@@ -26,12 +26,12 @@ server machine.
 The installation procedure assumes the following prerequisites:
 
 * A server running one of the following Linux distributions (**64bit variant only**):
-  * Ubuntu 14.04 Trusty
   * Debian 8 Jessie
   * Debian 7 Wheezy
+  * Ubuntu 16.04 Xenial
+  * Ubuntu 14.04 Trusty
   * CentOS/RHEL 7.x
   * CentOS/RHEL 6.x
-  * Fedora 20
   * Suse Linux Enterprise Server 12
   * Suse Linux Enterprise Server 11
 
@@ -47,16 +47,6 @@ OpenProject via the package manager that comes with your Linux distribution.
 Note that all commands should either be run as root or should be prepended with
 `sudo`.
 
-## Debian 7 Wheezy
-
-    # install https support
-    sudo apt-get install apt-transport-https
-
-    sudo wget -qO - https://deb.packager.io/key | apt-key add -
-    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
-    sudo apt-get update
-    sudo apt-get install openproject
-
 ## Debian 8 Jessie
 
     # install https support
@@ -67,6 +57,23 @@ Note that all commands should either be run as root or should be prepended with
     sudo apt-get update
     sudo apt-get install openproject
 
+## Debian 7 Wheezy
+
+    # install https support
+    sudo apt-get install apt-transport-https
+
+    sudo wget -qO - https://deb.packager.io/key | apt-key add -
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
+    sudo apt-get update
+    sudo apt-get install openproject
+
+## Ubuntu 16.04 Xenial
+
+    wget -qO - https://deb.packager.io/key | sudo apt-key add -
+    echo "deb https://deb.packager.io/gh/opf/openproject-ce xenial stable/6" | sudo tee /etc/apt/sources.list.d/openproject.list
+    sudo apt-get update
+    sudo apt-get install openproject
+
 ## Ubuntu 14.04 Trusty
 
     wget -qO - https://deb.packager.io/key | sudo apt-key add -
@@ -74,12 +81,12 @@ Note that all commands should either be run as root or should be prepended with
     sudo apt-get update
     sudo apt-get install openproject
 
-## Fedora 20
+## CentOS / RHEL 7.x
 
     sudo rpm --import https://rpm.packager.io/key
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/fedora20/stable/6
+    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
@@ -89,15 +96,6 @@ Note that all commands should either be run as root or should be prepended with
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
     baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/6
-    enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
-    sudo yum install openproject
-
-## CentOS / RHEL 7.x
-
-    sudo rpm --import https://rpm.packager.io/key
-    echo "[openproject]
-    name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
