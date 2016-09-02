@@ -33,39 +33,34 @@ import IScope = angular.IScope;
 import SinonSandbox = Sinon.SinonSandbox;
 
 describe('Tooltip service', () => {
-  var parentElement;
   var parentScope;
-  var content: string;
+  var tooltipScope;
 
   var create;
   var show;
   var destroy;
-  var childScopeMock;
-
-  var elements: IAugmentedJQuery;
 
   var tooltip: Tooltip;
+  var elements: IAugmentedJQuery;
 
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootElement, $rootScope, Tooltip) {
-    parentElement = $rootElement;
-    parentScope = $rootScope;
-
     const setElements = () => {
-      elements = parentElement.find('.op-tooltip');
+      elements = $rootElement.find('.op-tooltip');
     };
 
     create = () => {
-      tooltip = new Tooltip(parentElement, parentScope, content);
+      parentScope = $rootScope.$new();
+      tooltipScope = parentScope.$new();
+      tooltipScope.$destroy = sinon.stub();
+      parentScope.$new = sinon.stub().returns(tooltipScope);
+
+      parentScope.something = 'some value';
+      tooltip = new Tooltip($rootElement, parentScope, '{{ something }}');
       show();
     };
 
     show = () => {
-      childScopeMock = {
-        $destroy: sinon.stub()
-      };
-      parentScope.$new = sinon.stub().returns(childScopeMock);
-
       tooltip.show();
       setElements();
     };
@@ -81,6 +76,8 @@ describe('Tooltip service', () => {
   });
 
   describe('when showing a tooltip', () => {
+    var callCount = 1;
+
     function testTooltip() {
       it('should always display only one toolip', () => {
         expect(elements).to.have.length(1);
@@ -99,11 +96,11 @@ describe('Tooltip service', () => {
       });
 
       it('should create a new non-isolated scope for the tooltip', () => {
-        expect(parentScope.$new.calledOnce).to.be.true;
+        expect(parentScope.$new.callCount).to.equal(callCount);
       });
 
-      it('should contain the provided content', () => {
-        expect(elements.first().html()).to.contain(content);
+      it('should compile the provided content', () => {
+        expect(elements.first().html()).to.contain(parentScope.something);
       });
 
       describe('when destroying the tooltip', () => {
@@ -119,14 +116,13 @@ describe('Tooltip service', () => {
           expect(Tooltip.active).to.have.length(0);
         });
 
-        it('should destroy the child scope', () => {
-          expect(childScopeMock.$destroy.calledOnce).to.be.true;
+        it('should destroy the tooltip scope', () => {
+          expect(tooltipScope.$destroy.callCount).to.equal(callCount);
         });
       });
     }
 
     beforeEach(() => {
-      content = 'some content';
       create();
     });
     testTooltip();
@@ -140,6 +136,7 @@ describe('Tooltip service', () => {
 
     describe('when showing the same tooltip twice', () => {
       beforeEach(() => {
+        callCount = 2;
         show();
       });
       testTooltip();

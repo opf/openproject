@@ -72,6 +72,7 @@ export class Tooltip {
 
     this.scope = this.parentScope.$new();
     this.element = $compile(template)(this.scope);
+    this.scope.$apply();
 
     this.parent.append(this.element);
   }
