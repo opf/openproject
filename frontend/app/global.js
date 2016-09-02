@@ -43,6 +43,7 @@ require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
 require('./misc/datepicker-defaults');
 
 require('dragula');
+require('angular-dragula');
 
 require('jquery-ui/themes/base/jquery.ui.core.css');
 require('jquery-ui/themes/base/jquery.ui.datepicker.css');
