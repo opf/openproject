@@ -108,7 +108,7 @@
     setInputValue: function () {
       var values = [];
       if (hasAttribute(this.fakeInput, "data-selected")) {
-        JSON.parse(this.fakeInput.attr('data-selected')).forEach(function (elem) {
+        _.each(JSON.parse(this.fakeInput.attr('data-selected')), function (elem) {
           values.push(elem[1]);
         });
 
@@ -153,7 +153,7 @@
       },
       results: function (data, page) {
         var active_items = [];
-        data.results.items.each(function (e) {
+        _.each(data.results.items, function (e) {
           active_items.push(e);
         });
         active_items = this.add_null_element(active_items, page);
@@ -194,7 +194,7 @@
 
       if (hasAttribute(element, "data-selected")) {
         multiple = element.data("autocompleter").opts.multiple;
-        JSON.parse(element.attr('data-selected')).each(function (elem) {
+        _.each(JSON.parse(element.attr('data-selected')), function (elem) {
           if (multiple) {
             data.push({id: elem[1], name: elem[0]});
           } else {
