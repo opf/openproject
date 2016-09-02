@@ -26,14 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-  .constant('TEXT_TYPE', 'text')
-  .constant('STATUS_TYPE', 'status')
-  .constant('VERSION_TYPE', 'version')
-  .constant('CATEGORY_TYPE', 'category')
-  .constant('PRIORITY_TYPE', 'priority')
-  .constant('USER_TYPE', 'user')
-  .constant('TIME_ENTRY_TYPE', 'time_entry')
-  .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1);
-require('./menus');
+import {wpControllersModule} from '../../../angular-modules';
+
+class ExportModalController {
+  public name: string;
+  public closeMe: Function;
+  public exportOptions: any;
+
+  constructor(exportModal, QueryService, UrlParamsHelper) {
+    var query = QueryService.getQuery();
+
+    this.name = 'Export';
+    this.closeMe = exportModal.deactivate;
+    this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
+  }
+}
+
+wpControllersModule.controller('ExportModalController', ExportModalController);

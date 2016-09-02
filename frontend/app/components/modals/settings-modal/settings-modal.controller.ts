@@ -26,14 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-  .constant('TEXT_TYPE', 'text')
-  .constant('STATUS_TYPE', 'status')
-  .constant('VERSION_TYPE', 'version')
-  .constant('CATEGORY_TYPE', 'category')
-  .constant('PRIORITY_TYPE', 'priority')
-  .constant('USER_TYPE', 'user')
-  .constant('TIME_ENTRY_TYPE', 'time_entry')
-  .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1);
-require('./menus');
+
+import {wpControllersModule} from '../../../angular-modules';
+
+function SettingsModalController($scope,
+                                 $rootScope,
+                                 QUERY_MENU_ITEM_TYPE,
+                                 settingsModal,
+                                 QueryService,
+                                 AuthorisationService,
+                                 NotificationsService) {
+
+  var query = QueryService.getQuery();
+
+  this.name = 'Settings';
+  this.closeMe = settingsModal.deactivate;
+  $scope.queryName = query.name;
+
+  $scope.updateQuery = () => {
+    query.name = $scope.queryName;
+    QueryService.saveQuery()
+      .then(data => {
+        QueryService.updateHighlightName();
+        settingsModal.deactivate();
+        NotificationsService.addSuccess(data.status.text);
+
+        $rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          queryId: query.id,
+          queryName: query.name
+        });
+
+        if (data.query) {
+          AuthorisationService.initModelAuth('query', data.query._links);
+        }
+      });
+  };
+}
+
+wpControllersModule.controller('SettingsModalController', SettingsModalController);

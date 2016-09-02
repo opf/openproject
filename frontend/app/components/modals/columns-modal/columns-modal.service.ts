@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,16 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-angular.module('openproject.workPackages.controllers')
-  .constant('TEXT_TYPE', 'text')
-  .constant('STATUS_TYPE', 'status')
-  .constant('VERSION_TYPE', 'version')
-  .constant('CATEGORY_TYPE', 'category')
-  .constant('PRIORITY_TYPE', 'priority')
-  .constant('USER_TYPE', 'user')
-  .constant('TIME_ENTRY_TYPE', 'time_entry')
-  .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1);
-require('./menus');
+import {wpControllersModule} from '../../../angular-modules';
+
+function columnsModalService(btfModal) {
+  return btfModal({
+    controller: 'ColumnsModalController',
+    controllerAs: '$ctrl',
+    afterFocusOn: '#work-packages-settings-button',
+    templateUrl: '/components/modals/columns-modal/columns-modal.service.html'
+  });
+}
+
+wpControllersModule.factory('columnsModal', columnsModalService);

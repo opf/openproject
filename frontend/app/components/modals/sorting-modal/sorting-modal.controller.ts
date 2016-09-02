@@ -26,92 +26,94 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(sortingModal, $scope, $filter, QueryService, I18n) {
-  this.name    = 'Sorting';
+import {wpControllersModule} from '../../../angular-modules';
+
+function SortingModalController(sortingModal,
+                                $scope,
+                                $filter,
+                                QueryService,
+                                I18n) {
+  this.name = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
-  var blankOption = { id: 'null', label: I18n.t('js.placeholders.default'), other: 'null' };
+  var blankOption = {id: 'null', label: I18n.t('js.placeholders.default'), other: 'null'};
 
   $scope.availableColumnsData = [];
   $scope.sortElements = [];
-  $scope.initSortation = function(){
+  $scope.initSortation = () => {
     var currentSortation = QueryService.getSortation();
 
-    $scope.sortElements = currentSortation.sortElements.map(function(element){
-      return [
-        $scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
-        $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]
-      ];
+    $scope.sortElements = currentSortation.sortElements.map(element => {
+      const columns = $scope.availableColumnsData
+        .filter(column => column.id === element.field);
+
+      const directions = $scope.availableDirectionsData
+        .filter(direction => direction.id === element.direction);
+
+      return [columns, directions].map(item => item[0]);
     });
 
     fillUpSortElements();
   };
 
   function fillUpSortElements() {
-    while($scope.sortElements.length < 3) {
+    while ($scope.sortElements.length < 3) {
       $scope.sortElements.push([blankOption, $scope.availableDirectionsData[1]]);
     }
   }
 
   // reduction of column options to columns that haven't been selected
-
   function getIdsOfSelectedSortElements() {
     return $scope.sortElements
-      .map(function(sortElement) {
-        if (sortElement.length && sortElement[0]) { return sortElement[0].id; }
+      .map(sortElement => {
+        if (sortElement.length && sortElement[0]) {
+          return sortElement[0].id;
+        }
       })
-      .filter(function(element) { return element; });
+      .filter(element => !!element);
   }
+
   function getRemainingAvailableColumnsData(selectedElement) {
     var idsOfSelectedSortElements = getIdsOfSelectedSortElements();
 
-    var availableColumns = $scope.availableColumnsData.filter(function(availableColumn) {
+    var availableColumns = $scope.availableColumnsData.filter(availableColumn => {
       return idsOfSelectedSortElements.indexOf(availableColumn.id) === -1;
     });
 
-    if(selectedElement.id !== blankOption.id) {
+    if (selectedElement.id !== blankOption.id) {
       availableColumns.unshift(selectedElement);
     }
 
     availableColumns = $filter('orderBy')(availableColumns, 'label');
-
     availableColumns.unshift(blankOption);
 
     return availableColumns;
   }
 
   $scope.getRemainingAvailableColumnsData = getRemainingAvailableColumnsData;
-  // updates
 
-  $scope.updateSortation = function(){
+  $scope.updateSortation = () => {
     var sortElements = $scope.sortElements
-      .filter(function(element){
-        return element[0].id !== blankOption.id;
-      })
-      .map(function(element){
-        return { field: element[0].id, direction: element[1].id };
-      });
-    QueryService.updateSortElements(sortElements);
+      .filter(element => element[0].id !== blankOption.id)
+      .map(element => ({field: element[0].id, direction: element[1].id}));
 
+    QueryService.updateSortElements(sortElements);
     sortingModal.deactivate();
   };
 
-  // setup
-
-  $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
-
+  $scope.availableDirectionsData = [
+    {id: 'desc', label: I18n.t('js.label_descending')},
+    {id: 'asc', label: I18n.t('js.label_ascending')}
+  ];
 
   $scope.promise = QueryService.loadAvailableColumns()
-    .then(function(available_columns){
-
-      $scope.availableColumnsData = available_columns
-        .filter(function(column){
-          return !!column.sortable;
-        })
-        .map(function(column){
-          return { id: column.name, label: column.title, other: column.title };
-        });
+    .then(availableColumns => {
+      $scope.availableColumnsData = availableColumns
+        .filter(column => !!column.sortable)
+        .map(column => ({id: column.name, label: column.title, other: column.title}));
 
       $scope.initSortation();
     });
-};
+}
+
+wpControllersModule.controller('SortingModalController', SortingModalController);

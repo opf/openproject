@@ -26,37 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope,
-                          $filter,
-                          groupingModal,
-                          QueryService,
-                          WorkPackagesTableService,
-                          I18n) {
+import {wpControllersModule} from '../../../angular-modules';
 
-  this.name    = 'GroupBy';
-  this.closeMe = groupingModal.deactivate;
+function SaveModalController($scope,
+                             $state,
+                             saveModal,
+                             QueryService,
+                             AuthorisationService,
+                             NotificationsService) {
+  this.name = 'Save';
+  this.closeMe = saveModal.deactivate;
 
-  var emptyOption = {
-    title: I18n.t('js.inplace.clear_value_label')
+  $scope.saveQueryAs = name => {
+    QueryService.saveQueryAs(name)
+      .then(data => {
+        if (data.status.isError) {
+          NotificationsService.addError(data.status.text);
+        }
+        else {
+          // push query id to URL without reinitializing work-packages-list-controller
+          if (data.query) {
+            $state.go('work-packages.list',
+              {query_id: data.query.id, query: null},
+              {notify: false});
+            AuthorisationService.initModelAuth('query', data.query._links);
+          }
+
+          saveModal.deactivate();
+          NotificationsService.addSuccess(data.status.text);
+        }
+      });
   };
+}
 
-  $scope.vm = {};
-
-  $scope.updateGroupBy = function(){
-    QueryService.setGroupBy($scope.vm.selectedColumnName);
-
-    groupingModal.deactivate();
-  };
-
-  $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
-
-  $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns) {
-    if (!groupableColumns) {
-      return;
-    }
-
-    $scope.vm.groupableColumns   = [emptyOption].concat(groupableColumns);
-    $scope.vm.selectedColumnName = QueryService.getGroupBy();
-  });
-
-};
+wpControllersModule.controller('SaveModalController', SaveModalController);

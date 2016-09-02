@@ -26,38 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    $scope,
-    saveModal,
-    QueryService,
-    AuthorisationService,
-    $state,
-    NotificationsService
-  ) {
+import {wpControllersModule} from '../../../angular-modules';
 
-  this.name    = 'Save';
-  this.closeMe = saveModal.deactivate;
+function shareModalService(btfModal) {
+  return btfModal({
+    controller: 'ShareModalController',
+    controllerAs: '$ctrl',
+    afterFocusOn: '#work-packages-settings-button',
+    templateUrl: '/components/modals/share-modal/share-modal.service.html'
+  });
+}
 
-  $scope.saveQueryAs = function(name) {
-    QueryService.saveQueryAs(name)
-      .then(function(data){
-
-        if (data.status.isError){
-          NotificationsService.addError(data.status.text);
-        }
-        else {
-          // push query id to URL without reinitializing work-packages-list-controller
-          if (data.query) {
-            $state.go('work-packages.list',
-                      { query_id: data.query.id, query: null },
-                      { notify: false });
-            AuthorisationService.initModelAuth('query', data.query._links);
-          }
-
-          saveModal.deactivate();
-
-          NotificationsService.addSuccess(data.status.text);
-        }
-      });
-  };
-};
+wpControllersModule.factory('shareModal', shareModalService);

@@ -26,14 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 import {IDialogService} from 'ng-dialog';
-export class ModalWrapperController {
-  private modalBody:string;
-  public modal:any;
-  public modalParams:any;
+import {opUiComponentsModule} from '../../../angular-modules';
+import IAugmentedJQuery = angular.IAugmentedJQuery;
 
-  private modalOptions:any = {
+export class ModalWrapperController {
+  private modalBody: string;
+  public modal: any;
+  public modalParams: any;
+
+  private modalOptions: any = {
     plain: true,
     closeByEscape: true,
     closeByDocument: false,
@@ -42,8 +44,8 @@ export class ModalWrapperController {
 
   constructor(protected $element,
               protected $scope,
-              protected $attrs:ng.IAttributes,
-              protected ngDialog:IDialogService) {
+              protected $attrs: ng.IAttributes,
+              protected ngDialog: IDialogService) {
 
     // Set template from wrapped element
     const wrappedElement = $element.find('.modal-wrapper--content');
@@ -54,7 +56,8 @@ export class ModalWrapperController {
 
     if (!!$attrs['initialize']) {
       this.initialize();
-    } else {
+    }
+    else {
       $element.find('.modal-wrapper--activation-link').click(() => this.initialize());
     }
   }
@@ -70,12 +73,10 @@ function modalWrapper() {
     scope: {
       modalParams: '='
     },
-    bindToController: true,
     controller: ModalWrapperController,
     controllerAs: '$ctrl',
+    bindToController: true,
   };
 }
 
-angular
-  .module('openproject.uiComponents')
-  .directive('modalWrapper', modalWrapper);
+opUiComponentsModule.directive('modalWrapper', modalWrapper);

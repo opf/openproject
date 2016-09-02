@@ -26,42 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    $scope,
-    settingsModal,
-    QueryService,
-    AuthorisationService,
-    $rootScope,
-    QUERY_MENU_ITEM_TYPE,
-    NotificationsService
-  ) {
+import {wpControllersModule} from '../../../angular-modules';
 
-  var query = QueryService.getQuery();
+function ShareModalController($scope,
+                              shareModal,
+                              QueryService,
+                              AuthorisationService,
+                              NotificationsService) {
+  this.name = 'Share';
+  this.closeMe = shareModal.deactivate;
+  $scope.query = QueryService.getQuery();
 
-  this.name    = 'Settings';
-  this.closeMe = settingsModal.deactivate;
-  $scope.queryName   = query.name;
+  $scope.shareSettings = {
+    starred: $scope.query.starred
+  };
 
-  $scope.updateQuery = function() {
-    query.name = $scope.queryName;
+  function closeAndReport(message) {
+    shareModal.deactivate();
+    NotificationsService.addSuccess(message.text);
+  }
+
+  $scope.cannot = AuthorisationService.cannot;
+
+  $scope.saveQuery = () => {
+    var messageObject;
+
     QueryService.saveQuery()
-      .then(function(data) {
-        QueryService.updateHighlightName();
-        return data;
-      })
-      .then(function(data) {
-        settingsModal.deactivate();
-        NotificationsService.addSuccess(data.status.text);
-
-        $rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
-          itemType: QUERY_MENU_ITEM_TYPE,
-          queryId: query.id,
-          queryName: query.name
-        });
-
-        if(data.query) {
+      .then(data => {
+        messageObject = data.status;
+        if (data.query) {
           AuthorisationService.initModelAuth('query', data.query._links);
         }
+
+        if ($scope.query.starred !== $scope.shareSettings.starred) {
+          QueryService.toggleQueryStarred($scope.query)
+            .then(data => {
+              closeAndReport(data.status || messageObject);
+              return $scope.query;
+            });
+        }
+        else {
+          closeAndReport(messageObject);
+        }
       });
-    };
-};
+  };
+}
+
+wpControllersModule.controller('ShareModalController', ShareModalController);

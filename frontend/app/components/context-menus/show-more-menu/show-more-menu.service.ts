@@ -26,14 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-  .constant('TEXT_TYPE', 'text')
-  .constant('STATUS_TYPE', 'status')
-  .constant('VERSION_TYPE', 'version')
-  .constant('CATEGORY_TYPE', 'category')
-  .constant('PRIORITY_TYPE', 'priority')
-  .constant('USER_TYPE', 'user')
-  .constant('TIME_ENTRY_TYPE', 'time_entry')
-  .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1);
-require('./menus');
+import {opWorkPackagesModule} from '../../../angular-modules';
+
+function showMoreMenuService(ngContextMenu) {
+  return ngContextMenu({
+    template: `
+      <div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar">
+        <ul class="dropdown-menu" ng-if="actionsAvailable">
+          <li ng-repeat="(action, properties) in permittedActions"
+              class="{{action}}">
+            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+            properly. Thus, don't remove the hrefs or the empty URLs! -->
+            <a href="" focus="{{ !$index }}"
+               ng-click="triggerMoreMenuAction(action, properties.link)"
+               ng-class="['icon-context'].concat(properties.css)"
+               ng-bind="I18n.t('js.button_' + action)">
+            </a>
+          </li>
+        </ul>
+      </div>
+    `,
+
+    container: '#action-show-more-dropdown-menu'
+  });
+}
+
+opWorkPackagesModule.factory('ShowMoreDropdownMenu', showMoreMenuService);

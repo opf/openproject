@@ -26,51 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(
-    $scope,
-    shareModal,
-    QueryService,
-    AuthorisationService,
-    queryMenuItemFactory,
-    PathHelper,
-    NotificationsService
-  ) {
+import {wpControllersModule} from '../../../angular-modules';
 
-  this.name    = 'Share';
-  this.closeMe = shareModal.deactivate;
-  $scope.query = QueryService.getQuery();
+function settingsModalService(btfModal) {
+  return btfModal({
+    controller: 'SettingsModalController',
+    controllerAs: '$ctrl',
+    afterFocusOn: '#work-packages-settings-button',
+    templateUrl: '/components/modals/settings-modal/settings-modal.service.html'
+  });
+}
 
-  $scope.shareSettings = {
-    starred: $scope.query.starred
-  };
+wpControllersModule.factory('settingsModal', settingsModalService);
 
-  function closeAndReport(message) {
-    shareModal.deactivate();
-    NotificationsService.addSuccess(message.text);
-  }
-
-  $scope.cannot = AuthorisationService.cannot;
-
-  $scope.saveQuery = function() {
-    var messageObject;
-    QueryService.saveQuery()
-      .then(function(data){
-        messageObject = data.status;
-        if(data.query) {
-          AuthorisationService.initModelAuth('query', data.query._links);
-        }
-      })
-      .then(function(data){
-        if($scope.query.starred !== $scope.shareSettings.starred){
-          QueryService.toggleQueryStarred($scope.query)
-            .then(function(data){
-              closeAndReport(data.status || messageObject);
-
-              return $scope.query;
-            });
-        } else {
-          closeAndReport(messageObject);
-        }
-      });
-  };
-};

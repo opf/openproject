@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,18 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('ColumnsModalController', ColumnsModalController);
+import {wpControllersModule} from '../../../angular-modules';
 
-function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageService,
-    WorkPackagesTableService, $rootScope, $timeout, ConfigurationService) {
-
+function ColumnsModalController($scope,
+                                $timeout,
+                                I18n,
+                                columnsModal,
+                                QueryService,
+                                ConfigurationService) {
   var vm = this;
 
-  vm.name    = 'Columns';
+  vm.name = 'Columns';
   vm.closeMe = columnsModal.deactivate;
 
   vm.selectedColumns = [];
@@ -60,12 +61,12 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
 
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns($scope.projectIdentifier)
-    .then(function(availableColumns){
+    .then(availableColumns => {
       vm.availableColumns = availableColumns; // all existing columns
       vm.unusedColumns = QueryService.selectUnusedColumns(availableColumns); // columns not shown
 
       var availableColumnNames = getColumnNames(availableColumns);
-      selectedColumns.forEach(function(column) {
+      selectedColumns.forEach(column => {
         if (_.contains(availableColumnNames, column.name)) {
           vm.selectedColumns.push(column);
           vm.selectedColumnMap[column.name] = true;
@@ -75,12 +76,10 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
     });
 
   function getColumnNames(arr) {
-    return _.map(arr, function (column) {
-      return column.name;
-    });
+    return arr.map(column => column.name);
   }
 
-  vm.updateSelectedColumns = function() {
+  vm.updateSelectedColumns = () => {
     QueryService.setSelectedColumns(getColumnNames(vm.selectedColumns));
 
     columnsModal.deactivate();
@@ -95,36 +94,31 @@ function ColumnsModalController($scope, columnsModal, QueryService, WorkPackageS
    *
    * @param selectedColumns Columns currently selected through the multi select box.
    */
-  vm.updateUnusedColumns = function(selectedColumns) {
+  vm.updateUnusedColumns = selectedColumns => {
     var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = _.filter(vm.availableColumns, function (column) {
-      return !_.contains(used, column.name);
-    });
+    vm.unusedColumns = vm.availableColumns.filter(column => !_.contains(used, column.name));
   };
 
-  vm.setSelectedColumn = function(column) {
+  vm.setSelectedColumn = column => {
     if (vm.selectedColumnMap[column.name]) {
       vm.selectedColumns.push(column);
     }
     else {
-      _.remove(vm.selectedColumns, function(c) { return c.name === column.name; });
+      _.remove(vm.selectedColumns, (c: any) => c.name === column.name);
     }
   };
 
   //hack to prevent dragging of close icons
-  $timeout(function(){
-    angular.element('.columns-modal-content .ui-select-match-close')
-      .on('dragstart', function(event) {
-        event.preventDefault();
-      });
+  $timeout(() => {
+    angular.element('.columns-modal-content .ui-select-match-close').on('dragstart', event => {
+      event.preventDefault();
+    });
   });
 
-  $timeout(function () {
-    $scope.$broadcast('columnsModalOpened');
-  });
-
-  $scope.$on('uiSelectSort:change', function(event, args) {
+  $scope.$on('uiSelectSort:change', (event, args) => {
     vm.selectedColumns = args.array;
   });
 }
+
+wpControllersModule.controller('ColumnsModalController', ColumnsModalController);

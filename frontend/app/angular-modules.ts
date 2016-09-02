@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-declare const I18n:op.I18n;
+declare const I18n: op.I18n;
 
 // global
-angular.module('openproject.uiComponents',
+export const opUiComponentsModule = angular.module('openproject.uiComponents',
   ['ui.select', 'ui.router', 'ngSanitize', 'openproject.workPackages.services'])
-  .run(['$rootScope', function($rootScope){
+  .run(['$rootScope', function ($rootScope) {
     $rootScope.I18n = I18n;
   }]);
 export const animationsModule = angular.module('openproject.animations', [
@@ -48,11 +48,11 @@ export const opServicesModule = angular.module('openproject.services', [
   'openproject.filters'
 ]);
 angular.module('openproject.helpers', ['openproject.services']);
-angular
-  .module('openproject.models', [
-    'openproject.workPackages.config',
-    'openproject.services'
-  ]);
+
+export const opModelsModule = angular.module('openproject.models', [
+  'openproject.workPackages.config',
+  'openproject.services'
+]);
 export const opViewModelsModule = angular.module('openproject.viewModels', [
   'openproject.services'
 ]);

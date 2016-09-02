@@ -26,14 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
-  .constant('TEXT_TYPE', 'text')
-  .constant('STATUS_TYPE', 'status')
-  .constant('VERSION_TYPE', 'version')
-  .constant('CATEGORY_TYPE', 'category')
-  .constant('PRIORITY_TYPE', 'priority')
-  .constant('USER_TYPE', 'user')
-  .constant('TIME_ENTRY_TYPE', 'time_entry')
-  .constant('USER_FIELDS', ['assignee', 'author', 'responsible'])
-  .constant('ADD_WATCHER_SELECT_INDEX', -1);
-require('./menus');
+import {wpControllersModule} from '../../../angular-modules';
+
+function exportModalService(btfModal) {
+  return btfModal({
+    controller: 'ExportModalController',
+    controllerAs: '$ctrl',
+    afterFocusOn: '#work-packages-settings-button',
+    templateUrl: '/components/modals/export-modal/export-modal.service.html'
+  });
+}
+
+wpControllersModule.factory('exportModal', exportModalService);
