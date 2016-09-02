@@ -31,10 +31,6 @@
 //= require i18n
 
 //# require jquery_noconflict
-//= require prototype
-//= require effects
-//= require dragdrop
-//= require controls
 
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
@@ -67,53 +63,6 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
-
-// Remove once no more prototype based xhr requests are issued
-/*
- * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to
- * work with rails applications which have fixed
- * CVE-2011-0447
- * 2 - shows and hides ajax indicator
- */
-document.observe("dom:loaded", function() {
-  Ajax.Responders.register({
-    onCreate: function(request){
-      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
-
-      if (!request.options.requestHeaders) {
-        request.options.requestHeaders = {};
-      }
-
-      if (csrf_meta_tag) {
-        var header = 'X-CSRF-Token',
-        token = csrf_meta_tag.readAttribute('content');
-
-        request.options.requestHeaders[header] = token;
-      }
-
-      request.options.requestHeaders['X-Authentication-Scheme'] = "Session";
-
-      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-        Element.show('ajax-indicator');
-      }
-    },
-    onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
-        Element.hide('ajax-indicator');
-      }
-      addClickEventToAllErrorMessages();
-    }
-  });
-});
-
-//source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
-if (typeof []._reverse == 'undefined') {
-  jQuery.fn.reverse = Array.prototype.reverse;
-} else {
-  jQuery.fn.reverse = Array.prototype._reverse;
-}
-
 
 jQuery(document).ready(function ($) {
   //remove modal layout=false if we ctrl-click!

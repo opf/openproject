@@ -81,20 +81,6 @@ GIT
       rubyzip
 
 GIT
-  remote: https://github.com/rails/prototype-rails.git
-  revision: 0fed929ff48c10c3b978edd3baa983a81f404dbf
-  branch: 4.2
-  specs:
-    prototype-rails (4.0.0)
-      rails (~> 4.0)
-
-GIT
-  remote: https://github.com/rails/prototype_legacy_helper.git
-  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
-  specs:
-    prototype_legacy_helper (0.0.0)
-
-GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 14da7397f4c1f297fa9b8be3519419ba9b881577
   specs:
@@ -656,8 +642,6 @@ DEPENDENCIES
   poltergeist
   prawn (~> 2.1)
   prawn-table (~> 0.2.2)
-  prototype-rails!
-  prototype_legacy_helper (= 0.0.0)!
   pry-byebug
   pry-doc
   pry-rails
