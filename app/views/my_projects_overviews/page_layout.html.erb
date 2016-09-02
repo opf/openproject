@@ -21,7 +21,6 @@ See doc/COPYRIGHT.md for more details.
 <% html_title(l(:label_overview)) -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page/my_project_page" %>
   <%= stylesheet_link_tag "my_project_page/my_projects_overview", media: 'all' %>
   <% heads_for_wiki_formatter %>
 <% end %>
@@ -41,7 +40,7 @@ See doc/COPYRIGHT.md for more details.
   </li>
   <li class="toolbar-item">
     <%= form_tag({action: "save_changes"}, id: "save-block-form", :'ng-submit' => '$ctrl.handleSaveChanges()') do %>
-      <% field_list.each do |f| %>
+      <% blocks.keys.each do |f| %>
         <input type="hidden" name="<%= f %>" value="" />
       <% end %>
       <%= submit_tag t(:button_save_back), class: 'button -alt-highlight' %>

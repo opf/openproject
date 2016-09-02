@@ -47,6 +47,6 @@ module OpenProject::MyProjectPage
       end
     end
 
-    assets %w(my_project_page/my_projects_overview.css my_project_page/my_project_page.js)
+    assets %w(my_project_page/my_projects_overview.css)
   end
 end

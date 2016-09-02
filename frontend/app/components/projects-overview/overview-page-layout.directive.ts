@@ -136,12 +136,12 @@ export class ProjectsOverviewController {
    * Refresh an existing (custom) block from the backend
    */
   public updateBlock(blockName:string, content:string) {
-    var content = this.compileBlock(content);
+    content = this.compileBlock(content);
     this.$element.find(this.idFromBlockName(blockName)).html(content);
   }
 
   private addBlock(blockName:string, content:string) {
-    var content = this.compileBlock(content);
+    content = this.compileBlock(content);
 
     // Add the block to hidden by default
     this.hiddenContainer.append(content);
