@@ -45,35 +45,39 @@ export class Tooltip {
    * @see Tooltip#destroy
    */
   public static clear() {
-    this.active.forEach(tooltip => tooltip.destroy());
+    this.active.forEach(tooltip => tooltip.remove());
   }
 
-  protected scope: IScope;
+  /**
+   * The tooltip html element.
+   */
   protected element: IAugmentedJQuery;
 
   constructor(protected parent: IAugmentedJQuery,
-              protected parentScope: IScope,
-              protected content: string) {
+              protected scope: IScope,
+              protected templateUrl: string) {
   }
 
   /**
    * Display the tooltip.
    *
-   * Compile the tooltip element, add a new non-isolated child scope
-   * and append it to its parent.
-   *
+   * Compile the tooltip element and append it to its parent.
    * Clear previous active tooltips and push this one to the active ones.
+   *
+   * Use ngInclude to display the content of the tooltip.
+   * The templateUrl is a regular scope variable, that returns a string.
    */
   public show() {
     Tooltip.clear();
     Tooltip.active.push(this);
 
-    const template = `<div class="op-tooltip">${ this.content }</div>`;
-
-    this.scope = this.parentScope.$new();
+    const template = `
+      <div class="op-tooltip">
+        <ng-include src="${ this.templateUrl }"></ng-include>
+      </div>`;
     this.element = $compile(template)(this.scope);
-    this.scope.$apply();
 
+    this.scope.$apply();
     this.parent.append(this.element);
   }
 
@@ -81,8 +85,7 @@ export class Tooltip {
    * Remove the tooltip from the DOM and destroy the child scope.
    * Remove the tooltip from the active tooltips.
    */
-  public destroy() {
-    this.scope.$destroy();
+  public remove() {
     this.element.remove();
     _.pull(Tooltip.active, this);
   }
