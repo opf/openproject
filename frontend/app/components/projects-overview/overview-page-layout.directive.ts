@@ -136,8 +136,10 @@ export class ProjectsOverviewController {
    * Refresh an existing (custom) block from the backend
    */
   public updateBlock(blockName:string, content:string) {
+    var block = this.$element.find(this.idFromBlockName(blockName));
     content = this.compileBlock(content);
-    this.$element.find(this.idFromBlockName(blockName)).html(content);
+
+    block.replaceWith(content);
   }
 
   private addBlock(blockName:string, content:string) {

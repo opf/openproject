@@ -74,7 +74,7 @@ describe MyProjectsOverviewsController, type: :controller do
   end
 
   describe '#update_custom_element' do
-    before  do
+    before do
       params['block_name'] = 'a'
       params['block_title_a'] = 'Title'
       params['textile_a'] = 'Content'

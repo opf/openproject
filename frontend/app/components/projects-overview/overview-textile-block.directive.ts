@@ -88,6 +88,7 @@ export class OverviewTextileBlockController {
     // $http fails to serialize the formData correctly,
     // even when forcing the content-type.
     var deferred = this.$q.defer();
+    this.loadingIndicator = deferred.promise;
     jQuery.ajax({
       url: form.attr('action'),
       method: 'PUT',
@@ -110,7 +111,6 @@ export class OverviewTextileBlockController {
       });
     });
 
-    this.loadingIndicator = deferred.promise;
     evt.preventDefault();
     return false;
   }
