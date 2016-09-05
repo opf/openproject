@@ -51,10 +51,7 @@ describe AddWorkPackageNoteService, type: :model do
     let(:mock_contract_instance) do
       mock_model(WorkPackages::CreateNoteContract)
     end
-
-    before do
-      allow(described_class).to receive(:contract).and_return(mock_contract)
-    end
+    let(:valid_contract) { true }
 
     let(:send_notifications) { false }
 
@@ -64,20 +61,15 @@ describe AddWorkPackageNoteService, type: :model do
         .with(send_notifications)
         .and_yield
 
+      allow(described_class).to receive(:contract).and_return(mock_contract)
       allow(work_package).to receive(:save_journals).and_return true
-      allow(mock_contract_instance).to receive(:validate).and_return true
+      allow(mock_contract_instance).to receive(:validate).and_return valid_contract
     end
 
     subject { instance.call('blubs', send_notifications: send_notifications) }
 
     it 'is successful' do
-      expect(subject.success?).to be_truthy
-    end
-
-    it 'sets the value' do
-      subject
-
-      expect(work_package.journal_notes).to eql 'blubs'
+      expect(subject).to be_success
     end
 
     it 'persists the value' do
@@ -91,18 +83,16 @@ describe AddWorkPackageNoteService, type: :model do
     end
 
     context 'when the contract does not validate' do
-      before do
-        expect(mock_contract_instance).to receive(:validate).and_return false
-      end
+      let(:valid_contract) { false }
 
       it 'is unsuccessful' do
         expect(subject.success?).to be_falsey
       end
 
       it 'does not persist the changes' do
-        subject
+        expect(work_package).to_not receive(:save_journals)
 
-        expect(work_package.changed?).to be_truthy
+        subject
       end
 
       it "exposes the contract's errors" do
@@ -121,13 +111,14 @@ describe AddWorkPackageNoteService, type: :model do
       end
 
       it 'is unsuccessful' do
-        expect(subject.success?).to be_falsey
+        expect(subject).to_not be_success
       end
 
       it 'leaves the value unchanged' do
         subject
 
-        expect(work_package.changed?).to be_truthy
+        expect(work_package.journal_notes).to eql 'blubs'
+        expect(work_package.journal_user).to eql user
       end
 
       it "exposes the work_packages's errors" do
