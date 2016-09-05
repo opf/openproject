@@ -33,9 +33,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_profile) %>
 <%= error_messages_for 'user' %>
 
-<%= labelled_tabular_form_for @user, as: :user, url: { action: 'account' },
-                          lang: current_language,
-                          html: { id: 'my_account_form', class: 'form -wide-labels' } do |f| %>
+<%= password_confirmation_form_for @user,
+                                   as: :user,
+                                   url: { action: 'account' },
+                                   builder: ::TabularFormBuilder,
+                                   lang: current_language,
+                                   html: { id: 'my_account_form', class: '-wide-labels' } do |f| %>
   <section class="form--section">
     <div class="form--field">
       <label class="form--label" for="username">

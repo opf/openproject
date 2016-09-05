@@ -81,6 +81,7 @@ module OpenProject
 
       'disable_password_login' => false,
       'omniauth_direct_login_provider' => nil,
+      'internal_password_confirmation' => true,
 
       'disable_password_choice' => false,
 
