@@ -27,3 +27,6 @@
 //++
 
 require('./init-app');
+
+var requireComponent = require.context('./components/', true, /\.(css|scss)$/);
+requireComponent.keys().forEach(requireComponent);

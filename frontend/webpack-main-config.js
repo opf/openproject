@@ -68,10 +68,10 @@ var loaders = [
   {test: /[\/]moment\.js$/, loader: 'expose?moment'},
   {test: /[\/]mousetrap\.js$/, loader: 'expose?Mousetrap'},
   {
-    test: /\.css$/,
+    test: /\.(css|scss)$/,
     loader: ExtractTextPlugin.extract(
-        'style-loader',
-        'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
+        'style',
+        'css!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}!sass'
     )
   },
   {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
