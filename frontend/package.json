@@ -46,7 +46,7 @@
     "ng-annotate-loader": "0.0.10",
     "ngtemplate-loader": "^0.1.2",
     "observable-array": "0.0.4",
-    "polyfill-function-prototype-bind": "0.0.1",
+    "phantomjs-polyfill": "0.0.2",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
     "ts-loader": "^0.7.2",
