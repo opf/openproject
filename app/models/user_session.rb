@@ -49,6 +49,6 @@ class UserSession < ActiveRecord::SessionStore::Session
     user_id = data['user_id']
     return unless user_id && OpenProject::Configuration.drop_old_sessions_on_logout?
 
-    UserSession.where(user_id: user_id).delete_all
+    ::UserSession.where(user_id: user_id).delete_all
   end
 end
