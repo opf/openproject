@@ -81,6 +81,7 @@ describe UserPassword, type: :model do
       }.to_not change { user.passwords.count }
 
       expect(user.current_password).to be_a(UserPassword::Bcrypt)
+      expect(user.current_password.hashed_password).to start_with '$2a$'
     end
 
     it 'does not alter the password when invalid' do

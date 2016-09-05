@@ -65,12 +65,22 @@ class UserPassword < ActiveRecord::Base
     active_class = UserPassword.active_type
 
     unless is_a?(active_class)
-      becomes!(active_class)
-      self.hashed_password = derive_password!(plain)
-      save!
+      active = becomes!(active_class)
+      active.rehash_from_legacy(plain)
+
+      active
     end
   rescue => e
     Rails.logger.error("Unable to re-hash UserPassword for #{user.login}: #{e.message}")
+  end
+
+  ##
+  # Actually derive and save the password using +active_type+
+  # We require a public interface since +becomes!+ does change the STI instance,
+  # but returns, not changes the actual current object.
+  def rehash_from_legacy(plain)
+    self.hashed_password = derive_password!(plain)
+    save!
   end
 
   def expired?
