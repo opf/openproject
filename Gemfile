@@ -28,6 +28,8 @@
 
 source 'https://rubygems.org'
 
+ruby '2.3.1'
+
 gem 'rails', '~> 4.2.7', '>= 4.2.7.1'
 gem 'actionpack-action_caching'
 gem 'actionpack-xml_parser'
