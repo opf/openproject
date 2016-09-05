@@ -153,36 +153,6 @@ describe VersionsController, type: :controller do
         expect(version.project).to eq(project)
       end
     end
-
-    context 'from issue form' do
-      render_views
-
-      before do
-        login_as(user)
-        post :create, project_id: project.id, version: { name: 'test_add_version_from_issue_form' }, format: :js
-      end
-
-      it 'generates the new version' do
-        version = Version.find_by(name: 'test_add_version_from_issue_form')
-        expect(version).not_to be_nil
-        expect(version.project).to eq(project)
-      end
-
-      it 'returns updated select box with new version' do
-        version = Version.find_by(name: 'test_add_version_from_issue_form')
-
-        expect(response.body).to include(
-          "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
-        )
-      end
-
-      it 'escapes potentially harmful html' do
-        harmful = "test <script>alert('pwned');</script>"
-        post :create, project_id: project.id, version: { name: harmful }, format: :js
-
-        expect(response.body).not_to include("<script>alert('pwned');</script>")
-      end
-    end
   end
 
   describe '#edit' do

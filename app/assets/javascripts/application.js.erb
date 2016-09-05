@@ -31,10 +31,6 @@
 //= require i18n
 
 //# require jquery_noconflict
-//= require prototype
-//= require effects
-//= require dragdrop
-//= require controls
 
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
@@ -67,53 +63,6 @@
 //= require tooltips
 //= require danger_zone_validation
 //= require flash_messages
-
-// Remove once no more prototype based xhr requests are issued
-/*
- * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to
- * work with rails applications which have fixed
- * CVE-2011-0447
- * 2 - shows and hides ajax indicator
- */
-document.observe("dom:loaded", function() {
-  Ajax.Responders.register({
-    onCreate: function(request){
-      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
-
-      if (!request.options.requestHeaders) {
-        request.options.requestHeaders = {};
-      }
-
-      if (csrf_meta_tag) {
-        var header = 'X-CSRF-Token',
-        token = csrf_meta_tag.readAttribute('content');
-
-        request.options.requestHeaders[header] = token;
-      }
-
-      request.options.requestHeaders['X-Authentication-Scheme'] = "Session";
-
-      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-        Element.show('ajax-indicator');
-      }
-    },
-    onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
-        Element.hide('ajax-indicator');
-      }
-      addClickEventToAllErrorMessages();
-    }
-  });
-});
-
-//source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
-if (typeof []._reverse == 'undefined') {
-  jQuery.fn.reverse = Array.prototype.reverse;
-} else {
-  jQuery.fn.reverse = Array.prototype._reverse;
-}
-
 
 jQuery(document).ready(function ($) {
   //remove modal layout=false if we ctrl-click!
@@ -557,9 +506,9 @@ var Administration = (function ($) {
 
     default_language_select_active = default_language_select.find('option:not([disabled="disabled"])');
 
-    toggle_disabled_state(default_language_select_active.size() === 0);
+    toggle_disabled_state(default_language_select_active.length === 0);
 
-    if (default_language_select_active.size() === 1) {
+    if (default_language_select_active.length === 1) {
       default_language_select_active.attr('selected', true);
     } else if (default_language_select.val() === input.val() && !input.attr('checked')) {
       default_language_select_active.first().attr('selected', true);
@@ -682,13 +631,13 @@ var I18nForms = (function ($) {
         }
       }).get();
 
-      add_link.toggle(available.size() > 0);
+      add_link.toggle(available.length > 0);
     };
 
     update_destroy_link_status = function (localizedField) {
       var active_selectors = active_locale_selectors(localizedField);
 
-      localizedField.find('.destroy_locale').toggle(active_selectors.size() > 1);
+      localizedField.find('.destroy_locale').toggle(active_selectors.length > 1);
     };
 
     update_interaction_elements = function (localizedField) {
@@ -915,10 +864,10 @@ var I18nForms = (function ($) {
       to_destroy = elements.filter(':hidden');
       to_keep = elements.filter(':visible');
 
-      if (to_keep.size() > 0) {
+      if (to_keep.length > 0) {
         to_destroy.find('.destroy_flag').attr('disabled', true);
-        for (i = 0; i < translation_classes.size(); i += 1) {
-          if (to_keep.filter("." + translation_classes[i]).size() === 0) {
+        for (i = 0; i < translation_classes.length; i += 1) {
+          if (to_keep.filter("." + translation_classes[i]).length === 0) {
             to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').val('');
           }
         }
@@ -933,7 +882,7 @@ var I18nForms = (function ($) {
   init = function () {
     var translatedField = $('form .translation').closest('.form--field');
 
-    if (translatedField.size() > 0) {
+    if (translatedField.length > 0) {
       memorize_ids();
       event_handler.init();
 
