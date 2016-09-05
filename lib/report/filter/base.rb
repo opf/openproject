@@ -51,62 +51,14 @@ class Report::Filter
       false
     end
 
-    ##
-    # A Filter may have depentent filters. See the following example:
-    # Filter::Project.dependents --> [Filter::IssueId]
-    # This could result in a UI where, if the Project-Filter was selected,
-    # the IssueId-filter automatically shows up.
-    # Arguments:
-    #  - any subclass of Reporting::Filter::Base which shall be the dependent filter
-    #  - OR multiple Filters if there are multiple possible dependents and you
-    #    want the application-js to decide which dependent to follow
-    def self.dependent(*args)
-      @dependents ||= []
-      @dependents += args unless args.empty?
-      @dependents
-    end
-    class << self
-      alias :dependents :dependent
-    end
-
     # need this for sort
     def <=>(other)
       self.class.underscore_name <=> other.class.underscore_name
     end
 
-    def self.has_dependent?
-      !dependents.empty?
-    end
-
-    ##
-    # Returns an array of filters of which this filter is a dependent
-    def self.dependent_from
-      engine::Filter.all.select { |f| f.dependents.include? self }
-    end
-
-    ##
-    # Returns true/false depending of wether any filter has this filter a a dependent
-    def self.is_dependent?
-      !dependent_from.empty?
-    end
-
     def self.cached(*args)
       @cached ||= {}
       @cached[args] ||= send(*args)
-    end
-
-    ##
-    # all_dependents computes the depentends of this filter and recursively
-    # all_dependents of this class' dependents.
-    def self.all_dependents
-      cached(:compute_all_dependents)
-    end
-
-    def self.compute_all_dependents(starting_from = nil)
-      starting_from ||= dependents
-      starting_from.inject([]) do |list, dependent|
-        list + Array(dependent) + dependent.all_dependents
-      end
     end
 
     def value=(val)

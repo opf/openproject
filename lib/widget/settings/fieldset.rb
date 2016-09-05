@@ -39,7 +39,7 @@ class Widget::Settings::Fieldset < Widget::Base
                                onclick: 'toggleFieldset(this);',
                                class: 'form--fieldset-legend',
                                id: hash.to_s) do # FIXME: onclick
-              content_tag(:a, href: 'javascript:') do (l(@label) + maybe_with_help(instant_write: false)).html_safe end
+              content_tag(:a, href: 'javascript:') do l(@label) end
             end
             html + yield
           end)

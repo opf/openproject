@@ -30,7 +30,6 @@ en:
   label_greater: ">"
   label_group_by: "Group by"
   label_group_by_add: "Add Group-by Attribute"
-  label_help: "Help"
   label_inactive: "«inactive»"
   label_less: "<"
   label_no: "No"
@@ -48,3 +47,8 @@ en:
 
   validation_failure_date: "is not a valid date"
   validation_failure_integer: "is not a valid integer"
+
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

@@ -28,7 +28,7 @@ class Report < ActiveRecord::Base
 
     # this attr. should point to a symbol useable for translations
     inherited_attribute :applies_for, default: :label_cost_entry_attributes
-    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :help_text, :underscore_name
+    def_delegators :'self.class', :table_joins, :table_name, :field, :display?, :underscore_name
 
     def self.accepts_property(*list)
       engine.accepted_properties.push(*list.map(&:to_s))
@@ -330,17 +330,6 @@ class Report < ActiveRecord::Base
         hash[cbl.field] << cbl.mapping
       end
       @field_map[field]
-    end
-
-    ##
-    # Sets a help text to be displayed for this kind of Chainable.
-    def self.help_text=(sym)
-      @help_text = sym
-    end
-
-    def self.help_text(sym = nil)
-      @help_text = sym if sym
-      @help_text
     end
   end
 end

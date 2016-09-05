@@ -28,7 +28,6 @@ class Widget::Controls::SaveAs < Widget::Controls
     end
     button = link_to(link_name, '#', id: 'query-icon-save-as', class: "button icon-context #{icon}")
     write(button + render_popup)
-    maybe_with_help
   end
 
   def cache_key
@@ -36,20 +35,41 @@ class Widget::Controls::SaveAs < Widget::Controls
   end
 
   def render_popup_form
-    name = content_tag :p, class: 'inline-label' do
+    name = content_tag :p,
+                       class: 'form--field' do
       label_tag(:query_name,
-                required_field_name(Query.human_attribute_name(:name)),
-                class: 'form-label -transparent') +
-      text_field_tag(:query_name,
-                     @subject.name,
-                     required: true)
+                class: 'form--label -transparent -required') do
+        (Query.human_attribute_name(:name) +
+          content_tag(:span,
+                      '*',
+                      class: 'form--label-required',
+                      'aria-hidden': true)).html_safe
+      end +
+      content_tag(:span,
+                  class: 'form--field-container') do
+        content_tag(:span,
+                    class: 'form--text-field-container') do
+          text_field_tag(:query_name,
+                         @subject.name,
+                         required: true)
+        end
+      end
     end
     if @options[:can_save_as_public]
-      box = content_tag :p, class: 'inline-label' do
+      box = content_tag :p, class: 'form--field' do
         label_tag(:query_is_public,
                   Query.human_attribute_name(:is_public),
-                  class: 'form-label -transparent') +
-        check_box_tag(:query_is_public)
+                  class: 'form--label -transparent') +
+        content_tag(:span,
+                    class: 'form--field-container') do
+          content_tag(:span,
+                      class: 'form--check-box-container') do
+            check_box_tag(:query_is_public,
+                          1,
+                          false,
+                          class: 'form--check-box')
+          end
+        end
       end
       name + box
     else

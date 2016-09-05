@@ -64,23 +64,10 @@ class Widget::Base < Widget
   # Available options:
   #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
   def render_with_options(options = {}, &block)
-    @help_text = options[:help_text]
     set_canvas(options.delete(:to)) if options.has_key? :to
     @options = options
     render_with_cache(options, &block)
     @output
-  end
-
-  ##
-  # An optional help text. If defined the Help Widget
-  # displaying the given text is going to be placed
-  # next to this Widget, if it supports that.
-  def help_text
-    @help_text
-  end
-
-  def help_text=(text)
-    @help_text = text
   end
 
   def cache_key
@@ -120,32 +107,5 @@ class Widget::Base < Widget
   def set_canvas(canvas)
     @cache_output = ''.html_safe
     @output = canvas
-  end
-
-  ##
-  # Appends the Help Widget with this Widget's help text.
-  # If no help-text was given and no default help-text is set,
-  # the given default html will be printed instead.
-  # Params:
-  #  - html
-  #  - options-hash
-  #    - :fallback_html (string, default: '') - the html code to render if no help-text was found
-  #    - :help_text (string) - the help text to render
-  #    - :instant_write (bool, default: true) - wether to write
-  #          the help-widget instantly to the output-buffer.
-  #          If set to false you should care to save the rendered text.
-  def maybe_with_help(options = {})
-    options[:instant_write] = true if options[:instant_write].nil?
-    options[:fallback_html] ||= ''
-    output = ''.html_safe
-    if text = options[:help_text] || help_text
-      output += render_widget Widget::Help, text do
-        options
-      end
-    else
-      output += options[:fallback_html]
-    end
-    write output if options[:instant_write]
-    output.html_safe
   end
 end
