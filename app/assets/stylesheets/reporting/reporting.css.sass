@@ -1,0 +1,19 @@
+@mixin sort-icons
+  font-family: "openproject-icon-font" !important
+  content: attr(data-icon)
+  font-weight: normal !important
+  speak: none
+  margin-left: 5px
+  font-size: 1.2em
+  line-height: 1
+  vertical-align: text-bottom
+
+.tablesorter-headerDesc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    content: "\e0a0"
+
+.tablesorter-headerAsc .generic-table--sort-header span
+  &:after
+    @include sort-icons
+    content: "\e09f"

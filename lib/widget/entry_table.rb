@@ -38,8 +38,6 @@ class Widget::Table::EntryTable < Widget::Table
         content_tag(:div, class: 'generic-table--footer-background') {}
       end
     end
-    # FIXME do that js-only, like a man's man
-    render_widget Widget::Table::SortableInit, @subject, to: content, sort_first_row: true
     write content
   end
 
