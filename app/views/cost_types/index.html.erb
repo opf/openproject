@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ++#%>
 
-<%= render :partial => 'shared/costs_header' %>
+<%= render partial: 'shared/costs_header' %>
 
 <% html_title l(:label_administration), t(:label_cost_type_plural) %>
 <%= toolbar title: CostType.model_name.human(count: 2) do %>
@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   </li>
 <% end %>
 
-<%= styled_form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
+<%= styled_form_tag(cost_types_path, { method: :get, id: 'query_form' }) do %>
   <fieldset id="filters" class="simple-filters--container">
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters">
@@ -43,21 +43,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <li class="simple-filters--filter">
         <%= styled_label_tag :include_deleted, t(:caption_show_locked), class: 'simple-filters--filter-name -small' %>
         <div class="simple-filters--filter-value">
-          <%= styled_check_box_tag :include_deleted, "1", @include_deleted, :autocomplete => "off" %>
+          <%= styled_check_box_tag :include_deleted, "1", @include_deleted, autocomplete: "off" %>
         </div>
       </li>
       <li class="simple-filters--controls">
-        <%= link_to_remote t(:button_apply),
-                   { :update => "content",
-                     :with => "Form.serialize('query_form')",
-                     :method => :get
-                   }, :class => 'button -with-icon -highlight -small icon-checkmark' %>
-
-        <%= link_to_remote t(:button_clear),
-                   { :url => { :clear_filter => true },
-                     :method => :get,
-                     :update => "content",
-                   }, :class => 'button -with-icon -small icon-context icon-undo' %>
+        <%= submit_tag t(:button_apply), class: 'button -highlight -small' %>
+        <%= link_to t(:button_clear), cost_types_path, class: 'button -small -with-icon icon-undo' %>
       </li>
     </ul>
   </fieldset>
@@ -66,9 +57,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <div id="cost_type_flash_notice_outer" style="display:none">
 <div class="flash notice" id="cost_type_flash_notice"><%= t(:notice_successful_update) %></div>
 </div>
-<%= render :partial => 'list' %>
+<%= render partial: 'list' %>
 
 <% if @include_deleted %>
-  <h3><%= t(:label_locked_cost_types) %></h3>
-  <%= render :partial => 'list_deleted' %>
+  <div class="cost-types--list-deleted">
+    <h3><%= t(:label_locked_cost_types) %></h3>
+    <%= render partial: 'list_deleted' %>
+  </div>
 <% end %>

@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <%-
+  templated ||= false
   index ||= "INDEX"
   new_or_existing = rate.new_record? ? 'new' : 'existing'
   id_or_index = rate.new_record? ? index : rate.id
@@ -26,10 +27,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   id_prefix = "user_#{new_or_existing}_rate_attributes_#{id_or_index}"
   name_prefix = "user[#{new_or_existing}_rate_attributes][#{id_or_index}]"
   classes ||= ""
+  classes += " subform-row-template" if templated
 -%>
 
 <%= fields_for prefix, rate do |rate_form| %>
-  <tr class="<%= classes %>" id="<%= id_prefix %>">
+  <tr class="subform-row <%= classes %>" id="<%= id_prefix %>">
     <td>
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
       <%= rate_form.text_field :valid_from, :size => 10, :class => 'date', :index => id_or_index %><%= calendar_for("#{id_prefix}_valid_from") %>
@@ -44,7 +46,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </span>
     </td>
     <td class="buttons">
-      <a href="#" class="delete-rate no-decoration-on-hover"><%= icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)) %></a>
+      <a href="javascript:" class="delete-row-button no-decoration-on-hover"><%= icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)) %></a>
     </td>
   </tr>
 <% end %>

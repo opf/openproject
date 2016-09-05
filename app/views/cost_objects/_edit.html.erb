@@ -29,5 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     <fieldset><legend><%= t(:label_attachment_plural )%></legend>
       <p><%= render :partial => 'attachments/form' %></p>
     </fieldset>
-    <%= styled_button_tag t(:button_submit), class: '-with-icon icon-checkmark -highlight', id: 'budget-table--submit-button'%>
+  <div class="generic-table--action-buttons">
+      <%= styled_button_tag t(:button_submit), class: '-with-icon icon-checkmark -highlight', id: 'budget-table--submit-button'%>
+  </div>
 <% end %>
