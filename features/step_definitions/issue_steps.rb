@@ -90,8 +90,9 @@ end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
   table.hashes.map do |h| h['project'] = project_name end
-  table = Cucumber::Ast::Table.new table.hashes
-  step %{there are the following issues with attributes:}, table
+  modified_table = Cucumber::Core::Ast::DataTable.new(table.hashes, table.location)
+  argument_table = Cucumber::MultilineArgument::DataTable.new modified_table
+  step %{there are the following issues with attributes:}, argument_table
 end
 
 Given (/^there are the following issues with attributes:$/) do |table|
