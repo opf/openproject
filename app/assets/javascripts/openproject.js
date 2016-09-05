@@ -357,10 +357,10 @@ window.OpenProject = (function ($) {
         jQuery.each(matches, function (i, match) {
           var previousParents;
           var unmatchedParents = [];
-          var parents = match.project.parents.clone();
+          var parents = _.clone(match.project.parents);
 
           if (i > 0) {
-            previousParents = result[result.length - 1].project.parents.clone();
+            previousParents = _.clone(result[result.length - 1].project.parents);
             previousParents.push(result[result.length - 1]);
           }
 
