@@ -27,7 +27,7 @@ class MyProjectsOverviewsController < ApplicationController
   before_action :authorize
   before_action :jump_to_project_menu_item, only: :index
 
-  verify xhr: true, only: [:update_custom_element, :add_block]
+  verify xhr: true, only: [:update_custom_element, :render_attachments, :add_block]
 
   def self.available_blocks
     @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
@@ -91,6 +91,9 @@ class MyProjectsOverviewsController < ApplicationController
     end
   end
 
+  def render_attachments
+    render partial: 'page_layout_attachments'
+  end
 
   def destroy_attachment
     if user.allowed_to?(:edit_project, project)

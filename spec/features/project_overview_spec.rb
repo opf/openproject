@@ -32,7 +32,7 @@ describe 'My project page overview', type: :feature do
   let(:project) { FactoryGirl.create :project }
   let(:overview) { FactoryGirl.create :my_projects_overview, project: project }
 
-  let(:button_selector) { '.toolbar a.button' }
+  let(:button_selector) { '#my-project-page-layout' }
 
   before do
     overview
@@ -47,7 +47,7 @@ describe 'My project page overview', type: :feature do
 
     it 'shows the default blocks and edit button' do
       expect(page).to have_selector('.widget-box', count: 5)
-      expect(page).to have_selector(button_selector, text: I18n.t(:button_edit_this_page))
+      expect(page).to have_selector(button_selector)
     end
   end
 
@@ -58,7 +58,7 @@ describe 'My project page overview', type: :feature do
 
     it 'shows the default blocks, but no editing' do
       expect(page).to have_selector('.widget-box', count: 5)
-      expect(page).to have_no_selector(button_selector, text: I18n.t(:button_edit_this_page))
+      expect(page).to have_no_selector(button_selector)
     end
   end
 end

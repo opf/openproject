@@ -30,7 +30,7 @@ module OpenProject::MyProjectPage
     include OpenProject::Plugins::ActsAsOpEngine
 
     view_actions = %i(index show_all_members)
-    edit_actions = %i(page_layout add_block save_changes update_custom_element destroy_attachment)
+    edit_actions = %i(page_layout add_block save_changes update_custom_element render_attachments destroy_attachment)
 
     register 'openproject-my_project_page',
              author_url: 'http://finn.de',

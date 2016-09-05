@@ -29,9 +29,9 @@ See doc/COPYRIGHT.md for more details.
 <%= toolbar title: t(:label_overview) do %>
   <% if User.current.allowed_to?(:edit_project, project) %>
     <li class="toolbar-item" title="<%= t(:label_personalize_page) %>">
-      <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
-        <i class="icon-settings icon-context"></i>
-        <%= t(:button_edit_this_page) %>
+      <%= link_to my_projects_overview_path(project), id: 'my-project-page-layout', class: 'button', accesskey: accesskey(:edit) do %>
+        <i class="icon-settings"></i>
+        <span class="hidden-for-sighted"><%= t(:label_personalize_page) %></span>
       <% end %>
     </li>
   <% end %>

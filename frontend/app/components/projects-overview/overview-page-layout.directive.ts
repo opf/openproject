@@ -142,6 +142,22 @@ export class ProjectsOverviewController {
     block.replaceWith(content);
   }
 
+  /**
+   * Refresh the attachments on the page layout
+   */
+   public updateAttachments() {
+     var attachments = this.$element.find('#page_layout_attachments');
+     this.$http({
+       url: attachments.data('refreshUrl'),
+       method: 'GET',
+       headers: { Accept: 'text/html' }
+    }).then(response => {
+      attachments.html(response.data);
+    }).catch(error => {
+      this.wpNotificationsService.handleErrorResponse(error);
+    });
+   }
+
   private addBlock(blockName:string, content:string) {
     content = this.compileBlock(content);
 

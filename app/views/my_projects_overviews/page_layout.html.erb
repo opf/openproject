@@ -43,7 +43,7 @@ See doc/COPYRIGHT.md for more details.
       <% blocks.keys.each do |f| %>
         <input type="hidden" name="<%= f %>" value="" />
       <% end %>
-      <%= submit_tag t(:button_save_back), class: 'button -alt-highlight' %>
+      <%= submit_tag t(:button_save), class: 'button -alt-highlight' %>
     <% end %>
   </li>
   <li class="toolbar-item">
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.md for more details.
   </div>
 
   <h3><%= l(:label_file_plural) %></h3>
-  <div class="attachments" id="page_layout_attachments">
+  <div class="attachments" id="page_layout_attachments" data-refresh-url="<%= url_for(action: 'render_attachments') %>">
     <%= render(partial: "page_layout_attachments") %>
   </div>
 </div>

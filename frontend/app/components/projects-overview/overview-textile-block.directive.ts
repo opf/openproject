@@ -102,6 +102,7 @@ export class OverviewTextileBlockController {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
       });
       this.layoutCtrl.updateBlock(this.blockName, response);
+      this.layoutCtrl.updateAttachments();
     }).fail((error) => {
       deferred.reject();
       this.$timeout(() => {

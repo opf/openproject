@@ -33,6 +33,7 @@ OpenProject::Application.routes.draw do
   post 'my_projects_overview/:id/page_layout/save_changes',           to: "my_projects_overviews#save_changes"
   post 'my_projects_overview/:id/page_layout/add_block',              to: "my_projects_overviews#add_block"
   put  'my_projects_overview/:id/page_layout/update_custom_element',  to: "my_projects_overviews#update_custom_element"
+  get  'my_projects_overview/:id/page_layout/render_attachments',     to: "my_projects_overviews#render_attachments"
   post 'my_projects_overview/:id/page_layout/destroy_attachment',     to: "my_projects_overviews#destroy_attachment"
   get 'my_projects_overview/:id/page_layout/show_all_members',        to: "my_projects_overviews#show_all_members"
 end
