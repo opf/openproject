@@ -87,22 +87,22 @@ describe('timelineToolbar Directive', function() {
 
     it('updates the zoom select element on zooming in', function() {
       zoomInBtn.click();
-      expect(zoomSelect.val()).to.eq('1');
+      expect(zoomSelect.val()).to.eq('string:weekly');
 
       zoomInBtn.click();
-      expect(zoomSelect.val()).to.eq('2');
+      expect(zoomSelect.val()).to.eq('string:daily');
 
       zoomInBtn.click();
-      expect(zoomSelect.val()).to.eq('2');
+      expect(zoomSelect.val()).to.eq('string:daily');
     });
 
     it('updates the zoom select element on zooming out', function() {
       zoomInBtn.click();
       zoomOutBtn.click();
-      expect(zoomSelect.val()).to.eq('0');
+      expect(zoomSelect.val()).to.eq('string:monthly');
 
       zoomOutBtn.click();
-      expect(zoomSelect.val()).to.eq('0');
+      expect(zoomSelect.val()).to.eq('string:monthly');
     });
   });
 });
