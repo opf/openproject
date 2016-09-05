@@ -18,6 +18,6 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-module PluginSpecHelper
-  # add helper-functions for this plugin here
-end
+en:
+  js:
+    notification_update_block_failed: 'Failed to update the block.'

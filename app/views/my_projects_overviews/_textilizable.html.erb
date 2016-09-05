@@ -19,7 +19,7 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h3 class="widget-box--header">
+<h3 class="widget-box--header" ng-hide="$ctrl.formVisible">
   <span class="widget-box--header-title"><%= block_title || l(:label_custom_element) %></span>
 </h3>
 
@@ -27,6 +27,7 @@ See doc/COPYRIGHT.md for more details.
   <%= content_for block_name %>
 <% end %>
 
+<div class="textile-body" ng-hide="$ctrl.formVisible">
 <% if defined? block_name %>
   <div id="<%= block_name %>-text">
     <%= format_text(textile, :object => overview) %>
@@ -34,3 +35,4 @@ See doc/COPYRIGHT.md for more details.
 <% else %>
   <%= format_text(textile, :object => overview) %>
 <% end %>
+</div>

@@ -21,26 +21,25 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MyProjectsOverviewsController, type: :controller do
-  before :each do
-    allow(@controller).to receive(:set_localization)
-    expect(@controller).to receive(:authorize)
+  let(:admin) { FactoryGirl.build_stubbed(:admin) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
 
-    @role = FactoryGirl.create(:non_member)
-    @user = FactoryGirl.create(:admin)
+  let(:overview) { double(MyProjectsOverview) }
+  let(:custom_block) { %w(a title content) }
 
-    allow(User).to receive(:current).and_return @user
+  before do
+    allow(Project).to receive(:find).and_return(project)
+    allow(controller).to receive(:overview).and_return(overview)
+    allow(controller).to receive(:set_localization)
+    expect(controller).to receive(:authorize)
 
-    @params = {}
+    allow(User).to receive(:current).and_return admin
   end
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:params) { { "id" => project.id.to_s } }
 
-  describe 'index' do
-    let(:params) { { "id" => project.id.to_s } }
-
+  describe '#index' do
     describe "WHEN calling the page" do
-      render_views
-
       before do
         get 'index', params
       end
@@ -60,6 +59,133 @@ describe MyProjectsOverviewsController, type: :controller do
       end
 
       it { expect(response).to redirect_to project_work_packages_path(project) }
+    end
+  end
+
+  describe '#page_layout' do
+    before do
+      get 'page_layout', params
+    end
+
+    it 'renders the overview page' do
+      expect(response).to be_success
+      expect(response).to render_template 'page_layout'
+    end
+  end
+
+  describe '#update_custom_element' do
+    before do
+      params['block_name'] = 'a'
+      params['block_title_a'] = 'Title'
+      params['textile_a'] = 'Content'
+    end
+
+    it 'updates the model' do
+      expect(overview).to receive(:save_custom_element).with('a', 'Title', 'Content')
+      xhr :post, :update_custom_element, params
+    end
+  end
+
+  describe '#save_changes' do
+    context 'when setting blocks' do
+      let(:blockparams) {
+        {
+          top: 'a,b,c,d',
+          left: 'news_latest,members',
+          right: 'foobar',
+          hidden: 'calendar'
+        }
+      }
+
+      before do
+        expect(overview).to receive(:custom_elements).and_return([custom_block])
+        expect(overview).to receive(:top=).with([custom_block])
+        expect(overview).to receive(:left=).with(%w(news_latest members))
+        expect(overview).to receive(:right=).with(%w())
+        expect(overview).to receive(:hidden=).with(%w(calendar))
+        expect(overview).to receive(:save).and_return(save_result)
+        allow(overview)
+          .to receive_message_chain(:errors, :full_messages)
+          .and_return(['Some error'])
+
+        xhr :post, :save_changes, params.merge(blockparams)
+      end
+
+      context 'save successful' do
+        let(:save_result) { true }
+        it 'assigns all blocks that exist' do
+          expect(controller).to set_flash[:notice].to I18n.t(:notice_successful_update)
+          expect(response).to redirect_to(action: :page_layout)
+        end
+      end
+
+      context 'save erroneous' do
+        let(:save_result) { false }
+        it 'assigns all blocks that exist' do
+          expect(response).to be_success
+          expect(controller).to set_flash[:error].to "The changes could not be saved: Some error"
+          expect(response).to render_template('page_layout')
+        end
+      end
+    end
+  end
+
+  describe '#render_attachments' do
+    before do
+      xhr :get, :render_attachments
+    end
+
+    it 'renders the attachments partial' do
+      expect(response).to be_success
+      expect(response).to render_template(partial: '_page_layout_attachments')
+    end
+  end
+
+  describe '#add_block' do
+    context 'regular block' do
+      render_views
+
+      it 'renders that block' do
+        xhr :post, :add_block, params.merge(block: 'calendar')
+        expect(response).to be_success
+        expect(response).to render_template(partial: '_block')
+        expect(response).to render_template(partial: 'my_projects_overviews/blocks/_calendar')
+      end
+
+      it 'does not render an invalid block' do
+        xhr :post, :add_block, params.merge(block: 'doesnotexist')
+        expect(response.body).to be_blank
+      end
+    end
+
+    context 'custom block' do
+      let(:hidden) { [] }
+      before do
+        expect(overview).to receive(:hidden).and_return(hidden)
+        expect(overview).to receive(:new_custom_element).and_return(custom_block)
+      end
+
+      it 'creates and saves a new custom block' do
+        expect(overview).to receive(:save).and_return(true)
+
+        xhr :post, :add_block, params.merge(block: 'custom_element')
+
+        expect(hidden.length).to eq(1)
+        expect(response).to be_success
+        expect(response).to render_template(partial: '_block_textilizable')
+      end
+
+      it 'fails gracefully when saving results in error' do
+        expect(overview).to receive(:save).and_return(false)
+        expect(overview)
+          .to receive_message_chain(:errors, :full_messages)
+          .and_return(["Error 1", "Error 2"])
+
+        xhr :post, :add_block, params.merge(block: 'custom_element')
+
+        expect(response.status).to eq(500)
+        expect(response.body).to include("The changes could not be saved: Error 1, Error 2")
+      end
     end
   end
 end

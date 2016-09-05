@@ -20,7 +20,6 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page/my_project_page" %>
   <%= auto_discovery_link_tag(:atom, {:controller => 'activities',  :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
   <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
 <% end %>
@@ -30,7 +29,7 @@ See doc/COPYRIGHT.md for more details.
 <%= toolbar title: t(:label_overview) do %>
   <% if User.current.allowed_to?(:edit_project, project) %>
     <li class="toolbar-item" title="<%= t(:label_personalize_page) %>">
-      <%= link_to my_projects_overview_path(project), class: 'button', accesskey: accesskey(:edit) do %>
+      <%= link_to my_projects_overview_path(project), id: 'my-project-page-layout', class: 'button', accesskey: accesskey(:edit) do %>
         <i class="icon-settings"></i>
         <span class="hidden-for-sighted"><%= t(:label_personalize_page) %></span>
       <% end %>

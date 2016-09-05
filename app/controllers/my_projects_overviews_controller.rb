@@ -23,12 +23,11 @@ class MyProjectsOverviewsController < ApplicationController
 
   menu_item :overview
 
-  before_action :find_project, :find_user
+  before_action :find_project
   before_action :authorize
   before_action :jump_to_project_menu_item, only: :index
 
-  verify xhr: true,
-         only: [:add_block, :remove_block, :order_blocks]
+  verify xhr: true, only: [:update_custom_element, :render_attachments, :add_block]
 
   def self.available_blocks
     @available_blocks ||= OpenProject::MyProjectPage.plugin_blocks
@@ -50,75 +49,50 @@ class MyProjectsOverviewsController < ApplicationController
       # Attach files and save them
       attachments = Attachment.attach_files(overview, params["attachments"])
       unless attachments[:unsaved].blank?
-        flash[:error] = l(:warning_attachments_not_saved, attachments[:unsaved].size)
+        render text: t(:warning_attachments_not_saved, attachments[:unsaved].size), status: 500
       end
     end
 
     overview.save_custom_element(block_name, block_title, textile)
-
-    redirect_to :back
+    render(partial: "block_textilizable",
+           locals: { project: project,
+                     block_title: block_title,
+                     block_name: block_name,
+                     textile: textile })
   end
 
   # Add a block to user's page
   # The block is added on top of the page
   # params[:block] : id of the block to add
   def add_block
-    block = params[:block].to_s.underscore
+    block = params[:block]
     if MyProjectsOverviewsController.available_blocks.keys.include? block
-      # remove if already present in a group
-      %w(top left right hidden).each {|f| overview.send(f).delete block }
-      # add it hidden
-      overview.hidden.unshift block
-      overview.save!
-      render partial: "block",
-             locals: { block_name: block }
+      render partial: "block", locals: { block_name: block, editing: true }
     elsif block == "custom_element"
-      overview.hidden.unshift overview.new_custom_element
-      overview.save!
-      render(partial: "block_textilizable",
-             locals: { user: user,
-                       project: project,
-                       block_title: l(:label_custom_element),
-                       block_name: overview.hidden.first.first,
-                       textile: overview.hidden.first.last })
+      render_new_custom_block
     else
       render nothing: true
     end
   end
 
-  # Remove a block to user's page
-  # params[:block] : id of the block to remove
-  def remove_block
-    @block = param_to_block(params[:block])
-    %w(top left right hidden).each {|f| overview.send(f).delete @block }
-    overview.save!
-  end
+  ##
+  # Handle saving the changes
+  def save_changes
+    # Save block states
+    save_blocks_from_params
 
-  # Change blocks order on user's page
-  # params[:group] : group to order (top, left or right)
-  # params[:list-(top|left|right)] : array of block ids of the group
-  def order_blocks
-    group = params[:group]
-    if group.is_a?(String)
-      group_items = (params["list-#{group}"] || []).collect {|x| param_to_block(x) }
-      unless group_items.size < overview.send(group).size
-        # We are adding or re-ordering, not removing
-        # Remove group blocks if they are presents in other groups
-        overview.update_attributes('top' => (overview.top - group_items),
-                                   'left' => (overview.left - group_items),
-                                   'right' => (overview.right - group_items),
-                                   'hidden' => (overview.hidden - group_items))
-        overview.update_attribute(group, group_items)
-      end
+    if overview.save
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to(action: :page_layout)
+    else
+      flash[:error] = I18n.t(:error_saving_changes,
+                             errors: overview.errors.full_messages.join(', '))
+      render :page_layout
     end
   end
 
-  def param_to_block(param)
-    block = param.to_s.underscore
-    unless MyProjectsOverviewsController.available_blocks.keys.include? block
-      block = overview.custom_elements.detect {|ary| ary.first == block}
-    end
-    block
+  def render_attachments
+    render partial: 'page_layout_attachments'
   end
 
   def destroy_attachment
@@ -144,168 +118,66 @@ class MyProjectsOverviewsController < ApplicationController
     end
   end
 
-  helper_method :users_by_role,
-                :count_users_by_role,
-                :childprojects,
-                :recent_news,
-                :types,
-                :open_work_packages_by_type,
-                :total_work_packages_by_type,
-                :assigned_work_packages,
-                :total_hours,
-                :project,
+  helper_method :project,
                 :user,
-                :blocks,
-                :block_options,
-                :overview,
-                :attachments,
-                :render_block,
-                :object_callback
-
-  def childprojects
-    @childprojects ||= project.children.visible
-  end
-
-  def recent_news
-    @news ||= project
-              .news
-              .includes([:author, :project])
-              .order("#{News.table_name}.created_on DESC")
-              .limit(5)
-  end
-
-  def types
-    @types ||= project.rolled_up_types
-  end
-
-  def open_work_packages_by_type
-    @open_work_packages_by_tracker ||= work_packages_by_type
-                                       .where(statuses: { is_closed: false })
-                                       .count
-  end
-
-  def total_work_packages_by_type
-    @total_work_packages_by_tracker ||= work_packages_by_type.count
-  end
-
-  def work_packages_by_type
-    WorkPackage
-      .visible
-      .group(:type)
-      .includes([:project, :status, :type])
-      .where(subproject_condition)
-  end
-
-  def assigned_work_packages
-    @assigned_issues ||= WorkPackage
-                         .visible
-                         .open
-                         .where(assigned_to: User.current.id)
-                         .limit(10)
-                         .includes([:status, :project, :type, :priority])
-                         .order("#{IssuePriority.table_name}.position DESC,
-                                 #{WorkPackage.table_name}.updated_on DESC")
-  end
-
-  def users_by_role(limit = 100)
-    @users_by_role = Hash.new do |h, size|
-      h[size] = if size > 0
-                  sql_string = all_roles.map do |r|
-                    %Q{ (Select users.*, member_roles.role_id from users
-                        JOIN members on users.id = members.user_id
-                        JOIN member_roles on member_roles.member_id = members.id
-                        WHERE members.project_id = #{project.id} AND member_roles.role_id = #{r.id}
-                        LIMIT #{size} ) }
-                  end.join(" UNION ALL ")
-
-                  User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
-                    hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users.uniq {|user| user.id}
-                    hash
-                  end
-                else
-                  project.users_by_role
-                end
-
-    end
-
-    @users_by_role[limit]
-  end
-
-  def count_users_by_role
-    @count_users_per_role ||= begin
-      sql_string = all_roles.map do |r|
-        %Q{ (Select COUNT(DISTINCT users.id) AS count, member_roles.role_id AS role_id from users
-            JOIN members on users.id = members.user_id
-            JOIN member_roles on member_roles.member_id = members.id
-            WHERE members.project_id = #{project.id} AND member_roles.role_id = #{r.id}
-            GROUP BY (member_roles.role_id)) }
-      end.join(" UNION ALL ")
-
-      role_count = {}
-
-      ActiveRecord::Base.connection.execute(sql_string).each do |entry|
-        if entry.is_a?(Hash)
-          # MySql
-          count = entry['count'].to_i
-          role_id = entry['role_id'].to_i
-        else
-          # Postgresql
-          count = entry.first.to_i
-          role_id = entry.last.to_i
-        end
-
-        role_count[all_roles.detect{ |r| r.id == role_id }] = count if count > 0
-      end
-
-      role_count
-    end
-  end
-
-  def all_roles
-    @all_roles = Role.all
-  end
-
+                :overview
   def project
     @project
   end
 
   def user
-    @user
-  end
-
-  def blocks
-    @blocks ||= {
-      'top' => overview.top,
-      'left' => overview.left,
-      'right' => overview.right,
-      'hidden' => overview.hidden
-    }
-  end
-
-  def block_options
-    @block_options = []
-    MyProjectsOverviewsController.available_blocks.each do |k, v|
-      @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k.dasherize]
-    end
-    @block_options << [l(:label_custom_element), :custom_element]
+    current_user
   end
 
   def overview
     @overview ||= MyProjectsOverview.find_or_create_by(project_id: project.id)
   end
 
-  def attachments
-    @attachments = overview.attachments || []
-  end
-
   private
 
-  def subproject_condition
-    @subproject_condition ||= project.project_condition(Setting.display_subprojects_work_packages?)
+  def render_new_custom_block
+    new_block = overview.new_custom_element
+    overview.hidden << new_block
+    if overview.save
+      render(partial: "block_textilizable",
+             locals: { project: project,
+                       block_title: l(:label_custom_element),
+                       new_block: true,
+                       block_name: new_block.first,
+                       textile: new_block.last })
+    else
+      render text: I18n.t(:error_saving_changes, errors: overview.errors.full_messages.join(', ')),
+                   status: 500
+    end
   end
 
-  def find_user
-    @user = User.current
+  ##
+  # Given params of the form
+  # { top: 'block,block,block', ... }
+  # Save the actual block positions, filtering the list doing so.
+  def save_blocks_from_params
+    custom_elements = overview.custom_elements
+
+    %w(top left right hidden).each do |group|
+      active_blocks = param_to_blocks(params[group], custom_elements)
+      overview.send("#{group}=", active_blocks)
+    end
+  end
+
+  ##
+  # Returns a list of valid blocks for the given group param
+  def param_to_blocks(block_str, custom_elements)
+    blocks = []
+    block_str.split(',').select do |name|
+      if MyProjectsOverviewsController.available_blocks.keys.include?(name)
+        blocks << name
+      else
+        custom = custom_elements.detect {|ary| ary.first == name }
+        blocks << custom unless custom.nil?
+      end
+    end
+
+    blocks
   end
 
   def default_breadcrumb

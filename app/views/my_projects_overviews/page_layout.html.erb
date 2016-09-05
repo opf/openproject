@@ -21,49 +21,61 @@ See doc/COPYRIGHT.md for more details.
 <% html_title(l(:label_overview)) -%>
 
 <% content_for :header_tags do %>
-  <%= javascript_include_tag "my_project_page/my_project_page" %>
-  <%= stylesheet_link_tag "my_project_page/my_projects_overview", :media => 'all' %>
+  <%= stylesheet_link_tag "my_project_page/my_projects_overview", media: 'all' %>
   <% heads_for_wiki_formatter %>
 <% end %>
 
+<overview-page-layout>
 <%= toolbar title: l(:label_overview) do %>
   <li class="toolbar-item">
-    <%= styled_form_tag({:action => "add_block"}, :id => "block-form") do %>
+    <%= styled_form_tag({action: "add_block"}, id: "add-block-form") do %>
       <%= styled_select_tag 'block',
-                     ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
-                     :id => "block-select",
-                     class: 'form--select'
+                     options_for_select(block_options),
+                     id: "block-select",
+                     class: 'form--select',
+                     :'ng-model' => '$ctrl.selectedBlock',
+                     :'ng-change' => '$ctrl.handleBlockSelection()'
     %>
     <% end %>
   </li>
-  <li class="toolbar-item"><%= link_to l(:button_save_back), {:action => 'index'}, class: 'button' %></li>
+  <li class="toolbar-item">
+    <%= form_tag({action: "save_changes"}, id: "save-block-form", :'ng-submit' => '$ctrl.handleSaveChanges()') do %>
+      <% blocks.keys.each do |f| %>
+        <input type="hidden" name="<%= f %>" value="" />
+      <% end %>
+      <%= submit_tag t(:button_save), class: 'button -alt-highlight' %>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to t(:button_cancel), {action: 'index'}, class: 'button' %>
+  </li>
 <% end %>
 
 
-<h4><%=l(:label_visible_elements) %></h4>
-<div id="visible-grid" class="widget-boxes">
-  <% top_fields.each do |f| %>
-    <%= grid_field f %>
-  <% end %>
+<div id="my_project_blocks">
+  <h3><%=l(:label_visible_elements) %></h3>
+  <div id="visible-grid" class="widget-boxes">
+    <% top_fields.each do |f| %>
+      <%= grid_field f %>
+    <% end %>
 
-  <div class="grid-block">
-    <% middle_fields.each do |f| %>
+    <div class="grid-block">
+      <% middle_fields.each do |f| %>
+        <%= grid_field f %>
+      <% end %>
+    </div>
+  </div>
+
+  <h3><%=l(:label_hidden_elements) %></h3>
+  <div class="widget-boxes">
+    <% hidden_fields.each do |f| %>
       <%= grid_field f %>
     <% end %>
   </div>
+
+  <h3><%= l(:label_file_plural) %></h3>
+  <div class="attachments" id="page_layout_attachments" data-refresh-url="<%= url_for(action: 'render_attachments') %>">
+    <%= render(partial: "page_layout_attachments") %>
+  </div>
 </div>
-
-<h4><%=l(:label_hidden_elements) %></h4>
-<div class="widget-boxes">
-  <% hidden_fields.each do |f| %>
-    <%= grid_field f %>
-  <% end %>
-</div>
-
-<h4><%= l(:label_file_plural) %></h4>
-<div class="attachments" id="page_layout_attachments">
-  <%= render(:partial => "page_layout_attachments") %>
-</div>
-
-
-
+</overview-page-layout>

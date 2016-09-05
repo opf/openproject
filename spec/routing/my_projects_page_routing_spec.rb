@@ -23,22 +23,22 @@ require 'spec_helper'
 describe MyProjectsOverviewsController, type: :routing do
   describe "routing" do
     describe "overview-page" do
-      it { 
+      it {
         expect(get('/projects/test-project')).to route_to(controller: 'my_projects_overviews',
                                                           action: 'index',
-                                                          id: 'test-project') 
+                                                          id: 'test-project')
       }
 
       # make sure that the mappings are not greedy
-      it { 
+      it {
         expect(get('/projects/new')).to route_to(controller: 'projects',
-                                                 action: 'new') 
+                                                 action: 'new')
       }
 
-      it { 
+      it {
         expect(get('/projects/test-project/settings')).to route_to(controller: 'projects',
                                                                    action: 'settings',
-                                                                   id: 'test-project') 
+                                                                   id: 'test-project')
       }
 
     end

@@ -19,33 +19,32 @@
 #++
 
 module MyProjectsOverviewsHelper
-  include WorkPackagesFilterHelper
 
-  TOP = %w(top)
-  MIDDLE = %w(left right)
-  HIDDEN = %w(hidden)
-
-  def field_list
-    TOP + MIDDLE + HIDDEN
+  def top_fields
+    %w(top)
   end
 
-  def visible_fields
-    TOP + MIDDLE
+  def middle_fields
+    %w(left right)
   end
 
-  # TODO: potentially dangerous, is there a better way? (via define_method?)
-  def method_missing(name)
-    constant_name = name.to_s.gsub('_fields', '').upcase
-    if MyProjectsOverviewsHelper.const_defined? constant_name
-      return MyProjectsOverviewsHelper.const_get constant_name
-    end
-    raise NoMethodError.new("tried to call method #{name}, but was not found!")
+  def hidden_fields
+    %w(hidden)
+  end
+
+  def blocks
+    @blocks ||= {
+      'top' => overview.top,
+      'left' => overview.left,
+      'right' => overview.right,
+      'hidden' => overview.hidden
+    }
   end
 
   def grid_field(name)
-    css_classes = %w(block-receiver list-position) + [name]
+    css_classes = %w(block-receiver list-position widget-container) + [name]
     data = {
-      'ajax-url' => ajax_url(name),
+      dragula: name,
       position: name
     }
     construct_blocks(name: name, css_classes: css_classes, data: data)
@@ -55,7 +54,41 @@ module MyProjectsOverviewsHelper
     construct_blocks(name: name, css_classes: Array(name))
   end
 
-  protected
+  def block_options
+    @block_options = [default_selected_option]
+    MyProjectsOverviewsController.available_blocks.each do |k, v|
+      @block_options << [l("my.blocks.#{v}", default: [v, v.to_s.humanize]), k]
+    end
+    @block_options << [l(:label_custom_element), :custom_element]
+  end
+
+  def childprojects
+    @childprojects ||= project.children.visible
+  end
+
+  def recent_news
+    @news ||= project
+              .news
+              .includes([:author, :project])
+              .order("#{News.table_name}.created_on DESC")
+              .limit(5)
+  end
+
+
+
+  def attachments
+    @attachments = overview.attachments || []
+  end
+
+  private
+
+  def default_selected_option
+    [
+      "--- #{t(:actionview_instancetag_blank_option)} ---",
+      '',
+      { disabled: true, selected: true }
+    ]
+  end
 
   def construct_blocks(opts = {})
     name, css_classes, data = [:name, :css_classes, :data].map { |sym| opts.fetch sym, '' }

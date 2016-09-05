@@ -18,19 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.md for more details.
 
 ++#%>
-
-<div id="block_<%= block_name %>" class="widget-box">
+<div id="block_<%= block_name %>" class="widget-box" overview-block block-name="<%= block_name %>">
 
   <% block_name_id = "my_page_#{block_name}_box_actions" %>
   <% content_for block_name_id do %>
     <div class="box-actions">
       <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
-      <%= link_to '', { action: "remove_block", block: block_name },
-                      remote: true,
-                      method: :post,
-                      confirm: l(:label_confirm_delete),
-                      class: "icon icon-close",
-                      title: l(:button_delete) %>
+      <a href="javascript:"
+         ng-click="$ctrl.remove()"
+         ng-show="$ctrl.editing"
+         class="icon icon-close remove-block"
+         title="<%= t(:button_delete) %>"></a>
       <% end %>
     </div>
   <% end %>

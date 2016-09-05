@@ -27,7 +27,8 @@ class MyProjectsOverview < ActiveRecord::Base
     "left" => ["project_description", "project_details", "work_package_tracking"],
     "right" => ["members", "news_latest"],
     "top" => [],
-    "hidden" => [] }
+    "hidden" => []
+  }
 
   def initialize_default_values()
     # attributes() creates a copy every time it is called, so better not use it in a loop
@@ -75,9 +76,5 @@ class MyProjectsOverview < ActiveRecord::Base
 
   def custom_elements
     elements.select {|x| x.respond_to? :to_ary }
-  end
-
-  def attachments_visible?(_user)
-    true
   end
 end

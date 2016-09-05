@@ -31,8 +31,9 @@ describe Redmine::AccessControl do
   describe '#edit_project' do
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/page_layout") }
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/add_block") }
+    it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/save_changes") }
+    it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/render_attachments") }
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/update_custom_element") }
-    it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/order_blocks") }
     it { expect(edit_project_permission.actions).to be_include("my_projects_overviews/destroy_attachment") }
   end
 end
