@@ -103,10 +103,6 @@ class UserPassword < ActiveRecord::Base
     raise NotImplementedError, 'Must be overridden by subclass'
   end
 
-  def generate_salt
-    raise NotImplementedError, 'Must be overridden by subclass'
-  end
-
   def derive_password!(_input)
     raise NotImplementedError, 'Must be overridden by subclass'
   end
