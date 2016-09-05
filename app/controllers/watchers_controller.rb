@@ -78,8 +78,7 @@ class WatchersController < ApplicationController
           @replace_selectors = ['#watcher']
         end
         @user = user
-
-        render action: 'replace_selectors'
+        render template: 'watchers/set_watcher'
       end
     end
   rescue ::ActionController::RedirectBackError
