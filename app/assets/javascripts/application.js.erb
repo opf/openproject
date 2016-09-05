@@ -506,9 +506,9 @@ var Administration = (function ($) {
 
     default_language_select_active = default_language_select.find('option:not([disabled="disabled"])');
 
-    toggle_disabled_state(default_language_select_active.size() === 0);
+    toggle_disabled_state(default_language_select_active.length === 0);
 
-    if (default_language_select_active.size() === 1) {
+    if (default_language_select_active.length === 1) {
       default_language_select_active.attr('selected', true);
     } else if (default_language_select.val() === input.val() && !input.attr('checked')) {
       default_language_select_active.first().attr('selected', true);
@@ -631,13 +631,13 @@ var I18nForms = (function ($) {
         }
       }).get();
 
-      add_link.toggle(available.size() > 0);
+      add_link.toggle(available.length > 0);
     };
 
     update_destroy_link_status = function (localizedField) {
       var active_selectors = active_locale_selectors(localizedField);
 
-      localizedField.find('.destroy_locale').toggle(active_selectors.size() > 1);
+      localizedField.find('.destroy_locale').toggle(active_selectors.length > 1);
     };
 
     update_interaction_elements = function (localizedField) {
@@ -864,10 +864,10 @@ var I18nForms = (function ($) {
       to_destroy = elements.filter(':hidden');
       to_keep = elements.filter(':visible');
 
-      if (to_keep.size() > 0) {
+      if (to_keep.length > 0) {
         to_destroy.find('.destroy_flag').attr('disabled', true);
-        for (i = 0; i < translation_classes.size(); i += 1) {
-          if (to_keep.filter("." + translation_classes[i]).size() === 0) {
+        for (i = 0; i < translation_classes.length; i += 1) {
+          if (to_keep.filter("." + translation_classes[i]).length === 0) {
             to_destroy.filter("." + translation_classes[i]).find('input[type=text], textarea').val('');
           }
         }
@@ -882,7 +882,7 @@ var I18nForms = (function ($) {
   init = function () {
     var translatedField = $('form .translation').closest('.form--field');
 
-    if (translatedField.size() > 0) {
+    if (translatedField.length > 0) {
       memorize_ids();
       event_handler.init();
 
