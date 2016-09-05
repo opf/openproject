@@ -29,6 +29,7 @@
 import {openprojectModule} from '../../../angular-modules';
 import {OpenProjectTooltipController} from './op-tooltip.directive';
 import IRootElementService = angular.IRootElementService;
+import IDocumentService = angular.IDocumentService;
 
 /**
  * Delegate the `onMouseOver` event to avoid adding too many event listeners for the
@@ -37,9 +38,10 @@ import IRootElementService = angular.IRootElementService;
 function opTooltipDirectiveConfig($rootElement: IRootElementService) {
   $rootElement.mouseover(event => {
     if (event.target.hasAttribute('op-tooltip')) {
-      const tooltip: OpenProjectTooltipController = angular
-        .element(event.target)
-        .controller('opTooltip');
+      const tooltip: OpenProjectTooltipController =
+        angular
+          .element(event.target)
+          .controller('opTooltip');
 
       tooltip.show();
     }

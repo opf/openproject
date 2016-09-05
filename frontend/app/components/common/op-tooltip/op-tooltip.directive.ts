@@ -27,29 +27,48 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import {Tooltip} from './op-tooltip.service';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
+import IAugmentedJQuery = angular.IAugmentedJQuery;
+import ICompileService = angular.ICompileService;
 
 export class OpenProjectTooltipController {
-  public tooltip: Tooltip;
+  protected get template() {
+    return `
+      <div class="op-tooltip">
+        <div class="inplace-edit--controls" ng-include="${ this.$attrs.opTooltip }">
+        </div>
+      </div>`;
+  }
 
-  /**
-   *  Instantiate the tooltip with the current element and scope.
-   *  Use the content of the `opTooltip` attribute as content for the tooltip.
-   */
-  constructor(private $scope: IScope,
-              private $element,
-              private $attrs: any,
-              private Tooltip) {
-    this.tooltip = new this.Tooltip(this.$element, this.$scope, this.$attrs.opTooltip);
+  constructor(protected $scope: IScope,
+              protected $element,
+              protected $attrs: any,
+              protected $compile: ICompileService,
+              protected opTooltipContainer: IAugmentedJQuery) {
   }
 
   /**
-   * Display the tooltip using the Tooltip service.
+   * Display the tooltip.
+   * Clear the container and append the new tooltip element.
    */
   public show() {
-    this.tooltip.show();
+    const tooltip = this.$compile(this.template)(this.$scope);
+    var {top, left} = this.$element.offset();
+
+    top += this.$element.outerHeight();
+    left += this.$element.outerWidth();
+
+    tooltip.css({
+      position: 'absolute',
+      zIndex: 9999,
+      top,
+      left
+    }).children().first().css('position', 'static');
+
+    this.$scope.$apply();
+    angular.element('.op-tooltip').remove();
+    this.opTooltipContainer.append(tooltip);
   }
 }
 

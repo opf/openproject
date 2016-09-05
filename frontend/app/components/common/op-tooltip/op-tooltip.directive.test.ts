@@ -27,59 +27,67 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import {Tooltip} from './op-tooltip.service';
 import IRootElementService = angular.IRootElementService;
 
 describe('opTooltip directive', () => {
   var mouseOver;
-  var controller;
-  var element;
+  var tooltips;
+  var tooltip;
 
   beforeEach(angular.mock.module(openprojectModule.name));
-  beforeEach(angular.mock.inject(function ($rootScope, $rootElement, $compile) {
-    const html = '<div op-tooltip></div>';
-    element = $compile(html)($rootScope);
-    controller = element.controller('opTooltip');
+  beforeEach(angular.mock.inject(function ($rootScope,
+                                           $rootElement,
+                                           $compile) {
+    const html = `
+      <div>
+        <div op-tooltip="templateUrl"></div>
+        <div op-tooltip="templateUrl"></div>
+      </div>`;
+    const scope: any = $rootScope.$new();
+
+    scope.templateUrl = 'the-letter';
+    scope.templateValue = 'the cake is a lie';
+
+    tooltips = $compile(html)(scope).children();
 
     mouseOver = target => {
       const type = 'mouseover';
+
       $rootElement.triggerHandler({target, type});
+      tooltip = angular.element('.op-tooltip');
     };
   }));
 
-  it('should be empty', () => {
-    expect(element.html()).to.be.empty;
-  });
-
-  it('should have a tooltip attribute that is a Tooltip', () => {
-    expect(controller.tooltip).to.be.an.instanceOf(Tooltip);
-  });
-
-  describe('when moving the mouse over the directive', () => {
-    beforeEach(() => {
-      controller.show = sinon.stub();
-      mouseOver(element.get(0));
+  function testTooltip() {
+    it('should add a single tooltip to the dom', () => {
+      expect(tooltip).to.have.length(1);
     });
 
-    it('should call the show method of the controller', () => {
-      expect(controller.show.calledOnce).to.be.true;
+    it('should compile the content of the tooltip', () => {
+      expect(tooltip.html()).to.contain('the cake is a lie');
     });
 
-    describe('when moving the mouse over something else afterwards', () => {
+    it('should have a z-index over 9000', () => {
+      const over = power => expect(tooltip.css('z-index')).to.be.above(power);
+      "it's" + over(9000);
+    });
+  }
+
+  describe('when moving the mouse over the first item', () => {
+    beforeEach(angular.mock.inject($httpBackend => {
+      $httpBackend.expectGET('the-letter').respond('{{ templateValue }}');
+      mouseOver(tooltips.get(0));
+      $httpBackend.flush();
+    }));
+
+    testTooltip();
+
+    describe('when moving the mouse over the second item', () => {
       beforeEach(() => {
-        mouseOver(document.body);
+        mouseOver(tooltips.get(1));
       });
-    });
-  });
 
-  describe('when calling the show method of the controller', () => {
-    beforeEach(() => {
-      controller.tooltip.show = sinon.stub();
-      controller.show();
-    });
-
-    it('should call the show method of the tooltip', () => {
-      expect(controller.tooltip.show.calledOnce).to.be.true;
+      testTooltip();
     });
   });
 });
