@@ -75,29 +75,5 @@ require('rxjs');
 require('ng-dialog/js/ngDialog.min.js');
 require('ng-dialog/css/ngDialog.min.css');
 
-
-// ****
-// Foundation for apps js part
-// We should not load the pre-built js for foundation-apps meaning we cannot state
-//
-//  require('foundation-apps/dist/js/foundation-apps.js');
-//
-// We therefore have to require all of foundation's parts on our own.
-
-// js for the various parts of foundation-apps
-var requireComponents = require.context('foundation-apps/js/angular/components', true, /\.js$/);
-requireComponents.keys().forEach(requireComponents);
-var requireServices = require.context('foundation-apps/js/angular/services', true, /\.js$/);
-requireServices.keys().forEach(requireServices);
-
-// js for the foundation initialization
-require('foundation-apps/js/angular/foundation.js');
-
-// all of foundation's templates
-require('foundation-apps/dist/js/foundation-apps-templates.js');
-
-// foundation's css
-require('foundation-apps/dist/css/foundation-apps.css');
-
 require('expose?URI!URIjs');
 require('URIjs/src/URITemplate');
