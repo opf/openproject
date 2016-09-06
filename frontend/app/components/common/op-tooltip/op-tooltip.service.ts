@@ -27,27 +27,50 @@
 //++
 
 import {opModelsModule} from '../../../angular-modules';
-import IDocumentService = angular.IDocumentService;
-import IRootElementService = angular.IRootElementService;
 import {OpenProjectTooltipController} from './op-tooltip.directive';
+import IRootElementService = angular.IRootElementService;
 
-function opTooltipService($rootElement: IRootElementService,
-                          $document: IDocumentService) {
-  $rootElement.mouseover(event => {
-    const element = angular.element(event.target);
+export class OpenProjectTooltipService {
+  protected static clear() {
+    angular.element('.op-tooltip').remove();
+  }
 
-    if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
-      const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
-      tooltip.show();
-    }
-    else {
-      angular.element('.op-tooltip').remove();
-    }
-  });
+  protected container = angular
+    .element('<div class="op-tooltip-container"></div>')
+    .appendTo(document.body);
 
-  const container = angular.element('<div class="op-tooltip-container"></div>');
-  $document.find('body').append(container);
-  return container;
+  constructor(protected $rootElement: IRootElementService) {
+    this.addMouseOverEvent();
+
+    //TODO: Move to stylesheet
+    this.container.append(`
+      <style>
+        .op-tooltip {
+          position: absolute;
+          z-index: 9999;
+        }
+      </style>
+    `);
+  }
+
+  public show(tooltip) {
+    OpenProjectTooltipService.clear();
+    this.container.append(tooltip);
+  }
+
+  private addMouseOverEvent() {
+    this.$rootElement.mouseover(event => {
+      const element = angular.element(event.target);
+
+      if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
+        const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
+        tooltip.show();
+      }
+      else {
+        OpenProjectTooltipService.clear();
+      }
+    });
+  }
 }
 
-opModelsModule.factory('opTooltipService', opTooltipService);
+opModelsModule.service('opTooltipService', OpenProjectTooltipService);

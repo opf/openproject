@@ -27,12 +27,12 @@
 //++
 
 import {opModelsModule} from '../../../angular-modules';
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IDocumentService = angular.IDocumentService;
+import {OpenProjectTooltipService} from './op-tooltip.service';
 
 describe('opTooltipService', () => {
   var $document: IDocumentService;
-  var opTooltipService: IAugmentedJQuery;
+  var opTooltipService: OpenProjectTooltipService;
 
   beforeEach(angular.mock.module(opModelsModule.name));
   beforeEach(angular.mock.inject(function (_$document_, _opTooltipService_) {
@@ -41,10 +41,6 @@ describe('opTooltipService', () => {
 
   it('should exist', () => {
     expect(opTooltipService).to.exist;
-  });
-
-  it('should be a single dom element', () => {
-    expect(opTooltipService).to.have.length(1);
   });
 
   it('should be appended to the document body', () => {
