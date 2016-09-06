@@ -30,7 +30,7 @@ import {opModelsModule} from '../../../angular-modules';
 import IDocumentService = angular.IDocumentService;
 import {OpenProjectTooltipService} from './op-tooltip.service';
 
-describe.only('opTooltipService', () => {
+describe('opTooltipService', () => {
   var $document: IDocumentService;
   var opTooltipService: OpenProjectTooltipService;
   var clock;
@@ -77,10 +77,10 @@ describe.only('opTooltipService', () => {
       expect(opTooltipService.container.is(':visible')).to.be.true;
     });
 
-    describe('when calling fade afterwards', () => {
+    describe('when calling hide afterwards', () => {
       beforeEach(() => {
         clock.tick(opTooltipService.delay);
-        opTooltipService.fade();
+        opTooltipService.hide();
       });
 
       it('should keep the element visible for a while', () => {

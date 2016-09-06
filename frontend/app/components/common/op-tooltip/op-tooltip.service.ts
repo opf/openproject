@@ -64,7 +64,7 @@ export class OpenProjectTooltipService {
     }, this.delay);
   }
 
-  public fade() {
+  public hide() {
     this.clearTimeouts();
     this.hideTimeout = setTimeout(() => {
       this.container.hide();
@@ -85,7 +85,7 @@ export class OpenProjectTooltipService {
         tooltip.show();
       }
       else {
-        this.fade();
+        this.hide();
       }
     });
   }
