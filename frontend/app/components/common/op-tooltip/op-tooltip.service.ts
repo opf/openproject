@@ -28,8 +28,23 @@
 
 import {opModelsModule} from '../../../angular-modules';
 import IDocumentService = angular.IDocumentService;
+import IRootElementService = angular.IRootElementService;
+import {OpenProjectTooltipController} from './op-tooltip.directive';
 
-function opTooltipService($document: IDocumentService) {
+function opTooltipService($rootElement: IRootElementService,
+                          $document: IDocumentService) {
+  $rootElement.mouseover(event => {
+    const element = angular.element(event.target);
+
+    if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
+      const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
+      tooltip.show();
+    }
+    else {
+      angular.element('.op-tooltip').remove();
+    }
+  });
+
   const container = angular.element('<div class="op-tooltip-container"></div>');
   $document.find('body').append(container);
   return container;
