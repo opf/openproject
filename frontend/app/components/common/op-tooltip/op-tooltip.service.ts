@@ -37,6 +37,9 @@ export class OpenProjectTooltipService {
     .hide()
     .appendTo(document.body);
 
+  private showTimeout: number;
+  private hideTimeout: number;
+
   constructor(protected $rootElement: IRootElementService) {
     this.addMouseOverEvent();
 
@@ -55,15 +58,22 @@ export class OpenProjectTooltipService {
     angular.element('.op-tooltip').remove();
     this.container.append(tooltip);
 
-    setTimeout(() => {
+    this.clearTimeouts();
+    this.showTimeout = setTimeout(() => {
       this.container.show();
     }, this.delay);
   }
 
   public fade() {
-    setTimeout(() => {
+    this.clearTimeouts();
+    this.hideTimeout = setTimeout(() => {
       this.container.hide();
     }, this.delay);
+  }
+
+  private clearTimeouts() {
+    clearTimeout(this.showTimeout);
+    clearTimeout(this.hideTimeout);
   }
 
   private addMouseOverEvent() {
