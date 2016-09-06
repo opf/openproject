@@ -33,6 +33,13 @@ GIT
       rack (>= 1.0, < 3)
 
 GIT
+  remote: git://github.com/opf/rails-angular-xss.git
+  revision: 1dfeffe62b40965922c5b46a4b78695086d2d4f4
+  specs:
+    rails-angular-xss (0.2.0.pre.pre)
+      rails (>= 5.0.0, < 5.1)
+
+GIT
   remote: git://github.com/rails/rails-observers.git
   revision: 3fe157d6cbb5b5e767ded248009fc59443d63fa1
   ref: 3fe157d6
@@ -87,12 +94,6 @@ GIT
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-
-PATH
-  remote: ~/dev/rails-angular-xss
-  specs:
-    rails-angular-xss (0.1.0)
-      rails (>= 4.2.0, < 6.0)
 
 GEM
   remote: https://rubygems.org/

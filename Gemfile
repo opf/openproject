@@ -104,7 +104,7 @@ gem 'rack-protection', git: 'https://github.com/finnlabs/rack-protection.git', r
 gem 'rack-attack'
 
 # Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', path: '~/dev/rails-angular-xss' # github: 'opf/rails-angular-xss'
+gem 'rails-angular-xss', github: 'opf/rails-angular-xss'
 
 gem "syck", '~> 1.0.5', require: false
 gem 'gon', '~> 4.0'
