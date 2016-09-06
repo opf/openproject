@@ -7,8 +7,8 @@
           ng-attr-id="values-{{$ctrl.filter.name}}"
           class="form--select -small"
           style="vertical-align: top;"
-          ng-options="$ctrl.filterValue(value[1]) as value[0] for value in $ctrl.availableOptions">
-    <option value="" ng-show="false"></option>
+          ng-options="value[1] as value[0] for value in $ctrl.availableOptions">
+    <option value="" disabled ng-bind="::$ctrl.text.placeholder"></option>
   </select>
 
   <select multiple
@@ -20,8 +20,8 @@
           ng-attr-id="values-{{$ctrl.filter.name}}"
           class="form--select -small"
           style="vertical-align: top;"
-          ng-options="$ctrl.filterValue(value[1]) as value[0] for value in $ctrl.availableOptions">
-    <option value="" ng-show="false"></option>
+          ng-options="value[1] as value[0] for value in $ctrl.availableOptions">
+    <option value="" disabled ng-bind="::$ctrl.text.placeholder"></option>
   </select>
 
   <a href class="form-label no-decoration-on-hover -transparent" ng-click="$ctrl.toggleMultiselect()">

@@ -50,24 +50,10 @@ export class ToggledMultiselectController {
     }
 
     this.text = {
+      placeholder: I18n.t('js.placeholders.selection'),
       enableMulti: I18n.t('js.work_packages.label_enable_multi_select'),
       disableMulti: I18n.t('js.work_packages.label_disable_multi_select'),
     };
-  }
-
-  /**
-   * The filter values we receive from the API are correctly typed
-   * (e.g., User ID number:1).
-   *
-   * Values from the query props however are returned as string.
-   * Prior to Angular 1.4., this check was identical but now we compare strings explicitly.
-   */
-  public filterValue(val) {
-    if (val == null) {
-      return val;
-    }
-
-    return val.toString();
   }
 
   public get value() {
