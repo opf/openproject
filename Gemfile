@@ -41,8 +41,7 @@ gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 
-# https://github.com/globalize/globalize/pull/485
-gem 'globalize', github: 'pranik/globalize', branch: 'rails_5'
+gem 'globalize', github: 'globalize/globalize', ref: '38443bcd'
 gem 'omniauth', github: 'oliverguenther/omniauth'
 gem 'request_store', '~> 1.3.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -52,7 +51,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
-gem 'will_paginate', '~> 3.1'
+gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_list', '~> 0.7.2'
 
 gem 'friendly_id', '~> 5.1.0'

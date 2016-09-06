@@ -239,6 +239,7 @@ module SortHelper
     caption ||= column.to_s.humanize
 
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
+    params.permit!
     url_options = params.merge(sort_options)
 
     # Add project_id to url_options

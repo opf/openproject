@@ -83,7 +83,7 @@ module OpenProject
     # responses, the middleware stack is processed from top to bottom.
     config.middleware.insert_before 'Rack::ETag', 'Rack::Deflater'
 
-    config.middleware.swap ActionDispatch::ParamsParser,
+    config.middleware.swap ActionDispatch::Request,
                            'ParamsParserWithExclusion',
                            exclude: -> (env) {
                              env['PATH_INFO'] =~ /\/api\/v3/
@@ -95,7 +95,7 @@ module OpenProject
     ##
     # Support XML requests as params for APIv2
     # TODO: Remove this and 'actionpack-xml_parser' dependency when removing V2
-    config.middleware.insert_after 'ParamsParserWithExclusion', ActionDispatch::XmlParamsParser
+    config.middleware.use ActionDispatch::XmlParamsParser
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
