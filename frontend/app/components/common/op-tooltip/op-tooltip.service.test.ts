@@ -30,9 +30,13 @@ import {opModelsModule} from '../../../angular-modules';
 import IDocumentService = angular.IDocumentService;
 import {OpenProjectTooltipService} from './op-tooltip.service';
 
-describe('opTooltipService', () => {
+describe.only('opTooltipService', () => {
   var $document: IDocumentService;
   var opTooltipService: OpenProjectTooltipService;
+  var clock;
+
+  before(() => clock = sinon.useFakeTimers());
+  after(() => clock.restore());
 
   beforeEach(angular.mock.module(opModelsModule.name));
   beforeEach(angular.mock.inject(function (_$document_, _opTooltipService_) {
@@ -45,5 +49,48 @@ describe('opTooltipService', () => {
 
   it('should be appended to the document body', () => {
     expect($document.find('body .op-tooltip-container')).to.have.length.above(0);
+  });
+
+  it('should hide the container initially', () => {
+    expect(opTooltipService.container.is(':visible')).to.be.false;
+  });
+
+  describe('when calling the show method', () => {
+    var tooltip;
+
+    beforeEach(() => {
+      tooltip = angular.element('<div class="op-tooltip"></div>');
+      opTooltipService.container.append('<div class="op-tooltip"></div>');
+      opTooltipService.show(tooltip);
+    });
+
+    it('should remove other tooltips', () => {
+      expect(opTooltipService.container.find('.op-tooltip')).to.have.lengthOf(1);
+    });
+
+    it('should keep the container invisible initially', () => {
+      expect(opTooltipService.container.is(':visible')).to.be.false;
+    });
+
+    it('should show the container after the delay time', () => {
+      clock.tick(opTooltipService.delay);
+      expect(opTooltipService.container.is(':visible')).to.be.true;
+    });
+
+    describe('when calling fade afterwards', () => {
+      beforeEach(() => {
+        clock.tick(opTooltipService.delay);
+        opTooltipService.fade();
+      });
+
+      it('should keep the element visible for a while', () => {
+        expect(opTooltipService.container.is(':visible')).to.be.true;
+      });
+
+      it('should hide the element after the delay time', () => {
+        clock.tick(opTooltipService.delay);
+        expect(opTooltipService.container.is(':visible')).to.be.false;
+      });
+    });
   });
 });

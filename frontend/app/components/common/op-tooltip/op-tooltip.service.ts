@@ -31,12 +31,10 @@ import {OpenProjectTooltipController} from './op-tooltip.directive';
 import IRootElementService = angular.IRootElementService;
 
 export class OpenProjectTooltipService {
-  protected static clear() {
-    angular.element('.op-tooltip').remove();
-  }
-
-  protected container = angular
+  public delay: number = 1000;
+  public container = angular
     .element('<div class="op-tooltip-container"></div>')
+    .hide()
     .appendTo(document.body);
 
   constructor(protected $rootElement: IRootElementService) {
@@ -54,8 +52,18 @@ export class OpenProjectTooltipService {
   }
 
   public show(tooltip) {
-    OpenProjectTooltipService.clear();
+    angular.element('.op-tooltip').remove();
     this.container.append(tooltip);
+
+    setTimeout(() => {
+      this.container.show();
+    }, this.delay);
+  }
+
+  public fade() {
+    setTimeout(() => {
+      this.container.hide();
+    }, this.delay);
   }
 
   private addMouseOverEvent() {
@@ -67,7 +75,7 @@ export class OpenProjectTooltipService {
         tooltip.show();
       }
       else {
-        OpenProjectTooltipService.clear();
+        this.fade();
       }
     });
   }
