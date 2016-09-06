@@ -29,21 +29,21 @@
 /*jshint expr: true*/
 
 describe('toggledMultiselect Directive', function() {
-    var compile, element, rootScope, scope;
+    var compile, element, rootScope, scope, I18n;
 
     beforeEach(angular.mock.module('openproject.uiComponents',
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
     beforeEach(angular.mock.module('openproject.templates', function($provide) {
-      var configurationService = {};
-
-      configurationService.isTimezoneSet = sinon.stub().returns(false);
+      var configurationService = {
+        isTimezoneSet: sinon.stub().returns(false)
+      };
 
       $provide.constant('ConfigurationService', configurationService);
     }));
 
     beforeEach(inject(function($rootScope, $compile) {
-      var html = '<toggled-multiselect icon-name="cool-icon.png" name="name" values="values" available-options="options"></toggled-multiselect>';
+      var html = '<toggled-multiselect icon-name="cool-icon.png" filter="filter" available-options="options"></toggled-multiselect>';
 
       element = angular.element(html);
       rootScope = $rootScope;
@@ -55,12 +55,20 @@ describe('toggledMultiselect Directive', function() {
       };
     }));
 
+    beforeEach(angular.mock.inject((_I18n_) => {
+      I18n = _I18n_;
+      sinon.stub(I18n, 't').withArgs('js.placeholders.selection').returns('PLACEHOLDER');
+    }));
+    afterEach(angular.mock.inject(() => {
+      I18n.t.restore();
+    }));
+
     describe('with values', function() {
       beforeEach(function() {
-        scope.name    = "BO' SELECTA";
-        scope.values  = [
-          'a', 'b', 'c'
-        ];
+        scope.filter = {
+          name: "BO' SELECTA",
+          values: ['a', 'b', 'c']
+        };
         scope.options = [
           ['New York', 'NY'],
           ['California', 'CA']
@@ -79,13 +87,15 @@ describe('toggledMultiselect Directive', function() {
           expect(element.find('select.ng-hide').size()).to.equal(0);
         });
 
-        it('should render two OPTIONs for displayed SELECT', function() {
+        it('should render two OPTIONs + Please select for displayed SELECT', function() {
           var select = element.find('select:not(.ng-hide)').first();
-          expect(select.find('option').size()).to.equal(2);
+          var options = select.find('option');
 
-          var option = select.find('option').first();
-          expect(option.val()).to.equal('NY');
-          expect(option.text()).to.equal('New York');
+          expect(options.length).to.equal(3);
+          expect(options[0].innerText).to.equal('PLACEHOLDER');
+
+          expect(options[1].value).to.equal('string:NY');
+          expect(options[1].innerText).to.equal('New York');
         });
 
         xit('should render a link that toggles multi-select', function() {
@@ -100,7 +110,9 @@ describe('toggledMultiselect Directive', function() {
 
     describe('w/o values', function() {
       beforeEach(function() {
-        scope.name    = "BO' SELECTA";
+        scope.filter    = {
+          name: "BO' SELECTA"
+        }
         scope.options = [
           ['New York', 'NY'],
           ['California', 'CA']
