@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opModelsModule} from '../../../../angular-modules';
+import {opModelsModule} from '../../../angular-modules';
 import IDocumentService = angular.IDocumentService;
 
-function opTooltipContainerService($document: IDocumentService) {
+function opTooltipService($document: IDocumentService) {
   const container = angular.element('<div class="op-tooltip-container"></div>');
   $document.find('body').append(container);
   return container;
 }
 
-opModelsModule.factory('opTooltipContainer', opTooltipContainerService);
+opModelsModule.factory('opTooltipService', opTooltipService);

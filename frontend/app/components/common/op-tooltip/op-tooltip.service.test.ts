@@ -26,25 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opModelsModule} from '../../../../angular-modules';
+import {opModelsModule} from '../../../angular-modules';
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IDocumentService = angular.IDocumentService;
 
-describe('opTooltipContainer service', () => {
+describe('opTooltipService', () => {
   var $document: IDocumentService;
-  var opTooltipContainer: IAugmentedJQuery;
+  var opTooltipService: IAugmentedJQuery;
 
   beforeEach(angular.mock.module(opModelsModule.name));
-  beforeEach(angular.mock.inject(function (_$document_, _opTooltipContainer_) {
-    [$document, opTooltipContainer] = _.toArray(arguments);
+  beforeEach(angular.mock.inject(function (_$document_, _opTooltipService_) {
+    [$document, opTooltipService] = _.toArray(arguments);
   }));
 
   it('should exist', () => {
-    expect(opTooltipContainer).to.exist;
+    expect(opTooltipService).to.exist;
   });
 
   it('should be a single dom element', () => {
-    expect(opTooltipContainer).to.have.length(1);
+    expect(opTooltipService).to.have.length(1);
   });
 
   it('should be appended to the document body', () => {

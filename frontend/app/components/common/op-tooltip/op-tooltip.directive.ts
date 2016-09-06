@@ -45,7 +45,7 @@ export class OpenProjectTooltipController {
               protected $element,
               protected $attrs: any,
               protected $compile: ICompileService,
-              protected opTooltipContainer: IAugmentedJQuery) {
+              protected opTooltipService: IAugmentedJQuery) {
   }
 
   /**
@@ -68,7 +68,7 @@ export class OpenProjectTooltipController {
 
     this.$scope.$apply();
     angular.element('.op-tooltip').remove();
-    this.opTooltipContainer.append(tooltip);
+    this.opTooltipService.append(tooltip);
   }
 }
 
