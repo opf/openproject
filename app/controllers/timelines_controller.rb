@@ -30,9 +30,9 @@
 class TimelinesController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+  before_action :disable_api
+  before_action :find_project_by_project_id
+  before_action :authorize
 
   def index
     @timeline = @project.timelines.first

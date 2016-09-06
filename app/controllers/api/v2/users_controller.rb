@@ -34,7 +34,7 @@ module Api
 
       skip_filter :require_admin, only: :index
 
-      before_filter :check_scope_supplied
+      before_action :check_scope_supplied
 
       def index
         @users = UserSearchService.new(params).search

@@ -30,10 +30,10 @@
 class CustomFieldsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_types, except: [:index, :destroy]
-  before_filter :find_custom_field, only: [:edit, :update, :destroy, :move]
-  before_filter :blank_translation_attributes_as_nil, only: [:create, :update]
+  before_action :require_admin
+  before_action :find_types, except: [:index, :destroy]
+  before_action :find_custom_field, only: [:edit, :update, :destroy, :move]
+  before_action :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
     @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }

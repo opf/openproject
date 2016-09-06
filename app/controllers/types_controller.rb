@@ -32,7 +32,7 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   def index
     @types = ::Type.page(params[:page]).per_page(per_page_param)

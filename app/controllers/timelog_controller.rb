@@ -30,12 +30,12 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :disable_api, except: [:index, :destroy]
-  before_filter :find_work_package, only: [:new, :create]
-  before_filter :find_project, only: [:new, :create]
-  before_filter :find_time_entry, only: [:show, :edit, :update, :destroy]
-  before_filter :authorize, except: [:index]
-  before_filter :find_optional_project, only: [:index]
+  before_action :disable_api, except: [:index, :destroy]
+  before_action :find_work_package, only: [:new, :create]
+  before_action :find_project, only: [:new, :create]
+  before_action :find_time_entry, only: [:show, :edit, :update, :destroy]
+  before_action :authorize, except: [:index]
+  before_action :find_optional_project, only: [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper

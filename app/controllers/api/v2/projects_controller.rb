@@ -32,9 +32,9 @@ module Api
     class ProjectsController < ::ProjectsController
       include ::Api::V2::ApiController
 
-      before_filter :find_project, except: [:index, :level_list]
-      before_filter :authorize, only: :show
-      before_filter :require_permissions, only: :planning_element_custom_fields
+      before_action :find_project, except: [:index, :level_list]
+      before_action :authorize, only: :show
+      before_action :require_permissions, only: :planning_element_custom_fields
 
       def self.accept_key_auth_actions
         super + ['planning_element_custom_fields']

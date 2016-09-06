@@ -30,9 +30,9 @@
 require 'diff'
 
 class JournalsController < ApplicationController
-  before_filter :find_journal, except: [:index]
-  before_filter :find_optional_project, only: [:index]
-  before_filter :authorize, only: [:diff]
+  before_action :find_journal, except: [:index]
+  before_action :find_optional_project, only: [:index]
+  before_action :authorize, only: [:diff]
   accept_key_auth :index
   menu_item :issues
 

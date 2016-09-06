@@ -46,8 +46,8 @@ require 'htmldiff'
 # TODO: still being worked on
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
-  before_filter :find_wiki, :authorize
-  before_filter :find_existing_page, only: [:edit_parent_page,
+  before_action :find_wiki, :authorize
+  before_action :find_existing_page, only: [:edit_parent_page,
                                             :update_parent_page,
                                             :rename,
                                             :protect,
@@ -57,7 +57,7 @@ class WikiController < ApplicationController
                                             :add_attachment,
                                             :list_attachments,
                                             :destroy]
-  before_filter :build_wiki_page_and_content, only: [:new, :create]
+  before_action :build_wiki_page_and_content, only: [:new, :create]
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
   verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }

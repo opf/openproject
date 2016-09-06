@@ -28,9 +28,9 @@
 #++
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project
-  before_filter :file_readable, :read_authorize, except: :destroy
-  before_filter :delete_authorize, only: :destroy
+  before_action :find_project
+  before_action :file_readable, :read_authorize, except: :destroy
+  before_action :delete_authorize, only: :destroy
 
   def download
     url = @attachment.external_url

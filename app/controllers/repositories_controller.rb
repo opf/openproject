@@ -45,9 +45,9 @@ class RepositoriesController < ApplicationController
   menu_item :settings, only: [:edit, :destroy_info]
   default_search_scope :changesets
 
-  before_filter :find_project_by_project_id
-  before_filter :authorize
-  before_filter :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
+  before_action :find_project_by_project_id
+  before_action :authorize
+  before_action :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
   accept_key_auth :revisions
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed

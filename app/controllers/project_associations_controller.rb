@@ -30,10 +30,10 @@
 class ProjectAssociationsController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project_by_project_id
-  before_filter :authorize
-  before_filter :check_allows_association
+  before_action :disable_api
+  before_action :find_project_by_project_id
+  before_action :authorize
+  before_action :check_allows_association
 
   accept_key_auth :index, :show
 

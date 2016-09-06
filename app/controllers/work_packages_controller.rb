@@ -38,12 +38,12 @@ class WorkPackagesController < ApplicationController
 
   accept_key_auth :index, :show
 
-  # before_filter :disable_api # TODO re-enable once API is used for any JSON request
-  before_filter :authorize_on_work_package, only: :show
-  before_filter :find_optional_project,
+  # before_action :disable_api # TODO re-enable once API is used for any JSON request
+  before_action :authorize_on_work_package, only: :show
+  before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
 
-  before_filter :load_query,
+  before_action :load_query,
                 :load_work_packages, only: :index, unless: ->() { request.format.html? }
 
   def show

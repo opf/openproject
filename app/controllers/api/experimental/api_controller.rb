@@ -31,8 +31,8 @@ module Api
     module ApiController
       def self.included(base)
         base.class_eval do
-          skip_before_filter :disable_api
-          prepend_before_filter :disable_everything_except_api
+          skip_before_action :disable_api
+          prepend_before_action :disable_everything_except_api
         end
       end
     end

@@ -29,8 +29,8 @@
 
 class TimeEntries::ReportsController < ApplicationController
   menu_item :issues
-  before_filter :find_optional_project
-  before_filter :load_available_criterias
+  before_action :find_optional_project
+  before_action :load_available_criterias
 
   include SortHelper
   include TimelogHelper

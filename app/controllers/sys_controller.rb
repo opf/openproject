@@ -30,10 +30,10 @@
 require 'open_project/repository_authentication'
 
 class SysController < ActionController::Base
-  before_filter :check_enabled
-  before_filter :require_basic_auth, only: [:repo_auth]
-  before_filter :find_project, only: [:update_required_storage]
-  before_filter :find_repository_with_storage, only: [:update_required_storage]
+  before_action :check_enabled
+  before_action :require_basic_auth, only: [:repo_auth]
+  before_action :find_project, only: [:update_required_storage]
+  before_action :find_repository_with_storage, only: [:update_required_storage]
 
   def projects
     p = Project.active.has_module(:repository)

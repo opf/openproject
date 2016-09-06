@@ -29,8 +29,8 @@
 
 class WorkPackages::MovesController < ApplicationController
   default_search_scope :work_packages
-  before_filter :find_work_packages, :check_project_uniqueness
-  before_filter :authorize
+  before_action :find_work_packages, :check_project_uniqueness
+  before_action :authorize
 
   def new
     prepare_for_work_package_move

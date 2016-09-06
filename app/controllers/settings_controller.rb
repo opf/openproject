@@ -30,7 +30,7 @@
 class SettingsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   def index
     edit

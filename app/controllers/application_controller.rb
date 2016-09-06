@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
            status: :bad_request
   end
 
-  before_filter :user_setup,
+  before_action :user_setup,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
@@ -304,7 +304,7 @@ class ApplicationController < ActionController::Base
 
   # Find project of id params[:id]
   def find_project
-    @project = Project.find(params[:id])
+    @project = Project.find_by(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -419,7 +419,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Make sure that the user is a member of the project (or admin) if project is private
-  # used as a before_filter for actions that do not require any particular permission
+  # used as a before_action for actions that do not require any particular permission
   # on the project.
   def check_project_privacy
     if @project && @project.active?

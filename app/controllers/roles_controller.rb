@@ -32,7 +32,7 @@ class RolesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin, except: [:autocomplete_for_role]
+  before_action :require_admin, except: [:autocomplete_for_role]
 
   def index
     @roles = Role.order('builtin, position')

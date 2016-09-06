@@ -28,7 +28,7 @@
 #++
 
 class SearchController < ApplicationController
-  before_filter :find_optional_project
+  before_action :find_optional_project
 
   def index
     @question = params[:q] || ''

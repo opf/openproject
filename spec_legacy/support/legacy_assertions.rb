@@ -140,7 +140,7 @@ module LegacyAssertionsAndHelpers
     should render_template 'common/error'
   end
 
-  def should_have_before_filter(expected_method, options = {})
+  def should_have_before_action(expected_method, options = {})
     should_have_filter('before', expected_method, options)
   end
 

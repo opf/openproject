@@ -37,13 +37,13 @@ module Api::Experimental
     include QueriesHelper
     include ExtendedHTTP
 
-    before_filter :find_optional_project
-    before_filter :v3_params_as_internal, only: [:create, :update]
-    before_filter :setup_query_for_create, only: [:create]
-    before_filter :setup_existing_query, only: [:update, :destroy]
-    before_filter :authorize_on_query, only: [:create, :destroy]
-    before_filter :authorize_update_on_query, only: [:update]
-    before_filter :setup_query, only: [:available_columns, :custom_field_filters]
+    before_action :find_optional_project
+    before_action :v3_params_as_internal, only: [:create, :update]
+    before_action :setup_query_for_create, only: [:create]
+    before_action :setup_existing_query, only: [:update, :destroy]
+    before_action :authorize_on_query, only: [:create, :destroy]
+    before_action :authorize_update_on_query, only: [:update]
+    before_action :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
       @available_columns = get_columns_for_json(@query.available_columns)
