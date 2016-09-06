@@ -1,4 +1,6 @@
 zh:
+  button_edit_this_page: Edit this page
+  error_saving_changes: 'The changes could not be saved: %{errors}'
   label_hidden_elements: 隐藏元素
   label_visible_elements: 可见元素
   label_project_description: 项目描述
@@ -10,7 +12,7 @@ zh:
   label_work_packages_responsible_for: 我负责的工作包
   label_work_packages_assigned_to_me: 分配给我的工作包
   label_work_packages_watched: 受关注的工作包
-  label_work_package_tracking: 工作包跟踪
+  label_work_package_tracking: ' Work package tracking'
   label_members: 成员
   label_subprojects: 子项目
   project_page:

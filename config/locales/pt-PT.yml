@@ -1,4 +1,6 @@
 pt:
+  button_edit_this_page: Edit this page
+  error_saving_changes: 'The changes could not be saved: %{errors}'
   label_hidden_elements: Elementos ocultos
   label_visible_elements: Elementos visíveis
   label_project_description: Descrição do projeto
@@ -10,7 +12,7 @@ pt:
   label_work_packages_responsible_for: Pacotes de trabalho pelos quais sou responsável
   label_work_packages_assigned_to_me: Pacotes de trabalho atribuídos a mim
   label_work_packages_watched: Pacotes de trabalho observados
-  label_work_package_tracking: Controlo de pacote de trabalho
+  label_work_package_tracking: ' Work package tracking'
   label_members: Membros
   label_subprojects: Subprojetos
   project_page:
