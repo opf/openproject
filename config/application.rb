@@ -67,6 +67,7 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
+require File.dirname(__FILE__) + '/../app/middleware/params_parser_with_exclusion'
 require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
@@ -81,21 +82,15 @@ module OpenProject
     # different ETag on every request, Rack::Deflater has to be in the chain of
     # middlewares after Rack::ETag.  #insert_before is used because on
     # responses, the middleware stack is processed from top to bottom.
-    config.middleware.insert_before 'Rack::ETag', 'Rack::Deflater'
+    config.middleware.insert_before Rack::ETag, Rack::Deflater
 
-    config.middleware.swap ActionDispatch::Request,
-                           'ParamsParserWithExclusion',
-                           exclude: -> (env) {
-                             env['PATH_INFO'] =~ /\/api\/v3/
-                           }
+    config.middleware.use ::ParamsParserWithExclusion,
+                          exclude: -> (env) {
+                            env['PATH_INFO'] =~ /\/api\/v3/
+                          }
 
     config.middleware.use Rack::Attack
     config.middleware.use ::ResetCurrentUser
-
-    ##
-    # Support XML requests as params for APIv2
-    # TODO: Remove this and 'actionpack-xml_parser' dependency when removing V2
-    config.middleware.use ActionDispatch::XmlParamsParser
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)

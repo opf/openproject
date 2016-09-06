@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ParamsParserWithExclusion < ::ActionDispatch::Request
+class ParamsParserWithExclusion < ::ActionDispatch::ParamsParser
   def initialize(app, options = {})
     super(app)
 
