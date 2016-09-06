@@ -75,6 +75,16 @@ describe('opTooltip directive', () => {
       const over = power => expect(tooltip.css('z-index')).to.be.above(power);
       "it's" + over(9000);
     });
+
+    describe('when moving the mouse somewhere else', () => {
+      beforeEach(() => {
+        mouseOver(document.body);
+      });
+
+      it('should be removed from the dom', () => {
+        expect(tooltip).to.have.lengthOf(0);
+      });
+    });
   }
 
   describe('when moving the mouse over the first item', () => {
@@ -95,8 +105,7 @@ describe('opTooltip directive', () => {
 
   describe('when moving the mouse over a child element of the tooltip directive', () => {
     beforeEach(() => {
-      const child = tooltips.find('.lonely-child');
-      mouseOver(child.get(0));
+      mouseOver(tooltips.find('.lonely-child').get(0));
     });
 
     testTooltip();

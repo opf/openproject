@@ -29,7 +29,6 @@
 import {openprojectModule} from '../../../angular-modules';
 import {OpenProjectTooltipController} from './op-tooltip.directive';
 import IRootElementService = angular.IRootElementService;
-import IDocumentService = angular.IDocumentService;
 
 /**
  * Delegate the `onMouseOver` event to avoid adding too many event listeners for the
@@ -42,6 +41,9 @@ function opTooltipDirectiveConfig($rootElement: IRootElementService) {
     if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
       const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
       tooltip.show();
+    }
+    else {
+      angular.element('.op-tooltip').remove();
     }
   });
 }
