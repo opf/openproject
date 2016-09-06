@@ -104,11 +104,17 @@ export class WorkPackageEditFieldController {
     let alreadyActive = this._active;
 
     return this.buildEditField().then(() => {
-      this._active = this.field.schema.writable;
-      if (this._active && (!alreadyActive || this.errorenous)) {
-        this.focusField();
-      }
-      return this._active;
+      const makeActive = this.field.schema.writable;
+
+      // This timeout is necessary as the value is not always expanded otherwise
+      this.$timeout(() => {
+        this._active = makeActive;
+        if (this._active && (!alreadyActive || this.errorenous)) {
+          this.focusField();
+        }
+      });
+
+      return makeActive;
     });
   }
 
