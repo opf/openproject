@@ -28,10 +28,12 @@
 
 source 'https://rubygems.org'
 
+ruby '2.3.1'
+
 gem 'rails', '~> 4.2.7', '>= 4.2.7.1'
 gem 'actionpack-action_caching'
 gem 'actionpack-xml_parser'
-gem 'activerecord-session_store'
+gem 'activerecord-session_store', '~> 1.0.0'
 gem 'rails-observers'
 gem 'responders', '~> 2.0'
 
