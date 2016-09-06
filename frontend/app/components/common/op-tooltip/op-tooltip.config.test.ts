@@ -26,53 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opModelsModule} from '../../../angular-modules';
-
-export class OpenProjectTooltipService {
-  public delay: number = 1000;
-  public container;
-
-  private showTimeout: number;
-  private hideTimeout: number;
-
-  constructor() {
-    this.container = angular
-      .element('<div class="op-tooltip-container"></div>')
-      .hide()
-      .appendTo(document.body);
-
-    //TODO: Move to stylesheet
-    this.container.append(`
-      <style>
-        .op-tooltip {
-          position: absolute;
-          z-index: 9999;
-        }
-      </style>
-    `);
-  }
-
-  public show(tooltip) {
-    angular.element('.op-tooltip').remove();
-    this.container.append(tooltip);
-
-    this.clearTimeouts();
-    this.showTimeout = setTimeout(() => {
-      this.container.show();
-    }, this.delay);
-  }
-
-  public hide() {
-    this.clearTimeouts();
-    this.hideTimeout = setTimeout(() => {
-      this.container.hide();
-    }, this.delay);
-  }
-
-  private clearTimeouts() {
-    clearTimeout(this.showTimeout);
-    clearTimeout(this.hideTimeout);
-  }
-}
-
-opModelsModule.service('opTooltipService', OpenProjectTooltipService);
+//TODO: Move the tests of the mouse over events here
+describe('opTooltip config', () => {
+  //empty
+});

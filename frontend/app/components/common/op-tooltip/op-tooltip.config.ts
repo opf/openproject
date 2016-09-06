@@ -26,53 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {OpenProjectTooltipController} from './op-tooltip.directive';
+import {OpenProjectTooltipService} from './op-tooltip.service';
 import {opModelsModule} from '../../../angular-modules';
+import IRootElementService = angular.IRootElementService;
 
-export class OpenProjectTooltipService {
-  public delay: number = 1000;
-  public container;
+function opTooltipConfig($rootElement: IRootElementService,
+                         opTooltipService: OpenProjectTooltipService) {
+  $rootElement.mouseover(event => {
+    const element = angular.element(event.target);
 
-  private showTimeout: number;
-  private hideTimeout: number;
+    if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
+      const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
 
-  constructor() {
-    this.container = angular
-      .element('<div class="op-tooltip-container"></div>')
-      .hide()
-      .appendTo(document.body);
+      tooltip.show();
+      return;
+    }
 
-    //TODO: Move to stylesheet
-    this.container.append(`
-      <style>
-        .op-tooltip {
-          position: absolute;
-          z-index: 9999;
-        }
-      </style>
-    `);
-  }
-
-  public show(tooltip) {
-    angular.element('.op-tooltip').remove();
-    this.container.append(tooltip);
-
-    this.clearTimeouts();
-    this.showTimeout = setTimeout(() => {
-      this.container.show();
-    }, this.delay);
-  }
-
-  public hide() {
-    this.clearTimeouts();
-    this.hideTimeout = setTimeout(() => {
-      this.container.hide();
-    }, this.delay);
-  }
-
-  private clearTimeouts() {
-    clearTimeout(this.showTimeout);
-    clearTimeout(this.hideTimeout);
-  }
+    opTooltipService.hide();
+  });
 }
 
-opModelsModule.service('opTooltipService', OpenProjectTooltipService);
+opModelsModule.run(opTooltipConfig);
+
