@@ -30,17 +30,19 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '~> 4.2.7', '>= 4.2.7.1'
-gem 'actionpack-action_caching'
+gem 'rails', '~> 5.0.0'
 gem 'actionpack-xml_parser'
+gem 'activemodel-serializers-xml'
 gem 'activerecord-session_store', '~> 1.0.0'
-gem 'rails-observers'
+gem 'rails-observers', github: 'rails/rails-observers', ref: '3fe157d6'
 gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
-gem 'globalize', '~> 5.0.1'
+
+# https://github.com/globalize/globalize/pull/485
+gem 'globalize', github: 'pranik/globalize', branch: 'rails_5'
 gem 'omniauth', github: 'oliverguenther/omniauth'
 gem 'request_store', '~> 1.3.0'
 gem 'gravatar_image_tag', '~> 1.2.0'
@@ -90,7 +92,7 @@ gem 'rabl', '0.9.3'
 gem 'multi_json', '~> 1.11.0'
 gem 'oj', '~> 2.14.6'
 
-gem 'delayed_job_active_record', '~> 4.1.0'
+gem 'delayed_job_active_record', '~> 4.1.1'
 gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
@@ -103,7 +105,7 @@ gem 'rack-protection', git: 'https://github.com/finnlabs/rack-protection.git', r
 gem 'rack-attack'
 
 # Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', github: 'opf/rails-angular-xss'
+gem 'rails-angular-xss', path: '~/dev/rails-angular-xss' # github: 'opf/rails-angular-xss'
 
 gem "syck", '~> 1.0.5', require: false
 gem 'gon', '~> 4.0'
@@ -128,7 +130,7 @@ group :production do
 end
 
 gem 'sprockets', '~> 3.5.2'
-gem 'sass-rails', '~> 5.0.3'
+gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '~> 3.4.12'
 gem 'autoprefixer-rails'
 gem 'bourbon', '~> 4.2.0'
@@ -169,6 +171,7 @@ group :test do
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.5.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
   gem 'capybara', '~> 2.8.1'
@@ -199,7 +202,6 @@ group :development do
   gem 'letter_opener'
   gem 'thin', '~> 1.7.0'
   gem 'faker'
-  gem 'quiet_assets'
   gem 'livingstyleguide', '~> 2.0.0.pre.1'
 end
 
@@ -214,7 +216,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.10.1'
+gem 'grape', '~> 0.14'
 gem 'grape-cache_control', '~> 1.0.1'
 
 gem 'roar',   '~> 1.0.0'
@@ -243,7 +245,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  # gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # TODO: Make this group :optional when bundler v10.x
