@@ -103,7 +103,7 @@ class MyController < ApplicationController
     @user = User.current  # required by "my" layout
     @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
-    if @user.check_password?(params[:password])
+    if @user.check_password?(params[:password], update_legacy: false)
       @user.password = params[:new_password]
       @user.password_confirmation = params[:new_password_confirmation]
       @user.force_password_change = false

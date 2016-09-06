@@ -84,6 +84,7 @@ module OpenProject
       'internal_password_confirmation' => true,
 
       'disable_password_choice' => false,
+      'override_bcrypt_cost_factor' => nil,
 
       'disabled_modules' => [], # allow to disable default modules
       'hidden_menu_items' => {},

@@ -165,7 +165,7 @@ class User < Principal
   # create new password if password was set
   def update_password
     if password && auth_source_id.blank?
-      new_password = passwords.build
+      new_password = passwords.build(type: UserPassword.active_type.to_s)
       new_password.plain_password = password
       new_password.save
 
@@ -357,12 +357,14 @@ class User < Principal
   end
 
   # Returns true if +clear_password+ is the correct user's password, otherwise false
-  def check_password?(clear_password)
+  # If +update_legacy+ is set, will automatically save legacy passwords using the current
+  # format.
+  def check_password?(clear_password, update_legacy: true)
     if auth_source_id.present?
       auth_source.authenticate(login, clear_password)
     else
       return false if current_password.nil?
-      current_password.same_as_plain_password?(clear_password)
+      current_password.matches_plaintext?(clear_password, update_legacy: update_legacy)
     end
   end
 
@@ -741,7 +743,7 @@ class User < Principal
     ban_count = Setting[:password_count_former_banned].to_i
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
-    passwords[0, ban_count].any? { |f| f.same_as_plain_password?(password) }
+    passwords[0, ban_count].any? { |f| f.matches_plaintext?(password) }
   end
 
   def clean_up_former_passwords
@@ -840,7 +842,7 @@ class User < Principal
   end
 
   def self.default_admin_account_changed?
-    !User.active.find_by_login('admin').try(:current_password).try(:same_as_plain_password?, 'admin')
+    !User.active.find_by_login('admin').try(:current_password).try(:matches_plaintext?, 'admin')
   end
 end
 
