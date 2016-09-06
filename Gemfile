@@ -146,7 +146,7 @@ gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
 group :test do
-  gem 'rack-test', '~> 0.6.2'
+  gem 'rack-test', '~> 0.6.3'
   gem 'shoulda-context', '~> 1.2'
   gem 'launchy'
 
@@ -155,25 +155,25 @@ group :test do
   # definitions from core are not available in the plugin thus specs break
   gem 'factory_girl', '~> 4.5'
   # require factory_girl_rails for convenience in core development
-  gem 'factory_girl_rails', '~> 4.6', require: false
+  gem 'factory_girl_rails', '~> 4.7', require: false
 
-  gem 'cucumber', '~> 1.3.19'
-  gem 'cucumber-rails', '~> 1.4.2', require: false
+  gem 'cucumber', '~> 2.4.0'
+  gem 'cucumber-rails', '~> 1.4.4', require: false
   gem 'rack_session_access'
-  gem 'database_cleaner', '~> 1.5.1'
-  gem 'rspec', '~> 3.4.0'
+  gem 'database_cleaner', '~> 1.5.3'
+  gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.4.2', group: :development
+  gem 'rspec-rails', '~> 3.5.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
-  gem 'capybara', '~> 2.6.2'
-  gem 'capybara-screenshot', '~> 1.0.12'
+  gem 'capybara', '~> 2.8.1'
+  gem 'capybara-screenshot', '~> 1.0.13'
   gem 'fuubar'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
-  gem 'capybara-ng', '~> 0.2.2'
+  gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
-  gem 'poltergeist'
+  gem 'poltergeist', '~> 1.10.0'
   gem 'timecop', '~> 0.8'
   gem 'webmock', '~> 1.24.2', require: false
 
@@ -183,7 +183,7 @@ group :test do
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec'
   gem 'activerecord-tableless', '~> 1.0'
-  gem 'codecov', require: nil
+  gem 'codecov', '~> 0.1.5', require: nil
   gem 'equivalent-xml', '~> 0.6'
 end
 

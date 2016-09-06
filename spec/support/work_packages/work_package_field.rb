@@ -139,7 +139,6 @@ class WorkPackageField
   def ensure_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
-      ng_wait
 
       expect(page).to have_selector('#work-packages-list-view-button.-active,
         .work-packages--details--title,
