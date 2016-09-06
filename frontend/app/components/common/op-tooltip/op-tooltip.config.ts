@@ -42,8 +42,10 @@ function opTooltipConfig($rootElement: IRootElementService,
       tooltip.show();
       return;
     }
-
-    opTooltipService.hide();
+    //TODO: Add test for when the element is a tooltip
+    else if (!(element.is('.op-tooltip') || element.parents('.op-tooltip').length)) {
+      opTooltipService.hide();
+    }
   });
 }
 
