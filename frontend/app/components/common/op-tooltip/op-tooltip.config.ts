@@ -37,12 +37,10 @@ import IDocumentService = angular.IDocumentService;
  */
 function opTooltipDirectiveConfig($rootElement: IRootElementService) {
   $rootElement.mouseover(event => {
-    if (event.target.hasAttribute('op-tooltip')) {
-      const tooltip: OpenProjectTooltipController =
-        angular
-          .element(event.target)
-          .controller('opTooltip');
+    const element = angular.element(event.target);
 
+    if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
+      const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
       tooltip.show();
     }
   });

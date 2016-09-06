@@ -28,6 +28,7 @@
 
 import {openprojectModule} from '../../../angular-modules';
 import IRootElementService = angular.IRootElementService;
+import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 describe('opTooltip directive', () => {
   var mouseOver;
@@ -37,16 +38,19 @@ describe('opTooltip directive', () => {
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootScope,
                                            $rootElement,
-                                           $compile) {
+                                           $compile,
+                                           $templateCache) {
     const html = `
       <div>
-        <div op-tooltip="templateUrl"></div>
+        <div op-tooltip="templateUrl"><span class="lonely-child"></span></div>
         <div op-tooltip="templateUrl"></div>
       </div>`;
     const scope: any = $rootScope.$new();
 
     scope.templateUrl = 'the-letter';
     scope.templateValue = 'the cake is a lie';
+
+    $templateCache.put('the-letter', '{{ templateValue }}');
 
     tooltips = $compile(html)(scope).children();
 
@@ -74,11 +78,9 @@ describe('opTooltip directive', () => {
   }
 
   describe('when moving the mouse over the first item', () => {
-    beforeEach(angular.mock.inject($httpBackend => {
-      $httpBackend.expectGET('the-letter').respond('{{ templateValue }}');
+    beforeEach(() => {
       mouseOver(tooltips.get(0));
-      $httpBackend.flush();
-    }));
+    });
 
     testTooltip();
 
@@ -89,5 +91,14 @@ describe('opTooltip directive', () => {
 
       testTooltip();
     });
+  });
+
+  describe('when moving the mouse over a child element of the tooltip directive', () => {
+    beforeEach(() => {
+      const child = tooltips.find('.lonely-child');
+      mouseOver(child.get(0));
+    });
+
+    testTooltip();
   });
 });
