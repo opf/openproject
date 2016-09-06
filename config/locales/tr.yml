@@ -9,7 +9,6 @@ tr:
   label_greater: '>'
   label_group_by: Grupla
   label_group_by_add: Add Group-by Attribute
-  label_help: Yardım
   label_inactive: «etkin olmayan»
   label_less: '<'
   label_no: Hayır
@@ -25,3 +24,7 @@ tr:
   units: Birimler
   validation_failure_date: geçerli bir tarih değil
   validation_failure_integer: geçerli bir tamsayı değil
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

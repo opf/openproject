@@ -9,7 +9,6 @@ da:
   label_greater: '>'
   label_group_by: Gruppér efter
   label_group_by_add: Tilføj Gruppér efter-attribut
-  label_help: Hjælp
   label_inactive: «inaktiv»
   label_less: '<'
   label_no: Nej
@@ -25,3 +24,7 @@ da:
   units: Enheder
   validation_failure_date: er en ugyldig dato
   validation_failure_integer: er et ugyldigt heltal
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

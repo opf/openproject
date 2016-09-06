@@ -9,7 +9,6 @@ sk:
   label_greater: '>'
   label_group_by: Zoskupiť podľa
   label_group_by_add: 'Pridať atribút "zoskupiť podľa"'
-  label_help: Nápoveda
   label_inactive: «neaktívny»
   label_less: '<'
   label_no: Nie
@@ -25,3 +24,7 @@ sk:
   units: Jednotky
   validation_failure_date: nie je platný dátum
   validation_failure_integer: nie je platné celé číslo
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

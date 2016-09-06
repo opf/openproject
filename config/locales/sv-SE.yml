@@ -9,7 +9,6 @@ sv:
   label_greater: '>'
   label_group_by: Gruppera efter
   label_group_by_add: Lägg till Gruppera-efter-Attribut
-  label_help: Hjälp
   label_inactive: «inaktiv»
   label_less: '<'
   label_no: Nej
@@ -25,3 +24,7 @@ sv:
   units: Enheter
   validation_failure_date: inte är ett giltigt datum
   validation_failure_integer: är inte ett giltigt heltal
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

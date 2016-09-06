@@ -9,7 +9,6 @@ ko:
   label_greater: '>'
   label_group_by: 그룹화 기준
   label_group_by_add: 그룹화 기준 특성 추가
-  label_help: 도움말
   label_inactive: «비활성»
   label_less: '<'
   label_no: 아니요
@@ -25,3 +24,7 @@ ko:
   units: 단위
   validation_failure_date: 은(는) 유효한 날짜가 아닙니다.
   validation_failure_integer: 은(는) 유효한 정수가 아닙니다.
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

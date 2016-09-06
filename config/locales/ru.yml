@@ -9,7 +9,6 @@ ru:
   label_greater: '>'
   label_group_by: Группировать по
   label_group_by_add: 'Добавить атрибут "Группировать по"'
-  label_help: Справка
   label_inactive: «неактивен»
   label_less: '<'
   label_no: Нет
@@ -25,3 +24,7 @@ ru:
   units: Модули
   validation_failure_date: не является допустимой датой
   validation_failure_integer: не является допустимым целым числом
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

@@ -9,7 +9,6 @@ ja:
   label_greater: '>'
   label_group_by: グループ化
   label_group_by_add: グループ化属性を追加
-  label_help: ヘルプ
   label_inactive: «非活動»
   label_less: '<'
   label_no: いいえ
@@ -25,3 +24,7 @@ ja:
   units: 単位
   validation_failure_date: は有効な日付ではありません。
   validation_failure_integer: は有効な整数ではありません。
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

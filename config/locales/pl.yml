@@ -9,7 +9,6 @@ pl:
   label_greater: '>'
   label_group_by: Grupuj według
   label_group_by_add: Dodaj grupowanie po atrybucie
-  label_help: Pomoc
   label_inactive: «nieaktywne»
   label_less: '<'
   label_no: Nie
@@ -25,3 +24,7 @@ pl:
   units: Jednostki
   validation_failure_date: nie jest poprawną datą
   validation_failure_integer: nie jest prawidłową liczbą całkowitą
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

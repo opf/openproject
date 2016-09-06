@@ -9,7 +9,6 @@ hr:
   label_greater: '>'
   label_group_by: Grupiraj po
   label_group_by_add: 'Dodaj grupu - po Atributu'
-  label_help: Pomoć
   label_inactive: «neaktivan»
   label_less: '<'
   label_no: Ne
@@ -25,3 +24,7 @@ hr:
   units: Jedinice
   validation_failure_date: nije valjan datum
   validation_failure_integer: nije valjan cijeli broj
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

@@ -9,7 +9,6 @@ et:
   label_greater: '>'
   label_group_by: Grupeeri
   label_group_by_add: Lisa grupeerimise omadus
-  label_help: Abi
   label_inactive: «mitteaktiivne»
   label_less: '<'
   label_no: Ei
@@ -25,3 +24,7 @@ et:
   units: Ühikud
   validation_failure_date: pole korrektne kuupäev
   validation_failure_integer: pole täisarv
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

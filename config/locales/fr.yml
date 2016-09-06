@@ -10,7 +10,6 @@ fr:
   label_group_by: Grouper par
   label_group_by_add: |-
     Ajoutez l'attribut "Grouper par"
-  label_help: Aide
   label_inactive: « inactif »
   label_less: '<'
   label_no: Non
@@ -26,3 +25,7 @@ fr:
   units: Unités
   validation_failure_date: "n'est pas une date valide"
   validation_failure_integer: "n'est pas un nombre entier valide"
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows

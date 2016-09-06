@@ -9,7 +9,6 @@ zh:
   label_greater: '>'
   label_group_by: 分组依据
   label_group_by_add: 添加分组依据属性
-  label_help: 帮助
   label_inactive: «不活动»
   label_less: '<'
   label_no: 否
@@ -25,3 +24,7 @@ zh:
   units: 单位
   validation_failure_date: 不是有效的日期
   validation_failure_integer: 不是有效的整数
+  reporting:
+    group_by:
+      selected_columns: Selected columns
+      selected_rows: Selected rows
