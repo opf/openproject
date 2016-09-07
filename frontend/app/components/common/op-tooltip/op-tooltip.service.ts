@@ -44,7 +44,7 @@ export class OpenProjectTooltipService {
 
     //TODO: Move to stylesheet
     this.container.html(`
-      <style class="foobararar">
+      <style>
         #op-tooltip-container {
           position: absolute;
           z-index: 9999;
@@ -55,7 +55,12 @@ export class OpenProjectTooltipService {
         }
         
         .op-tooltip {
-          position: absolute;
+          display: table;
+          position: relative;
+        }
+        
+        .op-tooltip .inplace-edit--controls {
+          position: static;
         }
       </style>
     `);
