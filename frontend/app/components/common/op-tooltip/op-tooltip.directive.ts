@@ -31,6 +31,7 @@ import {OpenProjectTooltipService} from './op-tooltip.service';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 import ICompileService = angular.ICompileService;
+import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class OpenProjectTooltipController {
   protected get template() {
@@ -41,13 +42,13 @@ export class OpenProjectTooltipController {
   }
 
   constructor(protected $scope: IScope,
-              protected $element,
+              protected $element: IAugmentedJQuery,
               protected $attrs: any,
               protected $compile: ICompileService,
               protected opTooltipService: OpenProjectTooltipService) {
   }
 
-  public show() {
+  public show(): IAugmentedJQuery {
     const tooltip = this.$compile(this.template)(this.$scope);
     var {top, left} = this.$element.offset();
 
@@ -58,6 +59,8 @@ export class OpenProjectTooltipController {
 
     this.$scope.$apply();
     this.opTooltipService.show(tooltip);
+
+    return tooltip;
   }
 }
 

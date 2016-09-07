@@ -27,87 +27,60 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import IRootElementService = angular.IRootElementService;
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 describe('opTooltip directive', () => {
-  var mouseOver;
-  var tooltips;
-  var tooltip;
+  var opTooltipService;
+  var element;
+  var controller;
 
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootScope,
-                                           $rootElement,
                                            $compile,
-                                           $templateCache) {
-    const html = `
-      <div>
-        <div op-tooltip="templateUrl"><span class="lonely-child"></span></div>
-        <div op-tooltip="templateUrl"></div>
-      </div>`;
+                                           $templateCache,
+                                           _opTooltipService_) {
+    opTooltipService = _opTooltipService_;
+    opTooltipService.show = sinon.stub();
+
+    const html = '<div op-tooltip="templateUrl"></div>';
     const scope: any = $rootScope.$new();
 
-    scope.templateUrl = 'the-letter';
+    scope.templateUrl = 'recipe';
     scope.templateValue = 'the cake is a lie';
 
-    $templateCache.put('the-letter', '{{ templateValue }}');
+    $templateCache.put('recipe', '{{ templateValue }}');
 
-    tooltips = $compile(html)(scope).children();
-
-    mouseOver = target => {
-      const type = 'mouseover';
-
-      $rootElement.triggerHandler({target, type});
-      tooltip = angular.element('.op-tooltip');
-    };
+    element = $compile(html)(scope);
+    element.css({
+      width: 10,
+      height: 10,
+      padding: 5
+    });
+    controller = element.controller('opTooltip');
   }));
 
-  function testTooltip() {
-    it('should add a single tooltip to the dom', () => {
-      expect(tooltip).to.have.length(1);
+  describe('when calling the show method of the tooltip controller', () => {
+    var tooltip;
+
+    beforeEach(() => {
+      tooltip = controller.show();
     });
 
     it('should compile the content of the tooltip', () => {
       expect(tooltip.html()).to.contain('the cake is a lie');
     });
 
-    it('should have a z-index over 9000', () => {
-      const over = power => expect(tooltip.css('z-index')).to.be.above(power);
-      "it's" + over(9000);
+    it('should pass the tooltip to the show method of the tooltip service', () => {
+      expect(opTooltipService.show.calledWith(tooltip)).to.be.true;
     });
 
-    describe('when moving the mouse somewhere else', () => {
-      beforeEach(() => {
-        mouseOver(document.body);
-      });
-
-      it('should be removed from the dom', () => {
-        expect(tooltip).to.have.lengthOf(0);
-      });
-    });
-  }
-
-  describe('when moving the mouse over the first item', () => {
-    beforeEach(() => {
-      mouseOver(tooltips.get(0));
+    it('should make the tooltip appear below the original element', () => {
+      const top = element.offset().top + element.outerHeight();
+      expect(parseInt(tooltip.css('top'))).to.equal(top);
     });
 
-    testTooltip();
-
-    describe('when moving the mouse over the second item', () => {
-      beforeEach(() => {
-        mouseOver(tooltips.get(1));
-      });
-
-      testTooltip();
+    it('should align the tooltip on the right of the original element', () => {
+      const left = element.offset().left + element.outerWidth();
+      expect(parseInt(tooltip.css('left'))).to.equal(left);
     });
-  });
-
-  describe('when moving the mouse over a child element of the tooltip directive', () => {
-    beforeEach(() => {
-      mouseOver(tooltips.find('.lonely-child').get(0));
-    });
-
-    testTooltip();
   });
 });
