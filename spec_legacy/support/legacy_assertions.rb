@@ -140,28 +140,6 @@ module LegacyAssertionsAndHelpers
     should render_template 'common/error'
   end
 
-  def should_have_before_action(expected_method, options = {})
-    should_have_filter('before', expected_method, options)
-  end
-
-  def should_have_after_filter(expected_method, options = {})
-    should_have_filter('after', expected_method, options)
-  end
-
-  def should_have_filter(filter_type, expected_method, options)
-    description = "have #{filter_type}_filter :#{expected_method}"
-    description << " with #{options.inspect}" unless options.empty?
-
-    should description do
-      klass = "action_controller/filters/#{filter_type}_filter".classify.constantize
-      expected = klass.new(:filter, expected_method.to_sym, options)
-      assert_equal 1, @controller.class.filter_chain.count { |filter|
-        filter.method == expected.method && filter.kind == expected.kind &&
-          filter.options == expected.options && filter.class == expected.class
-      }
-    end
-  end
-
   def should_show_the_old_and_new_values_for(prop_key, model, &block)
     context '' do
       before do
