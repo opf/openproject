@@ -40,13 +40,6 @@ GIT
       activemodel (>= 4.0, < 5.1)
 
 GIT
-  remote: git://github.com/why-el/svg-graph.git
-  revision: e79abffa66639ab203d099250c5d2656a4ebf917
-  branch: silence-class-access-warning
-  specs:
-    svg-graph (1.0.2)
-
-GIT
   remote: https://github.com/carrierwaveuploader/carrierwave
   revision: b31f7ce006bade550be0ad946d0b993b799358e3
   branch: master
@@ -519,6 +512,7 @@ GEM
     sqlite3 (1.3.11)
     stringex (2.6.1)
     structured_warnings (0.2.0)
+    svg-graph (2.0.1)
     syck (1.0.5)
     sys-filesystem (1.1.5)
       ffi
@@ -672,7 +666,7 @@ DEPENDENCIES
   sprockets (~> 3.5.2)
   sqlite3
   stringex (~> 2.6.1)
-  svg-graph!
+  svg-graph (~> 2.0.1)
   syck (~> 1.0.5)
   sys-filesystem (~> 1.1.4)
   thin (~> 1.7.0)

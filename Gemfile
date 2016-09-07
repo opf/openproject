@@ -73,7 +73,7 @@ gem 'stringex', '~> 2.6.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph', github: 'why-el/svg-graph', branch: 'silence-class-access-warning'
+gem 'svg-graph', '~> 2.0.1'
 
 gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
