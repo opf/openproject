@@ -74,11 +74,11 @@ describe('opTooltip directive', () => {
     });
   });
 
-  describe('when calling the show method of the tooltip controller', () => {
+  describe('when calling the create method of the tooltip controller', () => {
     var tooltip;
 
     beforeEach(() => {
-      tooltip = controller.show();
+      tooltip = controller.create();
     });
 
     it('should compile the content of the tooltip', () => {

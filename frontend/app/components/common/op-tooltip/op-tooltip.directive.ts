@@ -56,7 +56,7 @@ export class OpenProjectTooltipController {
     return !!this.templateUrl;
   }
 
-  public show(): IAugmentedJQuery {
+  public create(): IAugmentedJQuery {
     const tooltip = this.$compile(this.template)(this.$scope);
     var {top, left} = this.$element.offset();
 

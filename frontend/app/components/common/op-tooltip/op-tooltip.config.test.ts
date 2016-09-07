@@ -48,7 +48,7 @@ describe('opTooltip config', () => {
     tooltipDirective = $compile('<div op-tooltip><div></div></div>')($rootScope);
 
     controller = tooltipDirective.controller('opTooltip');
-    controller.show = sinon.stub();
+    controller.create = sinon.stub();
 
     mouseOver = element => {
       const type = 'mouseover';
@@ -62,7 +62,7 @@ describe('opTooltip config', () => {
     beforeEach(() => prepare());
 
     it('should show the tooltip', () => {
-      expect(controller.show.calledOnce).to.be.true;
+      expect(controller.create.calledOnce).to.be.true;
     });
   }
 

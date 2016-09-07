@@ -40,7 +40,7 @@ function opTooltipConfig($rootElement: IRootElementService,
       const tooltip = element.controller('opTooltip');
 
       if (tooltip.hasTemplate()) {
-        tooltip.show();
+        tooltip.create();
       }
       else {
         opTooltipService.hide();
