@@ -26,7 +26,85 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//TODO: Move the tests of the mouse over events here
+import {openprojectModule} from '../../../angular-modules';
+
 describe('opTooltip config', () => {
-  //empty
+  var opTooltipService;
+  var controller;
+
+  var createTooltip;
+  var mouseOver;
+  var tooltip;
+
+  beforeEach(angular.mock.module(openprojectModule.name, $provide => {
+    opTooltipService = {hide: sinon.stub()};
+    $provide.value('opTooltipService', opTooltipService);
+  }));
+
+  beforeEach(angular.mock.inject(function ($rootScope, $rootElement, $compile) {
+    createTooltip = html => {
+      tooltip = $compile(html)($rootScope).appendTo($rootElement);
+      controller = tooltip.controller('opTooltip');
+      controller.show = sinon.stub();
+    };
+    mouseOver = element => {
+      const type = 'mouseover';
+      const target = element.get(0);
+
+      $rootElement.triggerHandler({target, type});
+    };
+  }));
+
+  describe('when moving the mouse over a tooltip directive', () => {
+    beforeEach(() => {
+      createTooltip('<div op-tooltip></div>');
+      mouseOver(tooltip);
+    });
+
+    it('should show the tooltip', () => {
+      expect(controller.show.calledOnce).to.be.true;
+    });
+  });
+
+  describe('when moving the mouse over a child element of a tooltip directive', () => {
+    beforeEach(() => {
+      createTooltip('<div op-tooltip><div class="child"></div></div>');
+      mouseOver(tooltip.find('.child'));
+    });
+
+    it('should show the tooltip', () => {
+      expect(controller.show.calledOnce).to.be.true;
+    });
+  });
+
+  describe('when moving the mouse over a tooltip', () => {
+    beforeEach(() => {
+      mouseOver(angular.element('<div class="op-tooltip"></div>'));
+    });
+
+    it('should not hide the tooltip', () => {
+      expect(opTooltipService.hide.called).to.be.false;
+    });
+  });
+
+  describe('when moving the mouse over a child element of the tooltip', () => {
+    beforeEach(() => {
+      const element = angular.element('<div class="op-tooltip"><div class="child"></div></div>');
+      mouseOver(element.find('.child'));
+    });
+
+    it('should not hide the tooltip', () => {
+      expect(opTooltipService.hide.called).to.be.false;
+    });
+  });
+
+  describe('when moving the mouse over anything else', () => {
+    beforeEach(() => {
+      mouseOver(angular.element(document.body));
+    });
+
+    it('should hide the tooltip', () => {
+      expect(opTooltipService.hide.calledOnce).to.be.true;
+    });
+  });
 });

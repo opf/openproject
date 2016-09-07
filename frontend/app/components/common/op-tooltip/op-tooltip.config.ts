@@ -38,11 +38,8 @@ function opTooltipConfig($rootElement: IRootElementService,
 
     if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
       const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
-
       tooltip.show();
-      return;
     }
-    //TODO: Add test for when the element is a tooltip
     else if (!(element.is('.op-tooltip') || element.parents('.op-tooltip').length)) {
       opTooltipService.hide();
     }
