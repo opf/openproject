@@ -72,7 +72,14 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
     if Redmine::AccessControl.permission(action).public?
       id_equal_or_public
     else
-      id_equal_or_public.and(roles_table[:permissions].matches("%#{action}%"))
+      # we cannot use
+      # roles_table[:permissions].matches("%#{action}%"))
+      # because AR 5 checks for the colum type and does not allow
+      # querying with strings when having a serialized value.
+      has_permission_sql = "#{roles_table.name}.permissions LIKE '%#{action}%'"
+      has_permission = Arel::Nodes::SqlLiteral.new(has_permission_sql)
+
+      id_equal_or_public.and(has_permission)
     end
   end
 
