@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesAlternateDates < ActiveRecord::Migration
+class CreateTimelinesAlternateDates < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_alternate_dates) do |t|
       t.column :start_date, :date, null: false

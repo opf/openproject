@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class JournalActivitiesData < ActiveRecord::Migration
+class JournalActivitiesData < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

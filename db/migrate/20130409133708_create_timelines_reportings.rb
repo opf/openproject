@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesReportings < ActiveRecord::Migration
+class CreateTimelinesReportings < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_reportings) do |t|
       t.column :reported_project_status_comment, :text

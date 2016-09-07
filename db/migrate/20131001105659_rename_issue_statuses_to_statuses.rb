@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameIssueStatusesToStatuses < ActiveRecord::Migration
+class RenameIssueStatusesToStatuses < ActiveRecord::Migration[4.2]
   def change
     rename_table :issue_statuses, :statuses
   end

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddUserFirstLoggedInAndImpairedFields < ActiveRecord::Migration
+class AddUserFirstLoggedInAndImpairedFields < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :first_login, :boolean, null: false, default: true
     add_column :user_preferences, :impaired, :boolean, default: false

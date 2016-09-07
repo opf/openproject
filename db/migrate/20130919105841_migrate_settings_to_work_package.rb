@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class MigrateSettingsToWorkPackage < ActiveRecord::Migration
+class MigrateSettingsToWorkPackage < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   COLUMN = 'name'

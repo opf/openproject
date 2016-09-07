@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class UpdateAttachmentContainer < ActiveRecord::Migration
+class UpdateAttachmentContainer < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

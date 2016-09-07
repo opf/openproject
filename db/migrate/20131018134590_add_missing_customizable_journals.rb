@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/customizable_utils'
 
-class AddMissingCustomizableJournals < ActiveRecord::Migration
+class AddMissingCustomizableJournals < ActiveRecord::Migration[4.2]
   include Migration::Utils
   include Migration::Utils::CustomizableUtils
 

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateChangesetJournals < ActiveRecord::Migration
+class CreateChangesetJournals < ActiveRecord::Migration[4.2]
   def change
     create_table :changeset_journals do |t|
       t.integer :journal_id,    null: false

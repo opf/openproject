@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddStandardColumnToTypeTable < ActiveRecord::Migration
+class AddStandardColumnToTypeTable < ActiveRecord::Migration[4.2]
   def change
     add_column :types, :is_standard, :boolean, null: false, default: false
   end

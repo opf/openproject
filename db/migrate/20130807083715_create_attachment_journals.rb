@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateAttachmentJournals < ActiveRecord::Migration
+class CreateAttachmentJournals < ActiveRecord::Migration[4.2]
   def change
     create_table :attachment_journals do |t|
       t.integer :journal_id,                                   null: false

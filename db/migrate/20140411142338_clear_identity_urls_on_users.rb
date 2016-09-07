@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ClearIdentityUrlsOnUsers < ActiveRecord::Migration
+class ClearIdentityUrlsOnUsers < ActiveRecord::Migration[4.2]
   def up
     create_table 'legacy_user_identity_urls' do |t|
       t.string 'login', limit: 256, default: '',    null: false

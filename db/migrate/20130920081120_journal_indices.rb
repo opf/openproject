@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class JournalIndices < ActiveRecord::Migration
+class JournalIndices < ActiveRecord::Migration[4.2]
   def up
     # remove existing indices on legacy_issues, if they still exist to avoid name-clashes with
     # the real(tm) journals-table

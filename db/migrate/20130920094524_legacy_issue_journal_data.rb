@@ -31,7 +31,7 @@ require_relative 'migration_utils/utils'
 require_relative 'migration_utils/legacy_journal_migrator'
 require_relative 'migration_utils/journal_migrator_concerns'
 
-class LegacyIssueJournalData < ActiveRecord::Migration
+class LegacyIssueJournalData < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

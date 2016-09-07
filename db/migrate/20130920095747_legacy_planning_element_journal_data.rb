@@ -30,7 +30,7 @@
 require_relative 'migration_utils/legacy_journal_migrator'
 require_relative 'migration_utils/journal_migrator_concerns'
 
-class LegacyPlanningElementJournalData < ActiveRecord::Migration
+class LegacyPlanningElementJournalData < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   class UnknownJournaledError < ::StandardError

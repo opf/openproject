@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
+class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration[4.2]
   def self.up
     set_custom_fields_type('IssueCustomField', 'WorkPackageCustomField')
     set_custom_values_type('Issue', 'WorkPackage')

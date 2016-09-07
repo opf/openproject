@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/text_references'
 
-class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
+class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   COLUMNS_PER_TABLE = {

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddActivityModule < ActiveRecord::Migration
+class AddActivityModule < ActiveRecord::Migration[4.2]
   def up
     # activate activity module for all projects
     Project.all.each do |project|

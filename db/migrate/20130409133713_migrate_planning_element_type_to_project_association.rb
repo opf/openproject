@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MigratePlanningElementTypeToProjectAssociation < ActiveRecord::Migration
+class MigratePlanningElementTypeToProjectAssociation < ActiveRecord::Migration[4.2]
   {
     DefaultPlanningElementType: 'timelines_default_planning_element_types',
     EnabledPlanningElementType: 'timelines_enabled_planning_element_types',

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddLongerLoginToUsers < ActiveRecord::Migration
+class AddLongerLoginToUsers < ActiveRecord::Migration[4.2]
   def self.up
     change_table :users do |t|
       t.change 'login', :string, limit: 256, default: '', null: false

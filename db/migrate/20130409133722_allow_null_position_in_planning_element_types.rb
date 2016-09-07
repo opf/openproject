@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AllowNullPositionInPlanningElementTypes < ActiveRecord::Migration
+class AllowNullPositionInPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     change_column :timelines_planning_element_types, :position, :integer, default: 1, null: true
   end

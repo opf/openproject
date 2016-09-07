@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AllowNullPositionInProjectTypes < ActiveRecord::Migration
+class AllowNullPositionInProjectTypes < ActiveRecord::Migration[4.2]
   def self.up
     change_column :timelines_project_types, :position, :integer, default: 1, null: true
   end
