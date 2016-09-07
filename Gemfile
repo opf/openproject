@@ -173,6 +173,10 @@ group :test do
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', require: false
+
+  # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
+  gem 'rails-controller-testing', '~> 1.0.1'
+
   gem 'capybara', '~> 2.8.1'
   gem 'capybara-screenshot', '~> 1.0.13'
   gem 'fuubar'
