@@ -96,7 +96,7 @@ gem 'daemons'
 
 # include custom rack-protection for now until rkh/rack-protection is fixed and released
 # (see https://community.openproject.org/work_packages/3029)
-gem 'rack-protection', git: 'https://github.com/finnlabs/rack-protection.git', ref: '5a7d1bd'
+gem 'rack-protection', '~> 2.0.0.beta2'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based on arbitrary properties of the request.

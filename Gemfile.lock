@@ -50,14 +50,6 @@ GIT
       mime-types (>= 1.16)
 
 GIT
-  remote: https://github.com/finnlabs/rack-protection.git
-  revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
-  ref: 5a7d1bd
-  specs:
-    rack-protection (1.5.2)
-      rack
-
-GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
   revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
   specs:
@@ -387,6 +379,8 @@ GEM
       rack (>= 0.4)
     rack-attack (4.4.1)
       rack
+    rack-protection (2.0.0.beta2)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rack_session_access (0.1.1)
@@ -634,7 +628,7 @@ DEPENDENCIES
   pry-stack_explorer (~> 0.4.9.2)
   rabl (~> 0.13.0)
   rack-attack
-  rack-protection!
+  rack-protection (~> 2.0.0.beta2)
   rack-test (~> 0.6.3)
   rack_session_access
   rails (~> 5.0.0)
