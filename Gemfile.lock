@@ -137,7 +137,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_list (0.7.2)
+    acts_as_list (0.8.1)
       activerecord (>= 3.0)
     addressable (2.4.0)
     airbrake (5.1.0)
@@ -585,7 +585,7 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-session_store (~> 1.0.0)
-  acts_as_list (~> 0.7.2)
+  acts_as_list (~> 0.8.1)
   airbrake (~> 5.1.0)
   autoprefixer-rails
   awesome_nested_set (~> 3.1.1)

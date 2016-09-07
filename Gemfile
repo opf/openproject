@@ -52,7 +52,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
-gem 'acts_as_list', '~> 0.7.2'
+gem 'acts_as_list', '~> 0.8.1'
 
 gem 'friendly_id', '~> 5.1.0'
 
