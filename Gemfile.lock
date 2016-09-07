@@ -353,7 +353,7 @@ GEM
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
-    oj (2.14.6)
+    oj (2.17.4)
     parallel (1.6.2)
     parallel_tests (2.4.1)
       parallel
@@ -393,7 +393,7 @@ GEM
     pry-stack_explorer (0.4.9.2)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    rabl (0.9.3)
+    rabl (0.13.0)
       activesupport (>= 2.3.14)
     rack (2.0.1)
     rack-accept (0.4.5)
@@ -631,7 +631,7 @@ DEPENDENCIES
   net-ldap (~> 0.14.0)
   newrelic_rpm
   nokogiri (~> 1.6.8)
-  oj (~> 2.14.6)
+  oj (~> 2.17.4)
   omniauth!
   parallel_tests (~> 2.4.1)
   passenger
@@ -644,7 +644,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.4)
   pry-rescue (~> 1.4.4)
   pry-stack_explorer (~> 0.4.9.2)
-  rabl (= 0.9.3)
+  rabl (~> 0.13.0)
   rack-attack
   rack-protection!
   rack-test (~> 0.6.3)
