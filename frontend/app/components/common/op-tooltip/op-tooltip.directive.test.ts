@@ -30,6 +30,7 @@ import {openprojectModule} from '../../../angular-modules';
 
 describe('opTooltip directive', () => {
   var opTooltipService;
+  var scope;
   var element;
   var controller;
 
@@ -42,7 +43,7 @@ describe('opTooltip directive', () => {
     opTooltipService.show = sinon.stub();
 
     const html = '<div op-tooltip="templateUrl"></div>';
-    const scope: any = $rootScope.$new();
+    scope = $rootScope.$new();
 
     scope.templateUrl = 'recipe';
     scope.templateValue = 'the cake is a lie';
@@ -57,6 +58,21 @@ describe('opTooltip directive', () => {
     });
     controller = element.controller('opTooltip');
   }));
+
+  it('should return true for hasTemplate', () => {
+    expect(controller.hasTemplate()).to.be.true;
+  });
+
+  describe('when no templateUrl is given', () => {
+    beforeEach(() => {
+      scope.templateUrl = '';
+      scope.$apply();
+    });
+
+    it('should return false for hasTemplate', () => {
+      expect(controller.hasTemplate()).to.be.false;
+    });
+  });
 
   describe('when calling the show method of the tooltip controller', () => {
     var tooltip;

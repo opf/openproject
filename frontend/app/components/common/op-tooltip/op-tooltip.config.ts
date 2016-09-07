@@ -37,7 +37,14 @@ function opTooltipConfig($rootElement: IRootElementService,
     const isOrIsChildOf = selector => element.is(selector) || element.parents(selector).length;
 
     if (isOrIsChildOf('[op-tooltip]')) {
-      element.controller('opTooltip').show();
+      const tooltip = element.controller('opTooltip');
+
+      if (tooltip.hasTemplate()) {
+        tooltip.show();
+      }
+      else {
+        opTooltipService.hide();
+      }
     }
     else if (!isOrIsChildOf('.op-tooltip')) {
       opTooltipService.hide();

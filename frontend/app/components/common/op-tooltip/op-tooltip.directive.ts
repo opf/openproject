@@ -34,6 +34,10 @@ import ICompileService = angular.ICompileService;
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class OpenProjectTooltipController {
+  protected get templateUrl(): string {
+    return this.$scope.$eval(this.$attrs.opTooltip);
+  }
+
   protected get template() {
     return `
       <div class="op-tooltip">
@@ -46,6 +50,10 @@ export class OpenProjectTooltipController {
               protected $attrs: any,
               protected $compile: ICompileService,
               protected opTooltipService: OpenProjectTooltipService) {
+  }
+
+  public hasTemplate(): boolean {
+    return !!this.templateUrl;
   }
 
   public show(): IAugmentedJQuery {
