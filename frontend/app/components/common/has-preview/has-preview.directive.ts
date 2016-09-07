@@ -26,36 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+import {openprojectModule} from "../../../angular-modules";
 
-describe('hasPreview Directive', function() {
-  var compile, element, scope;
+function hasPreview($compile, $rootScope) {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function(scope, element, attrs) {
+      var href = attrs.href;
+      var id = attrs.id;
+      var target = attrs.previewArea ||  '#preview';
+      element.on('click', function() {
+        jQuery.ajax({
+          url: href,
+          type: 'POST',
+          data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
+            .replace(/_method=(patch|put)&/, ''),
+          success: function(data) {
+            var el = angular.element(target);
+            scope.$apply(() => {
+              el.html(data);
+              $compile(el.contents())($rootScope);
+            });
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(angular.mock.module('openproject.templates'));
+            angular.element('html, body').animate({
+                scrollTop: angular.element('#preview').offset()
+                  .top
+              },
+              'slow');
+          }
+        });
 
-  beforeEach(inject(function($rootScope, $compile) {
-    var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';
+        return false;
+      });
+    }
+  };
+};
 
-    element = angular.element(html);
-    scope = $rootScope.$new();
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
-
-  beforeEach(function() {
-    compile();
-  });
-
-  describe('link element', function() {
-    beforeEach(function() {
-      element.click();
-    });
-
-    xit('should load the preview', function() {
-    });
-  });
-});
+openprojectModule.directive('hasPreview', hasPreview);
