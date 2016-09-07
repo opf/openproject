@@ -128,7 +128,7 @@ group :production do
   gem 'dalli', '~> 2.7.6'
 end
 
-gem 'sprockets', '~> 3.5.2'
+gem 'sprockets', '~> 3.7.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '~> 3.4.12'
 gem 'autoprefixer-rails'
@@ -200,7 +200,7 @@ group :development do
   gem 'letter_opener'
   gem 'thin', '~> 1.7.0'
   gem 'faker'
-  gem 'livingstyleguide', '~> 2.0.0.pre.1'
+  gem 'livingstyleguide', '~> 2.0.0'
 end
 
 group :development, :test do
