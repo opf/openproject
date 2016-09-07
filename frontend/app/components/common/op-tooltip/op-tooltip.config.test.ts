@@ -32,9 +32,9 @@ describe('opTooltip config', () => {
   var opTooltipService;
   var controller;
 
-  var createTooltip;
   var mouseOver;
-  var tooltip;
+  var tooltipDirective;
+  var tooltipElement;
 
   beforeEach(angular.mock.module(openprojectModule.name, $provide => {
     opTooltipService = {hide: sinon.stub()};
@@ -42,11 +42,12 @@ describe('opTooltip config', () => {
   }));
 
   beforeEach(angular.mock.inject(function ($rootScope, $rootElement, $compile) {
-    createTooltip = html => {
-      tooltip = $compile(html)($rootScope).appendTo($rootElement);
-      controller = tooltip.controller('opTooltip');
-      controller.show = sinon.stub();
-    };
+    tooltipElement = angular.element('<div class="op-tooltip"><div></div></div>');
+    tooltipDirective = $compile('<div op-tooltip><div></div></div>')($rootScope);
+
+    controller = tooltipDirective.controller('opTooltip');
+    controller.show = sinon.stub();
+
     mouseOver = element => {
       const type = 'mouseover';
       const target = element.get(0);
@@ -55,46 +56,43 @@ describe('opTooltip config', () => {
     };
   }));
 
-  describe('when moving the mouse over a tooltip directive', () => {
-    beforeEach(() => {
-      createTooltip('<div op-tooltip></div>');
-      mouseOver(tooltip);
-    });
+  function testShowTooltip(prepare) {
+    beforeEach(() => prepare());
 
     it('should show the tooltip', () => {
       expect(controller.show.calledOnce).to.be.true;
+    });
+  }
+
+  function testKeepTooltipVisible(prepare) {
+    beforeEach(() => prepare());
+
+    it('should not hide the tooltip', () => {
+      expect(opTooltipService.hide.called).to.be.false;
+    });
+  }
+
+  describe('when moving the mouse over a tooltip directive', () => {
+    testShowTooltip(() => {
+      mouseOver(tooltipDirective);
     });
   });
 
   describe('when moving the mouse over a child element of a tooltip directive', () => {
-    beforeEach(() => {
-      createTooltip('<div op-tooltip><div class="child"></div></div>');
-      mouseOver(tooltip.find('.child'));
-    });
-
-    it('should show the tooltip', () => {
-      expect(controller.show.calledOnce).to.be.true;
+    testShowTooltip(() => {
+      mouseOver(tooltipDirective.children());
     });
   });
 
   describe('when moving the mouse over a tooltip', () => {
-    beforeEach(() => {
-      mouseOver(angular.element('<div class="op-tooltip"></div>'));
-    });
-
-    it('should not hide the tooltip', () => {
-      expect(opTooltipService.hide.called).to.be.false;
+    testKeepTooltipVisible(() => {
+      mouseOver(tooltipElement);
     });
   });
 
   describe('when moving the mouse over a child element of the tooltip', () => {
-    beforeEach(() => {
-      const element = angular.element('<div class="op-tooltip"><div class="child"></div></div>');
-      mouseOver(element.find('.child'));
-    });
-
-    it('should not hide the tooltip', () => {
-      expect(opTooltipService.hide.called).to.be.false;
+    testKeepTooltipVisible(() => {
+      mouseOver(tooltipElement.children());
     });
   });
 

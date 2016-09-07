@@ -26,21 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {OpenProjectTooltipController} from './op-tooltip.directive';
-import {OpenProjectTooltipService} from './op-tooltip.service';
 import {opModelsModule} from '../../../angular-modules';
+import {OpenProjectTooltipService} from './op-tooltip.service';
 import IRootElementService = angular.IRootElementService;
 
 function opTooltipConfig($rootElement: IRootElementService,
                          opTooltipService: OpenProjectTooltipService) {
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
+    const isOrIsChildOf = selector => element.is(selector) || element.parents(selector).length;
 
-    if (element.is('[op-tooltip]') || element.parents('[op-tooltip]').length) {
-      const tooltip: OpenProjectTooltipController = element.controller('opTooltip');
-      tooltip.show();
+    if (isOrIsChildOf('[op-tooltip]')) {
+      element.controller('opTooltip').show();
     }
-    else if (!(element.is('.op-tooltip') || element.parents('.op-tooltip').length)) {
+    else if (!isOrIsChildOf('.op-tooltip')) {
       opTooltipService.hide();
     }
   });
