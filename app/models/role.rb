@@ -52,39 +52,49 @@ class Role < ActiveRecord::Base
 
   has_many :member_roles, dependent: :destroy
   has_many :members, through: :member_roles
+  has_many :role_permissions
+
+  default_scope -> {
+    includes(:role_permissions)
+  }
+
   acts_as_list
 
-  serialize :permissions, Array
+  # serialize :permissions, Array
 
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, maximum: 30
 
   def permissions
-    read_attribute(:permissions) || []
+    # prefer map over pluck as we will probably always load
+    # the permissions anyway
+    role_permissions.map(&:permission).map(&:to_sym)
   end
 
   def permissions=(perms)
-    perms = perms.map { |p| p.to_sym unless p.blank? }.compact.uniq if perms
-    write_attribute(:permissions, perms)
+    not_included_yet = perms - permissions
+    included_until_now = permissions - perms
+
+    remove_permission!(*included_until_now)
+
+    add_permission!(*not_included_yet)
   end
 
   def add_permission!(*perms)
-    self.permissions = [] unless permissions.is_a?(Array)
-
-    permissions_will_change!
-    perms.each do |p|
-      p = p.to_sym
-      permissions << p unless permissions.include?(p)
+    perms.each do |perm|
+      add_permission(perm)
     end
-    save!
   end
 
   def remove_permission!(*perms)
     return unless permissions.is_a?(Array)
-    permissions_will_change!
-    perms.each do |p| permissions.delete(p.to_sym) end
-    save!
+
+    perms = perms.map(&:to_s)
+
+    self.role_permissions = role_permissions.reject { |rp|
+      perms.include?(rp.permission)
+    }
   end
 
   # Returns true if the role has the given permission
@@ -184,5 +194,13 @@ class Role < ActiveRecord::Base
   def check_deletable
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?
+  end
+
+  def add_permission(permission)
+    if persisted?
+      role_permissions.create(permission: permission)
+    else
+      role_permissions.build(permission: permission)
+    end
   end
 end

@@ -27,46 +27,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Authorization::AbstractUserQuery < Authorization::AbstractQuery
-  transformations.register :all,
-                           :users_members_join do |statement|
-    statement
-      .outer_join(members_table)
-      .on(users_members_join)
+class NormalizePermissions < ActiveRecord::Migration[5.0]
+  class Role < ActiveRecord::Base
+    self.table_name = :roles
+
+    serialize :permissions, Array
   end
 
-  transformations.register :all,
-                           :member_roles_join,
-                           after: [:users_members_join] do |statement|
-    statement.outer_join(member_roles_table)
-             .on(members_member_roles_join)
+  class RolePermission < ActiveRecord::Base
+    self.table_name = :role_permissions
   end
 
-  def self.members_member_roles_join
-    members_table[:id].eq(member_roles_table[:member_id])
+  def up
+    create_table :role_permissions do |p|
+      p.string :permission
+      p.integer :role_id
+
+      p.index :role_id
+
+      p.timestamps
+    end
+
+    NormalizePermissions::Role.all.each do |role|
+      role.permissions.each do |p|
+        NormalizePermissions::RolePermission.create(role_id: role.id, permission: p)
+      end
+    end
+
+    remove_column :roles, :permissions
   end
 
-  def self.users_members_join
-    users_table[:id].eq(members_table[:user_id])
-  end
+  def down
+    add_column :roles, :permissions, :text
 
-  def self.members_table
-    Member.arel_table
-  end
+    NormalizePermissions::RolePermission.all.to_a.group_by(&:role_id).each do |role_id, permissions|
+      Role.where(id: role_id).update_all(permissions: permissions.map(&:permission))
+    end
 
-  def self.users_table
-    User.arel_table
-  end
-
-  def self.member_roles_table
-    MemberRole.arel_table
-  end
-
-  def self.roles_table
-    Role.arel_table
-  end
-
-  def self.role_permissions_table
-    RolePermission.arel_table
+    drop_table :role_permissions
   end
 end
