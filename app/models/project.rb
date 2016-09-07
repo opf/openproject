@@ -278,8 +278,7 @@ class Project < ActiveRecord::Base
   end
 
   # end timelines
-
-  def initialize(attributes = nil, options = {})
+  def initialize(attributes = nil)
     super
 
     initialized = (attributes || {}).stringify_keys

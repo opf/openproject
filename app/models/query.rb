@@ -136,7 +136,7 @@ class Query < ActiveRecord::Base
   cattr_reader :available_columns
 
   def initialize(attributes = nil, options = {})
-    super
+    super(attributes)
     add_default_filter if options[:initialize_with_default_filter]
   end
 

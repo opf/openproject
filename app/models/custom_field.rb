@@ -77,7 +77,7 @@ class CustomField < ActiveRecord::Base
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length }, unless: Proc.new { |cf| cf.max_length.blank? }
 
-  def initialize(attributes = nil, options = {})
+  def initialize(attributes = nil)
     super
     self.possible_values ||= []
   end
