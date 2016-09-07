@@ -10,6 +10,9 @@
                      disabled="wpEditModeState.active"
                      ng-if="displayWatchButton">
   </wp-watcher-button>
+
+  <wp-upload-button work-package="workPackage"></wp-upload-button>
+
   <button class="button dropdown-relative"
           ng-disabled="!actionsAvailable"
           has-dropdown-menu
@@ -19,6 +22,4 @@
     <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
     <i class="button--dropdown-indicator"></i>
   </button>
-
-  <wp-upload-button work-package="workPackage"></wp-upload-button>
 </div>
