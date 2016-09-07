@@ -30,16 +30,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="box-actions">
-  <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
-    <%= link_to_remote '', {
-          confirm: l(:label_confirm_delete),
-          url: { action: "remove_block", block: 'documents' },
-          html: { class: "icon icon-close", title: l(:button_delete) }
-        }
-        %>
-  <% end %>
-</div>
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
 
 <h3 class="widget-box--header">
   <span class="icon-context icon-notes"></span>
@@ -47,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </h3>
 
 
-<% if @user.allowed_to?(:view_documents, @project)%>
+<% if current_user.allowed_to?(:view_documents, @project)%>
     <%= render(:partial => 'documents/document',
                :collection => Document.where(project_id: @project.id).limit(10).order("created_on DESC")) %>
 <% end %>
