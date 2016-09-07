@@ -170,7 +170,7 @@ class User < Principal
       new_password.save
 
       # force reload of passwords, so the new password is sorted to the top
-      passwords(true)
+      passwords.reload
 
       clean_up_former_passwords
     end
