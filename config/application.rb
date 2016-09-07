@@ -138,9 +138,6 @@ module OpenProject
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
 
