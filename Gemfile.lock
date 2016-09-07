@@ -1,12 +1,4 @@
 GIT
-  remote: git://github.com/finnlabs/awesome_nested_set.git
-  revision: 7bd473e845e2f17f5287e8b7534bd88d4bbbf7d6
-  branch: v2.1.6-rails4
-  specs:
-    awesome_nested_set (2.1.6)
-      activerecord (>= 3.0.0)
-
-GIT
   remote: git://github.com/globalize/globalize.git
   revision: 38443bcd07da78b7b8a9433e4c6c32dd51f964a3
   ref: 38443bcd
@@ -159,6 +151,8 @@ GEM
     ast (2.2.0)
     autoprefixer-rails (6.3.3.1)
       execjs
+    awesome_nested_set (3.1.1)
+      activerecord (>= 4.0.0, < 5.1)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -585,7 +579,7 @@ DEPENDENCIES
   acts_as_list (~> 0.7.2)
   airbrake (~> 5.1.0)
   autoprefixer-rails
-  awesome_nested_set!
+  awesome_nested_set (~> 3.1.1)
   bcrypt (~> 3.1.6)
   bourbon (~> 4.2.0)
   capybara (~> 2.8.1)

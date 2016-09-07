@@ -56,7 +56,7 @@ gem 'acts_as_list', '~> 0.7.2'
 
 gem 'friendly_id', '~> 5.1.0'
 
-gem 'awesome_nested_set', github: 'finnlabs/awesome_nested_set', branch: 'v2.1.6-rails4'
+gem 'awesome_nested_set', '~> 3.1.1'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
