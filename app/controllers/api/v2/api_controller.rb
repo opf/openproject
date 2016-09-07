@@ -36,7 +36,9 @@ module Api
             if (respond_to? :skip_before_action) && (respond_to? :prepend_before_action)
               # disable CSRF protection since the V2 doesn't handle it
               skip_before_action :verify_authenticity_token
-              
+
+              skip_before_action :disable_api, raise: false
+
               prepend_before_action :disable_everything_except_api
             end
           end
