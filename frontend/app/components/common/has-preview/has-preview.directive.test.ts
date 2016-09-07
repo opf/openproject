@@ -57,6 +57,3 @@ describe('hasPreview Directive', function() {
     });
   });
 });
-
-
-
