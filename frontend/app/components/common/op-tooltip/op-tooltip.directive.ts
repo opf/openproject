@@ -27,11 +27,10 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import {OpenProjectTooltipService} from './op-tooltip.service';
 import IDirective = angular.IDirective;
+import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IScope = angular.IScope;
 import ICompileService = angular.ICompileService;
-import IAugmentedJQuery = angular.IAugmentedJQuery;
 
 export class OpenProjectTooltipController {
   protected get templateUrl(): string {
@@ -45,11 +44,10 @@ export class OpenProjectTooltipController {
       </div>`;
   }
 
-  constructor(protected $scope: IScope,
-              protected $element: IAugmentedJQuery,
-              protected $attrs: any,
-              protected $compile: ICompileService,
-              protected opTooltipService: OpenProjectTooltipService) {
+  constructor(public $element: IAugmentedJQuery,
+              protected $scope: IScope,
+              protected $attrs: {opTooltip: string},
+              protected $compile: ICompileService) {
   }
 
   public hasTemplate(): boolean {
@@ -58,15 +56,7 @@ export class OpenProjectTooltipController {
 
   public create(): IAugmentedJQuery {
     const tooltip = this.$compile(this.template)(this.$scope);
-    var {top, left} = this.$element.offset();
-
-    top += this.$element.outerHeight();
-    left += this.$element.outerWidth();
-
-    tooltip.css({top, left});
-
     this.$scope.$apply();
-    this.opTooltipService.show(tooltip);
 
     return tooltip;
   }

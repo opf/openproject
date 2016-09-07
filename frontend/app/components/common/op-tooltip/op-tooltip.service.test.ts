@@ -48,20 +48,43 @@ describe('opTooltipService', () => {
   });
 
   it('should be appended to the document body', () => {
-    expect($document.find('body .op-tooltip-container')).to.have.length.above(0);
+    expect($document.find('#op-tooltip-container')).to.have.lengthOf(1);
   });
 
   it('should hide the container initially', () => {
     expect(opTooltipService.container.is(':visible')).to.be.false;
   });
 
+  it('should have a container with z-index over 9000', () => {
+    const over = power => expect(opTooltipService.container.css('z-index')).to.be.above(power);
+    "it's" + over(9000);
+  });
+
   describe('when calling the show method', () => {
     var tooltip;
+    var target;
 
     beforeEach(() => {
       tooltip = angular.element('<div class="op-tooltip"></div>');
+      target = angular.element('<div></div>').appendTo(document.body);
+      target.css({
+        width: 10,
+        height: 10,
+        padding: 5
+      });
       opTooltipService.container.append('<div class="op-tooltip"></div>');
-      opTooltipService.show(tooltip);
+
+      opTooltipService.show(tooltip, target);
+    });
+
+    it('should make the tooltip appear below the original element', () => {
+      const top = target.offset().top + target.outerHeight();
+      expect(parseInt(tooltip.css('top'))).to.equal(parseInt(top));
+    });
+
+    it('should align the tooltip on the right of the original element', () => {
+      const left = target.offset().left + target.outerWidth();
+      expect(parseInt(tooltip.css('left'))).to.equal(parseInt(left));
     });
 
     it('should remove other tooltips', () => {

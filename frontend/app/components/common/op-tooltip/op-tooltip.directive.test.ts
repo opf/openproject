@@ -29,7 +29,6 @@
 import {openprojectModule} from '../../../angular-modules';
 
 describe('opTooltip directive', () => {
-  var opTooltipService;
   var scope;
   var element;
   var controller;
@@ -37,11 +36,7 @@ describe('opTooltip directive', () => {
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootScope,
                                            $compile,
-                                           $templateCache,
-                                           _opTooltipService_) {
-    opTooltipService = _opTooltipService_;
-    opTooltipService.show = sinon.stub();
-
+                                           $templateCache) {
     const html = '<div op-tooltip="templateUrl"></div>';
     scope = $rootScope.$new();
 
@@ -51,11 +46,6 @@ describe('opTooltip directive', () => {
     $templateCache.put('recipe', '{{ templateValue }}');
 
     element = $compile(html)(scope);
-    element.css({
-      width: 10,
-      height: 10,
-      padding: 5
-    });
     controller = element.controller('opTooltip');
   }));
 
@@ -83,20 +73,6 @@ describe('opTooltip directive', () => {
 
     it('should compile the content of the tooltip', () => {
       expect(tooltip.html()).to.contain('the cake is a lie');
-    });
-
-    it('should pass the tooltip to the show method of the tooltip service', () => {
-      expect(opTooltipService.show.calledWith(tooltip)).to.be.true;
-    });
-
-    it('should make the tooltip appear below the original element', () => {
-      const top = element.offset().top + element.outerHeight();
-      expect(parseInt(tooltip.css('top'))).to.equal(top);
-    });
-
-    it('should align the tooltip on the right of the original element', () => {
-      const left = element.offset().left + element.outerWidth();
-      expect(parseInt(tooltip.css('left'))).to.equal(left);
     });
   });
 });

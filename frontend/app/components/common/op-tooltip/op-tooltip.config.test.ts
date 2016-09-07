@@ -33,8 +33,11 @@ describe('opTooltip config', () => {
   var controller;
 
   var mouseOver;
+
   var tooltipDirective;
   var tooltipElement;
+
+  var tooltipMock;
 
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootScope,
@@ -42,13 +45,16 @@ describe('opTooltip config', () => {
                                            $compile,
                                            _opTooltipService_) {
     opTooltipService = _opTooltipService_;
+    opTooltipService.show = sinon.stub();
     opTooltipService.hide = sinon.stub();
 
     tooltipElement = angular.element('<div class="op-tooltip"><div></div></div>');
     tooltipDirective = $compile('<div op-tooltip><div></div></div>')($rootScope);
 
     controller = tooltipDirective.controller('opTooltip');
-    controller.create = sinon.stub();
+
+    tooltipMock = {};
+    controller.create = sinon.stub().returns(tooltipMock);
 
     mouseOver = element => {
       const type = 'mouseover';
@@ -61,8 +67,12 @@ describe('opTooltip config', () => {
   function testShowTooltip(prepare) {
     beforeEach(() => prepare());
 
-    it('should show the tooltip', () => {
+    it('should create the tooltip', () => {
       expect(controller.create.calledOnce).to.be.true;
+    });
+
+    it('should show the tooltip', () => {
+      expect(opTooltipService.show.calledWith(tooltipMock, controller.$element)).to.be.true;
     });
   }
 

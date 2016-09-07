@@ -36,23 +36,38 @@ export class OpenProjectTooltipService {
   private hideTimeout: number;
 
   constructor() {
+    angular.element('#op-tooltip-container').remove();
     this.container = angular
-      .element('<div class="op-tooltip-container"></div>')
+      .element('<div id="op-tooltip-container"></div>')
       .hide()
       .appendTo(document.body);
 
     //TODO: Move to stylesheet
-    this.container.append(`
-      <style>
-        .op-tooltip {
+    this.container.html(`
+      <style class="foobararar">
+        #op-tooltip-container {
           position: absolute;
           z-index: 9999;
+          top: 0;
+          left: 0;
+          width: 1px;
+          height: 1px;
+        }
+        
+        .op-tooltip {
+          position: absolute;
         }
       </style>
     `);
   }
 
-  public show(tooltip) {
+  public show(tooltip, target) {
+    var {top, left} = target.offset();
+    top += target.outerHeight();
+    left += target.outerWidth();
+
+    tooltip.css({top, left});
+
     angular.element('.op-tooltip').remove();
     this.container.append(tooltip);
 
