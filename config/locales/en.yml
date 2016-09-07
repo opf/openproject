@@ -1043,6 +1043,7 @@ en:
   label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
+  label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
