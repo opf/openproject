@@ -47,6 +47,7 @@ export class WorkPackageEditFieldController {
   public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
+  protected _activated_at;
   protected _hasFocus: boolean = false;
   protected _forceFocus: boolean = false;
 
@@ -95,6 +96,7 @@ export class WorkPackageEditFieldController {
 
   public deactivate() {
     this._forceFocus = false;
+    this._activated_at = null;
     return this._active = false;
   }
 
@@ -104,17 +106,16 @@ export class WorkPackageEditFieldController {
     let alreadyActive = this._active;
 
     return this.buildEditField().then(() => {
-      const makeActive = this.field.schema.writable;
 
       // This timeout is necessary as the value is not always expanded otherwise
-      this.$timeout(() => {
-        this._active = makeActive;
-        if (this._active && (!alreadyActive || this.errorenous)) {
-          this.focusField();
-        }
-      });
+      this._active = this.field.schema.writable;
 
-      return makeActive;
+      if (this._active && (!alreadyActive || this.errorenous)) {
+        this._activated_at = Date.now();
+        this.focusField();
+      }
+
+      return this._active;
     });
   }
 
@@ -239,6 +240,12 @@ export class WorkPackageEditFieldController {
   }
 
   public handleUserBlur(): boolean {
+    // HACK: Firefox keeps emitting a blur event soon after an edit field has been opened
+    if (this._activated_at && (Date.now() - this._activated_at) < 200) {
+      console.log("Field received blur soon after opening. Ignoring.");
+      return false;
+    }
+
     this._hasFocus = false;
 
     if (!this.isSubmittable()) {
