@@ -5,7 +5,7 @@ echo "ruby '2.1.6'" > Gemfile.local
 date +%F > config/RELEASE_DATE
 
 cp -f packaging/conf/configuration.yml config/configuration.yml
-sed -i "s|config.serve_static_files = false|config.serve_static_files = true|" config/environments/production.rb
+sed -i "s|config.public_file_server.enabled = false|config.public_file_server.enabled = true|" config/environments/production.rb
 
 # Specific npmrc used for packaging
 cp -f packaging/.npmrc .npmrc
