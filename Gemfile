@@ -222,7 +222,7 @@ gem 'reform', '~> 1.2.6', require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
-    gem 'mysql2', '~> 0.4'
+    gem 'mysql2', '~> 0.4.4'
   end
 
   group :postgres do
