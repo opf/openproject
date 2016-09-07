@@ -37,7 +37,6 @@ module Api
               # disable CSRF protection since the V2 doesn't handle it
               skip_before_action :verify_authenticity_token
               
-              skip_before_action :disable_api
               prepend_before_action :disable_everything_except_api
             end
           end
