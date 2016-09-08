@@ -39,7 +39,7 @@ export class OpenProjectTooltipService {
     angular.element('#op-tooltip-container').remove();
     this.container = angular
       .element('<div id="op-tooltip-container"></div>')
-      .hide()
+      .css('visibility', 'hidden')
       .appendTo(document.body);
 
     //TODO: Move to stylesheet
@@ -67,25 +67,26 @@ export class OpenProjectTooltipService {
   }
 
   public show(tooltip, target) {
-    var {top, left} = target.offset();
-    top += target.outerHeight();
-    left += target.outerWidth();
-
-    tooltip.css({top, left});
-
     angular.element('.op-tooltip').remove();
     this.container.append(tooltip);
 
+    var {top, left} = target.offset();
+    top -= tooltip.outerHeight();
+    left += target.outerWidth();
+    left -= tooltip.outerWidth();
+
+    tooltip.css({top, left});
+
     this.clearTimeouts();
     this.showTimeout = setTimeout(() => {
-      this.container.show();
+      this.container.css('visibility', 'visible');
     }, this.delay);
   }
 
   public hide() {
     this.clearTimeouts();
     this.hideTimeout = setTimeout(() => {
-      this.container.hide();
+      this.container.css('visibility', 'hidden');
     }, this.delay);
   }
 

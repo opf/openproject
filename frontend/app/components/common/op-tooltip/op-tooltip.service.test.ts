@@ -33,7 +33,10 @@ import {OpenProjectTooltipService} from './op-tooltip.service';
 describe('opTooltipService', () => {
   var $document: IDocumentService;
   var opTooltipService: OpenProjectTooltipService;
+  var isVisible;
+
   var clock;
+  var wait;
 
   before(() => clock = sinon.useFakeTimers());
   after(() => clock.restore());
@@ -41,6 +44,8 @@ describe('opTooltipService', () => {
   beforeEach(angular.mock.module(opModelsModule.name));
   beforeEach(angular.mock.inject(function (_$document_, _opTooltipService_) {
     [$document, opTooltipService] = _.toArray(arguments);
+    isVisible = () => opTooltipService.container.css('visibility') === 'visible';
+    wait = () => clock.tick(opTooltipService.delay);
   }));
 
   it('should exist', () => {
@@ -52,7 +57,7 @@ describe('opTooltipService', () => {
   });
 
   it('should hide the container initially', () => {
-    expect(opTooltipService.container.is(':visible')).to.be.false;
+    expect(isVisible()).to.be.false;
   });
 
   it('should have a container with z-index over 9000', () => {
@@ -66,20 +71,22 @@ describe('opTooltipService', () => {
 
     beforeEach(() => {
       tooltip = angular.element('<div class="op-tooltip"></div>');
+
       target = angular.element('<div></div>').appendTo(document.body);
       target.css({
         width: 10,
         height: 10,
         padding: 5
       });
+
       opTooltipService.container.append('<div class="op-tooltip"></div>');
 
       opTooltipService.show(tooltip, target);
     });
 
-    it('should make the tooltip appear below the original element', () => {
-      const top = target.offset().top + target.outerHeight();
-      expect(parseInt(tooltip.css('top'))).to.equal(parseInt(top));
+    it('should make the tooltip appear above the original element', () => {
+      const top = target.offset().top - tooltip.outerHeight();
+      expect(parseInt(tooltip.css('top'))).to.equal(Math.floor(top));
     });
 
     it('should align the tooltip on the right of the original element', () => {
@@ -92,27 +99,27 @@ describe('opTooltipService', () => {
     });
 
     it('should keep the container invisible initially', () => {
-      expect(opTooltipService.container.is(':visible')).to.be.false;
+      expect(isVisible()).to.be.false;
     });
 
     it('should show the container after the delay time', () => {
-      clock.tick(opTooltipService.delay);
-      expect(opTooltipService.container.is(':visible')).to.be.true;
+      wait();
+      expect(isVisible()).to.be.true;
     });
 
     describe('when calling hide afterwards', () => {
       beforeEach(() => {
-        clock.tick(opTooltipService.delay);
+        wait();
         opTooltipService.hide();
       });
 
       it('should keep the element visible for a while', () => {
-        expect(opTooltipService.container.is(':visible')).to.be.true;
+        expect(isVisible()).to.be.true;
       });
 
       it('should hide the element after the delay time', () => {
-        clock.tick(opTooltipService.delay);
-        expect(opTooltipService.container.is(':visible')).to.be.false;
+        wait();
+        expect(isVisible()).to.be.false;
       });
     });
   });
