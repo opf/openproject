@@ -303,18 +303,13 @@ class ApplicationController < ActionController::Base
   end
 
   # Find project of id params[:id]
+  # Note: find() is Project.friendly.find()
   def find_project
-    @project = Project.find_by(params[:id])
+    @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
-  # Find project of id params[:project_id]
-  def find_project_by_project_id
-    @project = Project.find(params[:project_id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  alias :find_project_by_project_id :find_project
 
   # Find a project based on params[:project_id]
   # TODO: some subclasses override this, see about merging their logic
@@ -359,7 +354,7 @@ class ApplicationController < ActionController::Base
       @project = instance.project
       instance_variable_set('@' + model_object.to_s.underscore, instance)
     else
-      @project = Project.find(params[:project_id])
+      @project = Project.friendly.find(params[:project_id])
     end
 
   rescue ActiveRecord::RecordNotFound

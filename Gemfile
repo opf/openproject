@@ -54,7 +54,7 @@ gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_list', '~> 0.8.1'
 
-gem 'friendly_id', '~> 5.1.0'
+gem 'friendly_id', github: 'norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
 gem 'awesome_nested_set', '~> 3.1.1'
 
