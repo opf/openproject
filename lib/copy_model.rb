@@ -37,7 +37,7 @@ module CopyModel
     def copy_attributes(from_model)
       with_model(from_model) do |model|
         # clear unique attributes
-        self.attributes = model.attributes.dup.except(*(Array(self.class.not_to_copy).map(&:to_s)))
+        self.attributes = model.attributes.dup.except(*Array(self.class.not_to_copy).map(&:to_s))
         return self
       end
     end
@@ -66,7 +66,7 @@ module CopyModel
       with_model(from_model) do |model|
         self.class.transaction do
           to_be_copied.each do |name|
-            if self.respond_to?(:"copy_#{name}") || private_methods.include?(:"copy_#{name}")
+            if respond_to?(:"copy_#{name}") || private_methods.include?(:"copy_#{name}")
               reload
               begin
                 send(:"copy_#{name}", model)
@@ -74,9 +74,8 @@ module CopyModel
                 (Array(send(name)).map do |instance|
                   compiled_errors << instance.errors unless instance.valid?
                 end)
-              rescue => e
+              rescue
                 errors.add(name, :could_not_be_copied)
-                e.backtrace.join("\n")
               end
             end
           end
