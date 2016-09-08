@@ -1,29 +1,41 @@
 user: openproject
 group: openproject
 targets:
-  debian-7: &debian
+  debian-7: &debian7
     build_dependencies:
       - libmagickwand-dev
       - libsqlite3-dev
-  debian-8:
-    <<: *debian
+    dependencies:
+      - libmagickwand5
+  debian-8: &debian8
+    build_dependencies:
+      - libmagickwand-dev
+      - libsqlite3-dev
+    dependencies:
+      - libmagickwand-6.q16-2
   ubuntu-14.04:
-    <<: *debian
+    <<: *debian7
   ubuntu-16.04:
-    <<: *debian
-  centos-6: &redhat
+    <<: *debian8
+  centos-6:
     build_dependencies:
       - ImageMagick-devel
-  centos-7:
-    <<: *redhat
     dependencies:
+      - ImageMagick
+  centos-7:
+   build_dependencies:
+      - ImageMagick-devel
+   dependencies:
       - epel-release
+      - ImageMagick
   sles-11:
     env:
       - EMBED_IMAGEMAGICK=true
   sles-12:
     build_dependencies:
       - ImageMagick-devel
+    dependencies:
+      - ImageMagick
 before_precompile: "packaging/setup"
 crons:
   - packaging/cron/openproject-clear-old-sessions
