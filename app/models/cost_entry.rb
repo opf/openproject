@@ -38,59 +38,46 @@ class CostEntry < ActiveRecord::Base
   validate :validate
 
   scope :visible, -> (*args) {
-    user = args.first || User.current
-    project = args[1]
+    with_visible_entries_on self, user: args.first, project: args[1]
+  }
 
+  scope :visible_costs, -> (*args) {
+    with_visible_costs_on self, user: args.first, project: args[1]
+  }
+
+  def self.with_visible_costs_on(scope, user: User.current, project: nil)
+    with_visible_entries = with_visible_entries_on(scope, user: user, project: project)
+    with_visible_rates_on with_visible_entries, user: user
+  end
+
+  def self.with_visible_entries_on(scope, user: User.current, project: nil)
     table = self.arel_table
 
     view_allowed = Project.allowed_to(user, :view_cost_entries).select(:id)
     view_own_allowed = Project.allowed_to(user, :view_own_cost_entries).select(:id)
-
-    view_or_view_own = table[:project_id]
-                       .in(view_allowed.arel)
-                       .or(table[:project_id]
-                           .in(view_own_allowed.arel)
-                           .and(table[:user_id].eq(user.id)))
-
-    scope = where(view_or_view_own)
+    visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
 
     if project
-      scope = scope.where(project_id: project.id)
+      visible_scope.where(project_id: project.id)
+    else
+      visible_scope
     end
+  end
 
-    scope
-  }
+  def self.view_or_view_own(table, view_allowed, view_own_allowed, user)
+    table[:project_id]
+      .in(view_allowed.arel)
+      .or(
+        table[:project_id]
+          .in(view_own_allowed.arel)
+          .and(table[:user_id].eq(user.id)))
+  end
 
-  scope :visible_costs, lambda{|*args|
-    user = args.first || User.current
-    project = args[1]
-
+  def self.with_visible_rates_on(scope, user: User.current)
     table = self.arel_table
-
     view_allowed = Project.allowed_to(user, :view_cost_rates).select(:id)
 
-    visible(user, project).where(table[:project_id].in(view_allowed.arel))
-  }
-
-  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
-
-  def self.costs_of(work_packages:)
-    # N.B. Because of an AR quirks the code below uses statements like
-    #   where(work_package_id: ids)
-    # You would expect to be able to simply write those as
-    #   where(work_package: work_packages)
-    # However, AR (Rails 4.2) will not expand :includes + :references inside a subquery,
-    # which will render the query invalid. Therefore we manually extract the IDs in a separate (pluck) query.
-    ids = if work_packages.respond_to?(:pluck)
-            work_packages.pluck(:id)
-          else
-            Array(work_packages).map { |wp| wp.id }
-          end
-    CostEntry.where(work_package_id: ids)
-      .joins(work_package: :project)
-      .visible_costs
-      .sum("COALESCE(#{CostEntry.table_name}.overridden_costs,
-                     #{CostEntry.table_name}.costs)").to_f
+    scope.where(table[:project_id].in(view_allowed.arel))
   end
 
   def after_initialize

@@ -351,6 +351,15 @@ module OpenProject::Costs
                                                attribute: :updated_on
     end
 
+    module EagerLoadedCosts
+      def eager_loaded_work_packages(ids)
+        material = WorkPackage::MaterialCosts.new
+        labor = WorkPackage::LaborCosts.new
+
+        material.add_to_work_packages(labor.add_to_work_packages(super))
+      end
+    end
+
     config.to_prepare do
       require 'open_project/costs/patches/members_patch'
       OpenProject::Costs::Members.mixin!
@@ -369,6 +378,8 @@ module OpenProject::Costs
                                                                       { cost_entries: [:project,
                                                                                        :user] },
                                                                       :cost_object]
+
+      API::V3::WorkPackages::WorkPackageCollectionRepresenter.prepend EagerLoadedCosts
     end
   end
 end
