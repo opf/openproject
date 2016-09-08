@@ -40,14 +40,6 @@ GIT
       rails (>= 5.0.0, < 5.1)
 
 GIT
-  remote: git://github.com/rails/rails-observers.git
-  revision: 3fe157d6cbb5b5e767ded248009fc59443d63fa1
-  ref: 3fe157d6
-  specs:
-    rails-observers (0.1.3.alpha)
-      activemodel (>= 4.0, < 5.1)
-
-GIT
   remote: https://github.com/carrierwaveuploader/carrierwave
   revision: b31f7ce006bade550be0ad946d0b993b799358e3
   branch: master
@@ -671,7 +663,6 @@ DEPENDENCIES
   rails (~> 5.0.0)
   rails-angular-xss!
   rails-controller-testing!
-  rails-observers!
   rails_12factor
   rails_autolink (~> 1.1.6)
   rdoc (>= 2.4.2)

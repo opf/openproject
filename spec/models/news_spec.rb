@@ -41,6 +41,8 @@ describe News, type: :model do
   }
 
   let!(:news) { FactoryGirl.create(:news, project: project) }
+  let(:permissions) { [] }
+  let(:role) { FactoryGirl.build(:role, permissions: permissions) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryGirl.create(:news) }
@@ -106,10 +108,10 @@ describe News, type: :model do
   describe '#save',
            with_settings: { notified_events: %w(news_added) } do
     it 'sends email notifications when created' do
-      user = FactoryGirl.create(:user)
-      become_member_with_permissions(project, user)
-      # reload
-      project.members(true)
+      FactoryGirl.create(:user,
+                         member_in_project: project,
+                         member_through_role: role)
+      project.members.reload
 
       FactoryGirl.create(:news, project: project)
       expect(ActionMailer::Base.deliveries.size).to eq(1)

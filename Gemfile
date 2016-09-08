@@ -34,7 +34,6 @@ gem 'rails', '~> 5.0.0'
 gem 'actionpack-xml_parser'
 gem 'activemodel-serializers-xml'
 gem 'activerecord-session_store', '~> 1.0.0'
-gem 'rails-observers', github: 'rails/rails-observers', ref: '3fe157d6'
 gem 'responders', '~> 2.0'
 
 gem 'coderay', '~> 1.1.0'

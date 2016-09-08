@@ -49,7 +49,8 @@ class News < ActiveRecord::Base
 
   acts_as_watchable
 
-  after_create :add_author_as_watcher
+  after_create :add_author_as_watcher,
+               :send_news_added_mail
 
   scope :visible, -> (*args) {
     includes(:project)
@@ -99,5 +100,13 @@ class News < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(watchable: self, user: author)
+  end
+
+  def send_news_added_mail
+    if Setting.notified_events.include?('news_added')
+      recipients.uniq.each do |user|
+        UserMailer.news_added(user, self, User.current).deliver_now
+      end
+    end
   end
 end

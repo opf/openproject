@@ -38,6 +38,8 @@ class WikiContent < ActiveRecord::Base
   attr_accessor :comments
 
   before_save :comments_to_journal_notes
+  after_create :send_content_added_mail
+  after_update :send_content_updated_mail
 
   acts_as_journalized
 
@@ -81,5 +83,33 @@ class WikiContent < ActiveRecord::Base
 
   def comments_to_journal_notes
     add_journal author, comments
+  end
+
+  def send_content_added_mail
+    return unless Setting.notified_events.include?('wiki_content_added')
+
+    create_recipients.uniq.each do |user|
+      UserMailer.wiki_content_added(user, self, User.current).deliver_now
+    end
+  end
+
+  def send_content_updated_mail
+    return unless wiki_content.text_changed? &&
+                  Setting.notified_events.include?('wiki_content_updated')
+
+    update_recipients.uniq.each do |user|
+      UserMailer.wiki_content_updated(user, self, User.current).deliver_now
+    end
+  end
+
+  def create_recipients
+    recipients +
+      page.wiki.watcher_recipients
+  end
+
+  def update_recipients
+    recipients +
+      page.wiki.watcher_recipients +
+      page.watcher_recipients
   end
 end
