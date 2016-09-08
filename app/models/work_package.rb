@@ -329,7 +329,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def move_time_entries(project)
-    time_entries.update_all(project_id: project)
+    time_entries.update_all(project_id: project.id)
   end
 
   def all_dependent_packages(except = [])
