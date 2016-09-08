@@ -572,7 +572,7 @@ class Project < ActiveRecord::Base
     me = Member.table_name
     mr = MemberRole.table_name
     self.class.connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
-    Member.destroy_all(['project_id = ?', id])
+    Member.where(project_id: id).destroy_all
   end
 
   def destroy_all_work_packages

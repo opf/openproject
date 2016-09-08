@@ -786,7 +786,7 @@ class User < Principal
   end
 
   def delete_associated_private_queries
-    ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
+    ::Query.where(user_id: id, is_public: false).delete_all
   end
 
   ##
