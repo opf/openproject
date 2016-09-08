@@ -46,8 +46,7 @@ shared_examples_for 'action link' do
 
   describe 'with permission' do
     before do
-      role.permissions << permission
-      role.save!
+      role.add_permission! permission
     end
 
     it { expect(subject).to have_json_path("_links/#{action}/href") }

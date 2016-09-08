@@ -112,8 +112,7 @@ describe MembersController, type: :controller do
     describe "WHEN the user is authorized
               WHEN a project is provided" do
       before do
-        role.permissions << :manage_members
-        role.save!
+        role.add_permission! :manage_members
         member
       end
 
