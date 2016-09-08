@@ -94,7 +94,7 @@ class WikiContent < ActiveRecord::Base
   end
 
   def send_content_updated_mail
-    return unless wiki_content.text_changed? &&
+    return unless text_changed? &&
                   Setting.notified_events.include?('wiki_content_updated')
 
     update_recipients.uniq.each do |user|
