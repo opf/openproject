@@ -106,7 +106,7 @@ class PermittedParams
 
     permitted_params = params.require(:work_package).permit(*permitted)
 
-    permitted_params.merge!(custom_field_values(:work_package))
+    permitted_params = permitted_params.merge(custom_field_values(:work_package))
 
     permitted_params
   end
@@ -130,7 +130,7 @@ class PermittedParams
 
     permitted_params = params.require(:planning_element).permit(*permitted)
 
-    permitted_params.merge!(custom_field_values(:planning_element))
+    permitted_params = permitted_params.merge(custom_field_values(:planning_element))
 
     permitted_params
   end
@@ -175,7 +175,7 @@ class PermittedParams
 
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
-    permitted_params.merge!(custom_field_values(:user))
+    permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
   end
@@ -183,7 +183,7 @@ class PermittedParams
   def user_register_via_omniauth
     permitted_params = params.require(:user) \
                        .permit(:login, :firstname, :lastname, :mail, :language)
-    permitted_params.merge!(custom_field_values(:user))
+    permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
   end
@@ -207,7 +207,7 @@ class PermittedParams
                        [:admin, :login]
 
       permitted_params = params.require(:user).permit(*allowed_params)
-      permitted_params.merge!(custom_field_values(:user))
+      permitted_params = permitted_params.merge(custom_field_values(:user))
 
       permitted_params
     else
