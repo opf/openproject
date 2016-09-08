@@ -34,9 +34,8 @@ function opTooltipConfig($rootElement: IRootElementService,
                          opTooltipService: OpenProjectTooltipService) {
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
-    const isOrIsChildOf = selector => element.is(selector) || element.parents(selector).length;
 
-    if (isOrIsChildOf('[op-tooltip]')) {
+    if (element.is('[op-tooltip], [op-tooltip] *')) {
       const tooltip = element.controller('opTooltip');
 
       if (tooltip.hasTemplate()) {
@@ -46,7 +45,7 @@ function opTooltipConfig($rootElement: IRootElementService,
         opTooltipService.hide();
       }
     }
-    else if (!isOrIsChildOf('.op-tooltip')) {
+    else if (!element.is('.op-tooltip, .op-tooltip *')) {
       opTooltipService.hide();
     }
   });

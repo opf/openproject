@@ -64,9 +64,7 @@ describe('opTooltip config', () => {
     };
   }));
 
-  function testShowTooltip(prepare) {
-    beforeEach(() => prepare());
-
+  function testShowTooltip() {
     it('should create the tooltip', () => {
       expect(controller.create.calledOnce).to.be.true;
     });
@@ -76,33 +74,37 @@ describe('opTooltip config', () => {
     });
   }
 
-  function testHideTooltip(prepare) {
-    beforeEach(() => prepare());
-
+  function testHideTooltip() {
     it('should hide the tooltip', () => {
       expect(opTooltipService.hide.calledOnce).to.be.true;
     });
   }
 
-  function testKeepTooltipVisible(prepare) {
-    beforeEach(() => prepare());
-
+  function testKeepTooltipVisible() {
     it('should not hide the tooltip', () => {
       expect(opTooltipService.hide.called).to.be.false;
     });
+
+    it('should not show another tooltip', () => {
+      expect(opTooltipService.show.called).to.be.false;
+    });
   }
 
-  function testTooltipDirectiveAndChildren(testFunc) {
+  function mouseOverTooltipDirectiveAndChildren(testFunc) {
     describe('when moving the mouse over the tooltip directive', () => {
-      testFunc(() => {
+      beforeEach(() => {
         mouseOver(tooltipDirective);
       });
+
+      testFunc();
     });
 
     describe('when moving the mouse over a child element of the tooltip directive', () => {
-      testFunc(() => {
+      beforeEach(() => {
         mouseOver(tooltipDirective.children());
       });
+
+      testFunc();
     });
   }
 
@@ -111,32 +113,38 @@ describe('opTooltip config', () => {
       controller.hasTemplate = () => true;
     });
 
-    testTooltipDirectiveAndChildren(testShowTooltip);
+    mouseOverTooltipDirectiveAndChildren(testShowTooltip);
   });
 
-  describe('when there is no tooltip template defined', () => {
+  describe('when no tooltip template is defined', () => {
     beforeEach(() => {
       controller.hasTemplate = () => false;
     });
 
-    testTooltipDirectiveAndChildren(testHideTooltip);
+    mouseOverTooltipDirectiveAndChildren(testHideTooltip);
   });
 
   describe('when moving the mouse over a tooltip', () => {
-    testKeepTooltipVisible(() => {
+    beforeEach(() => {
       mouseOver(tooltipElement);
     });
+
+    testKeepTooltipVisible();
   });
 
   describe('when moving the mouse over a child element of the tooltip', () => {
-    testKeepTooltipVisible(() => {
+    beforeEach(() => {
       mouseOver(tooltipElement.children());
     });
+
+    testKeepTooltipVisible();
   });
 
   describe('when moving the mouse over anything else', () => {
-    testHideTooltip(() => {
+    beforeEach(() => {
       mouseOver(angular.element(document.body));
     });
+
+    testHideTooltip();
   });
 });
