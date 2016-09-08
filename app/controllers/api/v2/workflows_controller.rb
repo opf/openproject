@@ -89,9 +89,9 @@ module Api
       end
 
       def scope(transition)
-        if ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.author)
+        if ActiveRecord::Type::Boolean.new.cast(transition.author)
           :author
-        elsif ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.assignee)
+        elsif ActiveRecord::Type::Boolean.new.cast(transition.assignee)
           :assignee
         else
           :role
