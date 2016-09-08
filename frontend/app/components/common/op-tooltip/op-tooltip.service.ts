@@ -28,12 +28,33 @@
 
 import {opModelsModule} from '../../../angular-modules';
 
+const style = `
+  <style>
+    #op-tooltip-container {
+      position: absolute;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 1px;
+    }
+    
+    .op-tooltip {
+      display: table;
+      position: relative;
+    }
+    
+    .op-tooltip .inplace-edit--controls {
+      position: static;
+    }
+  </style>
+`;
+
 export class OpenProjectTooltipService {
   public delay: number = 1000;
   public container;
 
-  private showTimeout: number;
-  private hideTimeout: number;
+  private timeouts = [];
 
   constructor() {
     angular.element('#op-tooltip-container').remove();
@@ -43,27 +64,7 @@ export class OpenProjectTooltipService {
       .appendTo(document.body);
 
     //TODO: Move to stylesheet
-    this.container.html(`
-      <style>
-        #op-tooltip-container {
-          position: absolute;
-          z-index: 9999;
-          top: 0;
-          left: 0;
-          width: 1px;
-          height: 1px;
-        }
-        
-        .op-tooltip {
-          display: table;
-          position: relative;
-        }
-        
-        .op-tooltip .inplace-edit--controls {
-          position: static;
-        }
-      </style>
-    `);
+    this.container.html(style);
   }
 
   public show(tooltip, target) {
@@ -72,27 +73,20 @@ export class OpenProjectTooltipService {
 
     var {top, left} = target.offset();
     top -= tooltip.outerHeight();
-    left += target.outerWidth();
-    left -= tooltip.outerWidth();
-
+    left += target.outerWidth() - tooltip.outerWidth();
     tooltip.css({top, left});
 
-    this.clearTimeouts();
-    this.showTimeout = setTimeout(() => {
-      this.container.css('visibility', 'visible');
-    }, this.delay);
+    this.visibilityTimeout('visible');
   }
 
   public hide() {
-    this.clearTimeouts();
-    this.hideTimeout = setTimeout(() => {
-      this.container.css('visibility', 'hidden');
-    }, this.delay);
+    this.visibilityTimeout('hidden');
   }
 
-  private clearTimeouts() {
-    clearTimeout(this.showTimeout);
-    clearTimeout(this.hideTimeout);
+  private visibilityTimeout(visibility) {
+    this.timeouts.forEach(clearTimeout);
+    const timeout = setTimeout(() => this.container.css('visibility', visibility), this.delay);
+    this.timeouts.push(timeout);
   }
 }
 
