@@ -33,7 +33,7 @@ describe PaginationHelper, type: :helper do
     # creating a mock pagination object
     # this one is then identical (from the interface) to a active record
     paginator = WillPaginate::Collection.create(current_page, per_page) do |pager|
-      result = pager.per_page.times.map { |i| i }
+      result = Array.new(pager.per_page) { |i| i }
 
       pager.replace(result)
 
@@ -41,9 +41,6 @@ describe PaginationHelper, type: :helper do
         pager.total_entries = total_entries
       end
     end
-
-    # this is required in order to be able to produce a valid url
-    allow(helper).to receive(:params).and_return({ controller: 'work_packages', action: 'index' }.with_indifferent_access)
 
     paginator
   end
@@ -54,6 +51,19 @@ describe PaginationHelper, type: :helper do
     let(:offset) { 1 }
     let(:current_page) { 1 }
     let(:pagination) { helper.pagination_links_full(paginator) }
+
+    before do
+      # setup the helpers environment as if the helper is rendered after having called
+      # /work_packages
+      url_options = helper.url_options
+
+      allow(helper)
+        .to receive(:params)
+        .and_return(ActionController::Parameters.new(controller: 'work_packages', action: 'index'))
+      allow(helper)
+        .to receive(:url_options)
+        .and_return(url_options.merge(controller: 'work_packages', action: 'index'))
+    end
 
     it "should be inside a 'pagination' div" do
       expect(pagination).to have_selector('div.pagination')
@@ -94,19 +104,21 @@ describe PaginationHelper, type: :helper do
     it 'should have different urls if the params are specified as options' do
       params = { controller: 'work_packages', action: 'index' }
 
-      pagination = helper.pagination_links_full(paginator,  params: params)
+      pagination = helper.pagination_links_full(paginator, params: params)
 
       (1..(total_entries / per_page)).each do |i|
         next if i == current_page
 
-        expect(pagination).to have_selector("a[href='#{work_packages_path({ page: i }.merge(params))}']", text: Regexp.new("^#{i}$"))
+        href = work_packages_path({ page: i }.merge(params))
+
+        expect(pagination).to have_selector("a[href='#{href}']", text: Regexp.new("^#{i}$"))
       end
     end
 
     it 'should show the available pre page options' do
-      ar = Setting.per_page_options
-
-      Setting.per_page_options = "#{per_page},#{per_page * 10}"
+      allow(Setting)
+        .to receive(:per_page_options)
+        .and_return("#{per_page},#{per_page * 10}")
 
       expect(pagination).to have_selector('.pagination--options')
 
@@ -114,8 +126,6 @@ describe PaginationHelper, type: :helper do
 
       path = work_packages_path(page: current_page, per_page: Setting.per_page_options_array.last)
       expect(pagination).to have_selector(".pagination--options a[href='#{path}']")
-
-      Setting.per_page_options = ar
     end
 
     describe 'WHEN the first page is the current' do
@@ -221,7 +231,8 @@ describe PaginationHelper, type: :helper do
       expect(session[:per_page]).to eq(2)
     end
 
-    it 'should take the smallest value stored in the settings if provided per_page param is not one of the configured' do
+    it 'should take the smallest value stored in the settings ' +
+       'if provided per_page param is not one of the configured' do
       per_page = 4
 
       expect(per_page_param(per_page: per_page)).to eq(1)
