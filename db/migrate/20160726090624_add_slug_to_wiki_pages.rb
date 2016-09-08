@@ -48,7 +48,7 @@ class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
   def migrate_titles
     # Create a redirect for all old titles
     ActiveRecord::Base.transaction do
-      WikiPage.select(:id, :wiki_id, :title).find_each do |page|
+      WikiPage.select(:id, :wiki_id, :title, :parent_id).find_each do |page|
         # Restore the spaces in the old title (`pretty_title` in wiki.rb)
         old_title = page.title
         pretty_title = page.title.gsub('_', ' ')
