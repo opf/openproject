@@ -71,9 +71,5 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
                        }.to_json
       is_expected.to be_json_eql(expected_json).at_path('projects/0')
     end
-
-    it ' should check for disabled projects' do
-      skip
-    end
   end
 end
