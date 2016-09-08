@@ -175,7 +175,10 @@ group :test do
   gem 'rspec-legacy_formatters', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
-  gem 'rails-controller-testing', '~> 1.0.1'
+  # TODO: 1.0.1 still contains an issue that breaks helper inclusion in view specs
+  # Constrain value once new version released.
+  # More information: https://github.com/rspec/rspec-rails/issues/1644
+  gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
   gem 'capybara', '~> 2.8.1'
   gem 'capybara-screenshot', '~> 1.0.13'
