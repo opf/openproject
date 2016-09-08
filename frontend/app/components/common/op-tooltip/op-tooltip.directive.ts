@@ -55,8 +55,11 @@ export class OpenProjectTooltipController {
   }
 
   public create(): IAugmentedJQuery {
-    const tooltip = this.$compile(this.template)(this.$scope);
+    const scope = this.$scope.$new();
+    const tooltip = this.$compile(this.template)(scope);
+
     this.$scope.$apply();
+    tooltip.on('$destroy', () => scope.$destroy());
 
     return tooltip;
   }

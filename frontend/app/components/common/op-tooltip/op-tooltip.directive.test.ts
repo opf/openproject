@@ -64,15 +64,30 @@ describe('opTooltip directive', () => {
     });
   });
 
-  describe('when calling the create method of the tooltip controller', () => {
+  describe.only('when calling the create method of the tooltip controller', () => {
     var tooltip;
+    var childScope;
 
     beforeEach(() => {
+      childScope = scope.$new();
+      scope.$new = sinon.stub().returns(childScope);
+      childScope.$destroy = sinon.stub();
+
       tooltip = controller.create();
     });
 
     it('should compile the content of the tooltip', () => {
       expect(tooltip.html()).to.contain('the cake is a lie');
+    });
+
+    describe('when the tooltip gets removed from the dom', () => {
+      beforeEach(() => {
+        tooltip.remove();
+      });
+
+      it('should destroy the child scope', () => {
+        expect(childScope.$destroy.calledOnce).to.be.true;
+      });
     });
   });
 });
