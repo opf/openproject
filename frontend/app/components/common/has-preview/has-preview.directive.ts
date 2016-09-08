@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
+import {openprojectModule} from "../../../angular-modules";
+
+function hasPreview($compile, $rootScope) {
   return {
     restrict: 'A',
     scope: {},
@@ -41,7 +43,12 @@ module.exports = function() {
           data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
             .replace(/_method=(patch|put)&/, ''),
           success: function(data) {
-            angular.element(target).html(data);
+            var el = angular.element(target);
+            scope.$apply(() => {
+              el.html(data);
+              $compile(el.contents())($rootScope);
+            });
+
             angular.element('html, body').animate({
                 scrollTop: angular.element('#preview').offset()
                   .top
@@ -55,3 +62,5 @@ module.exports = function() {
     }
   };
 };
+
+openprojectModule.directive('hasPreview', hasPreview);

@@ -73,6 +73,33 @@ describe 'Angular expression escaping', type: :feature do
     end
   end
 
+  describe '#wiki edit previewing', js: true do
+    let(:user) { FactoryGirl.create :admin }
+    let(:project) { FactoryGirl.create :project, enabled_module_names: %w(wiki) }
+
+    let(:content) { find '#content_text' }
+    let(:preview) { find '#preview' }
+    let(:btn_preview) { find '#wiki_form-preview' }
+    let(:btn_cancel) { find '#wiki_form a.button', text: I18n.t(:button_cancel) }
+
+    before do
+      login_as(user)
+      visit project_wiki_path(project, project.wiki)
+    end
+
+    it 'properly escapes a macro in the preview functionality' do
+      content.set '{{macro_list(wiki)}}'
+      btn_preview.click
+
+      expect(preview.text).not_to include '{{ DOUBLE_LEFT_CURLY_BRACE }}'
+      expect(preview.text).to match /\{\{[\s\w]+\}\}/
+
+      btn_cancel.click
+      page.driver.browser.switch_to.alert.accept
+      expect(page).to have_no_selector('#content_text')
+    end
+  end
+
   describe '#text_format' do
     let(:text) { '{{hello_world}} {{ 3 + 5 }}' }
     subject(:html) { format_text(text) }
