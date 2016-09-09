@@ -75,9 +75,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the last child in
   # the current list of children for the receiver node.
   def add(child)
-    raise 'Child already added' if @children_hash.has_key?(child.name)
-
-    @children_hash[child.name]  = child
+    @children_hash[key!(child)] = child
     position = @children.size - @last_items_count
     @children.insert(position, child)
     child.parent = self
@@ -95,5 +93,30 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # it's parent
   def position
     parent.children.index(self)
+  end
+
+  ##
+  # Returns the key used for this child's menu entry.
+  # In case there already is an entry with that key the menu entry
+  # will still be added but with an updated caption appending "(duplicate)".
+  #
+  # It should not be possible for this to happen anyway due to validations on MenuItem.
+  # But in case it does happen we don't want the whole page to be unavailable due to raising an
+  # error here. Instead we mark the duplicate menu entry giving the user a chance to fix the issue.
+  def key!(child)
+    if @children_hash.has_key?(child.name)
+      name = deduplicate(child.name, @children_hash.keys.map(&:to_s))
+      child.caption = "#{child.caption} (#{I18n.t(:label_duplicate)})"
+
+      child.name = name.to_url
+    else
+      child.name
+    end
+  end
+
+  def deduplicate(name, existing_names)
+    duplicate_count = existing_names.count { |n| n =~ /^#{name}(?: \(\d+\))?$/ }
+
+    "#{name} (#{duplicate_count + 1})"
   end
 end
