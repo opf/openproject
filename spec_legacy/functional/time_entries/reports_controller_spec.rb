@@ -52,9 +52,8 @@ describe TimeEntries::ReportsController, type: :controller do
 
   it 'should report all projects denied' do
     r = Role.anonymous
-    r.permissions.delete(:view_time_entries)
-    r.permissions_will_change!
-    r.save
+    r.remove_permission!(:view_time_entries)
+    r.save!
     get :show
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Ftime_entries%2Freport'
   end
