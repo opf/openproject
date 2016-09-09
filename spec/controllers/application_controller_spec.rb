@@ -35,7 +35,7 @@ describe ApplicationController, type: :controller do
   controller do
     def index
       # just do anything that doesn't require an extra template
-      render_404
+      redirect_to root_path
     end
   end
 
@@ -49,6 +49,7 @@ describe ApplicationController, type: :controller do
 
     describe 'with log_requesting_user enabled' do
       before do
+        allow(Rails.logger).to receive(:info)
         allow(Setting).to receive(:log_requesting_user?).and_return(true)
       end
 
@@ -85,13 +86,26 @@ describe ApplicationController, type: :controller do
 
   describe 'unverified request' do
     shared_examples 'handle_unverified_request resets session' do
+      before do
+        ActionController::Base.allow_forgery_protection = true
+      end
+
+      after do
+        ActionController::Base.allow_forgery_protection = false
+      end
+
       it 'deletes the autologin cookie' do
-        cookies[OpenProject::Configuration['autologin_cookie_name']] = 'some value'
-        allow(@controller).to receive(:render_error)
+        cookies_double = double('cookies').as_null_object
 
-        @controller.send :handle_unverified_request
+        allow(controller)
+          .to receive(:cookies)
+          .and_return(cookies_double)
 
-        expect(cookies[OpenProject::Configuration['autologin_cookie_name']]).to be_nil
+        expect(cookies_double)
+          .to receive(:delete)
+          .with(OpenProject::Configuration['autologin_cookie_name'])
+
+        post :index
       end
 
       it 'logs out the user' do
