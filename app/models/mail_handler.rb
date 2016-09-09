@@ -350,7 +350,10 @@ class MailHandler < ActionMailer::Base
     @plain_text_body = Redmine::CodesetUtil.to_utf8(part.body.decoded, part.charset)
 
     # strip html tags and remove doctype directive
+    # Note: In Rails 5, `strip_tags` also encodes HTML entities
     @plain_text_body = strip_tags(@plain_text_body.strip)
+    @plain_text_body = CGI.unescapeHTML(@plain_text_body)
+
     @plain_text_body.sub! %r{^<!DOCTYPE .*$}, ''
     @plain_text_body
   end
