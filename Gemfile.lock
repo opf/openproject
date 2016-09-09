@@ -284,8 +284,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    fuubar (2.0.0)
-      rspec (~> 3.0)
+    fuubar (2.2.0)
+      rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
     gherkin (4.0.0)
     globalid (0.3.7)
@@ -499,7 +499,6 @@ GEM
       activesupport (>= 3.0.0)
       i18n
       iso8601
-    ruby-prof (0.15.9)
     ruby-progressbar (1.7.5)
     rubytree (0.9.7)
       json (~> 1.8)
@@ -625,7 +624,7 @@ DEPENDENCIES
   faker
   fog-aws
   friendly_id!
-  fuubar
+  fuubar (~> 2.2.0)
   globalize!
   gon (~> 4.0)
   grape (~> 0.14)
@@ -635,8 +634,8 @@ DEPENDENCIES
   htmldiff
   i18n-js (>= 3.0.0.rc13)
   jruby-openssl
-  json_spec
-  launchy
+  json_spec (~> 1.1.4)
+  launchy (~> 2.4.3)
   letter_opener
   livingstyleguide (~> 2.0.0)
   multi_json (~> 1.11.0)
@@ -676,11 +675,10 @@ DEPENDENCIES
   rspec (~> 3.5.0)
   rspec-activemodel-mocks (~> 1.0.3)!
   rspec-example_disabler!
-  rspec-legacy_formatters
+  rspec-legacy_formatters (~> 1.0.1)
   rspec-rails (~> 3.5.2)
   rubocop
   ruby-duration (~> 3.2.0)
-  ruby-prof
   ruby-progressbar
   rubytree (~> 0.9.7)
   sass (~> 3.4.12)

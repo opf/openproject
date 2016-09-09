@@ -153,7 +153,7 @@ gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', br
 group :test do
   gem 'rack-test', '~> 0.6.3'
   gem 'shoulda-context', '~> 1.2'
-  gem 'launchy'
+  gem 'launchy', '~> 2.4.3'
 
   # Require factory_girl for usage with openproject plugins testing
   # FactoryGirl needs to be available when loading app otherwise factory
@@ -172,7 +172,7 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
-  gem 'rspec-legacy_formatters', require: false
+  gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   # TODO: 1.0.1 still contains an issue that breaks helper inclusion in view specs
@@ -182,7 +182,7 @@ group :test do
 
   gem 'capybara', '~> 2.8.1'
   gem 'capybara-screenshot', '~> 1.0.13'
-  gem 'fuubar'
+  gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', github: 'goodwill/capybara-select2'
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
@@ -190,11 +190,9 @@ group :test do
   gem 'timecop', '~> 0.8'
   gem 'webmock', '~> 1.24.2', require: false
 
-  # why in Gemfile? see: https://github.com/guard/guard-test
-  gem 'ruby-prof'
   gem 'simplecov', '~> 0.12.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'json_spec'
+  gem 'json_spec', '~> 1.1.4'
   gem 'codecov', '~> 0.1.5', require: nil
   gem 'equivalent-xml', '~> 0.6'
 end
@@ -251,7 +249,7 @@ end
 
 group :opf_plugins do
   # TODO: switch to dev branch again after feature/rails5 has been merged in translations
-  gem 'openproject-translations', git:'https://github.com/opf/openproject-translations.git', branch: 'feature/rails5'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'feature/rails5'
 end
 
 # TODO: Make this group :optional when bundler v10.x
