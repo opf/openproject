@@ -101,19 +101,20 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
           .with(anything, initialize_with_default_filter: true)
           .and_return(expected_query)
 
-        get 'index', format: 'json'
+        get 'index', params: { format: 'json' }
 
         expect(assigns(:query)).to eq expected_query
       end
 
       %w(groupBy c fields f sort isPublic name displaySums).each do |filter_param|
-        it "assigns a query which does not have the default filter arguments set if the #{filter_param} argument is provided" do
+        it 'assigns a query which does not have the default filter arguments ' +
+           "set if the #{filter_param} argument is provided" do
           allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
           expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
             .and_return(expected_query)
 
-          get 'index', format: 'json', filter_param => double('anything', to_i: 1).as_null_object
+          get 'index', params: { format: 'json', filter_param => ['anything'] }
 
           expect(assigns(:query)).to eql expected_query
         end
@@ -124,13 +125,13 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
       let(:role) { FactoryGirl.create(:role, permissions: []) }
 
       it 'should return 403 for the global action' do
-        get 'index', format: 'json'
+        get 'index', params: { format: 'json' }
 
         expect(response.response_code).to eql(403)
       end
 
       it 'should return 403 for the project based action' do
-        get 'index', format: 'json', project_id: project_1.id
+        get 'index', params: { format: 'json', project_id: project_1.id }
 
         expect(response.response_code).to eql(403)
       end
@@ -146,14 +147,14 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         end
 
         it 'is visible by the owner' do
-          get 'index', format: 'json', queryId: query_1.id, project_id: project_1.id
+          get 'index', params: { format: 'json', queryId: query_1.id, project_id: project_1.id }
           expect(response.response_code).to eql(200)
         end
 
         it 'is not visible by another user' do
           allow(User).to receive(:current).and_return(other_user)
 
-          get 'index', format: 'json', queryId: query_1.id, project_id: project_1.id
+          get 'index', params: { format: 'json', queryId: query_1.id, project_id: project_1.id }
           expect(response.response_code).to eql(404)
         end
       end
