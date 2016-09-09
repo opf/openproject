@@ -413,13 +413,13 @@ class PermittedParams
     # a hash of arbitrary values is not supported by strong params
     # thus we do it by hand
     object = required ? params.require(key) : params.fetch(key, {})
-    values = object[:custom_field_values] || {}
+    values = object[:custom_field_values] || ActionController::Parameters.new
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
     values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
 
-    values.empty? ? {} : { 'custom_field_values' => values }
+    values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end
 
   def permitted_attributes(key, additions = {})
