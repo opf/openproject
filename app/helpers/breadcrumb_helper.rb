@@ -66,7 +66,7 @@ module BreadcrumbHelper
 
   def link_to_project_ancestors(project)
     if project && !project.new_record?
-      ancestors = (project.root? ? [] : project.ancestors.visible)
+      ancestors = (project.root? ? [] : project.ancestors.visible.to_a)
       ancestors << project
       ancestors.map do |p|
         if p == project

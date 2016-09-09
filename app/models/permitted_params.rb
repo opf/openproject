@@ -296,7 +296,8 @@ class PermittedParams
     end
 
     unless params[:project][:custom_field_values].nil?
-      whitelist[:custom_field_values] = params[:project][:custom_field_values]
+      # Permit the sub-hash for custom_field_values
+      whitelist[:custom_field_values] = params[:project][:custom_field_values].permit!
     end
 
     whitelist

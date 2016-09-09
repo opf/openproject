@@ -47,12 +47,6 @@ class ProjectsController < ApplicationController
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
-  after_action only: [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
-    if controller.request.post?
-      controller.send :expire_action, controller: '/welcome', action: 'robots.txt'
-    end
-  end
-
   include SortHelper
   include CustomFieldsHelper
   include QueriesHelper
