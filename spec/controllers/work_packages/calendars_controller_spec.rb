@@ -62,7 +62,9 @@ describe WorkPackages::CalendarsController, type: :controller do
     end
 
     context 'cross-project' do
-      before do get :index end
+      before do
+        get :index
+      end
 
       it_behaves_like 'calendar#index'
     end
@@ -71,7 +73,7 @@ describe WorkPackages::CalendarsController, type: :controller do
       before do
         work_package
 
-        get :index, project_id: project.id
+        get :index, params: { project_id: project.id }
       end
 
       it_behaves_like 'calendar#index'
@@ -84,7 +86,9 @@ describe WorkPackages::CalendarsController, type: :controller do
                            user: user)
       }
 
-      before do get :index, query_id: query.id end
+      before do
+        get :index, params: { query_id: query.id }
+      end
 
       it_behaves_like 'calendar#index'
     end
@@ -94,7 +98,7 @@ describe WorkPackages::CalendarsController, type: :controller do
         before do
           allow(Setting).to receive(:start_of_week).and_return(7)
 
-          get :index, month: '1', year: '2010'
+          get :index, params: { month: '1', year: '2010' }
         end
 
         it_behaves_like 'calendar#index'
@@ -122,7 +126,7 @@ describe WorkPackages::CalendarsController, type: :controller do
         before do
           allow(Setting).to receive(:start_of_week).and_return(1)
 
-          get :index, month: '1', year: '2010'
+          get :index, params: { month: '1', year: '2010' }
         end
 
         it_behaves_like 'calendar#index'
