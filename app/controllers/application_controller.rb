@@ -242,18 +242,8 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless User.current.logged?
-      # Extract only the basic url parameters on non-GET requests
-      if request.get?
-        url = url_for(params)
-      else
-        controller = "/#{params[:controller]}" unless params[:controller].to_s.starts_with?('/')
-        url = url_for(controller: controller,
-                      action: params[:action],
-                      id: params[:id],
-                      project_id: params[:project_id])
-      end
       respond_to do |format|
-        format.any(:html, :atom) do redirect_to signin_path(back_url: url) end
+        format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
           request_headers: request.headers)
@@ -690,6 +680,22 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
+  end
+
+  def login_back_url
+    # Extract only the basic url parameters on non-GET requests
+    if request.get?
+      # rely on url_for to fill in the parameters of the current request
+      url_for
+    else
+      url_params = params.permit(:action, :id, :project_id, :controller)
+
+      unless url_params[:controller].to_s.starts_with?('/')
+        url_params[:controller] = "/#{url_params[:controller]}"
+      end
+
+      url_for(url_params)
+    end
   end
 
   # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.
