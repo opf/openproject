@@ -68,11 +68,11 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
   private
 
   def wiki_pages_table
-    @wiki_pages_table ||= Arel::Table.new(:wiki_pages)
+    @wiki_pages_table ||= WikiPage.arel_table
   end
 
   def wikis_table
-    @wikis_table ||= Arel::Table.new(:wikis)
+    @wikis_table ||= Wiki.arel_table
   end
 
   def url_helper_parameter(event)
