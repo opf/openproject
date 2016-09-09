@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-echo "ruby '2.1.6'" > Gemfile.local
 
 # Set RELEASE_DATE for the application
 date +%F > config/RELEASE_DATE
