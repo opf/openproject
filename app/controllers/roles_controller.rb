@@ -106,7 +106,8 @@ class RolesController < ApplicationController
     @roles = Role.order('builtin, position')
 
     @roles.each do |role|
-      role.permissions = params[:permissions][role.id.to_s]
+      new_permissions = params[:permissions][role.id.to_s].presence || []
+      role.permissions = new_permissions
       role.save
     end
 

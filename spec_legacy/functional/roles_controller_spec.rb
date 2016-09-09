@@ -69,19 +69,19 @@ describe RolesController, type: :controller do
 
   it 'should post new without workflow copy' do
     post :create, role: { name: 'RoleWithoutWorkflowCopy',
-                          permissions: ['add_work_packages', 'edit_work_packages', 'log_time', ''],
+                          permissions: ['add_work_packages', 'edit_work_packages', 'log_time'],
                           assignable: '0' }
 
     assert_redirected_to roles_path
     role = Role.find_by(name: 'RoleWithoutWorkflowCopy')
     refute_nil role
-    assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions
+    assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions.sort
     assert !role.assignable?
   end
 
   it 'should post new with workflow copy' do
     post :create, role: { name: 'RoleWithWorkflowCopy',
-                          permissions: ['add_work_packages', 'edit_work_packages', 'log_time', ''],
+                          permissions: ['add_work_packages', 'edit_work_packages', 'log_time'],
                           assignable: '0' },
                   copy_workflow_from: '1'
 
@@ -98,10 +98,21 @@ describe RolesController, type: :controller do
     assert_equal Role.find(1), assigns(:role)
   end
 
+  it 'should reject invalid update' do
+    put :update, id: 1,
+        role: { name: 'Manager',
+                permissions: ['edit_project', ''],
+                assignable: '0' }
+
+    assert_response :success
+    assert_template 'edit'
+    assert_select 'div', attributes: { id: 'errorExplanation' }
+  end
+
   it 'should put update' do
     put :update, id: 1,
                  role: { name: 'Manager',
-                         permissions: ['edit_project', ''],
+                         permissions: ['edit_project'],
                          assignable: '0' }
 
     assert_redirected_to roles_path
@@ -149,7 +160,7 @@ describe RolesController, type: :controller do
     assert_redirected_to roles_path
 
     assert_equal [:edit_work_packages], Role.find(1).permissions
-    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions
+    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions.sort
     assert Role.find(2).permissions.empty?
   end
 
