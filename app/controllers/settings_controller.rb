@@ -39,7 +39,7 @@ class SettingsController < ApplicationController
 
   def edit
     @notifiables = Redmine::Notifiable.all
-    if request.post? && params[:settings] && params[:settings].is_a?(Hash)
+    if request.post? && params[:settings] && params[:settings].is_a?(ActionController::Parameters)
       settings = (params[:settings] || {}).dup.symbolize_keys.tap do |set|
         set.except! *password_settings if OpenProject::Configuration.disable_password_login?
       end
