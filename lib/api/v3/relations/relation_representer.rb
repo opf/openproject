@@ -67,7 +67,18 @@ module API
                                        context: represented.from.project)
         end
 
+        link :updateRelation do
+          {
+            href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
+            method: :patch,
+            title: 'Update Relation'
+          } if current_user_allowed_to(:manage_work_package_relations,
+                                                  context: represented.from.project)
+        end
+
         property :delay, render_nil: true, if: -> (*) { relation_type == 'precedes' }
+
+        property :description, getter: -> (*) { description }
 
         def _type
           "Relation::#{relation_type}"
