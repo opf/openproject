@@ -28,28 +28,6 @@
 
 import {opModelsModule} from '../../../angular-modules';
 
-const style = `
-  <style>
-    #op-tooltip-container {
-      position: absolute;
-      z-index: 9999;
-      top: 0;
-      left: 0;
-      width: 1px;
-      height: 1px;
-    }
-    
-    .op-tooltip {
-      display: table;
-      position: relative;
-    }
-    
-    .op-tooltip .inplace-edit--controls {
-      position: static;
-    }
-  </style>
-`;
-
 export class OpenProjectTooltipService {
   public delay: number = 1000;
   public container;
@@ -62,9 +40,6 @@ export class OpenProjectTooltipService {
       .element('<div id="op-tooltip-container"></div>')
       .css('visibility', 'hidden')
       .appendTo(document.body);
-
-    //TODO: Move to stylesheet
-    this.container.html(style);
   }
 
   public show(tooltip, target) {

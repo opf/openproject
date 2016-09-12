@@ -229,3 +229,26 @@ table
     border-style: solid
     border-width: 8px
 
+
+// ------------------------------------
+// The code below is used for the functional tooltips used in the the WP table
+// They differ from the other tooltips since they are interactive.
+// The code is similar to the WP edit controls.
+// ------------------------------------
+
+#op-tooltip-container
+  position: absolute
+  z-index: 9999
+  top: 0
+
+  .op-tooltip
+    position: relative
+
+  .op-tooltip .inplace-edit--controls
+    position: static
+    width: 100%
+    height: 100%
+
+    .inplace-edit--control a
+      width: 1.5rem
+
