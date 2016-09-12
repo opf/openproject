@@ -589,7 +589,7 @@ WIKI_TEXT
 
     context 'w/ request present' do
       let(:request) {
-        ActionController::TestRequest.new(
+        ActionDispatch::TestRequest.new(
           Rack::MockRequest.env_for('/test',
             'HTTP_HOST'       => 'test.host',
             'REMOTE_ADDR'     => '0.0.0.0',
