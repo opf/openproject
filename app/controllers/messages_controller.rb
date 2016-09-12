@@ -77,7 +77,7 @@ class MessagesController < ApplicationController
 
     @message.attributes = permitted_params.message(@message)
 
-    @message.attach_files(permitted_params.attachments)
+    @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
       call_hook(:controller_messages_new_after_save,  params: params, message: @message)
@@ -118,7 +118,7 @@ class MessagesController < ApplicationController
 
     @message.attributes = permitted_params.message(@message)
 
-    @message.attach_files(permitted_params.attachments)
+    @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
       flash[:notice] = l(:notice_successful_update)
