@@ -96,7 +96,7 @@ class RepositoriesController < ApplicationController
     @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
-    if request.post? && params[:committers].is_a?(Hash)
+    if request.post? && params[:committers].respond_to?(:values)
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
         .inject({}) { |h, c|

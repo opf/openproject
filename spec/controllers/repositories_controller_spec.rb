@@ -205,6 +205,7 @@ describe RepositoriesController, type: :controller do
 
       describe 'committers' do
         let(:role) { FactoryGirl.create(:role, permissions: [:manage_repository]) }
+
         describe '#get' do
           before do
             get :committers
@@ -215,14 +216,16 @@ describe RepositoriesController, type: :controller do
             expect(response).to render_template 'repositories/committers'
           end
         end
+
         describe '#post' do
           before do
             repository.fetch_changesets
-            post :committers, committers: {'0' => ['oliver', user.id] }, "commit"=>"Update"
+            post :committers, params: { committers: { '0' => ['oliver', user.id] },
+                                        commit: 'Update' }
           end
 
           it 'should be successful' do
-            expect(response).to be_redirect
+            expect(response).to redirect_to committers_project_repository_path(project)
             expect(repository.committers).to include(['oliver', user.id])
           end
         end
