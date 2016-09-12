@@ -224,6 +224,10 @@ class PermittedParams
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def search
+    params.permit(*self.class.permitted_attributes[:search])
+  end
+
   def work_package
     params.require(:work_package).permit(:subject,
                                          :description,
@@ -600,6 +604,18 @@ class PermittedParams
           :assignable,
           :move_to,
           permissions: []],
+        search: [
+          :q,
+          :scope,
+          :all_words,
+          :titles_only,
+          :work_packages,
+          :news,
+          :changesets,
+          :wiki_pages,
+          :messages,
+          :projects
+        ],
         status: [
           :name,
           :default_done_ratio,

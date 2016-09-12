@@ -31,13 +31,13 @@ class SearchController < ApplicationController
   before_action :find_optional_project
 
   def index
-    @question = params[:q] || ''
+    @question = search_params[:q] || ''
     @question.strip!
-    @all_words = params[:all_words] || !params[:submit]
-    @titles_only = !params[:titles_only].nil?
+    @all_words = search_params[:all_words] || !search_params[:submit]
+    @titles_only = !search_params[:titles_only].nil?
 
     projects_to_search =
-      case params[:scope]
+      case search_params[:scope]
       when 'all'
         nil
       when 'my_projects'
@@ -49,7 +49,7 @@ class SearchController < ApplicationController
       end
 
     offset = begin
-      Time.at(Rational(params[:offset])) if params[:offset]
+      Time.at(Rational(search_params[:offset])) if search_params[:offset]
     rescue; end
 
     # quick jump to an work_package
@@ -65,7 +65,7 @@ class SearchController < ApplicationController
       @object_types = @object_types.select { |o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search) }
     end
 
-    @scope = @object_types.select { |t| params[t] }
+    @scope = @object_types.select { |t| search_params[t] }
     @scope = @object_types if @scope.empty?
 
     # extract tokens from the question
@@ -88,12 +88,12 @@ class SearchController < ApplicationController
                                                           titles_only: @titles_only,
                                                           limit: (limit + 1),
                                                           offset: offset,
-                                                          before: params[:previous].nil?)
+                                                          before: search_params[:previous].nil?)
         @results += r
         @results_by_type[s] += c
       end
       @results = @results.sort { |a, b| b.event_datetime <=> a.event_datetime }
-      if params[:previous].nil?
+      if search_params[:previous].nil?
         @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
         if @results.size > limit
           @pagination_next_date = @results[limit - 1].event_datetime
@@ -128,5 +128,9 @@ class SearchController < ApplicationController
 
   def scan_work_package_reference(query, &blk)
     query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
+  end
+
+  def search_params
+    @search_params ||= permitted_params.search
   end
 end
