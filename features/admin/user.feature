@@ -91,6 +91,7 @@ Feature: User
     Then I should see membership to the project "project1" with the roles:
       | alpha |
     When I delete membership to project "project1"
+    And I wait for the AJAX requests to finish
     And I go to the memberships tab of the edit page for the user peter
     Then I should not see membership to the project "project1"
 
