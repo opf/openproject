@@ -190,7 +190,7 @@ class Query < ActiveRecord::Base
   def add_filters(fields, operators, values)
     values ||= {}
 
-    if fields.is_a?(Array) && operators.is_a?(Hash) && values.is_a?(Hash)
+    if fields.is_a?(Array) && operators.respond_to?(:[]) && values.respond_to?(:[])
       fields.each do |field|
         add_filter(field, operators[field], values[field])
       end
