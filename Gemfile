@@ -195,6 +195,8 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'codecov', '~> 0.1.5', require: nil
   gem 'equivalent-xml', '~> 0.6'
+
+  gem 'parallel_tests', '~> 2.4.1'
 end
 
 group :ldap do
@@ -206,15 +208,16 @@ group :development do
   gem 'thin', '~> 1.7.0'
   gem 'faker'
   gem 'livingstyleguide', '~> 2.0.0'
-end
 
-group :development, :test do
+  # Pry seems to cause a lot of segfaults in the tests.
+  # Therefore, it has been removed from the :test group for now.
+  # Reevaluate once newer versions of pry have been released.
   gem 'pry-rails', '~> 0.3.4'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.4'
   gem 'pry-byebug', '~> 3.4.0', platforms: [:mri]
   gem 'pry-doc', '~> 0.9.0'
-  gem 'parallel_tests', '~> 2.4.1'
+
   gem 'rubocop'
 end
 

@@ -32,9 +32,13 @@ module Api::Experimental::Concerns::GrapeRouting
     # development mode because the routes otherwise are not within the
     # "api/:version" namespace.
     API::Root
-    query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
+    query_route = API::V3::Queries::QueriesAPI
+                  .routes
+                  .detect { |r| r.path.match(Regexp.new("\/#{route}")) }
 
-    query_route.route_path.gsub(':version', query_route.route_version)
+    query_route
+      .path
+      .gsub(':version', query_route.route_version)
       .gsub(':id', query.id.to_s)
       .gsub(/\(\.:format\)/, '')
   end
