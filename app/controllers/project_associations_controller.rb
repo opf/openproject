@@ -96,7 +96,9 @@ class ProjectAssociationsController < ApplicationController
     @project_association = @project.project_associations.find(params[:id])
     check_visibility
 
-    @project_association.description =  params[:project_association][:description]
+    if params[:project_association]
+      @project_association.description = params[:project_association][:description]
+    end
 
     check_visibility # since projects may not be edited by mass-assignement,
     # this check should be superfluous ... but who knows?!?
