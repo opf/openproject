@@ -27,11 +27,36 @@
 //++
 
 module.exports = function($rootScope, $window) {
+  var menuList = null;
 
   this.toggleNavigation = function() {
+    if ($rootScope.showNavigation) {
+      menuList = hideSubMenuEntries();
+    } else {
+      showSubMenuEntries(menuList);
+    }
     $rootScope.showNavigation = !$rootScope.showNavigation;
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
     $window.sessionStorage.setItem('openproject:navigation-toggle',
       !$rootScope.showNavigation ? 'collapsed' : 'expanded');
   };
 };
+
+function hideSubMenuEntries() {
+  var togglers = jQuery('#main-menu .main-item-wrapper.open .toggler');
+  toggleMenus(togglers);
+
+  return togglers;
+}
+
+function showSubMenuEntries(togglers) {
+  if (togglers !== null) {
+    toggleMenus(togglers);
+  }
+}
+
+function toggleMenus(togglers) {
+  togglers.each(function(index) {
+    jQuery(this).trigger('click');
+  });
+}
