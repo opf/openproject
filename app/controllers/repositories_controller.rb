@@ -96,7 +96,7 @@ class RepositoriesController < ApplicationController
     @users += User.where(id: additional_user_ids) unless additional_user_ids.empty?
     @users.compact!
     @users.sort!
-    if request.post? && params[:committers].respond_to?(:values)
+    if request.post? && params.key?(:committers)
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
         .inject({}) { |h, c|
@@ -161,6 +161,8 @@ class RepositoriesController < ApplicationController
                                                 Setting.repository_log_display_limit.to_i)
     @properties = @repository.properties(@path, @rev)
     @changeset  = @repository.find_changeset_by_name(@rev)
+
+    render 'changes', formats: [:html]
   end
 
   def revisions
@@ -246,6 +248,8 @@ class RepositoriesController < ApplicationController
 
     @annotate  = @repository.scm.annotate(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
+
+    render 'annotate', formats: [:html]
   end
 
   def revision
