@@ -614,7 +614,8 @@ class PermittedParams
           :changesets,
           :wiki_pages,
           :messages,
-          :projects
+          :projects,
+          :submit
         ],
         status: [
           :name,
