@@ -1673,7 +1673,7 @@ en:
     warnings:
       cannot_annotate: "This file cannot be annotated."
 
-  search_input_placeholder: "search ..."
+  search_input_placeholder: "Search ..."
 
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
