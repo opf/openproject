@@ -33,6 +33,9 @@ body.controller-work_packages.action-show {
 .work-packages--show-view {
 
   #toolbar {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap-reverse;
     @include clearfix;
   }
 
@@ -41,13 +44,44 @@ body.controller-work_packages.action-show {
     margin-bottom: 20px;
   }
 
+
+  ul#toolbar-items {
+    @include clearfix;
+    order: 2;
+    margin: 0 0 1rem 2rem;
+
+    button {
+      margin-bottom: 0;
+    }
+
+    li {
+      float: left;
+      position: relative;
+
+      &.toolbar-item:first-of-type {
+        margin-left: 0;
+      }
+
+      .dropdown {
+        top: 100% !important;
+        right: 0px !important;
+        left: auto !important;
+        margin-top: 0;
+
+        ul li {
+          float: none;
+        }
+      }
+    }
+  }
+
   .work-packages--split-view {
     height: auto;
     border-top: 1px solid #ccc;
-    overflow: hidden;
+    overflow: visible;
     position: absolute;
     padding-right: 20px;
-    top: 76px;
+    top: 139px;
     left: 20px;
     right: 0px;
     bottom: 0px;
@@ -104,10 +138,6 @@ body.controller-work_packages.action-show {
     }
   }
 
-  .work-packages--split-view {
-    overflow: visible !important;
-  }
-
   .work-packages--right-panel {
     min-width: 420px;
     overflow-y: auto;
@@ -146,31 +176,6 @@ body.controller-work_packages.action-show {
     ul { padding-left: 2em; }
   }
 
-  ul#toolbar-items {
-    @include clearfix;
-    float: right;
-
-    button {
-      margin-bottom: 0;
-    }
-
-    li {
-      float: left;
-      position: relative;
-
-      .dropdown {
-        top: 100% !important;
-        right: 0px !important;
-        left: auto !important;
-        margin-top: 0;
-
-        ul li {
-          float: none;
-        }
-      }
-    }
-  }
-
   .activity-comment {
     margin-top: 15px;
   }
@@ -203,6 +208,14 @@ body.controller-work_packages.action-show {
   }
 }
 
+@media only screen and (max-width: 679px) {
+  #toolbar {
+    #toolbar-items {
+      margin-left: 0;
+    }
+  }
+}
+
 #work-packages-index {
   .wiki-anchor {
     display: none;
@@ -213,16 +226,16 @@ body.controller-work_packages.action-show {
   padding-right: 20px;
 
   .subject-header {
-    float: left;
-    margin-right: -470px;
-    margin-top: 0;
-    padding: 10px 470px 0 0;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 50px;
+    width: initial;
+    align-self: center;
+    flex-grow: 1;
 
-    .subject-header-inner {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
+
+    .wp-table--cell-span {
+      white-space: normal;
     }
 
     li .inline-edit { width: 100%; }
