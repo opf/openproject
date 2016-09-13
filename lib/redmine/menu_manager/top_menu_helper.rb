@@ -111,7 +111,7 @@ module Redmine::MenuManager::TopMenuHelper
 
     render_menu_dropdown_with_items(
       label: l(:label_work_package_plural),
-      label_options: { id: 'work-packages-menu', class: 'icon5 icon-work-packages' },
+      label_options: { id: 'work-packages-menu', class: 'icon3 icon-work-packages' },
       items: items,
       project: project,
       options: {
@@ -125,7 +125,7 @@ module Redmine::MenuManager::TopMenuHelper
 
     render_menu_dropdown_with_items(
       label: l(:label_modules),
-      label_options: { class: 'icon5 icon-modules' },
+      label_options: { class: 'icon3 icon-modules' },
       items: items,
       options: { drop_down_id: 'more-menu' }
     )

@@ -33,7 +33,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
             context: :main,
-            html: { class: 'icon5 icon-star' },
+            html: { class: 'icon3 icon-star' },
             if: Proc.new { User.current.logged? },
             omit_path_check: true
 

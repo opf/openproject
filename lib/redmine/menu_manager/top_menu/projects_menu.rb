@@ -49,7 +49,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   def render_projects_dropdown
     render_menu_dropdown_with_items(
       label: l(:label_project_plural),
-      label_options: { id: 'projects-menu', class: 'icon5 icon-projects' },
+      label_options: { id: 'projects-menu', class: 'icon3 icon-projects' },
       items: project_items,
       options: {
         drop_down_class: 'drop-down--projects'
@@ -67,7 +67,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
 
   def project_index_item
     if User.current.impaired?
-      icon_class = 'icon5'
+      icon_class = 'icon3'
       projects_label = l(:label_project_plural)
       projects_class = 'icon-projects'
     else
@@ -90,7 +90,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   def project_new_item
     icon_class =
       if User.current.impaired?
-        'icon5'
+        'icon3'
       else
         'icon4'
       end
