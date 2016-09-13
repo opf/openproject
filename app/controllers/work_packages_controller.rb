@@ -85,11 +85,9 @@ class WorkPackagesController < ApplicationController
 
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
-        charset = "charset=#{l(:general_csv_encoding).downcase}"
         title = @query.new_record? ? l(:label_work_package_plural) : @query.name
 
-        send_data(serialized_work_packages, type: "text/csv; #{charset}; header=present",
-                                            filename: "#{title}.csv")
+        render csv: serialized_work_packages, filename: "#{title}.csv"
       end
 
       format.pdf do

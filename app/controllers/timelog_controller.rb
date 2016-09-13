@@ -126,12 +126,7 @@ class TimelogController < ApplicationController
                    .distinct(false)
                    .order(sort_clause)
 
-        charset = "charset=#{l(:general_csv_encoding).downcase}"
-
-        send_data(
-          entries_to_csv(@entries),
-          type: "text/csv; #{charset}; header=present",
-          filename: 'timelog.csv')
+        render csv: entries_to_csv(@entries), filename: 'timelog.csv'
       end
     end
   end
