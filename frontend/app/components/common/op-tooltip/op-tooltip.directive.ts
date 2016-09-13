@@ -27,41 +27,25 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
+import {OpenProjectTooltip} from './op-tooltip.service';
 import IDirective = angular.IDirective;
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IScope = angular.IScope;
-import ICompileService = angular.ICompileService;
 
 export class OpenProjectTooltipController {
-  protected get templateUrl(): string {
-    return this.$scope.$eval(this.$attrs.opTooltip);
-  }
+  public tooltip: OpenProjectTooltip;
 
-  protected get template() {
-    return `
-      <div class="op-tooltip">
-        <div class="inplace-edit--controls" ng-include="${ this.$attrs.opTooltip }"></div>
-      </div>`;
-  }
-
-  constructor(public $element: IAugmentedJQuery,
+  constructor(protected $element: IAugmentedJQuery,
               protected $scope: IScope,
-              protected $attrs: {opTooltip: string},
-              protected $compile: ICompileService) {
+              $attrs: {opTooltip: string},
+              opTooltip) {
+    this.tooltip = opTooltip.get($scope.$eval($attrs.opTooltip));
   }
 
-  public hasTemplate(): boolean {
-    return !!this.templateUrl;
-  }
-
-  public create(): IAugmentedJQuery {
-    const scope = this.$scope.$new();
-    const tooltip = this.$compile(this.template)(scope);
-
-    this.$scope.$apply();
-    tooltip.on('$destroy', () => scope.$destroy());
-
-    return tooltip;
+  public show() {
+    if (this.tooltip) {
+      this.tooltip.show(this.$element, this.$scope);
+    }
   }
 }
 

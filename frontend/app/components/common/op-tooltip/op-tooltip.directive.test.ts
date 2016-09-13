@@ -29,64 +29,67 @@
 import {openprojectModule} from '../../../angular-modules';
 
 describe('opTooltip directive', () => {
+  var tooltip: any = {};
+
   var scope;
   var element;
   var controller;
 
-  beforeEach(angular.mock.module(openprojectModule.name));
-  beforeEach(angular.mock.inject(function ($rootScope,
-                                           $compile,
-                                           $templateCache) {
-    const html = '<div op-tooltip="templateUrl"></div>';
-    scope = $rootScope.$new();
+  var compile;
 
-    scope.templateUrl = 'recipe';
-    scope.templateValue = 'the cake is a lie';
-
-    $templateCache.put('recipe', '{{ templateValue }}');
-
-    element = $compile(html)(scope);
-    controller = element.controller('opTooltip');
+  beforeEach(angular.mock.module(openprojectModule.name, $provide => {
+    $provide.value('someTooltip', tooltip);
   }));
 
-  it('should return true for hasTemplate', () => {
-    expect(controller.hasTemplate()).to.be.true;
-  });
+  beforeEach(angular.mock.inject(function ($rootScope, $compile) {
+    const html = '<div op-tooltip="tooltip"></div>';
+    scope = $rootScope.$new();
+    tooltip.show = sinon.stub();
 
-  describe('when no templateUrl is given', () => {
+    compile = () => {
+      element = $compile(html)(scope);
+      controller = element.controller('opTooltip');
+    };
+  }));
+
+  describe('when the attribute value is the service name of an existing tooltip', () => {
     beforeEach(() => {
-      scope.templateUrl = '';
-      scope.$apply();
+      scope.tooltip = 'someTooltip';
+      compile();
     });
 
-    it('should return false for hasTemplate', () => {
-      expect(controller.hasTemplate()).to.be.false;
-    });
-  });
-
-  describe('when calling the create method of the tooltip controller', () => {
-    var tooltip;
-    var childScope;
-
-    beforeEach(() => {
-      childScope = scope.$new();
-      scope.$new = sinon.stub().returns(childScope);
-      childScope.$destroy = sinon.stub();
-
-      tooltip = controller.create();
+    it('should populate the tooltip attribute with that service', () => {
+      expect(controller.tooltip).to.be.equal(tooltip);
     });
 
-    it('should compile the content of the tooltip', () => {
-      expect(tooltip.html()).to.contain('the cake is a lie');
-    });
-
-    describe('when the tooltip gets removed from the dom', () => {
+    describe('when calling show', () => {
       beforeEach(() => {
-        tooltip.remove();
+        controller.show();
       });
 
-      it('should destroy the child scope', () => {
-        expect(childScope.$destroy.calledOnce).to.be.true;
+      it('should show the tooltip', () => {
+        expect(tooltip.show.calledWith(controller.$element, scope)).to.be.true;
+      });
+    });
+  });
+
+  describe('when the attribute value is not a tooltip service name', () => {
+    beforeEach(() => {
+      scope.tooltip = 'nothing';
+      compile();
+    });
+
+    it('should have a falsy tooltip attribute value', () => {
+      expect(controller.tooltip).to.not.be.ok;
+    });
+
+    describe('when calling show', () => {
+      beforeEach(() => {
+        controller.show();
+      });
+
+      it('should do nothing', () => {
+        expect(tooltip.show.called).to.be.false;
       });
     });
   });
