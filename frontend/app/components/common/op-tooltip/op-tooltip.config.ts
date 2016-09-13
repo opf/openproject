@@ -27,29 +27,16 @@
 //++
 
 import {opModelsModule} from '../../../angular-modules';
-import {OpenProjectTooltipService} from './op-tooltip.service';
 import IRootElementService = angular.IRootElementService;
 
-function opTooltipConfig($rootElement: IRootElementService,
-                         opTooltipService: OpenProjectTooltipService) {
+function opTooltipConfig($rootElement: IRootElementService) {
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
 
     if (element.is('[op-tooltip], [op-tooltip] *')) {
-      const tooltip = element.controller('opTooltip');
-
-      if (tooltip.hasTemplate()) {
-        opTooltipService.show(tooltip.create(), tooltip.$element);
-      }
-      else {
-        opTooltipService.hide();
-      }
-    }
-    else if (!element.is('.op-tooltip, .op-tooltip *')) {
-      opTooltipService.hide();
+      element.controller('opTooltip').show();
     }
   });
 }
 
 opModelsModule.run(opTooltipConfig);
-
