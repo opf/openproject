@@ -604,9 +604,14 @@ a.impaired--empty-link,
 
 
 #members_add_form
+  margin-bottom: 1rem
   .-flex
     display: flex
     align-items: flex-end
+
+    // Neccassary to avoid the appearance of a scroll bar
+    .select2-search-field
+      margin: 0
 
     .form--field,
     #member-add-submit-button--container
@@ -641,4 +646,3 @@ a.impaired--empty-link,
       max-width: 60%
       select
         max-width: 60%
-
