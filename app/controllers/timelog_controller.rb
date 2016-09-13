@@ -142,7 +142,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     render action: 'edit'
   end
@@ -151,7 +151,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -172,13 +172,13 @@ class TimelogController < ApplicationController
   def edit
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
   end
 
   def update
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
