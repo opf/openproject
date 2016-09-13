@@ -64,7 +64,7 @@ describe('opTooltip directive', () => {
     });
   });
 
-  describe.only('when calling the create method of the tooltip controller', () => {
+  describe('when calling the create method of the tooltip controller', () => {
     var tooltip;
     var childScope;
 
