@@ -62,7 +62,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'icon5 icon-help1',
+                    class: 'icon5 icon-help',
                     target: '_blank' },
             omit_path_check: true
 
