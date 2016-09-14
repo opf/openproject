@@ -31,9 +31,11 @@ require 'spec_helper'
 describe CustomValue do
   let(:format) { 'bool' }
   let(:custom_field) { FactoryGirl.create(:custom_field, field_format: format) }
-  subject { FactoryGirl.create(:custom_value, custom_field: custom_field, value: value) }
+  let(:custom_value) { FactoryGirl.create(:custom_value, custom_field: custom_field, value: value) }
 
   describe '#typed_value' do
+    subject { custom_value }
+
     before do
       # we are testing roundtrips through the database here
       # the databases might choose to store values in weird and unexpected formats (e.g. booleans)
@@ -87,6 +89,31 @@ describe CustomValue do
       let(:value) { Date.today }
 
       it { expect(subject.typed_value).to eql(value) }
+    end
+  end
+
+  describe 'storing to db' do
+    let(:db_entry) do
+      sql = "SELECT value from custom_values where custom_values.id = #{custom_value.id}"
+      ActiveRecord::Base.connection.execute(sql)
+    end
+
+    context 'for a boolean custom field' do
+      context 'for the integer 1' do
+        let(:value) { 1 }
+
+        it "is saved as 't'" do
+          expect(db_entry.first['value']).to eql 't'
+        end
+      end
+
+      context 'for the integer 0' do
+        let(:value) { 0 }
+
+        it "is saved as 'f'" do
+          expect(db_entry.first['value']).to eql 'f'
+        end
+      end
     end
   end
 end

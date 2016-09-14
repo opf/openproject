@@ -40,6 +40,16 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
     ActiveRecord::Type::Boolean.new.cast(value)
   end
 
+  def db_value
+    if !value_present?
+      nil
+    elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(value)
+      'f'
+    else
+      't'
+    end
+  end
+
   def validate_type_of_value
   end
 end
