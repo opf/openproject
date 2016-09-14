@@ -148,7 +148,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       describe 'html' do
-        let(:call_action) { get('index', project_id: project.id) }
+        let(:call_action) { get('index', params: { project_id: project.id } ) }
         before do call_action end
 
         describe 'w/o a project' do
@@ -169,7 +169,7 @@ describe WorkPackagesController, type: :controller do
 
       describe 'csv' do
         let(:params) { {} }
-        let(:call_action) { get('index', params.merge(format: 'csv')) }
+        let(:call_action) { get('index', params: params.merge(format: 'csv')) }
 
         requires_export_permission do
           before do
@@ -185,7 +185,7 @@ describe WorkPackagesController, type: :controller do
                     disposition: "attachment; filename=#{query.name}.csv") do |_|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
-              controller.render text: 'success'
+              controller.render plain: 'success'
             end
           end
 
@@ -197,7 +197,7 @@ describe WorkPackagesController, type: :controller do
 
       describe 'pdf' do
         let(:params) { {} }
-        let(:call_action) { get('index', params.merge(format: 'pdf')) }
+        let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
 
         requires_export_permission do
           context 'w/ a valid query' do
@@ -215,7 +215,7 @@ describe WorkPackagesController, type: :controller do
                                                              filename: 'export.pdf') do |*_args|
                 # We need to render something because otherwise
                 # the controller will and he will not find a suitable template
-                controller.render text: 'success'
+                controller.render plain: 'success'
               end
             end
 
@@ -246,14 +246,14 @@ describe WorkPackagesController, type: :controller do
 
       describe 'atom' do
         let(:params) { {} }
-        let(:call_action) { get('index', params.merge(format: 'atom')) }
+        let(:call_action) { get('index', params: params.merge(format: 'atom')) }
 
         requires_export_permission do
           before do
             expect(controller).to receive(:render_feed).with(work_packages, anything) do |*_args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
-              controller.render text: 'success'
+              controller.render plain: 'success'
             end
           end
 
@@ -288,7 +288,7 @@ describe WorkPackagesController, type: :controller do
       wp = work_package
 
       expect {
-        get :index, format: 'csv', c: [:subject, :assignee, :updatedAt]
+        get :index, params: { format: 'csv', c: [:subject, :assignee, :updatedAt] }
       }.not_to raise_error
 
       data = CSV.parse(response.body)
@@ -302,13 +302,15 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'index with a broken project reference' do
-    before do get('index', project_id: 'project_that_doesnt_exist') end
+    before do
+      get('index', params: { project_id: 'project_that_doesnt_exist' })
+    end
 
     it { is_expected.to respond_with :not_found }
   end
 
   describe 'show.html' do
-    let(:call_action) { get('show', id: '1337') }
+    let(:call_action) { get('show', params: { id: '1337' }) }
 
     requires_permission_in_project do
       it 'renders the show builder template' do
@@ -320,7 +322,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'show.pdf' do
-    let(:call_action) { get('show', format: 'pdf', id: '1337') }
+    let(:call_action) { get('show', params: { format: 'pdf', id: '1337' }) }
 
     requires_permission_in_project do
       it 'respond with a pdf' do
@@ -337,7 +339,7 @@ describe WorkPackagesController, type: :controller do
                                                        filename: expected_name) do |*_args|
           # We need to render something because otherwise
           # the controller will and he will not find a suitable template
-          controller.render text: 'success'
+          controller.render plain: 'success'
         end
         call_action
       end
@@ -345,7 +347,7 @@ describe WorkPackagesController, type: :controller do
   end
 
   describe 'show.atom' do
-    let(:call_action) { get('show', format: 'atom', id: '1337') }
+    let(:call_action) { get('show', params: { format: 'atom', id: '1337' }) }
 
     requires_permission_in_project do
       it 'render the journal/index template' do
