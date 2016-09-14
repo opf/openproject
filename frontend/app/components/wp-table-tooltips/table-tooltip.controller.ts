@@ -38,6 +38,8 @@ export class TableTooltipController {
     if (this.model) {
       this.model.$load();
     }
+
+    $scope[$scope.column.name] = this.model;
   }
 }
 
