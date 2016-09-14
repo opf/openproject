@@ -83,7 +83,10 @@ body.controller-work_packages.action-show {
     flex-shrink: 8;
     border-top: 1px solid #ccc;
     overflow: visible;
-    position: relative;
+    // Important for Safari
+    height: initial;
+    // Important for Firefox to let 'flex-shrink' work correctly.
+    min-height: 0;
 
     &[cg-busy] {
       overflow: visible;
@@ -204,6 +207,13 @@ body.controller-work_packages.action-show {
         display: block;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 78rem) {
+  .work-packages--show-view {
+    // Important for Safari
+    height: initial;
   }
 }
 
