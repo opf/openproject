@@ -94,6 +94,7 @@ export class SelectEditField extends EditField {
     if (emptyOption === undefined) {
       this.options.unshift({
         name: this.text.placeholder,
+        href: null
       });
     }
   }

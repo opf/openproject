@@ -50,9 +50,6 @@ function wpEditFieldRequirements() {
     },
 
     link: wpEditFieldRequirementsLink,
-
-    controllerAs: 'vm',
-    bindToController: true
   };
 }
 
