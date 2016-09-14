@@ -41,10 +41,10 @@ GIT
 
 GIT
   remote: https://github.com/carrierwaveuploader/carrierwave
-  revision: c45699c318ca895f89fa3304204e48b5f1c411f1
+  revision: b31f7ce006bade550be0ad946d0b993b799358e3
   branch: master
   specs:
-    carrierwave (1.0.0.beta)
+    carrierwave (0.11.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
@@ -65,7 +65,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: ecfd00e08036dabfc615311dc690a45da9259813
+  revision: c0b9604210e7bfb2d3e3ddae0d847c27df593966
   branch: feature/rails5
   specs:
     openproject-translations (6.1.0)
@@ -248,6 +248,7 @@ GEM
       representable (~> 2.0)
       uber
     docile (1.1.5)
+      unf (>= 0.0.5, < 1.0.0)
     domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.1)
@@ -692,9 +693,9 @@ DEPENDENCIES
   syck (~> 1.0.5)
   sys-filesystem (~> 1.1.4)
   thin (~> 1.7.0)
-  timecop (~> 0.8)
+  timecop (~> 0.8.1)
   transactional_lock!
-  tzinfo-data
+  tzinfo-data (~> 1.2016.1)
   unicorn
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
@@ -702,7 +703,7 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
-   ruby 2.3.1p112
+   ruby 2.2.5p319
 
 BUNDLED WITH
    1.13.1

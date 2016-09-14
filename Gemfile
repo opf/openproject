@@ -63,7 +63,7 @@ gem 'color-tools', '~> 1.3.0', require: 'color'
 gem 'ruby-progressbar'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data'
+gem 'tzinfo-data', '~> 1.2016.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -187,7 +187,7 @@ group :test do
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
   gem 'poltergeist', '~> 1.10.0'
-  gem 'timecop', '~> 0.8'
+  gem 'timecop', '~> 0.8.1'
   gem 'webmock', '~> 2.1.0', require: false
 
   gem 'simplecov', '~> 0.12.0', require: false
