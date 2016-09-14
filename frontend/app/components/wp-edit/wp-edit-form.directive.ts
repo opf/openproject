@@ -32,6 +32,7 @@ import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.dire
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {states} from "../../states";
 
 export class WorkPackageEditFormController {
   public workPackage;
@@ -56,7 +57,7 @@ export class WorkPackageEditFormController {
       wpEditModeState.register(this);
     }
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+    states.workPackages.get(this.workPackage.id.toString()).observe($scope)
       .subscribe((wp: WorkPackageResource) => {
         this.workPackage = wp;
       });

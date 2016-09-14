@@ -31,20 +31,16 @@ import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {states} from "../../states";
-import IScope = angular.IScope;
 import {State} from "../../helpers/reactive-fassade";
+import IScope = angular.IScope;
 
 
 export class WorkPackageCacheService {
 
-  // private workPackageCache: {[id: number]: WorkPackageResource} = {};
-
-  // private workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
-
   private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
 
   /*@ngInject*/
-  constructor(private $rootScope: IScope, private apiWorkPackages: ApiWorkPackagesService) {
+  constructor(private apiWorkPackages: ApiWorkPackagesService) {
   }
 
   newWorkPackageCreated(wp: WorkPackageResource) {
@@ -52,7 +48,6 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-    // this.updateWorkPackageList([wp]);
     states.workPackages.put(wp.id.toString(), wp);
   }
 
@@ -65,37 +60,22 @@ export class WorkPackageCacheService {
       // } else {
       //   this.workPackageCache[wp.id] = wp;
       // }
-
       // TODO Roman: clarify with Jens/Oliver. Is this check still ok?
       if (!wp.dirty) {
         states.workPackages.put(wp.id.toString(), wp);
       }
 
     }
-    // this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
-    // if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
-    //   this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
-    //     this.updateWorkPackage(wp);
-    //   });
-    // }
-    //
-    // return this.workPackagesSubject
-    //   .map(cache => cache[workPackageId])
-    //   .filter(wp => wp !== undefined);
-
     const state = states.workPackages.get(workPackageId.toString());
     if (forceUpdate) {
       state.clear();
-      // this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
-      //   state.put(wp);
-      // });
     }
 
     state.putFromPromiseIfPristine(
-      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+      () => this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
 
     return state;
   }

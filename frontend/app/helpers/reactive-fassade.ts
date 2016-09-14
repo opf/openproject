@@ -82,9 +82,9 @@ export class State<T> extends StoreElement {
     return this;
   }
 
-  public putFromPromiseIfPristine(promise: PromiseLike<T>): this {
+  public putFromPromiseIfPristine(calledIfPristine: () => PromiseLike<T>): this {
     if (this.isPristine()) {
-      this.putFromPromise(promise);
+      this.putFromPromise(calledIfPristine());
     }
     return this;
   }
