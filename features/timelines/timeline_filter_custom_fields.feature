@@ -36,7 +36,7 @@ Feature: Timeline View Tests
           | login | manager |
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_work_packages | 
+          | view_work_packages |
           | view_timelines     |
           | edit_timelines     |
           | edit_work_packages |
@@ -76,16 +76,16 @@ Feature: Timeline View Tests
           | boolTrue                 | Phase |
           | boolFalse                | Phase |
 
-      And the work package "boolFalse" has the custom field "cfBool" set to "0"
-      And the work package "boolTrue" has the custom field "cfBool" set to "1"
+      And the work package "boolFalse" has the custom field "cfBool" set to "f"
+      And the work package "boolTrue" has the custom field "cfBool" set to "t"
       And I am working in the timeline "Testline" of the project called "ecookbook"
       And there is a timeline "Testline" for project "ecookbook"
-    When I filter for work packages with custom boolean field "cfBool" set to "0"   
+    When I filter for work packages with custom boolean field "cfBool" set to "f"
       And I wait for timeline to load table
     Then I should see the work package "boolFalse" in the timeline
       And I should not see the work package "boolTrue" in the timeline
       And I should not see the work package "boolNone" in the timeline
-    When I filter for work packages with custom boolean field "cfBool" set to "1"
+    When I filter for work packages with custom boolean field "cfBool" set to "t"
       And I wait for timeline to load table
     Then I should not see the work package "boolFalse" in the timeline
       And I should see the work package "boolTrue" in the timeline
@@ -144,16 +144,16 @@ Feature: Timeline View Tests
           | boolTrue                 | Phase |
           | boolFalse                | Phase |
 
-      And the work package "boolFalse" has the custom field "cfBoolL" set to "0"
-      And the work package "boolTrue" has the custom field "cfBoolL" set to "1"
+      And the work package "boolFalse" has the custom field "cfBoolL" set to "f"
+      And the work package "boolTrue" has the custom field "cfBoolL" set to "t"
       And I am working in the timeline "Testline" of the project called "ecookbook"
       And there is a timeline "Testline" for project "ecookbook"
-    When I filter for work packages with custom boolean field "cfBoolL" set to "0"   
+    When I filter for work packages with custom boolean field "cfBoolL" set to "f"
       And I wait for timeline to load table
     Then I should see the work package "boolFalse" in the timeline
       And I should not see the work package "boolTrue" in the timeline
       And I should not see the work package "boolNone" in the timeline
-    When I filter for work packages with custom boolean field "cfBoolL" set to "1"
+    When I filter for work packages with custom boolean field "cfBoolL" set to "t"
       And I wait for timeline to load table
     Then I should not see the work package "boolFalse" in the timeline
       And I should see the work package "boolTrue" in the timeline
