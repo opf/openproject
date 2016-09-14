@@ -30,9 +30,13 @@
 class MembersController < ApplicationController
   model_object Member
   before_action :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
-  before_action :find_project, only: [:paginate_users]
-  before_action :find_project_by_project_id, only: [:autocomplete_for_member]
+  before_action :find_project_by_project_id, only: [:autocomplete_for_member, :paginate_users]
   before_action :authorize
+
+  include Pagination::Controller
+  paginate_model User
+  search_for User, :search_in_project
+  search_options_for User, lambda { |*| { project: @project } }
 
   include CellsHelper
 
