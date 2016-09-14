@@ -58,16 +58,19 @@ export class WorkPackageCacheService {
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (const wp of list) {
-      // var cached = this.workPackageCache[wp.id];
 
-      // TODO RR Question: This check doesn't seem to be right!?
+      // var cached = this.workPackageCache[wp.id];
       // if (cached && cached.dirty) {
       //   this.workPackageCache[wp.id] = cached;
       // } else {
       //   this.workPackageCache[wp.id] = wp;
       // }
 
-      states.workPackages.put(wp.id.toString(), wp);
+      // TODO Roman: clarify with Jens/Oliver. Is this check still ok?
+      if (!wp.dirty) {
+        states.workPackages.put(wp.id.toString(), wp);
+      }
+
     }
     // this.workPackagesSubject.onNext(this.workPackageCache);
   }
