@@ -178,9 +178,11 @@ describe WorkPackagesController, type: :controller do
             expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
               .and_return(mock_csv)
 
-            expect(controller).to receive(:send_data).with(mock_csv,
-                                                           type: 'text/csv; charset=utf-8; header=present',
-                                                           filename: "#{query.name}.csv") do |_|
+            expect(controller)
+              .to receive(:send_data)
+              .with(mock_csv.to_s,
+                    type: 'text/csv; header=present; charset=utf-8;',
+                    disposition: "attachment; filename=#{query.name}.csv") do |_|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render text: 'success'
