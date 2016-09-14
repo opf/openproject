@@ -28,13 +28,21 @@
 
 import {opModelsModule} from '../../../angular-modules';
 import IRootElementService = angular.IRootElementService;
+import IDocumentService = angular.IDocumentService;
 
-function opTooltipConfig($rootElement: IRootElementService) {
+function opTooltipConfig($rootElement: IRootElementService, $document: IDocumentService) {
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
 
-    if (element.is('[op-tooltip], [op-tooltip] *')) {
-      element.controller('opTooltip').show();
+    if (element.is('[op-tooltip], [op-tooltip] *, .op-tooltip, .op-tooltip *')) {
+      const tooltip = element.controller('opTooltip');
+
+      if (tooltip) {
+        element.controller('opTooltip').show();
+      }
+    }
+    else {
+      $document.find('.op-tooltip').hide();
     }
   });
 }

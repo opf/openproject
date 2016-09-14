@@ -70,4 +70,19 @@ describe('opTooltip config', () => {
       mouseOver(tooltip.children());
     });
   });
+
+  describe('when moving the mouse over anything else', () => {
+    var hide;
+
+    beforeEach(angular.mock.inject($document => {
+      hide = sinon.stub();
+      $document.find = sinon.stub().withArgs('.op-tooltip').returns({hide});
+
+      mouseOver(angular.element(document.body));
+    }));
+
+    it('should hide the tooltip', () => {
+      expect(hide.calledOnce).to.be.true;
+    });
+  });
 });
