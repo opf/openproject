@@ -31,6 +31,9 @@ body.controller-work_packages.action-show {
 }
 
 .work-packages--show-view {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
 
   #toolbar {
     display: flex;
@@ -42,6 +45,7 @@ body.controller-work_packages.action-show {
   .toolbar-container {
     @include clearfix;
     margin-bottom: 20px;
+    padding-right: 20px;
   }
 
 
@@ -76,15 +80,10 @@ body.controller-work_packages.action-show {
   }
 
   .work-packages--split-view {
-    height: auto;
+    flex-shrink: 8;
     border-top: 1px solid #ccc;
     overflow: visible;
-    position: absolute;
-    padding-right: 20px;
-    top: 139px;
-    left: 20px;
-    right: 0px;
-    bottom: 0px;
+    position: relative;
 
     &[cg-busy] {
       overflow: visible;
@@ -223,8 +222,6 @@ body.controller-work_packages.action-show {
 }
 
 .work-packages--show-view {
-  padding-right: 20px;
-
   .subject-header {
     margin: 0;
     padding: 0;
