@@ -38,7 +38,7 @@ module Api::Experimental::Concerns::GrapeRouting
 
     query_route
       .path
-      .gsub(':version', query_route.route_version)
+      .gsub(':version', query_route.version)
       .gsub(':id', query.id.to_s)
       .gsub(/\(\.:format\)/, '')
   end
