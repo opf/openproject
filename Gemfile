@@ -31,10 +31,10 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 gem 'rails', '~> 5.0.0'
-gem 'actionpack-xml_parser'
-gem 'activemodel-serializers-xml'
+gem 'actionpack-xml_parser', '~> 2.0.0'
+gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.0.0'
-gem 'responders', '~> 2.0'
+gem 'responders', '~> 2.3'
 
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
@@ -42,7 +42,7 @@ gem 'rdoc', '>= 2.4.2'
 
 gem 'globalize', github: 'globalize/globalize', ref: '38443bcd'
 gem 'omniauth', github: 'oliverguenther/omniauth'
-gem 'request_store', '~> 1.3.0'
+gem 'request_store', '~> 1.3.1'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
@@ -88,20 +88,19 @@ gem 'bcrypt', '~> 3.1.6'
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
-gem 'multi_json', '~> 1.11.0'
+gem 'multi_json', '~> 1.12.1'
 gem 'oj', '~> 2.17.4'
 
 gem 'delayed_job_active_record', '~> 4.1.1'
 gem 'daemons'
 
-# include custom rack-protection for now until rkh/rack-protection is fixed and released
-# (see https://community.openproject.org/work_packages/3029)
 gem 'rack-protection', '~> 2.0.0.beta2'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
-# It allows whitelisting, blacklisting, throttling, and tracking based on arbitrary properties of the request.
+# It allows whitelisting, blacklisting, throttling, and tracking based
+# on arbitrary properties of the request.
 # https://github.com/kickstarter/rack-attack
-gem 'rack-attack'
+gem 'rack-attack', '~> 5.0.1'
 
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', github: 'opf/rails-angular-xss'
@@ -113,7 +112,8 @@ gem 'gon', '~> 4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 5.1.0', require: false
 
-gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git', branch: 'master'
+gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
+                          branch: 'master'
 
 gem 'prawn', '~> 2.1'
 gem 'prawn-table', '~> 0.2.2'
@@ -131,12 +131,12 @@ end
 gem 'sprockets', '~> 3.7.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '~> 3.4.12'
-gem 'autoprefixer-rails'
+gem 'autoprefixer-rails', '~> 6.4.1'
 gem 'bourbon', '~> 4.2.0'
 gem 'i18n-js', '>= 3.0.0.rc13'
 
 # small wrapper around the command line
-gem 'cocaine'
+gem 'cocaine', '~> 0.5.8'
 
 # required by Procfile, for deployment on heroku or packaging with packager.io.
 # also, better than thin since we can control worker concurrency.
@@ -188,7 +188,7 @@ group :test do
   gem 'selenium-webdriver', '~> 2.53.4'
   gem 'poltergeist', '~> 1.10.0'
   gem 'timecop', '~> 0.8'
-  gem 'webmock', '~> 1.24.2', require: false
+  gem 'webmock', '~> 2.1.0', require: false
 
   gem 'simplecov', '~> 0.12.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
@@ -222,7 +222,7 @@ group :development do
 end
 
 # API gems
-gem 'grape', '~> 0.14'
+gem 'grape', '~> 0.17'
 gem 'grape-cache_control', '~> 1.0.1'
 
 gem 'roar',   '~> 1.0.0'
@@ -252,7 +252,8 @@ end
 
 group :opf_plugins do
   # TODO: switch to dev branch again after feature/rails5 has been merged in translations
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'feature/rails5'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git',
+                                  branch: 'feature/rails5'
 end
 
 # TODO: Make this group :optional when bundler v10.x
@@ -269,7 +270,8 @@ group :docker do
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}', __FILE__)
+gemfiles = Dir.glob File.expand_path('../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}',
+                                     __FILE__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
   next unless File.readable?(file)
