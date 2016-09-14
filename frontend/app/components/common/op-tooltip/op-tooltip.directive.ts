@@ -27,13 +27,13 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
-import {OpenProjectTooltip} from './op-tooltip.service';
+import {OpenProjectTooltipService} from './op-tooltip.service';
 import IDirective = angular.IDirective;
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IScope = angular.IScope;
 
 export class OpenProjectTooltipController {
-  public tooltip: OpenProjectTooltip;
+  public tooltip: OpenProjectTooltipService;
 
   constructor(protected $element: IAugmentedJQuery,
               protected $scope: IScope,

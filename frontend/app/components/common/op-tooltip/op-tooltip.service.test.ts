@@ -26,100 +26,138 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opModelsModule} from '../../../angular-modules';
+import {openprojectModule} from '../../../angular-modules';
 import IDocumentService = angular.IDocumentService;
-import {OpenProjectTooltipService} from './op-tooltip.service';
 
-describe('opTooltipService', () => {
+describe('opTooltip service', () => {
   var $document: IDocumentService;
-  var opTooltipService: OpenProjectTooltipService;
-  var isVisible;
+  var container;
+  var opTooltip;
 
-  var clock;
-  var wait;
+  beforeEach(angular.mock.module(openprojectModule.name, $provide => {
+    $provide.factory('existingTooltip', opTooltip => opTooltip({}));
+  }));
 
-  before(() => clock = sinon.useFakeTimers());
-  after(() => clock.restore());
-
-  beforeEach(angular.mock.module(opModelsModule.name));
-  beforeEach(angular.mock.inject(function (_$document_, _opTooltipService_) {
-    [$document, opTooltipService] = _.toArray(arguments);
-    isVisible = () => opTooltipService.container.css('visibility') === 'visible';
-    wait = () => clock.tick(opTooltipService.delay);
+  beforeEach(angular.mock.inject(function (_$document_, _opTooltip_) {
+    [$document, opTooltip] = _.toArray(arguments);
+    container = $document.find('#op-tooltip-container');
   }));
 
   it('should exist', () => {
-    expect(opTooltipService).to.exist;
+    expect(opTooltip).to.exist;
   });
 
-  it('should be appended to the document body', () => {
-    expect($document.find('#op-tooltip-container')).to.have.lengthOf(1);
+  it('should append only one container to the document', () => {
+    expect(container).to.have.lengthOf(1);
   });
 
-  it('should hide the container initially', () => {
-    expect(isVisible()).to.be.false;
-  });
+  describe('when using get()', () => {
+    function testGetMethod(name, expectation) {
+      var tooltip;
 
-  it('should have a container with z-index over 9000', () => {
-    const over = power => expect(opTooltipService.container.css('z-index')).to.be.above(power);
-    "it's" + over(9000);
-  });
-
-  describe('when calling the show method', () => {
-    var tooltip;
-    var target;
-
-    beforeEach(() => {
-      tooltip = angular.element('<div class="op-tooltip"></div>');
-
-      target = angular.element('<div></div>').appendTo(document.body);
-      target.css({
-        width: 10,
-        height: 10,
-        padding: 5
-      });
-
-      opTooltipService.container.append('<div class="op-tooltip"></div>');
-
-      opTooltipService.show(tooltip, target);
-    });
-
-    it('should make the tooltip appear above the original element', () => {
-      const top = target.offset().top - tooltip.outerHeight();
-      expect(parseInt(tooltip.css('top'))).to.equal(Math.floor(top));
-    });
-
-    it('should align the tooltip on the right of the original element', () => {
-      const left = target.offset().left + target.outerWidth();
-      expect(parseInt(tooltip.css('left'))).to.equal(parseInt(left));
-    });
-
-    it('should remove other tooltips', () => {
-      expect(opTooltipService.container.find('.op-tooltip')).to.have.lengthOf(1);
-    });
-
-    it('should keep the container invisible initially', () => {
-      expect(isVisible()).to.be.false;
-    });
-
-    it('should show the container after the delay time', () => {
-      wait();
-      expect(isVisible()).to.be.true;
-    });
-
-    describe('when calling hide afterwards', () => {
       beforeEach(() => {
-        wait();
-        opTooltipService.hide();
+        tooltip = opTooltip.get(name);
       });
 
-      it('should keep the element visible for a while', () => {
-        expect(isVisible()).to.be.true;
+      it('should return that service', () => {
+        expect(tooltip).to.be[expectation];
+      });
+    }
+
+    describe('when using it for an existing tooltip service', () => {
+      testGetMethod('existingTooltip', 'ok');
+    });
+
+    describe('when using it for a non existing service', () => {
+      testGetMethod('something outta space', null);
+    });
+
+    describe('when using it for a service that is not a tooltip', () => {
+      testGetMethod('opTooltip', null);
+    });
+  });
+
+  describe('when creating a tooltip service', () => {
+    var tooltip;
+    var tooltipElement;
+    var templateUrl = 'random';
+    var scope;
+
+    var targetElement;
+    var targetScope;
+
+    var show;
+
+    beforeEach(angular.mock.inject(($rootScope, $templateCache) => {
+      $templateCache.put(templateUrl, 'random content');
+
+      targetElement = angular.element('body');
+      targetScope = $rootScope.$new();
+
+      scope = targetScope.$new();
+      scope.$destroy = sinon.stub();
+      targetScope.$new = sinon.stub().returns(scope);
+
+      tooltip = opTooltip({templateUrl});
+      show = () => tooltipElement = tooltip.show(targetElement, targetScope);
+    }));
+
+    describe('when using show', () => {
+      beforeEach(() => show());
+
+      it('should add a single tooltip to the dom', () => {
+        expect(targetElement.find('.op-tooltip')).to.have.lengthOf(1);
       });
 
-      it('should hide the element after the delay time', () => {
-        wait();
-        expect(isVisible()).to.be.false;
+      it('should show the tooltip element', () => {
+        expect(tooltipElement.is(':visible')).to.be.true;
+      });
+
+      it('should compile the contents of the tooltip', () => {
+        expect(tooltipElement.html()).to.contain('random content');
+      });
+
+      describe('when using show again', () => {
+        beforeEach(() => show());
+
+        it('should still only have one tooltip', () => {
+          expect(targetElement.find('.op-tooltip')).to.have.lengthOf(1);
+        });
+      });
+
+      describe('when removing the tooltip element from the dom', () => {
+        beforeEach(() => {
+          tooltipElement.remove();
+        });
+
+        it('should destroy its scope', () => {
+          expect(scope.$destroy.calledOnce).to.be.true;
+        });
+      });
+    });
+
+    describe('when no controller is defined', () => {
+      beforeEach(() => {
+        tooltip = opTooltip({templateUrl});
+        show();
+      });
+
+      it('should add an empty controller to the scope', () => {
+        expect(scope.opTooltipController).to.equal(angular.noop);
+      });
+    });
+
+    describe('when a controller is defined', () => {
+      const controller = class RandomCtrl {
+      };
+
+      beforeEach(() => {
+        tooltip = opTooltip({controller, templateUrl});
+        show();
+      });
+
+      it('should add the controller to the scope', () => {
+        expect(scope.opTooltipController).to.equal(controller);
       });
     });
   });

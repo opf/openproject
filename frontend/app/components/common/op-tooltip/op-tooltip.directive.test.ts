@@ -29,7 +29,7 @@
 import {openprojectModule} from '../../../angular-modules';
 
 describe('opTooltip directive', () => {
-  var tooltip: any = {};
+  var someTooltip;
 
   var scope;
   var element;
@@ -38,13 +38,14 @@ describe('opTooltip directive', () => {
   var compile;
 
   beforeEach(angular.mock.module(openprojectModule.name, $provide => {
-    $provide.value('someTooltip', tooltip);
+    $provide.factory('someTooltip', opTooltip => opTooltip());
   }));
 
-  beforeEach(angular.mock.inject(function ($rootScope, $compile) {
+  beforeEach(angular.mock.inject(function ($rootScope, $compile, _someTooltip_) {
     const html = '<div op-tooltip="tooltip"></div>';
     scope = $rootScope.$new();
-    tooltip.show = sinon.stub();
+    someTooltip = _someTooltip_;
+    someTooltip.show = sinon.stub();
 
     compile = () => {
       element = $compile(html)(scope);
@@ -59,7 +60,7 @@ describe('opTooltip directive', () => {
     });
 
     it('should populate the tooltip attribute with that service', () => {
-      expect(controller.tooltip).to.be.equal(tooltip);
+      expect(controller.tooltip).to.be.equal(someTooltip);
     });
 
     describe('when calling show', () => {
@@ -68,7 +69,7 @@ describe('opTooltip directive', () => {
       });
 
       it('should show the tooltip', () => {
-        expect(tooltip.show.calledWith(controller.$element, scope)).to.be.true;
+        expect(someTooltip.show.calledWith(controller.$element, scope)).to.be.true;
       });
     });
   });
@@ -89,7 +90,7 @@ describe('opTooltip directive', () => {
       });
 
       it('should do nothing', () => {
-        expect(tooltip.show.called).to.be.false;
+        expect(someTooltip.show.called).to.be.false;
       });
     });
   });

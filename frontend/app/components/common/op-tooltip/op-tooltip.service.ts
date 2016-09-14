@@ -26,43 +26,94 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opModelsModule} from '../../../angular-modules';
+import {openprojectModule} from '../../../angular-modules';
+import IAugmentedJQuery = angular.IAugmentedJQuery;
+import ICompileService = angular.ICompileService;
+import IDocumentService = angular.IDocumentService;
+import IScope = angular.IScope;
+import IInjectorService = angular.auto.IInjectorService;
+
+interface TooltipScope extends IScope {
+  opTooltipTemplateUrl: string;
+  opTooltipController: Function;
+}
+
+interface TooltipConfig {
+  templateUrl?: string;
+  controller?: Function;
+}
+
+var $compile: ICompileService;
+var container: JQuery;
+
+const template = `
+      <div class="op-tooltip">
+        <div class="inplace-edit--controls">
+          <ng-include
+            src="opTooltipTemplateUrl"
+            ng-controller="opTooltipController"
+          ></ng-include>
+        </div>
+      </div>
+    `;
 
 export class OpenProjectTooltipService {
   public delay: number = 1000;
-  public container;
 
-  private timeouts = [];
-
-  constructor() {
-    angular.element('#op-tooltip-container').remove();
-    this.container = angular
-      .element('<div id="op-tooltip-container"></div>')
-      .css('visibility', 'hidden')
-      .appendTo(document.body);
+  constructor(protected config: TooltipConfig = {}) {
   }
 
-  public show(tooltip, target) {
-    angular.element('.op-tooltip').remove();
-    this.container.append(tooltip);
+  public show(element: IAugmentedJQuery, scope: IScope): JQuery {
+    const childScope: TooltipScope = <TooltipScope> scope.$new();
+    childScope.opTooltipTemplateUrl = this.config.templateUrl;
+    childScope.opTooltipController = this.config.controller || angular.noop;
 
-    var {top, left} = target.offset();
+    const tooltip = $compile(template)(childScope);
+    childScope.$apply();
+    container.empty();
+
+    tooltip
+      .appendTo(container)
+      .on('$destroy', () => childScope.$destroy());
+
+    var {top, left} = element.offset();
     top -= tooltip.outerHeight();
-    left += target.outerWidth() - tooltip.outerWidth();
+    left += element.outerWidth() - tooltip.outerWidth();
+
     tooltip.css({top, left});
 
-    this.visibilityTimeout('visible');
-  }
-
-  public hide() {
-    this.visibilityTimeout('hidden');
-  }
-
-  private visibilityTimeout(visibility) {
-    this.timeouts.forEach(clearTimeout);
-    const timeout = setTimeout(() => this.container.css('visibility', visibility), this.delay);
-    this.timeouts.push(timeout);
+    return tooltip;
   }
 }
 
-opModelsModule.service('opTooltipService', OpenProjectTooltipService);
+var $document: IDocumentService;
+var $injector: IInjectorService;
+
+function opTooltipService(...args) {
+  [$document, $injector, $compile] = args;
+  container = $document.find('#op-tooltip-container');
+
+  if (!container.length) {
+    container = angular
+      .element('<div id="op-tooltip-container"></div>')
+      .appendTo($document.find('body'));
+  }
+
+  const tooltipFactory: any = config => new OpenProjectTooltipService(config);
+  tooltipFactory.get = name => {
+    if ($injector.has(name)) {
+      const service = $injector.get(name);
+
+      if (service instanceof OpenProjectTooltipService) {
+        return service;
+      }
+    }
+
+    return null;
+  };
+
+  return tooltipFactory;
+}
+opTooltipService.$inject = ['$document', '$injector', '$compile'];
+
+openprojectModule.factory('opTooltip', opTooltipService);
