@@ -31,15 +31,14 @@ import {TableTooltipController} from '../table-tooltip.controller';
 
 class UserTooltipController extends TableTooltipController {
   constructor($scope) {
-    'ngInject';
     super($scope);
-    $scope.user = this.model;
 
     const project = $scope.workPackage.project;
+    $scope.user = this.model;
 
     if (project) {
-      project.$load().then((project: any) => {
-        $scope.inviteUserPath = `/projects/${ project.identifier }/members`;
+      project.$load().then(project => {
+        $scope.inviteUserPath = URI.expand('/projects/{identifier}/members', project).valueOf();
       });
     }
   }
