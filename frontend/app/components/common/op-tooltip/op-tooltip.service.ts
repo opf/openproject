@@ -77,7 +77,7 @@ export class OpenProjectTooltipService {
       .on('$destroy', () => childScope.$destroy());
 
     var {top, left} = element.offset();
-    top -= tooltip.outerHeight();
+    top -= tooltip.outerHeight() - parseInt(element.css('padding-top'));
     left += element.outerWidth() - tooltip.outerWidth();
 
     tooltip.css({top, left});
