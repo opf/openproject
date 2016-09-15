@@ -29,13 +29,15 @@ export class State<T> extends StoreElement {
 
   private subject = new Rx.BehaviorSubject<T>(null);
 
+  private lastValue: T = null;
+
   private cleared = new Rx.Subject();
 
   private observable: Observable<T>;
 
   constructor() {
     super();
-    this.observable = this.subject.filter(val => val !== null);
+    this.observable = this.subject.filter(val => val !== null && val !== undefined);
   }
 
   /**
@@ -50,6 +52,14 @@ export class State<T> extends StoreElement {
     const ageValue = Date.now() - this.timestampOfLastValue;
     const agePromise = Date.now() - this.timestampOfLastPromise;
     return ageValue > timeoutInMs && agePromise > timeoutInMs;
+  }
+
+  public hasValue(): boolean {
+    return this.lastValue !== null && this.lastValue !== undefined;
+  }
+
+  public getLastValue(): T {
+    return this.lastValue;
   }
 
   public clear(reason?: string): this {
@@ -102,7 +112,8 @@ export class State<T> extends StoreElement {
   }
 
   private setState(val: T) {
-    this.timestampOfLastValue = val !== null && val !== undefined ? Date.now() : -1;
+    this.lastValue = val;
+    this.timestampOfLastValue = this.hasValue() ? Date.now() : -1;
     this.subject.onNext(val);
 
     if (val === null || val === undefined) {

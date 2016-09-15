@@ -52,7 +52,7 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
-    for (const wp of list) {
+    for (var wp of list) {
 
       // var cached = this.workPackageCache[wp.id];
       // if (cached && cached.dirty) {
@@ -60,11 +60,12 @@ export class WorkPackageCacheService {
       // } else {
       //   this.workPackageCache[wp.id] = wp;
       // }
-      // TODO Roman: clarify with Jens/Oliver. Is this check still ok?
-      if (!wp.dirty) {
-        states.workPackages.put(wp.id.toString(), wp);
+      const wpState = states.workPackages.get(wp.id.toString());
+      if (wpState.hasValue() && wpState.getLastValue().dirty) {
+        return;
       }
 
+      states.workPackages.put(wp.id.toString(), wp);
     }
   }
 
