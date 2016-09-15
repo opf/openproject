@@ -46,7 +46,10 @@ See doc/COPYRIGHT.md for more details.
   </div>
 <% end %>
 <% if current_user.admin? %>
-  <%= link_to new_project_member_path(project_id: project.identifier), class: 'button -alt-highlight' do %>
+  <%= link_to new_project_member_path(project_id: project.identifier),
+        { class: 'button -alt-highlight',
+          title: t(:button_add_member),
+          aria: { label: t(:button_add_member) }} do %>
     <i class="button--icon icon-add"></i>
     <span class="button--text"><%= t('activerecord.models.member') %></span>
   <% end %>
