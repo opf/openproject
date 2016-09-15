@@ -30,12 +30,12 @@ import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {wpDirectivesModule} from '../../angular-modules';
 
 export class TableTooltipController {
-  get model(): HalResource {
+  public get model(): HalResource & string {
     return this.$scope.workPackage[this.$scope.column.name];
   }
 
   constructor(protected $scope) {
-    if (this.model) {
+    if (this.model && this.model.$isHal) {
       this.model.$load();
     }
 
