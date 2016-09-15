@@ -501,6 +501,14 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resource :help, controller: :help, only: [] do
+    member do
+      get :wiki_syntax
+      get :wiki_syntax_detailed
+      get :keyboard_shortcuts
+    end
+  end
+
   # redirect for backwards compatibility
   scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
     get '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
