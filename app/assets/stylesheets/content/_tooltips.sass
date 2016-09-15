@@ -236,19 +236,28 @@ table
 // The code is similar to the WP edit controls.
 // ------------------------------------
 
-#op-tooltip-container
-  position: absolute
-  z-index: 9999
-  top: 0
+.op-tooltip
+  position: relative
 
-  .op-tooltip
-    position: relative
-
-  .op-tooltip .inplace-edit--controls
+  .inplace-edit--controls
     position: static
     width: 100%
     height: 100%
 
-    .inplace-edit--control a
-      width: 1.5rem
+  .inplace-edit--control a
+    width: 1.5rem
+
+#op-tooltip-container
+  position: absolute
+  z-index: 9999
+  top: 0
+  transition: opacity 1s, visibility 1s 1s
+  visibility: hidden
+  opacity: 0
+
+  &.op-tooltip-visible
+    visibility: visible
+    opacity: 1
+
+
 

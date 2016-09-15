@@ -29,20 +29,32 @@
 import {opModelsModule} from '../../../angular-modules';
 import IRootElementService = angular.IRootElementService;
 import IDocumentService = angular.IDocumentService;
+import ITimeoutService = angular.ITimeoutService;
 
-function opTooltipConfig($rootElement: IRootElementService, $document: IDocumentService) {
+function opTooltipConfig($rootElement: IRootElementService,
+                         $document: IDocumentService,
+                         $timeout: ITimeoutService) {
+  var timeout;
+
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
+    const container = $document.find('#op-tooltip-container');
+
+    const show = () => container.addClass('op-tooltip-visible');
+    const hide = () => container.removeClass('op-tooltip-visible');
+
+    $timeout.cancel(timeout);
 
     if (element.is('[op-tooltip], [op-tooltip] *, .op-tooltip, .op-tooltip *')) {
       const tooltip = element.controller('opTooltip');
 
       if (tooltip) {
-        element.controller('opTooltip').show();
+        tooltip.show();
+        timeout = $timeout(show, 750);
       }
     }
     else {
-      $document.find('.op-tooltip').hide();
+      hide();
     }
   });
 }

@@ -29,6 +29,8 @@
 import {openprojectModule} from '../../../angular-modules';
 
 describe('opTooltip config', () => {
+  var $timeout;
+
   var mouseOver;
   var tooltip;
   var controller;
@@ -36,7 +38,8 @@ describe('opTooltip config', () => {
   beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function ($rootScope,
                                            $rootElement,
-                                           $compile) {
+                                           $compile,
+                                           _$timeout_) {
 
     tooltip = $compile('<div op-tooltip><div></div></div>')($rootScope);
     controller = tooltip.controller('opTooltip');
@@ -49,13 +52,29 @@ describe('opTooltip config', () => {
 
       $rootElement.triggerHandler({target, type});
     };
+
+    $timeout = _$timeout_;
+    $timeout.cancel = sinon.stub();
   }));
+
+  function expectCancelTimeout() {
+    it('should cancel the previous timeout', () => {
+      expect($timeout.cancel.called).to.be.true;
+    });
+  }
 
   function testShowTooltip(prepare) {
     beforeEach(() => prepare());
 
+    expectCancelTimeout();
+
     it('should show the tooltip', () => {
       expect(controller.show.calledOnce).to.be.true;
+    });
+
+    it('should show the container', () => {
+      $timeout.flush();
+      expect(angular.element('#op-tooltip-container').hasClass('op-tooltip-visible')).to.be.true;
     });
   }
 
@@ -72,17 +91,14 @@ describe('opTooltip config', () => {
   });
 
   describe('when moving the mouse over anything else', () => {
-    var hide;
-
     beforeEach(angular.mock.inject($document => {
-      hide = sinon.stub();
-      $document.find = sinon.stub().withArgs('.op-tooltip').returns({hide});
-
       mouseOver(angular.element(document.body));
     }));
 
-    it('should hide the tooltip', () => {
-      expect(hide.calledOnce).to.be.true;
+    expectCancelTimeout();
+
+    it('should hide the container', () => {
+      expect(angular.element('#op-tooltip-container').hasClass('op-tooltip-visible')).to.be.false;
     });
   });
 });
