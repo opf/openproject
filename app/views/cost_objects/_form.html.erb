@@ -119,8 +119,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div class="generic-table--action-buttons">
-    <%= link_to_function t(:button_add_budget_item), "materialBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
+  <div class="wp-inline-create-button">
+    <a onclick="materialBudgetItemsForm.add(); return false;" class="wp-inline-create--add-link">
+      <i class="icon icon-add"></i>
+      <%= t(:button_add_budget_item) %>
+    </a>
   </div>
 </fieldset>
 
@@ -190,8 +193,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div class="generic-table--action-buttons">
-    <%= link_to_function t(:button_add_budget_item), "laborBudgetItemsForm.add()", {class: "button -alt-highlight -with-icon icon-context icon-add"} %>
+  <div class="wp-inline-create-button">
+    <a onclick="laborBudgetItemsForm.add(); return false;" class="wp-inline-create--add-link">
+      <i class="icon icon-add"></i>
+      <%= t(:button_add_budget_item) %>
+    </a>
   </div>
 </fieldset>
 
@@ -199,9 +205,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <div style="clear: both;"> </div>
 
-<% if @cost_object.new_record? %>
-<p><label><%=t(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
-<% end %>
+<%= render :partial => 'attachments/form' %>
 
 <%= wikitoolbar_for 'cost_object_description' %>
 
