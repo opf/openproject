@@ -125,8 +125,11 @@ See doc/COPYRIGHT.md for more details.
   </div>
 </div>
 <div class="generic-table--action-buttons">
-  <%= link_to({action: 'new'}, class: 'button -alt-highlight') do %>
+  <%= link_to({action: 'new'},
+        { class: 'button -alt-highlight',
+          aria: {label: t(:label_export_card_configuration_new)},
+          title: t(:label_export_card_configuration_new)}) do %>
     <i class="button--icon icon-add"></i>
-    <span class="button--text"><%= l(:label_export_card_configuration_new) %></span>
+    <span class="button--text"><%= t(:label_export_card_configuration) %></span>
   <% end %>
 </div>
