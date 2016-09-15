@@ -30,7 +30,7 @@ import {WorkPackageCacheService} from "./work-package-cache.service";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 
 
-describe.only('WorkPackageCacheService', () => {
+describe('WorkPackageCacheService', () => {
 
   let wpCacheService: WorkPackageCacheService;
   let WorkPackageResource;
