@@ -53,7 +53,7 @@ describe TimeEntryActivity, type: :model do
     assert e.save
 
     e.reload
-    assert_equal '1', e.custom_value_for(field).value
+    assert_equal 't', e.custom_value_for(field).value
   end
 
   it 'should create without required custom field should fail' do
@@ -92,6 +92,6 @@ describe TimeEntryActivity, type: :model do
     e.custom_field_values = { field.id => '0' }
     assert e.save
     e.reload
-    assert_equal '0', e.custom_value_for(field).value
+    assert_equal 'f', e.custom_value_for(field).value
   end
 end
