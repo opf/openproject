@@ -30,7 +30,7 @@
 class HarmonizeBoolCustomValues < ActiveRecord::Migration[5.0]
   def up
     CustomValue
-      .includes(:custom_field)
+      .joins(:custom_field)
       .where(custom_fields: { field_format: 'bool' })
       .each(&:save)
   end
