@@ -31,3 +31,4 @@ test:
   database: travis_ci_test
   username: travis
   encoding: utf8
+  pool: 20
