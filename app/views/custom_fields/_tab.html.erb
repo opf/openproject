@@ -125,9 +125,12 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
   <div class="generic-table--action-buttons">
-    <%= link_to new_custom_field_path(type: tab[:name]), class: 'button -alt-highlight' do %>
+    <%= link_to new_custom_field_path(type: tab[:name]),
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_custom_field_new)},
+            title: t(:label_custom_field_new)} do %>
       <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_custom_field_new) %></span>
+      <span class="button--text"><%= t('activerecord.models.custom_field') %></span>
     <% end %>
   </div>
 <% else %>

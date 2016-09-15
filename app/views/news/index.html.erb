@@ -34,9 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_news_plural) do %>
   <% if managable %>
     <li class="toolbar-item">
-      <%= link_to new_project_news_path(@project), title: l(:label_news_new), id: 'new_news_link', class: 'button -alt-highlight' do %>
+      <%= link_to new_project_news_path(@project),
+          { class: 'button -alt-highlight',
+            id: 'new_news_link',
+            aria: {label: t(:label_news_new)},
+            title: t(:label_news_new)} do %>
         <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_news_new) %></span>
+        <span class="button--text"><%= t('activerecord.models.news') %></span>
       <% end %>
     </li>
   <% end %>
