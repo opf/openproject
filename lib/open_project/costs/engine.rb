@@ -335,11 +335,6 @@ module OpenProject::Costs
       require 'open_project/costs/hooks/work_packages_show_attributes'
     end
 
-    initializer 'costs.register_observers' do |_app|
-      # Observers
-      ActiveRecord::Base.observers.push :rate_observer, :default_hourly_rate_observer, :costs_work_package_observer
-    end
-
     initializer 'costs.patch_number_helper' do |_app|
       # we have to do the patching in the initializer to make sure we only do this once in development
       # since the NumberHelper is not unloaded

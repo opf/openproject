@@ -31,6 +31,8 @@ module OpenProject::Costs::Patches::WorkPackagePatch
       # disabled for now, implements part of ticket blocking
       validate :validate_cost_object
 
+      after_update :move_cost_entries
+
       register_journal_formatter(:cost_association) do |value, journable, field|
         association = journable.class.reflect_on_association(field.to_sym)
         if association
@@ -141,6 +143,14 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     def update_costs!
       # This methods ist referenced from some migrations but does nothing
       # anymore.
+    end
+
+    def move_cost_entries
+      return unless project_id_changed?
+      # TODO: This only works with the global cost_rates
+      CostEntry
+        .where(work_package_id: id)
+        .update_all(project_id: project_id)
     end
   end
 end
