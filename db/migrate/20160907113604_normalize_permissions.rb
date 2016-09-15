@@ -31,6 +31,8 @@ class NormalizePermissions < ActiveRecord::Migration[5.0]
   class Role < ActiveRecord::Base
     self.table_name = :roles
 
+    self.inheritance_column = :_type_disabled
+
     serialize :permissions, Array
   end
 
