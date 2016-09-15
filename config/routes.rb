@@ -459,7 +459,7 @@ OpenProject::Application.routes.draw do
                       only: [:show]
   end
 
-  resources :time_entries, controller: 'timelog', only: :index
+  resources :time_entries, controller: 'timelog'
 
   resources :activity, :activities, only: :index, controller: 'activities'
 

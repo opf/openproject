@@ -35,7 +35,6 @@ describe API::V3, type: :request do
 
     let(:response_401) do
       {
-        '_embedded'       => {},
         '_type'           => 'Error',
         'errorIdentifier' => 'urn:openproject-org:api:v3:errors:Unauthenticated',
         'message'         => expected_message

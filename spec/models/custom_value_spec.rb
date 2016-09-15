@@ -93,17 +93,12 @@ describe CustomValue do
   end
 
   describe 'storing to db' do
-    let(:db_entry) do
-      sql = "SELECT value from custom_values where custom_values.id = #{custom_value.id}"
-      ActiveRecord::Base.connection.execute(sql)
-    end
-
     context 'for a boolean custom field' do
       context 'for the integer 1' do
         let(:value) { 1 }
 
         it "is saved as 't'" do
-          expect(db_entry.first['value']).to eql 't'
+          expect(custom_value.value).to eql 't'
         end
       end
 
@@ -111,7 +106,7 @@ describe CustomValue do
         let(:value) { 0 }
 
         it "is saved as 'f'" do
-          expect(db_entry.first['value']).to eql 'f'
+          expect(custom_value.value).to eql 'f'
         end
       end
     end
