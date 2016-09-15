@@ -1,6 +1,7 @@
-<div ng-if="user">
+<div>
   <div class="inplace-edit--control">
     <a
+        ng-if="user"
         ng-href="{{ user.showUser.$href }}"
         target="_blank"
         class="icon-context icon-info1"
