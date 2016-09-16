@@ -32,9 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l("label_role_plural") %>
 <%= toolbar title: l(:label_role_plural)  do %>
   <li class="toolbar-item">
-    <%= link_to new_role_path, class: 'button -alt-highlight' do %>
+    <%= link_to new_role_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_role_new)},
+            title: t(:label_role_new)} do %>
       <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_role_new) %></span>
+      <span class="button--text"><%= Role.model_name.human %></span>
     <% end %>
   </li>
 <% end %>
