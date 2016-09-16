@@ -91,7 +91,9 @@ before_install:
   - git checkout openproject/$TRAVIS_BRANCH
 
   # End of custom plugin instructions.
-
+  - "rvm @default,@global do gem uninstall bundler -a -x"
+  - gem install bundler -v 1.12.5
+  - echo `bundle -v`
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
