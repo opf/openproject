@@ -35,8 +35,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: l(:label_document_plural) do %>
   <% if authorize_for(:documents, :new) %>
     <li class="toolbar-item">
-      <%= link_to({:controller => '/documents', :action => 'new', :project_id => @project}, class: 'button -alt-highlight') do %>
-        <i class="button--icon icon-add"></i> <%= l(:label_document_new) %>
+      <%= link_to({:controller => '/documents', :action => 'new', :project_id => @project},
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_document_new)},
+                    title: t(:label_document_new)}) do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= t('activerecord.models.document') %></span>
       <% end %>
     </li>
   <% end %>
