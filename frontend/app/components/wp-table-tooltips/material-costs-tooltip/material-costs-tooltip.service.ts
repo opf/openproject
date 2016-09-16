@@ -30,12 +30,9 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {TableTooltipController} from '../table-tooltip.controller';
 
 class MaterialCostsController extends TableTooltipController {
-  constructor($scope) {
-    super($scope);
-
-    $scope.showCostEntriesPath =
-      URI.expand('projects/{identifier}/cost_reports', $scope.workPackage.project).valueOf();
-  }
+  protected projectUrls = {
+    showCostEntriesPath: 'projects/{identifier}/cost_reports'
+  };
 }
 
 function materialCostsTooltipService(opTooltip) {

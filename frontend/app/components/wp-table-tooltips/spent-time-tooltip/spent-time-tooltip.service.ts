@@ -30,13 +30,15 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {TableTooltipController} from '../table-tooltip.controller';
 
 class SpentTimeTooltipController extends TableTooltipController {
-  constructor($scope) {
-    super($scope);
+  protected projectUrls = {
+    showSpentTimePath: 'projects/{identifier}/time_entries',
+  };
 
-    $scope.showSpentTimePath =
-      URI.expand('projects/{identifier}/time_entries', $scope.workPackage.project).valueOf();
-    $scope.addTimeEntryPath =
-      URI.expand('work_packages/{id}/time_entries/new', $scope.workPackage).valueOf();
+  constructor($scope, URI) {
+    super($scope, URI);
+
+    this['addTimeEntryPath'] =
+      URI.expand('work_packages/{id}/time_entries/new', $scope.workPackage).toString();
   }
 }
 

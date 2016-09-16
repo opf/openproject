@@ -30,20 +30,10 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {TableTooltipController} from '../table-tooltip.controller';
 
 class VersionTooltipController extends TableTooltipController {
-  constructor($scope) {
-    super($scope);
-    const project = $scope.workPackage.project;
-
-    if (this.model && project) {
-      project.$load().then(project => {
-        $scope.versionInfoPath =
-          URI.expand('projects/{identifier}/settings/versions', project).valueOf();
-
-        $scope.versionAddPath =
-          URI.expand('projects/{identifier}/versions/new', project).valueOf();
-      });
-    }
-  }
+  protected projectUrls = {
+    versionInfoPath: 'projects/{identifier}/settings/versions',
+    versionAddPath: 'projects/{identifier}/versions/new'
+  };
 }
 
 function versionTooltipService(opTooltip) {

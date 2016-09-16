@@ -30,17 +30,12 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {TableTooltipController} from '../table-tooltip.controller';
 
 class UserTooltipController extends TableTooltipController {
-  constructor($scope) {
-    super($scope);
+  protected projectUrls = {
+    inviteUserPath: '/projects/{identifier}/members'
+  };
 
-    const project = $scope.workPackage.project;
-    $scope.user = this.model;
-
-    if (project) {
-      project.$load().then(project => {
-        $scope.inviteUserPath = URI.expand('/projects/{identifier}/members', project).valueOf();
-      });
-    }
+  public get user() {
+    return this.model;
   }
 }
 

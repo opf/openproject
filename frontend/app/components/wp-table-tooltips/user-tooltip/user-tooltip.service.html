@@ -1,14 +1,15 @@
 <div>
   <div class="inplace-edit--control">
     <a
-        ng-if="user"
-        ng-href="{{ user.showUser.$href }}"
+        ng-if="$ctrl.user"
+        ng-href="{{ ::$ctrl.user.showUser.$href }}"
         target="_blank"
         class="icon-context icon-info1"
     ></a>
 
     <a
-        ng-href="{{ inviteUserPath }}"
+        ng-if="$ctrl.project"
+        ng-href="{{ ::$ctrl.inviteUserPath }}"
         target="_blank"
         class="icon-context icon-add"
     ></a>

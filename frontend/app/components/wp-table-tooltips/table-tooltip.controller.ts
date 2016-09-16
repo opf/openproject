@@ -30,16 +30,31 @@ import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {wpDirectivesModule} from '../../angular-modules';
 
 export class TableTooltipController {
+  protected projectUrls: any = {};
+
   public get model(): HalResource & string {
     return this.$scope.workPackage[this.$scope.column.name];
   }
 
-  constructor(protected $scope) {
+  public get project(): HalResource {
+    return this.$scope.workPackage.project;
+  }
+
+  constructor(protected $scope, protected URI) {
     if (this.model && this.model.$isHal) {
       this.model.$load();
     }
 
-    $scope[$scope.column.name] = this.model;
+    if (this.project) {
+      this.project.$load().then(project => {
+        Object.keys(this.projectUrls).forEach(name => {
+          this[name] = URI.expand(this.projectUrls[name], project).toString();
+        });
+      });
+    }
+
+    this[$scope.column.name] = this.model;
+    $scope.$ctrl = this;
   }
 }
 
