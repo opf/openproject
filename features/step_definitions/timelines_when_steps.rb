@@ -39,17 +39,6 @@ When (/^I click on the Save Link$/) do
   click_link('Save')
 end
 
-When (/^I hide empty projects for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |timeline_name, project_name|
-  steps %{
-    When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
-  }
-
-  page.should have_selector('#timeline_options_exclude_empty', visible: false)
-
-  page.execute_script("jQuery('#timeline_options_exclude_empty').prop('checked', true)")
-  page.execute_script("jQuery('#content form').submit()")
-end
-
 When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*?)" of the project called "([^"]*?)"$/) do |planning_element_subject, timeline_name, project_name|
   steps %{
     When I go to the edit page of the timeline "#{timeline_name}" of the project called "#{project_name}"
@@ -148,33 +137,6 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
     jQuery('#timeline_options_planning_element_types').val('#{type.id}')
     jQuery('#content form').submit()
   JavaScript
-end
-
-When (/^I show only projects which have responsible set to "(.*?)"$/) do |responsible|
-  steps %{
-    When I edit the settings of the current timeline
-  }
-
-  page.should have_selector('#timeline_options_project_responsibles', visible: false)
-
-  responsible = User.find_by_login(responsible)
-  page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
-  page.execute_script("jQuery('#content form').submit()")
-end
-
-When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
-  steps %{
-    When I edit the settings of the current timeline
-  }
-
-  page.should have_selector('#timeline_options_planning_element_time_types', visible: false)
-
-  type = ::Type.find_by(name: type)
-  page.execute_script("jQuery('#timeline_options_planning_element_time_types').val('#{type.id}')")
-  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute').prop('checked', true)")
-  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_one').val('#{start_date}')")
-  page.execute_script("jQuery('#timeline_options_planning_element_time_absolute_two').val('#{due_date}')")
-  page.execute_script("jQuery('#content form').submit()")
 end
 
 When (/^I set the columns shown in the timeline to:$/) do |table|
