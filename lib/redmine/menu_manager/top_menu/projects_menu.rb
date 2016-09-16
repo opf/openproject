@@ -102,7 +102,8 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       html: {
         class: "icon-add #{icon_class}",
         accesskey: OpenProject::AccessKeys.key_for(:new_project),
-        aria: {label: t(:label_project_new)}
+        aria: {label: t(:label_project_new)},
+        title: t(:label_project_new)
       },
       if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )

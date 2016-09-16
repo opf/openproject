@@ -53,7 +53,7 @@ Feature: Timeline View Tests
   Scenario: Creating a timeline
      When there is a timeline "Testline" for project "ecookbook"
      When I go to the page of the timeline "Testline" of the project called "ecookbook"
-     Then I should see "New timeline report"
+     Then I should see "Timeline report" within ".toolbar-items"
       And I should see "Testline"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
 
@@ -83,6 +83,6 @@ Feature: Timeline View Tests
       And I go to the page of the project called "ecookbook"
       And I follow "Timelines"
       And I select "Testline2" from "Timeline report"
-     Then I should see "New timeline report"
+     Then I should see "Timeline report" within ".toolbar-items"
       And I should see "Testline2"
       And I should be on the page of the timeline "Testline2" of the project called "ecookbook"
