@@ -55,26 +55,18 @@ describe('opTooltip config', () => {
     $timeout.cancel = sinon.stub();
   }));
 
-  function expectCancelTimeout() {
-    it('should cancel the previous timeout', () => {
-      expect($timeout.cancel.called).to.be.true;
-    });
-  }
+  const containerVisible = () =>
+    angular.element('#op-tooltip-container').hasClass('op-tooltip-visible');
 
   function testShowTooltip(prepare) {
-    const containerVisible = () =>
-      angular.element('#op-tooltip-container').hasClass('op-tooltip-visible');
-
     describe('when the tooltip directive has a tooltip service', () => {
       beforeEach(() => {
         controller.show = sinon.stub().returns(true);
         prepare();
+        $timeout.flush();
       });
 
-      expectCancelTimeout();
-
       it('should show the container', () => {
-        $timeout.flush();
         expect(containerVisible()).to.be.true;
       });
     });
@@ -83,6 +75,7 @@ describe('opTooltip config', () => {
       beforeEach(() => {
         controller.show = sinon.stub().returns(false);
         prepare();
+        $timeout.flush();
       });
 
       it('should keep the container invisible', () => {
@@ -103,15 +96,27 @@ describe('opTooltip config', () => {
     });
   });
 
+  describe('when moving the mouse over the tooltip itself', () => {
+    var tooltipElement;
+
+    beforeEach(() => {
+      tooltipElement = angular.element('<div class="op-tooltip"></div>');
+      mouseOver(tooltip);
+      mouseOver(tooltipElement);
+    });
+
+    it('should cancel previous timeouts', () => {
+      expect($timeout.cancel.called).to.be.true;
+    });
+  });
+
   describe('when moving the mouse over anything else', () => {
     beforeEach(() => {
       mouseOver(angular.element(document.body));
     });
 
-    expectCancelTimeout();
-
     it('should hide the container', () => {
-      expect(angular.element('#op-tooltip-container').hasClass('op-tooltip-visible')).to.be.false;
+      expect(containerVisible()).to.be.false;
     });
   });
 });

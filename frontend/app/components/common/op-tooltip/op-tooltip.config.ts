@@ -35,23 +35,29 @@ import ITimeoutService = angular.ITimeoutService;
 function opTooltipConfig($rootElement: IRootElementService,
                          $document: IDocumentService,
                          $timeout: ITimeoutService) {
-  var timeout;
+  var delay = 750;
+  var timeouts = [];
 
   $rootElement.mouseover(event => {
     const element = angular.element(event.target);
-    const container = $document.find('#op-tooltip-container');
+    const container: any = $document.find('#op-tooltip-container');
 
-    const show = () => container.addClass('op-tooltip-visible');
-    const hide = () => container.removeClass('op-tooltip-visible');
-
-    $timeout.cancel(timeout);
+    const containerDo = action => {
+      timeouts.push($timeout(() => container[action]('op-tooltip-visible'), delay));
+    };
+    const show = () => containerDo('addClass');
+    const hide = () => containerDo('removeClass');
 
     if (element.is('[op-tooltip], [op-tooltip] *, .op-tooltip, .op-tooltip *')) {
       const controller: OpenProjectTooltipController = element.controller('opTooltip');
 
+      if (element.is('.op-tooltip, .op-tooltip *')) {
+        timeouts.forEach($timeout.cancel);
+      }
+
       if (controller) {
         if (controller.show()) {
-          timeout = $timeout(show, 750);
+          show();
         }
         else {
           hide();
