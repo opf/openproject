@@ -27,6 +27,7 @@
 //++
 
 import {opModelsModule} from '../../../angular-modules';
+import {OpenProjectTooltipController} from './op-tooltip.directive';
 import IRootElementService = angular.IRootElementService;
 import IDocumentService = angular.IDocumentService;
 import ITimeoutService = angular.ITimeoutService;
@@ -46,11 +47,15 @@ function opTooltipConfig($rootElement: IRootElementService,
     $timeout.cancel(timeout);
 
     if (element.is('[op-tooltip], [op-tooltip] *, .op-tooltip, .op-tooltip *')) {
-      const tooltip = element.controller('opTooltip');
+      const controller: OpenProjectTooltipController = element.controller('opTooltip');
 
-      if (tooltip) {
-        tooltip.show();
-        timeout = $timeout(show, 750);
+      if (controller) {
+        if (controller.show()) {
+          timeout = $timeout(show, 750);
+        }
+        else {
+          hide();
+        }
       }
     }
     else {

@@ -42,10 +42,12 @@ export class OpenProjectTooltipController {
     this.tooltip = opTooltip.get($scope.$eval($attrs.opTooltip));
   }
 
-  public show() {
+  public show(): boolean {
     if (this.tooltip) {
       this.tooltip.show(this.$element, this.$scope);
     }
+
+    return !!this.tooltip;
   }
 }
 

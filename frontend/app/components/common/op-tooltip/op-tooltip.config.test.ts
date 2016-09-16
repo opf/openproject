@@ -44,8 +44,6 @@ describe('opTooltip config', () => {
     tooltip = $compile('<div op-tooltip><div></div></div>')($rootScope);
     controller = tooltip.controller('opTooltip');
 
-    controller.show = sinon.stub();
-
     mouseOver = element => {
       const type = 'mouseover';
       const target = element.get(0);
@@ -64,17 +62,32 @@ describe('opTooltip config', () => {
   }
 
   function testShowTooltip(prepare) {
-    beforeEach(() => prepare());
+    const containerVisible = () =>
+      angular.element('#op-tooltip-container').hasClass('op-tooltip-visible');
 
-    expectCancelTimeout();
+    describe('when the tooltip directive has a tooltip service', () => {
+      beforeEach(() => {
+        controller.show = sinon.stub().returns(true);
+        prepare();
+      });
 
-    it('should show the tooltip', () => {
-      expect(controller.show.calledOnce).to.be.true;
+      expectCancelTimeout();
+
+      it('should show the container', () => {
+        $timeout.flush();
+        expect(containerVisible()).to.be.true;
+      });
     });
 
-    it('should show the container', () => {
-      $timeout.flush();
-      expect(angular.element('#op-tooltip-container').hasClass('op-tooltip-visible')).to.be.true;
+    describe('when the tooltip directive has no tooltip service', () => {
+      beforeEach(() => {
+        controller.show = sinon.stub().returns(false);
+        prepare();
+      });
+
+      it('should keep the container invisible', () => {
+        expect(containerVisible()).to.be.false;
+      });
     });
   }
 
@@ -91,9 +104,9 @@ describe('opTooltip config', () => {
   });
 
   describe('when moving the mouse over anything else', () => {
-    beforeEach(angular.mock.inject($document => {
+    beforeEach(() => {
       mouseOver(angular.element(document.body));
-    }));
+    });
 
     expectCancelTimeout();
 

@@ -64,12 +64,18 @@ describe('opTooltip directive', () => {
     });
 
     describe('when calling show', () => {
+      var showResult;
+
       beforeEach(() => {
-        controller.show();
+        showResult = controller.show();
       });
 
       it('should show the tooltip', () => {
         expect(someTooltip.show.calledWith(controller.$element, scope)).to.be.true;
+      });
+
+      it('should return true', () => {
+        expect(showResult).to.be.true;
       });
     });
   });
@@ -85,12 +91,18 @@ describe('opTooltip directive', () => {
     });
 
     describe('when calling show', () => {
+      var showResult;
+
       beforeEach(() => {
-        controller.show();
+        showResult = controller.show();
       });
 
       it('should do nothing', () => {
         expect(someTooltip.show.called).to.be.false;
+      });
+
+      it('should return false', () => {
+        expect(showResult).to.be.false;
       });
     });
   });
