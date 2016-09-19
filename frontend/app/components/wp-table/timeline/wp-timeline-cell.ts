@@ -26,41 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpRow', wpRow);
+import {states} from "../../../states";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {State} from "../../../helpers/reactive-fassade";
+import IScope = angular.IScope;
 
-var WorkPackagesTimelineCell = require("../timeline/wp-timeline-cell").WorkPackageTimelineCell;
+export class WorkPackageTimelineCell {
 
-function wpRow(WorkPackagesTableService){
-  function setCheckboxTitle(scope) {
-    scope.checkboxTitle = I18n.t('js.description_select_work_package',
-                                 { id: scope.workPackage.id });
+  private state: State<WorkPackageResource>;
+
+  private bar: HTMLDivElement;
+
+  constructor(private scope: IScope, private workPackageId: string, private timelineCell: HTMLTableElement) {
+    this.state = states.workPackages.get(workPackageId);
   }
 
-  function setHiddenWorkPackageLabel(scope) {
-    scope.parentWorkPackageHiddenText = I18n.t('js.description_subwork_package',
-                                               { id: scope.row.parent.object.id }) ;
+  init() {
+    this.bar = document.createElement("div");
+    this.bar.style.width = "1000px";
+    this.bar.style.height = "1em";
+    this.bar.style.backgroundColor = "#FF0000";
+    this.timelineCell.appendChild(this.bar);
+
+    this.state.observe(this.scope).subscribe(wp => {
+      console.log("new wp:" + wp);
+    });
+
   }
 
-  return {
-    restrict: 'A',
-
-    link: function(scope, elem) {
-      const workPackageId = scope.row.object.id;
-      const timelineTd = elem.find("td.wp-timeline-cell")[0];
-      new WorkPackagesTimelineCell(scope, workPackageId, timelineTd).init();
-
-      scope.workPackage = scope.row.object;
-      setCheckboxTitle(scope);
-
-      if (scope.row.parent) setHiddenWorkPackageLabel(scope);
-
-      scope.$watch('row.checked', function(checked, formerState) {
-        if (checked !== formerState) {
-          WorkPackagesTableService.setAllRowsChecked(scope.rows, scope.row, checked);
-        }
-      });
-    }
-  };
 }
