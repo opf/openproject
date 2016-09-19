@@ -122,3 +122,11 @@ fieldset#group-by table { border-collapse: collapse; }
 fieldset#group-by table td { padding: 0; vertical-align: middle; }
 fieldset#group-by tr.filter { height: 2em; }
 fieldset#group-by td.add-group-by { text-align: right; vertical-align: top; }
+
+.cost_object.details .attachments {
+  margin-bottom: 0.75rem;
+}
+
+.cost_object.details .attributes-key-value--value p {
+  margin-bottom: 0;
+}

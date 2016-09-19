@@ -80,9 +80,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="generic-table--header-background"></div>
     </div>
   </div>
-  <div class="generic-table--action-buttons">
+  <div class="wp-inline-create-button">
     <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
-    <%= link_to_function t(:button_add_rate), "addRate($('add_rate_date'))", {class: "button -alt-highlight -with-icon icon-add"} %>
-    <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+    <a onclick="addRate($('add_rate_date')); return false;" class="wp-inline-create--add-link">
+      <i class="icon icon-add"></i>
+      <%= t(:button_add_rate) %>
+    </a>
   </div>
+  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
