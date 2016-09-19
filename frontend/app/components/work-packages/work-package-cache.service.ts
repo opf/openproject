@@ -53,16 +53,9 @@ export class WorkPackageCacheService {
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (var wp of list) {
-
-      // var cached = this.workPackageCache[wp.id];
-      // if (cached && cached.dirty) {
-      //   this.workPackageCache[wp.id] = cached;
-      // } else {
-      //   this.workPackageCache[wp.id] = wp;
-      // }
       const wpState = states.workPackages.get(wp.id.toString());
-      if (wpState.hasValue() && wpState.getLastValue().dirty) {
-        return;
+      if (wpState.hasValue() && wpState.getCurrentValue().dirty) {
+        continue;
       }
 
       states.workPackages.put(wp.id.toString(), wp);

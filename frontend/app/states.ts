@@ -9,6 +9,8 @@ export const states = {
 };
 
 initStates(states, function (msg: any) {
-  // RR: stupid hack to avoid compiler error
-  (console.trace as any)(msg);
+  if (~location.hostname.indexOf("localhost")) {
+    // RR: stupid hack to avoid compiler error
+    (console.trace as any)(msg);
+  }
 });

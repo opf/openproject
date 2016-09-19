@@ -58,7 +58,13 @@ export class State<T> extends StoreElement {
     return this.lastValue !== null && this.lastValue !== undefined;
   }
 
-  public getLastValue(): T {
+  /**
+   * Returns the current value or 'null', if no value is present.
+   * Therefore, calls to this method should always be guarded by State#hasValue().
+   *
+   * However, it is usually better to use State#get()/State#observe().
+   */
+  public getCurrentValue(): T {
     return this.lastValue;
   }
 
@@ -108,7 +114,7 @@ export class State<T> extends StoreElement {
   }
 
   public observeCleared(scope: IScope): Observable<any> {
-    return this.cleared.asObservable();
+    return scope ? scopedObservable(scope, this.cleared.asObservable()) : this.cleared.asObservable();
   }
 
   private setState(val: T) {
