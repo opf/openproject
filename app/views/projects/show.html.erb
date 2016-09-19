@@ -67,7 +67,10 @@ See doc/COPYRIGHT.rdoc for more details.
         </ul>
         <div>
           <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight' %>
-          <%= link_to new_project_work_packages_path(@project), class: 'button -alt-highlight' do %>
+          <%= link_to new_project_work_packages_path(@project),
+            { class: 'button -alt-highlight',
+              aria: {label: t(:label_work_package_new)},
+              title: t(:label_work_package_new)} do %>
             <i class="button--icon icon-add"></i>
             <span class="button--text"><%= l('activerecord.models.work_package') %></span>
           <% end %>
@@ -89,7 +92,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= render partial: 'news/news', collection: @news %>
         <div>
           <%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %>
-          <%= link_to new_project_news_path(@project), class: 'button -alt-highlight' do %>
+          <%= link_to new_project_news_path(@project),
+            { class: 'button -alt-highlight',
+              aria: {label: t(:label_news_new)},
+              title: t(:label_news_new)} do %>
             <i class="button--icon icon-add"></i>
             <span class="button--text"><%= l('activerecord.models.news') %></span>
           <% end %>

@@ -30,9 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title t(:label_member_plural) %>
 <%= toolbar title: t(:label_member_plural) do %>
     <% if authorize_for(:members, :new) %>
-        <a href="<%= new_project_member_path %>" id="add-member-button" title="Add Member" class="button -alt-highlight">
+        <a href="<%= new_project_member_path %>" id="add-member-button"
+          aria-label="<%= I18n.t(:button_add_member) %>" title="<%= I18n.t(:button_add_member) %>"
+          class="button -alt-highlight">
           <i class="button--icon icon-add"></i>
-          <span class="button--text"><%= I18n.t(:button_add_member) %></span>
+          <span class="button--text"><%= t('activerecord.models.member') %></span>
         </a>
     <% end %>
 <% end %>

@@ -42,7 +42,7 @@ feature 'invite user via email', type: :feature, js: true do
   context 'with a new user' do
     scenario 'adds the invited user to the project' do
       members_page.visit!
-      click_on 'Add Member'
+      page.find('#add-member-button').click
 
       members_page.search_and_select_principal! 'finkelstein@openproject.com',
                                                 'Invite finkelstein@openproject.com'
@@ -64,7 +64,7 @@ feature 'invite user via email', type: :feature, js: true do
 
     scenario 'user lookup by email' do
       members_page.visit!
-      click_on 'Add Member'
+      page.find('#add-member-button').click
 
       members_page.search_and_select_principal! 'hugo@openproject.com',
                                                 'Hugo Hurried'
@@ -82,7 +82,7 @@ feature 'invite user via email', type: :feature, js: true do
       shared_examples 'no user to invite is found' do
         scenario 'no matches found' do
           members_page.visit!
-          click_on 'Add Member'
+          page.find('#add-member-button').click
 
           members_page.search_principal! 'hugo@openproject.com'
           expect(members_page).to have_no_search_results

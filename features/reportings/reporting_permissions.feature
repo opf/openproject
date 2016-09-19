@@ -103,7 +103,7 @@ Feature: Reporting Permissions
       And I go to the page of the project called "Santas Project"
       And I open the "Timelines" menu
       And I click on "Status reportings"
-      And I click on "New reporting"
+      And I click on "Reporting" within ".toolbar-items"
 
       And I select "World Domination" from "Reports to project"
       And I click on "Create"
@@ -132,7 +132,7 @@ Feature: Reporting Permissions
      When I go to the page of the project called "Santas Project"
       And I open the "Timelines" menu
       And I click on "Status reportings"
-     Then I should not see "New reporting"
+     Then I should not see "Reporting" within ".toolbar-items"
 
   Scenario: Can see reportings as a privileged user
     Given the user "editor" is a "random guy" in the Project "World Domination"
@@ -145,7 +145,7 @@ Feature: Reporting Permissions
       And I open the "Timelines" menu
       And I click on "Status reportings"
 
-     Then I should see "New reporting"
+     Then I should see "Reporting" within ".toolbar-items"
       And I should see "Edit" for report "World Domination"
       And I should not see "Delete status reported to project: World Domination"
 

@@ -30,9 +30,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l("label_group_plural") %>
 <%= toolbar title: l(:label_group_plural) do %>
   <li class="toolbar-item">
-    <%= link_to new_group_path, class: 'button -alt-highlight' do %>
+    <%= link_to new_group_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_group_new)},
+            title: t(:label_group_new)} do %>
       <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l(:label_group_new) %></span>
+      <span class="button--text"><%= t('activerecord.models.group') %></span>
     <% end %>
   </li>
 <% end %>
