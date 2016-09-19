@@ -37,48 +37,7 @@ class CostEntry < ActiveRecord::Base
   after_initialize :after_initialize
   validate :validate
 
-  scope :visible, -> (*args) {
-    with_visible_entries_on self, user: args.first, project: args[1]
-  }
-
-  scope :visible_costs, -> (*args) {
-    with_visible_costs_on self, user: args.first, project: args[1]
-  }
-
-  def self.with_visible_costs_on(scope, user: User.current, project: nil)
-    with_visible_entries = with_visible_entries_on(scope, user: user, project: project)
-    with_visible_rates_on with_visible_entries, user: user
-  end
-
-  def self.with_visible_entries_on(scope, user: User.current, project: nil)
-    table = self.arel_table
-
-    view_allowed = Project.allowed_to(user, :view_cost_entries).select(:id)
-    view_own_allowed = Project.allowed_to(user, :view_own_cost_entries).select(:id)
-    visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
-
-    if project
-      visible_scope.where(project_id: project.id)
-    else
-      visible_scope
-    end
-  end
-
-  def self.view_or_view_own(table, view_allowed, view_own_allowed, user)
-    table[:project_id]
-      .in(view_allowed.arel)
-      .or(
-        table[:project_id]
-          .in(view_own_allowed.arel)
-          .and(table[:user_id].eq(user.id)))
-  end
-
-  def self.with_visible_rates_on(scope, user: User.current)
-    table = self.arel_table
-    view_allowed = Project.allowed_to(user, :view_cost_rates).select(:id)
-
-    scope.where(table[:project_id].in(view_allowed.arel))
-  end
+  extend CostEntryScopes
 
   def after_initialize
     if new_record? && cost_type.nil?
