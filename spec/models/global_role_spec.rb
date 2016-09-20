@@ -78,36 +78,6 @@ describe GlobalRole, type: :model do
         end
       end
 
-      describe '#permissions=' do
-        describe 'WITH parameter' do
-          before { expect(@role).to receive(:write_attribute).with(:permissions, [:perm1, :perm2]) }
-
-          it 'should write permissions' do
-            @role.permissions = [:perm1, :perm2]
-          end
-
-          it 'should write permissions only once' do
-            @role.permissions = [:perm1, :perm2, :perm2]
-          end
-
-          it 'should write permissions as symbols' do
-            @role.permissions = %w(perm1 perm2)
-          end
-
-          it 'should remove empty perms' do
-            @role.permissions = [:perm1, :perm2, '', nil]
-          end
-        end
-
-        describe 'WITHOUT parameter' do
-          before { expect(@role).to receive(:write_attribute).with(:permissions, nil) }
-
-          it 'should write permissions' do
-            @role.permissions = nil
-          end
-        end
-      end
-
       describe '#has_permission?' do
         it { expect(@role.has_permission?(:perm)).to be_falsey }
       end

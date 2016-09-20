@@ -26,11 +26,6 @@ class GlobalRole < Role
     self.assignable = false
   end
 
-  def permissions=(perms)
-    perms = perms.collect { |p| p.to_sym unless p.blank? }.compact.uniq if perms
-    write_attribute(:permissions, perms)
-  end
-
   def setable_permissions
     Redmine::AccessControl.global_permissions
   end
