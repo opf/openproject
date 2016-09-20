@@ -205,7 +205,6 @@ end
 
 group :development do
   gem 'letter_opener'
-  gem 'thin', '~> 1.7.0'
   gem 'faker'
   gem 'livingstyleguide', '~> 2.0.0'
 
@@ -219,6 +218,10 @@ group :development do
   gem 'pry-doc', '~> 0.9.0'
 
   gem 'rubocop'
+end
+
+group :development, :test do
+  gem 'thin', '~> 1.7.0'
 end
 
 # API gems
