@@ -44,9 +44,7 @@ function tablePagination(PaginationService) {
       scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
       scope.text = {
-        previous: I18n.t('js.label_previous'),
         label_previous: I18n.t('js.pagination.pages.previous'),
-        next: I18n.t('js.label_next'),
         label_next: I18n.t('js.pagination.pages.next'),
         per_page: I18n.t('js.label_per_page'),
         no_other_page: I18n.t('js.pagination.no_other_page')
@@ -99,16 +97,24 @@ function tablePagination(PaginationService) {
           pageNumbers.push(i);
         }
 
-        scope.prePageNumbers = truncatePageNums(pageNumbers, PaginationService.getPage() >= maxVisible, 0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
-        scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
+        // This avoids a truncation when there are not enough elements to truncate for the first elements
+        var startingDiff = PaginationService.getPage() - 2 * truncSize;
+        if ( 0 <= startingDiff && startingDiff <= 1 ) {
+          scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
+        }
+        else {
+          scope.prePageNumbers = truncatePageNums(pageNumbers, PaginationService.getPage() >= maxVisible, 0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
+          scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
+        }
+
         scope.pageNumbers = pageNumbers;
       }
 
       function truncatePageNums(pageNumbers, perform, disectFrom, disectLength, truncateFrom){
         if (perform){
-          var tuncationSize = PaginationService.getOptionsTruncationSize();
+          var truncationSize = PaginationService.getOptionsTruncationSize();
           var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
-          if (truncatedNums.length >= tuncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - tuncationSize);
+          if (truncatedNums.length >= truncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
           return truncatedNums;
         } else {
           return [];

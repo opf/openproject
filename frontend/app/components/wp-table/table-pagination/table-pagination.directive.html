@@ -6,11 +6,10 @@
         <a ng-click="showPage(paginationOptions.page - 1)"
            rel="prev start"
            aria-label="{{ ::text.label_previous }}"
-           ng-bind="::text.previous"
            data-click-on-keypress="[13, 32]"
            id= "pagination--prev-link"
            role="link"
-           href=""></a>
+           href="">&#60;</a>
       </li>
 
       <li ng-if="prePageNumbers.length" ng-repeat="pageNumber in prePageNumbers"
@@ -55,10 +54,9 @@
            class="pagination--next-link"
            aria-label="{{ ::text.label_next }}"
            data-click-on-keypress="[13, 32]"
-           ng-bind="::text.next"
            id="pagination--next-link"
            role="link"
-           href=""></a>
+           href="">&#62;</a>
       </li>
 
       <li class="pagination--range">
