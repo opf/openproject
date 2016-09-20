@@ -37,6 +37,8 @@ class CostEntry < ActiveRecord::Base
   after_initialize :after_initialize
   validate :validate
 
+  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
+
   extend CostEntryScopes
 
   def after_initialize
