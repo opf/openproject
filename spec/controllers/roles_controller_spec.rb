@@ -71,7 +71,7 @@ describe RolesController, type: :controller do
       end
 
       describe 'xhr' do
-        before { xhr :get, 'index' }
+        before { get :index, xhr: true }
 
         it_should_behave_like 'index'
       end
@@ -113,7 +113,7 @@ describe RolesController, type: :controller do
         describe 'RESULT' do
           describe 'success' do
             describe 'html' do
-              before { get :edit, @params }
+              before { get :edit, params: @params }
 
               it { expect(response).to be_success }
               it { expect(response).to render_template 'roles/edit' }
@@ -146,14 +146,17 @@ describe RolesController, type: :controller do
         describe 'RESULT' do
           describe 'success' do
             before(:each) do
-              expect(Role).to receive(:new).with(@params['role']).and_return(@member_role)
+              expect(Role)
+                .to receive(:new)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(@member_role)
               allow(@member_role).to receive(:save).and_return(true)
               allow(@member_role).to receive(:errors).and_return([])
             end
 
             describe 'html' do
               before do
-                post 'create', @params
+                post 'create', params: @params
               end
 
               it_should_behave_like 'successful create'
@@ -163,13 +166,16 @@ describe RolesController, type: :controller do
 
           describe 'failure' do
             before(:each) do
-              expect(Role).to receive(:new).with(@params['role']).and_return(@member_role)
+              expect(Role)
+                .to receive(:new)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(@member_role)
               allow(@member_role).to receive(:save).and_return(false)
               allow(@member_role).to receive(:errors).and_return(['something is wrong'])
             end
 
             describe 'html' do
-              before { post 'create', @params }
+              before { post 'create', params: @params }
 
               it_should_behave_like 'failed create'
               it { expect(assigns(:role)).to eql @member_role }
@@ -191,12 +197,15 @@ describe RolesController, type: :controller do
         describe 'RESULTS' do
           describe 'success' do
             before(:each) do
-              expect(GlobalRole).to receive(:new).with(@params['role']).and_return(@global_role)
+              expect(GlobalRole)
+                .to receive(:new)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(@global_role)
               allow(@global_role).to receive(:save).and_return(true)
             end
 
             describe 'html' do
-              before { post 'create', @params }
+              before { post 'create', params: @params }
 
               it_should_behave_like 'successful create'
             end
@@ -204,12 +213,15 @@ describe RolesController, type: :controller do
 
           describe 'failure' do
             before(:each) do
-              expect(GlobalRole).to receive(:new).with(@params['role']).and_return(@global_role)
+              expect(GlobalRole)
+                .to receive(:new)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(@global_role)
               allow(@global_role).to receive(:save).and_return(false)
             end
 
             describe 'html' do
-              before { post 'create', @params }
+              before { post 'create', params: @params }
 
               it_should_behave_like 'failed create'
               it { expect(assigns(:role)).to eql @global_role }
@@ -226,7 +238,7 @@ describe RolesController, type: :controller do
         describe 'success' do
           before do
             expect(@role).to receive(:destroy)
-            post 'destroy', @params
+            post 'destroy', params: @params
           end
 
           it { expect(response).to be_redirect }
@@ -262,9 +274,12 @@ describe RolesController, type: :controller do
         describe 'success' do
           describe 'html' do
             before do
-              expect(@role).to receive(:update_attributes).with(@params['role']).and_return(true)
+              expect(@role)
+                .to receive(:update_attributes)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(true)
               allow(@role).to receive(:errors).and_return([])
-              post :update, @params
+              post :update, params: @params
             end
 
             it { expect(response).to be_redirect }
@@ -276,9 +291,12 @@ describe RolesController, type: :controller do
         describe 'failure' do
           describe 'html' do
             before(:each) do
-              expect(@role).to receive(:update_attributes).with(@params['role']).and_return(false)
+              expect(@role)
+                .to receive(:update_attributes)
+                .with(ActionController::Parameters.new(@params['role']).permit!)
+                .and_return(false)
               allow(@role).to receive(:errors).and_return(['something is wrong'])
-              post :update, @params
+              post :update, params: @params
             end
 
             it { expect(response).to render_template 'roles/edit' }
