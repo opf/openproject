@@ -1,0 +1,21 @@
+<div class="grid-block v-align collapse" ng-if="$relationsCreateCtrl.showRelationsCreateForm || $relationsCreateCtrl.externalFormToggle">
+    <div class="grid-content medium-10 collapse">
+        <wp-relations-autocomplete
+                selected-wp-id="$relationsCreateCtrl.selectedWpId"
+                selected-relation-type="$relationsCreateCtrl.selectedRelationType"></wp-relations-autocomplete>
+    </div>
+    <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+        <accessible-by-keyboard
+                execute="$relationsCreateCtrl.createRelation()">
+            <icon-wrapper icon-name="checkmark"
+                          icon-title="{{::$relationsCreateCtrl.I18n.t('js.relation_buttons.save')}}">
+            </icon-wrapper>
+        </accessible-by-keyboard>
+        <accessible-by-keyboard
+                execute="$relationsCreateCtrl.toggleRelationsCreateForm()">
+            <icon-wrapper icon-name="remove"
+                          icon-title="{{::$relationsCreateCtrl.I18n('js.relation_buttons.abort')}}">
+            </icon-wrapper>
+        </accessible-by-keyboard>
+    </div>
+</div>

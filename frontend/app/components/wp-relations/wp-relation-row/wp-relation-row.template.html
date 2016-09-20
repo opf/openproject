@@ -1,0 +1,30 @@
+<div class="relation-row" ng-mouseover="$ctrl.showRelationControls = true" ng-mouseleave="$ctrl.showRelationControls = false">
+    <div class="grid-block hierarchy-item">
+
+        <div class="grid-content medium-3 collapse">
+            <span>{{$ctrl.relationType}}</span>
+        </div>
+
+        <div class="grid-content medium-4 collapse" wp-single-relation ng-if="$ctrl.relatedWorkPackage">
+            <a href="{{$singleRelation.workPackagePath($ctrl.relatedWorkPackage.id)}}" title="{{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage, true)}}">
+                {{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage, true)}}
+            </a>
+        </div>
+
+        <div class="grid-content medium-3 collapse wp-relations-status-field">
+            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
+                <div wp-edit-field="'status'"></div>
+            </div>
+        </div>
+
+        <div class="grid-content medium-2 collapse wp-relations-controls-section">
+            <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                    ng-if="$ctrl.relation.remove"
+                    execute="$ctrl.removeRelation($ctrl.relation)">
+                <icon-wrapper icon-name="remove"
+                              icon-title="{{::$ctrl.I18n.t('js.relation_buttons.remove')}}">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="attributes-group">
+    <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+            <h3 class="attributes-group--header-text">
+                {{$ctrl.wpType}}
+            </h3>
+        </div>
+    </div>
+
+    <div class="content" ng-if="$ctrl.relatedWorkPackages">
+        <wp-relation-row
+                related-work-package="relatedWorkPackage"
+                ng-repeat="relatedWorkPackage in $ctrl.relatedWorkPackages"></wp-relation-row>
+    </div>
+</div>
+
