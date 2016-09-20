@@ -48,7 +48,7 @@ Given /^the global [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |ro
       unless permission.blank?
         permission = permission.tr(' ', '_').underscore.to_sym
         if available_perms.include?(:"#{permission}")
-          r.permissions << permission
+          r.add_permission! permission
         end
       end
     end
