@@ -36,16 +36,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         (<%= check_all_links module_name %>)
       </span>
     </div>
-    <% perms_by_module[mod].each do |permission| %>
-      <div class="autoscroll">
-        <label class="floating form--label">
-          <%= check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
-          <%= l_or_humanize(permission.name, prefix: 'permission_') %>
-        </label>
-      </div>
-    <% end %>
-
-
+    <div class="-columns-2">
+      <% perms_by_module[mod].each do |permission| %>
+        <div class="form--field autoscroll -trailing-label ">
+          <label class="form--label">
+            <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+          </label>
+          <div class="form--field-container">
+            <%= styled_check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
 
   </fieldset>
 <% end %>
