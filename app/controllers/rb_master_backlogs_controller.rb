@@ -36,7 +36,7 @@
 class RbMasterBacklogsController < RbApplicationController
   menu_item :backlogs
 
-  before_filter :set_export_card_config_meta
+  before_action :set_export_card_config_meta
 
   def index
     @owner_backlogs = Backlog.owner_backlogs(@project)

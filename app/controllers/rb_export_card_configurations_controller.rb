@@ -36,7 +36,7 @@
 class RbExportCardConfigurationsController < RbApplicationController
   include OpenProject::PdfExport::ExportCard
 
-  before_filter :load_project_and_sprint
+  before_action :load_project_and_sprint
 
   def index
     @configs = ExportCardConfiguration.active
