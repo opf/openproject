@@ -1,10 +1,6 @@
 <div class="detail-panel-description" ng-if="$ctrl.workPackage">
   <div class="detail-panel-description-content">
-    <wp-relations
-        ng-repeat="relationGroup in $ctrl.relationGroups"
-        work-package="$ctrl.workPackage"
-        relation-group="relationGroup"
-        button-title="$ctrl.relationTitles[relationGroup.name]"
+    <wp-relations work-package="$ctrl.workPackage"
     ></wp-relations>
   </div>
 </div>

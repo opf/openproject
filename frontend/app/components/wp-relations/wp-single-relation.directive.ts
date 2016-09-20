@@ -26,63 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.detail-panel-description-content
-  .relation
-    h3
-      cursor: pointer
-      a
-        text-decoration: none
-        color: inherit
-      i
-        font-size: 0.8rem
+import {wpDirectivesModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from './wp-relations.interfaces';
+/**
+ * Contains methods and attributes shared
+ * between common relations and parent-child relations
+ */
+export class WorkPackageSingleRelationController {
+  public workPackagePath = this.PathHelper.workPackagePath;
 
-.add-relation
-  .select2
-    width: 350px
-  .select2-drop
-    width: 350px
-    top: auto
-    input[type='text']
-      width: 100%
+  constructor(protected PathHelper) {
+  }
 
-.tab-content--padding-right
-  padding-right: 25px
+  public getFullIdentifier(workPackage:WorkPackageResourceInterface, hideType?:boolean) {
+    var type = '';
+    if (workPackage.type && !hideType) {
+      type += workPackage.type.name + ': ';
+    }
+    return `${type}${workPackage.subject}`;
+  }
+}
 
-.hierarchy-item
-  margin-bottom: 2px
+function wpSingleRelationDirective() {
+  return {
+    restrict: 'A',
+    controller: WorkPackageSingleRelationController,
+    controllerAs: '$singleRelation',
+    bindToController: true,
+  };
+}
 
-.relation-row
-  line-height: 1.5em
-  .attribute-header
-    font-size: 0.8em
-    text-transform: uppercase
-    font-weight: bold
-  .description-section
-    border: 1px dotted lightblue
-    padding: 4px
-.relation-create
-  font-size: 0.8em
-
-.wp-relations-hierarchy-section
-  margin-top: 35px
-
-.wp-relations-controls-section
-  text-align: right
-  .force-right
-    position: absolute
-    right: 0
-
-.wp-relations-create-button
-  .-create-button-full-width
-    margin-top: 1.5em
-    width: 100%
-    padding-right: 25px
-
-.wp-relations-group
-  /**margin-top: 1.5em**/
-
-.wp-relations-status-field
-  margin-left: 2px
-
-
-
+wpDirectivesModule.directive('wpSingleRelation', wpSingleRelationDirective);

@@ -26,27 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpTabsModule} from "../../../angular-modules";
-import {WorkPackageRelationsController} from "../wp-relations.directive";
+import {wpDirectivesModule} from '../../../angular-modules';
+import {RelatedWorkPackage} from '../wp-relations.interfaces';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
-function addWpRelationDirective(I18n) {
+
+export class WorkPackageRelationsGroupController {
+  public relatedWorkPackages:Array<RelatedWorkPackage>;
+  public workPackage:WorkPackageResourceInterface;
+  public wpType:string;
+}
+
+function wpRelationsGroupDirective() {
   return {
     restrict: 'E',
-    templateUrl: '/components/wp-relations/add-wp-relation/add-wp-relation.directive.html',
+    replace: true,
+    templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',
 
-    link: function (scope) {
-      scope.text = {
-        uiSelectTitle: I18n.t('js.field_value_enter_prompt', {field: scope.$ctrl.text.title})
-      };
-      scope.autocompleteWorkPackages = (term) => {
-        if (!term) return;
+    scope: {
+      wpType: '=',
+      workPackage: '=',
+      relatedWorkPackages: '='
+    },
 
-        scope.$ctrl.relationGroup.findRelatableWorkPackages(term).then(workPackages => {
-          scope.options = workPackages;
-        });
-      };
-    }
+    controller: WorkPackageRelationsGroupController,
+    controllerAs: '$ctrl',
+    bindToController: true,
   };
 }
 
-wpTabsModule.directive('addWpRelation', addWpRelationDirective);
+wpDirectivesModule.directive('wpRelationsGroup', wpRelationsGroupDirective);
