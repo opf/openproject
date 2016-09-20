@@ -30,7 +30,7 @@ module MyProjectsUsersHelper
                         LIMIT #{size} ) }
                   end.join(" UNION ALL ")
 
-                  User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
+                  Principal.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
                     hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users.uniq {|user| user.id}
                     hash
                   end
