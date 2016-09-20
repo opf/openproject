@@ -1,8 +1,8 @@
 <div class="relation-row" ng-mouseover="$ctrl.showRelationControls = true" ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block v-align hierarchy-item" ng-if="!$ctrl.showEditForm && $ctrl.relatedType !== 'parent' && $ctrl.relatedWorkPackage">
         <div class="grid-content medium-6 collapse" wp-single-relation>
-            <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}">
-                <a href="{{$singleRelation.workPackagePath($ctrl.relatedWorkPackage.id)}}">
+            <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}" class="wp-relations-hierarchy-subject">
+                <a href="{{$singleRelation.workPackagePath($ctrl.relatedWorkPackage.id)}}" title="{{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage)}}">
                     {{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage)}}
                 </a>
             </span>
