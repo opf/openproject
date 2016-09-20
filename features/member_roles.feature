@@ -27,6 +27,7 @@ Feature: Unchanged Member Roles
      And there is a global role "GlobalRole1"
      And there is a role "MemberRole1"
      And I am already admin
-    When I go to the new member page of the project "projectid"
+    When I go to the members page of the project "projectid"
+    And I click "Add member"
     Then I should see "MemberRole1" within "#member_role_ids"
     Then I should not see "GlobalRole1" within "#member_role_ids"
