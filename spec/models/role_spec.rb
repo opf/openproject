@@ -52,6 +52,22 @@ describe Role, type: :model do
         expect(role.permissions).to match_array(perms)
       end
 
+      it 'removes empty permissions' do
+        perms = permissions + ['']
+
+        role.permissions = perms
+
+        expect(role.permissions).to match_array(permissions)
+      end
+
+      it 'does not readd permissions' do
+        perms = permissions + permissions.map(&:to_s)
+
+        role.permissions = perms
+
+        expect(role.permissions).to match_array(permissions)
+      end
+
       it 'allows clearing the permissions' do
         role.permissions = []
 

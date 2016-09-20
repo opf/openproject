@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'roles_controller'
 
 describe RolesController, type: :controller do
@@ -96,17 +96,6 @@ describe RolesController, type: :controller do
     assert_response :success
     assert_template 'edit'
     assert_equal Role.find(1), assigns(:role)
-  end
-
-  it 'should reject invalid update' do
-    put :update, id: 1,
-        role: { name: 'Manager',
-                permissions: ['edit_project', ''],
-                assignable: '0' }
-
-    assert_response :success
-    assert_template 'edit'
-    assert_select 'div', attributes: { id: 'errorExplanation' }
   end
 
   it 'should put update' do

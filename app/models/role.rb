@@ -73,8 +73,8 @@ class Role < ActiveRecord::Base
   end
 
   def permissions=(perms)
-    not_included_yet = perms - permissions
-    included_until_now = permissions - perms
+    not_included_yet = (perms.map(&:to_sym) - permissions).reject(&:blank?)
+    included_until_now = permissions - perms.map(&:to_sym)
 
     remove_permission!(*included_until_now)
 
