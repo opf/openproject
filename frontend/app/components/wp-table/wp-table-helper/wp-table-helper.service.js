@@ -79,7 +79,7 @@ function WorkPackagesTableHelper(WorkPackagesHelper) {
         if (!workPackage.isLeaf) ancestors.push(row);
       });
 
-      return _.sortBy(rows, 'groupIndex');
+      return _.sortBy(rows, 'groupName');
     },
 
     allRowsChecked: function(rows) {
