@@ -328,7 +328,7 @@ Given /^the [tT]ype(?: "([^\"]*)")? has for the Role "(.+?)" the following workf
 end
 
 Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_name|
-  s = WorkPackage.find_by_subject(work_package_subject)
+  s = WorkPackage.find_by(subject: work_package_subject)
   s.status = Status.find_by(name: status_name)
   s.save!
 end

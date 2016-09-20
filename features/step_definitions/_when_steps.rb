@@ -200,7 +200,7 @@ end
 
 When /^I fill in the ids of the (tasks|work_packages|stories) "(.+?)" for "(.+?)"$/ do |model_name, subjects, field|
   model = Kernel.const_get(model_name.classify)
-  ids = subjects.split(/,/).map { |subject| model.find_by_subject(subject).id }
+  ids = subjects.split(/,/).map { |subject| model.find_by(subject: subject).id }
 
   step %{I fill in "#{ids.join(', ')}" for "#{field}"}
 end
@@ -210,13 +210,13 @@ When /^I click on the impediment called "(.+?)"$/ do |impediment_name|
 end
 
 When /^I click to add a new task for story "(.+?)"$/ do |story_name|
-  story = Story.find_by_subject(story_name)
+  story = Story.find_by(subject: story_name)
 
   page.all(:css, "tr.story_#{story.id} td.add_new").last.click
 end
 
 When /^I fill in the id of the work_package "(.+?)" as the parent work_package$/ do |work_package_name|
-  work_package = WorkPackage.find_by_subject(work_package_name)
+  work_package = WorkPackage.find_by(subject: work_package_name)
 
   # TODO: Simplify once the work_package#edit/update action is implemented
   find('#work_package_parent_id, #work_package_parent_id', visible: false).set(work_package.id)

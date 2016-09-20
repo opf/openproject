@@ -35,7 +35,7 @@
 
 Then(/^the available status of the story called "(.+?)" should be the following:$/) do |story_name, table|
   # the order of the available status is important
-  story = Story.find_by_subject(story_name)
+  story = Story.find_by(subject: story_name)
 
   expected = table.raw.flatten.join(' ')
 
@@ -45,7 +45,7 @@ Then(/^the available status of the story called "(.+?)" should be the following:
 end
 
 Then(/^the displayed attributes of the story called "(.+?)" should be the following:$/) do |story_name, table|
-  story = Story.find_by_subject(story_name)
+  story = Story.find_by(subject: story_name)
 
   within("#story_#{story.id}") do
     table.rows_hash.each do |key, value|
@@ -62,7 +62,7 @@ Then(/^the displayed attributes of the story called "(.+?)" should be the follow
 end
 
 Then(/^the editable attributes of the story called "(.+?)" should be the following:$/) do |story_name, table|
-  story = Story.find_by_subject(story_name)
+  story = Story.find_by(subject: story_name)
 
   within("#story_#{story.id} .editors") do
     table.rows_hash.each do |key, value|

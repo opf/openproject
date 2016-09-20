@@ -56,13 +56,13 @@ module BacklogsNavigationHelpers
 
     when /^the burndown for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
-      sprint = Sprint.find_by_name_and_project_id($1, project)
+      sprint = Sprint.find_by(name: $1, project: project)
 
       "/projects/#{project.identifier}/sprints/#{sprint.id}/burndown_chart"
 
     when /^the task ?board for "(.+?)"(?: (?:in|of) the [pP]roject "(.+?)")?$/
       project = get_project($2)
-      sprint = Sprint.find_by_name_and_project_id($1, project)
+      sprint = Sprint.find_by(name: $1, project: project)
 
       # WARN: Deprecated side effect to keep some old-style step definitions.
       #       Do not depend on @sprint being set in new step definitions.

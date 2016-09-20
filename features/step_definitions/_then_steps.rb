@@ -143,7 +143,7 @@ end
 
 Then /^the (\d+)(?:st|nd|rd|th) story in (?:the )?"(.+?)" should have the ID of "(.+?)"$/ do |position, version_name, subject|
   version = Version.find_by(name: version_name)
-  actual_story = WorkPackage.find_by_subject_and_fixed_version_id(subject, version)
+  actual_story = WorkPackage.find_by(subject: subject, fixed_version_id: version.id)
   step %%I should see "#{actual_story.id}" within "#backlog_#{version.id} .story:nth-child(#{position}) .id div.t"%
 end
 
@@ -229,7 +229,7 @@ Then /^the wiki page (.+) should contain (.+)$/ do |title, content|
 end
 
 Then /^(work_package|task|story) (.+) should have (.+) set to (.+)$/ do |_type, subject, attribute, value|
-  work_package = WorkPackage.find_by_subject(subject)
+  work_package = WorkPackage.find_by(subject: subject)
   work_package[attribute].should == value.to_i
 end
 
@@ -244,13 +244,13 @@ Then /^the start date of "(.+?)" should be "(.+?)"$/ do |sprint_name, date|
 end
 
 Then /^I should see "(.+?)" as a task to story "(.+?)"$/ do |task_name, story_name|
-  story = Story.find_by_subject(story_name)
+  story = Story.find_by(subject: story_name)
 
   step %{I should see "#{task_name}" within "tr.story_#{story.id}"}
 end
 
 Then /^the (?:work_package|task|story) "(.+?)" should have "(.+?)" as its target version$/ do |task_name, version_name|
-  work_package = WorkPackage.find_by_subject(task_name)
+  work_package = WorkPackage.find_by(subject: task_name)
   version = Version.find_by(name: version_name)
 
   work_package.fixed_version.should eql version

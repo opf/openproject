@@ -268,7 +268,7 @@ describe Impediment, type: :model do
             other_version = FactoryGirl.create(:version, project: project, name: 'another version')
             # the assignable versions are cached for performance, we thus have to
             # throw away the cache
-            @story.project = Project.find_by_id(project.id)
+            @story.project = Project.find(project.id)
 
             @story.fixed_version = other_version
             @story.save!
