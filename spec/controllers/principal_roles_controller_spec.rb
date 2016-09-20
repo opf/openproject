@@ -86,15 +86,12 @@ describe PrincipalRolesController, type: :controller do
 
           describe 'js' do
             before :each do
-              response_should_render :replace,
-                                     'principal_global_roles_content',
-                                     partial: 'users/global_roles'
-
               # post :create, { "format" => "js", "principal_role"=>{"principal_id"=>"3", "role_ids"=>["7"]}}
-              xhr :post, :create, @params
+              post :create, params: @params, xhr: true
             end
 
             it { expect(response).to be_success }
+            it { expect(response).to render_template 'create' }
           end
         end
       end
@@ -116,15 +113,11 @@ describe PrincipalRolesController, type: :controller do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(true)
 
-            response_should_render :replace,
-                                   "principal_role-#{@principal_role.id}",
-                                   partial: 'principal_roles/show_table_row',
-                                   locals: { principal_role: anything }
-
-            xhr :put, :update, @params
+            put :update, params: @params, xhr: true
           end
 
           it { expect(response).to be_success }
+          it { expect(response).to render_template 'principal_roles/update' }
         end
       end
 
@@ -132,15 +125,11 @@ describe PrincipalRolesController, type: :controller do
         describe 'js' do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(false)
-            response_should_render :insert_html,
-                                   :top,
-                                   'tab-content-global_roles',
-                                   partial: 'errors'
-
-            xhr :put, :update, @params
+            put :update, params: @params, xhr: true
           end
 
           it { expect(response).to be_success }
+          it { expect(response).to render_template 'principal_roles/update' }
         end
       end
     end
@@ -163,18 +152,13 @@ describe PrincipalRolesController, type: :controller do
 
     describe '#destroy' do
       describe 'SUCCESS' do
-        before :each do
-          response_should_render :replace,
-                                 'principal_global_roles_content',
-                                 partial: 'users/global_roles'
-        end
-
         describe 'js' do
           before :each do
-            xhr :delete, :destroy, @params
+            delete :destroy, params: @params, xhr: true
           end
 
           it { expect(response).to be_success }
+          it { expect(response).to render_template 'destroy' }
         end
       end
     end

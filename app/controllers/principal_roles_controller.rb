@@ -31,7 +31,7 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_create_before_respond,
               principal_roles: @principal_roles
 
-    respond_to_create @principal_roles, @user, @global_roles unless performed?
+    respond_to_create @principal_roles unless performed?
   end
 
   def update
@@ -61,7 +61,7 @@ class PrincipalRolesController < ApplicationController
     call_hook :principal_roles_controller_destroy_before_respond,
               principal_role: @principal_role
 
-    respond_to_destroy @principal_role, @user, @global_roles unless performed?
+    respond_to_destroy @principal_role unless performed?
   end
 
   private
@@ -83,16 +83,10 @@ class PrincipalRolesController < ApplicationController
     principal_roles
   end
 
-  def respond_to_create(principal_roles, user, global_roles)
+  def respond_to_create(principal_roles)
     respond_to do |format|
       format.js do
-        render(:update) do |page|
-          if principal_roles.all?(&:valid?)
-            page.replace 'principal_global_roles_content', partial: 'users/global_roles'
-          else
-            page.insert_html :top, 'tab-content-global_roles', partial: 'errors'
-          end
-        end
+        render locals: { principal_roles: principal_roles }
       end
     end
   end
@@ -100,30 +94,15 @@ class PrincipalRolesController < ApplicationController
   def respond_to_update(role)
     respond_to do |format|
       format.js do
-        render(:update) do |page|
-          if role.valid?
-            page.replace "principal_role-#{role.id}",
-                         partial: 'principal_roles/show_table_row',
-                         locals: { principal_role: role }
-          else
-            page.insert_html :top, 'tab-content-global_roles', partial: 'errors'
-          end
-
-          call_hook :principal_roles_controller_update_respond_js_role,
-                    page: page, principal_role: role
-        end
+        render locals: { role: role }
       end
     end
   end
 
-  def respond_to_destroy(principal_role, user, global_roles)
+  def respond_to_destroy(principal_role)
     respond_to do |format|
       format.js do
-        render(:update) do |page|
-          page.replace 'principal_global_roles_content', partial: 'users/global_roles'
-          call_hook :principal_roles_controller_update_respond_js_role,
-                    page: page, principal_role: principal_role
-        end
+        render locals: { principal_role: principal_role }
       end
     end
   end
