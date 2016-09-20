@@ -299,7 +299,6 @@ Feature: Scrum Master
   @javascript
   Scenario: View epic, stories, tasks, subtasks in the work_package list
     When I go to the work_packages index page
-     And the work package table has finished loading
     Then I should see "Epic 1" within ".work-package-table--container table"
      And I should see "Story D" within ".work-package-table--container table"
      And I should see "Story E" within ".work-package-table--container table"
