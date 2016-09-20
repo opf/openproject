@@ -395,6 +395,7 @@ en:
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
+      message_view_spent_time: "View logged time"
       no_value: "No value"
       inline_create:
        title: 'Click here to add a new work package to this list'
