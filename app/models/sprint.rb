@@ -155,6 +155,8 @@ class Sprint < Version
   end
 
   def impediments(project)
-    Impediment.where(fixed_version_id: self, project_id: project)
+    # for reasons beyond me,
+    # the default_scope needs to be explicitly applied.
+    Impediment.default_scope.where(fixed_version_id: self, project_id: project)
   end
 end
