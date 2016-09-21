@@ -24,11 +24,15 @@ class WpRelationRowDirectiveController {
               protected wpCacheService,
               protected PathHelper,
               protected wpNotificationsService,
-              protected WpRelationsService) {
+              protected wpRelationsService) {
     if (this.relation) {
-      var relationType = this.WpRelationsService.getRelationTypeObjectByType(this.relation._type);
-      this.relationType = angular.isDefined(relationType) ? this.WpRelationsService.getTranslatedRelationTitle(relationType.name) : 'unknown';
+      var relationType = this.wpRelationsService.getRelationTypeObjectByType(this.relation._type);
+      this.relationType = angular.isDefined(relationType) ? this.wpRelationsService.getTranslatedRelationTitle(relationType.name) : 'unknown';
     }
+  };
+
+  public text = {
+    removeButton: this.I18n.t('js.relation_buttons.remove')
   };
 
   public toggleUserDescriptionForm() {
@@ -36,7 +40,7 @@ class WpRelationRowDirectiveController {
   }
 
   public removeRelation() {
-    this.WpRelationsService.removeCommonRelation(this.relation)
+    this.wpRelationsService.removeCommonRelation(this.relation)
       .then(() => {
         this.$scope.$emit('wp-relations.removed', this.relation);
         this.wpCacheService.updateWorkPackage([this.relatedWorkPackage]);
@@ -50,7 +54,6 @@ function WpRelationRowDirective() {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
-    replace: true,
     scope: {
       relatedWorkPackage: '='
     },

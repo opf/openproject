@@ -8,7 +8,7 @@
               required
               theme="select2"
               tabindex="0">
-        <ui-select-match tabindex="-1">{{$select.selected.to_s}}</ui-select-match>
+        <ui-select-match tabindex="-1">{{ $select.selected.to_s }}</ui-select-match>
         <ui-select-choices
           refresh-delay="250"
           refresh="autocompleteWorkPackages($select.search)"

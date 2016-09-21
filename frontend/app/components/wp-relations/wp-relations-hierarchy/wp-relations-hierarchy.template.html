@@ -2,14 +2,24 @@
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
             <h3 class="attributes-group--header-text">
-                {{::this.$ctrl.I18n.t('js.relations_hierarchy.hierarchy_headline')}}
+                {{ ::$ctrl.text.hierarchyHeadline }}
             </h3>
         </div>
     </div>
 
-    <wp-relations-hierarchy-row work-package="$ctrl.workPackage" related-work-package="$ctrl.parent" relation-type="parent"></wp-relations-hierarchy-row>
-    <wp-relations-hierarchy-row work-package="$ctrl.workPackage" indent-by="20"></wp-relations-hierarchy-row>
-    <wp-relations-hierarchy-row work-package="$ctrl.workPackage" related-work-package="relatedWorkPackage" indent-by="40" relation-type="child" ng-repeat="relatedWorkPackage in $ctrl.children"></wp-relations-hierarchy-row>
+    <wp-relations-hierarchy-row
+            work-package="$ctrl.workPackage"
+            related-work-package="$ctrl.parent"
+            relation-type="parent"></wp-relations-hierarchy-row>
+    <wp-relations-hierarchy-row
+            work-package="$ctrl.workPackage"
+            indent-by="20"></wp-relations-hierarchy-row>
+    <wp-relations-hierarchy-row
+            work-package="$ctrl.workPackage"
+            related-work-package="relatedWorkPackage"
+            indent-by="40"
+            relation-type="child"
+            ng-repeat="relatedWorkPackage in $ctrl.children"></wp-relations-hierarchy-row>
 
     <wp-relations-create
             fixed-relation-type="children"

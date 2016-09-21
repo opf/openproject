@@ -1,13 +1,17 @@
-<div class="relation-row" ng-mouseover="$ctrl.showRelationControls = true" ng-mouseleave="$ctrl.showRelationControls = false">
+<div class="relation-row"
+     ng-mouseover="$ctrl.showRelationControls = true"
+     ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse">
-            <span>{{$ctrl.relationType}}</span>
+            {{ $ctrl.relationType }}
         </div>
 
-        <div class="grid-content medium-4 collapse" wp-single-relation ng-if="$ctrl.relatedWorkPackage">
-            <a href="{{$singleRelation.workPackagePath($ctrl.relatedWorkPackage.id)}}" title="{{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage, true)}}">
-                {{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage, true)}}
+        <div class="grid-content medium-4 collapse" wp-single-relation
+             ng-if="$ctrl.relatedWorkPackage">
+            <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
+               title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
+                {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
             </a>
         </div>
 
@@ -22,7 +26,7 @@
                                     ng-if="$ctrl.relation.remove"
                     execute="$ctrl.removeRelation($ctrl.relation)">
                 <icon-wrapper icon-name="remove"
-                              icon-title="{{::$ctrl.I18n.t('js.relation_buttons.remove')}}">
+                              icon-title="{{ ::$ctrl.text.removeButton }}">
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>

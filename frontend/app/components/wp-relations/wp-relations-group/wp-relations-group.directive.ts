@@ -40,7 +40,6 @@ export class WorkPackageRelationsGroupController {
 function wpRelationsGroupDirective() {
   return {
     restrict: 'E',
-    replace: true,
     templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',
 
     scope: {
