@@ -38,12 +38,12 @@ export class WorkPackageRelationsHierarchyController {
   public workPackagePath = this.PathHelper.workPackagePath;
   public canHaveChildren = !this.workPackage.isMilestone;
 
-  constructor(public I18n,
-              protected $scope:ng.IScope,
+  constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
               protected $q:ng.IQService,
-              protected PathHelper,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected wpCacheService:WorkPackageCacheService,
+              protected PathHelper:op.PathHelper,
+              protected I18n:op.I18n) {
 
     this.registerEventListeners();
 

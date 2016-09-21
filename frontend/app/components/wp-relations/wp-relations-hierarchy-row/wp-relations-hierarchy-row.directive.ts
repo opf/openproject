@@ -1,8 +1,7 @@
 import {wpDirectivesModule} from '../../../angular-modules';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 
 class WpRelationsHierarchyRowDirectiveController {
@@ -12,12 +11,12 @@ class WpRelationsHierarchyRowDirectiveController {
   public showEditForm: boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
 
-  constructor(protected I18n,
-              protected $scope,
-              protected wpRelationsHierarchyService,
-              protected wpCacheService,
-              protected PathHelper,
-              protected wpNotificationsService) {
+  constructor(protected $scope:ng.IScope,
+              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected PathHelper:op.PathHelper,
+              protected I18n:op.I18n) {
 
     if (!this.relatedWorkPackage && this.relationType !== 'parent') {
       this.relatedWorkPackage = angular.copy(this.workPackage);

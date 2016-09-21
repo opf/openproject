@@ -37,11 +37,9 @@ export class WorkPackageRelationsController {
   public workPackage:WorkPackageResourceInterface;
 
   public currentRelations: RelatedWorkPackage[] = [];
-  private sortByWpType:boolean;
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
-              protected $state,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();

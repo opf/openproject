@@ -27,11 +27,12 @@
 //++
 
 import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state,
-              protected $q,
-              protected wpCacheService) {
+  constructor(protected $state:ng.ui.IStateService,
+              protected $q:ng.IQService,
+              protected wpCacheService:WorkPackageCacheService) {
 
   }
 
@@ -46,7 +47,7 @@ export class WorkPackageRelationsHierarchyService {
 
   public addExistingChildWp(workPackage, childWpId) {
     let deferred = this.$q.defer();
-    this.wpCacheService.loadWorkPackage([childWpId])
+    this.wpCacheService.loadWorkPackage(childWpId)
       .take(1)
       .subscribe(wpToBecomeChild => {
         wpToBecomeChild.parentId = workPackage.id;

@@ -1,6 +1,10 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationType} from "../wp-relations.interfaces";
+import {RelationType} from '../wp-relations.interfaces';
+import {WorkPackageRelationsService} from '../wp-relations.service';
+import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class WorkPackageRelationsCreateController {
 
@@ -13,16 +17,13 @@ export class WorkPackageRelationsCreateController {
   public relationTypes = this.wpRelationsService.getRelationTypes(true);
   public translatedRelationTitle = this.wpRelationsService.getTranslatedRelationTitle;
 
-  protected relationTitles = this.wpRelationsService.configuration.relationTitles;
-
   constructor(protected I18n,
-              protected $scope,
-              protected $rootScope,
-              protected $state,
-              protected wpRelationsService,
-              protected wpRelationsHierarchyService,
-              protected wpNotificationsService,
-              protected wpCacheService) {
+              protected $scope:ng.IScope,
+              protected $rootScope:ng.IRootScopeService,
+              protected wpRelationsService:WorkPackageRelationsService,
+              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpCacheService:WorkPackageCacheService) {
 
     var defaultRelationType = angular.isDefined(this.fixedRelationType) ? this.fixedRelationType : 'relatedTo';
     this.selectedRelationType = this.wpRelationsService.getRelationTypeObjectByName(defaultRelationType);
