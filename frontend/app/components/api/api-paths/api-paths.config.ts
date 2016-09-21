@@ -39,12 +39,14 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
   }, {
     project: projects
   }];
+  const types = ['types{/type}', {}, projects];
 
   const config = {
     wp: workPackages,
     wps: workPackages,
-    projects: projects,
-    project: projects
+    project: projects,
+    projects,
+    types,
   };
 
   apiPathsProvider.pathConfig = {

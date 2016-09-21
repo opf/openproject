@@ -1,10 +1,16 @@
 <div class="wp-create-button">
   <button class="button -alt-highlight add-work-package"
-          ng-click="$ctrl.createWorkPackage()"
+          has-dropdown-menu
+          target="TypesContextMenu"
+          ng-init="projectIdentifier = $ctrl.projectIdentifier; stateName = $ctrl.stateName"
+          locals="projectIdentifier, stateName"
           ng-disabled="$ctrl.isDisabled()"
           aria-label="{{ ::$ctrl.text.create }}">
 
     <i class="button--icon icon-add"></i>
-    <span class="button--text" ng-bind="::$ctrl.text.button" aria-hidden="true"></span>
+    <span class="button--text"
+          ng-bind="::$ctrl.text.button"
+          aria-hidden="true"></span>
+    <i class="button--icon icon-pulldown"></i>
   </button>
 </div>

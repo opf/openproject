@@ -58,6 +58,15 @@ export class SelectEditField extends EditField {
     } else {
       this.setValues([]);
     }
+
+    if (this.name === 'type') {
+      const services = ['$stateParams', 'v3Path', 'halRequest'];
+      const inject = service => this.$injector.get(service);
+      const [$stateParams, v3Path, halRequest] = <any[]> services.map(inject);
+      const type = parseInt($stateParams.type);
+
+      halRequest.get(v3Path.types({type})).then(type => this.value = type);
+    }
   }
 
   private setValues(availableValues, sortValuesByName = false) {

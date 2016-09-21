@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,37 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {wpButtonsModule} from '../../../angular-modules';
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
-export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
-  public stateName:string;
+class TypesContextMenuController {
+  public types = [];
 
-  public allowed:boolean;
+  constructor(protected $state, protected $scope, v3Path, halRequest) {
+    const project = $scope.projectIdentifier;
+    const typesUrl = v3Path.types({project});
+    $scope.$ctrl = this;
 
-  constructor(protected $state,
-              protected I18n) {
-    this.text = {
-      button: I18n.t('js.work_packages.create.button'),
-      create: I18n.t('js.label_create_work_package')
-    };
+    halRequest.get(typesUrl).then(types => this.types = types.elements);
   }
 
-  public createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
-  }
+  public goToWpCreateRoute(type) {
+    const projectPath = this.$scope.projectIdentifier;
+    type = type.id;
 
-  public isDisabled() {
-    return !this.allowed || this.$state.includes('**.new');
+    this.$state.go(this.$scope.stateName, {projectPath, type});
   }
 }
 
-wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+function typesContextMenuService(ngContextMenu) {
+  return ngContextMenu({
+    templateUrl: '/components/context-menus/types-context-menu/types-context-menu.service.html',
+    controller: TypesContextMenuController,
+    container: '.wp-create-button'
+  });
+}
+
+opWorkPackagesModule.factory('TypesContextMenu', typesContextMenuService);
