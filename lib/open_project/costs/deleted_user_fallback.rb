@@ -29,7 +29,9 @@ module OpenProject::Costs
 
     module InstanceMethods
       def user_with_deleted_user_fallback(force_reload = true)
-        associated_user = user_without_deleted_user_fallback(force_reload)
+        associated_user = user_without_deleted_user_fallback
+
+        associated_user.reload if force_reload
 
         if associated_user.nil? && read_attribute(:user_id).present?
           associated_user = DeletedUser.first
