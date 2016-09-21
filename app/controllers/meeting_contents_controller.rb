@@ -31,8 +31,8 @@ class MeetingContentsController < ApplicationController
   helper :watchers
   helper :meetings
 
-  before_filter :find_meeting, :find_content
-  before_filter :authorize
+  before_action :find_meeting, :find_content
+  before_action :authorize
 
   def show
     if params[:id].present? && @content.version == params[:id].to_i
@@ -95,7 +95,7 @@ class MeetingContentsController < ApplicationController
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
   end
-  
+
   def icalendar
     unless @content.new_record?
       service = MeetingNotificationService.new(@meeting, @content_type)
