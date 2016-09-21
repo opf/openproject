@@ -30,11 +30,11 @@ module Report::Controller
       helper ReportingHelper
       helper { def engine; @report_engine; end }
 
-      before_filter :determine_engine
-      before_filter :prepare_query, only: [:index, :create]
-      before_filter :find_optional_report, only: [:index, :show, :update, :destroy, :rename]
-      before_filter :possibly_only_narrow_values
-      before_filter { @no_progress = no_progress? }
+      before_action :determine_engine
+      before_action :prepare_query, only: [:index, :create]
+      before_action :find_optional_report, only: [:index, :show, :update, :destroy, :rename]
+      before_action :possibly_only_narrow_values
+      before_action { @no_progress = no_progress? }
     end
   end
 
@@ -60,7 +60,7 @@ module Report::Controller
   end
 
   def table_with_progress_info
-    render text: render_widget(Widget::Table::Progressbar, @query), layout: !request.xhr? and return
+    render plain: render_widget(Widget::Table::Progressbar, @query), layout: !request.xhr? and return
   end
 
   ##
@@ -71,7 +71,7 @@ module Report::Controller
     @query.send("#{user_key}=", current_user.id)
     @query.save!
     if request.xhr? # Update via AJAX - return url for redirect
-      render text: url_for(action: 'show', id: @query.id)
+      render plain: url_for(action: 'show', id: @query.id)
     else # Redirect to the new record
       redirect_to action: 'show', id: @query.id
     end
@@ -131,7 +131,7 @@ module Report::Controller
     unless request.xhr?
       redirect_to action: 'show', id: @query.id
     else
-      render text: @query.name
+      render plain: @query.name
     end
   end
 
@@ -337,7 +337,7 @@ module Report::Controller
         f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? and params[:values]
       end
       render_widget Widget::Filters::Option, filter, to: canvas = ''
-      render text: canvas, layout: !request.xhr?
+      render plain: canvas, layout: !request.xhr?
     end
   end
 
