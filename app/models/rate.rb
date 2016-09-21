@@ -93,7 +93,7 @@ class Rate < ActiveRecord::Base
       update_costs
 
       # Now update the newly assigned entries
-      reate_created
+      rate_created
     else
       # We have only moved the rate without passing other rates
       # So we have to either assign some entries to our previous rate (if moved forwards)
