@@ -45,6 +45,6 @@ Feature: Filter
     And I set the filter "user_id" to the user with the login "developer" with the operator "!"
     Then filter "user_id" should be visible
     When I send the query
-    And the user with the login "developer" should be selected for "user_id_arg_1_val"
-    And "!" should be selected for "operators[user_id]"
+    And the user with the login "developer" should be selected for "User Value"
+    And "!" should be selected for "User Operator Open this filter with 'ALT' and arrow keys."
 

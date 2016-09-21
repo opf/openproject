@@ -101,7 +101,11 @@ end
 
 Then /^filter "([^\"]*)" should (not )?be visible$/ do |filter, negative|
   bool = negative ? false : true
-  page.evaluate_script("$('filter_#{filter}').visible()") =~ /^#{bool}$/
+  if bool
+    expect(page).to have_selector("#filter_#{filter}")
+  else
+    expect(page).to have_no_selector("#filter_#{filter}")
+  end
 end
 
 Then /^(?:|I )should not see "([^\"]*)" in (columns|rows)$/ do |text, axis|
