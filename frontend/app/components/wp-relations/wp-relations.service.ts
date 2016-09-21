@@ -27,23 +27,17 @@
 //++
 
 import {wpDirectivesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationTitle} from "./wp-relations.interfaces";
-
-
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 
 export class WorkPackageRelationsService {
-  constructor(protected $rootScope,
-              protected $q,
-              protected $state,
-              protected I18n,
-              protected wpCacheService,
-              protected wpNotificationsService,
+  constructor(protected $rootScope:ng.IRootScopeService,
+              protected $q:ng.IQService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected I18n:op.I18n,
               protected NotificationsService) {
-
   }
-
-
 
   public addCommonRelation(workPackage, relationType, relatedWpId) {
     const params = {
@@ -66,7 +60,7 @@ export class WorkPackageRelationsService {
     });
   }
 
-  public removeCommonRelation(relation, workPackage) {
+  public removeCommonRelation(relation) {
     return relation.remove();
   }
 
