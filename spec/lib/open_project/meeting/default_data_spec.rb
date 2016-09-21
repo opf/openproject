@@ -51,7 +51,7 @@ describe OpenProject::Meeting::DefaultData do
 
   it 'is not loaded again on existing data' do
     roles.each do |role|
-      role.permissions.clear
+      role.permissions = []
       role.save!
     end
 
