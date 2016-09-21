@@ -68,9 +68,9 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
   def activity_journals_table(activity)
     case activity
     when :meeting
-      @activity_journals_table = Arel::Table.new(JournalManager.journal_class(Meeting).table_name)
+      @activity_journals_table = JournalManager.journal_class(Meeting).arel_table
     else
-      @activity_journals_table = Arel::Table.new(JournalManager.journal_class(MeetingContent).table_name)
+      @activity_journals_table = JournalManager.journal_class(MeetingContent).arel_table
     end
   end
 
@@ -126,11 +126,11 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
   private
 
   def meetings_table
-    @meetings_table ||= Arel::Table.new(:meetings)
+    @meetings_table ||= Meeting.arel_table
   end
 
   def meeting_contents_table
-    @meeting_contents_table ||= Arel::Table.new(:meeting_contents)
+    @meeting_contents_table ||= MeetingContent.arel_table
   end
 
   def activity_id(event, activity)
