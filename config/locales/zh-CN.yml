@@ -39,6 +39,7 @@ zh:
     models:
       cost_object: 预算
       cost_type:
+        one: 成本类型
         other: 成本类型
       material_budget_item: 单位
       rate: 费率
