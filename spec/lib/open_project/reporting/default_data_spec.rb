@@ -46,7 +46,7 @@ describe OpenProject::Reporting::DefaultData do
   end
 
   it 'is not loaded again on existing data' do
-    project_admin.permissions.concat permissions
+    project_admin.add_permission! *permissions
     project_admin.save!
 
     # on existing data the permissions should not be removed
