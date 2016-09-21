@@ -86,6 +86,8 @@ module OpenProject::Meeting
       require_dependency 'meeting_agenda'
       require_dependency 'meeting_minutes'
       require_dependency 'meeting_participant'
+
+      PermittedParams.permit(:search, :meetings)
     end
   end
 end
