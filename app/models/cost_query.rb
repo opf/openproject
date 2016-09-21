@@ -21,7 +21,7 @@ class CostQuery < Report
   def_delegators :result, :real_costs
 
   User.before_destroy do |user|
-    CostQuery.delete_all ['user_id = ? AND is_public = ?', user.id, false]
+    CostQuery.where(user_id: user.id, is_public: false).delete_all
     CostQuery.where(['user_id = ?', user.id]).update_all ['user_id = ?', DeletedUser.first.id]
 
     max_query_id = 0
