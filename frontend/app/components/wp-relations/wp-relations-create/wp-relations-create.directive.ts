@@ -64,11 +64,7 @@ export class WorkPackageRelationsCreateController {
     this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
       .then(newChildWp => this.$scope.$emit('wp-relations.addedChild', newChildWp))
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
-      .finally(this.toggleRelationsCreateForm());
-  }
-
-  protected createNewChildWorkPackage() {
-    this.wpRelationsHierarchyService.addNewChildWp(this.workPackage);
+      .finally(() => this.toggleRelationsCreateForm());
   }
 
   protected changeParent() {
