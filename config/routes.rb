@@ -30,12 +30,13 @@
 #++
 
 OpenProject::Application.routes.draw do
+  resources :projects, only: [] do
+    resources :documents, only: [:create, :new, :index]
+  end
 
-  resources :projects do
-    resources :documents, shallow: true do
-      member do
-        post 'add_attachment'
-      end
+  resources :documents, except: [:create, :new, :index] do
+    member do
+      post 'add_attachment'
     end
   end
 end
