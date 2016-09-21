@@ -400,6 +400,7 @@ en:
        title: 'Click here to add a new work package to this list'
       create:
         header: 'New work package'
+        button: 'Create'
         header_with_parent: 'New work package (Child of %{type} #%{id})'
       no_results:
         title: No work packages to display.

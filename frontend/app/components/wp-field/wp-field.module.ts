@@ -36,6 +36,10 @@ export class Field {
     return this.resource[this.name];
   }
 
+  public set value(value) {
+    this.resource[this.name] = value;
+  }
+
   public get type():string {
     return (this.constructor as typeof Field).type;
   }
