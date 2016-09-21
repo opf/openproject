@@ -64,6 +64,7 @@ class Document < ActiveRecord::Base
   }
 
   after_initialize :set_default_category
+  after_create :notify_document_created
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
@@ -82,5 +83,15 @@ class Document < ActiveRecord::Base
       @updated_on = (a && a.created_on) || created_on
     end
     @updated_on
+  end
+
+  private
+
+  def notify_document_created
+    return unless Setting.notified_events.include?('document_added')
+
+    recipients.each do |user|
+      DocumentsMailer.document_added(user, self).deliver_now
+    end
   end
 end

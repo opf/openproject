@@ -70,10 +70,6 @@ module OpenProject::Documents
       require 'open_project/documents/hooks'
     end
 
-    initializer 'documents.register_observers' do |_app|
-      ActiveRecord::Base.observers.push :document_observer
-    end
-
     config.to_prepare do
       require_dependency 'document_category'
       require_dependency 'document_category_custom_field'
