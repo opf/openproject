@@ -28,10 +28,10 @@
 #++
 
 class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
-  class TypeWithParameter < ActiveRecord::Base
+  class TypeWithWhatever < ActiveRecord::Base
     self.table_name = :types
 
-    serialize :attribute_visibility, ActionController::Parameters
+    serialize :attribute_visibility
   end
 
   class TypeWithHash < ActiveRecord::Base
@@ -41,10 +41,12 @@ class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
   end
 
   def up
-    TypeWithParameter.transaction do
-      TypeWithParameter.all.to_a.each do |type|
+    TypeWithWhatever.transaction do
+      TypeWithWhatever.all.to_a.each do |type|
         visibility = type.attribute_visibility
-        visibility.permit!
+        if visibility.respond_to?(:permit!)
+          visibility.permit!
+        end
         visibility = visibility.to_h
 
         TypeWithHash
@@ -59,7 +61,7 @@ class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
       TypeWithHash.all.to_a.each do |type|
         visibility = ActionController::Parameter.new(type.attribute_visibility)
 
-        TypeWithParameter
+        TypeWithWhatever
           .where(id: type.id)
           .update_all(attribute_visibility: visibility)
       end
