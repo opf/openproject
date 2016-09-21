@@ -36,7 +36,7 @@ export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
 
-  public currentRelations: Array<RelatedWorkPackage> = Array();
+  public currentRelations: RelatedWorkPackage[] = [];
   private sortByWpType:boolean;
 
   constructor(protected $scope:ng.IScope,
@@ -46,18 +46,14 @@ export class WorkPackageRelationsController {
 
     this.registerEventListeners();
 
-    if (this.workPackage.relations) {
-      if (!this.workPackage.relations.$loaded) {
-        this.workPackage.relations.$load().then(() => {
-          if ((this.workPackage.relations as any).count > 0) {
-            this.loadRelations();
-          }
-        });
-      } else {
-        if ((this.workPackage.relations as any).count > 0) {
+    if (this.workPackage.relations && !this.workPackage.relations.$loaded) {
+      this.workPackage.relations.$load().then(() => {
+        if (this.workPackage.relations.count > 0) {
           this.loadRelations();
         }
-      }
+      });
+    } else if (this.workPackage.relations && this.workPackage.relations.count > 0) {
+      this.loadRelations();
     }
   }
 
@@ -76,48 +72,31 @@ export class WorkPackageRelationsController {
       return Rx.Observable
         .zip(observablesToGetZipped)
         .take(1);
-    } else {
-      return observablesToGetZipped[0].take(1);
     }
+
+    return observablesToGetZipped[0].take(1);
+
   }
 
   protected getRelatedWorkPackageId(relation) {
-    if (relation.relatedTo.href === this.workPackage.href) {
-      return parseInt(relation.relatedFrom.href.split('/').pop());
-    } else {
-      return parseInt(relation.relatedTo.href.split('/').pop());
-    }
+    let direction = (relation.relatedTo.href === this.workPackage.href) ? 'relatedFrom' : 'relatedTo';
+    return parseInt(relation[direction].href.split('/').pop());
   }
 
   protected buildRelationGroups() {
     if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = (_.groupBy(this.currentRelations, (wp) => {
-        return wp.type.name;
-      }) as Array<any>);
-    }
-  }
-
-  public resortRelations() {
-    if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = (_.groupBy(this.currentRelations, (wp) => {
-        if (this.sortByWpType) {
-          return wp.type.name;
-        }
-        else {
-          return wp.relatedBy._type;
-        }
-      }) as Array<any>);
-      this.sortByWpType = !this.sortByWpType;
+      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
     }
   }
 
   protected addSingleRelation(evt, relation) {
     var relatedWorkPackageId = [this.getRelatedWorkPackageId(relation)];
-    this.getRelatedWorkPackages(relatedWorkPackageId).take(1).subscribe((relatedWorkPackage:RelatedWorkPackage) => {
-      relatedWorkPackage.relatedBy = relation;
-      this.currentRelations.push(relatedWorkPackage);
-      this.buildRelationGroups();
-    });
+    this.getRelatedWorkPackages(relatedWorkPackageId)
+      .subscribe((relatedWorkPackage:RelatedWorkPackage) => {
+        relatedWorkPackage.relatedBy = relation;
+        this.currentRelations.push(relatedWorkPackage);
+        this.buildRelationGroups();
+      });
   }
 
   protected loadRelations():void {

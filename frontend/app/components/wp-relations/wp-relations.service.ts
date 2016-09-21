@@ -55,17 +55,15 @@ export class WorkPackageRelationsService {
   }
 
   public changeRelationDescription(relation, description) {
-    const params = {
+    return relation.update({
       description: description
-    };
-    return relation.update(params);
+    });
   }
 
   public changeRelationType(relation, relationType) {
-    const params = {
+    return relation.update({
       relation_type: relationType
-    };
-    return relation.update(params);
+    });
   }
 
   public removeCommonRelation(relation, workPackage) {
@@ -110,4 +108,4 @@ export class WorkPackageRelationsService {
   };
 }
 
-wpDirectivesModule.service('WpRelationsService', WorkPackageRelationsService);
+wpDirectivesModule.service('wpRelationsService', WorkPackageRelationsService);

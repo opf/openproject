@@ -28,8 +28,6 @@
 
 import {wpDirectivesModule} from '../../../angular-modules';
 
-
-
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state,
               protected $q,
@@ -38,7 +36,7 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public changeParent(workPackage, parentId) {
-    workPackage.parentId = (parentId as number);
+    workPackage.parentId = <number> parentId;
     return workPackage.save();
   }
 
@@ -84,6 +82,6 @@ export class WorkPackageRelationsHierarchyService {
 
 }
 
-wpDirectivesModule.service('WpRelationsHierarchyService', WorkPackageRelationsHierarchyService);
+wpDirectivesModule.service('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService);
 
 

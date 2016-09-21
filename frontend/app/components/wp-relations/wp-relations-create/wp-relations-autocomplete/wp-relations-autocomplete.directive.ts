@@ -41,11 +41,11 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
       selectedRelationType: '=',
       workPackage: '='
     },
-    link: function (scope, element, attrs, controllers ) {
+    link: function (scope, element, attrs, controllers) {
       scope.relatedWps = [];
       getRelatedWorkPackages();
 
-      scope.onSelect = function(wpId){
+      scope.onSelect = function (wpId) {
         scope.selectedWpId = wpId;
       };
 
@@ -81,9 +81,6 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
             url: URI(PathHelper.workPackageJsonAutoCompletePath()).search(params).toString()
           })
             .then((response:any) => {
-              // THE JSON AUTOCOMPLETE SHOULD BE EXTENDED TO CONTAIN A REFERENCE TO THE
-              // ACTUAL WP-TYPE SINCE MILESTONES MAY NOT BE A PARENT ELEMENT AND THEREFORE THEY
-              // MUST BE REJECTED
               deferred.resolve(response.data);
             })
             .catch(deferred.reject);
@@ -93,8 +90,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
         return deferred.promise;
       }
 
-    function getRelatedWorkPackages() {
-        /** NOTE: THIS METHOD COULD PROBABLY DONE MORE EFFICIENTLY BY THE BACKEND **/
+      function getRelatedWorkPackages() {
         const wpRelationsController:WorkPackageRelationsController = controllers[0];
         const wpRelationsHierarchyController:WorkPackageRelationsHierarchyController = controllers[1];
 
@@ -108,17 +104,15 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
 
         if (wpRelationsHierarchyController && wpRelationsHierarchyController.children) {
           wps = wps.concat(wpRelationsHierarchyController.children.map(child => child.id));
-        } else {
-          if (scope.workPackage.children) {
-            var childPromises = [];
-            if (scope.workPackage.children.length > 0) {
-              childPromises = childPromises.concat(scope.workPackage.children.map(child => child.$load()));
-              $q.all(childPromises).then(children => {
-                wps = wps.concat(children.map(child => child.id));
-                scope.relatedWps = wps;
-              });
-            }
-          }
+        } else if (scope.workPackage.children && scope.workPackage.children.length > 0) {
+
+          var childPromises = [];
+
+          childPromises = childPromises.concat(scope.workPackage.children.map(child => child.$load()));
+          $q.all(childPromises).then(children => {
+            wps = wps.concat(children.map(child => child.id));
+            scope.relatedWps = wps;
+          });
         }
         scope.relatedWps = wps;
       }

@@ -52,7 +52,7 @@ function wpSingleRelationDirective() {
   return {
     restrict: 'A',
     controller: WorkPackageSingleRelationController,
-    controllerAs: '$singleRelation',
+    controllerAs: 'singleRelationCtrl',
     bindToController: true,
   };
 }

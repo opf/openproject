@@ -56,6 +56,10 @@ export class WorkPackageRelationsHierarchyController {
     }
   }
 
+  public text = {
+    hierarchyHeadline: this.I18n.t('js.relations_hierarchy.hierarchy_headline')
+  };
+
   protected loadParents() {
     this.wpCacheService.loadWorkPackage(this.workPackage.parentId)
       .take(1)
@@ -92,17 +96,16 @@ export class WorkPackageRelationsHierarchyController {
 
   private updatedParent(evt, changedData) {
     if (changedData.parentId !== null) {
-      // parent changed
       this.wpCacheService.loadWorkPackage(changedData.parentId, true)
         .take(1)
         .subscribe((parent:WorkPackageResourceInterface) => {
           this.parent = parent;
-          
+          this.workPackage.parentId = changedData.parentId;
+
           this.wpCacheService.updateWorkPackageList([this.workPackage, parent]);
           this.$rootScope.$emit('workPackagesRefreshInBackground');
         });
     } else {
-      // parent deleted
       this.$rootScope.$emit('workPackagesRefreshInBackground');
       this.parent = null;
     }
@@ -113,7 +116,6 @@ export class WorkPackageRelationsHierarchyController {
 function wpRelationsDirective() {
   return {
     restrict: 'E',
-    replace: true,
     templateUrl: '/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.template.html',
 
     scope: {
