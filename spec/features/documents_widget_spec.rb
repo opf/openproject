@@ -29,28 +29,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Adding the document widget to personalisable pages
+require_relative '../spec_helper'
 
-  Background:
-    Given there is 1 project with the following:
-      | name        | project1      |
-    And I am already Admin
+describe 'Documents widget', type: :feature, js: true do
+  let(:project) { FactoryGirl.create(:project) }
+  let(:user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
+  let(:role) { FactoryGirl.create(:role, permissions: [:edit_project]) }
 
-  @javascript
-  Scenario: Adding a "Documents" widget to the my project page
-    Given the plugin "openproject_my_project_page" is loaded
-    And I am on the project "project1" overview personalization page
-    And I should see "Add" within "#block-select"
-    When I select "Documents" from "block-select"
-    Then the "Documents" widget should be in the hidden block
-    And "Documents" should be disabled in the my project page available widgets drop down
+  before do
+    allow(User)
+      .to receive(:current)
+      .and_return(user)
+  end
 
-  @javascript
-  Scenario: Adding a "Documents" widget to the my page
-    Given I am on the My page personalization page
-    # Safeguard to ensure the page is loaded
-    And I should see "Reported work packages"
-    When I select "Documents" from the available widgets drop down
-    And I click on "Add"
-    Then the "Documents" widget should be in the top block
-    And "Documents" should be disabled in the my page available widgets drop down
+  if Redmine::Plugin.registered_plugins[:openproject_my_project_page]
+    it 'has a "Document" widget on the my project page' do
+      visit my_projects_overview_path project
+
+      select 'Documents', from: 'block-select'
+
+      within '#list-hidden' do
+        expect(page).to have_content('Documents')
+      end
+
+      expect(page.find('#block-select option', text: 'Documents')['disabled']).to eql 'true'
+    end
+  end
+
+  it 'has a "Document" widget on the my page' do
+    visit my_page_layout_path
+
+    select 'Documents', from: 'block-options'
+    click_button 'Add'
+
+    within '#top' do
+      expect(page).to have_content('Documents')
+    end
+
+    expect(page.find('#block-options option', text: 'Documents')['disabled']).to eql 'true'
+  end
+end
