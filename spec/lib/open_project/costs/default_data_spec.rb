@@ -44,7 +44,7 @@ describe OpenProject::Costs::DefaultData do
   end
 
   it 'is not loaded again on existing data' do
-    member.permissions.clear
+    member.permissions = []
     member.save!
 
     seeder.seed!

@@ -192,7 +192,7 @@ describe WorkPackage, type: :model do
 
       before do
         work_package2.save!
-        role2.permissions << :edit_cost_entries
+        role2.add_permission! :edit_cost_entries
         role2.save!
         member2.save!
       end
