@@ -1,17 +1,20 @@
 <div>
-    <div class="wp-inline-create-button wp-relations-create-button -full-width"
+    <div class="wp-relations-create-button -full-width"
          ng-if="!$ctrl.showRelationsCreateForm">
         <div class="grid-block">
             <div class="grid-content collapse">
                 <a class="wp-inline-create--add-link relation-create"
-                   ng-click="$ctrl.createNewChildWorkPackage()">
+                   ng-click="$ctrl.createNewChildWorkPackage()"
+                   href>
                     <i class="icon icon-add"></i>
                     <span>{{ ::$ctrl.text.addNewChild }}</span>
                 </a>
             </div>
             <div class="grid-content collapse">
-                <a class="wp-inline-create--add-link relation-create"
-                   ng-click="$ctrl.toggleRelationsCreateForm()">
+                <a class="wp-inline-create--add-link relation-create -focus-after-save"
+                   ng-click="$ctrl.toggleRelationsCreateForm()"
+                   href
+                   id="hierarchy--add-exisiting-child">
                     <i class="icon icon-add"></i>
                     <span>{{ ::$ctrl.text.addExistingChild }}</span>
                 </a>
@@ -23,7 +26,8 @@
             <wp-relations-autocomplete
                     work-package="$ctrl.workPackage"
                     selected-wp-id="$ctrl.selectedWpId"
-                    selected-relation-type="$ctrl.selectedRelationType">
+                    selected-relation-type="$ctrl.selectedRelationType"
+                    focus>
 
             </wp-relations-autocomplete>
         </div>
