@@ -74,6 +74,7 @@ export class WorkPackageRelationsCreateController {
   protected changeParent() {
     this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then(updatedWp => {
+        console.log("wp after update", updatedWp)
         this.$rootScope.$broadcast('wp-relations.changedParent', {
           updatedWp: updatedWp,
           parentId: this.selectedWpId

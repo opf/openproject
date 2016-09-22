@@ -37,8 +37,10 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public changeParent(workPackage, parentId) {
-    workPackage.parentId = <number> parentId;
-    return workPackage.save();
+    return workPackage.changeParent({
+      parentId: parentId,
+      lockVersion: workPackage.lockVersion
+    });
   }
 
   public removeParent(workPackage) {

@@ -37,6 +37,7 @@ export class WorkPackageRelationsHierarchyController {
   public showEditForm:boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
   public canHaveChildren = !this.workPackage.isMilestone;
+  public canAddRelation = !!this.workPackage.addRelation;
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
@@ -54,6 +55,8 @@ export class WorkPackageRelationsHierarchyController {
     if (this.workPackage.children) {
       this.loadChildren();
     }
+
+    console.log('wp hierarchy', this.workPackage.addRelation);
   }
 
   public text = {
@@ -96,6 +99,9 @@ export class WorkPackageRelationsHierarchyController {
 
   private updatedParent(evt, changedData) {
     if (changedData.parentId !== null) {
+
+      this.workPackage = changedData.workPackage;
+
       this.wpCacheService.loadWorkPackage(changedData.parentId, true)
         .take(1)
         .subscribe((parent:WorkPackageResourceInterface) => {

@@ -17,13 +17,8 @@ describe 'Work package relations tab', js: true, selenium: true do
 
   describe 'no relations' do
     it 'shows empty relation tabs' do
-      %w(parent children relates duplicates
-         duplicated blocks blocked precedes follows).each do |rel|
-        within ".relation.#{rel}" do
-          find(".#{rel}-toggle-link").click
-          expect(page).to have_selector('.content', text: 'No relation exists')
-        end
-      end
+      expect(page).to have_selector('.wp-relations-create')
+      expect(page).to have_selector('.wp-relations-hierarchy-section')
     end
   end
 
@@ -31,9 +26,9 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:parent) { FactoryGirl.create(:work_package) }
     let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
 
-    it 'shows the parent relationship expanded' do
-      expect(page).to have_selector('.parent .work_package',
-                                    text: "##{parent.id} #{parent.type}: #{parent.subject}")
+    it 'shows the parent in hierarchy section' do
+      expect(page).to have_selector('.wp-relations-hierarchy-subject a',
+                                    text: "#{parent.subject}")
     end
   end
 
@@ -44,43 +39,33 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:user_role) do
       FactoryGirl.create :role, permissions: permissions
     end
+
     let(:user) do
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: user_role
     end
 
-    context 'with insufficient permissions' do
-      let(:permissions) { %i(view_work_packages edit_work_packages) }
-
-      it 'does not allow editing the parent' do
-        within '.relation.parent' do
-          # Expand parent
-          find('.parent-toggle-link').click
-
-          expect(page).to have_no_selector('.choice--select')
-          expect(page).to have_selector('.content', text: I18n.t('js.relations.empty'))
-
-        end
-      end
-    end
-
     context 'with permissions' do
       let(:permissions) { %i(view_work_packages manage_subtasks) }
 
-      it 'shows the parent relationship expanded' do
-        within '.relation.parent' do
-          # Expand parent
-          find('.parent-toggle-link').click
+      it 'activates the change parent form' do
 
-          form = find('.choice--select')
-          ui_select_choose(form, parent.subject)
+          find('.wp-inline-create--add-link').click
+          find('.inplace-edit--select').click
 
-          click_button 'Change parent'
+          input = find(:css, ".ui-select-search")
+          input.set(parent.id)
 
-          expect(page).to have_selector('.parent .work_package',
-                                        text: "##{parent.id} #{parent.type}: #{parent.subject}")
-        end
+          sleep(2)
+
+          input.send_keys [:down, :return]
+
+          save_button = find('.wp-relations--save a')
+          save_button.click
+
+          expect(page).to have_selector('.wp-relations-hierarchy-subject a',
+                                             text: "#{parent.subject}")
       end
     end
   end
