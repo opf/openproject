@@ -787,6 +787,9 @@ en:
   error_workflow_copy_target: "Please select target type(s) and role(s)"
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
+  error_wiki_root_menu_item_conflict: >
+    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
+    with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
 
@@ -970,6 +973,7 @@ en:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
   label_duplicated_by: "duplicated by"
+  label_duplicate: "duplicate"
   label_duplicates: "duplicates"
   label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"

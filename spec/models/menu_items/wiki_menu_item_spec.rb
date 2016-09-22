@@ -64,6 +64,18 @@ describe MenuItems::WikiMenuItem, type: :model do
     expect(menu_item_1.title).to eq(wikipage.title)
   end
 
+  it 'should not allow duplicate sibling entries' do
+    wikipage = FactoryGirl.create(:wiki_page, title: 'Parent Page')
+
+    parent = FactoryGirl.create(
+      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug)
+    child_1 = parent.children.create name: "child-1", title: "Child 1"
+
+    child_2 = parent.children.build name: "child-1", title: "Child 2"
+
+    expect { child_2.save! }.to raise_error /Name has already been taken/
+  end
+
   describe 'it should destroy' do
     before(:each) do
       @project.enabled_modules << EnabledModule.new(name: 'wiki')
