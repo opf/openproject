@@ -24,7 +24,8 @@
         <div class="grid-content medium-1 collapse wp-relations-controls-section">
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
                                     ng-if="$ctrl.relation.remove"
-                    execute="$ctrl.removeRelation($ctrl.relation)">
+                                    execute="$ctrl.removeRelation($ctrl.relation)"
+                                    class="-shown-in-accessibility-mode">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ ::$ctrl.text.removeButton }}">
                 </icon-wrapper>

@@ -8,7 +8,8 @@
                   class="wp-relations-hierarchy-subject">
                 <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
                    title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
-                   ng-if="!$ctrl.isCurrentElement()">
+                   ng-if="!$ctrl.isCurrentElement()"
+                   ng-attr-id="{{ $ctrl.relationType === 'parent' ? 'hierarchy--parent' : ''}}">
                     {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
                 </a>
                 <span ng-if="$ctrl.isCurrentElement()"
@@ -24,8 +25,9 @@
             </div>
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section">
-            <div ng-hide="!$ctrl.showRelationControls">
+            <div ng-hide="!$ctrl.showRelationControls" class="-shown-in-accessibility-mode">
                 <accessible-by-keyboard ng-hide="$ctrl.relationType !== 'parent'"
+                                        aria-label="{{ ::$ctrl.text.change_parent }}"
                                         execute="$ctrl.showEditForm = true">
                     <icon-wrapper icon-name="edit"
                                   icon-title="{{ ::$ctrl.text.change_parent }}">
