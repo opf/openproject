@@ -26,10 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../angular-modules";
+import {wpDirectivesModule} from '../../angular-modules';
 import {RelatedWorkPackage, RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResourceInterface,
+  WorkPackageResource
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
 export class WorkPackageRelationsController {
@@ -40,6 +43,7 @@ export class WorkPackageRelationsController {
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
+              protected $state,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -63,17 +67,17 @@ export class WorkPackageRelationsController {
   }
 
 
-  protected getRelatedWorkPackages(workPackageIds:Array<any>) {
-    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId));
+  protected getRelatedWorkPackages(workPackageIds:number[]) {
+
+    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).take(1));
 
     if (observablesToGetZipped.length > 1) {
       return Rx.Observable
-        .zip(observablesToGetZipped)
-        .take(1);
+        .zip
+        .apply(Rx.Observable, observablesToGetZipped);
     }
 
-    return observablesToGetZipped[0].take(1);
-
+    return observablesToGetZipped[0];
   }
 
   protected getRelatedWorkPackageId(relation) {
@@ -110,9 +114,9 @@ export class WorkPackageRelationsController {
     this.getRelatedWorkPackages(relatedWpIds)
       .subscribe(relatedWorkPackages => {
         if (angular.isArray(relatedWorkPackages)) {
-          relatedWorkPackages.forEach(relatedWorkPackage => {
-            relatedWorkPackage.relatedBy = relations[relatedWorkPackage.id];
-            this.currentRelations = relatedWorkPackages;
+          this.currentRelations = relatedWorkPackages.map((wp) => {
+            wp.relatedBy = relations[wp.id];
+            return wp;
           });
         }
         else {
