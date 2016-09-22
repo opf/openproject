@@ -38,12 +38,13 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
+  public canAddRelation:boolean = !!this.workPackage.addRelation;
 
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
-              protected $state,
+              protected $state:ng.ui.IState,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -68,7 +69,6 @@ export class WorkPackageRelationsController {
 
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
-
     let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).take(1));
 
     if (observablesToGetZipped.length > 1) {
