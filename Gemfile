@@ -83,7 +83,7 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
-# We rely on this specific version, which is the latest as of now (end of 2013),
+# We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
