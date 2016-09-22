@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,39 +24,33 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-module.exports = function($rootScope, $window) {
-  var menuList = null;
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {DurationDisplayField} from './wp-display-duration-field.module';
 
-  this.toggleNavigation = function() {
-    if ($rootScope.showNavigation) {
-      menuList = hideSubMenuEntries();
-    } else {
-      showSubMenuEntries(menuList);
+export class SpentTimeDisplayField extends DurationDisplayField {
+  public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';
+  public text: any;
+  public timeEntriesLink: string;
+  public isManualRenderer = false;
+
+  constructor(public resource: WorkPackageResourceInterface,
+              public name: string,
+              public schema) {
+    super(resource, name, schema);
+
+    this.text = {
+      linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
+    };
+
+    if (resource.project) {
+      resource.project.$load().then(project => {
+        this.timeEntriesLink =
+          URI
+            .expand('/projects/{identifier}/time_entries', project)
+            .toString();
+      });
     }
-    $rootScope.showNavigation = !$rootScope.showNavigation;
-    $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
-    $window.sessionStorage.setItem('openproject:navigation-toggle',
-      !$rootScope.showNavigation ? 'collapsed' : 'expanded');
-  };
-};
-
-function hideSubMenuEntries() {
-  var togglers = jQuery('#main-menu .main-item-wrapper.open .toggler');
-  toggleMenus(togglers);
-
-  return togglers;
-}
-
-function showSubMenuEntries(togglers) {
-  if (togglers !== null) {
-    toggleMenus(togglers);
   }
-}
-
-function toggleMenus(togglers) {
-  togglers.each(function(index) {
-    jQuery(this).trigger('click');
-  });
 }

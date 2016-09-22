@@ -63,13 +63,13 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
       }
 
       scope.$on('openproject.layout.removeMenuItem', function(event, itemData) {
-        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId === scope.queryId) {
+        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId == scope.queryId) {
           removeItem();
         }
       });
 
       scope.$on('openproject.layout.renameQueryMenuItem', function(event, itemData) {
-        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.queryId === scope.queryId) {
+        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.queryId == scope.queryId) {
           element.html(itemData.queryName);
         }
       });

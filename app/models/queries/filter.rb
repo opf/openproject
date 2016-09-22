@@ -90,6 +90,8 @@ class Queries::Filter
     @@filter_params.each do |param_field|
       send("#{param_field}=", options[param_field])
     end
+
+    stringify_values
   end
 
   # (de-)serialization
@@ -132,6 +134,12 @@ class Queries::Filter
   end
 
   private
+
+  def stringify_values
+    unless values.nil?
+      values.map!(&:to_s)
+    end
+  end
 
   def validate_presence_of_values
     errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.nil? || values.reject(&:blank?).empty?

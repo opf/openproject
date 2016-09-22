@@ -32,7 +32,7 @@
 
 // NOTE: currently needed for PhantomJS to support Webpack's style-loader.
 // See: https://github.com/webpack/style-loader/issues/31
-require('polyfill-function-prototype-bind');
+require('phantomjs-polyfill');
 
 require('jquery');
 require('jquery-migrate/jquery-migrate');

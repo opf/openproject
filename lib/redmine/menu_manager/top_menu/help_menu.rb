@@ -43,7 +43,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_dropdown
     link_to_help_pop_up = link_to '', '',
                                   title: l(:label_help),
-                                  class: 'icon-help1',
+                                  class: 'icon-help',
                                   aria: { haspopup: 'true' }
 
     render_menu_dropdown(

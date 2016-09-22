@@ -95,7 +95,7 @@ function queryFilterDirective($timeout,
 
       function buildOptions(values) {
         return values.map(function (value) {
-          return [value.name, value.id];
+          return [value.name, value.id.toString()];
         });
       }
 
