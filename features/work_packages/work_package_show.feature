@@ -80,11 +80,11 @@ Feature: Viewing a work package
   Scenario: View child work package of type issue
     When I go to the page of the work package "issue1"
      And I open the work package tab "Relations"
-     And I click on "#2 Bug: issue2" within ".work-packages--right-panel"
+     And I click on "issue2" within ".work-packages--right-panel"
     Then I should see "issue2" within ".wp-edit-field.subject"
      And I should see "Bug #2" within ".work-packages--left-panel"
     When I open the work package tab "Relations"
-    Then I should see "#1 Bug: issue1" within ".work-packages--right-panel"
+    Then I should see "issue1" within ".work-packages--right-panel"
 
   @javascript @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
@@ -101,17 +101,17 @@ Feature: Viewing a work package
      And I press "Add"
      And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
-     And I should see "related to Bug #3: issue3"
+     And I should see "issue3"
 
   @javascript @wip
   Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
     Given a relation between "issue1" and "issue3"
     When I go to the page of the work package "issue1"
-    Then I should see "Bug #3: issue3"
+    Then I should see "issue3"
     When I click "Delete relation"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
-    Then I should not see "Bug #3: issue3"
+    Then I should not see "issue3"
 
   @javascript @wip
   Scenario: Watch and unwatch a work package
