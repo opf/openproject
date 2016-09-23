@@ -158,7 +158,8 @@ module Pages
     def add_child
       visit_tab!('relations')
 
-      page.find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_new_child')).click
+      page.find('.wp-inline-create--add-link',
+        text: I18n.t('js.relation_buttons.add_new_child')).click
 
       create_page(parent_work_package: work_package)
     end
