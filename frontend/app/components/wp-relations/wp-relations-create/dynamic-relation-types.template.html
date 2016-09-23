@@ -15,8 +15,10 @@
     </div>
     <div class="grid-block v-align" ng-if="$ctrl.showRelationsCreateForm">
         <div class="grid-content collapse medium-3">
+            <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
             <select
                     class="relationTypeSelect"
+                    id="relation-type--select"
                     ng-model="$ctrl.selectedRelationType"
                     ng-options="relationType.label for relationType in $ctrl.relationTypes"
                     focus>
@@ -31,13 +33,15 @@
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
             <accessible-by-keyboard
-                    execute="$ctrl.createRelation()">
+                    execute="$ctrl.createRelation()"
+                    aria-hidden="false">
                 <icon-wrapper icon-name="checkmark"
                               icon-title="{{ ::$ctrl.text.save }}">
                 </icon-wrapper>
             </accessible-by-keyboard>
             <accessible-by-keyboard
-                    execute="$ctrl.toggleRelationsCreateForm()">
+                    execute="$ctrl.toggleRelationsCreateForm()"
+                    aria-hidden="false">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ ::$ctrl.text.abort }}">
                 </icon-wrapper>

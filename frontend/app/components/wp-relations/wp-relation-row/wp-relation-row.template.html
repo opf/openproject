@@ -25,6 +25,7 @@
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
                                     ng-if="$ctrl.relation.remove"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
+                                    aria-hidden="false"
                                     class="-shown-in-accessibility-mode">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ ::$ctrl.text.removeButton }}">
