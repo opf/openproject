@@ -51,7 +51,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'activates the change parent form' do
 
-          find('.wp-inline-create--add-link').click
+          find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
           find('.inplace-edit--select').click
 
           input = find(:css, ".ui-select-search")
@@ -61,7 +61,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
           input.send_keys [:down, :return]
 
-          save_button = find('.wp-relations--save a')
+          save_button = find(:xpath, ".//a[.//span//span[contains(concat(' ',@class,' '), ' icon-checkmark ')]]")
           save_button.click
 
           expect(page).to have_selector('.wp-relations-hierarchy-subject a',
@@ -69,4 +69,44 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
     end
   end
+  
+  describe 'create child relationship' do
+      let(:child) { FactoryGirl.create(:work_package, project: project) }
+      include_context 'ui-select helpers'
+  
+      let(:user_role) do
+        FactoryGirl.create :role, permissions: permissions
+      end
+  
+      let(:user) do
+        FactoryGirl.create :user,
+                           member_in_project: project,
+                           member_through_role: user_role
+      end
+  
+      context 'with permissions' do
+        let(:permissions) { %i(view_work_packages manage_subtasks) }
+  
+        it 'activates the add existing child form' do
+  
+            find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+            find('.inplace-edit--select').click
+  
+            input = find(:css, ".ui-select-search")
+            input.set(child.id)
+  
+            sleep(2)
+  
+            input.send_keys [:down, :return]
+  
+            save_button = find(:xpath, ".//a[.//span//span[contains(concat(' ',@class,' '), ' icon-checkmark ')]]")
+            save_button.click
+
+            sleep(2)
+  
+            expect(page).to have_selector('.wp-relations-hierarchy-subject a',
+                                               text: "#{child.subject}")
+        end
+      end
+    end
 end

@@ -55,8 +55,6 @@ export class WorkPackageRelationsHierarchyController {
     if (this.workPackage.children) {
       this.loadChildren();
     }
-
-    console.log('wp hierarchy', this.workPackage.addRelation);
   }
 
   public text = {
