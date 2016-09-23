@@ -25,7 +25,7 @@ class WpRelationsHierarchyRowDirectiveController {
   };
 
   public text = {
-    changeParent: this.I18n.t('js.relation_buttons.change_parent'),
+    change_parent: this.I18n.t('js.relation_buttons.change_parent'),
     remove: this.I18n.t('js.relation_buttons.remove')
   };
 

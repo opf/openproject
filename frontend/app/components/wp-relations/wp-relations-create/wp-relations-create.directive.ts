@@ -41,7 +41,8 @@ export class WorkPackageRelationsCreateController {
     addNewChild: this.I18n.t('js.relation_buttons.add_new_child'),
     addExistingChild: this.I18n.t('js.relation_buttons.add_existing_child'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
-    addParent: this.I18n.t('js.relation_buttons.add_parent')
+    addParent: this.I18n.t('js.relation_buttons.add_parent'),
+    relationType: this.I18n.t('js.relation_labels.relation_type')
   };
 
   public createRelation() {

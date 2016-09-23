@@ -25,22 +25,25 @@
             </div>
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section">
-            <div ng-hide="!$ctrl.showRelationControls" class="-shown-in-accessibility-mode">
-                <accessible-by-keyboard ng-hide="$ctrl.relationType !== 'parent'"
-                                        aria-label="{{ ::$ctrl.text.change_parent }}"
-                                        execute="$ctrl.showEditForm = true">
-                    <icon-wrapper icon-name="edit"
-                                  icon-title="{{ ::$ctrl.text.change_parent }}">
-                    </icon-wrapper>
-                </accessible-by-keyboard>
+          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                  ng-if="$ctrl.relationType === 'parent'"
+                                  aria-hidden="false"
+                                  execute="$ctrl.showEditForm = true"
+                                  class="-shown-in-accessibility-mode">
+              <icon-wrapper icon-name="edit"
+                            icon-title="{{ ::$ctrl.text.change_parent }}">
+              </icon-wrapper>
+          </accessible-by-keyboard>
 
-                <accessible-by-keyboard ng-hide="!$ctrl.relationType"
-                        execute="$ctrl.removeRelation()">
-                    <icon-wrapper icon-name="remove"
-                                  icon-title="{{ ::$ctrl.text.remove }}">
-                    </icon-wrapper>
-                </accessible-by-keyboard>
-            </div>
+          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                  ng-if="$ctrl.relationType"
+                                  aria-hidden="false"
+                                  execute="$ctrl.removeRelation()"
+                                  class="-shown-in-accessibility-mode">
+              <icon-wrapper icon-name="remove"
+                            icon-title="{{ ::$ctrl.text.remove }}">
+              </icon-wrapper>
+          </accessible-by-keyboard>
         </div>
     </div>
 
