@@ -48,13 +48,13 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage, childWpId) {
-    let deferred = this.$q.defer();
+    var deferred = this.$q.defer();
     this.wpCacheService.loadWorkPackage(childWpId)
       .take(1)
       .subscribe(wpToBecomeChild => {
-        wpToBecomeChild.parentId = workPackage.id;
-        deferred.resolve(wpToBecomeChild.save());
+        deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
       });
+
     return deferred.promise;
   }
 
