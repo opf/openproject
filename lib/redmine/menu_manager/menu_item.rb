@@ -29,15 +29,7 @@
 
 class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   include Redmine::I18n
-  attr_reader :name,
-              :url,
-              :param,
-              :context,
-              :condition,
-              :parent,
-              :child_menus,
-              :last,
-              :omit_path_check
+  attr_reader :name, :url, :param, :context, :condition, :parent, :child_menus, :last
 
   def initialize(name, url, options)
     raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
@@ -58,7 +50,6 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @parent = options[:parent]
     @child_menus = options[:children]
     @last = options[:last] || false
-    @omit_path_check = options[:omit_path_check] || false
     super @name.to_sym
   end
 
@@ -91,6 +82,4 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     old_condition = @condition
     @condition = -> (project) { old_condition.call(project) && new_condition.call(project) }
   end
-
-  alias :omit_path_check? :omit_path_check
 end
