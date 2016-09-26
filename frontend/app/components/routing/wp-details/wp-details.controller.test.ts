@@ -164,7 +164,7 @@ describe('WorkPackageDetailsController', () => {
         workPackage: workPackage,
       });
 
-      // $timeout.flush();
+      $timeout.flush();
       promise = ctrl.initialized.promise;
 
     };

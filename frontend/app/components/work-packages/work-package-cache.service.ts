@@ -30,9 +30,9 @@
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {states} from "../../states";
 import {State} from "../../helpers/reactive-fassade";
 import IScope = angular.IScope;
+import {States} from "../states.service";
 
 
 function getWorkPackageId(id: number|string): string {
@@ -44,7 +44,8 @@ export class WorkPackageCacheService {
   private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
 
   /*@ngInject*/
-  constructor(private apiWorkPackages: ApiWorkPackagesService) {
+  constructor(private states: States,
+              private apiWorkPackages: ApiWorkPackagesService) {
   }
 
   newWorkPackageCreated(wp: WorkPackageResource) {
@@ -52,24 +53,24 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-    states.workPackages.put(getWorkPackageId(wp.id), wp);
+    this.states.workPackages.put(getWorkPackageId(wp.id), wp);
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
 
-      const wpState = states.workPackages.get(workPackageId);
+      const wpState = this.states.workPackages.get(workPackageId);
       if (wpState.hasValue() && wpState.getCurrentValue().dirty) {
         continue;
       }
 
-      states.workPackages.put(workPackageId, wp);
+      this.states.workPackages.put(workPackageId, wp);
     }
   }
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
-    const state = states.workPackages.get(getWorkPackageId(workPackageId));
+    const state = this.states.workPackages.get(getWorkPackageId(workPackageId));
     if (forceUpdate) {
       state.clear();
     }
