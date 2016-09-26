@@ -8,6 +8,8 @@ export const states = {
 
 };
 
+export type States = typeof states;
+
 initStates(states, function (msg: any) {
   if (~location.hostname.indexOf("localhost")) {
     // RR: stupid hack to avoid compiler error

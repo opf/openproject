@@ -45,6 +45,7 @@ describe('WorkPackagesListController', () => {
   beforeEach(angular.mock.module('openproject.api', 'openproject.workPackages.controllers',
     'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout',
     'openproject.services', 'openproject.wpButtons'));
+
   beforeEach(angular.mock.module('openproject.templates', ($provide) => {
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false)
@@ -53,6 +54,7 @@ describe('WorkPackagesListController', () => {
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
   }));
+
   beforeEach(angular.mock.inject(($rootScope, $controller, $timeout, $q, $cacheFactory) => {
     scope = $rootScope.$new();
     win = {

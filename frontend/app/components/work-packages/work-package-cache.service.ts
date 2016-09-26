@@ -35,6 +35,10 @@ import {State} from "../../helpers/reactive-fassade";
 import IScope = angular.IScope;
 
 
+function getWorkPackageId(id: number|string): string {
+  return (id || "__new_work_package__").toString();
+}
+
 export class WorkPackageCacheService {
 
   private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
@@ -48,22 +52,24 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-    states.workPackages.put(wp.id.toString(), wp);
+    states.workPackages.put(getWorkPackageId(wp.id), wp);
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (var wp of list) {
-      const wpState = states.workPackages.get(wp.id.toString());
+      const workPackageId = getWorkPackageId(wp.id);
+
+      const wpState = states.workPackages.get(workPackageId);
       if (wpState.hasValue() && wpState.getCurrentValue().dirty) {
         continue;
       }
 
-      states.workPackages.put(wp.id.toString(), wp);
+      states.workPackages.put(workPackageId, wp);
     }
   }
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
-    const state = states.workPackages.get(workPackageId.toString());
+    const state = states.workPackages.get(getWorkPackageId(workPackageId));
     if (forceUpdate) {
       state.clear();
     }

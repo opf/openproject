@@ -26,6 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {states} from "../../../states";
+
+
 describe('wpDisplayAttr directive', () => {
   var compile;
   var element;
@@ -80,6 +83,9 @@ describe('wpDisplayAttr directive', () => {
 
   describe('element', () => {
     beforeEach(angular.mock.inject(($q) => {
+
+      states.workPackages.clearAll();
+
       scope.workPackage = {
         subject: 'Subject1',
         mybool: false,

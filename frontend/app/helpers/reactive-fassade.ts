@@ -141,6 +141,10 @@ export class MultiState<T> extends StoreElement {
     super();
   }
 
+  clearAll() {
+    this.states = {};
+  }
+
   put(id: string, value: T): State<T> {
     this.log("MultiState#put(" + id + ")");
     const state = this.get(id);
