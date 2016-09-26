@@ -134,7 +134,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
 
     click_button 'Save'
 
-    within '#content' do
+    within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
       expect(page).to have_selector('.tl-column', text: 'Yes')
@@ -157,7 +157,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
 
     click_button 'Save'
 
-    within '#content' do
+    within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
       expect(page).to have_selector('.tl-column', text: 'No')
@@ -178,7 +178,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
 
     visit project_timeline_path(project_id: project, id: timeline)
 
-    within '#content' do
+    within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
       expect(page).to have_selector('.tl-column', text: user.name)
