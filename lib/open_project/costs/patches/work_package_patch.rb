@@ -111,11 +111,19 @@ module OpenProject::Costs::Patches::WorkPackagePatch
     end
 
     def material_costs
-      CostEntry.costs_of(work_packages: self)
+      if respond_to?(:cost_entries_sum) # column has been eager loaded into result set
+        cost_entries_sum.to_f
+      else
+        WorkPackage::MaterialCosts.new(user: User.current).costs_of work_packages: self
+      end
     end
 
     def labor_costs
-      TimeEntry.costs_of(work_packages: self)
+      if respond_to?(:time_entries_sum) # column has been eager loaded into result set
+        time_entries_sum.to_f
+      else
+        WorkPackage::LaborCosts.new(user: User.current).costs_of work_packages: self
+      end
     end
 
     def overall_costs

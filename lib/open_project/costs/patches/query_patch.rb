@@ -62,20 +62,30 @@ module OpenProject::Costs::Patches::QueryPatch
       add_available_column(CurrencyQueryColumn.new(
                              :material_costs,
                              summable: -> (work_packages) {
-                               CostEntry.costs_of(work_packages: work_packages)
+                               WorkPackage::MaterialCosts
+                                 .new(user: User.current)
+                                 .costs_of(work_packages: work_packages)
                              }))
 
       add_available_column(CurrencyQueryColumn.new(
                              :labor_costs,
                              summable: -> (work_packages) {
-                               TimeEntry.costs_of(work_packages: work_packages)
+                               WorkPackage::LaborCosts
+                                 .new(user: User.current)
+                                 .costs_of(work_packages: work_packages)
                              }))
 
       add_available_column(CurrencyQueryColumn.new(
                              :overall_costs,
                              summable: -> (work_packages) {
-                               labor_costs = TimeEntry.costs_of(work_packages: work_packages)
-                               material_costs = CostEntry.costs_of(work_packages: work_packages)
+                               labor_costs = WorkPackage::LaborCosts
+                                 .new(user: User.current)
+                                 .costs_of(work_packages: work_packages)
+
+                               material_costs = WorkPackage::MaterialCosts
+                                 .new(user: User.current)
+                                 .costs_of(work_packages: work_packages)
+
                                labor_costs + material_costs
                              }))
 
