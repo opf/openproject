@@ -81,7 +81,7 @@ module API
 
         collection :elements,
                    getter: -> (*) {
-                     work_packages = eager_loaded_work_packages
+                     work_packages = sorted_and_eager_loaded_work_packages
 
                      generated_classes = ::Hash.new do |hash, work_package|
                        hit = hash.values.find { |klass|
@@ -114,17 +114,19 @@ module API
 
         # Eager load elements used in the representer later
         # to avoid n+1 queries triggered from each representer.
-        def eager_loaded_work_packages
+        def sorted_and_eager_loaded_work_packages
           ids_in_order = represented.map(&:id)
-
-          work_packages = WorkPackage
-                          .include_spent_hours(current_user)
-                          .preload(element_decorator.to_eager_load)
-                          .where(id: ids_in_order)
-                          .select('work_packages.*')
-                          .to_a
+          work_packages = eager_loaded_work_packages(ids_in_order)
 
           work_packages.sort_by { |wp| ids_in_order.index(wp.id) }
+        end
+
+        def eager_loaded_work_packages(ids)
+          WorkPackage
+            .include_spent_hours(current_user)
+            .preload(element_decorator.to_eager_load)
+            .where(id: ids)
+            .select('work_packages.*')
         end
 
         private
