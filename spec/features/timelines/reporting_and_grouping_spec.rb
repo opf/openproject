@@ -166,11 +166,9 @@ describe Timeline, 'reporting and grouping', type: :feature, js: true do
 
     page.uncheck('Hide empty projects')
 
-    page.find('#project_filters legend a').click
-
     select = page.find('#s2id_timeline_options_project_responsibles')
 
-    ui_select(select, user)
+    ui_select(select, user.name)
 
     click_button 'Save'
 
