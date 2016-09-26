@@ -70,7 +70,7 @@ class SettingsController < ApplicationController
   def plugin
     @plugin = Redmine::Plugin.find(params[:id])
     if request.post?
-      Setting["plugin_#{@plugin.id}"] = params[:settings]
+      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'plugin', id: @plugin.id
     else
