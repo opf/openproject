@@ -29,36 +29,36 @@
 
 require_relative 'migration_utils/ar_parameter_patch'
 
-class TimelineOptionsToHash < ActiveRecord::Migration[5.0]
-  class TimelineWithWhatever < ActiveRecord::Base
-    self.table_name = :timelines
+class SettingValueToHash < ActiveRecord::Migration[5.0]
+  class SettingWithWhatever < ActiveRecord::Base
+    self.table_name = :settings
 
-    serialize :options
+    serialize :value
   end
 
-  class TimelineWithHash < ActiveRecord::Base
-    self.table_name = :timelines
+  class SettingWithHash < ActiveRecord::Base
+    self.table_name = :settings
 
-    serialize :options, Hash
+    serialize :value, Hash
   end
 
   def up
     ArParametersPatch.load
 
-    TimelineWithWhatever.transaction do
-      TimelineWithWhatever.all.to_a.each do |timeline|
-        options = timeline.options
-        next unless options && options.is_a?(ActionController::Parameters)
-        options.permit!
-        options = options.to_h
+    SettingWithWhatever.transaction do
+      SettingWithWhatever.all.to_a.each do |setting|
+        value = setting.value
+        next unless value && value.is_a?(ActionController::Parameters)
+        value.permit!
+        value = value.to_h
 
-        TimelineWithHash
-          .where(id: timeline.id)
-          .update_all(options: options)
+        SettingWithHash
+          .where(id: setting.id)
+          .update_all(value: value)
       end
     end
   end
 
   # This migration does not need to be rolled back because
-  # it only harmonizes the possible values of the options attribute.
+  # it only harmonizes the possible values of the value attribute.
 end

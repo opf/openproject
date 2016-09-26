@@ -136,7 +136,10 @@ class Setting < ActiveRecord::Base
   end
 
   def value=(v)
-    v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
+    if v && @@available_settings[name] && @@available_settings[name]['serialized']
+      v = v.to_h.to_yaml
+    end
+
     write_attribute(:value, v.to_s)
   end
 
