@@ -104,9 +104,8 @@ Capybara.javascript_driver = :selenium
 
 Capybara.server do |app, port|
   require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, :Port => port)
+  Rack::Handler::Thin.run(app, Port: port)
 end
-
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

@@ -440,11 +440,12 @@ describe WorkPackages::BulkController, type: :controller do
 
           before do
             put :update,
-                params: { ids: work_package_ids,
-                          work_package: {
-                            custom_field_values: { custom_field_1.id.to_s => result }
-                          }
-                        }
+                params: {
+                  ids: work_package_ids,
+                  work_package: {
+                    custom_field_values: { custom_field_1.id.to_s => result }
+                  }
+                }
           end
 
           subject {

@@ -148,7 +148,7 @@ describe WorkPackagesController, type: :controller do
       end
 
       describe 'html' do
-        let(:call_action) { get('index', params: { project_id: project.id } ) }
+        let(:call_action) { get('index', params: { project_id: project.id }) }
         before do call_action end
 
         describe 'w/o a project' do

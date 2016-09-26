@@ -49,7 +49,7 @@ module Rabl
       if @options[:building_collection] && !@options[:child_root]
         @options[:root_name] = false
       end
-      to_hash_without_hack(options)
+      to_hash_without_hack(object, settings, options)
     end
 
     alias_method :to_hash_without_hack, :to_hash
