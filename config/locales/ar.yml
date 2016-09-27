@@ -1,6 +1,6 @@
 ar:
-  button_edit_this_page: Edit this page
-  error_saving_changes: 'The changes could not be saved: %{errors}'
+  button_edit_this_page: تعديل هذه الصفحة
+  error_saving_changes: 'تعذّر حفظ التغييرات: %{errors}'
   label_hidden_elements: العناصر المخفية
   label_visible_elements: العناصر المرئية
   label_project_description: وصف المشروع
@@ -12,7 +12,7 @@ ar:
   label_work_packages_responsible_for: مجموعات العمل تحت مسؤوليتي
   label_work_packages_assigned_to_me: مجموعات العمل الموكلة لي
   label_work_packages_watched: مجموعات العمل المراقبة
-  label_work_package_tracking: ' Work package tracking'
+  label_work_package_tracking: ' تعقُّب مجموعة العمل'
   label_members: الأعضاء
   label_subprojects: المشاريع الفرعية
   project_page:
