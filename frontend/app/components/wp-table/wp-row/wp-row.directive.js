@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpRow', wpRow);
 
 var WorkPackagesTimelineCell = require("../timeline/wp-timeline-cell").WorkPackageTimelineCell;
 
@@ -46,11 +43,15 @@ function wpRow(WorkPackagesTableService){
   return {
     restrict: 'A',
 
-    link: function(scope, elem) {
-      const workPackageId = scope.row.object.id;
-      const timelineTd = elem.find("td.wp-timeline-cell")[0];
-      new WorkPackagesTimelineCell(scope, workPackageId, timelineTd).init();
+    controller: function (states, $scope, $element) {
+      "ngInject";
 
+      var workPackageId = $scope.row.object.id;
+      var timelineTd = $element.find("td.wp-timeline-cell")[0];
+      new WorkPackagesTimelineCell($scope, states, workPackageId, timelineTd).init();
+    },
+
+    link: function(scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
 
@@ -64,3 +65,7 @@ function wpRow(WorkPackagesTableService){
     }
   };
 }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpRow', wpRow);

@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {states} from "../../../states";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {State} from "../../../helpers/reactive-fassade";
 import IScope = angular.IScope;
+import {States} from "../../states.service";
 
 export class WorkPackageTimelineCell {
 
@@ -37,7 +37,7 @@ export class WorkPackageTimelineCell {
 
   private bar: HTMLDivElement;
 
-  constructor(private scope: IScope, private workPackageId: string, private timelineCell: HTMLTableElement) {
+  constructor(private scope: IScope, states: States, private workPackageId: string, private timelineCell: HTMLTableElement) {
     this.state = states.workPackages.get(workPackageId);
   }
 
@@ -49,7 +49,7 @@ export class WorkPackageTimelineCell {
     this.timelineCell.appendChild(this.bar);
 
     this.state.observe(this.scope).subscribe(wp => {
-      console.log("new wp:" + wp);
+      console.log("new wp for cell:" + wp);
     });
 
   }
