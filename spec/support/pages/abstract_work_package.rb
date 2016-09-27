@@ -214,6 +214,12 @@ module Pages
       find('.add-work-package:not([disabled])', text: 'Work package').click
     end
 
+    def click_create_wp_button(type)
+      find('.add-work-package:not([disabled])', text: 'Create').click
+
+      find('#types-context-menu .menu-item', text: type).click
+    end
+
     def select_type(type)
       find(@type_field_selector + ' option', text: type).select_option
     end
