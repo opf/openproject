@@ -51,7 +51,7 @@ Feature: Navigating to reports page
     When I go to the page of the project called "SubProject"
     Then I should see "403"
     When I go to the projects admin page
-    When I select "All" from "status"
+    When I select "all" from "status"
     And I click on "Unarchive" within "tbody > tr:nth-of-type(1)"
     Then I should be on the projects admin page
     And I should see "ParentProject"
