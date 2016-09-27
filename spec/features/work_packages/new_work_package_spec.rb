@@ -3,7 +3,6 @@ require 'support/work_packages/work_package_field'
 require 'features/work_packages/work_packages_page'
 require 'features/page_objects/notification'
 
-
 describe 'new work package', js: true do
   let(:type_task) { FactoryGirl.create(:type_task) }
   let(:type_bug) { FactoryGirl.create(:type_bug) }
@@ -31,7 +30,7 @@ describe 'new work package', js: true do
     FactoryGirl.create(:user_preference, user: user, others: { warn_on_leaving_unsaved: false })
   end
 
-  def save_work_package!(expect_success=true)
+  def save_work_package!(expect_success = true)
     within '.work-packages--edit-actions' do
       click_button 'Save'
     end
@@ -42,6 +41,18 @@ describe 'new work package', js: true do
   end
 
   def create_work_package(type, project)
+    loading_indicator_saveguard
+
+    wp_page.click_create_wp_button(type)
+
+    loading_indicator_saveguard
+    wp_page.subject_field.set(subject)
+
+    project_field.set_value project
+    sleep 1
+  end
+
+  def create_work_package_globally(type, project)
     loading_indicator_saveguard
 
     wp_page.click_add_wp_button
@@ -63,7 +74,7 @@ describe 'new work package', js: true do
 
   shared_examples 'work package creation workflow' do
     before do
-      create_work_package('Task', project.name)
+      create_method.call('Task', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
@@ -79,7 +90,7 @@ describe 'new work package', js: true do
 
       subject_field.expect_state_text(subject)
 
-      create_work_package('Bug', project.name)
+      create_method.call('Bug', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
       expect(page).to have_select(WorkPackage.human_attribute_name(:type),
                                   selected: 'Bug')
@@ -177,7 +188,9 @@ describe 'new work package', js: true do
       wp_table.visit!
     end
 
-    it_behaves_like 'work package creation workflow'
+    it_behaves_like 'work package creation workflow' do
+      let(:create_method) { method(:create_work_package) }
+    end
 
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
@@ -219,7 +232,9 @@ describe 'new work package', js: true do
       wp_page.ensure_page_loaded
     end
 
-    it_behaves_like 'work package creation workflow'
+    it_behaves_like 'work package creation workflow' do
+      let(:create_method) { method(:create_work_package) }
+    end
   end
 
   context 'global split screen' do
@@ -231,7 +246,9 @@ describe 'new work package', js: true do
       wp_table.visit!
     end
 
-    it_behaves_like 'work package creation workflow'
+    it_behaves_like 'work package creation workflow' do
+      let(:create_method) { method(:create_work_package_globally) }
+    end
   end
 
   context 'as a user with no permissions' do
