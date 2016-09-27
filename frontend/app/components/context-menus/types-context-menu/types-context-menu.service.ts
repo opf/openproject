@@ -27,19 +27,17 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {ApiWorkPackagesService} from '../../api/api-work-packages/api-work-packages.service';
 
 class TypesContextMenuController {
   public types = [];
 
-  constructor(protected $state, protected $scope, halRequest, apiWorkPackages) {
+  constructor(protected $state, protected $scope, apiWorkPackages) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
 
     apiWorkPackages
-      .emptyCreateForm(halRequest, project)
+      .emptyCreateForm({}, project)
       .then(form =>
               this.types = form.schema.type.allowedValues);
   }
