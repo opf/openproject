@@ -40,7 +40,7 @@ module API
           end
 
           get do
-            types = Type.all
+            types = Type.includes(:color).all
             TypeCollectionRepresenter.new(types, api_v3_paths.types, current_user: current_user)
           end
 
