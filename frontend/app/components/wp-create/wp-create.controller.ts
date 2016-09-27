@@ -76,7 +76,9 @@ export class WorkPackageCreateController {
   }
 
   protected newWorkPackageFromParams(stateParams) {
-    return this.wpCreate.createNewWorkPackage(stateParams.projectPath);
+    const type = parseInt(stateParams.type);
+
+    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
   public cancelAndBackToList() {

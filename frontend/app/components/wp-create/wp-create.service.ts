@@ -46,6 +46,11 @@ export class WorkPackageCreateService {
     });
   }
 
+  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
+    return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
+      return this.WorkPackageResource.fromCreateForm(form);
+    });
+  }
 
   public copyWorkPackage(copyFromForm, projectIdentifier?) {
     var request = copyFromForm.payload.$source;

@@ -29,12 +29,11 @@
 import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 import {opApiModule} from '../../../angular-modules';
 import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
-import {WorkPackageResource,} from '../api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
 import IPromise = angular.IPromise;
 
 export class ApiWorkPackagesService {
   constructor(protected DEFAULT_PAGINATION_OPTIONS,
-              protected $stateParams,
               protected $q:ng.IQService,
               protected halRequest:HalRequestService,
               protected v3Path) {
@@ -70,6 +69,22 @@ export class ApiWorkPackagesService {
    * @returns An empty work package form resource.
    */
   public emptyCreateForm(request:any, projectIdentifier?:string):ng.IPromise<HalResource> {
+    return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
+  }
+
+  /**
+   * Returns a promise to post `/api/v3/work_packages/form` where the
+   * type has already been set to the one provided.
+   *
+   * @param typeId: The id of the type to initialize the form with
+   * @param projectIdentifier: The project to which the work package is initialized
+   * @returns An empty work package form resource.
+   */
+  public typedCreateForm(typeId:number, projectIdentifier?:string):ng.IPromise<HalResource> {
+
+    const typeUrl = this.v3Path.types({type: typeId});
+    const request = { _links: { type: { href: typeUrl } } };
+
     return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
   }
 
