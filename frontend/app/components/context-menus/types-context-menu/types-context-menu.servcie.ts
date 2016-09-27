@@ -29,23 +29,23 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {ApiWorkPackagesService} from '../../api/api-work-packages/api-work-packages.service';
 
 class TypesContextMenuController {
   public types = [];
 
-  constructor(protected $state, protected $scope, v3Path, halRequest) {
+  constructor(protected $state, protected $scope, halRequest, apiWorkPackages) {
     const project = $scope.projectIdentifier;
-    const typesUrl = v3Path.types({project});
     $scope.$ctrl = this;
 
-    halRequest.get(typesUrl).then(types => this.types = types.elements);
+    apiWorkPackages
+      .emptyCreateForm(halRequest, project)
+      .then(form =>
+              this.types = form.schema.type.allowedValues);
   }
 
-  public goToWpCreateRoute(type) {
-    const projectPath = this.$scope.projectIdentifier;
-    type = type.id;
-
-    this.$state.go(this.$scope.stateName, {projectPath, type});
+  public get stateName() {
+    return this.$scope.stateName;
   }
 }
 

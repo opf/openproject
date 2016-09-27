@@ -2,7 +2,7 @@
      id="types-context-menu">
   <ul class="dropdown-menu">
     <li ng-repeat="type in $ctrl.types">
-      <a class="menu-item" ng-click="$ctrl.goToWpCreateRoute(type)">
+      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})">
         {{ type.name }}
       </a>
     </li>
