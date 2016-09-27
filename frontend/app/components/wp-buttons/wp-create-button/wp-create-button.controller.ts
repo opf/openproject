@@ -39,8 +39,9 @@ export default class WorkPackageCreateButtonController {
   constructor(protected $state,
               protected I18n) {
     this.text = {
-      button: I18n.t('js.work_packages.create.button'),
-      create: I18n.t('js.label_create_work_package')
+      createWithDropdown: I18n.t('js.work_packages.create.button'),
+      createButton: I18n.t('js.label_work_package'),
+      explanation: I18n.t('js.label_create_work_package')
     };
   }
 
