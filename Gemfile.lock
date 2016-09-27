@@ -367,7 +367,7 @@ GEM
       rack
       rake (>= 0.8.1)
     pdf-core (0.6.1)
-    pg (0.18.4)
+    pg (0.19.0)
     pkg-config (1.1.7)
     poltergeist (1.10.0)
       capybara (~> 2.1)
@@ -646,7 +646,7 @@ DEPENDENCIES
   openproject-translations!
   parallel_tests (~> 2.4.1)
   passenger
-  pg (~> 0.18.4)
+  pg (~> 0.19.0)
   poltergeist (~> 1.10.0)
   prawn (~> 2.1)
   prawn-table (~> 0.2.2)
