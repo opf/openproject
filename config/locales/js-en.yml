@@ -277,9 +277,9 @@ en:
     relation_buttons:
       change_parent: "Change parent"
       remove_parent: "Remove parent"
-      add_parent: "Add existing parent work package"
-      add_new_child: "Create new child work package"
-      add_existing_child: "Add existing child work package"
+      add_parent: "Add existing parent"
+      add_new_child: "Create new child"
+      add_existing_child: "Add existing child"
       remove_child: "Remove child work package"
       add_new_relation: "Create new relation"
       remove: "Remove relation"

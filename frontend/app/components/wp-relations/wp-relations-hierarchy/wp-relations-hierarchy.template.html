@@ -13,7 +13,8 @@
             relation-type="parent"></wp-relations-hierarchy-row>
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
-            indent-by="20"></wp-relations-hierarchy-row>
+            indent-by="20"
+            ng-if="$ctrl.parent || $ctrl.children.length"></wp-relations-hierarchy-row>
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
             related-work-package="relatedWorkPackage"

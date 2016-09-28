@@ -37,6 +37,12 @@ class WpRelationsHierarchyRowDirectiveController {
     }
   }
 
+  public isCurrentElement() {
+    if (this.relationType !== 'child' && this.relationType !== 'parent') {
+      return true;
+    }
+  }
+
   protected removeChild() {
       this.wpRelationsHierarchyService.removeChild(this.relatedWorkPackage).then(exChildWp => {
         this.$scope.$emit('wp-relations.removedChild', exChildWp);
