@@ -7,7 +7,7 @@
             {{ $ctrl.relationType }}
         </div>
 
-        <div class="grid-content medium-4 collapse" wp-single-relation
+        <div class="grid-content medium-5 collapse" wp-single-relation
              ng-if="$ctrl.relatedWorkPackage">
             <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
                title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="grid-content medium-2 collapse wp-relations-controls-section">
+        <div class="grid-content medium-1 collapse wp-relations-controls-section">
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
                                     ng-if="$ctrl.relation.remove"
                     execute="$ctrl.removeRelation($ctrl.relation)">

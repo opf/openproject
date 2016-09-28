@@ -3,16 +3,21 @@
      ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block v-align hierarchy-item"
          ng-if="!$ctrl.showEditForm && $ctrl.relatedWorkPackage">
-        <div class="grid-content medium-6 collapse" wp-single-relation>
+        <div class="grid-content medium-7 collapse" wp-single-relation>
             <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
                 <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
-                   title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}">
+                   title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
+                   ng-if="!$ctrl.isCurrentElement()">
                     {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
                 </a>
+                <span ng-if="$ctrl.isCurrentElement()"
+                      title="{{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage)}}">
+                        {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
+                </span>
             </span>
         </div>
-        <div class="grid-content medium-4 collapse wp-relations-status-field">
+        <div class="grid-content medium-3 collapse wp-relations-status-field">
             <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
                 <div wp-edit-field="'status'">
                 </div>
