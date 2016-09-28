@@ -119,11 +119,14 @@ export class State<T> extends StoreElement {
 
   private setState(val: T) {
     this.lastValue = val;
-    this.timestampOfLastValue = this.hasValue() ? Date.now() : -1;
     this.subject.onNext(val);
 
     if (val === null || val === undefined) {
+      this.timestampOfLastValue = -1;
+      this.timestampOfLastPromise = -1;
       this.cleared.onNext(null);
+    } else {
+      this.timestampOfLastValue = Date.now();
     }
   }
 
