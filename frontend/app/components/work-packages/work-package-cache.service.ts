@@ -53,7 +53,7 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
-    this.states.workPackages.put(getWorkPackageId(wp.id), wp);
+    this.updateWorkPackageList([wp]);
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
