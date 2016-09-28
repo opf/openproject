@@ -36,7 +36,7 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   before do
     login_as(user)
-    work_packages_page.visit_show(work_package)
+    work_packages_page.visit_index(work_package)
     within '.panel-toggler' do
       find('a', text: 'Show all attributes').click
     end
@@ -44,10 +44,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   end
 
   it 'renders hierarchical versions' do
-    expect(page).to have_selector('.inplace-edit.project span', text: 'Root')
-    expect(page).to have_selector('.attributes-key-value--key span', text: 'Version')
-
-    expect(page).to have_selector("#{field.field_selector}.-editable")
+    page.find('div.version:nth-child(1) > span:nth-child(1)').click
     expect(page).to have_selector("#{field.field_selector} select")
 
     options = page.all("#{field.field_selector} select option")
