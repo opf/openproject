@@ -46,6 +46,10 @@ class WorkPackage
       raise NotImplementedError, "subclass responsiblity"
     end
 
+    def costs_sum_alias
+      raise NotImplementedError, "subclass responsiblity"
+    end
+
     private
 
     def work_package_ids(work_packages)
@@ -65,22 +69,9 @@ class WorkPackage
     end
 
     def add_costs_to(scope)
-      query = costs.to_sql
-
       scope
-        .joins(
-          "LEFT JOIN (#{query}) as #{table_alias} ON #{table_alias}.wp_id = #{wp_table.name}.id")
-        .select("#{table_alias}.#{costs_table_name}_sum")
-    end
-
-    def costs
-      filter_authorized all_costs
-    end
-
-    def all_costs
-      WorkPackage
         .joins(sum_arel.join_sources)
-        .select("work_packages.id as wp_id, #{costs_sum} as #{costs_table_name}_sum")
+        .select("#{costs_sum} AS #{costs_sum_alias}")
         .group(wp_table[:id])
     end
 
@@ -103,9 +94,7 @@ class WorkPackage
 
     def sum_arel
       wp_table
-        .from(wp_table)
-        .join(ce_table, Arel::Nodes::OuterJoin).on(ce_table[:work_package_id].eq(wp_table[:id]))
-        .join(projects_table).on(projects_table[:id].eq(wp_table[:project_id]))
+        .outer_join(ce_table).on(ce_table_join_condition)
         .group(wp_table[:id])
     end
 
@@ -115,6 +104,13 @@ class WorkPackage
 
     def ce_table
       costs_model.arel_table
+    end
+
+    def ce_table_join_condition
+      authorization_scope = filter_authorized costs_model.all
+      authorization_where = authorization_scope.ast.cores.last.wheres.last
+
+      ce_table[:work_package_id].eq(wp_table[:id]).and(authorization_where)
     end
 
     def projects_table
