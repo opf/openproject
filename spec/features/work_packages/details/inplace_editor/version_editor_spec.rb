@@ -51,7 +51,6 @@ describe 'subject inplace editor', js: true, selenium: true do
     expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
 
     options[1].select_option
-    binding.pry
     field.expect_state_text(version3.name)
   end
 end
