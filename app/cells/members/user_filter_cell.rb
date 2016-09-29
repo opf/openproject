@@ -39,12 +39,17 @@ module Members
         all: all_members_query.count,
         blocked: blocked_members_query.count,
         active: active_members_query.count,
-        invited: invited_members_query.count
+        invited: invited_members_query.count,
+        registered: registered_members_query.count,
+        locked: locked_members_query.count
       }
     end
 
     def all_members_query
-      Member.where(project: project)
+      project
+        .member_principals
+        .includes(:principal)
+        .references(:users)
     end
 
     def active_members_query
@@ -52,20 +57,24 @@ module Members
     end
 
     def blocked_members_query(blocked = true)
-      project_members_query User.create_blocked_scope(Member.joins(:principal), blocked),
-                            include_groups: false
+      project_members_query User.create_blocked_scope(all_members_query, blocked)
     end
 
     def invited_members_query
-      project_members_query Member.joins(:principal), status: :invited, include_groups: false
+      project_members_query all_members_query, status: :invited
     end
 
-    def project_members_query(query, status: :active, include_groups: true)
-      groups = " OR users.type = 'Group'" if include_groups
+    def registered_members_query
+      project_members_query all_members_query, status: :registered
+    end
 
+    def locked_members_query
+      project_members_query all_members_query, status: :locked
+    end
+
+    def project_members_query(query, status: :active)
       query
-        .where(project: project)
-        .where("users.status = #{User::STATUSES[status]}#{groups}")
+        .where(users: { status: User::STATUSES[status] })
     end
   end
 end
