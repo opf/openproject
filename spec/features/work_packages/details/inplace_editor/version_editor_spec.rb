@@ -45,6 +45,9 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   it 'renders hierarchical versions' do
     page.find('div.version:nth-child(1) > span:nth-child(1)').click
+
+    sleep(2)
+
     expect(page).to have_selector("#{field.field_selector} select")
 
     options = page.all("#{field.field_selector} select option")
