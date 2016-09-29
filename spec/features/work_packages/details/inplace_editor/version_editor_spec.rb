@@ -41,20 +41,17 @@ describe 'subject inplace editor', js: true, selenium: true do
       find('a', text: 'Show all attributes').click
     end
     field.activate_edition
+
   end
 
   it 'renders hierarchical versions' do
-    page.find('div.version:nth-child(1) > span:nth-child(1)').click
-
-    sleep(2)
-
     expect(page).to have_selector("#{field.field_selector} select")
 
     options = page.all("#{field.field_selector} select option")
     expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
 
     options[1].select_option
-
+    binding.pry
     field.expect_state_text(version3.name)
   end
 end
