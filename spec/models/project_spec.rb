@@ -188,4 +188,114 @@ describe Project, type: :model do
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
     end
   end
+
+  describe '#allowed_parent?' do
+    let(:project) { FactoryGirl.build_stubbed(:project) }
+    let(:other_project) { FactoryGirl.build_stubbed(:project) }
+    let(:another_project) { FactoryGirl.build_stubbed(:project) }
+
+    it 'is false for nil on a persisted project with no allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?(nil)).to be_falsey
+    end
+
+    it 'is true for nil on a persisted project with allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return(['something'])
+
+      expect(project.allowed_parent?(nil)).to be_truthy
+    end
+
+    it 'is true for nil on an unpersisted project with no allowed parents' do
+      project = FactoryGirl.build(:project)
+
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?(nil)).to be_truthy
+    end
+
+    it 'is false for blank on a persisted project with no allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?('')).to be_falsey
+    end
+
+    it 'is true for blank on a persisted project with allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return(['something'])
+
+      expect(project.allowed_parent?('')).to be_truthy
+    end
+
+    it 'is true for blank on an unpersisted project with no allowed parents' do
+      project = FactoryGirl.build(:project)
+
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?('')).to be_truthy
+    end
+
+    it 'is true for an id pointing to a project in allowed_parents' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(other_project)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(1)).to be_truthy
+    end
+
+    it 'is false for an id pointing to a project in allowed_parents' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(other_project)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([another_project])
+
+      expect(project.allowed_parent?(1)).to be_falsey
+    end
+
+    it 'is false for a non existing project id' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(nil)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(1)).to be_falsey
+    end
+
+    it 'is true for a project in allowed_projects' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(other_project)).to be_truthy
+    end
+
+    it 'is false for a project not in allowed_projects' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([another_project])
+
+      expect(project.allowed_parent?(other_project)).to be_falsey
+    end
+  end
 end

@@ -48,7 +48,6 @@ describe CopyProjectJob, type: :model do
       CopyProjectJob.new user_id: user_de.id,
                          source_project_id: source_project.id,
                          target_project_params: target_project,
-                         enabled_modules: [],
                          associations_to_copy: []
     }
 
@@ -86,7 +85,6 @@ describe CopyProjectJob, type: :model do
       CopyProjectJob.new user_id: admin.id,
                          source_project_id: source_project.id,
                          target_project_params: params,
-                         enabled_modules: [],
                          associations_to_copy: [:work_packages]
     } # send mails
     let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
@@ -107,7 +105,6 @@ describe CopyProjectJob, type: :model do
       @copied_project, @errors = copy_job.send(:create_project_copy,
                                                source_project,
                                                params,
-                                               [], # enabled modules
                                                [:work_packages], # associations
                                                false)
     end
@@ -126,7 +123,6 @@ describe CopyProjectJob, type: :model do
       copy_project_job = CopyProjectJob.new(user_id: user.id,
                                             source_project_id: project_to_copy.id,
                                             target_project_params: params,
-                                            enabled_modules: [],
                                             associations_to_copy: [:members])
       copy_project_job.perform
     end

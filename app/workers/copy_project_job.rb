@@ -34,16 +34,14 @@ class CopyProjectJob
   attr_reader :user_id,
               :source_project_id,
               :target_project_params,
-              :enabled_modules,
               :associations_to_copy,
               :send_mails
 
   def initialize(user_id:, source_project_id:, target_project_params:,
-                 enabled_modules:, associations_to_copy:, send_mails: false)
+                 associations_to_copy:, send_mails: false)
    @user_id               = user_id
    @source_project_id     = source_project_id
    @target_project_params = target_project_params
-   @enabled_modules       = enabled_modules
    @associations_to_copy  = associations_to_copy
    @send_mails            = send_mails
   end
@@ -54,7 +52,6 @@ class CopyProjectJob
     target_project, errors = with_locale_for(user) {
       create_project_copy(source_project,
                           target_project_params,
-                          enabled_modules,
                           associations_to_copy,
                           send_mails)
     }
@@ -80,7 +77,6 @@ class CopyProjectJob
 
   def create_project_copy(source_project,
                           target_project_params,
-                          enabled_modules,
                           associations_to_copy,
                           send_mails)
     target_project = nil
@@ -88,10 +84,9 @@ class CopyProjectJob
 
     UserMailer.with_deliveries(send_mails) do
       parent_id = target_project_params[:parent_id]
-      target_project = Project.new.tap do |project|
-        project.attributes           = target_project_params
-        project.enabled_module_names = enabled_modules
-      end
+
+      target_project = Project.copy_attributes(source_project)
+      target_project.attributes = target_project_params
 
       if validate_parent_id(target_project, parent_id) && target_project.save
         target_project.set_allowed_parent!(parent_id) if parent_id
