@@ -50,74 +50,70 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'activates the change parent form' do
 
-          find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
-          find('.inplace-edit--select').click
+        find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
+        find('.inplace-edit--select').click
 
-          input = find(:css, ".ui-select-search")
-          input.set(parent.id)
+        input = find(:css, ".ui-select-search")
+        input.set(parent.id)
 
-          sleep(2)
+        sleep(2)
 
-          input.send_keys [:down, :return]
+        input.send_keys [:down, :return]
 
-          save_button_xpath = <<-eos
+        save_button_xpath = <<-eos
                          .//a[.//span//span[
                           contains(concat(' ',@class,' '), ' icon-checkmark ')
                          ]]
-                      eos
+        eos
 
-          save_button = find(:xpath, save_button_xpath)
-          save_button.click
+        save_button = find(:xpath, save_button_xpath)
+        save_button.click
 
-          expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-          text: parent.subject.to_s)
+        expect(page).to have_selector('.wp-relations-hierarchy-subject a',
+                                      text: parent.subject.to_s)
       end
     end
   end
-  
-  describe 'create child relationship' do
-      let(:child) { FactoryGirl.create(:work_package, project: project) }
-      include_context 'ui-select helpers'
-  
-      let(:user_role) do
-        FactoryGirl.create :role, permissions: permissions
-      end
-  
-      let(:user) do
-        FactoryGirl.create :user,
-                           member_in_project: project,
-                           member_through_role: user_role
-      end
-  
-      context 'with permissions' do
-        let(:permissions) { %i(view_work_packages manage_subtasks) }
-  
-        it 'activates the add existing child form' do
-            find('.wp-inline-create--add-link',
-                  text: I18n.t('js.relation_buttons.add_existing_child')).click
-            find('.inplace-edit--select').click
-  
-            input = find(:css, ".ui-select-search")
-            input.set(child.id)
-  
-            sleep(2)
-  
-            input.send_keys [:down, :return]
 
-            save_button_xpath = <<-eos
+  describe 'create child relationship' do
+    let(:child) { FactoryGirl.create(:work_package, project: project) }
+    include_context 'ui-select helpers'
+
+    let(:user_role) do
+      FactoryGirl.create :role, permissions: permissions
+    end
+
+    let(:user) do
+      FactoryGirl.create :user,
+                         member_in_project: project,
+                         member_through_role: user_role
+    end
+
+    context 'with permissions' do
+      let(:permissions) { %i(view_work_packages manage_subtasks) }
+
+      it 'activates the add existing child form' do
+        find('.wp-inline-create--add-link',
+             text: I18n.t('js.relation_buttons.add_existing_child')).click
+        find('.inplace-edit--select').click
+
+        input = find(:css, ".ui-select-search")
+        input.set(child.id)
+
+        page.find('.ui-select-choices-row', :match => :first).click
+
+        save_button_xpath = <<-eos
                .//a[.//span//span[
                 contains(concat(' ',@class,' '), ' icon-checkmark ')
                ]]
-            eos
+        eos
 
-            save_button = find(:xpath, save_button_xpath)
-            save_button.click
+        save_button = find(:xpath, save_button_xpath)
+        save_button.click
 
-            sleep(2)
-  
-            expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                          text: child.subject.to_s)
-        end
+        expect(page).to have_selector('.wp-relations-hierarchy-subject a',
+                                      text: child.subject.to_s)
       end
+    end
   end
 end
