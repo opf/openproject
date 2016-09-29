@@ -278,7 +278,7 @@ class PermittedParams
                                  :comments_sorting, :warn_on_leaving_unsaved)
   end
 
-  def project(instance = nil)
+  def project
     whitelist = params.require(:project).permit(:name,
                                                 :description,
                                                 :is_public,
@@ -289,15 +289,6 @@ class PermittedParams
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],
                                                 enabled_module_names: [])
-
-    if instance &&
-       (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
-      whitelist.permit(enabled_module_names: [])
-    end
-
-    if instance && current_user.allowed_to?(:add_subprojects, instance)
-      whitelist.permit(:parent_id)
-    end
 
     unless params[:project][:custom_field_values].nil?
       # Permit the sub-hash for custom_field_values
