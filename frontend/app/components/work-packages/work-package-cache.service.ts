@@ -59,13 +59,12 @@ export class WorkPackageCacheService {
   updateWorkPackageList(list: WorkPackageResource[]) {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
-
       const wpState = this.states.workPackages.get(workPackageId);
-      if (wpState.hasValue() && wpState.getCurrentValue().dirty) {
-        continue;
-      }
+      const wpForPublish = wpState.hasValue() && wpState.getCurrentValue().dirty
+        ? wpState.getCurrentValue() // dirty, use current wp
+        : wp; // not dirty or unknown, use new wp
 
-      this.states.workPackages.put(workPackageId, wp);
+      this.states.workPackages.put(workPackageId, wpForPublish);
     }
   }
 
