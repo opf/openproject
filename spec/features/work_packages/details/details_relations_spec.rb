@@ -27,8 +27,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
 
     it 'shows the parent in hierarchy section' do
-      expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                    text: "#{parent.subject}")
+      expect(page).to have_selector('.wp-relations-hierarchy-subject a', text: parent.subject.to_s)
     end
   end
 
@@ -61,11 +60,17 @@ describe 'Work package relations tab', js: true, selenium: true do
 
           input.send_keys [:down, :return]
 
-          save_button = find(:xpath, ".//a[.//span//span[contains(concat(' ',@class,' '), ' icon-checkmark ')]]")
+          save_button_xpath = <<-eos
+                         .//a[.//span//span[
+                          contains(concat(' ',@class,' '), ' icon-checkmark ')
+                         ]]
+                      eos
+
+          save_button = find(:xpath, save_button_xpath)
           save_button.click
 
           expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                             text: "#{parent.subject}")
+          text: parent.subject.to_s)
       end
     end
   end
@@ -88,8 +93,8 @@ describe 'Work package relations tab', js: true, selenium: true do
         let(:permissions) { %i(view_work_packages manage_subtasks) }
   
         it 'activates the add existing child form' do
-  
-            find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_existing_child')).click
+            find('.wp-inline-create--add-link',
+                  text: I18n.t('js.relation_buttons.add_existing_child')).click
             find('.inplace-edit--select').click
   
             input = find(:css, ".ui-select-search")
@@ -98,15 +103,21 @@ describe 'Work package relations tab', js: true, selenium: true do
             sleep(2)
   
             input.send_keys [:down, :return]
-  
-            save_button = find(:xpath, ".//a[.//span//span[contains(concat(' ',@class,' '), ' icon-checkmark ')]]")
+
+            save_button_xpath = <<-eos
+               .//a[.//span//span[
+                contains(concat(' ',@class,' '), ' icon-checkmark ')
+               ]]
+            eos
+
+            save_button = find(:xpath, save_button_xpath)
             save_button.click
 
             sleep(2)
   
             expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                               text: "#{child.subject}")
+                                          text: child.subject.to_s)
         end
       end
-    end
+  end
 end
