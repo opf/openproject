@@ -26,10 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {States} from "../../states.service";
+import {WorkPackageTimelineService, TimelineViewParameters} from "./wp-timeline.service";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {State} from "../../../helpers/reactive-fassade";
 import IScope = angular.IScope;
-import {States} from "../../states.service";
+import WorkPackage = op.WorkPackage;
+import Observable = Rx.Observable;
 
 export class WorkPackageTimelineCell {
 
@@ -37,20 +40,43 @@ export class WorkPackageTimelineCell {
 
   private bar: HTMLDivElement;
 
-  constructor(private scope: IScope, states: States, private workPackageId: string, private timelineCell: HTMLTableElement) {
-    this.state = states.workPackages.get(workPackageId);
+  constructor(private workPackageTimelineService: WorkPackageTimelineService,
+              private scope: IScope,
+              private states: States,
+              private workPackageId: string,
+              private timelineCell: HTMLTableElement) {
+
+    this.state = this.states.workPackages.get(this.workPackageId);
   }
 
-  init() {
+  render() {
     this.bar = document.createElement("div");
+    this.timelineCell.appendChild(this.bar);
+
+    Observable.combineLatest(
+      this.workPackageTimelineService.viewParameters$,
+      this.state.observe(this.scope),
+      (viewParams, workPackage) => {
+        return {vp: viewParams, wp: workPackage};
+      })
+      .subscribe(result => {
+        this.update(result.vp, <any> result.wp);
+      });
+
+    this.state.get().then((wp: any) => {
+      this.workPackageTimelineService.addWorkPackageToView(wp);
+    });
+
+
+  }
+
+  update(viewParams: TimelineViewParameters, workPackage: WorkPackage) {
+    console.log("update");
+    // console.log(wp.startDate);
+
     this.bar.style.width = "1000px";
     this.bar.style.height = "1em";
     this.bar.style.backgroundColor = "#FF0000";
-    this.timelineCell.appendChild(this.bar);
-
-    this.state.observe(this.scope).subscribe(wp => {
-      console.log("new wp for cell:" + wp);
-    });
 
   }
 
