@@ -29,7 +29,6 @@
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {EditField} from "./wp-edit-field.module";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
@@ -334,7 +333,7 @@ function wpEditField(wpCacheService: WorkPackageCacheService) {
     controllers[1].formCtrl = formCtrl;
 
     formCtrl.registerField(scope.vm);
-    scopedObservable(scope, wpCacheService.loadWorkPackage(formCtrl.workPackage.id))
+    wpCacheService.loadWorkPackage(formCtrl.workPackage.id).observe(scope)
       .subscribe((wp: WorkPackageResource) => {
         scope.vm.workPackage = wp;
         scope.vm.initializeField();

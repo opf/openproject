@@ -32,7 +32,6 @@ import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edi
 import {WorkPackageCacheService} from "../work-package-cache.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 export class WorkPackageDisplayAttributeController {
@@ -118,7 +117,7 @@ function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
                     controllers) {
 
     if (!scope.$ctrl.customSchema) {
-      scopedObservable(scope, wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id))
+      wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).observe(scope)
         .subscribe((wp: WorkPackageResource) => {
           scope.$ctrl.updateAttribute(wp);
         });
