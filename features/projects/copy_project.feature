@@ -67,25 +67,7 @@ Feature: Project Settings
     And  I go to the members tab of the settings page of the project "project1"
     Then I should not see "Copy" within "#content"
 
-  Scenario: Check for differences in admin's and settings' copy
-    When I am already admin
-    And  I go to the admin page
-    And  I follow "Projects" within "#main-menu"
-    #just one project, so we should be fine
-    And  I click on "Copy" within "#content"
-    Then I should see "Modules" within "#content"
-    When I go to the settings page of the project "project1"
-    And  I follow "Copy" within "#content"
-    Then I should not see "Modules" within "#content"
-
-  Scenario: Check for presence and default status of the copying parameters
-    When I am already admin
-    When I go to the settings page of the project "project1"
-    And  I follow "Copy" within "#content"
-    Then the "Identifier" field should not contain "project1" within "#content"
-    And  the "Name" field should not contain "project1" within "#content"
-
-
+  @javascript
   Scenario: Copy a project with parent
     Given there are the following projects of type "Copy Project":
       | project2 |
@@ -95,13 +77,12 @@ Feature: Project Settings
     And  I click on "Save" within "#content"
     And  I follow "Copy" within "#content"
     And  I fill in "Name" with "Copied Project"
-    And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
     Then I should see "Started to copy project"
-    And  I go to the settings page of the project "cp"
+    And  I go to the settings page of the project "copied-project"
     And  I should see "project2" within "#project_parent_id"
 
-
+  @javascript
   Scenario: Copy a project with types
     Given the following types are enabled for the project called "project1":
         | Name      |
@@ -111,15 +92,14 @@ Feature: Project Settings
     And  I go to the settings page of the project "project1"
     And  I follow "Copy" within "#content"
     And  I fill in "Name" with "Copied Project"
-    And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
     Then I should see "Started to copy project"
-    And  I go to the settings page of the project "cp"
+    And  I go to the settings page of the project "copied-project"
     And  I follow "Types" within "#content"
     Then the "Phase1" checkbox should be checked
     And  the "Phase2" checkbox should be checked
 
-
+  @javascript
   Scenario: Copy a project with Custom Fields
     Given the following work package custom fields are defined:
       | name  | type | editable | is_for_all |
@@ -130,10 +110,9 @@ Feature: Project Settings
     And  I press "Save"
     And  I follow "Copy"
     And  I fill in "Name" with "Copied Project"
-    And  I fill in "Identifier" with "cp"
     And  I click on "Copy"
     Then I should see "Started to copy project"
-    And  I go to the custom_fields tab of the settings page of the project "cp"
+    And  I go to the custom_fields tab of the settings page of the project "copied-project"
     Then the "cfBug" checkbox should be checked
 
   @javascript
@@ -146,34 +125,12 @@ Feature: Project Settings
     And   I go to the settings page of the project "project1"
     And   I follow "Copy" within "#content"
     And   I fill in "Name" with "Copied Project"
-    And   I fill in "Identifier" with "cp"
     And   I check "Work packages"
     And   I click on "Copy"
     Then  I should see "Started to copy project"
     And   I go to the work packages index page for the project "Copied Project"
     Then  I should see "issue1" within "#content"
     And   I should see "issue2" within "#content"
-
-  @javascript
-  Scenario: Copying a project with some planning elements
-    Given there are the following work packages in project "project1":
-      | subject | start_date | due_date   |
-      | pe1     | 2013-01-01 | 2013-12-31 |
-    And   there are the following work packages in project "project1":
-      | subject | start_date | due_date   |
-      | pe2     | 2013-01-01 | 2013-12-31 |
-    When  I am already admin
-    And   I go to the settings page of the project "project1"
-    And   I follow "Copy" within "#content"
-    And   I fill in "Name" with "Copied Project"
-    And   I fill in "Identifier" with "cp"
-    And   I check "Work packages"
-    And   I click on "Copy"
-    Then  I should see "Started to copy project"
-    And   I go to the page of the planning element "pe1" of the project called "Copied Project"
-    Then  I should see "pe1" within "#content"
-    And   I go to the page of the planning element "pe2" of the project called "Copied Project"
-    Then  I should see "pe2" within "#content"
 
   @javascript
   Scenario: Copying a project with a complex issue
@@ -195,7 +152,6 @@ Feature: Project Settings
     And  I go to the settings page of the project "project1"
     And  I follow "Copy" within "#content"
     And  I fill in "Name" with "Copied Project"
-    And  I fill in "Identifier" with "cp"
     And  I check "Work packages"
     And  I click on "Copy"
     Then I should see "Started to copy project"

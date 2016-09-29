@@ -36,10 +36,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= render partial: 'projects/form', locals: { f: f,
                                                  project: @copy_project,
-                                                 render_advanced: false,
-                                                 render_types: true,
-                                                 render_modules: true,
-                                                 render_custom_fields: true
+                                                 render_advanced: true,
+                                                 render_types: false,
+                                                 render_modules: false,
+                                                 render_custom_fields: false
                                                } %>
 
   <%= render partial: "copy_projects/copy_settings/copy_associations", locals: { project: @project } %>
