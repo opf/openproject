@@ -433,37 +433,25 @@ class Project < ActiveRecord::Base
     @allowed_parents
   end
 
+  def allowed_parent?(p)
+    p = guarantee_project_or_nil_or_false(p)
+    return false if p == false # have to explicitly check for false
+
+    !((p.nil? && persisted? && allowed_parents.empty?) ||
+      (p.present? && allowed_parents.exclude?(p)))
+  end
+
   # Sets the parent of the project with authorization check
   def set_allowed_parent!(p)
-    unless p.nil? || p.is_a?(Project)
-      if p.to_s.blank?
-        p = nil
-      else
-        p = Project.find_by(id: p)
-        return false unless p
-      end
-    end
-    if p.nil?
-      if !new_record? && allowed_parents.empty?
-        return false
-      end
-    elsif !allowed_parents.include?(p)
-      return false
-    end
-    set_parent!(p)
+    set_parent!(p) if allowed_parent?(p)
   end
 
   # Sets the parent of the project
   # Argument can be either a Project, a String, a Fixnum or nil
   def set_parent!(p)
-    unless p.nil? || p.is_a?(Project)
-      if p.to_s.blank?
-        p = nil
-      else
-        p = Project.find_by(id: p)
-        return false unless p
-      end
-    end
+    p = guarantee_project_or_nil_or_false(p)
+    return false if p == false # have to explicitly check for false
+
     if p == parent && !p.nil?
       # Nothing to do
       true
@@ -867,5 +855,17 @@ class Project < ActiveRecord::Base
     condition << true
 
     sanitize_sql_array condition
+  end
+
+  def guarantee_project_or_nil_or_false(p)
+    if p.is_a?(Project)
+      p
+    elsif p.to_s.blank?
+      nil
+    else
+      p = Project.find_by(id: p)
+      return false unless p
+      p
+    end
   end
 end
