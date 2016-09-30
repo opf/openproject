@@ -79,7 +79,7 @@ module Pages
         find('.work-package-details-activities-activity-contents .user',
              text: work_package.journals.last.user.name,
              wait: 10)
-      rescue => e
+      rescue
         # HACK This error may happen since activities are loaded several times
         # in the old resource, and may cause a reload.
         tries += 1
@@ -159,7 +159,7 @@ module Pages
       visit_tab!('relations')
 
       page.find('.wp-inline-create--add-link',
-        text: I18n.t('js.relation_buttons.add_new_child')).click
+                text: I18n.t('js.relation_buttons.add_new_child')).click
 
       create_page(parent_work_package: work_package)
     end

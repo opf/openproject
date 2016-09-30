@@ -49,7 +49,6 @@ describe 'Work package relations tab', js: true, selenium: true do
       let(:permissions) { %i(view_work_packages manage_subtasks) }
 
       it 'activates the change parent form' do
-
         find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
         find('.inplace-edit--select').click
 
@@ -100,7 +99,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         input = find(:css, ".ui-select-search")
         input.set(child.id)
 
-        page.find('.ui-select-choices-row', :match => :first).click
+        page.find('.ui-select-choices-row', match: :first).click
 
         save_button_xpath = <<-eos
                .//a[.//span//span[
