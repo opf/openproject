@@ -27,34 +27,81 @@
 // ++
 
 import {openprojectModule} from "../../../angular-modules";
+import {States} from "../../states.service";
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 
 export class TimelineViewParameters {
+  dateDisplayStart: number;
+  dateDisplayEnd: number;
+}
 
+export interface RenderInfo {
+  viewParams: TimelineViewParameters;
+  workPackage: WorkPackage;
 }
 
 export class WorkPackageTimelineService {
 
   private timelineViewParameters: TimelineViewParameters = new TimelineViewParameters();
 
-  private workPackagesInView: {[id: number]: WorkPackage} = {};
+  private workPackagesInView: {[id: string]: WorkPackage} = {};
 
-  private viewParamsSubject = new Rx.Subject<TimelineViewParameters>();
+  private viewParamsSubject = new Rx.BehaviorSubject<TimelineViewParameters>(new TimelineViewParameters());
 
-  public viewParameters$: Observable<TimelineViewParameters>;
-
-  constructor() {
-    this.viewParameters$ = this.viewParamsSubject.asObservable();
+  constructor(private states: States) {
+    "ngInject";
   }
 
-  addWorkPackageToView(wp: WorkPackage) {
-    this.workPackagesInView[wp.id] = wp;
-    this.calculateAndPublishViewParams();
+  addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
+    return Rx.Observable
+      .combineLatest(
+        this.viewParamsSubject,
+        this.states.workPackages.get(wpId).observe(null),
+        (vp: TimelineViewParameters, wp: any) => {
+          return {
+            viewParams: vp,
+            workPackage: wp
+          };
+        }
+      )
+      .flatMap(renderInfo => {
+        const wp = renderInfo.workPackage;
+        this.workPackagesInView[wp.id] = wp;
+
+        const oldParams = this.timelineViewParameters;
+        const newParams = this.calculateViewParams();
+
+        if (!_.isEqual(oldParams, newParams)) {
+          // view params have changed, notify all cells
+          this.viewParamsSubject.onNext(renderInfo.viewParams);
+          return Observable.empty<RenderInfo>();
+        } else {
+          // view params have not changed, only notify this observer
+          return Observable.just(renderInfo);
+        }
+      });
   }
 
-  private calculateAndPublishViewParams() {
-    this.viewParamsSubject.onNext(new TimelineViewParameters());
+  private calculateViewParams(): TimelineViewParameters {
+    const params = new TimelineViewParameters();
+
+    for (const wpId in this.workPackagesInView) {
+      const wp = this.workPackagesInView[wpId];
+
+      const start = wp.startDate ? new Date(wp.startDate).getDate() : null;
+      const due = wp.dueDate ? new Date(wp.dueDate).getDate() : null;
+
+      if (params.dateDisplayStart === null || (start && start < params.dateDisplayStart)) {
+        params.dateDisplayStart = start;
+      }
+      if (params.dateDisplayEnd === null || (due && due < params.dateDisplayEnd)) {
+        params.dateDisplayEnd = due;
+      }
+
+    }
+
+    return params;
   }
 }
 

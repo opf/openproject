@@ -33,12 +33,15 @@ import {State} from "../../../helpers/reactive-fassade";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
+import IDisposable = Rx.IDisposable;
 
 export class WorkPackageTimelineCell {
 
-  private state: State<WorkPackageResource>;
+  private wpState: State<WorkPackageResource>;
 
   private bar: HTMLDivElement;
+
+  private disposable: IDisposable;
 
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
               private scope: IScope,
@@ -46,37 +49,31 @@ export class WorkPackageTimelineCell {
               private workPackageId: string,
               private timelineCell: HTMLTableElement) {
 
-    this.state = this.states.workPackages.get(this.workPackageId);
+    this.wpState = this.states.workPackages.get(this.workPackageId);
   }
 
-  render() {
+  activate() {
     this.bar = document.createElement("div");
     this.timelineCell.appendChild(this.bar);
 
-    Observable.combineLatest(
-      this.workPackageTimelineService.viewParameters$,
-      this.state.observe(this.scope),
-      (viewParams, workPackage) => {
-        return {vp: viewParams, wp: workPackage};
-      })
-      .subscribe(result => {
-        this.update(result.vp, <any> result.wp);
+    this.disposable = this.workPackageTimelineService.addWorkPackage(this.workPackageId)
+      .subscribe(renderInfo => {
+        this.updateView(renderInfo.viewParams, renderInfo.workPackage);
       });
-
-    this.state.get().then((wp: any) => {
-      this.workPackageTimelineService.addWorkPackageToView(wp);
-    });
-
-
   }
 
-  update(viewParams: TimelineViewParameters, workPackage: WorkPackage) {
-    console.log("update");
-    // console.log(wp.startDate);
+  deactivate() {
+    this.timelineCell.innerHTML = "";
+    this.disposable && this.disposable.dispose();
+  }
 
+  private updateView(viewParams: TimelineViewParameters, workPackage: WorkPackage) {
+    console.log("update:" + workPackage.id);
+
+    this.bar.innerText = workPackage.subject + " | " + workPackage.startDate + " - " + workPackage.dueDate;
     this.bar.style.width = "1000px";
     this.bar.style.height = "1em";
-    this.bar.style.backgroundColor = "#FF0000";
+    this.bar.style.backgroundColor = "#FFAAAA";
 
   }
 
