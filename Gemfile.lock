@@ -299,7 +299,7 @@ GEM
       rails (>= 2.3.0)
     hike (1.2.3)
     htmldiff (0.0.1)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     ice_nine (0.11.1)
