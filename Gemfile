@@ -40,8 +40,8 @@ gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 
-gem 'globalize', github: 'globalize/globalize', ref: '38443bcd'
-gem 'omniauth', github: 'oliverguenther/omniauth'
+gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd'
+gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '8385bc0'
 gem 'request_store', '~> 1.3.1'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
@@ -54,7 +54,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_list', '~> 0.8.1'
 gem 'acts_as_tree', '~> 2.5.1'
 
-gem 'friendly_id', github: 'norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
+gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
 gem 'awesome_nested_set', '~> 3.1.1'
 
@@ -103,7 +103,7 @@ gem 'rack-protection', '~> 2.0.0.beta2'
 gem 'rack-attack', '~> 5.0.1'
 
 # Patch Rails HTML whitelisting for Angular curly braces
-gem 'rails-angular-xss', github: 'opf/rails-angular-xss'
+gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: '5f5622e'
 
 gem "syck", '~> 1.0.5', require: false
 gem 'gon', '~> 4.0'
@@ -183,7 +183,7 @@ group :test do
   gem 'capybara', '~> 2.8.1'
   gem 'capybara-screenshot', '~> 1.0.13'
   gem 'fuubar', '~> 2.2.0'
-  gem 'capybara-select2', github: 'goodwill/capybara-select2'
+  gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
   gem 'poltergeist', '~> 1.10.0'
