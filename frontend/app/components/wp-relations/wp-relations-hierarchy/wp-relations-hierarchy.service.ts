@@ -50,7 +50,7 @@ export class WorkPackageRelationsHierarchyService {
   public addExistingChildWp(workPackage, childWpId) {
     var deferred = this.$q.defer();
     this.wpCacheService.loadWorkPackage(childWpId)
-      .take(1)
+      .observe(null)
       .subscribe(wpToBecomeChild => {
         deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
       });
