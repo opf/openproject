@@ -29,7 +29,6 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 
 export class ActivityPanelController {
 
@@ -43,7 +42,7 @@ export class ActivityPanelController {
 
     this.reverse = wpActivity.order === 'asc';
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(<number> this.workPackage.id))
+    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observe($scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.wpActivity.aggregateActivities(this.workPackage).then(activities => {

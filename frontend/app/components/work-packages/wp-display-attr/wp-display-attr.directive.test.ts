@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+
 describe('wpDisplayAttr directive', () => {
   var compile;
   var element;

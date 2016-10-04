@@ -72,7 +72,7 @@ export class WorkPackageViewController {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackageId))
+    this.wpCacheService.loadWorkPackage(this.workPackageId).observe(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.init();

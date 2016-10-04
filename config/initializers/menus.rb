@@ -34,20 +34,26 @@ Redmine::MenuManager.map :top_menu do |menu|
             { controller: '/my', action: 'page' },
             context: :main,
             html: { class: 'icon3 icon-star' },
-            if: Proc.new { User.current.logged? },
-            omit_path_check: true
+            if: Proc.new { User.current.logged? }
 
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
 
+  menu.push :work_packages,
+            { controller: '/work_packages', project_id: nil, action: 'index' },
+            context: :modules,
+            caption: I18n.t('label_work_package_plural'),
+            if: Proc.new {
+              (User.current.logged? || !Setting.login_required?) &&
+                User.current.allowed_to?(:view_work_packages, nil, global: true)
+            }
   menu.push :news,
             { controller: '/news', project_id: nil, action: 'index' },
             context: :modules,
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_news, nil, global: true)
-            },
-            omit_path_check: true
+            }
   menu.push :time_sheet,
             { controller: '/time_entries', project_id: nil, action: 'index' },
             context: :modules,
@@ -55,96 +61,27 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: Proc.new {
               (User.current.logged? || !Setting.login_required?) &&
                 User.current.allowed_to?(:view_time_entries, nil, global: true)
-            },
-            omit_path_check: true
+            }
   menu.push :help, OpenProject::Static::Links.help_link,
             last: true,
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
                     class: 'icon5 icon-help',
-                    target: '_blank' },
-            omit_path_check: true
-
-  # work packages menu will be added by
-  # Redmine::MenuManager::TopMenuHelper#render_work_packages_top_menu_node
-
-  menu.push :new_work_packages,
-            { controller: '/work_packages', action: 'index', state: 'new' },
-            param: :project_id,
-            context: :work_packages,
-            caption: I18n.t(:label_work_package_new),
-            html: {
-              class: "icon-add icon4 form--separator",
-              accesskey: OpenProject::AccessKeys.key_for(:new_work_package)
-            },
-            if: Proc.new { |project|
-              User.current.allowed_to?(:add_work_packages, project, global: project.nil?)
-            }
-
-  menu.push :list_work_packages,
-            { controller: '/work_packages', action: 'index', project_id: nil },
-            context: :work_packages,
-            caption: I18n.t(:label_all),
-            if: Proc.new {
-              User.current.allowed_to?(:view_work_packages, nil, global: true)
-            }
-
-  menu.push :work_packages_filter_assigned_to_me,
-            :work_packages_assigned_to_me_path,
-            context: :work_packages,
-            caption: I18n.t(:label_assigned_to_me),
-            if: Proc.new {
-              User.current.logged? &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
-            },
-            omit_path_check: true
-
-  menu.push :work_packages_filter_reported_by_me,
-            :work_packages_reported_by_me_path,
-            context: :work_packages,
-            caption: I18n.t(:label_reported_by_me),
-            if: Proc.new {
-              User.current.logged? &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
-            },
-            omit_path_check: true
-
-  menu.push :work_packages_filter_responsible_for,
-            :work_packages_responsible_for_path,
-            context: :work_packages,
-            caption: I18n.t(:label_responsible_for),
-            if: Proc.new {
-              User.current.logged? &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
-            },
-            omit_path_check: true
-
-  menu.push :work_packages_filter_watched_by_me,
-            :work_packages_watched_path,
-            context: :work_packages,
-            caption: I18n.t(:label_watched_by_me),
-            if: Proc.new {
-              User.current.logged? &&
-                User.current.allowed_to?(:view_work_packages, nil, global: true)
-            },
-            omit_path_check: true
+                    target: '_blank' }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
   menu.push :administration,
             { controller: '/admin', action: 'projects' },
             html: { class: 'hidden-for-mobile' },
-            if: Proc.new { User.current.admin? },
-            omit_path_check: true
+            if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
             html: { class: 'hidden-for-mobile' },
-            if: Proc.new { User.current.logged? },
-            omit_path_check: true
+            if: Proc.new { User.current.logged? }
   menu.push :logout, :signout_path,
-            if: Proc.new { User.current.logged? },
-            omit_path_check: true
+            if: Proc.new { User.current.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |_menu|
@@ -281,7 +218,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             html: { class: 'icon2 icon-roadmap' }
 
   menu.push :work_packages,
-            { controller: '/work_packages', action: 'index', state: nil },
+            { controller: '/work_packages', action: 'index' },
             param: :project_id,
             caption: :label_work_package_plural,
             html: {

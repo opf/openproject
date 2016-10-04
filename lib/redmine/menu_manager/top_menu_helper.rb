@@ -32,13 +32,11 @@ module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::HelpMenu
   include Redmine::MenuManager::TopMenu::ProjectsMenu
 
-  def render_top_menu_left(project)
-    items = split_top_menu_into_main_or_more_menus(project)
+  def render_top_menu_left
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
-      [render_main_top_menu_nodes(items[:main]),
+      [render_main_top_menu_nodes,
        render_projects_top_menu_node,
-       render_work_packages_top_menu_node(project, items[:work_packages]),
-       render_module_top_menu_node(items[:modules])].join.html_safe
+       render_module_top_menu_node].join.html_safe
     end
   end
 
@@ -106,23 +104,7 @@ module Redmine::MenuManager::TopMenuHelper
     render partial: partial
   end
 
-  def render_work_packages_top_menu_node(project, items)
-    return nil if items.empty?
-
-    render_menu_dropdown_with_items(
-      label: l(:label_work_package_plural),
-      label_options: { id: 'work-packages-menu', class: 'icon3 icon-work-packages' },
-      items: items,
-      project: project,
-      options: {
-        drop_down_class: 'drop-down--work-packages'
-      }
-    )
-  end
-
-  def render_module_top_menu_node(items)
-    return nil if items.empty?
-
+  def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
       label: l(:label_modules),
       label_options: { class: 'icon3 icon-modules' },
@@ -131,29 +113,43 @@ module Redmine::MenuManager::TopMenuHelper
     )
   end
 
-  def render_main_top_menu_nodes(items)
+  def render_main_top_menu_nodes(items = main_top_menu_items)
     items.map { |item|
       render_menu_node(item)
     }.join(' ')
+  end
+
+  # Menu items for the main top menu
+  def main_top_menu_items
+    split_top_menu_into_main_or_more_menus[:main]
+  end
+
+  # Menu items for the modules top menu
+  def more_top_menu_items
+    split_top_menu_into_main_or_more_menus[:modules]
+  end
+
+  def project_menu_items
+    split_top_menu_into_main_or_more_menus[:projects]
   end
 
   def help_menu_item
     split_top_menu_into_main_or_more_menus[:help]
   end
 
-  # Split the :top_menu into separate :main, :work_package and :modules items
-  def split_top_menu_into_main_or_more_menus(project = nil)
-    items = Hash.new { |h, k| h[k] = [] }
-
-    menu_items_for(:top_menu, project) do |item|
-      if item.name == :help
-        items[:help] = item
-      else
-        context = item.context || :modules
-        items[context] << item
+  # Split the :top_menu into separate :main and :modules items
+  def split_top_menu_into_main_or_more_menus
+    @top_menu_split ||= begin
+      items = Hash.new { |h, k| h[k] = [] }
+      menu_items_for(:top_menu) do |item|
+        if item.name == :help
+          items[:help] = item
+        else
+          context = item.context || :modules
+          items[context] << item
+        end
       end
+      items
     end
-
-    items
   end
 end
