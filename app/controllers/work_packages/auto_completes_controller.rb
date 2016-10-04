@@ -30,7 +30,7 @@
 require 'rack/utils'
 
 class WorkPackages::AutoCompletesController < ::ApplicationController
-  before_filter :on_no_valid_scope_404
+  before_action :on_no_valid_scope_404
 
   def index
     @work_packages = work_package_with_id | work_packages_by_subject_or_id

@@ -30,7 +30,7 @@
 class AdminController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   include SortHelper
   include PaginationHelper

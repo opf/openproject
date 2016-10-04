@@ -30,7 +30,7 @@
 module Api
   module Experimental
     class VersionsController < ApplicationController
-      before_filter :find_optional_project
+      before_action :find_optional_project
 
       include ::Api::Experimental::ApiController
 

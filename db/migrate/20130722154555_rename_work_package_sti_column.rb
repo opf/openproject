@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameWorkPackageStiColumn < ActiveRecord::Migration
+class RenameWorkPackageStiColumn < ActiveRecord::Migration[4.2]
   def up
     rename_column :work_packages, :type, :sti_type
   end

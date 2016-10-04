@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimeEntryJournals < ActiveRecord::Migration
+class CreateTimeEntryJournals < ActiveRecord::Migration[4.2]
   def change
     create_table :time_entry_journals do |t|
       t.integer :journal_id,      null: false

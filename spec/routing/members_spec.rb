@@ -26,13 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-RSpec.shared_context 'with mock request for helper', :with_mock_request_for_helper do
-  before do
-    helper.request = ActionController::TestRequest.new(
-      Rack::MockRequest.env_for('/issues',
-        'HTTP_HOST'       => 'test.host',
-        'REMOTE_ADDR'     => '0.0.0.0',
-        'HTTP_USER_AGENT' => 'Rails Testing')
-    )
+require 'spec_helper'
+
+describe MembersController, type: :routing do
+  it 'connects GET /projects/:project_id/members/paginate_users ' +
+     'to members#paginate_users' do
+    expect(get('/projects/1/members/paginate_users'))
+      .to route_to(controller: 'members',
+                   action: 'paginate_users',
+                   project_id: '1')
   end
 end

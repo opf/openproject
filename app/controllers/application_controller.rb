@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
            status: :bad_request
   end
 
-  before_filter :user_setup,
+  before_action :user_setup,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
@@ -242,18 +242,8 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless User.current.logged?
-      # Extract only the basic url parameters on non-GET requests
-      if request.get?
-        url = url_for(params)
-      else
-        controller = "/#{params[:controller]}" unless params[:controller].to_s.starts_with?('/')
-        url = url_for(controller: controller,
-                      action: params[:action],
-                      id: params[:id],
-                      project_id: params[:project_id])
-      end
       respond_to do |format|
-        format.any(:html, :atom) do redirect_to signin_path(back_url: url) end
+        format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
           request_headers: request.headers)
@@ -303,6 +293,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Find project of id params[:id]
+  # Note: find() is Project.friendly.find()
   def find_project
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
@@ -310,6 +301,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Find project of id params[:project_id]
+  # Note: find() is Project.friendly.find()
   def find_project_by_project_id
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
@@ -419,7 +411,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Make sure that the user is a member of the project (or admin) if project is private
-  # used as a before_filter for actions that do not require any particular permission
+  # used as a before_action for actions that do not require any particular permission
   # on the project.
   def check_project_privacy
     if @project && @project.active?
@@ -648,14 +640,9 @@ class ApplicationController < ActionController::Base
   def check_session_lifetime
     if session_expired?
       self.logged_user = nil
-      if request.get?
-        url = url_for(params)
-      else
-        url = url_for(controller: params[:controller], action: params[:action],
-                      id: params[:id], project_id: params[:project_id])
-      end
+
       flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
-      redirect_to(controller: 'account', action: 'login', back_url: url)
+      redirect_to(controller: 'account', action: 'login', back_url: login_back_url)
     end
     session[:updated_at] = Time.now
   end
@@ -688,6 +675,22 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
+  end
+
+  def login_back_url
+    # Extract only the basic url parameters on non-GET requests
+    if request.get?
+      # rely on url_for to fill in the parameters of the current request
+      url_for
+    else
+      url_params = params.permit(:action, :id, :project_id, :controller)
+
+      unless url_params[:controller].to_s.starts_with?('/')
+        url_params[:controller] = "/#{url_params[:controller]}"
+      end
+
+      url_for(url_params)
+    end
   end
 
   # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.

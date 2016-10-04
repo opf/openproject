@@ -46,7 +46,7 @@ module Api
 
       rescue_from ActiveRecord::RecordNotFound, with: -> { render_404 }
 
-      before_filter :find_all_projects_by_project_id
+      before_action :find_all_projects_by_project_id
       accept_key_auth :index
 
       def index

@@ -31,7 +31,7 @@ require 'yaml'
 
 require_relative 'migration_utils/utils'
 
-class MigrateUserRights < ActiveRecord::Migration
+class MigrateUserRights < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   COLUMN = 'permissions'

@@ -55,7 +55,7 @@ module PermissionSpecs
 
       before do
         # As failures generate a response we need to prevent calls to nil
-        controller.response = ActionController::TestResponse.new
+        controller.response = ActionDispatch::TestResponse.new
 
         allow(User).to receive(:current).and_return(current_user)
 

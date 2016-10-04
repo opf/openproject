@@ -1,7 +1,7 @@
 class AnnouncementsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   def edit
     @announcement = Announcement.only_one

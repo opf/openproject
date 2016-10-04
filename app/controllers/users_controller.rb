@@ -30,9 +30,9 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_filter :disable_api
-  before_filter :require_admin, except: [:show, :deletion_info, :destroy]
-  before_filter :find_user, only: [:show,
+  before_action :disable_api
+  before_action :require_admin, except: [:show, :deletion_info, :destroy]
+  before_action :find_user, only: [:show,
                                    :edit,
                                    :update,
                                    :change_status,
@@ -40,9 +40,9 @@ class UsersController < ApplicationController
                                    :deletion_info,
                                    :resend_invitation]
   # should also contain destroy but post data can not be redirected
-  before_filter :require_login, only: [:deletion_info]
-  before_filter :authorize_for_user, only: [:destroy]
-  before_filter :check_if_deletion_allowed, only: [:deletion_info,
+  before_action :require_login, only: [:deletion_info]
+  before_action :authorize_for_user, only: [:destroy]
+  before_action :check_if_deletion_allowed, only: [:deletion_info,
                                                    :destroy]
 
   accept_key_auth :index, :show, :create, :update, :destroy

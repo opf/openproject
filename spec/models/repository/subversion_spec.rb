@@ -190,7 +190,7 @@ describe Repository::Subversion, type: :model do
         # with limit
         changesets = instance.latest_changesets('', nil, 2)
         assert_equal 2, changesets.size
-        assert_equal instance.latest_changesets('', nil).slice(0, 2), changesets
+        assert_equal instance.latest_changesets('', nil).to_a.slice(0, 2), changesets
 
         # with path
         changesets = instance.latest_changesets('subversion_test/folder', nil)

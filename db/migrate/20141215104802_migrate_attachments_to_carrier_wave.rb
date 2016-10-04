@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration
+class MigrateAttachmentsToCarrierWave < ActiveRecord::Migration[4.2]
   def up
     add_column_if_missing :attachments, :file, :string
 

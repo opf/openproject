@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,3 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+class NormalizePermissions < ActiveRecord::Migration[5.0]
+  class Role < ActiveRecord::Base
+    self.table_name = :roles
+
+    self.inheritance_column = :_type_disabled
+
+    serialize :permissions, Array
+  end
+
+  class RolePermission < ActiveRecord::Base
+    self.table_name = :role_permissions
+  end
+
+  def up
+    create_table :role_permissions do |p|
+      p.string :permission
+      p.integer :role_id
+
+      p.index :role_id
+
+      p.timestamps
+    end
+
+    NormalizePermissions::Role.all.each do |role|
+      role.permissions.each do |p|
+        NormalizePermissions::RolePermission.create(role_id: role.id, permission: p)
+      end
+    end
+
+    remove_column :roles, :permissions
+  end
+
+  def down
+    add_column :roles, :permissions, :text
+
+    NormalizePermissions::RolePermission.all.to_a.group_by(&:role_id).each do |role_id, permissions|
+      Role.where(id: role_id).update_all(permissions: permissions.map(&:permission))
+    end
+
+    drop_table :role_permissions
+  end
+end

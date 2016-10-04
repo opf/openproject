@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class PlanningElementTypesDataToTypes < ActiveRecord::Migration
+class PlanningElementTypesDataToTypes < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

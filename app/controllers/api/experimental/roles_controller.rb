@@ -32,7 +32,7 @@ module Api
     class RolesController < ApplicationController
       include ::Api::Experimental::ApiController
 
-      before_filter :authorize_global
+      before_action :authorize_global
 
       def index
         @roles = Role.givable

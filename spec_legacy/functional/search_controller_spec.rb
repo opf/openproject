@@ -124,8 +124,9 @@ describe SearchController, type: :controller do
     # work_package of a public project
     get :index, q: '3'
     assert_redirected_to '/work_packages/3'
+  end
 
-    # work_package of a private project
+  it 'should not jump to an invisible WP' do
     get :index, q: '4'
     assert_response :success
     assert_template 'index'

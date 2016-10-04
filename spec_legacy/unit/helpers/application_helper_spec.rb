@@ -391,13 +391,6 @@ EXPECTED
     assert_equal expected, helper.format_text(raw)
   end
 
-  it 'should headings with url', :with_mock_request_for_helper do
-    raw = 'h1. Some heading'
-    expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="/issues#Some-heading" class="wiki-anchor">&para;</a></h1>|
-
-    assert_equal expected, helper.format_text(raw)
-  end
-
   it 'should table of content' do
     @project.wiki.start_page = 'Wiki'
     @project.wiki.save!

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddSummaryToProjects < ActiveRecord::Migration
+class AddSummaryToProjects < ActiveRecord::Migration[4.2]
   def self.up
     add_column :projects, :summary, :text
   end

@@ -62,7 +62,7 @@ describe Authorization::UserAllowedQuery do
              w/ the user being member in the project
              w/ the role having the necessary permission' do
       before do
-        role.permissions << action
+        role.add_permission! action
         role.save!
 
         member.save!
@@ -102,7 +102,7 @@ describe Authorization::UserAllowedQuery do
              w/o the user being member in the project
              w/ the role having the necessary permission' do
       before do
-        role.permissions << action
+        role.add_permission! action
         role.save!
       end
 
@@ -116,7 +116,7 @@ describe Authorization::UserAllowedQuery do
              w/ the user being member in a different project
              w/ the role having the permission' do
       before do
-        role.permissions << action
+        role.add_permission! action
         role.save!
 
         member.project = project2
@@ -133,7 +133,7 @@ describe Authorization::UserAllowedQuery do
              w/ the user being member in a different project
              w/ the role having the permission' do
       before do
-        role.permissions << action
+        role.add_permission! action
         role.save!
 
         project.is_public = true
@@ -155,7 +155,7 @@ describe Authorization::UserAllowedQuery do
         project.is_public = true
 
         non_member = Role.non_member
-        non_member.permissions << action
+        non_member.add_permission! action
         non_member.save
 
         project.save!
@@ -173,7 +173,7 @@ describe Authorization::UserAllowedQuery do
         project.is_public = true
 
         anonymous_role = Role.anonymous
-        anonymous_role.permissions << action
+        anonymous_role.add_permission! action
         anonymous_role.save
 
         project.save!
@@ -191,7 +191,7 @@ describe Authorization::UserAllowedQuery do
         project.is_public = true
 
         non_member = Role.non_member
-        non_member.permissions << other_action
+        non_member.add_permission! other_action
         non_member.save
 
         project.save!
@@ -207,7 +207,7 @@ describe Authorization::UserAllowedQuery do
              w/ the non member role having the permission' do
       before do
         non_member = Role.non_member
-        non_member.permissions << action
+        non_member.add_permission! action
         non_member.save
 
         project.save!
@@ -226,11 +226,11 @@ describe Authorization::UserAllowedQuery do
         project.is_public = true
         project.save
 
-        role.permissions << other_action
+        role.add_permission! other_action
         member.save!
 
         non_member = Role.non_member
-        non_member.permissions << action
+        non_member.add_permission! action
         non_member.save
       end
 
@@ -277,7 +277,7 @@ describe Authorization::UserAllowedQuery do
       before do
         project.enabled_module_names = []
 
-        role.permissions << permission.name
+        role.add_permission! permission.name
         member.save!
       end
 
@@ -297,7 +297,7 @@ describe Authorization::UserAllowedQuery do
       before do
         project.enabled_module_names = [permission.project_module]
 
-        role.permissions << permission.name
+        role.add_permission! permission.name
         member.save!
       end
 
@@ -311,7 +311,7 @@ describe Authorization::UserAllowedQuery do
              w/ the user having the permission in the project
              w/o the project being active' do
       before do
-        role.permissions << action
+        role.add_permission! action
         member.save!
 
         project.update_attribute(:status, Project::STATUS_ARCHIVED)

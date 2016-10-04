@@ -32,10 +32,10 @@ class PlanningElementJournalsController < ApplicationController
 
   include ExtendedHTTP
 
-  before_filter :disable_api
-  before_filter :find_project_by_project_id
-  before_filter :find_planning_element_by_planning_element_id
-  before_filter :authorize
+  before_action :disable_api
+  before_action :find_project_by_project_id
+  before_action :find_planning_element_by_planning_element_id
+  before_action :authorize
 
   accept_key_auth :index, :create
 

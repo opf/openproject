@@ -195,8 +195,7 @@ describe WorkPackage, type: :model do
 
         before do
           work_package2.save!
-          role2.permissions << :edit_time_entries
-          role2.save!
+          role2.add_permission! :edit_time_entries
           member2.save!
         end
 
@@ -224,7 +223,7 @@ describe WorkPackage, type: :model do
 
         before do
           work_package2.save!
-          role2.permissions << :edit_time_entries
+          role2.add_permission! :edit_time_entries
           role2.save!
           member2.save!
         end

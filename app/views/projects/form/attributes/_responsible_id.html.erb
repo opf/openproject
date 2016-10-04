@@ -37,7 +37,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% else %>
       <% responsible = project.responsible.nil? ? [t('label_none_parentheses'), -1] : [project.responsible.name, project.responsible.id]
          options = { :'data-ajaxURL' => url_for({controller: "/members",
-                                               action: "paginate_users" }),
+                                                 project_id: project,
+                                                 action: "paginate_users" }),
                      :'data-projectId' => project.id,
                      :'data-selected' => [responsible].to_json
                    }

@@ -77,7 +77,7 @@ class CustomField < ActiveRecord::Base
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length }, unless: Proc.new { |cf| cf.max_length.blank? }
 
-  def initialize(attributes = nil, options = {})
+  def initialize(attributes = nil)
     super
     self.possible_values ||= []
   end
@@ -180,7 +180,7 @@ class CustomField < ActiveRecord::Base
       when 'date'
         casted = begin; value.to_date; rescue; nil end
       when 'bool'
-        casted = ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
+        casted = ActiveRecord::Type::Boolean.new.cast(value)
       when 'int'
         casted = value.to_i
       when 'float'

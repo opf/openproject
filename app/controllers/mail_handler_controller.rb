@@ -28,7 +28,7 @@
 #++
 
 class MailHandlerController < ActionController::Base
-  before_filter :check_credential
+  before_action :check_credential
 
   verify method: :post,
          only: :index,

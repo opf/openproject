@@ -71,20 +71,30 @@ module OpenProject::Concerns::Preview
   def parse_preview_data_helper(param_name, attributes, klass = nil)
     klass ||= param_name.to_s.classify.constantize
 
-    texts = Array(attributes).each_with_object({}) do |attribute, list|
-      caption = (attribute == :notes) ? Journal.human_attribute_name(:notes) : klass.human_attribute_name(attribute)
-      text = params[param_name][attribute]
-      list[caption] = text
-    end
-
     obj = parse_previewed_object(klass)
-
     attachments = previewed_object_attachments(obj)
+    texts = parse_params_by_attribute(param_name, attributes, klass)
 
     [texts, attachments, obj]
   end
 
   private
+
+  def parse_params_by_attribute(param_name, attributes, klass)
+    if params[param_name]
+      Array(attributes).each_with_object({}) do |attribute, list|
+        text = params[param_name][attribute]
+        caption = if attribute == :notes
+                    Journal.human_attribute_name(:notes)
+                  else
+                    klass.human_attribute_name(attribute)
+                  end
+        list[caption] = text
+      end
+    else
+      {}
+    end
+  end
 
   def parse_previewed_object(klass)
     id = parse_previewed_id

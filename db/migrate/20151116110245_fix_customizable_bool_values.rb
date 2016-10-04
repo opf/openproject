@@ -1,4 +1,4 @@
-class FixCustomizableBoolValues < ActiveRecord::Migration
+class FixCustomizableBoolValues < ActiveRecord::Migration[4.2]
   def up
     update_customizable_values(quoted_true, unquoted_true, quoted_false, unquoted_false)
   end

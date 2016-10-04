@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveGanttRelatedDataFromDatabase < ActiveRecord::Migration
+class RemoveGanttRelatedDataFromDatabase < ActiveRecord::Migration[4.2]
   def up
     EnabledModule.where(name: 'gantt').delete_all
   end

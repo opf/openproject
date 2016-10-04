@@ -40,7 +40,7 @@ class Timeline < ActiveRecord::Base
     end
   end
 
-  serialize :options
+  serialize :options, Hash
 
   self.table_name = 'timelines'
 

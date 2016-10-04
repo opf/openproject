@@ -102,6 +102,11 @@ end
 # Use selenium until we upgraded jenkins workers
 Capybara.javascript_driver = :selenium
 
+Capybara.server do |app, port|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, Port: port)
+end
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
 # your application behaves in the production environment, where an error page will

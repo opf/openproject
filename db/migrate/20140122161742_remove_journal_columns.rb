@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveJournalColumns < ActiveRecord::Migration
+class RemoveJournalColumns < ActiveRecord::Migration[4.2]
   def up
     change_table :work_package_journals do |t|
       t.remove :lock_version, :created_at, :root_id, :lft, :rgt

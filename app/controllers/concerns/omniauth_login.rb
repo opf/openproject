@@ -41,7 +41,7 @@ module Concerns::OmniauthLogin
       :verify_authenticity_token, :user_setup,
       :check_if_login_required, :check_session_lifetime
     ]
-      .each { |key| skip_before_filter key, only: [:omniauth_login] }
+      .each { |key| skip_before_action key, only: [:omniauth_login] }
 
     helper :omniauth
   end

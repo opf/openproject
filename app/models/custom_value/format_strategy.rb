@@ -45,6 +45,11 @@ class CustomValue::FormatStrategy
     raise 'SubclassResponsibility'
   end
 
+  # Returns the value of the CustomValue to be stored in the db.
+  def db_value
+    value
+  end
+
   # Validates the type of the custom field and returns a symbol indicating the validation error
   # if an error occurred; returns nil if no error occurred
   def validate_type_of_value

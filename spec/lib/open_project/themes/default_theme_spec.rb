@@ -111,6 +111,9 @@ module OpenProject
       let(:helpers) { ApplicationController.helpers }
 
       before do
+        # Allow the assets here in sprockets
+        Rails.application.config.assets.precompile += %w(add.png missing.png)
+
         # set a list of overridden images
         allow(theme).to receive(:overridden_images).and_return(['add.png'])
 

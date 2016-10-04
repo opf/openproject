@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesAvailableProjectStatuses < ActiveRecord::Migration
+class CreateTimelinesAvailableProjectStatuses < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_available_project_statuses) do |t|
       t.belongs_to :project_type

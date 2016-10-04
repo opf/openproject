@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration
+class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration[4.2]
   def up
     if  Attachment.where(container_type: ['Version', 'Project']).any?
       raise 'Error: There are still attachments attached to Versions or Projects!'\

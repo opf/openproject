@@ -31,8 +31,8 @@ class AuthSourcesController < ApplicationController
   include PaginationHelper
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :block_if_password_login_disabled
+  before_action :require_admin
+  before_action :block_if_password_login_disabled
 
   def index
     @auth_sources = AuthSource.page(params[:page])

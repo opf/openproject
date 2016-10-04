@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class FixParentIdsInWorkPackageJournalsOfFormerPlanningElements < ActiveRecord::Migration
+class FixParentIdsInWorkPackageJournalsOfFormerPlanningElements < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

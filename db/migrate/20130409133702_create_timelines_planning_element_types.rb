@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration
+class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_planning_element_types) do |t|
       t.column :name,         :string,  null: false

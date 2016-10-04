@@ -48,6 +48,8 @@ describe User, 'allowed_to?' do
   }
 
   before do
+    anonymous_role.save!
+    Role.non_member
     user.save!
   end
 
@@ -113,7 +115,7 @@ describe User, 'allowed_to?' do
     context 'w/ the user being a member in the project
              w/ the role having the necessary permission' do
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
 
@@ -131,7 +133,7 @@ describe User, 'allowed_to?' do
       let(:permission) { :view_news }
 
       before do
-        role.permissions << permission
+        role.add_permission! permission
         project.enabled_module_names = []
 
         member.save!
@@ -151,7 +153,7 @@ describe User, 'allowed_to?' do
       let(:permission) { { controller: 'news', action: 'show' } }
 
       before do
-        role.permissions << :view_news
+        role.add_permission! permission
         project.enabled_module_names = []
 
         member.save!
@@ -171,8 +173,7 @@ describe User, 'allowed_to?' do
         project.is_public = false
 
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         member.save!
 
@@ -211,8 +212,7 @@ describe User, 'allowed_to?' do
 
         non_member = Role.non_member
 
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         final_setup_step
       end
@@ -231,8 +231,7 @@ describe User, 'allowed_to?' do
 
         non_member = Role.non_member
 
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         final_setup_step
       end
@@ -251,9 +250,7 @@ describe User, 'allowed_to?' do
         project.save!
 
         non_member = Role.non_member
-
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         member.save!
 
@@ -272,8 +269,7 @@ describe User, 'allowed_to?' do
         project.is_public = true
         project.save!
 
-        anonymous_role.permissions << permission
-        anonymous_role.save!
+        anonymous_role.add_permission! permission
 
         final_setup_step
       end
@@ -312,8 +308,7 @@ describe User, 'allowed_to?' do
         project.is_public = true
         project.save!
 
-        anonymous_role.permissions << :manage_categories
-        anonymous_role.save!
+        anonymous_role.add_permission! :manage_categories
 
         final_setup_step
       end
@@ -342,8 +337,8 @@ describe User, 'allowed_to?' do
     context 'w/ the user being a member in two projects
              w/ the user being allowed the action in both projects' do
       before do
-        role.permissions << permission
-        role2.permissions << permission
+        role.add_permission! permission
+        role2.add_permission! permission
 
         member.save!
         member2.save!
@@ -359,7 +354,7 @@ describe User, 'allowed_to?' do
     context 'w/ the user being a member in two projects
              w/ the user being allowed in only one project' do
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
         member2.save!
@@ -377,8 +372,7 @@ describe User, 'allowed_to?' do
              w/ non member being allowed the action' do
       before do
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         project.update_attribute(:is_public, true)
         project2.update_attribute(:is_public, true)
@@ -396,8 +390,7 @@ describe User, 'allowed_to?' do
              w/ non member being allowed the action' do
       before do
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         project.update_attribute(:is_public, true)
         project2.update_attribute(:is_public, false)
@@ -413,7 +406,7 @@ describe User, 'allowed_to?' do
     context 'w/ requesting a controller and action
              w/ the user being allowed the action' do
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
 
@@ -431,7 +424,7 @@ describe User, 'allowed_to?' do
       let(:permission) { :manage_categories }
 
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
 
@@ -478,7 +471,7 @@ describe User, 'allowed_to?' do
     context 'w/ the user being a member in the project
              w/ the role having the necessary permission' do
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
 
@@ -494,7 +487,7 @@ describe User, 'allowed_to?' do
              w/ inquiring for controller and action
              w/ the role having the necessary permission' do
       before do
-        role.permissions << permission
+        role.add_permission! permission
 
         member.save!
 
@@ -512,8 +505,7 @@ describe User, 'allowed_to?' do
              w/ non members having the necessary permission' do
       before do
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         member.save!
 
@@ -529,8 +521,7 @@ describe User, 'allowed_to?' do
              w/ non members being allowed the action' do
       before do
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         final_setup_step
       end
@@ -543,8 +534,7 @@ describe User, 'allowed_to?' do
     context 'w/ the user being anonymous
              w/ anonymous being allowed the action' do
       before do
-        anonymous_role.permissions << permission
-        anonymous_role.save!
+        anonymous_role.add_permission! permission
 
         final_setup_step
       end
@@ -562,8 +552,7 @@ describe User, 'allowed_to?' do
 
       before do
         non_member = Role.non_member
-        non_member.permissions << permission
-        non_member.save!
+        non_member.add_permission! permission
 
         member.save!
 

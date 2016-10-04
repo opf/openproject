@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddFailedLoginCountLastFailedLoginOnToUser < ActiveRecord::Migration
+class AddFailedLoginCountLastFailedLoginOnToUser < ActiveRecord::Migration[4.2]
   def change
     begin
       add_column :users, :failed_login_count, :integer, default: 0

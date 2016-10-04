@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IndexMemberRolesInheritedFrom < ActiveRecord::Migration
+class IndexMemberRolesInheritedFrom < ActiveRecord::Migration[4.2]
   def change
     # The index is required for member/member_role deletion when a user
     # leaves a group.

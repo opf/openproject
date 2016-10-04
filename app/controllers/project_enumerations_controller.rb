@@ -28,8 +28,8 @@
 #++
 
 class ProjectEnumerationsController < ApplicationController
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+  before_action :find_project_by_project_id
+  before_action :authorize
 
   def update
     if request.put? && permitted_params.enumerations.present?

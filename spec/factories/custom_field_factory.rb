@@ -94,6 +94,16 @@ FactoryGirl.define do
         sequence(:name) do |n| "Version work package custom field #{n}" end
         field_format 'version'
       end
+
+      factory :bool_wp_custom_field do
+        sequence(:name) do |n| "Bool WP custom field #{n}" end
+        field_format 'bool'
+      end
+
+      factory :user_wp_custom_field do
+        sequence(:name) do |n| "User WP custom field #{n}" end
+        field_format 'user'
+      end
     end
 
     factory :issue_custom_field, class: WorkPackageCustomField do

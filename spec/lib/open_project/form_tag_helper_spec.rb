@@ -227,13 +227,14 @@ Words are important</textarea>
     subject(:output) {
       helper.styled_submit_tag('Save it!', options)
     }
+    subject(:html) {
+      Capybara::Node::Simple.new(output)
+    }
 
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'should output element' do
-      expect(output).to be_html_eql %{
-        <input class="button" name="commit" type="submit" value="Save it!" />
-      }
+      expect(html).to have_selector('input[type=submit]')
     end
   end
 

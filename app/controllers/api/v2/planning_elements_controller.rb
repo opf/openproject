@@ -36,13 +36,13 @@ module Api
       include ::Api::V2::Concerns::MultipleProjects
       include ExtendedHTTP
 
-      before_filter :find_project_by_project_id,
+      before_action :find_project_by_project_id,
                     :authorize, except: [:index]
-      before_filter :parse_changed_since, only: [:index]
+      before_action :parse_changed_since, only: [:index]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
       #            before filters !!!
-      before_filter :find_all_projects_by_project_id, only: :index
+      before_action :find_all_projects_by_project_id, only: :index
 
       helper :timelines
 

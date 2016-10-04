@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddDeletedAtToTimelinesPlanningElements < ActiveRecord::Migration
+class AddDeletedAtToTimelinesPlanningElements < ActiveRecord::Migration[4.2]
   def self.up
     add_column :timelines_planning_elements, :deleted_at, :datetime
   end

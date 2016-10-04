@@ -53,17 +53,7 @@ When /^I click(?:| on) the div "([^"]*)"$/ do |name|
 end
 
 Then /^"([^"]*)" should be selected for "([^"]*)"$/ do |value, select_id|
-  # that makes capybara wait for the ajax request
-  find(:xpath, '//body')
-  # if you wanna see ugly things, look at the following line
-  (page.evaluate_script("$('#{select_id}').value") =~ /^#{value}$/).should be_present
-end
-
-Then /^"([^"]*)" should (not )?be selectable from "([^"]*)"$/ do |value, negative, select_id|
-  # more page.evaluate ugliness
-  find(:xpath, '//body')
-  bool = !negative
-  (page.evaluate_script("$('#{select_id}').select('option[value=#{value}]').first.disabled") =~ /^#{bool}$/).should be_present
+  expect(find_field(select_id).value).to eql(value)
 end
 
 When /^I hover over "([^"]+)"$/ do |selector|

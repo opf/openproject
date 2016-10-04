@@ -35,4 +35,15 @@ shared_context 'ui-select helpers' do
     # click the element to select it
     select2_element.find('ul.select2-result-single li', text: option_name).click
   end
+
+  def ui_select(select2_element, option_name)
+    # Open the element
+    select2_element.find('.select2-choice, .select2-choices').click
+    # click the element to select it
+    page.find('.select2-result-label', text: option_name).click
+  end
+
+  def ui_select_clear(select2_element)
+    select2_element.all('.select2-search-choice-close').each(&:click)
+  end
 end

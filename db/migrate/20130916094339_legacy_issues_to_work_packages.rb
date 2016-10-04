@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class LegacyIssuesToWorkPackages < ActiveRecord::Migration
+class LegacyIssuesToWorkPackages < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   class ExistingWorkPackagesError < ::StandardError

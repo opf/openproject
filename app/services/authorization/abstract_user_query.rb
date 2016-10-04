@@ -65,4 +65,8 @@ class Authorization::AbstractUserQuery < Authorization::AbstractQuery
   def self.roles_table
     Role.arel_table
   end
+
+  def self.role_permissions_table
+    RolePermission.arel_table
+  end
 end

@@ -136,7 +136,10 @@ class Setting < ActiveRecord::Base
   end
 
   def value=(v)
-    v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
+    if v && @@available_settings[name] && @@available_settings[name]['serialized']
+      v = v.to_yaml
+    end
+
     write_attribute(:value, v.to_s)
   end
 
@@ -237,7 +240,7 @@ class Setting < ActiveRecord::Base
     # I'm not sure this is a good idea, but that's the way it is right now,
     # and caching this improves performance significantly for actions
     # accessing settings a lot.
-    @settings_table_exists_yet ||= connection.table_exists?(table_name)
+    @settings_table_exists_yet ||= connection.data_source_exists?(table_name)
   end
 
   # Unserialize a serialized settings value

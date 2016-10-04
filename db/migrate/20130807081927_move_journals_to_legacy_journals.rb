@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MoveJournalsToLegacyJournals < ActiveRecord::Migration
+class MoveJournalsToLegacyJournals < ActiveRecord::Migration[4.2]
   def up
     rename_table :journals, :legacy_journals
   end

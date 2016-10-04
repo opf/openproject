@@ -30,10 +30,10 @@
 require 'open_project/repository_authentication'
 
 class SysController < ActionController::Base
-  before_filter :check_enabled
-  before_filter :require_basic_auth, only: [:repo_auth]
-  before_filter :find_project, only: [:update_required_storage]
-  before_filter :find_repository_with_storage, only: [:update_required_storage]
+  before_action :check_enabled
+  before_action :require_basic_auth, only: [:repo_auth]
+  before_action :find_project, only: [:update_required_storage]
+  before_action :find_repository_with_storage, only: [:update_required_storage]
 
   def projects
     p = Project.active.has_module(:repository)
@@ -52,7 +52,7 @@ class SysController < ActionController::Base
 
   def update_required_storage
     result = update_storage_information(@repository, params[:force] == '1')
-    render text: "Updated: #{result}", status: 200
+    render plain: "Updated: #{result}", status: 200
   end
 
   def fetch_changesets
@@ -76,9 +76,9 @@ class SysController < ActionController::Base
   def repo_auth
     project = Project.find_by(identifier: params[:repository])
     if project && authorized?(project, @authenticated_user)
-      render text: 'Access granted'
+      render plain: 'Access granted'
     else
-      render text: 'Not allowed', status: 403 # default to deny
+      render plain: 'Not allowed', status: 403 # default to deny
     end
   end
 
@@ -97,7 +97,8 @@ class SysController < ActionController::Base
   def check_enabled
     User.current = nil
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
-      render text: 'Access denied. Repository management WS is disabled or key is invalid.', status: 403
+      render plain: 'Access denied. Repository management WS is disabled or key is invalid.',
+             status: 403
       return false
     end
   end
@@ -121,10 +122,10 @@ class SysController < ActionController::Base
     @repository = @project.repository
 
     if @repository.nil?
-      render text: "Project ##{@project.id} does not have a repository.", status: 404
+      render plain: "Project ##{@project.id} does not have a repository.", status: 404
     else
       return true if @repository.scm.storage_available?
-      render text: 'repositories.storage.not_available', status: 400
+      render plain: 'repositories.storage.not_available', status: 400
     end
 
     false
@@ -137,7 +138,7 @@ class SysController < ActionController::Base
     end
 
     response.headers['WWW-Authenticate'] = 'Basic realm="Repository Authentication"'
-    render text: 'Authorization required', status: 401
+    render plain: 'Authorization required', status: 401
     false
   end
 

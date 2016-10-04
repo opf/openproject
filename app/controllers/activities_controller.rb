@@ -29,7 +29,7 @@
 
 class ActivitiesController < ApplicationController
   menu_item :activity
-  before_filter :find_optional_project, :verify_activities_module_activated
+  before_action :find_optional_project, :verify_activities_module_activated
   accept_key_auth :index
 
   def index
