@@ -1,0 +1,48 @@
+<div class="wp-relations-create">
+    <div class="wp-inline-create-button wp-relations-create-button"
+         ng-if="!$ctrl.showRelationsCreateForm">
+        <div class="grid-block">
+            <div class="grid-content collapse wp-inline-create-button">
+                <a class="wp-inline-create--add-link relation-create"
+                   ng-click="$ctrl.toggleRelationsCreateForm()">
+                    <i class="icon icon-add"></i>
+                    <span>{{ ::$ctrl.text.addNewRelation }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="grid-block v-align" ng-if="$ctrl.showRelationsCreateForm">
+        <div class="grid-content collapse medium-3">
+            <select
+                    class="relationTypeSelect"
+                    ng-model="$ctrl.selectedRelationType"
+                    ng-options="relationType.label for relationType in $ctrl.relationTypes">
+            </select>
+        </div>
+        <div class="grid-content medium-7">
+            <wp-relations-autocomplete
+                    work-package="$ctrl.workPackage"
+                    selected-wp-id="$ctrl.selectedWpId"
+                    selected-relation-type="$ctrl.selectedRelationType">
+            </wp-relations-autocomplete>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+            <accessible-by-keyboard
+                    execute="$ctrl.createRelation()">
+                <icon-wrapper icon-name="checkmark"
+                              icon-title="{{ ::$ctrl.text.save }}">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    execute="$ctrl.toggleRelationsCreateForm()">
+                <icon-wrapper icon-name="remove"
+                              icon-title="{{ ::$ctrl.text.abort }}">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+    </div>
+</div>
+
+
+
+

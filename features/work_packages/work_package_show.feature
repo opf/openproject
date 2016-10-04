@@ -91,17 +91,17 @@ Feature: Viewing a work package
      And I press "Add"
      And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
-     And I should see "related to Bug #3: issue3"
+     And I should see "issue3"
 
   @javascript @wip
   Scenario: Removing an existing relation will remove it from the list of related work packages through AJAX instantly
     Given a relation between "issue1" and "issue3"
     When I go to the page of the work package "issue1"
-    Then I should see "Bug #3: issue3"
+    Then I should see "issue3"
     When I click "Delete relation"
     And I wait for the AJAX requests to finish
     Then I should be on the page of the work package "issue1"
-    Then I should not see "Bug #3: issue3"
+    Then I should not see "issue3"
 
   @javascript @wip
   Scenario: Watch and unwatch a work package

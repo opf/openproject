@@ -35,6 +35,7 @@ interface CollectionResourceEmbedded {
 
 export class CollectionResource extends HalResource {
   public elements: HalResource[];
+  public count: number;
 
   /**
    * Update the collection's elements and return them in a promise.

@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,29 +24,36 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {wpDirectivesModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+/**
+ * Contains methods and attributes shared
+ * between common relations and parent-child relations
+ */
+export class WorkPackageSingleRelationController {
+  public workPackagePath = this.PathHelper.workPackagePath;
 
-export class RelationsPanelController {
-  public workPackage:WorkPackageResourceInterface;
+  constructor(protected PathHelper:op.PathHelper) {
+  }
+
+  public getFullIdentifier(workPackage:WorkPackageResourceInterface, hideType?:boolean) {
+    var type = '';
+    if (workPackage.type && !hideType) {
+      type += workPackage.type.name + ': ';
+    }
+    return `${type}${workPackage.subject}`;
+  }
 }
 
-function relationsPanelDirective() {
+function wpSingleRelationDirective() {
   return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/relations-panel/relations-panel.directive.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    controller: RelationsPanelController,
-    controllerAs: '$ctrl',
-    bindToController: true
+    restrict: 'A',
+    controller: WorkPackageSingleRelationController,
+    controllerAs: 'singleRelationCtrl',
+    bindToController: true,
   };
 }
 
-wpDirectivesModule.directive('relationsPanel', relationsPanelDirective);
+wpDirectivesModule.directive('wpSingleRelation', wpSingleRelationDirective);
