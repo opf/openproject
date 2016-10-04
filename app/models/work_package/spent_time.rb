@@ -36,100 +36,76 @@ class WorkPackage::SpentTime
     @work_package = work_package
   end
 
-  def scope(table_alias)
-    with_spent_hours_joined(table_alias)
+  def scope
+    with_spent_hours_joined
   end
 
   private
 
-  def with_spent_hours_joined(table_alias)
-    subselect = spent_hours_select.as(table_alias)
+  def with_spent_hours_joined
+    query = join_descendants(wp_table)
+    query = join_time_entries(query)
 
-    wp_table = WorkPackage.arel_table
-
-    joined_aggregated_entries = wp_table
-                                .outer_join(subselect)
-                                .on(subselect[:id].eq(wp_table[:id]))
-
-    WorkPackage.joins(joined_aggregated_entries.join_sources)
-  end
-
-  def spent_hours_select
-    select = id_and_hours_as_result
-
-    join_descendants(select)
-    check_descendant_visibility(select)
-    join_time_entries(select)
-    check_time_entry_visibility(select)
-
-    group_by_wp_id(select)
-  end
-
-  def id_and_hours_as_result
-    wp_table
-      .project(wp_target[:id], time_entries_table[:hours].sum.as('hours'))
-      .from(wp_target)
+    WorkPackage.joins(query.join_sources)
+               .group(:id)
   end
 
   def join_descendants(select)
     descendants_join_condition = if work_package
-                                   hierarchy_condition
-                                     .and(wp_target[:id].eq(work_package.id))
+                                   hierarchy_and_allowed_condition
+                                     .and(wp_table[:id].eq(work_package.id))
                                  else
-                                   hierarchy_condition
+                                   hierarchy_and_allowed_condition
                                  end
 
     select
-      .join(wp_descendants, Arel::Nodes::OuterJoin)
+      .outer_join(wp_descendants)
       .on(descendants_join_condition)
   end
 
   def join_time_entries(select)
-    select
-      .join(time_entries_table)
-      .on(time_entries_table[:work_package_id].eq(wp_descendants[:id]))
-  end
+    join_condition = time_entries_table[:work_package_id]
+                     .eq(wp_descendants[:id])
+                     .and(allowed_to_view_time_entries)
 
-  def check_descendant_visibility(select)
     select
-      .join(descendants_projects)
-      .on(descendants_projects[:id].eq(wp_descendants[:project_id]))
-      .where(allowed_to_view_work_packages)
-  end
-
-  def check_time_entry_visibility(select)
-    select
-      .where(allowed_to_view_time_entries)
-  end
-
-  def group_by_wp_id(select)
-    select.group(wp_target[:id])
+      .outer_join(time_entries_table)
+      .on(join_condition)
   end
 
   def allowed_to_view_work_packages
-    descendants_projects[:id].in(Project.allowed_to(user, :view_work_packages).select(:id).arel)
+    wp_descendants[:project_id].in(Project.allowed_to(user, :view_work_packages).select(:id).arel)
   end
 
   def allowed_to_view_time_entries
     time_entries_table[:id].in(TimeEntry.visible(user).select(:id).arel)
   end
 
-  def hierarchy_condition
-    root_eql = wp_descendants[:root_id].eq(wp_target[:root_id])
-    lft_gteq = wp_descendants[:lft].gteq(wp_target[:lft])
-    rgt_lteq = wp_descendants[:rgt].lteq(wp_target[:rgt])
+  def hierarchy_and_allowed_condition
+    self_or_descendant_condition
+      .and(allowed_to_view_work_packages)
+  end
 
-    root_eql
-      .and(lft_gteq)
-      .and(rgt_lteq)
+  def self_or_descendant_condition
+    nested_set_root_condition
+      .and(nested_set_lft_condition)
+      .and(nested_rgt_condition)
+  end
+
+  def nested_set_root_condition
+    wp_descendants[:root_id].eq(wp_table[:root_id])
+  end
+
+  def nested_set_lft_condition
+    wp_descendants[:lft].gteq(wp_table[:lft])
+  end
+
+  def nested_rgt_condition
+    wp_descendants[:rgt].lteq(wp_table[:rgt])
   end
 
   def wp_table
     @wp_table ||= WorkPackage.arel_table
-  end
-
-  def wp_target
-    @wp_target ||= wp_table.alias('target')
   end
 
   def wp_descendants
@@ -138,17 +114,5 @@ class WorkPackage::SpentTime
 
   def time_entries_table
     @time_entries_table ||= TimeEntry.arel_table
-  end
-
-  def projects_table
-    @projects_table ||= Project.arel_table
-  end
-
-  def descendants_projects
-    @descendants_projects ||= projects_table.alias('descendants_projects')
-  end
-
-  def time_entry_projects
-    @time_entry_projects ||= projects_table.alias('time_entry_projects')
   end
 end

@@ -520,8 +520,10 @@ class WorkPackage < ActiveRecord::Base
   # patch in config/initializers/eager_load_with_hours, the value is
   # returned as the #hours attribute on each work package.
   def self.include_spent_hours(user)
-    WorkPackage::SpentTime.new(user).scope('time_per_wp')
-      .select('time_per_wp.hours')
+    WorkPackage::SpentTime
+      .new(user)
+      .scope
+      .select('SUM(time_entries.hours) AS hours')
   end
 
   # Returns the total number of hours spent on this work package and its descendants.
@@ -927,9 +929,9 @@ class WorkPackage < ActiveRecord::Base
   def compute_spent_hours(user)
     WorkPackage::SpentTime
       .new(user, self)
-      .scope('time_per_wp')
+      .scope
       .where(id: id)
-      .pluck('time_per_wp.hours')
+      .pluck('SUM(hours)')
       .first
   end
 end
