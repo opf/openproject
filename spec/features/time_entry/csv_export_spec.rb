@@ -58,7 +58,8 @@ describe 'time entry csv export', type: :feature do
 
   shared_examples_for 'csv export for time entries' do
     it 'returns a csv file with the entries' do
-      expect(page.response_headers['Content-Type']).to start_with('text/csv; charset=utf-8;')
+      expect(page.response_headers['Content-Type']).to include('text/csv')
+      expect(page.response_headers['Content-Type']).to include('charset=utf-8')
 
       expected_header = ["#{TimeEntry.human_attribute_name(:spent_on)}," +
                          "#{TimeEntry.human_attribute_name(:user)}," +

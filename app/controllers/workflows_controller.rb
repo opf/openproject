@@ -30,9 +30,9 @@
 class WorkflowsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_roles
-  before_filter :find_types
+  before_action :require_admin
+  before_action :find_roles
+  before_action :find_types
 
   def index
     @workflow_counts = Workflow.count_by_type_and_role

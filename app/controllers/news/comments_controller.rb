@@ -30,8 +30,8 @@
 class News::CommentsController < ApplicationController
   default_search_scope :news
   model_object Comment, scope: [News => :commented]
-  before_filter :find_object_and_scope
-  before_filter :authorize
+  before_action :find_object_and_scope
+  before_action :authorize
 
   def create
     @comment = Comment.new(permitted_params.comment)

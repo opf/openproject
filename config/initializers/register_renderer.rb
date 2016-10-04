@@ -27,16 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CommentObserver < ActiveRecord::Observer
-  def after_create(comment)
-    return unless Setting.notified_events.include?('news_comment_added')
+ActionController::Renderers.add :csv do |obj, options|
+  filename = options[:filename] || 'data'
+  str = obj.respond_to?(:to_csv) ? obj.to_csv : obj.to_s
+  charset = "charset=#{l(:general_csv_encoding).downcase}"
 
-    if comment.commented.is_a?(News)
-      news = comment.commented
-      recipients = news.recipients + news.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.news_comment_added(user, comment, User.current).deliver_now
-      end
-    end
-  end
+  data = send_data str,
+                   type: "#{Mime[:csv]}; header=present; #{charset};",
+                   disposition: "attachment; filename=#{filename}"
+
+  # For some reasons, the content-type header
+  # does only contain the charset if the response
+  # is manipulated like this.
+  response.content_type += ''
+
+  data
 end

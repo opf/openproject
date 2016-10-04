@@ -54,6 +54,7 @@ test:
   username: root
   password:
   encoding: utf8
+  pool: 20
 
 #test_pgsql:
   #adapter: postgresql

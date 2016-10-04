@@ -33,11 +33,26 @@ class Comment < ActiveRecord::Base
 
   validates :commented, :author, :comments, presence: true
 
+  after_create :send_news_comment_added_mail
+
   def text
     comments
   end
 
   def post!
     save!
+  end
+
+  private
+
+  def send_news_comment_added_mail
+    return unless Setting.notified_events.include?('news_comment_added')
+
+    return unless commented.is_a?(News)
+
+    recipients = commented.recipients + commented.watcher_recipients
+    recipients.uniq.each do |user|
+      UserMailer.news_comment_added(user, self, User.current).deliver_now
+    end
   end
 end

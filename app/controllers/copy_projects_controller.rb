@@ -30,10 +30,10 @@
 class CopyProjectsController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project
-  before_filter :authorize, only: [:copy, :copy_project]
-  before_filter :prepare_for_copy_project, only: [:copy, :copy_project]
+  before_action :disable_api
+  before_action :find_project
+  before_action :authorize, only: [:copy, :copy_project]
+  before_action :prepare_for_copy_project, only: [:copy, :copy_project]
 
   def copy
     target_project_name = permitted_params.project[:name]

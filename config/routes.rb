@@ -267,6 +267,20 @@ OpenProject::Application.routes.draw do
         post :preview
       end
     end
+
+    resources :project_associations, controller: 'project_associations' do
+      get :confirm_destroy, on: :member
+      get :available_projects, on: :collection
+    end
+
+    resources :reportings, controller: 'reportings' do
+      get :confirm_destroy, on: :member
+    end
+
+    resources :timelines, controller: 'timelines' do
+      get :confirm_destroy, on: :member
+    end
+
     # as routes for index and show are swapped
     # it is necessary to define the show action later
     # than any other route as it otherwise would
@@ -302,7 +316,10 @@ OpenProject::Application.routes.draw do
     resources :categories, except: [:index, :show], shallow: true
 
     resources :members, only: [:index, :create, :update, :destroy], shallow: true do
-      match :autocomplete_for_member, on: :collection, via: [:get, :post]
+      collection do
+        get :paginate_users
+        match :autocomplete_for_member, via: [:get, :post]
+      end
     end
 
     resource :repository, controller: 'repositories', except: [:new] do
@@ -341,12 +358,17 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get '/admin' => 'admin#index'
+  resources :admin, controller: :admin, only: :index do
+    collection do
+      get :projects
+      get :plugins
+      get :info
+      post :force_user_language
+      post :test_email
+    end
+  end
 
-  # TODO: evaluate whether this can be turned into a namespace
   scope 'admin' do
-    match '/projects' => 'admin#projects', via: :get, as: :admin_projects
-
     resource :announcements, only: [:edit, :update]
     resources :enumerations
 
@@ -479,6 +501,14 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  resource :help, controller: :help, only: [] do
+    member do
+      get :wiki_syntax
+      get :wiki_syntax_detailed
+      get :keyboard_shortcuts
+    end
+  end
+
   # redirect for backwards compatibility
   scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
     get '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
@@ -532,20 +562,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :projects, only: [:index, :show], controller: 'projects'
-    resources :reported_project_statuses,          controller: 'reported_project_statuses'
-  end
-
-  resources :projects, only: [:index, :show], controller: 'projects' do
-    resources :project_associations,   controller: 'project_associations' do
-      get :confirm_destroy, on: :member
-      get :available_projects, on: :collection
-    end
-
-    resources :reportings,             controller: 'reportings' do
-      get :confirm_destroy, on: :member
-    end
-
-    resources :timelines,              controller: 'timelines'
+    resources :reported_project_statuses, controller: 'reported_project_statuses'
   end
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'

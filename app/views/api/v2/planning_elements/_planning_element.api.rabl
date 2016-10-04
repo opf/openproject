@@ -46,9 +46,7 @@ child :project do
 end
 
 node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
-  child :parent => :parent do
-    attributes :id, :subject
-  end
+  { id: pe.parent.id, subject: pe.parent.subject }
 end
 
 child :type do
@@ -68,15 +66,11 @@ child :author => :author do
 end
 
 node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
-  child :responsible => :responsible do
-    attributes :id, :name
-  end
+  { id: pe.responsible.id, name: pe.responsible.name }
 end
 
 node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
-  child(:assigned_to => :assigned_to) do
-    attributes :id, :name
-  end
+  { id: pe.responsible.id, name: pe.responsible.name }
 end
 
 node :custom_fields do

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
+class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[4.2]
   def self.up
     Wiki.all.each do |wiki|
       page = wiki.find_page(wiki.start_page, with_redirects: true)

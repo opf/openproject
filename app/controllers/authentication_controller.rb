@@ -30,8 +30,8 @@
 class AuthenticationController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :require_login
+  before_action :disable_api
+  before_action :require_login
 
   accept_key_auth :index
 

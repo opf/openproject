@@ -76,16 +76,6 @@ Feature: Viewing a work package
       | pe2    |
     And I am already logged in as "bob"
 
-  @javascript
-  Scenario: View child work package of type issue
-    When I go to the page of the work package "issue1"
-     And I open the work package tab "Relations"
-     And I click on "#2 Bug: issue2" within ".work-packages--right-panel"
-    Then I should see "issue2" within ".wp-edit-field.subject"
-     And I should see "Bug #2" within ".work-packages--left-panel"
-    When I open the work package tab "Relations"
-    Then I should see "#1 Bug: issue1" within ".work-packages--right-panel"
-
   @javascript @wip
   Scenario: Add subtask leads to issue creation page for a parent issue
     When I go to the page of the work package "issue1"

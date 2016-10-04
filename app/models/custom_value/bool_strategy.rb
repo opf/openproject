@@ -37,7 +37,17 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
   def typed_value
     return nil unless value_present?
 
-    ActiveRecord::Type::Boolean.new.type_cast_from_database(value)
+    ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def db_value
+    if !value_present?
+      nil
+    elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(value)
+      'f'
+    else
+      't'
+    end
   end
 
   def validate_type_of_value

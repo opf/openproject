@@ -76,12 +76,16 @@ describe 'work package export', type: :feature do
       end
   end
 
+  after do
+    DownloadedFile::clear_downloads
+  end
+
   it 'shows all work packages with the default filters', js: true do
     export!
 
-    expect(page).to have_text(wp_1.description)
-    expect(page).to have_text(wp_2.description)
-    expect(page).to have_text(wp_3.description)
+    expect(DownloadedFile::download_content).to have_text(wp_1.description)
+    expect(DownloadedFile::download_content).to have_text(wp_2.description)
+    expect(DownloadedFile::download_content).to have_text(wp_3.description)
   end
 
   it 'shows only the work package with the right progress if filtered this way', js: true do
@@ -92,9 +96,9 @@ describe 'work package export', type: :feature do
 
     export!
 
-    expect(page).to have_text(wp_1.description)
-    expect(page).not_to have_text(wp_2.description)
-    expect(page).not_to have_text(wp_3.description)
+    expect(DownloadedFile::download_content).to have_text(wp_1.description)
+    expect(DownloadedFile::download_content).to_not have_text(wp_2.description)
+    expect(DownloadedFile::download_content).to_not have_text(wp_3.description)
   end
 
   it 'shows only work packages of the filtered type', js: true do
@@ -105,9 +109,9 @@ describe 'work package export', type: :feature do
 
     export!
 
-    expect(page).not_to have_text(wp_1.description)
-    expect(page).not_to have_text(wp_2.description)
-    expect(page).to have_text(wp_3.description)
+    expect(DownloadedFile::download_content).to_not have_text(wp_1.description)
+    expect(DownloadedFile::download_content).to_not have_text(wp_2.description)
+    expect(DownloadedFile::download_content).to have_text(wp_3.description)
   end
 
   it 'exports selected columns', js: true do
@@ -115,7 +119,7 @@ describe 'work package export', type: :feature do
 
     export!
 
-    expect(page).to have_text('Progress (%)')
-    expect(page).to have_text('25')
+    expect(DownloadedFile::download_content).to have_text('Progress (%)')
+    expect(DownloadedFile::download_content).to have_text('25')
   end
 end

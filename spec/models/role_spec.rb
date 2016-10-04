@@ -29,12 +29,108 @@
 require 'spec_helper'
 
 describe Role, type: :model do
+  let(:permissions) { [:permission1, :permission2] }
+  let(:build_role) { FactoryGirl.build(:role, permissions: permissions) }
+  let(:created_role) { FactoryGirl.create(:role, permissions: permissions) }
+
   describe '#by_permission' do
     it 'returns roles with given permission' do
-      edit_project_role = FactoryGirl.create :role, permissions: [:edit_project]
+      created_role
 
-      expect(Role.by_permission(:edit_project)).to include edit_project_role
-      expect(Role.by_permission(:some_other)).not_to include edit_project_role
+      expect(Role.by_permission(permissions[0])).to include created_role
+      expect(Role.by_permission(:some_other)).not_to include created_role
+    end
+  end
+
+  describe '#permissions' do
+    shared_examples_for 'writing and reading' do
+      it 'returns the values written before' do
+        perms = permissions + [:permission3]
+
+        role.permissions = perms
+
+        expect(role.permissions).to match_array(perms)
+      end
+
+      it 'removes empty permissions' do
+        perms = permissions + ['']
+
+        role.permissions = perms
+
+        expect(role.permissions).to match_array(permissions)
+      end
+
+      it 'does not readd permissions' do
+        perms = permissions + permissions.map(&:to_s)
+
+        role.permissions = perms
+
+        expect(role.permissions).to match_array(permissions)
+      end
+
+      it 'allows clearing the permissions' do
+        role.permissions = []
+
+        expect(role.permissions).to be_empty
+      end
+    end
+
+    context 'for a non persisted role' do
+      let(:role) { build_role }
+
+      it_behaves_like 'writing and reading'
+    end
+
+    context 'for a persisted role' do
+      let(:role) { created_role }
+
+      it_behaves_like 'writing and reading'
+    end
+  end
+
+  describe '#remove_permission!' do
+    shared_examples_for 'removing' do
+      it 'removes the specified permission' do
+        perm = permissions.first
+
+        role.remove_permission!(perm)
+
+        expect(role.role_permissions.map(&:permission)).not_to include perm.to_s
+      end
+    end
+
+    context 'for a non persisted role' do
+      let(:role) { build_role }
+
+      it_behaves_like 'removing'
+    end
+
+    context 'for a persisted role' do
+      let(:role) { created_role }
+
+      it_behaves_like 'removing'
+    end
+  end
+
+  describe '#add_permission!' do
+    shared_examples_for 'adding' do
+      it 'adds the specified permission' do
+        role.add_permission!(:permission3)
+
+        expect(role.role_permissions.map(&:permission)).to include 'permission3'
+      end
+    end
+
+    context 'for a non persisted role' do
+      let(:role) { build_role }
+
+      it_behaves_like 'adding'
+    end
+
+    context 'for a persisted role' do
+      let(:role) { created_role }
+
+      it_behaves_like 'adding'
     end
   end
 end

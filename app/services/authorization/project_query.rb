@@ -43,6 +43,11 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
       .and(project_active_condition)
   end
 
+  def self.role_permissions_join
+    permission_roles_table[:id]
+      .eq(role_permissions_table[:role_id])
+  end
+
   def self.project_enabled_module_id_eq_condition
     projects_table[:id]
       .eq(enabled_modules_table[:project_id])
@@ -63,19 +68,9 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   def self.roles_having_permissions(action)
-    permissions_name = permissions(action).map(&:name)
+    permissions_names = permissions(action).map(&:name)
 
-    condition = roles_having_permission(permissions_name[0])
-
-    permissions_name[1..-1].each do |permission|
-      condition = condition.or(roles_having_permission(permission))
-    end
-
-    condition
-  end
-
-  def self.roles_having_permission(permission)
-    permission_roles_table[:permissions].matches("%#{permission}%")
+    role_permissions_table[:permission].in(permissions_names)
   end
 
   def self.projects_table
@@ -92,6 +87,10 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
 
   def self.members_table
     Member.arel_table
+  end
+
+  def self.role_permissions_table
+    RolePermission.arel_table
   end
 
   def self.permission_roles_table
@@ -170,6 +169,17 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   transformations.register :all,
+                           :role_permissions_join,
+                           after: [:enabled_modules_join] do |statement, user, action|
+    if action_public?(action) || user.admin?
+      statement
+    else
+      statement.join(role_permissions_table)
+               .on(roles_having_permissions(action))
+    end
+  end
+
+  transformations.register :all,
                            :members_member_roles_join,
                            after: [:members_join] do |statement, user|
     if user.admin?
@@ -181,12 +191,13 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
   end
 
   transformations.register :all,
-                           :permission_roles_join do |statement, user, action|
+                           :permission_roles_join,
+                           after: [:role_permissions_join] do |statement, user, action|
     if action_public?(action) || user.admin?
       statement
     else
       statement.join(permission_roles_table)
-               .on(roles_having_permissions(action))
+               .on(role_permissions_join)
     end
   end
 

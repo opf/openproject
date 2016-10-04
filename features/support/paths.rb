@@ -351,6 +351,13 @@ module NavigationHelpers
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/#{project_page}"
 
+    when /the reportings of the project called "([^\"]+)"$/
+      project_name = $1
+      project = Project.find_by(name: project_name)
+      project_identifier = project.identifier.gsub(' ', '%20')
+
+      "/projects/#{project_identifier}/reportings"
+
     when /^the quick reference for wiki syntax$/
       '/help/wiki_syntax'
 

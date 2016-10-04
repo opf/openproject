@@ -27,12 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class NewsObserver < ActiveRecord::Observer
-  def after_create(news)
-    if Setting.notified_events.include?('news_added')
-      news.recipients.uniq.each do |user|
-        UserMailer.news_added(user, news, User.current).deliver_now
-      end
-    end
+class HarmonizeBoolCustomValues < ActiveRecord::Migration[5.0]
+  def up
+    CustomValue
+      .joins(:custom_field)
+      .where(custom_fields: { field_format: 'bool' })
+      .each(&:save)
   end
 end

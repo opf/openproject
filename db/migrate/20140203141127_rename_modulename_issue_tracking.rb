@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameModulenameIssueTracking < ActiveRecord::Migration
+class RenameModulenameIssueTracking < ActiveRecord::Migration[4.2]
   def up
     update <<-SQL
       UPDATE enabled_modules

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,3 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/ar_parameter_patch'
+
+class TimelineOptionsToHash < ActiveRecord::Migration[5.0]
+  class TimelineWithWhatever < ActiveRecord::Base
+    self.table_name = :timelines
+
+    serialize :options
+  end
+
+  class TimelineWithHash < ActiveRecord::Base
+    self.table_name = :timelines
+
+    serialize :options, Hash
+  end
+
+  def up
+    ArParametersPatch.load
+
+    TimelineWithWhatever.transaction do
+      TimelineWithWhatever.all.to_a.each do |timeline|
+        options = timeline.options
+        next unless options && options.is_a?(ActionController::Parameters)
+        options.permit!
+        options = options.to_h
+
+        TimelineWithHash
+          .where(id: timeline.id)
+          .update_all(options: options)
+      end
+    end
+  end
+
+  # This migration does not need to be rolled back because
+  # it only harmonizes the possible values of the options attribute.
+end

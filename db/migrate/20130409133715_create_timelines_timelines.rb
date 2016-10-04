@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesTimelines < ActiveRecord::Migration
+class CreateTimelinesTimelines < ActiveRecord::Migration[4.2]
   def self.up
     create_table :timelines_timelines do |t|
       t.column :name,        :string,  null: false

@@ -36,8 +36,13 @@ module.exports = function(CUSTOM_FIELD_PREFIX, I18n) {
       return parseInt(cfKey.substr(CUSTOM_FIELD_PREFIX.length, 10), 10);
     },
     booleanCustomFieldValue: function(value) {
-      if (value) {
-        return value === '0' ? I18n.t('js.general_text_No') : I18n.t('js.general_text_Yes');
+      switch(value) {
+        case ('f'):
+          return I18n.t('js.general_text_No');
+        case ('t'):
+          return I18n.t('js.general_text_Yes');
+        default:
+          return '';
       }
     },
     userCustomFieldValue: function(value, users) {

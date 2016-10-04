@@ -32,7 +32,7 @@ class StatusesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   verify method: :get, only: :index, render: { nothing: true, status: :method_not_allowed }
   def index

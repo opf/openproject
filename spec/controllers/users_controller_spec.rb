@@ -292,7 +292,7 @@ describe UsersController, type: :controller do
   describe 'index' do
     describe 'with session lifetime' do
       # TODO move this section to a proper place because we test a
-      # before_filter from the application controller
+      # before_action from the application controller
 
       after(:each) do
         # reset, so following tests are not affected by the change

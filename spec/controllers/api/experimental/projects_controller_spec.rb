@@ -63,7 +63,7 @@ describe Api::Experimental::ProjectsController, type: :controller do
 
   describe '#show' do
     before do
-      get 'show', format: 'json', project_id: project.identifier
+      get 'show', format: 'json', params: { project_id: project.identifier }
     end
 
     context 'with the necessary permissions' do
@@ -83,7 +83,7 @@ describe Api::Experimental::ProjectsController, type: :controller do
 
   describe '#sub_projects' do
     before do
-      get 'sub_projects', format: 'json', project_id: project.identifier
+      get 'sub_projects', format: 'json', params: { project_id: project.identifier }
     end
 
     context 'with the necessary permissions' do

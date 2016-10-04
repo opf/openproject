@@ -74,7 +74,7 @@ class Activity::BaseActivityProvider
   end
 
   def activity_journals_table(_activity)
-    @activity_journals_table ||= Arel::Table.new(JournalManager.journal_class(activitied_type).table_name)
+    @activity_journals_table ||= JournalManager.journal_class(activitied_type).arel_table
   end
 
   def activitied_type(_activity = nil)
@@ -96,27 +96,27 @@ class Activity::BaseActivityProvider
   protected
 
   def journal_table
-    @journal_table ||= Arel::Table.new(:journals)
+    @journal_table ||= Journal.arel_table
   end
 
   def activitied_table
-    @activitied_table ||= Arel::Table.new(activitied_type.table_name)
+    @activitied_table ||= activitied_type.arel_table
   end
 
   def work_packages_table
-    @work_packages_table ||= Arel::Table.new(:work_packages)
+    @work_packages_table ||= WorkPackage.arel_table
   end
 
   def projects_table
-    @projects_table ||= Arel::Table.new(:projects)
+    @projects_table ||= Project.arel_table
   end
 
   def types_table
-    @types_table = Arel::Table.new(:types)
+    @types_table = Type.arel_table
   end
 
   def statuses_table
-    @statuses_table = Arel::Table.new(:statuses)
+    @statuses_table = Status.arel_table
   end
 
   def activity_journal_projection_statement(column, name, activity)

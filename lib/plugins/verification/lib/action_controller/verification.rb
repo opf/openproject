@@ -6,7 +6,7 @@ module ActionController #:nodoc:
 
     # This module provides a class-level method for specifying that certain
     # actions are guarded against being called without certain prerequisites
-    # being met. This is essentially a special kind of before_filter.
+    # being met. This is essentially a special kind of before_action.
     #
     # An action may be guarded against being invoked without certain request
     # parameters being set, or without certain session values existing.
@@ -79,7 +79,7 @@ module ActionController #:nodoc:
       #   do not apply this verification to the actions specified in the associated
       #   array (may also be a single value).
       def verify(options = {})
-        before_filter only: options[:only], except: options[:except] do
+        before_action only: options[:only], except: options[:except] do
           verify_action options
         end
       end

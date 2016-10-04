@@ -36,9 +36,9 @@ module Api
 
       Transition = Struct.new(:new_status_id, :scope)
 
-      skip_before_filter :require_admin, only: :index
+      skip_before_action :require_admin, only: :index
 
-      before_filter :find_project_by_project_id,
+      before_action :find_project_by_project_id,
                     :require_permissions
 
       accept_key_auth :index
@@ -89,9 +89,9 @@ module Api
       end
 
       def scope(transition)
-        if ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.author)
+        if ActiveRecord::Type::Boolean.new.cast(transition.author)
           :author
-        elsif ActiveRecord::Type::Boolean.new.type_cast_from_database(transition.assignee)
+        elsif ActiveRecord::Type::Boolean.new.cast(transition.assignee)
           :assignee
         else
           :role

@@ -41,7 +41,7 @@ module Api
       include SortHelper
       include ExtendedHTTP
 
-      before_filter :find_optional_project,
+      before_action :find_optional_project,
                     :v3_params_as_internal,
                     :load_query
 

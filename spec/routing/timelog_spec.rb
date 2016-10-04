@@ -34,4 +34,15 @@ describe TimelogController, type: :routing do
                                                                  action: 'new',
                                                                  work_package_id: '1')
   end
+
+  it 'connects GET /time_entries to timelog#index' do
+    expect(get('/time_entries')).to route_to(controller: 'timelog',
+                                             action: 'index')
+  end
+
+  it 'connects GET /projects/:id/time_entries to timelog#index' do
+    expect(get('/projects/1/time_entries')).to route_to(controller: 'timelog',
+                                                        action: 'index',
+                                                        project_id: '1')
+  end
 end

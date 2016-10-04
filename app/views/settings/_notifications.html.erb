@@ -87,7 +87,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
     <div style="float:none;display:inline-block;font-weight:bold;">
-      <%= link_to l(:label_send_test_email), controller: '/admin', action: 'test_email' %>
+      <%= link_to l(:label_send_test_email),
+                  { controller: '/admin', action: 'test_email' },
+                  method: :post %>
     </div>
   <% end %>
 <% else %>

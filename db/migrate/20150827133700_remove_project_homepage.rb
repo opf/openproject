@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class RemoveProjectHomepage < ActiveRecord::Migration
+class RemoveProjectHomepage < ActiveRecord::Migration[4.2]
   def change
     remove_column :projects, :homepage, :string, default: ''
   end

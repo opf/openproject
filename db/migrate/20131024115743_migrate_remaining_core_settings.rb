@@ -27,7 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MigrateRemainingCoreSettings < ActiveRecord::Migration
+require_relative 'migration_utils/ar_parameter_patch'
+
+class MigrateRemainingCoreSettings < ActiveRecord::Migration[4.2]
   REPLACED = {
     'tracker' => 'type',
     'issue_status_updated' => 'status_updated',
@@ -36,6 +38,9 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration
     'updated_on' => 'updated_at'
   }
   def self.up
+
+    ArParametersPatch.load
+
     # Delete old plugin settings no longer needed
     ActiveRecord::Base.connection.execute <<-SQL
         DELETE FROM #{settings_table}
@@ -51,6 +56,9 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration
   end
 
   def self.down
+
+    ArParametersPatch.load
+
     # the above delete part is inherently not reversable
     # Rename Type to Tracker
     Setting['work_package_list_default_columns'] = replace(Setting['work_package_list_default_columns'], REPLACED.invert)

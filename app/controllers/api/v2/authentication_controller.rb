@@ -33,8 +33,8 @@ module Api
       include ::Api::V2::ApiController
 
       AuthorizationData = Struct.new(:authorized, :authenticated_user_id)
-      skip_before_filter :require_login, :check_if_login_required
-      before_filter :api_allows_login, :require_login
+      skip_before_action :require_login, :check_if_login_required
+      before_action :api_allows_login, :require_login
 
       def index
         @authorization = AuthorizationData.new(true, User.current.id)

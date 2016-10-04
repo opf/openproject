@@ -30,9 +30,9 @@
 class Users::MembershipsController < ApplicationController
   layout 'admin'
 
-  before_filter :disable_api
-  before_filter :require_admin
-  before_filter :find_user
+  before_action :disable_api
+  before_action :require_admin
+  before_action :find_user
 
   def update
     update_or_create(request.patch?)

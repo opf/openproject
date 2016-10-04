@@ -44,7 +44,6 @@ require 'rspec/mocks'
 require 'factory_girl_rails'
 
 require_relative './support/legacy_file_helpers'
-require_relative './support/with_mock_request'
 require_relative './support/legacy_assertions'
 
 require 'rspec/rails'

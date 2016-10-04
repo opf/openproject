@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AllowNullPositionInColors < ActiveRecord::Migration
+class AllowNullPositionInColors < ActiveRecord::Migration[4.2]
   def self.up
     change_column :timelines_colors, :position, :integer, default: 1, null: true
   end

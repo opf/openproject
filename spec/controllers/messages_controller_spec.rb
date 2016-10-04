@@ -45,7 +45,9 @@ describe MessagesController, type: :controller do
 
   let(:filename) { 'testfile.txt' }
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
-  let(:uploaded_file) { ActionDispatch::Http::UploadedFile.new(tempfile: file, type: 'text/plain', filename: filename) }
+  let(:uploaded_file) do
+    fixture_file_upload "files/#{filename}", filename
+  end
 
   before do allow(User).to receive(:current).and_return user end
 
@@ -59,11 +61,11 @@ describe MessagesController, type: :controller do
           allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
           allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
 
-          post 'create', board_id: board.id,
-                         message: { subject: 'Test created message',
-                                    content: 'Messsage body' },
-                         attachments: { '1' => { 'file' => uploaded_file,
-                                                 'description' => '' } }
+          post 'create', params: { board_id: board.id,
+                                   message: { subject: 'Test created message',
+                                              content: 'Messsage body' },
+                                   attachments: { '1' => { 'file' => uploaded_file,
+                                                           'description' => '' } } }
         end
 
         describe '#journal' do
@@ -85,7 +87,8 @@ describe MessagesController, type: :controller do
 
     before do
       role.add_permission!(:edit_messages) and user.reload
-      put :update, id: message, message: { board_id: other_board }
+      put :update, params: { id: message,
+                             message: { board_id: other_board } }
     end
 
     it 'allows for changing the board' do
@@ -116,7 +119,7 @@ describe MessagesController, type: :controller do
         before do
           allow_any_instance_of(Attachment).to receive(:filesize).and_return(max_filesize + 1)
 
-          put :update, params
+          put :update, params: params
         end
 
         describe '#view' do
@@ -136,7 +139,7 @@ describe MessagesController, type: :controller do
 
       context 'journal' do
         before do
-          put :update, params
+          put :update, params: params
 
           message.reload
         end

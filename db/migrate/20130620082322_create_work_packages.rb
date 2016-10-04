@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWorkPackages < ActiveRecord::Migration
+class CreateWorkPackages < ActiveRecord::Migration[4.2]
   def up
     create_table 'work_packages' do |t|
       # Issue

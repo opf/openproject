@@ -40,12 +40,15 @@ describe SortHelper, type: :helper do
                               first_asc?: sort_asc,
                               to_param: 'sort_criteria_params').as_null_object
     }
-    let(:params) { { controller: 'work_packages', action: 'index' } }
 
     before do
       # helper relies on this instance var
       @sort_criteria = sort_criteria
-      allow(helper).to receive(:params).and_return(params)
+
+      # fake having called '/work_packages'
+      allow(helper)
+        .to receive(:url_options)
+        .and_return(url_options.merge(controller: 'work_packages', action: 'index'))
     end
 
     it 'renders a th with a sort link' do

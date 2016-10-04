@@ -32,8 +32,11 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
 
     it 'shows the parent relationship expanded' do
-      expect(page).to have_selector('.parent .work_package',
-                                    text: "##{parent.id} #{parent.type}: #{parent.subject}")
+      link = find('.parent .work_package',
+                  text: "##{parent.id} #{parent.type}: #{parent.subject}")
+      link.click
+      parent_wp_page = ::Pages::FullWorkPackage.new(parent)
+      parent_wp_page.expect_subject
     end
   end
 

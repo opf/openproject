@@ -44,8 +44,8 @@ custom_fields.each do |custom_field|
                               [
                                 ['', ''],
                                 [l('timelines.filter.noneElement'), '-1'],
-                                [l('general_text_Yes'), '1'],
-                                [l('general_text_No'), '0']
+                                [l('general_text_Yes'), 't' ],
+                                [l('general_text_No'), 'f']
                               ],
                               timeline.custom_fields_filter[custom_field.id.to_s]),
                               class: "cf_boolean_select",

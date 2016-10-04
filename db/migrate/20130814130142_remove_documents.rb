@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveDocuments < ActiveRecord::Migration
+class RemoveDocuments < ActiveRecord::Migration[4.2]
   def up
     unless Redmine::Plugin.registered_plugins.include?(:openproject_documents)
       if  Document.any? || Attachment.where(container_type: ['Document']).any?

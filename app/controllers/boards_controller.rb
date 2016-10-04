@@ -29,10 +29,10 @@
 
 class BoardsController < ApplicationController
   default_search_scope :messages
-  before_filter :find_project_by_project_id,
+  before_action :find_project_by_project_id,
                 :authorize
-  before_filter :new_board, only: [:new, :create]
-  before_filter :find_board_if_available, except: [:index]
+  before_action :new_board, only: [:new, :create]
+  before_action :find_board_if_available, except: [:index]
   accept_key_auth :index, :show
 
   include SortHelper

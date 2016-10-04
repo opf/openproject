@@ -55,7 +55,7 @@ Redmine::MenuManager.map :top_menu do |menu|
                 User.current.allowed_to?(:view_news, nil, global: true)
             }
   menu.push :time_sheet,
-            { controller: '/time_entries', project_id: nil, action: 'index' },
+            { controller: '/timelog', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_time_sheet_menu'),
             if: Proc.new {

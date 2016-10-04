@@ -27,15 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class MessageObserver < ActiveRecord::Observer
-  def after_create(message)
-    if Setting.notified_events.include?('message_posted')
-      recipients = message.recipients
-      recipients += message.root.watcher_recipients
-      recipients += message.board.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.message_posted(user, message, User.current).deliver_now
-      end
-    end
-  end
+class RolePermission < ActiveRecord::Base
+  belongs_to :role
+
+  validates_presence_of :permission
 end

@@ -29,7 +29,7 @@
 
 # This migration aggregates the migrations detailed in the @@migrations
 # heredoc
-class AggregatedMigrations < ActiveRecord::Migration
+class AggregatedMigrations < ActiveRecord::Migration[4.2]
   class IncompleteMigrationsError < ::StandardError
   end
 

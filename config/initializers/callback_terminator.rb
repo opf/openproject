@@ -27,24 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiContentObserver < ActiveRecord::Observer
-  def after_create(wiki_content)
-    if Setting.notified_events.include?('wiki_content_added')
-      recipients = wiki_content.recipients + wiki_content.page.wiki.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.wiki_content_added(user, wiki_content, User.current).deliver_now
-      end
-    end
-  end
-
-  def after_update(wiki_content)
-    if wiki_content.text_changed? && Setting.notified_events.include?('wiki_content_updated')
-      recipients = wiki_content.recipients
-      recipients += wiki_content.page.wiki.watcher_recipients
-      recipients += wiki_content.page.watcher_recipients
-      recipients.uniq.each do |user|
-        UserMailer.wiki_content_updated(user, wiki_content, User.current).deliver_now
-      end
-    end
-  end
-end
+# This configuration was added so that we do not accidentially pass a filter chain
+# because it was not yet updated
+#
+# We'll have to look out for deprecation warnings like:
+#
+# DEPRECATION WARNING: Returning `false` in Active Record and Active Model callbacks
+# will not implicitly halt a callback chain in the next release of Rails.
+# To explicitly halt the callback chain, please use `throw :abort` instead.
+ActiveSupport.halt_callback_chains_on_return_false = true

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,3 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
+  class TypeWithWhatever < ActiveRecord::Base
+    self.table_name = :types
+
+    serialize :attribute_visibility
+  end
+
+  class TypeWithHash < ActiveRecord::Base
+    self.table_name = :types
+
+    serialize :attribute_visibility, Hash
+  end
+
+  def up
+    TypeWithWhatever.transaction do
+      TypeWithWhatever.all.to_a.each do |type|
+        visibility = type.attribute_visibility
+        if visibility.respond_to?(:permit!)
+          visibility.permit!
+        end
+        visibility = visibility.to_h
+
+        TypeWithHash
+          .where(id: type.id)
+          .update_all(attribute_visibility: visibility)
+      end
+    end
+  end
+
+  def down
+    TypeWithHash.transaction do
+      TypeWithHash.all.to_a.each do |type|
+        visibility = ActionController::Parameter.new(type.attribute_visibility)
+
+        TypeWithWhatever
+          .where(id: type.id)
+          .update_all(attribute_visibility: visibility)
+      end
+    end
+  end
+end

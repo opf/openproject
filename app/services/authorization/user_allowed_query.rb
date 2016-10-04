@@ -43,7 +43,18 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
     # No action allowed on archived projects
     # No action allowed on disabled modules
     if project.active? && project.allows_to?(action)
-      statement.where(roles_table[:id].not_eq(nil).or(users_table[:admin].eq(true)))
+      has_role = roles_table[:id].not_eq(nil)
+      has_permission = role_permissions_table[:id].not_eq(nil)
+
+      has_role_and_permission = if Redmine::AccessControl.permission(action).public?
+                                  has_role
+                                else
+                                  has_role.and(has_permission)
+                                end
+
+      is_admin = users_table[:admin].eq(true)
+
+      statement.where(has_role_and_permission.or(is_admin))
     else
       statement.where(Arel::Nodes::Equality.new(1, 0))
     end
@@ -56,23 +67,31 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
 
   transformations.register :all,
                            :roles_join,
-                           after: [:member_roles_join] do |statement, action, project|
+                           after: [:member_roles_join] do |statement, _, project|
     statement.outer_join(roles_table)
-             .on(roles_member_roles_join(action, project))
+             .on(roles_member_roles_join(project))
   end
 
-  def self.roles_member_roles_join(action, project)
-    id_equal = roles_table[:id].eq(member_roles_table[:role_id])
-    id_equal_or_public = if project.is_public?
-                           member_or_public_project_condition(id_equal)
-                         else
-                           id_equal
-                         end
-
+  transformations.register :all,
+                           :role_permissions_join,
+                           after: [:roles_join] do |statement, action|
     if Redmine::AccessControl.permission(action).public?
-      id_equal_or_public
+      statement
     else
-      id_equal_or_public.and(roles_table[:permissions].matches("%#{action}%"))
+      statement.outer_join(role_permissions_table)
+               .on(roles_table[:id]
+                   .eq(role_permissions_table[:role_id])
+                   .and(role_permissions_table[:permission].eq(action.to_s)))
+    end
+  end
+
+  def self.roles_member_roles_join(project)
+    id_equal = roles_table[:id].eq(member_roles_table[:role_id])
+
+    if project.is_public?
+      member_or_public_project_condition(id_equal)
+    else
+      id_equal
     end
   end
 

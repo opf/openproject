@@ -28,7 +28,7 @@
 #++
 
 ##
-# Hack against rabl 0.9.3 which applies config.include_child_root to
+# Hack against rabl 0.13.0 which applies config.include_child_root to
 # #collection as well as to #child calls as you would expect.
 #
 module Rabl
@@ -45,14 +45,14 @@ module Rabl
   end
 
   class Builder
-    def compile_hash_with_hack(options = {})
-      if options[:building_collection] && !options[:child_root]
-        options[:root_name] = false
+    def to_hash_with_hack(object = nil, settings = nil, options = nil)
+      if @options[:building_collection] && !@options[:child_root]
+        @options[:root_name] = false
       end
-      compile_hash_without_hack(options)
+      to_hash_without_hack(object, settings, options)
     end
 
-    alias_method :compile_hash_without_hack, :compile_hash
-    alias_method :compile_hash, :compile_hash_with_hack
+    alias_method :to_hash_without_hack, :to_hash
+    alias_method :to_hash, :to_hash_with_hack
   end
 end

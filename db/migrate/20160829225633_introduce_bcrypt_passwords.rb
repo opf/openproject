@@ -1,4 +1,4 @@
-class IntroduceBcryptPasswords < ActiveRecord::Migration
+class IntroduceBcryptPasswords < ActiveRecord::Migration[5.0]
   def up
     # Introduce type to UserPassword
     add_column :user_passwords, :type, :string, null: true

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameAuthSourceLdap < ActiveRecord::Migration
+class RenameAuthSourceLdap < ActiveRecord::Migration[4.2]
   def self.up
     AuthSource.where(['type = ?', 'AuthSourceLdap']).update_all ['type = ?', 'LdapAuthSource']
   end

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateNormalizedJournals < ActiveRecord::Migration
+class CreateNormalizedJournals < ActiveRecord::Migration[4.2]
   def change
     create_table :journals do |t|
       t.references :journable, polymorphic: true

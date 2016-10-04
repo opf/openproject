@@ -440,13 +440,17 @@ describe WorkPackages::BulkController, type: :controller do
 
           before do
             put :update,
-                ids: work_package_ids,
-                work_package: { custom_field_values: { custom_field_1.id.to_s => result } }
+                params: {
+                  ids: work_package_ids,
+                  work_package: {
+                    custom_field_values: { custom_field_1.id.to_s => result }
+                  }
+                }
           end
 
           subject {
             work_packages.map { |w| w.custom_value_for(custom_field_1.id).value }
-              .uniq
+                         .uniq
           }
 
           it { is_expected.to match_array [result] }

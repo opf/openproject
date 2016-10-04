@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWorkPackageJournals < ActiveRecord::Migration
+class CreateWorkPackageJournals < ActiveRecord::Migration[4.2]
   def change
     create_table :work_package_journals do |t|
       t.integer :journal_id,                                      null: false

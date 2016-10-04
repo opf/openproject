@@ -84,7 +84,7 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   private
 
   def repositories_table
-    @repositories_table ||= Arel::Table.new(:repositories)
+    @repositories_table ||= Repository.arel_table
   end
 
   def format_revision(event)

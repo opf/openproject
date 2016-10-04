@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/attachable_utils'
 
-class AddMissingAttachableJournals < ActiveRecord::Migration
+class AddMissingAttachableJournals < ActiveRecord::Migration[4.2]
   include Migration::Utils
   include Migration::Utils::AttachableUtils
 

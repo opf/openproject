@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,13 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Tableless < ActiveRecord::Base
-  has_no_table database: :pretend_success
+require_relative 'migration_utils/ar_parameter_patch'
 
-  # NOTE: Override for Rails 4.2 support.
-  # See: https://github.com/softace/activerecord-tableless/issues/22
-  def self.column(name, sql_type = nil, default = nil, null = true)
-    type = "ActiveRecord::Type::#{sql_type.to_s.camelize}".constantize.new
-    columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default, type, null)
+class SettingValueToHash < ActiveRecord::Migration[5.0]
+  class SettingWithWhatever < ActiveRecord::Base
+    self.table_name = :settings
+
+    serialize :value
   end
+
+  class SettingWithHash < ActiveRecord::Base
+    self.table_name = :settings
+
+    serialize :value, Hash
+  end
+
+  def up
+    ArParametersPatch.load
+
+    SettingWithWhatever.transaction do
+      SettingWithWhatever.all.to_a.each do |setting|
+        value = setting.value
+        next unless value && value.is_a?(ActionController::Parameters)
+        value.permit!
+        value = value.to_h
+
+        SettingWithHash
+          .where(id: setting.id)
+          .update_all(value: value)
+      end
+    end
+  end
+
+  # This migration does not need to be rolled back because
+  # it only harmonizes the possible values of the value attribute.
 end

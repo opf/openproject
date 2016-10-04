@@ -34,24 +34,18 @@ class ProjectsController < ApplicationController
 
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project, except: [:index, :level_list, :new, :create]
-  before_filter :authorize, only: [
+  before_action :disable_api
+  before_action :find_project, except: [:index, :level_list, :new, :create]
+  before_action :authorize, only: [
     :show, :settings, :edit, :update, :modules, :types, :custom_fields
   ]
-  before_filter :authorize_global, only: [:new, :create]
-  before_filter :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
-  before_filter :jump_to_project_menu_item, only: :show
-  before_filter :load_project_settings, only: :settings
-  before_filter :determine_base
+  before_action :authorize_global, only: [:new, :create]
+  before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
+  before_action :jump_to_project_menu_item, only: :show
+  before_action :load_project_settings, only: :settings
+  before_action :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
-
-  after_filter only: [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
-    if controller.request.post?
-      controller.send :expire_action, controller: '/welcome', action: 'robots.txt'
-    end
-  end
 
   include SortHelper
   include CustomFieldsHelper

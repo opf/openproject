@@ -30,12 +30,12 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :disable_api, except: [:index, :destroy]
-  before_filter :find_work_package, only: [:new, :create]
-  before_filter :find_project, only: [:new, :create]
-  before_filter :find_time_entry, only: [:show, :edit, :update, :destroy]
-  before_filter :authorize, except: [:index]
-  before_filter :find_optional_project, only: [:index]
+  before_action :disable_api, except: [:index, :destroy]
+  before_action :find_work_package, only: [:new, :create]
+  before_action :find_project, only: [:new, :create]
+  before_action :find_time_entry, only: [:show, :edit, :update, :destroy]
+  before_action :authorize, except: [:index]
+  before_action :find_optional_project, only: [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -126,12 +126,7 @@ class TimelogController < ApplicationController
                    .distinct(false)
                    .order(sort_clause)
 
-        charset = "charset=#{l(:general_csv_encoding).downcase}"
-
-        send_data(
-          entries_to_csv(@entries),
-          type: "text/csv; #{charset}; header=present",
-          filename: 'timelog.csv')
+        render csv: entries_to_csv(@entries), filename: 'timelog.csv'
       end
     end
   end
@@ -147,7 +142,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     render action: 'edit'
   end
@@ -156,7 +151,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -177,13 +172,13 @@ class TimelogController < ApplicationController
   def edit
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
   end
 
   def update
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|

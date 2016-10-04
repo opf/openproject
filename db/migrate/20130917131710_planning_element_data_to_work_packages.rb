@@ -29,7 +29,7 @@
 
 require_relative 'migration_utils/utils'
 
-class PlanningElementDataToWorkPackages < ActiveRecord::Migration
+class PlanningElementDataToWorkPackages < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up

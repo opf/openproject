@@ -28,8 +28,7 @@
 #++
 
 class HomescreenController < ApplicationController
-
-  skip_before_filter :check_if_login_required, only: [:robots]
+  skip_before_action :check_if_login_required, only: [:robots]
 
   def index
     @newest_projects = Project.visible.newest.take(3)
@@ -43,5 +42,4 @@ class HomescreenController < ApplicationController
   def robots
     @projects = Project.active.public_projects
   end
-  caches_action :robots
 end

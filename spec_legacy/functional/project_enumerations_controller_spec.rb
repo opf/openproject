@@ -71,7 +71,7 @@ describe ProjectEnumerationsController, type: :controller do
     refute_equal development.parent.id, development.id # Different records
     assert_equal development.parent.name, development.name # Same name
     assert development.active?
-    assert_equal '0', development.custom_value_for(billable_field).value
+    assert_equal 'f', development.custom_value_for(billable_field).value
 
     # ... Inactive Activity
     previously_inactive = project.time_entry_activities.find_by(name: 'Inactive Activity')
@@ -81,7 +81,7 @@ describe ProjectEnumerationsController, type: :controller do
     refute_equal previously_inactive.parent.id, previously_inactive.id # Different records
     assert_equal previously_inactive.parent.name, previously_inactive.name # Same name
     assert previously_inactive.active?
-    assert_equal '1', previously_inactive.custom_value_for(billable_field).value
+    assert_equal 't', previously_inactive.custom_value_for(billable_field).value
 
     # ... QA
     assert_equal nil, project.time_entry_activities.find_by(name: 'QA'), "Custom QA activity created when it wasn't modified"

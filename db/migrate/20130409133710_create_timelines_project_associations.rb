@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesProjectAssociations < ActiveRecord::Migration
+class CreateTimelinesProjectAssociations < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_project_associations) do |t|
       t.belongs_to :project_a
