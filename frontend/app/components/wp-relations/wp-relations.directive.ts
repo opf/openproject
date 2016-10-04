@@ -69,7 +69,7 @@ export class WorkPackageRelationsController {
 
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
-    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).take(1));
+    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
 
     if (observablesToGetZipped.length > 1) {
       return Rx.Observable

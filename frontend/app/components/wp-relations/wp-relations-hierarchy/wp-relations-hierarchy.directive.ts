@@ -62,8 +62,9 @@ export class WorkPackageRelationsHierarchyController {
   };
 
   protected loadParents() {
-    this.wpCacheService.loadWorkPackage(this.workPackage.parentId)
-      .take(1)
+    this.wpCacheService
+      .loadWorkPackage(this.workPackage.parentId)
+      .observe(this.$scope)
       .subscribe((parent:WorkPackageResourceInterface) => {
         this.parent = parent;
       });
@@ -100,8 +101,9 @@ export class WorkPackageRelationsHierarchyController {
 
       this.workPackage = changedData.workPackage;
 
-      this.wpCacheService.loadWorkPackage(changedData.parentId, true)
-        .take(1)
+      this.wpCacheService
+        .loadWorkPackage(changedData.parentId, true)
+        .observe(this.$scope)
         .subscribe((parent:WorkPackageResourceInterface) => {
           this.parent = parent;
           this.workPackage.parentId = changedData.parentId;
