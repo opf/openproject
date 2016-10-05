@@ -22,6 +22,3 @@ Capybara.register_driver :selenium do |app|
     desired_capabilities: capabilities
   )
 end
-
-# Use selenium until we upgraded jenkins workers
-Capybara.javascript_driver = :selenium
