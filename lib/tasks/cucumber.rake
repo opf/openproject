@@ -40,7 +40,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
     require 'cucumber/rake/task'
 
     namespace :cucumber do
-      Cucumber::Rake::Task.new({ ok: ['db:test:prepare', 'assets:prepare_op'] }, 'Run features that should pass') do |t|
+      Cucumber::Rake::Task.new({ ok: ['db:test:prepare'] }, 'Run features that should pass') do |t|
         t.fork = true # You may get faster startup if you set this to false
       end
 
@@ -78,7 +78,7 @@ unless ARGV.any? { |a| a =~ /\Agems/ } # Don't load anything when running the ge
             end
           end
 
-          Cucumber::Rake::Task.new({ cucumber_run: ['db:test:prepare', 'assets:prepare_op'] }, 'Run features that should pass') do |t|
+          Cucumber::Rake::Task.new({ cucumber_run: ['db:test:prepare'] }, 'Run features that should pass') do |t|
             opts = (ENV['CUCUMBER_OPTS'] ? ENV['CUCUMBER_OPTS'].split(/\s+/) : [])
             ENV.delete('CUCUMBER_OPTS')
             opts += args[:options].split(/\s+/) if args[:options]
