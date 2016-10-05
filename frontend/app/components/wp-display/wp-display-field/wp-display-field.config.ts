@@ -39,12 +39,15 @@ import {BooleanDisplayField} from '../field-types/wp-display-boolean-field.modul
 import {ProgressDisplayField} from '../field-types/wp-display-progress-field.module';
 import {openprojectModule} from '../../../angular-modules';
 import {SpentTimeDisplayField} from '../field-types/wp-display-spent-time-field.module';
+import {IntegerDisplayField} from "../field-types/wp-display-integer-field.module";
+
 
 openprojectModule
   .run((wpDisplayField:WorkPackageDisplayFieldService) => {
     wpDisplayField.defaultType = 'text';
     wpDisplayField
       .addFieldType(TextDisplayField, 'text', ['String'])
+      .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
       .addFieldType(ResourceDisplayField, 'resource', ['User',
                                                        'Project',
                                                        'Type',
