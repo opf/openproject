@@ -163,6 +163,10 @@ export class WorkPackageAttachmentsController {
     return this.currentlyFocussing === attachment;
   };
 
+  public removable(attachment:any):boolean {
+    return attachment.$links.hasOwnProperty('delete');
+  }
+
   public filterFiles(files):void {
     // Directories cannot be uploaded and as such, should not become files in
     // the sense of this directive.  The files within the directories will
