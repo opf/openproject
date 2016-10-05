@@ -82,20 +82,10 @@ module OpenProject
         #
         # @raise [ScmUnavailable] raised when repository is unavailable.
         def check_availability!
-          out, = Open3.capture2e(client_command, *build_git_cmd(%w[log -- HEAD]))
+          # If it is not empty, it should have at least one branch
+          # Any exit code != 0 will raise here
+          raise Exceptions::ScmEmpty unless branches.count > 0
 
-          if out.include?("fatal: bad default revision 'HEAD'")
-            raise Exceptions::ScmEmpty
-          end
-
-          # Starting with Git 2.5.2, 2.6.1, the empty repository warning has been improved
-          # https://github.com/git/git/commit/ce113604672fed9b429b1c162b1005794fff6a17
-          if out =~ /fatal: your current branch .+ does not have any commits yet/i
-            raise Exceptions::ScmEmpty
-          end
-
-          # If it not empty, it should have at least one readable branch.
-          raise Exceptions::ScmUnavailable unless branches.size > 0
         rescue Exceptions::CommandFailed => e
           logger.error("Availability check failed due to failed Git command: #{e.message}")
           raise Exceptions::ScmUnavailable
@@ -103,6 +93,11 @@ module OpenProject
 
         def info
           Info.new(root_url: url, lastrev: lastrev('', nil))
+        end
+
+        def bare?
+          cmd_args = %w|rev-parse --is-bare-repository|
+          capture_git(cmd_args).chomp == 'true'
         end
 
         def branches
