@@ -69,6 +69,8 @@ export class WorkPackageTimelineCell {
 
   private updateView(viewParams: TimelineViewParameters, workPackage: WorkPackage) {
     console.log("update:" + workPackage.id);
+    // console.log(viewParams.dateDisplayStart);
+    // console.log(viewParams.dateDisplayEnd);
 
     this.bar.innerText = workPackage.subject + " | " + workPackage.startDate + " - " + workPackage.dueDate;
     this.bar.style.width = "1000px";
