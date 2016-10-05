@@ -74,7 +74,7 @@ export class WorkPackageTimelineService {
 
         if (!_.isEqual(oldParams, newParams)) {
           // view params have changed, notify all cells
-          this.viewParamsSubject.onNext(renderInfo.viewParams);
+          this.viewParamsSubject.onNext(newParams);
           return Observable.empty<RenderInfo>();
         } else {
           // view params have not changed, only notify this observer
@@ -88,16 +88,15 @@ export class WorkPackageTimelineService {
 
     for (const wpId in this.workPackagesInView) {
       const wp = this.workPackagesInView[wpId];
+      const start = wp.startDate ? new Date(wp.startDate as any).getTime() : null;
+      const due = wp.dueDate ? new Date(wp.dueDate as any).getTime() : null;
 
-      const start = wp.startDate ? new Date(wp.startDate).getDate() : null;
-      const due = wp.dueDate ? new Date(wp.dueDate).getDate() : null;
-
-      if (params.dateDisplayStart === null || (start && start < params.dateDisplayStart)) {
-        params.dateDisplayStart = start;
-      }
-      if (params.dateDisplayEnd === null || (due && due < params.dateDisplayEnd)) {
-        params.dateDisplayEnd = due;
-      }
+      // if (!params.dateDisplayStart || (start && start < params.dateDisplayStart)) {
+      //   params.dateDisplayStart = start;
+      // }
+      // if (!params.dateDisplayEnd || (due && due < params.dateDisplayEnd)) {
+      //   params.dateDisplayEnd = due;
+      // }
 
     }
 
