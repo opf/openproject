@@ -54,9 +54,9 @@ module API
             declared_params = declared(params).reject { |key, value| key.to_sym == :id || value.nil? }
 
             relation = @work_package.new_relation.tap do |r|
-              r.to = WorkPackage.visible.find_by(id: declared_params[:to_id].match(/\d+/).to_s)
-              r.relation_type = declared_params[:relation_type]
-              r.delay = declared_params[:delay_id]
+              r.to = WorkPackage.visible.find_by id: declared_params['to_id']
+              r.relation_type = declared_params['relation_type']
+              r.delay = declared_params['delay_id']
             end
 
             if relation.valid? && relation.save
@@ -72,7 +72,7 @@ module API
           route_param :relation_id do
             delete do
               authorize(:manage_work_package_relations, context: @work_package.project)
-              Relation.destroy(params[:relation_id])
+              Relation.destroy(params['relation_id'])
               status 204
             end
           end
