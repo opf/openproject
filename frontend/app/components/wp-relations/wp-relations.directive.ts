@@ -62,7 +62,7 @@ export class WorkPackageRelationsController {
 
   protected removeSingleRelation(evt, relation) {
     this.currentRelations = _.remove(this.currentRelations, (latestRelation) => {
-      return latestRelation.relatedBy.$href !== relation.href;
+      return latestRelation.relatedBy.$href !== relation.$href;
     });
 
     this.buildRelationGroups();
@@ -95,6 +95,7 @@ export class WorkPackageRelationsController {
   protected addSingleRelation(evt, relation) {
     var relatedWorkPackageId = [this.getRelatedWorkPackageId(relation)];
     this.getRelatedWorkPackages(relatedWorkPackageId)
+      .take(1)
       .subscribe((relatedWorkPackage:RelatedWorkPackage) => {
         relatedWorkPackage.relatedBy = relation;
         this.currentRelations.push(relatedWorkPackage);
