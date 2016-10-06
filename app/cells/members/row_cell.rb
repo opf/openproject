@@ -17,11 +17,11 @@ module Members
     end
 
     def lastname
-      user.lastname if user
+      link_to user.lastname, user_path(user) if user
     end
 
     def firstname
-      user.firstname if user
+      link_to user.firstname, user_path(user) if user
     end
 
     def mail
