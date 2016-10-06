@@ -62,8 +62,9 @@ export class WorkPackageRelationsController {
 
   protected removeSingleRelation(evt, relation) {
     this.currentRelations = _.remove(this.currentRelations, (latestRelation) => {
-      return latestRelation.relatedBy.href !== relation.href;
+      return latestRelation.relatedBy.$href !== relation.href;
     });
+
     this.buildRelationGroups();
   }
 
@@ -112,6 +113,7 @@ export class WorkPackageRelationsController {
     });
 
     this.getRelatedWorkPackages(relatedWpIds)
+      .take(1)
       .subscribe(relatedWorkPackages => {
         if (angular.isArray(relatedWorkPackages)) {
           this.currentRelations = relatedWorkPackages.map((wp) => {
