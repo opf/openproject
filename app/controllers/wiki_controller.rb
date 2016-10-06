@@ -224,10 +224,40 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.title
-    if request.patch? && @page.update_attributes(permitted_params.wiki_page_rename)
-      flash[:notice] = l(:notice_successful_update)
-      redirect_to_show
+
+    if request.patch?
+      attributes = permitted_params.wiki_page_rename
+
+      if (item = conflicting_menu_item(attributes["title"]))
+        flash[:error] = I18n.t(
+          :error_wiki_root_menu_item_conflict,
+          old_name: @page.title,
+          new_name: attributes["title"],
+          existing_caption: item.caption,
+          existing_identifier: item.name)
+
+        redirect_to_show
+      elsif @page.update_attributes(attributes)
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to_show
+      end
     end
+  end
+
+  def conflicting_menu_item(title)
+    page.menu_item &&
+      page.menu_item.parent_id.nil? &&
+      project_menu_items.find { |item| item.name.to_s == title.to_url }
+  end
+
+  def project_menu_items
+    Redmine::MenuManager.items("project_menu").children + wiki_root_menu_items
+  end
+
+  def wiki_root_menu_items
+    MenuItems::WikiMenuItem
+      .where(parent_id: nil)
+      .map { |it| OpenStruct.new name: it.name, caption: it.title, item: it }
   end
 
   def edit_parent_page

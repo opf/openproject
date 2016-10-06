@@ -26,76 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#content
-  .mypage-box
-    @include content-box
-    i
-      float: left
-      padding: 7px 10px 0 0
+describe('hasPreview Directive', function() {
+  var compile, element, scope;
 
-    .generic-table--container
-      margin-top: 45px
-      table, td, th
-        border: none
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.templates'));
 
-.my-page--container
-  #right,
-  #left
-    flex: 0 0 50%
-    max-width: 50%
+  beforeEach(inject(function($rootScope, $compile) {
+    var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';
 
-  .widget-boxes
-    margin: 0 -10px
+    element = angular.element(html);
+    scope = $rootScope.$new();
 
-    .widget-box
-      margin-bottom: 20px
-      overflow: auto
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-      &:last-child
-        margin-bottom: 10px
+  beforeEach(function() {
+    compile();
+  });
 
-@include breakpoint(680px down)
-  .my-page--container .grid-block.widget-boxes
-    flex-wrap: wrap
+  describe('link element', function() {
+    beforeEach(function() {
+      element.click();
+    });
 
-    #right,
-    #left
-      flex: 0 0 100%
-      max-width: 100%
-
-    #left
-      margin-bottom: 0
-
-.handle
-  cursor: move
-
-div.box-actions
-  float: right
-  z-index: 500
-
-#visible-grid
-  .handle
-    cursor: move
-  &.my-page--container .widget-boxes
-    margin: 0
-
-.block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
-  margin-bottom: 20px
-  padding: 8px
-
-  #visible-grid &
-    min-height: 32px
-
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
-
-div.mypage-box p.summary
-  font-style: normal
-
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
-
-div.mypage-box .hascontextmenu
-  cursor: auto
+    xit('should load the preview', function() {
+    });
+  });
+});

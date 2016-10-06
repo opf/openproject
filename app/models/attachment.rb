@@ -62,6 +62,8 @@ class Attachment < ActiveRecord::Base
     url = URI.parse file.download_url # returns a path if local
 
     url if url.host
+  rescue URI::InvalidURIError
+    nil
   end
 
   def external_storage?

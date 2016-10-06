@@ -73,11 +73,13 @@ class WikiMenuItemsController < ApplicationController
       end
     end
 
-    changed = @wiki_menu_item.changed? || @wiki_menu_item.destroyed?
-    if @wiki_menu_item.save || changed
+    if @wiki_menu_item.save || @wiki_menu_item.destroyed?
       # we may have just destroyed a new record
       # e.g. there was no menu_item before, and there is none now
-      flash[:notice] = l(:notice_successful_update) if !@wiki_menu_item.new_record? && changed
+      if !@wiki_menu_item.new_record? && (@wiki_menu_item.changed? || @wiki_menu_item.destroyed?)
+        flash[:notice] = t(:notice_successful_update)
+      end
+
       redirect_back_or_default(action: 'edit', id: @page)
     else
       respond_to do |format|

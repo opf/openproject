@@ -67,7 +67,7 @@ export class WorkPackagesListService {
         var queryFromParams = new this.Query(queryData, {rawFilters: true});
 
         fetchWorkPackages = this.WorkPackageService.getWorkPackages(
-          projectIdentifier, queryFromParams, this.PaginationService.getPaginationOptions());
+          projectIdentifier, queryFromParams, this.paginationOptions(queryFromParams));
 
       } catch (e) {
         this.NotificationsService.addError(
@@ -124,6 +124,13 @@ export class WorkPackagesListService {
   private mergeApiResponses(exJson, workPackages) {
     exJson.work_packages = workPackages.elements;
     exJson.resource = workPackages;
+  }
+
+  private paginationOptions(query) {
+    return {
+      perPage: (query.perPage || this.PaginationService.perPage),
+      page: (query.page || this.PaginationService.page)
+    };
   }
 }
 

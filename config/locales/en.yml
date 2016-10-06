@@ -787,6 +787,9 @@ en:
   error_workflow_copy_target: "Please select target type(s) and role(s)"
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
+  error_wiki_root_menu_item_conflict: >
+    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
+    with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
 
@@ -970,6 +973,7 @@ en:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
   label_duplicated_by: "duplicated by"
+  label_duplicate: "duplicate"
   label_duplicates: "duplicates"
   label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
@@ -980,6 +984,7 @@ en:
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
+  label_enumeration_value: "Enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
@@ -1024,6 +1029,7 @@ en:
   label_internal: "Internal"
   label_invite_user: "Invite user"
   label_show_hide: "Show/hide"
+  label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
@@ -1053,6 +1059,7 @@ en:
   label_member_plural: "Members"
   label_memder_view_all: "View all members"
   label_menu_item_name: "Name of menu item"
+  label_message: "Message"
   label_message_last: "Last message"
   label_message_new: "New message"
   label_message_plural: "Messages"
@@ -1287,11 +1294,10 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_priority_updated: "Work package priority updated"
   label_work_package_status: "Work package status"
-  label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
-  label_work_package_tracking: "Work package tracking"
   label_work_package_types: "Work package types"
   label_work_package_updated: "Work package updated"
+  label_work_package_tracking: "Work package tracking"
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
@@ -2092,8 +2098,6 @@ en:
 
   queries:
     apply_filter: Apply preconfigured filter
-
-  label_work_package_hierarchy: "Work Package Hierarchy"
 
   top_menu:
     additional_resources: "Additional resources"

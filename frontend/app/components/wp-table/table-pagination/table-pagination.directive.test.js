@@ -128,7 +128,7 @@ describe('tablePagination Directive', function () {
 
       scope.tableEntries = 101;
       scope.$apply();
-      expect(numberOfPageNumberLinks()).to.eq(8);
+      expect(numberOfPageNumberLinks()).to.eq(7);
     });
   });
 

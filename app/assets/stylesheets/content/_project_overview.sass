@@ -26,36 +26,57 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+/* Align widget boxes with description above on project overview */
+.project-overview
+  margin: 0 -10px
 
-describe('hasPreview Directive', function() {
-  var compile, element, scope;
+/* Legacy styles for my project page plugin version (without widget-box styles) */
+#invisible-grid
+  #list-left
+    .mypage-box
+      margin-right: 10px
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(angular.mock.module('openproject.templates'));
+  #list-right
+    .mypage-box
+      margin-left: 10px
 
-  beforeEach(inject(function($rootScope, $compile) {
-    var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';
+  .mypage-box
+    .box-actions
+      margin-top: -60px
 
-    element = angular.element(html);
-    scope = $rootScope.$new();
+  #top
+    padding: 0 4px
 
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
+  .container
+    margin-bottom: 24px
 
-  beforeEach(function() {
-    compile();
-  });
+    > h3:first-child
+      margin-bottom: 14px
 
-  describe('link element', function() {
-    beforeEach(function() {
-      element.click();
-    });
+#visible-grid,
+#invisible-grid
+  .left,
+  .right
+    flex: 0 0 50%
+    max-width: 50%
 
-    xit('should load the preview', function() {
-    });
-  });
-});
+  .widget-box
+    margin-bottom: 20px
+    overflow: auto
+
+    &:last-child
+      margin-bottom: 10px
+
+
+@include breakpoint(680px down)
+  #visible-grid .grid-block,
+  #invisible-grid .grid-block
+    flex-wrap: wrap
+
+    .right,
+    .left
+      flex: 0 0 100%
+      max-width: 100%
+
+    .left
+      margin-bottom: 0

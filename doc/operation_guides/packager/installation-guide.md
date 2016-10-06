@@ -277,6 +277,48 @@ Now this Let's Encryt certificate is only valid for 90 days. To renew it automat
     
 This will execute `certbot renew` every day at 1am. The command checks if the certificate is expired and renews it if that is the case. The web server is restarted in a post hook in order for it to pick up the new certificate.
 
+The last thing you have to do is have OpenProject actually use the SSL certificate. For that you will have to reconfigure OpenProject using `openproject reconfigure`. Keep everything the same except for the SSL option where you then provide the path to the certificate and private key given by `certbot-auto` which is `/etc/letsencrypt/live/mydomain.com/fullchain.pem` and `/etc/letsencrypt/live/mydomain.com/privkey.pem` respectively.
+
+## Sendmail setup
+
+If you want to use sendmail to send emails you may have to install postfix.
+If it is not yet installed do so using your package manager, for instance:
+
+```
+sudo apt-get install postfix
+```
+
+Pick the "No Configuration" option during the installation.
+
+Next backup the configuration in `/etc/postfix` and override `/etc/postfix/main.cf` with the following:
+
+```
+allow_percent_hack = no
+biff = no
+bounce_queue_lifetime = 2h
+default_destination_concurrency_limit = 2
+disable_vrfy_command = yes
+initial_destination_concurrency = 2
+maximal_queue_lifetime = 4h
+message_size_limit = 4096
+mydomain = [your domain]
+myhostname = [this host fqdn]
+mynetworks = [ip list, or hash file]
+smtpd_banner = $myhostname - private smtp
+smtpd_client_restrictions = 
+smtpd_helo_required = yes
+smtpd_helo_restrictions = 
+smtpd_recipient_restrictions = permit_mynetworks, reject
+smtpd_sender_restrictions = 
+strict_mime_encoding_domain = yes
+strict_rfc821_envelopes = yes
+```
+
+Then restart postfix, e.g. using `service postfix restart` and configure OpenProject to use it through `openproject reconfigure` if it is not already done.
+
+Now you should be able to send emails form your OpenProject installation.
+To test that it works login into OpenProject and send a test email via Administration -> Settings -> Email notifications.
+
 ## Adding custom plugins to the installation
 
 [A number of plugins](https://www.openproject.org/open-source/openproject-plugins/) exist for use with OpenProject. Most plugins that are maintained by us are shipping with OpenProject, however there are several plugins contributed by the community.

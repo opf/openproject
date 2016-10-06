@@ -26,32 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function() {
-  return {
-    restrict: 'A',
-    scope: {},
-    link: function(scope, element, attrs) {
-      var href = attrs.href;
-      var id = attrs.id;
-      var target = attrs.previewArea ||  '#preview';
-      element.on('click', function() {
-        jQuery.ajax({
-          url: href,
-          type: 'POST',
-          data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
-            .replace(/_method=(patch|put)&/, ''),
-          success: function(data) {
-            angular.element(target).html(data);
-            angular.element('html, body').animate({
-                scrollTop: angular.element('#preview').offset()
-                  .top
-              },
-              'slow');
-          }
-        });
+import {openprojectModule} from '../../../angular-modules';
 
-        return false;
-      });
-    }
-  };
-};
+describe('URI service', () => {
+  var URI;
+
+  beforeEach(angular.mock.module(openprojectModule.name));
+  beforeEach(angular.mock.inject(function (_URI_) {
+    URI = _URI_;
+  }));
+
+  it('should exist', () => {
+    expect(URI).to.exist;
+  });
+});
+

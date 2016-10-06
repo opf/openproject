@@ -646,3 +646,9 @@ a.impaired--empty-link,
       max-width: 60%
       select
         max-width: 60%
+
+// Avoid content cut off in IE
+#new-member-message + div.grid-block
+  min-height: 6rem
+  div.grid-block
+    overflow: visible

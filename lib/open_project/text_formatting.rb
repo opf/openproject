@@ -115,7 +115,7 @@ module OpenProject
     # This will avoid arbitrary angular expressions to be evaluated in
     # formatted text marked html_safe.
     def escape_non_macros(text)
-      text.gsub!('{{', '{{ DOUBLE_LEFT_CURLY_BRACE }}')
+      text.gsub!(/\{\{(?! DOUBLE_LEFT_CURLY_BRACE)/, '{{ DOUBLE_LEFT_CURLY_BRACE }}')
     end
 
     def parse_non_pre_blocks(text)

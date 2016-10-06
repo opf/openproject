@@ -98,10 +98,12 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     Redmine::MenuManager::MenuItem.new(
       :new_project,
       { controller: '/projects', action: 'new' },
-      caption: l(:label_project_new),
+      caption: Project.model_name.human,
       html: {
         class: "icon-add #{icon_class}",
-        accesskey: OpenProject::AccessKeys.key_for(:new_project)
+        accesskey: OpenProject::AccessKeys.key_for(:new_project),
+        aria: {label: t(:label_project_new)},
+        title: t(:label_project_new)
       },
       if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
     )

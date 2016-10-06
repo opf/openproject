@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,78 +24,19 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-#content
-  .mypage-box
-    @include content-box
-    i
-      float: left
-      padding: 7px 10px 0 0
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
-    .generic-table--container
-      margin-top: 45px
-      table, td, th
-        border: none
+export class IntegerDisplayField extends DisplayField {
 
-.my-page--container
-  #right,
-  #left
-    flex: 0 0 50%
-    max-width: 50%
+  isManualRenderer = true;
 
-  .widget-boxes
-    margin: 0 -10px
+  public get value() {
+    return parseInt(this.resource[this.name]);
+  }
 
-    .widget-box
-      margin-bottom: 20px
-      overflow: auto
-
-      &:last-child
-        margin-bottom: 10px
-
-@include breakpoint(680px down)
-  .my-page--container .grid-block.widget-boxes
-    flex-wrap: wrap
-
-    #right,
-    #left
-      flex: 0 0 100%
-      max-width: 100%
-
-    #left
-      margin-bottom: 0
-
-.handle
-  cursor: move
-
-div.box-actions
-  float: right
-  z-index: 500
-
-#visible-grid
-  .handle
-    cursor: move
-  &.my-page--container .widget-boxes
-    margin: 0
-
-.block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
-  margin-bottom: 20px
-  padding: 8px
-
-  #visible-grid &
-    min-height: 32px
-
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
-
-div.mypage-box p.summary
-  font-style: normal
-
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
-
-div.mypage-box .hascontextmenu
-  cursor: auto
+  public isEmpty(): boolean {
+    return isNaN(this.value);
+  }
+}
