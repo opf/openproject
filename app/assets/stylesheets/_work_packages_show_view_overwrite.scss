@@ -28,7 +28,17 @@
 
 body.controller-work_packages.action-show {
   overflow-x: auto;
+
+  #content {
+    padding-left: 15px;
+
+    .work-packages--split-view {
+      margin-left: -5px;
+      width: calc(100% + 5px);
+    }
+  }
 }
+
 
 .work-packages--show-view {
   display: flex;
@@ -116,7 +126,7 @@ body.controller-work_packages.action-show {
     padding-left: 0.375rem;
 
     .work-packages--panel-inner {
-      padding: 5px 20px 20px 0px;
+      padding: 5px 15px 20px 0px;
 
       // These styles were taken over from the details tab styling.
       // Thus the header and the details tab can be aligned on the same line.
@@ -147,7 +157,7 @@ body.controller-work_packages.action-show {
     width: 40%;
 
     .work-packages--panel-inner {
-      padding: 2px 20px 20px 20px;
+      padding: 2px 15px 20px 15px;
     }
   }
 

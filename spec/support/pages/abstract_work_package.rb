@@ -79,7 +79,7 @@ module Pages
         find('.work-package-details-activities-activity-contents .user',
              text: work_package.journals.last.user.name,
              wait: 10)
-      rescue => e
+      rescue
         # HACK This error may happen since activities are loaded several times
         # in the old resource, and may cause a reload.
         tries += 1
@@ -118,8 +118,8 @@ module Pages
 
       visit_tab!('relations')
 
-      expect(page).to have_selector('.relation.parent .work_package',
-                                    text: "##{parent.id} #{parent.type.name}: #{parent.subject}")
+      expect(page).to have_selector('.relation-row a',
+                                    text: "#{parent.type.name}: #{parent.subject}")
     end
 
     def update_attributes(key_value_map, save: true)
@@ -158,9 +158,8 @@ module Pages
     def add_child
       visit_tab!('relations')
 
-      page.find('.relation a', text: I18n.t('js.relation_labels.children')).click
-
-      click_button I18n.t('js.relation_buttons.add_child')
+      page.find('.wp-inline-create--add-link',
+                text: I18n.t('js.relation_buttons.add_new_child')).click
 
       create_page(parent_work_package: work_package)
     end
