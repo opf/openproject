@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <ul class="simple-filters--filters <%= custom_class %>">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>
-          <%= select_tag 'status', user_status_options, onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value' %>
+          <%= select_tag 'status', user_status_options, class: 'simple-filters--filter-value' %>
       </li>
       <% if groups.present? %>
         <li class="simple-filters--filter">
@@ -55,7 +55,6 @@ See doc/COPYRIGHT.rdoc for more details.
                               { include_blank: true,
                                 selected: params[:group_id].to_i },
                               { name: "group_id",
-                                onchange: "this.form.submit(); return false;",
                                 class: 'simple-filters--filter-value' } %>
         </li>
       <% end %>
@@ -75,7 +74,6 @@ See doc/COPYRIGHT.rdoc for more details.
               },
               {
                 name: "role_id",
-                onchange: "this.form.submit(); return false;",
                 class: 'simple-filters--filter-value'
               })
             %>
