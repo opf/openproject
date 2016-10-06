@@ -2315,7 +2315,8 @@ Work packages may be related to each other in different ways.
 | description      | Short text further describing the relation                    | String  |                                                                                                               | READ / WRITE         |
 | delay*           | The delay in days between closing of `from` and start of `to` | Integer | x >= 0                                                                                                        | READ / WRITE         |
 
-\* only applicable for some relation types such as 'follows'.
+\* Only applicable for some relation types such as "follows". You can check using the relation by schema
+endpoint at `/api/v3/relations/schema/{type}`.
 
 ## Relation [/api/v3/relations/{id}]
 
@@ -2571,14 +2572,19 @@ Deletes the relation.
 
 ## Relation schema for type [/api/v3/relations/schema/{type}]
 
+The exact schema for a relation may depend on it's type.
+For instance the "follows" relation has an additional "delay" field which is not
+applicable for the other relations.
+
 ## View relation schema for type [GET]
 
 + Parameters
+
     + type (required, string, `follows`) ... Type of the schema
 
-+ response 200 (application/hal+json)
++ Response 200 (application/hal+json)
 
-  [Relation schema][]
+    [Relation schema][]
 
 + Response 404 (application/hal+json)
 
@@ -2863,6 +2869,17 @@ Work package links must be set when creating work packages through this route.
 
 ## Relation create form [POST]
 
++ Request
+
+            {
+                "_type": "Relation",
+                "type": "follows",
+                "from": { "href": "/api/v3/work_packages/3493" },
+                "to": { "href": "/api/v3/work_packages/4582" },
+                "description": "let it rest for 3 days",
+                "delay": 3
+            }
+
 + Response 200 (application/hal+json)
 
     [Relation Form][]
@@ -2875,8 +2892,17 @@ For more details and all possible responses see the general specification of [Fo
 
 ## Relation edit form [POST]
 
++ Request
+
+            {
+                "_type": "Relation",
+                "type": "follows",
+                "description": "let it rest for 3 days",
+                "delay": 3
+            }
+
 + Parameters
-    + id (required, integer, `1`) ... ID of the work package being modified
+    + id (required, integer, `1`) ... ID of the relation being modified
 
 + Response 200 (application/hal+json)
 
