@@ -3,14 +3,14 @@
      ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block hierarchy-item">
 
-        <div class="grid-content medium-3 collapse">
+        <div class="grid-content medium-3 collapse" aria-hidden="true">
             {{ $ctrl.relationType }}
         </div>
 
         <div class="grid-content medium-5 collapse" wp-single-relation
              ng-if="$ctrl.relatedWorkPackage">
             <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
-               title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
+               aria-label="{{ $ctrl.relationType + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
                 {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
             </a>
         </div>
