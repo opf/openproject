@@ -2302,6 +2302,7 @@ Work packages may be related to each other in different ways.
 | Link          | Description                           | Type          | Constraints | Supported operations | Condition                                     |
 |:-------------:|-------------------------------------- | ------------- | ----------- | -------------------- | --------------------------------------------- |
 | self          | This relation                         | Relation      | not null    | READ                 | **Permission**: view work packages            |
+| schema        | The schema of this relation           | Schema        | not null    | READ                 |                                               |
 | from          | The emanating work package            | WorkPackage   | not null    | READ                 | **Permission**: view work packages            |
 | to            | The work package the relation ends in | WorkPackage   | not null    | READ                 | **Permission**: view work packages            |
 
@@ -2312,7 +2313,9 @@ Work packages may be related to each other in different ways.
 | type             | Which kind of relation (blocks, precedes, etc.)               | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ / WRITE         |
 | reverseType      | The kind of relation from the other WP's perspective          | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ                 |
 | description      | Short text further describing the relation                    | String  |                                                                                                               | READ / WRITE         |
-| delay            | The delay in days between closing of `from` and start of `to` | Integer | x >= 0                                                                                                        | READ / WRITE         |
+| delay*           | The delay in days between closing of `from` and start of `to` | Integer | x >= 0                                                                                                        | READ / WRITE         |
+
+\* only applicable for some relation types such as 'follows'.
 
 ## Relation [/api/v3/relations/{id}]
 
@@ -2396,11 +2399,11 @@ The returned Relation object will reflect that change. For instance if you chang
 
     + Body
 
-        {
-            "type": "blocks",
-            "description": "Actually the supplier has to bend the steel before they can deliver it."
-            "delay": 3
-        }
+            {
+                "type": "blocks",
+                "description": "Actually the supplier has to bend the steel before they can deliver it."
+                "delay": 3
+            }
 
 + Response 200 (application/hal+json)
 
@@ -2498,6 +2501,99 @@ Deletes the relation.
                 "message": "The specified relation does not exist."
             }
 
+## Relation schema [/api/v3/relations/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/relations/schema" }
+                },
+
+                "id": {
+                    "name": "Relation ID",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "type": {
+                    "name": "Relation Type",
+                    "type": "String",
+                    "writable": true,
+                    "allowedValues": [
+                      "relates", "duplicates", "duplicated", "blocks", "blocked",
+                      "precedes", "follows", "includes", "partof", "requires", "required"
+                    ]
+                },
+                "reverseType": {
+                  "name": "Reverse Relation Type",
+                  "type": "String",
+                  "writable": false
+                },
+                "description": {
+                  "name": "Relation Description",
+                  "type": "String",
+                  "writable": true
+                },
+                "from": {
+                    "_links": {
+                        "allowedValues": {
+                          "href": "/api/v3/work_packages", "title": "Work packages"
+                        }
+                    },
+
+                    "name": "From work package",
+                    "type": "WorkPackage"
+                },
+                "to": {
+                    "_links": {
+                        "allowedValues": {
+                            "href": "/api/v3/work_packages", "title": "Work packages"
+                        }
+                    },
+
+                    "name": "To work package",
+                    "type": "WorkPackage"
+                },
+                "delay": {
+                  "name": "Relation delay",
+                  "type": "Integer",
+                  "writable": true
+                }
+            }
+
+## View relation schema [GET]
+
++ Response 200 (application/hal+json)
+
+    [Relation schema][]
+
+## Relation schema for type [/api/v3/relations/schema/{type}]
+
+## View relation schema for type [GET]
+
++ Parameters
+    + type (required, string, `follows`) ... Type of the schema
+
++ response 200 (application/hal+json)
+
+  [Relation schema][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the relation type does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** manage work package relations
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified relation type does not exist."
+            }
+
 ## Relations [/api/v3/relations?offset,pageSize,from,to,involved,type]
 
 + Model
@@ -2588,15 +2684,15 @@ Note that it is only allowed to provide properties or links supporting the write
 
     + Body
 
-        {
-            "_links":
             {
-              "from": "/api/v3/work_packages/42",
-              "to": "/api/v3/work_packages/84"
+                "_links":
+                {
+                    "from": "/api/v3/work_packages/42",
+                    "to": "/api/v3/work_packages/84"
+                }
+                "type": "duplicates",
+                "description": "This is the same thing. Let's track it in one place only, shall we?"
             }
-            "type": "duplicates",
-            "description": "This is the same thing. Let's track it in one place only, shall we?"
-        }
 
 + Response 201 (application/hal+json)
 
@@ -2660,6 +2756,160 @@ Note that it is only allowed to provide properties or links supporting the write
                         "attribute": "delay"
                     }
                 }
+            }
+
+## Relation Form [/api/v3/relations/form]
+
+This endpoint returns a form to allow a guided creation of a new work package relation.
+The returned form will be pre-filled with default values for every property, if available.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+Work package links must be set when creating work packages through this route.
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/relations/form" },
+                    "validate": {
+                        "href": "/api/v3/relations/form",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/relations",
+                        "method": "PATCH"
+                    }
+                },
+
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "from": { "href": "/api/v3/work_packages/4534" },
+                            "to": { "href": "/api/v3/work_packages/3857" }
+                        },
+                        "_type": "WorkPackage",
+                        "type": "follows",
+                        "delay": 3,
+                        "description": "let it rest for 3 days"
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_links": {
+                            "self": { "href": "/api/v3/relations/schema" }
+                        },
+
+                        "id": {
+                            "name": "Relation ID",
+                            "type": "Integer",
+                            "writable": false
+                        },
+                        "type": {
+                            "name": "Relation Type",
+                            "type": "String",
+                            "writable": true,
+                            "allowedValues": [
+                              "relates", "duplicates", "duplicated", "blocks", "blocked",
+                              "precedes", "follows", "includes", "partof", "requires", "required"
+                            ]
+                        },
+                        "reverseType": {
+                          "name": "Reverse Relation Type",
+                          "type": "String",
+                          "writable": false
+                        },
+                        "description": {
+                          "name": "Relation Description",
+                          "type": "String",
+                          "writable": true
+                        },
+                        "from": {
+                            "_links": {
+                                "allowedValues": {
+                                  "href": "/api/v3/work_packages", "title": "Work packages"
+                                }
+                            },
+
+                            "name": "From work package",
+                            "type": "WorkPackage"
+                        },
+                        "to": {
+                            "_links": {
+                                "allowedValues": {
+                                    "href": "/api/v3/work_packages", "title": "Work packages"
+                                }
+                            },
+
+                            "name": "To work package",
+                            "type": "WorkPackage"
+                        },
+                        "delay": {
+                          "name": "Relation delay",
+                          "type": "Integer",
+                          "writable": true
+                        }
+                    },
+                    "validationErrors": {
+                        "from": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:BadExampleError",
+                            "message": "For the purpose of this example we need a validation error. The remainder of the response pretends there were no errors."
+                        }
+                    }
+                }
+            }
+
+## Relation create form [POST]
+
++ Response 200 (application/hal+json)
+
+    [Relation Form][]
+
+## Relation edit form [/api/v3/relations/{id}/form]
+
+This endpoint returns a form to allow a guided modification of an existing relation.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Relation edit form [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package being modified
+
++ Response 200 (application/hal+json)
+
+    [Relation Form][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** manage work package relations
+
+    *Note that you will only receive this error, if you are at least allowed to see the involved work packages.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the specified relation."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the relation does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission:** view (involved) work package(s), manage work package relations
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified relation does not exist."
             }
 
 # Group Revisions
@@ -4734,6 +4984,10 @@ Lists all relations this work package is involved in.
 
 + Response 302 (text/plain)
 
+  + Headers
+
+            Location: /api/v3/relations?involved={work_package_id}
+
   + Body
 
             You are being redirected to /api/v3/relations?involved={work_package_id}
@@ -5003,6 +5257,79 @@ If the request succeeds, the specified user is not watching the work package any
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified work package does not exist."
             }
+
+## Available relation candidates [/api/v3/work_packages/{id}/available_relation_candidates?filters,query,offset,pageSize]
+
+Lists work packages with which this work package can be in a relation.
+Only sound candidates are returned. For instance a work package cannot stand in relation to itself,
+and a work package that follows another cannot precede it.
+
+Candidates can be filtered. Most commonly one will want to filter by subject.
+You can do this through the `filters` parameter which works just like the work package index.
+
+For instance to find all work packages with "rollout" in their subject:
+
+```
+?filters=[{"subject":{"operator":"~","values":["rollout"]}}]
+```
+
+For convenience there is also a simple `query` parameter which is a shortcut for listing work packages
+whose ID or subject contain the given string.
+
+```
+?query=112
+```
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/projects/14/work_packages" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/1"
+                            }
+                        },
+                        "id": 1,
+                        "subject": "Skipped other properties for brevity"
+                    },
+                    {
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/work_packages/2"
+                            }
+                        },
+                        "id": 2,
+                        "subject": "Skipped other properties for brevity"
+                    }]
+                }
+            }
+
+## Available relation candidates [GET]
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](#queries) endpoint.
+
+    + query (optional, string, `"rollout"`) ... Shortcut for filtering by ID or subject
+
++ Response 200 (application/hal+json)
+
+    [Available relation candidates][]
 
 ## Available Watchers [/api/v3/work_packages/{id}/available_watchers]
 
