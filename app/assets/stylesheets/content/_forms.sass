@@ -147,8 +147,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
     width: 1rem
     z-index: 2
 
-  .-columns-2
-    column-count: 2
+  @media screen and (min-width: 70rem)
+    .-columns-2
+      column-count: 2
 
 .form--separator
   border: 0
