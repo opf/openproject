@@ -26,7 +26,11 @@ class WpRelationsHierarchyRowDirectiveController {
 
   public text = {
     change_parent: this.I18n.t('js.relation_buttons.change_parent'),
-    remove: this.I18n.t('js.relation_buttons.remove')
+    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
+    remove_child: this.I18n.t('js.relation_buttons.remove_child'),
+    remove: this.I18n.t('js.relation_buttons.remove'),
+    parent: this.I18n.t('js.relation_labels.parent'),
+    children: this.I18n.t('js.relation_labels.children')
   };
 
   public removeRelation() {
@@ -40,6 +44,12 @@ class WpRelationsHierarchyRowDirectiveController {
 
   public isCurrentElement() {
     if (this.relationType !== 'child' && this.relationType !== 'parent') {
+      return true;
+    }
+  }
+
+  public isParent() {
+    if (this.relationType === 'parent') {
       return true;
     }
   }
