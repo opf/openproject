@@ -272,6 +272,7 @@ export class WorkPackageEditFieldController {
 
   public reset() {
     this.workPackage.restoreFromPristine(this.fieldName);
+    delete this.workPackage.$pristine[this.fieldName];
     this.fieldForm.$setPristine();
     this.deactivate();
   }
