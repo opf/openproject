@@ -61,12 +61,12 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
           <div class="-columns-2">
             <% perms_by_module[mod].each do |permission| %>
-              <div class="form--field autoscroll -trailing-label ">
-                <label class="form--label">
-                  <%= l_or_humanize(permission.name, prefix: 'permission_') %>
-                </label>
+              <div class="form--field">
                 <div class="form--field-container">
-                  <%= styled_check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+                  <label class="form--label-with-check-box">
+                    <%= styled_check_box_tag 'role[permissions][]', permission.name, (@role.permissions.include? permission.name) %>
+                    <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+                  </label>
                 </div>
               </div>
             <% end %>
