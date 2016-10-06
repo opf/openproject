@@ -31,9 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= toolbar title: l('timelines.admin_menu.colors') do %>
   <li class="toolbar-item">
-    <%= link_to new_color_path, class: 'button -alt-highlight', title: l('timelines.new_color') do %>
+    <%= link_to new_color_path,
+          { class: 'button -alt-highlight',
+            aria: {label: l('timelines.new_color')},
+            title: l('timelines.new_color')} do %>
       <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l('timelines.new_color') %></span>
+      <span class="button--text"><%= t('activerecord.attributes.type.color') %></span>
     <% end %>
   </li>
 <% end %>

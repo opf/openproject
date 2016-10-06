@@ -152,9 +152,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="generic-table--action-buttons">
       <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
-                            class: 'button -alt-highlight') do %>
+                                { class: 'button -alt-highlight',
+                                  aria: {label: t(:label_version_new)},
+                                  title: t(:label_version_new)}) do %>
         <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_version_new) %></span>
+        <span class="button--text"><%= t('activerecord.models.version') %></span>
       <% end %>
     </div>
   <% else %>

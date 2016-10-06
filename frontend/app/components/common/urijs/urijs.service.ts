@@ -26,76 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#content
-  .mypage-box
-    @include content-box
-    i
-      float: left
-      padding: 7px 10px 0 0
+import {openprojectModule} from '../../../angular-modules';
 
-    .generic-table--container
-      margin-top: 45px
-      table, td, th
-        border: none
+/**
+ * Wraps the URITemplate library to make it available in angular.
+ *
+ * @see https://medialize.github.io/URI.js/docs.html
+ */
 
-.my-page--container
-  #right,
-  #left
-    flex: 0 0 50%
-    max-width: 50%
-
-  .widget-boxes
-    margin: 0 -10px
-
-    .widget-box
-      margin-bottom: 20px
-      overflow: auto
-
-      &:last-child
-        margin-bottom: 10px
-
-@include breakpoint(680px down)
-  .my-page--container .grid-block.widget-boxes
-    flex-wrap: wrap
-
-    #right,
-    #left
-      flex: 0 0 100%
-      max-width: 100%
-
-    #left
-      margin-bottom: 0
-
-.handle
-  cursor: move
-
-div.box-actions
-  float: right
-  z-index: 500
-
-#visible-grid
-  .handle
-    cursor: move
-  &.my-page--container .widget-boxes
-    margin: 0
-
-.block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
-  margin-bottom: 20px
-  padding: 8px
-
-  #visible-grid &
-    min-height: 32px
-
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
-
-div.mypage-box p.summary
-  font-style: normal
-
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
-
-div.mypage-box .hascontextmenu
-  cursor: auto
+openprojectModule.value('URI', URI);

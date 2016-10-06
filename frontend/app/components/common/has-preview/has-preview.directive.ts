@@ -26,76 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-#content
-  .mypage-box
-    @include content-box
-    i
-      float: left
-      padding: 7px 10px 0 0
+import {openprojectModule} from "../../../angular-modules";
 
-    .generic-table--container
-      margin-top: 45px
-      table, td, th
-        border: none
+function hasPreview($compile, $rootScope) {
+  return {
+    restrict: 'A',
+    scope: {},
+    link: function(scope, element, attrs) {
+      var href = attrs.href;
+      var id = attrs.id;
+      var target = attrs.previewArea ||  '#preview';
+      element.on('click', function() {
+        jQuery.ajax({
+          url: href,
+          type: 'POST',
+          data: angular.element('#' + id.replace(/(-preview)/g, '')).serialize()
+            .replace(/_method=(patch|put)&/, ''),
+          success: function(data) {
+            var el = angular.element(target);
+            scope.$apply(() => {
+              el.html(data);
+              $compile(el.contents())($rootScope);
+            });
 
-.my-page--container
-  #right,
-  #left
-    flex: 0 0 50%
-    max-width: 50%
+            angular.element('html, body').animate({
+                scrollTop: angular.element('#preview').offset()
+                  .top
+              },
+              'slow');
+          }
+        });
 
-  .widget-boxes
-    margin: 0 -10px
+        return false;
+      });
+    }
+  };
+};
 
-    .widget-box
-      margin-bottom: 20px
-      overflow: auto
-
-      &:last-child
-        margin-bottom: 10px
-
-@include breakpoint(680px down)
-  .my-page--container .grid-block.widget-boxes
-    flex-wrap: wrap
-
-    #right,
-    #left
-      flex: 0 0 100%
-      max-width: 100%
-
-    #left
-      margin-bottom: 0
-
-.handle
-  cursor: move
-
-div.box-actions
-  float: right
-  z-index: 500
-
-#visible-grid
-  .handle
-    cursor: move
-  &.my-page--container .widget-boxes
-    margin: 0
-
-.block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
-  margin-bottom: 20px
-  padding: 8px
-
-  #visible-grid &
-    min-height: 32px
-
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
-
-div.mypage-box p.summary
-  font-style: normal
-
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
-
-div.mypage-box .hascontextmenu
-  cursor: auto
+openprojectModule.directive('hasPreview', hasPreview);

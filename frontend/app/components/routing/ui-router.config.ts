@@ -248,6 +248,9 @@ openprojectModule
     });
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+      // Close all open dropdowns, if any
+      $rootScope.$broadcast('openproject.dropdown.closeDropdowns');
+
       if (!toParams.projects && toParams.projectPath) {
         toParams.projects = 'projects';
         $state.go(toState, toParams);

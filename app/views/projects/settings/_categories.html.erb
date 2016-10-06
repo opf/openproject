@@ -90,9 +90,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if @project.categories.any? %>
       <div class="generic-table--action-buttons">
         <%= link_to_if_authorized({ controller: '/categories', action: 'new', project_id: @project },
-                              class: 'button -alt-highlight') do %>
+                                  { class: 'button -alt-highlight',
+                                    aria: {label: t(:label_work_package_category_new)},
+                                    title: t(:label_work_package_category_new)}) do %>
           <i class="button--icon icon-add"></i>
-          <span class="button--text"><%= l(:label_work_package_category_new) %></span>
+          <span class="button--text"><%= t('activerecord.models.category') %></span>
         <% end %>
       </div>
     <% end %>

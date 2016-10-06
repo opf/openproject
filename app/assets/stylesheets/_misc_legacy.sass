@@ -618,6 +618,10 @@ a.impaired--empty-link,
       margin-bottom: 1px
       flex-basis: 50%
 
+    &:not(.-with-button)
+      .form--field
+        overflow: hidden
+
   // Override default margin to allow correct vertical alignment
   #add-member--submit-button
     margin-bottom: 0
@@ -646,3 +650,9 @@ a.impaired--empty-link,
       max-width: 60%
       select
         max-width: 60%
+
+// Avoid content cut off in IE
+#new-member-message + div.grid-block
+  min-height: 6rem
+  div.grid-block
+    overflow: visible
