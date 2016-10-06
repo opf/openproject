@@ -54,12 +54,7 @@ module Api::Experimental
     end
 
     def custom_field_filters
-      custom_fields = if @project
-                        @project.all_work_package_custom_fields
-                      else
-                        WorkPackageCustomField.for_all
-                      end
-      @custom_field_filters = @query.get_custom_field_options(custom_fields, v3_naming: true)
+      @custom_field_filters = fetch_custom_field_filters(@project)
 
       respond_to do |format|
         format.api
@@ -155,11 +150,25 @@ module Api::Experimental
         actions.delete(:update) if changed.empty?
       end
 
-      allowed = actions.map(&:to_sym)
-                .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
+      policy = QueryPolicy.new(current_user)
+
+      allowed = actions
+                .map { |action| policy.allowed?(original_query, action.to_sym) }
                 .reduce(:&)
 
       deny_access unless allowed
+    end
+
+    def fetch_custom_field_filters(project)
+      filters = Queries::WorkPackages::Filter::CustomFieldFilter.create(project)
+
+      filters.each_with_object({}) do |(key, filter), hash|
+        new_key = API::Utilities::PropertyNameConverter.from_ar_name(key)
+        hash[new_key] = { type: filter.type,
+                          values: filter.values,
+                          order: filter.order,
+                          name: filter.name }
+      end
     end
   end
 end

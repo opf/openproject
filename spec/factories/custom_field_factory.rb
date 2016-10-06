@@ -104,6 +104,31 @@ FactoryGirl.define do
         sequence(:name) do |n| "User WP custom field #{n}" end
         field_format 'user'
       end
+
+      factory :int_wp_custom_field do
+        sequence(:name) do |n| "Int WP custom field #{n}" end
+        field_format 'int'
+      end
+
+      factory :float_wp_custom_field do
+        sequence(:name) do |n| "Float WP custom field #{n}" end
+        field_format 'float'
+      end
+
+      factory :text_wp_custom_field do
+        sequence(:name) do |n| "Text WP custom field #{n}" end
+        field_format 'text'
+      end
+
+      factory :string_wp_custom_field do
+        sequence(:name) do |n| "String WP custom field #{n}" end
+        field_format 'string'
+      end
+
+      factory :date_wp_custom_field do
+        sequence(:name) do |n| "Date WP custom field #{n}" end
+        field_format 'date'
+      end
     end
 
     factory :issue_custom_field, class: WorkPackageCustomField do

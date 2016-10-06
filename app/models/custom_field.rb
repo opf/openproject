@@ -208,6 +208,10 @@ class CustomField < ActiveRecord::Base
       .order('position')
   end
 
+  def self.filter
+    where(is_filter: true)
+  end
+
   def accessor_name
     "custom_field_#{id}"
   end
