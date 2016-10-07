@@ -18,6 +18,7 @@ class WpRelationRowDirectiveController {
   public relation:RelationResource = this.relatedWorkPackage.relatedBy;
 
   constructor(protected $scope:ng.IScope,
+              protected $timeout,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpRelationsService:WorkPackageRelationsService,
@@ -45,6 +46,9 @@ class WpRelationRowDirectiveController {
         this.$scope.$emit('wp-relations.removed', this.relation);
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
+        this.$timeout(() => {
+          angular.element('#relation--add-relation').focus();
+        });
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
   }

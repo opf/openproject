@@ -3,18 +3,21 @@
     <div class="grid-content medium-10 collapse">
         <wp-relations-autocomplete
                 selected-wp-id="$ctrl.selectedWpId"
-                selected-relation-type="$ctrl.selectedRelationType">
+                selected-relation-type="$ctrl.selectedRelationType"
+                focus>
         </wp-relations-autocomplete>
     </div>
     <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
         <accessible-by-keyboard
-                execute="$ctrl.createRelation()">
+                execute="$ctrl.createRelation()"
+                aria-hidden="false">
             <icon-wrapper icon-name="checkmark"
                           icon-title="{{ ::$ctrl.text.save }}">
             </icon-wrapper>
         </accessible-by-keyboard>
         <accessible-by-keyboard
-                execute="$ctrl.toggleRelationsCreateForm()">
+                execute="$ctrl.toggleRelationsCreateForm()"
+                aria-hidden="false">
             <icon-wrapper icon-name="remove"
                           icon-title="{{ ::$ctrl.text.abort }}">
             </icon-wrapper>
