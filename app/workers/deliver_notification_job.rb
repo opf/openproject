@@ -27,9 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverNotificationJob
-  include OpenProject::BeforeDelayedJob
-
+class DeliverNotificationJob < ApplicationJob
   def initialize(recipient_id, sender_id)
     @recipient_id = recipient_id
     @sender_id = sender_id

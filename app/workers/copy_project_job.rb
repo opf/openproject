@@ -27,9 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CopyProjectJob
+class CopyProjectJob < ApplicationJob
   include OpenProject::LocaleHelper
-  include OpenProject::BeforeDelayedJob
 
   attr_reader :user_id,
               :source_project_id,
