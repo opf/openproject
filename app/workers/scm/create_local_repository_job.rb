@@ -34,9 +34,7 @@
 # We envision a repository management wrapper that covers transactional
 # creation and deletion of repositories BOTH on the database and filesystem.
 # Until then, a synchronous process is more failsafe.
-class Scm::CreateLocalRepositoryJob
-  include OpenProject::BeforeDelayedJob
-
+class Scm::CreateLocalRepositoryJob < ApplicationJob
   def initialize(repository)
     # Cowardly refusing to override existing local repository
     if File.directory?(repository.root_url)

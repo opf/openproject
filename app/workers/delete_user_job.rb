@@ -27,9 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeleteUserJob
-  include OpenProject::BeforeDelayedJob
-
+class DeleteUserJob < ApplicationJob
   def initialize(user_id)
     @user_id = user_id
   end
