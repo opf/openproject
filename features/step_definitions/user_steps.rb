@@ -143,6 +143,7 @@ end
 When /^I filter the users list by status "([^\"]+)"$/ do |status|
   visit('/users')
   select(status, from: 'Status:')
+  click_on "Apply"
 end
 
 Given(/^I click the (\w+) access key reset link$/) do |access_key_type|

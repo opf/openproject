@@ -151,7 +151,7 @@ class MembersController < ApplicationController
 
   def members_filter_options(roles)
     groups = Group.all.sort
-    status = params[:status] ? params[:status] : User::STATUSES[:active]
+    status = params[:status] ? params[:status] : "all"
 
     {
       groups: groups,
