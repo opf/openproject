@@ -32,7 +32,7 @@
  *
  * @see {@link http://opf.github.io/apiv3-doc/|Api V3 documentation}
  */
-declare var api;
+// declare var api;
 
 declare namespace api {
 

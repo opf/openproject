@@ -8,5 +8,8 @@
     "webpack": "cd frontend && npm run webpack && cd ..",
     "webpack-watch": "cd frontend && npm run webpack-watch"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "typescript": "^2.0.3"
+  }
 }
