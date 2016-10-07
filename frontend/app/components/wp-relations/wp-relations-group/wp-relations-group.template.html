@@ -2,13 +2,14 @@
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
             <h3 class="attributes-group--header-text">
-                {{ $ctrl.wpType }}
+                {{ $ctrl.getGroupLabel() }}
             </h3>
         </div>
     </div>
 
     <div class="content" ng-if="$ctrl.relatedWorkPackages">
         <wp-relation-row
+                sort-by="$ctrl.sortBy"
                 related-work-package="relatedWorkPackage"
                 ng-repeat="relatedWorkPackage in $ctrl.relatedWorkPackages"></wp-relation-row>
     </div>

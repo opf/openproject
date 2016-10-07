@@ -29,12 +29,27 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {RelatedWorkPackage} from '../wp-relations.interfaces';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-
+import {RelationSortingAttribute} from '../wp-relations.directive';
+import {WorkPackageRelationsService} from '../wp-relations.service';
 
 export class WorkPackageRelationsGroupController {
   public relatedWorkPackages:Array<RelatedWorkPackage>;
   public workPackage:WorkPackageResourceInterface;
-  public wpType:string;
+  public groupLabel:string;
+  public sortBy:RelationSortingAttribute;
+
+  constructor(protected $scope:ng.IScope,
+              protected wpRelationsService:WorkPackageRelationsService){
+  }
+
+  public getGroupLabel() {
+    switch (this.sortBy) {
+      case RelationSortingAttribute.RelatedWorkPackageType:
+        return this.groupLabel;
+      case RelationSortingAttribute.RelationType:
+        return this.wpRelationsService.getRelationTypeObjectByType(this.groupLabel).label;
+    }
+  }
 }
 
 function wpRelationsGroupDirective() {
@@ -43,9 +58,10 @@ function wpRelationsGroupDirective() {
     templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',
 
     scope: {
-      wpType: '=',
+      groupLabel: '=',
       workPackage: '=',
-      relatedWorkPackages: '='
+      relatedWorkPackages: '=',
+      sortBy: '='
     },
 
     controller: WorkPackageRelationsGroupController,

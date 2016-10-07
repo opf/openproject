@@ -3,11 +3,12 @@ import {RelatedWorkPackage, RelationResource} from '../wp-relations.interfaces';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
+import {RelationSortingAttribute} from '../wp-relations.directive';
 
 class WpRelationRowDirectiveController {
   public relatedWorkPackage:RelatedWorkPackage;
   public relationType:string;
-
+  public sortBy: RelationSortingAttribute;
   public showRelationInfo:boolean = false;
 
   public userInputs = {
@@ -39,6 +40,19 @@ class WpRelationRowDirectiveController {
     this.userInputs.showDescriptionEditForm = !this.userInputs.showDescriptionEditForm;
   }
 
+  public getRelationDescriptor() {
+    if (this.relation) {
+      switch (this.sortBy) {
+        case RelationSortingAttribute.RelatedWorkPackageType:
+          return this.wpRelationsService.getRelationTypeObjectByType(this.relation._type).label;
+        case RelationSortingAttribute.RelationType:
+          return this.relatedWorkPackage.type.name;
+        default:
+          return this.relatedWorkPackage.type.name;
+      }
+    }
+  }
+
   public removeRelation() {
     this.wpRelationsService.removeCommonRelation(this.relation)
       .then(() => {
@@ -55,7 +69,8 @@ function WpRelationRowDirective() {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
     scope: {
-      relatedWorkPackage: '='
+      relatedWorkPackage: '=',
+      sortBy: '='
     },
     controller: WpRelationRowDirectiveController,
     controllerAs: '$ctrl',

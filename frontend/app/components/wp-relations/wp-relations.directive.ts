@@ -35,16 +35,31 @@ import {
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
+export enum RelationSortingAttribute {
+  RelatedWorkPackageType,
+  RelationType
+}
+
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
+
+  public sortRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
+    ? parseInt(this.$window.sessionStorage.getItem('openproject.groupRelationsBy'))
+    : RelationSortingAttribute.RelatedWorkPackageType;
+
+  public groupOptions = [
+    {label: 'related work package types', value: RelationSortingAttribute.RelatedWorkPackageType},
+    {label: 'relation types', value: RelationSortingAttribute.RelationType}
+  ];
 
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
+              protected $window:ng.IWindowService,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -58,6 +73,11 @@ export class WorkPackageRelationsController {
     } else if (this.workPackage.relations && this.workPackage.relations.count > 0) {
       this.loadRelations();
     }
+  }
+
+  public groupRelationsByUserInput() {
+    this.$window.sessionStorage.setItem('openproject.groupRelationsBy', String(this.sortRelationsBy));
+    this.buildRelationGroups();
   }
 
   protected removeSingleRelation(evt, relation) {
@@ -88,7 +108,16 @@ export class WorkPackageRelationsController {
 
   protected buildRelationGroups() {
     if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
+      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+        switch (this.sortRelationsBy) {
+          case RelationSortingAttribute.RelatedWorkPackageType:
+            return wp.type.name;
+          case RelationSortingAttribute.RelationType:
+            return wp.relatedBy._type;
+          default:
+            return wp.type.name;
+        }
+      });
     }
   }
 
