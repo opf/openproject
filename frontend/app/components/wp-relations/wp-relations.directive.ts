@@ -35,11 +35,17 @@ import {
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
+export enum RelationSortingAttribute {
+  RelatedWorkPackageType,
+  RelationType
+}
+
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
-
+  //public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelatedWorkPackageType;
+  public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelationType;
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
@@ -88,7 +94,16 @@ export class WorkPackageRelationsController {
 
   protected buildRelationGroups() {
     if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
+      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+        switch (this.sortRelationsBy) {
+          case RelationSortingAttribute.RelatedWorkPackageType:
+            return wp.type.name;
+          case RelationSortingAttribute.RelationType:
+            return wp.relatedBy._type;
+          default:
+            return wp.type.name;
+        }
+      });
     }
   }
 
