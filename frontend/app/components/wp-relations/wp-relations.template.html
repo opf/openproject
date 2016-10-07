@@ -6,7 +6,7 @@
         </div>
         <div class="grid-content collapse medium-7">
             <select ng-model="$ctrl.sortRelationsBy"
-                    ng-change="$ctrl.buildRelationGroups()"
+                    ng-change="$ctrl.groupRelationsByUserInput()"
                     ng-options="option.value as option.label for option in $ctrl.groupOptions">
             </select>
         </div>

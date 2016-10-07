@@ -45,7 +45,10 @@ export class WorkPackageRelationsController {
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
 
-  public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelatedWorkPackageType;
+  public sortRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
+    ? parseInt(this.$window.sessionStorage.getItem('openproject.groupRelationsBy'))
+    : RelationSortingAttribute.RelatedWorkPackageType;
+
   public groupOptions = [
     {label: 'related work package types', value: RelationSortingAttribute.RelatedWorkPackageType},
     {label: 'relation types', value: RelationSortingAttribute.RelationType}
@@ -56,6 +59,7 @@ export class WorkPackageRelationsController {
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
+              protected $window:ng.IWindowService,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -71,7 +75,9 @@ export class WorkPackageRelationsController {
     }
   }
 
-  public groupRelations(){
+  public groupRelationsByUserInput() {
+    this.$window.sessionStorage.setItem('openproject.groupRelationsBy', String(this.sortRelationsBy));
+    this.buildRelationGroups();
   }
 
   protected removeSingleRelation(evt, relation) {
