@@ -6,11 +6,8 @@
     "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "app"
   },
-  "files": [
-    "typings/index.d.ts",
-    "app/typings/open-project.typings.ts",
-    "tests/typings/tests.d.ts"
-  ]
+  "compileOnSave": false
 }
