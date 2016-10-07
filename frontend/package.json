@@ -32,6 +32,7 @@
     "angular-elastic": "^2.5.0",
     "atoa": "^1.0.0",
     "autoprefixer-loader": "^1.2.0",
+    "awesome-typescript-loader": "^2.2.4",
     "bower": "^1.4.1",
     "css-loader": "^0.9.0",
     "dragula": "^3.5.2",
@@ -49,8 +50,7 @@
     "phantomjs-polyfill": "0.0.2",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
-    "ts-loader": "^0.7.2",
-    "typescript": "^1.7.5",
+    "typescript": "^2.0.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.13.1"
   },
