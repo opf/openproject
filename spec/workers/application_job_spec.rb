@@ -28,10 +28,8 @@
 
 require 'spec_helper'
 
-describe OpenProject::BeforeDelayedJob do
-  class JobMock
-    include OpenProject::BeforeDelayedJob
-
+describe ApplicationJob do
+  class JobMock < ApplicationJob
     def initialize(callback)
       @callback = callback
     end

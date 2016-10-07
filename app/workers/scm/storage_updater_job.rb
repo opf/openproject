@@ -27,9 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Scm::StorageUpdaterJob
-  include OpenProject::BeforeDelayedJob
-
+class Scm::StorageUpdaterJob < ApplicationJob
   def initialize(repository)
     @id = repository.id
 

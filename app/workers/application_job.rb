@@ -26,40 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  # Includable in a delayed job to perform common operations that should happen before all
-  # delayed jobs.
-  module BeforeDelayedJob
-    def self.included(base)
-      base.prepend Overrides
+class ApplicationJob
+  def self.inherited(child)
+    child.prepend Setup
+  end
+
+  module Setup
+    def perform
+      before_perform!
+      super
     end
 
-    module Overrides
-      def perform
-        reset_request_store!
-        reload_mailer_configuration!
-        super
-      end
+    def before_perform!
+      reset_request_store!
+      reload_mailer_configuration!
+    end
 
-      private
+    # Resets the thread local request store.
+    # This should be done, because normal application code expects the RequestStore to be
+    # invalidated between multiple requests and does usually not care whether it is executed
+    # from a request or from a delayed job.
+    # For a delayed job, each job execution is the thing that comes closest to
+    # the concept of a new request.
+    def reset_request_store!
+      RequestStore.clear!
+    end
 
-      # Resets the thread local request store.
-      # This should be done, because normal application code expects the RequestStore to be
-      # invalidated between multiple requests and does usually not care whether it is executed
-      # from a request or from a delayed job.
-      # For a delayed job, each job execution is the thing that comes closest to
-      # the concept of a new request.
-      def reset_request_store!
-        RequestStore.clear!
-      end
-
-      # Reloads the thread local ActionMailer configuration.
-      # Since the email configuration is now done in the web app, we need to
-      # make sure that any changes to the configuration is correctly picked up
-      # by the background jobs at runtime.
-      def reload_mailer_configuration!
-        OpenProject::Configuration.reload_mailer_configuration!
-      end
+    # Reloads the thread local ActionMailer configuration.
+    # Since the email configuration is now done in the web app, we need to
+    # make sure that any changes to the configuration is correctly picked up
+    # by the background jobs at runtime.
+    def reload_mailer_configuration!
+      OpenProject::Configuration.reload_mailer_configuration!
     end
   end
 end

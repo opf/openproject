@@ -27,9 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverInvitationJob
-  include OpenProject::BeforeDelayedJob
-
+class DeliverInvitationJob < ApplicationJob
   attr_reader :token_id
 
   def initialize(token_id)
