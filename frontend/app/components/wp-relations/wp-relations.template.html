@@ -1,14 +1,29 @@
 <div>
-    <div ng-repeat="(type, relatedWorkPackages) in $ctrl.relationGroups">
-    <wp-relations-group wp-type="type"
-                        sort-by="$ctrl.sortRelationsBy"
-                        relationType=""
-                        related-work-packages="relatedWorkPackages"
-                        work-package="$ctrl.workPackage"></wp-relations-group>
+    <!-- UNSTYLED DUMMY TOGGLE FOR DEMO PURPOSES -->
+    <div class="grid-block v-align" style="margin-top: 1rem">
+        <div class="grid-content collapse medium-5">
+            <strong>Group by:</strong>
+        </div>
+        <div class="grid-content collapse medium-7">
+            <select ng-model="$ctrl.sortRelationsBy"
+                    ng-change="$ctrl.buildRelationGroups()"
+                    ng-options="option.value as option.label for option in $ctrl.groupOptions">
+            </select>
+        </div>
     </div>
+    <!-- // DUMMY TOGGLE -->
+
+    <div ng-repeat="(type, relatedWorkPackages) in $ctrl.relationGroups">
+        <wp-relations-group group-label="type"
+                            sort-by="$ctrl.sortRelationsBy"
+                            related-work-packages="relatedWorkPackages"
+                            work-package="$ctrl.workPackage"></wp-relations-group>
+    </div>
+
     <wp-relations-create related-work-packages="$ctrl.currentRelations"
                      work-package="$ctrl.workPackage"
                      template="dynamic-relation-types"></wp-relations-create>
+
 
     <wp-relations-hierarchy work-package="$ctrl.workPackage"></wp-relations-hierarchy>
 </div>

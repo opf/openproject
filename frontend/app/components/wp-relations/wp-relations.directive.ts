@@ -44,8 +44,13 @@ export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
-  //public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelatedWorkPackageType;
-  public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelationType;
+
+  public sortRelationsBy:RelationSortingAttribute = RelationSortingAttribute.RelatedWorkPackageType;
+  public groupOptions = [
+    {label: 'related work package types', value: RelationSortingAttribute.RelatedWorkPackageType},
+    {label: 'relation types', value: RelationSortingAttribute.RelationType}
+  ];
+
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
@@ -64,6 +69,9 @@ export class WorkPackageRelationsController {
     } else if (this.workPackage.relations && this.workPackage.relations.count > 0) {
       this.loadRelations();
     }
+  }
+
+  public groupRelations(){
   }
 
   protected removeSingleRelation(evt, relation) {
