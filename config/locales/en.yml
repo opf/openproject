@@ -1021,6 +1021,7 @@ en:
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
   label_incoming_emails: "Incoming emails"
+  label_includes: 'includes'
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
@@ -1111,6 +1112,7 @@ en:
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
+  label_part_of: "part of"
   label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
@@ -1174,6 +1176,8 @@ en:
   label_repository: "Repository"
   label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
+  label_required: 'required'
+  label_requires: 'requires'
   label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
