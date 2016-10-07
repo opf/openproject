@@ -20,6 +20,8 @@ export class WorkPackageRelationsCreateController {
   constructor(protected I18n,
               protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
+              protected $element,
+              protected $timeout,
               protected wpRelationsService:WorkPackageRelationsService,
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -39,7 +41,8 @@ export class WorkPackageRelationsCreateController {
     addNewChild: this.I18n.t('js.relation_buttons.add_new_child'),
     addExistingChild: this.I18n.t('js.relation_buttons.add_existing_child'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
-    addParent: this.I18n.t('js.relation_buttons.add_parent')
+    addParent: this.I18n.t('js.relation_buttons.add_parent'),
+    relationType: this.I18n.t('js.relation_labels.relation_type')
   };
 
   public createRelation() {
@@ -72,6 +75,7 @@ export class WorkPackageRelationsCreateController {
   }
 
   protected changeParent() {
+    this.toggleRelationsCreateForm();
     this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then(updatedWp => {
         console.log("wp after update", updatedWp)
@@ -80,9 +84,11 @@ export class WorkPackageRelationsCreateController {
           parentId: this.selectedWpId
         });
         this.wpNotificationsService.showSave(this.workPackage);
+        this.$timeout(() => {
+          angular.element('#hierarchy--parent').focus();
+        });
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
-      .finally(this.toggleRelationsCreateForm());
   }
 
   protected createCommonRelation() {
@@ -100,6 +106,12 @@ export class WorkPackageRelationsCreateController {
   public toggleRelationsCreateForm() {
     this.showRelationsCreateForm = !this.showRelationsCreateForm;
     this.externalFormToggle = !this.externalFormToggle;
+
+    this.$timeout(() => {
+      if (!this.showRelationsCreateForm) {
+        this.$element.find('.-focus-after-save').first().focus();
+      }
+    });
   }
 }
 

@@ -12,6 +12,7 @@ class WpRelationsHierarchyRowDirectiveController {
   public workPackagePath = this.PathHelper.workPackagePath;
 
   constructor(protected $scope:ng.IScope,
+              protected $timeout,
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -24,8 +25,12 @@ class WpRelationsHierarchyRowDirectiveController {
   };
 
   public text = {
-    changeParent: this.I18n.t('js.relation_buttons.change_parent'),
-    remove: this.I18n.t('js.relation_buttons.remove')
+    change_parent: this.I18n.t('js.relation_buttons.change_parent'),
+    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
+    remove_child: this.I18n.t('js.relation_buttons.remove_child'),
+    remove: this.I18n.t('js.relation_buttons.remove'),
+    parent: this.I18n.t('js.relation_labels.parent'),
+    children: this.I18n.t('js.relation_labels.children')
   };
 
   public removeRelation() {
@@ -43,10 +48,19 @@ class WpRelationsHierarchyRowDirectiveController {
     }
   }
 
+  public isParent() {
+    if (this.relationType === 'parent') {
+      return true;
+    }
+  }
+
   protected removeChild() {
       this.wpRelationsHierarchyService.removeChild(this.relatedWorkPackage).then(exChildWp => {
         this.$scope.$emit('wp-relations.removedChild', exChildWp);
         this.wpNotificationsService.showSave(this.workPackage);
+        this.$timeout(() => {
+          angular.element('#hierarchy--add-exisiting-child').focus();
+        });
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
   }
@@ -59,8 +73,12 @@ class WpRelationsHierarchyRowDirectiveController {
           parentId: null
         });
         this.wpNotificationsService.showSave(this.workPackage);
+        this.$timeout(() => {
+          angular.element('#hierarchy--add-parent').focus();
+        });
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
+
   }
 }
 

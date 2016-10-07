@@ -7,8 +7,9 @@
             <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
                 <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
-                   title="{{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
-                   ng-if="!$ctrl.isCurrentElement()">
+                   ng-if="!$ctrl.isCurrentElement()"
+                   aria-label="{{ ($ctrl.isParent() ? $ctrl.text.parent : $ctrl.text.children) + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
+                   ng-attr-id="{{ $ctrl.isParent() ? 'hierarchy--parent' : ''}}">
                     {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
                 </a>
                 <span ng-if="$ctrl.isCurrentElement()"
@@ -24,25 +25,29 @@
             </div>
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section">
-            <div ng-hide="!$ctrl.showRelationControls">
-                <accessible-by-keyboard ng-hide="$ctrl.relationType !== 'parent'"
-                                        execute="$ctrl.showEditForm = true">
-                    <icon-wrapper icon-name="edit"
-                                  icon-title="{{ ::$ctrl.text.change_parent }}">
-                    </icon-wrapper>
-                </accessible-by-keyboard>
+          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                  ng-if="$ctrl.isParent()"
+                                  aria-hidden="false"
+                                  execute="$ctrl.showEditForm = true"
+                                  class="-shown-in-accessibility-mode">
+              <icon-wrapper icon-name="edit"
+                            icon-title="{{ ::$ctrl.text.change_parent }}">
+              </icon-wrapper>
+          </accessible-by-keyboard>
 
-                <accessible-by-keyboard ng-hide="!$ctrl.relationType"
-                        execute="$ctrl.removeRelation()">
-                    <icon-wrapper icon-name="remove"
-                                  icon-title="{{ ::$ctrl.text.remove }}">
-                    </icon-wrapper>
-                </accessible-by-keyboard>
-            </div>
+          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                  ng-if="$ctrl.relationType"
+                                  aria-hidden="false"
+                                  execute="$ctrl.removeRelation()"
+                                  class="-shown-in-accessibility-mode">
+              <icon-wrapper icon-name="remove"
+                            icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}">
+              </icon-wrapper>
+          </accessible-by-keyboard>
         </div>
     </div>
 
-    <div ng-if="$ctrl.relationType === 'parent' && !$ctrl.relatedWorkPackage || $ctrl.showEditForm">
+    <div ng-if="$ctrl.isParent() && !$ctrl.relatedWorkPackage || $ctrl.showEditForm">
         <wp-relations-create template="empty-parents"
                              fixed-relation-type="parent"
                              external-form-toggle="$ctrl.showEditForm"

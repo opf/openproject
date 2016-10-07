@@ -271,6 +271,8 @@ en:
       precedes: "Precedes"
       follows: "Follows"
 
+      relation_type: "relation type"
+
     relations_hierarchy:
       hierarchy_headline: "hierarchy"
 
@@ -280,7 +282,7 @@ en:
       add_parent: "Add existing parent"
       add_new_child: "Create new child"
       add_existing_child: "Add existing child"
-      remove_child: "Remove child work package"
+      remove_child: "Remove child"
       add_new_relation: "Create new relation"
       remove: "Remove relation"
       save: "Save relation"
