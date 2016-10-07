@@ -1,6 +1,5 @@
 require 'capybara/poltergeist'
-# Disable using poltergeist until we upgraded jenkins workers
-# Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
   options = {

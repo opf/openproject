@@ -104,38 +104,41 @@ describe 'Going back and forth through the browser history', type: :feature, js:
 
     wp_table.expect_no_work_package_listed
 
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
 
     wp_table.expect_work_package_listed work_package_3
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Version', 'is', version.name)
 
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
 
+    page.find('#work-packages-filter-toggle-button').click
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Assignee', 'is', user.name)
 
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
 
     wp_table.expect_work_package_listed work_package_1
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_work_package_listed work_package_3
     wp_table.expect_filter('Status', 'open', nil)
 
-    page.evaluate_script('window.history.forward()')
+    page.execute_script('window.history.forward()')
 
+    page.find('#work-packages-filter-toggle-button').click
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Assignee', 'is', user.name)
 
-    page.evaluate_script('window.history.forward()')
+    page.execute_script('window.history.forward()')
 
+    page.find('#work-packages-filter-toggle-button').click
     wp_table.expect_work_package_listed work_package_3
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Version', 'is', version.name)
 
-    page.evaluate_script('window.history.forward()')
+    page.execute_script('window.history.forward()')
 
     wp_table.expect_no_work_package_listed
     wp_table.expect_filter('Status', 'open', nil)

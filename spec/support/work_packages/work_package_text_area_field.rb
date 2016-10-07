@@ -31,7 +31,6 @@ class WorkPackageTextAreaField < WorkPackageField
 
   def submit_by_click
     target = element.find(control_link)
-    scroll_to_element(target)
     target.click
   end
 
@@ -41,7 +40,6 @@ class WorkPackageTextAreaField < WorkPackageField
 
   def cancel_by_click
     target = element.find(control_link(:cancel))
-    scroll_to_element(target)
     target.click
   end
 

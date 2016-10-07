@@ -102,6 +102,14 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
+  config.before(:each) do |example|
+    Capybara.current_driver = :selenium if example.metadata[:selenium]
+  end
+
+  config.after(:each) do |example|
+    Capybara.use_default_driver if example.metadata[:selenium]
+  end
+
   # As we're using WebMock to mock and test remote HTTP requests,
   # we require specs to selectively enable mocking of Net::HTTP et al. when the example desires.
   # Otherwise, all requests are being mocked by default.
