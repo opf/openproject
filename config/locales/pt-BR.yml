@@ -26,5 +26,5 @@ pt-BR:
   validation_failure_integer: não é um valor inteiro válido
   reporting:
     group_by:
-      selected_columns: Selected columns
-      selected_rows: Selected rows
+      selected_columns: Colunas selecionadas
+      selected_rows: Linhas Selecionadas
