@@ -41,8 +41,6 @@ interface Filter {
 export class WorkPackageFilterButtonController extends WorkPackageButtonController {
   public filters:Filter[];
 
-  public labelKey:string = 'js.button_filter';
-  public textKey:string = 'js.toolbar.filter';
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
@@ -50,6 +48,14 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
     'ngInject';
 
     super(I18n);
+  }
+
+  public get labelKey():string {
+    return 'js.button_filter';
+  }
+
+  public get textKey():string {
+    return 'js.toolbar.filter';
   }
 
   public get label():string {
