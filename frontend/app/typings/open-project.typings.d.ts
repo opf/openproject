@@ -133,9 +133,6 @@ declare namespace api {
       groupable_columns:Column[];
       per_page_options:number[];
       query:Query;
-      sums:any[]; // TODO: Add correct type
-      total_entries:number;
-      work_package_count_by_group;
       page:number;
       per_page:number;
     }
