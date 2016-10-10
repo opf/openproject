@@ -85,7 +85,7 @@ export class WorkPackageTimelineCell {
       this.bar.style.width = duration + "px";
       this.bar.style.height = "1em";
       this.bar.style.backgroundColor = "#8CD1E8";
-
+      this.bar.style.borderRadius = "5px";
     }
 
 
