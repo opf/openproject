@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/ar_parameter_patch'
+
 class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
   class TypeWithWhatever < ActiveRecord::Base
     self.table_name = :types
@@ -41,6 +43,8 @@ class TypeAttributeVisibilityToHash < ActiveRecord::Migration[5.0]
   end
 
   def up
+    ArParametersPatch.load
+
     TypeWithWhatever.transaction do
       TypeWithWhatever.all.to_a.each do |type|
         visibility = type.attribute_visibility
