@@ -34,7 +34,11 @@ export class WpAttachmentsFormattableController {
     $element.on('drop', this.handleDrop);
     $element.on('dragover', this.highlightDroppable);
     $element.on('dragleave', this.removeHighlight);
-    $element.on('dragenter dragleave dragover', this.prevDefault);
+
+    // There's a weird TS warning ocurring here:
+    // Argument of type 'string' is not assignable to parameter of type '{ [key: string]: any; }'
+    // TS appears to be choosing the wrong function declaration
+    ($element as any).on('dragenter dragleave dragover', this.prevDefault);
   }
 
   public handleDrop = (evt:JQueryEventObject):void => {

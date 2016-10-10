@@ -121,7 +121,7 @@ export class WorkPackageRelationGroup {
     const elements = this.workPackage.relations.elements;
     if (Array.isArray(elements)) {
       this.relations.push(
-        ...elements.filter(relation => relation._type === this.type));
+        ...elements.filter((relation:any) => relation._type === this.type));
     }
   }
 }

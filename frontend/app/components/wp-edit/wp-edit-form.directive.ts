@@ -76,11 +76,11 @@ export class WorkPackageEditFormController {
 
   public toggleEditMode(state: boolean) {
     this.$scope.$evalAsync(() => {
-      angular.forEach(this.fields, (field) => {
+      angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
 
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
-          field.initializeField(this.workPackage);
+          field.initializeField();
         }
 
         // Disable the field if is active
@@ -134,7 +134,7 @@ export class WorkPackageEditFormController {
 
     this.workPackage.save()
       .then(() => {
-        angular.forEach(this.fields, field => field.setErrors([]));
+        angular.forEach(this.fields, (field:WorkPackageEditFieldController) => field.setErrors([]));
         deferred.resolve(this.workPackage);
 
         this.wpNotificationsService.showSave(this.workPackage, isInitial);
@@ -173,8 +173,8 @@ export class WorkPackageEditFormController {
     });
 
     this.$scope.$evalAsync(() => {
-      angular.forEach(this.fields, field => {
-        field.setErrors(this.errorsPerAttribute[(field.fieldName || [])]);
+      angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+        field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
       });
 
       // Activate + Focus on first field
