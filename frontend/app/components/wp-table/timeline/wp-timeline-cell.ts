@@ -67,15 +67,29 @@ export class WorkPackageTimelineCell {
     this.disposable && this.disposable.dispose();
   }
 
-  private updateView(viewParams: TimelineViewParameters, workPackage: WorkPackage) {
-    console.log("update:" + workPackage.id);
-    // console.log(viewParams.dateDisplayStart);
-    // console.log(viewParams.dateDisplayEnd);
+  private updateView(viewParams: TimelineViewParameters, wp: WorkPackage) {
 
-    this.bar.innerText = workPackage.subject + " | " + workPackage.startDate + " - " + workPackage.dueDate;
-    this.bar.style.width = "1000px";
-    this.bar.style.height = "1em";
-    this.bar.style.backgroundColor = "#FFAAAA";
+    if (wp.startDate && wp.dueDate) {
+      const start = moment(wp.startDate as any);
+      const due = moment(wp.dueDate as any);
+
+      // diff display start - wp start
+      const offsetStart = start.diff(viewParams.dateDisplayStart, "days") * viewParams.pixelPerDay;
+
+      // diff wp start - wp due
+      const duration = due.diff(start, "days") * viewParams.pixelPerDay;
+
+      // this.bar.innerText = wp.subject + " | " + wp.startDate + " - " + wp.dueDate;
+      this.bar.style.position = "relative";
+      this.bar.style.left = offsetStart + "px";
+      this.bar.style.width = duration + "px";
+      this.bar.style.height = "1em";
+      this.bar.style.backgroundColor = "#8CD1E8";
+
+    }
+
+
+
 
   }
 
