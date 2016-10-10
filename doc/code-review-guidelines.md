@@ -41,9 +41,9 @@ Every developer and reviewer should read the Rails Security Guide.
 ## Changelog
 
 - As of OpenProject Stable Release 3.0.8 all changes made to the OpenProject software are documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
-- The [Roadmap view](https://www.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
-- To prevent inconsistencies and avoid redundant work there is there is +no+ additional change log in the source code.
-See [History of Changes](https://www.openproject.org/projects/openproject/wiki/Release_Process#25-History-of-Changes) section of the Release Process.
+- The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
+- To prevent inconsistencies and avoid redundant work there is +no+ additional change log in the source code.
+See [History of Changes](https://www.openproject.org/open-source/release-process/) section of the Release Process.
 
 ## Other
 
