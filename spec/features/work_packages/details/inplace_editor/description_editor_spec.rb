@@ -28,8 +28,23 @@ describe 'description inplace editor', js: true, selenium: true do
   end
 
   context 'with permission' do
-    it 'shows the description field' do
+    it 'allows editing description field' do
       field.expect_state_text(description_text)
+
+      # Regression test #24033
+      # Cancelling an edition several tiems properly resets the value
+      field.activate!
+
+      field.set_value "My intermittent edit 1"
+      field.cancel_by_escape
+
+      field.activate!
+      field.set_value "My intermittent edit 2"
+      field.cancel_by_click
+
+      field.activate!
+      field.expect_value description_text
+      field.cancel_by_click
     end
   end
 
