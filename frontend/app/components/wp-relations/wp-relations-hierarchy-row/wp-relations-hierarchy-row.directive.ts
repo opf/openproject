@@ -49,9 +49,7 @@ class WpRelationsHierarchyRowDirectiveController {
   }
 
   public isParent() {
-    if (this.relationType === 'parent') {
-      return true;
-    }
+    return this.relationType === 'parent';
   }
 
   protected removeChild() {
