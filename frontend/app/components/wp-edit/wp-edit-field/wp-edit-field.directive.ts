@@ -154,6 +154,7 @@ export class WorkPackageEditFieldController {
       this.handleUserActivate();
     }
 
+    this.$scope.$root.$broadcast('openproject.dropdown.closeDropdowns');
     event.stopImmediatePropagation();
   }
 
