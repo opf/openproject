@@ -30,10 +30,13 @@ import {openprojectModule} from "../../../angular-modules";
 import {States} from "../../states.service";
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
+import Moment = moment.Moment;
+
 
 export class TimelineViewParameters {
-  dateDisplayStart: number;
-  dateDisplayEnd: number;
+  dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
+  dateDisplayEnd: Moment = this.dateDisplayStart;
+  pixelPerDay = 10;
 }
 
 export interface RenderInfo {
@@ -43,7 +46,7 @@ export interface RenderInfo {
 
 export class WorkPackageTimelineService {
 
-  private timelineViewParameters: TimelineViewParameters = new TimelineViewParameters();
+  private viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
   private workPackagesInView: {[id: string]: WorkPackage} = {};
 
@@ -69,12 +72,10 @@ export class WorkPackageTimelineService {
         const wp = renderInfo.workPackage;
         this.workPackagesInView[wp.id] = wp;
 
-        const oldParams = this.timelineViewParameters;
-        const newParams = this.calculateViewParams();
-
-        if (!_.isEqual(oldParams, newParams)) {
+        const viewParamsChanged = this.calculateViewParams();
+        if (viewParamsChanged) {
           // view params have changed, notify all cells
-          this.viewParamsSubject.onNext(newParams);
+          this.viewParamsSubject.onNext(this.viewParameters);
           return Observable.empty<RenderInfo>();
         } else {
           // view params have not changed, only notify this observer
@@ -83,24 +84,45 @@ export class WorkPackageTimelineService {
       });
   }
 
-  private calculateViewParams(): TimelineViewParameters {
-    const params = new TimelineViewParameters();
+  private calculateViewParams(): boolean {
+    let changed = false;
+    const newParams = new TimelineViewParameters();
 
+    // Calculate view parameters
     for (const wpId in this.workPackagesInView) {
-      const wp = this.workPackagesInView[wpId];
-      const start = wp.startDate ? new Date(wp.startDate as any).getTime() : null;
-      const due = wp.dueDate ? new Date(wp.dueDate as any).getTime() : null;
+      const workPackage = this.workPackagesInView[wpId];
 
-      // if (!params.dateDisplayStart || (start && start < params.dateDisplayStart)) {
-      //   params.dateDisplayStart = start;
-      // }
-      // if (!params.dateDisplayEnd || (due && due < params.dateDisplayEnd)) {
-      //   params.dateDisplayEnd = due;
-      // }
+      if (workPackage.startDate && workPackage.dueDate) {
+        const start = moment(workPackage.startDate as any);
+        const due = moment(workPackage.dueDate as any);
 
+        // start date
+        if (start.isBefore(newParams.dateDisplayStart)) {
+          newParams.dateDisplayStart = start;
+        }
+
+        // due date
+        if (due.isAfter(newParams.dateDisplayEnd)) {
+          newParams.dateDisplayEnd = due;
+        }
+      }
     }
 
-    return params;
+    // Check if view params changed:
+
+    // start date
+    if (!this.viewParameters.dateDisplayStart.isSame(newParams.dateDisplayStart)) {
+      changed = true;
+      this.viewParameters.dateDisplayStart = newParams.dateDisplayStart;
+    }
+
+    // end date
+    if (!this.viewParameters.dateDisplayEnd.isSame(newParams.dateDisplayEnd)) {
+      changed = true;
+      this.viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
+    }
+
+    return changed;
   }
 }
 
