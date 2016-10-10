@@ -49,6 +49,7 @@ export class SpentTimeDisplayField extends DurationDisplayField {
         this.timeEntriesLink =
           URI
             .expand('/projects/{identifier}/time_entries', project)
+            .search({ work_package_id: resource.id })
             .toString();
       });
     }
