@@ -34,8 +34,6 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
 
   public accessKey:number = 1;
   public activeState:string = 'some-state.show';
-  public labelKey:string = 'js.some-label';
-  public textKey:string = 'js.some-text';
   public buttonId:string = 'some-button-id';
   public iconClass:string = 'some-icon-class';
   
@@ -45,6 +43,15 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
 
   public performAction() {
   }
+
+  public get labelKey():string {
+    return 'js.some-label';
+  }
+
+  public get textKey():string {
+    return 'js.some-text';
+  }
+
 }
 
 describe('WP button directives', () => {
@@ -80,15 +87,15 @@ describe('WP button directives', () => {
     scope = $rootScope.$new();
     var element = angular.element(html);
 
-    var t = sinon.stub(I18n, 't');
-    t.withArgs('js.some-label').returns('a wonderful title');
-    t.withArgs('js.label_activate').returns('activate');
+    var stub = sinon.stub(I18n, 't');
+    stub.withArgs('js.some-label').returns('a wonderful title');
+    stub.withArgs('js.some-text').returns('text');
 
     $compile(element)(scope);
     scope.$digest();
 
     controller = element.controller('genericWpButton');
-    label = element.find('label');
+    label = element.find('span');
     button = element.find('button');
   }));
 
@@ -148,7 +155,6 @@ describe('WP button directives', () => {
 
     it('should have equal text values', () => {
       expect(label.text().trim()).to.eq(controller.label);
-      expect(button.text().trim()).to.eq(controller.label);
       expect(button.attr('title').trim()).to.eq(controller.label);
     });
   });
@@ -159,7 +165,7 @@ describe('WP button directives', () => {
     });
 
     it("should have the 'activate' prefix in the text values", () => {
-      expect(button.text()).to.contain('activate');
+      expect(button.text()).to.contain(controller.label);
     });
   });
 });
