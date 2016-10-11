@@ -91,9 +91,10 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     full_work_package.expect_subject
     full_work_package.expect_current_path
 
-    # Back to table
-    global_work_packages.visit!
+    # Back to table using the button
+    find('#work-packages-list-view-button').click
     global_work_packages.expect_work_package_listed(work_package)
+    expect(current_path).to eq "/projects/#{project.identifier}/work_packages"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
