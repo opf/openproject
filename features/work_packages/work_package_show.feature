@@ -95,6 +95,8 @@ Feature: Viewing a work package
   @javascript
   Scenario: For an issue move leads to work package copy page
     When I go to the page of the work package "issue1"
+    # saveguard to ensure that the page is loaded
+    Then I should see "Anonymous"
     When I select "Move" from the action menu
     Then I should see "Move"
 
