@@ -77,6 +77,7 @@ openprojectModule
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
 
     $urlRouterProvider.when('/work_packages/', '/work_packages')
+                      .when('/{projects}/{projectPath}/work_packages/', '/{projects}/{projectPath}/work_packages')
                       .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
                         $state.go('work-packages.show.activity', $match, { location: 'replace' });
                         return true;
