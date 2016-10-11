@@ -40,11 +40,9 @@ function uiSelectFocusFix( $timeout ) {
     restrict: 'A',
     require: 'uiSelect',
     link: function(scope, element, attrs, $select) {
-      scope.$watch(() => { return $select.open; }, (isOpen) => {
+      scope.$watch(() => $select.open, isOpen => {
         if ( isOpen ) {
-          $timeout(() => {
-            $select.focusSearchInput();
-          });
+          $timeout( () => { $select.focusSearchInput(); } );
         }
       });
     }
