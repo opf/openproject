@@ -36,7 +36,6 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
 
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
-  public labelKey:string = 'js.button_details_view';
   public buttonId:string = 'work-packages-details-view-button';
   public iconClass:string = 'icon-view-split';
 
@@ -44,6 +43,10 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
     'ngInject';
 
     super($state, I18n);
+  }
+
+  public get labelKey():string {
+    return 'js.button_details_view';
   }
 
   public performAction() {

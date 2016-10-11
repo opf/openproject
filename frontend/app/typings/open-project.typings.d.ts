@@ -32,7 +32,6 @@
  *
  * @see {@link http://opf.github.io/apiv3-doc/|Api V3 documentation}
  */
-declare var api;
 
 declare namespace api {
 
@@ -133,9 +132,6 @@ declare namespace api {
       groupable_columns:Column[];
       per_page_options:number[];
       query:Query;
-      sums:any[]; // TODO: Add correct type
-      total_entries:number;
-      work_package_count_by_group;
       page:number;
       per_page:number;
     }

@@ -36,7 +36,7 @@ class PathTemplate {
   /**
    * The children of the path segment.
    */
-  public children = {};
+  public children:{ [childName: string]: any } = {};
   /**
    * The optional parents of the path segment.
    * Parents are only prepended to the path segment, if a parameter of the same name as the parent

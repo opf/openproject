@@ -41,8 +41,6 @@ export abstract class WorkPackageButtonController {
   public buttonId:string;
   public iconClass:string;
 
-  public labelKey:string;
-  public textKey:string;
   public accessKey:number;
 
   protected text:ButtonControllerText;
@@ -62,6 +60,14 @@ export abstract class WorkPackageButtonController {
 
   public get buttonText():string {
     return this.text.buttonText;
+  }
+
+  public get labelKey():string {
+    return '';
+  }
+
+  public get textKey():string {
+    return '';
   }
 
   protected get activationPrefix():string {

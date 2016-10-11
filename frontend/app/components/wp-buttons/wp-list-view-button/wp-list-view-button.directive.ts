@@ -37,7 +37,6 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
 
   public accessKey: number = 8;
   public activeState: string = 'work-packages.list';
-  public labelKey: string = 'js.button_list_view';
   public buttonId: string = 'work-packages-list-view-button';
   public iconClass: string = 'icon-view-list';
 
@@ -47,6 +46,10 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
     'ngInject';
 
     super($state, I18n);
+  }
+
+  public get labelKey():string {
+    return 'js.button_list_view';
   }
 
   public isActive() {

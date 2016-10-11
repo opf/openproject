@@ -36,7 +36,6 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
 
   public accessKey:number = 9;
   public activeState:string = 'work-packages.show';
-  public labelKey:string = 'js.button_show_view';
   public buttonId:string = 'work-packages-show-view-button';
   public iconClass:string = 'icon-view-fullscreen';
 
@@ -44,6 +43,10 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
     'ngInject';
 
     super($state, I18n);
+  }
+
+  public get labelKey():string {
+    return 'js.button_show_view';
   }
 
   public performAction() {
