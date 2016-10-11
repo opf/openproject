@@ -335,10 +335,12 @@ class WorkPackage < ActiveRecord::Base
   def all_dependent_packages(except = [])
     except << self
     dependencies = []
-    relations_from.each do |relation|
-      if relation.to && !except.include?(relation.to)
-        dependencies << relation.to
-        dependencies += relation.to.all_dependent_packages(except)
+    relations.includes(:from, :to).each do |relation|
+      work_package = relation.canonical_to
+
+      if work_package && !except.include?(work_package)
+        dependencies << work_package
+        dependencies += work_package.all_dependent_packages(except)
       end
     end
     dependencies
