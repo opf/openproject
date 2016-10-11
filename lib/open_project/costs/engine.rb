@@ -346,6 +346,10 @@ module OpenProject::Costs
                                                attribute: :updated_on
     end
 
+    initializer 'costs.register_query_filter' do
+      Queries::WorkPackages::FilterRegister.register(OpenProject::Costs::WorkPackageFilter)
+    end
+
     module EagerLoadedCosts
       def eager_loaded_work_packages(ids)
         material = WorkPackage::MaterialCosts.new
