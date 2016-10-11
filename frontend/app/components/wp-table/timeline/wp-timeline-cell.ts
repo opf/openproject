@@ -30,6 +30,7 @@ import {States} from "../../states.service";
 import {WorkPackageTimelineService, TimelineViewParameters} from "./wp-timeline.service";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {State} from "../../../helpers/reactive-fassade";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
@@ -56,7 +57,9 @@ export class WorkPackageTimelineCell {
     this.bar = document.createElement("div");
     this.timelineCell.appendChild(this.bar);
 
-    this.disposable = this.workPackageTimelineService.addWorkPackage(this.workPackageId)
+    scopedObservable(
+      this.scope,
+      this.workPackageTimelineService.addWorkPackage(this.workPackageId))
       .subscribe(renderInfo => {
         this.updateView(renderInfo.viewParams, renderInfo.workPackage);
       });
@@ -87,8 +90,6 @@ export class WorkPackageTimelineCell {
       this.bar.style.backgroundColor = "#8CD1E8";
       this.bar.style.borderRadius = "5px";
     }
-
-
 
 
   }

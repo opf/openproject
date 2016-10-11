@@ -46,7 +46,7 @@ export interface RenderInfo {
 
 export class WorkPackageTimelineService {
 
-  private viewParameters: TimelineViewParameters = new TimelineViewParameters();
+  private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
   private workPackagesInView: {[id: string]: WorkPackage} = {};
 
@@ -54,6 +54,10 @@ export class WorkPackageTimelineService {
 
   constructor(private states: States) {
     "ngInject";
+  }
+
+  get viewParameters() {
+    return this._viewParameters;
   }
 
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
@@ -75,13 +79,14 @@ export class WorkPackageTimelineService {
         const viewParamsChanged = this.calculateViewParams();
         if (viewParamsChanged) {
           // view params have changed, notify all cells
-          this.viewParamsSubject.onNext(this.viewParameters);
+          this.viewParamsSubject.onNext(this._viewParameters);
           return Observable.empty<RenderInfo>();
         } else {
           // view params have not changed, only notify this observer
           return Observable.just(renderInfo);
         }
       });
+  
   }
 
   private calculateViewParams(): boolean {
@@ -111,15 +116,15 @@ export class WorkPackageTimelineService {
     // Check if view params changed:
 
     // start date
-    if (!this.viewParameters.dateDisplayStart.isSame(newParams.dateDisplayStart)) {
+    if (!this._viewParameters.dateDisplayStart.isSame(newParams.dateDisplayStart)) {
       changed = true;
-      this.viewParameters.dateDisplayStart = newParams.dateDisplayStart;
+      this._viewParameters.dateDisplayStart = newParams.dateDisplayStart;
     }
 
     // end date
-    if (!this.viewParameters.dateDisplayEnd.isSame(newParams.dateDisplayEnd)) {
+    if (!this._viewParameters.dateDisplayEnd.isSame(newParams.dateDisplayEnd)) {
       changed = true;
-      this.viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
+      this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
 
     return changed;
