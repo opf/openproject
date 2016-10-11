@@ -51,6 +51,7 @@ export class WorkPackageSingleViewController {
               protected I18n,
               protected wpCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
+              protected TimezoneService,
               protected WorkPackagesOverviewService,
               protected SingleViewWorkPackage) {
 
@@ -61,12 +62,16 @@ export class WorkPackageSingleViewController {
       dropFiles: I18n.t('js.label_drop_files'),
       dropFilesHint: I18n.t('js.label_drop_files_hint'),
       fields: {
+        description: I18n.t('js.work_packages.properties.description'),
         date: {
           startDate: I18n.t('js.label_no_start_date'),
           dueDate: I18n.t('js.label_no_due_date')
         }
       },
-      idLabel: ''
+      infoRow: {
+        createdBy: I18n.t('js.label_created_by'),
+        lastUpdatedOn: I18n.t('js.label_last_updated_on')
+      },
     };
 
     wpCacheService.loadWorkPackage(wpId).observe($scope).subscribe(wp => this.init(wp));
@@ -96,15 +101,19 @@ export class WorkPackageSingleViewController {
     }
   }
 
-  public setIdLabel() {
-    if (!this.workPackage.type) {
+  public get idLabel() {
+    var text;
+
+    if (!(this.workPackage && this.workPackage.type)) {
       return;
     }
 
-    this.text.idLabel = this.workPackage.type.name;
+    text = this.workPackage.type.name;
     if (!this.workPackage.isNew) {
-      this.text.idLabel += ' #' + this.workPackage.id;
+      text += ' #' + this.workPackage.id;
     }
+
+    return text;
   }
 
   private init(wp) {
@@ -147,10 +156,6 @@ function wpSingleViewDirective() {
                             controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
-
-    scope.$watch(_ => controllers[1].workPackage.type, _ => {
-      controllers[1].setIdLabel();
-    });
   }
 
   return {

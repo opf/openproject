@@ -101,6 +101,7 @@ en:
     label_board_locked: "Locked"
     label_board_sticky: "Sticky"
     label_create_work_package: "Create new work package"
+    label_created_by: "Created by"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
@@ -421,9 +422,9 @@ en:
       inline_create:
        title: 'Click here to add a new work package to this list'
       create:
-        header: 'New work package'
+        header: 'New %{type}'
+        header_with_parent: 'New %{type} (Child of %{type} #%{id})'
         button: 'Create'
-        header_with_parent: 'New work package (Child of %{type} #%{id})'
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.

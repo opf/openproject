@@ -117,6 +117,7 @@ export class WorkPackageResource extends HalResource {
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
   public subject: string;
+  public updatedAt: Date;
   public lockVersion: number;
   public description: any;
   public inFlight: boolean;
