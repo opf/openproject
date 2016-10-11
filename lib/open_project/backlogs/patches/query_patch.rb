@@ -54,27 +54,11 @@ module OpenProject::Backlogs::Patches::QueryPatch
                                           ))
       Queries::WorkPackages::Filter.add_filter_type_by_field('backlogs_work_package_type', 'list')
 
-      alias_method_chain :available_work_package_filters, :backlogs_work_package_type
       alias_method_chain :sql_for_field, :backlogs_work_package_type
     end
   end
 
   module InstanceMethods
-    def available_work_package_filters_with_backlogs_work_package_type
-      available_work_package_filters_without_backlogs_work_package_type.tap do |filters|
-        if backlogs_configured? and backlogs_enabled?
-          filters['backlogs_work_package_type'] = {
-            type: :list,
-            values: [[l(:story, scope: [:backlogs]), 'story'],
-                     [l(:task, scope: [:backlogs]), 'task'],
-                     [l(:impediment, scope: [:backlogs]), 'impediment'],
-                     [l(:any, scope: [:backlogs]), 'any']],
-            order: 20
-          }
-        end
-      end
-    end
-
     def sql_for_field_with_backlogs_work_package_type(field, operator, v, db_table, db_field, is_custom_filter = false)
       if field == 'backlogs_work_package_type'
         db_table = WorkPackage.table_name
@@ -120,14 +104,6 @@ module OpenProject::Backlogs::Patches::QueryPatch
     end
 
     protected
-
-    def backlogs_configured?
-      Story.types.present? and Task.type.present?
-    end
-
-    def backlogs_enabled?
-      project.blank? or project.module_enabled?(:backlogs)
-    end
   end
 end
 

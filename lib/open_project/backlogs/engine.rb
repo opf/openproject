@@ -246,5 +246,9 @@ module OpenProject::Backlogs
     initializer 'backlogs.register_hooks' do
       require 'open_project/backlogs/hooks'
     end
+
+    initializer 'backlogs.register_query_filter' do
+      Queries::WorkPackages::FilterRegister.register(OpenProject::Backlogs::WorkPackageFilter)
+    end
   end
 end
