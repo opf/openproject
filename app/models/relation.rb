@@ -72,19 +72,19 @@ class Relation < ActiveRecord::Base
     },
     TYPE_INCLUDES => {
       name: :label_includes, sym_name: :label_includes, order: 8,
-      sym: TYPE_INCLUDES, reverse: TYPE_PARTOF
+      sym: TYPE_PARTOF
     },
     TYPE_PARTOF => {
       name: :label_part_of, sym_name: :label_part_of, order: 9,
-      sym: TYPE_PARTOF, reverse: TYPE_INCLUDES
+      sym: TYPE_INCLUDES, reverse: TYPE_INCLUDES
     },
     TYPE_REQUIRES => {
       name: :label_requires, sym_name: :label_requires, order: 10,
-      sym: TYPE_REQUIRES, reverse: TYPE_REQUIRED
+      sym: TYPE_REQUIRED
     },
     TYPE_REQUIRED => {
       name: :label_required, sym_name: :label_required, order: 11,
-      sym: TYPE_REQUIRED, reverse: TYPE_REQUIRES
+      sym: TYPE_REQUIRES, reverse: TYPE_REQUIRES
     }
   }.freeze
 
