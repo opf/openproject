@@ -31,11 +31,10 @@ require 'support/pages/split_work_package_create'
 
 module Pages
   class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :project, :selector
+    attr_reader :selector
 
     def initialize(work_package, project = nil)
-      super work_package
-      @project = project
+      super work_package, project
       @selector = '.work-packages--details'
     end
 

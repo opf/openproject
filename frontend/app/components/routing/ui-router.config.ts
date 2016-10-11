@@ -93,7 +93,7 @@ openprojectModule
 
     $stateProvider
       .state('work-packages', {
-        url: '',
+        url: '/{projects}/{projectPath}',
         abstract: true,
         params: {
           // value: null makes the parameter optional
@@ -106,7 +106,7 @@ openprojectModule
       })
 
       .state('work-packages.new', {
-        url: '/{projects}/{projectPath}/work_packages/new?type&parent_id',
+        url: '/work_packages/new?type&parent_id',
         templateUrl: '/components/routing/main/work-packages.new.html',
         controller: 'WorkPackageCreateController',
         controllerAs: '$ctrl',
@@ -127,7 +127,7 @@ openprojectModule
       })
 
       .state('work-packages.edit', {
-        url: '/{projects}/{projectPath}/work_packages/{workPackageId:[0-9]+}/edit',
+        url: '/work_packages/{workPackageId:[0-9]+}/edit',
         onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
           // Transitioning to a new state may cause a reported issue
@@ -162,7 +162,7 @@ openprojectModule
       .state('work-packages.show.watchers', panels.watchers)
 
       .state('work-packages.list', {
-        url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
+        url: '/work_packages?query_id&query_props',
         controller: 'WorkPackagesListController',
         templateUrl: '/components/routing/wp-list/wp.list.html',
         params: {

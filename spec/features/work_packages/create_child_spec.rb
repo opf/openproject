@@ -120,11 +120,12 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     expect(child_work_package).to_not eql original_work_package
 
-    child_work_package_page = Pages::FullWorkPackage.new(child_work_package)
+    child_work_package_page = Pages::FullWorkPackage.new(child_work_package, project)
 
     child_work_package_page.ensure_page_loaded
     child_work_package_page.expect_subject
-    child_work_package_page.expect_current_path
+    expect(current_path)
+      .to eq("/projects/#{project.identifier}/work_packages/#{child_work_package.id}")
 
     child_work_package_page.expect_parent(original_work_package)
   end
