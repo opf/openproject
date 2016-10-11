@@ -88,7 +88,7 @@ export class WpAttachmentsFormattableController {
           });
         }
         else {
-          this.insertDelayedAttachments(dropData, description);
+          this.insertDelayedAttachments(dropData, description, workPackage);
         }
       }
     }
@@ -125,12 +125,12 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(dropData:DropModel, description):void {
+  protected insertDelayedAttachments(dropData:DropModel, description, workPackage: WorkPackageResourceInterface):void {
     for (var i = 0; i < dropData.files.length; i++) {
       var currentFile = new SingleAttachmentModel(dropData.files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
       description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), insertMode, true);
-      this.$rootScope.$broadcast('work_packages.attachment.add', dropData.files[i]);
+      workPackage.pendingAttachments.push((dropData.files[i] as UploadFile));
     }
 
     description.save();
