@@ -93,21 +93,13 @@ class Relation < ActiveRecord::Base
   validates_numericality_of :delay, allow_nil: true
   validates_uniqueness_of :to_id, scope: :from_id
 
-  validate :validate_sanity_of_relation
+  validate :validate_sanity_of_relation,
+           :validate_no_circular_dependency
 
   before_save :update_schedule
 
-  def validate_sanity_of_relation
-    if from && to
-      errors.add :to_id, :invalid if from_id == to_id
-      errors.add :to_id, :not_same_project unless from.project_id == to.project_id || Setting.cross_project_work_package_relations?
-      errors.add :base, :circular_dependency if to.all_dependent_packages.include? from
-      errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) || from.is_ancestor_of?(to)
-    end
-  end
-
   def other_work_package(work_package)
-    (from_id == work_package.id) ? to : from
+    from_id == work_package.id ? to : from
   end
 
   # Returns the relation type for +work_package+
@@ -164,11 +156,57 @@ class Relation < ActiveRecord::Base
     self[:delay]
   end
 
+  def canonical_to
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      from
+    else
+      to
+    end
+  end
+
+  def canonical_from
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      to
+    else
+      from
+    end
+  end
+
+  def canonical_type
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      TYPES[relation_type][:reverse]
+    else
+      relation_type
+    end
+  end
+
   private
+
+  def validate_sanity_of_relation
+    return unless from && to
+
+    errors.add :to_id, :invalid if from_id == to_id
+    errors.add :to_id, :not_same_project unless from.project_id == to.project_id ||
+                                                Setting.cross_project_work_package_relations?
+    errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) ||
+                                                                     from.is_ancestor_of?(to)
+  end
+
+  def validate_no_circular_dependency
+    return unless from && to
+
+    if !(changed & ['from_id', 'to_id']).empty? &&
+       canonical_to.all_dependent_packages.include?(canonical_from)
+      errors.add :base, :circular_dependency
+    end
+  end
 
   # Reverses the relation if needed so that it gets stored in the proper way
   def reverse_if_needed
-    if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
+    if TYPES.key?(relation_type) && TYPES[relation_type][:reverse]
       work_package_tmp = to
       self.to = from
       self.from = work_package_tmp

@@ -91,15 +91,32 @@ describe Relation, type: :model do
       FactoryGirl.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
     }
 
-    let(:invalid_relation) {
+    let(:invalid_precedes_relation) {
       FactoryGirl.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
     }
 
-    it do
+    let(:invalid_follows_relation) {
+      FactoryGirl.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
+    }
+
+    it 'prevents invalid precedes relations' do
       expect(relation.save).to eq(true)
       expect(relation2.save).to eq(true)
-      expect(invalid_relation.save).to eq(false)
-      expect(invalid_relation.errors[:base]).not_to be_empty
+      from.reload
+      to.reload
+      otherwp.reload
+      expect(invalid_precedes_relation.save).to eq(false)
+      expect(invalid_precedes_relation.errors[:base]).not_to be_empty
+    end
+
+    it 'prevents invalid follows relations' do
+      expect(relation.save).to eq(true)
+      expect(relation2.save).to eq(true)
+      from.reload
+      to.reload
+      otherwp.reload
+      expect(invalid_follows_relation.save).to eq(false)
+      expect(invalid_follows_relation.errors[:base]).not_to be_empty
     end
   end
 end
