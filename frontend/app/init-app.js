@@ -93,12 +93,14 @@ opApp
       '$rootScope',
       '$window',
       'TimezoneService',
+      'ExpressionService',
       'CacheService',
       'KeyboardShortcutService',
       function($http,
                $rootScope,
                $window,
                TimezoneService,
+               ExpressionService,
                CacheService,
                KeyboardShortcutService) {
         $http.defaults.headers.common.Accept = 'application/json';
@@ -106,7 +108,7 @@ opApp
         // Set the escaping target of opening double curly braces
         // This is what returned by rails-angular-xss when it discoveres double open curly braces
         // See https://github.com/opf/rails-angular-xss for more information.
-        $rootScope.DOUBLE_LEFT_CURLY_BRACE = '{{';
+        $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
         $rootScope.showNavigation =
             $window.sessionStorage.getItem('openproject:navigation-toggle') !==
