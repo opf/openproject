@@ -40,9 +40,11 @@ export class WorkPackageTimelineCell {
 
   private wpState: State<WorkPackageResource>;
 
-  private bar: HTMLDivElement;
-
   private disposable: IDisposable;
+
+  private bar: HTMLDivElement = null;
+
+  private today: HTMLDivElement;
 
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
               private scope: IScope,
@@ -54,9 +56,6 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    this.bar = document.createElement("div");
-    this.timelineCell.appendChild(this.bar);
-
     scopedObservable(
       this.scope,
       this.workPackageTimelineService.addWorkPackage(this.workPackageId))
@@ -70,28 +69,54 @@ export class WorkPackageTimelineCell {
     this.disposable && this.disposable.dispose();
   }
 
+  private lazyInit() {
+    if (this.bar === null) {
+      this.bar = document.createElement("div");
+      this.timelineCell.appendChild(this.bar);
+
+      this.today = document.createElement("div");
+      this.timelineCell.appendChild(this.today);
+    }
+  }
+
   private updateView(viewParams: TimelineViewParameters, wp: WorkPackage) {
-
-    if (wp.startDate && wp.dueDate) {
-      const start = moment(wp.startDate as any);
-      const due = moment(wp.dueDate as any);
-
-      // diff display start - wp start
-      const offsetStart = start.diff(viewParams.dateDisplayStart, "days") * viewParams.pixelPerDay;
-
-      // diff wp start - wp due
-      const duration = due.diff(start, "days") * viewParams.pixelPerDay;
-
-      // this.bar.innerText = wp.subject + " | " + wp.startDate + " - " + wp.dueDate;
-      this.bar.style.position = "relative";
-      this.bar.style.left = offsetStart + "px";
-      this.bar.style.width = duration + "px";
-      this.bar.style.height = "1em";
-      this.bar.style.backgroundColor = "#8CD1E8";
-      this.bar.style.borderRadius = "5px";
+    // abort if no start or due date
+    if (!wp.startDate || !wp.dueDate) {
+      return;
     }
 
+    this.lazyInit();
+    const start = moment(wp.startDate as any);
+    const due = moment(wp.dueDate as any);
 
+    // general settings - bar
+    this.bar.style.position = "relative";
+    this.bar.style.height = "1em";
+    this.bar.style.backgroundColor = "#8CD1E8";
+    this.bar.style.borderRadius = "5px";
+    this.bar.style.cssFloat = "left";
+
+    // general settings - today
+    this.today.style.position = "relative";
+    this.today.style.height = "10px";
+    this.today.style.width = "2px";
+    this.today.style.borderLeft = "1px dashed red";
+
+    // diff display start - wp start
+    const offsetStart = start.diff(viewParams.dateDisplayStart, "days") * viewParams.pixelPerDay;
+
+    // diff wp start - wp due
+    const duration = due.diff(start, "days") * viewParams.pixelPerDay;
+
+    if (viewParams.showDurationInPx) {
+      // show absolute in px
+      this.bar.style.left = offsetStart + "px";
+      this.bar.style.width = duration + "px";
+    } else {
+      // show relative in %
+      this.bar.style.left = (offsetStart / viewParams.maxWidthInPx * 100) + "%";
+      this.bar.style.width = (duration / viewParams.maxWidthInPx * 100) + "%";
+    }
   }
 
 }

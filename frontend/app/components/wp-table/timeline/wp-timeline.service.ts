@@ -34,9 +34,20 @@ import Moment = moment.Moment;
 
 
 export class TimelineViewParameters {
+
   dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
-  dateDisplayEnd: Moment = this.dateDisplayStart;
+
+  dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+
+  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
+
+  showDurationInPx = false;
+
   pixelPerDay = 10;
+
+  get maxWidthInPx() {
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.pixelPerDay;
+  }
 }
 
 export interface RenderInfo {
@@ -86,7 +97,7 @@ export class WorkPackageTimelineService {
           return Observable.just(renderInfo);
         }
       });
-  
+
   }
 
   private calculateViewParams(): boolean {
@@ -102,14 +113,10 @@ export class WorkPackageTimelineService {
         const due = moment(workPackage.dueDate as any);
 
         // start date
-        if (start.isBefore(newParams.dateDisplayStart)) {
-          newParams.dateDisplayStart = start;
-        }
+        newParams.dateDisplayStart = moment.min(newParams.dateDisplayStart, newParams.now, start);
 
         // due date
-        if (due.isAfter(newParams.dateDisplayEnd)) {
-          newParams.dateDisplayEnd = due;
-        }
+        newParams.dateDisplayEnd = moment.max(newParams.dateDisplayEnd, newParams.now, due);
       }
     }
 
@@ -129,6 +136,7 @@ export class WorkPackageTimelineService {
 
     return changed;
   }
+
 }
 
 

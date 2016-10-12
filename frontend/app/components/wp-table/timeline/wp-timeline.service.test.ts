@@ -31,7 +31,6 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {asyncTest} from "../../../helpers/angular-rx-utils";
 import WorkPackage = op.WorkPackage;
 
-const assert = chai.assert;
 const expect = chai.expect;
 
 describe.only('WorkPackageTimelineService', () => {
