@@ -96,6 +96,20 @@ describe 'new work package', js: true do
                                   selected: 'Bug')
     end
 
+    it 'saves the work package with enter' do
+      subject_field = wp_page.subject_field
+      subject_field.set(subject)
+      subject_field.send_keys(:return)
+
+      # safegurards
+      wp_page.dismiss_notification!
+      wp_page.expect_no_notification(
+        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      )
+
+      wp_page.expect_subject
+    end
+
     context 'with missing values' do
       it 'shows an error when subject is missing' do
         wp_page.description_field.set(description)
