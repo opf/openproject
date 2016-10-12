@@ -2603,7 +2603,7 @@ applicable for the other relations.
                 "message": "The specified relation type does not exist."
             }
 
-## Relations [/api/v3/relations?offset,pageSize,from,to,involved,type]
+## Relations [/api/v3/relations?offset,pageSize,filters]
 
 + Model
     + Body
@@ -2671,13 +2671,10 @@ The response only includes relations between work packages which the user is all
 
     + pageSize (optional, integer, `20`) ... Number of elements to display per page
 
-    + from (optional, integer, `42`) ... ID of work package from which the filtered relations emanates
-
-    + to (optional, integer, `84`) ... ID of work package to which this related points
-
-    + involved (optional, integer, `24`) ... ID of either the `from` or the `to` work package.
-
-    + type (optional, string, `blocks`) ... The type of relation to filter by
+    + filters (optional, string, `[{ "from": { "operator": "=", "values": 42 }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Valid fields to filter by are:
+    `from` (ID of work package from which the filtered relations emanates), `to` (ID of work package to which this related points),
+    `involved` (ID of either the `from` or the `to` work package.), `type` (The type of relation to filter by, e.g. "follows")
 
 + Response 200 (application/hal+json)
 
