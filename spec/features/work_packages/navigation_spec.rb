@@ -89,18 +89,18 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     full_work_package = project_work_packages.open_full_screen_by_button(work_package)
 
     full_work_package.expect_subject
-    full_work_package.expect_current_path
+    expect(current_path).to eq project_work_package_path(project, work_package, 'activity')
 
     # Back to table using the button
     find('#work-packages-list-view-button').click
     global_work_packages.expect_work_package_listed(work_package)
-    expect(current_path).to eq "/projects/#{project.identifier}/work_packages"
+    expect(current_path).to eq project_work_packages_path(project)
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
 
     full_work_package.expect_subject
-    full_work_package.expect_current_path
+    expect(current_path).to eq project_work_package_path(project, work_package)
 
     # Safeguard: ensure spec to have finished loading everything before proceeding to the next spec
     full_work_package.ensure_page_loaded

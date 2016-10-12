@@ -73,28 +73,27 @@ const panels = {
   }
 };
 
+const redirectTo = (routeTo) => {
+  return ($match, $state) => {
+    $state.go(routeTo, $match, { location: 'replace' });
+    return true;
+  };
+};
+
 openprojectModule
   .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
+    $urlMatcherFactoryProvider.strictMode(false);
 
     $urlRouterProvider.when('/work_packages/', '/work_packages')
                       .when('/{projects}/{projectPath}/work_packages/', '/{projects}/{projectPath}/work_packages')
-                      .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
-                        $state.go('work-packages.show.activity', $match, { location: 'replace' });
-                        return true;
-                      })
-                      .when('/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
-                        $state.go('work-packages.list.details.overview', $match, { location: 'replace' });
-                        return true;
-                      })
-                      .when('/{projects}/{projectPath}/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', ($match, $state) => {
-                        $state.go('work-packages.list.details.overview', $match, { location: 'replace' });
-                        return true;
-                      });
-    $urlMatcherFactoryProvider.strictMode(false);
+                      .when('/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.list.details.overview'))
+                      .when('/{projects}/{projectPath}/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.list.details.overview'))
+                      .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.show.activity'))
+                      .when('/{projects}/{projectPath}/work_packages/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.show.activity'))
 
     $stateProvider
       .state('work-packages', {
-        url: '/{projects}/{projectPath}',
+        url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
         abstract: true,
         params: {
           // value: null makes the parameter optional
@@ -107,7 +106,7 @@ openprojectModule
       })
 
       .state('work-packages.new', {
-        url: '/work_packages/new?type&parent_id',
+        url: '/new?type&parent_id',
         templateUrl: '/components/routing/main/work-packages.new.html',
         controller: 'WorkPackageCreateController',
         controllerAs: '$ctrl',
@@ -117,7 +116,7 @@ openprojectModule
       })
 
       .state('work-packages.copy', {
-        url: '/work_packages/{copiedFromWorkPackageId:[0-9]+}/copy',
+        url: '/{copiedFromWorkPackageId:[0-9]+}/copy',
         controller: 'WorkPackageCopyController',
         controllerAs: '$ctrl',
         reloadOnSearch: false,
@@ -128,7 +127,7 @@ openprojectModule
       })
 
       .state('work-packages.edit', {
-        url: '/work_packages/{workPackageId:[0-9]+}/edit',
+        url: '/{workPackageId:[0-9]+}/edit',
         onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
           // Transitioning to a new state may cause a reported issue
@@ -139,7 +138,7 @@ openprojectModule
       })
 
       .state('work-packages.show', {
-        url: '/work_packages/{workPackageId:[0-9]+}',
+        url: '/{workPackageId:[0-9]+}',
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: '$ctrl',
@@ -163,15 +162,9 @@ openprojectModule
       .state('work-packages.show.watchers', panels.watchers)
 
       .state('work-packages.list', {
-        url: '/work_packages?query_id&query_props',
+        url: '',
         controller: 'WorkPackagesListController',
         templateUrl: '/components/routing/wp-list/wp.list.html',
-        params: {
-          // value: null makes the parameter optional
-          // squash: true avoids duplicate slashes when the paramter is not provided
-          query_id: {value: null},
-          query_props: {value: null}
-        },
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-index'),
         onExit: () => angular.element('body').removeClass('action-index')
