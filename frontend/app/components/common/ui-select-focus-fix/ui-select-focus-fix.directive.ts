@@ -40,11 +40,21 @@ function uiSelectFocusFix( $timeout ) {
     restrict: 'A',
     require: 'uiSelect',
     link: function(scope, element, attrs, $select) {
+
+      element.on('keyup', keyEvent => {
+        if (keyEvent.keyCode === 27 && $select.open) {
+          keyEvent.preventDefault();
+          keyEvent.stopPropagation();
+          $select.close();
+        }
+      });
+
       scope.$watch(() => $select.open, isOpen => {
         if ( isOpen ) {
           $timeout( () => { $select.focusSearchInput(); } );
         }
       });
+
     }
   };
 }
