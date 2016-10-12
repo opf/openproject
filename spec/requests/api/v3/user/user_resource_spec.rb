@@ -38,9 +38,53 @@ describe 'API v3 User resource', type: :request do
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
 
-  describe '#get' do
-    subject(:response) { last_response }
+  subject(:response) { last_response }
 
+  describe '#index' do
+    let(:get_path) { api_v3_paths.users }
+
+    before do
+      user
+      allow(User).to receive(:current).and_return current_user
+      get get_path
+    end
+
+    context 'admin user' do
+      let(:current_user) { FactoryGirl.create(:admin) }
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      # note that the order of the users is depending on the id
+      # meaning the order in which they where saved
+      it 'contains the user in the response' do
+        expect(subject.body)
+          .to be_json_eql(user.name.to_json)
+          .at_path('_embedded/elements/0/name')
+      end
+
+      it 'contains the current user in the response' do
+        expect(subject.body)
+          .to be_json_eql(current_user.name.to_json)
+          .at_path('_embedded/elements/1/name')
+      end
+
+      it 'has the users index path for link self href' do
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.users.to_json)
+          .at_path('_links/self/href')
+      end
+    end
+
+    context 'other user' do
+      it 'should respond with 403' do
+        expect(subject.status).to eq(403)
+      end
+    end
+  end
+
+  describe '#get' do
     context 'logged in user' do
       let(:get_path) { api_v3_paths.user user.id }
       before do
@@ -52,7 +96,7 @@ describe 'API v3 User resource', type: :request do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct attachment' do
+      it 'should respond with correct body' do
         expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
       end
 
@@ -84,8 +128,6 @@ describe 'API v3 User resource', type: :request do
 
       delete path
     end
-
-    subject(:response) { last_response }
 
     shared_examples 'deletion through allowed user' do
       it 'should respond with 202' do
