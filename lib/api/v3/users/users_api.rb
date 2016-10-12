@@ -27,6 +27,7 @@
 #++
 
 require 'api/v3/users/user_representer'
+require 'api/v3/users/paginated_user_collection_representer'
 
 module API
   module V3
@@ -50,6 +51,10 @@ module API
               fail ::API::Errors::Unauthorized
             end
           end
+
+          def to_i_or_nil(string)
+            string ? string.to_i : nil
+          end
         end
 
         resources :users do
@@ -64,9 +69,11 @@ module API
             allow_only_admin
 
             users = User.all.includes(:preference).order(:id)
-            UserCollectionRepresenter.new(users,
-                                          api_v3_paths.users,
-                                          current_user: current_user)
+            PaginatedUserCollectionRepresenter.new(users,
+                                                   api_v3_paths.users,
+                                                   page: to_i_or_nil(params[:offset]),
+                                                   per_page: to_i_or_nil(params[:pageSize]),
+                                                   current_user: current_user)
           end
 
           params do

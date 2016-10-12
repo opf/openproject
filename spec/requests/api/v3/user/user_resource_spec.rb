@@ -72,8 +72,18 @@ describe 'API v3 User resource', type: :request do
 
       it 'has the users index path for link self href' do
         expect(subject.body)
-          .to be_json_eql(api_v3_paths.users.to_json)
+          .to be_json_eql((api_v3_paths.users + '?offset=1&pageSize=30').to_json)
           .at_path('_links/self/href')
+      end
+
+      context 'if pageSize = 1 and offset = 2' do
+        let(:get_path) { api_v3_paths.users + '?pageSize=1&offset=2' }
+
+        it 'contains the current user in the response' do
+          expect(subject.body)
+            .to be_json_eql(current_user.name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
       end
     end
 
