@@ -2532,11 +2532,7 @@ Deletes the relation.
                 "type": {
                     "name": "Relation Type",
                     "type": "String",
-                    "writable": true,
-                    "allowedValues": [
-                      "relates", "duplicates", "duplicated", "blocks", "blocked",
-                      "precedes", "follows", "includes", "partof", "requires", "required"
-                    ]
+                    "writable": true
                 },
                 "reverseType": {
                   "name": "Reverse Relation Type",
@@ -4966,7 +4962,7 @@ Note that it is only allowed to provide properties or links supporting the write
 
 + Response 409 (application/hal+json)
 
-    Returned if there already exists a relation between the given work packages of that type
+    Returned if there already exists a relation between the given work packages of **any** type
     or if the relation is not allowed.
 
     + Body
