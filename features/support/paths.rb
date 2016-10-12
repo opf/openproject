@@ -143,6 +143,12 @@ module NavigationHelpers
       work_package = WorkPackage.find_by(subject: $1)
       "/work_packages/#{work_package.id}/activity"
 
+    when /^the page (?:for|of) the work package "([^\"]+)" in project "([^\"]+)"$/
+      work_package = WorkPackage.find_by(subject: $1)
+      project = Project.find_by(identifier: $2)
+
+      "/projects/#{project.identifier}/work_packages/#{work_package.id}"
+
     when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
       "/projects/#{$1}/work_packages/new"
 
