@@ -86,19 +86,12 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage(successState:string):ng.IPromise<WorkPackageResource> {
-    if (this.wpEditModeState.active) {
-      return this.wpEditModeState.save().then(wp => {
-        this.newWorkPackage = null;
-        this.refreshAfterSave(wp, successState);
-        return wp;
-      });
-    }
-
-    return this.$q.reject();
+  public saveWorkPackage():ng.IPromise<WorkPackageResource> {
+    return this.wpEditModeState.save();
   }
 
-  private refreshAfterSave(wp, successState) {
+  public refreshAfterSave(wp, successState) {
+    this.wpEditModeState.onSaved();
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');

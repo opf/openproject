@@ -120,6 +120,18 @@ export class WorkPackageEditFormController {
     });
   }
 
+  /**
+   * Handle submission event of a single work package field that may or
+   * may not be involved inside an active edit mode.
+   */
+  public onFieldSubmit() {
+    if (this.wpEditModeState.active) {
+      return this.wpEditModeState.save();
+    }
+
+    return this.updateWorkPackage();
+  }
+
   public updateWorkPackage() {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       return this.$q.when(this.workPackage);
