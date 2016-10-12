@@ -551,15 +551,16 @@ a client should be able to discover further resources in the API.
 *Note: Currently there is no list action for projects available.*
 *A client will therefore have to know links to projects and can't (yet) discover them.*
 
-| Link                | Description                                      | Type            | Nullable | Supported operations | Condition |
-|:-------------------:| ------------------------------------------------ | --------------- | -------- | -------------------- | --------- |
-| configuration       | The configuration of this OpenProject instance   | Configuration   |          | READ                 |           |
-| user                | The user currently logged-in                     | User            |          | READ                 | logged in |
-| userPreferences     | The preferences of the logged-in user            | UserPreference  |          | READ                 | logged in |
-| priorities          | List of available priorities                     | Collection      |          | READ                 |           |
-| statuses            | List of available work package statuses          | Collection      |          | READ                 |           |
-| types               | List of available work package types             | Collection      |          | READ                 |           |
-| workPackages        | List of all work packages                        | Collection      |          | READ                 |           |
+| Link                  | Description                                      | Type            | Nullable | Supported operations | Condition                                        |
+| :-------------------: | ------------------------------------------------ | --------------- | -------- | -------------------- | ---------                                        |
+| configuration         | The configuration of this OpenProject instance   | Configuration   |          | READ                 |                                                  |
+| user                  | The user currently logged-in                     | User            |          | READ                 | logged in                                        |
+| userPreferences       | The preferences of the logged-in user            | UserPreference  |          | READ                 | logged in                                        |
+| priorities            | List of available priorities                     | Collection      |          | READ                 | **Permission** View work packages in any project |
+| statuses              | List of available work package statuses          | Collection      |          | READ                 | **Permission** View work packages in any project |
+| types                 | List of available work package types             | Collection      |          | READ                 | **Permission** View work packages in any project |
+| workPackages          | List of all work packages                        | Collection      |          | READ                 | **Permission** View work packages in any project |
+| users                 | List of all users                                | Collection      |          | READ                 | **Permission** Administrator                     |
 
 ## Local Properties
 
@@ -596,10 +597,13 @@ a client should be able to discover further resources in the API.
                     },
                     "workPackages" : {
                         "href" : "/api/v3/work_packages"
+                    },
+                    "users": {
+                        "href" : "/api/v3/users"
                     }
                 },
                 "instanceName" : "My own OpenProject",
-                "coreVersion" : "4.3.0"
+                "coreVersion" : "6.1.0"
             }
 
 ## View root [GET]
