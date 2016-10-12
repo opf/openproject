@@ -124,8 +124,7 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     child_work_package_page.ensure_page_loaded
     child_work_package_page.expect_subject
-    expect(current_path)
-      .to eq("/projects/#{project.identifier}/work_packages/#{child_work_package.id}")
+    child_work_package_page.expect_current_path
 
     child_work_package_page.expect_parent(original_work_package)
   end

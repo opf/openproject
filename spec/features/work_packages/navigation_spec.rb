@@ -100,7 +100,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     global_work_packages.open_full_screen_by_link(work_package)
 
     full_work_package.expect_subject
-    expect(current_path).to eq project_work_package_path(project, work_package)
+    full_work_package.expect_current_path
 
     # Safeguard: ensure spec to have finished loading everything before proceeding to the next spec
     full_work_package.ensure_page_loaded
