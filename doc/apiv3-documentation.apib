@@ -2298,7 +2298,8 @@ Work packages may be related to each other in different ways.
 
 | Link                | Description                                                          | Condition                                     |
 |:-------------------:| -------------------------------------------------------------------- | --------------------------------------------- |
-| update              | Updates the relation between the two work packages                   | **Permission**: manage work package relations |
+| update              | Updates the relation between two work packages via a form            | **Permission**: manage work package relations |
+| updateImmediately   | Updates the relation between two work packages                       | **Permission**: manage work package relations |
 | delete              | Destroys the relation between the two work packages                  | **Permission**: manage work package relations |
 
 ## Linked Properties
@@ -2313,6 +2314,7 @@ Work packages may be related to each other in different ways.
 | Property         | Description                                                   | Type    | Constraints                                                                                                   | Supported operations |
 | :---------------:| ------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- | -------------------- |
 | id               | Relation ID                                                   | Integer | x > 0                                                                                                         | READ                 |
+| name             | The internationalized name of this kind of relation           | String  |                                                                                                               | READ
 | type             | Which kind of relation (blocks, precedes, etc.)               | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ / WRITE         |
 | reverseType      | The kind of relation from the other WP's perspective          | String  | in: relates, duplicates, duplicated, blocks, blocked, precedes, follows, includes, partof, requires, required | READ                 |
 | description      | Short text further describing the relation                    | String  |                                                                                                               | READ / WRITE         |
@@ -2335,6 +2337,11 @@ endpoint at `/api/v3/relations/schema/{type}`.
                     },
                     "update":
                     {
+                      "href": "/api/v3/relations/1/form",
+                      "method": "POST"
+                    },
+                    "updateImmediately":
+                    {
                       "href": "/api/v3/relations/1",
                       "method": "PATCH"
                     },
@@ -2354,8 +2361,9 @@ endpoint at `/api/v3/relations/schema/{type}`.
                         "title": "Bending the steel"
                     }
                 },
-                "_type": "Relation::Precedes",
+                "_type": "Relation",
                 "id": 1,
+                "name": "precedes",
                 "type": "precedes",
                 "reverseType": "follows",
                 "description": "We can't bend the steel before it's been delivered!",
@@ -2391,7 +2399,7 @@ endpoint at `/api/v3/relations/schema/{type}`.
 When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
 It is only allowed to provide properties or links supporting the **write** operation.
 
-Note that changing the `type` of a relation invariably also changes the respective `reverseType` of it.
+Note that changing the `type` of a relation invariably also changes the respective `reverseType` as well as the "name" of it.
 The returned Relation object will reflect that change. For instance if you change a Relation's
 `type` to "follows" then the `reverseType` will be changed to `precedes`.
 
@@ -2603,7 +2611,7 @@ applicable for the other relations.
                 "message": "The specified relation type does not exist."
             }
 
-## Relations [/api/v3/relations?offset,pageSize,filters]
+## Relations [/api/v3/relations?offset,pageSize,filters,sortBy]
 
 + Model
     + Body
@@ -2631,6 +2639,11 @@ applicable for the other relations.
                                 },
                                 "update":
                                 {
+                                  "href": "/api/v3/relations/1/form",
+                                  "method": "POST"
+                                },
+                                "updateImmediately":
+                                {
                                   "href": "/api/v3/relations/1",
                                   "method": "PATCH"
                                 },
@@ -2650,8 +2663,9 @@ applicable for the other relations.
                                     "title": "Bending the steel"
                                 }
                             },
-                            "_type": "Relation::Precedes",
+                            "_type": "Relation",
                             "id": 1,
+                            "name": "precedes",
                             "type": "precedes",
                             "reverseType": "follows",
                             "description": "We can't bend the steel before it's been delivered!",
@@ -2676,11 +2690,14 @@ The response only includes relations between work packages which the user is all
     `from` (ID of work package from which the filtered relations emanates), `to` (ID of work package to which this related points),
     `involved` (ID of either the `from` or the `to` work package.), `type` (The type of relation to filter by, e.g. "follows")
 
+    + sortBy (optional, string, `[["type", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+
 + Response 200 (application/hal+json)
 
     [Relations][]
 
-## Relation Form [/api/v3/relations/form]
+## Relation edit form [/api/v3/relations/{id}/form]
 
 This endpoint returns a form to allow a guided creation of a new work package relation.
 The returned form will be pre-filled with default values for every property, if available.
@@ -2783,12 +2800,6 @@ Work package links must be set when creating work packages through this route.
                 }
             }
 
-## Relation edit form [/api/v3/relations/{id}/form]
-
-This endpoint returns a form to allow a guided modification of an existing relation.
-
-For more details and all possible responses see the general specification of [Forms](#forms).
-
 ## Relation edit form [POST]
 
 + Request
@@ -2805,7 +2816,7 @@ For more details and all possible responses see the general specification of [Fo
 
 + Response 200 (application/hal+json)
 
-    [Relation Form][]
+    [Relation edit form][]
 
 + Response 403 (application/hal+json)
 
