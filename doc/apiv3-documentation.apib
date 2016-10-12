@@ -2949,12 +2949,14 @@ This endpoint lists the types that are *available* in a given project.
 | show                | Link to the OpenProject user page (HTML)                             |                                                                  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
 | update              | Updates the user's attributes.                                       | **Permission**: Administrator unless the API user updates itself |
+| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator unless the API user updates itself |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
 
 ## Linked Properties
 |  Link     | Description                                 | Type          | Constraints           | Supported operations |
 |:---------:|-------------------------------------------- | ------------- | --------------------- | -------------------- |
 | self      | This user                                   | User          | not null              | READ                 |
+| schema    | Schema describing the user                  | Schema        | not null              | READ                 |
 
 ## Local Properties
 | Property    | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |
@@ -3002,25 +3004,22 @@ Due to data privacy, the user's properties are limited to reveal as little about
                     },
                     "lock": {
                         "href": "/api/v3/users/1/lock",
-                        "title": "Set lock on j.sheppard"
                         "method": "POST"
                     },
                     "update": {
+                        "href": "/api/v3/users/1/form",
+                        "method": "POST"
+                    },
+                    "updateImmediately": {
                         "href": "/api/v3/users/1",
-                        "title": "Update j.sheppard"
                         "method": "PATCH"
                     },
                     "delete": {
                         "href": "/api/v3/users/1",
-                        "title": "Delete j.sheppard"
                         "method": "DELETE"
                     },
                     "schema": {
                         "href": "/api/v3/users/schema",
-                    }
-                    "form": {
-                        "href": "/api/v3/users/1/form",
-                        "method": "POST"
                     }
                 },
                 "id": 1,
