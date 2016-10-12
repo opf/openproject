@@ -581,7 +581,7 @@ a client should be able to discover further resources in the API.
                     },
                     "user": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - admin"
+                        "title": "John Sheppard"
                     };
                     "userPreferences" : {
                         "href" : "/api/v3/my_preferences"
@@ -2946,7 +2946,7 @@ This endpoint lists the types that are *available* in a given project.
 | Link                | Description                                                          | Condition                                                        |
 |:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator                        |
-| showUser            | Link to the OpenProject user page (HTML)                             |                                                                  |
+| show                | Link to the OpenProject user page (HTML)                             |                                                                  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
 | update              | Updates the user's attributes.                                       | **Permission**: Administrator unless the API user updates itself |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
@@ -2957,20 +2957,21 @@ This endpoint lists the types that are *available* in a given project.
 | self      | This user                                   | User          | not null              | READ                 |
 
 ## Local Properties
-| Property    | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
-| :---------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
-| id          | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                             |
-| login       | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator unless user updates itself    |
-| firstName   | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself    |
-| lastName    | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself    |
-| name        | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                             |
-| email       | User's E-Mail address                                     | String   | 60 max length                                        | READ / WRITE         | E-Mail address not hidden                                   |
-| admin       | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                               |
-| avatar      | URL to user's avatar                                      | String   |                                                      | READ                 |                                                             |
-| status      | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                             |
-| language    | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator unless user updates itself    |
-| createdAt   | Time of creation                                          | DateTime |                                                      | READ                 |                                                             |
-| updatedAt   | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                             |
+| Property    | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |
+| :---------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
+| id          | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
+| login       | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
+| firstName   | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
+| lastName    | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
+| name        | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
+| email       | User's E-Mail address                                     | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator unless user updates itself |
+| admin       | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                       |
+| avatar      | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                     |
+| status      | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                     |
+| language    | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
+| password    | User's password                                           | String   |                                                      | WRITE                | **Permission**: Administrator unless user updates itself                            |
+| createdAt   | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                     |
+| updatedAt   | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                     |
 
 The `status` of a user can be one of:
 
@@ -2978,6 +2979,10 @@ The `status` of a user can be one of:
 * `registered` - the user just registered to the instance, he can't log in yet, but will be able to, once the registration is completed
 * `locked` - the user is locked and can't log in
 * `invited` - the user has been invited and is pending registration
+
+The `language` is limited to those activated in the system.
+
+Due to data privacy, the user's properties are limited to reveal as little about the user as possible. Thus `login`, `firstName`, `lastName`, `language`, `createdAt` and `updatedAt` are hidden for all users except for admins or the user theirselves.
 
 ## User [/api/v3/users/{id}]
 
@@ -2989,9 +2994,9 @@ The `status` of a user can be one of:
                 "_links": {
                     "self": {
                         "href": "/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
+                        "title": "j.sheppard"
                     },
-                    "showUser": {
+                    "show": {
                         "href": "/users/1",
                         "type": 'text/html'
                     },
@@ -3009,6 +3014,13 @@ The `status` of a user can be one of:
                         "href": "/api/v3/users/1",
                         "title": "Delete j.sheppard"
                         "method": "DELETE"
+                    },
+                    "schema": {
+                        "href": "/api/v3/users/schema",
+                    }
+                    "form": {
+                        "href": "/api/v3/users/1/form",
+                        "method": "POST"
                     }
                 },
                 "id": 1,
@@ -3036,6 +3048,8 @@ The `status` of a user can be one of:
 + Response 404 (application/hal+json)
 
     Returned if the user does not exist or if the API user does not have permission to view them.
+
+    **Required permission** The user needs to be locked in if the installation is configured to pervent anonymous access
 
     + Body
 
@@ -3273,7 +3287,282 @@ Permanently deletes the specified user account.
                 "message": "The specified user does not exist."
             }
 
-## Users [/api/v3/users{?notify,offset,pageSize,status,group,name,sortBy}]
+## User Schema [/api/v3/users/schema]
+
+## View User Schema [GET]
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/users/schema" }
+                },
+
+                "id": {
+                    "name": "Id",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "login": {
+                    "name": "Login",
+                    "type": "String",
+                    "writable": true,
+                    "required" true,
+                    "minLength": 1,
+                    "maxlength": 256
+                },
+                "firstName": {
+                    "name": "First name",
+                    "type": "String",
+                    "writable": true,
+                    "required" true,
+                    "minLength": 1,
+                    "maxLength": 30
+                },
+                "lastName": {
+                    "name": "Last name",
+                    "type": "String",
+                    "writable": true,
+                    "required" true,
+                    "minLength": 1,
+                    "maxLength": 30
+                },
+                "name": {
+                    "name": "Name",
+                    "type": "String",
+                    "writable": false
+                },
+                "email": {
+                    "name": "Email",
+                    "type": "String",
+                    "writable": true,
+                    "required" true,
+                    "minLength": 1,
+                    "maxLength": 60
+                },
+                "admin": {
+                    "name": "Administrator",
+                    "type": "Boolean",
+                    "writable": true,
+                },
+                "avatar": {
+                    "name": "Avatar",
+                    "type": "Url",
+                    "writable": false,
+                },
+                "status": {
+                    "name": "Status",
+                    "type": "String",
+                    "writable": false
+                }
+                "language": {
+                    "name": "Language",
+                    "type": "String",
+                    "writable": true
+                },
+                "password": {
+                    "name": "Password",
+                    "type": "String",
+                    "writable": true
+                },
+                "createdAt": {
+                    "name": "Created at",
+                    "type": "DateTime",
+                    "writable": false
+                },
+                "updatedAt": {
+                    "name": "Updated at",
+                    "type": "DateTime",
+                    "writable": false
+                }
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the user lacks permissions to view the schema.
+    **Required permission** The user needs to be locked in if the installation is configured to pervent anonymous access
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to view the user schema."
+            }
+
+## User Edit Form [/api/v3/users/{id}/form]
+
+This endpoint returns a form to allow a guided modification of an existing user.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Work Package Edit Form [POST]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the user being modified
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users/form" },
+                    "validate": {
+                        "href": "/api/v3/users/form",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/users",
+                        "method": "POST"
+                    }
+                },
+
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                       "login": "h.wurst",
+                       "email": "h.wurst@openproject.com",
+                       "firstName": "Hans",
+                       "lastName": "Wurst",
+                       "admin": false,
+                       "language": "de",
+                       "status": "active",
+                       "password": "hunter5"
+                    },
+                    "schema": {
+                      "_type": "Schema",
+                      "id": {
+                          "name": "Id",
+                          "type": "Integer",
+                          "writable": false
+                      },
+                      "login": {
+                          "name": "Login",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxlength": 256
+                      },
+                      "firstName": {
+                          "name": "First name",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 30
+                      },
+                      "lastName": {
+                          "name": "Last name",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 30
+                      },
+                      "name": {
+                          "name": "Name",
+                          "type": "String",
+                          "writable": false
+                      },
+                      "email": {
+                          "name": "Email",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 60
+                      },
+                      "admin": {
+                          "name": "Administrator",
+                          "type": "Boolean",
+                          "writable": true,
+                      },
+                      "avatar": {
+                          "name": "Avatar",
+                          "type": "Url",
+                          "writable": false,
+                      },
+                      "status": {
+                          "name": "Status",
+                          "type": "String",
+                          "writable": false
+                      }
+                      "language": {
+                          "name": "Language",
+                          "type": "String",
+                          "writable": true,
+                          "allowedValues": [
+                            "en",
+                            "fr",
+                            "de"
+                          ]
+                      },
+                      "password": {
+                          "name": "Password",
+                          "type": "String",
+                          "writable": true
+                      },
+                      "createdAt": {
+                          "name": "Created at",
+                          "type": "DateTime",
+                          "writable": false
+                      },
+                      "updatedAt": {
+                          "name": "Updated at",
+                          "type": "DateTime",
+                          "writable": false
+                      },
+                      "customField5" {
+                          "name": "Retired",
+                          "type": "Boolean",
+                          "writable": true
+                      }
+                    }
+                    "validationErrors": {
+                        "subject": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:BadExampleError",
+                            "message": "For the purpose of this example we need a validation error. The remainder of the response pretends there were no errors."
+                        }
+                    }
+                }
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator or logged in user editing her/himself
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit the specified user."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the user does not exist or the client does not have sufficient permissions to see it.
+
+    **Required permission** The user needs to be locked in if the installation is configured to pervent anonymous access
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified user does not exist."
+            }
+
+## Users [/api/v3/users{?offset,pageSize,filters,sortBy}]
 
 + Model
     + Body
@@ -3335,17 +3624,18 @@ Permanently deletes the specified user account.
 Lists users. Only administrators have permission to do this.
 
 + Parameters
-    + offset = `0` (optional, integer, `25`) ... Page number inside the requested collection.
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
-    + status (optional, string, `"invited"`) ... Status of the users to be listed.
+    + filters (optional, string, `[{ "status": { "operator": "=", "values": "invited" } }, { "group": { "operator": "=", "values": "Managers" } }, { "name": { "operator": "=", "values": "h.wurst@openproject.com" } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + status: Status the user has
+      + group: Name of the group in which to-be-listed users are members.
+      + name: Filter users in whose first or last names, or email addresses the given string occurs.
 
-    + group (optional, string, `"Managers"`) ... Name of the group in which to-be-listed users are members.
-
-    + name (optional, string, `"h.wurst@openproject.com"`) ... Filter users in whose first or last names, or email addresses the given string occurs.
-
-    + sortBy (optional, string, `"status:asc"`) ... Comma separated list of columsn to sort by. May be combined with direction through colon.
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
 
 + Response 200 (application/hal+json)
 
@@ -3375,7 +3665,7 @@ Lists users. Only administrators have permission to do this.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to see work packages."
+                "message": "You are not allowed to list users."
             }
 
 ## Create User [POST]
@@ -3461,6 +3751,164 @@ Valid values for `status`:
                     }
                 }
             }
+
+## User Create Form [/api/v3/users/form]
+
+This endpoint returns a form to allow a guided creation of a new user.
+The returned form will be pre-filled with default values for every property, if available.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Work Package Create Form [POST]
+
++ Response 200 (application/hal+json)
+
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/users/form" },
+                    "validate": {
+                        "href": "/api/v3/users/form",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/users",
+                        "method": "POST"
+                    }
+                },
+
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                       "login": "h.wurst",
+                       "email": "h.wurst@openproject.com",
+                       "firstName": "Hans",
+                       "lastName": "Wurst",
+                       "admin": false,
+                       "language": "de",
+                       "status": "active",
+                       "password": "hunter5"
+                    },
+                    "schema": {
+                      "_type": "Schema",
+                      "id": {
+                          "name": "Id",
+                          "type": "Integer",
+                          "writable": false
+                      },
+                      "login": {
+                          "name": "Login",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxlength": 256
+                      },
+                      "firstName": {
+                          "name": "First name",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 30
+                      },
+                      "lastName": {
+                          "name": "Last name",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 30
+                      },
+                      "name": {
+                          "name": "Name",
+                          "type": "String",
+                          "writable": false
+                      },
+                      "email": {
+                          "name": "Email",
+                          "type": "String",
+                          "writable": true,
+                          "required" true,
+                          "minLength": 1,
+                          "maxLength": 60
+                      },
+                      "admin": {
+                          "name": "Administrator",
+                          "type": "Boolean",
+                          "writable": true,
+                      },
+                      "avatar": {
+                          "name": "Avatar",
+                          "type": "Url",
+                          "writable": false,
+                      },
+                      "status": {
+                          "name": "Status",
+                          "type": "String",
+                          "writable": false,
+                          "allowedValues": [
+                            "active",
+                            "invited",
+                          ]
+                      }
+                      "language": {
+                          "name": "Language",
+                          "type": "String",
+                          "writable": true,
+                          "allowedValues": [
+                            "en",
+                            "fr",
+                            "de"
+                          ]
+                      },
+                      "password": {
+                          "name": "Password",
+                          "type": "String",
+                          "writable": true
+                      },
+                      "createdAt": {
+                          "name": "Created at",
+                          "type": "DateTime",
+                          "writable": false
+                      },
+                      "updatedAt": {
+                          "name": "Updated at",
+                          "type": "DateTime",
+                          "writable": false
+                      },
+                      "customField5" {
+                          "name": "Retired",
+                          "type": "Boolean",
+                          "writable": true
+                      }
+                    }
+                    "validationErrors": {
+                        "subject": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:BadExampleError",
+                            "message": "For the purpose of this example we need a validation error. The remainder of the response pretends there were no errors."
+                        }
+                    }
+                }
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** Administrator
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to create new users."
+            }
+
 
 # Group UserPreferences
 
