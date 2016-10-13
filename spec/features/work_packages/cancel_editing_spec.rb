@@ -64,7 +64,7 @@ describe 'Cancel editing work package', js: true do
   def move_to_home_page(alert: true)
     find('.home-link').click
 
-    page.driver.browser.switch_to.alert.accept if alert
+    page.accept_alert if alert
     expect(page).to have_selector('h2', text: 'OpenProject')
   end
 
@@ -81,7 +81,7 @@ describe 'Cancel editing work package', js: true do
     wp_table.expect_work_package_listed(work_package2)
 
     wp_table.open_split_view(work_package2)
-    page.driver.browser.switch_to.alert.dismiss
+    page.dismiss_alert
 
     expect(page).to have_selector('.wp-edit-field.subject.-active')
     expect(wp_page).not_to have_alert_dialog

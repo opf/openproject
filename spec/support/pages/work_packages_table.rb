@@ -92,12 +92,12 @@ module Pages
 
     def click_on_row(work_package)
       loading_indicator_saveguard
-      page.driver.browser.mouse.click(row(work_package).native)
+      row(work_package).click
     end
 
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
-      page.driver.browser.mouse.double_click(row(work_package).native)
+      row(work_package).double_click
 
       FullWorkPackage.new(work_package)
     end
@@ -137,7 +137,7 @@ module Pages
 
     def open_filter_section
       unless page.has_selector?('#work-packages-filter-toggle-button.-active')
-        click_button('work-packages-filter-toggle-button')
+        page.find('#work-packages-filter-toggle-button').click
       end
     end
 
