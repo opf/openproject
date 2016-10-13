@@ -87,17 +87,12 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
-require 'capybara/poltergeist'
-Capybara.register_driver :poltergeist do |app|
-  options = {
-    js_errors: false,
-    window_size: [1200, 1000],
-    timeout: 60
-  }
-  Capybara::Poltergeist::Driver.new(app, options)
+Capybara.javascript_driver = :selenium
+
+Capybara.server do |app, port|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, Port: port)
 end
-# Disable using poltergeist until we upgraded jenkins workers
-Capybara.javascript_driver = :poltergeist
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -146,9 +141,7 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # Remove any modal dialog remaining from the scenarios which finish in an unclean state
 Before do |_scenario|
-  if Capybara.current_driver == :selenium
-    page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
-  end
+  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
 end
 
 Before do
@@ -161,5 +154,10 @@ Before do
   FactoryGirl.create(:non_member)
   FactoryGirl.create(:anonymous_role)
 end
+
+# Capybara.register_driver :selenium do |app|
+#     Capybara::Selenium::Driver.new(app, browser: :chrome)
+# end
+#
 
 World(Capybara::Select2)
