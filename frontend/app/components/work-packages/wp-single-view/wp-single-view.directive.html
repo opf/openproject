@@ -108,7 +108,7 @@
 <div class="work-packages--attachments attributes-group">
   <div
       class="work-packages--atachments-container"
-      ng-if="!$ctrl.hideEmptyFields || $ctrl.workPackage.attachments.elements.length">
+      ng-if="!$ctrl.hideEmptyFields || $ctrl.workPackage.attachments.elements.length || $ctrl.workPackage.pendingAttachments">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
         <h3 class="attributes-group--header-text">
