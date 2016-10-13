@@ -186,7 +186,6 @@ group :test do
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
-  gem 'poltergeist', '~> 1.10.0'
   gem 'timecop', '~> 0.8.1'
   gem 'webmock', '~> 2.1.0', require: false
 
