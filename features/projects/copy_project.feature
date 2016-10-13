@@ -80,7 +80,7 @@ Feature: Project Settings
     And  I click on "Copy"
     Then I should see "Started to copy project"
     And  I go to the settings page of the project "copied-project"
-    And  the "project_parent_id" drop-down should have "project2" selected
+    And  I should see "project2" within "#project_parent_id"
 
   @javascript
   Scenario: Copy a project with types
