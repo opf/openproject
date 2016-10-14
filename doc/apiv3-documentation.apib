@@ -5147,24 +5147,25 @@ applicable for the other relations.
                             ]
                         },
                         "reverseType": {
-                          "name": "Reverse Type",
-                          "type": "String",
-                          "writable": false
+                            "name": "Reverse Type",
+                            "type": "String",
+                            "writable": false
                         },
                         "description": {
-                          "name": "Description",
-                          "type": "String",
-                          "writable": true
+                            "name": "Description",
+                            "type": "String",
+                            "writable": true
                         },
                         "from": {
                             "_links": {
-                                "allowedValues": {
-                                  "href": "/api/v3/work_packages/{id}", "title": "Work package"
-                                }
+                                "allowedValues": [
+                                  { "href": "/api/v3/work_packages/{id}" }
+                                ]
                             },
 
                             "name": "From work package",
-                            "type": "WorkPackage"
+                            "type": "WorkPackage",
+                            "writable": true
                         },
                         "to": {
                             "_links": {
@@ -5175,12 +5176,13 @@ applicable for the other relations.
                             },
 
                             "name": "To work package",
-                            "type": "WorkPackage"
+                            "type": "WorkPackage",
+                            "writable": true
                         },
                         "delay": {
-                          "name": "Delay",
-                          "type": "Integer",
-                          "writable": true
+                            "name": "Delay",
+                            "type": "Integer",
+                            "writable": true
                         }
                     },
                     "validationErrors": {
