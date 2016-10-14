@@ -1,6 +1,10 @@
 module Members
   class UserFilterCell < ::UserFilterCell
     class << self
+      def status_param(params)
+        params[:status].presence || "all"
+      end
+
       def filter_name_condition
         super.gsub /lastname|firstname|mail/, "users.\\0"
       end
