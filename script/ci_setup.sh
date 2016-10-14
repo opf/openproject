@@ -49,5 +49,4 @@ fi
 if [ $1 != '' ]; then
   run "bundle exec rake db:migrate"
   run "bundle exec rake spec:prepare"
-  run "bundle exec rake test:scm:setup:all"
 fi

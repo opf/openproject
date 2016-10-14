@@ -56,29 +56,27 @@ env:
   matrix:
     - "TEST_SUITE=npm"
 
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=2"
+    - "TEST_SUITE=spec_legacy       DB=mysql"
     - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=2  GROUP=2"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=1"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=2"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=3"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=4"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=5"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=6"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=7"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=1"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=2"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=3"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=4"
 
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=2"
+    - "TEST_SUITE=spec_legacy       DB=postgres"
     - "TEST_SUITE=cucumber          DB=postgres  GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=cucumber          DB=postgres  GROUP_SIZE=2  GROUP=2"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=1"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=2"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=3"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=4"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=5"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=6"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=7"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=1"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=2"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=3"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=4"
 
 before_install:
   - "rvm @default,@global do gem uninstall bundler -a -x"
@@ -105,7 +103,7 @@ before_script:
   - sh script/ci_setup.sh $DB
 
 script:
-  - sh script/ci_runner.sh $TEST_SUITE $GROUP_SIZE $GROUP
+  - sh script/ci_runner.sh
 
 notifications:
   email: false
