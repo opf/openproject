@@ -53,7 +53,7 @@
                     required>
           </textarea>
           <div class="inplace-edit--preview" ng-if="isPreview">
-            <span ng-bind-html="previewHtml"></span>
+            <span bind-unescaped-html="previewHtml"></span>
           </div>
           <div class="inplace-edit--dashboard">
             <div class="inplace-edit--controls">
@@ -76,7 +76,7 @@
     <span ng-if="!inEdit"
           class="message"
           ng-show="activity._type == 'Activity::Comment'"
-          ng-bind-html="postedComment"/>
+          bind-unescaped-html="postedComment"/>
     <ul class="work-package-details-activities-messages" ng-if="!isInitial">
       <li ng-repeat="detail in details track by $index">
         <span class="message" ng-bind-html="detail"/>
