@@ -28,6 +28,7 @@
 
 interface OpDatePickerScope extends ng.IScope {
   onChange:Function;
+  onClose?:Function;
 }
 
 function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, attrs, ngModel) {
@@ -40,6 +41,7 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
   let datePickerInstance;
   let DatePicker = this.Datepicker;
   let onChange = scope.onChange;
+  let onClose = scope.onClose;
 
   let unbindNgModelInitializationWatch = scope.$watch(() => ngModel.$viewValue !== NaN, () => {
     // This indirection is needed to prevent
@@ -57,7 +59,8 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
   });
 
   function showDatePicker() {
-    let options = { onSelect: (date) => {
+    let options = {
+      onSelect: (date) => {
         datePickerInstance.hide();
 
         let val = date;
@@ -67,7 +70,8 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
         }
         ngModel.$setViewValue(val);
         onChange();
-      }
+      },
+      onClose: onClose
     };
     datePickerInstance = new DatePicker(input, ngModel.$viewValue, options);
 
@@ -90,6 +94,7 @@ function opDatePicker(ConfigurationService, Datepicker) {
     require: 'ngModel',
     scope: {
       onChange: '&',
+      onClose: '&',
     }
   };
 }

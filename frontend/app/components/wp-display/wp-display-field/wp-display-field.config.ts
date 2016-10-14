@@ -39,7 +39,8 @@ import {BooleanDisplayField} from '../field-types/wp-display-boolean-field.modul
 import {ProgressDisplayField} from '../field-types/wp-display-progress-field.module';
 import {openprojectModule} from '../../../angular-modules';
 import {SpentTimeDisplayField} from '../field-types/wp-display-spent-time-field.module';
-import {IntegerDisplayField} from '../field-types/wp-display-integer-field.module';
+import {IntegerDisplayField} from "../field-types/wp-display-integer-field.module";
+import {WorkPackageDisplayField} from "../field-types/wp-display-work-package-field.module";
 
 openprojectModule
   .run((wpDisplayField:WorkPackageDisplayFieldService) => {
@@ -61,6 +62,7 @@ openprojectModule
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
+      .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addFieldType(IdDisplayField, 'id', ['id']);
   });

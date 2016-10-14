@@ -26,32 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {DurationDisplayField} from './wp-display-duration-field.module';
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
-export class SpentTimeDisplayField extends DurationDisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';
-  public text: any;
-  public timeEntriesLink: string;
-  public isManualRenderer = false;
+export class WorkPackageDisplayField extends DisplayField {
+  public template: string = '/components/wp-display/field-types/wp-display-work-package-field.directive.html';
+  public text: Object;
 
-  constructor(public resource: WorkPackageResourceInterface,
-              public name: string,
+
+  constructor(public resource:WorkPackageResource,
+              public name:string,
               public schema) {
     super(resource, name, schema);
 
     this.text = {
-      linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
+      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };
+  }
 
-    if (resource.project) {
-      resource.project.$load().then(project => {
-        this.timeEntriesLink =
-          URI
-            .expand('/projects/{identifier}/time_entries', project)
-            .search({ work_package_id: resource.id })
-            .toString();
-      });
+  public get value() {
+    return this.resource[this.name];
+  }
+
+  public get wpId() {
+    if (this.value.$loaded) {
+      return this.value.id;
     }
+
+    // Read WP ID from href
+    return this.value.href.match(/(\d+)$/)[0];
+  }
+
+  public get valueString() {
+    return "#" + this.wpId;
+  }
+
+  public isEmpty(): boolean {
+    return !this.value;
   }
 }
