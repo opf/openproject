@@ -2545,24 +2545,14 @@ Deletes the relation.
                   "writable": true
                 },
                 "from": {
-                    "_links": {
-                        "allowedValues": {
-                          "href": "/api/v3/work_packages", "title": "Work packages"
-                        }
-                    },
-
-                    "name": "From work package",
-                    "type": "WorkPackage"
+                  "name": "From work package",
+                  "type": "WorkPackage",
+                  "writable": false
                 },
                 "to": {
-                    "_links": {
-                        "allowedValues": {
-                            "href": "/api/v3/work_packages", "title": "Work packages"
-                        }
-                    },
-
-                    "name": "To work package",
-                    "type": "WorkPackage"
+                  "name": "To work package",
+                  "type": "WorkPackage",
+                  "writable": false
                 },
                 "delay": {
                   "name": "Relation delay",
@@ -2699,7 +2689,6 @@ This endpoint returns a form to allow a guided creation of a new work package re
 The returned form will be pre-filled with default values for every property, if available.
 
 For more details and all possible responses see the general specification of [Forms](#forms).
-Work package links must be set when creating work packages through this route.
 
 + Model
     + Body
@@ -2761,24 +2750,14 @@ Work package links must be set when creating work packages through this route.
                           "writable": true
                         },
                         "from": {
-                            "_links": {
-                                "allowedValues": {
-                                  "href": "/api/v3/work_packages", "title": "Work packages"
-                                }
-                            },
-
-                            "name": "From work package",
-                            "type": "WorkPackage"
+                          "name": "From work package",
+                          "type": "WorkPackage",
+                          "writeable": false
                         },
                         "to": {
-                            "_links": {
-                                "allowedValues": {
-                                    "href": "/api/v3/work_packages", "title": "Work packages"
-                                }
-                            },
-
-                            "name": "To work package",
-                            "type": "WorkPackage"
+                          "name": "To work package",
+                          "type": "WorkPackage",
+                          "writable": false
                         },
                         "delay": {
                           "name": "Delay",
