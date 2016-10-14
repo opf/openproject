@@ -4990,96 +4990,6 @@ Lists all relations this work package is involved in.
 
             You are being redirected to /api/v3/relations?involved={work_package_id}
 
-# Work package relation schema [/api/v3/work_packages/{id}/relations/schema]
-
-The schema for a relation involving the given work package in the `from` position in particular.
-Available values for `to` will only include work packages that can actually be related to `from`.
-
-+ Model
-    + Body
-
-            {
-                "_type": "Schema",
-                "_links": {
-                    "self": { "href": "/api/v3/relations/schema" }
-                },
-
-                "id": {
-                    "name": "ID",
-                    "type": "Integer",
-                    "writable": false
-                },
-                "type": {
-                    "name": "Type",
-                    "type": "String",
-                    "writable": true
-                },
-                "reverseType": {
-                  "name": "Reverse Type",
-                  "type": "String",
-                  "writable": false
-                },
-                "description": {
-                  "name": "Description",
-                  "type": "String",
-                  "writable": true
-                },
-                "from": {
-                    "name": "From work package",
-                    "type": "WorkPackage",
-                    "writable": false
-                },
-                "to": {
-                    "name": "To work package",
-                    "type": "WorkPackage",
-                    "writable": false
-                },
-                "delay": {
-                  "name": "Delay",
-                  "type": "Integer",
-                  "writable": true
-                }
-            }
-
-## View work package relation schema [GET]
-
-+ Parameters
-    + id (required, integer, `23572`) ... ID of the work package in the `from` position
-
-+ Response 200 (application/hal+json)
-
-    [Work package relation schema][]
-
-## Work package relation schema for type [/api/v3/work_packages/{id}/relations/schema/{type}]
-
-The exact schema for a relation may depend on it's type.
-For instance the "follows" relation has an additional "delay" field which is not
-applicable for the other relations.
-
-## View work package relation schema for type [GET]
-
-+ Parameters
-    + id (required, integer, `23572`) ... ID of the work package in the `from` position
-    + type (required, string, `follows`) ... Type of the schema
-
-+ Response 200 (application/hal+json)
-
-    [Work package relation schema][]
-
-+ Response 404 (application/hal+json)
-
-    Returned if the work package or relation type does not exist or the client does not have sufficient permissions to see it.
-
-    **Required permission:** manage work package relations
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified relation type does not exist."
-            }
-
 ## Work Package Relation Form [/api/v3/work_packages/{id}/relations/form]
 
 + Model
@@ -5113,9 +5023,6 @@ applicable for the other relations.
                     },
                     "schema": {
                         "_type": "Schema",
-                        "_links": {
-                            "self": { "href": "/api/v3/relations/schema" }
-                        },
 
                         "id": {
                             "name": "ID",
