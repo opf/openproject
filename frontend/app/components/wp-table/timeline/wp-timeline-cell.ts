@@ -36,6 +36,15 @@ import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 
+function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
+  const daysInPx = days * viewParams.pixelPerDay;
+  if (viewParams.showDurationInPx) {
+    return daysInPx + "px";
+  } else {
+    return (daysInPx / viewParams.maxWidthInPx * 100) + "%";
+  }
+}
+
 export class WorkPackageTimelineCell {
 
   private wpState: State<WorkPackageResource>;
@@ -71,23 +80,40 @@ export class WorkPackageTimelineCell {
 
   private lazyInit() {
     if (this.bar === null) {
-      this.bar = document.createElement("div");
-      this.timelineCell.appendChild(this.bar);
-
       this.today = document.createElement("div");
       this.timelineCell.appendChild(this.today);
+    }
+
+    if (this.bar === null) {
+      this.bar = document.createElement("div");
+      this.timelineCell.appendChild(this.bar);
     }
   }
 
   private updateView(viewParams: TimelineViewParameters, wp: WorkPackage) {
+    this.lazyInit();
+
+    const cellHeight = jQuery(this.timelineCell).outerHeight();
+    const start = moment(wp.startDate as any);
+    const due = moment(wp.dueDate as any);
+
+    // general settings - today
+    this.today.style.position = "absolute";
+    this.today.style.width = "2px";
+    this.today.style.borderLeft = "2px dotted red";
+    this.today.style.zIndex = "10";
+
+    this.today.style.top = "-" + cellHeight + "px";
+    this.today.style.height = (cellHeight * 4) + "px";
+    const offsetToday = viewParams.now.diff(viewParams.dateDisplayStart, "days");
+    this.today.style.left = calculatePositionValueForDayCount(viewParams, offsetToday);
+
+
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
       return;
     }
 
-    this.lazyInit();
-    const start = moment(wp.startDate as any);
-    const due = moment(wp.dueDate as any);
 
     // general settings - bar
     this.bar.style.position = "relative";
@@ -96,27 +122,14 @@ export class WorkPackageTimelineCell {
     this.bar.style.borderRadius = "5px";
     this.bar.style.cssFloat = "left";
 
-    // general settings - today
-    this.today.style.position = "relative";
-    this.today.style.height = "10px";
-    this.today.style.width = "2px";
-    this.today.style.borderLeft = "1px dashed red";
+    // offset left
+    const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
+    this.bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
-    // diff display start - wp start
-    const offsetStart = start.diff(viewParams.dateDisplayStart, "days") * viewParams.pixelPerDay;
+    // duration
+    const duration = due.diff(start, "days");
+    this.bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
 
-    // diff wp start - wp due
-    const duration = due.diff(start, "days") * viewParams.pixelPerDay;
-
-    if (viewParams.showDurationInPx) {
-      // show absolute in px
-      this.bar.style.left = offsetStart + "px";
-      this.bar.style.width = duration + "px";
-    } else {
-      // show relative in %
-      this.bar.style.left = (offsetStart / viewParams.maxWidthInPx * 100) + "%";
-      this.bar.style.width = (duration / viewParams.maxWidthInPx * 100) + "%";
-    }
   }
 
 }

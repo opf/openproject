@@ -41,7 +41,7 @@ export class TimelineViewParameters {
 
   readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
-  showDurationInPx = false;
+  showDurationInPx = true;
 
   pixelPerDay = 10;
 
