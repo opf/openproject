@@ -2530,17 +2530,17 @@ Deletes the relation.
                     "writable": false
                 },
                 "type": {
-                    "name": "Relation Type",
+                    "name": "Type",
                     "type": "String",
                     "writable": true
                 },
                 "reverseType": {
-                  "name": "Reverse Relation Type",
+                  "name": "Reverse Type",
                   "type": "String",
                   "writable": false
                 },
                 "description": {
-                  "name": "Relation Description",
+                  "name": "Description",
                   "type": "String",
                   "writable": true
                 },
@@ -2555,7 +2555,7 @@ Deletes the relation.
                   "writable": false
                 },
                 "delay": {
-                  "name": "Relation delay",
+                  "name": "Delay",
                   "type": "Integer",
                   "writable": true
                 }
@@ -5012,11 +5012,7 @@ Available values for `to` will only include work packages that can actually be r
                 "type": {
                     "name": "Type",
                     "type": "String",
-                    "writable": true,
-                    "allowedValues": [
-                      "relates", "duplicates", "duplicated", "blocks", "blocked",
-                      "precedes", "follows", "includes", "partof", "requires", "required"
-                    ]
+                    "writable": true
                 },
                 "reverseType": {
                   "name": "Reverse Type",
@@ -5029,25 +5025,14 @@ Available values for `to` will only include work packages that can actually be r
                   "writable": true
                 },
                 "from": {
-                    "_links": {
-                        "allowedValues": {
-                          "href": "/api/v3/work_packages/{id}", "title": "Work package"
-                        }
-                    },
-
                     "name": "From work package",
-                    "type": "WorkPackage"
+                    "type": "WorkPackage",
+                    "writable": false
                 },
                 "to": {
-                    "_links": {
-                        "allowedValues": {
-                            "href": "/api/v3/work_packages/{id}/available_relation_candidates",
-                            "title": "Available work packages to relate to"
-                        }
-                    },
-
                     "name": "To work package",
-                    "type": "WorkPackage"
+                    "type": "WorkPackage",
+                    "writable": false
                 },
                 "delay": {
                   "name": "Delay",
