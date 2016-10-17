@@ -33,28 +33,14 @@ module API
       class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
         element_decorator ::API::V3::Relations::RelationRepresenter
 
-        # TODO: we should not pass in the work_package here.  It is done,
-        # so that we can differentiate the relation type e.g.
-        # Relation::Follows vs. Relation::Precedes.  However, this causes
-        # the relation (a resource in it's own right) to change depending
-        # on the work package this is queried for.  We could either:
-        # * change the relation self href to only be valid within a work
-        #   package scope
-        # * remove the difference between the relation pairs
-        #   (e.g. Follows/Precedes) and by that remove the necessity to have
-        #   work package passed in.
-
-        def initialize(models, self_link, current_user:, work_package: nil)
-          @work_package = work_package
+        def initialize(models, self_link, current_user:)
           super(models, self_link, current_user: current_user)
         end
 
         collection :elements,
                    getter: -> (*) {
                      represented.map { |model|
-                       element_decorator.create(model,
-                                                current_user: current_user,
-                                                work_package: @work_package)
+                       element_decorator.new model, current_user: current_user
                      }
                    },
                    exec_context: :decorator,

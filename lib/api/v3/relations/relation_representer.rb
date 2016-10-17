@@ -34,53 +34,72 @@ module API
   module V3
     module Relations
       class RelationRepresenter < ::API::Decorators::Single
-        def self.create(user, current_user:, work_package: nil)
-          new(user, current_user: current_user, work_package: work_package)
-        end
-
-        def initialize(user, current_user:, work_package: nil)
-          # FIXME: we should not change our representation depending on the embedding work package
-          # especially since we only change the type's direction, e.g. Blocks to Blocked,
-          # which makes no sense, since the relation itself is already directional (from->to)
-          @work_package = work_package
-          super(user, current_user: current_user)
-        end
-
         link :self do
           { href: api_v3_paths.relation(represented.id) }
         end
 
-        link :relatedFrom do
-          { href: api_v3_paths.work_package(represented.from_id) }
-        end
-
-        link :relatedTo do
-          { href: api_v3_paths.work_package(represented.to_id) }
-        end
-
-        link :remove do
+        link :from do
           {
-            href: api_v3_paths.work_package_relation(represented.id, represented.from.id),
-            method: :delete,
-            title: 'Remove relation'
-          } if current_user_allowed_to(:manage_work_package_relations,
-                                       context: represented.from.project)
+            href: api_v3_paths.work_package(represented.from_id),
+            title: "Show work package"
+          }
         end
 
-        property :delay, render_nil: true, if: -> (*) { relation_type == 'precedes' }
+        link :to do
+          {
+            href: api_v3_paths.work_package(represented.to_id),
+            title: "Show work package"
+          }
+        end
+
+        link :updateImmediately do
+          if manage_relations?
+            { href: api_v3_paths.relation(represented.id), method: :patch }
+          end
+        end
+
+        link :delete do
+          if manage_relations?
+            {
+              href: api_v3_paths.relation(represented.id),
+              method: :delete,
+              title: 'Remove relation'
+            }
+          end
+        end
+
+        property :name, exec_context: :decorator
+
+        property :relation_type, as: :type
+
+        property :reverse_type, as: :reverseType, exec_context: :decorator
+
+        ##
+        # The `delay` property is only used for the relation type "precedes".
+        # Consequently it also makes sense with its reverse "follows".
+        # However, relations will always be saved as "precedes" with the reverse of "follows".
+        # See `Relation#update_schedule` and `Relation#reverse_if_needed` which are both
+        # run before saving any relation.
+        property :delay,
+                 render_nil: true,
+                 if: -> (*) { relation_type == "precedes" }
+
+        property :description, render_nil: true
 
         def _type
-          "Relation::#{relation_type}"
+          "Relation"
         end
 
-        private
-
-        def relation_type
-          represented.relation_type_for(work_package).camelize
+        def name
+          I18n.t "label_#{represented.relation_type}"
         end
 
-        def work_package
-          @work_package
+        def reverse_type
+          Relation::TYPES[represented.relation_type][:sym]
+        end
+
+        def manage_relations?
+          current_user_allowed_to :manage_work_package_relations, context: represented.from.project
         end
       end
     end
