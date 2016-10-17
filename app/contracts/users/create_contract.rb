@@ -33,8 +33,15 @@ module Users
   class CreateContract < BaseContract
     validate :user_allowed_to_add
 
+    attribute :password do
+      # when user's are created as 'active', a password must be set
+      errors.add :password, :blank if model.active? && model.password.blank?
+    end
+
     private
 
+    ##
+    # Users can only be created by Admins
     def user_allowed_to_add
       unless current_user.admin?
         errors.add :base, :error_unauthorized

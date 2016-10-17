@@ -34,12 +34,42 @@ describe Users::CreateContract do
 
   subject(:contract) { described_class.new(user, current_user) }
 
+  def expect_valid(valid, symbols = {})
+    expect(contract.validate).to eq(valid)
+
+    symbols.each do |key, arr|
+      expect(contract.errors.symbols_for(key)).to match_array arr
+    end
+  end
+
+  shared_examples 'is valid' do
+    it 'is valid' do
+      expect_valid(true)
+    end
+  end
+
   context 'when admin' do
     let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
-    it 'is valid' do
-      expect(contract.validate).to be_truthy
-      expect(contract.errors).to be_empty
+    it_behaves_like 'is valid'
+
+    describe 'requires a password set when active' do
+      before do
+        user.password = nil
+        user.activate
+      end
+
+      it 'is invalid' do
+        expect_valid(false, password: %i(blank))
+      end
+
+      context 'when password is set' do
+        before do
+          user.password = user.password_confirmation = 'password!password!'
+        end
+
+        it_behaves_like 'is valid'
+      end
     end
   end
 
@@ -47,9 +77,7 @@ describe Users::CreateContract do
     let(:current_user) { FactoryGirl.build_stubbed(:user) }
 
     it 'is invalid' do
-      expect(contract.validate).to be_falsey
-      expect(contract.errors.symbols_for(:base))
-        .to match_array [:error_unauthorized]
+      expect_valid(false, base: %i(error_unauthorized))
     end
   end
 end
