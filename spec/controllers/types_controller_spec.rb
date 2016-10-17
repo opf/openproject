@@ -134,7 +134,7 @@ describe TypesController, type: :controller do
                                     } } }
 
         before do
-          post :create, params
+          post :create, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -150,7 +150,7 @@ describe TypesController, type: :controller do
                                    } } }
 
         before do
-          post :create, params
+          post :create, params: params
         end
 
         it { expect(response.status).to eq(200) }
@@ -175,7 +175,7 @@ describe TypesController, type: :controller do
         } }
 
         before do
-          post :create, params
+          post :create, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -191,7 +191,7 @@ describe TypesController, type: :controller do
       let(:type) { FactoryGirl.create(:type, name: 'My type', is_milestone: true, projects: [project]) }
 
       before do
-        get 'edit', id: type.id
+        get 'edit', params: { id: type.id }
       end
 
       it { expect(response).to be_success }
@@ -209,7 +209,7 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type.id, 'type' => { name: 'My type renamed' } } }
 
         before do
-          put :update, params
+          put :update, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -223,7 +223,7 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type.id, 'type' => { project_ids: [''] } } }
 
         before do
-          put :update, params
+          put :update, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -240,7 +240,7 @@ describe TypesController, type: :controller do
       let(:params) { { 'id' => type.id, 'type' => { move_to: 'lower' } } }
 
       before do
-        post :move, params
+        post :move, params: params
       end
 
       it { expect(response).to be_redirect }
@@ -259,7 +259,7 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type.id } }
 
         before do
-          delete :destroy, params
+          delete :destroy, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -287,7 +287,7 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type2.id } }
 
         before do
-          delete :destroy, params
+          delete :destroy, params: params
         end
 
         it { expect(response).to be_redirect }
@@ -304,7 +304,7 @@ describe TypesController, type: :controller do
         let(:params) { { 'id' => type3.id } }
 
         before do
-          delete :destroy, params
+          delete :destroy, params: params
         end
 
         it { expect(response).to be_redirect }

@@ -59,7 +59,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders index with project' do
-      get :index, project_id: project.id
+      get :index, params: { project_id: project.id }
 
       expect(response).to be_success
       expect(response).to render_template 'index'
@@ -69,7 +69,7 @@ describe NewsController, type: :controller do
 
   describe '#show' do
     it 'renders show' do
-      get :show, id: news.id
+      get :show, params: { id: news.id }
 
       expect(response).to be_success
       expect(response).to render_template 'show'
@@ -78,7 +78,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders show with slug' do
-      get :show, id: "#{news.id}-some-news-title"
+      get :show, params: { id: "#{news.id}-some-news-title" }
 
       expect(response).to be_success
       expect(response).to render_template 'show'
@@ -87,7 +87,7 @@ describe NewsController, type: :controller do
     end
 
     it 'renders error if news item is not found' do
-      get :show, id: -1
+      get :show, params: { id: -1 }
 
       expect(response).to be_not_found
     end
@@ -95,7 +95,7 @@ describe NewsController, type: :controller do
 
   describe '#new' do
     it 'renders new' do
-      get :new, project_id: project.id
+      get :new, params: { project_id: project.id }
 
       expect(response).to be_success
       expect(response).to render_template 'new'
@@ -108,9 +108,15 @@ describe NewsController, type: :controller do
       it 'persists a news item and delivers email notifications' do
         become_member_with_permissions(project, user)
 
-        post :create, project_id: project.id, news: { title: 'NewsControllerTest',
-                                                      description: 'This is the description',
-                                                      summary: '' }
+        post :create,
+             params: {
+               project_id: project.id,
+               news: {
+                 title: 'NewsControllerTest',
+                 description: 'This is the description',
+                 summary: ''
+               }
+             }
         expect(response).to redirect_to project_news_index_path(project)
 
         news = News.find_by!(title: 'NewsControllerTest')
@@ -124,9 +130,15 @@ describe NewsController, type: :controller do
     end
 
     it "doesn't persist if validations fail" do
-      post :create, project_id: project.id, news: { title: '',
-                                                    description: 'This is the description',
-                                                    summary: '' }
+      post :create,
+           params: {
+             project_id: project.id,
+             news: {
+               title: '',
+               description: 'This is the description',
+               summary: ''
+             }
+           }
 
       expect(response).to be_success
       expect(response).to render_template 'new'
@@ -139,7 +151,7 @@ describe NewsController, type: :controller do
 
   describe '#edit' do
     it 'renders edit' do
-      get :edit, id: news.id
+      get :edit, params: { id: news.id }
       expect(response).to be_success
       expect(response).to render_template 'edit'
     end
@@ -147,7 +159,8 @@ describe NewsController, type: :controller do
 
   describe '#update' do
     it 'updates the news element' do
-      put :update, id: news.id, news: { description: 'Description changed by test_post_edit' }
+      put :update,
+          params: { id: news.id, news: { description: 'Description changed by test_post_edit' } }
 
       expect(response).to redirect_to news_path(news)
 
@@ -158,7 +171,7 @@ describe NewsController, type: :controller do
 
   describe '#destroy' do
     it 'deletes the news element and redirects to the news overview page' do
-      delete :destroy, id: news.id
+      delete :destroy, params: { id: news.id }
 
       expect(response).to redirect_to project_news_index_path(news.project)
       expect { news.reload }.to raise_error ActiveRecord::RecordNotFound

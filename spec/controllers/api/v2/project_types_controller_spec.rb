@@ -78,7 +78,7 @@ describe Api::V2::ProjectTypesController, type: :controller do
     describe 'with unknown project type' do
       it 'raises ActiveRecord::RecordNotFound errors' do
         expect {
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -89,17 +89,17 @@ describe Api::V2::ProjectTypesController, type: :controller do
       end
 
       def fetch
-        get 'show', id: '1337', format: 'xml'
+        get 'show', params: { id: '1337' }, format: 'xml'
       end
       it_should_behave_like 'a controller action with unrestricted access'
 
       it 'assigns the available project type' do
-        get 'show', id: '1337', format: 'xml'
+        get 'show', params: { id: '1337' }, format: 'xml'
         expect(assigns(:project_type)).to eq(@available_project_type)
       end
 
       it 'renders the show template' do
-        get 'show', id: '1337', format: 'xml'
+        get 'show', params: { id: '1337' }, format: 'xml'
         expect(response).to render_template('api/v2/project_types/show')
       end
     end

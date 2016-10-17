@@ -59,7 +59,7 @@ describe WikiMenuItemsController, type: :controller do
 
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
-        before do get :edit, project_id: project.id, id: child_page.slug end
+        before do get :edit, params: { project_id: project.id, id: child_page.slug } end
         subject { response }
 
         it 'preselects the wiki menu item of the parent page as parent wiki menu item option' do
@@ -72,7 +72,7 @@ describe WikiMenuItemsController, type: :controller do
         before do
           # ensure the parent page of grand_child_page is not a main item
           child_page_wiki_menu_item.tap { |page| page.parent = top_level_wiki_menu_item }.save
-          get :edit, project_id: project.id, id: grand_child_page.slug
+          get :edit, params: { project_id: project.id, id: grand_child_page.slug }
         end
 
         subject { response }
@@ -84,7 +84,7 @@ describe WikiMenuItemsController, type: :controller do
     end
 
     context 'when a parent wiki menu item has already been configured' do
-      before do get :edit, project_id: project.id, id: another_child_page.slug end
+      before do get :edit, params: { project_id: project.id, id: another_child_page.slug } end
       subject { response }
 
       it 'preselects the parent wiki menu item that is already assigned' do
@@ -103,7 +103,7 @@ describe WikiMenuItemsController, type: :controller do
   describe '#select_main_menu_item' do
     include_context 'when there is one more wiki page with a child page'
 
-    before do get :select_main_menu_item, project_id: project, id: wiki_page.id end
+    before do get :select_main_menu_item, params: { project_id: project, id: wiki_page.id } end
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do
@@ -122,9 +122,12 @@ describe WikiMenuItemsController, type: :controller do
       let(:new_menu_item) { selected_page.menu_item }
 
       before do
-        post :replace_main_menu_item, project_id: project,
-                                      id: wiki_page.id,
-                                      wiki_page: { id: selected_page.id }
+        post :replace_main_menu_item,
+             params: {
+               project_id: project,
+               id: wiki_page.id,
+               wiki_page: { id: selected_page.id }
+             }
       end
 
       it 'destroys the current wiki menu item' do
@@ -145,9 +148,12 @@ describe WikiMenuItemsController, type: :controller do
       let!(:wiki_menu_item) { wiki_page.menu_item }
 
       before do
-        post :replace_main_menu_item, project_id: project,
-                                      id: wiki_page.id,
-                                      wiki_page: { id: wiki_page.id }
+        post :replace_main_menu_item,
+             params: {
+               project_id: project,
+               id: wiki_page.id,
+               wiki_page: { id: wiki_page.id }
+             }
       end
 
       it 'does not destroy the wiki menu item' do

@@ -87,13 +87,13 @@ describe WikiController, type: :controller do
     end
 
     describe 'new' do
-      let(:get_page) { get 'new', project_id: @project }
+      let(:get_page) { get 'new', params: { project_id: @project } }
 
       it_should_behave_like "a 'new' action"
     end
 
     describe 'new_child' do
-      let(:get_page) { get 'new_child', project_id: @project, id: @existing_page.title }
+      let(:get_page) { get 'new_child', params: { project_id: @project, id: @existing_page.title } }
 
       it_should_behave_like "a 'new' action"
 
@@ -104,7 +104,7 @@ describe WikiController, type: :controller do
       end
 
       it 'renders 404 if used with an unknown page title' do
-        get 'new_child', project_id: @project, id: 'foobar'
+        get 'new_child', params: { project_id: @project, id: 'foobar' }
 
         expect(response.status).to eq(404) # not found
       end
@@ -114,16 +114,20 @@ describe WikiController, type: :controller do
       describe 'successful action' do
         it 'redirects to the show action' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: 'abc' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: 'abc' } }
+               }
 
           expect(response).to redirect_to action: 'show', project_id: @project, id: 'abc'
         end
 
         it 'saves a new WikiPage with proper content' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: 'abc' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: 'abc' } }
+               }
 
           page = @project.wiki.pages.find_by title: 'abc'
           expect(page).not_to be_nil
@@ -134,24 +138,30 @@ describe WikiController, type: :controller do
       describe 'unsuccessful action' do
         it 'renders "wiki/new"' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: '' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: '' } }
+               }
 
           expect(response).to render_template('new')
         end
 
         it 'assigns project to work with new template' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: '' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: '' } }
+               }
 
           expect(assigns[:project]).to eq(@project)
         end
 
         it 'assigns wiki to work with new template' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: '' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: '' } }
+               }
 
           expect(assigns[:wiki]).to eq(@project.wiki)
           expect(assigns[:wiki]).not_to be_new_record
@@ -159,8 +169,10 @@ describe WikiController, type: :controller do
 
         it 'assigns page to work with new template' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: '' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: '' } }
+               }
 
           expect(assigns[:page]).to be_new_record
           expect(assigns[:page].wiki.project).to eq(@project)
@@ -170,8 +182,10 @@ describe WikiController, type: :controller do
 
         it 'assigns content to work with new template' do
           post 'create',
-               project_id: @project,
-               content: { text: 'h1. abc', page: { title: '' } }
+               params: {
+                 project_id: @project,
+                 content: { text: 'h1. abc', page: { title: '' } }
+               }
 
           expect(assigns[:content]).to be_new_record
           expect(assigns[:content].page.wiki.project).to eq(@project)
@@ -191,14 +205,14 @@ describe WikiController, type: :controller do
           end
 
           it 'redirects to wiki#index' do
-            delete :destroy, project_id: @project, id: @existing_page
+            delete :destroy, params: { project_id: @project, id: @existing_page }
             expect(response).to redirect_to action: 'index', project_id: @project, id: redirect_page_after_destroy
           end
         end
 
         context 'when it is the only wiki page' do
           it 'redirects to projects#show' do
-            delete :destroy, project_id: @project, id: @existing_page
+            delete :destroy, params: { project_id: @project, id: @existing_page }
             expect(response).to redirect_to project_path(@project)
           end
         end
@@ -274,7 +288,7 @@ describe WikiController, type: :controller do
 
       shared_examples_for 'all wiki menu items' do
         it 'is inactive, when an unrelated page is shown' do
-          get 'show', id: @unrelated_page.slug, project_id: @project.id
+          get 'show', params: { id: @unrelated_page.slug, project_id: @project.id }
 
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -284,7 +298,7 @@ describe WikiController, type: :controller do
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
-          get 'show', id: @other_wiki_menu_item.name, project_id: @project.id
+          get 'show', params: { id: @other_wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -294,7 +308,7 @@ describe WikiController, type: :controller do
         end
 
         it 'is active, when the given wiki menu item is shown' do
-          get 'show', id: @wiki_menu_item.name, project_id: @project.id
+          get 'show', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -306,7 +320,7 @@ describe WikiController, type: :controller do
       shared_examples_for 'all existing wiki menu items' do
         # TODO: Add tests for new and toc options within menu item
         it 'is active on parents item, when new page is shown' do
-          get 'new_child', id: @wiki_menu_item.name, project_id: @project.identifier
+          get 'new_child', params: { id: @wiki_menu_item.name, project_id: @project.identifier }
 
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -315,7 +329,7 @@ describe WikiController, type: :controller do
         end
 
         it 'is active, when a toc page is shown' do
-          get 'index', id: @wiki_menu_item.name, project_id: @project.id
+          get 'index', params: { id: @wiki_menu_item.name, project_id: @project.id }
 
           expect(response).to be_success
           assert_select '#content h2', text: 'Index by title'
@@ -327,7 +341,7 @@ describe WikiController, type: :controller do
 
       shared_examples_for 'all wiki menu items with child pages' do
         it 'is active, when the given wiki menu item is an ancestor of the shown page' do
-          get 'show', id: @child_page.slug, project_id: @project.id
+          get 'show', params: { id: @child_page.slug, project_id: @project.id }
 
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
@@ -374,7 +388,7 @@ describe WikiController, type: :controller do
         describe 'on a show page' do
           describe 'being authorized to configure menu items' do
             it 'is visible' do
-              get 'show', project_id: @project.id
+              get 'show', params: { project_id: @project.id }
 
               expect(response).to be_success
 
@@ -388,7 +402,7 @@ describe WikiController, type: :controller do
             end
 
             it 'is invisible' do
-              get 'show', project_id: @project.id
+              get 'show', params: { project_id: @project.id }
 
               expect(response).to be_success
 
@@ -402,7 +416,7 @@ describe WikiController, type: :controller do
         describe 'on an index page' do
           describe 'being authorized to edit wiki pages' do
             it 'is invisible' do
-              get 'index', project_id: @project.id
+              get 'index', params: { project_id: @project.id }
 
               expect(response).to be_success
 
@@ -416,7 +430,7 @@ describe WikiController, type: :controller do
             end
 
             it 'is invisible' do
-              get 'index', project_id: @project.id
+              get 'index', params: { project_id: @project.id }
 
               expect(response).to be_success
 
@@ -429,7 +443,8 @@ describe WikiController, type: :controller do
           describe 'being authorized to edit wiki pages' do
             describe 'with a wiki page present' do
               it 'is visible' do
-                get 'show', id: @page_with_content.title, project_id: @project.identifier
+                get 'show',
+                    params: { id: @page_with_content.title, project_id: @project.identifier }
 
                 expect(response).to be_success
 
@@ -439,7 +454,7 @@ describe WikiController, type: :controller do
 
             describe 'with no wiki page present' do
               it 'is invisible' do
-                get 'show', id: 'i-am-a-ghostpage', project_id: @project.identifier
+                get 'show', params: { id: 'i-am-a-ghostpage', project_id: @project.identifier }
 
                 expect(response).to be_success
 
@@ -455,7 +470,7 @@ describe WikiController, type: :controller do
             end
 
             it 'is invisible' do
-              get 'show', id: @page_with_content.title, project_id: @project.identifier
+              get 'show', params: { id: @page_with_content.title, project_id: @project.identifier }
 
               expect(response).to be_success
 
@@ -469,7 +484,7 @@ describe WikiController, type: :controller do
         describe 'on a show page' do
           describe 'being authorized to edit wiki pages' do
             it 'is visible' do
-              get 'show', project_id: @project.id
+              get 'show', params: { project_id: @project.id }
 
               expect(response).to be_success
 
@@ -483,7 +498,7 @@ describe WikiController, type: :controller do
             end
 
             it 'is invisible' do
-              get 'show', project_id: @project.id
+              get 'show', params: { project_id: @project.id }
 
               expect(response).to be_success
 

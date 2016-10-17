@@ -162,10 +162,15 @@ describe AccountController, type: :controller do
             omniauth: true,
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
-          post :register, user: { login: 'login@bar.com',
-                                  firstname: 'Foo',
-                                  lastname: 'Smith',
-                                  mail: 'foo@bar.com' }
+          post :register,
+               params: {
+                 user: {
+                   login: 'login@bar.com',
+                   firstname: 'Foo',
+                   lastname: 'Smith',
+                   mail: 'foo@bar.com'
+                 }
+               }
           expect(response).to redirect_to home_url(first_time_user: true)
 
           user = User.find_by_login('login@bar.com')
@@ -183,9 +188,14 @@ describe AccountController, type: :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, user: { firstname: 'Foo',
-                                    lastname: 'Smith',
-                                    mail: 'foo@bar.com' }
+            post :register,
+                 params: {
+                   user: {
+                     firstname: 'Foo',
+                     lastname: 'Smith',
+                     mail: 'foo@bar.com'
+                   }
+                 }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
@@ -193,9 +203,14 @@ describe AccountController, type: :controller do
           end
 
           it 'does not register the user when providing all the missing fields' do
-            post :register, user: { firstname: 'Foo',
-                                    # lastname intentionally not provided
-                                    mail: 'foo@bar.com' }
+            post :register,
+                 params: {
+                   user: {
+                     firstname: 'Foo',
+                     # lastname intentionally not provided
+                     mail: 'foo@bar.com'
+                   }
+                 }
 
             expect(response).to redirect_to signin_path
             expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
@@ -478,7 +493,7 @@ describe AccountController, type: :controller do
 
       it 'should log a warn message' do
         expect(Rails.logger).to receive(:warn).with('invalid_credentials')
-        post :omniauth_failure, message: 'invalid_credentials'
+        post :omniauth_failure, params: { message: 'invalid_credentials' }
       end
     end
   end

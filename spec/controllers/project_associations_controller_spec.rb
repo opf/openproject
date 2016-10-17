@@ -38,7 +38,7 @@ describe ProjectAssociationsController, type: :controller do
   describe 'index.html' do
     let(:project) { FactoryGirl.create(:project, is_public: false) }
     def fetch
-      get 'index', project_id: project.identifier
+      get 'index', params: { project_id: project.identifier }
     end
     let(:permission) { :view_project_associations }
 
@@ -48,7 +48,7 @@ describe ProjectAssociationsController, type: :controller do
   describe 'new.html' do
     let(:project) { FactoryGirl.create(:project, is_public: false) }
     def fetch
-      get 'new', project_id: project.identifier
+      get 'new', params: { project_id: project.identifier }
     end
     let(:permission) { :edit_project_associations }
 
@@ -59,8 +59,11 @@ describe ProjectAssociationsController, type: :controller do
     let(:project)   { FactoryGirl.create(:project, is_public: false) }
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
     def fetch
-      post 'create', project_id: project.identifier,
-                     project_association: { project_b_id: project_b.id }
+      post 'create',
+           params: {
+             project_id: project.identifier,
+             project_association: { project_b_id: project_b.id }
+           }
     end
     let(:permission) { :edit_project_associations }
     def expect_redirect_to
@@ -79,8 +82,11 @@ describe ProjectAssociationsController, type: :controller do
                          project_b_id: project_b.id)
     }
     def fetch
-      get 'edit', project_id: project.identifier,
-                  id:         project_association.id
+      get 'edit',
+          params: {
+            project_id: project.identifier,
+            id: project_association.id
+          }
     end
     let(:permission) { :edit_project_associations }
 
@@ -96,9 +102,12 @@ describe ProjectAssociationsController, type: :controller do
                          project_b_id: project_b.id)
     }
     def fetch
-      post 'update', project_id: project.identifier,
-                     id:         project_association.id,
-                     project_association: {}
+      post 'update',
+           params: {
+             project_id: project.identifier,
+             id: project_association.id,
+             project_association: {}
+           }
     end
     let(:permission) { :edit_project_associations }
     def expect_redirect_to
@@ -117,9 +126,12 @@ describe ProjectAssociationsController, type: :controller do
                          project_b_id: project_b.id)
     }
     def fetch
-      get 'confirm_destroy', project_id: project.identifier,
-                             id:         project_association.id,
-                             project_association: {}
+      get 'confirm_destroy',
+          params: {
+            project_id: project.identifier,
+            id: project_association.id,
+            project_association: {}
+          }
     end
     let(:permission) { :delete_project_associations }
 
@@ -135,8 +147,11 @@ describe ProjectAssociationsController, type: :controller do
                          project_b_id: project_b.id)
     }
     def fetch
-      post 'destroy', project_id: project.identifier,
-                      id:         project_association.id
+      post 'destroy',
+           params: {
+             project_id: project.identifier,
+             id: project_association.id
+           }
     end
     let(:permission) { :delete_project_associations }
     def expect_redirect_to

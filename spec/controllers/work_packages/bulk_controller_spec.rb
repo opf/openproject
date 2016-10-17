@@ -126,7 +126,7 @@ describe WorkPackages::BulkController, type: :controller do
     end
 
     context 'same project' do
-      before do get :edit, ids: [work_package_1.id, work_package_2.id] end
+      before do get :edit, params: { ids: [work_package_1.id, work_package_2.id] } end
 
       it_behaves_like :response
 
@@ -159,7 +159,7 @@ describe WorkPackages::BulkController, type: :controller do
       before do
         member1_p2
 
-        get :edit, ids: [work_package_1.id, work_package_2.id, work_package_3.id]
+        get :edit, params: { ids: [work_package_1.id, work_package_2.id, work_package_3.id] }
       end
 
       it_behaves_like :response
@@ -197,7 +197,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'in host' do
         let(:url) { '/work_packages' }
 
-        before do put :update, ids: work_package_ids, back_url: url end
+        before do put :update, params: { ids: work_package_ids, back_url: url } end
 
         subject { response }
 
@@ -209,7 +209,7 @@ describe WorkPackages::BulkController, type: :controller do
       context 'of host' do
         let(:url) { 'http://google.com' }
 
-        before do put :update, ids: work_package_ids, back_url: url end
+        before do put :update, params: { ids: work_package_ids, back_url: url } end
 
         subject { response }
 
@@ -249,7 +249,7 @@ describe WorkPackages::BulkController, type: :controller do
         member1_p2
         # let other_user perform the bulk update
         allow(User).to receive(:current).and_return other_user
-        put :update, ids: work_package_ids, work_package: work_package_params
+        put :update, params: { ids: work_package_ids, work_package: work_package_params }
       end
 
       it 'updates the description if whitelisted' do
@@ -269,12 +269,14 @@ describe WorkPackages::BulkController, type: :controller do
     shared_context 'update_request' do
       before do
         put :update,
-            ids: work_package_ids,
-            notes: 'Bulk editing',
-            work_package: { priority_id: priority.id,
-                            assigned_to_id: group_id,
-                            responsible_id: responsible_id,
-                            send_notification: send_notification }
+            params: {
+              ids: work_package_ids,
+              notes: 'Bulk editing',
+              work_package: { priority_id: priority.id,
+                              assigned_to_id: group_id,
+                              responsible_id: responsible_id,
+                              send_notification: send_notification }
+            }
       end
     end
 
@@ -408,8 +410,10 @@ describe WorkPackages::BulkController, type: :controller do
             workflow
 
             put :update,
-                ids: work_package_ids,
-                work_package: { status_id: closed_status.id }
+                params: {
+                  ids: work_package_ids,
+                  work_package: { status_id: closed_status.id }
+                }
           end
 
           subject { work_packages.map(&:status_id).uniq }
@@ -426,8 +430,10 @@ describe WorkPackages::BulkController, type: :controller do
 
           before do
             put :update,
-                ids: work_package_ids,
-                work_package: { parent_id: parent.id }
+                params: {
+                  ids: work_package_ids,
+                  work_package: { parent_id: parent.id }
+                }
           end
 
           subject { work_packages.map(&:parent_id).uniq }
@@ -459,8 +465,10 @@ describe WorkPackages::BulkController, type: :controller do
         describe '#unassign' do
           before do
             put :update,
-                ids: work_package_ids,
-                work_package: { assigned_to_id: 'none' }
+                params: {
+                  ids: work_package_ids,
+                  work_package: { assigned_to_id: 'none' }
+                }
           end
 
           subject { work_packages.map(&:assigned_to_id).uniq }
@@ -471,8 +479,10 @@ describe WorkPackages::BulkController, type: :controller do
         describe '#delete_responsible' do
           before do
             put :update,
-                ids: work_package_ids,
-                work_package: { responsible_id: 'none' }
+                params: {
+                  ids: work_package_ids,
+                  work_package: { responsible_id: 'none' }
+                }
           end
 
           subject { work_packages.map(&:responsible_id).uniq }
@@ -496,8 +506,10 @@ describe WorkPackages::BulkController, type: :controller do
 
             before do
               put :update,
-                  ids: work_package_ids,
-                  work_package: { fixed_version_id: version.id.to_s }
+                  params: {
+                    ids: work_package_ids,
+                    work_package: { fixed_version_id: version.id.to_s }
+                  }
             end
 
             subject { response }
@@ -523,8 +535,10 @@ describe WorkPackages::BulkController, type: :controller do
               # 'none' is a magic value, setting fixed_version_id to nil
               # will make the controller ignore that param
               put :update,
-                  ids: work_package_ids,
-                  work_package: { fixed_version_id: 'none' }
+                  params: {
+                    ids: work_package_ids,
+                    work_package: { fixed_version_id: 'none' }
+                  }
             end
             describe '#work_package' do
               describe '#fixed_version' do
@@ -572,7 +586,7 @@ describe WorkPackages::BulkController, type: :controller do
         expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return true
 
         as_logged_in_user(user) do
-          delete :destroy, params
+          delete :destroy, params: params
         end
       end
 
@@ -586,7 +600,7 @@ describe WorkPackages::BulkController, type: :controller do
         expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params['to_do']).and_return false
 
         as_logged_in_user(user) do
-          delete :destroy, params
+          delete :destroy, params: params
         end
       end
 

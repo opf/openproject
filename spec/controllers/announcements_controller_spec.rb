@@ -22,10 +22,12 @@ describe AnnouncementsController, type: :controller do
     before do
       expect(announcement).to receive(:save).and_call_original
       put :update,
-          announcement: {
-            until_date: '2011-01-11',
-            text: 'announcement!!!',
-            active: 1
+          params: {
+            announcement: {
+              until_date: '2011-01-11',
+              text: 'announcement!!!',
+              active: 1
+            }
           }
     end
 

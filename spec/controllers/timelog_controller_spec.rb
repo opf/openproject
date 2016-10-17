@@ -57,7 +57,7 @@ describe TimelogController, type: :controller do
 
     context 'project' do
       describe '#valid' do
-        before do post :create, params end
+        before do post :create, params: params end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -65,7 +65,7 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:project_id) { -1 }
 
-        before do post :create, params end
+        before do post :create, params: params end
 
         it { expect(response.status).to eq(404) }
       end
@@ -81,7 +81,7 @@ describe TimelogController, type: :controller do
           before do
             params[:time_entry][:custom_field_values] = { custom_field.id.to_s => 'wurst' }
 
-            post :create, params
+            post :create, params: params
           end
 
           it_behaves_like 'successful timelog creation'
@@ -93,7 +93,7 @@ describe TimelogController, type: :controller do
           before do
             params[:time_entry][:custom_field_values] = { "42" => 'wurst' }
 
-            post :create, params
+            post :create, params: params
           end
 
           it 'is rejected' do
@@ -111,7 +111,7 @@ describe TimelogController, type: :controller do
         }
         let(:work_package_id) { work_package.id }
 
-        before do post :create, params end
+        before do post :create, params: params end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -119,7 +119,7 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:work_package_id) { 'blub' }
 
-        before do post :create, params end
+        before do post :create, params: params end
 
         it { expect(response).to render_template(:edit) }
 

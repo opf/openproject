@@ -53,7 +53,7 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        put :update, params
+        put :update, params: params
       end
 
       it { expect(response).to be_redirect }
@@ -70,7 +70,7 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        put :update, params
+        put :update, params: params
       end
 
       it { expect(response).to be_redirect }
@@ -94,7 +94,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response).to render_template 'new' }
@@ -113,7 +113,7 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response.status).to eql(302) }
@@ -131,7 +131,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response.status).to eql(302) }
@@ -152,7 +152,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       around do |example|

@@ -50,7 +50,7 @@ describe WikiMenuItemsController, type: :controller do
       permission_role = FactoryGirl.create(:role, name: 'accessgranted', permissions: [:manage_wiki_menu])
       member = FactoryGirl.create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
 
-      get 'edit', @params
+      get 'edit', params: @params
 
       expect(response).to be_success
     end
@@ -60,7 +60,7 @@ describe WikiMenuItemsController, type: :controller do
     it 'be forbidden' do
       allow(User).to receive(:current).and_return FactoryGirl.create(:user)
 
-      get 'edit', @params
+      get 'edit', params: @params
 
       expect(response.status).to eq(403) # forbidden
     end

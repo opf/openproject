@@ -57,13 +57,13 @@ describe ProjectsController, type: :controller do
       end
 
       it 'renders show' do
-        get 'show', @params
+        get 'show', params: @params
         expect(response).to be_success
         expect(response).to render_template 'show'
       end
 
       it 'renders main menu without wiki menu item' do
-        get 'show', @params
+        get 'show', params: @params
 
         assert_select '#main-menu a.Wiki-menu-item', false # assert_no_select
       end
@@ -78,13 +78,13 @@ describe ProjectsController, type: :controller do
 
       describe 'without custom wiki menu items' do
         it 'renders show' do
-          get 'show', @params
+          get 'show', params: @params
           expect(response).to be_success
           expect(response).to render_template 'show'
         end
 
         it 'renders main menu with wiki menu item' do
-          get 'show', @params
+          get 'show', params: @params
 
           assert_select '#main-menu a.wiki-menu-item', 'Wiki'
         end
@@ -97,19 +97,19 @@ describe ProjectsController, type: :controller do
         end
 
         it 'renders show' do
-          get 'show', @params
+          get 'show', params: @params
           expect(response).to be_success
           expect(response).to render_template 'show'
         end
 
         it 'renders main menu with wiki menu item' do
-          get 'show', @params
+          get 'show', params: @params
 
           assert_select '#main-menu a.example-menu-item', 'Example Title'
         end
 
         it 'renders main menu with sub wiki menu item' do
-          get 'show', @params
+          get 'show', params: @params
 
           assert_select '#main-menu a.sub-menu-item', 'Sub Title'
         end
@@ -123,13 +123,13 @@ describe ProjectsController, type: :controller do
       end
 
       it 'renders show' do
-        get 'show', @params
+        get 'show', params: @params
         expect(response).to be_success
         expect(response).to render_template 'show'
       end
 
       it 'renders main menu with activity tab' do
-        get 'show', @params
+        get 'show', params: @params
         assert_select '#main-menu a.activity-menu-item'
       end
     end
@@ -141,13 +141,13 @@ describe ProjectsController, type: :controller do
       end
 
       it 'renders show' do
-        get 'show', @params
+        get 'show', params: @params
         expect(response).to be_success
         expect(response).to render_template 'show'
       end
 
       it 'renders main menu without activity tab' do
-        get 'show', @params
+        get 'show', params: @params
         expect(response.body).not_to have_selector '#main-menu a.activity-menu-item'
       end
     end
@@ -155,7 +155,7 @@ describe ProjectsController, type: :controller do
 
   describe 'new' do
     it "renders 'new'" do
-      get 'new', @params
+      get 'new', params: @params
       expect(response).to be_success
       expect(response).to render_template 'new'
     end
@@ -189,7 +189,7 @@ describe ProjectsController, type: :controller do
         before do
           expect(update_service).to receive(:call).with([1, 2, 3]).and_return true
 
-          patch :types, id: project.id, project: { 'type_ids' => ['1', '2', '3'] }
+          patch :types, params: { id: project.id, project: { 'type_ids' => ['1', '2', '3'] } }
         end
 
         it 'sets a flash message' do
@@ -209,7 +209,7 @@ describe ProjectsController, type: :controller do
 
           allow(project).to receive_message_chain(:errors, :full_messages).and_return(error_message)
 
-          patch :types, id: project.id, project: { 'type_ids' => ['1', '2', '3'] }
+          patch :types, params: { id: project.id, project: { 'type_ids' => ['1', '2', '3'] } }
         end
 
         it 'sets a flash message' do
@@ -228,9 +228,11 @@ describe ProjectsController, type: :controller do
       let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
       let(:request) do
         put :custom_fields,
-            id: project.id,
-            project: {
-              work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
+            params: {
+              id: project.id,
+              project: {
+                work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
+              }
             }
       end
 

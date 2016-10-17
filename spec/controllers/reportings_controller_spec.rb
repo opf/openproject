@@ -39,7 +39,7 @@ describe ReportingsController, type: :controller do
   describe 'index.html' do
     let(:project) { FactoryGirl.create(:project) }
     def fetch
-      get 'index', project_id: project.identifier
+      get 'index', params: { project_id: project.identifier }
     end
     let(:permission) { :view_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -49,7 +49,7 @@ describe ReportingsController, type: :controller do
     let(:project)   { FactoryGirl.create(:project) }
     let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
     def fetch
-      get 'show', project_id: project.identifier, id: reporting.id
+      get 'show', params: { project_id: project.identifier, id: reporting.id }
     end
     let(:permission) { :view_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -60,7 +60,7 @@ describe ReportingsController, type: :controller do
     def fetch
       FactoryGirl.create(:public_project) # reporting candidate
 
-      get 'new', project_id: project.identifier
+      get 'new', params: { project_id: project.identifier }
     end
     let(:permission) { :edit_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -69,9 +69,11 @@ describe ReportingsController, type: :controller do
   describe 'create.html' do
     let(:project)   { FactoryGirl.create(:project) }
     def fetch
-      post 'create', project_id: project.identifier,
-                     reporting: FactoryGirl.build(:reporting,
-                                                  project_id: project.id).attributes
+      post 'create',
+           params: {
+             project_id: project.identifier,
+             reporting: FactoryGirl.build(:reporting, project_id: project.id).attributes
+           }
     end
     let(:permission) { :edit_reportings }
     def expect_redirect_to
@@ -81,12 +83,14 @@ describe ReportingsController, type: :controller do
 
     it 'should not create a reporting w/o a reporting project' do
       post :create,
-           project_id: project.identifier,
-           reporting: FactoryGirl.build(
-             :reporting,
-             project_id: project.id,
-             reporting_to_project_id: nil
-           ).attributes
+           params: {
+             project_id: project.identifier,
+             reporting: FactoryGirl.build(
+               :reporting,
+               project_id: project.id,
+               reporting_to_project_id: nil
+             ).attributes
+           }
 
       expect(response).to render_template(:new)
     end
@@ -97,8 +101,8 @@ describe ReportingsController, type: :controller do
     let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      get 'edit', project_id: project.identifier,
-                  id: reporting.id
+      get 'edit',
+          params: { project_id: project.identifier, id: reporting.id }
     end
     let(:permission) { :edit_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -109,9 +113,8 @@ describe ReportingsController, type: :controller do
     let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      post 'update', project_id: project.identifier,
-                     id: reporting.id,
-                     reporting: {}
+      post 'update',
+           params: { project_id: project.identifier, id: reporting.id, reporting: {} }
     end
     let(:permission) { :edit_reportings }
     def expect_redirect_to
@@ -125,8 +128,8 @@ describe ReportingsController, type: :controller do
     let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      get 'confirm_destroy', project_id: project.identifier,
-                             id: reporting.id
+      get 'confirm_destroy',
+          params: { project_id: project.identifier, id: reporting.id }
     end
     let(:permission) { :delete_reportings }
     it_should_behave_like 'a controller action which needs project permissions'
@@ -137,8 +140,8 @@ describe ReportingsController, type: :controller do
     let(:reporting) { FactoryGirl.create(:reporting, project_id: project.id) }
 
     def fetch
-      post 'destroy', project_id: project.identifier,
-                      id: reporting.id
+      post 'destroy',
+           params: { project_id: project.identifier, id: reporting.id }
     end
     let(:permission) { :delete_reportings }
     def expect_redirect_to

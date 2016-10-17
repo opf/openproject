@@ -42,10 +42,12 @@ describe Users::MembershipsController, type: :controller do
       # i.e. it should successfully add a user to a project's members
       as_logged_in_user admin do
         post :create,
-             user_id: user.id,
-             membership: {
-               project_id: project.id,
-               role_ids: [role.id]
+             params: {
+               user_id: user.id,
+               membership: {
+                 project_id: project.id,
+                 role_ids: [role.id]
+               }
              },
              format: 'js'
       end

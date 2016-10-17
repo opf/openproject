@@ -80,7 +80,9 @@ describe ActivitiesController, type: :controller do
       end
 
       describe 'empty filter selection' do
-        before do get 'index', apply: true end
+        before do
+          get 'index', params: { apply: true }
+        end
 
         it_behaves_like 'valid index response'
 
@@ -95,7 +97,7 @@ describe ActivitiesController, type: :controller do
       }
 
       it 'renders activity' do
-        get 'index', project_id: project.id
+        get 'index', params: { project_id: project.id }
         expect(response).to be_success
         expect(response).to render_template 'index'
       end
@@ -108,7 +110,7 @@ describe ActivitiesController, type: :controller do
       }
 
       it 'renders 403' do
-        get 'index', project_id: project.id
+        get 'index', params: { project_id: project.id }
         expect(response.status).to eq(403)
         expect(response).to render_template 'common/error'
       end
@@ -117,7 +119,7 @@ describe ActivitiesController, type: :controller do
     shared_context 'index with params' do
       let(:session_values) { defined?(session_hash) ? session_hash : {} }
 
-      before { get :index, params, session_values }
+      before { get :index, params: params, session: session_values }
     end
 
     describe '#atom_feed' do

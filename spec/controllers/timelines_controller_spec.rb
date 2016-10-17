@@ -219,7 +219,7 @@ describe TimelinesController, type: :controller do
 
   describe 'index.html' do
     def fetch(options = {})
-      get 'index', options
+      get 'index', params: options
     end
     it_should_behave_like 'all actions related to all timelines within a project'
 
@@ -259,7 +259,7 @@ describe TimelinesController, type: :controller do
 
   describe 'new.html' do
     def fetch(options = {})
-      get 'new', options
+      get 'new', params: options
     end
 
     it_should_behave_like 'all actions related to all timelines within a project'
@@ -285,7 +285,7 @@ describe TimelinesController, type: :controller do
 
   describe 'create.html' do
     def fetch(options = {})
-      post 'create', options
+      post 'create', params: options
     end
 
     it_should_behave_like 'all actions related to all timelines within a project'
@@ -342,7 +342,7 @@ describe TimelinesController, type: :controller do
 
   describe 'show.html' do
     def fetch(options = {})
-      get 'show', options
+      get 'show', params: options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -383,7 +383,7 @@ describe TimelinesController, type: :controller do
 
   describe 'edit.html' do
     def fetch(options = {})
-      get 'edit', options
+      get 'edit', params: options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -403,7 +403,7 @@ describe TimelinesController, type: :controller do
 
   describe 'update.html' do
     def fetch(options = {})
-      post 'update', options
+      post 'update', params: options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -461,7 +461,7 @@ describe TimelinesController, type: :controller do
 
   describe 'confirm_destroy.html' do
     def fetch(options = {})
-      get 'confirm_destroy', options
+      get 'confirm_destroy', params: options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'
@@ -482,7 +482,7 @@ describe TimelinesController, type: :controller do
 
   describe 'destroy.html' do
     def fetch(options = {})
-      post 'destroy', options
+      post 'destroy', params: options
     end
 
     it_should_behave_like 'all actions related to an existing timeline'

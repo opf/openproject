@@ -78,13 +78,13 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
     describe 'with unknown color' do
       if false # would like to write it this way
         it 'returns status code 404' do
-          get 'show', id: '1337', format: 'xml'
+          get :show, params: { id: '1337' }, format: 'xml'
 
           expect(response.status).to eq('404 Not Found')
         end
 
         it 'returns an empty body' do
-          get 'show', id: '1337', format: 'xml'
+          get :show, params: { id: '1337' }, format: 'xml'
 
           expect(response.body).to be_empty
         end
@@ -92,7 +92,7 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
       else # but have to write it that way
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', id: '1337', format: 'xml'
+            get :show, params: { id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -104,17 +104,17 @@ describe Api::V2::PlanningElementTypeColorsController, type: :controller do
       end
 
       def fetch
-        get 'show', id: '1337', format: 'xml'
+        get :show, params: { id: '1337' }, format: 'xml'
       end
       it_should_behave_like 'a controller action with unrestricted access'
 
       it 'assigns the available color' do
-        get 'show', id: '1337', format: 'xml'
+        get :show, params: { id: '1337' }, format: 'xml'
         expect(assigns(:color)).to eq(@available_color)
       end
 
       it 'renders the show template' do
-        get 'show', id: '1337', format: 'xml'
+        get :show, params: { id: '1337' }, format: 'xml'
         expect(response).to render_template('planning_element_type_colors/show')
       end
     end
