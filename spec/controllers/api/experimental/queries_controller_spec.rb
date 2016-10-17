@@ -98,7 +98,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'should respond with 403 to project scoped request' do
-        get :available_columns, format: :json, project_id: project.id
+        get :available_columns, format: :json, params: { project_id: project.id }
         expect(response.response_code).to eql(403)
       end
     end
@@ -126,7 +126,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'should respond with 403 to project scoped request' do
-        get :custom_field_filters, format: :json, project_id: project.id
+        get :custom_field_filters, format: :json, params: { id: project.id }
         expect(response.response_code).to eql(403)
       end
     end
@@ -135,7 +135,7 @@ describe Api::Experimental::QueriesController, type: :controller do
   describe '#grouped' do
     context 'within a project' do
       it 'responds with 200' do
-        get :grouped, format: :json, project_id: project.id
+        get :grouped, format: :json, params: { project_id: project.id }
       end
     end
 
@@ -154,7 +154,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'should respond with 403 to project scoped request' do
-        post :grouped, format: :json, project_id: project.id
+        post :grouped, format: :json, params: { project_id: project.id }
         expect(response.response_code).to eql(403)
       end
     end
@@ -175,7 +175,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'responds with 200' do
-        post :create, valid_params
+        post :create, params: valid_params
         expect(response.response_code).to eql(200)
       end
     end
@@ -193,7 +193,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'responds with 200' do
-        post :create, valid_params
+        post :create, params: valid_params
         expect(response.response_code).to eql(200)
       end
     end
@@ -207,7 +207,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'should respond with 403 to project scoped request' do
-        post :create, format: :json, project_id: project.id
+        post :create, format: :json, params: { project_id: project.id }
         expect(response.response_code).to eql(403)
       end
     end
@@ -218,7 +218,8 @@ describe Api::Experimental::QueriesController, type: :controller do
       let(:user) { FactoryGirl.create(:user) }
       let(:query) { FactoryGirl.create(:query, project: project, user: user) }
       let(:valid_params) do
-        { 'c' => ['type', 'status', 'priority', 'assigned_to'],
+        {
+          'c' => ['type', 'status', 'priority', 'assigned_to'],
           'f' => ['status'],
           'group_by' => '',
           'is_public' => 'false',
@@ -228,11 +229,12 @@ describe Api::Experimental::QueriesController, type: :controller do
           'query_id' => query.id,
           'id' => query.id,
           'project_id' => project.id,
-          'format' => 'json' }
+          'format' => 'json'
+        }
       end
 
       shared_examples_for 'valid query update' do
-        before { post :update, valid_params }
+        before { post :update, params: valid_params }
 
         it { expect(response.response_code).to eql(200) }
       end
@@ -333,7 +335,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'responds with 200' do
-        post :update, valid_params
+        post :update, params: valid_params
         expect(response.response_code).to eql(200)
       end
     end
@@ -374,7 +376,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'responds with 200' do
-        delete :destroy, valid_params
+        delete :destroy, params: valid_params
         expect(response.response_code).to eql(200)
       end
     end
@@ -398,7 +400,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'responds with 200' do
-        delete :destroy, valid_params
+        delete :destroy, params: valid_params
         expect(response.response_code).to eql(200)
       end
     end
@@ -412,7 +414,7 @@ describe Api::Experimental::QueriesController, type: :controller do
       end
 
       it 'should respond with 403 to project scoped request' do
-        delete :destroy, format: :json, project_id: project.id
+        delete :destroy, format: :json, params: { project_id: project.id }
         expect(response.response_code).to eql(403)
       end
     end

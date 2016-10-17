@@ -59,9 +59,12 @@ describe MyController, type: :controller do
 
     describe 'with wrong confirmation' do
       before do
-        post :change_password, password: 'adminADMIN!',
-                               new_password: 'adminADMIN!New',
-                               new_password_confirmation: 'adminADMIN!Other'
+        post :change_password,
+             params: {
+               password: 'adminADMIN!',
+               new_password: 'adminADMIN!New',
+               new_password_confirmation: 'adminADMIN!Other'
+             }
       end
       it 'should show an error message' do
         assert_response :success
@@ -75,9 +78,12 @@ describe MyController, type: :controller do
       render_views
       before do
         @current_password = user.current_password.id
-        post :change_password, password: 'wrongpassword',
-                               new_password: 'adminADMIN!New',
-                               new_password_confirmation: 'adminADMIN!New'
+        post :change_password,
+             params: {
+               password: 'wrongpassword',
+               new_password: 'adminADMIN!New',
+               new_password_confirmation: 'adminADMIN!New'
+             }
       end
 
       it 'should show an error message' do
@@ -93,9 +99,12 @@ describe MyController, type: :controller do
 
     describe 'with good password and good confirmation' do
       before do
-        post :change_password, password: 'adminADMIN!',
-                               new_password: 'adminADMIN!New',
-                               new_password_confirmation: 'adminADMIN!New'
+        post :change_password,
+             params: {
+               password: 'adminADMIN!',
+               new_password: 'adminADMIN!New',
+               new_password_confirmation: 'adminADMIN!New'
+             }
       end
 
       it 'should redirect to the my password page' do
@@ -147,7 +156,7 @@ describe MyController, type: :controller do
         as_logged_in_user user do
           user.pref.self_notified = false
 
-          patch :settings, user: { language: 'en' }
+          patch :settings, params: { user: { language: 'en' } }
         end
       end
 

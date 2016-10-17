@@ -61,7 +61,7 @@ describe Api::Experimental::UsersController, type: :controller do
 
     context 'with a project' do
       before do
-        get 'index', project_id: project.id, format: 'json'
+        get 'index', params: { project_id: project.id }, format: 'json'
       end
 
       context 'with the necessary permissions' do

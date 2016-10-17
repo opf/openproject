@@ -81,7 +81,7 @@ describe RepositoriesController, type: :controller do
       before do
         xhr :get,
             :edit,
-            scm_vendor: 'subversion'
+            params: { scm_vendor: 'subversion' }
       end
 
       it_behaves_like 'successful settings response'
@@ -110,9 +110,11 @@ describe RepositoriesController, type: :controller do
       before do
         xhr :post,
             :create,
-            scm_vendor: 'subversion',
-            scm_type: 'local',
-            url: 'file:///tmp/repo.svn/'
+            params: {
+              scm_vendor: 'subversion',
+              scm_type: 'local',
+              url: 'file:///tmp/repo.svn/'
+            }
       end
 
       it 'renders a JS redirect' do
@@ -132,7 +134,7 @@ describe RepositoriesController, type: :controller do
 
     context 'with #show' do
       before do
-        get :show, project_id: project.identifier
+        get :show, params: { project_id: project.identifier }
       end
       it 'renders an empty warning view' do
         expect(response).to render_template 'repositories/empty'
@@ -154,7 +156,7 @@ describe RepositoriesController, type: :controller do
 
       before do
         allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
-        get :show, project_id: project.identifier
+        get :show, params: { project_id: project.identifier }
       end
 
       it 'renders an empty warning view' do
@@ -176,7 +178,7 @@ describe RepositoriesController, type: :controller do
 
       describe 'commits per author graph' do
         before do
-          get :graph, project_id: project.identifier, graph: 'commits_per_author'
+          get :graph, params: { project_id: project.identifier, graph: 'commits_per_author' }
         end
 
         context 'requested by an authorized user' do
@@ -233,7 +235,7 @@ describe RepositoriesController, type: :controller do
 
       describe 'stats' do
         before do
-          get :stats, project_id: project.identifier
+          get :stats, params: { project_id: project.identifier }
         end
 
         describe 'requested by a user with view_commit_author_statistics permission' do
@@ -268,7 +270,7 @@ describe RepositoriesController, type: :controller do
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
         before do
-          get :show, project_id: project.identifier, path: path
+          get :show, params: { project_id: project.identifier, path: path }
         end
 
         context 'with brackets' do
@@ -287,7 +289,7 @@ describe RepositoriesController, type: :controller do
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
 
         before do
-          get :changes, project_id: project.identifier, path: path
+          get :changes, params: { project_id: project.identifier, path: path }
           expect(response).to be_success
         end
 
@@ -317,7 +319,7 @@ describe RepositoriesController, type: :controller do
 
         before do
           allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
-          get :show, project_id: project.identifier, path: 'subversion_test'
+          get :show, params: { project_id: project.identifier, path: 'subversion_test' }
         end
 
         it 'renders an empty warning view' do

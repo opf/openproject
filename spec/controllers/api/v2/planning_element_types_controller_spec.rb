@@ -51,13 +51,13 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
       let(:permission) { :view_work_packages }
 
       def fetch
-        get 'index', project_id: project.identifier, format: 'xml'
+        get 'index', params: { project_id: project.identifier }, format: 'xml'
       end
       it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'with unknown project' do
         it 'returns 404' do
-          get 'index', project_id: 'blah', format: 'xml'
+          get 'index', params: { project_id: 'blah' }, format: 'xml'
 
           expect(response.response_code).to eql 404
         end
@@ -65,12 +65,12 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
       describe 'with only the standard type available' do
         it 'assigns an type array including the standard type' do
-          get 'index', project_id: project.identifier, format: 'xml'
+          get 'index', params: { project_id: project.identifier }, format: 'xml'
           expect(assigns(:types)).to eq(project.types)
         end
 
         it 'renders the index builder template' do
-          get 'index', project_id: project.identifier, format: 'xml'
+          get 'index', params: { project_id: project.identifier }, format: 'xml'
           expect(response).to render_template('planning_element_types/index')
         end
       end
@@ -98,12 +98,12 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         end
 
         it 'assigns an array with all planning element types' do
-          get 'index', project_id: project.identifier, format: 'xml'
+          get 'index', params: { project_id: project.identifier }, format: 'xml'
           expect(assigns(:types).to_set).to eq(@all_types.to_set)
         end
 
         it 'renders the index template' do
-          get 'index', project_id: project.identifier, format: 'xml'
+          get 'index', params: { project_id: project.identifier }, format: 'xml'
           expect(response).to render_template('planning_element_types/index')
         end
       end
@@ -117,13 +117,13 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         @available_type = FactoryGirl.create(:type, id: '1337')
         enable_type(project, @available_type)
 
-        get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+        get 'show', params: { project_id: project.identifier, id: '1337' }, format: 'xml'
       end
       it_should_behave_like 'a controller action which needs project permissions'
 
       describe 'with unknown project' do
         it 'returns 404' do
-          get 'show', project_id: 'blah', id: '1337', format: 'xml'
+          get 'show', params: { project_id: 'blah', id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eql 404
         end
@@ -131,7 +131,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
       describe 'with unknown planning element type' do
         it 'returns 404' do
-          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+          get 'show', params: { project_id: project.identifier, id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eql 404
         end
@@ -143,7 +143,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         end
 
         it 'returns 404' do
-          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+          get 'show', params: { project_id: project.identifier, id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eql 404
         end
@@ -158,12 +158,12 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         end
 
         it 'assigns the available planning element type' do
-          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+          get 'show', params: { project_id: project.identifier, id: '1337' }, format: 'xml'
           expect(assigns(:type)).to eq(@available_planning_element_type)
         end
 
         it 'renders the show template' do
-          get 'show', project_id: project.identifier, id: '1337', format: 'xml'
+          get 'show', params: { project_id: project.identifier, id: '1337' }, format: 'xml'
           expect(response).to render_template('planning_element_types/show')
         end
       end
@@ -219,7 +219,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
 
       describe 'with unknown planning element type' do
         it 'returns 404' do
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eql 404
         end
@@ -231,17 +231,17 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
         end
 
         def fetch
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
         end
         it_should_behave_like 'a controller action which needs project permissions'
 
         it 'assigns the available planning element type' do
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
           expect(assigns(:type)).to eq(@available_planning_element_type)
         end
 
         it 'renders the show template' do
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
           expect(response).to render_template('planning_element_types/show')
         end
       end

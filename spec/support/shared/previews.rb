@@ -30,7 +30,7 @@ shared_examples_for 'valid preview' do
   render_views
 
   before do
-    put :preview, preview_params
+    put :preview, params: preview_params
   end
 
   it { expect(response).to render_template('common/preview') }
@@ -48,7 +48,7 @@ shared_examples_for 'authorizes object access' do
   before do
     allow(User).to receive(:current).and_return(unauthorized_user)
 
-    put :preview, preview_params
+    put :preview, params: preview_params
   end
 
   it { expect(response.status).to eq(403) }

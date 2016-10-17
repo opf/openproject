@@ -40,11 +40,11 @@ describe Api::V2::StatusesController, type: :controller do
     let(:closed) { FactoryGirl.create(:status, name: 'Closed') }
 
     it 'that does not exist should raise an error' do
-      get 'show', id: '0', format: 'json'
+      get 'show', params: { id: '0' }, format: 'json'
       expect(response.response_code).to eq(404)
     end
     it 'that exists should return the proper status' do
-      get 'show', id: closed.id, format: 'json'
+      get 'show', params: { id: closed.id }, format: 'json'
       expect(assigns(:status)).to eql closed
     end
   end

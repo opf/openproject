@@ -40,7 +40,7 @@ describe News::CommentsController, type: :controller do
 
   describe '#create' do
     it 'assigns a comment to the news item and redirects to the news page' do
-      post :create, news_id: news.id, comment: { comments: 'This is a test comment' }
+      post :create, params: { news_id: news.id, comment: { comments: 'This is a test comment' } }
 
       expect(response).to redirect_to news_path(news)
 
@@ -52,7 +52,7 @@ describe News::CommentsController, type: :controller do
 
     it "doesn't create a comment when it is invalid" do
       expect {
-        post :create, news_id: news.id, comment: { comments: '' }
+        post :create, params: { news_id: news.id, comment: { comments: '' } }
         expect(response).to redirect_to news_path(news)
       }.not_to change { Comment.count }
     end
@@ -63,7 +63,7 @@ describe News::CommentsController, type: :controller do
       comment = FactoryGirl.create :comment, commented: news
 
       expect {
-        delete :destroy, id: comment.id
+        delete :destroy, params: { id: comment.id }
       }.to change { Comment.count }.by -1
 
       expect(response).to redirect_to news_path(news)

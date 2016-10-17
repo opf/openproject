@@ -123,7 +123,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     describe 'w/ list of ids' do
       describe 'w/ an unknown work package id' do
         it 'renders an empty list' do
-          get 'index', ids: '4711', format: 'xml'
+          get 'index', params: { ids: '4711' }, format: 'xml'
 
           expect(assigns(:planning_elements)).to eq([])
         end
@@ -137,7 +137,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders an empty list' do
-            get 'index', ids: work_package.id.to_s, format: 'xml'
+            get 'index', params: { ids: work_package.id.to_s }, format: 'xml'
 
             expect(assigns(:planning_elements)).to eq([])
           end
@@ -147,7 +147,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           before do
-            get 'index', ids: '', format: 'xml'
+            get 'index', params: { ids: '' }, format: 'xml'
           end
 
           describe 'w/o any planning elements within the project' do
@@ -167,7 +167,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id)
               ]
-              get 'index', ids: @created_planning_elements.map(&:id).join(','), format: 'xml'
+              get 'index',
+                  params: { ids: @created_planning_elements.map(&:id).join(',') },
+                  format: 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
@@ -189,10 +191,13 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
               context 'with rewire_parents=false' do
                 before do
-                  get 'index', project_id: project.id,
-                               ids: wp_child.id.to_s,
-                               rewire_parents: 'false',
-                               format: 'xml'
+                  get 'index',
+                      params: {
+                        project_id: project.id,
+                        ids: wp_child.id.to_s,
+                        rewire_parents: 'false'
+                      },
+                      format: 'xml'
                 end
 
                 it "includes the child's parent_id" do
@@ -206,9 +211,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 # without rewiring disabled.
                 # Passing a project_id here, so we can test this with rewiring enabled.
                 before do
-                  get 'index', project_id: project.id,
-                               ids: wp_child.id.to_s,
-                               format: 'xml'
+                  get 'index',
+                      params: {
+                        project_id: project.id,
+                        ids: wp_child.id.to_s
+                      },
+                      format: 'xml'
                 end
 
                 it "doesn't include child's parent_id" do
@@ -243,7 +251,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_admin { [project_a, project_b] }
 
           it 'renders only existing work packages' do
-            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(','), format: 'xml'
+            get 'index',
+                params: {
+                  ids: [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(',')
+                },
+                format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
@@ -254,13 +266,20 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member { [project_c] }
 
           it 'renders only accessable work packages' do
-            get 'index', ids: [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id].join(','), format: 'xml'
+            get 'index',
+                params: {
+                  ids: [@project_a_wps[0].id, @project_b_wps[0].id,
+                        @project_c_wps[0].id, @project_c_wps[1].id].join(',')
+                },
+                format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
 
           it 'renders only accessable work packages' do
-            get 'index', ids: [@project_c_wps[0].id, @project_c_wps[1].id].join(','), format: 'xml'
+            get 'index',
+                params: { ids: [@project_c_wps[0].id, @project_c_wps[1].id].join(',') },
+                format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array([])
           end
@@ -270,7 +289,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions { [project_a, project_b, project_c] }
 
           it 'renders all work packages' do
-            get 'index', ids: (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(','), format: 'xml'
+            get 'index',
+                params: {
+                  ids: (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(',')
+                },
+                format: 'xml'
 
             expect(assigns(:planning_elements)).to match_array(@project_a_wps + @project_b_wps + @project_c_wps)
           end
@@ -295,7 +318,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
         context 'without rewire_parents' do  # equivalent to rewire_parents=true
           it 'rewires ancestors correctly' do
-            get 'index', project_id: project1.id, format: 'xml'
+            get 'index',
+                params: { project_id: project1.id },
+                format: 'xml'
 
             # the controller returns structs. We therefore have to filter for those
             ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
@@ -306,7 +331,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
         context 'with rewire_parents=false' do
           before do
-            get 'index', project_id: project1.id, format: 'xml', rewire_parents: 'false'
+            get 'index',
+                params: { project_id: project1.id, rewire_parents: 'false' },
+                format: 'xml'
           end
 
           it "doesn't rewire ancestors" do
@@ -338,7 +365,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
         become_admin { [work_package.project] }
 
         shared_context 'get work packages changed since' do
-          before { get 'index', project_id: work_package.project_id, changed_since: timestamp,  format: 'xml' }
+          before do
+            get 'index',
+                params: { project_id: work_package.project_id, changed_since: timestamp },
+                format: 'xml'
+          end
         end
 
         describe 'valid timestamp' do
@@ -395,13 +426,21 @@ describe Api::V2::PlanningElementsController, type: :controller do
       become_admin { [project_a, project_b, work_package_c.project] }
 
       describe 'empty ids' do
-        before { get 'index', project_id: project_ids, ids: '', format: 'xml' }
+        before do
+          get 'index',
+              params: { project_id: project_ids, ids: '' },
+              format: 'xml'
+        end
 
         it { expect(assigns(:planning_elements)).to be_empty }
       end
 
       shared_examples_for 'valid ids request' do
-        before { get 'index', project_id: project_ids, ids: wp_ids.join(','), format: 'xml' }
+        before do
+          get 'index',
+              params: { project_id: project_ids, ids: wp_ids.join(',') },
+              format: 'xml'
+        end
 
         subject { assigns(:planning_elements).map(&:id) }
 
@@ -430,7 +469,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     describe 'w/ list of projects' do
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          get 'index', project_id: 'project_x,project_b', format: 'xml'
+          get 'index', params: { project_id: 'project_x,project_b' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -443,7 +482,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            get 'index', project_id: project.identifier, format: 'xml'
+            get 'index', params: { project_id: project.identifier }, format: 'xml'
 
             expect(response.response_code).to eq(403)
           end
@@ -453,7 +492,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           before do
-            get 'index', project_id: project.id, format: 'xml'
+            get 'index', params: { project_id: project.id }, format: 'xml'
           end
 
           describe 'w/o any planning elements within the project' do
@@ -475,7 +514,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
               ]
               @created_planning_elements = work_packages_to_structs(created_planning_elements)
 
-              get 'index', project_id: project.id, format: 'xml'
+              get 'index', params: { project_id: project.id }, format: 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
@@ -498,8 +537,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_admin { [project_a, project_b] }
 
           it 'renders a 404 Not Found page' do
-            get 'index', project_id: 'project_x,project_b', format: 'xml'
-
+            get 'index', params: { project_id: 'project_x,project_b' }, format: 'xml'
             expect(response.response_code).to eq(404)
           end
         end
@@ -508,7 +546,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           before { project_a; project_b }
           become_non_member { [project_b] }
           before do
-            get 'index', project_id: 'project_a,project_b', format: 'xml'
+            get 'index', params: { project_id: 'project_a,project_b' }, format: 'xml'
           end
 
           it 'assigns an empty planning_elements array' do
@@ -524,7 +562,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions { [project_a, project_b] }
 
           before do
-            get 'index', project_id: 'project_a,project_b', format: 'xml'
+            get 'index', params: { project_id: 'project_a,project_b' }, format: 'xml'
           end
 
           describe 'w/o any planning elements within the project' do
@@ -550,7 +588,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, project_id: project_c.id)
-              get 'index', project_id: 'project_a,project_b', format: 'xml'
+              get 'index', params: { project_id: 'project_a,project_b' }, format: 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
@@ -578,9 +616,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
 
       def fetch
-        post 'create', project_id: project.identifier,
-                       format: 'xml',
-                       planning_element: planning_element.attributes
+        post 'create',
+             params: {
+               project_id: project.identifier,
+               planning_element: planning_element.attributes
+             },
+             format: 'xml'
       end
 
       def expect_redirect_to
@@ -612,10 +653,13 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       it 'creates a new planning element with the given custom field value' do
         post 'create',
-             project_id: project.identifier,
-             format: 'xml',
-             planning_element: planning_element.attributes.merge(custom_fields: [
-               { id: custom_field.id, value: 'Wurst' }])
+             params: {
+               project_id: project.identifier,
+               planning_element: planning_element.attributes.merge(
+                 custom_fields: [{ id: custom_field.id, value: 'Wurst' }]
+               )
+             },
+             format: 'xml'
         expect(response.response_code).to eq(303)
 
         id = response.headers['Location'].scan(/\d+/).last.to_i
@@ -639,7 +683,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     describe 'w/o a valid planning element id' do
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          get 'show', id: '4711', format: 'xml'
+          get 'show', params: { id: '4711' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -647,7 +691,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          get 'show', project_id: '4711', id: '1337', format: 'xml'
+          get 'show', params: {  project_id: '4711', id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -660,7 +704,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            get 'show', project_id: project.id, id: '1337', format: 'xml'
+            get 'show', params: { project_id: project.id, id: '1337' }, format: 'xml'
 
             expect(response.response_code).to be === 403
           end
@@ -671,7 +715,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
           it 'raises ActiveRecord::RecordNotFound errors' do
             expect {
-              get 'show', project_id: project.id, id: '1337', format: 'xml'
+              get 'show', params: {  project_id: project.id, id: '1337' }, format: 'xml'
             }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
@@ -686,7 +730,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          get 'show', id: planning_element.id, format: 'xml'
+          get 'show', params: { id: planning_element.id }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -697,7 +741,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'show', params: { project_id: project.id, id: planning_element.id }, format: 'xml'
 
             expect(response.response_code).to eq(403)
           end
@@ -707,12 +751,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           it 'assigns the planning_element' do
-            get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'show', params: {  project_id: project.id, id: planning_element.id }, format: 'xml'
             expect(assigns(:planning_element)).to eq(planning_element)
           end
 
           it 'renders the show builder template' do
-            get 'show', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'show', params: {  project_id: project.id, id: planning_element.id }, format: 'xml'
             expect(response).to render_template('planning_elements/show')
           end
         end
@@ -740,7 +784,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
 
       it 'should render the custom field values' do
-        get 'show', project_id: project.identifier, id: planning_element.id, format: 'json'
+        get 'show',
+            params: { project_id: project.identifier, id: planning_element.id },
+            format: 'json'
 
         expect(response).to be_success
         expect(response.header['Content-Type']).to include 'application/json'
@@ -762,10 +808,13 @@ describe Api::V2::PlanningElementsController, type: :controller do
       }
 
       def fetch
-        post 'update', project_id:       project.identifier,
-                       id:               planning_element.id,
-                       planning_element: { name: 'blubs' },
-                       format: 'xml'
+        post 'update',
+             params: {
+               project_id: project.identifier,
+               id: planning_element.id,
+               planning_element: { name: 'blubs' }
+             },
+             format: 'xml'
       end
 
       def expect_no_content
@@ -778,8 +827,10 @@ describe Api::V2::PlanningElementsController, type: :controller do
     describe 'empty' do
       before do
         put :update,
-            project_id: work_package.project_id,
-            id: work_package.id,
+            params: {
+              project_id: work_package.project_id,
+              id: work_package.id
+            },
             format: :xml
       end
 
@@ -791,9 +842,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       before do
         put :update,
-            project_id: work_package.project_id,
-            id: work_package.id,
-            planning_element: { note: note },
+            params: {
+              project_id: work_package.project_id,
+              id: work_package.id,
+              planning_element: { note: note }
+            },
             format: :xml
       end
 
@@ -829,14 +882,16 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       it 'updates the custom field value' do
         put 'update',
-            project_id: project.identifier,
-            format: 'xml',
-            id: planning_element.id,
-            planning_element: {
-              custom_fields: [
-                { id: custom_field.id, value: 'Wurst' }
-              ]
-            }
+            params: {
+              project_id: project.identifier,
+              id: planning_element.id,
+              planning_element: {
+                custom_fields: [
+                  { id: custom_field.id, value: 'Wurst' }
+                ]
+              }
+            },
+            format: :xml
         expect(response.response_code).to eq(204)
 
         wp = WorkPackage.find planning_element.id
@@ -862,10 +917,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
       shared_examples_for 'work package status change' do
         before do
           put 'update',
-              project_id: project.identifier,
-              format: 'xml',
-              id: planning_element.id,
-              planning_element: { status_id: status_b.id }
+              params: {
+                project_id: project.identifier,
+                id: planning_element.id,
+                planning_element: { status_id: status_b.id }
+              },
+              format: 'xml'
         end
 
         it { expect(response.response_code).to eq(expected_response_code) }
@@ -904,7 +961,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     describe 'w/o a valid planning element id' do
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          get 'destroy', id: '4711', format: 'xml'
+          get 'destroy', params: { id: '4711' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -912,7 +969,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          get 'destroy', project_id: '4711', id: '1337', format: 'xml'
+          get 'destroy', params: {  project_id: '4711', id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -925,7 +982,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            get 'destroy', project_id: project.id, id: '1337', format: 'xml'
+            get 'destroy', params: {  project_id: project.id, id: '1337' }, format: 'xml'
 
             expect(response.response_code).to eq(403)
           end
@@ -936,7 +993,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
           it 'raises ActiveRecord::RecordNotFound errors' do
             expect {
-              get 'destroy', project_id: project.id, id: '1337', format: 'xml'
+              get 'destroy', params: {  project_id: project.id, id: '1337' }, format: 'xml'
             }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
@@ -949,7 +1006,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'w/o a given project' do
         it 'renders a 404 Not Found page' do
-          get 'destroy', id: planning_element.id, format: 'xml'
+          get 'destroy', params: { id: planning_element.id }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -960,7 +1017,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_non_member
 
           it 'renders a 403 Forbidden page' do
-            get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'destroy',
+                params: { project_id: project.id, id: planning_element.id },
+                format: :xml
 
             expect(response.response_code).to eq(403)
           end
@@ -970,19 +1029,25 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_delete_planning_element_permissions
 
           it 'assigns the planning_element' do
-            get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'destroy',
+                params: { project_id: project.id, id: planning_element.id },
+                format: :xml
 
             expect(assigns(:planning_element)).to eq(planning_element)
           end
 
           it 'renders the destroy builder template' do
-            get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'destroy',
+                params: { project_id: project.id, id: planning_element.id },
+                format: :xml
 
             expect(response).to render_template('planning_elements/destroy')
           end
 
           it 'deletes the record' do
-            get 'destroy', project_id: project.id, id: planning_element.id, format: 'xml'
+            get 'destroy',
+                params: { project_id: project.id, id: planning_element.id },
+                format: :xml
             expect {
               planning_element.reload
             }.to raise_error(ActiveRecord::RecordNotFound)
