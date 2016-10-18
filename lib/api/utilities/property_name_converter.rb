@@ -56,8 +56,9 @@ module API
           remaining_hours: 'remainingTime',
           spent_hours: 'spentTime',
           subproject: 'subprojectId',
-          relation_type: 'type'
-        }
+          relation_type: 'type',
+          mail: 'email'
+        }.freeze
 
         # Converts the attribute name as refered to by ActiveRecord to a corresponding API-conform
         # attribute name:

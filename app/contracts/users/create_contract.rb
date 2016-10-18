@@ -38,6 +38,13 @@ module Users
       errors.add :password, :blank if model.active? && model.password.blank?
     end
 
+    attribute :status do
+      unless model.active? || model.invited?
+        # New users may only have these two statuses
+        errors.add :status, :invalid_on_create
+      end
+    end
+
     private
 
     ##

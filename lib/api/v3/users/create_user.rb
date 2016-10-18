@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,26 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+require 'api/v3/users/user_representer'
+require 'users/create_user_service'
 
-module Users
-  class BaseContract < ::ModelContract
-    attribute :type
-    attribute :login
-    attribute :firstname
-    attribute :lastname
-    attribute :name
-    attribute :mail
-    attribute :status
+module API
+  module V3
+    module Users
+      module CreateUser
 
-    def initialize(user, current_user)
-      super(user)
+        ##
+        # Call the user create service for the current request
+        # and return the service result API representation
+        def create_user(request_body, current_user)
+          payload = ::API::V3::Users::UserRepresenter.create(User.new, current_user: current_user)
+          new_user = payload.from_hash(request_body)
 
-      @current_user = current_user
+          result = call_service(new_user, current_user)
+          represent_service_result(result, current_user)
+        end
+
+        private
+
+        def represent_service_result(result, current_user)
+          if result.success?
+            ::API::V3::Users::UserRepresenter.create(result.result, current_user: current_user)
+          else
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+          end
+        end
+
+        def call_service(new_user, current_user)
+          create_service = ::Users::CreateUserService.new(current_user: current_user)
+          create_service.call(new_user)
+        end
+      end
     end
-
-    private
-
-    attr_reader :current_user
   end
 end

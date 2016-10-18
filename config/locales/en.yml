@@ -435,6 +435,8 @@ en:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
         user:
           attributes:
+            status:
+              invalid_on_create: "is not a valid status for new users."
             password:
               weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
               lowercase: "lowercase (e.g. 'a')"

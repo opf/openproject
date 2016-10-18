@@ -44,9 +44,22 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
+
+          def allow_only_admin
+            unless current_user.admin?
+              fail ::API::Errors::Unauthorized
+            end
+          end
         end
 
         resources :users do
+          helpers ::API::V3::Users::CreateUser
+
+          post do
+            allow_only_admin
+            create_user(request_body, current_user)
+          end
+
           params do
             requires :id, desc: 'User\'s id'
           end
