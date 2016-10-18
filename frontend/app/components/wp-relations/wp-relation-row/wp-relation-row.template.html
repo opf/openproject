@@ -15,13 +15,19 @@
             </a>
         </div>
 
-        <div class="grid-content medium-3 collapse wp-relations-status-field">
+        <div class="grid-content medium-2 collapse wp-relations-status-field">
             <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
                 <div wp-edit-field="'status'"></div>
             </div>
         </div>
 
-        <div class="grid-content medium-1 collapse wp-relations-controls-section">
+        <div class="grid-content medium-2 collapse wp-relations-controls-section">
+            <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                    execute="$ctrl.showRelationInfo = !$ctrl.showRelationInfo">
+                <icon-wrapper icon-name="info1"
+                              icon-title="'Info for related workpackage'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
                                     ng-if="$ctrl.relation.remove"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
@@ -32,5 +38,31 @@
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>
+    </div>
+
+    <div class="grid-block hierarchy-item" style="border: 1px dotted lightblue; padding:4px;" ng-show="$ctrl.showRelationInfo" ng-init="editDescription = false">
+        <div class="grid-content medium-10 collapse">
+            <div ng-hide="editDescription">
+                {{$ctrl.relatedWorkPackage.relatedBy.description || 'no description set'}}
+            </div>
+            <div ng-show="editDescription">
+                <input type="text" />
+            </div>
+        </div>
+        <div class="grid-content medium-2 collapse" style="text-align: right" ng-hide="editDescription">
+            <accessible-by-keyboard execute="editDescription = true">
+                <icon-wrapper icon-name="edit"
+                              icon-title="'edit description'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+        <div class="grid-content medium-2 collapse" style="text-align: right" ng-show="editDescription">
+            <accessible-by-keyboard execute="editDescription = false">
+                <icon-wrapper icon-name="remove"
+                              icon-title="'edit description'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+
     </div>
 </div>
