@@ -273,7 +273,7 @@ en:
       includes: "Includes"
       part_of: "Part of"
       requires: "Requires"
-      required: "Required"
+      required: "Required by"
 
       relation_type: "relation type"
 
