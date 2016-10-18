@@ -54,9 +54,6 @@ angular.module('openproject.uiComponents')
   .constant('FOCUSABLE_SELECTOR', 'a, button, :input, [tabindex], select')
   .service('FocusHelper', ['$timeout', 'FOCUSABLE_SELECTOR', require(
     './focus-helper')])
-  .directive('hasPreview', [
-    require('./has-preview-directive')
-  ])
   .service('I18n', [require('./i18n')])
   .directive('iconWrapper', [require('./icon-wrapper-directive')])
   .directive('inaccessibleByTab', [require('./inaccessible-by-tab-directive')])

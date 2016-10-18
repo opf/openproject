@@ -46,7 +46,7 @@ module QueriesHelper
 
   # Retrieve query from session or build a new query
   def retrieve_query
-    if !params[:query_id].blank?
+    if params[:query_id].present?
       cond = 'project_id IS NULL'
       cond << " OR project_id = #{@project.id}" if @project
       @query = Query.where(cond).find(params[:query_id])
@@ -67,7 +67,7 @@ module QueriesHelper
           end
         end
 
-        @query.group_by = params[:group_by]
+        @query.group_by = group_by_from_params params
         @query.display_sums = params[:display_sums].present? && params[:display_sums] == 'true'
         @query.column_names = column_names_from_params params
         session[:query] = { project_id: @query.project_id, filters: @query.filters, group_by: @query.group_by, display_sums: @query.display_sums, column_names: @query.column_names }
@@ -114,6 +114,10 @@ module QueriesHelper
   end
 
   module_function
+
+  def group_by_from_params(params)
+    params[:group_by] || params[:groupBy] || params[:g]
+  end
 
   def fields_from_params(query, params)
     fix_field_array(query, params[:fields] || params[:f]).compact

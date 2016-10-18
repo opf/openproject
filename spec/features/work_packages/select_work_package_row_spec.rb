@@ -51,7 +51,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
   describe 'Work package row selection', js: true do
     def select_work_package_row(number, mouse_button_behavior = :left)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.status")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
       loading_indicator_saveguard
       case mouse_button_behavior
       when :double
@@ -64,7 +64,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_shift(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.status")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
       loading_indicator_saveguard
 
       page.driver.browser.action.key_down(:shift)
@@ -74,7 +74,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     def select_work_package_row_with_ctrl(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.status")
+      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
       loading_indicator_saveguard
 
       page.driver.browser.action.key_down(:control)

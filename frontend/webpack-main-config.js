@@ -167,9 +167,7 @@ function getWebpackMainConfig() {
       // We should avoid this since it reduces webpack
       // strengths to discover dependency use.
       new webpack.ProvidePlugin({
-        '_': 'lodash',
-        'URI': 'URIjs',
-        'URITemplate': 'URIjs/src/URITemplate'
+        '_': 'lodash'
       }),
 
       // Restrict loaded ngLocale locales to the ones we load from translations

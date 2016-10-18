@@ -39,6 +39,7 @@ class MenuItem < ActiveRecord::Base
   validates_uniqueness_of :title, scope: [:navigatable_id, :type]
 
   validates_presence_of :name
+  validates_uniqueness_of :name, scope: [:navigatable_id, :parent_id]
 
   def setting
     if new_record?

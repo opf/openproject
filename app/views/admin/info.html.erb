@@ -74,15 +74,9 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
-<%= content_tag :h3, I18n.t('label_system_storage') %>
-
 <% @storage_information.each_with_index do  |(_,entries), i| %>
+<%= content_tag :h3, l(:label_storage_group, identifier: i + 1) %>
 <div class="attributes-group">
-  <div class="attributes-group--header">
-    <div class="attributes-group--header-container">
-      <h3 class="attributes-group--header-text"><%= l(:label_storage_group, identifier: i + 1) %></h3>
-    </div>
-  </div>
   <div class="attributes-key-value">
     <div class="attributes-key-value--key"><%= l(:label_storage_for) %></div>
     <div class="attributes-key-value--value-container">

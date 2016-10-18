@@ -153,6 +153,12 @@ describe 'custom field inplace editor', js: true, selenium: true do
         expect_update '',
                       message: I18n.t('js.notice_successful_update')
         wp_page.expect_attributes fieldName => '-'
+
+        # Zero value
+        field.activate_edition
+        expect_update '0',
+                      message: I18n.t('js.notice_successful_update')
+        wp_page.expect_attributes fieldName => '0'
       end
     end
 

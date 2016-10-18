@@ -32,9 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l("timelines.project_menu.reportings") %>
 <%= toolbar title:  l("timelines.project_menu.reportings") do %>
   <% if authorize_for(:reportings, :new) %>
-    <%= link_to new_project_reporting_path(@project), title: l("timelines.new_reporting"), class: 'button -alt-highlight' do %>
+    <%= link_to new_project_reporting_path(@project),
+          { class: 'button -alt-highlight',
+            aria: {label: t("timelines.new_reporting")},
+            title: t("timelines.new_reporting")} do %>
       <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= l("timelines.new_reporting") %></span>
+      <span class="button--text"><%= t(:label_reporting) %></span>
     <% end %>
   <% end %>
 <% end %>

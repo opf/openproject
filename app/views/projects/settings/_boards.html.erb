@@ -107,9 +107,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if @project.boards.any? %>
       <div class="generic-table--action-buttons">
         <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
-                                class: 'button -alt-highlight') do %>
+                                  { class: 'button -alt-highlight',
+                                    aria: {label: t(:label_board_new)},
+                                    title: t(:label_board_new)}) do %>
           <i class="button--icon icon-add"></i>
-          <span class="button--text"><%= l(:label_board_new) %></span>
+          <span class="button--text"><%= t('activerecord.models.board') %></span>
         <% end %>
       </div>
     <% end %>

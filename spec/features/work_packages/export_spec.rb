@@ -33,12 +33,13 @@ describe 'work package export', type: :feature do
   let(:project) { FactoryGirl.create :project_with_types, types: [type_a, type_b] }
   let(:current_user) { FactoryGirl.create :admin }
 
-  let(:type_a) { FactoryGirl.create :type }
-  let(:type_b) { FactoryGirl.create :type }
+  let(:type_a) { FactoryGirl.create :type, name: "Type A" }
+  let(:type_b) { FactoryGirl.create :type, name: "Type B" }
 
   let(:wp_1) { FactoryGirl.create :work_package, project: project, done_ratio: 25, type: type_a }
   let(:wp_2) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
   let(:wp_3) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_b }
+  let(:wp_4) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
@@ -46,6 +47,7 @@ describe 'work package export', type: :feature do
     wp_1
     wp_2
     wp_3
+    wp_4
 
     allow(User).to receive(:current).and_return current_user
   end
@@ -82,6 +84,29 @@ describe 'work package export', type: :feature do
     expect(page).to have_text(wp_1.description)
     expect(page).to have_text(wp_2.description)
     expect(page).to have_text(wp_3.description)
+    expect(page).to have_text(wp_4.description)
+
+    # results are ordered by ID (desc) and not grouped by type
+    expect(page.text.scan(/Type (A|B)/).flatten).to eq %w(A B A A)
+  end
+
+  it 'shows all work packages grouped by ', js: true do
+    work_packages_page.ensure_loaded
+    work_packages_page.open_settings!
+
+    click_on 'Group by ...'
+    select 'Type', from: 'selected_columns_new'
+    click_on 'Apply'
+
+    export!
+
+    expect(page).to have_text(wp_1.description)
+    expect(page).to have_text(wp_2.description)
+    expect(page).to have_text(wp_3.description)
+    expect(page).to have_text(wp_4.description)
+
+    # grouped by type
+    expect(page.text.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
   end
 
   it 'shows only the work package with the right progress if filtered this way', js: true do

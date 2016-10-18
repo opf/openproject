@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "URIjs": "^1.14.1",
+    "amdefine": "^1.0.0",
     "angular-elastic": "^2.5.0",
     "autoprefixer-loader": "^1.2.0",
     "bower": "^1.4.1",

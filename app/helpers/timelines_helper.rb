@@ -182,6 +182,7 @@ module TimelinesHelper
   def new_timeline_link(project, &block)
     link_to({ controller: '/timelines', action: 'new', project_id: project },
             title: l('timelines.new_timeline'),
+            aria: {label: t('timelines.new_timeline')},
             class: 'button -alt-highlight',
             &block
            )

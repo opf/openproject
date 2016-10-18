@@ -38,7 +38,13 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if User.current.allowed_to? :edit_wiki_pages, @project %>
       <% if @page %>
         <li class="toolbar-item">
-            <%= link_to(l(:create_new_page), {controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page}, class: 'button icon-add -alt-highlight') %>
+            <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
+                { class: 'button -alt-highlight',
+                  aria: {label: t('wiki.index.no_results_content_text')},
+                  title: t('wiki.index.no_results_content_text')}) do %>
+              <i class="button--icon icon-add"></i>
+              <span class="button--text"><%= t(:create_new_page) %></span>
+            <% end %>
         </li>
       <% end %>
     <% end %>

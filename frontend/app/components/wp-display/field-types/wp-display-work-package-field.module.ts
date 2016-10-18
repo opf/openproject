@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,38 +24,44 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/*jshint expr: true*/
+import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
-describe('hasPreview Directive', function() {
-  var compile, element, scope;
+export class WorkPackageDisplayField extends DisplayField {
+  public template: string = '/components/wp-display/field-types/wp-display-work-package-field.directive.html';
+  public text: Object;
 
-  beforeEach(angular.mock.module('openproject.uiComponents'));
-  beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(inject(function($rootScope, $compile) {
-    var html = '<a href="/preview-url" id="text-preview" has-preview>Preview</a>';
+  constructor(public resource:WorkPackageResource,
+              public name:string,
+              public schema) {
+    super(resource, name, schema);
 
-    element = angular.element(html);
-    scope = $rootScope.$new();
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
+    this.text = {
+      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };
-  }));
+  }
 
-  beforeEach(function() {
-    compile();
-  });
+  public get value() {
+    return this.resource[this.name];
+  }
 
-  describe('link element', function() {
-    beforeEach(function() {
-      element.click();
-    });
+  public get wpId() {
+    if (this.value.$loaded) {
+      return this.value.id;
+    }
 
-    xit('should load the preview', function() {
-    });
-  });
-});
+    // Read WP ID from href
+    return this.value.href.match(/(\d+)$/)[0];
+  }
+
+  public get valueString() {
+    return "#" + this.wpId;
+  }
+
+  public isEmpty(): boolean {
+    return !this.value;
+  }
+}

@@ -43,7 +43,7 @@ module Pages
     end
 
     def open_new_member!
-      click_on 'Add Member'
+      page.find('#add-member-button').click
     end
 
     ##
@@ -52,7 +52,7 @@ module Pages
     # @param user_name [String] The full name of the user.
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
-      click_on 'Add Member'
+      page.find('#add-member-button').click
 
       select_principal! user_name if user_name
       select_role! as if as

@@ -70,10 +70,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: e19713a37e64af3d99d84ae901936958ec87de43
-  branch: stable/6
+  revision: 9821ade5d966ef12321618d5fe60c45d8c8573ba
+  branch: release/6.0
   specs:
-    openproject-translations (6.0.4)
+    openproject-translations (6.0.5)
       crowdin-api (~> 0.4.0)
       mixlib-shellout (~> 2.1.0)
       rails (~> 4.2.3)
@@ -237,7 +237,7 @@ GEM
       uber
     docile (1.1.5)
       unf (>= 0.0.5, < 1.0.0)
-    domain_name (0.5.20160615)
+    domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.6.0)
@@ -303,7 +303,7 @@ GEM
     health_check (1.5.1)
       rails (>= 2.3.0)
     htmldiff (0.0.1)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     i18n-js (3.0.0.rc13)
@@ -702,4 +702,4 @@ DEPENDENCIES
   will_paginate (~> 3.1)
 
 BUNDLED WITH
-   1.12.5
+   1.13.2

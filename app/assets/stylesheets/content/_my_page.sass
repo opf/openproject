@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-
 #content
   .mypage-box
     @include content-box
@@ -41,18 +39,32 @@
         border: none
 
 .my-page--container
-  #left,
-  #right
-    @extend .medium-6
+  #right,
+  #left
+    flex: 0 0 50%
+    max-width: 50%
 
   .widget-boxes
     margin: 0 -10px
 
     .widget-box
       margin-bottom: 20px
+      overflow: auto
 
       &:last-child
         margin-bottom: 10px
+
+@include breakpoint(680px down)
+  .my-page--container .grid-block.widget-boxes
+    flex-wrap: wrap
+
+    #right,
+    #left
+      flex: 0 0 100%
+      max-width: 100%
+
+    #left
+      margin-bottom: 0
 
 .handle
   cursor: move
@@ -61,33 +73,11 @@ div.box-actions
   float: right
   z-index: 500
 
-#invisible-grid
-  #top
-    padding: 0 4px
-
-  .container
-    margin-bottom: 24px
-
-    > h3:first-child
-      margin-bottom: 14px
-
 #visible-grid
   .handle
     cursor: move
-
-#visible-grid,
-#invisible-grid
-  // TODO: this fixes an issue which currently breaks the layout
-  // It has to be removed once it is fixed upstream
-  // @see https://github.com/zurb/foundation-apps/issues/575
-  .left, .right
-    @extend .medium-6
-
-  .widget-box
-    margin-bottom: 20px
-
-    &:last-child
-      margin-bottom: 10px
+  &.my-page--container .widget-boxes
+    margin: 0
 
 .block-receiver
   border: 1px dashed $my-page-edit-box-border-color

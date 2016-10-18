@@ -26,25 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageDisplayFieldService} from "./wp-display-field.service";
-import {DisplayField} from "./wp-display-field.module";
-import {TextDisplayField} from "../field-types/wp-display-text-field.module";
-import {ResourceDisplayField} from "../field-types/wp-display-resource-field.module";
-import {StringObjectDisplayField} from "../field-types/wp-display-string-object-field.module";
-import {FormattableDisplayField} from "../field-types/wp-display-formattable-field.module";
-import {DurationDisplayField} from "../field-types/wp-display-duration-field.module";
-import {DateDisplayField} from "../field-types/wp-display-date-field.module";
-import {DateTimeDisplayField} from "../field-types/wp-display-datetime-field.module.ts";
-import {IdDisplayField} from "../field-types/wp-display-id-field.module";
-import {BooleanDisplayField} from "../field-types/wp-display-boolean-field.module";
-import {ProgressDisplayField} from "../field-types/wp-display-progress-field.module";
-import {openprojectModule} from "../../../angular-modules";
+import {WorkPackageDisplayFieldService} from './wp-display-field.service';
+import {TextDisplayField} from '../field-types/wp-display-text-field.module';
+import {ResourceDisplayField} from '../field-types/wp-display-resource-field.module';
+import {StringObjectDisplayField} from '../field-types/wp-display-string-object-field.module';
+import {FormattableDisplayField} from '../field-types/wp-display-formattable-field.module';
+import {DurationDisplayField} from '../field-types/wp-display-duration-field.module';
+import {DateDisplayField} from '../field-types/wp-display-date-field.module';
+import {DateTimeDisplayField} from '../field-types/wp-display-datetime-field.module.ts';
+import {IdDisplayField} from '../field-types/wp-display-id-field.module';
+import {BooleanDisplayField} from '../field-types/wp-display-boolean-field.module';
+import {ProgressDisplayField} from '../field-types/wp-display-progress-field.module';
+import {openprojectModule} from '../../../angular-modules';
+import {SpentTimeDisplayField} from '../field-types/wp-display-spent-time-field.module';
+import {IntegerDisplayField} from "../field-types/wp-display-integer-field.module";
+import {WorkPackageDisplayField} from "../field-types/wp-display-work-package-field.module";
 
 openprojectModule
   .run((wpDisplayField:WorkPackageDisplayFieldService) => {
     wpDisplayField.defaultType = 'text';
     wpDisplayField
       .addFieldType(TextDisplayField, 'text', ['String'])
+      .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
       .addFieldType(ResourceDisplayField, 'resource', ['User',
                                                        'Project',
                                                        'Type',
@@ -59,5 +62,7 @@ openprojectModule
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
       .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
+      .addFieldType(WorkPackageDisplayField, 'work_package', ['WorkPackage'])
+      .addFieldType(SpentTimeDisplayField, 'spentTime', ['spentTime'])
       .addFieldType(IdDisplayField, 'id', ['id']);
   });

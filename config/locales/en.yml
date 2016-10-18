@@ -787,6 +787,9 @@ en:
   error_workflow_copy_target: "Please select target type(s) and role(s)"
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
+  error_wiki_root_menu_item_conflict: >
+    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item
+    with the existing menu item "%{existing_caption}" (%{existing_identifier}).
 
   error_external_authentication_failed: "An error occured during external authentication. Please try again."
 
@@ -970,6 +973,7 @@ en:
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
   label_duplicated_by: "duplicated by"
+  label_duplicate: "duplicate"
   label_duplicates: "duplicates"
   label_edit: "Edit"
   label_enable_multi_select: "Toggle multiselect"
@@ -980,6 +984,7 @@ en:
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
   label_enumeration_new: "New enumeration value"
+  label_enumeration_value: "Enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
@@ -1043,6 +1048,7 @@ en:
   label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
+  label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
@@ -1072,6 +1078,7 @@ en:
   label_member_plural: "Members"
   label_memder_view_all: "View all members"
   label_menu_item_name: "Name of menu item"
+  label_message: "Message"
   label_message_last: "Last message"
   label_message_new: "New message"
   label_message_plural: "Messages"
@@ -1432,7 +1439,7 @@ en:
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unable_delete_time_entry: "Unable to delete time log entry."
   notice_unable_delete_version: "Unable to delete version."
-  notice_user_missing_authentication_method: User has yet to chose a password or another way the sign in.
+  notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: Another invitation has been sent to %{email}.
   present_access_key_value: "Your %{key_name} is: %{value}"
   notice_automatic_set_of_standard_type: "Set standard type automatically."

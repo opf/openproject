@@ -52,10 +52,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if authorize_for(:messages, :new) %>
     <li class="toolbar-item">
       <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
-                    class: 'button -alt-highlight',
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_message_new)},
+                    title: t(:label_message_new)},
                     onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
         <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l(:label_message_new) %></span>
+        <span class="button--text"><%= t(:label_message) %></span>
       <% end %>
     </li>
   <% end %>
