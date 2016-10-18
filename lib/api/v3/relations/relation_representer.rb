@@ -97,8 +97,11 @@ module API
         ##
         # Used while parsing JSON to initialize `from` and `to` through the given links.
         def initialize_embedded_links!(data)
-          represented.from_id = parse_wp_id data, "from"
-          represented.to_id = parse_wp_id data, "to"
+          from_id = parse_wp_id data, "from"
+          to_id = parse_wp_id data, "to"
+
+          represented.from_id = from_id if from_id
+          represented.to_id = to_id if to_id
         end
 
         ##
@@ -112,11 +115,15 @@ module API
         end
 
         def parse_wp_id(data, link_name)
-          ::API::Utilities::ResourceLinkParser.parse_id(
-            data.dig("_links", link_name, "href"),
-            property: :from,
-            expected_version: "3",
-            expected_namespace: "work_packages")
+          value = data.dig("_links", link_name, "href")
+
+          if value
+            ::API::Utilities::ResourceLinkParser.parse_id(
+              value,
+              property: :from,
+              expected_version: "3",
+              expected_namespace: "work_packages")
+          end
         end
 
         def _type

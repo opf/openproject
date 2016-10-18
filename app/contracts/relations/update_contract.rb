@@ -36,9 +36,8 @@ module Relations
     private
 
     def links_immutable
-      if model.from_id_changed? || model.to_id_changed?
-        errors.add :base, :error_readonly
-      end
+      errors.add :from, :error_readonly if model.from_id_changed?
+      errors.add :to, :error_readonly if model.to_id_changed?
     end
   end
 end

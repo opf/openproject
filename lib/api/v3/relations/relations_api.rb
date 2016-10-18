@@ -79,7 +79,7 @@ module API
 
               authorize :manage_work_package_relations, context: project
 
-              Relation.destroy! params[:id]
+              Relation.destroy params[:id]
               status 204
             end
           end

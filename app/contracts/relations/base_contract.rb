@@ -39,8 +39,8 @@ module Relations
     attribute :from_id
     attribute :to_id
 
-    validate :user_allowed_to_manage_relations
     validate :user_allowed_to_access
+    validate :user_allowed_to_manage_relations
 
     attr_reader :user
 
@@ -55,19 +55,14 @@ module Relations
     ##
     # Allow the user only to create/update relations between work packages they are allowed to see.
     def user_allowed_to_access
-      if !work_packages_visible?
-        errors.add :base, :error_not_found
-      end
+      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
+      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
     end
 
     def user_allowed_to_manage_relations
       if !manage_relations?
         errors.add :base, :error_unauthorized
       end
-    end
-
-    def work_packages_visible?
-      visible_work_packages.exists?(model.from_id) && visible_work_packages.exists?(model.to_id)
     end
 
     def visible_work_packages
