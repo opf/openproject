@@ -36,9 +36,15 @@ describe ::API::V3::Relations::RelationRepresenter do
 
   let(:type) { "precedes" }
   let(:description) { "This first" }
+  let(:delay) { 3 }
 
   let(:relation) do
-    FactoryGirl.create :relation, from: from, to: to, relation_type: type, description: description
+    FactoryGirl.create :relation,
+                       from: from,
+                       to: to,
+                       relation_type: type,
+                       description: description,
+                       delay: delay
   end
 
   let(:representer) { described_class.new relation, current_user: user }
@@ -61,18 +67,19 @@ describe ::API::V3::Relations::RelationRepresenter do
         },
         "from" => {
           "href" => "/api/v3/work_packages/#{from.id}",
-          "title" => "Show work package"
+          "title" => from.subject
         },
         "to" => {
           "href" => "/api/v3/work_packages/#{to.id}",
-          "title" => "Show work package"
+          "title" => to.subject
         }
       },
+      "id" => relation.id,
       "name" => "precedes",
       "type" => "precedes",
       "reverseType" => "follows",
       "description" => description,
-      "delay" => 0
+      "delay" => delay
     }
   end
 
@@ -80,5 +87,17 @@ describe ::API::V3::Relations::RelationRepresenter do
     data = JSON.parse representer.to_json
 
     expect(data).to eq result
+  end
+
+  it 'deserializes the relation correctly' do
+    rep = ::API::V3::Relations::RelationRepresenter.new Relation.new, current_user: user
+    rel = rep.from_json result.except(:id).to_json
+
+    expect(rel.from).to eq from
+    expect(rel.to).to eq to
+    expect(rel.delay).to eq delay
+    expect(rel.relation_type).to eq type
+    expect(rel.description).to eq description
+    expect(rel.delay).to eq delay
   end
 end

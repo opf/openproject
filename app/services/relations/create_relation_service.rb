@@ -27,34 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+class CreateRelationService
+  include Concerns::Contracted
 
-module API
-  module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Relations::RelationsAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+  attr_accessor :user
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+  self.contract = Relations::CreateContract
+
+  def initialize(user:)
+    @user = user
+  end
+
+  def call(relation, send_notifications: true)
+    User.execute_as user do
+      JournalManager.with_send_notifications send_notifications do
+        create relation
       end
     end
+  end
+
+  private
+
+  def create(relation)
+    initialize_contract! relation
+
+    result, errors = validate_and_save relation
+
+    ServiceResult.new success: result, errors: errors, result: relation
+  end
+
+  def initialize_contract!(relation)
+    self.contract = self.class.contract.new relation, user
   end
 end

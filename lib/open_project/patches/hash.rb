@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,34 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+# This patch adds a convenience method to models that are including acts_as_list.
+# After including it is possible to e.g. call
+#
+# including_instance.move_to = "highest"
+#
+# and the instance will be sorted to to the top of the list.
+#
+# This enables having the view send string that will be used for sorting.
 
-module API
-  module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Relations::RelationsAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+# Needs to be applied before any of the models using acts_as_list get loaded.
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+module OpenProject
+  module Patches
+    module Hash
+      ##
+      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
+      def dig(*keys)
+        keys.inject(self) { |hash, key| hash && hash.is_a?(Hash) && hash[key] }
       end
     end
   end
+end
+
+if !Hash.instance_methods.include? :dig
+  Hash.prepend OpenProject::Patches::Hash
 end

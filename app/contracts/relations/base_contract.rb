@@ -27,34 +27,55 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'model_contract'
 
-module API
-  module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Relations::RelationsAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+module Relations
+  class BaseContract < ::ModelContract
+    attribute :relation_type
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+    attribute :delay
+    attribute :description
+
+    attribute :from_id
+    attribute :to_id
+
+    validate :user_allowed_to_manage_relations
+    validate :user_allowed_to_access
+
+    attr_reader :user
+
+    def initialize(relation, user)
+      super relation
+
+      @user = user
+    end
+
+    private
+
+    ##
+    # Allow the user only to create/update relations between work packages they are allowed to see.
+    def user_allowed_to_access
+      if !work_packages_visible?
+        errors.add :base, :error_not_found
       end
+    end
+
+    def user_allowed_to_manage_relations
+      if !manage_relations?
+        errors.add :base, :error_unauthorized
+      end
+    end
+
+    def work_packages_visible?
+      visible_work_packages.exists?(model.from_id) && visible_work_packages.exists?(model.to_id)
+    end
+
+    def visible_work_packages
+      ::WorkPackage.visible(user)
+    end
+
+    def manage_relations?
+      user.allowed_to? :manage_work_package_relations, model.from.project
     end
   end
 end

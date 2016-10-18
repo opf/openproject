@@ -106,7 +106,6 @@ module API
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
-            mount ::API::V3::Relations::RelationsAPI
             mount ::API::V3::Activities::ActivitiesByWorkPackageAPI
             mount ::API::V3::Attachments::AttachmentsByWorkPackageAPI
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI

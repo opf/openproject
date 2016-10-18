@@ -27,53 +27,73 @@
 #++
 
 require 'api/v3/relations/relation_representer'
+require 'relations/create_relation_service'
+require 'relations/update_relation_service'
 
 module API
   module V3
     module Relations
       class RelationsAPI < ::API::OpenProjectAPI
+        helpers RelationHelpers
+
         resources :relations do
           get do
-            relations = @work_package.relations.select { |relation|
-              relation.other_work_package(@work_package).visible?
-            }
+            relations = Relation.all
 
             RelationCollectionRepresenter.new(relations,
-                                              api_v3_paths.work_package_relations(@work_package.id),
-                                              work_package: @work_package,
+                                              api_v3_paths.relations,
                                               current_user: current_user)
           end
 
           params do
-            optional :to_id, desc: 'Id of related work package'
-            optional :relation_type, desc: 'Type of relationship'
-            optional :delay
+            requires :id, type: Integer, desc: 'Relation id'
           end
-          post do
-            authorize(:manage_work_package_relations, context: @work_package.project)
-            declared_params = declared(params)
-                              .with_indifferent_access
-                              .reject { |key, value| key == :id || value.nil? }
-
-            relation = @work_package.new_relation.tap do |r|
-              r.to = WorkPackage.visible.find_by(id: declared_params[:to_id].match(/\d+/).to_s)
-              r.relation_type = declared_params[:relation_type]
-              r.delay = declared_params[:delay_id]
+          route_param :id do
+            get do
+              representer.new(
+                Relation.find_by_id!(params[:id]),
+                current_user: current_user,
+                embed_links: true
+              )
             end
 
-            if relation.valid? && relation.save
-              representer = RelationRepresenter.new(relation, current_user: current_user)
-              representer
-            else
-              fail ::API::Errors::Validation.new(nil, I18n.t('api_v3.errors.invalid_relation'))
-            end
-          end
+            patch do
+              rep = representer.new Relation.new, current_user: current_user
+              relation = rep.from_json request.body.read
+              attributes = filter_attributes relation
+              service = ::UpdateRelationService.new relation: Relation.find_by_id!(params[:id]),
+                                                    user: current_user
+              call = service.call attributes: attributes,
+                                  send_notifications: !(params[:notify] == 'false')
 
-          route_param :relation_id do
+              if call.success?
+                representer.new call.result, current_user: current_user, embed_links: true
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
+
             delete do
-              authorize(:manage_work_package_relations, context: @work_package.project)
-              Relation.destroy(params[:relation_id])
+              project_id = project_id_for_relation params[:id]
+              project = Project.find project_id
+
+              authorize :manage_work_package_relations, context: project
+
+              Relation.destroy! params[:id]
               status 204
+            end
+          end
+
+          post do
+            rep = representer.new Relation.new, current_user: current_user
+            relation = rep.from_json request.body.read
+            service = ::CreateRelationService.new user: current_user
+            call = service.call relation, send_notifications: !(params[:notify] == 'false')
+
+            if call.success?
+              representer.new call.result, current_user: current_user, embed_links: true
+            else
+              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
             end
           end
         end

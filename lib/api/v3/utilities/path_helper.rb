@@ -139,6 +139,10 @@ module API
             "#{root}/relations/#{id}"
           end
 
+          def self.relations
+            "#{root}/relations"
+          end
+
           def self.revision(id)
             "#{root}/revisions/#{id}"
           end

@@ -41,14 +41,14 @@ module API
         link :from do
           {
             href: api_v3_paths.work_package(represented.from_id),
-            title: "Show work package"
+            title: represented.from.subject
           }
         end
 
         link :to do
           {
             href: api_v3_paths.work_package(represented.to_id),
-            title: "Show work package"
+            title: represented.to.subject
           }
         end
 
@@ -68,6 +68,8 @@ module API
           end
         end
 
+        property :id
+
         property :name, exec_context: :decorator
 
         property :relation_type, as: :type
@@ -82,24 +84,75 @@ module API
         # run before saving any relation.
         property :delay,
                  render_nil: true,
-                 if: -> (*) { relation_type == "precedes" }
+                 if: -> (*) {
+                   # the relation type may be blank when parsing for an update
+                   relation_type == "precedes" || relation_type.blank?
+                 }
 
         property :description, render_nil: true
 
+        property :from, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
+        property :to, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
+
+        ##
+        # Used while parsing JSON to initialize `from` and `to` through the given links.
+        def initialize_embedded_links!(data)
+          represented.from_id = parse_wp_id data, "from"
+          represented.to_id = parse_wp_id data, "to"
+        end
+
+        ##
+        # Overrides Roar::JSON::HAL::Resources#from_hash
+        def from_hash(hash, *)
+          if hash["_links"]
+            initialize_embedded_links! hash
+          end
+
+          super
+        end
+
+        def parse_wp_id(data, link_name)
+          ::API::Utilities::ResourceLinkParser.parse_id(
+            data.dig("_links", link_name, "href"),
+            property: :from,
+            expected_version: "3",
+            expected_namespace: "work_packages")
+        end
+
         def _type
-          "Relation"
+          @_type ||= "Relation"
+        end
+
+        def _type=(_type)
+          # readonly
         end
 
         def name
           I18n.t "label_#{represented.relation_type}"
         end
 
+        def name=(name)
+          # readonly
+        end
+
         def reverse_type
           Relation::TYPES[represented.relation_type][:sym]
         end
 
+        def reverse_type=(reverse_type)
+          # readonly
+        end
+
         def manage_relations?
           current_user_allowed_to :manage_work_package_relations, context: represented.from.project
+        end
+
+        def from
+          represented.from
+        end
+
+        def to
+          represented.to
         end
       end
     end
