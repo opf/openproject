@@ -28,6 +28,7 @@
 #++
 
 require 'work_packages/create_contract'
+require 'concerns/user_invitation'
 
 module Users
   class CreateUserService
@@ -52,11 +53,46 @@ module Users
     def create(new_user)
       initialize_contract(new_user)
 
-      result, errors = validate_and_save(new_user)
+      unless new_user.invited?
+        _, errors = validate_and_save(new_user)
+        return build_result(new_user, errors)
+      end
 
-      ServiceResult.new(success: result,
-                        errors: errors,
-                        result: new_user)
+      # As we're basing on the user's mail, this parameter is required
+      # before we're able to validate the contract or user
+      if new_user.mail.blank?
+        contract.errors.add :mail, :blank
+        build_result(new_user, contract.errors)
+      else
+        create_invited(new_user)
+      end
+    end
+
+    def build_result(result, errors)
+      success = result.is_a?(User) && errors.empty?
+      ServiceResult.new(success: success, errors: errors, result: result)
+    end
+
+    ##
+    # User creation flow for users that are invited.
+    # Re-uses UserInvitation and thus avoids +validate_and_save+
+    def create_invited(new_user)
+      # Assign values other than mail to new_user
+      ::UserInvitation.assign_user_attributes new_user
+
+      # Check contract validity before moving to UserInvitation
+      if !contract.validate
+        build_result(new_user, contract.errors)
+      end
+
+      invite_user! new_user
+    end
+
+    def invite_user!(new_user)
+      invited = ::UserInvitation.invite_user! new_user
+      new_user.errors.add :base, I18n.t(:error_can_not_invite_user) unless invited.is_a? User
+
+      build_result(invited, new_user.errors)
     end
 
     def initialize_contract(new_user)

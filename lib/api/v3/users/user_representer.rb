@@ -97,9 +97,9 @@ module API
                  render_nil: true,
                  # FIXME: remove the "is_a?" as soon as we have a dedicated group representer
                  getter: ->(*) {
-                  if self.is_a?(User) && !pref.hide_mail
-                    mail
-                  end
+                   if is_a?(User) && !pref.hide_mail
+                     mail
+                   end
                  }
         property :avatar,
                  getter: -> (*) { avatar_url(represented) },
@@ -123,9 +123,8 @@ module API
                  getter: -> (*) { nil },
                  render_nil: false,
                  setter: -> (value, *) {
-                  self.password = self.password_confirmation = value
+                   self.password = self.password_confirmation = value
                  }
-
 
         def _type
           'User'

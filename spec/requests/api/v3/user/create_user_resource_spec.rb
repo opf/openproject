@@ -39,22 +39,41 @@ describe ::API::V3::Users::UsersAPI do
 
   before do
     login_as(user)
+  end
+
+  def send_request
     post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
   end
 
   subject(:response) { last_response }
-  let(:errors) {
-    parse_json(subject.body)['_embedded']['errors']
-  }
+  let(:errors) { parse_json(subject.body)['_embedded']['errors'] }
+
+  shared_context 'represents the created user' do |expected_attributes|
+    it 'returns the represented user' do
+      send_request
+
+      expect(subject.body).to have_json_type(Object).at_path('_links')
+      expect(subject.body)
+        .to be_json_eql('User'.to_json)
+        .at_path('_type')
+
+      parameters.merge!(expected_attributes) if expected_attributes
+
+      user = User.find_by!(login: parameters.fetch(:login, parameters[:email]))
+      expect(user.firstname).to eq(parameters[:firstName])
+      expect(user.lastname).to eq(parameters[:lastName])
+      expect(user.mail).to eq(parameters[:email])
+    end
+  end
 
   describe 'empty request body' do
-    it 'should return 422' do
-      expect(response.status).to eq(422)
-    end
+    it 'returns an erroneous response' do
+      send_request
 
-    it 'has 5 validation errors' do
+      expect(response.status).to eq(422)
+
       expect(errors.count).to eq(5)
-      expect(errors.collect{ |el| el['_embedded']['details']['attribute']})
+      expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
         .to contain_exactly('password', 'login', 'firstname', 'lastname', 'email')
 
       expect(subject.body)
@@ -72,13 +91,15 @@ describe ::API::V3::Users::UsersAPI do
         firstName: 'Foo',
         lastName: 'Bar',
         email: 'foobar@example.org',
-        password: password,
+        password: password
       }
     }
 
     describe 'active status' do
       let(:status) { 'active' }
       it 'returns the represented user' do
+        send_request
+
         expect(subject.body).not_to have_json_path("_embedded/errors")
         expect(subject.body).to have_json_type(Object).at_path('_links')
         expect(subject.body)
@@ -86,20 +107,72 @@ describe ::API::V3::Users::UsersAPI do
           .at_path('_type')
       end
 
-      it 'creates the user' do
-        user = User.find_by!(login: 'myusername')
-        expect(user.firstname).to eq('Foo')
-        expect(user.lastname).to eq('Bar')
-        expect(user.mail).to eq('foobar@example.org')
-      end
+      it_behaves_like 'represents the created user'
 
       context 'empty password' do
         let(:password) { '' }
 
         it 'marks the password missing and too short' do
+          send_request
+
           expect(errors.count).to eq(2)
-          expect(errors.collect{ |el| el['_embedded']['details']['attribute']})
+          expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
             .to match_array %w(password password)
+        end
+      end
+    end
+
+    describe 'invited status' do
+      let(:status) { 'invited' }
+      let(:invitation_request) {
+        {
+          status: status,
+          email: 'foo@example.org'
+        }
+      }
+
+      describe 'invitation successful' do
+        before do
+          expect(OpenProject::Notifications).to receive(:send) do |event, _|
+            expect(event).to eq 'user_invited'
+          end
+        end
+
+        context 'only mail set' do
+          let(:parameters) { invitation_request }
+
+          it_behaves_like 'represents the created user',
+                          { firstName: 'foo', lastName: '@example.org' }
+
+          it 'sets the other attributes' do
+            send_request
+
+            user = User.find_by!(login: 'foo@example.org')
+            expect(user.firstname).to eq('foo')
+            expect(user.lastname).to eq('@example.org')
+            expect(user.mail).to eq('foo@example.org')
+          end
+        end
+
+        context 'mail and name set' do
+          let(:parameters) { invitation_request.merge(firstName: 'First', lastName: 'Last') }
+
+          it_behaves_like 'represents the created user'
+        end
+      end
+
+      context 'missing email' do
+        let(:parameters) { { status: status } }
+
+        it 'marks the mail as missing' do
+          send_request
+
+          expect(subject.body)
+            .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
+            .at_path('errorIdentifier')
+          expect(subject.body)
+            .to be_json_eql('email'.to_json)
+            .at_path('_embedded/details/attribute')
         end
       end
     end

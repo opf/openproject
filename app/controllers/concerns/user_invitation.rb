@@ -43,9 +43,6 @@ module UserInvitation
 
   ##
   # Creates an invited user with the given email address.
-  # If no first and last is given it will default to 'OpenProject User'
-  # for the first name and 'To-be' for the last name.
-  # The default login is the email address.
   #
   # @param email E-Mail address the invitation is sent to.
   # @param login User's login (optional)
@@ -58,17 +55,32 @@ module UserInvitation
   #         on the returned user will yield `false`. Check for validation errors
   #         in that case.
   def invite_new_user(email:, login: nil, first_name: nil, last_name: nil)
-    placeholder = placeholder_name(email)
-
-    user = User.new login: login || email,
-                    mail: email,
-                    firstname: first_name || placeholder.first,
-                    lastname: last_name || placeholder.last,
+    user = User.new mail: email,
+                    login: login,
+                    firstname: first_name,
+                    lastname: last_name,
                     status: Principal::STATUSES[:invited]
+
+    assign_user_attributes(user)
 
     yield user if block_given?
 
     invite_user! user
+  end
+
+  ##
+  # For the given user with at least the mail attribute set,
+  # derives login and first name
+  #
+  # If no first and last is given it will default to 'OpenProject User'
+  # for the first name and 'To-be' for the last name.
+  # The default login is the email address.
+  def assign_user_attributes(user)
+    placeholder = placeholder_name(user.mail)
+
+    user.login = user.login.presence || user.mail
+    user.firstname = user.firstname.presence || placeholder.first
+    user.lastname = user.lastname.presence || placeholder.last
   end
 
   ##

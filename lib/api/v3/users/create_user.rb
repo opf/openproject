@@ -33,7 +33,6 @@ module API
   module V3
     module Users
       module CreateUser
-
         ##
         # Call the user create service for the current request
         # and return the service result API representation
