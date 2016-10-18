@@ -253,9 +253,8 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  # TODO: switch to dev branch again after feature/rails5 has been merged in translations
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git',
-                                  branch: 'feature/rails5'
+                                  branch: 'dev'
 end
 
 # TODO: Make this group :optional when bundler v10.x
