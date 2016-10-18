@@ -237,7 +237,7 @@ GEM
       uber
     docile (1.1.5)
       unf (>= 0.0.5, < 1.0.0)
-    domain_name (0.5.20160615)
+    domain_name (0.5.20160826)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.6.0)
@@ -303,7 +303,7 @@ GEM
     health_check (1.5.1)
       rails (>= 2.3.0)
     htmldiff (0.0.1)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     i18n-js (3.0.0.rc13)
@@ -702,4 +702,4 @@ DEPENDENCIES
   will_paginate (~> 3.1)
 
 BUNDLED WITH
-   1.12.5
+   1.13.2
