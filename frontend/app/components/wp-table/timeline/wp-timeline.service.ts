@@ -53,7 +53,19 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams: TimelineViewParameters;
   workPackage: WorkPackage;
+  globalElements: GlobalElementsRegistry;
 }
+
+export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
+  const daysInPx = days * viewParams.pixelPerDay;
+  if (viewParams.showDurationInPx) {
+    return daysInPx + "px";
+  } else {
+    return (daysInPx / viewParams.maxWidthInPx * 100) + "%";
+  }
+}
+
+type GlobalElementsRegistry = {[type: string]: (wp: WorkPackage, elem: HTMLDivElement) => any};
 
 export class WorkPackageTimelineService {
 
@@ -63,8 +75,21 @@ export class WorkPackageTimelineService {
 
   private viewParamsSubject = new Rx.BehaviorSubject<TimelineViewParameters>(new TimelineViewParameters());
 
+  private globalElementsRegistry: GlobalElementsRegistry = {};
+
   constructor(private states: States) {
     "ngInject";
+
+    // Today Line
+    this.globalElementsRegistry["today"] = (wp: WorkPackage, elem: HTMLDivElement) => {
+      elem.style.position = "absolute";
+      elem.style.width = "2px";
+      elem.style.borderLeft = "2px dotted red";
+      elem.style.zIndex = "10";
+      const offsetToday = this._viewParameters.now.diff(this._viewParameters.dateDisplayStart, "days");
+      elem.style.left = calculatePositionValueForDayCount(this._viewParameters, offsetToday);
+    };
+
   }
 
   get viewParameters() {
@@ -79,7 +104,8 @@ export class WorkPackageTimelineService {
         (vp: TimelineViewParameters, wp: any) => {
           return {
             viewParams: vp,
-            workPackage: wp
+            workPackage: wp,
+            globalElements: this.globalElementsRegistry
           };
         }
       )
@@ -97,7 +123,6 @@ export class WorkPackageTimelineService {
           return Observable.just(renderInfo);
         }
       });
-
   }
 
   private calculateViewParams(): boolean {
