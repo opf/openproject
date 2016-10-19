@@ -126,6 +126,13 @@ module API
           } if current_user_allowed_to(:export_work_packages, context: represented.project)
         end
 
+        link :available_relation_candidates do
+          {
+            href: "/api/v3/work_packages/#{represented.id}/available_relation_candidates",
+            title: "Potential work packages to relate to"
+          }
+        end
+
         linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
         linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 

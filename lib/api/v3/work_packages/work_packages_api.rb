@@ -111,6 +111,8 @@ module API
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
+            mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
+            mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
