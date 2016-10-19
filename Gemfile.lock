@@ -60,8 +60,8 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: c0b9604210e7bfb2d3e3ddae0d847c27df593966
-  branch: feature/rails5
+  revision: 8abfca801cda8c4b3b44f1ffc8aea9e39604d1be
+  branch: dev
   specs:
     openproject-translations (6.1.0)
       crowdin-api (~> 0.4.1)
@@ -312,7 +312,7 @@ GEM
     health_check (2.2.1)
       rails (>= 4.0)
     htmldiff (0.0.1)
-    http-cookie (1.0.2)
+    http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.7.0)
     i18n-js (3.0.0.rc14)
