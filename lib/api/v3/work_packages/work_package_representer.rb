@@ -400,7 +400,6 @@ module API
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,
-                                                                  work_package: represented,
                                                                   current_user: current_user)
         end
 
