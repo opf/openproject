@@ -194,4 +194,14 @@ describe ::API::V3::Users::UsersAPI do
         .to include 'Status is not a valid status for new users.'
     end
   end
+
+  describe 'unauthorized user' do
+    let(:user) { FactoryGirl.build(:user) }
+    let(:parameters) { { status: 'invited', email: 'foo@example.org' } }
+
+    it 'returns an erroneous response' do
+      send_request
+      expect(response.status).to eq(403)
+    end
+  end
 end
