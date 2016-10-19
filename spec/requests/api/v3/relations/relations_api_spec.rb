@@ -231,6 +231,12 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
 
         expect(attr).to eq "to"
       end
+
+      it "should have a localized error message" do
+        message = JSON.parse(response.body)["message"]
+
+        expect(message).not_to include "translation missing"
+      end
     end
   end
 
