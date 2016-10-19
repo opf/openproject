@@ -82,7 +82,8 @@ describe ::API::V3::Users::UsersAPI do
     end
   end
 
-  describe 'creating a user' do
+  describe 'active status' do
+    let(:status) { 'active' }
     let(:password) { 'admin!admin!' }
     let(:parameters) {
       {
@@ -95,86 +96,102 @@ describe ::API::V3::Users::UsersAPI do
       }
     }
 
-    describe 'active status' do
-      let(:status) { 'active' }
-      it 'returns the represented user' do
+    it 'returns the represented user' do
+      send_request
+
+      expect(subject.body).not_to have_json_path("_embedded/errors")
+      expect(subject.body).to have_json_type(Object).at_path('_links')
+      expect(subject.body)
+        .to be_json_eql('User'.to_json)
+        .at_path('_type')
+    end
+
+    it_behaves_like 'represents the created user'
+
+    context 'empty password' do
+      let(:password) { '' }
+
+      it 'marks the password missing and too short' do
         send_request
 
-        expect(subject.body).not_to have_json_path("_embedded/errors")
-        expect(subject.body).to have_json_type(Object).at_path('_links')
-        expect(subject.body)
-          .to be_json_eql('User'.to_json)
-          .at_path('_type')
+        expect(errors.count).to eq(2)
+        expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
+          .to match_array %w(password password)
+      end
+    end
+  end
+
+  describe 'invited status' do
+    let(:status) { 'invited' }
+    let(:invitation_request) {
+      {
+        status: status,
+        email: 'foo@example.org'
+      }
+    }
+
+    describe 'invitation successful' do
+      before do
+        expect(OpenProject::Notifications).to receive(:send) do |event, _|
+          expect(event).to eq 'user_invited'
+        end
       end
 
-      it_behaves_like 'represents the created user'
+      context 'only mail set' do
+        let(:parameters) { invitation_request }
 
-      context 'empty password' do
-        let(:password) { '' }
+        it_behaves_like 'represents the created user',
+                        firstName: 'foo',
+                        lastName: '@example.org'
 
-        it 'marks the password missing and too short' do
+        it 'sets the other attributes' do
           send_request
 
-          expect(errors.count).to eq(2)
-          expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
-            .to match_array %w(password password)
+          user = User.find_by!(login: 'foo@example.org')
+          expect(user.firstname).to eq('foo')
+          expect(user.lastname).to eq('@example.org')
+          expect(user.mail).to eq('foo@example.org')
         end
+      end
+
+      context 'mail and name set' do
+        let(:parameters) { invitation_request.merge(firstName: 'First', lastName: 'Last') }
+
+        it_behaves_like 'represents the created user'
       end
     end
 
-    describe 'invited status' do
-      let(:status) { 'invited' }
-      let(:invitation_request) {
-        {
-          status: status,
-          email: 'foo@example.org'
-        }
-      }
+    context 'missing email' do
+      let(:parameters) { { status: status } }
 
-      describe 'invitation successful' do
-        before do
-          expect(OpenProject::Notifications).to receive(:send) do |event, _|
-            expect(event).to eq 'user_invited'
-          end
-        end
+      it 'marks the mail as missing' do
+        send_request
 
-        context 'only mail set' do
-          let(:parameters) { invitation_request }
-
-          it_behaves_like 'represents the created user',
-                          { firstName: 'foo', lastName: '@example.org' }
-
-          it 'sets the other attributes' do
-            send_request
-
-            user = User.find_by!(login: 'foo@example.org')
-            expect(user.firstname).to eq('foo')
-            expect(user.lastname).to eq('@example.org')
-            expect(user.mail).to eq('foo@example.org')
-          end
-        end
-
-        context 'mail and name set' do
-          let(:parameters) { invitation_request.merge(firstName: 'First', lastName: 'Last') }
-
-          it_behaves_like 'represents the created user'
-        end
+        expect(subject.body)
+          .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
+          .at_path('errorIdentifier')
+        expect(subject.body)
+          .to be_json_eql('email'.to_json)
+          .at_path('_embedded/details/attribute')
       end
+    end
+  end
 
-      context 'missing email' do
-        let(:parameters) { { status: status } }
+  describe 'invalid status' do
+    let(:parameters) { { status: 'blablu' } }
 
-        it 'marks the mail as missing' do
-          send_request
+    it 'returns an erroneous response' do
+      send_request
 
-          expect(subject.body)
-            .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
-            .at_path('errorIdentifier')
-          expect(subject.body)
-            .to be_json_eql('email'.to_json)
-            .at_path('_embedded/details/attribute')
-        end
-      end
+      expect(response.status).to eq(422)
+
+      expect(errors).not_to be_empty
+      expect(subject.body)
+        .to be_json_eql('urn:openproject-org:api:v3:errors:MultipleErrors'.to_json)
+        .at_path('errorIdentifier')
+
+      expect(errors.collect { |el| el['message'] })
+        .to include 'Status is not a valid status for new users.'
     end
   end
 end

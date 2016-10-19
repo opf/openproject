@@ -53,10 +53,7 @@ module Users
     def create(new_user)
       initialize_contract(new_user)
 
-      unless new_user.invited?
-        _, errors = validate_and_save(new_user)
-        return build_result(new_user, errors)
-      end
+      return create_regular(new_user) unless new_user.invited?
 
       # As we're basing on the user's mail, this parameter is required
       # before we're able to validate the contract or user
@@ -71,6 +68,13 @@ module Users
     def build_result(result, errors)
       success = result.is_a?(User) && errors.empty?
       ServiceResult.new(success: success, errors: errors, result: result)
+    end
+
+    ##
+    # Create regular user
+    def create_regular(new_user)
+      result, errors = validate_and_save(new_user)
+      ServiceResult.new(success: result, errors: errors, result: new_user)
     end
 
     ##

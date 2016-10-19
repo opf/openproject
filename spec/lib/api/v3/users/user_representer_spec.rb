@@ -58,8 +58,8 @@ describe ::API::V3::Users::UserRepresenter do
         let(:preference) { FactoryGirl.build(:user_preference, hide_mail: true) }
         let(:user) { FactoryGirl.build_stubbed(:user, status: 1, preference: preference) }
 
-        it 'hides the users E-Mail address' do
-          is_expected.not_to have_json_path('email')
+        it 'does not render the users E-Mail address' do
+          is_expected.to be_json_eql(nil.to_json).at_path('email')
         end
       end
     end
