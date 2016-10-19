@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.2
   Exclude:
     - db/schema.rb
     - lib/plugins/rfpdf/**/*
