@@ -97,7 +97,11 @@ export class WorkPackageRelationsService {
       {name: 'blocks', type: 'Relation::Blocks', label: this.I18n.t('js.relation_labels.blocks')},
       {name: 'blocked', type: 'Relation::Blocked', label: this.I18n.t('js.relation_labels.blocked')},
       {name: 'precedes', type: 'Relation::Precedes', label: this.I18n.t('js.relation_labels.precedes')},
-      {name: 'follows', type: 'Relation::Follows', label: this.I18n.t('js.relation_labels.follows')}
+      {name: 'follows', type: 'Relation::Follows', label: this.I18n.t('js.relation_labels.follows')},
+      {name: 'includes', type: 'Relation::Includes', label: this.I18n.t('js.relation_labels.includes')},
+      {name: 'partof', type: 'Relation::Partof', label: this.I18n.t('js.relation_labels.part_of')},
+      {name: 'requires', type: 'Relation::Requires', label: this.I18n.t('js.relation_labels.requires')},
+      {name: 'required', type: 'Relation::Required', label: this.I18n.t('js.relation_labels.required')},
     ]
   };
 }

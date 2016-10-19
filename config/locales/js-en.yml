@@ -270,6 +270,10 @@ en:
       blocked: "Blocked by"
       precedes: "Precedes"
       follows: "Follows"
+      includes: "Includes"
+      part_of: "Part of"
+      requires: "Requires"
+      required: "Required by"
 
       relation_type: "relation type"
 
