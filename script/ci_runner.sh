@@ -39,16 +39,16 @@ case "$TEST_SUITE" in
         spec_legacy)
             echo "Preparing SCM test repositories for legacy specs"
             bundle exec rake test:scm:setup:all
-            bundle exec rspec -I spec_legacy spec_legacy
+            exec bundle exec rspec -I spec_legacy spec_legacy
             ;;
         cucumber)
-            bundle exec rake parallel:cucumber
+            exec bundle exec rake parallel:cucumber
             ;;
         specs)
-            bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
+            exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
             ;;
         features)
-            bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
+            exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
             echo "Unknown TEST_SUITE $TEST_SUITE"
