@@ -122,7 +122,8 @@ module API
               value,
               property: :from,
               expected_version: "3",
-              expected_namespace: "work_packages")
+              expected_namespace: "work_packages"
+            )
           end
         end
 

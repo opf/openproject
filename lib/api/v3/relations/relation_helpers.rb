@@ -48,7 +48,7 @@ module API
           Relation
             .joins(:from)
             .where("#{relations}.id" => id)
-            .pluck("#{relations}.id, #{work_packages}.project_id")
+            .pluck("#{work_packages}.project_id")
             .first
         end
       end

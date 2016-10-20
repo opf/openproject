@@ -34,10 +34,18 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   let(:project_1) { FactoryGirl.create :project }
 
   let!(:wp_1) { FactoryGirl.create :work_package, project: project_1, subject: "WP 1" }
-  let!(:wp_1_1) { FactoryGirl.create :work_package, parent: wp_1, project: project_1, subject: "WP 1.1" }
-  let!(:wp_1_2) { FactoryGirl.create :work_package, parent: wp_1, project: project_1, subject: "WP 1.2" }
-  let!(:wp_1_2_1) { FactoryGirl.create :work_package, parent: wp_1_2, project: project_1, subject: "WP 1.2.1" }
 
+  let!(:wp_1_1) do
+    FactoryGirl.create :work_package, parent: wp_1, project: project_1, subject: "WP 1.1"
+  end
+
+  let!(:wp_1_2) do
+    FactoryGirl.create :work_package, parent: wp_1, project: project_1, subject: "WP 1.2"
+  end
+
+  let!(:wp_1_2_1) do
+    FactoryGirl.create :work_package, parent: wp_1_2, project: project_1, subject: "WP 1.2.1"
+  end
 
   let(:project_2) { FactoryGirl.create :project }
 
@@ -45,7 +53,9 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   let!(:wp_2_1) { FactoryGirl.create :work_package, project: project_2, subject: "WP 2.1" }
   let!(:wp_2_2) { FactoryGirl.create :work_package, project: project_2, subject: "WP 2.2" }
 
-  let!(:relation_wp_2_1_to_wp_2_2) { FactoryGirl.create :relation, from: wp_2_1, to: wp_2_2, relation_type: "relates" }
+  let!(:relation_wp_2_1_to_wp_2_2) do
+    FactoryGirl.create :relation, from: wp_2_1, to: wp_2_2, relation_type: "relates"
+  end
 
   let(:result) { JSON.parse response.body }
 

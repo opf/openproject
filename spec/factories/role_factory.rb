@@ -54,11 +54,12 @@ FactoryGirl.define do
       permissions []
 
       initialize_with do
-        if Role.where(name: name).exists?
-          role = Role.find_by(name: name)
-        else
-          role = Role.create name: name, assignable: assignable
-        end
+        role =
+          if Role.where(name: name).exists?
+            Role.find_by(name: name)
+          else
+            Role.create name: name, assignable: assignable
+          end
 
         role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })
 

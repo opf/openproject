@@ -30,6 +30,8 @@ module API
   module V3
     module WorkPackages
       class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
+        include API::V3::Utilities::PathHelper
+
         resources :available_relation_candidates do
           params do
             requires :query, type: String # either WP ID or part of its subject
@@ -38,29 +40,46 @@ module API
           end
           get do
             from = @work_package
-
-            query = WorkPackage
-              .where("id = ? OR subject LIKE ?", params[:query].to_i, "%#{params[:query]}%")
-              .where.not(id: from.id) # can't relate to itself
-              .limit(params[:pageSize])
-
-            if !Setting.cross_project_work_package_relations?
-              query = query.where(project_id: from.project_id) # has to be same project
-            end
-
-            work_packages = query
-              .reject do |to|
-                rel = Relation.new(relation_type: params[:type], from: from, to: to)
-
-                rel.shared_hierarchy? || rel.circular_dependency?
-              end
+            query = work_package_query from, params[:type], params[:pageSize]
+            work_packages = filter_work_packages query, from, params[:type]
 
             ::API::V3::WorkPackages::WorkPackageListRepresenter.new(
               work_packages,
-              "/api/v3/work_package/#{@work_package.id}/available_relation_candidates",
+              api_v3_paths.available_relation_candidates(from.id),
               current_user: current_user
             )
           end
+        end
+
+        private
+
+        ##
+        # Queries the compatible work package's to the given one as much as possible through the
+        # database.
+        #
+        # @param from [WorkPackage] The work package in the `from` position of a relation.
+        # @param type [String] The type of relation (e.g. follows, blocks, etc.) to be checked.
+        # @param limit [Integer] Maximum number of results to retrieve.
+        def work_package_query(from, type, limit)
+          WorkPackage.where("id = ? OR subject LIKE ?", params[:query].to_i, "%#{params[:query]}%")
+                     .where.not(id: from.id) # can't relate to itself
+                     .limit(limit)
+
+          if Setting.cross_project_work_package_relations?
+            query
+          else
+            query.where(project_id: from.project_id) # has to be same project
+          end
+        end
+
+        def filter_work_packages(work_packages, from, type)
+          work_packages.reject { |to| illegal_relation? type, from, to }
+        end
+
+        def illegal_relation?(type, from, to)
+          rel = Relation.new(relation_type: params[:type], from: from, to: to)
+
+          rel.shared_hierarchy? || rel.circular_dependency?
         end
       end
     end
