@@ -26,46 +26,44 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.attributes-group
-  margin-top: 1.6875rem
+describe('userLink Directive', function () {
+  var user, userLoadFn, link, $q, compile, element, scope;
 
-.attributes-group--header
-  @include grid-block
-  margin:  0 0 0.5rem 0
-  border-bottom: 1px solid #eee
-  align-items: flex-end
+  beforeEach(angular.mock.module('openproject'));
 
+  beforeEach(inject(function ($rootScope, $compile, _$q_) {
+    $q = _$q_;
+    var html = '<user-link user="user"></user-link>';
 
-.attributes-group--header-container
-  @include grid-content
-  padding: 0 1rem 0.4rem 0
+    userLoadFn = sinon.stub().returns($q.when(true));
+    user = {
+      name: 'First Last',
+      href: '/api/v3/users/1',
+      $load: userLoadFn,
+      showUser: {href: '/some/path'}
+    };
 
-  // Exclusive toggleable attribute groups
-  // include a radio input to toggle them,
-  // but the positioning is off.
-  .attributes-group.-toggleable &
-    cursor: pointer
-    padding-left: 5px
+    compile = function () {
+      element = angular.element(html);
+      scope = $rootScope.$new();
+      scope.user = user;
 
-.attributes-group--header-control
-  @include grid-content(shrink)
-  padding: 0 0 0.4rem 0
+      $compile(element)(scope);
+      scope.$digest();
+      link = element.find('a');
+    };
+  }));
 
-.attributes-group--header-toggle
-  @include grid-content(shrink)
-  padding: 0 0 0 1rem
-  overflow-y: hidden
+  describe('when loading', function () {
+    beforeEach(function () {
+      compile();
+    });
 
-  .button
-    margin: 0 0 5px 0
+    it('should render the user name', function () {
+      expect(link.text()).to.equal(user.name);
+      expect(userLoadFn).to.have.been.called;
+      expect(link.attr('href')).to.equal(user.showUser.href);
+    });
+  });
+});
 
-// HACK. TODO: Remove H3 element rules in various places.
-.attributes-group--header-text,
-#content h3.attributes-group--header-text
-  font-size: 1rem
-  font-weight: bold
-  text-transform: uppercase
-  // properties to reset h3
-  margin: 0
-  padding: 0
-  border: 0

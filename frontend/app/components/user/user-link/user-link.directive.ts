@@ -26,46 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.attributes-group
-  margin-top: 1.6875rem
+import {openprojectModule} from '../../../angular-modules';
+import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 
-.attributes-group--header
-  @include grid-block
-  margin:  0 0 0.5rem 0
-  border-bottom: 1px solid #eee
-  align-items: flex-end
+interface UserLinkScope {
+  user:UserResource;
+  href:string|null,
+  text:{};
+}
 
+function userLink(I18n) {
+  return {
+    restrict: 'E',
+    templateUrl: '/components/user/user-link/user-link.directive.html',
+    scope: {
+      user: '='
+    },
+    link: function(scope:UserLinkScope) {
+      scope.user.$load().then(() => {
+        scope.href = scope.user.showUser.href;
+      });
+      scope.text = {
+        name: scope.user.name,
+        label: I18n.t('js.label_author', { author: scope.user.name })
+      };
+    }
+  };
+};
 
-.attributes-group--header-container
-  @include grid-content
-  padding: 0 1rem 0.4rem 0
-
-  // Exclusive toggleable attribute groups
-  // include a radio input to toggle them,
-  // but the positioning is off.
-  .attributes-group.-toggleable &
-    cursor: pointer
-    padding-left: 5px
-
-.attributes-group--header-control
-  @include grid-content(shrink)
-  padding: 0 0 0.4rem 0
-
-.attributes-group--header-toggle
-  @include grid-content(shrink)
-  padding: 0 0 0 1rem
-  overflow-y: hidden
-
-  .button
-    margin: 0 0 5px 0
-
-// HACK. TODO: Remove H3 element rules in various places.
-.attributes-group--header-text,
-#content h3.attributes-group--header-text
-  font-size: 1rem
-  font-weight: bold
-  text-transform: uppercase
-  // properties to reset h3
-  margin: 0
-  padding: 0
-  border: 0
+openprojectModule.directive('userLink', userLink);

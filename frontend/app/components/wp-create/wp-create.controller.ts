@@ -41,10 +41,16 @@ export class WorkPackageCreateController {
 
   public get header():string {
     if (this.parentWorkPackage) {
-      return this.I18n.t('js.work_packages.create.header_with_parent',
-        {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id});
+      return this.I18n.t(
+        'js.work_packages.create.header_with_parent',
+        { type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id }
+      );
     }
-    return this.I18n.t('js.work_packages.create.header');
+
+    return this.I18n.t(
+      'js.work_packages.create.header',
+      { type: this.newWorkPackage.type.name }
+    );
   }
 
   constructor(protected $state,

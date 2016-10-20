@@ -1,16 +1,19 @@
 <div ng-if="$ctrl.workPackage && $ctrl.formCtrl" class="work-package--single-view">
+  <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
+    <span ng-bind="$ctrl.idLabel"/>:
+    <span ng-bind="$ctrl.text.infoRow.createdBy"/>
+    <user-link user="$ctrl.workPackage.author"></user-link>.
+    <span ng-bind="$ctrl.text.infoRow.lastUpdatedOn"/>
+    <op-date-time date-time-value="$ctrl.workPackage.updatedAt"></op-date-time>.
+  </div>
+
   <div class="attributes-group">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
-        <h3 class="attributes-group--header-text" ng-bind="$ctrl.text.idLabel"></h3>
-      </div>
-
-      <div class="attributes-group--header-container-right">
-        <span ng-bind="$ctrl.I18n.t('js.label_last_updated_on')"/>
-        <op-date date-value="$ctrl.workPackage.updatedAt"></op-date>
+        <h3 class="attributes-group--header-text"
+            ng-bind="$ctrl.text.fields.description"></h3>
       </div>
     </div>
-
     <div
         wp-edit-field="'description'"
         wp-attachments-formattable
