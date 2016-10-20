@@ -27,33 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'api/v3/time_entries/time_entry_collection_representer'
 
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::TimeEntries::TimeEntriesAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module TimeEntries
+      class TimeEntriesByProjectAPI < ::API::OpenProjectAPI
+        resources :time_entries do
+          before do
+            @time_entries = @project.time_entries
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+            authorize_any [:view_work_packages, :view_time_entries], projects: @project
+          end
+
+          get do
+            TimeEntryCollectionRepresenter.new(@time_entries,
+                                               api_v3_paths.time_entries_by_project(@project.id),
+                                               project: @project.id,
+                                               current_user: current_user)
+          end
+        end
       end
     end
   end

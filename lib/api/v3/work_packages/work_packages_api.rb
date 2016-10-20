@@ -112,6 +112,7 @@ module API
             mount ::API::V3::Repositories::RevisionsByWorkPackageAPI
             mount ::API::V3::WorkPackages::UpdateFormAPI
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
+            mount ::API::V3::TimeEntries::TimeEntriesByWorkPackageAPI
           end
 
           mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI

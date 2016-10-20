@@ -32,42 +32,40 @@ require 'roar/json/hal'
 
 module API
   module V3
-    module Projects
-      class ProjectRepresenter < ::API::Decorators::Single
-        self_link
+    module TimeEntries
+      class TimeEntryRepresenter < ::API::Decorators::Single
+        self_link title_getter: -> (*) { represented.comments }
 
-        link :createWorkPackage do
-          {
-            href: api_v3_paths.create_project_work_package_form(represented.id),
-            method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
-        end
+        linked_property :definingProject,
+                        path: :project,
+                        getter: :project,
+                        show_if: -> (*) { represented.project.visible?(current_user) }
 
-        link :createWorkPackageImmediate do
-          {
-            href: api_v3_paths.work_packages_by_project(represented.id),
-            method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
-        end
+        linked_property :definingWorkPackage,
+                        path: :work_package,
+                        getter: :work_package,
+                        title_getter: -> (*) { represented.work_package.subject }
 
-        link 'categories' do
-          { href: api_v3_paths.categories(represented.id) }
-        end
-
-        link 'versions' do
-          { href: api_v3_paths.versions_by_project(represented.id) }
-        end
-        
-        link 'time_entries' do
-          { href: api_v3_paths.time_entries_by_project(represented.id) }
-        end
+        linked_property :definingUser,
+                        path: :user,
+                        getter: :user
 
         property :id, render_nil: true
-        property :identifier,   render_nil: true
+        property :hours, render_nil: true
 
-        property :name,         render_nil: true
-        property :description,  render_nil: true
+        property :comments,
+                 exec_context: :decorator,
+                 getter: -> (*) {
+                   ::API::Decorators::Formattable.new(represented.comments,
+                                                      object: represented,
+                                                      format: 'plain')
+                 },
+                 render_nil: true
 
+        property :spent_on,
+                 as: 'spendOn',
+                 exec_context: :decorator,
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.spent_on, allow_nil: true) }
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
@@ -77,14 +75,13 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
 
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
-
         def _type
-          'Project'
+          'TimeEntry'
         end
 
-        self.to_eager_load = [:project_type]
-        self.checked_permissions = [:add_work_packages]
+        self.to_eager_load = [:project,
+                              :work_package,
+                              :user]
       end
     end
   end

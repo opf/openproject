@@ -108,6 +108,13 @@ describe ::API::V3::Projects::ProjectRepresenter do
             .at_path('_links/versions/href')
         end
       end
+      
+      describe 'time_entries' do
+        it 'has the correct link to its time entries' do
+          is_expected.to be_json_eql(api_v3_paths.time_entries_by_project(project.id).to_json)
+            .at_path('_links/time_entries/href')
+        end
+      end
     end
   end
 

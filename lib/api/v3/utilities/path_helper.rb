@@ -173,8 +173,20 @@ module API
             "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
           end
 
+          def self.time_entries_by_project(project_id)
+            "#{project(project_id)}/time_entries"
+          end
+
           def self.types
             "#{root}/types"
+          end
+
+          def self.time_entry(time_entry_id)
+            "#{root}/time_entries/#{time_entry_id}"
+          end
+
+          def self.time_entry_sums_schema
+            "#{root}/time_entry/schemas/sums"
           end
 
           def self.types_by_project(project_id)
@@ -252,6 +264,14 @@ module API
           def self.work_package_sums_schema
             "#{root}/work_packages/schemas/sums"
           end
+
+          def self.work_package_time_entries(id)
+            "#{work_package(id)}/time_entries"
+          end
+
+          def self.work_package_log_time(id)
+            "#{work_package(id)}/time_entries/new"
+          end          
 
           def self.work_package_watchers(id)
             "#{work_package(id)}/watchers"

@@ -35,12 +35,16 @@ module API
       class VersionsByProjectAPI < ::API::OpenProjectAPI
         resources :versions do
           before do
+            Rails.logger.warn "version_by_project_api: before"
+            Rails.logger.warn Kernel.caller()
+            
             @versions = @project.shared_versions
 
             authorize_any [:view_work_packages, :manage_versions], projects: @project
           end
 
           get do
+            Rails.logger.warn "version_by_project_api: get"
             VersionCollectionRepresenter.new(@versions,
                                              api_v3_paths.versions_by_project(@project.id),
                                              current_user: current_user)

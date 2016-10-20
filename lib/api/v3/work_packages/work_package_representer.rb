@@ -94,6 +94,13 @@ module API
           } if current_user_allowed_to(:log_time, context: represented.project)
         end
 
+        link :addSpendTime do
+          {
+            href: api_v3_paths.work_package_log_time(represented.id),
+            method: :post
+          } if current_user_allowed_to(:log_time, context: represented.project)
+        end
+
         link :move do
           {
             href: new_work_package_move_path(represented),
@@ -258,6 +265,13 @@ module API
           {
             href: work_package_time_entries_path(represented.id),
             type: 'text/html',
+            title: 'Time entries'
+          } if current_user_allowed_to(:view_time_entries, context: represented.project)
+        end
+
+        link :listTimeEntries do
+          {
+            href: api_v3_paths.work_package_time_entries(represented.id),
             title: 'Time entries'
           } if current_user_allowed_to(:view_time_entries, context: represented.project)
         end
