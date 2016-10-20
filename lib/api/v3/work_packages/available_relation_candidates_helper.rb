@@ -38,9 +38,8 @@ module API
         #
         # @param query [String] The ID or part of a subject to filter by
         # @param from [WorkPackage] The work package in the `from` position of a relation.
-        # @param type [String] The type of relation (e.g. follows, blocks, etc.) to be checked.
         # @param limit [Integer] Maximum number of results to retrieve.
-        def work_package_query(query, from, type, limit)
+        def work_package_query(query, from, limit)
           wps = WorkPackage.where("id = ? OR subject LIKE ?", query.to_i, "%#{query}%")
                            .where.not(id: from.id) # can't relate to itself
                            .limit(limit)
