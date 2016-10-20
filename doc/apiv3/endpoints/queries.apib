@@ -1,0 +1,328 @@
+# Group Queries
+
+| Link               | Description                                                              | Type         | Constraints  | Supported operations  | Condition                                 |
+| :----------------: | ------------------------------------------------------------------------ | ------------ | ------------ | --------------------- | ----------------------------------------- |
+| self               | This query                                                               | Query        | not null     | READ                  |                                           |
+| user               | The user that owns this query                                            | User         | not null     | READ                  |                                           |
+| project            | The project on which this query operates                                 | Project      |              | READ                  |                                           |
+
+## Local Properties
+
+| Property         | Description                                            | Type        | Constraints                      | Supported operations |
+| :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+| id               | Query id                                               | Integer     | x > 0                            | READ                 |
+| name             | Query name                                             | String      |                                  | READ                 |
+| filters          | An object describing the queries filter conditions     | Object      |                                  | READ                 |
+| columnNames      | Ordered list of properties to be shown in this query   | String[]    |                                  | READ                 |
+| sortCriteria     | An object describing the sorting rules of this query   | Object      |                                  | READ                 |
+| groupBy          | The property to group results of this query by         | String      |                                  | READ                 |
+| displaySums      | Should sums (of supported properties) be shown?        | Boolean     |                                  | READ                 |
+| isPublic         | Can users besides the owner see the query?             | Boolean     |                                  | READ                 |
+| isStarred        | Should the query be highlighted to the user?           | Boolean     |                                  | READ                 |
+
+## Query [/api/v3/queries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/queries/2",
+                        "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "A project"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "filters": [
+                    {
+                        "status": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assignee": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": false,
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assignee"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": false,
+                "isStarred": true
+            }
+
+## View query [GET]
+
+*might be subject to change in the future*
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Query][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
+## Star Query [/api/v3/queries/{id}/star]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/queries/2",
+                        "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "filters": [
+                    {
+                        "status": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assignee": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assignee"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": true
+            }
+
+## Star query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Star Query][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to star this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
+## Unstar Query [/api/v3/queries/{id}/unstar]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/queries/2",
+                        "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "filters": [
+                    {
+                        "status": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assignee": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assignee"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": "false"
+            }
+
+## Unstar query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Unstar Query][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send an empty request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not empty."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** for own queries none; for public queries: manage public queries
+
+    *Note that you will only receive this error, if you are at least allowed to see the corresponding query.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to unstar this query."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the query does not exist or the client does not have sufficient permissions to see it.
+
+    **Required condition:** query belongs to user or query is public
+
+    **Required permission:** view work package in queries project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
