@@ -72,8 +72,6 @@ module UserInvitation
   # For the given user with at least the mail attribute set,
   # derives login and first name
   #
-  # If no first and last is given it will default to 'OpenProject User'
-  # for the first name and 'To-be' for the last name.
   # The default login is the email address.
   def assign_user_attributes(user)
     placeholder = placeholder_name(user.mail)

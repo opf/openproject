@@ -42,7 +42,7 @@ describe ::API::V3::Users::UsersAPI do
   end
 
   def send_request
-    post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+    post path, parameters.to_json, headers: { 'Content-Type' => 'application/json' }
   end
 
   subject(:response) { last_response }
