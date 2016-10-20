@@ -52,6 +52,7 @@ describe ::API::V3::Users::UsersAPI do
     it 'returns the represented user' do
       send_request
 
+      expect(response.status).to eq(201)
       expect(subject.body).to have_json_type(Object).at_path('_links')
       expect(subject.body)
         .to be_json_eql('User'.to_json)

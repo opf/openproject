@@ -33,6 +33,7 @@ module API
   module V3
     module Users
       module CreateUser
+        extend Grape::API::Helpers
         ##
         # Call the user create service for the current request
         # and return the service result API representation
@@ -48,6 +49,7 @@ module API
 
         def represent_service_result(result, current_user)
           if result.success?
+            status 201
             ::API::V3::Users::UserRepresenter.create(result.result, current_user: current_user)
           else
             fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
