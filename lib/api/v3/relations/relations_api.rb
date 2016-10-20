@@ -83,19 +83,6 @@ module API
               status 204
             end
           end
-
-          post do
-            rep = representer.new Relation.new, current_user: current_user
-            relation = rep.from_json request.body.read
-            service = ::CreateRelationService.new user: current_user
-            call = service.call relation, send_notifications: !(params[:notify] == 'false')
-
-            if call.success?
-              representer.new call.result, current_user: current_user, embed_links: true
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
-            end
-          end
         end
       end
     end

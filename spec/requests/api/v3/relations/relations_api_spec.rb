@@ -62,7 +62,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     before do
       expect(Relation.count).to eq 0
 
-      post "/api/v3/relations",
+      post "/api/v3/work_packages/#{from.id}/relations",
            params: params.to_json,
            headers: { "Content-Type": "application/json" }
     end
@@ -196,7 +196,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     before do
       project.add_member! user, role
 
-      post "/api/v3/relations",
+      post "/api/v3/work_packages/#{from.id}/relations",
            params: params.to_json,
            headers: { "Content-Type": "application/json" }
     end
