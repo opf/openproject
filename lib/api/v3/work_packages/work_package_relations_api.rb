@@ -30,16 +30,15 @@ module API
   module V3
     module WorkPackages
       class WorkPackageRelationsAPI < ::API::OpenProjectAPI
-        helpers ::API::V3::Relations::RelationHelpers
+        helpers ::API::V3::Relations::RelationsHelper
 
         resources :relations do
           ##
           # @todo Redirect to relations endpoint as soon as `list relations` API endpoint
           #       including filters is complete.
           get do
-            relations = @work_package.relations.select do |relation|
-              relation.other_work_package(@work_package).visible?
-            end
+            visible = ->(relation) { relation.other_work_package(@work_package).visible? }
+            relations = @work_package.relations.select(&visible)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,

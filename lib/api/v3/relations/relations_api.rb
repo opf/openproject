@@ -34,7 +34,7 @@ module API
   module V3
     module Relations
       class RelationsAPI < ::API::OpenProjectAPI
-        helpers RelationHelpers
+        helpers ::API::V3::Relations::RelationsHelper
 
         resources :relations do
           get do

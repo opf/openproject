@@ -29,7 +29,7 @@
 module API
   module V3
     module Relations
-      module RelationHelpers
+      module RelationsHelper
         def filter_attributes(relation)
           relation
             .attributes
