@@ -64,12 +64,19 @@ module API
             requires :id, desc: 'User\'s id'
           end
           route_param :id do
+            helpers ::API::V3::Users::UpdateUser
+
             before do
               @user  = User.find(params[:id])
             end
 
             get do
               UserRepresenter.new(@user, current_user: current_user)
+            end
+
+            patch do
+              allow_only_admin
+              update_user(request_body, current_user)
             end
 
             delete do
