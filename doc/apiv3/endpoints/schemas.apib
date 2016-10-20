@@ -1,0 +1,114 @@
+# Group Schemas
+
+## Linked Properties
+
+| Link                | Description                              | Type          | Nullable | Supported operations |
+|:-------------------:| ---------------------------------------- | ------------- | -------- | -------------------- |
+| self                | This schema                              | Schema        |          | READ                 |
+
+The schema provides more detailed information about the properties of a resource.
+The schema is represented by a dictionary containing names of resource properties as keys
+and objects describing the corresponding property as values.
+These objects are called **field schema** and form the core of the schema representation,
+each of them can contain its own `_links` and `_embedded` section.
+
+# Field schema
+
+## Linked Properties
+
+| Property       | Description                                                    |
+|:--------------:| -------------------------------------------------------------- |
+| allowedValues  | List of resources that are assignable by the current user.     |
+
+The `allowedValues` can either contain a list of canonical links or just a single link to a collection resource.
+This is an optimization to allow efficient handling of both small resource lists (that can be enumerated inline) and large
+resource lists (requiring one or more separate requests).
+
+## Local Properties
+
+| Property          | Description                                                                        | Type     | Default |
+|:-----------------:| ---------------------------------------------------------------------------------- | -------- | ------- |
+| name              | Human readable name of the property as it could be displayed in a UI               | String   |         |
+| type              | The data type of the properties values                                             | MetaType |         |
+| minLength         | The value of the property must at least contain the specified amount of characters | Integer  | 0       |
+| maxLength         | The value of the property must at most contain the specified amount of characters  | Integer  | ∞       |
+| regularExpression | The value of the property must match the given regular expression (if not null)    | String   | null    |
+| required          | If true this property is not nullable                                              | Boolean  | true    |
+| writable          | If false it is not allowed to **change** the properties value                      | Boolean  | true    |
+
+All of the above properties that do not have a default value *must* be present in the schema.
+For properties that have a default value, the client can assume the default value, if the property is missing.
+
+Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.1.5/Regexp.html).
+
+## Example Schema [/api/v3/example/schema]
+
++ Model
+    + Body
+
+            {
+                "_type": "Schema",
+                "_links": {
+                    "self": { "href": "/api/v3/example/schema" }
+                },
+
+                "lockVersion": {
+                    "name": "Resource Version",
+                    "type": "Integer",
+                    "writable": false
+                },
+                "subject": {
+                    "name": "Subject",
+                    "type": "String",
+                    "minLength": 1,
+                    "maxLength": 255
+                },
+                "status": {
+                    "_links": {
+                        "allowedValues": [
+                            { "href": "/api/v3/statuses/1", "title": "New" },
+                            { "href": "/api/v3/statuses/2", "title": "Closed" }
+                        ]
+                    },
+
+                    "name": "Status",
+                    "type": "Status",
+
+                    "_embedded": {
+                        "allowedValues": [
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                "_type": "Status",
+                                "id": 1,
+                                "name": "New",
+                                "position": 1,
+                                "isDefault": true,
+                                "isClosed": false,
+                                "defaultDoneRatio": 0,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            },
+                            {
+                                "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                "_type": "Status",
+                                "id": 2,
+                                "name": "Closed",
+                                "position": 2,
+                                "isDefault": false,
+                                "isClosed": true,
+                                "defaultDoneRatio": 100,
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-21T09:12:00Z"
+                            }
+                        ]
+                    }
+                }
+            }
+
+## view the schema [GET]
+
+This is an example of how a schema might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Response 200 (application/hal+json)
+
+    [Example Schema][]
