@@ -1,8 +1,20 @@
+require 'capybara/rspec'
+require 'rack_session_access/capybara'
+
+RSpec.configure do
+  Capybara.default_max_wait_time = 4
+  Capybara.javascript_driver = :selenium
+end
+
+Rails.application.config do
+  config.middleware.use RackSessionAccess::Middleware
+end
+
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
 
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-    Selenium::WebDriver::Firefox::Binary.path
+                                              Selenium::WebDriver::Firefox::Binary.path
 
   capabilities = Selenium::WebDriver::Remote::Capabilities.internet_explorer
   capabilities["elementScrollBehavior"] = 1
@@ -22,6 +34,3 @@ Capybara.register_driver :selenium do |app|
     desired_capabilities: capabilities
   )
 end
-
-# Use selenium until we upgraded jenkins workers
-Capybara.javascript_driver = :selenium
