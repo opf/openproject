@@ -34,6 +34,7 @@ module API
           params do
             requires :query, type: String # either WP ID or part of its subject
             optional :type, type: String, default: "relates" # relation type
+            optional :pageSize, type: Integer, default: 10
           end
           get do
             from = @work_package
@@ -41,7 +42,7 @@ module API
             query = WorkPackage
               .where("id = ? OR subject LIKE ?", params[:query].to_i, "%#{params[:query]}%")
               .where.not(id: from.id) # can't relate to itself
-              .limit(10)
+              .limit(params[:pageSize])
 
             if !Setting.cross_project_work_package_relations?
               query = query.where(project_id: from.project_id) # has to be same project
