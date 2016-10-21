@@ -94,14 +94,16 @@ describe ::API::V3::Users::UserRepresenter do
         it 'should have no lock-related links' do
           expect(subject).not_to have_json_path('_links/lock/href')
           expect(subject).not_to have_json_path('_links/unlock/href')
+          expect(subject).not_to have_json_path('_links/update/href')
         end
       end
 
       context 'when current_user is admin' do
         let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
-        it 'should link to lock' do
+        it 'should link to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
+          expect(subject).to have_json_path('_links/update/href')
         end
 
         context 'when account is locked' do

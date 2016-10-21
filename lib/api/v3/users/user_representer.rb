@@ -53,6 +53,14 @@ module API
           }
         end
 
+        link :update do
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "Update #{represented.login}",
+            method: :patch
+          } if current_user_is_admin
+        end
+
         link :lock do
           {
             href: api_v3_paths.user_lock(represented.id),

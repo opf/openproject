@@ -159,7 +159,7 @@ When calling this endpoint the client provides a single object, containing at le
 
     Returned if the client does not have sufficient permissions.
 
-    **Required permission:** Administrators only (exception: users may update their own accounts)
+    **Required permission:** Administrators only
 
     + Body
 
@@ -182,6 +182,7 @@ When calling this endpoint the client provides a single object, containing at le
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified user does not exist or you do not have permission to view them."
             }
+
 
 + Response 422 (application/hal+json)
 
