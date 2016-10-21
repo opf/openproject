@@ -27,10 +27,35 @@
 //++
 
 import {HalResource} from './hal-resource.service';
+import {HalLink} from '../hal-link/hal-link.service.ts';
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageResource} from './work-package-resource.service';
 
+interface RelationResourceLinks {
+  delete(): ng.IPromise<any>;
+  updateImmediately(payload: any): ng.IPromise<any>;
+}
+
 export class RelationResource extends HalResource {
+
+  static TYPES() {
+    return [
+      'parent',
+      'children',
+      'relates',
+      'duplicates',
+      'duplicated',
+      'blocks',
+      'blocked',
+      'precedes',
+      'follows',
+      'includes',
+      'partof',
+      'requires',
+      'required'
+    ];
+  }
+
 
   // Properties
   public id:number;
@@ -39,11 +64,20 @@ export class RelationResource extends HalResource {
   public type:string;
 
   // Links
+  public $links: RelationResourceLinks;
   public to:WorkPackageResource;
   public from:WorkPackageResource;
-  public updateImmediately:HalResource;
-  public delete:HalResource;
 
+  public updateDescription(description) {
+    return this.$links.updateImmediately({ description: description });
+  }
+
+  public updateType(type) {
+    return this.$links.updateImmediately({ type: type });
+  }
+}
+
+export interface RelationResourceInterface extends RelationResourceLinks, RelationResource {
 }
 
 function relationResource() {
