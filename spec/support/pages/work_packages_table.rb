@@ -43,8 +43,12 @@ module Pages
 
     def expect_work_package_listed(work_package)
       within(table_container) do
-        expect(page).to have_content(work_package.subject)
+        expect(page).to have_cont_nt(work_package.subject)
       end
+    end
+
+    def has_work_packages_listed?(work_packages)
+      work_packages.all? { |wp| has_text? wp.subject }
     end
 
     def expect_no_work_package_listed
