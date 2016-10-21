@@ -4,13 +4,13 @@
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
-            {{ $ctrl.relationType }}
+            {{ $ctrl.relation.type }}
         </div>
 
         <div class="grid-content medium-5 collapse" wp-single-relation
              ng-if="$ctrl.relatedWorkPackage">
             <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
-               aria-label="{{ $ctrl.relationType + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
+               aria-label="{{ $ctrl.relation.type + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
                 {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
             </a>
         </div>
@@ -23,7 +23,7 @@
 
         <div class="grid-content medium-1 collapse wp-relations-controls-section">
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                    ng-if="$ctrl.relation.remove"
+                                    ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
                                     aria-hidden="false"
                                     class="-shown-in-accessibility-mode">

@@ -36,13 +36,17 @@ export class WorkPackageRelationsService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
+              protected PathHelper,
               protected NotificationsService) {
   }
 
   public addCommonRelation(workPackage, relationType, relatedWpId) {
     const params = {
-      to_id: relatedWpId,
-      relation_type: relationType
+      _links: {
+        from: { href: workPackage.href },
+        to: { href: this.PathHelper.apiV3WorkPackagePath(relatedWpId) }
+      },
+      type: relationType
     };
 
     return workPackage.addRelation(params);
@@ -61,7 +65,7 @@ export class WorkPackageRelationsService {
   }
 
   public removeCommonRelation(relation) {
-    return relation.remove();
+    return relation.delete();
   }
 
   public getTranslatedRelationTitle(relationTypeName:string) {

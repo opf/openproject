@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,41 +24,30 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {opApiModule} from '../../../../angular-modules';
-import {HalResourceTypesService} from './hal-resource-types.service';
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from "../../../../angular-modules";
+import {WorkPackageResource} from './work-package-resource.service';
 
-function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
-  halResourceTypes.setResourceTypeConfig({
-    WorkPackage: {
-      className: 'WorkPackageResource',
-      attrTypes: {
-        parent: 'WorkPackage',
-        children: 'WorkPackage',
-        relations: 'Relation',
-      }
-    },
-    Activity: {
-      user: 'User'
-    },
-    'Activity::Comment': {
-      user: 'User'
-    },
-    'Activity::Revision': {
-      user: 'User'
-    },
-    Relation: {
-      className: 'RelationResource',
-      attrTypes: {
-        from: 'WorkPackage',
-        to: 'WorkPackage'
-      }
-    },
-    Error: 'ErrorResource',
-    User: 'UserResource',
-    Collection: 'CollectionResource'
-  });
+export class RelationResource extends HalResource {
+
+  // Properties
+  public id:number;
+  public description:string|null;
+  public name:string;
+  public type:string;
+
+  // Links
+  public to:WorkPackageResource;
+  public from:WorkPackageResource;
+  public updateImmediately:HalResource;
+  public delete:HalResource;
+
 }
 
-opApiModule.run(halResourceTypesConfig);
+function relationResource() {
+  return RelationResource;
+}
+
+opApiModule.factory('RelationResource', relationResource);
