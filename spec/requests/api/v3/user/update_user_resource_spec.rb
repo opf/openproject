@@ -108,6 +108,16 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     end
   end
 
+  describe 'unknown user' do
+    let(:parameters) { { email: 'foo@example.org' } }
+    let(:path) { api_v3_paths.user(666) }
+
+    it 'responds with 404' do
+      send_request
+      expect(response.status).to eql(404)
+    end
+  end
+
   describe 'unauthorized user' do
     let(:current_user) { FactoryGirl.build(:user) }
     let(:parameters) { { email: 'new@example.org' } }
