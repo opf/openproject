@@ -29,6 +29,7 @@
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {RelationResource} from './wp-relations.interfaces';
 
 export class WorkPackageRelationsService {
   constructor(protected $rootScope:ng.IRootScopeService,
@@ -52,62 +53,15 @@ export class WorkPackageRelationsService {
     return workPackage.addRelation(params);
   }
 
-  public changeRelationDescription(relation, description) {
-    return relation.update({
-      description: description
-    });
-  }
-
-  public changeRelationType(relation, relationType) {
-    return relation.update({
-      relation_type: relationType
-    });
-  }
-
-  public removeCommonRelation(relation) {
-    return relation.delete();
-  }
-
-  public getTranslatedRelationTitle(relationTypeName:string) {
-    return this.getRelationTypeObjectByName(relationTypeName).label;
-  }
-
-  public getRelationTypeObjectByType(type:string) {
-    return _.find(this.configuration.relationTypes, {type: type});
-  }
-
-  public getRelationTypeObjectByName(name:string) {
-    return _.find(this.configuration.relationTypes, {name: name});
-  }
-
   public getRelationTypes(rejectParentChild?:boolean) {
-
-    let relationTypes = angular.copy(this.configuration.relationTypes);
+    let relationTypes = RelationResource.TYPES.keys();
+    
     if (rejectParentChild) {
-      _.remove(relationTypes, (relationType) => {
-        return relationType.name === 'parent' || relationType.name === 'children';
-      });
+      return _.without(relationTypes, ['parent', 'children']);
     }
+
     return relationTypes;
   }
-
-  public configuration = {
-    relationTypes: [
-      {name: 'parent', type: 'parent', label: this.I18n.t('js.relation_labels.parent')},
-      {name: 'children', type: 'children', label: this.I18n.t('js.relation_labels.children')},
-      {name: 'relatedTo', type: 'Relation::Relates', id: 'relates', label: this.I18n.t('js.relation_labels.relates')},
-      {name: 'duplicates', type: 'Relation::Duplicates', label: this.I18n.t('js.relation_labels.duplicates')},
-      {name: 'duplicated', type: 'Relation::Duplicated', label: this.I18n.t('js.relation_labels.duplicated')},
-      {name: 'blocks', type: 'Relation::Blocks', label: this.I18n.t('js.relation_labels.blocks')},
-      {name: 'blocked', type: 'Relation::Blocked', label: this.I18n.t('js.relation_labels.blocked')},
-      {name: 'precedes', type: 'Relation::Precedes', label: this.I18n.t('js.relation_labels.precedes')},
-      {name: 'follows', type: 'Relation::Follows', label: this.I18n.t('js.relation_labels.follows')},
-      {name: 'includes', type: 'Relation::Includes', label: this.I18n.t('js.relation_labels.includes')},
-      {name: 'partof', type: 'Relation::Partof', label: this.I18n.t('js.relation_labels.part_of')},
-      {name: 'requires', type: 'Relation::Requires', label: this.I18n.t('js.relation_labels.requires')},
-      {name: 'required', type: 'Relation::Required', label: this.I18n.t('js.relation_labels.required')},
-    ]
-  };
 }
 
 wpDirectivesModule.service('wpRelationsService', WorkPackageRelationsService);

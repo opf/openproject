@@ -272,7 +272,7 @@ en:
       precedes: "Precedes"
       follows: "Follows"
       includes: "Includes"
-      part_of: "Part of"
+      partof: "Part of"
       requires: "Requires"
       required: "Required by"
 
