@@ -223,7 +223,10 @@ en:
             from:
               error_not_found: "work package in `from` position not found or not visible"
               error_readonly: "an existing relation's `from` link is immutable"
-
+        "users/base_contract":
+          attributes:
+            status:
+              invalid_on_create: "is not a valid status for new users."
   activerecord:
     attributes:
       announcements:
@@ -777,6 +780,7 @@ en:
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
+  error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
