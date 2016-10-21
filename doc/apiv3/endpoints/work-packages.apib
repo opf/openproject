@@ -1386,7 +1386,7 @@ If the request succeeds, the specified user is not watching the work package any
                 "message": "The specified work package does not exist."
             }
 
-## Available relation candidates [/api/v3/work_packages/{id}/available_relation_candidates{?filters,query,offset,pageSize}]
+## Available relation candidates [/api/v3/work_packages/{id}/available_relation_candidates{?filters,query,type,pageSize}]
 
 Lists work packages with which this work package can be in a relation.
 Only sound candidates are returned. For instance a work package cannot stand in relation to itself,
@@ -1403,6 +1403,9 @@ For instance to find all work packages with "rollout" in their subject:
 
 For convenience there is also a simple `query` parameter which is a shortcut for listing work packages
 whose ID or subject contain the given string.
+
+While the endpoint does support the pageSize parameter to limit the number of results it
+**does not** support the offset parameter.
 
 ```
 ?query=112
@@ -1446,14 +1449,14 @@ whose ID or subject contain the given string.
 ## Available relation candidates [GET]
 
 + Parameters
-    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
-
-    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+    + pageSize (optional, integer, `25`) ... Maximum number of candidates to list (default 10)
 
     + filters (optional, string, `[{ "status_id": { "operator": "o", "values": null }" }]`) ... JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](#queries) endpoint.
 
     + query (optional, string, `"rollout"`) ... Shortcut for filtering by ID or subject
+
+    + type (optional, string, `"follows"`) ... Type of relation to find candidates for (default "relates")
 
 + Response 200 (application/hal+json)
 
@@ -2194,4 +2197,3 @@ Gets a list of users that can be assigned as the responsible of a work package i
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified project does not exist."
             }
-

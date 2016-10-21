@@ -83,6 +83,10 @@ module API
             "#{work_packages}/available_projects"
           end
 
+          def self.available_relation_candidates(work_package_id)
+            "#{work_package(work_package_id)}/available_relation_candidates"
+          end
+
           def self.categories(project_id)
             "#{project(project_id)}/categories"
           end
@@ -137,6 +141,10 @@ module API
 
           def self.relation(id)
             "#{root}/relations/#{id}"
+          end
+
+          def self.relations
+            "#{root}/relations"
           end
 
           def self.revision(id)

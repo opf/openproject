@@ -52,7 +52,6 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
   let(:representer) {
     described_class.new(relations,
                         self_link,
-                        work_package: work_package,
                         current_user: user)
   }
 
@@ -62,6 +61,6 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
     it_behaves_like 'unpaginated APIv3 collection',
                     3,
                     'a link that is provided',
-                    'Relation::Relates'
+                    'Relation'
   end
 end

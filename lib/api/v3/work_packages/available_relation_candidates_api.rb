@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,22 +28,28 @@
 
 module API
   module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+    module WorkPackages
+      class AvailableRelationCandidatesAPI < ::API::OpenProjectAPI
+        helpers ::API::V3::WorkPackages::AvailableRelationCandidatesHelper
 
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
+        resources :available_relation_candidates do
+          params do
+            requires :query, type: String # either WP ID or part of its subject
+            optional :type, type: String, default: "relates" # relation type
+            optional :pageSize, type: Integer, default: 10
+          end
+          get do
+            from = @work_package
+            query = work_package_query params[:query], from, params[:pageSize]
+            work_packages = filter_work_packages query, from, params[:type]
+
+            ::API::V3::WorkPackages::WorkPackageListRepresenter.new(
+              work_packages,
+              api_v3_paths.available_relation_candidates(from.id),
+              current_user: current_user
+            )
+          end
         end
-
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
       end
     end
   end

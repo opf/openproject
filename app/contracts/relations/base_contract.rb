@@ -27,25 +27,50 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+require 'model_contract'
 
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
-        end
+module Relations
+  class BaseContract < ::ModelContract
+    attribute :relation_type
 
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+    attribute :delay
+    attribute :description
+
+    attribute :from_id
+    attribute :to_id
+
+    validate :user_allowed_to_access
+    validate :user_allowed_to_manage_relations
+
+    attr_reader :user
+
+    def initialize(relation, user)
+      super relation
+
+      @user = user
+    end
+
+    private
+
+    ##
+    # Allow the user only to create/update relations between work packages they are allowed to see.
+    def user_allowed_to_access
+      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
+      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
+    end
+
+    def user_allowed_to_manage_relations
+      if !manage_relations?
+        errors.add :base, :error_unauthorized
       end
+    end
+
+    def visible_work_packages
+      ::WorkPackage.visible(user)
+    end
+
+    def manage_relations?
+      user.allowed_to? :manage_work_package_relations, model.from.project
     end
   end
 end

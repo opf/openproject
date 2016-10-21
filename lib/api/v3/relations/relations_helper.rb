@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -30,21 +29,28 @@
 module API
   module V3
     module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
-
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
+      module RelationsHelper
+        def filter_attributes(relation)
+          relation
+            .attributes
+            .with_indifferent_access
+            .reject { |_key, value| value.blank? }
         end
 
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+        def representer
+          ::API::V3::Relations::RelationRepresenter
+        end
+
+        def project_id_for_relation(id)
+          relations = Relation.table_name
+          work_packages = WorkPackage.table_name
+
+          Relation
+            .joins(:from)
+            .where("#{relations}.id" => id)
+            .pluck("#{work_packages}.project_id")
+            .first
+        end
       end
     end
   end

@@ -27,25 +27,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+class UpdateRelationService
+  include Concerns::Contracted
 
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
-        end
+  attr_accessor :user, :relation
 
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+  self.contract = Relations::UpdateContract
+
+  def initialize(user:, relation:)
+    self.user = user
+    self.relation = relation
+    self.contract = self.class.contract.new relation, user
+  end
+
+  def call(attributes: {}, send_notifications: true)
+    User.execute_as user do
+      JournalManager.with_send_notifications send_notifications do
+        update attributes
       end
     end
+  end
+
+  private
+
+  def update(attributes)
+    relation.attributes = relation.attributes.merge attributes
+
+    save_result, save_errors = validate_and_save relation
+
+    ServiceResult.new success: save_result, errors: save_errors, result: relation
   end
 end

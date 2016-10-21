@@ -82,7 +82,7 @@ export class WorkPackageRelationsController {
   }
 
   protected getRelatedWorkPackageId(relation) {
-    let direction = (relation.relatedTo.href === this.workPackage.href) ? 'relatedFrom' : 'relatedTo';
+    let direction = (relation.to.href === this.workPackage.href) ? 'from' : 'to';
     return parseInt(relation[direction].href.split('/').pop());
   }
 

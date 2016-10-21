@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,22 +28,38 @@
 
 module API
   module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+    module WorkPackages
+      module AvailableRelationCandidatesHelper
+        include API::V3::Utilities::PathHelper
 
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
+        ##
+        # Queries the compatible work package's to the given one as much as possible through the
+        # database.
+        #
+        # @param query [String] The ID or part of a subject to filter by
+        # @param from [WorkPackage] The work package in the `from` position of a relation.
+        # @param limit [Integer] Maximum number of results to retrieve.
+        def work_package_query(query, from, limit)
+          wps = WorkPackage.where("id = ? OR subject LIKE ?", query.to_i, "%#{query}%")
+                           .where.not(id: from.id) # can't relate to itself
+                           .limit(limit)
+
+          if Setting.cross_project_work_package_relations?
+            wps
+          else
+            wps.where(project_id: from.project_id) # has to be same project
+          end
         end
 
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+        def filter_work_packages(work_packages, from, type)
+          work_packages.reject { |to| illegal_relation? type, from, to }
+        end
+
+        def illegal_relation?(type, from, to)
+          rel = Relation.new(relation_type: type, from: from, to: to)
+
+          rel.shared_hierarchy? || rel.circular_dependency?
+        end
       end
     end
   end

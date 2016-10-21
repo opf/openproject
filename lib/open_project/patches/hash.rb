@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,25 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+# This patch adds a convenience method to models that are including acts_as_list.
+# After including it is possible to e.g. call
+#
+# including_instance.move_to = "highest"
+#
+# and the instance will be sorted to to the top of the list.
+#
+# This enables having the view send string that will be used for sorting.
 
-        def initialize(models, self_link, current_user:)
-          super(models, self_link, current_user: current_user)
-        end
+# Needs to be applied before any of the models using acts_as_list get loaded.
 
-        collection :elements,
-                   getter: -> (*) {
-                     represented.map { |model|
-                       element_decorator.new model, current_user: current_user
-                     }
-                   },
-                   exec_context: :decorator,
-                   embedded: true
+module OpenProject
+  module Patches
+    module Hash
+      ##
+      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
+      def dig(*keys)
+        keys.inject(self) { |hash, key| hash && hash.is_a?(Hash) && hash[key] }
       end
     end
   end
+end
+
+if !Hash.instance_methods.include? :dig
+  Hash.prepend OpenProject::Patches::Hash
 end
