@@ -38,7 +38,7 @@ interface RelationResourceLinks {
 
 export class RelationResource extends HalResource {
 
-  static TYPES() {
+  static TYPES():string[] {
     return [
       'parent',
       'children',
@@ -56,6 +56,9 @@ export class RelationResource extends HalResource {
     ];
   }
 
+  static DEFAULT() {
+    return 'relates';
+  }
 
   // Properties
   public id:number;
