@@ -111,8 +111,10 @@ module API
         def denormalize_foreign_key_name(attribute, context)
           id_name = "#{attribute}_id"
 
-          # when appending an ID is valid, the context object will understand that message
-          if context.respond_to? id_name
+          # When appending an ID is valid, the context object will understand that message
+          # in case of a `belongs_to` relation (e.g. status => status_id). The second check is for
+          # `has_many` relations (e.g. watcher => watchers).
+          if context.respond_to?(id_name) || context.respond_to?(attribute.pluralize)
             id_name
           else
             attribute
