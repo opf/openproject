@@ -33,10 +33,6 @@ class WpRelationRowDirectiveController {
     this.text = {
       removeButton:this.I18n.t('js.relation_buttons.remove')
     };
-
-    RelationResource.TYPES.forEach((type) => {
-      this.text[type] = I18n.t('js.relation_labels.' + type);
-    });
   };
 
   public toggleUserDescriptionForm() {

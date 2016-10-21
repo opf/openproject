@@ -9,12 +9,6 @@ export interface RelatedWorkPackagesGroup {
   [key: string] : Array<RelatedWorkPackage>;
 }
 
-export interface RelationType {
-  name: string;
-  id?: string;
-  type: string;
-}
-
 export interface RelationTitle {
   [key: string]: string;
 }

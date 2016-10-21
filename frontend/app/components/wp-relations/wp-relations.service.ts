@@ -29,7 +29,7 @@
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {RelationResource} from './wp-relations.interfaces';
+import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
 
 export class WorkPackageRelationsService {
   constructor(protected $rootScope:ng.IRootScopeService,
@@ -53,14 +53,16 @@ export class WorkPackageRelationsService {
     return workPackage.addRelation(params);
   }
 
-  public getRelationTypes(rejectParentChild?:boolean) {
-    let relationTypes = RelationResource.TYPES.keys();
-    
+  public getRelationTypes(rejectParentChild?:boolean):any[] {
+    let relationTypes = RelationResource.TYPES();
+
     if (rejectParentChild) {
-      return _.without(relationTypes, ['parent', 'children']);
+      _.pull(relationTypes, 'parent', 'children');
     }
 
-    return relationTypes;
+    return relationTypes.map((key:string) => {
+      return { name: key, label: this.I18n.t('js.relation_labels.' + key) };
+    });
   }
 }
 
