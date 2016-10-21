@@ -43,7 +43,7 @@ module Pages
 
     def expect_work_package_listed(work_package)
       within(table_container) do
-        expect(page).to have_cont_nt(work_package.subject)
+        expect(page).to have_content(work_package.subject)
       end
     end
 
