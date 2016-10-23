@@ -205,7 +205,7 @@ end
 group :development do
   gem 'letter_opener'
   gem 'faker'
-  gem 'livingstyleguide', '~> 2.0.0'
+  gem 'livingstyleguide', '~> 2.0.1'
 
   # Pry seems to cause a lot of segfaults in the tests.
   # Therefore, it has been removed from the :test group for now.

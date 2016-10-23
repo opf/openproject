@@ -330,7 +330,7 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
-    livingstyleguide (2.0.0)
+    livingstyleguide (2.0.1)
       minisyntax (>= 0.2.5)
       redcarpet
       sass
@@ -633,7 +633,7 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
-  livingstyleguide (~> 2.0.0)
+  livingstyleguide (~> 2.0.1)
   multi_json (~> 1.12.1)
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.14.0)
