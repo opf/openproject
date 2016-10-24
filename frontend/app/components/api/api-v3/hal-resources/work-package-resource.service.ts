@@ -281,6 +281,10 @@ export class WorkPackageResource extends HalResource {
               delete this.$pristine[key];
             });
 
+            // Remove the current form, otherwise old form data
+            // might still be used for the next edit field in #getSchema()
+            this.form = null;
+
             // Forcefully refresh activities
             wpCacheService.loadWorkPackageLinks(this, 'activities');
 
