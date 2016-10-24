@@ -28,10 +28,7 @@
 
 .wp-edit-field
   padding-left: 0
-
-  // Remove overflow with ellipsis
-  text-overflow: ellipsis
-  overflow: hidden
+  line-height: 1
 
   // Avoid jumping subject field
   &:first-of-type
@@ -67,6 +64,12 @@
   .wp-table--cell-span
     display: inline-block
     max-width: 100%
+
+    .inplace-edit--read-value--value-span
+      overflow: hidden
+      text-overflow: ellipsis
+      display: block
+      line-height: 1.6em
 
     p
       word-wrap: break-word
