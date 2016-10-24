@@ -109,15 +109,23 @@ module API
         # leaves other names untouched.
         # e.g. status_id -> status
         def denormalize_foreign_key_name(attribute, context)
-          id_name = "#{attribute}_id"
+          name, id_name = key_name_with_and_without_id attribute
 
           # When appending an ID is valid, the context object will understand that message
           # in case of a `belongs_to` relation (e.g. status => status_id). The second check is for
           # `has_many` relations (e.g. watcher => watchers).
-          if context.respond_to?(id_name) || context.respond_to?(attribute.pluralize)
+          if context.respond_to?(id_name) || context.respond_to?(name.pluralize)
             id_name
           else
             attribute
+          end
+        end
+
+        def key_name_with_and_without_id(attribute_name)
+          if attribute_name =~ /^(.*)_id$/
+            [$1, attribute_name]
+          else
+            [attribute_name, "#{attribute_name}_id"]
           end
         end
 
