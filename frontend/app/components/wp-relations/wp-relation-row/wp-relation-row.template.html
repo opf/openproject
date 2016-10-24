@@ -10,6 +10,7 @@
         <div class="grid-content medium-5 collapse" wp-single-relation
              ng-if="$ctrl.relatedWorkPackage">
             <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
+               class="wp-relations--subject-field"
                aria-label="{{ $ctrl.relation.type + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
                 {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
             </a>

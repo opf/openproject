@@ -7,6 +7,7 @@
             <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
                 <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
+                   class="wp-relations--subject-field"
                    ng-if="!$ctrl.isCurrentElement()"
                    aria-label="{{ ($ctrl.isParent() ? $ctrl.text.parent : $ctrl.text.children) + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
                    ng-attr-id="{{ $ctrl.isParent() ? 'hierarchy--parent' : ''}}">
