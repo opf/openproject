@@ -65,6 +65,7 @@ export class WorkPackageEditFieldController {
               protected NotificationsService,
               protected ConfigurationService,
               protected wpCacheService: WorkPackageCacheService,
+              protected ENTER_KEY,
               protected I18n) {
 
   }
@@ -81,11 +82,7 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
-    if (this.inEditMode) {
-      return this.formCtrl.updateForm();
-    }
-
-    this.formCtrl.updateWorkPackage()
+    this.formCtrl.onFieldSubmit()
       .finally(() => {
         this.deactivate();
         this._forceFocus = true;
@@ -235,6 +232,26 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public handleUserSubmit() {
+    if (this.inEditMode) {
+      return this.formCtrl.updateForm();
+    }
+
+    return this.submit();
+  }
+
+  /**
+   * Handle users pressing enter inside an edit mode.
+   * Outside an edit mode, the regular save event is captured by handleUserSubmit (submit event).
+   * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
+   * (and on what field he did that).
+   */
+  public handleUserSubmitOnEnter(event) {
+    if (this.inEditMode && event.which === this.ENTER_KEY) {
+      return this.submit();
+    }
+  }
+
   public handleUserFocus() {
     this._hasFocus = true;
   }
@@ -253,7 +270,7 @@ export class WorkPackageEditFieldController {
     }
 
     this.deactivate();
-    this.submit();
+    this.handleUserSubmit();
   }
 
   public handleUserCancel() {
