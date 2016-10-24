@@ -173,6 +173,7 @@ export const openprojectModule = angular.module('openproject', [
   'ngAnimate',
   'ngAria',
   'ngSanitize',
+  'ui.bootstrap',
   angularDragula(angular),
   'ngDialog',
   'truncate',

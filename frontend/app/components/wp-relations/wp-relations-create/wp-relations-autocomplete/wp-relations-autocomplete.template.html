@@ -1,22 +1,9 @@
 <form name="add_relation_form" class="form">
-   <div class="dropdown-wrapper">
-      <ui-select
-              ui-select-focus-fix
-              class="inplace-edit--select -full-width"
-              ng-model="selectedWpId"
-              on-select="onSelect($model)"
-              append-to-body="true"
-              required
-              theme="select2"
-              tabindex="0">
-        <ui-select-match tabindex="-1">{{ $select.selected.to_s }}</ui-select-match>
-        <ui-select-choices
-          refresh-delay="250"
-          refresh="autocompleteWorkPackages($select.search)"
-          repeat="item.id as item in options | filter: item.config.canAdd">
-            <div ng-bind="item.to_s"></div>
-        </ui-select-choices>
-      </ui-select>
-    </div>
+  <input type="text"
+         ng-model="selectedWp"
+         typeahead-append-to-body="true"
+         typeahead-on-select="onSelect($item)"
+         typeahead-wait-ms="100"
+         placeholder="{{ ::text.placeholder }}"
+         uib-typeahead="item.to_s for item in autocompleteWorkPackages($viewValue)">
 </form>
-
