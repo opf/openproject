@@ -38,9 +38,6 @@ require('angular-ui-router');
 
 require('angular-truncate');
 
-require('angular-ui-bootstrap/typeahead-2.2.0.min.js');
-require('angular-ui-bootstrap/typeahead-tpls-2.2.0.min.js');
-
 require('angular-busy/dist/angular-busy');
 require('angular-busy/dist/angular-busy.css');
 

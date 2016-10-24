@@ -30,6 +30,7 @@
     "URIjs": "^1.14.1",
     "amdefine": "^1.0.0",
     "angular-elastic": "^2.5.0",
+    "angular-ui-bootstrap": "^2.2.0",
     "atoa": "^1.0.0",
     "autoprefixer-loader": "^1.2.0",
     "awesome-typescript-loader": "^2.2.4",
