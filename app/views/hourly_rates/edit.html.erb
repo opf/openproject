@@ -79,12 +79,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
   <div class="wp-inline-create-button">
-    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
-    <a href="javascript:" class="add-row-button button -alt-highlight -with-icon icon-add" title="<%= t(:button_add_rate) %>">
-      <%= t(:button_add_rate) %>
+    <a href="javascript:" class="add-row-button wp-inline-create--add-link">
+      <i class="icon icon-add"></i>
+        <%= t(:button_add_budget_item) %>
     </a>
+  </div>
+  <div class="generic-table--action-buttons">
     <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
   </div>
-  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
 <% end %>
 </costs-subform>

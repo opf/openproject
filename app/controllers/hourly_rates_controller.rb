@@ -59,9 +59,10 @@ class HourlyRatesController < ApplicationController
     if @project.nil?
       @rates = DefaultHourlyRate.where(user_id: @user)
                .order("#{DefaultHourlyRate.table_name}.valid_from desc")
+               .to_a
       @rates << @user.default_rates.build(valid_from: Date.today) if @rates.empty?
     else
-      @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }
+      @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }.to_a
       @rates << @user.rates.build(valid_from: Date.today, project: @project) if @rates.empty?
     end
 
