@@ -47,10 +47,14 @@ export class WorkPackageCreateController {
       );
     }
 
-    return this.I18n.t(
-      'js.work_packages.create.header',
-      { type: this.newWorkPackage.type.name }
-    );
+    if (this.newWorkPackage.type) {
+      return this.I18n.t(
+        'js.work_packages.create.header',
+        { type: this.newWorkPackage.type.name }
+      );
+    }
+
+    return this.I18n.t('js.work_packages.create.header_no_type');
   }
 
   constructor(protected $state,

@@ -423,6 +423,7 @@ en:
        title: 'Click here to add a new work package to this list'
       create:
         header: 'New %{type}'
+        header_no_type: 'New work package (Type not yet set)'
         header_with_parent: 'New %{type} (Child of %{type} #%{id})'
         button: 'Create'
       no_results:
