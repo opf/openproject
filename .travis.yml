@@ -34,8 +34,8 @@ rvm:
 sudo: false
 
 cache:
-  - bundler: true
-  - directories:
+  bundler: true
+  directories:
     - frontend/node_modules
     - frontend/bower_components
 
