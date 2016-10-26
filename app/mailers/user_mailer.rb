@@ -49,46 +49,52 @@ class UserMailer < BaseMailer
   end
 
   def work_package_added(user, journal, author)
-    work_package = journal.journable.reload
-    @issue = work_package # instance variable is used in the view
-    @journal = journal
+    User.execute_as user do
+      work_package = journal.journable.reload
+      @issue = work_package # instance variable is used in the view
+      @journal = journal
 
-    set_work_package_headers(work_package)
+      set_work_package_headers(work_package)
 
-    message_id work_package, user
+      message_id work_package, user
 
-    with_locale_for(user) do
-      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      with_locale_for(user) do
+        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      end
     end
   end
 
   def work_package_updated(user, journal, author = User.current)
-    work_package = journal.journable.reload
+    User.execute_as user do
+      work_package = journal.journable.reload
 
-    # instance variables are used in the view
-    @issue = work_package
-    @journal = journal
+      # instance variables are used in the view
+      @issue = work_package
+      @journal = journal
 
-    set_work_package_headers(work_package)
+      set_work_package_headers(work_package)
 
-    message_id journal, user
-    references work_package, user
+      message_id journal, user
+      references work_package, user
 
-    with_locale_for(user) do
-      mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      with_locale_for(user) do
+        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      end
     end
   end
 
   def work_package_watcher_added(work_package, user, watcher_setter)
-    @issue = work_package
-    @watcher_setter = watcher_setter
+    User.execute_as user do
+      @issue = work_package
+      @watcher_setter = watcher_setter
 
-    set_work_package_headers(work_package)
-    message_id work_package, user
-    references work_package, user
+      set_work_package_headers(work_package)
+      message_id work_package, user
+      references work_package, user
 
-    with_locale_for(user) do
-      mail to: user.mail, subject: subject_for_work_package(work_package)
+      with_locale_for(user) do
+        mail to: user.mail, subject: subject_for_work_package(work_package)
+      end
     end
   end
 
