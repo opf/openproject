@@ -2,7 +2,6 @@ AllCops:
   TargetRubyVersion: 2.2
   Exclude:
     - db/schema.rb
-    - lib/plugins/rfpdf/**/*
 
 AccessorMethodName:
   Enabled: false
@@ -29,15 +28,6 @@ Attr:
   Enabled: false
 
 BlockNesting:
-  Enabled: false
-
-BlockDelimiters:
-  Enabled: true
-  EnforcedStyle: semantic
-  IgnoredMethods:
-    - default_scope
-
-Blocks:
   Enabled: false
 
 CaseEquality:
@@ -74,7 +64,7 @@ CyclomaticComplexity:
 Delegate:
   Enabled: false
 
-DeprecatedHashMethods:
+PreferredHashMethods:
   Enabled: false
 
 Documentation:
