@@ -181,7 +181,7 @@ group :test do
   gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
   gem 'capybara', '~> 2.8.1'
-  gem 'capybara-screenshot', '~> 1.0.13'
+  gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'

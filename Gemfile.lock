@@ -598,7 +598,7 @@ DEPENDENCIES
   bourbon (~> 4.2.0)
   capybara (~> 2.8.1)
   capybara-ng (~> 0.2.7)
-  capybara-screenshot (~> 1.0.13)
+  capybara-screenshot (~> 1.0.14)
   capybara-select2!
   carrierwave!
   cells-erb (~> 0.0.8)
