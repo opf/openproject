@@ -1,5 +1,12 @@
 RSpec.configure do |config|
-  config.after(:each) do
+  config.before(:each) do
+    # Clear any mail deliveries
+    # This happens automatically for :mailer specs
+    ActionMailer::Base.delivery_method = :test
+    ActionMailer::Base.deliveries.clear
+  end
+
+  config.append_after(:each) do
     # Cleanup after specs changing locale explicitly or
     # by calling code in the app setting changing the locale.
     I18n.locale = :en
@@ -7,10 +14,6 @@ RSpec.configure do |config|
     # Set the class instance variable @current_user to nil
     # to avoid having users from one spec present in the next
     ::User.instance_variable_set(:@current_user, nil)
-
-    # Clear any mail deliveries
-    # This happens automatically for :mailer specs
-    ActionMailer::Base.deliveries.clear
   end
 
   # We don't want this to be reported on CI as it breaks the build
