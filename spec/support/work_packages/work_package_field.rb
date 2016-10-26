@@ -10,7 +10,7 @@ class WorkPackageField
                  property_name,
                  selector: nil)
 
-    @property_name = property_name
+    @property_name = property_name.to_s
     @context = context
     @selector = selector || ".inplace-edit.#{property_name}"
 
@@ -41,7 +41,9 @@ class WorkPackageField
   end
 
   def expect_active!
-    expect(element).to have_selector(field_type, wait: 10)
+    expect(element)
+      .to have_selector(field_type, wait: 10),
+          "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
   end
 
   def expect_inactive!
@@ -57,7 +59,7 @@ class WorkPackageField
   end
 
   def save!
-    if @property_name.to_s == 'description'
+    if @property_name == 'description'
       submit_by_dashboard
     else
       submit_by_enter
@@ -153,15 +155,15 @@ class WorkPackageField
 
   def field_type
     @field_type ||= begin
-      case property_name
-      when :assignee,
-           :responsible,
-           :priority,
-           :project,
-           :status,
-           :type,
-           :version,
-           :category
+      case property_name.to_s
+      when 'assignee',
+           'responsible',
+           'priority',
+           'project',
+           'status',
+           'type',
+           'version',
+           'category'
         :select
       else
         :input
