@@ -122,16 +122,36 @@ module Pages
 
     def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
-        field = work_package_field key
-        field.activate!
-
-        field.set_value value
-        # select fields are saved on change
-        field.save! if save && field.input_element.tag_name != 'select'
-
+        set_attribute(key, value, save: save)
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications
         end
+      end
+    end
+
+    ##
+    # Set a single attribute while retrying to open the field
+    # if unsuccessful at first.
+    def set_attribute(key, value, save: true)
+      field = work_package_field key
+
+      # Retry to set attributes due to reloading the page after setting
+      # an attribute, which may cause an input not to open properly.
+      retried = false
+      begin
+        field.activate_edition
+        field.set_value value
+
+        # select fields are saved on change
+        field.save! if save && field.input_element.tag_name != 'select'
+      rescue => e
+        if retried
+          raise e
+        end
+        $stderr.puts "Failed to set attribute #{key}: #{e.message}. Retrying"
+        retried = true
+        sleep 1
+        retry
       end
     end
 

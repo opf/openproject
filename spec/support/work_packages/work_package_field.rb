@@ -90,7 +90,7 @@ class WorkPackageField
   end
 
   def activate_edition
-    element.find("#{trigger_link_selector}").click
+    element.find(trigger_link_selector).click
   end
 
   def input_element
