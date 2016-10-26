@@ -130,7 +130,7 @@ module Pages
     def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
         field = work_package_field key
-        field.activate_edition
+        field.activate!
 
         field.set_value value
         # select fields are saved on change
@@ -151,6 +151,8 @@ module Pages
         else
           WorkPackageField.new page, key
         end
+      elsif key == :description
+        WorkPackageTextAreaField.new page, key
       else
         WorkPackageField.new page, key
       end

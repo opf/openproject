@@ -160,6 +160,7 @@ class WorkPackageField
            :project,
            :status,
            :type,
+           :version,
            :category
         :select
       else
