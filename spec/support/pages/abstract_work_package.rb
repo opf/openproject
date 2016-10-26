@@ -75,17 +75,10 @@ module Pages
     end
 
     def ensure_page_loaded
-      tries = 0
-      begin
-        find('.work-package-details-activities-activity-contents .user',
-             text: work_package.journals.last.user.name,
-             wait: 10)
-      rescue
-        # HACK This error may happen since activities are loaded several times
-        # in the old resource, and may cause a reload.
-        tries += 1
-        retry unless tries > 5
-      end
+      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                    text: work_package.journals.last.user.name,
+                                    minimum: 1,
+                                    wait: 10)
     end
 
     def expect_attributes(attribute_expectations)
