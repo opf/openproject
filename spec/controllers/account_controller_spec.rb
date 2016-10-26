@@ -88,7 +88,8 @@ describe AccountController, type: :controller do
       end
 
       it 'should create users on the fly' do
-        Setting.self_registration = '0'
+        allow(Setting).to receive(:self_registration).and_return('0')
+        allow(Setting).to receive(:self_registration?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                firstname: 'Foo',
                                                                lastname: 'Smith',
