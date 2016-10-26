@@ -73,7 +73,7 @@ describe 'API v2', type: :request do
 
       before do
         allow(OpenProject::Configuration).to receive(:apiv2_enable_basic_auth?).and_return(enabled)
-        get request_url, nil, { 'HTTP_AUTHORIZATION' => credentials }
+        get request_url, headers: { 'Authorization' => credentials }
       end
 
       context 'when enabled' do
