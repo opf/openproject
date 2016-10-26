@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,35 +24,45 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import ExpressionService from "../../common/xss/expression.service";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+describe('bindUnescapedHtml Directive', function() {
+  var compile, element, scope;
 
-export class FormattableDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-formattable-field.directive.html'
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(angular.mock.module('openproject.services'));
 
-  protected ExpressionService:ExpressionService;
+  beforeEach(inject(function($rootScope, $compile) {
+    var html = '<span bind-unescaped-html="text"></span>';
 
-  constructor(public resource: HalResource,
-              public name: string,
-              public schema) {
-    super(resource, name, schema);
+    element = angular.element(html);
+    scope = $rootScope.$new();
 
-    this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
-  }
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-  public get value() {
-    if(!this.schema) {
-      return null;
-    }
-    return this.unescape(this.resource[this.name].html);
-  }
+  describe('when content is unescaped', function() {
+    beforeEach(function() {
+      scope.text = '<p>Some unescaped {{ 3 + 5 }} angular expression</p>';
+      compile();
+    });
 
-  // Escape the given HTML string from the backend, which contains escaped Angular expressions.
-  // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
-  protected unescape(html:string) {
-    return this.ExpressionService.unescape(html);
-  }
-}
+    it('should not matter', function() {
+      expect(element.find('p').text()).to.equal('Some unescaped {{ 3 + 5 }} angular expression');
+    });
+  });
+
+  describe('when content is escaped', function() {
+    beforeEach(function() {
+      scope.text = '<p>Some escaped {{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }} angular expression</p>';
+      compile();
+    });
+
+    it('should not matter', function() {
+      expect(element.find('p').text()).to.equal('Some escaped {{ 3 + 5 }} angular expression');
+    });
+  });
+});

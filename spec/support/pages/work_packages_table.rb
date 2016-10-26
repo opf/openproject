@@ -47,6 +47,10 @@ module Pages
       end
     end
 
+    def has_work_packages_listed?(work_packages)
+      work_packages.all? { |wp| has_text? wp.subject }
+    end
+
     def expect_no_work_package_listed
       within(table_container) do
         expect(page).to have_selector('#empty-row-notification')

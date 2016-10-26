@@ -1,6 +1,7 @@
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Heavily borrows from foundation-apps ModalFactory. Copyright (c) 2014 ZURB, inc.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,33 +27,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import ExpressionService from "../../common/xss/expression.service";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import ExpressionService from "../expression.service";
+function bindUnescapedHtml(ExpressionService:ExpressionService) {
+  var foundationModalLink = function (scope) {
+    scope.$watch('value', (value) => {
+      scope.escapedValue = '';
 
-export class FormattableDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-formattable-field.directive.html'
+      if (value) {
+        scope.escapedValue = ExpressionService.unescape(value.toString());
+      }
+    });
+  };
 
-  protected ExpressionService:ExpressionService;
-
-  constructor(public resource: HalResource,
-              public name: string,
-              public schema) {
-    super(resource, name, schema);
-
-    this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
-  }
-
-  public get value() {
-    if(!this.schema) {
-      return null;
-    }
-    return this.unescape(this.resource[this.name].html);
-  }
-
-  // Escape the given HTML string from the backend, which contains escaped Angular expressions.
-  // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
-  protected unescape(html:string) {
-    return this.ExpressionService.unescape(html);
-  }
+  return {
+    restrict: 'A',
+    template: '<span ng-bind-html="escapedValue"></span>',
+    scope: {
+      value: '=bindUnescapedHtml',
+    },
+    link: foundationModalLink,
+  };
 }
+
+angular
+  .module('openproject.uiComponents')
+  .directive('bindUnescapedHtml', bindUnescapedHtml);

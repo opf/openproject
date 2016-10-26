@@ -26,33 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayField} from "../wp-display-field/wp-display-field.module";
-import ExpressionService from "../../common/xss/expression.service";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {opServicesModule} from '../../../angular-modules';
 
-export class FormattableDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-formattable-field.directive.html'
+export default class ExpressionService {
 
-  protected ExpressionService:ExpressionService;
-
-  constructor(public resource: HalResource,
-              public name: string,
-              public schema) {
-    super(resource, name, schema);
-
-    this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
+  // This is what returned by rails-angular-xss when it discoveres double open curly braces
+  // See https://github.com/opf/rails-angular-xss for more information.
+  public get UNESCAPED_EXPRESSION() {
+    return '{{';
   }
 
-  public get value() {
-    if(!this.schema) {
-      return null;
-    }
-    return this.unescape(this.resource[this.name].html);
+  public get ESCAPED_EXPRESSION() {
+    return '{{ DOUBLE_LEFT_CURLY_BRACE }}';
   }
 
-  // Escape the given HTML string from the backend, which contains escaped Angular expressions.
-  // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
-  protected unescape(html:string) {
-    return this.ExpressionService.unescape(html);
+  public escape(input:string) {
+    return input.replace(new RegExp(this.UNESCAPED_EXPRESSION, 'g'), this.ESCAPED_EXPRESSION);
+  }
+
+  public unescape(input:string) {
+    return input.replace(new RegExp(this.ESCAPED_EXPRESSION, 'g'), this.UNESCAPED_EXPRESSION);
   }
 }
+
+opServicesModule.service('ExpressionService', ExpressionService);
