@@ -91,8 +91,6 @@ module Redmine
         def desc(txt)
           @@desc = txt
         end
-
-        include OpenProject::WikiFormatting::Macros::Default
       end
     end
   end

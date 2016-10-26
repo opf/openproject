@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'redmine/wiki_formatting/macros'
+
 module OpenProject
   module WikiFormatting
     module Macros
