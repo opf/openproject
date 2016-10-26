@@ -383,9 +383,6 @@ export class WorkPackageResource extends HalResource {
             // might still be used for the next edit field in #getSchema()
             this.form = null;
 
-            // Forcefully refresh activities
-            wpCacheService.loadWorkPackageLinks(this, 'activities');
-
             deferred.resolve(this);
           })
           .catch(error => {
