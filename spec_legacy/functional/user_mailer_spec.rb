@@ -42,12 +42,10 @@ describe UserMailer, type: :mailer do
     WorkPackage.delete_all
     Project.delete_all
     ::Type.delete_all
-
-    User.current = User.anonymous
   end
 
   it 'should test mail sends a simple greeting' do
-    user = FactoryGirl.create(:user, mail: 'foo@bar.de')
+    user = FactoryGirl.create(:admin, mail: 'foo@bar.de')
 
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
 
@@ -66,7 +64,6 @@ describe UserMailer, type: :mailer do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
-    User.current = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -109,7 +106,6 @@ describe UserMailer, type: :mailer do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    User.current = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -155,8 +151,6 @@ describe UserMailer, type: :mailer do
       Setting.host_name = 'mydomain.foo/rdm'
       Setting.protocol = 'http'
       OpenProject::Configuration['rails_relative_url_root'] = nil
-
-      User.current = FactoryGirl.create(:admin)
 
       project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -251,7 +245,6 @@ describe UserMailer, type: :mailer do
     # notify him
     user.pref[:no_self_notified] = false
     user.pref.save
-    User.current = user
     ActionMailer::Base.deliveries.clear
     UserMailer.news_added(user, news, user).deliver_now
     assert_equal 1, last_email.to.size
@@ -259,7 +252,6 @@ describe UserMailer, type: :mailer do
     # nobody to notify
     user.pref[:no_self_notified] = true
     user.pref.save
-    User.current = user
     ActionMailer::Base.deliveries.clear
     UserMailer.news_added(user, news, user).deliver_now
     assert ActionMailer::Base.deliveries.empty?
@@ -470,7 +462,7 @@ describe UserMailer, type: :mailer do
 
   def setup_complex_issue_update
     project = FactoryGirl.create(:valid_project)
-    user    = FactoryGirl.create(:user, member_in_project: project)
+    user    = FactoryGirl.create(:admin, member_in_project: project)
     type = FactoryGirl.create(:type, name: 'My Type')
     project.types << type
     project.save
