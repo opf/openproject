@@ -149,9 +149,14 @@ describe 'edit work package', js: true do
     wp_page.update_attributes assignee: '-'
     wp_page.expect_attributes assignee: '-'
 
-    # Ensure the value is not only stored in the WP resource
     wp_page.visit!
-    wp_page.ensure_page_loaded
+
+    # Another (empty) journal should exist now
+    expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                  text: work_package.journals.last.user.name,
+                                  wait: 10,
+                                  count: 2)
+
     wp_page.view_all_attributes
     wp_page.expect_attributes assignee: '-'
 
