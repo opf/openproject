@@ -13,7 +13,6 @@ RSpec.configure do |config|
   config.display_try_failure_messages = true
 
   ##
-  # When :retry is passed to an example, and no value is passed to it
-  # use one retry.
-  config.default_retry_count = 1
+  # By default, do not retry specs
+  config.default_retry_count = 0
 end
