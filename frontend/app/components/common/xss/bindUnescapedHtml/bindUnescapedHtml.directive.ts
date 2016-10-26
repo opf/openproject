@@ -28,13 +28,14 @@
 // ++
 
 import ExpressionService from "../expression.service";
-function bindUnescapedHtml(ExpressionService:ExpressionService) {
+function bindUnescapedHtml(ExpressionService:ExpressionService, $sce) {
   var foundationModalLink = function (scope) {
     scope.$watch('value', (value) => {
       scope.escapedValue = '';
 
       if (value) {
-        scope.escapedValue = ExpressionService.unescape(value.toString());
+        value = ExpressionService.unescape(value.toString());
+        scope.escapedValue = $sce.trustAsHtml(value);
       }
     });
   };
