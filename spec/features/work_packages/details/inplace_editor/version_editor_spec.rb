@@ -43,10 +43,7 @@ describe 'subject inplace editor', js: true, selenium: true do
     work_package_page.ensure_page_loaded
 
     field = work_package_page.work_package_field(:version)
-
-    field.activate_edition
-
-    expect(page).to have_selector("#{field.field_selector} select")
+    field.activate!
 
     options = page.all("#{field.field_selector} select option")
     expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
