@@ -11,8 +11,8 @@ import {
 class WpRelationRowDirectiveController {
   public relatedWorkPackage: RelatedWorkPackage;
   public relationType: string;
-
-  public showRelationInfo: boolean = false;
+  public showRelationInfo:boolean = false;
+  public showEditForm:boolean = false;
 
   public userInputs = {
     description:this.relatedWorkPackage.relatedBy.description,
@@ -37,6 +37,12 @@ class WpRelationRowDirectiveController {
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
+  public saveDescription(newDescription:string) {
+    this.relation.updateImmediately({
+      description: this.relation.description
+    }).then(this.showEditForm = false);
   }
 
   public toggleUserDescriptionForm() {

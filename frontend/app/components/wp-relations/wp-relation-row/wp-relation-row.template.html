@@ -43,24 +43,29 @@
 
     <div class="grid-block hierarchy-item" style="border: 1px dotted lightblue; padding:4px;" ng-show="$ctrl.showRelationInfo" ng-init="editDescription = false">
         <div class="grid-content medium-10 collapse">
-            <div ng-hide="editDescription">
-                {{$ctrl.relatedWorkPackage.relatedBy.description || 'no description set'}}
+            <div ng-hide="$ctrl.showEditForm">
+                {{$ctrl.relation.description || 'no description set'}}
             </div>
-            <div ng-show="editDescription">
-                <input type="text" />
+            <div ng-show="$ctrl.showEditForm">
+                <input type="text" ng-model="$ctrl.relation.description" />
             </div>
         </div>
-        <div class="grid-content medium-2 collapse" style="text-align: right" ng-hide="editDescription">
-            <accessible-by-keyboard execute="editDescription = true">
+        <div class="grid-content medium-2 collapse" style="text-align: right" ng-hide="$ctrl.showEditForm">
+            <accessible-by-keyboard execute="$ctrl.showEditForm = true">
                 <icon-wrapper icon-name="edit"
                               icon-title="'edit description'">
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>
-        <div class="grid-content medium-2 collapse" style="text-align: right" ng-show="editDescription">
-            <accessible-by-keyboard execute="editDescription = false">
+        <div class="grid-content medium-2 collapse" style="text-align: right" ng-show="$ctrl.showEditForm">
+            <accessible-by-keyboard execute="$ctrl.saveDescription()">
+                <icon-wrapper icon-name="checkmark"
+                              icon-title="save description'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard execute="$ctrl.showEditForm = false">
                 <icon-wrapper icon-name="remove"
-                              icon-title="'edit description'">
+                              icon-title="cancel editing'">
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>
