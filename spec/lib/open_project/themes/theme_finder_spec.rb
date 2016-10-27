@@ -31,9 +31,9 @@ require 'spec_helper'
 module OpenProject
   module Themes
     describe ThemeFinder do
-      before do ThemeFinder.clear_themes end
-      # clear theme state after we are finished so that we do not disturb following tests
-      after(:all) do ThemeFinder.clear_themes end
+      after(:each) do
+        ThemeFinder.clear_themes
+      end
 
       describe '.themes' do
         it 'returns all instances of descendants of themes' do
@@ -78,6 +78,7 @@ module OpenProject
           theme = double # do not invoke inherited callback
           ThemeFinder.register_theme(theme)
           expect(ThemeFinder.themes).to include theme
+          ThemeFinder.forget_theme(theme)
         end
 
         it 'clears the cache successfully' do
