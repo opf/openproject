@@ -13,10 +13,14 @@ class WpRelationRowDirectiveController {
   public relationType: string;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
+  public availableRelationTypes: any;
+  public selectedRelationType: any;
 
   public userInputs = {
     description:this.relatedWorkPackage.relatedBy.description,
-    showDescriptionEditForm:false
+    showDescriptionEditForm:false,
+    showRelationTypesForm: false,
+    showRelationInfo:false
   };
 
   public relation: RelationResourceInterface = this.relatedWorkPackage.relatedBy;
@@ -40,9 +44,30 @@ class WpRelationRowDirectiveController {
   }
 
   public saveDescription(newDescription:string) {
+    this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
+    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
+  };
+
+  public saveDescription() {
     this.relation.updateImmediately({
       description: this.relation.description
-    }).then(this.showEditForm = false);
+    }).then(() => {
+      this.userInputs.showDescriptionEditForm = false;
+      this.wpNotificationsService.showSave(this.relatedWorkPackage);
+    });
+  }
+
+  public saveRelationType() {
+    this.relation.updateImmediately({
+      type: this.selectedRelationType.name
+    }).then((savedRelation) => {
+      this.wpNotificationsService.showSave(this.relatedWorkPackage);
+
+      this.relatedWorkPackage.relatedBy = savedRelation;
+      this.relation = savedRelation;
+
+      this.userInputs.showRelationTypesForm = false;
+    });
   }
 
   public toggleUserDescriptionForm() {

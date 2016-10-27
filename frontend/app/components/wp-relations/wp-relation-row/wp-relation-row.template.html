@@ -4,7 +4,16 @@
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
-            {{ $ctrl.relation.type }}
+            <span ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  ng-if="!$ctrl.userInputs.showRelationTypesForm">
+                {{ $ctrl.relation.type }}
+            </span>
+            <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
+                <select class="wp-inline-edit--field form--select"
+                        ng-model="$ctrl.selectedRelationType"
+                        ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
+                        ng-change="$ctrl.saveRelationType()"></select>
+            </div>
         </div>
 
         <div class="grid-content medium-5 collapse" wp-single-relation
@@ -24,9 +33,9 @@
 
         <div class="grid-content medium-2 collapse wp-relations-controls-section">
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                    execute="$ctrl.showRelationInfo = !$ctrl.showRelationInfo">
+                                    execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
                 <icon-wrapper icon-name="info1"
-                              icon-title="'Info for related workpackage'">
+                              icon-title="Info for related workpackage">
                 </icon-wrapper>
             </accessible-by-keyboard>
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
@@ -41,29 +50,31 @@
         </div>
     </div>
 
-    <div class="grid-block hierarchy-item" style="border: 1px dotted lightblue; padding:4px;" ng-show="$ctrl.showRelationInfo" ng-init="editDescription = false">
+    <div class="grid-block hierarchy-item description-container" ng-show="$ctrl.userInputs.showRelationInfo" ng-init="editDescription = false">
         <div class="grid-content medium-10 collapse">
-            <div ng-hide="$ctrl.showEditForm">
+            <div ng-hide="$ctrl.userInputs.showDescriptionEditForm">
                 {{$ctrl.relation.description || 'no description set'}}
             </div>
-            <div ng-show="$ctrl.showEditForm">
-                <input type="text" ng-model="$ctrl.relation.description" />
+            <div ng-show="$ctrl.userInputs.showDescriptionEditForm">
+                <div class="wp-edit-field inplace-edit">
+                    <input class="wp-inline-edit--field" type="text" ng-model="$ctrl.relation.description" />
+                </div>
             </div>
         </div>
-        <div class="grid-content medium-2 collapse" style="text-align: right" ng-hide="$ctrl.showEditForm">
-            <accessible-by-keyboard execute="$ctrl.showEditForm = true">
+        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-hide="$ctrl.userInputs.showDescriptionEditForm">
+            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = true">
                 <icon-wrapper icon-name="edit"
-                              icon-title="'edit description'">
+                              icon-title="edit description">
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>
-        <div class="grid-content medium-2 collapse" style="text-align: right" ng-show="$ctrl.showEditForm">
+        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-show="$ctrl.userInputs.showDescriptionEditForm">
             <accessible-by-keyboard execute="$ctrl.saveDescription()">
                 <icon-wrapper icon-name="checkmark"
                               icon-title="save description'">
                 </icon-wrapper>
             </accessible-by-keyboard>
-            <accessible-by-keyboard execute="$ctrl.showEditForm = false">
+            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = false">
                 <icon-wrapper icon-name="remove"
                               icon-title="cancel editing'">
                 </icon-wrapper>
