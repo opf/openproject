@@ -128,7 +128,9 @@ class WorkPackageField
   end
 
   def editable?
-    element['class'].include? '-editable'
+    find("#{selector}.-editable", wait: 10)
+  rescue Capybara::ElementNotFound
+    false
   end
 
   def editing?
