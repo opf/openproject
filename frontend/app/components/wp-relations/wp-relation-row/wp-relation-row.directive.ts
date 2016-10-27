@@ -13,8 +13,8 @@ class WpRelationRowDirectiveController {
   public relationType: string;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
-  public availableRelationTypes: any;
-  public selectedRelationType: any;
+  public availableRelationTypes: RelationResourceInterface[];
+  public selectedRelationType: RelationResourceInterface;
 
   public userInputs = {
     description:this.relatedWorkPackage.relatedBy.description,
@@ -27,7 +27,7 @@ class WpRelationRowDirectiveController {
   public text: Object;
 
   constructor(protected $scope: ng.IScope,
-              protected $timeout,
+              protected $timeout:ng.ITimeoutService,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelationsService: WorkPackageRelationsService,
