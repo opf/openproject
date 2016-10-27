@@ -137,19 +137,20 @@ module Pages
 
       # Retry to set attributes due to reloading the page after setting
       # an attribute, which may cause an input not to open properly.
-      retried = false
+      retries = 0
       begin
         field.activate_edition
         field.set_value value
 
         # select fields are saved on change
         field.save! if save && field.input_element.tag_name != 'select'
+        field.expect_inactive!
       rescue => e
-        if retried
+        if retries > 2
           raise e
         end
         $stderr.puts "Failed to set attribute #{key}: #{e.message}. Retrying"
-        retried = true
+        retries += 1
         sleep 1
         retry
       end
@@ -232,7 +233,7 @@ module Pages
     def click_create_wp_button(type)
       find('.add-work-package:not([disabled])', text: 'Create').click
 
-      find('#types-context-menu .menu-item', text: type).click
+      find('#types-context-menu .menu-item', text: type, wait: 10).click
     end
 
     def select_type(type)
