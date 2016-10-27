@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
   let(:group) { FactoryGirl.build_stubbed(:group) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 6 }
     let(:type) { :list_optional }
     let(:class_key) { :member_of_group }
@@ -56,7 +55,7 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       before do
         allow(Group)
           .to receive(:all)
@@ -64,7 +63,7 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
       end
 
       it 'is an array of group values' do
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[group.name, group.id.to_s]]
       end
     end

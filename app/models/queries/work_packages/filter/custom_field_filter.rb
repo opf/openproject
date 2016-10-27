@@ -27,28 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::CustomFieldFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :field
+class Queries::WorkPackages::Filter::CustomFieldFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+  attr_accessor :custom_field
 
-  def initialize(field, project)
-    self.field = field
-    self.project = project
-  end
+  validate :custom_field_valid
 
-  def values
-    case field.field_format
+  def allowed_values
+    case custom_field.field_format
     when 'list'
-      field.possible_values
+      custom_field.possible_values.map { |value| [value, value] }
     when 'bool'
       [[I18n.t(:general_text_yes), ActiveRecord::Base.connection.unquoted_true],
        [I18n.t(:general_text_no), ActiveRecord::Base.connection.unquoted_false]]
     when 'user', 'version'
-      field.possible_values_options(project)
+      custom_field.possible_values_options(context)
     end
   end
 
   def type
-    case field.field_format
+    return nil unless custom_field
+
+    case custom_field.field_format
     when 'int', 'float'
       :integer
     when 'text'
@@ -68,33 +68,73 @@ class Queries::WorkPackages::Filter::CustomFieldFilter < Queries::WorkPackages::
     20
   end
 
-  def key
-    "cf_#{field.id}".to_sym
-  end
-
   def name
-    field.name
+    :"cf_#{custom_field.id}"
   end
 
-  def self.create(project)
-    custom_fields = if project
-                      project
-                        .all_work_package_custom_fields(include: :translations)
-                    else
-                      WorkPackageCustomField.filter
-                                            .for_all
-                                            .where.not(field_format: ['user', 'version'])
-                                            .includes(:translations)
-                    end
+  def human_name
+    custom_field ? custom_field.name : ''
+  end
 
-    custom_fields.each_with_object({}.with_indifferent_access) do |cf, hash|
-      filter = new(cf, project)
+  def name=(field_name)
+    cf_id = self.class.key.match(field_name)[1]
 
-      hash[filter.key] = filter
-    end
+    self.custom_field = WorkPackageCustomField.find_by_id(cf_id.to_i)
+
+    super
   end
 
   def self.key
-    /cf_\d+/
+    /cf_(\d+)/
+  end
+
+  def self.all_for(context = nil)
+    custom_fields(context).map do |cf|
+      filter = new
+      filter.custom_field = cf
+      filter.context = context
+      filter
+    end
+  end
+
+  def self.custom_fields(context)
+    if context
+      context
+        .all_work_package_custom_fields
+    else
+      WorkPackageCustomField
+        .filter
+        .for_all
+        .where.not(field_format: ['user', 'version'])
+    end
+  end
+
+  private
+
+  def custom_field_valid
+    if custom_field.nil?
+      errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.inexistent'))
+    elsif invalid_custom_field_for_context?
+      errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.invalid'))
+    end
+  end
+
+  def validate_inclusion_of_operator
+    super if custom_field
+  end
+
+  def invalid_custom_field_for_context?
+    context && invalid_custom_field_for_project? ||
+      !context && invalid_custom_field_globally?
+  end
+
+  def invalid_custom_field_globally?
+    !self.class.custom_fields(context)
+         .exists?(custom_field.id)
+  end
+
+  def invalid_custom_field_for_project?
+    !self.class.custom_fields(context)
+         .map(&:id).include? custom_field.id
   end
 end

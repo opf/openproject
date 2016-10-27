@@ -33,6 +33,7 @@ module API
   module V3
     module Users
       class UsersAPI < ::API::OpenProjectAPI
+        helpers ::API::V3::Utilities::FilterParamsHelper
         helpers do
           def user_transition(allowed)
             if allowed
@@ -68,7 +69,19 @@ module API
           get do
             allow_only_admin
 
-            users = User.all.includes(:preference).order(:id)
+            query = ::Queries::Users::UserQuery.new
+
+            if params[:filters]
+              filters = parse_filters_from_json(params[:filters])
+
+              filters[:attributes].each do |filter_name|
+                query = query.where(filter_name,
+                                    filters[:operators][filter_name],
+                                    filters[:values][filter_name])
+              end
+            end
+
+            users = query.results.includes(:preference).order(:id)
             PaginatedUserCollectionRepresenter.new(users,
                                                    api_v3_paths.users,
                                                    page: to_i_or_nil(params[:offset]),

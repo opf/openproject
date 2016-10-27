@@ -26,18 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for 'work package query filter' do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance) { described_class.create(project)[instance_key || class_key] }
-  let(:instance_key) { nil }
-  let(:class_key) { raise "needs to be defined" }
-  let(:name) { WorkPackage.human_attribute_name(instance_key || class_key) }
-
-  describe '.create' do
-    it 'returns a hash with a subject key and a filter instance' do
-      expect(described_class.create(project)[instance_key || class_key]).to be_a(described_class)
-    end
+shared_context 'filter tests' do
+  let(:context) { nil }
+  let(:values) { ['bogus'] }
+  let(:operator) { '=' }
+  let(:instance) do
+    filter = described_class.new
+    filter.context = context
+    filter.operator = operator
+    filter.values = values
+    filter
   end
+  let(:name) { model.human_attribute_name(instance_key || class_key) }
+  let(:model) { WorkPackage }
+end
+
+shared_examples_for 'basic query filter' do
+  include_context 'filter tests'
+
+  let(:context) { project }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:instance_key) { nil }
+  let(:class_key) { raise 'needs to be defined' }
+  let(:type) { raise 'needs to be defined' }
+  let(:order) { nil }
 
   describe '.key' do
     it 'is the defined key' do
@@ -45,15 +57,17 @@ shared_examples_for 'work package query filter' do
     end
   end
 
-  describe '#key' do
+  describe '#name' do
     it 'is the defined key' do
-      expect(instance.key).to eql(instance_key || class_key)
+      expect(instance.name).to eql(instance_key || class_key)
     end
   end
 
   describe '#order' do
     it 'has the defined order' do
-      expect(instance.order).to eql(order)
+      if order
+        expect(instance.order).to eql(order)
+      end
     end
   end
 
@@ -63,9 +77,9 @@ shared_examples_for 'work package query filter' do
     end
   end
 
-  describe '#name' do
+  describe '#human_name' do
     it 'is the l10 name for the filter' do
-      expect(instance.name).to eql(name)
+      expect(instance.human_name).to eql(name)
     end
   end
 end

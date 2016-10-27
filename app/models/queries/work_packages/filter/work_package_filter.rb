@@ -27,10 +27,49 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join('config/constants/work_package_filter')
+class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::BaseFilter
+  include ActiveModel::Serialization
+  # (de-)serialization
+  def self.from_hash(filter_hash)
+    filter_hash.keys.map { |field| new(field, filter_hash[field]) }
+  end
 
-module Queries::WorkPackages::FilterRegister
-  class << self
-    delegate :register, :filters, to: ::Constants::WorkPackageFilter
+  def to_hash
+    { name => attributes_hash }
+  end
+
+  def human_name
+    WorkPackage.human_attribute_name(name)
+  end
+
+  alias :project :context
+  alias :project= :context=
+
+  def attributes
+    { name: name, operator: operator, values: values }
+  end
+
+  def possible_types_by_operator
+    @@operators_by_filter_type.select { |_key, operators| operators.include?(operator) }.keys.sort
+  end
+
+  def ==(filter)
+    filter.attributes_hash == attributes_hash
+  end
+
+  protected
+
+  def attributes_hash
+    @@filter_params.inject({}) do |params, param_field|
+      params.merge(param_field => send(param_field))
+    end
+  end
+
+  private
+
+  def stringify_values
+    unless values.nil?
+      values.map!(&:to_s)
+    end
   end
 end

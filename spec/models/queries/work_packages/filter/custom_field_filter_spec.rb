@@ -30,7 +30,13 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance) { described_class.create(project)["cf_#{list_wp_custom_field.id}"] }
+  let(:instance) do
+    filter = described_class.new
+    filter.name = "cf_#{custom_field.id}"
+    filter.operator = '='
+    filter.context = project
+    filter
+  end
   let(:instance_key) { nil }
   let(:name) { field.name }
 
@@ -43,8 +49,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:version_wp_custom_field) { FactoryGirl.build_stubbed(:version_wp_custom_field) }
   let(:date_wp_custom_field) { FactoryGirl.build_stubbed(:date_wp_custom_field) }
   let(:string_wp_custom_field) { FactoryGirl.build_stubbed(:string_wp_custom_field) }
+  let(:custom_field) { list_wp_custom_field }
 
-  let(:all_custom_fields) {
+  let(:all_custom_fields) do
     [list_wp_custom_field,
      bool_wp_custom_field,
      int_wp_custom_field,
@@ -54,89 +61,140 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
      version_wp_custom_field,
      date_wp_custom_field,
      string_wp_custom_field]
-  }
+  end
 
   before do
-    if project
-      allow(project)
-        .to receive(:all_work_package_custom_fields)
-        .with(include: :translations)
-        .and_return(all_custom_fields)
+    all_custom_fields.each do |cf|
+      allow(WorkPackageCustomField)
+        .to receive(:find_by_id)
+        .with(cf.id)
+        .and_return(cf)
     end
   end
 
-  describe '.create' do
-    context 'within a project' do
-      it 'returns a hash with a subject key and a filter instance for every custom field' do
-        expect(described_class.create(project)["cf_#{list_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{bool_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{int_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{float_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{text_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{user_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{version_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{date_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{string_wp_custom_field.id}"])
-          .to be_a(described_class)
+  describe '.valid?' do
+    let(:custom_field) { string_wp_custom_field }
+    before do
+      instance.values = ['bogus']
+    end
+
+    before do
+      if project
+        allow(project)
+          .to receive_message_chain(:all_work_package_custom_fields, :map, :include?)
+          .and_return(true)
+      else
+        allow(WorkPackageCustomField)
+          .to receive_message_chain(:filter, :for_all, :where, :not, :exists?)
+          .and_return(true)
       end
     end
 
-    context 'outside of a project' do
+    it 'is invalid without a custom field' do
+      allow(WorkPackageCustomField)
+        .to receive(:find_by_id)
+        .with(100)
+        .and_return(nil)
+
+      instance.name = 'cf_100'
+
+      expect(instance).to_not be_valid
+    end
+
+    shared_examples_for 'custom field type dependent validity' do
+      context 'with a string custom field' do
+        it 'is valid' do
+          expect(instance).to be_valid
+        end
+      end
+
+      context 'with a list custom field' do
+        let(:custom_field) { list_wp_custom_field }
+
+        before do
+          instance.values = [list_wp_custom_field.possible_values.first.to_s]
+        end
+
+        it 'is valid' do
+          expect(instance).to be_valid
+        end
+
+        it "is invalid if the value is not one of the custom field's possible values" do
+          instance.values = ['bogus']
+
+          expect(instance).to_not be_valid
+        end
+      end
+    end
+
+    context 'within a project' do
+      it 'is invalid with a custom field not active in the project' do
+        scope = double('AR::Scope')
+        allow(project)
+          .to receive(:all_work_package_custom_fields)
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:map)
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:include?)
+          .with(instance.custom_field.id)
+          .and_return(false)
+
+        expect(instance).to_not be_valid
+      end
+
+      it_behaves_like 'custom field type dependent validity'
+    end
+
+    context 'without a project' do
       let(:project) { nil }
 
-      before do
+      it 'is invalid with a custom field not valid as a global filter' do
+        scope = double('AR::Scope')
         allow(WorkPackageCustomField)
-          .to receive_message_chain(:filter, :for_all, :where, :not, :includes)
-          .and_return([list_wp_custom_field,
-                       bool_wp_custom_field,
-                       int_wp_custom_field,
-                       float_wp_custom_field,
-                       text_wp_custom_field,
-                       date_wp_custom_field,
-                       string_wp_custom_field])
+          .to receive(:filter)
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:for_all)
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:where)
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:not)
+          .with(field_format: ['user', 'version'])
+          .and_return(scope)
+
+        allow(scope)
+          .to receive(:exists?)
+          .with(instance.custom_field.id)
+          .and_return(false)
+
+        expect(instance).to_not be_valid
       end
 
-      it 'returns a hash with a subject key and a filter instance for every custom field' do
-        expect(described_class.create(project)["cf_#{list_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{bool_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{int_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{float_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{text_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{user_wp_custom_field.id}"])
-          .to be_nil
-        expect(described_class.create(project)["cf_#{version_wp_custom_field.id}"])
-          .to be_nil
-        expect(described_class.create(project)["cf_#{date_wp_custom_field.id}"])
-          .to be_a(described_class)
-        expect(described_class.create(project)["cf_#{string_wp_custom_field.id}"])
-          .to be_a(described_class)
-      end
+      it_behaves_like 'custom field type dependent validity'
     end
   end
 
   describe '.key' do
     it 'is a regular expression' do
-      expect(described_class.key).to eql(/cf_\d+/)
+      expect(described_class.key).to eql(/cf_(\d+)/)
     end
   end
 
-  describe '#key' do
+  describe '#name' do
     it 'is the custom fields id prefixed with cf_' do
       all_custom_fields.each do |cf|
-        expect(described_class.create(project)["cf_#{cf.id}"].key).to eql(:"cf_#{cf.id}")
+        filter = described_class.new
+        filter.name = "cf_#{cf.id}"
+        expect(filter.name).to eql(:"cf_#{cf.id}")
       end
     end
   end
@@ -144,92 +202,99 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   describe '#order' do
     it 'is 20' do
       all_custom_fields.each do |cf|
-        expect(described_class.create(project)["cf_#{cf.id}"].order).to eql(20)
+        filter = described_class.new
+        filter.name = "cf_#{cf.id}"
+        expect(filter.order).to eql(20)
       end
     end
   end
 
   describe '#type' do
     it 'is integer for an integer' do
-      expect(described_class.create(project)["cf_#{int_wp_custom_field.id}"].type)
+      instance.name = "cf_#{int_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:integer)
     end
 
     it 'is integer for a float' do
-      expect(described_class.create(project)["cf_#{float_wp_custom_field.id}"].type)
+      instance.name = "cf_#{float_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:integer)
     end
 
     it 'is text for a text' do
-      expect(described_class.create(project)["cf_#{text_wp_custom_field.id}"].type)
+      instance.name = "cf_#{text_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:text)
     end
 
     it 'is list_optional for a list' do
-      expect(described_class.create(project)["cf_#{list_wp_custom_field.id}"].type)
+      instance.name = "cf_#{list_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:list_optional)
     end
 
     it 'is list_optional for a user' do
-      expect(described_class.create(project)["cf_#{user_wp_custom_field.id}"].type)
+      instance.name = "cf_#{user_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:list_optional)
     end
 
     it 'is list_optional for a version' do
-      expect(described_class.create(project)["cf_#{version_wp_custom_field.id}"].type)
+      instance.name = "cf_#{version_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:list_optional)
     end
 
     it 'is date for a date' do
-      expect(described_class.create(project)["cf_#{date_wp_custom_field.id}"].type)
+      instance.name = "cf_#{date_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:date)
     end
 
     it 'is list for a bool' do
-      expect(described_class.create(project)["cf_#{bool_wp_custom_field.id}"].type)
+      instance.name = "cf_#{bool_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:list)
     end
 
     it 'is string for a string' do
-      expect(described_class.create(project)["cf_#{string_wp_custom_field.id}"].type)
+      instance.name = "cf_#{string_wp_custom_field.id}"
+      expect(instance.type)
         .to eql(:string)
     end
   end
 
-  describe '#name' do
+  describe '#human_name' do
     it 'is the field name' do
-      expect(described_class.create(project)["cf_#{string_wp_custom_field.id}"].name)
-        .to eql(string_wp_custom_field.name)
+      expect(instance.human_name)
+        .to eql(list_wp_custom_field.name)
     end
   end
 
-  describe '#available' do
-    it 'is true' do
-      all_custom_fields.each do |cf|
-        expect(described_class.create(project)["cf_#{cf.id}"]).to be_available
-      end
-    end
-  end
-
-  describe '#values' do
+  describe '#allowed_values' do
     it 'is nil for an integer' do
-      expect(described_class.create(project)["cf_#{int_wp_custom_field.id}"].values)
+      instance.name = "cf_#{int_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to be_nil
     end
 
     it 'is integer for a float' do
-      expect(described_class.create(project)["cf_#{float_wp_custom_field.id}"].values)
+      instance.name = "cf_#{float_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to be_nil
     end
 
     it 'is text for a text' do
-      expect(described_class.create(project)["cf_#{text_wp_custom_field.id}"].values)
+      instance.name = "cf_#{text_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to be_nil
     end
 
     it 'is list_optional for a list' do
-      expect(described_class.create(project)["cf_#{list_wp_custom_field.id}"].values)
-        .to match_array list_wp_custom_field.possible_values
+      instance.name = "cf_#{list_wp_custom_field.id}"
+      expect(instance.allowed_values)
+        .to match_array list_wp_custom_field.possible_values.map { |value| [value, value] }
     end
 
     it 'is list_optional for a user' do
@@ -239,7 +304,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         .with(project)
         .and_return(bogus_return_value)
 
-      expect(described_class.create(project)["cf_#{user_wp_custom_field.id}"].values)
+      instance.context = project
+      instance.name = "cf_#{user_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to match_array bogus_return_value
     end
 
@@ -250,24 +317,80 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         .with(project)
         .and_return(bogus_return_value)
 
-      expect(described_class.create(project)["cf_#{version_wp_custom_field.id}"].values)
+      instance.context = project
+      instance.name = "cf_#{version_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to match_array bogus_return_value
     end
 
     it 'is nil for a date' do
-      expect(described_class.create(project)["cf_#{date_wp_custom_field.id}"].values)
+      instance.name = "cf_#{date_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to be_nil
     end
 
     it 'is list for a bool' do
-      expect(described_class.create(project)["cf_#{bool_wp_custom_field.id}"].values)
+      instance.name = "cf_#{bool_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to match_array [[I18n.t(:general_text_yes), ActiveRecord::Base.connection.unquoted_true],
                          [I18n.t(:general_text_no), ActiveRecord::Base.connection.unquoted_false]]
     end
 
     it 'is nil for a string' do
-      expect(described_class.create(project)["cf_#{string_wp_custom_field.id}"].values)
+      instance.name = "cf_#{string_wp_custom_field.id}"
+      expect(instance.allowed_values)
         .to be_nil
+    end
+  end
+
+  describe '.all_for' do
+    context 'within a project' do
+      before do
+        allow(project)
+          .to receive_message_chain(:all_work_package_custom_fields)
+          .and_return(all_custom_fields)
+      end
+
+      it 'returns a list with a filter for every custom field' do
+        filters = described_class.all_for(project)
+
+        all_custom_fields.each do |cf|
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+        end
+      end
+    end
+
+    context 'without a project' do
+      before do
+        allow(WorkPackageCustomField)
+          .to receive_message_chain(:filter, :for_all, :where, :not)
+          .and_return([list_wp_custom_field,
+                       bool_wp_custom_field,
+                       int_wp_custom_field,
+                       float_wp_custom_field,
+                       text_wp_custom_field,
+                       date_wp_custom_field,
+                       string_wp_custom_field])
+      end
+
+      it 'returns a list with a filter for every custom field' do
+        filters = described_class.all_for
+
+        [list_wp_custom_field,
+         bool_wp_custom_field,
+         int_wp_custom_field,
+         float_wp_custom_field,
+         text_wp_custom_field,
+         date_wp_custom_field,
+         string_wp_custom_field].each do |cf|
+          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).to_not be_nil
+        end
+
+        expect(filters.detect { |filter| filter.name == :"cf_#{version_wp_custom_field.id}" })
+          .to be_nil
+        expect(filters.detect { |filter| filter.name == :"cf_#{user_wp_custom_field.id}" })
+          .to be_nil
+      end
     end
   end
 end

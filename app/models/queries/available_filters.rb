@@ -27,59 +27,74 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::WorkPackages::AvailableFilterOptions
-  def available_work_package_filters
-    uninitialized = registered_work_package_filters - already_initialized_work_package_filters
+module Queries::AvailableFilters
+  def available_filters
+    uninitialized = registered_filters - already_initialized_filters
 
     uninitialized.each do |filter|
-      initialize_work_package_filter(filter)
+      initialize_filter(filter)
     end
 
-    initialized_available_work_package_filters
+    initialized_filters.select(&:available?)
   end
 
-  def work_package_filter_available?(key)
-    filter = find_registered_filter(key)
+  def filter_for(key, no_memoization = false)
+    filter_instance = get_initialized_filter(key, no_memoization) || Queries::NotExistingFilter.new
+    filter_instance.name = key
 
-    return unless filter
-
-    initialize_work_package_filter(filter)
-
-    initialized_available_work_package_filters[key]
+    filter_instance
   end
 
   private
 
-  def initialize_work_package_filter(filter)
-    return if already_initialized_work_package_filters.include?(filter)
-    already_initialized_work_package_filters << filter
+  def get_initialized_filter(key, no_memoization)
+    filter = find_registered_filter(key)
 
-    new_filters = filter.create(project)
+    return unless filter
 
-    available_filters = new_filters.reject { |_, f| !f.available? }
+    if no_memoization
+      filter.new
+    else
+      initialize_filter(filter)
 
-    initialized_available_work_package_filters.merge! available_filters
+      find_initialized_filter(key)
+    end
+  end
+
+  def initialize_filter(filter)
+    return if already_initialized_filters.include?(filter)
+    already_initialized_filters << filter
+
+    new_filters = filter.all_for(context)
+
+    initialized_filters.push(*Array(new_filters))
   end
 
   def find_registered_filter(key)
-    registered_work_package_filters.detect do |f|
+    registered_filters.detect do |f|
       f.key === key.to_sym
     end
   end
 
-  def already_initialized_work_package_filters
-    @already_initialized_work_package_filters ||= []
+  def find_initialized_filter(key)
+    initialized_filters.detect do |f|
+      f.name == key.to_sym
+    end
   end
 
-  def registered_work_package_filters
-    @registered_work_package_filters ||= filter_register.filters
+  def already_initialized_filters
+    @already_initialized_filters ||= []
   end
 
-  def initialized_available_work_package_filters
-    @initialized_available_work_package_filters ||= {}.with_indifferent_access
+  def registered_filters
+    @registered_filters ||= filter_register
+  end
+
+  def initialized_filters
+    @initialized_filters ||= []
   end
 
   def filter_register
-    Queries::WorkPackages::FilterRegister
+    Queries::FilterRegister.filters[self.class]
   end
 end

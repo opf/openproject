@@ -29,7 +29,7 @@
 
 class Queries::WorkPackages::Filter::AuthorFilter <
     Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def values
+  def allowed_values
     @author_values ||= begin
       me_value + principal_loader.user_values
     end

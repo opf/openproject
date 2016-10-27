@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
   let(:priority) { FactoryGirl.build_stubbed(:priority) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 3 }
     let(:type) { :list }
     let(:class_key) { :priority_id }
@@ -55,7 +54,7 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       before do
         allow(IssuePriority)
           .to receive(:active)
@@ -63,7 +62,7 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
       end
 
       it 'is an array of group values' do
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[priority.name, priority.id.to_s]]
       end
     end

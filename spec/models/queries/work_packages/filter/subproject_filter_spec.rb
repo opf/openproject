@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 13 }
     let(:type) { :list_subprojects }
     let(:class_key) { :subproject_id }
@@ -90,7 +89,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:subproject1) { FactoryGirl.build_stubbed(:project) }
       let(:subproject2) { FactoryGirl.build_stubbed(:project) }
 
@@ -101,7 +100,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
       end
 
       it 'returns a list of all visible descendants' do
-        expect(instance.values).to match_array [[subproject1.name, subproject1.id.to_s],
+        expect(instance.allowed_values).to match_array [[subproject1.name, subproject1.id.to_s],
                                                 [subproject2.name, subproject2.id.to_s]]
       end
     end

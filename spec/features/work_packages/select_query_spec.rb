@@ -42,21 +42,20 @@ describe 'Query selection', type: :feature do
   let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to_id) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
 
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
+
   let!(:query) do
     FactoryGirl.build(:query, project: project, is_public: true).tap do |query|
-      query.filters = [
-        Queries::WorkPackages::Filter.new('assigned_to_id', operator: '=',  values: ['me']),
-        Queries::WorkPackages::Filter.new('done_ratio', operator: '>=', values: [10])
-      ]
+      query.filters.clear
+      query.add_filter('assigned_to_id', '=', ['me'])
+      query.add_filter('done_ratio', '>=', [10])
       query.save!
     end
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
 
   context 'default view, without a query selected' do
     before do

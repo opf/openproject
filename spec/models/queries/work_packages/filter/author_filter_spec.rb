@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 5 }
     let(:type) { :list }
     let(:class_key) { :author_id }
@@ -93,7 +92,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:logged_in) { true }
 
       before do
@@ -108,7 +107,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
             .to receive(:user_values)
             .and_return([[user_1.name, user_1.id.to_s]])
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
                              [user_1.name, user_1.id.to_s]])
         end
@@ -122,7 +121,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
             .to receive(:user_values)
             .and_return([[user_1.name, user_1.id.to_s]])
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[user_1.name, user_1.id.to_s]])
         end
       end

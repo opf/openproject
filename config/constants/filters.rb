@@ -28,12 +28,14 @@
 #++
 
 module Constants
-  module WorkPackageFilter
+  module Filters
     class << self
-      def register(filter)
-        self.filters ||= []
+      def register(query, filter)
+        self.filters ||= Hash.new do |hash, filter_key|
+          hash[filter_key] = []
+        end
 
-        self.filters << filter
+        self.filters[query] << filter
       end
 
       attr_accessor :filters

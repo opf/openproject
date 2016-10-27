@@ -27,76 +27,74 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
   let(:version) { FactoryGirl.build_stubbed(:version) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 7 }
     let(:type) { :list_optional }
     let(:class_key) { :fixed_version_id }
+    let(:values) { [version.id.to_s] }
     let(:name) { WorkPackage.human_attribute_name('fixed_version_id') }
 
-    describe '#available?' do
-      context 'within a project' do
-        it 'is true if any version exists' do
-          allow(project)
-            .to receive_message_chain(:shared_versions, :exists?)
-            .and_return true
+    before do
+      if project
+        allow(project)
+          .to receive_message_chain(:shared_versions)
+          .and_return [version]
+      else
+        allow(Version)
+          .to receive_message_chain(:visible, :systemwide)
+          .and_return [version]
+      end
+    end
 
-          expect(instance).to be_available
+    describe '#valid?' do
+      context 'within a project' do
+        it 'is true if the value exists as a version' do
+          expect(instance).to be_valid
         end
 
-        it 'is false if no version exists' do
+        it 'is false if the value does not exist as a version' do
           allow(project)
-            .to receive_message_chain(:shared_versions, :exists?)
-            .and_return false
+            .to receive_message_chain(:shared_versions)
+            .and_return []
 
-          expect(instance).to_not be_available
+          expect(instance).to_not be_valid
         end
       end
 
       context 'outside of a project' do
         let(:project) { nil }
 
-        it 'is true if any version exists' do
-          allow(Version)
-            .to receive_message_chain(:visible, :systemwide, :exists?)
-            .and_return true
-
-          expect(instance).to be_available
+        it 'is true if the value exists as a version' do
+          expect(instance).to be_valid
         end
 
-        it 'is false if no version exists' do
+        it 'is false if the value does not exist as a version' do
           allow(Version)
-            .to receive_message_chain(:visible, :systemwide, :exists?)
-            .and_return false
+            .to receive_message_chain(:visible, :systemwide)
+            .and_return []
 
-          expect(instance).to_not be_available
+          expect(instance).to_not be_valid
         end
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       context 'within a project' do
         before do
-          allow(Version)
-            .to receive_message_chain(:visible, :systemwide)
-            .and_return [version]
-
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array [[version.name, version.id.to_s]]
         end
       end
 
       context 'outside of a project' do
-        before do
-          allow(Version)
-            .to receive_message_chain(:visible, :systemwide)
-            .and_return [version]
+        let(:project) { nil }
 
-          expect(instance.values)
+        before do
+          expect(instance.allowed_values)
             .to match_array [[version.name, version.id.to_s]]
         end
       end

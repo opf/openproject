@@ -29,11 +29,19 @@
 
 module QueriesHelper
   def operators_for_select(filter_type)
-    Queries::Filter.operators_by_filter_type[filter_type].map { |o| [l(Queries::Filter.operators[o]), o] }
+    Queries::BaseFilter.operators_by_filter_type[filter_type].map { |o| [l(Queries::BaseFilter.operators[o]), o] }
+  end
+
+  def entries_for_filter_select_sorted(query)
+    [['', '']] +
+      query.available_filters
+           .reject { |filter| query.has_filter?(filter.name) }
+           .map { |filter| [filter.human_name, filter.name] }
+           .sort_by { |el| ActiveSupport::Inflector.transliterate(el[0]).downcase }
   end
 
   def column_locale(column)
-    (column.is_a? QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
+    column.is_a?(QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
   end
 
   def add_filter_from_params
@@ -62,7 +70,7 @@ module QueriesHelper
         if params[:fields] || params[:f]
           add_filter_from_params
         else
-          @query.available_work_package_filters.keys.each do |field|
+          @query.available_filters.map(&:name).each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end
@@ -163,7 +171,7 @@ module QueriesHelper
     return [] if field_names.nil?
 
     context = WorkPackage.new
-    available_keys = query.available_work_package_filters.keys
+    available_keys = query.available_filters.map(&:name)
 
     field_names
       .map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }

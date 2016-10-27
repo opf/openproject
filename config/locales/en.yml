@@ -305,13 +305,13 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
+        current_password: "Current password"
+        force_password_change: "Enforce password change on next login"
         language: "Language"
         last_login_on: "Last login"
         mail_notification: "Email notifications"
-        current_password: "Current password"
         new_password: "New password"
         password_confirmation: "Confirmation"
-        force_password_change: "Enforce password change on next login"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -329,18 +329,15 @@ en:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
-        name: Name
         hexcode: Hex code
       project_association:
         description: Cause
         project_b: 'Dependent project'
       project_type:
         allows_association: Allows association
-        name: Name
         reported_project_statuses: Reported project statuses
         position: Position
       timeline:
-        name: Name
         options: ""
       reporting:
         reported_project_status_comment: Status comment
@@ -373,6 +370,7 @@ en:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
+        does_not_exist: "does not exist."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -410,6 +408,11 @@ en:
         project_association:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
+        query:
+          filters:
+            custom_fields:
+              inexistent: "There is no custom field for the filter."
+              invalid: "The custom field is not valid in the given context."
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
@@ -423,7 +426,6 @@ en:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
-              does_not_exist: "does not exist."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
             status_id:

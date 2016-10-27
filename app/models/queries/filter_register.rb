@@ -27,43 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
+require Rails.root.join('config/constants/filters')
 
-  def initialize(project)
-    self.project = project
-  end
-
-  def [](name)
-    send(name)
-  end
-
-  def name
-    WorkPackage.human_attribute_name(self.class.name)
-  end
-
-  def values
-    nil
-  end
-
-  def available?
-    true
-  end
-
-  def key
-    self.class.key
-  end
-
-  def self.key
-    name.to_sym
-  end
-
-  def self.create(project)
-    { key => new(project) }
-  end
-  private_class_method :new
-
-  def self.name
-    to_s.demodulize.underscore.gsub(/_filter$/, '')
+module Queries::FilterRegister
+  class << self
+    delegate :register, :filters, to: ::Constants::Filters
   end
 end

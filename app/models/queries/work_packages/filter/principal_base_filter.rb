@@ -27,20 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrincipalBaseFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :principal_loader
-
-  def initialize(principal_loader)
-    self.principal_loader = principal_loader
-  end
-
+class Queries::WorkPackages::Filter::PrincipalBaseFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
   def available?
-    User.current.logged? || values.any?
-  end
-
-  def self.create(project)
-    principal_loader = ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-    { key => new(principal_loader) }
+    User.current.logged? || allowed_values.any?
   end
 
   private
@@ -49,5 +39,9 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter < Queries::WorkPackages
     values = []
     values << [I18n.t(:label_me), 'me'] if User.current.logged?
     values
+  end
+
+  def principal_loader
+    @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
   end
 end

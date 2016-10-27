@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 3 }
     let(:type) { :list }
     let(:class_key) { :type_id }
@@ -79,7 +78,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:type) { FactoryGirl.build_stubbed(:type) }
       context 'within a project' do
         before do
@@ -89,7 +88,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
         end
 
         it 'returns an array of type options' do
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array [[type.name, type.id.to_s]]
         end
       end
@@ -104,7 +103,7 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
         end
 
         it 'returns an array of type options' do
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array [[type.name, type.id.to_s]]
         end
       end
