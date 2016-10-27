@@ -41,9 +41,6 @@ case "$TEST_SUITE" in
             bundle exec rake test:scm:setup:all
             exec bundle exec rspec -I spec_legacy spec_legacy
             ;;
-        cucumber)
-            exec bundle exec rake parallel:cucumber
-            ;;
         specs)
             exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
             ;;
@@ -51,6 +48,5 @@ case "$TEST_SUITE" in
             exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
-            echo "Unknown TEST_SUITE $TEST_SUITE"
-            exit 1
+            exec bundle exec rake parallel:$TEST_SUITE
 esac
