@@ -85,6 +85,68 @@ describe 'API v3 User resource', type: :request do
             .at_path('_embedded/elements/0/name')
         end
       end
+
+      context 'on filtering for name' do
+        let(:get_path) do
+          filter = [{ 'name' => {
+            'operator' => '~',
+            'values' => [user.name]
+          } }]
+
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
+        end
+
+        it 'contains the filtered user in the response' do
+          expect(subject.body)
+            .to be_json_eql(user.name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
+
+        it 'contains no more users' do
+          expect(subject.body)
+            .to be_json_eql(1.to_json)
+            .at_path('total')
+        end
+      end
+
+      context 'on sorting' do
+        let(:users_by_name_order) do
+          User.not_builtin.order_by_name.reverse_order
+        end
+
+        let(:get_path) do
+          sort = [['name', 'desc']]
+
+          "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
+        end
+
+        it 'contains the first user as the first element' do
+          expect(subject.body)
+            .to be_json_eql(users_by_name_order[0].name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
+
+        it 'contains the first user as the second element' do
+          expect(subject.body)
+            .to be_json_eql(users_by_name_order[1].name.to_json)
+            .at_path('_embedded/elements/1/name')
+        end
+      end
+
+      context 'on an invalid filter' do
+        let(:get_path) do
+          filter = [{ 'name' => {
+            'operator' => 'a',
+            'values' => [user.name]
+          } }]
+
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
+        end
+
+        it 'returns an error' do
+          expect(subject.status).to eql(400)
+        end
+      end
     end
 
     context 'other user' do

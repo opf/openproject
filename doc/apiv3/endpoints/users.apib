@@ -688,7 +688,7 @@ Lists users. Only administrators have permission to do this.
 
     + pageSize (optional, integer, `25`) ... Number of elements to display per page.
 
-    + filters (optional, string, `[{ "status": { "operator": "=", "values": "invited" } }, { "group": { "operator": "=", "values": "Managers" } }, { "name": { "operator": "=", "values": "h.wurst@openproject.com" } }]`) ... JSON specifying filter conditions.
+    + filters (optional, string, `[{ "status": { "operator": "=", "values": ["invited"] } }, { "group": { "operator": "=", "values": ["1"] } }, { "name": { "operator": "=", "values": ["h.wurst@openproject.com"] } }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
       + status: Status the user has
       + group: Name of the group in which to-be-listed users are members.

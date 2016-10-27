@@ -27,10 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join('config/constants/filters')
+class Queries::Users::Filters::UserFilter < Queries::BaseFilter
+  self.model = User
 
-module Queries::FilterRegister
-  class << self
-    delegate :register, :filters, to: ::Constants::Filters
+  def human_name
+    User.human_attribute_name(name)
   end
 end

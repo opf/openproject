@@ -95,6 +95,6 @@ module Queries::AvailableFilters
   end
 
   def filter_register
-    Queries::FilterRegister.filters[self.class]
+    Queries::Register.filters[self.class]
   end
 end
