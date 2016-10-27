@@ -90,10 +90,13 @@ module OpenProject
 
         context 'asset precompilation' do
           around do |example|
-            old_precompile_config = Rails.application.config.assets.precompile
-            Rails.application.config.assets.precompile.clear
-            example.run
-            Rails.application.config.assets.precompile = old_precompile_config
+            old_precompile_config = Rails.application.config.assets.precompile.map(&:dup)
+            begin
+              Rails.application.config.assets.precompile.clear
+              example.run
+            ensure
+              Rails.application.config.assets.precompile = old_precompile_config
+            end
           end
 
           let(:asset_files) {
