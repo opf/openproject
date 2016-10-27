@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'parallel_tests/tasks'
+
 namespace :parallel do
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber', :spec_legacy, :rspec, :cucumber]
