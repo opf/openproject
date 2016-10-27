@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'work package export', type: :feature, retry: 1 do
+describe 'work package export', type: :feature do
   let(:project) { FactoryGirl.create :project_with_types, types: [type_a, type_b] }
   let(:current_user) { FactoryGirl.create :admin }
 
@@ -82,7 +82,7 @@ describe 'work package export', type: :feature, retry: 1 do
     DownloadedFile::clear_downloads
   end
 
-  it 'shows all work packages with the default filters', js: true do
+  it 'shows all work packages with the default filters', js: true, retry: 2 do
     export!
 
     expect(DownloadedFile::download_content).to have_text(wp_1.description)
@@ -94,7 +94,7 @@ describe 'work package export', type: :feature, retry: 1 do
     expect(DownloadedFile::download_content.scan(/Type (A|B)/).flatten).to eq %w(A B A A)
   end
 
-  it 'shows all work packages grouped by ', js: true do
+  it 'shows all work packages grouped by ', js: true, retry: 2 do
     work_packages_page.ensure_loaded
     work_packages_page.open_settings!
 
@@ -113,7 +113,7 @@ describe 'work package export', type: :feature, retry: 1 do
     expect(DownloadedFile::download_content.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
   end
 
-  it 'shows only the work package with the right progress if filtered this way', js: true do
+  it 'shows only the work package with the right progress if filtered this way', js: true, retry: 2 do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
@@ -126,7 +126,7 @@ describe 'work package export', type: :feature, retry: 1 do
     expect(DownloadedFile::download_content).to_not have_text(wp_3.description)
   end
 
-  it 'shows only work packages of the filtered type', js: true do
+  it 'shows only work packages of the filtered type', js: true, retry: 2 do
     select 'Type', from: 'add_filter_select'
     select wp_3.type.name, from: 'values-type'
 
@@ -139,7 +139,7 @@ describe 'work package export', type: :feature, retry: 1 do
     expect(DownloadedFile::download_content).to have_text(wp_3.description)
   end
 
-  it 'exports selected columns', js: true do
+  it 'exports selected columns', js: true, retry: 2 do
     work_packages_page.add_column! 'Progress (%)'
 
     export!
