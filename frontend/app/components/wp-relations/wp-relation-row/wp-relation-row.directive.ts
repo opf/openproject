@@ -12,8 +12,8 @@ class WpRelationRowDirectiveController {
   public relatedWorkPackage:RelatedWorkPackage;
   public relationType:string;
   public relatedWorkPackage: RelatedWorkPackage;
-  public availableRelationTypes: any;
-  public selectedRelationType: any;
+  public availableRelationTypes: RelationResourceInterface[];
+  public selectedRelationType: RelationResourceInterface;
 
   public showRelationInfo: boolean = false;
 
@@ -28,7 +28,7 @@ class WpRelationRowDirectiveController {
   public text: Object;
 
   constructor(protected $scope:ng.IScope,
-              protected $timeout,
+              protected $timeout:ng.ITimeoutService,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelationsService: WorkPackageRelationsService,
