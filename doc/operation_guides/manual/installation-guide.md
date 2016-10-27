@@ -124,16 +124,16 @@ time to finsih.
 [openproject@host] source ~/.profile
 [openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 0.12.7
+[openproject@host] nodenv install 6.9.1
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 0.12.7
+[openproject@host] nodenv global 6.9.1
 ```
 
 To check our Node installation we run `node --version`. It should output
 something very similar to:
 
 ```
-v0.12.7
+v6.9.1
 ```
 
 ## Installation of OpenProject

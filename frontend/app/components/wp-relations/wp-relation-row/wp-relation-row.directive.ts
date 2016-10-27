@@ -9,6 +9,10 @@ import {
 } from '../../api/api-v3/hal-resources/relation-resource.service';
 
 class WpRelationRowDirectiveController {
+  public relatedWorkPackage:RelatedWorkPackage;
+  public relationType:string;
+  public showRelationInfo:boolean = false;
+  public showEditForm:boolean = false;
   public relatedWorkPackage: RelatedWorkPackage;
   public relationType: string;
 
@@ -22,7 +26,7 @@ class WpRelationRowDirectiveController {
   public relation: RelationResourceInterface = this.relatedWorkPackage.relatedBy;
   public text: Object;
 
-  constructor(protected $scope: ng.IScope,
+  constructor(protected $scope:ng.IScope,
               protected $timeout,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
@@ -30,9 +34,21 @@ class WpRelationRowDirectiveController {
               protected I18n: op.I18n,
               protected PathHelper: op.PathHelper) {
 
-    this.text = {
-      removeButton:this.I18n.t('js.relation_buttons.remove')
-    };
+    if (this.relation) {
+      var relationType = this.wpRelationsService.getRelationTypeObjectByType(this.relation._type);
+      this.relationType = angular.isDefined(relationType) ? this.wpRelationsService.getTranslatedRelationTitle(relationType.name) : 'unknown';
+    }
+
+  };
+
+  public saveDescription(newDescription:string) {
+    this.relation.updateImmediately({
+      description: this.relation.description
+    }).then(this.showEditForm = false);
+  }
+
+  public text = {
+    removeButton: this.I18n.t('js.relation_buttons.remove')
   };
 
   public toggleUserDescriptionForm() {

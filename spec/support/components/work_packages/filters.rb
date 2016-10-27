@@ -49,6 +49,11 @@ module Components
         expect(page).to have_selector(filters_selector, visible: :hidden)
       end
 
+      def filter_by_watcher(name)
+        select "Watcher", from: "add_filter_select"
+        select name, from: "values-watcher"
+      end
+
       def remove_filter(field)
         page.within(filters_selector) do
           find("#filter_#{field} .advanced-filters--remove-filter-icon").click

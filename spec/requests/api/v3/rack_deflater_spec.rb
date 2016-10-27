@@ -44,8 +44,8 @@ describe Rack::Deflater, type: :request do
     content_length = response.headers['Content-Length'].to_i
 
     get api_v3_paths.configuration,
-        {},
-        'HTTP_ACCEPT_ENCODING' => 'gzip'
+        params: {},
+        headers: { 'Accept-Encoding' => 'gzip' }
 
     expect(response.headers['Etag']).to eql etag
     expect(response.headers['Content-Length'].to_i).to_not eql content_length

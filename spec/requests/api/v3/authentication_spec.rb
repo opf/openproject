@@ -47,7 +47,7 @@ describe API::V3, type: :request do
 
     def basic_auth(user, password)
       credentials = ActionController::HttpAuthentication::Basic.encode_credentials user, password
-      { 'HTTP_AUTHORIZATION' => credentials }
+      { 'Authorization' => credentials }
     end
 
     shared_examples 'it is basic auth protected' do
@@ -74,7 +74,7 @@ describe API::V3, type: :request do
         let(:expected_message) { 'You did not provide the correct credentials.' }
 
         before do
-          get resource, {}, basic_auth(username, password.reverse)
+          get resource, params: {}, headers: basic_auth(username, password.reverse)
         end
 
         it 'should return 401 unauthorized' do
@@ -100,11 +100,11 @@ describe API::V3, type: :request do
         let(:headers) do
           auth = basic_auth(username, password.reverse)
 
-          auth.merge('HTTP_X_AUTHENTICATION_SCHEME' => 'Session')
+          auth.merge('X-Authentication-Scheme' => 'Session')
         end
 
         before do
-          get resource, {}, headers
+          get resource, params: {}, headers: headers
         end
 
         it 'should return 401 unauthorized' do
@@ -127,7 +127,7 @@ describe API::V3, type: :request do
 
       context 'with valid credentials' do
         before do
-          get resource, {}, basic_auth(username, password)
+          get resource, params: {}, headers: basic_auth(username, password)
         end
 
         it 'should return 200 OK' do
@@ -208,7 +208,7 @@ describe API::V3, type: :request do
 
         context 'with invalid credentials' do
           before do
-            get resource, {}, basic_auth(username, password)
+            get resource, params: {}, headers: basic_auth(username, password)
           end
 
           it 'should return 401 unauthorized' do
@@ -218,7 +218,7 @@ describe API::V3, type: :request do
 
         context 'with valid global credentials' do
           before do
-            get resource, {}, basic_auth('global_account', 'global_password')
+            get resource, params: {}, headers: basic_auth('global_account', 'global_password')
           end
 
           it 'should return 200 OK' do
@@ -233,7 +233,7 @@ describe API::V3, type: :request do
 
         context 'with valid user credentials' do
           before do
-            get resource, {}, basic_auth('apikey', api_key.value)
+            get resource, params: {}, headers: basic_auth('apikey', api_key.value)
           end
 
           it 'should return 200 OK' do

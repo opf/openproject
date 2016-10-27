@@ -46,10 +46,11 @@ module API
         end
 
         link :previewMarkup do
+          context = api_v3_paths.project(represented.project_id) if represented.project_id
           {
-            href: api_v3_paths.render_markup(link: api_v3_paths.project(represented.project_id)),
+            href: api_v3_paths.render_markup(link: context),
             method: :post
-          } if represented.project
+          }
         end
 
         link :commit do

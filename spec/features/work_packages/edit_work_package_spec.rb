@@ -227,4 +227,16 @@ describe 'edit work package', js: true do
     wp_page.expect_notification message: 'Subject is too long (maximum is 255 characters)',
                                 type: 'error'
   end
+
+  it 'submits the edit mode when pressing enter' do
+    page.click_button(I18n.t('js.button_edit'))
+    subject_field = wp_page.edit_field(:subject)
+
+    subject_field.set_value 'My new subject!'
+    subject_field.input_element.send_keys(:return)
+
+    wp_page.expect_notification(message: 'Successful update')
+    subject_field.expect_inactive!
+    subject_field.expect_state_text 'My new subject!'
+  end
 end

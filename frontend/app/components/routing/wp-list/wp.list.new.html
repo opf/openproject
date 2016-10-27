@@ -4,10 +4,9 @@
 >
   <div class="work-packages--details-content -create-mode">
     <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
-    <div
-        has-edit-mode="true"
-        wp-edit-form="$ctrl.newWorkPackage"
-    >
+    <div has-edit-mode="true"
+         wp-edit-form="$ctrl.newWorkPackage"
+         wp-edit-form-on-save="$ctrl.refreshAfterSave(workPackage, 'work-packages.list.details.overview')">
       <h2>{{ $ctrl.header }}</h2>
       <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
       <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
@@ -16,7 +15,7 @@
 
   <div class="bottom-toolbar">
     <edit-actions-bar
-        on-save="$ctrl.saveWorkPackage('work-packages.list.details.overview')"
+        on-save="$ctrl.saveWorkPackage()"
         on-cancel="$ctrl.cancelAndBackToList()"
     ></edit-actions-bar>
   </div>

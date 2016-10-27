@@ -142,8 +142,6 @@ function getWebpackMainConfig() {
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
         'crossvent': path.join(__dirname,
                                'node_modules',
-                               'dragula',
-                               'node_modules',
                                'crossvent',
                                'src',
                                'crossvent.js')

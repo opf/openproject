@@ -18,7 +18,6 @@ following workflow:
 
     npm install
     npm shrinkwrap
-    ./scripts/clean-shrinkwrap.js
 
 Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
 

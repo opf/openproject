@@ -1,8 +1,7 @@
-#!/usr/bin/env node
-
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Heavily borrows from foundation-apps ModalFactory. Copyright (c) 2014 ZURB, inc.
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +25,31 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-/**
- * this script is just a temporary solution to deal with the issue of npm outputting the npm
- * shrinkwrap file in an unstable manner.
- *
- * See: https://github.com/npm/npm/issues/3581
- */
+import ExpressionService from "../expression.service";
+function bindUnescapedHtml(ExpressionService:ExpressionService, $sce) {
+  var foundationModalLink = function (scope) {
+    scope.$watch('value', (value) => {
+      scope.escapedValue = '';
 
-var _ = require('lodash');
-var sorted = require('sorted-object');
-var fs = require('fs');
+      if (value) {
+        value = ExpressionService.unescape(value.toString());
+        scope.escapedValue = $sce.trustAsHtml(value);
+      }
+    });
+  };
 
-
-function cleanModule(module, name) {
-
-  // keep `from` and `resolve` properties for git dependencies, delete otherwise
-  if (!(module.resolved && module.resolved.match(/^git:\/\//))) {
-    delete module.from;
-    delete module.resolved;
-  }
-
-  if (name === 'chokidar') {
-    if (module.version === '0.8.1') {
-      delete module.dependencies;
-    }
-  }
-
-  _.forEach(module.dependencies, function(mod, name) {
-    cleanModule(mod, name);
-  });
+  return {
+    restrict: 'A',
+    template: '<span ng-bind-html="escapedValue"></span>',
+    scope: {
+      value: '=bindUnescapedHtml',
+    },
+    link: foundationModalLink,
+  };
 }
 
-
-console.log('Reading npm-shrinkwrap.json');
-var shrinkwrap = require('./../npm-shrinkwrap.json');
-
-console.log('Cleaning shrinkwrap object');
-cleanModule(shrinkwrap, shrinkwrap.name);
-
-console.log('Writing cleaned npm-shrinkwrap.json');
-fs.writeFileSync('./npm-shrinkwrap.json', JSON.stringify(sorted(shrinkwrap), null, 2) + "\n");
+angular
+  .module('openproject.uiComponents')
+  .directive('bindUnescapedHtml', bindUnescapedHtml);

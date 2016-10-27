@@ -138,7 +138,7 @@ describe('userActivity Directive', function() {
 
         describe('comment', function() {
           it('should render activity comment', function() {
-            var comment = element.find('span.user-comment > span.message').html();
+            var comment = element.find('span.user-comment > span.message > span').html();
 
             expect(comment).to.eq(scope.activity.comment.html);
           });

@@ -13,7 +13,8 @@
         ng-click="vm.haltUserFormClick($event)"
         ng-dblclick="vm.haltUserFormClick($event)"
         name="vm.fieldForm"
-        ng-submit="vm.submit()"
+        ng-submit="vm.handleUserSubmit()"
+        ng-keydown="vm.handleUserKey($event)"
         role="form"
         tabindex="-1">
 

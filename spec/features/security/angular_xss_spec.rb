@@ -73,6 +73,42 @@ describe 'Angular expression escaping', type: :feature do
     end
   end
 
+  describe '#WorkPackage description field', js: true do
+    let(:project) { FactoryGirl.create :project }
+    let(:property_name) { :description }
+    let(:property_title) { 'Description' }
+    let(:description_text) { 'Expression {{ 3 + 5 }}' }
+    let!(:work_package) {
+      FactoryGirl.create(
+        :work_package,
+        project: project,
+        description: description_text
+      )
+    }
+    let(:user) { FactoryGirl.create :admin }
+    let(:field) { WorkPackageTextAreaField.new wp_page, 'description' }
+    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+
+    before do
+      login_as(user)
+
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
+
+    it 'properly renders the unescaped string' do
+      field.expect_state_text description_text
+      field.activate!
+
+      new_description = 'My new expression {{ 5 + 1 }}'
+      field.set_value new_description
+      field.submit_by_click
+
+      wp_page.expect_notification message: I18n.t('js.notice_successful_update')
+      field.expect_state_text new_description
+    end
+  end
+
   describe '#wiki edit previewing', js: true do
     let(:user) { FactoryGirl.create :admin }
     let(:project) { FactoryGirl.create :project, enabled_module_names: %w(wiki) }
