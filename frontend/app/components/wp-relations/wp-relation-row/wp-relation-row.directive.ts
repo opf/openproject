@@ -7,8 +7,8 @@ import {WorkPackageRelationsService} from '../wp-relations.service';
 class WpRelationRowDirectiveController {
   public relatedWorkPackage:RelatedWorkPackage;
   public relationType:string;
-
   public showRelationInfo:boolean = false;
+  public showEditForm:boolean = false;
 
   public userInputs = {
     description: this.relatedWorkPackage.relatedBy.description,
@@ -31,6 +31,12 @@ class WpRelationRowDirectiveController {
     }
 
   };
+
+  public saveDescription(newDescription:string) {
+    this.relation.updateImmediately({
+      description: this.relation.description
+    }).then(this.showEditForm = false);
+  }
 
   public text = {
     removeButton: this.I18n.t('js.relation_buttons.remove')
