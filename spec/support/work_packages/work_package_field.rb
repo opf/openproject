@@ -40,6 +40,14 @@ class WorkPackageField
     expect_active!
   end
 
+  def expect_state!(open:)
+    if open
+      expect_active!
+    else
+      expect_inactive!
+    end
+  end
+
   def expect_active!
     expect(element)
       .to have_selector(field_type, wait: 10),

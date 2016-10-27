@@ -100,7 +100,7 @@ describe 'edit work package', js: true do
     end
 
     it 'does not hide empty progress while it is being edited' do
-      wp_page.update_attributes({ percentageDone: '0' }, save: false)
+      wp_page.set_attribute(:percentageDone, '0', save: false, stays_open: true)
 
       expect(page).to have_text("Progress (%)")
     end
@@ -227,7 +227,7 @@ describe 'edit work package', js: true do
     too_long = ('Too long. Can you feel it? ' * 10).strip
 
     wp_page.ensure_page_loaded
-    wp_page.update_attributes subject: too_long
+    wp_page.set_attribute(:subject, too_long, stays_open: true)
 
     wp_page.expect_notification message: 'Subject is too long (maximum is 255 characters)',
                                 type: 'error'

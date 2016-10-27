@@ -132,7 +132,7 @@ module Pages
     ##
     # Set a single attribute while retrying to open the field
     # if unsuccessful at first.
-    def set_attribute(key, value, save: true)
+    def set_attribute(key, value, save: true, stays_open: true)
       field = work_package_field key
 
       # Retry to set attributes due to reloading the page after setting
@@ -144,7 +144,7 @@ module Pages
 
         # select fields are saved on change
         field.save! if save && field.input_element.tag_name != 'select'
-        field.expect_inactive!
+        field.expect_state! open: stays_open
       rescue => e
         if retries > 2
           raise e
