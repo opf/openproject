@@ -19,6 +19,9 @@ Capybara.register_driver :selenium do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.internet_explorer
   capabilities["elementScrollBehavior"] = 1
 
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.timeout = 180
+
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en'
 
@@ -31,6 +34,7 @@ Capybara.register_driver :selenium do |app|
     app,
     browser: :firefox,
     profile: profile,
+    http_client: client,
     desired_capabilities: capabilities
   )
 end
