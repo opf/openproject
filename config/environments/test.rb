@@ -41,7 +41,7 @@ OpenProject::Application.configure do
 
   # Use eager load to mirror the production environment
   # on travis
-  config.eager_load = ENV.fetch('CI', false)
+  config.eager_load = ENV['CI'].present?
 
   # This setting is false by default, but we define it explicitly
   config.allow_concurrency = false
