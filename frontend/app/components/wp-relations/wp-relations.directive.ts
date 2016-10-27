@@ -134,6 +134,7 @@ export class WorkPackageRelationsController {
   private registerEventListeners() {
     this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
     this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
+    this.$scope.$on('wp-relations.changed', this.buildRelationGroups.bind(this));
   }
 }
 
