@@ -198,13 +198,12 @@ describe 'edit work package', js: true do
     wp_page.update_comment 'hallo welt'
     wp_page.preview_comment
 
-    expect(page).to have_text 'hallo welt'
-    expect(page).to have_selector('.inplace-edit--preview', text: 'hallo welt')
+    expect(page).to have_selector('.inplace-edit--preview', text: 'hallo welt', wait: 10)
 
     wp_page.save_comment
 
     wp_page.expect_notification(message: 'The comment was successfully added.')
-    expect(page).to have_selector('.user-comment .message', text: 'hallo welt')
+    expect(page).to have_selector('.user-comment .message', text: 'hallo welt', wait: 10)
   end
 
   it 'updates the presented custom fields based on the selected type' do
