@@ -96,11 +96,13 @@ namespace :parallel do
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
+    seed           = ENV['CI_SEED']
 
-    group_options  = num_cpus ? "-n #{num_cpus}" : ''
-    group_options += " --only-group #{group}" if group
+    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
+    spec_options += " --only-group #{group}" if group
+    spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{group_options} spec_legacy"
+    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{spec_options} spec_legacy"
     cmd += ' || bundle exec rspec -I spec_legacy --only-failures spec_legacy'
 
     sh cmd
@@ -139,11 +141,13 @@ namespace :parallel do
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
+    seed           = ENV['CI_SEED']
 
-    group_options  = num_cpus ? "-n #{num_cpus}" : ''
-    group_options += " --only-group #{group}" if group
+    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
+    spec_options += " --only-group #{group}" if group
+    spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec #{group_options} spec"
+    cmd  = "bundle exec parallel_test --type rspec #{spec_options} spec"
     cmd += ' || bundle exec rspec --only-failures'
 
     sh cmd

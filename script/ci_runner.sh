@@ -32,6 +32,9 @@
 
 set -e
 
+# Use the current HEAD as input to the seed
+export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5)
+
 case "$TEST_SUITE" in
         npm)
             npm test
@@ -39,13 +42,13 @@ case "$TEST_SUITE" in
         spec_legacy)
             echo "Preparing SCM test repositories for legacy specs"
             bundle exec rake test:scm:setup:all
-            exec bundle exec rspec -I spec_legacy spec_legacy
+            exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
             ;;
         specs)
-            exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
+            exec bundle exec parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
             ;;
         features)
-            exec bundle exec parallel_test --type rspec -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
+            exec bundle exec parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
             exec bundle exec rake parallel:$TEST_SUITE
