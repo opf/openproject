@@ -21,7 +21,7 @@
             </div>
         </div>
     </div>
-    <div class="grid-block v-align" ng-if="$ctrl.showRelationsCreateForm">
+    <div class="grid-block v-align wp-relations--child-form" ng-if="$ctrl.showRelationsCreateForm">
         <div class="grid-content medium-10">
             <wp-relations-autocomplete
                     work-package="$ctrl.workPackage"
@@ -33,6 +33,7 @@
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
             <accessible-by-keyboard
+                    link-class="wp-create-relation--save"
                     execute="$ctrl.createRelation()"
                     aria-hidden="false">
                 <icon-wrapper icon-name="checkmark"
@@ -40,6 +41,7 @@
                 </icon-wrapper>
             </accessible-by-keyboard>
             <accessible-by-keyboard
+                    link-class="wp-create-relation--cancel"
                     execute="$ctrl.toggleRelationsCreateForm()"
                     aria-hidden="false">
                 <icon-wrapper icon-name="remove"

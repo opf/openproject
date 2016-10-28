@@ -32,7 +32,8 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'create parent relationship' do
-    let(:parent) { FactoryGirl.create(:work_package, project: project) }
+    include_context 'typeahead helpers'
+    let!(:parent) { FactoryGirl.create(:work_package, project: project) }
     include_context 'ui-select helpers'
 
     let(:user_role) do
@@ -50,33 +51,26 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'activates the change parent form' do
         find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
-        find('.inplace-edit--select').click
 
-        input = find(:css, ".ui-select-search")
-        input.set(parent.id)
+        # Locate the create row container
+        container = find('.wp-relations--parent-form')
 
-        sleep(2)
+        # Enter the query and select the child
+        typeahead = container.find(".wp-relations--autocomplete")
+        select_typeahead(typeahead, query: parent.subject)
 
-        input.send_keys [:down, :return]
+        container.find('.wp-create-relation--save').click
 
-        save_button_xpath = <<-eos
-                         .//a[.//span//span[
-                          contains(concat(' ',@class,' '), ' icon-checkmark ')
-                         ]]
-        eos
-
-        save_button = find(:xpath, save_button_xpath)
-        save_button.click
-
-        expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                      text: parent.subject.to_s)
+        expect(page).to have_selector('.wp-relations-hierarchy-subject',
+                                      text: parent.subject,
+                                      wait: 10)
       end
     end
   end
 
   describe 'create child relationship' do
-    let(:child) { FactoryGirl.create(:work_package, project: project) }
-    include_context 'ui-select helpers'
+    let!(:child) { FactoryGirl.create(:work_package, project: project) }
+    include_context 'typeahead helpers'
 
     let(:user_role) do
       FactoryGirl.create :role, permissions: permissions
@@ -94,24 +88,18 @@ describe 'Work package relations tab', js: true, selenium: true do
       it 'activates the add existing child form' do
         find('.wp-inline-create--add-link',
              text: I18n.t('js.relation_buttons.add_existing_child')).click
-        find('.inplace-edit--select').click
 
-        input = find(:css, ".ui-select-search")
-        input.set(child.id)
+        # Locate the create row container
+        container = find('.wp-relations--child-form')
 
-        page.find('.ui-select-choices-row', match: :first).click
+        # Enter the query and select the child
+        typeahead = container.find(".wp-relations--autocomplete")
+        select_typeahead(typeahead, query: child.id)
 
-        save_button_xpath = <<-eos
-               .//a[.//span//span[
-                contains(concat(' ',@class,' '), ' icon-checkmark ')
-               ]]
-        eos
-
-        save_button = find(:xpath, save_button_xpath)
-        save_button.click
+        container.find('.wp-create-relation--save').click
 
         expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                      text: child.subject.to_s)
+                                      text: child.subject)
       end
     end
   end

@@ -35,6 +35,10 @@ class WpRelationRowDirectiveController {
     };
   };
 
+  public get relationReady() {
+    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
   public toggleUserDescriptionForm() {
     this.userInputs.showDescriptionEditForm = !this.userInputs.showDescriptionEditForm;
   }

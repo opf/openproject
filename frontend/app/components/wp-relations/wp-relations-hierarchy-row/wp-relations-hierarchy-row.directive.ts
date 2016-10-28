@@ -32,6 +32,10 @@ class WpRelationsHierarchyRowDirectiveController {
     children:this.I18n.t('js.relation_labels.children')
   };
 
+  public get relationReady() {
+    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
   public removeRelation() {
     if (this.relationType === 'child') {
       this.removeChild();

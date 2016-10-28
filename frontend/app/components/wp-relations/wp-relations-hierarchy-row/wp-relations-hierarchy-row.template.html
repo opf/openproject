@@ -2,7 +2,7 @@
      ng-mouseover="$ctrl.showRelationControls = true"
      ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block v-align hierarchy-item"
-         ng-if="!$ctrl.showEditForm && $ctrl.relatedWorkPackage">
+         ng-if="!$ctrl.showEditForm && $ctrl.relationReady">
         <div class="grid-content medium-7 collapse" wp-single-relation>
             <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
                   class="wp-relations-hierarchy-subject">
@@ -20,7 +20,7 @@
             </span>
         </div>
         <div class="grid-content medium-3 collapse wp-relations-status-field">
-            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage && $ctrl.relatedWorkPackage.$loaded">
+            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relationReady">
                 <div wp-edit-field="'status'">
                 </div>
             </div>
