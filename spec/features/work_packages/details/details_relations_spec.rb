@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe 'Work package relations tab', js: true, selenium: true do
+  include_context 'typeahead helpers'
+
   let(:user) { FactoryGirl.create :admin }
 
   let(:project) { FactoryGirl.create :project }
@@ -15,92 +17,48 @@ describe 'Work package relations tab', js: true, selenium: true do
     work_packages_page.expect_subject
   end
 
-  describe 'no relations' do
-    it 'shows empty relation tabs' do
-      expect(page).to have_selector('.wp-relations-create')
-      expect(page).to have_selector('.wp-relations-hierarchy-section')
-    end
+  def add_hierarchy(container, query, expected_text)
+    # Locate the create row container
+    container = find(container)
+
+    # Enter the query and select the child
+    typeahead = container.find(".wp-relations--autocomplete")
+    select_typeahead(typeahead, query: query)
+
+    container.find('.wp-create-relation--save').click
+
+    expect(page).to have_selector('.wp-relations-hierarchy-subject',
+                                  text: expected_text,
+                                  wait: 10)
   end
 
-  describe 'with parent' do
-    let(:parent) { FactoryGirl.create(:work_package) }
-    let(:work_package) { FactoryGirl.create(:work_package, parent: parent) }
+  describe 'as admin' do
+     let!(:parent) { FactoryGirl.create(:work_package, project: project) }
+     let!(:child) { FactoryGirl.create(:work_package, project: project) }
+     let!(:child2) { FactoryGirl.create(:work_package, project: project, subject: 'Something new') }
 
-    it 'shows the parent in hierarchy section' do
-      expect(page).to have_selector('.wp-relations-hierarchy-subject a', text: parent.subject.to_s)
-    end
-  end
+    it 'allows to mange hierarchy' do
+      # Shows link parent link
+      expect(page).to have_selector('#hierarchy--add-parent')
+      find('.wp-inline-create--add-link',
+           text: I18n.t('js.relation_buttons.add_parent')).click
 
-  describe 'create parent relationship' do
-    include_context 'typeahead helpers'
-    let!(:parent) { FactoryGirl.create(:work_package, project: project) }
-    include_context 'ui-select helpers'
+      # Add parent
+      add_hierarchy('.wp-relations--parent-form', parent.id, parent.subject)
 
-    let(:user_role) do
-      FactoryGirl.create :role, permissions: permissions
-    end
+      ##
+      # Add child #1
+      find('.wp-inline-create--add-link',
+           text: I18n.t('js.relation_buttons.add_existing_child')).click
 
-    let(:user) do
-      FactoryGirl.create :user,
-                         member_in_project: project,
-                         member_through_role: user_role
-    end
+      add_hierarchy('.wp-relations--child-form', child.id, child.subject)
 
-    context 'with permissions' do
-      let(:permissions) { %i(view_work_packages manage_subtasks) }
+      ##
+      # Add child #2
+      find('.wp-inline-create--add-link',
+           text: I18n.t('js.relation_buttons.add_existing_child')).click
 
-      it 'activates the change parent form' do
-        find('.wp-inline-create--add-link', text: I18n.t('js.relation_buttons.add_parent')).click
-
-        # Locate the create row container
-        container = find('.wp-relations--parent-form')
-
-        # Enter the query and select the child
-        typeahead = container.find(".wp-relations--autocomplete")
-        select_typeahead(typeahead, query: parent.subject)
-
-        container.find('.wp-create-relation--save').click
-
-        expect(page).to have_selector('.wp-relations-hierarchy-subject',
-                                      text: parent.subject,
-                                      wait: 10)
-      end
-    end
-  end
-
-  describe 'create child relationship' do
-    let!(:child) { FactoryGirl.create(:work_package, project: project) }
-    include_context 'typeahead helpers'
-
-    let(:user_role) do
-      FactoryGirl.create :role, permissions: permissions
-    end
-
-    let(:user) do
-      FactoryGirl.create :user,
-                         member_in_project: project,
-                         member_through_role: user_role
-    end
-
-    context 'with permissions' do
-      let(:permissions) { %i(view_work_packages manage_subtasks) }
-
-      it 'activates the add existing child form' do
-        find('.wp-inline-create--add-link',
-             text: I18n.t('js.relation_buttons.add_existing_child')).click
-
-        # Locate the create row container
-        container = find('.wp-relations--child-form')
-
-        # Enter the query and select the child
-        typeahead = container.find(".wp-relations--autocomplete")
-        select_typeahead(typeahead, query: child.id)
-
-        container.find('.wp-create-relation--save').click
-
-        expect(page).to have_selector('.wp-relations-hierarchy-subject a',
-                                      text: child.subject)
-      end
+      add_hierarchy('.wp-relations--child-form', child2.subject, child2.subject)
     end
   end
 end

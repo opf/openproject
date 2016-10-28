@@ -71,8 +71,9 @@ export class WorkPackageRelationsHierarchyController {
 
     this.wpCacheService
       .loadWorkPackage(this.workPackage.parentId)
-      .get()
-      .then((parent:WorkPackageResourceInterface) => {
+      .observe(this.$scope)
+      .take(1)
+      .subscribe((parent:WorkPackageResourceInterface) => {
         this.workPackage.parent = parent;
       });
   }
