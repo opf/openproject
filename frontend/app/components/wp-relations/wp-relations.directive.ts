@@ -35,6 +35,11 @@ import {
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
+export enum RelationSortingAttribute {
+  RelatedWorkPackageType,
+  RelationType
+}
+
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
