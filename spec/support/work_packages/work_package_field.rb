@@ -85,6 +85,31 @@ class WorkPackageField
     end
   end
 
+  ##
+  # Update this attribute while retrying to open the field
+  # if unsuccessful at first.
+  def update(value, save: true, expect_failure: false)
+    # Retry to set attributes due to reloading the page after setting
+    # an attribute, which may cause an input not to open properly.
+    retries = 0
+    begin
+      activate_edition
+      set_value value
+
+      # select fields are saved on change
+      save! if save && field_type != 'select'
+      expect_state! open: expect_failure
+    rescue => e
+      if retries > 2
+        raise e
+      end
+      $stderr.puts "Failed to set attribute #{property_name}: #{e.message}. Retrying"
+      retries += 1
+      sleep 1
+      retry
+    end
+  end
+
   def trigger_link
     element.find trigger_link_selector
   end
@@ -128,7 +153,8 @@ class WorkPackageField
   end
 
   def editable?
-    find("#{selector}.-editable", wait: 10)
+    @context.find("#{selector}.-editable")
+    true
   rescue Capybara::ElementNotFound
     false
   end
