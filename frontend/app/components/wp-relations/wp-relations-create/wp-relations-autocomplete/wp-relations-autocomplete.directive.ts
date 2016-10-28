@@ -39,6 +39,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
     scope: {
       selectedWpId: '=',
       selectedRelationType: '=',
+      filterCandidatesFor: '@',
       workPackage: '='
     },
     link: function (scope, element, attrs, controllers) {
@@ -66,6 +67,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
         return scope.workPackage
           .available_relation_candidates.$link.$fetch({
             query: query,
+            type: scope.filterCandidatesFor
           }, {
             'caching': {
               enabled: false

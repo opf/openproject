@@ -13,8 +13,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     login_as user
 
     work_packages_page.visit_tab!('relations')
-    loading_indicator_saveguard
     work_packages_page.expect_subject
+    loading_indicator_saveguard
   end
 
   def add_hierarchy(container, query, expected_text)

@@ -38,16 +38,13 @@ class WpRelationRowDirectiveController {
     this.text = {
       removeButton:this.I18n.t('js.relation_buttons.remove')
     };
+    this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
+    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
   };
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
   }
-
-  public saveDescription(newDescription:string) {
-    this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
-    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
-  };
 
   public saveDescription() {
     this.relation.updateImmediately({
