@@ -5,7 +5,7 @@ import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
-
+import {RelationSortingAttribute} from '../wp-relations.directive';
 export class WorkPackageRelationsCreateController {
 
   public showRelationsCreateForm: boolean = false;
@@ -14,7 +14,13 @@ export class WorkPackageRelationsCreateController {
   public selectedWpId:string;
   public externalFormToggle: boolean;
   public fixedRelationType:string;
+  public groupRelationsBy:number;
   public relationTypes = this.wpRelationsService.getRelationTypes(true);
+
+  public groupOptions = [
+    {label: 'related work package types', value: RelationSortingAttribute.RelatedWorkPackageType},
+    {label: 'relation types', value: RelationSortingAttribute.RelationType}
+  ];
 
   constructor(protected I18n,
               protected $scope:ng.IScope,
@@ -127,7 +133,8 @@ function wpRelationsCreate() {
     scope: {
       workPackage: '=?',
       fixedRelationType: '@?',
-      externalFormToggle: '=?'
+      externalFormToggle: '=?',
+      groupRelationsBy: '='
     },
 
     controller: WorkPackageRelationsCreateController,

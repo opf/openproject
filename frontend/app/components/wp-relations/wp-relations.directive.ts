@@ -47,7 +47,7 @@ export class WorkPackageRelationsController {
 
   public currentRelations: RelatedWorkPackage[] = [];
 
-  public sortRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
+  public groupRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
     ? parseInt(this.$window.sessionStorage.getItem('openproject.groupRelationsBy'))
     : RelationSortingAttribute.RelatedWorkPackageType;
 
@@ -80,7 +80,7 @@ export class WorkPackageRelationsController {
   }
 
   public groupRelationsByUserInput() {
-    this.$window.sessionStorage.setItem('openproject.groupRelationsBy', String(this.sortRelationsBy));
+    this.$window.sessionStorage.setItem('openproject.groupRelationsBy', String(this.groupRelationsBy));
     this.buildRelationGroups();
   }
 
@@ -105,7 +105,7 @@ export class WorkPackageRelationsController {
   protected buildRelationGroups() {
     if (angular.isDefined(this.currentRelations)) {
       this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
-        switch (this.sortRelationsBy) {
+        switch (this.groupRelationsBy) {
           case RelationSortingAttribute.RelatedWorkPackageType:
             return wp.type.name;
           case RelationSortingAttribute.RelationType:
@@ -160,7 +160,6 @@ export class WorkPackageRelationsController {
     this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
     this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
     this.$scope.$on('wp-relations.changed', this.buildRelationGroups.bind(this));
-    this.$scope.$on('wp-relation.regroup', this.buildRelationGroups.bind(this));
   }
 }
 

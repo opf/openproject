@@ -1,13 +1,13 @@
 <div>
+    <wp-relations-create related-work-packages="$ctrl.currentRelations"
+                         work-package="$ctrl.workPackage"
+                         group-relations-by="$ctrl.groupRelationsBy"
+                         template="dynamic-relation-types"></wp-relations-create>
     <div ng-repeat="(type, relatedWorkPackages) in $ctrl.relationGroups">
     <wp-relations-group wp-type="type"
                         related-work-packages="relatedWorkPackages"
                         work-package="$ctrl.workPackage"></wp-relations-group>
     </div>
-    <wp-relations-create related-work-packages="$ctrl.currentRelations"
-                     work-package="$ctrl.workPackage"
-                     template="dynamic-relation-types"></wp-relations-create>
-
     <wp-relations-hierarchy work-package="$ctrl.workPackage"></wp-relations-hierarchy>
 </div>
 
