@@ -65,7 +65,7 @@ export class WorkPackageRelationsCreateController {
 
   protected addExistingChildRelation() {
     this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
-      .then(newChildWp => this.$scope.$emit('wp-relations.addedChild', newChildWp))
+      .then(() => this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true))
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
       .finally(() => this.toggleRelationsCreateForm());
   }
@@ -78,10 +78,6 @@ export class WorkPackageRelationsCreateController {
     this.toggleRelationsCreateForm();
     this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then(updatedWp => {
-        this.$rootScope.$broadcast('wp-relations.changedParent', {
-          updatedWp: updatedWp,
-          parentId: this.selectedWpId
-        });
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--parent').focus();

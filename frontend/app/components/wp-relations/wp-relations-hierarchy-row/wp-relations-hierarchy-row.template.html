@@ -20,7 +20,7 @@
             </span>
         </div>
         <div class="grid-content medium-3 collapse wp-relations-status-field">
-            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
+            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage && $ctrl.relatedWorkPackage.$loaded">
                 <div wp-edit-field="'status'">
                 </div>
             </div>

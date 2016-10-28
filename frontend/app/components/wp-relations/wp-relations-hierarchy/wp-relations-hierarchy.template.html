@@ -9,18 +9,18 @@
 
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
-            related-work-package="$ctrl.parent"
+            related-work-package="$ctrl.workPackage.parent"
             relation-type="parent"></wp-relations-hierarchy-row>
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
             indent-by="20"
-            ng-if="$ctrl.parent || $ctrl.children.length"></wp-relations-hierarchy-row>
+            ng-if="$ctrl.workPackage.parent.$loaded || $ctrl.workPackage.children.length"></wp-relations-hierarchy-row>
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
             related-work-package="relatedWorkPackage"
             indent-by="40"
             relation-type="child"
-            ng-repeat="relatedWorkPackage in $ctrl.children"></wp-relations-hierarchy-row>
+            ng-repeat="relatedWorkPackage in $ctrl.workPackage.children"></wp-relations-hierarchy-row>
 
     <wp-relations-create
             fixed-relation-type="children"

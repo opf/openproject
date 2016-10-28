@@ -106,10 +106,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
           wps.push(scope.workPackage.parentId);
         }
 
-        if (wpRelationsHierarchyController && wpRelationsHierarchyController.children) {
-          wps = wps.concat(wpRelationsHierarchyController.children.map(child => child.id));
-        } else if (scope.workPackage.children && scope.workPackage.children.length > 0) {
-
+        if (scope.workPackage.children && scope.workPackage.children.length > 0) {
           var childPromises = [];
 
           childPromises = childPromises.concat(scope.workPackage.children.map(child => child.$load()));

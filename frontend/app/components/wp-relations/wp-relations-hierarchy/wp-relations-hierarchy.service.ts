@@ -28,6 +28,7 @@
 
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:ng.ui.IStateService,
@@ -37,10 +38,15 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public changeParent(workPackage, parentId) {
-    return workPackage.changeParent({
-      parentId: parentId,
-      lockVersion: workPackage.lockVersion
-    });
+    return workPackage
+      .changeParent({
+        parentId: parentId,
+        lockVersion: workPackage.lockVersion
+      })
+      .then((wp:WorkPackageResourceInterface) => {
+        this.wpCacheService.updateWorkPackage(wp);
+        return wp;
+      });
   }
 
   public removeParent(workPackage) {
@@ -50,8 +56,8 @@ export class WorkPackageRelationsHierarchyService {
   public addExistingChildWp(workPackage, childWpId) {
     var deferred = this.$q.defer();
     this.wpCacheService.loadWorkPackage(childWpId)
-      .observe(null)
-      .subscribe(wpToBecomeChild => {
+      .get()
+      .then(wpToBecomeChild => {
         deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
       });
 
@@ -79,7 +85,10 @@ export class WorkPackageRelationsHierarchyService {
 
   public removeChild(childWorkPackage) {
     childWorkPackage.parentId = null;
-    return childWorkPackage.save();
+    return childWorkPackage.save().then((wp:WorkPackageResourceInterface) => {
+      this.wpCacheService.updateWorkPackage(wp);
+      return wp;
+    });
   }
 
 
