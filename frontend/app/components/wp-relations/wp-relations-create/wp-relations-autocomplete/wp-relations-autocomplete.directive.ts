@@ -47,79 +47,40 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
       };
       scope.options = [];
       scope.relatedWps = [];
-      getRelatedWorkPackages();
 
       scope.onSelect = (selected) => {
         scope.selectedWpId = selected.id;
       };
 
-      scope.autocompleteWorkPackages = (term) => {
-        if (!term) {
+      scope.getIdentifier = function(workPackage){
+        if (workPackage) {
+          return `#${workPackage.id} - ${workPackage.subject}`;
+        }
+      };
+
+      scope.autocompleteWorkPackages = (query) => {
+        if (!query) {
           return [];
         }
 
-        return findRelatableWorkPackages(term).then((workPackages:Array<WorkPackageResourceInterface>) => {
-          // reject already related work packages, self, children and parent
-          // to prevent invalid relations
-          return _.reject(workPackages, (wp) => {
-            return scope.relatedWps.indexOf(parseInt((wp.id as string))) > -1;
+        return scope.workPackage
+          .available_relation_candidates.$link.$fetch({
+            query: query,
+          }, {
+            'caching': {
+              enabled: false
+            }
+          }).then(collection => {
+            return collection.elements;
           });
-        });
       };
 
-      function findRelatableWorkPackages(search:string) {
-        const deferred = $q.defer();
-        var params;
-
-        scope.workPackage.project.$load().then(() => {
-          params = {
-            q: search,
-            scope: 'relatable',
-            escape: false,
-            id: scope.workPackage.id,
-            project_id: scope.workPackage.project.id
-          };
-
-          $http({
-            method: 'GET',
-            url: URI(PathHelper.workPackageJsonAutoCompletePath()).search(params).toString()
-          })
-            .then((response:any) => {
-              deferred.resolve(response.data);
-            })
-            .catch(deferred.reject);
-        })
-          .catch(deferred.reject);
-
-        return deferred.promise;
-      }
-
-      function getRelatedWorkPackages() {
-        const wpRelationsController:WorkPackageRelationsController = controllers[0];
-        const wpRelationsHierarchyController:WorkPackageRelationsHierarchyController = controllers[1];
-
-        let wps = [scope.workPackage.id];
-
-        wps = wps.concat(wpRelationsController.currentRelations.map(relation => relation.id));
-
-        if (scope.workPackage.parentId) {
-          wps.push(scope.workPackage.parentId);
+      scope.$watch('autocompleteIsOpen', (isOpen) => {
+        if (isOpen) {
+          var searchInput = angular.element('input[uib-typeahead]');
+          angular.element('.dropdown-menu').width(searchInput.outerWidth());
         }
-
-        if (wpRelationsHierarchyController && wpRelationsHierarchyController.children) {
-          wps = wps.concat(wpRelationsHierarchyController.children.map(child => child.id));
-        } else if (scope.workPackage.children && scope.workPackage.children.length > 0) {
-
-          var childPromises = [];
-
-          childPromises = childPromises.concat(scope.workPackage.children.map(child => child.$load()));
-          $q.all(childPromises).then(children => {
-            wps = wps.concat(children.map(child => child.id));
-            scope.relatedWps = wps;
-          });
-        }
-        scope.relatedWps = wps;
-      }
+      });
     }
   };
 }

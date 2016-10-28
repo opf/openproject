@@ -29,6 +29,7 @@ class WpRelationRowDirectiveController {
 
   constructor(protected $scope:ng.IScope,
               protected $timeout:ng.ITimeoutService,
+              protected $http,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelationsService: WorkPackageRelationsService,
