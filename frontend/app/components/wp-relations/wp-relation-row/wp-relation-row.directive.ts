@@ -7,14 +7,14 @@ import {
   RelationResourceInterface,
   RelationResource
 } from '../../api/api-v3/hal-resources/relation-resource.service';
+import {RelationSortingAttribute} from '../wp-relations.directive';
 
 class WpRelationRowDirectiveController {
   public relatedWorkPackage:RelatedWorkPackage;
   public relationType:string;
-  public relatedWorkPackage: RelatedWorkPackage;
   public availableRelationTypes: RelationResourceInterface[];
   public selectedRelationType: RelationResourceInterface;
-
+  public groupRelationsBy: RelationSortingAttribute;
   public showRelationInfo: boolean = false;
 
   public userInputs = {
@@ -88,7 +88,8 @@ function WpRelationRowDirective() {
     restrict:'E',
     templateUrl:'/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
     scope:{
-      relatedWorkPackage:'='
+      relatedWorkPackage:'=',
+      groupRelationsBy: '='
     },
     controller:WpRelationRowDirectiveController,
     controllerAs:'$ctrl',

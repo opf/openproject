@@ -9,6 +9,7 @@
 
     <div class="content" ng-if="$ctrl.relatedWorkPackages">
         <wp-relation-row
+                group-relations-by="$ctrl.groupRelationsBy"
                 related-work-package="relatedWorkPackage"
                 ng-repeat="relatedWorkPackage in $ctrl.relatedWorkPackages"></wp-relation-row>
     </div>

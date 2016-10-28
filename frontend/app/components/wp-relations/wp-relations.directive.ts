@@ -44,7 +44,6 @@ export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
-
   public currentRelations: RelatedWorkPackage[] = [];
 
   public groupRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
@@ -109,7 +108,7 @@ export class WorkPackageRelationsController {
           case RelationSortingAttribute.RelatedWorkPackageType:
             return wp.type.name;
           case RelationSortingAttribute.RelationType:
-            return wp.relatedBy._type;
+            return wp.relatedBy.type;
           default:
             return wp.type.name;
         }
@@ -160,6 +159,10 @@ export class WorkPackageRelationsController {
     this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
     this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
     this.$scope.$on('wp-relations.changed', this.buildRelationGroups.bind(this));
+
+    this.$scope.$watch(() => { return this.groupRelationsBy; }, () => {
+      this.buildRelationGroups();
+    });
   }
 }
 

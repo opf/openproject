@@ -6,7 +6,7 @@
         <div class="grid-content medium-3 collapse" aria-hidden="true">
             <span ng-click="$ctrl.userInputs.showRelationTypesForm = true"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
-                {{ $ctrl.relation.type }}
+                {{ $ctrl.getRelationLabel() }}
             </span>
             <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
                 <select class="wp-inline-edit--field form--select"

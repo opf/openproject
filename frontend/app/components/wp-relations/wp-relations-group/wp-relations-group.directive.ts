@@ -45,7 +45,8 @@ function wpRelationsGroupDirective() {
     scope: {
       wpType: '=',
       workPackage: '=',
-      relatedWorkPackages: '='
+      relatedWorkPackages: '=',
+      groupRelationsBy: '='
     },
 
     controller: WorkPackageRelationsGroupController,
