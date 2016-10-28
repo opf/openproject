@@ -229,7 +229,7 @@ GEM
     disposable (0.0.9)
       representable (~> 2.0)
       uber
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     equivalent-xml (0.5.1)
