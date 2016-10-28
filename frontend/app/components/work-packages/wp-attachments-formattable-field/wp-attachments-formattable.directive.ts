@@ -130,7 +130,7 @@ export class WpAttachmentsFormattableController {
       var currentFile = new SingleAttachmentModel(dropData.files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
       description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), insertMode, true);
-      workPackage.pendingAttachments.push((dropData.files[i] as UploadFile));
+      workPackage.pendingAttachments.push((dropData.files[i]));
     }
 
     description.save();
