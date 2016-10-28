@@ -42,9 +42,15 @@ export class WorkPackageRelationsController {
 
   public currentRelations: RelatedWorkPackage[] = [];
 
+  public sortRelationsBy:RelationSortingAttribute = this.$window.sessionStorage.getItem('openproject.groupRelationsBy')
+    ? parseInt(this.$window.sessionStorage.getItem('openproject.groupRelationsBy'))
+    : RelationSortingAttribute.RelatedWorkPackageType;
+
+
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
+              protected $window,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -68,6 +74,11 @@ export class WorkPackageRelationsController {
     this.buildRelationGroups();
   }
 
+  public groupRelationsByUserInput() {
+    this.$window.sessionStorage.setItem('openproject.groupRelationsBy', String(this.sortRelationsBy));
+    this.buildRelationGroups();
+  }
+
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
     let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
@@ -88,7 +99,16 @@ export class WorkPackageRelationsController {
 
   protected buildRelationGroups() {
     if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
+      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+        switch (this.sortRelationsBy) {
+          case RelationSortingAttribute.RelatedWorkPackageType:
+            return wp.type.name;
+          case RelationSortingAttribute.RelationType:
+            return wp.relatedBy._type;
+          default:
+            return wp.type.name;
+        }
+      });
     }
   }
 
@@ -135,6 +155,7 @@ export class WorkPackageRelationsController {
     this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
     this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
     this.$scope.$on('wp-relations.changed', this.buildRelationGroups.bind(this));
+    this.$scope.$on('wp-relation.regroup', this.buildRelationGroups.bind(this));
   }
 }
 

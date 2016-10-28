@@ -2,7 +2,7 @@
     <div class="wp-relations-create-button"
          ng-if="!$ctrl.showRelationsCreateForm">
         <div class="grid-block">
-            <div class="grid-content collapse wp-inline-create-button">
+            <div class="grid-content collapse wp-inline-create-button medium-6">
                 <a class="wp-inline-create--add-link relation-create -focus-after-save"
                    ng-click="$ctrl.toggleRelationsCreateForm()"
                    href
@@ -10,6 +10,11 @@
                     <i class="icon icon-add"></i>
                     <span>{{ ::$ctrl.text.addNewRelation }}</span>
                 </a>
+            </div>
+            <div class="grid-content medium-6">
+                <select ng-model="$ctrl.groupRelationsBy"
+                        ng-change="$ctrl.groupRelationsByUserInput()"
+                        ng-options="option.value as option.label for option in $ctrl.groupOptions"></select>
             </div>
         </div>
     </div>

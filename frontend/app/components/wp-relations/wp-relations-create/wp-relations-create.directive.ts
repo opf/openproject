@@ -45,6 +45,10 @@ export class WorkPackageRelationsCreateController {
     relationType: this.I18n.t('js.relation_labels.relation_type')
   };
 
+  public groupRelationsByUserInput() {
+    this.$scope.$emit('wp-relations.changed');
+  }
+
   public createRelation() {
 
     if (!this.selectedRelationType || ! this.selectedWpId) {
