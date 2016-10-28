@@ -30,7 +30,10 @@
   @extend %form--fieldset-or-section
   padding: 1rem
   background: image-url('draft.png')
-  min-width: 100%
+  // Min-width has to be defined to avoid a content overflow
+  // of the preview window. Since this class is also applied to the buttons
+  // it should however not be too large.
+  min-width: 0
   overflow-wrap: break-word
   word-wrap: break-word
 
