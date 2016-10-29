@@ -16,6 +16,9 @@ export class WorkPackageRelationsCreateController {
   public fixedRelationType:string;
   public relationTypes = this.wpRelationsService.getRelationTypes(true);
 
+  public canAddChildren = !!this.workPackage.addChild;
+  public canLinkChildren = !!this.workPackage.changeParent;
+
   constructor(protected I18n,
               protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,

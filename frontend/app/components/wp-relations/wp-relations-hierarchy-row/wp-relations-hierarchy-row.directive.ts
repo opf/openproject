@@ -9,6 +9,7 @@ class WpRelationsHierarchyRowDirectiveController {
   public relationType;
   public showEditForm: boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
+  public canModifyHierarchy: boolean = false;
 
   constructor(protected $scope: ng.IScope,
               protected $timeout,
@@ -21,6 +22,8 @@ class WpRelationsHierarchyRowDirectiveController {
     if (!this.relatedWorkPackage && this.relationType !== 'parent') {
       this.relatedWorkPackage = angular.copy(this.workPackage);
     }
+
+    this.canModifyHierarchy = !!this.workPackage.changeParent;
   };
 
   public text = {
@@ -34,6 +37,14 @@ class WpRelationsHierarchyRowDirectiveController {
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
+  public get relationClassName() {
+    if (this.isCurrentElement()) {
+      return 'self';
+    }
+
+    return this.relationType;
   }
 
   public removeRelation() {

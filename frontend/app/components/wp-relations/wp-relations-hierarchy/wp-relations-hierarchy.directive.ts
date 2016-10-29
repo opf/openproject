@@ -35,6 +35,7 @@ export class WorkPackageRelationsHierarchyController {
   public showEditForm:boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
   public canHaveChildren = !this.workPackage.isMilestone;
+  public canModifyHierarchy = !!this.workPackage.changeParent;
   public canAddRelation = !!this.workPackage.addRelation;
 
   constructor(protected $scope:ng.IScope,

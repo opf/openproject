@@ -1,4 +1,5 @@
 <div class="relation-row"
+     ng-class="$ctrl.relationClassName"
      ng-mouseover="$ctrl.showRelationControls = true"
      ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block v-align hierarchy-item"
@@ -27,9 +28,10 @@
         </div>
         <div class="grid-content medium-2 collapse wp-relations-controls-section">
           <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                  ng-if="$ctrl.isParent()"
+                                  ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"
                                   aria-hidden="false"
                                   execute="$ctrl.showEditForm = true"
+                                  link-class="wp-relation--edit"
                                   class="-shown-in-accessibility-mode">
               <icon-wrapper icon-name="edit"
                             icon-title="{{ ::$ctrl.text.change_parent }}">
@@ -37,9 +39,10 @@
           </accessible-by-keyboard>
 
           <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                  ng-if="$ctrl.relationType"
+                                  ng-if="$ctrl.canModifyHierarchy && $ctrl.relationType"
                                   aria-hidden="false"
                                   execute="$ctrl.removeRelation()"
+                                  link-class="wp-relation--remove"
                                   class="-shown-in-accessibility-mode">
               <icon-wrapper icon-name="remove"
                             icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}">
@@ -51,6 +54,7 @@
     <div ng-if="$ctrl.isParent() && !$ctrl.relatedWorkPackage || $ctrl.showEditForm">
         <wp-relations-create template="empty-parents"
                              fixed-relation-type="parent"
+                             ng-if="$ctrl.canModifyHierarchy"
                              external-form-toggle="$ctrl.showEditForm"
                              work-package="$ctrl.workPackage"></wp-relations-create>
     </div>
