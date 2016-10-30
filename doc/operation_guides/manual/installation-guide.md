@@ -239,7 +239,7 @@ will seed the database in the french language.
 ### Secret Token
 
 You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
-In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
+In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in '/etc/apache2/envvars'.
 
 ```bash
 [openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile
