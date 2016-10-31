@@ -357,7 +357,6 @@ export class WorkPackageResource extends HalResource {
     var deferred = $q.defer();
     this.inFlight = true;
     const wasNew = this.isNew;
-
     this.updateForm(this.$source)
       .then(form => {
         const payload = this.mergeWithForm(form);

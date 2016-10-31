@@ -29,10 +29,12 @@
 import {opApiModule} from '../../../angular-modules';
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import IProvideService = angular.auto.IProvideService;
+import I18n = op.I18n;
 
 describe('wpUploadButton directive', () => {
   var workPackage;
 
+  var I18n;
   var compile;
   var scope;
 
@@ -40,6 +42,8 @@ describe('wpUploadButton directive', () => {
   var button: any;
 
   var uploadsDirectiveScope;
+
+  beforeEach(angular.mock.module('openproject.templates'));
 
   beforeEach(angular.mock.module(opApiModule.name, ($provide: IProvideService) => {
     $provide.decorator('wpAttachmentsUploadDirective', () => {
@@ -51,8 +55,9 @@ describe('wpUploadButton directive', () => {
     });
   }));
 
-  beforeEach(angular.mock.inject(function ($rootScope, $compile, I18n) {
-    const html = '<wp-upload-button work-package="workPackage"></wp-upload-button>';
+  beforeEach(angular.mock.inject(function ($rootScope, $compile, _I18n_) {
+    I18n = _I18n_;
+    const html = '<wp-upload-button template="wp-upload-button-toolbar" work-package="workPackage"></wp-upload-button>';
     workPackage = {};
     scope = $rootScope.$new();
     scope.workPackage = workPackage;
@@ -61,14 +66,18 @@ describe('wpUploadButton directive', () => {
 
     compile = () => {
       element = $compile(html)(scope);
-      button = element.find('.button').first();
+      scope.$digest();
+
+      button = element.find('.button');
       uploadsDirectiveScope = button.scope();
-      $rootScope.$digest();
     };
 
     compile();
-    I18n.t.restore();
   }));
+
+  afterEach(function() {
+    I18n.t.restore();
+  });
 
   it('should have the add attachment tooltip', () => {
     expect(button.attr('title')).to.equal('add attachments');
