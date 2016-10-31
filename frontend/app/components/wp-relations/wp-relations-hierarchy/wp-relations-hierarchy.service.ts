@@ -84,10 +84,11 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public removeChild(childWorkPackage) {
-    childWorkPackage.parentId = null;
-    return childWorkPackage.save().then((wp:WorkPackageResourceInterface) => {
-      this.wpCacheService.updateWorkPackage(wp);
-      return wp;
+    return childWorkPackage.$load().then(() => {
+      return childWorkPackage.changeParent({
+        parentId: null,
+        lockVersion: childWorkPackage.lockVersion
+      });
     });
   }
 

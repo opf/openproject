@@ -99,7 +99,7 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public $load(force = false) {
+  public $load(force = false):ng.IPromise<HalResource> {
     if (!force) {
       if (this.$loaded) {
         return $q.when(this);

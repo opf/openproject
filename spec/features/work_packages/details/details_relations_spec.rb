@@ -38,7 +38,7 @@ describe 'Work package relations tab', js: true, selenium: true do
     container.hover
 
     container.find('.wp-relation--remove').click
-    expect(page).to have_no_selector(selector, text: removed_text)
+    expect(page).to have_no_selector(selector, text: removed_text, wait: 10)
   end
 
   describe 'as admin' do
@@ -141,6 +141,11 @@ describe 'Work package relations tab', js: true, selenium: true do
         find('#hierarchy--add-new-child').click
         expect(page).to have_selector('h2', text: "Child of #{work_package.type} ##{work_package.id}")
         find('#work-packages--edit-actions-cancel').click
+
+        # Ensure wp table loads fine
+        loading_indicator_saveguard
+        table = Pages::WorkPackagesTable.new(project)
+        table.expect_work_package_listed(work_package)
       end
     end
 
