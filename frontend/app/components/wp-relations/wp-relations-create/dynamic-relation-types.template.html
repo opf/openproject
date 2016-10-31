@@ -16,11 +16,10 @@
     <div class="grid-block v-align" ng-if="$ctrl.showRelationsCreateForm">
         <div class="grid-content collapse medium-3">
             <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
-            <select ng-init="$ctrl.selectedRelationType = $ctrl.relationTypes[0]"
-                    class="form--select relationTypeSelect"
+            <select class="form--select relationTypeSelect"
                     id="relation-type--select"
                     ng-model="$ctrl.selectedRelationType"
-                    ng-options="relationType.label for relationType in $ctrl.relationTypes"
+                    ng-options="type.name as type.label for type in $ctrl.relationTypes"
                     focus>
             </select>
         </div>

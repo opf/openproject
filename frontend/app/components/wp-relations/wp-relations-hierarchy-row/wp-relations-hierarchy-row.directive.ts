@@ -3,42 +3,56 @@ import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
-
 class WpRelationsHierarchyRowDirectiveController {
   public workPackage;
   public relatedWorkPackage;
   public relationType;
   public showEditForm: boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
+  public canModifyHierarchy: boolean = false;
 
-  constructor(protected $scope:ng.IScope,
+  constructor(protected $scope: ng.IScope,
               protected $timeout,
-              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected PathHelper:op.PathHelper,
-              protected I18n:op.I18n) {
+              protected wpRelationsHierarchyService: WorkPackageRelationsHierarchyService,
+              protected wpCacheService: WorkPackageCacheService,
+              protected wpNotificationsService: WorkPackageNotificationService,
+              protected PathHelper: op.PathHelper,
+              protected I18n: op.I18n) {
 
     if (!this.relatedWorkPackage && this.relationType !== 'parent') {
       this.relatedWorkPackage = angular.copy(this.workPackage);
     }
+
+    this.canModifyHierarchy = !!this.workPackage.changeParent;
   };
 
   public text = {
-    change_parent: this.I18n.t('js.relation_buttons.change_parent'),
-    remove_parent: this.I18n.t('js.relation_buttons.remove_parent'),
-    remove_child: this.I18n.t('js.relation_buttons.remove_child'),
-    remove: this.I18n.t('js.relation_buttons.remove'),
-    parent: this.I18n.t('js.relation_labels.parent'),
-    children: this.I18n.t('js.relation_labels.children')
+    change_parent:this.I18n.t('js.relation_buttons.change_parent'),
+    remove_parent:this.I18n.t('js.relation_buttons.remove_parent'),
+    remove_child:this.I18n.t('js.relation_buttons.remove_child'),
+    remove:this.I18n.t('js.relation_buttons.remove'),
+    parent:this.I18n.t('js.relation_labels.parent'),
+    children:this.I18n.t('js.relation_labels.children')
   };
+
+  public get relationReady() {
+    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
+  public get relationClassName() {
+    if (this.isCurrentElement()) {
+      return 'self';
+    }
+
+    return this.relationType;
+  }
 
   public removeRelation() {
     if (this.relationType === 'child') {
       this.removeChild();
 
     } else if (this.relationType === 'parent') {
-     this.removeParent();
+      this.removeParent();
     }
   }
 
@@ -53,8 +67,10 @@ class WpRelationsHierarchyRowDirectiveController {
   }
 
   protected removeChild() {
-      this.wpRelationsHierarchyService.removeChild(this.relatedWorkPackage).then(exChildWp => {
-        this.$scope.$emit('wp-relations.removedChild', exChildWp);
+    this.wpRelationsHierarchyService
+      .removeChild(this.relatedWorkPackage)
+      .then(() => {
+        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--add-exisiting-child').focus();
@@ -64,12 +80,9 @@ class WpRelationsHierarchyRowDirectiveController {
   }
 
   protected removeParent() {
-    this.wpRelationsHierarchyService.removeParent(this.workPackage)
-      .then((updatedWp) => {
-        this.$scope.$emit('wp-relations.changedParent', {
-          updatedWp: this.workPackage,
-          parentId: null
-        });
+    this.wpRelationsHierarchyService
+      .removeParent(this.workPackage)
+      .then(() => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--add-parent').focus();
@@ -82,17 +95,17 @@ class WpRelationsHierarchyRowDirectiveController {
 
 function WpRelationsHierarchyRowDirective() {
   return {
-    restrict: 'E',
-    templateUrl: '/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',
-    scope: {
-      indentBy: '@?',
-      workPackage: '=',
-      relatedWorkPackage: '=?',
-      relationType: '@'
+    restrict:'E',
+    templateUrl:'/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',
+    scope:{
+      indentBy:'@?',
+      workPackage:'=',
+      relatedWorkPackage:'=?',
+      relationType:'@'
     },
-    controller: WpRelationsHierarchyRowDirectiveController,
-    controllerAs: '$ctrl',
-    bindToController: true
+    controller:WpRelationsHierarchyRowDirectiveController,
+    controllerAs:'$ctrl',
+    bindToController:true
   };
 }
 

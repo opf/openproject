@@ -1,21 +1,23 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationType} from '../wp-relations.interfaces';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
 
 export class WorkPackageRelationsCreateController {
 
   public showRelationsCreateForm: boolean = false;
   public workPackage:WorkPackageResourceInterface;
-  public selectedRelationType:RelationType;
+  public selectedRelationType:string = RelationResource.DEFAULT();
   public selectedWpId:string;
   public externalFormToggle: boolean;
   public fixedRelationType:string;
   public relationTypes = this.wpRelationsService.getRelationTypes(true);
-  public translatedRelationTitle = this.wpRelationsService.getTranslatedRelationTitle;
+
+  public canAddChildren = !!this.workPackage.addChild;
+  public canLinkChildren = !!this.workPackage.changeParent;
 
   constructor(protected I18n,
               protected $scope:ng.IScope,
@@ -27,8 +29,9 @@ export class WorkPackageRelationsCreateController {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    var defaultRelationType = angular.isDefined(this.fixedRelationType) ? this.fixedRelationType : 'relatedTo';
-    this.selectedRelationType = this.wpRelationsService.getRelationTypeObjectByName(defaultRelationType);
+    if (angular.isDefined(this.fixedRelationType)) {
+      this.selectedRelationType = this.fixedRelationType;
+    }
 
     if (angular.isDefined(this.externalFormToggle)) {
       this.showRelationsCreateForm = this.externalFormToggle;
@@ -51,7 +54,7 @@ export class WorkPackageRelationsCreateController {
       return;
     }
 
-    switch (this.selectedRelationType.name) {
+    switch (this.selectedRelationType) {
       case 'parent':
         this.changeParent();
         break;
@@ -65,7 +68,7 @@ export class WorkPackageRelationsCreateController {
 
   protected addExistingChildRelation() {
     this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
-      .then(newChildWp => this.$scope.$emit('wp-relations.addedChild', newChildWp))
+      .then(() => this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true))
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
       .finally(() => this.toggleRelationsCreateForm());
   }
@@ -78,11 +81,6 @@ export class WorkPackageRelationsCreateController {
     this.toggleRelationsCreateForm();
     this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then(updatedWp => {
-        console.log("wp after update", updatedWp)
-        this.$rootScope.$broadcast('wp-relations.changedParent', {
-          updatedWp: updatedWp,
-          parentId: this.selectedWpId
-        });
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--parent').focus();
@@ -92,9 +90,7 @@ export class WorkPackageRelationsCreateController {
   }
 
   protected createCommonRelation() {
-    let relationType = this.selectedRelationType.name === 'relatedTo' ? this.selectedRelationType.id : this.selectedRelationType.name;
-
-    this.wpRelationsService.addCommonRelation(this.workPackage, relationType, this.selectedWpId)
+    this.wpRelationsService.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
       .then(relation => {
         this.$scope.$emit('wp-relations.added', relation);
         this.wpNotificationsService.showSave(this.workPackage);

@@ -156,11 +156,19 @@ module API
         end
 
         def from
-          represented.from
+          represent_work_package(represented.from)
         end
 
         def to
-          represented.to
+          represent_work_package(represented.to)
+        end
+
+        def represent_work_package(wp)
+          ::API::V3::WorkPackages::WorkPackageRepresenter.create(
+            wp,
+            current_user: current_user,
+            embed_links: false
+          )
         end
       end
     end

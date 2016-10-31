@@ -31,7 +31,7 @@ import {WorkPackageRelationsController} from "../../wp-relations.directive";
 import {WorkPackageRelationsHierarchyController} from "../../wp-relations-hierarchy/wp-relations-hierarchy.directive";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 
-function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
+function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
@@ -42,22 +42,26 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
       workPackage: '='
     },
     link: function (scope, element, attrs, controllers) {
+      scope.text = {
+        placeholder: I18n.t('js.relations_autocomplete.placeholder')
+      };
+      scope.options = [];
       scope.relatedWps = [];
       getRelatedWorkPackages();
 
-      scope.onSelect = function (wpId) {
-        scope.selectedWpId = wpId;
+      scope.onSelect = (selected) => {
+        scope.selectedWpId = selected.id;
       };
 
       scope.autocompleteWorkPackages = (term) => {
         if (!term) {
-          return;
+          return [];
         }
 
-        findRelatableWorkPackages(term).then((workPackages:Array<WorkPackageResourceInterface>) => {
+        return findRelatableWorkPackages(term).then((workPackages:Array<WorkPackageResourceInterface>) => {
           // reject already related work packages, self, children and parent
           // to prevent invalid relations
-          scope.options = _.reject(workPackages, (wp) => {
+          return _.reject(workPackages, (wp) => {
             return scope.relatedWps.indexOf(parseInt((wp.id as string))) > -1;
           });
         });
@@ -102,10 +106,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http) {
           wps.push(scope.workPackage.parentId);
         }
 
-        if (wpRelationsHierarchyController && wpRelationsHierarchyController.children) {
-          wps = wps.concat(wpRelationsHierarchyController.children.map(child => child.id));
-        } else if (scope.workPackage.children && scope.workPackage.children.length > 0) {
-
+        if (scope.workPackage.children && scope.workPackage.children.length > 0) {
           var childPromises = [];
 
           childPromises = childPromises.concat(scope.workPackage.children.map(child => child.$load()));

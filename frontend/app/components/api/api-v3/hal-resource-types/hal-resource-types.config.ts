@@ -36,6 +36,7 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
       attrTypes: {
         parent: 'WorkPackage',
         children: 'WorkPackage',
+        relations: 'Relation',
       }
     },
     Activity: {
@@ -46,6 +47,13 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
     },
     'Activity::Revision': {
       user: 'User'
+    },
+    Relation: {
+      className: 'RelationResource',
+      attrTypes: {
+        from: 'WorkPackage',
+        to: 'WorkPackage'
+      }
     },
     Error: 'ErrorResource',
     User: 'UserResource',
