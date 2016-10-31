@@ -4,7 +4,16 @@
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
-            {{ $ctrl.relation.type }}
+            <span ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  ng-if="!$ctrl.userInputs.showRelationTypesForm">
+                {{ $ctrl.relation.type }}
+            </span>
+            <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
+                <select class="wp-inline-edit--field form--select"
+                        ng-model="$ctrl.selectedRelationType"
+                        ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
+                        ng-change="$ctrl.saveRelationType()"></select>
+            </div>
         </div>
 
         <div class="grid-content medium-5 collapse" wp-single-relation
@@ -16,13 +25,19 @@
             </a>
         </div>
 
-        <div class="grid-content medium-3 collapse wp-relations-status-field">
+        <div class="grid-content medium-2 collapse wp-relations-status-field">
             <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
                 <div wp-edit-field="'status'"></div>
             </div>
         </div>
 
-        <div class="grid-content medium-1 collapse wp-relations-controls-section">
+        <div class="grid-content medium-2 collapse wp-relations-controls-section">
+            <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+                                    execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
+                <icon-wrapper icon-name="info1"
+                              icon-title="Info for related workpackage">
+                </icon-wrapper>
+            </accessible-by-keyboard>
             <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
                                     ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
@@ -33,5 +48,38 @@
                 </icon-wrapper>
             </accessible-by-keyboard>
         </div>
+    </div>
+
+    <div class="grid-block hierarchy-item description-container" ng-show="$ctrl.userInputs.showRelationInfo" ng-init="editDescription = false">
+        <div class="grid-content medium-10 collapse">
+            <div ng-hide="$ctrl.userInputs.showDescriptionEditForm">
+                {{$ctrl.relation.description || 'no description set'}}
+            </div>
+            <div ng-show="$ctrl.userInputs.showDescriptionEditForm">
+                <div class="wp-edit-field inplace-edit">
+                    <input class="wp-inline-edit--field" type="text" ng-model="$ctrl.relation.description" />
+                </div>
+            </div>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-hide="$ctrl.userInputs.showDescriptionEditForm">
+            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = true">
+                <icon-wrapper icon-name="edit"
+                              icon-title="edit description">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-show="$ctrl.userInputs.showDescriptionEditForm">
+            <accessible-by-keyboard execute="$ctrl.saveDescription()">
+                <icon-wrapper icon-name="checkmark"
+                              icon-title="save description'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = false">
+                <icon-wrapper icon-name="remove"
+                              icon-title="cancel editing'">
+                </icon-wrapper>
+            </accessible-by-keyboard>
+        </div>
+
     </div>
 </div>

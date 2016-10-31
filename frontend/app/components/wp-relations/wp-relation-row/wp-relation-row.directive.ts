@@ -11,19 +11,24 @@ import {
 class WpRelationRowDirectiveController {
   public relatedWorkPackage: RelatedWorkPackage;
   public relationType: string;
-
-  public showRelationInfo: boolean = false;
+  public showRelationInfo:boolean = false;
+  public showEditForm:boolean = false;
+  public availableRelationTypes: RelationResourceInterface[];
+  public selectedRelationType: RelationResourceInterface;
 
   public userInputs = {
     description:this.relatedWorkPackage.relatedBy.description,
-    showDescriptionEditForm:false
+    showDescriptionEditForm:false,
+    showRelationTypesForm: false,
+    showRelationInfo:false
   };
 
   public relation: RelationResourceInterface = this.relatedWorkPackage.relatedBy;
   public text: Object;
 
   constructor(protected $scope: ng.IScope,
-              protected $timeout,
+              protected $timeout:ng.ITimeoutService,
+              protected $http,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelationsService: WorkPackageRelationsService,
@@ -33,10 +38,34 @@ class WpRelationRowDirectiveController {
     this.text = {
       removeButton:this.I18n.t('js.relation_buttons.remove')
     };
+    this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
+    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
   };
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+  }
+
+  public saveDescription() {
+    this.relation.updateImmediately({
+      description: this.relation.description
+    }).then(() => {
+      this.userInputs.showDescriptionEditForm = false;
+      this.wpNotificationsService.showSave(this.relatedWorkPackage);
+    });
+  }
+
+  public saveRelationType() {
+    this.relation.updateImmediately({
+      type: this.selectedRelationType.name
+    }).then((savedRelation) => {
+      this.wpNotificationsService.showSave(this.relatedWorkPackage);
+
+      this.relatedWorkPackage.relatedBy = savedRelation;
+      this.relation = savedRelation;
+
+      this.userInputs.showRelationTypesForm = false;
+    });
   }
 
   public toggleUserDescriptionForm() {

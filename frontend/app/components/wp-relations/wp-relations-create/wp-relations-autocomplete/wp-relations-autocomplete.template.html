@@ -3,8 +3,10 @@
          class="wp-relations--autocomplete"
          ng-model="selectedWp"
          typeahead-append-to-body="true"
-         typeahead-on-select="onSelect($item)"
+         typeahead-on-select="onSelect($model)"
          typeahead-wait-ms="100"
+         typeahead-input-formatter="getIdentifier($model)"
+         typeahead-is-open="autocompleteIsOpen"
          placeholder="{{ ::text.placeholder }}"
-         uib-typeahead="item.to_s for item in autocompleteWorkPackages($viewValue)">
+         uib-typeahead="item as getIdentifier(item) for item in autocompleteWorkPackages($viewValue)">
 </form>
