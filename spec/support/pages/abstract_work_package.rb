@@ -30,10 +30,11 @@ require 'support/pages/page'
 
 module Pages
   class AbstractWorkPackage < Page
-    attr_reader :work_package, :type_field_selector, :subject_field_selector
+    attr_reader :project, :work_package, :type_field_selector, :subject_field_selector
 
-    def initialize(work_package)
+    def initialize(work_package, project = nil)
       @work_package = work_package
+      @project = project
 
       @type_field_selector = '.wp-edit-field.type'
       @subject_field_selector = '.wp-edit-field.subject'

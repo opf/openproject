@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'custom field inplace editor', js: true, selenium: true do
+describe 'custom field inplace editor', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
   let(:project) {

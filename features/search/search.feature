@@ -44,4 +44,4 @@ Feature: Searching
     Then I should see "Overview" within "#main-menu"
      And I click on "wp1" within "#search-results"
     Then I should see "wp1" within ".wp-edit-field.subject"
-     And I should be on the page of the work package "wp1"
+     And I should be on the page of the work package "wp1" in project "project"

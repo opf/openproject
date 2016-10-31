@@ -103,7 +103,7 @@ module Pages
       loading_indicator_saveguard
       page.driver.browser.mouse.double_click(row(work_package).native)
 
-      FullWorkPackage.new(work_package)
+      FullWorkPackage.new(work_package, project)
     end
 
     def open_full_screen_by_button(work_package)
@@ -112,7 +112,7 @@ module Pages
 
       click_button(I18n.t('js.label_activate') + ' ' + I18n.t('js.button_show_view'))
 
-      FullWorkPackage.new(work_package)
+      FullWorkPackage.new(work_package, project)
     end
 
     def open_full_screen_by_link(work_package)
