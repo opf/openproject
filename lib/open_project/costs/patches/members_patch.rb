@@ -113,6 +113,22 @@ module OpenProject::Costs
       def project
         options[:project]
       end
+
+      def columns
+        if costs_enabled?
+          super # all columns including :current_rate as defined in `Members.mixin!`
+        else
+          super - [:current_rate]
+        end
+      end
+
+      def costs_enabled?
+        if @costs_enabled.nil?
+          @costs_enabled = project.present? && project.module_enabled?(:costs_module)
+        end
+
+        @costs_enabled
+      end
     end
 
     module RowCell
