@@ -28,8 +28,20 @@ See doc/COPYRIGHT.md for more details.
   <span class="widget-box--header-title"><%=l(:label_calendar)%></span>
 </h3>
 
-<% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
-   calendar.events = WorkPackage.visible.where("#{WorkPackage.table_name}.project_id in (#{current_user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt)
-                                        .includes(:project, :type, :priority, :assigned_to) unless current_user.projects.empty? %>
+<%
+  calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
+  wps = WorkPackage.table_name
+
+  calendar.events = WorkPackage.visible
+    .where(project: current_user.projects)
+    .where(
+      "
+        (#{wps}.start_date >= ? AND #{wps}.start_date <= ?) OR
+        (#{wps}.due_date >= ? AND #{wps}.due_date <= ?)
+      ",
+      calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt
+    )
+    .includes(:project, :type, :priority, :assigned_to) unless current_user.projects.empty?
+%>
 
 <%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>
