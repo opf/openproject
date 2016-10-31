@@ -117,7 +117,8 @@ describe 'work package export', type: :feature do
     expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
   end
 
-  it 'shows only the work package with the right progress if filtered this way', js: true, retry: 2 do
+  it 'shows only the work package with the right progress if filtered this way',
+     js: true, retry: 2 do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
