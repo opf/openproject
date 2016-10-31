@@ -1,4 +1,5 @@
 require 'rspec/retry'
+require 'retriable'
 
 ##
 # Enable specs to mark metadata retry: <count> to retry that given example
@@ -15,4 +16,11 @@ RSpec.configure do |config|
   ##
   # By default, do not retry specs
   config.default_retry_count = 0
+end
+
+##
+# Allow specific code blocks to retry on specific errors
+Retriable.configure do |c|
+  # Three tries in that block
+  c.tries = 3
 end

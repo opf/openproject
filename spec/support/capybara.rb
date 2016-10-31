@@ -1,4 +1,5 @@
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 
 RSpec.configure do
