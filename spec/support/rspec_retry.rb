@@ -24,3 +24,17 @@ Retriable.configure do |c|
   # Three tries in that block
   c.tries = 3
 end
+
+##
+# Helper to pass options to retriable while logging
+# failures
+def retry_block(args: {}, &block)
+  log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
+    $stderr.puts <<-EOS.strip_heredoc
+    #{exception.class}: '#{exception.message}'
+    #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try.
+    EOS
+  end
+
+  Retriable.retriable(args.merge(on_retry: log_errors), &block)
+end

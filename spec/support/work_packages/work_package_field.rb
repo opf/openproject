@@ -91,10 +91,7 @@ class WorkPackageField
   def update(value, save: true, expect_failure: false)
     # Retry to set attributes due to reloading the page after setting
     # an attribute, which may cause an input not to open properly.
-    print_failure = ->() do
-      $stderr.puts "Failed to set attribute #{property_name}: #{e.message}. Retrying"
-    end
-    Retriable.retriable(on_retry: print_failure) do
+    retry_block do
       activate_edition
       set_value value
 

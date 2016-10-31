@@ -156,7 +156,7 @@ module Pages
     end
 
     def get_filter_name(label)
-      Retriable.retriable do
+      retry_block do
         label_field = page.find('.advanced-filters--filter-name', text: label)
         filter_container = label_field.find(:xpath, '..')
 
