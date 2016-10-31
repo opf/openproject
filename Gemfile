@@ -255,6 +255,7 @@ end
 group :opf_plugins do
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git',
                                   branch: 'dev'
+  gem 'gitlab-license', path: '../gitlab-license-1.0.0'
 end
 
 # TODO: Make this group :optional when bundler v10.x
