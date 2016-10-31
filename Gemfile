@@ -153,6 +153,8 @@ gem 'nokogiri', '~> 1.6.8'
 gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
+gem 'openproject-token', '~> 1.0.0'
+
 group :test do
   gem 'rack-test', '~> 0.6.3'
   gem 'shoulda-context', '~> 1.2'
@@ -261,7 +263,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/6.1'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end
 
 # TODO: Make this group :optional when bundler v10.x

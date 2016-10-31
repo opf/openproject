@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 1e8c4e52119f0ea690bf7d015798ae65b1af0f7a
-  branch: release/6.1
+  revision: bbc216af7f0133fd191fbe7ea121a2c962a8491f
+  branch: dev
   specs:
-    openproject-translations (6.1.4)
+    openproject-translations (6.2.0)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -361,6 +361,8 @@ GEM
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
     oj (2.17.4)
+    openproject-token (1.0.0)
+      activemodel (~> 5.0)
     parallel (1.9.0)
     parallel_tests (2.4.1)
       parallel
@@ -648,6 +650,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.8)
   oj (~> 2.17.4)
   omniauth!
+  openproject-token (~> 1.0.0)
   openproject-translations!
   parallel_tests (~> 2.4.1)
   passenger

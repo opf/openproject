@@ -373,6 +373,7 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: [:edit, :update]
+    resource :enterprise, only: [:show, :create, :destroy]
     resources :enumerations
 
     resources :groups do

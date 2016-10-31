@@ -83,6 +83,9 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
     }
+    if EnterpriseToken.show_banners
+      result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
+    end
     result << static_link_item(:user_guides)
     result << static_link_item(:faq)
     result << content_tag(:li) {
@@ -111,11 +114,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
     result << static_link_item(:api_docs)
   end
 
-  def static_link_item(key)
+  def static_link_item(key, options = {})
     link = OpenProject::Static::Links.links[key]
     label = I18n.t(link[:label])
     content_tag(:li) do
-      link_to label, link[:href], title: label
+      link_to label, "#{link[:href]}#{options[:href_suffix]}", title: label
     end
   end
 end

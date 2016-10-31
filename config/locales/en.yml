@@ -39,6 +39,12 @@ en:
       no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
+    enterprise:
+      upgrade_to_ee: "Upgrade to Enterprise Edition"
+      add_token: "Upload an Enterprise Edition support token"
+      replace_token: "Replace your current support token"
+      order: "Order Enterprise Edition"
+      paste: "Paste your Enterprise Edition support token"
 
   announcements:
     show_until: Show until
@@ -266,6 +272,11 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
+      enterprise_token:
+        starts_at: "Valid since"
+        expires_at: "Expires at"
+        subscriber: "Subscriber"
+        encoded_token: "Enterprise support token"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -404,6 +415,8 @@ en:
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
       models:
+        enterprise_token:
+          unreadable: "can't be read. Are you sure it is a support token?"
         project:
           attributes:
             types:
@@ -790,6 +803,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
@@ -847,7 +861,16 @@ en:
       users: "Newest registered users in this instance."
     blocks:
       community: "OpenProject community"
+      upsale:
+        become_hero: "Become a hero!"
+        title: "Upgrade to Enterprise Edition"
+        description: "Boost your productivity with the Enterprise Edition"
+        more_info: "More information"
+        additional_features: "Additional powerful premium features"
+        professional_support: "Professional support from the OpenProject experts"
+        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
+      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       user_guides: "User guides"
       faq: "FAQ"
       glossary: "Glossary"
@@ -855,6 +878,7 @@ en:
       forums: "Forums"
       blog: "OpenProject blog"
       boards: "Community forum"
+
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."
@@ -871,6 +895,7 @@ en:
         expiration: "Expires"
       indefinite_expiration: "Never"
 
+  label_accessibility: "Accessibility"
   label_account: "Account"
   label_active: "Active"
   label_activity: "Activity"
@@ -973,6 +998,7 @@ en:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_date: "Date"
+  label_date_and_time: "Date and time"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_range: "Date range"
@@ -1008,6 +1034,8 @@ en:
   label_enumeration_new: "New enumeration value"
   label_enumeration_value: "Enumeration value"
   label_enumerations: "Enumerations"
+  label_enterprise: "Enterprise"
+  label_enterprise_edition: "Enterprise Edition"
   label_environment: "Environment"
   label_equals: "is"
   label_example: "Example"
@@ -1054,6 +1082,7 @@ en:
   label_show_hide: "Show/hide"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
+  label_language: "Language"
   label_jump_to_a_project: "Jump to a project..."
   label_language_based: "Based on user's language"
   label_last_activity: "Last activity"
@@ -1272,6 +1301,7 @@ en:
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_used_by: "Used by"
+  label_user: "User"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "Anonymous"
   label_user_mail_option_all: "For any event on all my projects"

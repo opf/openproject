@@ -49,7 +49,8 @@ $widget-box--enumeration-width: 20px
       flex-direction: column
 
     .widget-box--enumeration,
-    .widget-box--arrow-links
+    .widget-box--arrow-links,
+    .widget-box--feature-list
       flex-grow: 2
 
   .icon-context:before
@@ -124,6 +125,28 @@ $widget-box--enumeration-width: 20px
           margin-bottom: 10px
           //necessary for correct alignment even with long texts
           width: calc(100% - #{$widget-box--enumeration-width})
+
+    .widget-box--feature-list
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+
+      &:last-child
+        margin-bottom: 0
+
+      li:before
+        @include icon-common
+        @extend .icon-notice
+        @extend .icon-notice:before
+        display: inline-block
+        font-size: 0.6rem
+        color: $alternative-color
+        width: $widget-box--enumeration-width
+
+
+    .widget-box--teaser-image
+      height: 100px
+      margin-left: auto
+      margin-right: auto
 
 @include breakpoint(680px down)
   .widget-boxes
