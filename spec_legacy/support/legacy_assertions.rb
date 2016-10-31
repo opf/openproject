@@ -204,6 +204,8 @@ module LegacyAssertionsAndHelpers
 
   module ClassMethods
     def ldap_configured?
+      return false if !!ENV['CI']
+
       @test_ldap = Net::LDAP.new(host: '127.0.0.1', port: 389)
       return @test_ldap.bind
     rescue Exception => e
