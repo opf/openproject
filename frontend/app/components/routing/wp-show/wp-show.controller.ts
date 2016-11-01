@@ -73,7 +73,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public deleteSelectedWorkPackage() {
     var promise = this.WorkPackageService.performBulkDelete([this.workPackage.id], true);
 
-    promise.success(function () {
+    promise.then(() => {
       this.$state.go('work-packages.list', { projectPath: this.projectIdentifier });
     });
   }
