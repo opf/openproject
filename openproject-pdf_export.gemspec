@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = "OpenProject GmbH"
   s.email       = "info@openproject.com"
   s.homepage    = "https://community.openproject.org/projects/pdf-export"
-  s.summary     = 'OpenProject Pdf Export'
-  s.description = "Pdf Export Plugin"
+  s.summary     = 'OpenProject PDF Export'
+  s.description = "PDF Export Plugin"
   s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
