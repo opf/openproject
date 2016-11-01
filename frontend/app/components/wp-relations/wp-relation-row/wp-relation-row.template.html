@@ -1,12 +1,14 @@
 <div class="relation-row"
+     ng-class="['relation-row-{{ $ctrl.relatedWorkPackage.id }}']"
      ng-mouseover="$ctrl.showRelationControls = true"
      ng-mouseleave="$ctrl.showRelationControls = false">
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
-            <span ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+            <span class="relation-row--type"
+                  ng-click="$ctrl.userInputs.showRelationTypesForm = true"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
-                {{ $ctrl.relation.type }}
+                {{ $ctrl.normalizedRelationType }}
             </span>
             <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
                 <select class="wp-inline-edit--field form--select"
@@ -20,7 +22,7 @@
              ng-if="$ctrl.relatedWorkPackage">
             <a href="{{ singleRelationCtrl.workPackagePath($ctrl.relatedWorkPackage.id) }}"
                class="wp-relations--subject-field"
-               aria-label="{{ $ctrl.relation.type + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
+               aria-label="{{ $ctrl.normalizedRelationType + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
                 {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
             </a>
         </div>
@@ -42,6 +44,7 @@
                                     ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
                                     aria-hidden="false"
+                                    link-class="relation-row--remove-btn"
                                     class="-shown-in-accessibility-mode">
                 <icon-wrapper icon-name="remove"
                               icon-title="{{ ::$ctrl.text.removeButton }}">
