@@ -171,6 +171,10 @@ group :test do
   gem 'rspec-rails', '~> 3.5.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
+  # Retry failures within the same environment
+  gem 'rspec-retry', '~> 0.5.2'
+  gem 'retriable', '~> 2.1'
+
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
@@ -181,7 +185,7 @@ group :test do
   gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
   gem 'capybara', '~> 2.8.1'
-  gem 'capybara-screenshot', '~> 1.0.13'
+  gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'

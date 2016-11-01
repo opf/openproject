@@ -59,7 +59,6 @@ describe MessagesController, type: :controller do
           expect(controller).to receive(:authorize).and_return(true)
 
           allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
-          allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
 
           post 'create', params: { board_id: board.id,
                                    message: { subject: 'Test created message',
@@ -110,7 +109,6 @@ describe MessagesController, type: :controller do
         allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
 
         allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
-        allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
       context 'invalid attachment' do

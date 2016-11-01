@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe 'api/experimental/queries/grouped.api.rabl', type: :view do
   before do

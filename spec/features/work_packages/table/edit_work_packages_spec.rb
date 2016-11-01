@@ -174,10 +174,7 @@ describe 'Inline editing work packages', js: true do
       expect(wp_table.row(work_package)).to have_selector('.wp-edit-field.-error', count: 2)
 
       cf_text = wp_table.edit_field(work_package, :customField2)
-      cf_text.activate!
-      cf_text.set_value('my custom text')
-      cf_text.save!
-      cf_text.expect_inactive!
+      cf_text.update('my custom text')
 
       cf_list            = wp_table.edit_field(work_package, :customField1)
       cf_list.field_type = 'select'

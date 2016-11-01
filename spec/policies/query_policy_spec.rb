@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe QueryPolicy, type: :controller do
   let(:user)    { FactoryGirl.build_stubbed(:user) }

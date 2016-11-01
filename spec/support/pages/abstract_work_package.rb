@@ -75,17 +75,10 @@ module Pages
     end
 
     def ensure_page_loaded
-      tries = 0
-      begin
-        find('.work-package-details-activities-activity-contents .user',
-             text: work_package.journals.last.user.name,
-             wait: 10)
-      rescue
-        # HACK This error may happen since activities are loaded several times
-        # in the old resource, and may cause a reload.
-        tries += 1
-        retry unless tries > 5
-      end
+      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                    text: work_package.journals.last.user.name,
+                                    minimum: 1,
+                                    wait: 10)
     end
 
     def expect_attributes(attribute_expectations)
@@ -129,13 +122,8 @@ module Pages
 
     def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
-        field = work_package_field key
-        field.activate_edition
-
-        field.set_value value
-        # select fields are saved on change
-        field.save! if save && field.input_element.tag_name != 'select'
-
+        field = work_package_field(key)
+        field.update(value, save: save)
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications
         end
@@ -151,6 +139,8 @@ module Pages
         else
           WorkPackageField.new page, key
         end
+      elsif key == :description
+        WorkPackageTextAreaField.new page, key
       else
         WorkPackageField.new page, key
       end
@@ -217,7 +207,7 @@ module Pages
     def click_create_wp_button(type)
       find('.add-work-package:not([disabled])', text: 'Create').click
 
-      find('#types-context-menu .menu-item', text: type).click
+      find('#types-context-menu .menu-item', text: type, wait: 10).click
     end
 
     def select_type(type)

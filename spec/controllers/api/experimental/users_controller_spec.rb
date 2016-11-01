@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Api::Experimental::UsersController, type: :controller do
   let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }

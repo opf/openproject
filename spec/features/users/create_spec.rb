@@ -43,7 +43,7 @@ describe 'create users', type: :feature, selenium: true do
     let(:token) { mail_body.scan(/token=(.*)$/).first.first }
 
     it 'creates the user' do
-      expect(page).to have_selector('.flash', 'Successfully created.')
+      expect(page).to have_selector('.flash', text: 'Successful creation.')
 
       new_user = User.order('created_on DESC').first
 

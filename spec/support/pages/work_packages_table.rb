@@ -156,11 +156,13 @@ module Pages
     end
 
     def get_filter_name(label)
-      filter_container = page
-                         .find('.advanced-filters--filter-name', text: label)
-                         .first(:xpath, './..')
+      retry_block do
+        label_field = page.find('.advanced-filters--filter-name', text: label)
+        filter_container = label_field.find(:xpath, '..')
 
-      filter_container['id'].gsub('filter_', '')
+        raise 'Missing ID on Filter (Angular not ready?)' if filter_container['id'].nil?
+        filter_container['id'].gsub('filter_', '')
+      end
     end
   end
 end

@@ -31,9 +31,9 @@ require 'spec_helper'
 module OpenProject
   module Themes
     describe ThemeFinder do
-      before do ThemeFinder.clear_themes end
-      # clear theme state after we are finished so that we do not disturb following tests
-      after(:all) do ThemeFinder.clear_themes end
+      after(:each) do
+        ThemeFinder.clear_themes
+      end
 
       describe '.themes' do
         it 'returns all instances of descendants of themes' do
@@ -78,6 +78,7 @@ module OpenProject
           theme = double # do not invoke inherited callback
           ThemeFinder.register_theme(theme)
           expect(ThemeFinder.themes).to include theme
+          ThemeFinder.forget_theme(theme)
         end
 
         it 'clears the cache successfully' do
@@ -90,10 +91,13 @@ module OpenProject
 
         context 'asset precompilation' do
           around do |example|
-            old_precompile_config = Rails.application.config.assets.precompile
-            Rails.application.config.assets.precompile.clear
-            example.run
-            Rails.application.config.assets.precompile = old_precompile_config
+            old_precompile_config = Rails.application.config.assets.precompile.map(&:dup)
+            begin
+              Rails.application.config.assets.precompile.clear
+              example.run
+            ensure
+              Rails.application.config.assets.precompile = old_precompile_config
+            end
           end
 
           let(:asset_files) {
@@ -201,7 +205,7 @@ module OpenProject
           end
           themes = []
           ThemeFinder.each do |theme| themes << theme.identifier end
-          expect(themes).to eq [:new_theme]
+          expect(themes).to include :new_theme
         end
       end
     end
