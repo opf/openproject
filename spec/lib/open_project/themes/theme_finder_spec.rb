@@ -205,7 +205,7 @@ module OpenProject
           end
           themes = []
           ThemeFinder.each do |theme| themes << theme.identifier end
-          expect(themes).to eq [:new_theme]
+          expect(themes).to include :new_theme
         end
       end
     end
