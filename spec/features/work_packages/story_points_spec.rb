@@ -46,7 +46,8 @@ describe 'Work packages having story points', type: :feature, js: true do
   end
 
   let(:current_user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project,
+                                     enabled_module_names: %w(work_package_tracking backlogs)) }
   let(:status) { FactoryGirl.create :default_status }
   let(:story_type) { FactoryGirl.create(:type_feature) }
   let(:task_type) { FactoryGirl.create(:type_feature) }
@@ -66,6 +67,9 @@ describe 'Work packages having story points', type: :feature, js: true do
       wp_page = Pages::FullWorkPackage.new(story_with_sp)
 
       wp_page.visit!
+      wp_page.expect_subject
+
+      wp_page.view_all_attributes
 
       wp_page.expect_attributes :storyPoints => story_points
 
