@@ -105,6 +105,11 @@
   </div>
 </div>
 
+<wp-upload-button
+        ng-hide="$ctrl.workPackage.attachments.elements.length > 0"
+        template="wp-upload-button-create"
+        work-package="$ctrl.workPackage"></wp-upload-button>
+
 <div class="work-packages--attachments attributes-group">
   <div
       class="work-packages--atachments-container"

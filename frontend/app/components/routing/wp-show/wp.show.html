@@ -22,7 +22,7 @@
           </button>
         </li>
         <li>
-          <wp-upload-button work-package="$ctrl.workPackage"></wp-upload-button>
+          <wp-upload-button template="wp-upload-button-toolbar" work-package="$ctrl.workPackage"></wp-upload-button>
         </li>
         <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
           <wp-watcher-button work-package="$ctrl.workPackage" disabled="$ctrl.wpEditModeState.active"></wp-watcher-button>

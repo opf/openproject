@@ -32,21 +32,19 @@ import IDirective = angular.IDirective;
 function wpUploadButtonDirective(I18n): IDirective {
   return {
     restrict: 'E',
-    template: `
-      <button
-        class="button"
-        wp-attachments-upload
-        work-package="workPackage"
-        title="{{ ::text.addAttachments }}">
-        <i class="icon-attachment"></i>
-      </button>`,
+    templateUrl: (element, attrs) => {
+      return '/components/wp-attachments/wp-upload-button/' + attrs.template + '.directive.html';
+    },
 
     scope: {
-      workPackage: '='
+      workPackage: '=',
+      template: '@'
     },
 
     link(scope: any) {
-      scope.text = {addAttachments: I18n.t('js.label_add_attachments')};
+      scope.text = {
+        addAttachments: I18n.t('js.label_add_attachments')
+      };
     }
   };
 }
