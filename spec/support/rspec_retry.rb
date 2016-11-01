@@ -14,8 +14,9 @@ RSpec.configure do |config|
   config.display_try_failure_messages = true
 
   ##
-  # By default, do not retry specs
-  config.default_retry_count = 0
+  # By default, retry specs twice
+  # TODO rather set this on features themselves.
+  config.default_retry_count = 2
 end
 
 ##
