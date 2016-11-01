@@ -23,7 +23,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
     # Enter the query and select the child
     typeahead = container.find(".wp-relations--autocomplete")
-    select_typeahead(typeahead, query: query)
+    select_typeahead(typeahead, query: query, select_text: expected_text)
 
     container.find('.wp-create-relation--save').click
 
