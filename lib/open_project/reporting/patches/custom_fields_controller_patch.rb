@@ -34,13 +34,17 @@ module OpenProject::Reporting::Patches
 
       def destroy_with_custom_fields
         id = @custom_field.id
+        begin
+          reports = CostQuery.where("serialized LIKE '%CustomField#{id}%'")
 
-        reports = CostQuery.where("serialized LIKE '%CustomField#{id}%'")
-
-        remove_custom_field_from_cost_report(reports, id)
-        remove_custom_field_from_session(id)
-
-        destroy_without_custom_fields
+          remove_custom_field_from_cost_report(reports, id)
+          remove_custom_field_from_session(id)
+        rescue => e
+          Rails.logger.error "Failed to remove custom_field #{id} from custom queries. " \
+                             "#{e.class}: #{e.message}"
+        ensure
+          destroy_without_custom_fields
+        end
       end
 
       private
