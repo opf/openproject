@@ -104,7 +104,9 @@ export class WorkPackageViewController {
     this.workPackage.schema.$load();
 
     // Set elements
-    this.projectIdentifier = this.workPackage.project.identifier;
+    this.workPackage.project.$load().then(() => {
+      this.projectIdentifier = this.workPackage.project.identifier;
+    });
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
