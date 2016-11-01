@@ -129,7 +129,7 @@ RB.Model = (function ($) {
         },
         ],
         close: function (e, ui) {
-          if (e.which === 27) {
+          if (e.which === 1 || e.which === 27) {
             self.cancelEdit();
           }
         },
