@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe Relations::CreateContract do
-  let(:from){ FactoryGirl.create :work_package }
+  let(:from) { FactoryGirl.create :work_package }
   let(:to) { FactoryGirl.create :work_package }
   let(:user) { FactoryGirl.create :admin }
 
