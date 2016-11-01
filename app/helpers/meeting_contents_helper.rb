@@ -95,10 +95,10 @@ module MeetingContentsHelper
       content_tag :button,
                   '',
                   class: 'button button--edit-agenda',
-                  onclick: "$$('.edit-#{content_type}').invoke('show');
-                            $$('.show-#{content_type}').invoke('hide');
-                            $$('.button--edit-agenda').invoke('addClassName', '-active');
-                            $$('.button--edit-agenda').invoke('disable');
+                  onclick: "jQuery('.edit-#{content_type}').show();
+                            jQuery('.show-#{content_type}').hide();
+                            jQuery('.button--edit-agenda').addClass('-active');
+                            jQuery('.button--edit-agenda').attr('disabled', true);
                   return false;" do
         link_to l(:button_edit),
                 '',
@@ -127,7 +127,7 @@ module MeetingContentsHelper
                             class: 'button icon-context icon-mail1'
     end
   end
-  
+
   def meeting_content_icalendar_link(content_type, meeting)
     content_tag :li, '', class: 'toolbar-item' do
       link_to_if_authorized l(:label_icalendar),
