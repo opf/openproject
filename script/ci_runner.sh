@@ -51,5 +51,5 @@ case "$TEST_SUITE" in
             exec bundle exec parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
-            exec bundle exec rake parallel:$TEST_SUITE
+            bundle exec rake parallel:$TEST_SUITE
 esac
