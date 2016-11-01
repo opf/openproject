@@ -65,11 +65,20 @@ export class RelationResource extends HalResource {
   public description:string|null;
   public name:string;
   public type:string;
+  public reverseType:string;
 
   // Links
   public $links: RelationResourceLinks;
   public to:WorkPackageResource;
   public from:WorkPackageResource;
+
+  public normalizedType(workPackage:WorkPackageResource) {
+    if (this.to.href === workPackage.href) {
+      return this.reverseType;
+    }
+
+    return this.type;
+  }
 
   public updateDescription(description) {
     return this.$links.updateImmediately({ description: description });

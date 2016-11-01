@@ -150,7 +150,57 @@ describe 'Work package relations tab', js: true, selenium: true do
     end
 
     context 'with relations permissions' do
-      it 'should allow to create relations' do
+      let(:permissions) do
+        %i(view_work_packages add_work_packages manage_subtasks manage_work_package_relations)
+      end
+
+      let!(:relatable) { FactoryGirl.create(:work_package, project: project) }
+      it 'should allow to manage relations' do
+        # Open create form
+        find('#relation--add-relation').click
+
+        # Select relation type
+        container = find('.wp-relations-create--form', wait: 10)
+
+        # Labels to expect
+        follows_label = I18n.t('js.relation_labels.follows')
+        type_upcase = work_package.type.name.upcase
+
+        select follows_label, from: 'relation-type--select'
+
+        # Enter the query and select the child
+        typeahead = container.find(".wp-relations--autocomplete")
+        select_typeahead(typeahead, query: relatable.subject, select_text: relatable.subject)
+
+        container.find('.wp-create-relation--save').click
+
+        expect(page).to have_selector('.relation-group--header',
+                                      text: type_upcase,
+                                      wait: 10)
+
+        expect(page).to have_selector('.relation-row--type', text: follows_label)
+
+        expect(page).to have_selector('.wp-relations--subject-field', text: relatable.subject)
+
+        ## Test if relation exist
+        work_package.reload
+        relation = work_package.relations.first
+        expect(relation.relation_type).to eq('precedes')
+        expect(relation.from_id).to eq(relatable.id)
+        expect(relation.to_id).to eq(work_package.id)
+
+        ## Delete relation
+        created_row = find(".relation-row-#{relatable.id}")
+
+        # Hover row to expose button
+        created_row.hover
+        created_row.find('.relation-row--remove-btn').click
+
+        expect(page).to have_no_selector('.relation-group--header', text: type_upcase)
+        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+
+        work_package.reload
+        expect(work_package.relations).to be_empty
       end
     end
   end

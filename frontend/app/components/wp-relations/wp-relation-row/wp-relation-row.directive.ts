@@ -2,6 +2,7 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {RelatedWorkPackage} from '../wp-relations.interfaces';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
 import {
   RelationResourceInterface,
@@ -9,6 +10,7 @@ import {
 } from '../../api/api-v3/hal-resources/relation-resource.service';
 
 class WpRelationRowDirectiveController {
+  public workPackage: WorkPackageResourceInterface;
   public relatedWorkPackage: RelatedWorkPackage;
   public relationType: string;
   public showRelationInfo:boolean = false;
@@ -41,6 +43,15 @@ class WpRelationRowDirectiveController {
     this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
     this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
   };
+
+  /**
+   * Return the normalized relation type for the work package we're viewing.
+   * That is, normalize `precedes` where the work package is the `to` link.
+   */
+  public get normalizedRelationType() {
+    var type = this.relation.normalizedType(this.workPackage);
+    return this.I18n.t('js.relation_labels.' + type);
+  }
 
   public get relationReady() {
     return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
@@ -90,7 +101,8 @@ function WpRelationRowDirective() {
     restrict:'E',
     templateUrl:'/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
     scope:{
-      relatedWorkPackage:'='
+      workPackage: '=',
+      relatedWorkPackage: '='
     },
     controller:WpRelationRowDirectiveController,
     controllerAs:'$ctrl',
