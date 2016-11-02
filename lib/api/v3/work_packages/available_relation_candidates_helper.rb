@@ -40,8 +40,11 @@ module API
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
         def work_package_query(query, from, limit)
-          wps = WorkPackage.where("id = ? OR subject LIKE ?", query.to_i, "%#{query}%")
-                           .where.not(id: from.id) # can't relate to itself
+          wps = WorkPackage.visible
+                           .where("work_packages.id = ? OR work_packages.subject LIKE ?",
+                                  query.to_i, "%#{query}%")
+                           .where('work_packages.id != ?', from.id) # can't relate to itself
+                           .references(:work_packages)
                            .limit(limit)
 
           if Setting.cross_project_work_package_relations?
