@@ -71,6 +71,7 @@ module OpenProject::Documents
     end
 
     config.to_prepare do
+      require_dependency 'document'
       require_dependency 'document_category'
       require_dependency 'document_category_custom_field'
 

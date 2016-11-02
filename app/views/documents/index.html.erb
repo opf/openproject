@@ -51,12 +51,14 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% @grouped.keys.sort.each do |group| %>
-  <fieldset class="form--fieldset -collapsible" onClick="toggleFieldset(this);">
-    <legend class="form--fieldset-legend"><%= group %></legend>
-    <div class="form--field document-category-elements">
-      <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+  <collapsible-section initially-expanded="true"
+                       section-title="<%= group %>">
+    <div class="document-category--inner-section">
+      <div class="form--field document-category-elements">
+        <%= render :partial => 'documents/document', :collection => @grouped[group] %>
+      </div>
     </div>
-  </fieldset>
+  </collapsible-section>
 <% end %>
 
 <% content_for :sidebar do %>
