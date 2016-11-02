@@ -28,18 +28,30 @@
 
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 import IDirective = angular.IDirective;
 
 export class WorkPackageUploadDirectiveController {
   public workPackage: WorkPackageResourceInterface;
   public text: any;
   public maxFileSize: number;
-  public rejectedFiles: File[] = [];
 
   constructor(ConfigurationService) {
     ConfigurationService.api().then(settings => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
+  }
+
+  public uploadFiles(files: UploadFile[]) {
+    if (files.length === 0) {
+      return;
+    }
+
+    if (this.workPackage.isNew) {
+      return this.workPackage.pendingAttachments.push(...files);
+    }
+
+    this.workPackage.uploadAttachments(files);
   }
 }
 
@@ -55,11 +67,9 @@ function wpUploadDirective(): IDirective {
         class="wp-attachment-upload"
         ng-if="$ctrl.workPackage.canAddAttachments"
         ngf-drop
-        ng-model="$ctrl.workPackage.pendingAttachments"
-        ng-model-rejected="$ctrl.rejectedFiles"
         ngf-select
+        ngf-change="$ctrl.uploadFiles($files)"
         ngf-multiple="true"
-        ngf-change="$ctrl.workPackage.uploadPendingAttachments()"
         ngf-max-size="{{ ::$ctrl.maxFileSize }}"
         click-on-keypress="[13, 32]"
         ng-transclude>
