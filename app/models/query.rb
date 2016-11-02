@@ -41,7 +41,7 @@ class Query < ActiveRecord::Base
           class_name: 'MenuItems::QueryMenuItem',
           dependent: :delete, foreign_key: 'navigatable_id'
   serialize :filters, Queries::WorkPackages::FilterSerializer
-  serialize :column_names
+  serialize :column_names, Array
   serialize :sort_criteria, Array
 
   validates :name, presence: true
@@ -291,7 +291,7 @@ class Query < ActiveRecord::Base
   end
 
   def has_default_columns?
-    column_names.nil? || column_names.empty?
+    column_names.empty?
   end
 
   ##
