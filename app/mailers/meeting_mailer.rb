@@ -41,7 +41,6 @@ class MeetingMailer < UserMailer
     headers['Content-Type'] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
     headers['Content-Transfer-Encoding'] = '8bit'
     subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
-    now = DateTime.now.strftime("%Y%m%dT%H%M%SZ")
     author = Icalendar::Values::CalAddress.new("mailto:#{@meeting.author.mail}",
                                                cn: @meeting.author.name)
 
