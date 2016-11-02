@@ -57,8 +57,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, onclick: "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
-                                             id: 'attach_files_link' %></p>
+  <p>
+    <%= link_to_function l(:label_attachment_new),
+                         %{
+                           jQuery('#add_attachment_form').show();
+                           jQuery(this).hide();
+                           jQuery('#add_attachment_form')[0].scrollIntoView();
+                         },
+                         id: 'attach_files_link' %>
+  </p>
   <%= form_tag(add_attachment_document_path(@document), method: :post, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
   <div class="box">
   <p><%= render partial: 'attachments/form' %></p>
