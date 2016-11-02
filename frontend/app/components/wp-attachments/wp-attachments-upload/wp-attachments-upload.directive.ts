@@ -43,7 +43,7 @@ export class WorkPackageUploadDirectiveController {
   }
 
   public uploadFiles(files: UploadFile[]) {
-    if (files.length === 0) {
+    if (files === undefined || files.length === 0) {
       return;
     }
 
