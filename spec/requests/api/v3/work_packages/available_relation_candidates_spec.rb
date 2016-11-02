@@ -58,6 +58,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   end
 
   let(:result) { JSON.parse response.body }
+  let(:subjects) { work_packages.map { |e| e["subject"] } }
 
   def work_packages
     result["_embedded"]["elements"]
@@ -65,6 +66,17 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
 
   before do
     login_as user
+  end
+
+  context 'with no permissions' do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      get "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP"
+    end
+
+    it 'does not return any work packages' do
+      expect(result["errorIdentifier"]).to eq('urn:openproject-org:api:v3:errors:NotFound')
+    end
   end
 
   context "without cross project relations" do
@@ -88,8 +100,6 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return WP 2.1 and 2.2" do
-        subjects = work_packages.map { |e| e["subject"] }
-
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
       end
     end
@@ -100,8 +110,6 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return just WP 2, not WP 2.1" do
-        subjects = work_packages.map { |e| e["subject"] }
-
         expect(subjects).to match_array ["WP 2"]
       end
     end
@@ -118,8 +126,6 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return WP 2 and all WP 2.x" do
-        subjects = work_packages.map { |wp| wp["subject"] }
-
         expect(subjects).to match_array ["WP 2", "WP 2.1", "WP 2.2"]
       end
     end
@@ -130,9 +136,19 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return WP 2.1 and 2.2, WP 1 and all WP 1.x" do
-        subjects = work_packages.map { |wp| wp["subject"] }
-
         expect(subjects).to match_array ["WP 1", "WP 1.1", "WP 1.2", "WP 1.2.1", "WP 2.1", "WP 2.2"]
+      end
+    end
+
+    context 'when a project is archived' do
+      let(:project_1) { FactoryGirl.create :project, status: Project::STATUS_ARCHIVED }
+
+      before do
+        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP"
+      end
+
+      it 'does not return work packages from that project' do
+        expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
       end
     end
   end
