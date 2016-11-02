@@ -1,7 +1,7 @@
 <div class="relation-row"
      ng-class="['relation-row-{{ $ctrl.relatedWorkPackage.id }}']"
-     ng-mouseover="$ctrl.showRelationControls = true"
-     ng-mouseleave="$ctrl.showRelationControls = false">
+     ng-mouseover="$ctrl.userInputs.showRelationControls = true"
+     ng-mouseleave="$ctrl.userInputs.showRelationControls = false">
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
@@ -33,20 +33,26 @@
             </div>
         </div>
 
-        <div class="grid-content medium-2 collapse wp-relations-controls-section">
-            <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
+        <div class="grid-content medium-2 collapse wp-relations-controls-section"
+             ng-class="{ '-visible': $ctrl.userInputs.showRelationControls, '-expanded': $ctrl.userInputs.showRelationInfo }">
+            <accessible-by-keyboard ng-show="$ctrl.showDescriptionInfo"
+                                    aria-label="{{ ::$ctrl.text.description_label }}"
+                                    link-title="{{ ::$ctrl.text.description_label }}"
                                     execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
                 <icon-wrapper icon-name="info1"
+                              css-class="wp-relations--icon wp-relations--description-icon"
                               icon-title="Info for related workpackage">
                 </icon-wrapper>
             </accessible-by-keyboard>
-            <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                    ng-if="$ctrl.relation.delete"
+            <accessible-by-keyboard ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
                                     aria-hidden="false"
+                                    aria-label="{{ ::$ctrl.text.remove }}"
+                                    link-title="{{ ::$ctrl.text.remove }}"
                                     link-class="relation-row--remove-btn"
                                     class="-shown-in-accessibility-mode">
                 <icon-wrapper icon-name="remove"
+                              css-class="wp-relations--icon"
                               icon-title="{{ ::$ctrl.text.removeButton }}">
                 </icon-wrapper>
             </accessible-by-keyboard>
@@ -54,35 +60,27 @@
     </div>
 
     <div class="grid-block hierarchy-item description-container" ng-show="$ctrl.userInputs.showRelationInfo" ng-init="editDescription = false">
-        <div class="grid-content medium-10 collapse">
-            <div ng-hide="$ctrl.userInputs.showDescriptionEditForm">
-                {{$ctrl.relation.description || 'no description set'}}
-            </div>
-            <div ng-show="$ctrl.userInputs.showDescriptionEditForm">
-                <div class="wp-edit-field inplace-edit">
-                    <input class="wp-inline-edit--field" type="text" ng-model="$ctrl.relation.description" />
-                </div>
-            </div>
+        <div class="wp-relation--description-read-value"
+             ng-class="{'-placeholder': !$ctrl.relation.description }"
+             ng-click="$ctrl.startDescriptionEdit()"
+             ng-hide="$ctrl.userInputs.showDescriptionEditForm"
+             ng-bind="$ctrl.relation.description || $ctrl.text.placeholder.description">
         </div>
-        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-hide="$ctrl.userInputs.showDescriptionEditForm">
-            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = true">
-                <icon-wrapper icon-name="edit"
-                              icon-title="edit description">
-                </icon-wrapper>
-            </accessible-by-keyboard>
+        <div class="wp-relation--description-wrapper textarea-wrapper"
+             ng-show="$ctrl.userInputs.showDescriptionEditForm">
+          <textarea
+                  msd-elastic="\n"
+                  autofocus
+                  class="wp-relation--description-textarea"
+                  name="description"
+                  ng-keyup="$ctrl.handleDescriptionKey($event)"
+                  ng-model="$ctrl.userInputs.newRelationText"></textarea>
+            <wp-edit-field-controls field-controller="$ctrl.fieldController"
+                                    on-save="$ctrl.saveDescription()"
+                                    on-cancel="$ctrl.cancelDescriptionEdit()"
+                                    save-title="{{ vm.field.text.save }}"
+                                    cancel-title="{{ vm.field.text.cancel }}">
+            </wp-edit-field-controls>
         </div>
-        <div class="grid-content medium-2 collapse wp-relations-controls-section" ng-show="$ctrl.userInputs.showDescriptionEditForm">
-            <accessible-by-keyboard execute="$ctrl.saveDescription()">
-                <icon-wrapper icon-name="checkmark"
-                              icon-title="save description'">
-                </icon-wrapper>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard execute="$ctrl.userInputs.showDescriptionEditForm = false">
-                <icon-wrapper icon-name="remove"
-                              icon-title="cancel editing'">
-                </icon-wrapper>
-            </accessible-by-keyboard>
-        </div>
-
     </div>
 </div>
