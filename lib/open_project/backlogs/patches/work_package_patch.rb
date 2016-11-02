@@ -248,7 +248,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def validate_parent_work_package_relation
       if parent && parent_work_package_relationship_spanning_projects?(parent, self)
-        errors.add(:parent,
+        errors.add(:parent_id,
                    :parent_child_relationship_across_projects,
                    work_package_name: subject,
                    parent_name: parent.subject)
