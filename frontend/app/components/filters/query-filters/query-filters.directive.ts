@@ -72,6 +72,12 @@ function queryFiltersDirective($timeout, I18n, ADD_FILTER_SELECT_INDEX) {
             }
           });
 
+          scope.$watch('query.availableWorkPackageFilters', function (newVal, oldVal) {
+            if (newVal !== oldVal) {
+              updateRemainingFilters();
+            }
+          });
+
           scope.deactivateFilter = function (filter) {
             var index = scope.query.getActiveFilters().indexOf(filter);
 
