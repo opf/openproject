@@ -36,19 +36,9 @@ module OpenProject::PdfExport::ExportCard
     def draw
       # Get value from model
       if @work_package.respond_to?(@property_name)
-        value = @work_package.send(@property_name)
+        value = extract_property
       else
-        # Look in Custom Fields
-        value = ""
-        available_languages.each do |locale|
-          I18n.with_locale(locale) do
-            if (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0)
-              value = customs.first.value
-              @custom_field = customs.first.custom_field
-            end
-          end
-          @localised_custom_field_name = @custom_field.name if !!@custom_field
-        end
+        value = extract_custom_field
       end
 
       draw_value(value)
@@ -56,6 +46,32 @@ module OpenProject::PdfExport::ExportCard
 
     private
 
+    def extract_property
+      value = @work_package.send(@property_name)
+
+      case @property_name.to_s
+      when 'children'
+        return value.to_a
+      end
+
+      value
+    end
+
+    def extract_custom_field
+      # Look in Custom Fields
+      value = ""
+      available_languages.each do |locale|
+        I18n.with_locale(locale) do
+          if (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0)
+            value = customs.first.value
+            @custom_field = customs.first.custom_field
+          end
+        end
+        @localised_custom_field_name = @custom_field.name if !!@custom_field
+      end
+
+      value
+    end
 
     def available_languages
       Setting.available_languages
