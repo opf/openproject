@@ -288,6 +288,7 @@ GEM
     fuubar (2.2.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    get_process_mem (0.2.1)
     gherkin (4.0.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -560,6 +561,9 @@ GEM
     unicorn (5.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
+    unicorn-worker-killer (0.4.4)
+      get_process_mem (~> 0)
+      unicorn (>= 4, < 6)
     url (0.3.2)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -698,6 +702,7 @@ DEPENDENCIES
   transactional_lock!
   tzinfo-data (~> 1.2016.1)
   unicorn
+  unicorn-worker-killer
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 2.1.0)

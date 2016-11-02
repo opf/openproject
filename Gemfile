@@ -126,6 +126,9 @@ group :production do
   # requires memcached 1.4+
   # see https://github.clientom/mperham/dalli
   gem 'dalli', '~> 2.7.6'
+
+  # Unicorn worker killer to restart unicorn child workers
+  gem 'unicorn-worker-killer', require: false
 end
 
 gem 'sprockets', '~> 3.7.0'
