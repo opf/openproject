@@ -31,17 +31,9 @@ See doc/COPYRIGHT.md for more details.
 <% if @project.members.count > 0 && users_by_role(50).any? %>
   <div class="members overview" id="users_per_role">
     <p>
-      <%= render :partial => "members",
-                :locals => { :users_by_role => users_by_role(50),
-                             :count_users_by_role => count_users_by_role } %>
-    </p>
-    <p>
-      <% if users_by_role(50).any?{ |role, users| users.count < count_users_by_role[role] } %>
-        <%= link_to(l(:'project_page.all'), { :controller => 'my_projects_overviews',
-                                              :action => 'show_all_members',
-                                              :id => project.id },
-                                              :class => "all button -highlight" ) %>
-      <% end %>
+      <%= render partial: "members",
+                locals: { users_by_role: users_by_role(50),
+                             count_users_by_role: count_users_by_role } %>
     </p>
   </div>
 <% end %>
@@ -52,5 +44,14 @@ See doc/COPYRIGHT.md for more details.
           aria: { label: t(:button_add_member) }} do %>
     <i class="button--icon icon-add"></i>
     <span class="button--text"><%= t('activerecord.models.member') %></span>
+  <% end %>
+<% end %>
+<% if current_user.allowed_to?(:view_members, project) %>
+  <%= link_to project_members_path(project_id: project.identifier),
+        { class: 'button',
+          title: t('members.show_all'),
+          aria: { label: t('members.show_all') }} do %>
+    <i class="button--icon icon-group"></i>
+    <span class="button--text"><%= t('members.show_all') %></span>
   <% end %>
 <% end %>

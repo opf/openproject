@@ -108,16 +108,6 @@ class MyProjectsOverviewsController < ApplicationController
     render partial: 'page_layout_attachments'
   end
 
-  def show_all_members
-    respond_to do |format|
-      format.js {
-        render partial: "members",
-               locals: { users_by_role: users_by_role(0),
-                         count_users_by_role: count_users_by_role }
-      }
-    end
-  end
-
   helper_method :project,
                 :user,
                 :overview
