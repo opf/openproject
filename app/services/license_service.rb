@@ -41,6 +41,10 @@ class LicenseService
     @license = load_license
   end
 
+  def present?
+    @license.present?
+  end
+
   def load_license
     begin
       # TODO: Try to find the first *.openproject-license file
