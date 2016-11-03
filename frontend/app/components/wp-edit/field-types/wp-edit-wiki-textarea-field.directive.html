@@ -21,7 +21,7 @@
                             field-controller="vm"
                             on-save="vm.handleUserSubmit()"
                             on-cancel="vm.handleUserCancel()"
-                            save-title="{{ vm.field.text.saveTitle }}"
-                            cancel-title="{{ vm.field.text.cancelTitle }}">
+                            save-title="{{ ::$ctrl.text.save }}"
+                            cancel-title="{{ ::$ctrl.text.cancel }}">
     </wp-edit-field-controls>
 </div>

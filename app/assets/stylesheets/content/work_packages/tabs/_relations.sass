@@ -62,9 +62,6 @@
     padding: 4px
   .wp-edit-field
     width: 90%
-  .description-container
-    border: 1px dotted lightblue
-    padding: 4px 0 4px 4px
   .controls-container
     text-align: right
 
@@ -86,6 +83,19 @@
   a:hover
     text-decoration: none
 
+  .relation-row--remove-btn
+    visibility: hidden
+
+  &.-visible .relation-row--remove-btn
+    visibility: visible
+
+.wp-relations--icon
+  color: $content-icon-link-color
+
+// Toggle description icon color when expanded
+.wp-relations-controls-section.-expanded .wp-relations--description-icon
+  color: $content-icon-link-pressed-color
+
 .wp-relations-create
   margin-top: 1.5em
 
@@ -103,6 +113,33 @@
 // Break apart long subjects in the rather small block
 .wp-relations--subject-field
   word-break: break-all
+
+// Relation description field
+.wp-relation--description-read-value
+  width: 100%
+  padding: 5px
+  border: 1px solid transparent
+
+  // Wrap newlines in the description
+  white-space: pre-wrap
+
+  &.-placeholder
+    font-style: italic
+
+  &:hover
+    border-color: $light-gray
+    cursor: text
+
+// Set min-height to read/write identically
+.wp-relation--description-read-value,
+.wp-relation--description-textarea
+  min-height: 60px
+  font-size: 0.875rem
+  line-height: $base-line-height
+  padding-top: 10px
+
+.wp-relation--description-wrapper
+  width: 100%
 
 
 

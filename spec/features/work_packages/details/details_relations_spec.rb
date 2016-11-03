@@ -32,6 +32,41 @@ describe 'Work package relations tab', js: true, selenium: true do
                                   wait: 10)
   end
 
+  def add_relation(relation_type, wp)
+    # Open create form
+    find('#relation--add-relation').click
+
+    # Select relation type
+    container = find('.wp-relations-create--form', wait: 10)
+
+    # Labels to expect
+    relation_label = I18n.t('js.relation_labels.' + relation_type)
+    type_upcase = wp.type.name.upcase
+
+    select relation_label, from: 'relation-type--select'
+
+    # Enter the query and select the child
+    typeahead = container.find(".wp-relations--autocomplete")
+    select_typeahead(typeahead, query: wp.subject, select_text: wp.subject)
+
+    container.find('.wp-create-relation--save').click
+
+    expect(page).to have_selector('.relation-group--header',
+                                  text: type_upcase,
+                                  wait: 10)
+
+    expect(page).to have_selector('.relation-row--type', text: relation_label)
+
+    expect(page).to have_selector('.wp-relations--subject-field', text: wp.subject)
+
+    ## Test if relation exist
+    work_package.reload
+    relation = work_package.relations.first
+    expect(relation.relation_type).to eq('precedes')
+    expect(relation.from_id).to eq(relatable.id)
+    expect(relation.to_id).to eq(work_package.id)
+  end
+
   def remove_hierarchy(selector, removed_text)
     expect(page).to have_selector(selector, text: removed_text)
     container = find(selector)
@@ -156,38 +191,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       let!(:relatable) { FactoryGirl.create(:work_package, project: project) }
       it 'should allow to manage relations' do
-        # Open create form
-        find('#relation--add-relation').click
-
-        # Select relation type
-        container = find('.wp-relations-create--form', wait: 10)
-
-        # Labels to expect
-        follows_label = I18n.t('js.relation_labels.follows')
-        type_upcase = work_package.type.name.upcase
-
-        select follows_label, from: 'relation-type--select'
-
-        # Enter the query and select the child
-        typeahead = container.find(".wp-relations--autocomplete")
-        select_typeahead(typeahead, query: relatable.subject, select_text: relatable.subject)
-
-        container.find('.wp-create-relation--save').click
-
-        expect(page).to have_selector('.relation-group--header',
-                                      text: type_upcase,
-                                      wait: 10)
-
-        expect(page).to have_selector('.relation-row--type', text: follows_label)
-
-        expect(page).to have_selector('.wp-relations--subject-field', text: relatable.subject)
-
-        ## Test if relation exist
-        work_package.reload
-        relation = work_package.relations.first
-        expect(relation.relation_type).to eq('precedes')
-        expect(relation.from_id).to eq(relatable.id)
-        expect(relation.to_id).to eq(work_package.id)
+        add_relation('follows', relatable)
 
         ## Delete relation
         created_row = find(".relation-row-#{relatable.id}")
@@ -196,11 +200,49 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.hover
         created_row.find('.relation-row--remove-btn').click
 
-        expect(page).to have_no_selector('.relation-group--header', text: type_upcase)
+        expect(page).to have_no_selector('.relation-group--header',
+                                         text: relatable.type.name.upcase)
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
 
         work_package.reload
         expect(work_package.relations).to be_empty
+      end
+
+      it 'should allow to change relation descriptions' do
+        add_relation('follows', relatable)
+
+        created_row = find(".relation-row-#{relatable.id}")
+
+        ## Toggle description
+        created_row.hover
+        toggle_btn = created_row.find('.wp-relations--description-btn')
+        toggle_btn.click
+
+        # Open textarea
+        created_row.find('.wp-relation--description-read-value.-placeholder',
+                         text: I18n.t('js.placeholders.relation_description')).click
+
+        expect(page).to have_focus_on('.wp-relation--description-textarea')
+        textarea = created_row.find('.wp-relation--description-textarea')
+        textarea.set 'my description!'
+
+        # Save description
+        created_row.find('.inplace-edit--control--save a').click
+        created_row.find('.wp-relation--description-read-value',
+                         text: 'my description!').click
+
+        # Cancel edition
+        created_row.find('.inplace-edit--control--cancel a').click
+        created_row.find('.wp-relation--description-read-value',
+                         text: 'my description!').click
+
+        relation = work_package.relations.first
+        relation.reload
+        expect(relation.description).to eq('my description!')
+
+        # Toggle to close
+        toggle_btn.click
+        expect(created_row).to have_no_selector('.wp-relation--description-read-value')
       end
     end
   end

@@ -221,6 +221,7 @@ en:
     placeholders:
       default: '-'
       selection: 'Please select'
+      relation_description: 'Click to add description for this relation'
 
     text_are_you_sure: "Are you sure?"
 
@@ -289,6 +290,7 @@ en:
       add_existing_child: "Add existing child"
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
+      update_description: "Set or update description of this relation"
       remove: "Remove relation"
       save: "Save relation"
       abort: "Abort"
