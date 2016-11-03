@@ -400,10 +400,10 @@ OpenProject::Application.routes.draw do
   end
 
   # We should fix this crappy routing (split up and rename controller methods)
-  get '/settings' => 'settings#index'
   scope 'settings', controller: 'settings' do
     match 'edit', action: 'edit', via: [:get, :post]
     match 'plugin/:id', action: 'plugin', via: [:get, :post]
+    post 'license', action: 'update_license'
   end
 
   # We should fix this crappy routing (split up and rename controller methods)

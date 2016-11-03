@@ -64,6 +64,8 @@ class SettingsController < ApplicationController
       @deliveries = ActionMailer::Base.perform_deliveries
 
       @guessed_host = request.host_with_port.dup
+
+      @license = License.current || License.new
     end
   end
 
@@ -83,6 +85,16 @@ class SettingsController < ApplicationController
 
   def default_breadcrumb
     l(:label_system_settings)
+  end
+
+  def update_license
+    binding.pry
+    @license = License.current || License.new
+    @license.encoded_license = params[:encoded_license]
+    @license.save
+
+    flash[:notice] = l(:notice_successful_update)
+    redirect_to action: 'edit', tab: :license
   end
 
   private

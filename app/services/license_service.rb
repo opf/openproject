@@ -34,10 +34,18 @@ class LicenseService
 
   def initialize
     # Read the license from a file.
+    load_license_from_file
+  end
+
+  def update
+    load_license_from_file
+  end
+
+  def load_license_from_file
     begin
       # TODO: Try to find the first *.openproject-license file
       data = File.read(File.join(Rails.root, "ForkmergeSLU.openproject-license") )
-      @license = Gitlab::License.import(data)
+      @license = OpenProject::License.import(data)
     rescue => e
       Rails.logger.error "We ran into problems with your license file:\n\t#{e.massage}\nWe continue without license."
     end

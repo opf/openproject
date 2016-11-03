@@ -1055,6 +1055,7 @@ en:
   label_less_or_equal: "<="
   label_less_than_ago: "less than days ago"
   label_list: "List"
+  label_license: "License"
   label_loading: "Loading..."
   label_logged_as: "Logged in as"
   label_login: "Sign in"
@@ -1689,6 +1690,7 @@ en:
 
   search_input_placeholder: "Search ..."
 
+  setting_encoded_license: "Paste content of license file"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
