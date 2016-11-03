@@ -16,6 +16,7 @@ module OpenProject::OpenIDConnect
 
     assets %w(
       openid_connect/auth_provider-google.png
+      openid_connect/auth_provider-heroku.png
     )
 
     register_auth_providers do
