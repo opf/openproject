@@ -103,6 +103,7 @@ class WpRelationRowDirectiveController {
     this.relation.updateImmediately({
       description: this.userInputs.newRelationText
     }).then((savedRelation) => {
+      this.$scope.$emit('wp-relations.changed', this.relation);
       this.relation = savedRelation;
       this.relatedWorkPackage.relatedBy = savedRelation;
       this.userInputs.showDescriptionEditForm = false;
@@ -130,7 +131,7 @@ class WpRelationRowDirectiveController {
       type: this.selectedRelationType.name
     }).then((savedRelation) => {
       this.wpNotificationsService.showSave(this.relatedWorkPackage);
-
+      this.$scope.$emit('wp-relations.changed', this.relation);
       this.relatedWorkPackage.relatedBy = savedRelation;
       this.relation = savedRelation;
 
@@ -144,7 +145,7 @@ class WpRelationRowDirectiveController {
 
   public removeRelation() {
     this.relation.delete().then(() => {
-      this.$scope.$emit('wp-relations.removed', this.relation);
+      this.$scope.$emit('wp-relations.changed', this.relation);
       this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
       this.wpNotificationsService.showSave(this.relatedWorkPackage);
       this.$timeout(() => {

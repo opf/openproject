@@ -50,25 +50,22 @@ export class WorkPackageRelationsController {
               protected I18n:op.I18n,
               protected wpCacheService:WorkPackageCacheService) {
 
-    this.registerEventListeners();
-
-    if (this.workPackage.relations && !this.workPackage.relations.$loaded) {
-      this.workPackage.relations.$load().then(() => {
-        if (this.workPackage.relations.count > 0) {
-          this.loadRelations();
-        }
-      });
-    } else if (this.workPackage.relations && this.workPackage.relations.count > 0) {
-      this.loadRelations();
-    }
-  }
-
-  protected removeSingleRelation(evt, relation) {
-    this.currentRelations = _.remove(this.currentRelations, (latestRelation) => {
-      return latestRelation.relatedBy.$href !== relation.$href;
+    // Reload the current relations after a change, causing loadRelations to re-run
+    this.$scope.$on('wp-relations.changed', () => {
+      this.workPackage.updateLinkedResources('relations');
     });
 
-    this.buildRelationGroups();
+    // Listen for changes to this WP.
+    this.wpCacheService
+      .loadWorkPackage(<number> this.workPackage.id)
+      .observe(this.$scope)
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.workPackage.relations.$load().then(() => {
+          if (this.workPackage.relations.count > 0) {
+            this.loadRelations();
+          }
+        });
+      });
   }
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
@@ -108,17 +105,6 @@ export class WorkPackageRelationsController {
     });
   }
 
-  protected addSingleRelation(evt, relation) {
-    var relatedWorkPackageId = [this.getRelatedWorkPackageId(relation)];
-    this.getRelatedWorkPackages(relatedWorkPackageId)
-      .take(1)
-      .subscribe((relatedWorkPackage:RelatedWorkPackage) => {
-        relatedWorkPackage.relatedBy = relation;
-        this.currentRelations.push(relatedWorkPackage);
-        this.buildRelationGroups();
-      });
-  }
-
   protected loadRelations():void {
     var relatedWpIds = [];
     var relations = [];
@@ -145,12 +131,6 @@ export class WorkPackageRelationsController {
 
         this.buildRelationGroups();
       });
-  }
-
-  private registerEventListeners() {
-    this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
-    this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
-    this.$scope.$on('wp-relations.changed', this.buildRelationGroups.bind(this));
   }
 }
 

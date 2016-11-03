@@ -92,7 +92,7 @@ export class WorkPackageRelationsCreateController {
   protected createCommonRelation() {
     this.wpRelationsService.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
       .then(relation => {
-        this.$scope.$emit('wp-relations.added', relation);
+        this.$scope.$emit('wp-relations.changed', relation);
         this.wpNotificationsService.showSave(this.workPackage);
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
