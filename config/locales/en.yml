@@ -825,7 +825,14 @@ en:
       users: "Newest registered users in this instance."
     blocks:
       community: "OpenProject community"
+      upsale:
+        title: "Upgrade to Enterprise Edition"
+        description: "Boost your productivity with the Enterprise Edition"
+        more_info: "More information"
+        additional_features: "Additional powerful premium features"
+        professional_support: "Professional support from the OpenProject experts"
     links:
+      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       user_guides: "User guides"
       faq: "FAQ"
       glossary: "Glossary"
@@ -833,6 +840,7 @@ en:
       forums: "Forums"
       blog: "OpenProject blog"
       boards: "Community forum"
+
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
   instructions_after_logout: "You can sign in again by clicking %{signin}."

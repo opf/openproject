@@ -42,6 +42,10 @@ module OpenProject
 
         def links
           {
+            upsale: {
+              href: 'https://www.openproject.org/enterprise',
+              label: 'homescreen.links.upgrade_enterprise_edition'
+            },
             user_guides: {
               href: 'https://www.openproject.org/help/user-guides',
               label: 'homescreen.links.user_guides'

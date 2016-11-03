@@ -1,26 +1,26 @@
 <h3 class="widget-box--header">
   <span class="icon-context icon-cart"></span>
-  <span class="widget-box--header-title">Upgrade to Enterprise Edition</span>
+  <span class="widget-box--header-title"><%= t('homescreen.blocks.upsale.title') %></span>
 </h3>
 
 <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
 
-<p>Boost your productivity with the Enterprise Edition</p>
+<p><%= t('homescreen.blocks.upsale.description') %></p>
 
 <ul class="widget-box--feature-list">
   <li>
-    Additional powerful premium features
+    <%= t('homescreen.blocks.upsale.additional_features') %>
   </li>
   <li>
-    Professional support from the OpenProject experts
+    <%= t('homescreen.blocks.upsale.professional_support') %>
   </li>
 </ul>
 
 <div class="widget-box--blocks--buttons">
-  <%= link_to "https://www.openproject.org/enterprise?utm_source=ce-homescreen",
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-homescreen",
         { class: 'button -alt-highlight',
-          aria: {label: "More information"},
-          title: "More information"} do %>
+          aria: {label: t('homescreen.blocks.upsale.more_info')},
+          title: t('homescreen.blocks.upsale.more_info')} do %>
     <i class="button--icon icon-info2"></i>
-    <span class="button--text">More information</span>
+    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
   <% end %>
