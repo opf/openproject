@@ -117,6 +117,9 @@ class WorkPackagesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     render_404
+  rescue Prawn::Errors::CannotFit
+    flash[:error] = I18n.t :error_pdf_export_too_many_columns
+    redirect_back(fallback_location: index_work_packages_path)
   end
 
   current_menu_item :index do
