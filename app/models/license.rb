@@ -19,7 +19,7 @@ class License < ActiveRecord::Base
     end
 
     def update_license_service
-      
+      LicenseService.instance.update
     end
 
 end
