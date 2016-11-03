@@ -1,0 +1,14 @@
+<% if @license.present? %>
+<div class="form--field">
+  <div class="form--label">
+    Currently active license
+  </div>
+  <div class="form--field-cotainer">
+    <div class="notification-box -info">
+      <div class="notification-box--content">
+        <pre class="license"><%= LicenseService.instance.attributes.to_yaml.gsub(/---\n/,'') %></pre>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

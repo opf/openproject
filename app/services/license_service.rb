@@ -34,20 +34,23 @@ class LicenseService
 
   def initialize
     # Read the license from a file.
-    load_license_from_file
+    @license = load_license
   end
 
   def update
-    load_license_from_file
+    @license = load_license
   end
 
-  def load_license_from_file
+  def load_license
     begin
       # TODO: Try to find the first *.openproject-license file
-      data = File.read(File.join(Rails.root, "ForkmergeSLU.openproject-license") )
-      @license = OpenProject::License.import(data)
-    rescue => e
-      Rails.logger.error "We ran into problems with your license file:\n\t#{e.massage}\nWe continue without license."
+      # data = File.read(File.join(Rails.root, "ForkmergeSLU.openproject-license") )
+      if license = License.current
+        return OpenProject::License.import(license.encoded_license)
+      end
+    rescue => error
+      Rails.logger.error "We ran into problems with your license file:\n\t#{error.massage}\nWe continue without license."
+      return nil
     end
   end
 

@@ -1,0 +1,18 @@
+<% html_title t(:label_administration), t(:label_license) %>
+
+<%= error_messages_for 'license' %>
+
+<%= toolbar title: t(:label_license) %>
+
+<%= render partial: "show" %>
+
+<%= labelled_tabular_form_for @license,
+             :url => {:action => :update},
+             :html => {:method => :put} do |f|%>
+  <div class="form--field">
+    <%= f.text_area :encoded_license, :cols => 80, :rows => 15, label: t('admin.licenses.paste') %>
+  </div>
+  <hr class="form-separator">
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel), {action: :edit}, class: 'button' %>
+<% end %>

@@ -39,6 +39,8 @@ en:
       no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
+    licenses:
+      paste: "Paste content of license file"
 
   announcements:
     show_until: Show until

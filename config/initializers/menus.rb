@@ -198,6 +198,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/project_types', action: 'index' },
             caption:    :'timelines.admin_menu.project_types',
             html: { class: 'icon2 icon-project-types' }
+
+  menu.push :license,
+            { controller: '/licenses', action: 'edit' },
+            caption:    :'label_license',
+            html: { class: 'license icon2 icon-key' },
+            if: proc { OpenProject::Configuration.license_manager_visible? }
 end
 
 Redmine::MenuManager.map :project_menu do |menu|

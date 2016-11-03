@@ -370,6 +370,7 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: [:edit, :update]
+    resource :licenses, only: [:edit, :update], path: 'license'
     resources :enumerations
 
     resources :groups do
