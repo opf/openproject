@@ -161,6 +161,7 @@ function WpRelationRowDirective() {
     templateUrl:'/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
     scope:{
       workPackage: '=',
+      groupByWorkPackageType: '=',
       relatedWorkPackage: '='
     },
     controller:WpRelationRowDirectiveController,

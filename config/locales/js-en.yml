@@ -285,6 +285,8 @@ en:
     relation_buttons:
       change_parent: "Change parent"
       remove_parent: "Remove parent"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
       add_parent: "Add existing parent"
       add_new_child: "Create new child"
       add_existing_child: "Add existing child"
