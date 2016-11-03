@@ -427,7 +427,7 @@ en:
       create:
         header: 'New %{type}'
         header_no_type: 'New work package (Type not yet set)'
-        header_with_parent: 'New %{type} (Child of %{type} #%{id})'
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
       no_results:
         title: No work packages to display.

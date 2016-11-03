@@ -40,10 +40,18 @@ export class WorkPackageCreateController {
   public successState:string;
 
   public get header():string {
+    if (!this.newWorkPackage.type) {
+      return this.I18n.t('js.work_packages.create.header_no_type');
+    }
+
     if (this.parentWorkPackage) {
       return this.I18n.t(
         'js.work_packages.create.header_with_parent',
-        { type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id }
+        {
+          type: this.newWorkPackage.type.name,
+          parent_type: this.parentWorkPackage.type.name,
+          id: this.parentWorkPackage.id
+        }
       );
     }
 
@@ -54,7 +62,6 @@ export class WorkPackageCreateController {
       );
     }
 
-    return this.I18n.t('js.work_packages.create.header_no_type');
   }
 
   constructor(protected $state,
