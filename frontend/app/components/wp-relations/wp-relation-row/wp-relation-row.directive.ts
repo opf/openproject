@@ -53,7 +53,7 @@ class WpRelationRowDirectiveController {
       removeButton: I18n.t('js.relation_buttons.remove'),
       description_label: I18n.t('js.relation_buttons.update_description'),
       placeholder: {
-        description: I18n.t('js.placeholders.description')
+        description: I18n.t('js.placeholders.relation_description')
       }
     };
 

@@ -221,7 +221,7 @@ en:
     placeholders:
       default: '-'
       selection: 'Please select'
-      description: 'Click to add description for this relation'
+      relation_description: 'Click to add description for this relation'
 
     text_are_you_sure: "Are you sure?"
 
