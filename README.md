@@ -4,43 +4,60 @@ Adds support for OmniAuth OpenID Connect strategy providers, most importantly Go
 
 ## Dependencies
 
-You will have to add the following lines to your OpenProject's _Gemfile.plugins_ for the time being (omit aleady existing ones):
-
+You will have to add the following lines to your OpenProject's `Gemfile.plugins` for the time being (omit aleady existing ones):
+```ruby
     gem "openproject-auth_plugins", :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'dev'
     gem 'omniauth-openid-connect', :git => 'git@github.com:finnlabs/omniauth-openid-connect.git', :branch => 'dev'
     gem 'omniauth-openid_connect-providers', :git => 'git@github.com:finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
     gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
 
     gem 'lobby_boy', :git => 'git@github.com:finnlabs/lobby_boy.git', :branch => 'dev'
+```
 
 ### Development
 
 If you want to run the tests you will have add the following as well:
-
+```ruby
     group :test do
   	  gem 'rspec-steps', '~> 0.4.0'
   	end
+```
 
 ## Configuration
 
 The provider configuration can be either done in `configuration.yml` or within the settings.
 
-### configuration.yml
+### `configuration.yml`
 
 Example configuration:
+```yaml
+default:
+  openid_connect:
+    google:
+      identifier: "9295222hfbiu2btgu3b4i.apps.googleusercontent.com"
+      secret: "4z389thugh334t8h"
+      icon: "openid_connect/auth_provider-google.png"
+      display_name: "Google"
+```
+The last two attributes are commonly available for all providers. They are used to change a provider's look.
+To grab corresponding values from ENV (eg. on heroku) do it this way:
+```yaml
+default:
+  ...
+  openid_connect:
+    google:
+      identifier: <%= ENV['GOGLE_CLIENT_ID'] %>
+      secret: <%= ENV['GOOGLE_CLIENT_SECRET'] %>
+      ...
+```
 
-    default:
-      openid_connect:
-  	    google:
-          identifier: "9295222hfbiu2btgu3b4i.apps.googleusercontent.com"
-          secret: "4z389thugh334t8h"
-          icon: "openid_connect/auth_provider-google.png"
-          display_name: "Google"
+Note that currently there are only two custom provider icons this plugin has out of the box (for supported providers):
 
-The last two attributes are commonly available for all providers.
-They are used to change a provider's look.
+* `openid_connect/auth_provider-google.png`
+* `openid_connect/auth_provider-heroku.png`
 
-Note that `openid_connect/auth_provider-google.png` is the one custom provider icon this plugin has out of the box. Other icons you will have to add yourself.
+Other icons you will have to add yourself. <small>FIXME: Elaborate on this a bit as it is unclear
+how and where they should be added</small>
 
 `display_name` changes a provider's label shown to the user.
 
@@ -61,7 +78,7 @@ check_session_iframe: '/auth/check_session'
 ### Settings
 
 There is no UI for the settings just yet. One way to set them until then is the rails console:
-
+```ruby
     Setting["plugin_openproject_openid_connect"] = {
       "providers" => {
         "google" => {
@@ -74,10 +91,11 @@ There is no UI for the settings just yet. One way to set them until then is the 
         }
       }
     }
+```
 
 While Google and Heroku are pre-defined you can add arbitrary providers through configuration.
 Those may then require the host and/or endpoints to be specified depending on whether or not a particular provider adheres to the default endpoint paths.
-
+```ruby
     Setting["plugin_openproject_openid_connect"] = {
       "providers" => {
         "myprovider" => {
@@ -102,6 +120,7 @@ Those may then require the host and/or endpoints to be specified depending on wh
         }
       }
     }
+```
 
 If a host is given, relative endpoint paths will refer to said host.
 No host is required if absolute endpoint URIs are given.
@@ -128,4 +147,4 @@ If you want to use a different list of CAs for validating provider SSL certifica
 
 ## Credits
 
-This plugin uses some of Neil Hainsworth' [Free Social Icons](http://www.neilorangepeel.com/free-social-icons/).
+This plugin uses some of [Social Icons](https://github.com/yukoff/social-icons).
