@@ -46,7 +46,6 @@ describe('wpAttachmentsUpload directive', () => {
   var rootElement: IAugmentedJQuery;
 
   var workPackage: any;
-  var uploadPendingAttachmentsStub: SinonStub;
   var mockMaxSize: number = 123;
 
   beforeEach(angular.mock.module(
@@ -73,11 +72,9 @@ describe('wpAttachmentsUpload directive', () => {
     html = `<wp-attachments-upload attachments="attachments" work-package="workPackage">
       </wp-attachments-upload>`;
 
-    uploadPendingAttachmentsStub = sinon.stub().returns($q.when());
     workPackage = {
       canAddAttachments: false,
-      attachments: {pending: []},
-      uploadPendingAttachments: uploadPendingAttachmentsStub
+      attachments: {pending: []}
     };
 
     const scope: any = $rootScope.$new();
@@ -87,7 +84,7 @@ describe('wpAttachmentsUpload directive', () => {
 
     compile = () => {
       element = $compile(html)(scope);
-      $rootScope.$apply();
+      scope.$digest();
       controller = element.controller('wpAttachmentsUpload');
       rootElement = element.find('.wp-attachment-upload');
     };
@@ -108,13 +105,9 @@ describe('wpAttachmentsUpload directive', () => {
   });
 
   describe('when it is possible to add attachments to the work package', () => {
-    var ngfController;
-
     beforeEach(() => {
       workPackage.canAddAttachments = true;
       compile();
-
-      ngfController = rootElement.controller('ngfDrop');
     });
 
     it('should display the directive', () => {
@@ -123,20 +116,6 @@ describe('wpAttachmentsUpload directive', () => {
 
     it('should set the max size property of the element to the configured value', () => {
       expect(rootElement.attr('ngf-max-size')).to.equal(mockMaxSize.toString());
-    });
-
-    it('should have the ngModel property set to the pending attachments', () => {
-      expect(ngfController.ngModel).to.equal(workPackage.pendingAttachments);
-    });
-
-    describe('when uploading files', () => {
-      beforeEach(() => {
-        ngfController.ngfChange();
-      });
-
-      it('should call `uploadAttachments()`', () => {
-        expect(uploadPendingAttachmentsStub.calledOnce).to.be.true;
-      });
     });
 
     describe('when clicking the parent element', () => {

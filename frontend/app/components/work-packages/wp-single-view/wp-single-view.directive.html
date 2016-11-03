@@ -105,16 +105,10 @@
   </div>
 </div>
 
-<wp-upload-button
-        ng-hide="$ctrl.workPackage.attachments.elements.length > 0"
-        template="wp-upload-button-create"
-        work-package="$ctrl.workPackage"></wp-upload-button>
-
 <div class="work-packages--attachments attributes-group">
-  <div
-      class="work-packages--atachments-container"
-      ng-if="!$ctrl.hideEmptyFields || $ctrl.workPackage.attachments.elements.length || $ctrl.workPackage.pendingAttachments">
-    <div class="attributes-group--header">
+  <div class="work-packages--atachments-container">
+    <div class="attributes-group--header"
+         ng-if="$ctrl.workPackage.attachments.elements.length">
       <div class="attributes-group--header-container">
         <h3 class="attributes-group--header-text">
           {{ ::$ctrl.I18n.t('js.label_attachments') }}

@@ -227,10 +227,13 @@ export class WorkPackageResource extends HalResource {
    * Do nothing, if the work package is being created.
    */
   public uploadPendingAttachments() {
-    if (!this.isNew) {
-      this.uploadAttachments(this.pendingAttachments)
-        .then(() => this.pendingAttachments = []);
-    }
+   if (!this.pendingAttachments.length) {
+     return;
+   }
+
+   const attachments = this.pendingAttachments;
+   this.pendingAttachments = [];
+   return this.uploadAttachments(attachments);
   }
 
   /**
