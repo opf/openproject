@@ -96,9 +96,9 @@ GIT
       rspec-mocks (>= 2.99, < 4.0)
 
 PATH
-  remote: ../gitlab-license-1.0.0
+  remote: ../openproject-license
   specs:
-    gitlab-license (1.0.0)
+    openproject-license (1.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -626,7 +626,6 @@ DEPENDENCIES
   fog-aws
   friendly_id!
   fuubar (~> 2.2.0)
-  gitlab-license!
   globalize!
   gon (~> 4.0)
   grape (~> 0.17)
@@ -647,6 +646,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.8)
   oj (~> 2.17.4)
   omniauth!
+  openproject-license!
   openproject-translations!
   parallel_tests (~> 2.4.1)
   passenger
