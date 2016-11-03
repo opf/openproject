@@ -100,8 +100,11 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
 
   shared_examples_for 'filtering by bool custom field' do
     it 'filters accordingly' do
-      FactoryGirl.create(:custom_value, customized: wp1, custom_field: cf, value: 'f')
-      FactoryGirl.create(:custom_value, customized: wp2, custom_field: cf, value: 't')
+      wp1.custom_field_values = { cf.id => false }
+      wp1.save!
+
+      wp2.custom_field_values = { cf.id => true }
+      wp2.save!
       wp3
       # wp3 has no such custom value
 

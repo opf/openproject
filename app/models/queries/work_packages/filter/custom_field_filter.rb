@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'custom_value'
+
 class Queries::WorkPackages::Filter::CustomFieldFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   attr_accessor :custom_field
@@ -38,8 +40,8 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     when 'list'
       custom_field.possible_values.map { |value| [value, value] }
     when 'bool'
-      [[I18n.t(:general_text_yes), ActiveRecord::Base.connection.unquoted_true],
-       [I18n.t(:general_text_no), ActiveRecord::Base.connection.unquoted_false]]
+      [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
+       [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
     when 'user', 'version'
       custom_field.possible_values_options(context)
     end

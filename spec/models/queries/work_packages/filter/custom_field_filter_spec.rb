@@ -332,8 +332,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     it 'is list for a bool' do
       instance.name = "cf_#{bool_wp_custom_field.id}"
       expect(instance.allowed_values)
-        .to match_array [[I18n.t(:general_text_yes), ActiveRecord::Base.connection.unquoted_true],
-                         [I18n.t(:general_text_no), ActiveRecord::Base.connection.unquoted_false]]
+        .to match_array [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
+                         [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
     end
 
     it 'is nil for a string' do
