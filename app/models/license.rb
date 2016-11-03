@@ -4,6 +4,7 @@ class License < ActiveRecord::Base
   validate :encoded_license_is_valid
 
   after_save :update_license_service
+  after_destroy :update_license_service
 
   def self.current
     License.order('created_at DESC').first
