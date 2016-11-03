@@ -33,7 +33,7 @@
 set -e
 
 # Use the current HEAD as input to the seed
-export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | cut -b 1-5)
+export CI_SEED=$(git rev-parse HEAD | tr -d 'a-z' | tr -d '0' | cut -b 1-5)
 
 case "$TEST_SUITE" in
         npm)
