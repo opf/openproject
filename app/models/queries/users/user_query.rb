@@ -27,6 +27,11 @@
 #++
 
 class Queries::Users::UserQuery < Queries::BaseQuery
-  self.model = User
-  self.default_scope = User.not_builtin
+  def self.model
+    User
+  end
+
+  def self.default_scope
+    User.not_builtin
+  end
 end
