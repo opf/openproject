@@ -38,11 +38,58 @@ describe ::API::V3::Users::UserRepresenter do
 
     it do is_expected.to include_json('User'.to_json).at_path('_type') end
 
-    it do is_expected.to have_json_path('id') end
-    it do is_expected.to have_json_path('login') end
-    it do is_expected.to have_json_path('firstName') end
-    it do is_expected.to have_json_path('lastName') end
-    it do is_expected.to have_json_path('name') end
+
+    context 'as regular user' do
+      it 'hides as much information as possible' do
+        is_expected.to have_json_path('id')
+        is_expected.to have_json_path('name')
+
+        is_expected.not_to have_json_path('login')
+        is_expected.not_to have_json_path('firstName')
+        is_expected.not_to have_json_path('lastName')
+        is_expected.not_to have_json_path('admin')
+        is_expected.not_to have_json_path('updatedAt')
+        is_expected.not_to have_json_path('createdAt')
+      end
+    end
+
+    context 'as the represented user' do
+      let(:current_user) { user }
+
+      it 'shows the information of the user' do
+        is_expected.to have_json_path('id')
+        is_expected.to have_json_path('name')
+        is_expected.to have_json_path('login')
+        is_expected.to have_json_path('firstName')
+        is_expected.to have_json_path('lastName')
+        is_expected.to have_json_path('updatedAt')
+        is_expected.to have_json_path('createdAt')
+
+        is_expected.not_to have_json_path('admin')
+      end
+    end
+
+    context 'as admin' do
+      let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+
+      it 'shows everything' do
+       is_expected.to have_json_path('id')
+       is_expected.to have_json_path('login')
+       is_expected.to have_json_path('firstName')
+       is_expected.to have_json_path('lastName')
+       is_expected.to have_json_path('name')
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { user.created_on }
+        let(:json_path) { 'createdAt' }
+      end
+
+      it_behaves_like 'has UTC ISO 8601 date and time' do
+        let(:date) { user.updated_on }
+        let(:json_path) { 'updatedAt' }
+      end
+    end
 
     describe 'email' do
       context 'user shows his E-Mail address' do
@@ -62,16 +109,6 @@ describe ::API::V3::Users::UserRepresenter do
           is_expected.to be_json_eql(nil.to_json).at_path('email')
         end
       end
-    end
-
-    it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { user.created_on }
-      let(:json_path) { 'createdAt' }
-    end
-
-    it_behaves_like 'has UTC ISO 8601 date and time' do
-      let(:date) { user.updated_on }
-      let(:json_path) { 'updatedAt' }
     end
 
     describe 'status' do
@@ -103,7 +140,7 @@ describe ::API::V3::Users::UserRepresenter do
 
         it 'should link to lock and update' do
           expect(subject).to have_json_path('_links/lock/href')
-          expect(subject).to have_json_path('_links/update/href')
+          expect(subject).to have_json_path('_links/updateImmediately/href')
         end
 
         context 'when account is locked' do

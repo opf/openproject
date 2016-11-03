@@ -89,24 +89,32 @@ module API
                  render_nil: true
         property :login,
                  render_nil: false,
-                 if: current_user_is_admin_or_self
+                 getter: ->(*) { represented.login },
+                 setter: ->(value, *) { represented.login = value },
+                 exec_context: :decorator,
+                 if: ->(*) { current_user_is_admin_or_self }
         property :admin,
                  render_nil: false,
+                 exec_context: :decorator,
                  getter: ->(*) {
                    represented.admin?
                  },
-                 if: current_user_is_admin
+                 if: ->(*) { current_user_is_admin }
         property :subtype,
                  getter: -> (*) { type },
                  render_nil: true
-        property :firstname,
-                 as: :firstName,
+        property :firstName,
+                 getter: ->(*) { represented.firstname },
+                 setter: ->(value, *) { represented.firstname = value },
+                 exec_context: :decorator,
                  render_nil: false,
-                 if: current_user_is_admin_or_self
-        property :lastname,
-                 as: :lastName,
+                 if: ->(*) { current_user_is_admin_or_self }
+        property :lastName,
+                 getter: ->(*) { represented.lastname },
+                 setter: ->(value, *) { represented.lastname = value },
+                 exec_context: :decorator,
                  render_nil: false,
-                 if: current_user_is_admin_or_self
+                 if: ->(*) { current_user_is_admin_or_self }
         property :name,
                  render_nil: true
         property :mail,
@@ -127,13 +135,13 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) },
                  render_nil: false,
-                 if: current_user_is_admin_or_self
+                 if: ->(*) { current_user_is_admin_or_self }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) },
                  render_nil: false,
-                 if: current_user_is_admin_or_self
+                 if: ->(*) { current_user_is_admin_or_self }
         property :status,
                  getter: -> (*) { status_name },
                  setter: -> (value, *) { self.status = User::STATUSES[value.to_sym] },
@@ -152,7 +160,7 @@ module API
         end
 
         def current_user_is_admin_or_self
-          current_user_is_admin || user.id == current_user.id
+          current_user_is_admin || represented.id == current_user.id
         end
 
         def current_user_is_admin
