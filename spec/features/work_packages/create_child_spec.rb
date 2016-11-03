@@ -111,6 +111,7 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     child_work_package_page.update_attributes Subject: 'Child work package',
                                               Type: 'None'
 
+    child_work_package_page.expect_heading('None')
     child_work_package_page.save!
 
     expect(page).to have_selector('.notification-box--content',
@@ -140,6 +141,7 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     child_work_package_page.update_attributes Subject: 'Child work package',
                                               Type: 'None'
 
+    child_work_package_page.expect_heading('None')
     child_work_package_page.save!
 
     expect(page).to have_selector('.notification-box--content',

@@ -229,20 +229,6 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
     end
 
-    context 'with add_work_packages permission' do
-      let(:permissions) { %i(view_work_packages add_work_packages manage_subtasks) }
-      it 'should contain link to create new child work packages' do
-        find('#hierarchy--add-new-child').click
-        expect(page).to have_selector('h2', text: "Child of #{work_package.type} ##{work_package.id}")
-        find('#work-packages--edit-actions-cancel').click
-
-        # Ensure wp table loads fine
-        loading_indicator_saveguard
-        table = Pages::WorkPackagesTable.new(project)
-        table.expect_work_package_listed(work_package)
-      end
-    end
-
     context 'with relations permissions' do
       let(:permissions) do
         %i(view_work_packages add_work_packages manage_subtasks manage_work_package_relations)
