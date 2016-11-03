@@ -33,8 +33,7 @@ module SettingsHelper
   include OpenProject::FormTagHelper
 
   def administration_settings_tabs
-    tabs = [
-     { name: 'general', partial: 'settings/general', label: :label_general },
+    [{ name: 'general', partial: 'settings/general', label: :label_general },
      { name: 'display', partial: 'settings/display', label: :label_display },
      { name: 'authentication', partial: 'settings/authentication', label: :label_authentication },
      { name: 'users', partial: 'settings/users', label: :label_user_plural },
@@ -44,9 +43,6 @@ module SettingsHelper
      { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
      { name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
     ]
-    if OpenProject::Configuration.license_manager_visible?
-      tabs << { name: 'license', partial: 'settings/license', label: :label_license }
-    end
   end
 
   def setting_select(setting, choices, options = {})
