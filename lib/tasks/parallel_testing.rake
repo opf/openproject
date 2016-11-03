@@ -27,7 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'parallel_tests/tasks'
+def check_for_pending_migrations
+  require 'parallel_tests/tasks'
+  ParallelTests::Tasks.check_for_pending_migrations
+end
 
 namespace :parallel do
   desc 'Run all suites in parallel (one after another)'
@@ -40,7 +43,7 @@ namespace :parallel do
 
     desc 'Run plugin specs in parallel'
     task spec: [:environment] do
-      ParallelTests::Tasks.check_for_pending_migrations
+      check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
@@ -63,7 +66,7 @@ namespace :parallel do
 
     desc 'Run plugin cucumber features in parallel'
     task cucumber: [:environment] do
-      ParallelTests::Tasks.check_for_pending_migrations
+      check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
@@ -92,7 +95,7 @@ namespace :parallel do
 
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
@@ -110,7 +113,7 @@ namespace :parallel do
 
   desc 'Run cucumber features in parallel (custom task)'
   task :cucumber do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
@@ -137,7 +140,7 @@ namespace :parallel do
 
   desc 'Run rspec in parallel (custom task)'
   task :rspec do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
