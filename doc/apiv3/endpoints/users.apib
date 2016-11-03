@@ -6,8 +6,8 @@
 | lock                | Restrict the user from logging in and performing any actions         | not locked; **Permission**: Administrator                        |
 | show                | Link to the OpenProject user page (HTML)                             |                                                                  |
 | unlock              | Allow a locked user to login and act again                           | locked; **Permission**: Administrator                            |
-| update              | Updates the user's attributes.                                       | **Permission**: Administrator unless the API user updates itself |
-| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator unless the API user updates itself |
+| update              | Updates the user's attributes.                                       | **Permission**: Administrator                                    |
+| updateImmediately   | Updates the user's attributes.                                       | **Permission**: Administrator                                    |
 | delete              | Permanently remove a user from the instance                          | **Permission**: Administrator, self-delete                       |
 
 ## Linked Properties
@@ -20,16 +20,16 @@
 | Property    | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                                           |
 | :---------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | -----------------------------------------------------------                         |
 | id          | User's id                                                 | Integer  | x > 0                                                | READ                 |                                                                                     |
-| login       | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
-| firstName   | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
-| lastName    | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
+| login       | User's login name                                         | String   | unique, 256 max length                               | READ / WRITE         | **Permission**: Administrator                                                       |
+| firstName   | User's first name                                         | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator                                                       |
+| lastName    | User's last name                                          | String   | 30 max length                                        | READ / WRITE         | **Permission**: Administrator                                                       |
 | name        | User's full name, formatting depends on instance settings | String   |                                                      | READ                 |                                                                                     |
-| email       | User's E-Mail address                                     | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator unless user updates itself |
+| email       | User's E-Mail address                                     | String   | unique, 60 max length                                | READ / WRITE         | E-Mail address not hidden, **Permission**: Administrator                            |
 | admin       | Flag indicating whether or not the user is an admin       | Boolean  | in: [true, false]                                    | READ / WRITE         | **Permission**: Administrator                                                       |
 | avatar      | URL to user's avatar                                      | Url      |                                                      | READ                 |                                                                                     |
 | status      | The current activation status of the user (see below)     | String   | in: ["active", "registered", "locked", "invited"]    | READ                 |                                                                                     |
-| language    | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator unless user updates itself                            |
-| password    | User's password                                           | String   |                                                      | WRITE                | **Permission**: Administrator unless user updates itself                            |
+| language    | User's language                                           | String   | ISO 639-1                                            | READ / WRITE         | **Permission**: Administrator                                                       |
+| password    | User's password                                           | String   |                                                      | WRITE                | **Permission**: Administrator                                                       |
 | createdAt   | Time of creation                                          | DateTime |                                                      | READ                 |                                                                                     |
 | updatedAt   | Time of the most recent change to the user                | DateTime |                                                      | READ                 |                                                                                     |
 
