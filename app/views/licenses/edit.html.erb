@@ -2,7 +2,40 @@
 
 <%= error_messages_for 'license' %>
 
-<%= toolbar title: t(:label_license) %>
+<%= toolbar title: t('admin.licenses.enterprise_edition_license') do %>
+  <li class="toolbar-item">
+    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
+          { class: 'button -alt-highlight',
+            aria: {label: t('admin.licenses.order_license')},
+            title: t('admin.licenses.order_license')}) do %>
+      <i class="button--icon icon-add"></i>
+      <span class="button--text"><%= t('admin.licenses.order_license') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<% unless LicenseService.instance.present? %>
+<div class="form--field">
+  <div class="form--label">
+  </div>
+  <div class="form--field-cotainer">
+
+      <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+      <p><%= t('homescreen.blocks.upsale.description') %></p>
+
+      <ul class="widget-box--feature-list">
+        <li>
+          <%= t('homescreen.blocks.upsale.additional_features') %>
+        </li>
+        <li>
+          <%= t('homescreen.blocks.upsale.professional_support') %>
+        </li>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
 
 <%= render partial: "show" %>
 

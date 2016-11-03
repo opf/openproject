@@ -40,7 +40,10 @@ en:
     plugins:
       no_results_title_text: There are currently no plugins available.
     licenses:
+      enterprise_edition_license: "Enterprise Edition license"
+      active_license: "Active license"
       paste: "Paste content of license file"
+      order_license: "Order license..."
 
   announcements:
     show_until: Show until

@@ -1,7 +1,7 @@
-<% if @license.present? %>
+<% if @license.present? && LicenseService.instance.present? %>
 <div class="form--field">
   <div class="form--label">
-    Currently active license
+    <%= t('admin.licenses.active_license') %>
   </div>
   <div class="form--field-cotainer">
     <div class="notification-box -info">
