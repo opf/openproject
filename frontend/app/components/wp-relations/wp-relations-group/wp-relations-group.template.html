@@ -8,7 +8,7 @@
         <div class="attributes-group--header-toggle" ng-if="$ctrl.firstGroup">
           <div id="wp-relation-group-by-toggle"
                class="panel-toggler ng-scope ng-isolate-scope">
-              <accessible-by-keyboard link-class="icon-context icon-small icon-toggle button -transparent"
+              <accessible-by-keyboard link-class="icon-context icon-small icon-group-by button -transparent"
                                       execute="$ctrl.toggleButton()">
                   <span ng-if="!$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByType"></span>
                   <span ng-if="$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByRelation"></span>
@@ -20,6 +20,7 @@
     <div class="content" ng-if="$ctrl.relatedWorkPackages">
         <wp-relation-row
                 work-package="$ctrl.workPackage"
+                group-by-work-package-type="$ctrl.groupByWorkPackageType"
                 related-work-package="relatedWorkPackage"
                 ng-repeat="relatedWorkPackage in $ctrl.relatedWorkPackages"></wp-relation-row>
     </div>

@@ -8,7 +8,11 @@
             <span class="relation-row--type"
                   ng-click="$ctrl.userInputs.showRelationTypesForm = true"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
-                {{ $ctrl.normalizedRelationType }}
+
+              <span ng-if="$ctrl.groupByWorkPackageType"
+                    ng-bind="$ctrl.normalizedRelationType"></span>
+              <span ng-if="!$ctrl.groupByWorkPackageType"
+                    ng-bind="$ctrl.relatedWorkPackage.type.name"></span>
             </span>
             <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
                 <select class="wp-inline-edit--field form--select"

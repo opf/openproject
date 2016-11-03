@@ -37,6 +37,7 @@ export class WorkPackageRelationsGroupController {
   public workPackage:WorkPackageResourceInterface;
   public header:string;
   public firstGroup:boolean;
+  public groupByWorkPackageType:boolean;
   public text:Object;
   public relationsCtrl: WorkPackageRelationsController;
 
@@ -47,10 +48,6 @@ export class WorkPackageRelationsGroupController {
       groupByType: I18n.t('js.relation_buttons.group_by_wp_type'),
       groupByRelation: I18n.t('js.relation_buttons.group_by_relation_type')
     };
-  }
-
-  public get groupByWorkPackageType() {
-    return this.relationsCtrl.groupByWorkPackageType;
   }
 
   public toggleButton() {
@@ -70,6 +67,7 @@ function wpRelationsGroupDirective() {
       header: '=',
       firstGroup: '=',
       workPackage: '=',
+      groupByWorkPackageType: '=',
       relatedWorkPackages: '='
     },
 

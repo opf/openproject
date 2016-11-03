@@ -40,8 +40,8 @@ export class WorkPackageRelationsController {
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
 
-  // By default, group by wp type
-  public groupByWorkPackageType = true;
+  // By default, group by relation type
+  public groupByWorkPackageType = false;
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,

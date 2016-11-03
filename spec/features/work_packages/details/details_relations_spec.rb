@@ -49,7 +49,6 @@ describe 'Work package relations tab', js: true, selenium: true do
 
     # Labels to expect
     relation_label = I18n.t('js.relation_labels.' + relation_type)
-    type_upcase = wp.type.name.upcase
 
     select relation_label, from: 'relation-type--select'
 
@@ -60,10 +59,10 @@ describe 'Work package relations tab', js: true, selenium: true do
     container.find('.wp-create-relation--save').click
 
     expect(page).to have_selector('.relation-group--header',
-                                  text: type_upcase,
+                                  text: relation_label.upcase,
                                   wait: 10)
 
-    expect(page).to have_selector('.relation-row--type', text: relation_label)
+    expect(page).to have_selector('.relation-row--type', text: wp.type.name)
 
     expect(page).to have_selector('.wp-relations--subject-field', text: wp.subject)
 
@@ -145,24 +144,24 @@ describe 'Work package relations tab', js: true, selenium: true do
       work_packages_page.expect_subject
       loading_indicator_saveguard
 
-      # Expect to be grouped by wp type by default
-      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
-
-      expect(page).to have_selector('.relation-group--header', text: type_1.name.upcase)
-      expect(page).to have_selector('.relation-group--header', text: type_2.name.upcase)
-
-      expect(page).to have_selector('.wp-relations--subject-field', text: to_1.subject)
-      expect(page).to have_selector('.wp-relations--subject-field', text: to_2.subject)
-
-      find(toggle_btn_selector).click
+      # Expect to be grouped by relation type by default
       expect(page).to have_selector(toggle_btn_selector,
                                     text: 'Group by work package type', wait: 10)
 
       expect(page).to have_selector('.relation-group--header', text: 'FOLLOWS')
       expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
 
-      expect(page).to have_selector('.wp-relations--subject-field', text: to_1.subject)
-      expect(page).to have_selector('.wp-relations--subject-field', text: to_2.subject)
+      expect(page).to have_selector('.relation-row--type', text: type_1.name)
+      expect(page).to have_selector('.relation-row--type', text: type_2.name)
+
+      find(toggle_btn_selector).click
+      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
+
+      expect(page).to have_selector('.relation-group--header', text: type_1.name.upcase)
+      expect(page).to have_selector('.relation-group--header', text: type_2.name.upcase)
+
+      expect(page).to have_selector('.relation-row--type', text: 'Follows')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
     end
   end
 
@@ -260,8 +259,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.hover
         created_row.find('.relation-row--remove-btn').click
 
-        expect(page).to have_no_selector('.relation-group--header',
-                                         text: relatable.type.name.upcase)
+        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
 
         work_package.reload

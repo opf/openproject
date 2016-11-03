@@ -1,6 +1,7 @@
 <div>
     <div ng-repeat="(type, relatedWorkPackages) in $ctrl.relationGroups">
     <wp-relations-group header="type"
+                        group-by-work-package-type="$ctrl.groupByWorkPackageType"
                         first-group="$first"
                         related-work-packages="relatedWorkPackages"
                         work-package="$ctrl.workPackage"></wp-relations-group>
