@@ -40,11 +40,14 @@ export class WorkPackageRelationsController {
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
 
+  // By default, group by wp type
+  public groupByWorkPackageType = true;
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
+              protected I18n:op.I18n,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.registerEventListeners();
@@ -68,7 +71,6 @@ export class WorkPackageRelationsController {
     this.buildRelationGroups();
   }
 
-
   protected getRelatedWorkPackages(workPackageIds:number[]) {
     let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
 
@@ -86,10 +88,24 @@ export class WorkPackageRelationsController {
     return parseInt(relation[direction].href.split('/').pop());
   }
 
+  public toggleGroupBy() {
+    this.groupByWorkPackageType = !this.groupByWorkPackageType;
+    this.buildRelationGroups();
+  }
+
   protected buildRelationGroups() {
-    if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
+    if (!angular.isDefined(this.currentRelations)) {
+      return;
     }
+
+    this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+      if (this.groupByWorkPackageType) {
+        return wp.type.name;
+      } else {
+        var normalizedType = wp.relatedBy.normalizedType(this.workPackage);
+        return this.I18n.t('js.relation_labels.' + normalizedType);
+      }
+    });
   }
 
   protected addSingleRelation(evt, relation) {

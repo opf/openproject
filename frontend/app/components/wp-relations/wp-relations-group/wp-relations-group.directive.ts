@@ -29,12 +29,36 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {RelatedWorkPackage} from '../wp-relations.interfaces';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageRelationsController} from '../wp-relations.directive';
 
 
 export class WorkPackageRelationsGroupController {
   public relatedWorkPackages:Array<RelatedWorkPackage>;
   public workPackage:WorkPackageResourceInterface;
-  public wpType:string;
+  public header:string;
+  public firstGroup:boolean;
+  public text:Object;
+  public relationsCtrl: WorkPackageRelationsController;
+
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $timeout:ng.ITimeoutService,
+              public I18n:op.I18n) {
+    this.text = {
+      groupByType: I18n.t('js.relation_buttons.group_by_wp_type'),
+      groupByRelation: I18n.t('js.relation_buttons.group_by_relation_type')
+    };
+  }
+
+  public get groupByWorkPackageType() {
+    return this.relationsCtrl.groupByWorkPackageType;
+  }
+
+  public toggleButton() {
+    this.relationsCtrl.toggleGroupBy();
+    this.$timeout(() => {
+      this.$element.find('#wp-relation-group-by-toggle').focus();
+    });
+  }
 }
 
 function wpRelationsGroupDirective() {
@@ -43,13 +67,21 @@ function wpRelationsGroupDirective() {
     templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',
 
     scope: {
-      wpType: '=',
+      header: '=',
+      firstGroup: '=',
       workPackage: '=',
       relatedWorkPackages: '='
     },
 
+    link: (scope,
+           element,
+           attrs,
+           controllers: [WorkPackageRelationsController]) => {
+      scope.$ctrl.relationsCtrl = controllers[0];
+    },
     controller: WorkPackageRelationsGroupController,
     controllerAs: '$ctrl',
+    require: ['^wpRelations'],
     bindToController: true,
   };
 }

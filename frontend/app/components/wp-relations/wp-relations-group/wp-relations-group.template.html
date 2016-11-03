@@ -2,8 +2,18 @@
     <div class="attributes-group--header">
         <div class="attributes-group--header-container">
             <h3 class="attributes-group--header-text relation-group--header">
-                {{ $ctrl.wpType }}
+                {{ $ctrl.header }}
             </h3>
+        </div>
+        <div class="attributes-group--header-toggle" ng-if="$ctrl.firstGroup">
+          <div id="wp-relation-group-by-toggle"
+               class="panel-toggler ng-scope ng-isolate-scope">
+              <accessible-by-keyboard link-class="icon-context icon-small icon-toggle button -transparent"
+                                      execute="$ctrl.toggleButton()">
+                  <span ng-if="!$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByType"></span>
+                  <span ng-if="$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByRelation"></span>
+              </accessible-by-keyboard>
+            </div>
         </div>
     </div>
 
