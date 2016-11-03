@@ -107,7 +107,6 @@ describe 'API v3 Watcher resource', type: :request do
 
     it 'should respond with newly added watcher' do
       expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-      expect(subject.body).to be_json_eql(available_watcher.login.to_json).at_path('login')
     end
 
     context 'when user is already watcher' do
@@ -119,7 +118,6 @@ describe 'API v3 Watcher resource', type: :request do
 
       it 'should respond with correct watcher' do
         expect(subject.body).to be_json_eql('User'.to_json).at_path('_type')
-        expect(subject.body).to be_json_eql(watching_user.login.to_json).at_path('login')
       end
     end
 
