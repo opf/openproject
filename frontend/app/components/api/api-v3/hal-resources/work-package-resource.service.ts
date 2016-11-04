@@ -475,9 +475,12 @@ export class WorkPackageResource extends HalResource {
       resources[name] = linked ? linked.$update() : $q.reject();
     });
 
-    return $q.all(resources).then(() => {
+    const promise = $q.all(resources)
+    promise.then(() => {
       wpCacheService.updateWorkPackage(this);
     });
+
+    return promise;
   }
 
   /**
