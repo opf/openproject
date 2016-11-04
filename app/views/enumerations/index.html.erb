@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_administration), l(:label_enumerations) %>
 <%= toolbar title: l(:label_enumerations) %>
 <% Enumeration.descendants.each do |klass| %>
-  <h3><%= l(klass::OptionName) %></h3>
+  <h3 class="-no-border"><%= l(klass::OptionName) %></h3>
   <% enumerations = klass.shared %>
   <% if enumerations.any? %>
     <div class="generic-table--container">
