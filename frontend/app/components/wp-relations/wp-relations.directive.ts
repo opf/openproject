@@ -60,11 +60,8 @@ export class WorkPackageRelationsController {
       .loadWorkPackage(<number> this.workPackage.id)
       .observe(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
-        this.workPackage.relations.$load().then(() => {
-          if (this.workPackage.relations.count > 0) {
-            this.loadRelations();
-          }
-        });
+        this.workPackage = wp;
+        this.workPackage.relations.$load().then(this.loadRelations.bind(this));
       });
   }
 
@@ -108,6 +105,11 @@ export class WorkPackageRelationsController {
   protected loadRelations():void {
     var relatedWpIds = [];
     var relations = [];
+
+    if (this.workPackage.relations.elements.length === 0) {
+      this.currentRelations = [];
+      return this.buildRelationGroups();
+    }
 
     this.workPackage.relations.elements.forEach(relation => {
       const relatedWpId = this.getRelatedWorkPackageId(relation);

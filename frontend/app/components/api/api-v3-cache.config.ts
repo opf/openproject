@@ -43,7 +43,7 @@ function apiV3CacheConfig($provide) {
         useCaching = request.headers.caching.enabled;
       }
 
-      // Do not cache anything but GET 
+      // Do not cache anything but GET
       if (!useCaching || request.method !== 'GET') {
         request.cache = false;
         return requestable();

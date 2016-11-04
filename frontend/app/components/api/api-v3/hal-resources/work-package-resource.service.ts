@@ -467,16 +467,17 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the linked resources as properties.
    * Return a rejected promise, if the resource is not a property of the work package.
    */
-  public updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
+  public updateLinkedResources(...resourceNames): ng.IPromise<any> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
 
     resourceNames.forEach(name => {
       const linked = this[name];
       resources[name] = linked ? linked.$update() : $q.reject();
     });
-    wpCacheService.updateWorkPackage(this);
 
-    return $q.all(resources);
+    return $q.all(resources).then(() => {
+      wpCacheService.updateWorkPackage(this);
+    });
   }
 
   /**

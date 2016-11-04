@@ -36,6 +36,7 @@ var $q:ng.IQService;
 var lazy;
 var HalLink;
 var halResourceFactory:HalResourceFactoryService;
+var CacheService;
 
 export class HalResource {
   public static _type:string;
@@ -110,6 +111,11 @@ export class HalResource {
       }
     }
 
+    // HACK: Remove cleared promise key from cache.
+    // We should not be so clever as to do that, instead, rewrite this with states.
+    if (force) {
+      CacheService.clearPromisedKey(this.$links.self.href);
+    }
     // Reset and load this resource
     this.$loaded = false;
     this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
@@ -293,7 +299,7 @@ function initializeResource(halResource:HalResource) {
 }
 
 function halResourceService(...args) {
-  [$q, lazy, HalLink, halResourceFactory] = args;
+  [$q, lazy, HalLink, halResourceFactory, CacheService] = args;
   return HalResource;
 }
 
@@ -301,7 +307,8 @@ halResourceService.$inject = [
   '$q',
   'lazy',
   'HalLink',
-  'halResourceFactory'
+  'halResourceFactory',
+  'CacheService'
 ];
 
 opApiModule.factory('HalResource', halResourceService);

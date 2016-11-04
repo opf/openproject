@@ -252,6 +252,29 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(work_package.relations).to be_empty
       end
 
+      it 'should allow to move between split and full view (Regression #24194)' do
+        add_relation('follows', relatable)
+
+        # Switch to full view
+        find('#work-packages-show-view-button').click
+
+        # Expect to have row
+        created_row = find(".relation-row-#{relatable.id}", wait: 10)
+
+        created_row.hover
+        created_row.find('.relation-row--remove-btn').click
+
+        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+
+        # Back to split view
+        find('#work-packages-details-view-button').click
+        work_packages_page.expect_subject
+
+        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+      end
+
       it 'should allow to change relation descriptions' do
         add_relation('follows', relatable)
 
