@@ -1,5 +1,5 @@
 pl:
   js:
     reporting_engine:
-      label_remove: Usuń
-      label_response_error: Wystąpił błąd podczas próby połączenia z serwerem.
+      label_remove: "Usuń"
+      label_response_error: "Wystąpił błąd podczas próby połączenia z serwerem."
