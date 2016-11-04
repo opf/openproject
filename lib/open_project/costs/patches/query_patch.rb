@@ -88,8 +88,6 @@ module OpenProject::Costs::Patches::QueryPatch
 
                                labor_costs + material_costs
                              }))
-
-      Queries::WorkPackages::Filter.add_filter_type_by_field('cost_object_id', 'list_optional')
     end
   end
 

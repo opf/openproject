@@ -347,7 +347,7 @@ module OpenProject::Costs
     end
 
     initializer 'costs.register_query_filter' do
-      Queries::WorkPackages::FilterRegister.register(OpenProject::Costs::WorkPackageFilter)
+      Queries::Register.filter Query, OpenProject::Costs::WorkPackageFilter
     end
 
     module EagerLoadedCosts

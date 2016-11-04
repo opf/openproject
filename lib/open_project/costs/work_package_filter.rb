@@ -18,7 +18,7 @@
 #++
 
 module OpenProject::Costs
-  class WorkPackageFilter < Queries::WorkPackages::Filter::BaseFilter
+  class WorkPackageFilter < ::Queries::BaseFilter
     def values
       CostObject
         .where(project_id: project)
