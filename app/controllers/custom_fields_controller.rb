@@ -60,8 +60,10 @@ class CustomFieldsController < ApplicationController
 
   def update
     if @custom_field.update_attributes(@custom_field_params)
-      @custom_field.types.each do |type|
-        TypesHelper.update_type_attribute_visibility! type
+      if @custom_field.is_a? WorkPackageCustomField
+        @custom_field.types.each do |type|
+          TypesHelper.update_type_attribute_visibility! type
+        end
       end
 
       flash[:notice] = t(:notice_successful_update)
