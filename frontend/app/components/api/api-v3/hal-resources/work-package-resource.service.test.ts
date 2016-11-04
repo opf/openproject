@@ -144,7 +144,9 @@ describe('WorkPackageResource service', () => {
 
     const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
-        expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        result.then(() => {
+          expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        });
       });
     };
 

@@ -81,6 +81,12 @@ function CacheService($q, CacheFactory) {
       disabled = true;
     },
 
+    clearPromisedKey: function(key, options) {
+      options = options || {};
+      var cache = options.cache || CacheService.memoryStorage();
+      cache.remove(key);
+    },
+
     cachedPromise: function(promiseFn, key, options) {
       options = options || {};
       var cache = options.cache || CacheService.memoryStorage();
