@@ -5,5 +5,5 @@ fr:
   label_member_role: Rôle du projet
   label_global_role: Rôle global
   label_not_changeable: (non modifiable)
-  label_no_assignable_role: "Aucun rôle global disponible pour l'assignation"
+  label_no_assignable_role: Aucun rôle global disponible pour l'assignation
   label_global: Global
