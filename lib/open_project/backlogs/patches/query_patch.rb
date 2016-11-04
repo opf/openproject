@@ -47,8 +47,6 @@ module OpenProject::Backlogs::Patches::QueryPatch
                                            sortable: "#{WorkPackage.table_name}.remaining_hours",
                                            summable: true))
 
-      Queries::WorkPackages::Filter.add_filter_type_by_field('backlogs_work_package_type', 'list')
-
       alias_method_chain :sql_for_field, :backlogs_work_package_type
     end
   end

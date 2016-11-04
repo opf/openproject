@@ -248,7 +248,7 @@ module OpenProject::Backlogs
     end
 
     initializer 'backlogs.register_query_filter' do
-      Queries::WorkPackages::FilterRegister.register(OpenProject::Backlogs::WorkPackageFilter)
+      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
     end
   end
 end
