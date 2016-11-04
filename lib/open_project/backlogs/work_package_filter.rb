@@ -37,7 +37,7 @@ require 'story'
 require 'task'
 
 module OpenProject::Backlogs
-  class WorkPackageFilter < Queries::WorkPackages::Filter::BaseFilter
+  class WorkPackageFilter < ::Queries::BaseFilter
     def values
       [[I18n.t(:story, scope: [:backlogs]), 'story'],
        [I18n.t(:task, scope: [:backlogs]), 'task'],
