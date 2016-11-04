@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 6 }
     let(:type) { :list_optional }
     let(:class_key) { :category_id }
@@ -65,7 +64,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:category) { FactoryGirl.build_stubbed(:category) }
 
       before do
@@ -75,7 +74,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
       end
 
       it 'returns an array of type options' do
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[category.name, category.id.to_s]]
       end
     end

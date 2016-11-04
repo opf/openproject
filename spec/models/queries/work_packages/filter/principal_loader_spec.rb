@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
   let(:user_1) { FactoryGirl.build_stubbed(:user) }

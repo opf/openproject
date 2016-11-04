@@ -27,15 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::TypeFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
-
-  def initialize(project)
-    self.project = project
-  end
-
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::TypeFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values
+    @allowed_values ||= begin
       types.map { |s| [s.name, s.id.to_s] }
     end
   end

@@ -29,8 +29,8 @@
 
 class Queries::WorkPackages::Filter::WatcherFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def values
-    @values ||= begin
+  def allowed_values
+    @allowed_values ||= begin
       # populate the watcher list with the same user list as other user filters
       # if the user has the :view_work_package_watchers permission
       # in at least one project
@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
       # more, e.g. all users could watch issues in public projects,
       # but won't necessarily be shown here
       values = me_value
-      if User.current.allowed_to?(:view_work_packages_watchers, project, global: project.nil?)
+      if User.current.allowed_to?(:view_work_package_watchers, project, global: project.nil?)
         values += principal_loader.user_values
       end
       values

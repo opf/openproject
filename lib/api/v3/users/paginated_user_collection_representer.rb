@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,46 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_examples_for 'work package query filter' do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance) { described_class.create(project)[instance_key || class_key] }
-  let(:instance_key) { nil }
-  let(:class_key) { raise "needs to be defined" }
-  let(:name) { WorkPackage.human_attribute_name(instance_key || class_key) }
+# TODO: this is to be removed or rather the UserCollectionRepresenter is
+# to be turned into an OffsetPaginatedCollection representer.
+# It is not possible to do that right now as we do not have a
+# solution for an accessible autocompleter drop down widget. We therefore
+# have to fetch all users when we want to present them inside of a drop down.
 
-  describe '.create' do
-    it 'returns a hash with a subject key and a filter instance' do
-      expect(described_class.create(project)[instance_key || class_key]).to be_a(described_class)
-    end
-  end
-
-  describe '.key' do
-    it 'is the defined key' do
-      expect(described_class.key).to eql(class_key)
-    end
-  end
-
-  describe '#key' do
-    it 'is the defined key' do
-      expect(instance.key).to eql(instance_key || class_key)
-    end
-  end
-
-  describe '#order' do
-    it 'has the defined order' do
-      expect(instance.order).to eql(order)
-    end
-  end
-
-  describe '#type' do
-    it 'is the defined filter type' do
-      expect(instance.type).to eql(type)
-    end
-  end
-
-  describe '#name' do
-    it 'is the l10 name for the filter' do
-      expect(instance.name).to eql(name)
+module API
+  module V3
+    module Users
+      class PaginatedUserCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        element_decorator ::API::V3::Users::UserRepresenter
+      end
     end
   end
 end

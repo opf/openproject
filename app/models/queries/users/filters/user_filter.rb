@@ -27,16 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Constants
-  module WorkPackageFilter
-    class << self
-      def register(filter)
-        self.filters ||= []
+class Queries::Users::Filters::UserFilter < Queries::BaseFilter
+  self.model = User
 
-        self.filters << filter
-      end
-
-      attr_accessor :filters
-    end
+  def human_name
+    User.human_attribute_name(name)
   end
 end

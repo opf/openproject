@@ -27,15 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::CategoryFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
+class Queries::WorkPackages::Filter::CategoryFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
 
-  def initialize(project)
-    self.project = project
-  end
-
-  def values
-    @values ||= begin
+  def allowed_values
+    @allowed_values ||= begin
       project.categories.map { |s| [s.name, s.id.to_s] }
     end
   end

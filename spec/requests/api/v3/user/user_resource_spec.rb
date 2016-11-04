@@ -38,9 +38,125 @@ describe 'API v3 User resource', type: :request do
   let(:model) { ::API::V3::Users::UserModel.new(user) }
   let(:representer) { ::API::V3::Users::UserRepresenter.new(model) }
 
-  describe '#get' do
-    subject(:response) { last_response }
+  subject(:response) { last_response }
 
+  describe '#index' do
+    let(:get_path) { api_v3_paths.users }
+
+    before do
+      user
+      allow(User).to receive(:current).and_return current_user
+      get get_path
+    end
+
+    context 'admin user' do
+      let(:current_user) { FactoryGirl.create(:admin) }
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      # note that the order of the users is depending on the id
+      # meaning the order in which they where saved
+      it 'contains the user in the response' do
+        expect(subject.body)
+          .to be_json_eql(user.name.to_json)
+          .at_path('_embedded/elements/0/name')
+      end
+
+      it 'contains the current user in the response' do
+        expect(subject.body)
+          .to be_json_eql(current_user.name.to_json)
+          .at_path('_embedded/elements/1/name')
+      end
+
+      it 'has the users index path for link self href' do
+        expect(subject.body)
+          .to be_json_eql((api_v3_paths.users + '?offset=1&pageSize=30').to_json)
+          .at_path('_links/self/href')
+      end
+
+      context 'if pageSize = 1 and offset = 2' do
+        let(:get_path) { api_v3_paths.users + '?pageSize=1&offset=2' }
+
+        it 'contains the current user in the response' do
+          expect(subject.body)
+            .to be_json_eql(current_user.name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
+      end
+
+      context 'on filtering for name' do
+        let(:get_path) do
+          filter = [{ 'name' => {
+            'operator' => '~',
+            'values' => [user.name]
+          } }]
+
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
+        end
+
+        it 'contains the filtered user in the response' do
+          expect(subject.body)
+            .to be_json_eql(user.name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
+
+        it 'contains no more users' do
+          expect(subject.body)
+            .to be_json_eql(1.to_json)
+            .at_path('total')
+        end
+      end
+
+      context 'on sorting' do
+        let(:users_by_name_order) do
+          User.not_builtin.order_by_name.reverse_order
+        end
+
+        let(:get_path) do
+          sort = [['name', 'desc']]
+
+          "#{api_v3_paths.users}?#{{ sortBy: sort.to_json }.to_query}"
+        end
+
+        it 'contains the first user as the first element' do
+          expect(subject.body)
+            .to be_json_eql(users_by_name_order[0].name.to_json)
+            .at_path('_embedded/elements/0/name')
+        end
+
+        it 'contains the first user as the second element' do
+          expect(subject.body)
+            .to be_json_eql(users_by_name_order[1].name.to_json)
+            .at_path('_embedded/elements/1/name')
+        end
+      end
+
+      context 'on an invalid filter' do
+        let(:get_path) do
+          filter = [{ 'name' => {
+            'operator' => 'a',
+            'values' => [user.name]
+          } }]
+
+          "#{api_v3_paths.users}?#{{ filters: filter.to_json }.to_query}"
+        end
+
+        it 'returns an error' do
+          expect(subject.status).to eql(400)
+        end
+      end
+    end
+
+    context 'other user' do
+      it 'should respond with 403' do
+        expect(subject.status).to eq(403)
+      end
+    end
+  end
+
+  describe '#get' do
     context 'logged in user' do
       let(:get_path) { api_v3_paths.user user.id }
       before do
@@ -52,7 +168,7 @@ describe 'API v3 User resource', type: :request do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct attachment' do
+      it 'should respond with correct body' do
         expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
       end
 
@@ -84,8 +200,6 @@ describe 'API v3 User resource', type: :request do
 
       delete path
     end
-
-    subject(:response) { last_response }
 
     shared_examples 'deletion through allowed user' do
       it 'should respond with 202' do

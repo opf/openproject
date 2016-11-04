@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,13 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :filter, class: Queries::Filter do
-    field :subject
-    operator '='
-    values ['Feature']
+require 'spec_helper'
 
-    factory :work_packages_filter, class: Queries::WorkPackages::Filter do
+describe Queries::Users::Filters::GroupFilter, type: :model do
+  let(:group1) { FactoryGirl.build_stubbed(:group) }
+  let(:group2) { FactoryGirl.build_stubbed(:group) }
+
+  before do
+    allow(Group)
+      .to receive(:pluck)
+      .and_return([[group1.name, group1.id.to_s], [group2.name, group2.id.to_s]])
+  end
+
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :group }
+    let(:type) { :list_optional }
+    let(:name) { I18n.t('query_fields.member_of_group') }
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expected = [[group1.name, group1.id.to_s], [group2.name, group2.id.to_s]]
+
+        expect(instance.allowed_values).to match_array(expected)
+      end
     end
+  end
+
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :id }
+    let(:model) { User }
+    let(:joins) { :groups }
+    let(:valid_values) { [group1.id.to_s] }
   end
 end

@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 15 }
     let(:type) { :list }
     let(:class_key) { :watcher_id }
@@ -111,14 +110,14 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       context 'contains the me value if the user is logged in' do
         before do
           allow(User)
             .to receive_message_chain(:current, :logged?)
             .and_return true
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array [[I18n.t(:label_me), 'me']]
         end
       end
@@ -137,7 +136,7 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
             .to receive(:user_values)
             .and_return([user])
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array [[I18n.t(:label_me), 'me'],
                              [user.name, user.id.to_s]]
         end

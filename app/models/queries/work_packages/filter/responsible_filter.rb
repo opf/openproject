@@ -29,8 +29,8 @@
 
 class Queries::WorkPackages::Filter::ResponsibleFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def values
-    @values ||= begin
+  def allowed_values
+    @allowed_values ||= begin
       values = principal_loader.user_values
       me_value + values
     end

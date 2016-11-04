@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
   let(:status) { FactoryGirl.build_stubbed(:status) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 1 }
     let(:type) { :list_status }
     let(:class_key) { :status_id }
@@ -55,7 +54,7 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       before do
         allow(Status)
           .to receive(:all)
@@ -63,7 +62,7 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
       end
 
       it 'is an array of status values' do
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[status.name, status.id.to_s]]
       end
     end

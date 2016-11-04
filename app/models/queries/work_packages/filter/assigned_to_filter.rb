@@ -29,8 +29,8 @@
 
 class Queries::WorkPackages::Filter::AssignedToFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def values
-    @values ||= begin
+  def allowed_values
+    @allowed_values ||= begin
       values = principal_loader.user_values
 
       if Setting.work_package_group_assignment?
@@ -49,7 +49,7 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
     4
   end
 
-  def name
+  def human_name
     WorkPackage.human_attribute_name('assigned_to_id')
   end
 

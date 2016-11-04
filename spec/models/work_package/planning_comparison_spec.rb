@@ -92,7 +92,11 @@ describe 'Planning Comparison', type: :model do
   end
 
   describe 'filtering work_packages also applies to the history' do
-    let(:assigned_to_user) { FactoryGirl.create(:user) }
+    let(:assigned_to_user) do
+      FactoryGirl.create(:user,
+                         member_in_project: project,
+                         member_through_role: FactoryGirl.build(:role))
+    end
     let (:filter) do
       { f: ['assigned_to_id'],
         op: { 'assigned_to_id' => '=' },

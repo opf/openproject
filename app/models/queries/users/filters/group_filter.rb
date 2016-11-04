@@ -27,10 +27,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join('config/constants/work_package_filter')
+class Queries::Users::Filters::GroupFilter < Queries::Users::Filters::UserFilter
+  def allowed_values
+    @allowed_values ||= begin
+      ::Group.pluck(:name, :id).map { |g| [g[0], g[1].to_s] }
+    end
+  end
 
-module Queries::WorkPackages::FilterRegister
-  class << self
-    delegate :register, :filters, to: ::Constants::WorkPackageFilter
+  def available?
+    ::Group.exists?
+  end
+
+  def type
+    :list_optional
+  end
+
+  def human_name
+    I18n.t('query_fields.member_of_group')
+  end
+
+  def self.key
+    :group
+  end
+
+  def joins
+    :groups
+  end
+
+  def where
+    sql_for_field(self.class.key, operator, values, 'groups', 'id')
   end
 end

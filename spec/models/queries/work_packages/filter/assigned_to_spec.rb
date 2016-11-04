@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 4 }
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }
@@ -125,7 +124,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:logged_in) { true }
 
       before do
@@ -144,7 +143,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
 
       context 'when being logged in' do
         it 'returns the me value and the available users and groups' do
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
                              [user_1.name, user_1.id.to_s],
                              [group_1.name, group_1.id.to_s]])
@@ -155,7 +154,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
             .to receive(:work_package_group_assignment?)
             .and_return(false)
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[I18n.t(:label_me), 'me'],
                              [user_1.name, user_1.id.to_s]])
         end
@@ -165,7 +164,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         let(:logged_in) { false }
 
         it 'returns the available users' do
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[user_1.name, user_1.id.to_s],
                              [group_1.name, group_1.id.to_s]])
         end
@@ -175,7 +174,7 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
             .to receive(:work_package_group_assignment?)
             .and_return(false)
 
-          expect(instance.values)
+          expect(instance.allowed_values)
             .to match_array([[user_1.name, user_1.id.to_s]])
         end
       end

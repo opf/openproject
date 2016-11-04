@@ -27,12 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
   let(:role) { FactoryGirl.build_stubbed(:role) }
 
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 7 }
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_role }
@@ -56,7 +55,7 @@ describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       before do
         allow(Role)
           .to receive(:givable)
@@ -64,7 +63,7 @@ describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
       end
 
       it 'is an array of role values' do
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[role.name, role.id.to_s]]
       end
     end

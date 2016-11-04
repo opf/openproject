@@ -53,12 +53,44 @@ module DemoData
     end
 
     def data
+      admin = User.admin.first
+      bug_type = Type.find_by(name: I18n.t('default_type_bug'))
+      milestone_type = Type.find_by(name: I18n.t('default_type_milestone'))
+      phase_type = Type.find_by(name: I18n.t('default_type_phase'))
+      task_type = Type.find_by(name: I18n.t('default_type_task'))
+      story_type = Type.find_by(name: I18n.t('default_type_user_story'))
+
       [
-        { name: "Bugs",         filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['7'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :create_at] },
-        { name: "Milestones",   filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['2'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
-        { name: "Phases",       filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['3'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
-        { name: "Tasks",        filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['1'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :priority, :subject, :assigned_to] },
-        { name: "User Stories", filters: [Queries::WorkPackages::Filter.new(:status_id, operator: "o"), Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: ['6'])], user_id: User.admin.first.id, is_public: true, column_names: [:id, :type, :status, :priority, :subject, :assigned_to] }
+        { name: "Bugs",
+          filters: [status_id: { operator: "o" },
+                    type_id: { operator: "=", values: [bug_type.id.to_s] }],
+          user_id: admin.id,
+          is_public: true,
+          column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :create_at] },
+        { name: "Milestones",
+          filters: [status_id: { operator: "o" },
+                    type_id: { operator: "=", values: [milestone_type.id.to_s] }],
+          user_id: admin.id,
+          is_public: true,
+          column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
+        { name: "Phases",
+          filters: [status_id: { operator: "o" },
+                    type_id: { operator: "=", values: [phase_type.id.to_s] }],
+          user_id: admin.id,
+          is_public: true,
+          column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
+        { name: "Tasks",
+          filters: [status_id: { operator: "o" },
+                    type_id: { operator: "=", values: [task_type.id.to_s] }],
+          user_id: admin.id,
+          is_public: true,
+          column_names: [:id, :type, :status, :priority, :subject, :assigned_to] },
+        { name: "User Stories",
+          filters: [status_id: { operator: "o" },
+                    type_id: { operator: "=", values: [story_type.id.to_s] }],
+          user_id: admin.id,
+          is_public: true,
+          column_names: [:id, :type, :status, :priority, :subject, :assigned_to] }
       ]
     end
   end

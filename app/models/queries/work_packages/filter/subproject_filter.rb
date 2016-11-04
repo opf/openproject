@@ -27,15 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::SubprojectFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
-
-  def initialize(project)
-    self.project = project
-  end
-
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::SubprojectFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values
+    @allowed_values ||= begin
       project.descendants.visible.map { |s| [s.name, s.id.to_s] }
     end
   end
@@ -54,7 +49,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter < Queries::WorkPackages::F
     13
   end
 
-  def name
+  def human_name
     I18n.t('query_fields.subproject_id')
   end
 

@@ -27,43 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
-
-  def initialize(project)
-    self.project = project
-  end
-
-  def [](name)
-    send(name)
-  end
-
-  def name
-    WorkPackage.human_attribute_name(self.class.name)
-  end
-
-  def values
-    nil
-  end
-
-  def available?
-    true
-  end
-
-  def key
-    self.class.key
-  end
+class Queries::Users::Orders::NameOrder < Queries::BaseOrder
+  self.model = User
 
   def self.key
-    name.to_sym
+    :name
   end
 
-  def self.create(project)
-    { key => new(project) }
-  end
-  private_class_method :new
+  private
 
-  def self.name
-    to_s.demodulize.underscore.gsub(/_filter$/, '')
+  def order
+    ordered = User.order_by_name
+
+    if direction == :desc
+      ordered = ordered.reverse_order
+    end
+
+    ordered
   end
 end
