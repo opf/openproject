@@ -226,14 +226,34 @@ describe ProjectsController, type: :controller do
       let(:project) { FactoryGirl.create(:project) }
       let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
       let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-      let(:request) do
-        put :custom_fields,
-            params: {
-              id: project.id,
-              project: {
-                work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
-              }
-            }
+
+      let(:params) do
+        {
+          id: project.id,
+          project: {
+            work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
+          }
+        }
+      end
+
+      let(:request) { put :custom_fields, params: params }
+
+      describe 'attribute visibility' do
+        let(:type) { FactoryGirl.create :type }
+        let(:custom_field_1) do
+          FactoryGirl.create :work_package_custom_field, types: [type]
+        end
+
+        before do
+          expect(type.attribute_visibility.keys).not_to include "custom_field_#{custom_field_1.id}"
+
+          request
+        end
+
+        it 'should be updated when a custom field was activated for the project' do
+          expect(type.reload.attribute_visibility["custom_field_#{custom_field_1.id}"])
+            .to eq("default")
+        end
       end
 
       context 'with valid project' do

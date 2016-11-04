@@ -207,9 +207,13 @@ class ProjectsController < ApplicationController
     Project.transaction do
       @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
       if @project.save
-        flash[:notice] = l(:notice_successful_update)
+        @project.work_package_custom_fields.flat_map(&:types).uniq.each do |type|
+          TypesHelper.update_type_attribute_visibility! type
+        end
+
+        flash[:notice] = t(:notice_successful_update)
       else
-        flash[:error] = l(:notice_project_cannot_update_custom_fields,
+        flash[:error] = t(:notice_project_cannot_update_custom_fields,
                           errors: @project.errors.full_messages.join(', '))
         raise ActiveRecord::Rollback
       end
