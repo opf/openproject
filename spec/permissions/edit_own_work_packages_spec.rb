@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,42 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class UpdateFormRepresenter < FormRepresenter
-        link :self do
-          {
-            href: api_v3_paths.work_package_form(represented.id),
-            method: :post
-          }
-        end
+require 'spec_helper'
+require File.expand_path('../../support/permission_specs', __FILE__)
 
-        link :validate do
-          {
-            href: api_v3_paths.work_package_form(represented.id),
-            method: :post
-          }
-        end
+describe WorkPackagesController, 'edit_own_work_packages permission', type: :controller do
+  include PermissionSpecs
 
-        link :previewMarkup do
-          {
-            href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
-            method: :post
-          }
-        end
+  check_permission_required_for('work_packages#edit', :edit_own_work_packages)
+  check_permission_required_for('work_packages#update', :edit_own_work_packages)
+  check_permission_required_for('work_packages#new_type', :edit_own_work_packages)
+  check_permission_required_for('work_packages#quoted', :edit_own_work_packages)
 
-        link :commit do
-          if (current_user.allowed_to?(:edit_work_packages, represented.project) ||
-              current_user.allowed_to?(:edit_own_work_packages, represented)) &&
-              @errors.empty?
-            {
-              href: api_v3_paths.work_package(represented.id),
-              method: :patch
-            }
-          end
-        end
-      end
-    end
-  end
+  check_permission_required_for('work_packages#preview', :edit_own_work_packages)
 end

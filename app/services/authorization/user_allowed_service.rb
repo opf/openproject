@@ -70,6 +70,8 @@ class Authorization::UserAllowedService
       context.present? && context.all? do |project|
         allowed_to?(action, project, options)
       end
+    elsif context.is_a? WorkPackage
+      @user == context.author && allowed_to_in_project?(action, context.project, options)
     elsif context.is_a? Project
       allowed_to_in_project?(action, context, options)
     else
@@ -129,6 +131,6 @@ class Authorization::UserAllowedService
   def supported_context?(context, options)
     (context.nil? && options[:global]) ||
       (!context.nil? && context.respond_to?(:to_a)) ||
-      context.is_a?(Project)
+      context.is_a?(WorkPackage) || context.is_a?(Project)
   end
 end

@@ -34,7 +34,11 @@ module API
       class AvailableProjectsOnEditAPI < ::API::OpenProjectAPI
         resource :available_projects do
           before do
-            authorize(:edit_work_packages, context: @work_package.project)
+            begin
+              authorize(:edit_work_packages, context: @work_package.project)
+            rescue API::Errors::Unauthorized
+              authorize(:edit_own_work_packages, context: @work_package)
+            end
           end
 
           get do
@@ -44,6 +48,12 @@ module API
             available_projects = WorkPackage
                                  .allowed_target_projects_on_move(current_user)
                                  .includes(Projects::ProjectCollectionRepresenter.to_eager_load)
+                                 .to_a
+            # permit user to at least see the currently
+            # assigned project
+            available_projects << @work_package.project
+            available_projects = available_projects
+                                 .uniq(&:id)
             self_link = api_v3_paths.available_projects_on_edit(@work_package.id)
             Projects::ProjectCollectionRepresenter.new(available_projects,
                                                        self_link,
