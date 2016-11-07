@@ -5,6 +5,10 @@ module.exports = function() {
       return;
     }
 
+    if (process.env.TRAVIS_IGNORE_TYPESCRIPT) {
+      return;
+    }
+
     var errors = stats.compilation.errors;
     if (errors && errors.length) {
       console.error(" ~~ The TYPESCRIPT DISCRUPTOR PLUGIN strikes again. ~~ ");
