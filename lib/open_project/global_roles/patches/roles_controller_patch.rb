@@ -56,7 +56,7 @@ module OpenProject::GlobalRoles::Patches
           flash[:notice] = l(:notice_successful_create)
           redirect_to action: 'index'
         else
-          @roles = Role.order('builtin, position').all
+          @roles = Role.order('builtin, position').to_a
           @member_permissions = Role.new.setable_permissions
           @global_permissions = GlobalRole.setable_permissions
           render template: 'roles/new'
