@@ -28,36 +28,28 @@
 
 div.wiki
   font-size: $wiki-default-font-size
-  $wiki-max-heading-font-size: 24px
-  line-height: 1.6em
+  $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
 
-  // this should be the same as a normal heading (see toolbar)
+  // this needs to be the same as a normal level 2 heading (see toolbar)
   h1
-    padding: 12px 0 0 0
-    border: 0
     font-size: $wiki-max-heading-font-size
-    line-height: 1.4
-    margin-bottom: 16px
-
   h2
-    font-size: $wiki-max-heading-font-size * 0.8
+    font-size: $wiki-max-heading-font-size * 0.93
   h3
-    font-size: $wiki-max-heading-font-size * 0.6
+    font-size: $wiki-max-heading-font-size * 0.86
   h4
-    font-size: $wiki-max-heading-font-size * 0.5
+    font-size: $wiki-max-heading-font-size * 0.79
+  h5
+    font-size: $wiki-max-heading-font-size * 0.72
+  h6
+    font-size: $wiki-max-heading-font-size * 0.65
 
-  h2, h3
-    margin: 1em 0 1em 0
+  h1, h2, h3, h4, h5, h6
+    margin: 1em 0
+    line-height: 1.5
     font-weight: bold
     color: #555555
     text-transform: none
-    border-bottom: 1px solid #bbbbbb
-
-  h2
-    padding: 2px 10px 1px 0
-
-  h3
-    padding: 0 10px 1px 0
     border-bottom: 1px dotted #bbbbbb
 
   table
@@ -109,6 +101,7 @@ div.wiki
   ol, ul
     padding: 0 0 0 2em
     margin: 0.3em 0
+    font-size: $wiki-default-font-size
 
   li
     list-style-position: outside
@@ -147,6 +140,8 @@ h1:hover, h2:hover, h3:hover
 .wiki
   p
     margin-bottom: 1em
+    font-size: $wiki_default-font-size
+
   p, span
     &.see-also, &.caution, &.important, &.info, &.tip, &.note
       display: block
@@ -213,4 +208,3 @@ blockquote
 @include breakpoint(680px down)
   .toolbar-container ~ .wiki-content
     margin-top: 0
-
