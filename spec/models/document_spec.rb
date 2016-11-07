@@ -114,7 +114,7 @@ describe Document do
                                        created_on: now)
     }
 
-    it { expect(document.event_datetime).to eq(now) }
+    it { expect(document.event_datetime.to_i).to eq(now.to_i) }
   end
 
   it "calls the DocumentsMailer, when a new document has been added" do
