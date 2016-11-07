@@ -23,7 +23,7 @@ module OpenProject::Costs
     alias :project :context
     alias :project= :context=
 
-    def values
+    def allowed_values
       CostObject
         .where(project_id: project)
         .order('subject ASC')
@@ -47,7 +47,7 @@ module OpenProject::Costs
       :list_optional
     end
 
-    def name
+    def human_name
       WorkPackage.human_attribute_name(:cost_object)
     end
   end
