@@ -42,7 +42,7 @@ module OpenProject::Backlogs
     alias :project :context
     alias :project= :context=
 
-    def values
+    def allowed_values
       [[I18n.t(:story, scope: [:backlogs]), 'story'],
        [I18n.t(:task, scope: [:backlogs]), 'task'],
        [I18n.t(:impediment, scope: [:backlogs]), 'impediment'],
@@ -66,7 +66,7 @@ module OpenProject::Backlogs
       :list
     end
 
-    def name
+    def human_name
       WorkPackage.human_attribute_name(:backlogs_work_package_type)
     end
 
