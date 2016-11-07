@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
         <label class="advanced-filters--filter-name">
           <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
-          <%= filter[:name] || WorkPackage.human_attribute_name(field) %>
+          <%= filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
         </label>
         <div class="advanced-filters--filter-operator">
           <%= label_tag "op_#{field}", l(:description_filter), class: "hidden-for-sighted" %>
