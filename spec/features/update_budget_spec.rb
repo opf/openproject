@@ -53,10 +53,11 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page).to have_content('Successful update')
 
       budget_page.toggle_unit_costs!
-      expect(budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
+      expect(page).to have_selector('tbody td.currency', text: '150.00 EUR')
       expect(budget_page.overall_unit_costs).to have_content '150.00 EUR'
 
       budget_page.toggle_labor_costs!
+      expect(page).to have_selector('tbody td.currency', text: '125.00 EUR')
       expect(budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '125.00 EUR'
     end
@@ -106,10 +107,12 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page).to have_content('Successful update')
 
       budget_page.toggle_unit_costs!
+      expect(page).to have_selector('tbody td.currency', text: '250.00 EUR')
       expect(budget_page.unit_costs_at(1)).to have_content '250.00 EUR'
       expect(budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
       budget_page.toggle_labor_costs!
+      expect(page).to have_selector('tbody td.currency', text: '75.00 EUR')
       expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
     end
