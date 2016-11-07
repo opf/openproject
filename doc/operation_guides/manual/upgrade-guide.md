@@ -1,3 +1,7 @@
+# OpenProject 6.0.x to OpenProject 6.1 Debian/Ubuntu Upgrade Guide
+
+Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 6.x is being released under the branch `stable/6`.
+
 # OpenProject 5.0.x to OpenProject 6.0 Debian/Ubuntu Upgrade Guide
 
 Upgrading your OpenProject 5.0.x installation to 6.0 is very easy. Please upgrade your OpenProject installation first to the latest stable 6.0 path.
