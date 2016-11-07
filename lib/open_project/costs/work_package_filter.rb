@@ -19,6 +19,10 @@
 
 module OpenProject::Costs
   class WorkPackageFilter < ::Queries::BaseFilter
+
+    alias :project :context
+    alias :project= :context=
+
     def values
       CostObject
         .where(project_id: project)
