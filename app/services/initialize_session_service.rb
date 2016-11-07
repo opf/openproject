@@ -50,7 +50,7 @@ class InitializeSessionService
     # We can only drop old sessions if they're stored in the database
     # and enabled by configuration.
     def drop_old_sessions?
-      OpenProject::Configuration.session_store == :active_record_store &&
+      OpenProject::Configuration.session_store.to_s == 'active_record_store' &&
         OpenProject::Configuration.drop_old_sessions_on_login?
     end
   end
