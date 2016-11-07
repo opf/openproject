@@ -116,6 +116,9 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = :random
 
+  # Use colored output
+  config.color = true
+
   # Seed global randomization in this process using the `--seed` CLI option.
   # Setting this allows you to use `--seed` to deterministically reproduce
   # test failures related to randomization by passing the same `--seed` value
