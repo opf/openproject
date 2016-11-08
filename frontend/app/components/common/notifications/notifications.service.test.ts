@@ -75,9 +75,15 @@ describe('NotificationsService', function () {
     });
   });
 
+  it('should throw an Error if trying to create an upload with uploads = null', function () {
+    expect(function () {
+      NotificationsService.addWorkPackageUpload('themUploads', null);
+    }).to.throw(Error);
+  });
+
   it('should throw an Error if trying to create an upload without uploads', function () {
     expect(function () {
-      NotificationsService.addWorkPackageUpload('themUploads');
+      NotificationsService.addWorkPackageUpload('themUploads', []);
     }).to.throw(Error);
   });
 

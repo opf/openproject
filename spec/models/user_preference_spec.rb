@@ -44,6 +44,10 @@ describe UserPreference do
     it 'activates no self notification' do
       expect(subject.others[:no_self_notified]).to be_truthy
     end
+
+    it 'disables auto hide popups' do
+      expect(subject.auto_hide_popups).to eql(false)
+    end
   end
 
   shared_examples 'accepts real and false booleans' do |setter, getter|
@@ -86,6 +90,12 @@ describe UserPreference do
     it_behaves_like 'accepts real and false booleans',
                     :warn_on_leaving_unsaved=,
                     :warn_on_leaving_unsaved?
+  end
+
+  describe 'auto hide popups' do
+    it_behaves_like 'accepts real and false booleans',
+                    :auto_hide_popups=,
+                    :auto_hide_popups?
   end
 
   describe 'time_zone' do
@@ -160,14 +170,17 @@ describe UserPreference do
       it 'will save the values on sending "save"' do
         subject.save
 
-        value = !subject[:no_self_notified]
+        value_no_self_notified = !subject[:no_self_notified]
+        value_auto_hide_popups = !subject[:auto_hide_popups]
 
-        subject[:no_self_notified] = value
+        subject[:no_self_notified] = value_no_self_notified
+        subject[:auto_hide_popups] = value_auto_hide_popups
 
         subject.save
         subject.reload
 
-        expect(subject[:no_self_notified]).to eql(value)
+        expect(subject[:no_self_notified]).to eql(value_no_self_notified)
+        expect(subject[:auto_hide_popups]).to eql(value_auto_hide_popups)
       end
     end
   end
