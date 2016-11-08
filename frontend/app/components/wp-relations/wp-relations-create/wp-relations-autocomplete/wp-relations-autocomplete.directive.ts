@@ -77,6 +77,12 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
           });
       };
 
+      scope.$watch('noResults', (noResults) => {
+        if (noResults) {
+          scope.selectedWpId = null;
+        }
+      });
+
       scope.$watch('autocompleteIsOpen', (isOpen) => {
         if (isOpen) {
           var searchInput = angular.element('input[uib-typeahead]');
