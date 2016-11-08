@@ -60,7 +60,7 @@ module Redmine
         end
 
         def available_custom_fields
-          CustomField.where("type = '#{self.class.name}CustomField'").order(:position)
+          CustomField.where(type: "#{self.class.name}CustomField").order(:position)
         end
 
         # Sets the values of the object's custom fields

@@ -80,7 +80,6 @@ describe Query, type: :model do
       let(:custom_field) do
         FactoryGirl.create :text_issue_custom_field, is_filter: true, is_for_all: true
       end
-      let(:query) { FactoryGirl.build(:query) }
 
       before do
         query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
