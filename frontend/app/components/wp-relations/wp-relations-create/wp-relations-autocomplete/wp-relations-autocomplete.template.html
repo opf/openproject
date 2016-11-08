@@ -1,9 +1,11 @@
 <form name="add_relation_form" class="form">
   <input type="text"
          class="wp-relations--autocomplete"
+         ng-class="{ '-error': noResults }"
          ng-model="selectedWp"
          typeahead-append-to-body="true"
          typeahead-on-select="onSelect($model)"
+         typeahead-no-results="noResults"
          typeahead-wait-ms="100"
          typeahead-input-formatter="getIdentifier($model)"
          typeahead-is-open="autocompleteIsOpen"
