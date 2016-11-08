@@ -13,41 +13,43 @@
             </div>
         </div>
     </div>
-    <div class="grid-block v-align wp-relations-create--form" ng-if="$ctrl.showRelationsCreateForm">
-        <div class="grid-content collapse medium-3">
-            <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
-            <select class="form--select relationTypeSelect"
-                    id="relation-type--select"
-                    ng-model="$ctrl.selectedRelationType"
-                    ng-options="type.name as type.label for type in $ctrl.relationTypes"
-                    focus>
-            </select>
-        </div>
-        <div class="grid-content medium-7">
-            <wp-relations-autocomplete
-                    work-package="$ctrl.workPackage"
-                    selected-wp-id="$ctrl.selectedWpId"
-                    selected-relation-type="$ctrl.selectedRelationType">
-            </wp-relations-autocomplete>
-        </div>
-        <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
-            <accessible-by-keyboard
-                    execute="$ctrl.createRelation()"
-                    is-disabled="!$ctrl.selectedWpId"
-                    link-class="wp-create-relation--save"
-                    aria-hidden="false">
-                <icon-wrapper icon-name="checkmark"
-                              icon-title="{{ ::$ctrl.text.save }}">
-                </icon-wrapper>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard
-                    execute="$ctrl.toggleRelationsCreateForm()"
-                    link-class="wp-create-relation--cancel"
-                    aria-hidden="false">
-                <icon-wrapper icon-name="remove"
-                              icon-title="{{ ::$ctrl.text.abort }}">
-                </icon-wrapper>
-            </accessible-by-keyboard>
+    <div cg-busy="{promise: $ctrl.loadingPromise, wrapperClass: 'cg-busy-inline', message: ''}">
+        <div class="grid-block v-align wp-relations-create--form" ng-if="$ctrl.showRelationsCreateForm">
+            <div class="grid-content collapse medium-3">
+                <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
+                <select class="form--select relationTypeSelect"
+                        id="relation-type--select"
+                        ng-model="$ctrl.selectedRelationType"
+                        ng-options="type.name as type.label for type in $ctrl.relationTypes"
+                        focus>
+                </select>
+            </div>
+            <div class="grid-content medium-7">
+                <wp-relations-autocomplete
+                        work-package="$ctrl.workPackage"
+                        selected-wp-id="$ctrl.selectedWpId"
+                        selected-relation-type="$ctrl.selectedRelationType">
+                </wp-relations-autocomplete>
+            </div>
+            <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+                <accessible-by-keyboard
+                        execute="$ctrl.createRelation()"
+                        is-disabled="!$ctrl.selectedWpId"
+                        link-class="wp-create-relation--save"
+                        aria-hidden="false">
+                    <icon-wrapper icon-name="checkmark"
+                                  icon-title="{{ ::$ctrl.text.save }}">
+                    </icon-wrapper>
+                </accessible-by-keyboard>
+                <accessible-by-keyboard
+                        execute="$ctrl.toggleRelationsCreateForm()"
+                        link-class="wp-create-relation--cancel"
+                        aria-hidden="false">
+                    <icon-wrapper icon-name="remove"
+                                  icon-title="{{ ::$ctrl.text.abort }}">
+                    </icon-wrapper>
+                </accessible-by-keyboard>
+            </div>
         </div>
     </div>
 </div>

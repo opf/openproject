@@ -13,35 +13,38 @@
             </div>
         </div>
     </div>
-    <div class="grid-block v-align wp-relations--parent-form"
-         ng-if="$ctrl.showRelationsCreateForm || $ctrl.externalFormToggle">
-        <div class="grid-content medium-10 collapse">
-            <wp-relations-autocomplete
-                    work-package="$ctrl.workPackage"
-                    selected-wp-id="$ctrl.selectedWpId"
-                    selected-relation-type="$ctrl.selectedRelationType"
-                    filter-candidates-for="parent"
-                    focus>
-            </wp-relations-autocomplete>
-        </div>
-        <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
-            <accessible-by-keyboard
-                    link-class="wp-create-relation--save"
-                    execute="$ctrl.createRelation()"
-                    class="wp-relations--save"
-                    aria-hidden="false">
-                <icon-wrapper icon-name="checkmark"
-                              icon-title="{{ ::$ctrl.text.save }}">
-                </icon-wrapper>
-            </accessible-by-keyboard>
-            <accessible-by-keyboard
-                    link-class="wp-create-relation--cancel"
-                    execute="$ctrl.toggleRelationsCreateForm()"
-                    aria-hidden="false">
-                <icon-wrapper icon-name="remove"
-                              icon-title="{{ ::$ctrl.text.abort }}">
-                </icon-wrapper>
-            </accessible-by-keyboard>
+    <div cg-busy="{promise: $ctrl.loadingPromise, wrapperClass: 'cg-busy-inline', message: ''}">
+        <div class="grid-block v-align wp-relations--parent-form"
+             ng-if="$ctrl.showRelationsCreateForm || $ctrl.externalFormToggle">
+            <div class="grid-content medium-10 collapse">
+                <wp-relations-autocomplete
+                        work-package="$ctrl.workPackage"
+                        loading-promise="$ctrl.loadingPromise"
+                        selected-wp-id="$ctrl.selectedWpId"
+                        selected-relation-type="$ctrl.selectedRelationType"
+                        filter-candidates-for="parent"
+                        focus>
+                </wp-relations-autocomplete>
+            </div>
+            <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+                <accessible-by-keyboard
+                        link-class="wp-create-relation--save"
+                        execute="$ctrl.createRelation()"
+                        class="wp-relations--save"
+                        aria-hidden="false">
+                    <icon-wrapper icon-name="checkmark"
+                                  icon-title="{{ ::$ctrl.text.save }}">
+                    </icon-wrapper>
+                </accessible-by-keyboard>
+                <accessible-by-keyboard
+                        link-class="wp-create-relation--cancel"
+                        execute="$ctrl.toggleRelationsCreateForm()"
+                        aria-hidden="false">
+                    <icon-wrapper icon-name="remove"
+                                  icon-title="{{ ::$ctrl.text.abort }}">
+                    </icon-wrapper>
+                </accessible-by-keyboard>
+            </div>
         </div>
     </div>
 </div>
