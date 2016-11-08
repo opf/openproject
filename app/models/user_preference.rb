@@ -74,9 +74,18 @@ class UserPreference < ActiveRecord::Base
     others[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
+  def auto_hide_popups=(value)
+    others[:auto_hide_popups] = to_boolean(value)
+  end
+
+  def auto_hide_popups?
+    others[:auto_hide_popups] || false
+  end
+
   # Provide an alias to form builders
   alias :comments_in_reverse_order :comments_in_reverse_order?
   alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
+  alias :auto_hide_popups :auto_hide_popups?
 
   def comments_in_reverse_order=(value)
     others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
