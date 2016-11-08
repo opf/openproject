@@ -63,7 +63,7 @@ Feature: Work package textile quickinfo links
     Then I should see a 1 hash work package quickinfo link to "January" within "div.wiki"
     When I follow the 1 hash work package quickinfo link to "January"
     Then I should see "January" within ".wp-edit-field.subject"
-     And I should be on the page of the work package "January"
+     And I should be on the page of the work package "January" in project "ecookbook"
 
   @javascript
   Scenario: Adding a work package quickinfo link
@@ -74,7 +74,7 @@ Feature: Work package textile quickinfo links
     Then I should see a 2 hashes work package quickinfo link to "January" within "div.wiki"
     When I follow the 2 hashes work package quickinfo link to "January"
     Then I should see "January" within ".wp-edit-field.subject"
-     And I should be on the page of the work package "January"
+     And I should be on the page of the work package "January" in project "ecookbook"
 
   @javascript
   Scenario: Adding a work package quickinfo link with description
@@ -85,7 +85,7 @@ Feature: Work package textile quickinfo links
     Then I should see a 3 hashes work package quickinfo link to "January" within "div.wiki"
     When I follow the 3 hashes work package quickinfo link to "January"
     Then I should see "January" within ".wp-edit-field.subject"
-     And I should be on the page of the work package "January"
+     And I should be on the page of the work package "January" in project "ecookbook"
 
 
   Scenario: Adding a work package quickinfo link without the right to see the work package
