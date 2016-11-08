@@ -120,16 +120,14 @@ export class WorkPackageRelationsController {
     this.getRelatedWorkPackages(relatedWpIds)
       .take(1)
       .subscribe(relatedWorkPackages => {
-        if (angular.isArray(relatedWorkPackages)) {
-          this.currentRelations = relatedWorkPackages.map((wp) => {
-            wp.relatedBy = relations[wp.id];
-            return wp;
-          });
+        if (!angular.isArray(relatedWorkPackages)) {
+          relatedWorkPackages = [relatedWorkPackages];
         }
-        else {
-          relatedWorkPackages.relatedBy = relations[relatedWorkPackages.id];
-          this.currentRelations[0] = relatedWorkPackages;
-        }
+
+        this.currentRelations = relatedWorkPackages.map((wp) => {
+          wp.relatedBy = relations[wp.id];
+          return wp;
+        });
 
         this.buildRelationGroups();
       });
