@@ -123,7 +123,8 @@ module API
             href: work_package_path(id: represented.id, format: :atom),
             type: 'application/rss+xml',
             title: 'Atom feed'
-          } if current_user_allowed_to(:export_work_packages, context: represented.project)
+          } if Setting.feeds_enabled? &&
+               current_user_allowed_to(:export_work_packages, context: represented.project)
         end
 
         link :available_relation_candidates do
