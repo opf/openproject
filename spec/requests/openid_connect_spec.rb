@@ -105,10 +105,6 @@ describe 'OpenID Connect' do
       expect(response.status).to be 302
       expect(response.location).to match /\/login$/
 
-      ##
-      # it should have created an account waiting to be activated
-      expect(flash[:notice]).to match /account.*created/
-
       user = User.find_by_mail(user_info[:email])
 
       expect(user).not_to be nil
