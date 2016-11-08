@@ -38,6 +38,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
     require: ['^wpRelations', '?^wpRelationsHierarchy'],
     scope: {
       selectedWpId: '=',
+      loadingPromise: '=',
       selectedRelationType: '=',
       filterCandidatesFor: '@',
       workPackage: '='
@@ -64,7 +65,10 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
           return [];
         }
 
-        return scope.workPackage
+        const deferred = $q.defer();
+        scope.loadingPromise = deferred.promise;
+
+        scope.workPackage
           .available_relation_candidates.$link.$fetch({
             query: query,
             type: scope.filterCandidatesFor
@@ -73,8 +77,10 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
               enabled: false
             }
           }).then(collection => {
-            return collection.elements;
-          });
+            deferred.resolve(collection.elements);
+          }).catch(() => deferred.reject());
+
+        return deferred.promise;
       };
 
       scope.$watch('autocompleteIsOpen', (isOpen) => {
