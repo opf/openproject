@@ -8,10 +8,10 @@ es:
         participants_attended: "Asistentes"
         participants_invited: "Invitados"
         start_time: "Tiempo"
-        start_time_hour: "Starting time"
+        start_time_hour: "Hora de inicio"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: 'no es una hora válida. Formato requerido: HH:MM'
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutos"
@@ -37,7 +37,7 @@ es:
   label_meeting_date_time: "Fecha/hora"
   label_meeting_diff: "Diferencia"
   label_notify: "Enviar para revisión"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "Enviar iCalendar"
   label_version: "Versión"
   label_time_zone: "Zona horaria"
   label_start_date: "Fecha de inicio"
@@ -53,11 +53,11 @@ es:
   permission_create_meeting_minutes: "Gestionar minutos"
   permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutos"
   project_module_meetings: "Reuniones"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "Duración en horas"
   text_in_hours: "en horas"
   text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: "¡El contenido no guardado de los minutos se perderá! ¿Continuar?"
   text_meeting_minutes_for_meeting: 'minutos para la reunión "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
   text_review_meeting_minutes: "%{author} ha puesto el %{link} para revisión."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"

@@ -8,7 +8,7 @@ it:
         participants_attended: "Invitati"
         participants_invited: "Invitati"
         start_time: "Tempo"
-        start_time_hour: "Starting time"
+        start_time_hour: "Ora di inizio"
     errors:
       messages:
         invalid_time_format: 'non è un tempo valido. Formato richiesto: HH: mm'
@@ -60,4 +60,4 @@ it:
   text_meeting_minutes_for_meeting: 'verbali per l''incontro "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha pubblicato %{link} per la revisione."
   text_review_meeting_minutes: "%{author} ha pubblicato %{link} per la revisione."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "Questa mail contiene un elemento di riunione ics qui in seguito:"
