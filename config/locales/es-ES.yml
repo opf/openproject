@@ -26,5 +26,5 @@ es:
   validation_failure_integer: "no es un entero válido"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Columnas seleccionadas"
+      selected_rows: "Filas seleccionadas"

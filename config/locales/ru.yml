@@ -26,5 +26,5 @@ ru:
   validation_failure_integer: "не является допустимым целым числом"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Выбранные столбцы"
+      selected_rows: "Выбранные строки"
