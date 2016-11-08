@@ -1,6 +1,6 @@
 ru:
-  button_edit_this_page: "Edit this page"
-  error_saving_changes: 'The changes could not be saved: %{errors}'
+  button_edit_this_page: "Редактировать эту страницу"
+  error_saving_changes: 'Не удалось сохранить изменения: %{errors}'
   label_hidden_elements: "Скрытые элементы"
   label_visible_elements: "Видимые элементы"
   label_project_description: "Описание проекта"
@@ -12,7 +12,7 @@ ru:
   label_work_packages_responsible_for: "Пакеты работ, за которые я несу ответственность"
   label_work_packages_assigned_to_me: "Пакеты работ, предназначенные мне"
   label_work_packages_watched: "Наблюдаемые пакеты работ"
-  label_work_package_tracking: " Work package tracking"
+  label_work_package_tracking: " Отслеживание комплекса работ"
   label_members: "Участники"
   label_subprojects: "Подпроекты"
   project_page:
