@@ -84,11 +84,16 @@ export class WorkPackageTimelineService {
     this.globalElementsRegistry["today"] = (wp: WorkPackage, elem: HTMLDivElement) => {
       elem.style.position = "absolute";
       elem.style.width = "2px";
-      elem.style.borderLeft = "2px dotted red";
+      elem.style.borderLeft = "2px solid red";
       elem.style.zIndex = "10";
       const offsetToday = this._viewParameters.now.diff(this._viewParameters.dateDisplayStart, "days");
       elem.style.left = calculatePositionValueForDayCount(this._viewParameters, offsetToday);
     };
+
+
+    // setTimeout(() => {
+    //   console.log("time up");
+    // }, 3000);
 
   }
 
@@ -113,7 +118,14 @@ export class WorkPackageTimelineService {
         const wp = renderInfo.workPackage;
         this.workPackagesInView[wp.id] = wp;
 
-        const viewParamsChanged = this.calculateViewParams();
+        // console.log("start1:" + this._viewParameters.dateDisplayStart.toString());
+
+        const viewParamsChanged = this.calculateViewParams(renderInfo.viewParams);
+
+        // console.log("changed:" + viewParamsChanged);
+        // console.log("start2:" + this._viewParameters.dateDisplayStart.toString());
+        // console.log("");
+
         if (viewParamsChanged) {
           // view params have changed, notify all cells
           this.viewParamsSubject.onNext(this._viewParameters);
@@ -125,12 +137,15 @@ export class WorkPackageTimelineService {
       });
   }
 
-  private calculateViewParams(): boolean {
-    let changed = false;
+  private calculateViewParams(currentParams: TimelineViewParameters): boolean {
+    console.log("calculateViewParams()");
+
     const newParams = new TimelineViewParameters();
+    let changed = false;
 
     // Calculate view parameters
     for (const wpId in this.workPackagesInView) {
+      console.log("    wpId=" + wpId);
       const workPackage = this.workPackagesInView[wpId];
 
       if (workPackage.startDate && workPackage.dueDate) {
@@ -138,26 +153,28 @@ export class WorkPackageTimelineService {
         const due = moment(workPackage.dueDate as any);
 
         // start date
-        newParams.dateDisplayStart = moment.min(newParams.dateDisplayStart, newParams.now, start);
+        newParams.dateDisplayStart = moment.min(currentParams.dateDisplayStart, currentParams.now, start);
 
         // due date
-        newParams.dateDisplayEnd = moment.max(newParams.dateDisplayEnd, newParams.now, due);
+        newParams.dateDisplayEnd = moment.max(currentParams.dateDisplayEnd, currentParams.now, due);
       }
     }
 
     // Check if view params changed:
 
     // start date
-    if (!this._viewParameters.dateDisplayStart.isSame(newParams.dateDisplayStart)) {
+    if (!newParams.dateDisplayStart.isSame(currentParams.dateDisplayStart)) {
       changed = true;
-      this._viewParameters.dateDisplayStart = newParams.dateDisplayStart;
+      this._viewParameters.dateDisplayStart = currentParams.dateDisplayStart;
     }
 
     // end date
-    if (!this._viewParameters.dateDisplayEnd.isSame(newParams.dateDisplayEnd)) {
+    if (!newParams.dateDisplayEnd.isSame(currentParams.dateDisplayEnd)) {
       changed = true;
-      this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
+      this._viewParameters.dateDisplayEnd = currentParams.dateDisplayEnd;
     }
+
+    console.log("        changed=" + changed);
 
     return changed;
   }

@@ -52,7 +52,7 @@ export class WorkPackageTimelineCell {
               private workPackageId: string,
               private timelineCell: HTMLTableElement) {
 
-    this.wpState = this.states.workPackages.get(this.workPackageId);
+    // this.wpState = this.states.workPackages.get(this.workPackageId);
   }
 
   activate() {
@@ -83,7 +83,6 @@ export class WorkPackageTimelineCell {
     const viewParams = renderInfo.viewParams;
     const wp = renderInfo.workPackage;
 
-    // const cellHeight = jQuery(this.timelineCell).outerHeight();
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
 
