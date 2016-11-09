@@ -67,7 +67,7 @@ export class interactiveTableController {
     // Watch for updates not coming through the above methods
     // e.g., attributes in the table inititally rendering such as the progress bar
     // will cause the table width to expand
-    var stopInterval = $interval(() => this.refreshWhenNeeded(), 1000, false);
+    var stopInterval = $interval(() => this.refreshWhenNeeded(), 1000, 0, false);
     $scope.$on('$destroy', () => {
       $interval.cancel(stopInterval);
     });
