@@ -26,5 +26,5 @@ ko:
   validation_failure_integer: "은(는) 유효한 정수가 아닙니다."
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "선택된 열"
+      selected_rows: "선택된 행"

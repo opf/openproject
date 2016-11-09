@@ -26,5 +26,5 @@ zh-CN:
   validation_failure_integer: "不是有效的整数"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "选定的列"
+      selected_rows: "选定的行"

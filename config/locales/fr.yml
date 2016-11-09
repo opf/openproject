@@ -26,5 +26,5 @@ fr:
   validation_failure_integer: "n'est pas un nombre entier valide"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Colonnes sélectionnées"
+      selected_rows: "Lignes sélectionnées"
