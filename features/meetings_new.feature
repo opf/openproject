@@ -39,6 +39,7 @@ Feature: Create new meetings
         And I go to the Meetings page for the project called "dingens"
        Then I should not see "New Meeting"
 
+  @javascript
   Scenario: Navigate to the meeting index page with permission to create new meetings
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -47,6 +48,7 @@ Feature: Create new meetings
         And I go to the Meetings page for the project called "dingens"
        Then I should see "New Meeting"
 
+  @javascript
   Scenario: Create a new meeting with no title
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -84,6 +86,7 @@ Feature: Create new meetings
     |                            |
     | Pacific Time (US & Canada) |
 
+  @javascript
   Scenario: Visit the new meeting page to make sure the author is selected as invited
       Given the role "user" may have the following rights:
             | view_meetings   |
@@ -93,6 +96,7 @@ Feature: Create new meetings
         And I click on "New Meeting"
        Then the "meeting[participants_attributes][][invited]" checkbox should be checked
 
+  @javascript
   Scenario: Create a meeting in a project without members shouldn't error out
     Given there is 1 project with the following:
       | identifier | foreverempty |

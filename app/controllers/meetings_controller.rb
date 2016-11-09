@@ -19,11 +19,11 @@
 #++
 
 class MeetingsController < ApplicationController
-  around_filter :set_time_zone
-  before_filter :find_project, only: [:index, :new, :create]
-  before_filter :find_meeting, except: [:index, :new, :create]
-  before_filter :convert_params, only: [:create, :update]
-  before_filter :authorize
+  around_action :set_time_zone
+  before_action :find_project, only: [:index, :new, :create]
+  before_action :find_meeting, except: [:index, :new, :create]
+  before_action :convert_params, only: [:create, :update]
+  before_action :authorize
 
   helper :watchers
   helper :meeting_contents

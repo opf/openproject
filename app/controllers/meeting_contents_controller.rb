@@ -31,8 +31,8 @@ class MeetingContentsController < ApplicationController
   helper :watchers
   helper :meetings
 
-  before_filter :find_meeting, :find_content
-  before_filter :authorize
+  before_action :find_meeting, :find_content
+  before_action :authorize
 
   def show
     if params[:id].present? && @content.version == params[:id].to_i
@@ -83,24 +83,29 @@ class MeetingContentsController < ApplicationController
 
   def notify
     unless @content.new_record?
-      author_mail = @content.meeting.author.mail
-      do_not_notify_author = @content.meeting.author.pref[:no_self_notified]
+      service = MeetingNotificationService.new(@meeting, @content_type)
+      result = service.call(@content, :content_for_review)
 
-      recipients_with_errors = []
-      @content.meeting.participants.each do |recipient|
-        begin
-          next if recipient.mail == author_mail && do_not_notify_author
-          MeetingMailer.content_for_review(@content, @content_type, recipient.mail).deliver_now
-        rescue => e
-          logger.error { "Failed to send review notification to #{recipient}: #{e.message}" }
-          recipients_with_errors << recipient
-        end
-      end
-      if recipients_with_errors == []
+      if result.success?
         flash[:notice] = l(:notice_successful_notification)
       else
         flash[:error] = l(:error_notification_with_errors,
-                          recipients: recipients_with_errors.map(&:name).join('; '))
+                          recipients: result.errors.map(&:name).join('; '))
+      end
+    end
+    redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting
+  end
+
+  def icalendar
+    unless @content.new_record?
+      service = MeetingNotificationService.new(@meeting, @content_type)
+      result = service.call(@content, :icalendar_notification)
+
+      if result.success?
+        flash[:notice] = l(:notice_successful_notification)
+      else
+        flash[:error] = l(:error_notification_with_errors,
+                          recipients: result.errors.map(&:name).join('; '))
       end
     end
     redirect_back_or_default controller: '/meetings', action: 'show', id: @meeting

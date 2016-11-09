@@ -65,7 +65,7 @@ See doc/COPYRIGHT.md for more details.
 <% end -%>
 
 <p class="pagination">
-  <%= link_to_content_update(l(:label_today), params.merge(:page => @page_of_today, :anchor => Date.today.strftime("%m-%d-%Y"))) %>
+  <%= link_to_content_update(l(:label_today), page: @page_of_today, anchor: Date.today.strftime("%m-%d-%Y")) %>
   <%= pagination_links_full @meetings, :container => false %>
 </p>
 
