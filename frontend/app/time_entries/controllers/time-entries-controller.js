@@ -35,18 +35,18 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
-  function timeEntriesPath(projectId, workPackageId) {
-    if (workPackageIdentifier) {
+  $scope.timeEntriesPath = function timeEntriesPath(projectId, workPackageId) {
+    if (projectId) {
+      return PathHelper.projectTimeEntriesPath(projectId);
+    } else {
       return PathHelper.timeEntriesPath(workPackageId);
-    } else if (projectIdentifier) {
-      return PathHelper.projectTimeEntriesPath(projectIdentifier);
     }
   }
 
   $scope.loadTimeEntries = function() {
     $scope.isLoading = true;
 
-    $http.get(PathHelper.timeEntriesPath(gon.project_id, gon.work_package_id),
+    $http.get($scope.timeEntriesPath(gon.project_id, gon.work_package_id),
               {
                 params: {
                           sort: SortService.getSortParam(),

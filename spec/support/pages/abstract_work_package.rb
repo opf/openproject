@@ -30,10 +30,11 @@ require 'support/pages/page'
 
 module Pages
   class AbstractWorkPackage < Page
-    attr_reader :work_package, :type_field_selector, :subject_field_selector
+    attr_reader :project, :work_package, :type_field_selector, :subject_field_selector
 
-    def initialize(work_package)
+    def initialize(work_package, project = nil)
       @work_package = work_package
+      @project = project
 
       @type_field_selector = '.wp-edit-field.type'
       @subject_field_selector = '.wp-edit-field.subject'
@@ -74,17 +75,10 @@ module Pages
     end
 
     def ensure_page_loaded
-      tries = 0
-      begin
-        find('.work-package-details-activities-activity-contents .user',
-             text: work_package.journals.last.user.name,
-             wait: 10)
-      rescue => e
-        # HACK This error may happen since activities are loaded several times
-        # in the old resource, and may cause a reload.
-        tries += 1
-        retry unless tries > 5
-      end
+      expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                    text: work_package.journals.last.user.name,
+                                    minimum: 1,
+                                    wait: 10)
     end
 
     def expect_attributes(attribute_expectations)
@@ -118,8 +112,8 @@ module Pages
 
       visit_tab!('relations')
 
-      expect(page).to have_selector('.relation.parent .work_package',
-                                    text: "##{parent.id} #{parent.type.name}: #{parent.subject}")
+      expect(page).to have_selector('.relation-row a',
+                                    text: "#{parent.type.name}: #{parent.subject}")
     end
 
     def update_attributes(key_value_map, save: true)
@@ -128,13 +122,8 @@ module Pages
 
     def set_attributes(key_value_map, save: true)
       key_value_map.each_with_index.map do |(key, value), index|
-        field = work_package_field key
-        field.activate_edition
-
-        field.set_value value
-        # select fields are saved on change
-        field.save! if save && field.input_element.tag_name != 'select'
-
+        field = work_package_field(key)
+        field.update(value, save: save)
         unless index == key_value_map.length - 1
           ensure_no_conflicting_modifications
         end
@@ -150,6 +139,8 @@ module Pages
         else
           WorkPackageField.new page, key
         end
+      elsif key == :description
+        WorkPackageTextAreaField.new page, key
       else
         WorkPackageField.new page, key
       end
@@ -158,9 +149,8 @@ module Pages
     def add_child
       visit_tab!('relations')
 
-      page.find('.relation a', text: I18n.t('js.relation_labels.children')).click
-
-      click_button I18n.t('js.relation_buttons.add_child')
+      page.find('.wp-inline-create--add-link',
+                text: I18n.t('js.relation_buttons.add_new_child')).click
 
       create_page(parent_work_package: work_package)
     end
@@ -212,6 +202,12 @@ module Pages
 
     def click_add_wp_button
       find('.add-work-package:not([disabled])', text: 'Work package').click
+    end
+
+    def click_create_wp_button(type)
+      find('.add-work-package:not([disabled])', text: 'Create').click
+
+      find('#types-context-menu .menu-item', text: type, wait: 10).click
     end
 
     def select_type(type)

@@ -46,19 +46,19 @@ class Token < ActiveRecord::Base
 
   # Delete all expired tokens
   def self.destroy_expired
-    Token.delete_all ["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]
+    Token.where(["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]).delete_all
   end
-
-  private
 
   def self.generate_token_value
     SecureRandom.hex(20)
   end
 
+  private
+
   # Removes obsolete tokens (same user and action)
   def delete_previous_tokens
     if user
-      Token.delete_all(['user_id = ? AND action = ?', user.id, action])
+      Token.where(user_id: user.id, action: action).delete_all
     end
   end
 

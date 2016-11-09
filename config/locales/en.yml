@@ -212,6 +212,21 @@ en:
 
   actionview_instancetag_blank_option: "Please select"
 
+  activemodel:
+    errors:
+      models:
+        "relations/base_contract":
+          attributes:
+            to:
+              error_not_found: "work package in `to` position not found or not visible"
+              error_readonly: "an existing relation's `to` link is immutable"
+            from:
+              error_not_found: "work package in `from` position not found or not visible"
+              error_readonly: "an existing relation's `from` link is immutable"
+        "users/base_contract":
+          attributes:
+            status:
+              invalid_on_create: "is not a valid status for new users."
   activerecord:
     attributes:
       announcements:
@@ -290,13 +305,13 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
+        current_password: "Current password"
+        force_password_change: "Enforce password change on next login"
         language: "Language"
         last_login_on: "Last login"
         mail_notification: "Email notifications"
-        current_password: "Current password"
         new_password: "New password"
         password_confirmation: "Confirmation"
-        force_password_change: "Enforce password change on next login"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
@@ -314,18 +329,15 @@ en:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
-        name: Name
         hexcode: Hex code
       project_association:
         description: Cause
         project_b: 'Dependent project'
       project_type:
         allows_association: Allows association
-        name: Name
         reported_project_statuses: Reported project statuses
         position: Position
       timeline:
-        name: Name
         options: ""
       reporting:
         reported_project_status_comment: Status comment
@@ -358,6 +370,7 @@ en:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
+        does_not_exist: "does not exist."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -395,6 +408,11 @@ en:
         project_association:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
+        query:
+          filters:
+            custom_fields:
+              inexistent: "There is no custom field for the filter."
+              invalid: "The custom field is not valid in the given context."
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
@@ -408,7 +426,6 @@ en:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
-              does_not_exist: "does not exist."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
             status_id:
@@ -765,10 +782,12 @@ en:
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
+  error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
@@ -1021,6 +1040,7 @@ en:
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
   label_incoming_emails: "Incoming emails"
+  label_includes: 'includes'
   label_index_by_date: "Index by date"
   label_index_by_title: "Index by title"
   label_information: "Information"
@@ -1029,25 +1049,6 @@ en:
   label_internal: "Internal"
   label_invite_user: "Invite user"
   label_show_hide: "Show/hide"
-  label_work_package_added: "Work package added"
-  label_work_package_category_new: "New category"
-  label_work_package_category_plural: "Work package categories"
-  label_work_package_hierarchy: "Work package hierarchy"
-  label_work_package_new: "New work package"
-  label_work_package_note_added: "Work package note added"
-  label_work_package_edit: "Edit work package %{name}"
-  label_work_package_plural: "Work packages"
-  label_work_package_priority_updated: "Work package priority updated"
-  label_work_package_status_new: "New status"
-  label_work_package_status_plural: "Work package statuses"
-  label_work_package_tracking: "Work package tracking"
-  label_work_package_updated: "Work package updated"
-  label_work_package_view_all: "View all work packages"
-  label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
-  label_work_package_view_all_reported_by_me: "View all work packages reported by me"
-  label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
-  label_work_package_view_all_watched: "View all watched work packages"
-  label_work_package_watchers: "Watchers"
   label_journal: "Journal"
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
@@ -1130,6 +1131,7 @@ en:
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
+  label_part_of: "part of"
   label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
@@ -1193,6 +1195,8 @@ en:
   label_repository: "Repository"
   label_repository_root: "Repository root"
   label_repository_plural: "Repositories"
+  label_required: 'required'
+  label_requires: 'requires'
   label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
@@ -1207,7 +1211,7 @@ en:
   label_role_and_permissions: "Roles and permissions"
   label_role_new: "New role"
   label_role_plural: "Roles"
-  label_role_search: "Assign roles to new members"
+  label_role_search: "Assign role to new members"
   label_scm: "SCM"
   label_search: "Search"
   label_search_titles_only: "Search titles only"
@@ -1303,10 +1307,27 @@ en:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_work_package: "Work package"
-  label_work_package_plural: "Work packages"
+  label_work_package_added: "Work package added"
+  label_work_package_category_new: "New category"
+  label_work_package_category_plural: "Work package categories"
+  label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
+  label_work_package_note_added: "Work package note added"
+  label_work_package_edit: "Edit work package %{name}"
+  label_work_package_plural: "Work packages"
+  label_work_package_priority_updated: "Work package priority updated"
   label_work_package_status: "Work package status"
+  label_work_package_status_new: "New status"
+  label_work_package_status_plural: "Work package statuses"
   label_work_package_types: "Work package types"
+  label_work_package_updated: "Work package updated"
+  label_work_package_tracking: "Work package tracking"
+  label_work_package_view_all: "View all work packages"
+  label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
+  label_work_package_view_all_reported_by_me: "View all work packages reported by me"
+  label_work_package_view_all_responsible_for: "View all work packages that I am responsible for"
+  label_work_package_view_all_watched: "View all watched work packages"
+  label_work_package_watchers: "Watchers"
   label_workflow: "Workflow"
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
@@ -1424,13 +1445,14 @@ en:
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
   notice_member_added: Added %{name} to the project.
-  notice_members_added: Added %{number} users to the the project.
+  notice_members_added: Added %{number} users to the project.
   notice_member_removed: "Removed %{user} from project."
   notice_member_deleted: "%{user} has been removed from the project and deleted."
   notice_no_principals_found: "No results found."
   notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
+  notice_password_confirmation_failed: "Your password is not correct. The changes were not saved."
   notice_project_not_deleted: "The project wasn't deleted."
   notice_successful_connection: "Successful connection."
   notice_successful_create: "Successful creation."
@@ -1471,7 +1493,7 @@ en:
   onboarding:
     text_getting_started: "This video provides you an overview of OpenProject. It helps you to set up your first project and to start collaborating with your team members."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Hi %{name}, welcome to OpenProject"
+    welcome: "Welcome to OpenProject"
 
   permission_add_work_package_notes: "Add notes"
   permission_add_work_packages: "Add work packages (also allows to add attachments to all work packages)"
@@ -1677,7 +1699,7 @@ en:
     warnings:
       cannot_annotate: "This file cannot be annotated."
 
-  search_input_placeholder: "search ..."
+  search_input_placeholder: "Search ..."
 
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
@@ -2100,8 +2122,6 @@ en:
 
   queries:
     apply_filter: Apply preconfigured filter
-
-  label_work_package_hierarchy: "Work Package Hierarchy"
 
   top_menu:
     additional_resources: "Additional resources"

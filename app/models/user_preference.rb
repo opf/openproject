@@ -119,7 +119,7 @@ class UserPreference < ActiveRecord::Base
   private
 
   def to_boolean(value)
-    ActiveRecord::Type::Boolean.new.type_cast_from_user(value)
+    ActiveRecord::Type::Boolean.new.cast(value)
   end
 
   def init_other_preferences

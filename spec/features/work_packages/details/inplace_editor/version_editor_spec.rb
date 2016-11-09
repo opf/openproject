@@ -29,32 +29,26 @@ describe 'subject inplace editor', js: true, selenium: true do
   }
 
   let(:property_name) { :version }
-  let!(:work_package) { FactoryGirl.create :work_package, project: project }
+  let(:work_package) { FactoryGirl.create :work_package, project: project }
   let(:user) { FactoryGirl.create :admin }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:field) { WorkPackageField.new page, property_name }
+  let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
 
   before do
     login_as(user)
-    work_packages_page.visit_show(work_package)
-    within '.panel-toggler' do
-      find('a', text: 'Show all attributes').click
-    end
-    field.activate_edition
   end
 
   it 'renders hierarchical versions' do
-    expect(page).to have_selector('.inplace-edit.project span', text: 'Root')
-    expect(page).to have_selector('.attributes-key-value--key span', text: 'Version')
+    work_package_page.visit!
+    work_package_page.view_all_attributes
+    work_package_page.ensure_page_loaded
 
-    expect(page).to have_selector("#{field.field_selector}.-editable")
-    expect(page).to have_selector("#{field.field_selector} select")
+    field = work_package_page.work_package_field(:version)
+    field.activate!
 
     options = page.all("#{field.field_selector} select option")
     expect(options.map(&:text)).to eq(['-', version3.name, version2.name, version.name])
 
     options[1].select_option
-
     field.expect_state_text(version3.name)
   end
 end

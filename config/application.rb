@@ -67,6 +67,7 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
+require File.dirname(__FILE__) + '/../app/middleware/params_parser_with_exclusion'
 require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
@@ -81,36 +82,31 @@ module OpenProject
     # different ETag on every request, Rack::Deflater has to be in the chain of
     # middlewares after Rack::ETag.  #insert_before is used because on
     # responses, the middleware stack is processed from top to bottom.
-    config.middleware.insert_before 'Rack::ETag', 'Rack::Deflater'
+    config.middleware.insert_before Rack::ETag,
+                                    Rack::Deflater,
+                                    if: lambda { |_env, _code, headers, _body|
+                                      # Firefox fails to properly decode gzip attachments
+                                      # We thus avoid deflating if sending gzip already.
+                                      content_type = headers['Content-Type']
+                                      content_type != 'application/x-gzip'
+                                    }
 
-    config.middleware.swap ActionDispatch::ParamsParser,
-                           'ParamsParserWithExclusion',
-                           exclude: -> (env) {
-                             env['PATH_INFO'] =~ /\/api\/v3/
-                           }
+    config.middleware.use ::ParamsParserWithExclusion,
+                          exclude: -> (env) {
+                            env['PATH_INFO'] =~ /\/api\/v3/
+                          }
 
     config.middleware.use Rack::Attack
     config.middleware.use ::ResetCurrentUser
 
-    ##
-    # Support XML requests as params for APIv2
-    # TODO: Remove this and 'actionpack-xml_parser' dependency when removing V2
-    config.middleware.insert_after 'ParamsParserWithExclusion', ActionDispatch::XmlParamsParser
-
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
+    config.enable_dependency_loading = true
     config.autoload_paths << Rails.root.join('lib')
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
-
-    # Activate observers that should always be running.
-    # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-    config.active_record.observers = :message_observer,
-                                     :news_observer,
-                                     :wiki_content_observer,
-                                     :comment_observer
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -142,9 +138,6 @@ module OpenProject
     if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
       instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     end
-
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
 
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []

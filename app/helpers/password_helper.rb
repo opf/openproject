@@ -28,6 +28,37 @@
 #++
 
 module PasswordHelper
+  include Concerns::PasswordConfirmation
+
+  ##
+  # Decorate the form_for helper with the request-for-confirmation directive
+  # when the user is internally authenticated.
+  def password_confirmation_form_for(record, options = {}, &block)
+    if password_confirmation_required?
+      options.reverse_merge!(html: {})
+      data = options[:html].fetch(:data, {})
+      data[:'request-for-confirmation'] = ''
+
+      options[:html][:data] = data
+    end
+
+    form_for(record, options, &block)
+  end
+
+  ##
+  # Decorate the form_tag helper with the request-for-confirmation directive
+  # when the user is internally authenticated.
+  def password_confirmation_form_tag(url_for_options = {}, options = {}, &block)
+    if password_confirmation_required?
+      data = options.fetch(:data, {})
+      data[:'request-for-confirmation'] = ''
+
+      options[:data] = data
+    end
+
+    form_tag(url_for_options, options, &block)
+  end
+
   def render_password_complexity_tooltip
     rules = password_rules_description
 

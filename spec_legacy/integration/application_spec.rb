@@ -28,7 +28,7 @@
 #++
 require_relative '../legacy_spec_helper'
 
-describe 'Application' do
+describe 'Application', with_settings: { login_required?: false } do
   include Redmine::I18n
 
   def document_root_element
@@ -36,12 +36,6 @@ describe 'Application' do
   end
 
   fixtures :all
-
-  around do |example|
-    with_settings login_required: '0' do
-      example.run
-    end
-  end
 
   it 'set localization' do
     allow(Setting).to receive(:available_languages).and_return [:de, :en]

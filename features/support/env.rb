@@ -87,20 +87,12 @@ Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
 end
 
-require 'capybara/poltergeist'
-Capybara.register_driver :poltergeist do |app|
-  options = {
-    js_errors: false,
-    window_size: [1200, 1000],
-    timeout: 60
-  }
-  Capybara::Poltergeist::Driver.new(app, options)
-end
-# Disable using poltergeist until we upgraded jenkins workers
-# Capybara.javascript_driver = :poltergeist
-
-# Use selenium until we upgraded jenkins workers
 Capybara.javascript_driver = :selenium
+
+Capybara.server do |app, port|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, Port: port)
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -156,6 +148,11 @@ Before do
   if Capybara.current_driver == :poltergeist
     page.driver.headers = { "Accept-Language" => "en" }
   end
+end
+
+Before do
+  FactoryGirl.create(:non_member)
+  FactoryGirl.create(:anonymous_role)
 end
 
 # Capybara.register_driver :selenium do |app|

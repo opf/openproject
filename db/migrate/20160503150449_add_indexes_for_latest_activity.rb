@@ -1,4 +1,4 @@
-class AddIndexesForLatestActivity < ActiveRecord::Migration
+class AddIndexesForLatestActivity < ActiveRecord::Migration[4.2]
   def change
     add_index :work_packages, [:project_id, :updated_at]
     add_index :news, [:project_id, :created_on]

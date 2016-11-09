@@ -32,8 +32,7 @@ feature 'Top menu items', js: true, selenium: true do
   let(:user) { FactoryGirl.create :user }
   let(:open_menu) { true }
 
-  def has_menu_items(*labels)
-
+  def has_menu_items?(*labels)
     within '#top-menu' do
       labels.each do |l|
         expect(page).to have_link(l)
@@ -44,8 +43,21 @@ feature 'Top menu items', js: true, selenium: true do
     end
   end
 
+  def click_link_in_open_menu(title)
+    # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
+    # the click might be ignored
+
+    within '.drop-down.open ul[aria-expanded=true]' do
+      expect(page).not_to have_selector('[style~=overflow]')
+
+      page.find_link(title).find('span').click
+    end
+  end
+
   before do |ex|
     allow(User).to receive(:current).and_return user
+    FactoryGirl.create(:anonymous_role)
+    FactoryGirl.create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
       allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
@@ -59,49 +71,43 @@ feature 'Top menu items', js: true, selenium: true do
     let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
     let(:news_item) { I18n.t('label_news_plural') }
-    let(:work_packages_item) { I18n.t('label_work_package_plural') }
     let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
 
-    let(:all_items) { [news_item, work_packages_item, time_entries_item] }
+    let(:all_items) { [news_item, time_entries_item] }
 
     context 'as an admin' do
       let(:user) { FactoryGirl.create :admin }
       it 'displays all items' do
-        has_menu_items(work_packages_item, time_entries_item, news_item)
-      end
-
-      it 'visits the work package page' do
-        click_link work_packages_item
-        expect(current_path).to eq(work_packages_path)
+        has_menu_items?(time_entries_item, news_item)
       end
 
       it 'visits the time sheet page' do
-        click_link time_entries_item
-        expect(current_path).to eq(time_entries_path)
+        click_link_in_open_menu(time_entries_item)
+        expect(page).to have_current_path(time_entries_path)
       end
 
-      it 'visits the work package page' do
-        click_link news_item
-        expect(current_path).to eq(news_index_path)
+      it 'visits the news page' do
+        click_link_in_open_menu(news_item)
+        expect(page).to have_current_path(news_index_path)
       end
     end
 
     context 'as a regular user' do
       it 'displays news only' do
-        has_menu_items news_item
+        has_menu_items? news_item
       end
     end
 
     context 'as a user with permissions', allowed_to: true do
       it 'displays all options' do
-        has_menu_items(work_packages_item, time_entries_item, news_item)
+        has_menu_items?(time_entries_item, news_item)
       end
     end
 
     context 'as an anonymous user' do
       let(:user) { FactoryGirl.create :anonymous }
       it 'displays only news' do
-        has_menu_items news_item
+        has_menu_items? news_item
       end
     end
   end
@@ -116,22 +122,19 @@ feature 'Top menu items', js: true, selenium: true do
     context 'as an admin' do
       let(:user) { FactoryGirl.create :admin }
       it 'displays all items' do
-        has_menu_items(new_project, all_projects)
+        has_menu_items?(new_project, all_projects)
       end
 
       it 'visits the work package page' do
-        within '.drop-down--projects' do
-          click_link new_project
-        end
+        click_link_in_open_menu(new_project)
 
-        expect(current_path).to eq(new_project_path)
+        expect(page).to have_current_path(new_project_path)
       end
 
-      it 'visits the time sheet page' do
-        within '.drop-down--projects' do
-          click_link all_projects
-        end
-        expect(current_path).to eq(projects_path)
+      it 'visits the projects page' do
+        click_link_in_open_menu(all_projects)
+
+        expect(page).to have_current_path(projects_path)
       end
     end
 
@@ -140,7 +143,7 @@ feature 'Top menu items', js: true, selenium: true do
         Role.non_member.update_attribute :permissions, [:view_project]
       end
       it 'does not display new_project' do
-        has_menu_items all_projects
+        has_menu_items? all_projects
       end
     end
 

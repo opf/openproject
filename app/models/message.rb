@@ -63,13 +63,15 @@ class Message < ActiveRecord::Base
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, maximum: 255
 
-  after_create :add_author_as_watcher
-  after_create :update_last_reply_in_parent
+  after_create :add_author_as_watcher,
+               :update_last_reply_in_parent,
+               :send_message_posted_mail
   after_update :update_ancestors
   after_destroy :reset_counters
 
   scope :visible, -> (*args) {
     includes(board: :project)
+      .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
   }
 
@@ -139,7 +141,19 @@ class Message < ActiveRecord::Base
   def add_author_as_watcher
     Watcher.create(watchable: root, user: author)
     # update watchers and watcher_users
-    watchers(true)
-    watcher_users(true)
+    watchers.reload
+    watcher_users.reload
+  end
+
+  def send_message_posted_mail
+    return unless Setting.notified_events.include?('message_posted')
+
+    to_mail = recipients +
+              root.watcher_recipients +
+              board.watcher_recipients
+
+    to_mail.uniq.each do |user|
+      UserMailer.message_posted(user, self, User.current).deliver_now
+    end
   end
 end

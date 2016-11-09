@@ -364,9 +364,6 @@ form#issue-list
 #roadmap h3
   margin: 21px 0 12px
 
-tr.context-menu-selection td.priority
-  background: none !important
-
 div.issue div#relations
   margin-top: 25px
 
@@ -586,6 +583,73 @@ h4.comment
 a.impaired--empty-link,
 .impaired--empty-link
   color: inherit
+
+/* Align widget boxes with description above on project overview */
+.project-overview
+  margin: 0 -10px
+
+/* Legacy styles for my project page plugin version (without widget-box styles) */
+#invisible-grid
+  #list-left
+    .mypage-box
+      margin-right: 10px
+
+  #list-right
+    .mypage-box
+      margin-left: 10px
+
+  .mypage-box
+    .box-actions
+      margin-top: -60px
+
+
+#members_add_form
+  margin-bottom: 1rem
+  .-flex
+    display: flex
+    align-items: flex-end
+
+    // Neccassary to avoid the appearance of a scroll bar
+    .select2-search-field
+      margin: 0
+
+    .form--field,
+    #member-add-submit-button--container
+      margin-bottom: 1px
+      flex-basis: 50%
+
+    &:not(.-with-button)
+      .form--field
+        overflow: hidden
+
+  // Override default margin to allow correct vertical alignment
+  #add-member--submit-button
+    margin-bottom: 0
+    margin-left: 1rem
+    // Neccessary so that button and select box have the same height
+    line-height: 0.6rem
+
+@include breakpoint(680px down)
+  #members_add_form .-flex
+    align-items: flex-start
+
+    &.-with-button
+      flex-direction: column
+      // Workaround for safari and IE
+      // They are not able to get the correct height with flex-direction: column
+      height: 120px
+
+    #add-member--submit-button
+      margin-left: 0
+    .form--field
+      margin-bottom: 1rem
+
+@media screen and (max-width: 87rem) and (min-width: 681px)
+  #members_add_form .-flex.-with-button
+    .form--field
+      max-width: 60%
+      select
+        max-width: 60%
 
 // Avoid content cut off in IE
 #new-member-message + div.grid-block

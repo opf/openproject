@@ -27,7 +27,7 @@ class VerificationTestController < ActionController::Base
   verify only: :guarded_by_not_xhr, xhr: false,
          redirect_to: { action: 'unguarded' }
 
-  before_filter :unconditional_redirect, only: :two_redirects
+  before_action :unconditional_redirect, only: :two_redirects
   verify only: :two_redirects, method: :post,
          redirect_to: { action: 'unguarded' }
 

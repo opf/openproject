@@ -32,7 +32,7 @@ module Api
     class UsersController < ApplicationController
       include ::Api::Experimental::ApiController
 
-      before_filter :find_optional_project
+      before_action :find_optional_project
 
       def index
         @users = if @project

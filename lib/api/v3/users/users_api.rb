@@ -27,6 +27,7 @@
 #++
 
 require 'api/v3/users/user_representer'
+require 'api/v3/users/paginated_user_collection_representer'
 
 module API
   module V3
@@ -44,19 +45,60 @@ module API
               fail ::API::Errors::InvalidUserStatusTransition
             end
           end
+
+          def allow_only_admin
+            unless current_user.admin?
+              fail ::API::Errors::Unauthorized
+            end
+          end
+
+          def to_i_or_nil(string)
+            string ? string.to_i : nil
+          end
         end
 
         resources :users do
+          helpers ::API::V3::Users::CreateUser
+
+          post do
+            allow_only_admin
+            create_user(request_body, current_user)
+          end
+
+          get do
+            allow_only_admin
+
+            query = ::API::V3::ParamsToQueryService.new(User).call(params)
+
+            if query.valid?
+              users = query.results.includes(:preference)
+              PaginatedUserCollectionRepresenter.new(users,
+                                                     api_v3_paths.users,
+                                                     page: to_i_or_nil(params[:offset]),
+                                                     per_page: to_i_or_nil(params[:pageSize]),
+                                                     current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
+          end
+
           params do
             requires :id, desc: 'User\'s id'
           end
           route_param :id do
+            helpers ::API::V3::Users::UpdateUser
+
             before do
-              @user  = User.find(params[:id])
+              @user = User.find(params[:id])
             end
 
             get do
               UserRepresenter.new(@user, current_user: current_user)
+            end
+
+            patch do
+              allow_only_admin
+              update_user(request_body, current_user)
             end
 
             delete do
@@ -70,9 +112,7 @@ module API
             namespace :lock do
               # Authenticate lock transitions
               before do
-                unless current_user.admin?
-                  fail ::API::Errors::Unauthorized
-                end
+                allow_only_admin
               end
 
               desc 'Set lock on user account'

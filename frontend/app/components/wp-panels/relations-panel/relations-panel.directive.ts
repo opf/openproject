@@ -28,33 +28,10 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 
 export class RelationsPanelController {
   public workPackage:WorkPackageResourceInterface;
-  public relationTitles;
-  public relationGroups;
-
-  constructor(I18n: op.I18n,
-              wpRelations:WorkPackageRelationsService) {
-
-    this.relationTitles = {
-      parent: I18n.t('js.relation_buttons.change_parent'),
-      children: I18n.t('js.relation_buttons.add_child'),
-      relatedTo: I18n.t('js.relation_buttons.add_related_to'),
-      duplicates: I18n.t('js.relation_buttons.add_duplicates'),
-      duplicated: I18n.t('js.relation_buttons.add_duplicated_by'),
-      blocks: I18n.t('js.relation_buttons.add_blocks'),
-      blocked: I18n.t('js.relation_buttons.add_blocked_by'),
-      precedes: I18n.t('js.relation_buttons.add_precedes'),
-      follows: I18n.t('js.relation_buttons.add_follows')
-    };
-
-    this.workPackage.relations.$load().then(() => {
-      this.relationGroups = wpRelations.getWpRelationGroups(this.workPackage);
-    });
-  }
 }
 
 function relationsPanelDirective() {

@@ -36,7 +36,10 @@ OpenProject::Application.configure do
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both thread web servers
   # and those relying on copy on write to perform better.
+  #
   # Rake tasks automatically ignore this option for performance.
+  # We force some rake tasks to use eager_load through enhancing with environment:eager_load
+  # DISABLE those when you change this setting!
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
@@ -49,7 +52,7 @@ OpenProject::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = nil

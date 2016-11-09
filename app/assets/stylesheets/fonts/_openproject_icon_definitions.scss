@@ -38,9 +38,6 @@
 .icon-align-right:before {
   content: "\e005";
 }
-.icon-add:before {
-  content: "\e000";
-}
 .icon-workflow:before {
   content: "\e006";
 }
@@ -119,9 +116,6 @@
 .icon-camera:before {
   content: "\e01d";
 }
-.icon-cancel:before {
-  content: "\e01e";
-}
 .icon-cart:before {
   content: "\e01f";
 }
@@ -166,9 +160,6 @@
 }
 .icon-cut:before {
   content: "\e02f";
-}
-.icon-delete:before {
-  content: "\e030";
 }
 .icon-delete-folder:before {
   content: "\e031";
@@ -251,13 +242,13 @@
 .icon-headline3:before {
   content: "\e04b";
 }
-.icon-help1:before {
+.icon-help:before {
   content: "\e04c";
 }
-.icon-help2:before {
+.icon-help1:before {
   content: "\e04d";
 }
-.icon-help3:before {
+.icon-help2:before {
   content: "\e04e";
 }
 .icon-home:before {
@@ -626,9 +617,6 @@
 .icon-compare:before {
   content: "\e02a";
 }
-.icon-close:before {
-  content: "\e0b2";
-}
 .icon-presentation:before {
   content: "\e0c9";
 }
@@ -661,4 +649,37 @@
 }
 .icon-plugins:before {
   content: "\e0d3";
+}
+.icon-installation-services:before {
+  content: "\e0d4";
+}
+.icon-custom-development:before {
+  content: "\e0d5";
+}
+.icon-maintenance-support:before {
+  content: "\e0d6";
+}
+.icon-training-consulting:before {
+  content: "\e0d7";
+}
+.icon-concept:before {
+  content: "\e030";
+}
+.icon-delete:before {
+  content: "\e0d8";
+}
+.icon-mobile:before {
+  content: "\e0d9";
+}
+.icon-accessibility:before {
+  content: "\e0da";
+}
+.icon-add:before {
+  content: "\e0db";
+}
+.icon-close:before {
+  content: "\e0dc";
+}
+.icon-cancel:before {
+  content: "\e000";
 }

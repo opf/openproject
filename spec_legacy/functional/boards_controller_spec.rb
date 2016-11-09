@@ -50,7 +50,8 @@ describe BoardsController, type: :controller do
   end
 
   it 'should index should show messages if only one board' do
-    Project.find(1).boards.slice(1..-1).each(&:destroy)
+    boards = Project.find(1).boards
+    boards.take(boards.count - 1).each(&:destroy)
 
     get :index, project_id: 1
     assert_response :success

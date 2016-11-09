@@ -1,0 +1,356 @@
+# Group Attachments
+
+Attachments are files that were uploaded to OpenProject. Each attachment belongs to a single
+container (e.g. a work package or a board message).
+
+## Actions
+
+| Link                | Description                                                          | Condition                                    |
+|:-------------------:|----------------------------------------------------------------------| -------------------------------------------- |
+| delete              | Deletes this attachment                                              | **Permission**: edit on attachment container |
+
+## Linked Properties
+|  Link            | Description                                         | Type          | Constraints | Supported operations |
+|:----------------:| --------------------------------------------------- | ------------- | ----------- | -------------------- |
+| self             | This attachment                                     | Attachment    | not null    | READ                 |
+| container        | The object (e.g. WorkPackage) housing the attachment| Anything      | not null    | READ                 |
+| author           | The user who uploaded the attachment                | User          | not null    | READ                 |
+| downloadLocation | Direct download link to the attachment              | -             | not null    | READ                 |
+
+## Local Properties
+| Property     | Description                                     | Type        | Constraints | Supported operations |
+|:------------:| ----------------------------------------------- | ----------- | ----------- | -------------------- |
+| id           | Attachment's id                                 | Integer     | x > 0       | READ                 |
+| fileName     | The name of the uploaded file                   | String      | not null    | READ                 |
+| fileSize     | The size of the uploaded file in Bytes          | Integer     | x >= 0      | READ                 |
+| description  | A user provided description of the file         | Formattable | not null    | READ                 |
+| contentType  | The files MIME-Type as determined by the server | String      | not null    | READ                 |
+| digest       | A checksum for the files content                | Digest      | not null    | READ                 |
+| createdAt    | Time of creation                                | DateTime    | not null    | READ                 |
+
+## Attachment [/api/v3/attachments/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Attachment",
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/attachments/1"
+                    },
+                    "container" {
+                        "href": "/api/v3/work_packages/1"
+                    },
+                    "author": {
+                        "href": "/api/v3/users/1"
+                    },
+                    "downloadLocation": {
+                        "href": "/attachments/1/download"
+                    }
+                },
+                "id": 1,
+                "fileName": "cat.png",
+                "filesize": 24,
+                "description": {
+                    "format": "plain",
+                    "raw": "A picture of a cute cat",
+                    "html": "<p>A picture of a cute cat</p>"
+                },
+                "contentType": "image/png",
+                "digest": {
+                    "algorithm": "md5",
+                    "64c26a8403cd796ea4cf913cda2ee4a9":
+                },
+                "createdAt": "2014-05-21T08:51:20Z"
+            }
+
+## View attachment [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 200 (application/hal+json)
+
+    [Attachment][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
+## Delete attachment [DELETE]
+
+Permanently deletes the specified attachment.
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 204
+
+    Returned if the attachment was deleted successfully.
+
+    Note that the response body is empty as of now. In future versions of the API a body
+    *might* be returned along with an appropriate HTTP status.
+
+    + Body
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit permission for the container of the attachment
+
+    *Note that you will only receive this error, if you are at least allowed to see the attachment.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this attachment."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the attachment does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view permission for the container of the attachment
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of an attachment.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified attachment does not exist."
+            }
+
+# Attachments by work package [/api/v3/work_packages/{id}/attachments]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/1/attachments" }
+                },
+                "total": 2,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded":
+                {
+                    "elements": [
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/1"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "downloadLocation": {
+                                    "href": "/attachments/1/download"
+                                }
+                            },
+                            "id": 1,
+                            "fileName": "cat.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of a cute cat",
+                                "html": "<p>A picture of a cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "64c26a8403cd796ea4cf913cda2ee4a9":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        },
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "/api/v3/attachments/2"
+                                },
+                                "container" {
+                                    "href": "/api/v3/work_packages/1"
+                                },
+                                "author": {
+                                    "href": "/api/v3/users/1"
+                                },
+                                "downloadLocation": {
+                                    "href": "/attachments/2/download"
+                                }
+                            },
+                            "id": 2,
+                            "fileName": "cat2.png",
+                            "filesize": 24,
+                            "description": {
+                                "format": "plain",
+                                "raw": "A picture of another cute cat",
+                                "html": "<p>A picture of another cute cat</p>"
+                            },
+                            "contentType": "image/png",
+                            "digest": {
+                                "algorithm": "md5",
+                                "46c26a8403cd769ea4c9f13cdae2e49a":
+                            },
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                }
+            }
+
+## List attachments [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package whose attachments will be listed
+
++ Response 200 (application/hal+json)
+
+    [Attachments by work package][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
+## Add attachment [POST]
+
+To add an attachment to a work package, a client needs to issue a request of type `multipart/form-data`
+with exactly two parts.
+
+The first part *must* be called `metadata`. Its content type is expected to be `application/json`,
+the body *must* be a single JSON object, containing at least the `fileName` and optionally the attachments `description`.
+
+The second part *must* be called `file`, its content type *should* match the mime type of the file.
+The body *must* be the raw content of the file.
+Note that a `filename` must be indicated in the `Content-Disposition` of this part, however it will be ignored.
+Instead the `fileName` inside the JSON of the metadata part will be used.
+
++ Parameters
+    + id (required, integer, `1`) ... ID of the work package to receive the attachment
+
++ Request (multipart/form-data)
+
+        --boundary-delimiter
+        Content-Disposition: form-data; name="metadata"
+        Content-Type: application/json; charset=UTF-8
+
+        {
+          "fileName": "cute-cat.png",
+          "description": {
+            "raw": "A cute kitty, cuddling with its friends!"
+          }
+        }
+
+        --boundary-delimiter
+        Content-Disposition: form-data; name="file"; filename="attachment"
+        Content-Type: image/png
+
+        PNG file data
+        --boundary-delimiter--
+
++ Response 200 (application/hal+json)
+
+    [Attachment][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends a not understandable request. Reasons include:
+
+    * Omitting one of the required parts (metadata and file)
+    * sending unparsable JSON in the metadata part
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request could not be parsed as JSON."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** edit work package or add work package
+
+    *Note that you will only receive this error, if you are at least allowed to see the work package.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to delete this attachment."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the work package does not exist or the client does not have sufficient permissions
+    to see it.
+
+    **Required permission:** view work package
+
+    *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
+    That's why a 404 is returned here, even if a 403 might be more appropriate.*
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified work package does not exist."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the client tries to send an invalid attachment.
+    Reasons are:
+
+    * Omitting the file name (`fileName` property of metadata part)
+    * Sending a file that is too large
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "File is too large (maximum size is 5242880 Bytes)."
+            }

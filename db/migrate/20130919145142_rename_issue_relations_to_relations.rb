@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RenameIssueRelationsToRelations < ActiveRecord::Migration
+class RenameIssueRelationsToRelations < ActiveRecord::Migration[4.2]
   def up
     rename_table :issue_relations, :relations
 

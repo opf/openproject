@@ -31,17 +31,20 @@ require 'open_project/static/links'
 
 module Redmine::MenuManager::TopMenu::HelpMenu
   def render_help_top_menu_node(item = help_menu_item)
-    if OpenProject::Static::Links.help_link_overridden?
-      render_menu_node(item)
-    else
-      render_help_dropdown
+    cache_key = "help_top_menu_node/#{I18n.locale}/#{OpenProject::Static::Links.help_link}"
+    Rails.cache.fetch(cache_key) do
+      if OpenProject::Static::Links.help_link_overridden?
+        render_menu_node(item)
+      else
+        render_help_dropdown
+      end
     end
   end
 
   def render_help_dropdown
     link_to_help_pop_up = link_to '', '',
                                   title: l(:label_help),
-                                  class: 'icon-help1',
+                                  class: 'icon-help',
                                   aria: { haspopup: 'true' }
 
     render_menu_dropdown(

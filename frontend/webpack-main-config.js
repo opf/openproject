@@ -61,7 +61,7 @@ var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), funct
 }));
 
 var loaders = [
-  {test: /\.ts$/, loader: 'ng-annotate!ts-loader'},
+  { test: /\.tsx?$/, loader: 'ng-annotate!awesome-typescript-loader'},
   {test: /[\/]angular\.js$/, loader: 'exports?angular'},
   {test: /[\/]jquery\.js$/, loader: 'expose?jQuery'},
   {test: /[\/]dragula\.js$/, loader: 'expose?dragula'},
@@ -113,9 +113,7 @@ function getWebpackMainConfig() {
     },
 
     module: {
-      loaders: loaders,
-      // Prevent 'This seems to be a pre-built javascript file.' error due to crossvent dist
-      noParse: /node_modules\/crossvent/
+      loaders: loaders
     },
 
     resolve: {
@@ -138,7 +136,15 @@ function getWebpackMainConfig() {
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'mousetrap': 'mousetrap/mousetrap.js',
-        'ngFileUpload': 'ng-file-upload/ng-file-upload'
+        'ngFileUpload': 'ng-file-upload/ng-file-upload',
+        // prevents using crossvent from dist and by that
+        // reenables debugging in the browser console.
+        // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
+        'crossvent': path.join(__dirname,
+                               'node_modules',
+                               'crossvent',
+                               'src',
+                               'crossvent.js')
       }, pluginAliases)
     },
 

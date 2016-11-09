@@ -57,7 +57,9 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#new' do
-    before do get :new, project_id: project.id end
+    before do
+      get :new, params: { project_id: project.id }
+    end
 
     subject { response }
 
@@ -71,9 +73,11 @@ describe CategoriesController, type: :controller do
 
     before do
       post :create,
-           project_id: project.id,
-           category: { name: category_name,
-                       assigned_to_id: user.id }
+           params: {
+             project_id: project.id,
+             category: { name: category_name,
+                         assigned_to_id: user.id }
+           }
     end
 
     describe '#categories' do
@@ -95,8 +99,7 @@ describe CategoriesController, type: :controller do
 
     subject { response }
     before do
-      get :edit,
-           id: category_id
+      get :edit, params: { id: category_id }
     end
 
 
@@ -123,8 +126,10 @@ describe CategoriesController, type: :controller do
 
       before do
         post :update,
-             id: category.id,
-             category: { name: name }
+             params: {
+               id: category.id,
+               category: { name: name }
+             }
       end
 
       subject { Category.find(category.id).name }
@@ -143,8 +148,10 @@ describe CategoriesController, type: :controller do
     context 'invalid category' do
       before do
         post :update,
-             id: 404,
-             category: { name: name }
+             params: {
+               id: 404,
+               category: { name: name }
+             }
       end
 
       subject { response.response_code }
@@ -173,7 +180,9 @@ describe CategoriesController, type: :controller do
     end
 
     context 'unused' do
-      before do delete :destroy, id: category.id end
+      before do
+        delete :destroy, params: { id: category.id }
+      end
 
       it_behaves_like :redirect
 
@@ -184,7 +193,7 @@ describe CategoriesController, type: :controller do
       before do
         work_package
 
-        delete :destroy, id: category.id
+        delete :destroy, params: { id: category.id }
       end
 
       subject { Category.find_by(id: category.id) }
@@ -209,9 +218,11 @@ describe CategoriesController, type: :controller do
         work_package
 
         delete :destroy,
-               id: category.id,
-               todo: 'reassign',
-               reassign_to_id: target.id
+               params: {
+                 id: category.id,
+                 todo: 'reassign',
+                 reassign_to_id: target.id
+               }
       end
 
       subject { work_package.reload.category_id }
@@ -228,8 +239,10 @@ describe CategoriesController, type: :controller do
         work_package
 
         delete :destroy,
-               id: category.id,
-               todo: 'nullify'
+               params: {
+                 id: category.id,
+                 todo: 'nullify'
+               }
       end
 
       subject { work_package.reload.category_id }

@@ -26,51 +26,44 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpTabsModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-
-export interface WorkPackageRelationsConfigInterface {
-  name:string;
-  type:string;
-  id?:string;
-}
+import {wpDirectivesModule} from '../../angular-modules';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
 
 export class WorkPackageRelationsService {
-  private relationsConfig:WorkPackageRelationsConfigInterface[] = [
-    {name: 'parent', type: 'parent'},
-    {name: 'children', type: 'children'},
-    {name: 'relatedTo', type: 'Relation::Relates', id: 'relates'},
-    {name: 'duplicates', type: 'Relation::Duplicates'},
-    {name: 'duplicated', type: 'Relation::Duplicated'},
-    {name: 'blocks', type: 'Relation::Blocks'},
-    {name: 'blocked', type: 'Relation::Blocked'},
-    {name: 'precedes', type: 'Relation::Precedes'},
-    {name: 'follows', type: 'Relation::Follows'}
-  ];
-
-  constructor(protected WorkPackageRelationGroup,
-              protected WorkPackageParentRelationGroup,
-              protected WorkPackageChildRelationsGroup) {
+  constructor(protected $rootScope:ng.IRootScopeService,
+              protected $q:ng.IQService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected I18n:op.I18n,
+              protected PathHelper,
+              protected NotificationsService) {
   }
 
-  public getWpRelationGroups(workPackage:WorkPackageResourceInterface) {
-    let configsOfInterest = this.relationsConfig;
+  public addCommonRelation(workPackage, relationType, relatedWpId) {
+    const params = {
+      _links: {
+        from: { href: workPackage.href },
+        to: { href: this.PathHelper.apiV3WorkPackagePath(relatedWpId) }
+      },
+      type: relationType
+    };
 
-    if (workPackage.isMilestone) {
-      configsOfInterest = _.reject(configsOfInterest, {name: 'children'});
+    return workPackage.addRelation(params);
+  }
+
+  public getRelationTypes(rejectParentChild?:boolean):any[] {
+    let relationTypes = RelationResource.TYPES();
+
+    if (rejectParentChild) {
+      _.pull(relationTypes, 'parent', 'children');
     }
 
-    return configsOfInterest.map(config => {
-      switch (config.type) {
-        case 'parent':
-          return new this.WorkPackageParentRelationGroup(workPackage, config);
-        case 'children':
-          return new this.WorkPackageChildRelationsGroup(workPackage, config);
-        default:
-          return new this.WorkPackageRelationGroup(workPackage, config);
-      }
+    return relationTypes.map((key:string) => {
+      return { name: key, label: this.I18n.t('js.relation_labels.' + key) };
     });
   }
 }
 
-wpTabsModule.service('wpRelations', WorkPackageRelationsService);
+wpDirectivesModule.service('wpRelationsService', WorkPackageRelationsService);

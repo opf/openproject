@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class IncreaseJournalsChangedDataLimit < ActiveRecord::Migration
+class IncreaseJournalsChangedDataLimit < ActiveRecord::Migration[4.2]
   def up
     # fixes the inconsistency introduced in
     # 20091227112908_change_wiki_contents_text_limit.rb, which

@@ -33,43 +33,73 @@ class Relation < ActiveRecord::Base
 
   scope :of_work_package, ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
 
-  TYPE_RELATES      = 'relates'
-  TYPE_DUPLICATES   = 'duplicates'
-  TYPE_DUPLICATED   = 'duplicated'
-  TYPE_BLOCKS       = 'blocks'
-  TYPE_BLOCKED      = 'blocked'
-  TYPE_PRECEDES     = 'precedes'
-  TYPE_FOLLOWS      = 'follows'
+  TYPE_RELATES      = 'relates'.freeze
+  TYPE_DUPLICATES   = 'duplicates'.freeze
+  TYPE_DUPLICATED   = 'duplicated'.freeze
+  TYPE_BLOCKS       = 'blocks'.freeze
+  TYPE_BLOCKED      = 'blocked'.freeze
+  TYPE_PRECEDES     = 'precedes'.freeze
+  TYPE_FOLLOWS      = 'follows'.freeze
+  TYPE_INCLUDES     = 'includes'.freeze
+  TYPE_PARTOF       = 'partof'.freeze
+  TYPE_REQUIRES     = 'requires'.freeze
+  TYPE_REQUIRED     = 'required'.freeze
 
-  TYPES = { TYPE_RELATES =>     { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: TYPE_RELATES },
-            TYPE_DUPLICATES =>  { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: TYPE_DUPLICATED },
-            TYPE_DUPLICATED =>  { name: :label_duplicated_by, sym_name: :label_duplicates, order: 3, sym: TYPE_DUPLICATES, reverse: TYPE_DUPLICATES },
-            TYPE_BLOCKS =>      { name: :label_blocks, sym_name: :label_blocked_by, order: 4, sym: TYPE_BLOCKED },
-            TYPE_BLOCKED =>     { name: :label_blocked_by, sym_name: :label_blocks, order: 5, sym: TYPE_BLOCKS, reverse: TYPE_BLOCKS },
-            TYPE_PRECEDES =>    { name: :label_precedes, sym_name: :label_follows, order: 6, sym: TYPE_FOLLOWS },
-            TYPE_FOLLOWS =>     { name: :label_follows, sym_name: :label_precedes, order: 7, sym: TYPE_PRECEDES, reverse: TYPE_PRECEDES }
-          }.freeze
+  TYPES = {
+    TYPE_RELATES => {
+      name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: TYPE_RELATES
+    },
+    TYPE_DUPLICATES => {
+      name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: TYPE_DUPLICATED
+    },
+    TYPE_DUPLICATED => {
+      name: :label_duplicated_by, sym_name: :label_duplicates, order: 3,
+      sym: TYPE_DUPLICATES, reverse: TYPE_DUPLICATES
+    },
+    TYPE_BLOCKS => {
+      name: :label_blocks, sym_name: :label_blocked_by, order: 4, sym: TYPE_BLOCKED
+    },
+    TYPE_BLOCKED => {
+      name: :label_blocked_by, sym_name: :label_blocks, order: 5,
+      sym: TYPE_BLOCKS, reverse: TYPE_BLOCKS
+    },
+    TYPE_PRECEDES => {
+      name: :label_precedes, sym_name: :label_follows, order: 6, sym: TYPE_FOLLOWS
+    },
+    TYPE_FOLLOWS => {
+      name: :label_follows, sym_name: :label_precedes, order: 7,
+      sym: TYPE_PRECEDES, reverse: TYPE_PRECEDES
+    },
+    TYPE_INCLUDES => {
+      name: :label_includes, sym_name: :label_includes, order: 8,
+      sym: TYPE_PARTOF
+    },
+    TYPE_PARTOF => {
+      name: :label_part_of, sym_name: :label_part_of, order: 9,
+      sym: TYPE_INCLUDES, reverse: TYPE_INCLUDES
+    },
+    TYPE_REQUIRES => {
+      name: :label_requires, sym_name: :label_requires, order: 10,
+      sym: TYPE_REQUIRED
+    },
+    TYPE_REQUIRED => {
+      name: :label_required, sym_name: :label_required, order: 11,
+      sym: TYPE_REQUIRES, reverse: TYPE_REQUIRES
+    }
+  }.freeze
 
   validates_presence_of :from, :to, :relation_type
   validates_inclusion_of :relation_type, in: TYPES.keys
   validates_numericality_of :delay, allow_nil: true
   validates_uniqueness_of :to_id, scope: :from_id
 
-  validate :validate_sanity_of_relation
+  validate :validate_sanity_of_relation,
+           :validate_no_circular_dependency
 
   before_save :update_schedule
 
-  def validate_sanity_of_relation
-    if from && to
-      errors.add :to_id, :invalid if from_id == to_id
-      errors.add :to_id, :not_same_project unless from.project_id == to.project_id || Setting.cross_project_work_package_relations?
-      errors.add :base, :circular_dependency if to.all_dependent_packages.include? from
-      errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) || from.is_ancestor_of?(to)
-    end
-  end
-
   def other_work_package(work_package)
-    (from_id == work_package.id) ? to : from
+    from_id == work_package.id ? to : from
   end
 
   # Returns the relation type for +work_package+
@@ -84,7 +114,7 @@ class Relation < ActiveRecord::Base
   end
 
   def label_for(work_package)
-    TYPES[relation_type] ? TYPES[relation_type][(from_id == work_package.id) ? :name : :sym_name] : :unknow
+    TYPES[relation_type] ? TYPES[relation_type][(from_id == work_package.id) ? :name : :sym_name] : :unknown
   end
 
   def update_schedule
@@ -126,11 +156,63 @@ class Relation < ActiveRecord::Base
     self[:delay]
   end
 
+  def canonical_to
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      from
+    else
+      to
+    end
+  end
+
+  def canonical_from
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      to
+    else
+      from
+    end
+  end
+
+  def canonical_type
+    if TYPES.key?(relation_type) &&
+       TYPES[relation_type][:reverse]
+      TYPES[relation_type][:reverse]
+    else
+      relation_type
+    end
+  end
+
+  def circular_dependency?
+    canonical_to.all_dependent_packages.include? canonical_from
+  end
+
+  def shared_hierarchy?
+    from.is_descendant_of?(to) || from.is_ancestor_of?(to)
+  end
+
   private
+
+  def validate_sanity_of_relation
+    return unless from && to
+
+    errors.add :to_id, :invalid if from_id == to_id
+    errors.add :to_id, :not_same_project unless from.project_id == to.project_id ||
+                                                Setting.cross_project_work_package_relations?
+    errors.add :base, :cant_link_a_work_package_with_a_descendant if shared_hierarchy?
+  end
+
+  def validate_no_circular_dependency
+    return unless from && to
+
+    if !(changed & ['from_id', 'to_id']).empty? && circular_dependency?
+      errors.add :base, :circular_dependency
+    end
+  end
 
   # Reverses the relation if needed so that it gets stored in the proper way
   def reverse_if_needed
-    if TYPES.has_key?(relation_type) && TYPES[relation_type][:reverse]
+    if TYPES.key?(relation_type) && TYPES[relation_type][:reverse]
       work_package_tmp = to
       self.to = from
       self.from = work_package_tmp

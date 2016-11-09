@@ -65,6 +65,8 @@ opApp
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
             'meta[name=csrf-token]').attr('content');
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
+        // Add X-Requested-With for request.xhr?
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         // prepend a given base path to requests performed via $http
         //
         $httpProvider.interceptors.push(function($q) {

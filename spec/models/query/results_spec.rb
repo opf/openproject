@@ -38,6 +38,34 @@ describe ::Query::Results, type: :model do
                                           :fixed_version],
                                 order: 'work_packages.root_id DESC, work_packages.lft ASC'
   end
+  let(:project_1) { FactoryGirl.create :project }
+  let(:role_pm) do
+    FactoryGirl.create(:role,
+                       permissions: [
+                         :view_work_packages,
+                         :edit_work_packages,
+                         :create_work_packages,
+                         :delete_work_packages
+                       ])
+  end
+  let(:role_dev) do
+    FactoryGirl.create(:role,
+                       permissions: [:view_work_packages])
+  end
+  let(:user_1) do
+    FactoryGirl.create(:user,
+                       firstname: 'user',
+                       lastname: '1',
+                       member_in_project: project_1,
+                       member_through_role: [role_dev, role_pm])
+  end
+  let(:wp_p1) do
+    (1..3).map do
+      FactoryGirl.create(:work_package,
+                         project: project_1,
+                         assigned_to_id: user_1.id)
+    end
+  end
 
   describe '#work_package_count_by_group' do
     context 'when grouping by responsible' do
@@ -52,26 +80,6 @@ describe ::Query::Results, type: :model do
   describe '#work_packages' do
     let!(:project_1) { FactoryGirl.create :project }
     let!(:project_2) { FactoryGirl.create :project }
-    let!(:role_pm) {
-      FactoryGirl.create(:role,
-                         name: 'Manager',
-                         permissions: [
-                           :view_work_packages,
-                           :edit_work_packages,
-                           :create_work_packages,
-                           :delete_work_packages
-                         ])
-    }
-    let!(:role_dev) {
-      FactoryGirl.create(:role,
-                         name: 'Developer',
-                         permissions: [:view_work_packages])
-    }
-    let!(:user_1) {
-      FactoryGirl.create(:user,
-                         member_in_project: project_1,
-                         member_through_role: [role_dev, role_pm])
-    }
     let!(:member) {
       FactoryGirl.create(:member,
                          project: project_2,
@@ -80,17 +88,12 @@ describe ::Query::Results, type: :model do
     }
     let!(:user_2) {
       FactoryGirl.create(:user,
+                         firstname: 'user',
+                         lastname: '2',
                          member_in_project: project_2,
                          member_through_role: role_dev)
     }
 
-    let!(:wp_p1) {
-      (1..3).map {
-        FactoryGirl.create(:work_package,
-                           project: project_1,
-                           assigned_to_id: user_1.id)
-      }
-    }
     let!(:wp_p2) {
       FactoryGirl.create(:work_package,
                          project: project_2,
@@ -101,6 +104,10 @@ describe ::Query::Results, type: :model do
                          project: project_2,
                          assigned_to_id: user_1.id)
     }
+
+    before do
+      wp_p1
+    end
 
     context 'when filtering for assigned_to_role' do
       before do
@@ -192,6 +199,41 @@ describe ::Query::Results, type: :model do
 
       it 'outputs the work package count in the schema { <User> => count }' do
         expect(query_results.work_package_count_by_group).to eql(user_1 => 1, user_2 => 1, nil => 1)
+      end
+    end
+  end
+
+  # Introduced to ensure being able to group by custom fields
+  # when running on a MySQL server.
+  # When upgrading to rails 5, the sql_mode passed on with the connection
+  # does include the "only_full_group_by" flag by default which causes our queries to become
+  # invalid because (mysql error):
+  # "SELECT list is not in GROUP BY clause and contains nonaggregated column
+  # 'config_myproject_test.work_packages.id' which is not functionally
+  # dependent on columns in GROUP BY clause"
+  context 'when grouping by custom field' do
+    let!(:custom_field) do
+      FactoryGirl.create(:int_wp_custom_field, is_for_all: true, is_filter: true)
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(user_1)
+
+      wp_p1[0].type.custom_fields << custom_field
+      project_1.work_package_custom_fields << custom_field
+
+      wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", 42)
+      wp_p1[0].save
+      wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", 42)
+      wp_p1[1].save
+
+      query.project = project_1
+      query.group_by = "cf_#{custom_field.id}"
+    end
+
+    describe '#work_package_count_by_group' do
+      it 'returns a hash of counts by value' do
+        expect(query.results.work_package_count_by_group).to eql(42 => 2, nil => 1)
       end
     end
   end

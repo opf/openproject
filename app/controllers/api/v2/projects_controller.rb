@@ -32,9 +32,9 @@ module Api
     class ProjectsController < ::ProjectsController
       include ::Api::V2::ApiController
 
-      before_filter :find_project, except: [:index, :level_list]
-      before_filter :authorize, only: :show
-      before_filter :require_permissions, only: :planning_element_custom_fields
+      before_action :find_project, except: [:index, :level_list]
+      before_action :authorize, only: :show
+      before_action :require_permissions, only: :planning_element_custom_fields
 
       def self.accept_key_auth_actions
         super + ['planning_element_custom_fields']
@@ -42,15 +42,11 @@ module Api
 
       def index
         @projects = @base.visible
-                    .includes(:types)
-                    .order('lft')
+                         .includes(:types)
+                         .order('lft')
 
         if params[:ids]
-          ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
-          ids = ids.map(&:to_i).sort
-          identifiers = identifiers.sort
-
-          @projects = @projects.where(['id IN (?) OR identifier IN (?)', ids, identifiers])
+          @projects = @projects.where(ids_statement)
         end
 
         @projects_by_id = Hash[@projects.map { |p| [p.id, p] }]
@@ -87,7 +83,8 @@ module Api
       protected
 
       def find_project
-        @project = Project.includes([{ custom_values: [{ custom_field: :translations }] }])
+        @project = Project
+                   .includes([{ custom_values: [{ custom_field: :translations }] }])
                    .find params[:id]
       end
 
@@ -121,6 +118,14 @@ module Api
 
       def require_permissions
         deny_access unless @project.visible?
+      end
+
+      def ids_statement
+        ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
+
+        projects_table = Project.arel_table
+
+        projects_table[:id].in(ids).or(projects_table[:identifier].in(identifiers))
       end
     end
   end

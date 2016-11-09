@@ -52,6 +52,12 @@ module OpenProject::Plugins
           app.config.plugins_to_test_paths << root
         end
 
+        initializer "#{engine_name}.register_cell_view_paths" do |_app|
+          pathname = config.root.join("app/cells/views")
+
+          ::RailsCell.view_paths << pathname.to_path if pathname.exist?
+        end
+
         # adds our factories to factory girl's load path
         initializer "#{engine_name}.register_factories", after: 'factory_girl.set_factory_paths' do |_app|
           FactoryGirl.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryGirl)

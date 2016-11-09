@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesColors < ActiveRecord::Migration
+class CreateTimelinesColors < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_colors) do |t|
       t.column :name,    :string, null: false

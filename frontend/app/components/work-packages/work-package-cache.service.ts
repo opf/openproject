@@ -30,19 +30,22 @@
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
+import {State} from "../../helpers/reactive-fassade";
 import IScope = angular.IScope;
+import {States} from "../states.service";
 
+
+function getWorkPackageId(id: number|string): string {
+  return (id || "__new_work_package__").toString();
+}
 
 export class WorkPackageCacheService {
-
-  private workPackageCache: {[id: number]: WorkPackageResource} = {};
-
-  private workPackagesSubject = new Rx.ReplaySubject<{[id: number]: WorkPackageResource}>(1);
 
   private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
 
   /*@ngInject*/
-  constructor(private $rootScope: IScope, private apiWorkPackages: ApiWorkPackagesService) {
+  constructor(private states: States,
+              private apiWorkPackages: ApiWorkPackagesService) {
   }
 
   newWorkPackageCreated(wp: WorkPackageResource) {
@@ -54,41 +57,27 @@ export class WorkPackageCacheService {
   }
 
   updateWorkPackageList(list: WorkPackageResource[]) {
-    for (const wp of list) {
-      var cached = this.workPackageCache[wp.id];
-      if (cached && cached.dirty) {
-        this.workPackageCache[wp.id] = cached;
-      } else {
-        this.workPackageCache[wp.id] = wp;
-      }
+    for (var wp of list) {
+      const workPackageId = getWorkPackageId(wp.id);
+      const wpState = this.states.workPackages.get(workPackageId);
+      const wpForPublish = wpState.hasValue() && wpState.getCurrentValue().dirty
+        ? wpState.getCurrentValue() // dirty, use current wp
+        : wp; // not dirty or unknown, use new wp
+
+      this.states.workPackages.put(workPackageId, wpForPublish);
     }
-    this.workPackagesSubject.onNext(this.workPackageCache);
   }
 
-  /**
-   * Invalidate a set of links in the given work package.
-   * This is a temporary fix for un-/reloading a known set of links.
-   *
-   * @param workPackage
-   * @param args A list of links to forcefully $load
-   */
-  loadWorkPackageLinks(workPackage, ...args: string[]) {
-    args.forEach((arg) => {
-      workPackage[arg].$load(true);
-    });
-    return this.updateWorkPackage(workPackage);
-  }
-
-  loadWorkPackage(workPackageId: number, forceUpdate = false): Rx.Observable<WorkPackageResource> {
-    if (forceUpdate || this.workPackageCache[workPackageId] === undefined) {
-      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate).then(wp => {
-        this.updateWorkPackage(wp);
-      });
+  loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
+    const state = this.states.workPackages.get(getWorkPackageId(workPackageId));
+    if (forceUpdate) {
+      state.clear();
     }
 
-    return this.workPackagesSubject
-      .map(cache => cache[workPackageId])
-      .filter(wp => wp !== undefined);
+    state.putFromPromiseIfPristine(
+      () => this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+
+    return state;
   }
 
   onNewWorkPackage(): Rx.Observable<WorkPackageResource> {

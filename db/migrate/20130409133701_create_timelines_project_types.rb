@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesProjectTypes < ActiveRecord::Migration
+class CreateTimelinesProjectTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_project_types) do |t|
       t.column :name,               :string,  default: '',   null: false

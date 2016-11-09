@@ -132,36 +132,43 @@ class Setting < ActiveRecord::Base
   validates_numericality_of :value, only_integer: true, if: Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
 
   def value
-    v = read_attribute(:value)
-    # Unserialize serialized settings
-    v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
-    v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
-    v = v.to_i if @@available_settings[name]['format'] == 'int' && !v.blank?
-    v
+    self.class.deserialize(name, read_attribute(:value))
   end
 
   def value=(v)
-    v = v.to_yaml if v && @@available_settings[name] && @@available_settings[name]['serialized']
+    if v && @@available_settings[name] && @@available_settings[name]['serialized']
+      v = v.to_yaml
+    end
+
     write_attribute(:value, v.to_s)
   end
 
   # Returns the value of the setting named name
   def self.[](name)
-    Marshal.load(Rails.cache.fetch(cache_key(name)) { Marshal.dump(find_or_default(name).value) })
+    cached_or_default(name)
   end
 
   def self.[]=(name, v)
-    setting = find_or_default(name)
-    # remember the old setting and mark it as read-only
-    old_setting = setting.dup.freeze
-    setting.value = (v ? v : '')
-    Rails.cache.delete(cache_key(name))
-    if setting.save
+    old_setting = cached_or_default(name)
+    new_setting = find_or_initialize_by(name: name)
+    new_setting.value = v
+
+    # Keep the current cache key,
+    # since updated_on will change after .save
+    old_cache_key = cache_key
+
+    if new_setting.save
+      new_value = new_setting.value
+
+      # Delete the cache
+      clear_cache(old_cache_key)
+
       # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, setting, old_setting)
-      setting.value
+      fire_callbacks(name, new_value, old_setting)
+
+      new_value
     else
-      old_setting.value
+      old_setting
     end
   end
 
@@ -189,27 +196,42 @@ class Setting < ActiveRecord::Base
     per_page_options.split(%r{[\s,]}).map(&:to_i).select { |n| n > 0 }.sort
   end
 
+  def self.clear_cache(key = cache_key)
+    Rails.cache.delete(key)
+    RequestStore.delete :cached_settings
+    RequestStore.delete :settings_updated_on
+  end
+
   private
 
   # Returns the Setting instance for the setting named name
-  # (record found in database or new record with default value)
-  def self.find_or_default(name)
+  # (record found in cache or default value)
+  def self.cached_or_default(name)
     name = name.to_s
     raise "There's no setting named #{name}" unless exists? name
-    find_by(name: name) or new do |s|
-      s.name  = name
-      s.value = @@available_settings[name]['default']
-    end
+
+    value = cached_settings.fetch(name) { @@available_settings[name]['default'] }
+    deserialize(name, value)
   end
 
-  def self.cache_key(name)
+  # Returns the settings from two levels of cache
+  # 1. The current rack request using RequestStore
+  # 2. Rails.cache serialized settings hash
+  #
+  # Unless one cache hits, it plucks from the database
+  # Returns a hash of setting => (possibly serialized) value
+  def self.cached_settings
+    RequestStore.fetch(:cached_settings) {
+      Rails.cache.fetch(cache_key) {
+        Hash[Setting.pluck(:name, :value)]
+      }
+    }
+  end
+
+  def self.cache_key
     RequestStore.store[:settings_updated_on] ||= Setting.maximum(:updated_on)
     most_recent_settings_change = (RequestStore.store[:settings_updated_on] || Time.now.utc).to_i
-    base_cache_key(name, most_recent_settings_change)
-  end
-
-  def self.base_cache_key(name, timestamp)
-    "/openproject/settings/#{timestamp}/#{name}"
+    "/openproject/settings/all/#{most_recent_settings_change}"
   end
 
   def self.settings_table_exists_yet?
@@ -218,7 +240,21 @@ class Setting < ActiveRecord::Base
     # I'm not sure this is a good idea, but that's the way it is right now,
     # and caching this improves performance significantly for actions
     # accessing settings a lot.
-    @settings_table_exists_yet ||= connection.table_exists?(table_name)
+    @settings_table_exists_yet ||= connection.data_source_exists?(table_name)
+  end
+
+  # Unserialize a serialized settings value
+  def self.deserialize(name, v)
+    default = @@available_settings[name]
+
+    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
+
+    unless v.blank?
+      v = v.to_sym if default['format'] == 'symbol'
+      v = v.to_i if default['format'] == 'int'
+    end
+
+    v
   end
 
   require_dependency 'setting/callbacks'

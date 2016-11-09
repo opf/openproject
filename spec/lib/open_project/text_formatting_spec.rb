@@ -60,6 +60,7 @@ describe OpenProject::TextFormatting do
       @project = project
 
       allow(User).to receive(:current).and_return(project_member)
+      FactoryGirl.create(:non_member)
       allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
@@ -588,7 +589,7 @@ WIKI_TEXT
 
     context 'w/ request present' do
       let(:request) {
-        ActionController::TestRequest.new(
+        ActionDispatch::TestRequest.new(
           Rack::MockRequest.env_for('/test',
             'HTTP_HOST'       => 'test.host',
             'REMOTE_ADDR'     => '0.0.0.0',

@@ -37,21 +37,23 @@ module Redmine
 
       module ClassMethods
         # Marks an ActiveRecord::Model as watchable
-        # A watchable model has association with users (watchers) who wish to be informed of changes on it.
+        # A watchable model has association with users (watchers) who wish to
+        # be informed of changes on it.
         #
-        # This also creates the routes necessary for watching/unwatching by adding the model's name to routes. This
-        # e.g leads to the following routes when marking issues as watchable:
+        # This also creates the routes necessary for watching/unwatching by
+        # adding the model's name to routes. This e.g leads to the following
+        # routes when marking issues as watchable:
         #   POST:     issues/1/watch
         #   DELETE:   issues/1/unwatch
         #   GET/POST: issues/1/watchers/new
         #   DELETE:   issues/1/watchers/1
-        # Use the :route_prefix option to change the model prefix, e.g. from issues to tickets
         #
         # params:
         #   options:
-        #     route_prefix: overrides the route calculation which would normally use the models name.
+        #     permission: overrides the permission used to determine whether a user
+        #                 is allowed to watch
 
-        def acts_as_watchable(_options = {})
+        def acts_as_watchable(options = {})
           return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
           class_eval do
             has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
@@ -61,6 +63,10 @@ module Redmine
               includes(:watchers)
                 .where(watchers: { user_id: user_id })
             }
+
+            class_attribute :acts_as_watchable_options
+
+            self.acts_as_watchable_options = options
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
@@ -72,43 +78,30 @@ module Redmine
           base.extend ClassMethods
         end
 
-        def watching_permitted_to_all_users_message
-          "Let all users watch me. If this is unintended, implement :visible? on #{self.class.name}"
-        end
-
         def possible_watcher?(user)
-          if respond_to?(:visible?)
-            visible?(user)
-          else
-            warn watching_permitted_to_all_users_message
-          end
+          user.allowed_to?(self.class.acts_as_watchable_permission, project)
         end
 
+        # Returns all users that could potentially be watchers.
+        # This includes those already added as watchers.
+        #
+        # Admins are excluded at least for non public projects
+        # because while they have the right to be added as watchers having
+        # them pop up in every project would be weird.
         def possible_watcher_users
-          # TODO: There might be addable users which are not in the current
-          #       project. But its hard (performance wise) to find them
-          #       correctly. So we only search for users in the project scope.
-          #       This implementation is so wrong, it makes me sad.
-          watchers = project.users
+          users = User
+                  .not_builtin
 
-          watchers = if respond_to?(:visible?)
-                       # Intentionally splitting this up into two requests as
-                       # doing it in one will be way to slow in scenarios where
-                       # the project's users have a lot of memberships.
-                       possible_watcher_ids = watchers.pluck(:id)
-
-                       User.where(id: possible_watcher_ids)
-                       .authorize_within(project) do |scope|
-                         scope.select { |user| visible?(user) }
-                       end
-                     end
-
-          watchers
+          if project.is_public?
+            users.allowed(self.class.acts_as_watchable_permission, project)
+          else
+            users.allowed_members(self.class.acts_as_watchable_permission, project)
+          end
         end
 
         # Returns an array of users that are proposed as watchers
         def addable_watcher_users
-          possible_watcher_users - watcher_users
+          possible_watcher_users.where.not(id: watcher_users.pluck(:id))
         end
 
         # Adds user as a watcher
@@ -147,11 +140,14 @@ module Redmine
 
         # Returns an array of watchers
         def watcher_recipients
-          notified = watcher_users.active.where(['mail_notification != ?', 'none'])
-          notified.select { |user| possible_watcher?(user) }
+          possible_watcher_users & watcher_users.active.where.not(mail_notification: 'none')
         end
 
-        module ClassMethods; end
+        module ClassMethods
+          def acts_as_watchable_permission
+            acts_as_watchable_options[:permission] || "view_#{name.underscore.pluralize}".to_sym
+          end
+        end
       end
     end
   end

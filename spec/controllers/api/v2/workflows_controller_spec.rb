@@ -33,7 +33,7 @@ describe Api::V2::WorkflowsController, type: :controller do
     describe 'unauthorized access' do
       let(:project) { FactoryGirl.create(:project) }
 
-      before do get :index, project_id: project.id, format: :xml end
+      before do get :index, params: { project_id: project.id }, format: :xml end
 
       it { expect(response.status).to eq(401) }
     end
@@ -71,7 +71,7 @@ describe Api::V2::WorkflowsController, type: :controller do
                              roles: [role_0, role_1])
         }
 
-        before do get :index, project_id: project.id, format: :xml end
+        before do get :index, params: { project_id: project.id }, format: :xml end
 
         it { expect(assigns(:workflows)).to be_empty }
 
@@ -144,7 +144,7 @@ describe Api::V2::WorkflowsController, type: :controller do
                                assignee: false)
           }
 
-          before do get :index, project_id: project.id, format: :xml end
+          before do get :index, params: { project_id: project.id }, format: :xml end
 
           it_behaves_like 'valid workflow index request'
 

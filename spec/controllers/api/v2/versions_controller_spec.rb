@@ -34,7 +34,7 @@ describe Api::V2::VersionsController, type: :controller do
   let(:admin_user) { FactoryGirl.create(:admin) }
 
   shared_examples_for 'unauthorized access' do
-    before do get action, request_params end
+    before do get action, params: request_params end
 
     it { expect(response.status).to eq(401) }
   end
@@ -51,7 +51,7 @@ describe Api::V2::VersionsController, type: :controller do
       before do allow(User).to receive(:current).and_return admin_user end
 
       describe 'single project' do
-        before do get :index, project_id: project.id, format: :xml end
+        before do get :index, params: { project_id: project.id, format: :xml } end
 
         it { expect(assigns(:project)).to eq(project) }
 
@@ -68,7 +68,7 @@ describe Api::V2::VersionsController, type: :controller do
         shared_context 'request versions' do
           before do
             get :index,
-                project_id: projects.map(&:id).join(','),
+                params: { project_id: projects.map(&:id).join(',') },
                 format: :xml
           end
         end
@@ -129,7 +129,7 @@ describe Api::V2::VersionsController, type: :controller do
 
       describe 'ids' do
         shared_context 'request versions filtered' do
-          before { get :index, ids: ids, project_id: project.id, format: :json }
+          before { get :index, params: { ids: ids, project_id: project.id }, format: :json }
         end
 
         describe 'invalid version' do
@@ -153,7 +153,11 @@ describe Api::V2::VersionsController, type: :controller do
           let(:child_project) { FactoryGirl.create(:project, parent: project) }
           let(:shared_version) { FactoryGirl.create(:version, project: project, sharing: 'descendants') }
 
-          before do get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json end
+          before do
+            get :index,
+                params: { ids: shared_version.id.to_s, project_id: child_project.id },
+                format: :json
+          end
 
           it { expect(assigns(:versions).map(&:id)).to match_array([shared_version.id]) }
 
@@ -170,7 +174,9 @@ describe Api::V2::VersionsController, type: :controller do
           before do
             allow(User).to receive(:current).and_return user
 
-            get :index, ids: shared_version.id.to_s, project_id: child_project.id, format: :json
+            get :index,
+                params: { ids: shared_version.id.to_s, project_id: child_project.id },
+                format: :json
           end
 
           it { expect(assigns(:versions).map(&:id)).to match_array([shared_version.id]) }

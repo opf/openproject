@@ -71,10 +71,10 @@ feature 'group memberships through project members page', type: :feature do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland')
 
-          members_page.remove_user! 'group1'
+          members_page.remove_group! 'group1'
           expect(page).to have_text('Removed group1 from project')
 
-          expect(members_page).not_to have_user('group1')
+          expect(members_page).not_to have_group('group1')
           expect(members_page).not_to have_user('Alice Wonderland')
         end
       end
@@ -90,10 +90,10 @@ feature 'group memberships through project members page', type: :feature do
           members_page.visit!
           expect(members_page).to have_user('Alice Wonderland', roles: ['alpha', 'beta'])
 
-          members_page.remove_user! 'group1'
+          members_page.remove_group! 'group1'
           expect(page).to have_text('Removed group1 from project')
 
-          expect(members_page).not_to have_user('group1')
+          expect(members_page).not_to have_group('group1')
 
           expect(members_page).to have_user('Alice Wonderland', roles: ['alpha'])
           expect(members_page).not_to have_roles('Alice Wonderland', ['beta'])

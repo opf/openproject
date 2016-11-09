@@ -34,8 +34,8 @@ class WikiMenuItemsController < ApplicationController
     controller.wiki_menu_item.item_class.to_sym if controller.wiki_menu_item
   end
 
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+  before_action :find_project_by_project_id
+  before_action :authorize
 
   def edit
     get_data_from_params(params)

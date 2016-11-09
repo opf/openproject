@@ -52,7 +52,11 @@ describe 'work package export', type: :feature do
     allow(User).to receive(:current).and_return current_user
   end
 
+  subject { DownloadedFile.download_content }
+
   def export!
+    DownloadedFile::clear_downloads
+
     work_packages_page.ensure_loaded
     work_packages_page.open_settings!
 
@@ -62,14 +66,7 @@ describe 'work package export', type: :feature do
 
   before do
     work_packages_page.visit_index
-    # ensure the page is loaded before expecting anything
-    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                     visible: false)
-
     work_packages_page.click_toolbar_button 'Activate Filter'
-    expect(work_packages_page.find_filter('status')).to have_content('Status')
-    expect(work_packages_page.find_filter('status'))
-      .to have_select('operators-status', selected: 'open')
 
     # render the CSV as plain text so we can run expectations against the output
     expect_any_instance_of(WorkPackagesController)
@@ -78,20 +75,23 @@ describe 'work package export', type: :feature do
       end
   end
 
-  it 'shows all work packages with the default filters', js: true do
-    export!
-
-    expect(page).to have_text(wp_1.description)
-    expect(page).to have_text(wp_2.description)
-    expect(page).to have_text(wp_3.description)
-    expect(page).to have_text(wp_4.description)
-
-    # results are ordered by ID (desc) and not grouped by type
-    expect(page.text.scan(/Type (A|B)/).flatten).to eq %w(A B A A)
+  after do
+    DownloadedFile::clear_downloads
   end
 
-  it 'shows all work packages grouped by ', js: true do
-    work_packages_page.ensure_loaded
+  it 'shows all work packages with the default filters', js: true, retry: 2 do
+    export!
+
+    expect(subject).to have_text(wp_1.description)
+    expect(subject).to have_text(wp_2.description)
+    expect(subject).to have_text(wp_3.description)
+    expect(subject).to have_text(wp_4.description)
+
+    # results are ordered by ID (desc) and not grouped by type
+    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A B A A)
+  end
+
+  it 'shows all work packages grouped by ', js: true, retry: 2 do
     work_packages_page.open_settings!
 
     click_on 'Group by ...'
@@ -100,47 +100,48 @@ describe 'work package export', type: :feature do
 
     export!
 
-    expect(page).to have_text(wp_1.description)
-    expect(page).to have_text(wp_2.description)
-    expect(page).to have_text(wp_3.description)
-    expect(page).to have_text(wp_4.description)
+    expect(subject).to have_text(wp_1.description)
+    expect(subject).to have_text(wp_2.description)
+    expect(subject).to have_text(wp_3.description)
+    expect(subject).to have_text(wp_4.description)
 
     # grouped by type
-    expect(page.text.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
+    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
   end
 
-  it 'shows only the work package with the right progress if filtered this way', js: true do
+  it 'shows only the work package with the right progress if filtered this way',
+     js: true, retry: 2 do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
-    expect(page).not_to have_text(wp_2.description) # safeguard
+    expect(page).to have_no_content(wp_2.description) # safeguard
 
     export!
 
-    expect(page).to have_text(wp_1.description)
-    expect(page).not_to have_text(wp_2.description)
-    expect(page).not_to have_text(wp_3.description)
+    expect(subject).to have_text(wp_1.description)
+    expect(subject).not_to have_text(wp_2.description)
+    expect(subject).not_to have_text(wp_3.description)
   end
 
-  it 'shows only work packages of the filtered type', js: true do
+  it 'shows only work packages of the filtered type', js: true, retry: 2 do
     select 'Type', from: 'add_filter_select'
     select wp_3.type.name, from: 'values-type'
 
-    expect(page).not_to have_text(wp_2.description) # safeguard
+    expect(page).to have_no_content(wp_2.description) # safeguard
 
     export!
 
-    expect(page).not_to have_text(wp_1.description)
-    expect(page).not_to have_text(wp_2.description)
-    expect(page).to have_text(wp_3.description)
+    expect(subject).not_to have_text(wp_1.description)
+    expect(subject).not_to have_text(wp_2.description)
+    expect(subject).to have_text(wp_3.description)
   end
 
-  it 'exports selected columns', js: true do
+  it 'exports selected columns', js: true, retry: 2 do
     work_packages_page.add_column! 'Progress (%)'
 
     export!
 
-    expect(page).to have_text('Progress (%)')
-    expect(page).to have_text('25')
+    expect(subject).to have_text('Progress (%)')
+    expect(subject).to have_text('25')
   end
 end

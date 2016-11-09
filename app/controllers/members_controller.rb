@@ -29,17 +29,16 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_filter :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
-  before_filter :find_project, only: [:paginate_users]
-  before_filter :find_project_by_project_id, only: [:autocomplete_for_member]
-  before_filter :authorize
+  before_action :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
+  before_action :find_project_by_project_id, only: [:autocomplete_for_member, :paginate_users]
+  before_action :authorize
 
   include Pagination::Controller
-  include PaginationHelper
-
   paginate_model User
   search_for User, :search_in_project
-  search_options_for User, lambda { |_| { project: @project } }
+  search_options_for User, lambda { |*| { project: @project } }
+
+  include CellsHelper
 
   @@scripts = ['hideOnLoad', 'init_members_cb']
 
@@ -48,12 +47,7 @@ class MembersController < ApplicationController
   end
 
   def index
-    @roles = Role.find_all_givable
-    @members = index_members @project
-  end
-
-  def new
-    set_roles_and_principles!
+    set_index_data!
   end
 
   def create
@@ -70,13 +64,13 @@ class MembersController < ApplicationController
       if members.present? && params[:member]
         @member = members.first
       else
-        flash.error = l(:error_check_user_and_role)
+        flash.error = t(:error_check_user_and_role)
       end
 
-      set_roles_and_principles!
+      set_index_data!
 
       respond_to do |format|
-        format.html { render 'new' }
+        format.html { render 'index' }
       end
     end
   end
@@ -133,12 +127,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.json
       format.html do
-        if request.xhr?
-          partial = 'members/autocomplete_for_member'
-        else
-          partial = 'members/member_form'
-        end
-        render partial: partial,
+        render partial: 'members/autocomplete_for_member',
                locals: { project: @project,
                          principals: @principals,
                          roles: Role.find_all_givable }
@@ -147,6 +136,31 @@ class MembersController < ApplicationController
   end
 
   private
+
+  def authorize_for(controller, action)
+    current_user.allowed_to?({ controller: controller, action: action }, @project)
+  end
+
+  def members_table_options(roles)
+    {
+      project: @project,
+      available_roles: roles,
+      authorize_update: authorize_for('members', 'update')
+    }
+  end
+
+  def members_filter_options(roles)
+    groups = Group.all.sort
+    status = params[:status] ? params[:status] : "all"
+
+    {
+      groups: groups,
+      roles: roles,
+      status: status,
+      clear_url: project_members_path(@project),
+      project: @project
+    }
+  end
 
   def suggest_invite_via_email?(user, query, principals)
     user.admin? && # only admins may add new users via email
@@ -159,20 +173,26 @@ class MembersController < ApplicationController
     /\A\S+@\S+\.\S+\z/
   end
 
+  ##
+  # Queries all members for this project.
+  # Pagination and order is taken care of by the TableCell.
   def index_members(project)
-    order = User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s).join(', ')
-
     project
       .member_principals
       .includes(:roles, :principal, :member_roles)
-      .order(order)
-      .page(params[:page])
       .references(:users)
-      .per_page(per_page_param)
   end
 
   def self.tab_scripts
     @@scripts.join('(); ') + '();'
+  end
+
+  def set_index_data!
+    set_roles_and_principles!
+
+    @members = Members::UserFilterCell.filter index_members(@project), params
+    @members_table_options = members_table_options @roles
+    @members_filter_options = members_filter_options @roles
   end
 
   def set_roles_and_principles!

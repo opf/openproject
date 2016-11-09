@@ -34,10 +34,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
-<% if params[:first_time_user] %>
-  <foundation-modal-container showing="true">
+<% if show_onboarding_modal? %>
+  <modal-wrapper initialize="true" modal-params="{ appendClassName: 'onboarding-modal' }">
     <%= render partial: '/onboarding/starting_video_modal' %>
-  </foundation-modal-container>
+  </modal-wrapper>
 <% end %>
 
 <%= render partial: 'announcements/show' %>

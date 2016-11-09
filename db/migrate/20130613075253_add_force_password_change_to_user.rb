@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddForcePasswordChangeToUser < ActiveRecord::Migration
+class AddForcePasswordChangeToUser < ActiveRecord::Migration[4.2]
   def change
     add_column :users, :force_password_change, :boolean, default: false
     User.reset_column_information

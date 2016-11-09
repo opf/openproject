@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe 'api/v2/project_associations/available_projects.api.rabl', type: :view do
   before do
@@ -70,10 +70,6 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
                         updated_on: '2011-01-07T11:35:00Z'
                        }.to_json
       is_expected.to be_json_eql(expected_json).at_path('projects/0')
-    end
-
-    it ' should check for disabled projects' do
-      skip
     end
   end
 end

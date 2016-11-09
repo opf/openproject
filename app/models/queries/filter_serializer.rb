@@ -28,12 +28,25 @@
 #++
 
 module Queries::FilterSerializer
+  extend Queries::AvailableFilters
+
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
-    Queries::WorkPackages::Filter.from_hash(YAML.load(serialized_filter_hash) || {})
+
+    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
+      options = options.with_indifferent_access
+      filter = filter_for(field, true)
+      filter.operator = options['operator']
+      filter.values = options['values']
+      array << filter
+    end
   end
 
   def self.dump(filters)
     YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+  end
+
+  def self.filter_register
+    Queries::Register.filters[Query]
   end
 end

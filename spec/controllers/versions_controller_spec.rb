@@ -47,7 +47,7 @@ describe VersionsController, type: :controller do
     context 'without additional params' do
       before do
         login_as(user)
-        get :index, project_id: project.id
+        get :index, params: { project_id: project.id }
       end
 
       it { expect(response).to be_success }
@@ -68,7 +68,7 @@ describe VersionsController, type: :controller do
     context 'with showing completed versions' do
       before do
         login_as(user)
-        get :index, project_id: project, completed: '1'
+        get :index, params: { project_id: project, completed: '1' }
       end
 
       it { expect(response).to be_success }
@@ -93,7 +93,7 @@ describe VersionsController, type: :controller do
       before do
         login_as(user)
         version4
-        get :index, project_id: project, with_subprojects: '1'
+        get :index, params: { project_id: project, with_subprojects: '1' }
       end
 
       it { expect(response).to be_success }
@@ -118,7 +118,7 @@ describe VersionsController, type: :controller do
     before do
       login_as(user)
       version2
-      get :show, id: version2.id
+      get :show, params: { id: version2.id }
     end
 
     it { expect(response).to be_success }
@@ -134,7 +134,7 @@ describe VersionsController, type: :controller do
     # the `version` key in params, so visiting it without one failed.
     it 'renders correctly' do
       login_as(user)
-      get :new, project_id: project.id
+      get :new, params: { project_id: project.id }
       expect(response.status).to eq(200)
     end
   end
@@ -143,7 +143,7 @@ describe VersionsController, type: :controller do
     context 'with vaild attributes' do
       before do
         login_as(user)
-        post :create, project_id: project.id, version: { name: 'test_add_version' }
+        post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }
       end
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
@@ -151,36 +151,6 @@ describe VersionsController, type: :controller do
         version = Version.find_by(name: 'test_add_version')
         expect(version).not_to be_nil
         expect(version.project).to eq(project)
-      end
-    end
-
-    context 'from issue form' do
-      render_views
-
-      before do
-        login_as(user)
-        post :create, project_id: project.id, version: { name: 'test_add_version_from_issue_form' }, format: :js
-      end
-
-      it 'generates the new version' do
-        version = Version.find_by(name: 'test_add_version_from_issue_form')
-        expect(version).not_to be_nil
-        expect(version.project).to eq(project)
-      end
-
-      it 'returns updated select box with new version' do
-        version = Version.find_by(name: 'test_add_version_from_issue_form')
-
-        expect(response.body).to include(
-          "option selected=\\\"selected\\\" value=\\\"#{version.id}\\\""
-        )
-      end
-
-      it 'escapes potentially harmful html' do
-        harmful = "test <script>alert('pwned');</script>"
-        post :create, project_id: project.id, version: { name: harmful }, format: :js
-
-        expect(response.body).not_to include("<script>alert('pwned');</script>")
       end
     end
   end
@@ -191,7 +161,7 @@ describe VersionsController, type: :controller do
     before do
       login_as(user)
       version2
-      get :edit, id: version2.id
+      get :edit, params: { id: version2.id }
     end
 
     context 'when resource is found' do
@@ -206,7 +176,7 @@ describe VersionsController, type: :controller do
       version1.update_attribute :status, 'open'
       version2.update_attribute :status, 'open'
       version3.update_attribute :status, 'open'
-      put :close_completed, project_id: project.id
+      put :close_completed, params: { project_id: project.id }
     end
 
     it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
@@ -215,11 +185,18 @@ describe VersionsController, type: :controller do
 
   describe '#update' do
     context 'with valid params' do
+      let(:params) {
+        {
+          id: version1.id,
+          version: {
+            name: 'New version name',
+            effective_date: Date.today.strftime('%Y-%m-%d')
+          }
+        }
+      }
       before do
         login_as(user)
-        patch :update, id: version1.id,
-                       version: { name: 'New version name',
-                                  effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update, params: params
       end
 
       it { expect(response).to redirect_to(settings_project_path(project, tab: 'versions')) }
@@ -231,10 +208,13 @@ describe VersionsController, type: :controller do
              with a redirect url" do
       before do
         login_as(user)
-        patch :update, id: version1.id,
-                       version: { name: 'New version name',
-                                  effective_date: Date.today.strftime('%Y-%m-%d') },
-                       back_url: home_path
+        patch :update,
+              params: {
+                id: version1.id,
+                version: { name: 'New version name',
+                           effective_date: Date.today.strftime('%Y-%m-%d') },
+                back_url: home_path
+              }
       end
 
       it { expect(response).to redirect_to(home_path) }
@@ -243,9 +223,12 @@ describe VersionsController, type: :controller do
     context 'with invalid params' do
       before do
         login_as(user)
-        patch :update, id: version1.id,
-                       version: { name: '',
-                                  effective_date: Date.today.strftime('%Y-%m-%d') }
+        patch :update,
+              params: {
+                id: version1.id,
+                version: { name: '',
+                           effective_date: Date.today.strftime('%Y-%m-%d') }
+              }
       end
 
       it { expect(response).to be_success }
@@ -257,7 +240,7 @@ describe VersionsController, type: :controller do
     before do
       login_as(user)
       @deleted = version3.id
-      delete :destroy, id: @deleted
+      delete :destroy, params: { id: @deleted }
     end
 
     it 'redirects to projects versions and the version is deleted' do
@@ -273,7 +256,9 @@ describe VersionsController, type: :controller do
 
     context 'status by version' do
       before do
-        xhr :get, :status_by, id: version2.id, format: :js
+        get :status_by,
+            xhr: true,
+            params: { id: version2.id }, format: :js
       end
 
       it { expect(response).to be_success }
@@ -282,7 +267,10 @@ describe VersionsController, type: :controller do
 
     context 'status by version with status_by' do
       before do
-        xhr :get, :status_by, id: version2.id, format: :js, status_by: 'status'
+        get :status_by,
+            xhr: true,
+            params: { id: version2.id, status_by: 'status' },
+            format: :js
       end
 
       it { expect(response).to be_success }

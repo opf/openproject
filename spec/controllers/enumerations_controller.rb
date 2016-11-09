@@ -42,7 +42,9 @@ describe EnumerationsController, type: :controller do
       end
 
       describe 'not in use' do
-        before do post :destroy, id: enum_to_delete.id end
+        before do
+          post :destroy, params: { id: enum_to_delete.id }
+        end
 
         it_behaves_like 'successful delete'
       end
@@ -55,7 +57,9 @@ describe EnumerationsController, type: :controller do
         }
 
         describe 'no reassign' do
-          before do post :destroy, id: enum_to_delete.id end
+          before do
+            post :destroy, params: { id: enum_to_delete.id }
+          end
 
           it { expect(assigns(:enumerations)).to include(enum_to_reassign) }
 
@@ -66,8 +70,8 @@ describe EnumerationsController, type: :controller do
 
         describe 'reassign' do
           before do
-            post :destroy, id: enum_to_delete.id,
-                           reassign_to_id: enum_to_reassign.id
+            post :destroy,
+                 params: { id: enum_to_delete.id, reassign_to_id: enum_to_reassign.id }
           end
 
           it_behaves_like 'successful delete'

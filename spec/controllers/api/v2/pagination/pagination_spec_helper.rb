@@ -44,7 +44,7 @@ module Api
                 .with(params['q'])
                 .and_return(model)
 
-              get :index, params
+              get :index, params: params
             end
 
             it 'should be successful' do

@@ -55,21 +55,19 @@ describe Redmine::Helpers::Calendar, type: :model do
 
   it 'should monthly start day' do
     [1, 6, 7].each do |day|
-      with_settings start_of_week: day do
-        c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
-        assert_equal day, c.startdt.cwday
-        assert_equal (day + 5) % 7 + 1, c.enddt.cwday
-      end
+      Setting.start_of_week = day
+      c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
+      assert_equal day, c.startdt.cwday
+      assert_equal (day + 5) % 7 + 1, c.enddt.cwday
     end
   end
 
   it 'should weekly start day' do
     [1, 6, 7].each do |day|
-      with_settings start_of_week: day do
-        c = Redmine::Helpers::Calendar.new(Date.today, :en, :week)
-        assert_equal day, c.startdt.cwday
-        assert_equal (day + 5) % 7 + 1, c.enddt.cwday
-      end
+      Setting.start_of_week = day
+      c = Redmine::Helpers::Calendar.new(Date.today, :en, :week)
+      assert_equal day, c.startdt.cwday
+      assert_equal (day + 5) % 7 + 1, c.enddt.cwday
     end
   end
 end

@@ -57,11 +57,18 @@ describe('workPackageDetailsToolbar', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope, $compile, _I18n_, _HookService_, _$q_) {
+  beforeEach(inject(function($rootScope,
+                             $compile,
+                             ConfigurationService,
+                             _I18n_,
+                             _HookService_,
+                             _$q_) {
     $q = _$q_;
     I18n = _I18n_;
     HookService = _HookService_;
     var stub = sinon.stub(I18n, 't');
+
+    ConfigurationService.api = sinon.stub().returns($q.reject());
 
     stub.withArgs('js.button_log_time').returns('Log time');
     stub.withArgs('js.button_move').returns('Move');

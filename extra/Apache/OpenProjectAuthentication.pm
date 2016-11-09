@@ -16,6 +16,8 @@ use APR::Table ();
 
 use HTTP::Request::Common qw(POST);
 use LWP::UserAgent;
+use LWP::Protocol::http;
+
 
 # use Apache2::Directive qw();
 

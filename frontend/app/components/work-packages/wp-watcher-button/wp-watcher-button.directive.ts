@@ -30,7 +30,6 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 
 export class WorkPackageWatcherButtonController {
 
@@ -46,7 +45,7 @@ export class WorkPackageWatcherButtonController {
               public I18n,
               public wpCacheService:WorkPackageCacheService) {
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(<number> this.workPackage.id))
+    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observe($scope)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.setWatchStatus();

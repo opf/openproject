@@ -49,10 +49,12 @@ class News < ActiveRecord::Base
 
   acts_as_watchable
 
-  after_create :add_author_as_watcher
+  after_create :add_author_as_watcher,
+               :send_news_added_mail
 
   scope :visible, -> (*args) {
     includes(:project)
+      .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_news))
   }
 
@@ -66,10 +68,15 @@ class News < ActiveRecord::Base
   end
 
   def self.latest_for(user, count: 5)
-    limit(count)
-      .newest_first
-      .includes(:project, :author)
-      .merge(Project.allowed_to(user, :view_news))
+    scope = newest_first
+            .includes(:author)
+            .visible(user)
+
+    if count > 0
+      scope.limit(count)
+    else
+      scope
+    end
   end
 
   # table_name shouldn't be needed :(
@@ -93,5 +100,13 @@ class News < ActiveRecord::Base
 
   def add_author_as_watcher
     Watcher.create(watchable: self, user: author)
+  end
+
+  def send_news_added_mail
+    if Setting.notified_events.include?('news_added')
+      recipients.uniq.each do |user|
+        UserMailer.news_added(user, self, User.current).deliver_now
+      end
+    end
   end
 end

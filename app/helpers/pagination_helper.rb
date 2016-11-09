@@ -31,28 +31,22 @@ require 'will_paginate'
 
 module PaginationHelper
   def pagination_links_full(paginator, options = {})
-    if paginator.total_entries > 0
-      merged_options = {
-        renderer: LinkRenderer,
-        per_page_links: true,
-        params: params
-      }.merge(options)
+    return unless paginator.total_entries > 0
 
-      content_tag(:div, class: 'pagination') do
-        content = content_tag(:nav, pagination_entries(paginator, merged_options),
-                              class: 'pagination--pages')
+    pagination_options = default_options.merge(options)
 
-        if merged_options[:per_page_links]
-          content << content_tag(:div, pagination_settings(paginator, merged_options[:params]),
-                                 class: 'pagination--options')
-        end
+    content_tag(:div, class: 'pagination') do
+      content = content_tag(:nav, pagination_entries(paginator, pagination_options),
+                            class: 'pagination--pages')
 
-        content.html_safe
+      if pagination_options[:per_page_links]
+        content << content_tag(:div, pagination_settings(paginator, pagination_options[:params]),
+                               class: 'pagination--options')
       end
+
+      content.html_safe
     end
   end
-
-
 
   ##
   # Builds the pagination nav with pages and range
@@ -119,8 +113,8 @@ module PaginationHelper
              begin
                # + 1 as page is not 0 but 1 based
                options[:offset].to_i / per_page_param(options) + 1
-              rescue ZeroDivisionError
-                1
+             rescue ZeroDivisionError
+               1
              end
 
            else
@@ -192,5 +186,15 @@ module PaginationHelper
         ''
       end
     end
+  end
+
+  private
+
+  def default_options
+    {
+      renderer: LinkRenderer,
+      per_page_links: true,
+      params: {}
+    }
   end
 end

@@ -140,28 +140,6 @@ module LegacyAssertionsAndHelpers
     should render_template 'common/error'
   end
 
-  def should_have_before_filter(expected_method, options = {})
-    should_have_filter('before', expected_method, options)
-  end
-
-  def should_have_after_filter(expected_method, options = {})
-    should_have_filter('after', expected_method, options)
-  end
-
-  def should_have_filter(filter_type, expected_method, options)
-    description = "have #{filter_type}_filter :#{expected_method}"
-    description << " with #{options.inspect}" unless options.empty?
-
-    should description do
-      klass = "action_controller/filters/#{filter_type}_filter".classify.constantize
-      expected = klass.new(:filter, expected_method.to_sym, options)
-      assert_equal 1, @controller.class.filter_chain.count { |filter|
-        filter.method == expected.method && filter.kind == expected.kind &&
-          filter.options == expected.options && filter.class == expected.class
-      }
-    end
-  end
-
   def should_show_the_old_and_new_values_for(prop_key, model, &block)
     context '' do
       before do
@@ -226,6 +204,8 @@ module LegacyAssertionsAndHelpers
 
   module ClassMethods
     def ldap_configured?
+      return false if !!ENV['CI']
+
       @test_ldap = Net::LDAP.new(host: '127.0.0.1', port: 389)
       return @test_ldap.bind
     rescue Exception => e
@@ -287,17 +267,8 @@ module LegacyAssertionsAndHelpers
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
           it 'include correct www_authenticate_header' do
-            # the 3.0.9 implementation of head leads to Www as the method capitalizes each
-            # word split by a hyphen.
-            # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
-            # remove this switch once on 3.1.0
-            if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
-              assert @controller.response.headers.has_key?('Www-Authenticate')
-              assert_equal 'Session realm="OpenProject API"', @controller.response.headers['Www-Authenticate']
-            else
-              assert @controller.response.headers.has_key?('WWW-Authenticate')
-              assert_equal 'Session realm="OpenProject API"', @controller.response.headers['WWW-Authenticate']
-            end
+            assert response.headers.has_key?('WWW-Authenticate')
+            assert_equal 'Session realm="OpenProject API"', response.headers['WWW-Authenticate']
           end
         end
       end
@@ -349,15 +320,7 @@ module LegacyAssertionsAndHelpers
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
           it 'include_www_authenticate_header' do
-            # the 3.0.9 implementation of head leads to Www as the method capitalizes each
-            # word split by a hyphen.
-            # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
-            # remove this switch once on 3.1.0
-            if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
-              assert @controller.response.headers.has_key?('Www-Authenticate')
-            else
-              assert @controller.response.headers.has_key?('WWW-Authenticate')
-            end
+            assert response.headers.has_key?('WWW-Authenticate')
           end
         end
       end

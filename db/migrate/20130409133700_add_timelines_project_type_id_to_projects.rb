@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration
+class AddTimelinesProjectTypeIdToProjects < ActiveRecord::Migration[4.2]
   def self.up
     change_table(:projects) do |t|
       t.belongs_to :timelines_project_type

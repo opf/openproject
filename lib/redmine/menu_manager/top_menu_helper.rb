@@ -107,7 +107,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
       label: l(:label_modules),
-      label_options: { class: 'icon5 icon-modules' },
+      label_options: { class: 'icon3 icon-modules' },
       items: items,
       options: { drop_down_id: 'more-menu' }
     )

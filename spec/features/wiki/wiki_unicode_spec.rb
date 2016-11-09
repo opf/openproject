@@ -101,6 +101,8 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
   it 'shows renders correct links' do
     expected_titles.each_with_index do |title, i|
       visit project_wiki_path(project, :wiki)
+
+      expect(page).to have_selector('div.wiki-content')
       target_link = all('div.wiki-content a.wiki-page')[i]
 
       expect(target_link.text).to eq(title)

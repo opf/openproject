@@ -42,7 +42,8 @@ class ::Query::Results
 
   # Returns the work package count
   def work_package_count
-    WorkPackage.includes(:status, :project)
+    WorkPackage.visible
+               .includes(:status, :project)
                .where(query.statement)
                .references(:statuses, :projects)
                .count
@@ -57,7 +58,9 @@ class ::Query::Results
       if query.grouped?
         begin
           # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-          r = WorkPackage.group(query.group_by_statement)
+          r = WorkPackage
+              .group(query.group_by_statement)
+              .visible
               .includes(:status, :project)
               .where(query.statement)
               .references(:statuses, :projects)
@@ -84,7 +87,12 @@ class ::Query::Results
     includes = ([:status, :project] +
       includes_for_columns(query.involved_columns) + (options[:include] || [])).uniq
 
+    # A 'distinct' is added by the visible scope which is not necessary for
+    # filtering the work packages and which might conflict with ordering in
+    # mysql.
     WorkPackage
+      .visible
+      .distinct(false)
       .where(::Query.merge_conditions(query.statement, options[:conditions]))
       .includes(includes)
       .joins((query.group_by_column ? query.group_by_column.join : nil))
@@ -101,9 +109,9 @@ class ::Query::Results
   end
 
   def versions
-    Version.includes(:project)
+    Version
+      .visible
       .where(::Query.merge_conditions(query.project_statement, options[:conditions]))
-      .references(:projects)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end

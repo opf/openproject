@@ -41,48 +41,45 @@ require 'legacy_spec_helper'
 
 describe Redmine::CodesetUtil do
   it 'should to utf8 by setting from latin1' do
-    with_settings repositories_encodings: 'UTF-8,ISO-8859-1' do
-      s1 = "Texte encod\xc3\xa9"
-      s2 = "Texte encod\xe9"
-      s3 = s2.dup
-      if s1.respond_to?(:force_encoding)
-        s1.force_encoding('UTF-8')
-        s2.force_encoding('ASCII-8BIT')
-        s3.force_encoding('UTF-8')
-      end
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
+    Setting.repositories_encodings = 'UTF-8,ISO-8859-1'
+    s1 = "Texte encod\xc3\xa9"
+    s2 = "Texte encod\xe9"
+    s3 = s2.dup
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding('UTF-8')
+      s2.force_encoding('ASCII-8BIT')
+      s3.force_encoding('UTF-8')
     end
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
   end
 
   it 'should to utf8 by setting from euc jp' do
-    with_settings repositories_encodings: 'UTF-8,EUC-JP' do
-      s1 = "\xe3\x83\xac\xe3\x83\x83\xe3\x83\x89\xe3\x83\x9e\xe3\x82\xa4\xe3\x83\xb3"
-      s2 = "\xa5\xec\xa5\xc3\xa5\xc9\xa5\xde\xa5\xa4\xa5\xf3"
-      s3 = s2.dup
-      if s1.respond_to?(:force_encoding)
-        s1.force_encoding('UTF-8')
-        s2.force_encoding('ASCII-8BIT')
-        s3.force_encoding('UTF-8')
-      end
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
+    Setting.repositories_encodings = 'UTF-8,EUC-JP'
+    s1 = "\xe3\x83\xac\xe3\x83\x83\xe3\x83\x89\xe3\x83\x9e\xe3\x82\xa4\xe3\x83\xb3"
+    s2 = "\xa5\xec\xa5\xc3\xa5\xc9\xa5\xde\xa5\xa4\xa5\xf3"
+    s3 = s2.dup
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding('UTF-8')
+      s2.force_encoding('ASCII-8BIT')
+      s3.force_encoding('UTF-8')
     end
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
   end
 
   it 'should to utf8 by setting should be converted all latin1' do
-    with_settings repositories_encodings: 'ISO-8859-1' do
-      s1 = "\xc3\x82\xc2\x80"
-      s2 = "\xC2\x80"
-      s3 = s2.dup
-      if s1.respond_to?(:force_encoding)
-        s1.force_encoding('UTF-8')
-        s2.force_encoding('ASCII-8BIT')
-        s3.force_encoding('UTF-8')
-      end
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
-      assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
+    Setting.repositories_encodings = 'ISO-8859-1'
+    s1 = "\xc3\x82\xc2\x80"
+    s2 = "\xC2\x80"
+    s3 = s2.dup
+    if s1.respond_to?(:force_encoding)
+      s1.force_encoding('UTF-8')
+      s2.force_encoding('ASCII-8BIT')
+      s3.force_encoding('UTF-8')
     end
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s2)
+    assert_equal s1, Redmine::CodesetUtil.to_utf8_by_setting(s3)
   end
 
   it 'should to utf8 by setting blank string' do
@@ -108,28 +105,26 @@ describe Redmine::CodesetUtil do
   end
 
   it 'should to utf8 by setting invalid utf8 sequences should be stripped' do
-    with_settings repositories_encodings: '' do
-      s1 = "Texte encod\xe9 en ISO-8859-1."
-      s1.force_encoding('ASCII-8BIT') if s1.respond_to?(:force_encoding)
-      str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
-      if str.respond_to?(:force_encoding)
-        assert str.valid_encoding?
-        assert_equal 'UTF-8', str.encoding.to_s
-      end
-      assert_equal 'Texte encod? en ISO-8859-1.', str
+    Setting.repositories_encodings = ''
+    s1 = "Texte encod\xe9 en ISO-8859-1."
+    s1.force_encoding('ASCII-8BIT') if s1.respond_to?(:force_encoding)
+    str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
+    if str.respond_to?(:force_encoding)
+      assert str.valid_encoding?
+      assert_equal 'UTF-8', str.encoding.to_s
     end
+    assert_equal 'Texte encod? en ISO-8859-1.', str
   end
 
   it 'should to utf8 by setting invalid utf8 sequences should be stripped ja jis' do
-    with_settings repositories_encodings: 'ISO-2022-JP' do
-      s1 = "test\xb5\xfetest\xb5\xfe"
-      s1.force_encoding('ASCII-8BIT') if s1.respond_to?(:force_encoding)
-      str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
-      if str.respond_to?(:force_encoding)
-        assert str.valid_encoding?
-        assert_equal 'UTF-8', str.encoding.to_s
-      end
-      assert_equal 'test??test??', str
+    Setting.repositories_encodings = 'ISO-2022-JP'
+    s1 = "test\xb5\xfetest\xb5\xfe"
+    s1.force_encoding('ASCII-8BIT') if s1.respond_to?(:force_encoding)
+    str = Redmine::CodesetUtil.to_utf8_by_setting(s1)
+    if str.respond_to?(:force_encoding)
+      assert str.valid_encoding?
+      assert_equal 'UTF-8', str.encoding.to_s
     end
+    assert_equal 'test??test??', str
   end
 end

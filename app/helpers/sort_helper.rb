@@ -218,6 +218,10 @@ module SortHelper
     @sort_criteria.to_sql
   end
 
+  def sort_columns
+    @sort_criteria.criteria.map(&:first)
+  end
+
   # Determines whether the current selected sort criteria
   # is identical to the default
   def default_sort_order?
@@ -235,12 +239,9 @@ module SortHelper
     caption ||= column.to_s.humanize
 
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
-    url_options = params.merge(sort_options)
 
-    # Add project_id to url_options
-    url_options = url_options.merge(project_id: params[:project_id]) if params.has_key?(:project_id)
-
-    link_to_content_update(h(caption), url_options, html_options)
+    # relying on url_for to take the rest of the current params from the request
+    link_to_content_update(h(caption), sort_options, html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -311,10 +312,10 @@ module SortHelper
     caption = options.delete(:caption) || column.to_s.humanize
 
     if column.to_s == @sort_criteria.first_key
-      order = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
-      order + " #{l(:label_sorted_by, "\"#{caption}\"")}"
+      order = @sort_criteria.first_asc? ? t(:label_ascending) : t(:label_descending)
+      order + " #{t(:label_sorted_by, value: "\"#{caption}\"")}"
     else
-      l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+      t(:label_sort_by, value: "\"#{caption}\"") unless options[:title]
     end
   end
 end

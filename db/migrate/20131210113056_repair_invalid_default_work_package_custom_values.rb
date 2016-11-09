@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
+class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
   def up
     unless custom_field_default_values.empty?
       create_missing_work_package_custom_values

@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%=l(:label_type_plural)%></legend>
       <div class="form--field">
-        <div class="form--field-container">
+        <div class="form--field-container -wrap-around">
           <% for type in @types %>
             <%= content_tag :label, '',
                   class: "form--label-with-check-box",

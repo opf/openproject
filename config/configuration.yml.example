@@ -208,6 +208,16 @@ default:
   # possible values are :cookie_store, :cache_store, :active_record_store
   session_store: :cache_store
 
+  # If the session store is :active_record_store, the following configuration settings
+  # are available
+
+  # Delete old sessions for the same user when logging in
+  # Disabled by default to allow multiple concurrent sessions.
+  # drop_old_sessions_on_login: false
+
+  # Delete old sessions for the same user when logging out. (Enabled by default)
+  # drop_old_sessions_on_logout: true
+
   # define your airbrake api key. optionally provide a different host and port
   # to connect to a different backend (e.g. a self-hosted errbit)
   # airbrake:

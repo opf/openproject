@@ -30,14 +30,14 @@
 class ReportingsController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project_by_project_id
-  before_filter :authorize
+  before_action :disable_api
+  before_action :find_project_by_project_id
+  before_action :authorize
 
-  before_filter :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
-  before_filter :build_reporting, only: :create
+  before_action :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_action :build_reporting, only: :create
 
-  before_filter :check_visibility, except: [:create, :index, :new, :available_projects]
+  before_action :check_visibility, except: [:create, :index, :new, :available_projects]
 
   accept_key_auth :index, :show
 

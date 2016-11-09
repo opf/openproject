@@ -71,33 +71,37 @@ describe Project, type: :model do
     assert_equal 'eCookbook', @ecookbook.name
   end
 
-  it 'should default attributes' do
-    with_settings default_projects_public: '1' do
+  context 'when default public', with_settings: { default_projects_public?: true } do
+    it 'should default attributes' do
       assert_equal true, Project.new.is_public
       assert_equal false, Project.new(is_public: false).is_public
-    end
 
-    with_settings default_projects_public: '0' do
+      assert_equal ::Type.all, Project.new.types
+      assert_equal ::Type.find(1, 3), Project.new(type_ids: [1, 3]).types
+    end
+  end
+
+  context 'when default private', with_settings: { default_projects_public?: false } do
+    it 'should default attributes' do
       assert_equal false, Project.new.is_public
       assert_equal true, Project.new(is_public: true).is_public
     end
+  end
 
-    with_settings sequential_project_identifiers: '1' do
+  context 'with sequential identifiers',
+          with_settings: { sequential_project_identifiers?: true } do
+    it 'should default attributes' do
       assert !Project.new.identifier.blank?
       assert Project.new(identifier: '').identifier.blank?
     end
+  end
 
-    with_settings sequential_project_identifiers: '0' do
+  context 'with no sequential identifiers',
+          with_settings: { sequential_project_identifiers?: false } do
+    it 'should default attributes' do
       assert Project.new.identifier.blank?
       assert !Project.new(identifier: 'test').blank?
     end
-
-    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
-      assert_equal ['work_package_tracking', 'repository'], Project.new.enabled_module_names
-    end
-
-    assert_equal ::Type.all, Project.new.types
-    assert_equal ::Type.find(1, 3), Project.new(type_ids: [1, 3]).types
   end
 
   it 'should update' do
@@ -351,9 +355,8 @@ describe Project, type: :model do
   end
 
   it 'should descendants' do
-    d = Project.find(1).descendants
-    assert d.first.is_a?(Project)
-    assert_equal [5, 6, 3, 4], d.map(&:id)
+    d = Project.find(1).descendants.pluck(:id)
+    assert_equal [3,4,5,6], d.sort
   end
 
   it 'should allowed parents should be empty for non member user' do
@@ -612,8 +615,9 @@ describe Project, type: :model do
     assert_nil Project.next_identifier
   end
 
-  it 'should enabled module names' do
-    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
+  context 'with modules',
+          with_settings: { default_projects_modules: ['work_package_tracking', 'repository'] } do
+    it 'should enabled module names' do
       project = Project.new
 
       project.enabled_module_names = %w(work_package_tracking news)
@@ -624,7 +628,7 @@ describe Project, type: :model do
   it 'should enabled module names should not recreate enabled modules' do
     project = Project.find(1)
     # Remove one module
-    modules = project.enabled_modules.slice(0..-2)
+    modules = project.enabled_modules.to_a.slice(0..-2)
     assert modules.any?
     assert_difference 'EnabledModule.count', -1 do
       project.enabled_module_names = modules.map(&:name)
@@ -744,7 +748,7 @@ describe Project, type: :model do
   context 'Project#copy' do
     before do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
-      Project.destroy_all identifier: 'copy-test'
+      Project.where(identifier: 'copy-test').destroy_all
       @source_project = Project.find(2)
       @project = Project.new(name: 'Copy Test', identifier: 'copy-test')
       @project.types = @source_project.types
@@ -887,7 +891,7 @@ describe Project, type: :model do
       assert @project.copy(@source_project)
       member = Member.find_by(user_id: user.id, project_id: @project.id)
       refute_nil member
-      assert_equal [1, 2], member.role_ids.sort
+      assert_equal [1, 2], member.roles.all.map(&:id).sort
     end
 
     it 'should copy project specific queries' do

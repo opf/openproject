@@ -28,19 +28,13 @@
 #++
 require 'legacy_spec_helper'
 
-describe 'MenuManager' do
+describe 'MenuManager', with_settings: { login_required: 0 } do
   include Redmine::I18n
 
   fixtures :all
 
   def document_root_element
     html_document.root
-  end
-
-  around do |example|
-    with_settings login_required: '0' do
-      example.run
-    end
   end
 
   it 'project menu with specific locale' do

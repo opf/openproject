@@ -22,7 +22,7 @@
   <div class="tl-toolbar-container">
     <form>
       <label for="tl-toolbar-zooms" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.zooms') }}</label>
-      <select id="tl-toolbar-zooms" name="zooms" ng-model="ctrl.currentScale" ng-options="I18n.t('js.' + ctrl.timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in ctrl.timeline.ZOOM_SCALES">
+      <select id="tl-toolbar-zooms" name="zooms" ng-model="ctrl.currentScale" ng-options="scale as I18n.t('js.' + ctrl.timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in ctrl.timeline.ZOOM_SCALES">
       </select>
     </form>
   </div>

@@ -106,7 +106,7 @@ class PermittedParams
 
     permitted_params = params.require(:work_package).permit(*permitted)
 
-    permitted_params.merge!(custom_field_values(:work_package))
+    permitted_params = permitted_params.merge(custom_field_values(:work_package))
 
     permitted_params
   end
@@ -130,7 +130,7 @@ class PermittedParams
 
     permitted_params = params.require(:planning_element).permit(*permitted)
 
-    permitted_params.merge!(custom_field_values(:planning_element))
+    permitted_params = permitted_params.merge(custom_field_values(:planning_element))
 
     permitted_params
   end
@@ -175,7 +175,7 @@ class PermittedParams
 
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
-    permitted_params.merge!(custom_field_values(:user))
+    permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
   end
@@ -183,7 +183,7 @@ class PermittedParams
   def user_register_via_omniauth
     permitted_params = params.require(:user) \
                        .permit(:login, :firstname, :lastname, :mail, :language)
-    permitted_params.merge!(custom_field_values(:user))
+    permitted_params = permitted_params.merge(custom_field_values(:user))
 
     permitted_params
   end
@@ -207,7 +207,7 @@ class PermittedParams
                        [:admin, :login]
 
       permitted_params = params.require(:user).permit(*allowed_params)
-      permitted_params.merge!(custom_field_values(:user))
+      permitted_params = permitted_params.merge(custom_field_values(:user))
 
       permitted_params
     else
@@ -222,6 +222,10 @@ class PermittedParams
 
   def type_move
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
+  end
+
+  def search
+    params.permit(*self.class.permitted_attributes[:search])
   end
 
   def work_package
@@ -274,7 +278,7 @@ class PermittedParams
                                  :comments_sorting, :warn_on_leaving_unsaved)
   end
 
-  def project(instance = nil)
+  def project
     whitelist = params.require(:project).permit(:name,
                                                 :description,
                                                 :is_public,
@@ -286,17 +290,9 @@ class PermittedParams
                                                 type_ids: [],
                                                 enabled_module_names: [])
 
-    if instance &&
-       (instance.new_record? || current_user.allowed_to?(:select_project_modules, instance))
-      whitelist.permit(enabled_module_names: [])
-    end
-
-    if instance && current_user.allowed_to?(:add_subprojects, instance)
-      whitelist.permit(:parent_id)
-    end
-
     unless params[:project][:custom_field_values].nil?
-      whitelist[:custom_field_values] = params[:project][:custom_field_values]
+      # Permit the sub-hash for custom_field_values
+      whitelist[:custom_field_values] = params[:project][:custom_field_values].permit!
     end
 
     whitelist
@@ -412,13 +408,13 @@ class PermittedParams
     # a hash of arbitrary values is not supported by strong params
     # thus we do it by hand
     object = required ? params.require(key) : params.fetch(key, {})
-    values = object[:custom_field_values] || {}
+    values = object[:custom_field_values] || ActionController::Parameters.new
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
     values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
 
-    values.empty? ? {} : { 'custom_field_values' => values }
+    values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end
 
   def permitted_attributes(key, additions = {})
@@ -599,6 +595,19 @@ class PermittedParams
           :assignable,
           :move_to,
           permissions: []],
+        search: [
+          :q,
+          :scope,
+          :all_words,
+          :titles_only,
+          :work_packages,
+          :news,
+          :changesets,
+          :wiki_pages,
+          :messages,
+          :projects,
+          :submit
+        ],
         status: [
           :name,
           :default_done_ratio,

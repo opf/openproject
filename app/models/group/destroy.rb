@@ -66,7 +66,7 @@ module Group::Destroy
           "INNER JOIN #{members} b ON #{members}.project_id = b.project_id
            INNER JOIN #{watchers} ON #{watchers}.user_id = #{members}.user_id
            WHERE b.user_id = #{self.id}")
-        .uniq
+        .distinct
         .each { |member| Watcher.prune(user: member.user, project_id: member.project_id) }
 
       # Destroy member instances for this group itself to trigger

@@ -33,21 +33,20 @@ class NewsController < ApplicationController
 
   default_search_scope :news
 
-  before_filter :disable_api
-  before_filter :find_news_object, except: [:new, :create, :index, :preview]
-  before_filter :find_project_from_association, except: [:new, :create, :index, :preview]
-  before_filter :find_project, only: [:new, :create]
-  before_filter :authorize, except: [:index, :preview]
-  before_filter :find_optional_project, only: [:index]
+  before_action :disable_api
+  before_action :find_news_object, except: [:new, :create, :index, :preview]
+  before_action :find_project_from_association, except: [:new, :create, :index, :preview]
+  before_action :find_project, only: [:new, :create]
+  before_action :authorize, except: [:index, :preview]
+  before_action :find_optional_project, only: [:index]
   accept_key_auth :index
 
   def index
-    scope = @project ? @project.news.visible : News.visible
+    scope = @project ? @project.news : News.all
 
-    @newss = scope.includes(:author, :project)
-             .order("#{News.table_name}.created_on DESC")
-             .page(params[:page])
-             .per_page(per_page_param)
+    @newss = scope.merge(News.latest_for(current_user, count: 0))
+                  .page(params[:page])
+                  .per_page(per_page_param)
 
     respond_to do |format|
       format.html do

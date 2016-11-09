@@ -140,9 +140,9 @@ table.generic-table
 
   tbody
     tr
-      border-bottom: 1px solid $light-gray
+      border-bottom: 1px solid $table-row-border-color
       &:hover
-        background: #e4f7fb
+        background: $table-row-highlighting-color
 
     td
       max-width: 300px
@@ -241,8 +241,8 @@ table.generic-table
   width:        100%
   height:       $generic-table--header-height
   background:   $body-background
-  border-bottom: 1px solid $light-gray
-  box-shadow:   0 5px 15px -5px $light-gray
+  border-bottom: 1px solid $table-header-border-color
+  box-shadow:   0 5px 3px -4px $table-header-shadow-color
   z-index:      0
 
   &.-no-border

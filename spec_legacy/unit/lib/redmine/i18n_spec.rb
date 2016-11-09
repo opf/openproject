@@ -72,55 +72,45 @@ describe Redmine::I18n do
   it 'should time format' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
-    with_settings time_format: '%H:%M' do
-      with_settings date_format: '' do
-        assert_equal '02/20/2011 15:45', format_time(now)
-        assert_equal '15:45', format_time(now, false)
-      end
+    Setting.time_format = '%H:%M'
+    Setting.date_format = '%Y-%m-%d'
+    assert_equal '2011-02-20 15:45', format_time(now)
+    assert_equal '15:45', format_time(now, false)
 
-      with_settings date_format: '%Y-%m-%d' do
-        assert_equal '2011-02-20 15:45', format_time(now)
-        assert_equal '15:45', format_time(now, false)
-      end
-    end
+    Setting.date_format = ''
+    assert_equal '02/20/2011 15:45', format_time(now)
+    assert_equal '15:45', format_time(now, false)
   end
 
   it 'should time format default' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
-    with_settings time_format: '' do
-      with_settings date_format: '' do
-        assert_equal '02/20/2011 03:45 PM', format_time(now)
-        assert_equal '03:45 PM', format_time(now, false)
-      end
+    Setting.time_format = ''
+    Setting.date_format = '%Y-%m-%d'
+    assert_equal '2011-02-20 03:45 PM', format_time(now)
+    assert_equal '03:45 PM', format_time(now, false)
 
-      with_settings date_format: '%Y-%m-%d' do
-        assert_equal '2011-02-20 03:45 PM', format_time(now)
-        assert_equal '03:45 PM', format_time(now, false)
-      end
-    end
+    Setting.date_format = ''
+    assert_equal '02/20/2011 03:45 PM', format_time(now)
+    assert_equal '03:45 PM', format_time(now, false)
   end
 
   it 'should time format' do
     set_language_if_valid 'en'
     now = Time.now
-    with_settings time_format: '%H %M' do
-      with_settings date_format: '%d %m %Y' do
-        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-        assert_equal now.strftime('%H %M'), format_time(now, false)
-      end
-    end
+    Setting.time_format = '%H %M'
+    Setting.date_format = '%d %m %Y'
+    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+    assert_equal now.strftime('%H %M'), format_time(now, false)
   end
 
   it 'should utc time format' do
     set_language_if_valid 'en'
     now = Time.now
-    with_settings time_format: '%H %M' do
-      with_settings date_format: '%d %m %Y' do
-        assert_equal now.localtime.strftime('%d %m %Y %H %M'), format_time(now.utc)
-        assert_equal now.localtime.strftime('%H %M'), format_time(now.utc, false)
-      end
-    end
+    Setting.time_format = '%H %M'
+    Setting.date_format = '%d %m %Y'
+    assert_equal now.localtime.strftime('%d %m %Y %H %M'), format_time(now.utc)
+    assert_equal now.localtime.strftime('%H %M'), format_time(now.utc, false)
   end
 
   it 'should number to human size for each language' do

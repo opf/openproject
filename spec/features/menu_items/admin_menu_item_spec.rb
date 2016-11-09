@@ -41,7 +41,7 @@ feature 'Admin menu items' do
 
   describe 'displaying all the menu items' do
     it 'hides the specified admin menu items' do
-      visit admin_path
+      visit admin_index_path
 
       expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
       expect(page).to have_selector('a', text: I18n.t('label_project_plural'))
@@ -56,7 +56,7 @@ feature 'Admin menu items' do
     end
 
     it 'hides the specified admin menu items' do
-      visit admin_path
+      visit admin_index_path
 
       expect(page).to have_selector('a', text: I18n.t('label_user_plural'))
       expect(page).to have_selector('a', text: I18n.t('label_project_plural'))

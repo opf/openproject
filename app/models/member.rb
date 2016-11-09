@@ -46,6 +46,10 @@ class Member < ActiveRecord::Base
   after_save :save_notification
   after_destroy :destroy_notification
 
+  def self.visible(user)
+    where(project_id: Project.visible_by(user))
+  end
+
   def name
     principal.name
   end

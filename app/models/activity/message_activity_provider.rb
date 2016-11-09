@@ -75,7 +75,7 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
   private
 
   def boards_table
-    @boards_table ||= Arel::Table.new(:boards)
+    @boards_table ||= Board.arel_table
   end
 
   def url_helper_parameter(event)

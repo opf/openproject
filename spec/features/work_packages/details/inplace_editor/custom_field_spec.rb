@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-describe 'custom field inplace editor', js: true, selenium: true do
+describe 'custom field inplace editor', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:type) { FactoryGirl.create(:type_standard, custom_fields: custom_fields) }
   let(:project) {
@@ -77,13 +77,13 @@ describe 'custom field inplace editor', js: true, selenium: true do
     let(:initial_custom_values) { {} }
 
     it 'properly updates both values' do
-      field1.activate_edition
+      field1.activate!
       expect_update 'bar',
                     message: I18n.t('js.notice_successful_update'),
                     field: field1
 
 
-      field2.activate_edition
+      field2.activate!
       expect_update 'Y',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2
@@ -91,11 +91,11 @@ describe 'custom field inplace editor', js: true, selenium: true do
       wp_page.expect_attributes customField1: 'bar',
                                 customField2: 'Y'
 
-      field1.activate_edition
+      field1.activate!
       field1.expect_value('/api/v3/string_objects?value=bar')
       field1.cancel_by_escape
 
-      field2.activate_edition
+      field2.activate!
       field2.expect_value('/api/v3/string_objects?value=Y')
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
@@ -121,7 +121,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
       }
 
       it 'renders errors for invalid entries' do
-        field.activate_edition
+        field.activate!
         # exceeding max length
         expect_update '123456',
                       type: :error,
@@ -143,13 +143,13 @@ describe 'custom field inplace editor', js: true, selenium: true do
       let(:args) { {} }
       it 'renders errors for invalid entries' do
         # Valid input
-        field.activate_edition
+        field.activate!
         expect_update '9999999999',
                       message: I18n.t('js.notice_successful_update')
         wp_page.expect_attributes fieldName => '9999999999'
 
         # Remove value
-        field.activate_edition
+        field.activate!
         expect_update '',
                       message: I18n.t('js.notice_successful_update')
         wp_page.expect_attributes fieldName => '-'
@@ -167,7 +167,7 @@ describe 'custom field inplace editor', js: true, selenium: true do
 
       it 'renders errors for invalid entries' do
         # Invalid input (non-digit)
-        field.activate_edition
+        field.activate!
         field.set_value ''
         field.expect_invalid
 

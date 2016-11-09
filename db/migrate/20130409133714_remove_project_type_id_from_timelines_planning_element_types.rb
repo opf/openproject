@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveProjectTypeIdFromTimelinesPlanningElementTypes < ActiveRecord::Migration
+class RemoveProjectTypeIdFromTimelinesPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     change_table(:timelines_planning_element_types) do |t|
       t.remove :project_type_id

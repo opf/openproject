@@ -64,7 +64,7 @@ describe ProjectsController, type: :controller do
     assert_response :success
     assert_template 'common/feed'
     assert_select 'feed>title', text: 'OpenProject: Latest projects'
-    assert_select 'feed>entry', count: Project.where(Project.visible_by(User.current)).count
+    assert_select 'feed>entry', count: Project.visible(User.current).count
   end
 
   context '#index' do
@@ -144,7 +144,7 @@ describe ProjectsController, type: :controller do
                description: 'weblog',
                identifier: 'blog',
                is_public: 1,
-               custom_field_values: { '3' => 'Beta' },
+               custom_field_values: { :'3' => 'Beta' },
                type_ids: ['1', '3'],
                # an issue custom field that is not for all project
                work_package_custom_field_ids: ['9'],
@@ -280,8 +280,9 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  it 'should create should preserve modules on validation failure' do
-    with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
+  context 'with default modules',
+          with_settings: { default_projects_modules: %w(work_package_tracking repository) } do
+    it 'should create should preserve modules on validation failure' do
       session[:user_id] = 1
       assert_no_difference 'Project.count' do
         post :create, project: {
@@ -433,8 +434,7 @@ describe ProjectsController, type: :controller do
   # A hook that is manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
-      # Adds a project stylesheet
-      stylesheet_link_tag(context[:project].identifier) if context[:project]
+      context[:controller].send(:render, text: '<p id="hookselector">Hello from hook!</p>')
     end
   end
   # Don't use this hook now
@@ -443,8 +443,7 @@ describe ProjectsController, type: :controller do
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
-    assert_select('link', {attributes: { href: '/stylesheets/ecookbook.css' },
-               parent: { tag: 'head' }})
+    assert_select('p#hookselector')
 
     Redmine::Hook.clear_listeners
   end

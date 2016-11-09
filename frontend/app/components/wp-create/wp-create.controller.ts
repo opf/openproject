@@ -30,7 +30,6 @@ import {wpDirectivesModule} from "../../angular-modules";
 import {WorkPackageCreateService} from "./wp-create.service";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
@@ -41,11 +40,28 @@ export class WorkPackageCreateController {
   public successState:string;
 
   public get header():string {
-    if (this.parentWorkPackage) {
-      return this.I18n.t('js.work_packages.create.header_with_parent',
-        {type: this.parentWorkPackage.type.name, id: this.parentWorkPackage.id});
+    if (!this.newWorkPackage.type) {
+      return this.I18n.t('js.work_packages.create.header_no_type');
     }
-    return this.I18n.t('js.work_packages.create.header');
+
+    if (this.parentWorkPackage) {
+      return this.I18n.t(
+        'js.work_packages.create.header_with_parent',
+        {
+          type: this.newWorkPackage.type.name,
+          parent_type: this.parentWorkPackage.type.name,
+          id: this.parentWorkPackage.id
+        }
+      );
+    }
+
+    if (this.newWorkPackage.type) {
+      return this.I18n.t(
+        'js.work_packages.create.header',
+        { type: this.newWorkPackage.type.name }
+      );
+    }
+
   }
 
   constructor(protected $state,
@@ -66,7 +82,7 @@ export class WorkPackageCreateController {
         wpCacheService.updateWorkPackage(wp);
 
         if ($state.params.parent_id) {
-          scopedObservable($scope, wpCacheService.loadWorkPackage($state.params.parent_id))
+          wpCacheService.loadWorkPackage($state.params.parent_id).observe($scope)
             .subscribe(parent => {
               this.parentWorkPackage = parent;
               this.newWorkPackage.parent = parent;
@@ -77,7 +93,9 @@ export class WorkPackageCreateController {
   }
 
   protected newWorkPackageFromParams(stateParams) {
-    return this.wpCreate.createNewWorkPackage(stateParams.projectPath);
+    const type = parseInt(stateParams.type);
+
+    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
   public cancelAndBackToList() {
@@ -85,19 +103,12 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage(successState:string):ng.IPromise<WorkPackageResource> {
-    if (this.wpEditModeState.active) {
-      return this.wpEditModeState.save().then(wp => {
-        this.newWorkPackage = null;
-        this.refreshAfterSave(wp, successState);
-        return wp;
-      });
-    }
-
-    return this.$q.reject();
+  public saveWorkPackage():ng.IPromise<WorkPackageResource> {
+    return this.wpEditModeState.save();
   }
 
-  private refreshAfterSave(wp, successState) {
+  public refreshAfterSave(wp, successState) {
+    this.wpEditModeState.onSaved();
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');

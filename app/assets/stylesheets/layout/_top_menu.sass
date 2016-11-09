@@ -75,7 +75,7 @@
       zoom: 1
       @include default-font($header-item-font-color, $header-item-font-size)
       text-decoration: none
-      padding: 0 10px 0 10px
+      padding: 0 15px 0 15px
 
     > a:hover
       background: $header-item-bg-hover-color
@@ -115,7 +115,7 @@
       &:after
         @include icon-common
         font-size: 10px
-        padding: 0 2px 0 9px
+        padding: 0 0 0 9px
         @extend .icon-pulldown:before
     &:hover
       background-color: $header-item-bg-hover-color
@@ -228,6 +228,9 @@ input.top-menu-search--input
   .top-menu-search.-collapsed &
     display: none
 
+  &:hover, &:focus
+    border: $header-search-field-border
+
 #quick-search
   float: right
 
@@ -297,8 +300,10 @@ input.top-menu-search--input
     .avatar
       // To accommodate the padding of the help icon which exisits because of the circle
       margin-top: -5px
-  .icon-help1:before
-    padding-right: 0
+  .icon-help:before
+    border: 2px solid $header-item-font-color
+    border-radius: 50%
+    padding: 0.25rem
   .icon-user
     font-size: 18px
 

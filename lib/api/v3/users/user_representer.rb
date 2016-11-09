@@ -53,6 +53,14 @@ module API
           }
         end
 
+        link :updateImmediately do
+          {
+            href: api_v3_paths.user(represented.id),
+            title: "Update #{represented.login}",
+            method: :patch
+          } if current_user_is_admin
+        end
+
         link :lock do
           {
             href: api_v3_paths.user_lock(represented.id),
@@ -80,23 +88,44 @@ module API
         property :id,
                  render_nil: true
         property :login,
-                 render_nil: true
+                 render_nil: false,
+                 getter: ->(*) { represented.login },
+                 setter: ->(value, *) { represented.login = value },
+                 exec_context: :decorator,
+                 if: ->(*) { current_user_is_admin_or_self }
+        property :admin,
+                 render_nil: false,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   represented.admin?
+                 },
+                 if: ->(*) { current_user_is_admin }
         property :subtype,
                  getter: -> (*) { type },
                  render_nil: true
-        property :firstname,
-                 as: :firstName,
-                 render_nil: true
-        property :lastname,
-                 as: :lastName,
-                 render_nil: true
+        property :firstName,
+                 getter: ->(*) { represented.firstname },
+                 setter: ->(value, *) { represented.firstname = value },
+                 exec_context: :decorator,
+                 render_nil: false,
+                 if: ->(*) { current_user_is_admin_or_self }
+        property :lastName,
+                 getter: ->(*) { represented.lastname },
+                 setter: ->(value, *) { represented.lastname = value },
+                 exec_context: :decorator,
+                 render_nil: false,
+                 if: ->(*) { current_user_is_admin_or_self }
         property :name,
                  render_nil: true
-        property :email,
-                 getter: -> (*) { mail },
+        property :mail,
+                 as: :email,
                  render_nil: true,
                  # FIXME: remove the "is_a?" as soon as we have a dedicated group representer
-                 if: -> (*) { self.is_a?(User) && !pref.hide_mail }
+                 getter: ->(*) {
+                   if is_a?(User) && !pref.hide_mail
+                     mail
+                   end
+                 }
         property :avatar,
                  getter: -> (*) { avatar_url(represented) },
                  render_nil: true,
@@ -104,17 +133,34 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) },
+                 render_nil: false,
+                 if: ->(*) { current_user_is_admin_or_self }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) },
+                 render_nil: false,
+                 if: ->(*) { current_user_is_admin_or_self }
         property :status,
                  getter: -> (*) { status_name },
+                 setter: -> (value, *) { self.status = User::STATUSES[value.to_sym] },
                  render_nil: true
+
+        # Write-only properties
+        property :password,
+                 getter: -> (*) { nil },
+                 render_nil: false,
+                 setter: -> (value, *) {
+                   self.password = self.password_confirmation = value
+                 }
 
         def _type
           'User'
+        end
+
+        def current_user_is_admin_or_self
+          current_user_is_admin || represented.id == current_user.id
         end
 
         def current_user_is_admin

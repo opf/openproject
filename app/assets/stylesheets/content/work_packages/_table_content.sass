@@ -113,6 +113,11 @@ tr.context-menu-selection.-new
   .wp-table--cell-span:hover
     border-color: #35c53f
 
+// Exclude ID field from DOM
+// when work package is new to avoid tabbing to it.
+.wp--row.-new .wp-edit-field.id
+  display: none
+
 .wp-table--cancel-create-link
   .icon
     position: relative

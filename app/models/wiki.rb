@@ -37,7 +37,7 @@ class Wiki < ActiveRecord::Base
   }, class_name: 'MenuItems::WikiMenuItem', dependent: :delete_all, foreign_key: 'navigatable_id'
   has_many :redirects, class_name: 'WikiRedirect', dependent: :delete_all
 
-  acts_as_watchable
+  acts_as_watchable permission: :view_wiki_pages
 
   accepts_nested_attributes_for :wiki_menu_items,
                                 allow_destroy: true,

@@ -84,8 +84,10 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
       before do
         get :index,
-            project_id: project.id,
-            q: 'ReCiPe'
+            params: {
+              project_id: project.id,
+              q: 'ReCiPe'
+            }
       end
 
       it_behaves_like 'successful response'
@@ -98,8 +100,10 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
       before do
         get :index,
-            project_id: project.id,
-            q: work_package_1.id
+            params: {
+              project_id: project.id,
+              q: work_package_1.id
+            }
       end
 
       it_behaves_like 'successful response'
@@ -140,8 +144,10 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
       before do
         get :index,
-            project_id: project.id,
-            q: ids
+            params: {
+              project_id: project.id,
+              q: ids
+            }
       end
 
       it_behaves_like 'successful response'
@@ -168,8 +174,10 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
       before do
         get :index,
-            project_id: project.id,
-            q: work_package_4.id,
+            params: {
+              project_id: project.id,
+              q: work_package_4.id
+            },
             format: :json
       end
 
@@ -210,9 +218,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
           get :index,
-              project_id: project_id,
-              q: work_package_4.id,
-              scope: scope
+              params: {
+                project_id: project_id,
+                q: work_package_4.id,
+                scope: scope
+              }
         end
 
         context 'with scope "relatable"' do
@@ -247,9 +257,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
           allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
           get :index,
-              project_id: project.id,
-              q: work_package_4.id,
-              scope: scope
+              params: {
+                project_id: project.id,
+                q: work_package_4.id,
+                scope: scope
+              }
         end
 
         context 'with scope "relatable"' do

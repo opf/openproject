@@ -36,10 +36,6 @@ describe WorkPackage, type: :model do
     FactoryGirl.create(:work_package,
                        project: project)
   }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-
-  let(:non_member_user) { FactoryGirl.create(:user) }
-  let(:project_member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryGirl.create(:work_package) }

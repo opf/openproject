@@ -37,13 +37,13 @@ module Api::Experimental
     include QueriesHelper
     include ExtendedHTTP
 
-    before_filter :find_optional_project
-    before_filter :v3_params_as_internal, only: [:create, :update]
-    before_filter :setup_query_for_create, only: [:create]
-    before_filter :setup_existing_query, only: [:update, :destroy]
-    before_filter :authorize_on_query, only: [:create, :destroy]
-    before_filter :authorize_update_on_query, only: [:update]
-    before_filter :setup_query, only: [:available_columns, :custom_field_filters]
+    before_action :find_optional_project
+    before_action :v3_params_as_internal, only: [:create, :update]
+    before_action :setup_query_for_create, only: [:create]
+    before_action :setup_existing_query, only: [:update, :destroy]
+    before_action :authorize_on_query, only: [:create, :destroy]
+    before_action :authorize_update_on_query, only: [:update]
+    before_action :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
       @available_columns = get_columns_for_json(@query.available_columns)
@@ -54,12 +54,7 @@ module Api::Experimental
     end
 
     def custom_field_filters
-      custom_fields = if @project
-                        @project.all_work_package_custom_fields
-                      else
-                        WorkPackageCustomField.for_all
-                      end
-      @custom_field_filters = @query.get_custom_field_options(custom_fields, v3_naming: true)
+      @custom_field_filters = fetch_custom_field_filters(@project)
 
       respond_to do |format|
         format.api
@@ -155,11 +150,25 @@ module Api::Experimental
         actions.delete(:update) if changed.empty?
       end
 
-      allowed = actions.map(&:to_sym)
-                .map { |action| QueryPolicy.new(current_user).allowed?(original_query, action) }
+      policy = QueryPolicy.new(current_user)
+
+      allowed = actions
+                .map { |action| policy.allowed?(original_query, action.to_sym) }
                 .reduce(:&)
 
       deny_access unless allowed
+    end
+
+    def fetch_custom_field_filters(project)
+      filters = Queries::WorkPackages::Filter::CustomFieldFilter.all_for(project)
+
+      filters.each_with_object({}) do |filter, hash|
+        new_key = API::Utilities::PropertyNameConverter.from_ar_name(filter.name)
+        hash[new_key] = { type: filter.type,
+                          values: filter.allowed_values,
+                          order: filter.order,
+                          name: filter.human_name }
+      end
     end
   end
 end

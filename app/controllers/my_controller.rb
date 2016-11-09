@@ -28,9 +28,13 @@
 #++
 
 class MyController < ApplicationController
+  include Concerns::PasswordConfirmation
   layout 'my'
 
-  before_filter :require_login
+  before_action :require_login
+  before_action :check_password_confirmation,
+                only: [:account],
+                if: ->() { request.patch? }
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -99,7 +103,7 @@ class MyController < ApplicationController
     @user = User.current  # required by "my" layout
     @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
-    if @user.check_password?(params[:password])
+    if @user.check_password?(params[:password], update_legacy: false)
       @user.password = params[:new_password]
       @user.password_confirmation = params[:new_password_confirmation]
       @user.force_password_change = false

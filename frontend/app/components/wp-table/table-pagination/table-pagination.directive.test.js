@@ -27,10 +27,14 @@
 // ++
 
 describe('tablePagination Directive', function () {
-  var compile, element, rootScope, scope;
+  var compile, element, rootScope, scope, PaginationService, paginationOptions;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives', 'openproject.services'));
   beforeEach(angular.mock.module('openproject.templates'));
+
+  beforeEach(angular.mock.inject(function (_PaginationService_) {
+    PaginationService = _PaginationService_;
+  }));
 
   beforeEach(inject(function ($rootScope, $compile) {
     var html;
@@ -45,6 +49,14 @@ describe('tablePagination Directive', function () {
     scope.noteUpdateResultsCalled = function() {
       scope.updateResultsCalled = true;
     };
+    scope.tableEntries = 11;
+
+    paginationOptions = sinon.stub(PaginationService, 'getPaginationOptions');
+    paginationOptions.returns({ perPageOptions: [10, 100, 500, 1000],
+                                perPage: 10,
+                                page: 1,
+                                maxVisiblePageOptions: 6,
+                                optionsTruncationSize: 2 });
 
     compile = function () {
       $compile(element)(scope);
@@ -53,44 +65,56 @@ describe('tablePagination Directive', function () {
   }));
 
   describe('page ranges and links', function () {
-    beforeEach(function() {
-      compile();
-    });
 
     it('should display the correct page range', function () {
-      var range = element.find('.pagination--range');
+      var pageString = function () {
+        return element.find('.pagination--range').text().trim();
+      };
 
-      expect(range.text().trim()).to.equal('(0 - 0/0)');
-      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.true;
+      compile();
+
+      scope.tableEntries = 0;
+      scope.$apply();
+
+      expect(pageString()).to.equal('');
 
       scope.tableEntries = 11;
       scope.$apply();
-      expect(range.text().trim()).to.equal('(1 - 10/11)');
+
+      expect(pageString()).to.equal('(1 - 10/11)');
 
       scope.tableEntries = 663;
       scope.$apply();
-      expect(range.text().trim()).to.equal('(1 - 10/663)');
+
+      expect(pageString()).to.equal('(1 - 10/663)');
     });
 
-    it('should display the "next" link correctly', function() {
-      scope.tableEntries = 115;
-      scope.$apply();
-      // should be 12 pages, in 10 iterations we will get to the penultimate page
-      // this also covers the case where you clink on the 9th and "next" is  hidden
-      for (var i = 0; i <= 9; i++) {
-        element.find(".pagination--next-link").click();
-        expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.false;
-      }
+    describe('"next" link', function() {
+      beforeEach(function() {
+        scope.tableEntries = 115;
+      });
 
-      //on the last page now, next should be hidden
-      element.find(".pagination--next-link").click();
-      expect(element.find(".pagination--next-link").parent().hasClass("ng-hide")).to.be.true;
+      it('hidden on the last page', function() {
+        paginationOptions.returns({ perPageOptions: [10, 100, 500, 1000],
+                                    perPage: 10,
+                                    page: 12,
+                                    maxVisiblePageOptions: 6,
+                                    optionsTruncationSize: 2 });
+        compile();
+
+        expect(element.find('.pagination--next-link').parent().hasClass('ng-hide')).to.be.true;
+      });
     });
 
     it('should display correct number of page number links', function () {
       var numberOfPageNumberLinks = function () {
         return element.find('a[rel="next"]').size();
       };
+
+      compile();
+
+      scope.tableEntries = 1;
+      scope.$apply();
 
       expect(numberOfPageNumberLinks()).to.eq(1);
 
@@ -120,7 +144,7 @@ describe('tablePagination Directive', function () {
       expect(scope.updateResultsCalled).to.eq(true);
     });
 
-    it('calls the callback when seleceting a different per page option', function() {
+    it('calls the callback when selecting a different per page option', function() {
       // click on first per-page anchor (current is not an anchor)
       element.find('.pagination--options a:eq(0)').click();
 
@@ -134,17 +158,35 @@ describe('tablePagination Directive', function () {
     beforeEach(function() {
       t = sinon.stub(I18n, 't');
       t.withArgs('js.label_per_page').returns('Per page:');
-      compile();
     });
 
     afterEach(inject(function() {
       I18n.t.restore();
     }));
 
-    it('should always render perPage options', function () {
-      var perPageOptions = element.find('.pagination--options');
+    describe('with no entries', function() {
+      beforeEach(function() {
+        scope.tableEntries = 0;
+        compile();
+      });
 
-      expect(perPageOptions.text()).to.include('Per page:');
+      it('should have no perPage options', function () {
+        var perPageOptions = element.find('.pagination--options');
+
+        expect(perPageOptions.text()).to.not.include('Per page:');
+      });
+    });
+
+    describe('with entries', function() {
+      beforeEach(function() {
+        compile();
+      });
+
+      it('should render perPage options', function () {
+        var perPageOptions = element.find('.pagination--options');
+
+        expect(perPageOptions.text()).to.include('Per page:');
+      });
     });
   });
 });

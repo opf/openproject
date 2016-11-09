@@ -30,8 +30,8 @@
 class PlanningElementTypeColorsController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :require_admin_unless_readonly_api_request
+  before_action :disable_api
+  before_action :require_admin_unless_readonly_api_request
 
   accept_key_auth :index, :show
 

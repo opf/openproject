@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe 'API v2', type: :request do
   let(:valid_password) { 'foobar!1234!foobar' }
@@ -73,7 +73,7 @@ describe 'API v2', type: :request do
 
       before do
         allow(OpenProject::Configuration).to receive(:apiv2_enable_basic_auth?).and_return(enabled)
-        get request_url, nil, { 'HTTP_AUTHORIZATION' => credentials }
+        get request_url, headers: { 'Authorization' => credentials }
       end
 
       context 'when enabled' do

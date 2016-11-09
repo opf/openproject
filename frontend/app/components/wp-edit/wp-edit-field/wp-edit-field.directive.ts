@@ -29,7 +29,6 @@
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {EditField} from "./wp-edit-field.module";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
@@ -47,6 +46,7 @@ export class WorkPackageEditFieldController {
   public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
+  protected _activated_at;
   protected _hasFocus: boolean = false;
   protected _forceFocus: boolean = false;
 
@@ -65,6 +65,7 @@ export class WorkPackageEditFieldController {
               protected NotificationsService,
               protected ConfigurationService,
               protected wpCacheService: WorkPackageCacheService,
+              protected ENTER_KEY,
               protected I18n) {
 
   }
@@ -81,11 +82,7 @@ export class WorkPackageEditFieldController {
   }
 
   public submit() {
-    if (this.inEditMode) {
-      return this.formCtrl.updateForm();
-    }
-
-    this.formCtrl.updateWorkPackage()
+    this.formCtrl.onFieldSubmit()
       .finally(() => {
         this.deactivate();
         this._forceFocus = true;
@@ -95,6 +92,7 @@ export class WorkPackageEditFieldController {
 
   public deactivate() {
     this._forceFocus = false;
+    this._activated_at = null;
     return this._active = false;
   }
 
@@ -104,10 +102,15 @@ export class WorkPackageEditFieldController {
     let alreadyActive = this._active;
 
     return this.buildEditField().then(() => {
+
+      // This timeout is necessary as the value is not always expanded otherwise
       this._active = this.field.schema.writable;
+
       if (this._active && (!alreadyActive || this.errorenous)) {
+        this._activated_at = Date.now();
         this.focusField();
       }
+
       return this._active;
     });
   }
@@ -229,11 +232,37 @@ export class WorkPackageEditFieldController {
     });
   }
 
+  public handleUserSubmit() {
+    if (this.inEditMode) {
+      return this.formCtrl.updateForm();
+    }
+
+    return this.submit();
+  }
+
+  /**
+   * Handle users pressing enter inside an edit mode.
+   * Outside an edit mode, the regular save event is captured by handleUserSubmit (submit event).
+   * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
+   * (and on what field he did that).
+   */
+  public handleUserSubmitOnEnter(event) {
+    if (this.inEditMode && event.which === this.ENTER_KEY) {
+      return this.submit();
+    }
+  }
+
   public handleUserFocus() {
     this._hasFocus = true;
   }
 
   public handleUserBlur(): boolean {
+    // HACK: Firefox keeps emitting a blur event soon after an edit field has been opened
+    if (this._activated_at && (Date.now() - this._activated_at) < 200) {
+      console.log("Field received blur soon after opening. Ignoring.");
+      return false;
+    }
+
     this._hasFocus = false;
 
     if (!this.isSubmittable()) {
@@ -241,7 +270,7 @@ export class WorkPackageEditFieldController {
     }
 
     this.deactivate();
-    this.submit();
+    this.handleUserSubmit();
   }
 
   public handleUserCancel() {
@@ -323,7 +352,7 @@ function wpEditField(wpCacheService: WorkPackageCacheService) {
     controllers[1].formCtrl = formCtrl;
 
     formCtrl.registerField(scope.vm);
-    scopedObservable(scope, wpCacheService.loadWorkPackage(formCtrl.workPackage.id))
+    wpCacheService.loadWorkPackage(formCtrl.workPackage.id).observe(scope)
       .subscribe((wp: WorkPackageResource) => {
         scope.vm.workPackage = wp;
         scope.vm.initializeField();

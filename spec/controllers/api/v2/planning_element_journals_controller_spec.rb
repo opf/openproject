@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Api::V2::PlanningElementJournalsController, type: :controller do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
@@ -36,9 +36,12 @@ describe Api::V2::PlanningElementJournalsController, type: :controller do
       planning_element = FactoryGirl.create(:work_package,
                                             project_id: project.id)
 
-      get 'index', project_id:          project.identifier,
-                   planning_element_id: planning_element.id,
-                   format:              'xml'
+      get 'index',
+          params: {
+            project_id: project.identifier,
+            planning_element_id: planning_element.id
+          },
+          format: 'xml'
     end
     let(:permission) { :view_work_packages }
 

@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.onboarding--start-modal .modal,
-// To be removed once we have updated foundation to version 1.2
-.modal
-  padding: 0
-  overflow-y: auto
+// Align ngDialog's close button
+.onboarding-modal .ngdialog-close
+  line-height: $header-height
 
 .onboarding--top-menu
   display: flex
@@ -84,6 +82,3 @@
 
   .button
     margin: 0 1.5rem 0 1rem
-
-.foundation-modal--template
-  display: none

@@ -46,19 +46,25 @@ describe SearchController, type: :controller do
   before do allow(User).to receive(:current).and_return user end
 
   describe 'project search' do
-    before do get :index end
-
-    it_behaves_like 'successful search'
-
-    context 'search parameter' do
-      subject { get :index, q: 'cook' }
+    context 'without a search parameter' do
+      before do get :index end
 
       it_behaves_like 'successful search'
+    end
+
+    context 'search parameter' do
+      context 'is a search string' do
+        before do
+          get :index, params: { q: 'cook' }
+        end
+
+        it_behaves_like 'successful search'
+      end
 
       context 'is a work package reference' do
         let!(:work_package) { FactoryGirl.create :work_package, project: project }
 
-        subject { get :index, q: "##{work_package.id}" }
+        subject { get :index, params: { q: "##{work_package.id}" } }
 
         it { is_expected.to redirect_to work_package }
       end
@@ -66,7 +72,7 @@ describe SearchController, type: :controller do
   end
 
   describe 'scoped project search' do
-    before do get :index, project_id: project.id end
+    before do get :index, params: { project_id: project.id } end
 
     it_behaves_like 'successful search'
 
@@ -86,29 +92,31 @@ describe SearchController, type: :controller do
                          status: FactoryGirl.create(:closed_status))
     }
 
-    before do get :index, q: 'issue', issues: 1 end
+    context 'when not searching for a note' do
+      before do get :index, params: { q: 'issue', work_packages: 1 } end
 
-    it_behaves_like 'successful search'
+      it_behaves_like 'successful search'
 
-    describe '#result' do
-      it { expect(assigns(:results).count).to be(2) }
+      describe '#result' do
+        it { expect(assigns(:results).count).to be(2) }
 
-      it { expect(assigns(:results)).to include(work_package_1) }
+        it { expect(assigns(:results)).to include(work_package_1) }
 
-      it { expect(assigns(:results)).to include(work_package_2) }
+        it { expect(assigns(:results)).to include(work_package_2) }
 
-      describe '#view' do
-        render_views
+        describe '#view' do
+          render_views
 
-        it 'marks closed work packages' do
-          assert_select 'dt.work_package-closed' do
-            assert_select 'a', text: Regexp.new(work_package_2.status.name)
+          it 'marks closed work packages' do
+            assert_select 'dt.work_package-closed' do
+              assert_select 'a', text: Regexp.new(work_package_2.status.name)
+            end
           end
         end
       end
     end
 
-    context 'with first note' do
+    context 'when searching for a note' do
       let!(:note_1) {
         FactoryGirl.create :work_package_journal,
                            journable_id: work_package_1.id,
@@ -118,44 +126,44 @@ describe SearchController, type: :controller do
 
       before do allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) end
 
-      context 'and second note' do
-        let!(:note_2) {
-          FactoryGirl.create :work_package_journal,
-                             journable_id: work_package_1.id,
-                             notes: 'Special note 2',
-                             version: 3
-        }
+      let!(:note_2) {
+        FactoryGirl.create :work_package_journal,
+                           journable_id: work_package_1.id,
+                           notes: 'Special note 2',
+                           version: 3
+      }
 
-        describe 'second note predecessor' do
-          subject { note_2.send :predecessor }
+      describe 'second note predecessor' do
+        subject { note_2.send :predecessor }
 
-          it { is_expected.to eq note_1 }
-          it { expect(note_1.data).not_to be nil }
-          it { expect(subject.data).not_to be nil }
-        end
+        it { is_expected.to eq note_1 }
+        it { expect(note_1.data).not_to be nil }
+        it { expect(subject.data).not_to be nil }
+      end
 
-        before do get :index, q: 'note', issues: 1 end
+      before do
+        get :index, params: { q: 'note', work_packages: 1 }
+      end
 
-        it_behaves_like 'successful search'
+      it_behaves_like 'successful search'
 
-        describe '#result' do
-          it { expect(assigns(:results).count).to be 1 }
+      describe '#result' do
+        it { expect(assigns(:results).count).to be 1 }
 
-          it { expect(assigns(:results)).to include work_package_1 }
+        it { expect(assigns(:results)).to include work_package_1 }
 
-          describe '#view' do
-            render_views
+        describe '#view' do
+          render_views
 
-            it 'highlights last note' do
-              assert_select 'dt.work_package-note + dd' do
-                assert_select '.description', text: note_2.notes
-              end
+          it 'highlights last note' do
+            assert_select 'dt.work_package-note + dd' do
+              assert_select '.description', text: note_2.notes
             end
+          end
 
-            it 'links to work package with anchor to highlighted note' do
-              assert_select 'dt.work_package-note' do
-                assert_select 'a', href: work_package_path(work_package_1, anchor: 'note-2')
-              end
+          it 'links to work package with anchor to highlighted note' do
+            assert_select 'dt.work_package-note' do
+              assert_select 'a', href: work_package_path(work_package_1, anchor: 'note-2')
             end
           end
         end

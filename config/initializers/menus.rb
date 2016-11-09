@@ -33,7 +33,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :my_page,
             { controller: '/my', action: 'page' },
             context: :main,
-            html: { class: 'icon5 icon-star' },
+            html: { class: 'icon3 icon-star' },
             if: Proc.new { User.current.logged? }
 
   # projects menu will be added by
@@ -55,7 +55,7 @@ Redmine::MenuManager.map :top_menu do |menu|
                 User.current.allowed_to?(:view_news, nil, global: true)
             }
   menu.push :time_sheet,
-            { controller: '/time_entries', project_id: nil, action: 'index' },
+            { controller: '/timelog', project_id: nil, action: 'index' },
             context: :modules,
             caption: I18n.t('label_time_sheet_menu'),
             if: Proc.new {
@@ -67,7 +67,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: '',
             html: { accesskey: OpenProject::AccessKeys.key_for(:help),
                     title: I18n.t('label_help'),
-                    class: 'icon5 icon-help1',
+                    class: 'icon5 icon-help',
                     target: '_blank' }
 end
 

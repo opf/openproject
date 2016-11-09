@@ -40,18 +40,6 @@ describe SettingsController, type: :controller do
   describe 'edit' do
     render_views
 
-    def clear_settings_cache
-      Rails.cache.clear
-    end
-
-    # this is the base method for get, post, etc.
-    def process(*args)
-      clear_settings_cache
-      result = super
-      clear_settings_cache
-      result
-    end
-
     before(:all) do
       @previous_projects_modules = Setting.default_projects_modules
     end
@@ -61,7 +49,7 @@ describe SettingsController, type: :controller do
     end
 
     it 'contains a check box for the activity module on the projects tab' do
-      get 'edit', tab: 'projects'
+      get 'edit', params: { tab: 'projects' }
 
       expect(response).to be_success
       expect(response).to render_template 'edit'
@@ -69,9 +57,13 @@ describe SettingsController, type: :controller do
     end
 
     it 'does not store the activity in the default_projects_modules if unchecked' do
-      post 'edit', tab: 'projects', settings: {
-        default_projects_modules: ['wiki']
-      }
+      post 'edit',
+           params: {
+             tab: 'projects',
+             settings: {
+               default_projects_modules: ['wiki']
+             }
+           }
 
       expect(response).to be_redirect
       expect(response).to redirect_to action: 'edit', tab: 'projects'
@@ -80,9 +72,13 @@ describe SettingsController, type: :controller do
     end
 
     it 'stores the activity in the default_projects_modules if checked' do
-      post 'edit', tab: 'projects', settings: {
-        default_projects_modules: ['activity', 'wiki']
-      }
+      post 'edit',
+           params: {
+             tab: 'projects',
+             settings: {
+               default_projects_modules: ['activity', 'wiki']
+             }
+           }
 
       expect(response).to be_redirect
       expect(response).to redirect_to action: 'edit', tab: 'projects'
@@ -96,7 +92,7 @@ describe SettingsController, type: :controller do
       end
 
       it 'contains a checked checkbox for activity' do
-        get 'edit', tab: 'projects'
+        get 'edit', params: { tab: 'projects' }
 
         expect(response).to be_success
         expect(response).to render_template 'edit'
@@ -111,7 +107,7 @@ describe SettingsController, type: :controller do
       end
 
       it 'contains an unchecked checkbox for activity' do
-        get 'edit', tab: 'projects'
+        get 'edit', params: { tab: 'projects' }
 
         expect(response).to be_success
         expect(response).to render_template 'edit'
@@ -166,7 +162,7 @@ describe SettingsController, type: :controller do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
 
-          post 'edit', tab: 'authentication', settings: new_settings
+          post 'edit', params: { tab: 'authentication', settings: new_settings }
         end
 
         it 'is successful' do
@@ -202,7 +198,7 @@ describe SettingsController, type: :controller do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
 
-          post 'edit', tab: 'authentication', settings: new_settings
+          post 'edit', params: { tab: 'authentication', settings: new_settings }
         end
 
         it 'is successful' do

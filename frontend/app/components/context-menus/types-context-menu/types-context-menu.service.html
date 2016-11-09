@@ -1,0 +1,10 @@
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar"
+     id="types-context-menu">
+  <ul class="dropdown-menu" ng-class="{'-empty': $ctrl.types.length === 0 }">
+    <li ng-repeat="type in $ctrl.types">
+      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})">
+        {{ type.name }}
+      </a>
+    </li>
+  </ul>
+</div>

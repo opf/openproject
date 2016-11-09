@@ -62,7 +62,9 @@ describe JournalsController, type: :controller do
     before do
       work_package.update_attribute :description, 'description'
 
-      xhr :get, :diff, params
+      get :diff,
+          xhr: true,
+          params: params
     end
 
     describe 'w/ authorization' do

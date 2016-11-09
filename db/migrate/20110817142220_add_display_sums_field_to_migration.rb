@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddDisplaySumsFieldToMigration < ActiveRecord::Migration
+class AddDisplaySumsFieldToMigration < ActiveRecord::Migration[4.2]
   def self.up
     add_column :queries, :display_sums, :boolean, null: true
   end

@@ -32,7 +32,7 @@ class RolesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin, except: [:autocomplete_for_role]
+  before_action :require_admin, except: [:autocomplete_for_role]
 
   def index
     @roles = Role.order('builtin, position')
@@ -106,7 +106,8 @@ class RolesController < ApplicationController
     @roles = Role.order('builtin, position')
 
     @roles.each do |role|
-      role.permissions = params[:permissions][role.id.to_s]
+      new_permissions = params[:permissions][role.id.to_s].presence || []
+      role.permissions = new_permissions
       role.save
     end
 

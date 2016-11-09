@@ -75,28 +75,6 @@ describe Project, type: :model do
     end
   end
 
-  describe '#find_visible' do
-    it 'should find the project by id if the user is project member' do
-      become_member_with_permissions(project, user, :view_work_packages)
-
-      expect(Project.find_visible(user, project.id)).to eq(project)
-    end
-
-    it 'should find the project by identifier if the user is project member' do
-      become_member_with_permissions(project, user, :view_work_packages)
-
-      expect(Project.find_visible(user, project.identifier)).to eq(project)
-    end
-
-    it 'should not find the project by identifier if the user is no project member' do
-      expect { Project.find_visible(user, project.identifier) }.to raise_error ActiveRecord::RecordNotFound
-    end
-
-    it 'should not find the project by id if the user is no project member' do
-      expect { Project.find_visible(user, project.id) }.to raise_error ActiveRecord::RecordNotFound
-    end
-  end
-
   context 'when the wiki module is enabled' do
     let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 
@@ -208,6 +186,116 @@ describe Project, type: :model do
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
+    end
+  end
+
+  describe '#allowed_parent?' do
+    let(:project) { FactoryGirl.build_stubbed(:project) }
+    let(:other_project) { FactoryGirl.build_stubbed(:project) }
+    let(:another_project) { FactoryGirl.build_stubbed(:project) }
+
+    it 'is false for nil on a persisted project with no allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?(nil)).to be_falsey
+    end
+
+    it 'is true for nil on a persisted project with allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return(['something'])
+
+      expect(project.allowed_parent?(nil)).to be_truthy
+    end
+
+    it 'is true for nil on an unpersisted project with no allowed parents' do
+      project = FactoryGirl.build(:project)
+
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?(nil)).to be_truthy
+    end
+
+    it 'is false for blank on a persisted project with no allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?('')).to be_falsey
+    end
+
+    it 'is true for blank on a persisted project with allowed parents' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return(['something'])
+
+      expect(project.allowed_parent?('')).to be_truthy
+    end
+
+    it 'is true for blank on an unpersisted project with no allowed parents' do
+      project = FactoryGirl.build(:project)
+
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([])
+
+      expect(project.allowed_parent?('')).to be_truthy
+    end
+
+    it 'is true for an id pointing to a project in allowed_parents' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(other_project)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(1)).to be_truthy
+    end
+
+    it 'is false for an id pointing to a project in allowed_parents' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(other_project)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([another_project])
+
+      expect(project.allowed_parent?(1)).to be_falsey
+    end
+
+    it 'is false for a non existing project id' do
+      allow(Project)
+        .to receive(:find_by)
+        .with(id: 1)
+        .and_return(nil)
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(1)).to be_falsey
+    end
+
+    it 'is true for a project in allowed_projects' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([other_project])
+
+      expect(project.allowed_parent?(other_project)).to be_truthy
+    end
+
+    it 'is false for a project not in allowed_projects' do
+      allow(project)
+        .to receive(:allowed_parents)
+        .and_return([another_project])
+
+      expect(project.allowed_parent?(other_project)).to be_falsey
     end
   end
 end

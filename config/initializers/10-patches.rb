@@ -300,3 +300,6 @@ end
 
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
+
+# Backports some useful ruby 2.3 methods for Hash
+require 'open_project/patches/hash'

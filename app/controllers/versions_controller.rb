@@ -30,10 +30,10 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_filter :find_model_object, except: [:index, :new, :create, :close_completed]
-  before_filter :find_project_from_association, except: [:index, :new, :create, :close_completed]
-  before_filter :find_project, only: [:index, :new, :create, :close_completed]
-  before_filter :authorize
+  before_action :find_model_object, except: [:index, :new, :create, :close_completed]
+  before_action :find_project_from_association, except: [:index, :new, :create, :close_completed]
+  before_action :find_project, only: [:index, :new, :create, :close_completed]
+  before_action :authorize
 
   include VersionsHelper
 
@@ -85,22 +85,10 @@ class VersionsController < ApplicationController
 
     if request.post?
       if @version.save
-        respond_to do |format|
-          format.html do
-            flash[:notice] = l(:notice_successful_create)
-            redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
-          end
-          format.js do
-            render locals: { versions: @project.shared_versions.open, version: @version }
-          end
-        end
+        flash[:notice] = l(:notice_successful_create)
+        redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
       else
-        respond_to do |format|
-          format.html do render action: 'new' end
-          format.js do
-            render(:update) { |page| page.alert(@version.errors.full_messages.join('\n')) }
-          end
-        end
+        format.html do render action: 'new' end
       end
     end
   end

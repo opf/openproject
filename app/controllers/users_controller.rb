@@ -30,21 +30,19 @@
 class UsersController < ApplicationController
   layout 'admin'
 
-  before_filter :disable_api
-  before_filter :require_admin, except: [:show, :deletion_info, :destroy]
-  before_filter :find_user, only: [:show,
+  before_action :disable_api
+  before_action :require_admin, except: [:show, :deletion_info, :destroy]
+  before_action :find_user, only: [:show,
                                    :edit,
                                    :update,
                                    :change_status,
-                                   :edit_membership,
-                                   :destroy_membership,
                                    :destroy,
                                    :deletion_info,
                                    :resend_invitation]
   # should also contain destroy but post data can not be redirected
-  before_filter :require_login, only: [:deletion_info]
-  before_filter :authorize_for_user, only: [:destroy]
-  before_filter :check_if_deletion_allowed, only: [:deletion_info,
+  before_action :require_login, only: [:deletion_info]
+  before_action :authorize_for_user, only: [:destroy]
+  before_action :check_if_deletion_allowed, only: [:deletion_info,
                                                    :destroy]
 
   accept_key_auth :index, :show, :create, :update, :destroy
@@ -54,39 +52,12 @@ class UsersController < ApplicationController
   include PaginationHelper
 
   def index
-    sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname mail admin created_on last_login_on)
-
-    scope = User
-    scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
-    c = ARCondition.new
-
-    if params[:status] == 'blocked'
-      @status = :blocked
-      scope = scope.blocked
-    elsif params[:status] == 'all'
-      @status = :all
-      scope = scope.not_builtin
-    else
-      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
-      scope = scope.not_blocked if @status == User::STATUSES[:active]
-      c << ['status = ?', @status]
-    end
-
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR '\
-            'LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?', name, name, name, name]
-    end
-
-    @users = scope.order(sort_clause)
-             .where(c.conditions)
-             .page(page_param)
-             .per_page(per_page_param)
+    @groups = Group.all.sort
+    @status = Users::UserFilterCell.status_param params
+    @users = Users::UserFilterCell.filter User.all, params
 
     respond_to do |format|
       format.html do
-        @groups = Group.all.sort
         render layout: !request.xhr?
       end
     end
@@ -94,7 +65,8 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.where(Project.visible_by(User.current))
+    @memberships = @user.memberships
+                        .visible(current_user)
 
     events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
@@ -246,37 +218,6 @@ class UsersController < ApplicationController
     redirect_back_or_default(action: 'edit', id: @user)
   end
 
-  def edit_membership
-    @membership = Member.edit_membership(params[:membership_id], permitted_params.membership, @user)
-    @membership.save if request.post?
-    respond_to do |format|
-      if @membership.valid?
-        format.html do
-          redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-        end
-
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/common_notice',
-                             locals: { message: l(:notice_successful_update) }
-            page.visual_effect(:highlight, "member-#{@membership.id}")
-          }
-        end
-      else
-        format.js do
-          render(:update) {|page|
-            page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-            page.insert_html :top, 'tab-content-memberships',
-                             partial: 'members/member_errors',
-                             locals: { member: @membership }
-          }
-        end
-      end
-    end
-  end
-
   def resend_invitation
     token = UserInvitation.reinvite_user @user.id
 
@@ -301,29 +242,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to self_delete ? signin_path : users_path
-      end
-    end
-  end
-
-  def destroy_membership
-    @membership = Member.find(params.delete(:membership_id))
-
-    if request.post? && @membership.deletable?
-      @membership.destroy && @membership = nil
-    end
-
-    respond_to do |format|
-      format.html do
-        redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'
-      end
-
-      format.js do
-        render(:update) { |page|
-          page.replace_html 'tab-content-memberships', partial: 'users/memberships'
-          page.insert_html :top, 'tab-content-memberships',
-                           partial: 'members/common_notice',
-                           locals: { message: l(:notice_successful_delete) }
-        }
       end
     end
   end

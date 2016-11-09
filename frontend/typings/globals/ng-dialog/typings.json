@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/32f2a3b467d9ec6efb23b9db4a4501e24c661da1/ng-dialog/ng-dialog.d.ts",
+    "raw": "registry:dt/ng-dialog#0.0.0+20160423145208",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/32f2a3b467d9ec6efb23b9db4a4501e24c661da1/ng-dialog/ng-dialog.d.ts"
+  }
+}

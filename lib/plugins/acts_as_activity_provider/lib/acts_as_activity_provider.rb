@@ -104,8 +104,6 @@ module Redmine
           private
 
           def find_events_for_class(provider, activity, provider_options, user, from, to, options)
-            projects_table = Arel::Table.new(:projects)
-            journals_table = Arel::Table.new(:journals)
             activity_journals_table = provider.activity_journals_table activity
 
             query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
@@ -142,15 +140,11 @@ module Redmine
           end
 
           def join_with_projects_table(query, project_ref_table)
-            projects_table = Arel::Table.new(:projects)
-
             query = query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
             query
           end
 
           def restrict_projects_by_selection(options, query)
-            projects_table = Arel::Table.new(:projects)
-
             if project = options[:project]
               stmt = projects_table[:id].eq(project.id)
               stmt = stmt.or(projects_table[:lft].gt(project.lft).and(projects_table[:rgt].lt(project.rgt))) if options[:with_subprojects]
@@ -162,13 +156,12 @@ module Redmine
           end
 
           def restrict_projects_by_permission(permission, query)
-            projects_table = Arel::Table.new(:projects)
             perm = Redmine::AccessControl.permission(permission)
 
             query = query.where(projects_table[:status].eq(Project::STATUS_ACTIVE))
 
             if perm && perm.project_module
-              m = Arel::Table.new(:enabled_modules)
+              m = EnabledModule.arel_table
               subquery = m.where(m[:name].eq(perm.project_module))
                          .project(m[:project_id])
 
@@ -181,7 +174,6 @@ module Redmine
           def restrict_projects_by_user(options, user, query)
             return query if user.admin?
 
-            projects_table = Arel::Table.new(:projects)
             stmt = nil
             perm = Redmine::AccessControl.permission(options[:permission])
             is_member = options[:member]
@@ -227,6 +219,14 @@ module Redmine
 
               result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
             end
+          end
+
+          def projects_table
+            Project.arel_table
+          end
+
+          def journals_table
+            Journal.arel_table
           end
         end
       end

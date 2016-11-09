@@ -26,49 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {opApiModule} from '../../../angular-modules';
+import {PathBuilderService} from '../path-builder/path-builder.service';
+
 /**
- * Replaces the PathHelper service in its function, providing a way to generate safe paths
- * without having to store them directly in a service.
+ * Provide paths for the API requests.
  */
+export class ApiPathsServiceProvider {
+  /**
+   * Configuration object for the pathBuilder service
+   * @type {any}
+   */
+  public pathConfig:any = {};
 
-export class ApiPathsService {
-  public basePath:string;
-  
-  protected paths:{[name:string]:string};
-
-  public get appBasePath():string {
-    if (this.basePath === '') return this.basePath;
-
-    return this.basePath =
-      (this.basePath || this.$document.find('meta[name=app_base_path]').attr('content') || '')
-        .replace(/\/$/, '');
-  }
-
-  constructor(protected $document) {
-    this.paths = {
-      v3: 'api/v3/',
-      v2: 'api/v2/',
-      experimental: 'api/experimental/'
-    };
-  }
-
-  public path(name:string):string {
-    return this.appBasePath + '/' + this.paths[name];
-  }
-
-  public get v3():string {
-    return this.path('v3');
-  }
-
-  public get v2():string {
-    return this.path('v2');
-  }
-
-  public get experimental():string {
-    return this.path('experimental');
+  /**
+   * Return the service.
+   *
+   * @param appBasePath
+   * @param pathBuilder
+   * @return {Array}
+   */
+  public $get(appBasePath:string, pathBuilder:PathBuilderService) {
+    const config:any = pathBuilder.buildPaths({base: [appBasePath, this.pathConfig]});
+    return config.base;
   }
 }
 
-angular
-  .module('openproject.api')
-  .service('apiPaths', ApiPathsService);
+opApiModule.provider('apiPaths', ApiPathsServiceProvider);

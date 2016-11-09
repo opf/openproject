@@ -32,6 +32,8 @@ en:
       hide: "Hide"
       loading: "Loading ..."
     close_popup_title: "Close popup"
+    close_filter_title: "Close filter"
+    close_form_title: "Close form"
 
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
@@ -40,6 +42,7 @@ en:
     button_add_watcher: "Add watcher"
     button_cancel: "Cancel"
     button_check_all: "Check all"
+    button_confirm: "Confirm"
     button_copy: "Copy"
     button_delete: "Delete"
     button_delete_watcher: "Delete watcher"
@@ -98,6 +101,7 @@ en:
     label_board_locked: "Locked"
     label_board_sticky: "Sticky"
     label_create_work_package: "Create new work package"
+    label_created_by: "Created by"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
@@ -151,6 +155,7 @@ en:
     label_on: "on"
     label_open_menu: "Open menu"
     label_open_work_packages: "open"
+    label_password: "Password"
     label_previous: "Previous"
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
@@ -190,6 +195,7 @@ en:
     label_attachments: Files
     label_drop_files: Drop files here
     label_drop_files_hint: or click to add files
+    label_add_attachments: "Add attachments"
     label_remove_file: "Delete %{fileName}"
     label_remove_watcher: "Remove watcher %{name}"
     label_remove_all_files: Delete all files
@@ -202,6 +208,10 @@ en:
     label_upload_counter: "%{done} of %{count} files finished"
     label_validation_error: "The work package could not be saved due to the following errors:"
 
+    password_confirmation:
+      field_description: 'You need to enter your account password to confirm this change.'
+      title: 'Confirm your password to continue'
+
     pagination:
       no_other_page: "You are on the only page."
       pages:
@@ -211,6 +221,7 @@ en:
     placeholders:
       default: '-'
       selection: 'Please select'
+      relation_description: 'Click to add description for this relation'
 
     text_are_you_sure: "Are you sure?"
 
@@ -261,17 +272,33 @@ en:
       blocked: "Blocked by"
       precedes: "Precedes"
       follows: "Follows"
+      includes: "Includes"
+      partof: "Part of"
+      requires: "Requires"
+      required: "Required by"
+
+      relation_type: "relation type"
+
+    relations_hierarchy:
+      hierarchy_headline: "hierarchy"
 
     relation_buttons:
       change_parent: "Change parent"
-      add_child: "Add child"
-      add_related_to: "Add related to"
-      add_duplicates: "Add duplicates"
-      add_duplicated_by: "Add duplicated by"
-      add_blocks: "Add blocks"
-      add_blocked_by: "Add blocked by"
-      add_precedes: "Add precedes"
-      add_follows: "Add follows"
+      remove_parent: "Remove parent"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
+      add_parent: "Add existing parent"
+      add_new_child: "Create new child"
+      add_existing_child: "Add existing child"
+      remove_child: "Remove child"
+      add_new_relation: "Create new relation"
+      update_description: "Set or update description of this relation"
+      remove: "Remove relation"
+      save: "Save relation"
+      abort: "Abort"
+
+    relations_autocomplete:
+      placeholder: "Enter the related work package id"
 
     repositories:
       select_tag: 'Select tag'
@@ -395,13 +422,15 @@ en:
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
-      message_view_spent_time: "View logged time"
+      message_view_spent_time: "Show spent time for this work package"
       no_value: "No value"
       inline_create:
        title: 'Click here to add a new work package to this list'
       create:
-        header: 'New work package'
-        header_with_parent: 'New work package (Child of %{type} #%{id})'
+        header: 'New %{type}'
+        header_no_type: 'New work package (Type not yet set)'
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: 'Create'
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.

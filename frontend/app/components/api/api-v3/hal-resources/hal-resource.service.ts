@@ -28,14 +28,15 @@
 
 import {opApiModule} from '../../../../angular-modules';
 import {HalLinkInterface} from '../hal-link/hal-link.service';
-import {HalResourceTypesStorageService} from '../hal-resource-types-storage/hal-resource-types-storage.service';
+import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 const ObservableArray:any = require('observable-array');
 
 var $q:ng.IQService;
 var lazy;
 var HalLink;
-var halResourceTypesStorage:HalResourceTypesStorageService;
+var halResourceFactory:HalResourceFactoryService;
+var CacheService;
 
 export class HalResource {
   public static _type:string;
@@ -45,8 +46,7 @@ export class HalResource {
       return element;
     }
 
-    const resourceClass = halResourceTypesStorage.getResourceClassOfType(element._type);
-    return new resourceClass(element);
+    return halResourceFactory.createHalResource(element);
   }
 
   public static fromLink(link:HalLinkInterface) {
@@ -80,7 +80,18 @@ export class HalResource {
     this._name = name;
   }
 
+  /**
+   * Alias for $href.
+   * Please use $href instead.
+   *
+   * @deprecated
+   * @returns {string}
+   */
   public get href():string {
+    return this.$link.href;
+  }
+
+  public get $href():string {
     return this.$link.href;
   }
 
@@ -89,7 +100,7 @@ export class HalResource {
     this.$initialize($source);
   }
 
-  public $load(force = false) {
+  public $load(force = false):ng.IPromise<HalResource> {
     if (!force) {
       if (this.$loaded) {
         return $q.when(this);
@@ -100,6 +111,11 @@ export class HalResource {
       }
     }
 
+    // HACK: Remove cleared promise key from cache.
+    // We should not be so clever as to do that, instead, rewrite this with states.
+    if (force) {
+      CacheService.clearPromisedKey(this.$links.self.href);
+    }
     // Reset and load this resource
     this.$loaded = false;
     this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
@@ -109,6 +125,13 @@ export class HalResource {
     });
 
     return this.$self;
+  }
+
+  /**
+   * Update the resource ignoring the cache.
+   */
+  public $update() {
+    return this.$load(true);
   }
 
   public $plain() {
@@ -127,8 +150,9 @@ export class HalResource {
    */
   protected $loadHeaders(force:boolean) {
     var headers:any = {};
+
     if (force) {
-      headers.caching = { enabled: false };
+      headers.caching = {enabled: false};
     }
 
     return headers;
@@ -144,8 +168,6 @@ function initializeResource(halResource:HalResource) {
   setEmbeddedAsProperties();
 
   function setSource() {
-    halResource.$source = halResource.$source._plain || halResource.$source;
-
     if (!halResource.$source._links) {
       halResource.$source._links = {};
     }
@@ -156,9 +178,7 @@ function initializeResource(halResource:HalResource) {
   }
 
   function proxyProperties() {
-    var source = halResource.$source.restangularized ? halResource.$source.plain() : halResource.$source;
-
-    _.without(Object.keys(source), '_links', '_embedded').forEach(property => {
+    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach(property => {
       Object.defineProperty(halResource, property, {
         get() {
           return halResource.$source[property];
@@ -255,13 +275,11 @@ function initializeResource(halResource:HalResource) {
   }
 
   function createLinkedResource(linkName, link) {
-    var resource = HalResource.getEmptyResource();
+    const resource = HalResource.getEmptyResource();
+    const type = halResource.constructor._type;
     resource._links.self = link;
 
-    const resourceClass = halResourceTypesStorage
-      .getResourceClassOfAttribute(halResource.constructor._type, linkName);
-
-    return new resourceClass(resource, false);
+    return halResourceFactory.createLinkedHalResource(resource, type, linkName);
   }
 
   function setter(val:HalResource, linkName:string) {
@@ -281,7 +299,7 @@ function initializeResource(halResource:HalResource) {
 }
 
 function halResourceService(...args) {
-  [$q, lazy, HalLink, halResourceTypesStorage] = args;
+  [$q, lazy, HalLink, halResourceFactory, CacheService] = args;
   return HalResource;
 }
 
@@ -289,7 +307,8 @@ halResourceService.$inject = [
   '$q',
   'lazy',
   'HalLink',
-  'halResourceTypesStorage'
+  'halResourceFactory',
+  'CacheService'
 ];
 
 opApiModule.factory('HalResource', halResourceService);

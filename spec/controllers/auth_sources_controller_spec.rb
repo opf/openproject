@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe AuthSourcesController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
@@ -64,7 +64,7 @@ describe AuthSourcesController, type: :controller do
 
   describe 'create' do
     before do
-      post :create, auth_source: { name: 'Test' }
+      post :create, params: { auth_source: { name: 'Test' } }
     end
 
     it { is_expected.to respond_with :redirect }
@@ -75,7 +75,7 @@ describe AuthSourcesController, type: :controller do
   describe 'edit' do
     before do
       @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
-      get :edit, id: @auth_source.id
+      get :edit, params: { id: @auth_source.id }
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
@@ -86,7 +86,7 @@ describe AuthSourcesController, type: :controller do
   describe 'update' do
     before do
       @auth_source = FactoryGirl.create(:auth_source, name: 'TestEdit')
-      post :update, id: @auth_source.id, auth_source: { name: 'TestUpdate' }
+      post :update, params: { id: @auth_source.id, auth_source: { name: 'TestUpdate' } }
     end
 
     it { is_expected.to respond_with :redirect }
@@ -101,7 +101,7 @@ describe AuthSourcesController, type: :controller do
 
     context 'without users' do
       before do
-        post :destroy, id: @auth_source.id
+        post :destroy, params: { id: @auth_source.id }
       end
 
       it { is_expected.to respond_with :redirect }
@@ -112,7 +112,7 @@ describe AuthSourcesController, type: :controller do
     context 'with users' do
       before do
         FactoryGirl.create(:user, auth_source: @auth_source)
-        post :destroy, id: @auth_source.id
+        post :destroy, params: { id: @auth_source.id }
       end
 
       it { is_expected.to respond_with :redirect }
@@ -141,25 +141,25 @@ describe AuthSourcesController, type: :controller do
     end
 
     it 'cannot find create' do
-      post :create, auth_source: { name: 'Test' }
+      post :create, params: { auth_source: { name: 'Test' } }
 
       expect(response.status).to eq 404
     end
 
     it 'cannot find edit' do
-      get :edit, id: 42
+      get :edit, params: { id: 42 }
 
       expect(response.status).to eq 404
     end
 
     it 'cannot find update' do
-      post :update, id: 42, auth_source: { name: 'TestUpdate' }
+      post :update, params: { id: 42, auth_source: { name: 'TestUpdate' } }
 
       expect(response.status).to eq 404
     end
 
     it 'cannot find destroy' do
-      post :destroy, id: 42
+      post :destroy, params: { id: 42 }
 
       expect(response.status).to eq 404
     end

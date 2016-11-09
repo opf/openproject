@@ -27,34 +27,23 @@
 //++
 
 import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
-import {opApiModule} from "../../../angular-modules";
-
-interface IServiceWithList extends restangular.IService {
-  getList(subElement?: any, queryParams?: any, headers?: any): restangular.ICollectionPromise<any>;
-  getList<T>(subElement?: any, queryParams?: any, headers?: any): restangular.ICollectionPromise<T>;
-  post(subElement: any, elementToPost: any, queryParams?: any, headers?: any): ng.IPromise<any>;
-  post<T>(subElement: any, elementToPost: T, queryParams?: any, headers?: any): ng.IPromise<T>;
-  post(elementToPost: any, queryParams?: any, headers?: any): ng.IPromise<any>;
-  post<T>(elementToPost: T, queryParams?: any, headers?: any): ng.IPromise<T>;
-}
+import {opApiModule} from '../../../angular-modules';
+import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
+import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
+import IPromise = angular.IPromise;
 
 export class ApiWorkPackagesService {
-  protected wpBaseApi;
-
   constructor(protected DEFAULT_PAGINATION_OPTIONS,
-              protected $stateParams,
               protected $q:ng.IQService,
-              protected apiV3:restangular.IService) {
-
-    this.wpBaseApi = apiV3.service('work_packages');
+              protected halRequest:HalRequestService,
+              protected v3Path) {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query) {
-    var workPackages = this.wpApiPath(query.projectId);
-
-    return workPackages.getList(
-      this.queryAsV3Params(offset, pageSize, query), {caching: {enabled: false}}
-    );
+    const params = this.queryAsV3Params(offset, pageSize, query);
+    return this.halRequest.get(this.v3Path.wp({project: query.projectId}), params, {
+      caching: {enabled: false}
+    });
   }
 
   /**
@@ -64,14 +53,14 @@ export class ApiWorkPackagesService {
    * @param force Bypass any cached value?
    * @returns {IPromise<any>|IPromise<WorkPackageResource>} A promise for the WorkPackage.
    */
-  public loadWorkPackageById(id: number, force = false) {
-    var header:any = {};
+  public loadWorkPackageById(id:number, force = false) {
+    const url = this.v3Path.wp({wp: id});
 
-    if (force) {
-      header.caching = { enabled: false };
-    }
-
-    return this.apiV3.one("work_packages", id).get({}, header);
+    return <IPromise<WorkPackageResource>> this.halRequest.get(url, null, {
+      caching: {
+        enabled: !force
+      }
+    });
   }
 
   /**
@@ -79,29 +68,44 @@ export class ApiWorkPackagesService {
    *
    * @returns An empty work package form resource.
    */
-  public emptyCreateForm(projectIdentifier?:string):ng.IPromise<HalResource> {
-    return this.wpApiPath(projectIdentifier).one('form').customPOST();
+  public emptyCreateForm(request:any, projectIdentifier?:string):ng.IPromise<HalResource> {
+    return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
+  }
+
+  /**
+   * Returns a promise to post `/api/v3/work_packages/form` where the
+   * type has already been set to the one provided.
+   *
+   * @param typeId: The id of the type to initialize the form with
+   * @param projectIdentifier: The project to which the work package is initialized
+   * @returns An empty work package form resource.
+   */
+  public typedCreateForm(typeId:number, projectIdentifier?:string):ng.IPromise<HalResource> {
+
+    const typeUrl = this.v3Path.types({type: typeId});
+    const request = { _links: { type: { href: typeUrl } } };
+
+    return this.halRequest.post(this.v3Path.wp.form({ project: projectIdentifier }), request);
   }
 
   /**
    * Returns a promise to GET `/api/v3/work_packages/available_projects`.
    */
   public availableProjects(projectIdentifier?:string):ng.IPromise<HalResource> {
-    return this.wpApiPath(projectIdentifier).one('available_projects').get();
+    return this.halRequest.get(this.v3Path.wp.availableProjects({project: projectIdentifier}));
   }
 
-  public wpApiPath(projectIdentifier?:any):IServiceWithList {
-    var parent;
-
-    if (!!projectIdentifier) {
-      parent = this.apiV3.one('projects', projectIdentifier);
-    }
-
-    return <IServiceWithList> this.apiV3.service('work_packages', parent);
+  /**
+   * Create a work package from a form payload
+   *
+   * @param payload
+   * @return {ng.IPromise<WorkPackageResource>}
+   */
+  public createWorkPackage(payload):ng.IPromise<WorkPackageResource> {
+    return this.halRequest.post(this.v3Path.wps(), payload);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
-
     const v3Filters = _.map(query.filters, (filter:any) => {
       const newFilter = {};
       newFilter[filter.name] = {operator: filter.operator, values: filter.values};

@@ -53,12 +53,37 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        put :update, params
+        put :update, params: params
       end
 
       it { expect(response).to be_redirect }
       it { expect(custom_field.name(:de)).to eq(de_name) }
       it { expect(custom_field.name(:en)).to eq(en_name) }
+    end
+
+    describe "activating it in a type" do
+      let(:project) { FactoryGirl.create :project }
+      let(:type) { FactoryGirl.create :type }
+      let(:custom_field) { FactoryGirl.create :wp_custom_field }
+
+      let(:params) do
+        {
+          "custom_field" => {
+            "type_ids" => [type.id]
+          }
+        }
+      end
+
+      before do
+        expect(type.attribute_visibility.keys).not_to include "custom_field_#{custom_field.id}"
+
+        put :update, params: params
+      end
+
+      it "should update the type's attribute visibility map" do
+        expect(type.reload.attribute_visibility["custom_field_#{custom_field.id}"])
+          .to eq "default"
+      end
     end
 
     describe 'WITH one empty name params' do
@@ -70,7 +95,7 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        put :update, params
+        put :update, params: params
       end
 
       it { expect(response).to be_redirect }
@@ -94,7 +119,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response).to render_template 'new' }
@@ -113,7 +138,7 @@ describe CustomFieldsController, type: :controller do
       }
 
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response.status).to eql(302) }
@@ -131,7 +156,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       it { expect(response.status).to eql(302) }
@@ -152,7 +177,7 @@ describe CustomFieldsController, type: :controller do
                               'field_format' => 'string' } }
       }
       before do
-        post :create, params
+        post :create, params: params
       end
 
       around do |example|

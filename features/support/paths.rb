@@ -143,6 +143,12 @@ module NavigationHelpers
       work_package = WorkPackage.find_by(subject: $1)
       "/work_packages/#{work_package.id}/activity"
 
+    when /^the page (?:for|of) the work package "([^\"]+)" in project "([^\"]+)"$/
+      work_package = WorkPackage.find_by(subject: $1)
+      project = Project.find_by(identifier: $2)
+
+      "/projects/#{project.identifier}/work_packages/#{work_package.id}/activity"
+
     when /^the new work_package page (?:for|of) the project called "([^\"]+)"$/
       "/projects/#{$1}/work_packages/new"
 
@@ -350,6 +356,13 @@ module NavigationHelpers
       project_page = project_page.gsub(' ', '').underscore
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/#{project_page}"
+
+    when /the reportings of the project called "([^\"]+)"$/
+      project_name = $1
+      project = Project.find_by(name: project_name)
+      project_identifier = project.identifier.gsub(' ', '%20')
+
+      "/projects/#{project_identifier}/reportings"
 
     when /^the quick reference for wiki syntax$/
       '/help/wiki_syntax'

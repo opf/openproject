@@ -103,9 +103,8 @@ module Redmine
 
             find_conditions = [sql, * (tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
 
-            project_conditions = []
-            project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
-                                                 Project.allowed_to_condition(User.current, searchable_options[:permission]))
+            project_conditions = [searchable_projects_condition]
+
             project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.map(&:id).join(',')})" unless projects.nil?
 
             results = []
@@ -127,6 +126,16 @@ module Redmine
                 end
             end
             [results, results_count]
+          end
+
+          def searchable_projects_condition
+            projects = if searchable_options[:permission].nil?
+                         Project.visible_by(User.current)
+                       else
+                         Project.allowed_to(User.current, searchable_options[:permission])
+                       end
+
+            "#{searchable_options[:project_key]} IN (#{projects .select(:id).to_sql})"
           end
         end
       end

@@ -51,7 +51,10 @@ describe BoardsController, type: :controller do
       end
 
       # parameter expectation needs to have strings as keys
-      expect(Board).to receive(:new).with(board_params.stringify_keys).and_return(board)
+      expect(Board)
+        .to receive(:new)
+        .with(ActionController::Parameters.new(board_params).permit!)
+        .and_return(board)
     end
 
     describe 'w/ the params beeing valid' do
@@ -59,12 +62,16 @@ describe BoardsController, type: :controller do
         expect(board).to receive(:save).and_return(true)
 
         as_logged_in_user user do
-          post :create, params
+          post :create, params: params
         end
       end
 
       it 'should redirect to the settings page if successful' do
-        expect(response).to redirect_to controller: '/projects', action: 'settings', id: project, tab: 'boards'
+        expect(response)
+          .to redirect_to controller: '/projects',
+                          action: 'settings',
+                          id: project,
+                          tab: 'boards'
       end
 
       it 'have a successful creation flash' do
@@ -77,7 +84,7 @@ describe BoardsController, type: :controller do
         expect(board).to receive(:save).and_return(false)
 
         as_logged_in_user user do
-          post :create, params
+          post :create, params: params
         end
       end
 
@@ -107,16 +114,16 @@ describe BoardsController, type: :controller do
       let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/boards" }
 
       before do
-        post 'move', id: board_2.id,
-                     project_id: board_2.project_id,
-                     board: { move_to: move_to }
+        post 'move', params: { id: board_2.id,
+                               project_id: board_2.project_id,
+                               board: { move_to: move_to } }
       end
 
-      it { expect(board_2.reload.position).to eq(1) }
+      it do expect(board_2.reload.position).to eq(1) end
 
-      it { expect(response).to be_redirect }
+      it do expect(response).to be_redirect end
 
-      it { expect(response).to redirect_to(redirect_url) }
+      it do expect(response).to redirect_to(redirect_url) end
     end
   end
 
@@ -133,9 +140,9 @@ describe BoardsController, type: :controller do
     describe 'w/ the params beeing valid' do
       before do
         as_logged_in_user user do
-          put :update, id: board.id,
-                       project_id: board.project_id,
-                       board: { name: 'New name', description: 'New description' }
+          put :update, params: { id: board.id,
+                                 project_id: board.project_id,
+                                 board: { name: 'New name', description: 'New description' } }
         end
       end
 
@@ -160,9 +167,9 @@ describe BoardsController, type: :controller do
     describe 'w/ the params beeing invalid' do
       before do
         as_logged_in_user user do
-          post :update, id: board.id,
-                        project_id: board.project_id,
-                        board: { name: '', description: 'New description' }
+          post :update, params: { id: board.id,
+                                  project_id: board.project_id,
+                                  board: { name: '', description: 'New description' } }
         end
       end
 
@@ -182,22 +189,31 @@ describe BoardsController, type: :controller do
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
     let!(:sticked_message1) {
-      FactoryGirl.create(:message, board_id: board.id, subject: 'How to',
-                                   content: 'How to install this cool app', sticky: '1', sticked_on: Time.now - 2.minute)
+      FactoryGirl.create(:message, board_id: board.id,
+                                   subject: 'How to',
+                                   content: 'How to install this cool app',
+                                   sticky: '1',
+                                   sticked_on: Time.now - 2.minute)
     }
 
     let!(:sticked_message2) {
-      FactoryGirl.create(:message, board_id: board.id, subject: 'FAQ',
-                                   content: 'Frequestly asked question', sticky: '1', sticked_on: Time.now - 1.minute)
+      FactoryGirl.create(:message, board_id: board.id,
+                                   subject: 'FAQ',
+                                   content: 'Frequestly asked question',
+                                   sticky: '1',
+                                   sticked_on:
+                                   Time.now - 1.minute)
     }
 
     describe 'all sticky messages' do
       before do
         expect(@controller).to receive(:authorize)
-        get :show, project_id: project.id, id: board.id
+        get :show, params: { project_id: project.id, id: board.id }
       end
 
-      it { expect(response).to render_template 'show' }
+      it 'renders show' do
+        expect(response).to render_template 'show'
+      end
       it 'should be displayed on top' do
         expect(assigns[:topics][0].id).to eq(sticked_message1.id)
       end
@@ -212,7 +228,7 @@ describe BoardsController, type: :controller do
       describe 'when sticky is unset from message' do
         before do
           expect(@controller).to receive(:authorize)
-          get :show, project_id: project.id, id: board.id
+          get :show, params: { project_id: project.id, id: board.id }
         end
 
         it 'it should not be displayed as sticky message' do
@@ -227,7 +243,7 @@ describe BoardsController, type: :controller do
           sticked_message1.save!
 
           expect(@controller).to receive(:authorize)
-          get :show, project_id: project.id, id: board.id
+          get :show, params: { project_id: project.id, id: board.id }
         end
 
         it 'it should not be displayed on first position' do

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Api::V2::ReportedProjectStatusesController, type: :controller do
   let(:valid_user) { FactoryGirl.create(:user) }
@@ -46,7 +46,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with unknown project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'index', project_type_id: '0', format: 'xml'
+            get 'index', params: { project_type_id: '0' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -54,12 +54,12 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with valid project_type' do
         describe 'with no reported_project_statuses available' do
           it 'assigns an empty reported_project_statuses array' do
-            get 'index', project_type_id: project_type.id, format: 'xml'
+            get 'index', params: { project_type_id: project_type.id }, format: 'xml'
             expect(assigns(:reported_project_statuses)).to eq([])
           end
 
           it 'renders the index builder template' do
-            get 'index', project_type_id: project_type.id, format: 'xml'
+            get 'index', params: { project_type_id: project_type.id }, format: 'xml'
             expect(response).to render_template('api/v2/reported_project_statuses/index')
           end
         end
@@ -89,12 +89,12 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
           end
 
           it 'assigns an array with all reported_project_statuses' do
-            get 'index', project_type_id: project_type.id, format: 'xml'
+            get 'index', params: { project_type_id: project_type.id }, format: 'xml'
             expect(assigns(:reported_project_statuses)).to eq(@created_reported_project_statuses)
           end
 
           it 'renders the index template' do
-            get 'index', project_type_id: project_type.id, format: 'xml'
+            get 'index', params: { project_type_id: project_type.id }, format: 'xml'
             expect(response).to render_template('api/v2/reported_project_statuses/index')
           end
         end
@@ -105,7 +105,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with unknown project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', project_type_id: '0', id: '1337', format: 'xml'
+            get 'show', params: { project_type_id: '0', id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -113,7 +113,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+            get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -132,7 +132,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+            get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -141,7 +141,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
         it 'raises ActiveRecord::RecordNotFound errors' do
           available_reported_project_status
           expect {
-            get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+            get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -154,12 +154,12 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
         end
 
         it 'assigns the available reported_project_status' do
-          get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+          get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
           expect(assigns(:reported_project_status)).to eq(available_reported_project_status)
         end
 
         it 'renders the show template' do
-          get 'show', project_type_id: project_type.id, id: '1337', format: 'xml'
+          get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
           expect(response).to render_template('api/v2/reported_project_statuses/show')
         end
       end
@@ -206,7 +206,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', id: '1337', format: 'xml'
+            get 'show', params: { id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -220,7 +220,7 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', id: '1337', format: 'xml'
+            get 'show', params: { id: '1337' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -232,12 +232,12 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
         end
 
         it 'assigns the available reported_project_status' do
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
           expect(assigns(:reported_project_status)).to eq(@available_reported_project_status)
         end
 
         it 'renders the show template' do
-          get 'show', id: '1337', format: 'xml'
+          get 'show', params: { id: '1337' }, format: 'xml'
           expect(response).to render_template('api/v2/reported_project_statuses/show')
         end
       end

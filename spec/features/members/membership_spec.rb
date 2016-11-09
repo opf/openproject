@@ -56,9 +56,9 @@ feature 'group memberships through groups page', type: :feature, js: true do
       members_page.visit!
       members_page.add_user! 'A-Team', as: 'Manager'
 
-      expect(members_page).to have_added_user 'A-Team'
+      expect(members_page).to have_added_group('A-Team')
 
-      members_page.remove_user! 'A-Team'
+      members_page.remove_group! 'A-Team'
       expect(page).to have_text 'Removed A-Team from project'
       expect(page).to have_text 'There are currently no members part of this project.'
     end

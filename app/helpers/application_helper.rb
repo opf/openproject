@@ -40,8 +40,8 @@ module ApplicationHelper
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
 
   # Return true if user is authorized for controller/action, otherwise false
-  def authorize_for(controller, action)
-    User.current.allowed_to?({ controller: controller, action: action }, @project)
+  def authorize_for(controller, action, project: @project)
+    User.current.allowed_to?({ controller: controller, action: action }, project)
   end
 
   # Display a link if user is authorized
@@ -86,7 +86,7 @@ module ApplicationHelper
   end
 
   def user_status_i18n(user)
-    l(('status_' + user.status_name).to_sym)
+    t "status_#{user.status_name}"
   end
 
   def toggle_link(name, id, options = {}, html_options = {})
@@ -518,6 +518,7 @@ module ApplicationHelper
     if back_url.present?
       back_url = back_url.to_s
     elsif request.get? and !params.blank?
+      params.permit!
       back_url = url_for(params)
     end
     hidden_field_tag('back_url', back_url) unless back_url.blank?
@@ -558,7 +559,7 @@ module ApplicationHelper
 
   def checked_image(checked = true)
     if checked
-      icon_wrapper('icon-context icon-checkmark', l(:label_checked))
+      icon_wrapper('icon-context icon-checkmark', t(:label_checked))
     end
   end
 

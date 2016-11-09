@@ -70,6 +70,14 @@ module Migration
 
     def load_syck
       require 'syck'
+
+      # WARNING: Syck redefines the YAML constant
+      # https://github.com/ruby/syck/commit/9d0c50ca87097b12ce17323c3a4fd1d4066298fc
+      Object.class_eval <<-EORB, __FILE__, __LINE__ + 1
+        remove_const 'YAML' if defined? YAML
+        YAML = ::Psych
+      EORB
+
       ::Syck
     rescue LoadError => e
 

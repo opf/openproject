@@ -62,7 +62,10 @@ describe('queryMenuItem Directive', function() {
       compile = function() {
         element = angular.element(html);
         rootScope = $rootScope;
+
         scope = $rootScope.$new();
+        scope.queryId = queryId;
+
         $compile(element)(scope);
         scope.$digest();
       };
@@ -130,9 +133,10 @@ describe('queryMenuItem Directive', function() {
       var queryName = 'A query to find them all';
 
       beforeEach(function() {
+        compile();
         rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
           itemType: 'query-menu-item',
-          queryid: queryId,
+          queryId: queryId,
           queryName: queryName
         });
       });

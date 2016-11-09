@@ -40,7 +40,11 @@ MESSAGE
     end
   end
 
-  let(:watcher_role) { FactoryGirl.create(:role, permissions: [watch_permission]) }
+  let(:watcher_role) {
+    permissions = is_public_permission ? [] : [watch_permission]
+
+    FactoryGirl.create(:role, permissions: permissions)
+  }
   let(:non_watcher_role) { FactoryGirl.create(:role, permissions: []) }
   let(:non_member_user) { FactoryGirl.create(:user) }
   let(:user_with_permission) do
@@ -72,43 +76,68 @@ MESSAGE
     Redmine::AccessControl.public_permissions.map(&:name).include?(watch_permission)
   end
 
+  shared_context 'non member role has the permission to watch' do
+    let(:non_member_role) {
+      unless is_public_permission
+        Role.non_member.add_permission! watch_permission
+      end
+
+      Role.non_member
+    }
+
+    before do
+      unless is_public_permission
+        non_member_role.add_permission! watch_permission
+      end
+    end
+  end
+
+  shared_context 'anonymous role has the permission to watch' do
+    let(:anonymous_role) {
+      permissions = is_public_permission ? [] : [watch_permission]
+      FactoryGirl.build :anonymous_role, permissions: permissions
+    }
+
+    before do
+      anonymous_role.save!
+    end
+  end
+
   describe '#possible_watcher_users' do
     subject { model_instance.possible_watcher_users }
 
     before do
+      # in case the model_instance creates users, we do not want them
+      # to mess with our expected users
+      model_instance
+      User.destroy_all
+
+      Role.non_member
+      Role.anonymous
       admin.save!
       anonymous_user.save!
       user_with_permission.save!
       user_wo_permission.save!
     end
 
-    shared_context 'non member role has the permission to watch' do
-      let(:non_member_role) { Role.non_member }
-
-      before do
-        non_member_role.add_permission! watch_permission
-      end
-    end
-
-    shared_context 'anonymous role has the permission to watch' do
-      let(:anonymous_role) { FactoryGirl.build :anonymous_role, permissions: [watch_permission] }
-
-      before do
-        anonymous_role.save!
-      end
-    end
-
-    # While using share context here does not make sense for now as it
-    # is only used once, the intend of acts as watchable is to also
-    # include non members as watchers. Then the permission will be
-    # a variable to also test for.
     include_context 'non member role has the permission to watch'
     include_context 'anonymous role has the permission to watch'
 
     context 'when it is a public project' do
-      it 'contains members allowed to view' do
+      before do
+        project.update_attributes is_public: true
+        model_instance.reload
+      end
+
+      it 'contains all allowed to view' do
+        expected_users = [user_with_permission,
+                          non_member_user,
+                          admin]
+
+        expected_users << user_wo_permission if is_public_permission
+
         expect(model_instance.possible_watcher_users)
-          .to match_array([user_with_permission])
+          .to match_array(expected_users)
       end
     end
 
@@ -133,7 +162,9 @@ MESSAGE
 
     subject { model_instance.watcher_recipients }
 
-    it { is_expected.to match_array([watching_user]) }
+    it 'has the watching user' do
+      is_expected.to match_array([watching_user])
+    end
 
     context 'when the permission to watch has been removed' do
       before do
@@ -146,7 +177,9 @@ MESSAGE
         model_instance.reload
       end
 
-      it { is_expected.to match_array([]) }
+      it 'is empty' do
+        is_expected.to match_array([])
+      end
     end
   end
 
@@ -158,14 +191,16 @@ MESSAGE
 
     subject { model_instance.watched_by?(watching_user) }
 
-    it { is_expected.to be_truthy }
+    it 'is truthy' do
+      is_expected.to be_truthy
+    end
 
     context 'when the permission to view work packages has been removed' do
       # an existing watcher shouldn't be removed
       before do
         if is_public_permission
           skip "Not applicable for #{model_instance.class} as #{watch_permission} " +
-            'is a public permission'
+               'is a public permission'
         end
 
         watcher_role.remove_permission! watch_permission
@@ -174,6 +209,84 @@ MESSAGE
       end
 
       it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#addable_watcher_users' do
+    subject { model_instance.addable_watcher_users }
+
+    before do
+      # in case the model_instance creates users, we do not want them
+      # to mess with our expected users
+      model_instance
+      User.destroy_all
+
+      Role.non_member
+      Role.anonymous
+      admin.save!
+      anonymous_user.save!
+      user_with_permission.save!
+      user_wo_permission.save!
+    end
+
+    include_context 'non member role has the permission to watch'
+    include_context 'anonymous role has the permission to watch'
+
+    context 'when it is a public project' do
+      before do
+        project.update_attributes is_public: true
+        model_instance.reload
+      end
+
+      it 'contains all allowed to view' do
+        expected_users = [user_with_permission,
+                          non_member_user,
+                          admin]
+
+        expected_users << user_wo_permission if is_public_permission
+
+        is_expected
+          .to match_array(expected_users)
+      end
+
+      context 'when the user is already watching' do
+        before do
+          Watcher.create(watchable: model_instance, user: user_with_permission)
+          Watcher.create(watchable: model_instance, user: non_member_user)
+        end
+
+        it 'is no longer contained' do
+          expected_users = [admin]
+
+          expected_users << user_wo_permission if is_public_permission
+
+          is_expected
+            .to match_array(expected_users)
+        end
+      end
+    end
+
+    context 'when it is a private project' do
+      before do
+        project.update_attributes is_public: false
+        model_instance.reload
+      end
+
+      it 'contains members allowed to view' do
+        is_expected
+          .to match_array([user_with_permission])
+      end
+
+      context 'when the user is already watching' do
+        before do
+          Watcher.create(watchable: model_instance, user: user_with_permission)
+        end
+
+        it 'is no longer contained' do
+          is_expected
+            .to be_empty
+        end
+      end
     end
   end
 end

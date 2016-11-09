@@ -32,8 +32,8 @@ import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-export class CommentFieldDirectiveController {
 
+export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResourceInterface;
   public field:WorkPackageCommentField;
   public loadingPromise:ng.IPromise<any>;
@@ -98,7 +98,7 @@ export class CommentFieldDirectiveController {
     return this.editing = true;
   }
 
-  public submit() {
+  public handleUserSubmit() {
     if (this.field.isEmpty()) {
       return;
     }
@@ -115,9 +115,10 @@ export class CommentFieldDirectiveController {
         this._forceFocus = true;
       })
       .catch(error => {
-        if (error.data instanceof ErrorResource) {
-          this.wpNotificationsService.showError(error.data, this.workPackage);
-        } else {
+        if (error instanceof ErrorResource) {
+          this.wpNotificationsService.showError(error, this.workPackage);
+        }
+        else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       })

@@ -28,8 +28,8 @@
 #++
 
 class WorkPackages::BulkController < ApplicationController
-  before_filter :find_work_packages
-  before_filter :authorize
+  before_action :find_work_packages
+  before_action :authorize
 
   include ProjectsHelper
   include CustomFieldsHelper

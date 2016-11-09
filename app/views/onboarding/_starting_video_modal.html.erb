@@ -27,12 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div foundation-modal modal-class="onboarding--start-modal" class="foundation-modal--template">
+<div class="modal-wrapper--content">
   <div class="onboarding--start-modal">
     <div class="onboarding--top-menu">
       <%= homescreen_user_avatar %>
-      <h2><%= I18n.t('onboarding.welcome', name: current_user.name) %></h2>
-      <a class="icon-context icon-close" ng-click="$ctrl.close()"></a>
+      <h2><%= I18n.t('onboarding.welcome') %></h2>
     </div>
 
     <div class="onboarding--main">
@@ -50,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="onboarding--footer">
       <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
       <button class="button -highlight -large"
-              ng-click="$ctrl.close()"
+              ng-click="closeThisDialog()"
               title=<%= l(:label_next)%>> <%= l(:label_next)%>
       </button>
     </div>

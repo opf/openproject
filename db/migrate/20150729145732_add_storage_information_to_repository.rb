@@ -25,7 +25,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-class AddStorageInformationToRepository < ActiveRecord::Migration
+class AddStorageInformationToRepository < ActiveRecord::Migration[4.2]
   def change
     add_column :repositories, :required_storage_bytes, :integer,
                limit: 8, null: false, default: 0

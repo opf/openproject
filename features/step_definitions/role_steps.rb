@@ -40,7 +40,7 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   end
 end
 
-Given /^there is a [rR]ole "([^\"]*)"$/ do |name, _table = Cucumber::Ast::Table.new([])|
+Given /^there is a [rR]ole "([^\"]*)"$/ do |name, _table = nil|
   FactoryGirl.create(:role, name: name) unless Role.find_by(name: name)
 end
 
@@ -66,7 +66,7 @@ Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, tab
       unless perm.blank?
         perm = perm.gsub(' ', '_').underscore.to_sym
         if available_perms.include?(:"#{perm}")
-          r.permissions << perm
+          r.add_permission! perm
         end
       end
     end

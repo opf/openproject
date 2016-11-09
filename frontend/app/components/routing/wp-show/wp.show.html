@@ -77,16 +77,16 @@
           <ul class="tabrow">
             <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
             properly. Thus, don't remove the hrefs or the empty URLs! -->
-            <li ui-sref="work-packages.show.activity({})"
+            <li ui-sref="work-packages.show.activity({workPackageId: $ctrl.workPackage.id})"
                 ui-sref-active="selected">
               <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
             </li>
-            <li ui-sref="work-packages.show.relations({})"
+            <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
                 ui-sref-active="selected">
               <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
             </li>
             <li ng-if="$ctrl.canViewWorkPackageWatchers()"
-                ui-sref="work-packages.show.watchers({})"
+                ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
                 ui-sref-active="selected">
               <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
             </li>

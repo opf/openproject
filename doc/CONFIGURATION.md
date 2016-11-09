@@ -81,6 +81,8 @@ storage config above like this:
 * `scm_subversion_command` (default: 'svn')
 * `force_help_link` (default: nil)
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
+* `drop_old_sessions_on_logout` (default: true)
+* `drop_old_sessions_on_login` (default: false)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
 * [`attachments_storage`](#attachments-storage) (default: file)
@@ -88,6 +90,18 @@ storage config above like this:
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
+
+## Setting session options
+
+Use `session_store` to define where session information is stored. In order to store sessions in the database and use the following options, set that configuration to `:active_record_store`.
+
+**Delete old sessions for the same user when logging in** (Disabled by default)
+
+To enable, set the configuration option `drop_old_sessions_on_login` to true.
+
+**Delete old sessions for the same user when logging out** (Enabled by default)
+
+To disable, set the configuration option `drop_old_sessions_on_logout` to false.
 
 ## Passing data structures
 

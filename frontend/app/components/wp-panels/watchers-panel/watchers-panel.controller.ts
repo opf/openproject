@@ -27,7 +27,6 @@
 // ++
 
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
 export class WatchersPanelController {
@@ -64,7 +63,7 @@ export class WatchersPanelController {
       return;
     }
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(<number> this.workPackage.id))
+    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observe($scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.fetchWatchers();

@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Api::V2::AuthenticationController, type: :controller do
   before { allow(Setting).to receive(:rest_api_enabled?).and_return true }
@@ -99,12 +99,12 @@ describe Api::V2::AuthenticationController, type: :controller do
     it 'should not expire' do
       session[:updated_at] = Time.now
 
-      get :index, format: 'xml', key: api_key
+      get :index, format: 'xml', params: { key: api_key }
       expect(response.status).to eq(200)
 
       Timecop.travel(Time.now + (ttl + 1).minutes) do
         # Now another request after a normal session would be expired
-        get :index, format: 'xml', key: api_key
+        get :index, format: 'xml', params: { key: api_key }
         expect(response.status).to eq(200)
       end
     end
@@ -121,7 +121,7 @@ describe Api::V2::AuthenticationController, type: :controller do
     end
 
     it 'has Basic auth_scheme per default' do
-      get :index, format: 'xml', key: api_key.reverse
+      get :index, format: 'xml', params: { key: api_key.reverse }
 
       expect(response.status).to eq 401
       expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="OpenProject API"'
@@ -133,7 +133,7 @@ describe Api::V2::AuthenticationController, type: :controller do
       end
 
       it 'has Session auth scheme' do
-        get :index, format: 'xml', key: api_key.reverse
+        get :index, format: 'xml', params: { key: api_key.reverse }
 
         expect(response.status).to eq 401
         expect(response.headers['WWW-Authenticate']).to eq 'Session realm="OpenProject API"'
@@ -147,7 +147,7 @@ describe Api::V2::AuthenticationController, type: :controller do
       end
 
       it 'has another realm' do
-        get :index, format: 'xml', key: api_key.reverse
+        get :index, format: 'xml', params: { key: api_key.reverse }
 
         expect(response.headers['WWW-Authenticate']).to eq 'Basic realm="Narnia"'
       end

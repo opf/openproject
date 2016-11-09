@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Api::Experimental::VersionsController, type: :controller do
   let(:current_user) do
@@ -46,12 +46,12 @@ describe Api::Experimental::VersionsController, type: :controller do
     context 'within a project' do
       context 'with no versions available' do
         it 'assigns an empty versions array' do
-          get 'index', format: 'json', project_id: project.id
+          get 'index', format: 'json', params: { project_id: project.id }
           expect(assigns(:versions)).to eq []
         end
 
         it 'renders the index template' do
-          get 'index', format: 'json', project_id: project.id
+          get 'index', format: 'json', params: { project_id: project.id }
           expect(response).to render_template('api/experimental/versions/index')
         end
       end
@@ -63,7 +63,7 @@ describe Api::Experimental::VersionsController, type: :controller do
         end
 
         it 'assigns an array with 2 versions' do
-          get 'index', format: 'json', project_id: project.id
+          get 'index', format: 'json', params: { project_id: project.id }
           expect(assigns(:versions).size).to eq 2
         end
       end
@@ -72,7 +72,7 @@ describe Api::Experimental::VersionsController, type: :controller do
         let(:role)         { FactoryGirl.create(:role, permissions: []) }
 
         it 'should respond with 403' do
-          get 'index', format: 'json', project_id: project.id
+          get 'index', format: 'json', params: { project_id: project.id }
           expect(response.response_code).to eql(403)
         end
       end

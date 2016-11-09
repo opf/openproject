@@ -30,12 +30,12 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :disable_api, except: [:index, :destroy]
-  before_filter :find_work_package, only: [:new, :create]
-  before_filter :find_project, only: [:new, :create]
-  before_filter :find_time_entry, only: [:show, :edit, :update, :destroy]
-  before_filter :authorize, except: [:index]
-  before_filter :find_optional_project, only: [:index]
+  before_action :disable_api, except: [:index, :destroy]
+  before_action :find_work_package, only: [:new, :create]
+  before_action :find_project, only: [:new, :create]
+  before_action :find_time_entry, only: [:show, :edit, :update, :destroy]
+  before_action :authorize, except: [:index]
+  before_action :find_optional_project, only: [:index]
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper
@@ -53,11 +53,14 @@ class TimelogController < ApplicationController
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",
                 'work_package' => 'work_package_id',
+                'comments' => 'comments',
                 'hours' => 'hours'
 
     cond = ARCondition.new
     if @issue
-      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} AND #{WorkPackage.table_name}.lft >= #{@issue.lft} AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
+      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} " +
+              "AND #{WorkPackage.table_name}.lft >= #{@issue.lft} " +
+              "AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     end
@@ -68,12 +71,16 @@ class TimelogController < ApplicationController
     respond_to do |format|
       format.html do
         # Paginate results
-        @entry_count = TimeEntry.visible
+        @entry_count = TimeEntry
+                       .visible
                        .includes(:project, :work_package)
+                       .references(:projects)
                        .where(cond.conditions)
                        .count
-        @total_hours = TimeEntry.visible
+        @total_hours = TimeEntry
+                       .visible
                        .includes(:project, :work_package)
+                       .references(:projects)
                        .where(cond.conditions)
                        .sum(:hours).to_f
 
@@ -95,8 +102,10 @@ class TimelogController < ApplicationController
         gon.rabl template: 'app/views/timelog/index.rabl'
       end
       format.atom do
-        entries = TimeEntry.visible
+        entries = TimeEntry
+                  .visible
                   .includes(:project, :activity, :user, work_package: :type)
+                  .references(:projects)
                   .where(cond.conditions)
                   .order("#{TimeEntry.table_name}.created_on DESC")
                   .limit(Setting.feeds_limit.to_i)
@@ -105,17 +114,20 @@ class TimelogController < ApplicationController
       end
       format.csv do
         # Export all entries
-        @entries = TimeEntry.visible
-                   .includes(:project, :activity, :user, work_package: [:type, :assigned_to, :priority])
+        @entries = TimeEntry
+                   .visible
+                   .includes(:project,
+                             :activity,
+                             :user,
+                             work_package: [:type,
+                                            :assigned_to,
+                                            :priority])
+                   .references(:projects)
                    .where(cond.conditions)
+                   .distinct(false)
                    .order(sort_clause)
 
-        charset = "charset=#{l(:general_csv_encoding).downcase}"
-
-        send_data(
-          entries_to_csv(@entries),
-          type: "text/csv; #{charset}; header=present",
-          filename: 'timelog.csv')
+        render csv: entries_to_csv(@entries), filename: 'timelog.csv'
       end
     end
   end
@@ -131,7 +143,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     render action: 'edit'
   end
@@ -140,7 +152,7 @@ class TimelogController < ApplicationController
     @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -161,13 +173,13 @@ class TimelogController < ApplicationController
   def edit
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
   end
 
   def update
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save,  params: params, time_entry: @time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
     if @time_entry.save
       respond_to do |format|
@@ -214,13 +226,23 @@ class TimelogController < ApplicationController
   private
 
   def total_entry_count(cond)
-    TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+    TimeEntry
+      .visible
+      .includes(:project, :activity, :user, work_package: :type)
+      .references(:projects)
       .where(cond.conditions).count
   end
 
   def set_entries(cond)
-    @entries = TimeEntry.visible.includes(:project, :activity, :user, work_package: :type)
+    # .visible introduces a distinct which we don't need here and which interferes
+    # with the order on postgresql.
+    # The distinct is therefore explicitly removed
+    @entries = TimeEntry
+               .visible
+               .includes(:project, :activity, :user, work_package: :type)
+               .references(:projects)
                .where(cond.conditions)
+               .distinct(false)
                .order(sort_clause)
                .page(params[:page])
                .per_page(per_page_param)
@@ -245,9 +267,9 @@ class TimelogController < ApplicationController
 
   def project_id_from_params
     if params.has_key?(:project_id)
-      project_id = params[:project_id]
+      params[:project_id]
     elsif params.has_key?(:time_entry) && permitted_params.time_entry.has_key?(:project_id)
-      project_id = permitted_params.time_entry[:project_id]
+      permitted_params.time_entry[:project_id]
     end
   end
 

@@ -3,7 +3,7 @@
        wp-edit-field-requirements="vm.field.schema"
        ng-model="vm.workPackage[vm.fieldName]"
        ng-false-value="false"
-       ng-change="vm.submit()"
+       ng-change="vm.handleUserSubmit()"
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
        ng-disabled="vm.workPackage.inFlight"

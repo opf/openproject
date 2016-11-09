@@ -42,7 +42,11 @@ module Pages
     end
 
     def path(tab = 'activity')
-      work_package_path(work_package.id, tab)
+      if project
+        project_work_package_path(project, work_package.id, tab)
+      else
+        work_package_path(work_package.id, tab)
+      end
     end
 
     def create_page(args)

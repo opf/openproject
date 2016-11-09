@@ -53,8 +53,16 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addSuccess(message);
   }
 
-  public handleErrorResponse(error, workPackage?:WorkPackageResource) {
-    const errorResource = error.data;
+  public handleRawError(response, workPackage?:WorkPackageResource) {
+    if (response && response.data && response.data._type === 'Error') {
+      const resource = new ErrorResource(response.data);
+      return this.handleErrorResponse(resource, workPackage);
+    }
+
+    this.showGeneralError();
+  }
+
+  public handleErrorResponse(errorResource, workPackage?:WorkPackageResource) {
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError();
     }

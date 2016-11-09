@@ -51,7 +51,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
-          get :deletion_info, params
+          get :deletion_info, params: params
         end
       end
 
@@ -68,7 +68,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
-          get :deletion_info, params
+          get :deletion_info, params: params
         end
       end
 
@@ -80,7 +80,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user anonymous do
-          get :deletion_info, params
+          get :deletion_info, params: params
         end
       end
 
@@ -100,7 +100,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
-          get :deletion_info, params
+          get :deletion_info, params: params
         end
       end
 
@@ -117,7 +117,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
 
         as_logged_in_user admin do
-          get :deletion_info, params
+          get :deletion_info, params: params
         end
       end
 
@@ -133,7 +133,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user normal_user do
-          post :resend_invitation, id: invited_user.id
+          post :resend_invitation, params: { id: invited_user.id }
         end
       end
 
@@ -149,7 +149,7 @@ describe UsersController, type: :controller do
         expect(ActionMailer::Base.deliveries).to be_empty
 
         as_logged_in_user admin_user do
-          post :resend_invitation, id: invited_user.id
+          post :resend_invitation, params: { id: invited_user.id }
         end
       end
 
@@ -177,7 +177,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
-          post :destroy, params
+          post :destroy, params: params
         end
       end
 
@@ -194,7 +194,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
-          post :destroy, params
+          post :destroy, params: params
         end
       end
 
@@ -210,7 +210,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:login_required?).and_return(false)
 
         as_logged_in_user anonymous do
-          post :destroy, params
+          post :destroy, params: params
         end
       end
 
@@ -228,7 +228,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
-          post :destroy, params
+          post :destroy, params: params
         end
       end
 
@@ -246,7 +246,7 @@ describe UsersController, type: :controller do
         allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
 
         as_logged_in_user admin do
-          post :destroy, params
+          post :destroy, params: params
         end
       end
 
@@ -267,9 +267,12 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user admin do
-          post :change_status, id: registered_user.id,
-                               user: { status: User::STATUSES[:active] },
-                               activate: '1'
+          post :change_status,
+               params: {
+                 id: registered_user.id,
+                 user: { status: User::STATUSES[:active] },
+                 activate: '1'
+               }
         end
       end
 
@@ -292,7 +295,7 @@ describe UsersController, type: :controller do
   describe 'index' do
     describe 'with session lifetime' do
       # TODO move this section to a proper place because we test a
-      # before_filter from the application controller
+      # before_action from the application controller
 
       after(:each) do
         # reset, so following tests are not affected by the change
@@ -399,15 +402,26 @@ describe UsersController, type: :controller do
                                   mail_notification: 'all',
                                   force_password_change: false)
       }
+      let(:params) {
+        {
+          id: user.id,
+          user: {
+            admin: false,
+            firstname: 'Changed',
+            login: 'changedlogin',
+            mail_notification: 'only_assigned',
+            force_password_change: true
+          },
+          pref: {
+            hide_mail: '1',
+            comments_sorting: 'desc'
+          }
+        }
+      }
 
       before do
         as_logged_in_user(admin) do
-          put :update, id: user.id, user: { admin: false,
-                                            firstname: 'Changed',
-                                            login: 'changedlogin',
-                                            mail_notification: 'only_assigned',
-                                            force_password_change: true },
-                       pref: { hide_mail: '1', comments_sorting: 'desc' }
+          put :update, params: params
         end
       end
 
@@ -436,7 +450,7 @@ describe UsersController, type: :controller do
 
       before do
         as_logged_in_user(admin) do
-          put :update, id: user.id, user: { force_password_change: 'true' }
+          put :update, params: { id: user.id, user: { force_password_change: 'true' } }
         end
         user.reload
       end
@@ -452,7 +466,12 @@ describe UsersController, type: :controller do
       it 'switchting to internal authentication on a password change' do
         user.auth_source = ldap_auth_source
         as_logged_in_user admin do
-          put :update, id: user.id, user: { auth_source_id: '', password: 'newpassPASS!', password_confirmation: 'newpassPASS!' }
+          put :update,
+              params: {
+                id: user.id,
+                user: { auth_source_id: '', password: 'newpassPASS!',
+                        password_confirmation: 'newpassPASS!' }
+              }
         end
 
         expect(user.reload.auth_source).to be_nil
@@ -468,8 +487,10 @@ describe UsersController, type: :controller do
       it 'ignores password parameters and leaves the password unchanged' do
         as_logged_in_user(admin) do
           put :update,
-              id: user.id,
-              user: { password: 'changedpass!', password_confirmation: 'changedpass!' }
+              params: {
+                id: user.id,
+                user: { password: 'changedpass!', password_confirmation: 'changedpass!' }
+              }
         end
 
         expect(user.reload.check_password?('changedpass!')).to be false
@@ -477,34 +498,18 @@ describe UsersController, type: :controller do
     end
   end
 
-  describe 'update memberships' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:role) { FactoryGirl.create(:role) }
-
-    it 'works' do
-      # i.e. it should successfully add a user to a project's members
-      as_logged_in_user admin do
-        post :edit_membership,
-             id: user.id,
-             membership: {
-               project_id: project.id,
-               role_ids: [role.id]
-             },
-             format: 'js'
-      end
-
-      expect(response.status).to eql(200)
-
-      is_member = user.reload.memberships.any? { |m|
-        m.project_id == project.id && m.role_ids.include?(role.id)
-      }
-      expect(is_member).to eql(true)
-    end
-  end
-
   describe 'Anonymous should not be able to create a user' do
     it 'should redirect to the login page' do
-      post :create, user: { login: 'psmith', firstname: 'Paul', lastname: 'Smith' }, password: 'psmithPSMITH09', password_confirmation: 'psmithPSMITH09'
+      post :create,
+           params: {
+             user: {
+               login: 'psmith',
+               firstname: 'Paul',
+               lastname: 'Smith'
+             },
+             password: 'psmithPSMITH09',
+             password_confirmation: 'psmithPSMITH09'
+           }
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
   end
@@ -513,7 +518,7 @@ describe UsersController, type: :controller do
     describe 'general' do
       before do
         as_logged_in_user user do
-          get :show, id: user.id
+          get :show, params: { id: user.id }
         end
       end
 
@@ -571,7 +576,7 @@ describe UsersController, type: :controller do
         allow(User).to receive(:current).and_return(user.reload)
         allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
 
-        get :show, id: user.id
+        get :show, params: { id: user.id }
       end
 
       it 'should include the number of reported work packages' do

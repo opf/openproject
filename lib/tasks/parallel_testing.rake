@@ -27,6 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+def check_for_pending_migrations
+  require 'parallel_tests/tasks'
+  ParallelTests::Tasks.check_for_pending_migrations
+end
+
 namespace :parallel do
   desc 'Run all suites in parallel (one after another)'
   task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber', :spec_legacy, :rspec, :cucumber]
@@ -38,7 +43,7 @@ namespace :parallel do
 
     desc 'Run plugin specs in parallel'
     task spec: [:environment] do
-      ParallelTests::Tasks.check_for_pending_migrations
+      check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
@@ -61,7 +66,7 @@ namespace :parallel do
 
     desc 'Run plugin cucumber features in parallel'
     task cucumber: [:environment] do
-      ParallelTests::Tasks.check_for_pending_migrations
+      check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
       group          = ENV['GROUP']
@@ -90,15 +95,17 @@ namespace :parallel do
 
   desc 'Run legacy specs in parallel'
   task :spec_legacy do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
+    seed           = ENV['CI_SEED']
 
-    group_options  = num_cpus ? "-n #{num_cpus}" : ''
-    group_options += " --only-group #{group}" if group
+    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
+    spec_options += " --only-group #{group}" if group
+    spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{group_options} spec_legacy"
+    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{spec_options} spec_legacy"
     cmd += ' || bundle exec rspec -I spec_legacy --only-failures spec_legacy'
 
     sh cmd
@@ -106,7 +113,7 @@ namespace :parallel do
 
   desc 'Run cucumber features in parallel (custom task)'
   task :cucumber do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
@@ -133,15 +140,17 @@ namespace :parallel do
 
   desc 'Run rspec in parallel (custom task)'
   task :rspec do
-    ParallelTests::Tasks.check_for_pending_migrations
+    check_for_pending_migrations
 
     num_cpus       = ENV['GROUP_SIZE']
     group          = ENV['GROUP']
+    seed           = ENV['CI_SEED']
 
-    group_options  = num_cpus ? "-n #{num_cpus}" : ''
-    group_options += " --only-group #{group}" if group
+    spec_options  = num_cpus ? "-n #{num_cpus}" : ''
+    spec_options += " --only-group #{group}" if group
+    spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec #{group_options} spec"
+    cmd  = "bundle exec parallel_test --type rspec #{spec_options} spec"
     cmd += ' || bundle exec rspec --only-failures'
 
     sh cmd

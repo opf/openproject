@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe PlanningElementTypeColorsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
@@ -51,7 +51,7 @@ describe PlanningElementTypeColorsController, type: :controller do
 
   describe 'create.html' do
     def fetch
-      post 'create', color: FactoryGirl.build(:color).attributes
+      post 'create', params: { color: FactoryGirl.build(:color).attributes }
     end
 
     def expect_redirect_to
@@ -63,7 +63,7 @@ describe PlanningElementTypeColorsController, type: :controller do
   describe 'edit.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      get 'edit', id: '1337'
+      get 'edit', params: { id: '1337' }
     end
     it_should_behave_like 'a controller action with require_admin'
   end
@@ -71,7 +71,7 @@ describe PlanningElementTypeColorsController, type: :controller do
   describe 'update.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      put 'update', id: '1337', color: { 'name' => 'blubs' }
+      put 'update', params: { id: '1337', color: { 'name' => 'blubs' } }
     end
 
     def expect_redirect_to
@@ -83,7 +83,7 @@ describe PlanningElementTypeColorsController, type: :controller do
   describe 'move.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      post 'move', id: '1337', color: { move_to: 'highest' }
+      post 'move', params: { id: '1337', color: { move_to: 'highest' } }
     end
 
     def expect_redirect_to
@@ -95,7 +95,7 @@ describe PlanningElementTypeColorsController, type: :controller do
   describe 'confirm_destroy.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      get 'confirm_destroy', id: '1337'
+      get 'confirm_destroy', params: { id: '1337' }
     end
     it_should_behave_like 'a controller action with require_admin'
   end
@@ -103,7 +103,7 @@ describe PlanningElementTypeColorsController, type: :controller do
   describe 'destroy.html' do
     def fetch
       @available_color = FactoryGirl.create(:color, id: '1337')
-      post 'destroy', id: '1337'
+      post 'destroy', params: { id: '1337' }
     end
 
     def expect_redirect_to

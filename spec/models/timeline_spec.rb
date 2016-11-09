@@ -26,20 +26,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 
 describe Timeline, type: :model do
   describe 'helper methods for creation' do
     describe 'available_responsibles' do
-      it 'is sorted according to general setting' do
-        ab = FactoryGirl.create(:user, firstname: 'a', lastname: 'b')
-        ba = FactoryGirl.create(:user, firstname: 'b', lastname: 'a')
-        t  = Timeline.new
 
-        Setting.user_format = :firstname_lastname
+      let!(:ab) { FactoryGirl.create(:user, firstname: 'a', lastname: 'b') }
+      let!(:ba) { FactoryGirl.create(:user, firstname: 'b', lastname: 'a') }
+      let!(:t) { Timeline.new }
+
+      it 'sorted by firstname_lastname', with_settings: { user_format: :firstname_lastname } do
         expect(t.available_responsibles).to eq([ab, ba])
+      end
 
-        Setting.user_format = :lastname_firstname
+      it 'sorted by lastname_firstname', with_settings: { user_format: :lastname_firstname } do
         expect(t.available_responsibles).to eq([ba, ab])
       end
     end

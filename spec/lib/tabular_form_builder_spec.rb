@@ -528,7 +528,7 @@ JJ Abrams</textarea>
 
   describe '#submit' do
     subject(:output) {
-      builder.submit
+      Capybara::Node::Simple.new(builder.submit)
     }
 
     it_behaves_like 'not labelled'
@@ -536,7 +536,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'should output element' do
-      expect(output).to be_html_eql %{<input name="commit" type="submit" value="Create User" />}
+      expect(output).to have_selector('input[name=commit]')
     end
   end
 

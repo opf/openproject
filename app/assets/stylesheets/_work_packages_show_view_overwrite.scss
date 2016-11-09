@@ -28,29 +28,74 @@
 
 body.controller-work_packages.action-show {
   overflow-x: auto;
+
+  #content {
+    padding-left: 15px;
+
+    .work-packages--split-view {
+      margin-left: -5px;
+      width: calc(100% + 5px);
+    }
+  }
 }
 
+
 .work-packages--show-view {
+  display: flex;
+  flex-direction: column;
+  height: inherit;
 
   #toolbar {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap-reverse;
     @include clearfix;
   }
 
   .toolbar-container {
     @include clearfix;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding-right: 20px;
+  }
+
+
+  ul#toolbar-items {
+    @include clearfix;
+    order: 2;
+    margin: 0 0 1rem 2rem;
+
+    button {
+      margin-bottom: 0;
+    }
+
+    li {
+      float: left;
+      position: relative;
+
+      &.toolbar-item:first-of-type {
+        margin-left: 0;
+      }
+
+      .dropdown {
+        top: 100% !important;
+        right: 0px !important;
+        left: auto !important;
+        margin-top: 0;
+
+        ul li {
+          float: none;
+        }
+      }
+    }
   }
 
   .work-packages--split-view {
-    height: auto;
+    flex-shrink: 8;
     border-top: 1px solid #ccc;
-    overflow: hidden;
-    position: absolute;
-    padding-right: 20px;
-    top: 76px;
-    left: 20px;
-    right: 0px;
-    bottom: 0px;
+    overflow: visible;
+    height: 100%;
+    // Important for Firefox to let 'flex-shrink' work correctly.
+    min-height: 0;
 
     &[cg-busy] {
       overflow: visible;
@@ -80,7 +125,7 @@ body.controller-work_packages.action-show {
     padding-left: 0.375rem;
 
     .work-packages--panel-inner {
-      padding: 5px 20px 20px 0px;
+      padding: 5px 15px 20px 0px;
 
       // These styles were taken over from the details tab styling.
       // Thus the header and the details tab can be aligned on the same line.
@@ -104,10 +149,6 @@ body.controller-work_packages.action-show {
     }
   }
 
-  .work-packages--split-view {
-    overflow: visible !important;
-  }
-
   .work-packages--right-panel {
     min-width: 420px;
     overflow-y: auto;
@@ -115,7 +156,7 @@ body.controller-work_packages.action-show {
     width: 40%;
 
     .work-packages--panel-inner {
-      padding: 2px 20px 20px 20px;
+      padding: 2px 15px 20px 15px;
     }
   }
 
@@ -144,31 +185,6 @@ body.controller-work_packages.action-show {
 
   .work-package-details-activities-activity-contents {
     ul { padding-left: 2em; }
-  }
-
-  ul#toolbar-items {
-    @include clearfix;
-    float: right;
-
-    button {
-      margin-bottom: 0;
-    }
-
-    li {
-      float: left;
-      position: relative;
-
-      .dropdown {
-        top: 100% !important;
-        right: 0px !important;
-        left: auto !important;
-        margin-top: 0;
-
-        ul li {
-          float: none;
-        }
-      }
-    }
   }
 
   .activity-comment {
@@ -203,6 +219,21 @@ body.controller-work_packages.action-show {
   }
 }
 
+@media only screen and (max-width: 78rem) {
+  .work-packages--show-view {
+    // Important for Safari
+    height: initial;
+  }
+}
+
+@media only screen and (max-width: 679px) {
+  #toolbar {
+    #toolbar-items {
+      margin-left: 0;
+    }
+  }
+}
+
 #work-packages-index {
   .wiki-anchor {
     display: none;
@@ -210,19 +241,17 @@ body.controller-work_packages.action-show {
 }
 
 .work-packages--show-view {
-  padding-right: 20px;
-
   .subject-header {
-    float: left;
-    margin-right: -470px;
-    margin-top: 0;
-    padding: 10px 470px 0 0;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    min-height: 50px;
+    width: initial;
+    align-self: center;
+    flex-grow: 1;
 
-    .subject-header-inner {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
+
+    .wp-table--cell-span {
+      white-space: normal;
     }
 
     li .inline-edit { width: 100%; }

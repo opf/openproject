@@ -39,7 +39,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
   end
 
   before do
-    @response = ActionController::TestResponse.new
+    @response = ActionDispatch::TestResponse.new
     # Stub the current menu item in the controller
     def @controller.current_menu_item
       :index

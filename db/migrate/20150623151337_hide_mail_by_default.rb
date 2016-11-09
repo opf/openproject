@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class HideMailByDefault < ActiveRecord::Migration
+class HideMailByDefault < ActiveRecord::Migration[4.2]
   def change
     change_column_default :user_preferences, :hide_mail, true
   end

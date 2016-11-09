@@ -1,4 +1,3 @@
-import {WpAttachmentsService} from './../wp-attachments/wp-attachments.service';
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {
   DropModel,
@@ -7,16 +6,14 @@ import {
   FieldModel,
   SingleAttachmentModel
 } from './wp-attachments-formattable.models';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {
-  CollectionResource,
-  CollectionResourceInterface
-} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
 
 export class WpAttachmentsFormattableController {
@@ -28,7 +25,6 @@ export class WpAttachmentsFormattableController {
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpEditModeState:WorkPackageEditModeStateService,
-              protected wpAttachments:WpAttachmentsService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state,
@@ -38,7 +34,11 @@ export class WpAttachmentsFormattableController {
     $element.on('drop', this.handleDrop);
     $element.on('dragover', this.highlightDroppable);
     $element.on('dragleave', this.removeHighlight);
-    $element.on('dragenter dragleave dragover', this.prevDefault);
+
+    // There's a weird TS warning ocurring here:
+    // Argument of type 'string' is not assignable to parameter of type '{ [key: string]: any; }'
+    // TS appears to be choosing the wrong function declaration
+    ($element as any).on('dragenter dragleave dragover', this.prevDefault);
   }
 
   public handleDrop = (evt:JQueryEventObject):void => {
@@ -68,45 +68,36 @@ export class WpAttachmentsFormattableController {
     if (dropData.isUpload) {
       if (dropData.filesAreValidForUploading()) {
         if (!dropData.isDelayedUpload) {
+          workPackage
+            .uploadAttachments(<any> dropData.files)
+            .then(attachments => attachments.elements)
+            .then((updatedAttachments:any) => {
+              if (angular.isUndefined(updatedAttachments)) {
+                return;
+              }
+              updatedAttachments = this.sortAttachments(updatedAttachments);
 
-          this.uploadFiles(workPackage, dropData).then((updatedAttachments:any) => {
-            if (angular.isUndefined(updatedAttachments)) {
-              return;
-            }
-            updatedAttachments = this.sortAttachments(updatedAttachments);
+              if (dropData.filesCount === 1) {
+                this.insertSingleAttachment(updatedAttachments, description);
+              }
+              else if (dropData.filesCount > 1) {
+                this.insertMultipleAttachments(dropData, updatedAttachments, description);
+              }
 
-            if (dropData.filesCount === 1) {
-              this.insertSingleAttachment(updatedAttachments, description);
-            }
-            else if (dropData.filesCount > 1) {
-              this.insertMultipleAttachments(dropData, updatedAttachments, description);
-            }
-
-            description.save();
-
+              description.save();
           });
-        } else {
-          this.insertDelayedAttachments(dropData, description);
+        }
+        else {
+          this.insertDelayedAttachments(dropData, description, workPackage);
         }
       }
-    } else {
+    }
+    else {
       this.insertUrls(dropData, description);
     }
     this.openDetailsView(workPackage.id);
     this.removeHighlight();
   };
-
-  protected uploadFiles(workPackage:WorkPackageResourceInterface, dropData:DropModel) {
-    const updatedAttachmentsList = this.$q.defer();
-
-    this.wpAttachments.upload(workPackage, dropData.files).then(() => {
-      workPackage.attachments.$load(true).then((collection:CollectionResourceInterface) => {
-        updatedAttachmentsList.resolve(collection.elements);
-      });
-    });
-
-    return updatedAttachmentsList.promise;
-  }
 
   protected sortAttachments(updatedAttachments:any) {
     updatedAttachments.sort(function (a:any, b:any) {
@@ -134,12 +125,12 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(dropData:DropModel, description):void {
+  protected insertDelayedAttachments(dropData:DropModel, description, workPackage: WorkPackageResourceInterface):void {
     for (var i = 0; i < dropData.files.length; i++) {
       var currentFile = new SingleAttachmentModel(dropData.files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
       description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), insertMode, true);
-      this.$rootScope.$broadcast('work_packages.attachment.add', dropData.files[i]);
+      workPackage.pendingAttachments.push((dropData.files[i]));
     }
 
     description.save();

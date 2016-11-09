@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesDefaultPlanningElementTypes < ActiveRecord::Migration
+class CreateTimelinesDefaultPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table :timelines_default_planning_element_types do |t|
       t.belongs_to :project_type

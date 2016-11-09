@@ -56,6 +56,10 @@ module OpenProject
       # where to store session data
       'session_store'           => :cache_store,
       'session_cookie_name'     => '_open_project_session',
+      # Destroy all sessions for current_user on logout
+      'drop_old_sessions_on_logout' => true,
+      # Destroy all sessions for current_user on login
+      'drop_old_sessions_on_login' => false,
       # url-path prefix
       'rails_relative_url_root' => '',
       'rails_force_ssl' => false,
@@ -77,8 +81,10 @@ module OpenProject
 
       'disable_password_login' => false,
       'omniauth_direct_login_provider' => nil,
+      'internal_password_confirmation' => true,
 
       'disable_password_choice' => false,
+      'override_bcrypt_cost_factor' => nil,
 
       'disabled_modules' => [], # allow to disable default modules
       'hidden_menu_items' => {},
@@ -86,7 +92,8 @@ module OpenProject
 
       'apiv2_enable_basic_auth' => true,
 
-      'onboarding_video_url' => 'https://player.vimeo.com/video/163426858'
+      'onboarding_video_url' => 'https://player.vimeo.com/video/163426858',
+      'onboarding_enabled' => true
     }
 
     @config = nil

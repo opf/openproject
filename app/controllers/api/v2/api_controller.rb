@@ -33,12 +33,13 @@ module Api
       module ClassMethods
         def included(base)
           base.class_eval do
-            if (respond_to? :skip_before_filter) && (respond_to? :prepend_before_filter)
+            if (respond_to? :skip_before_action) && (respond_to? :prepend_before_action)
               # disable CSRF protection since the V2 doesn't handle it
-              skip_before_filter :verify_authenticity_token
-              
-              skip_before_filter :disable_api
-              prepend_before_filter :disable_everything_except_api
+              skip_before_action :verify_authenticity_token
+
+              skip_before_action :disable_api, raise: false
+
+              prepend_before_action :disable_everything_except_api
             end
           end
         end

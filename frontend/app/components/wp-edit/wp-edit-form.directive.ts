@@ -26,44 +26,45 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {WorkPackageEditModeStateService} from './wp-edit-mode-state.service';
-import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.directive';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
+import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../states.service";
 
 export class WorkPackageEditFormController {
   public workPackage;
-  public hasEditMode:boolean;
-  public errorHandler:Function;
-  public successHandler:Function;
+  public hasEditMode: boolean;
+  public errorHandler: Function;
+  public successHandler: Function;
   public fields = {};
 
-  private errorsPerAttribute:Object = {};
-  public firstActiveField:string;
+  private errorsPerAttribute: Object = {};
+  public firstActiveField: string;
 
-  constructor(protected $scope:ng.IScope,
+  constructor(protected states: States,
+              protected $scope: ng.IScope,
               protected $q,
               protected $rootScope,
               protected wpNotificationsService,
               protected QueryService,
               protected loadingIndicator,
-              protected wpEditModeState:WorkPackageEditModeStateService,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected wpEditModeState: WorkPackageEditModeStateService,
+              protected wpCacheService: WorkPackageCacheService) {
 
     if (this.hasEditMode) {
       wpEditModeState.register(this);
     }
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id))
+    states.workPackages.get(this.workPackage.id.toString()).observe($scope)
       .subscribe((wp: WorkPackageResource) => {
         this.workPackage = wp;
       });
   }
 
   public isFieldRequired() {
-    return _.filter((this.fields as any), (name:string) => {
+    return _.filter((this.fields as any), (name: string) => {
       return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
     });
   }
@@ -73,13 +74,13 @@ export class WorkPackageEditFormController {
     field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
   }
 
-  public toggleEditMode(state:boolean) {
+  public toggleEditMode(state: boolean) {
     this.$scope.$evalAsync(() => {
-      angular.forEach(this.fields, (field) => {
+      angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
 
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
-          field.initializeField(this.workPackage);
+          field.initializeField();
         }
 
         // Disable the field if is active
@@ -91,7 +92,7 @@ export class WorkPackageEditFormController {
   }
 
   public closeAllFields() {
-    angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+    angular.forEach(this.fields, (field: WorkPackageEditFieldController) => {
       field.deactivate();
     });
   }
@@ -119,6 +120,18 @@ export class WorkPackageEditFormController {
     });
   }
 
+  /**
+   * Handle submission event of a single work package field that may or
+   * may not be involved inside an active edit mode.
+   */
+  public onFieldSubmit() {
+    if (this.wpEditModeState.active) {
+      return this.wpEditModeState.save();
+    }
+
+    return this.updateWorkPackage();
+  }
+
   public updateWorkPackage() {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       return this.$q.when(this.workPackage);
@@ -133,7 +146,7 @@ export class WorkPackageEditFormController {
 
     this.workPackage.save()
       .then(() => {
-        angular.forEach(this.fields, field => field.setErrors([]));
+        angular.forEach(this.fields, (field:WorkPackageEditFieldController) => field.setErrors([]));
         deferred.resolve(this.workPackage);
 
         this.wpNotificationsService.showSave(this.workPackage, isInitial);
@@ -141,22 +154,21 @@ export class WorkPackageEditFormController {
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
-        if (error.data instanceof ErrorResource) {
-          this.handleSubmissionErrors(error.data, deferred);
+        if (error instanceof ErrorResource) {
+          this.handleSubmissionErrors(error, deferred);
         }
       });
 
     return deferred.promise;
   }
 
-  private handleSubmissionErrors(error:any, deferred:any) {
-
+  private handleSubmissionErrors(error: any, deferred: any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  private handleErroneousAttributes(error:any) {
+  private handleErroneousAttributes(error: any) {
     let attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
@@ -173,8 +185,8 @@ export class WorkPackageEditFormController {
     });
 
     this.$scope.$evalAsync(() => {
-      angular.forEach(this.fields, field => {
-        field.setErrors(this.errorsPerAttribute[(field.fieldName || [])]);
+      angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+        field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
       });
 
       // Activate + Focus on first field

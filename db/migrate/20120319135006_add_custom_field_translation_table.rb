@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddCustomFieldTranslationTable < ActiveRecord::Migration
+class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
   def self.up
     CustomField.create_translation_table! name: :string,
                                           default_value: :text,

@@ -30,10 +30,10 @@
 class CustomFieldsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
-  before_filter :find_types, except: [:index, :destroy]
-  before_filter :find_custom_field, only: [:edit, :update, :destroy, :move]
-  before_filter :blank_translation_attributes_as_nil, only: [:create, :update]
+  before_action :require_admin
+  before_action :find_types, except: [:index, :destroy]
+  before_action :find_custom_field, only: [:edit, :update, :destroy, :move]
+  before_action :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
     @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
@@ -60,7 +60,13 @@ class CustomFieldsController < ApplicationController
 
   def update
     if @custom_field.update_attributes(@custom_field_params)
-      flash[:notice] = l(:notice_successful_update)
+      if @custom_field.is_a? WorkPackageCustomField
+        @custom_field.types.each do |type|
+          TypesHelper.update_type_attribute_visibility! type
+        end
+      end
+
+      flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_to custom_fields_path(tab: @custom_field.class.name)
     else

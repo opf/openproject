@@ -28,9 +28,9 @@
 #++
 
 class WatchersController < ApplicationController
-  before_filter :find_watched_by_object, except: [:destroy]
-  before_filter :find_project
-  before_filter :require_login, :check_project_privacy, only: [:watch, :unwatch]
+  before_action :find_watched_by_object, except: [:destroy]
+  before_action :find_project
+  before_action :require_login, :check_project_privacy, only: [:watch, :unwatch]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -78,8 +78,7 @@ class WatchersController < ApplicationController
           @replace_selectors = ['#watcher']
         end
         @user = user
-
-        render action: 'replace_selectors'
+        render template: 'watchers/set_watcher'
       end
     end
   rescue ::ActionController::RedirectBackError

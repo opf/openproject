@@ -48,13 +48,15 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
                                      :add_work_packages,
                                      :edit_work_packages])
   end
-  let(:project) { FactoryGirl.create(:project) }
+  let(:type) { FactoryGirl.create(:type) }
+  let(:project) { FactoryGirl.create(:project, types: [type]) }
   let(:original_work_package) do
     FactoryGirl.build(:work_package,
                       project: project,
                       assigned_to: assignee,
                       responsible: responsible,
                       fixed_version: version,
+                      type: type,
                       author: author)
   end
   let(:role) { FactoryGirl.build(:role, permissions: [:view_work_packages]) }
@@ -107,7 +109,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     expect(copied_work_package).to_not eql original_work_package
 
-    work_package_page = Pages::FullWorkPackage.new(copied_work_package)
+    work_package_page = Pages::FullWorkPackage.new(copied_work_package, project)
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,

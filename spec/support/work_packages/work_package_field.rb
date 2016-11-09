@@ -10,7 +10,7 @@ class WorkPackageField
                  property_name,
                  selector: nil)
 
-    @property_name = property_name
+    @property_name = property_name.to_s
     @context = context
     @selector = selector || ".inplace-edit.#{property_name}"
 
@@ -40,8 +40,18 @@ class WorkPackageField
     expect_active!
   end
 
+  def expect_state!(open:)
+    if open
+      expect_active!
+    else
+      expect_inactive!
+    end
+  end
+
   def expect_active!
-    expect(element).to have_selector(field_type, wait: 10)
+    expect(element)
+      .to have_selector(field_type, wait: 10),
+          "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
   end
 
   def expect_inactive!
@@ -57,7 +67,7 @@ class WorkPackageField
   end
 
   def save!
-    if @property_name.to_s == 'description'
+    if @property_name == 'description'
       submit_by_dashboard
     else
       submit_by_enter
@@ -75,6 +85,22 @@ class WorkPackageField
     end
   end
 
+  ##
+  # Update this attribute while retrying to open the field
+  # if unsuccessful at first.
+  def update(value, save: true, expect_failure: false)
+    # Retry to set attributes due to reloading the page after setting
+    # an attribute, which may cause an input not to open properly.
+    retry_block do
+      activate_edition
+      set_value value
+
+      # select fields are saved on change
+      save! if save && field_type != 'select'
+      expect_state! open: expect_failure
+    end
+  end
+
   def trigger_link
     element.find trigger_link_selector
   end
@@ -88,7 +114,7 @@ class WorkPackageField
   end
 
   def activate_edition
-    element.find("#{trigger_link_selector}").click
+    element.find(trigger_link_selector).click
   end
 
   def input_element
@@ -118,7 +144,10 @@ class WorkPackageField
   end
 
   def editable?
-    element['class'].include? '-editable'
+    @context.find("#{selector}.-editable")
+    true
+  rescue Capybara::ElementNotFound
+    false
   end
 
   def editing?
@@ -139,7 +168,6 @@ class WorkPackageField
   def ensure_page_loaded
     if Capybara.current_driver == Capybara.javascript_driver
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
-      ng_wait
 
       expect(page).to have_selector('#work-packages-list-view-button.-active,
         .work-packages--details--title,
@@ -154,14 +182,15 @@ class WorkPackageField
 
   def field_type
     @field_type ||= begin
-      case property_name
-      when :assignee,
-           :responsible,
-           :priority,
-           :project,
-           :status,
-           :type,
-           :category
+      case property_name.to_s
+      when 'assignee',
+           'responsible',
+           'priority',
+           'project',
+           'status',
+           'type',
+           'version',
+           'category'
         :select
       else
         :input

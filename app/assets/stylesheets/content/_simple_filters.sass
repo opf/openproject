@@ -40,6 +40,7 @@ $filters--border-color: $gray !default
   @extend %filters--container
   padding: 1rem 1rem 1rem 1rem
   margin: 0.6em 0
+  position: relative
 
   .simple-filter--trailing-labels
     list-style-type: none
@@ -55,6 +56,16 @@ $filters--border-color: $gray !default
       .simple-filters--filter
         flex-basis: 25%
         max-width: 25%
+
+  &.collapsed
+    display: none
+
+  .simple-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
 
 .simple-filters--filters
   @extend .advanced-filters--filters
@@ -104,29 +115,44 @@ $filters--border-color: $gray !default
       flex: 1
     max-width: 33.33%
 
+    @media only screen and (max-width: 1200px)
+      padding: 0
+
     button,
     .button
       margin-bottom: 0rem
 
 .simple-filters--filters.-columns-3
-  justify-content: flex-start
   @include breakpoint(large)
     @include grid-layout(4)
 
-  // Cancel out foundations padding which breaks in IE. IE seems to calculate
-  // the padding on top of the flex-basis size. That means when the flex-basis
-  // is 50% and two elements should be within a row and padding is anything but
-  // 0. The elements will in sum take up more than 100% and thus the second
-  // element will move to the next row.
   .simple-filters--filter,
   .simple-filters--controls
-    padding: 0 0 0 1rem
-    align-self: center
     @include breakpoint(large)
     max-width: 25%
+    margin-top: 1rem
 
     @media only screen and (max-width: 1200px)
       max-width: 100%
+      margin-top: 0rem
+
+    button,
+    .button
+      margin-bottom: 0rem
+
+.simple-filters--filters.-columns-4
+  @include breakpoint(large)
+    @include grid-layout(5)
+
+  .simple-filters--filter,
+  .simple-filters--controls
+    @include breakpoint(large)
+    max-width: 20%
+    margin-top: 1rem
+
+    @media only screen and (max-width: 1200px)
+      max-width: 100%
+      margin-top: 0rem
 
     button,
     .button

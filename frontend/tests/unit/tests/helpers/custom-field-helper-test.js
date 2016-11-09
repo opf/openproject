@@ -63,11 +63,11 @@ describe('Custom field helper', function() {
       });
 
       it('should parse a false value', function() {
-        expect(formatCustomFieldValue('0', 'bool')).to.equal('No');
+        expect(formatCustomFieldValue('f', 'bool')).to.equal('No');
       });
 
       it('should parse a true value', function() {
-        expect(formatCustomFieldValue('1', 'bool')).to.equal('Yes');
+        expect(formatCustomFieldValue('t', 'bool')).to.equal('Yes');
       });
     });
 

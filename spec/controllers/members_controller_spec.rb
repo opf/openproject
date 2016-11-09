@@ -53,10 +53,12 @@ describe MembersController, type: :controller do
 
     it 'should work for multiple users' do
       post :create,
-           project_id: project_2.identifier,
-           member: {
-             user_ids: [admin.id, user.id],
-             role_ids: [role.id]
+           params: {
+             project_id: project_2.identifier,
+             member: {
+               user_ids: [admin.id, user.id],
+               role_ids: [role.id]
+             }
            }
 
       expect(response.response_code).to be < 400
@@ -91,10 +93,12 @@ describe MembersController, type: :controller do
 
     it 'should, however, allow roles to be updated through mass assignment' do
       put 'update',
-          project_id: project.identifier,
-          id: member_2.id,
-          member: {
-            role_ids: [role_1.id, role_2.id]
+          params: {
+            project_id: project.identifier,
+            id: member_2.id,
+            member: {
+              role_ids: [role_1.id, role_2.id]
+            }
           }
 
       expect(Member.find(member_2.id).roles).to include(role_1, role_2)
@@ -112,20 +116,19 @@ describe MembersController, type: :controller do
     describe "WHEN the user is authorized
               WHEN a project is provided" do
       before do
-        role.permissions << :manage_members
-        role.save!
+        role.add_permission! :manage_members
         member
       end
 
       it 'should be success' do
-        post :autocomplete_for_member, params, format: :xhr
+        post :autocomplete_for_member, xhr: true, params: params
         expect(response).to be_success
       end
     end
 
     describe 'WHEN the user is not authorized' do
       it 'should be forbidden' do
-        post :autocomplete_for_member, params, format: :xhr
+        post :autocomplete_for_member, xhr: true, params: params
         expect(response.response_code).to eq(403)
       end
     end
@@ -140,7 +143,11 @@ describe MembersController, type: :controller do
     context 'post :create' do
       context 'single member' do
         let(:action) do
-          post :create, project_id: project.id, member: { role_ids: [role.id], user_id: user2.id }
+          post :create,
+               params: {
+                 project_id: project.id,
+                 member: { role_ids: [role.id], user_id: user2.id }
+               }
         end
 
         it 'should add a member' do
@@ -153,8 +160,10 @@ describe MembersController, type: :controller do
       context 'multiple members' do
         let(:action) do
           post :create,
-               project_id: project.id,
-               member: { role_ids: [role.id], user_ids: [user2.id, user3.id, user4.id] }
+               params: {
+                 project_id: project.id,
+                 member: { role_ids: [role.id], user_ids: [user2.id, user3.id, user4.id] }
+               }
         end
 
         it 'should add all members' do
@@ -175,7 +184,7 @@ describe MembersController, type: :controller do
       }
 
       before do
-        post :create, invalid_params
+        post :create, params: invalid_params
       end
 
       it 'should not redirect to the members index' do
@@ -189,7 +198,7 @@ describe MembersController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:action) { post :destroy, id: member.id }
+    let(:action) { post :destroy, params: { id: member.id } }
     before do
       member
     end
@@ -202,7 +211,13 @@ describe MembersController, type: :controller do
   end
 
   describe '#update' do
-    let(:action) { post :update, id: member.id, member: { role_ids: [role2.id], user_id: user.id } }
+    let(:action) {
+      post :update,
+           params: {
+             id: member.id,
+             member: { role_ids: [role2.id], user_id: user.id }
+           }
+    }
     let(:role2) { FactoryGirl.create(:role) }
 
     before do

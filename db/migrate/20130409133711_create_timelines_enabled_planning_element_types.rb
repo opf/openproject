@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration
+class CreateTimelinesEnabledPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table :timelines_enabled_planning_element_types do |t|
       t.belongs_to :project

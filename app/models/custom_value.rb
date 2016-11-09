@@ -43,6 +43,8 @@ class CustomValue < ActiveRecord::Base
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
 
+  before_save :to_db_value
+
   validate :validate_presence_of_required_value
   validate :validate_format_of_value
   validate :validate_type_of_value
@@ -79,6 +81,10 @@ class CustomValue < ActiveRecord::Base
   end
 
   protected
+
+  def to_db_value
+    self.value = strategy.db_value
+  end
 
   def validate_presence_of_required_value
     errors.add(:value, :blank) if custom_field.is_required? && !strategy.value_present?

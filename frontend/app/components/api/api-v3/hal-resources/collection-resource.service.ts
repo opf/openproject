@@ -30,12 +30,19 @@ import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 
 interface CollectionResourceEmbedded {
-  elements: HalResource[] & any;
+  elements: HalResource[];
 }
 
 export class CollectionResource extends HalResource {
-  public getElements() {
-    return this.$embedded.elements;
+  public elements: HalResource[];
+  public count: number;
+
+  /**
+   * Update the collection's elements and return them in a promise.
+   * This is useful, as angular does not recognize update made by $load.
+   */
+  public updateElements() {
+    return this.$load().then((collection:CollectionResource) =>  this.elements = collection.elements);
   }
 }
 

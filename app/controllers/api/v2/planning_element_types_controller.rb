@@ -34,13 +34,13 @@ module Api
 
       # Before filters are inherited from TypesController.
       # However we do want non admins to access the actions.
-      skip_before_filter :require_admin
-      before_filter :find_optional_project
+      skip_before_action :require_admin
+      before_action :find_optional_project
 
       accept_key_auth :index, :show
 
       def index
-        @types = (@project.nil?) ? ::Type.all : @project.types
+        @types = @project.nil? ? ::Type.includes(:color).all : @project.types.includes(:color)
 
         respond_to do |format|
           format.api

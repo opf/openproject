@@ -44,3 +44,116 @@
     top: auto
     input[type='text']
       width: 100%
+
+.tab-content--padding-right
+  padding-right: 25px
+
+.hierarchy-item
+  margin-bottom: 2px
+
+.relation-row
+  line-height: 2em
+  .attribute-header
+    font-size: 0.8em
+    text-transform: uppercase
+    font-weight: bold
+  .description-section
+    border: 1px dotted lightblue
+    padding: 4px
+  .wp-edit-field
+    width: 90%
+    // Similar to inner span's line-height
+    line-height: 1.6em
+    .wp-table--cell-span
+      vertical-align: middle
+  .controls-container
+    text-align: right
+
+.wp-relations-hierarchy-section
+  margin-top: 35px
+
+.wp-relations-hierarchy-subject
+  display: block
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.wp-relations-controls-section
+  text-align: right
+  .force-right
+    position: absolute
+    right: 0
+
+  a:hover
+    text-decoration: none
+
+  .relation-row--remove-btn
+    visibility: hidden
+
+  &.-visible .relation-row--remove-btn
+    visibility: visible
+
+.wp-relations--icon
+  color: $content-icon-link-color
+
+// Toggle description icon color when expanded
+.wp-relations-controls-section.-expanded .wp-relations--description-icon
+  color: $content-icon-link-pressed-color
+
+.wp-relations-create
+  margin-top: 1.5em
+
+.wp-relations-create-button
+  margin: 0.25rem 0
+  line-height: 1.5
+  .-create-button-full-width
+    margin-top: 1.5em
+    width: 100%
+    padding-right: 25px
+
+.wp-relations-status-field
+  margin-left: 2px
+
+// Break apart long subjects in the rather small block
+.wp-relations--subject-field
+  word-break: break-all
+
+// Relation description field
+.wp-relation--description-read-value
+  width: 100%
+  padding: 5px
+  border: 1px solid transparent
+
+  // Wrap newlines in the description
+  white-space: pre-wrap
+
+  &.-placeholder
+    font-style: italic
+
+  &:hover
+    border-color: $light-gray
+    cursor: text
+
+// Set min-height to read/write identically
+.wp-relation--description-read-value,
+.wp-relation--description-textarea
+  min-height: 60px
+  font-size: 0.875rem
+  line-height: $base-line-height
+  padding-top: 10px
+
+.wp-relation--description-wrapper
+  width: 100%
+
+// Disable create link until WP is selected
+.wp-create-relation--save[disabled]
+  color: $relations-save-button--disabled-color
+  cursor: not-allowed
+
+  .icon-button
+    cursor: not-allowed
+
+// Error highlighting
+input.wp-relations--autocomplete.-error
+  background: $nm-color-error-background
+  border-color: $nm-color-error-border

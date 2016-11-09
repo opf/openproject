@@ -39,7 +39,7 @@ sendmail_arguments:
 smtp_openssl_verify_mode:
   default: "none"
 smtp_enable_starttls_auto:
-  default: 0 
+  default: 0
   format: boolean
 smtp_address:
   default: ""

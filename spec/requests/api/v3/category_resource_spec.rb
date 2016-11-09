@@ -33,7 +33,7 @@ describe 'API v3 Category resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_project]) }
+  let(:role) { FactoryGirl.create(:role, permissions: []) }
   let(:private_project) { FactoryGirl.create(:project, is_public: false) }
   let(:public_project) { FactoryGirl.create(:project, is_public: true) }
   let(:anonymous_user) { FactoryGirl.create(:user) }
@@ -75,7 +75,7 @@ describe 'API v3 Category resource' do
       end
 
       it_behaves_like 'not found' do
-        let(:id) { "#{private_project.id}" }
+        let(:id) { private_project.id.to_s }
         let(:type) { 'Project' }
       end
     end
@@ -85,7 +85,7 @@ describe 'API v3 Category resource' do
     subject(:response) { last_response }
 
     context 'logged in user' do
-      let(:get_path) { api_v3_paths.category other_categories.first.id }
+      let(:get_path) { api_v3_paths.category categories.first.id }
       before do
         allow(User).to receive(:current).and_return privileged_user
 

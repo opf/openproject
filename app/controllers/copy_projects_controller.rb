@@ -30,29 +30,27 @@
 class CopyProjectsController < ApplicationController
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project
-  before_filter :authorize, only: [:copy, :copy_project]
-  before_filter :prepare_for_copy_project, only: [:copy, :copy_project]
+  before_action :disable_api
+  before_action :find_project
+  before_action :authorize
+  before_action :prepare_for_copy_project
 
   def copy
-    target_project_name = permitted_params.project[:name]
-    @copy_project = Project.new
-    @copy_project.attributes = permitted_params.project
+    @copy_project = project_copy
+
     if @copy_project.valid?
-      modules = permitted_params.project[:enabled_module_names] || params[:enabled_modules]
+      target_project_params = @copy_project.attributes.compact
 
       copy_project_job = CopyProjectJob.new(user_id: User.current.id,
                                             source_project_id: @project.id,
-                                            target_project_params: permitted_params.project.to_hash,
-                                            enabled_modules: modules,
+                                            target_project_params: target_project_params,
                                             associations_to_copy: params[:only],
                                             send_mails: params[:notifications] == '1')
 
       Delayed::Job.enqueue copy_project_job
       flash[:notice] = I18n.t('copy_project.started',
                               source_project_name: @project.name,
-                              target_project_name: target_project_name)
+                              target_project_name: permitted_params.project[:name])
       redirect_to origin
     else
       from = (['admin', 'settings'].include?(params[:coming_from]) ? params[:coming_from] : 'settings')
@@ -75,8 +73,20 @@ class CopyProjectsController < ApplicationController
 
   private
 
+  def project_copy
+    copy_project = Project.new
+    copy_project.attributes = permitted_params.project
+
+    # cannot use set_allowed_parent! as it requires a persisted project
+    if copy_project.allowed_parent?(params['project']['parent_id'])
+      copy_project.parent_id = params['project']['parent_id']
+    end
+
+    copy_project
+  end
+
   def origin
-    params[:coming_from] == 'admin' ? admin_projects_path : settings_project_path(@project.id)
+    params[:coming_from] == 'admin' ? projects_admin_index_path : settings_project_path(@project.id)
   end
 
   def prepare_for_copy_project

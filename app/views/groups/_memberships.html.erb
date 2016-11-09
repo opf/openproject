@@ -80,13 +80,13 @@ See doc/COPYRIGHT.rdoc for more details.
                           <% end %></p>
                         <p class="generic-table--cell-controls">
                           <%= submit_tag l(:button_change), class: 'button -highlight -small' %>
-                          <%= link_to_function l(:button_cancel), "$('member-#{membership.id}-roles').show(); $('member-#{membership.id}-roles-form').hide();",
+                          <%= link_to_function l(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                                                                   class: 'button -small' %>
                         </p>
                       <% end %>
                     </td>
                     <td class="buttons">
-                      <%= link_to_function l(:button_edit), "$('member-#{membership.id}-roles').hide(); $('member-#{membership.id}-roles-form').show();", class: 'icon icon-edit' %>
+                      <%= link_to_function l(:button_edit), "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();", class: 'icon icon-edit' %>
                       <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
                                            method: :delete,
                                            remote: true,

@@ -103,7 +103,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   name: "timeline[options][columns][]",
                                   id: "timeline_options_columns_",
                                   value: timeline.selected_columns.join(","),
-                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json %>
+                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).sort_by { |column| column[:name] }.to_json %>
             <% end %>
           </div>
         </div>

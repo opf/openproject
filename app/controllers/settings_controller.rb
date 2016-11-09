@@ -30,7 +30,7 @@
 class SettingsController < ApplicationController
   layout 'admin'
 
-  before_filter :require_admin
+  before_action :require_admin
 
   def index
     edit
@@ -39,7 +39,7 @@ class SettingsController < ApplicationController
 
   def edit
     @notifiables = Redmine::Notifiable.all
-    if request.post? && params[:settings] && params[:settings].is_a?(Hash)
+    if request.post? && params[:settings] && params[:settings].is_a?(ActionController::Parameters)
       settings = (params[:settings] || {}).dup.symbolize_keys.tap do |set|
         set.except! *password_settings if OpenProject::Configuration.disable_password_login?
       end
@@ -70,7 +70,7 @@ class SettingsController < ApplicationController
   def plugin
     @plugin = Redmine::Plugin.find(params[:id])
     if request.post?
-      Setting["plugin_#{@plugin.id}"] = params[:settings]
+      Setting["plugin_#{@plugin.id}"] = params[:settings].permit!.to_h
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'plugin', id: @plugin.id
     else

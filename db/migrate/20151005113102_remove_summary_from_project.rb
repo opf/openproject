@@ -1,4 +1,4 @@
-class RemoveSummaryFromProject < ActiveRecord::Migration
+class RemoveSummaryFromProject < ActiveRecord::Migration[4.2]
   def change
     remove_column :projects, :summary
   end

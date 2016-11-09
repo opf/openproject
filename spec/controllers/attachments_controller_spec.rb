@@ -74,7 +74,9 @@ describe AttachmentsController, type: :controller do
       }
       let(:redirect_path) { work_package_path(container) }
 
-      before do delete :destroy, id: attachment.id end
+      before do
+        delete :destroy, params: { id: attachment.id }
+      end
 
       it_behaves_like :deleted
 
@@ -91,7 +93,7 @@ describe AttachmentsController, type: :controller do
       before do
         project.reload # get wiki
 
-        delete :destroy, id: attachment.id
+        delete :destroy, params: { id: attachment.id }
       end
 
       it_behaves_like :deleted
@@ -131,7 +133,7 @@ describe AttachmentsController, type: :controller do
     end
 
     subject {
-      get :download, id: attachment.id
+      get :download, params: { id: attachment.id }
     }
 
     context 'with a local file' do

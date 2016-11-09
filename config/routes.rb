@@ -267,6 +267,20 @@ OpenProject::Application.routes.draw do
         post :preview
       end
     end
+
+    resources :project_associations, controller: 'project_associations' do
+      get :confirm_destroy, on: :member
+      get :available_projects, on: :collection
+    end
+
+    resources :reportings, controller: 'reportings' do
+      get :confirm_destroy, on: :member
+    end
+
+    resources :timelines, controller: 'timelines' do
+      get :confirm_destroy, on: :member
+    end
+
     # as routes for index and show are swapped
     # it is necessary to define the show action later
     # than any other route as it otherwise would
@@ -287,6 +301,9 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
       get '/create_new' => 'work_packages#index', on: :collection, as: 'new_split'
       get '/new' => 'work_packages#index', on: :collection, as: 'new'
+
+      # state for show view in project context
+      get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'
@@ -301,8 +318,11 @@ OpenProject::Application.routes.draw do
 
     resources :categories, except: [:index, :show], shallow: true
 
-    resources :members, only: [:index, :new, :create, :update, :destroy], shallow: true do
-      match :autocomplete_for_member, on: :collection, via: [:get, :post]
+    resources :members, only: [:index, :create, :update, :destroy], shallow: true do
+      collection do
+        get :paginate_users
+        match :autocomplete_for_member, via: [:get, :post]
+      end
     end
 
     resource :repository, controller: 'repositories', except: [:new] do
@@ -341,12 +361,17 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get '/admin' => 'admin#index'
+  resources :admin, controller: :admin, only: :index do
+    collection do
+      get :projects
+      get :plugins
+      get :info
+      post :force_user_language
+      post :test_email
+    end
+  end
 
-  # TODO: evaluate whether this can be turned into a namespace
   scope 'admin' do
-    match '/projects' => 'admin#projects', via: :get, as: :admin_projects
-
     resource :announcements, only: [:edit, :update]
     resources :enumerations
 
@@ -442,14 +467,11 @@ OpenProject::Application.routes.draw do
   resources :activity, :activities, only: :index, controller: 'activities'
 
   resources :users do
+    resources :memberships, controller: 'users/memberships', only: [:update, :create, :destroy]
+
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
-      match '/memberships/:membership_id/destroy' => 'users#destroy_membership', via: :post
-      match '/memberships/:membership_id' => 'users#edit_membership', via: :post
-      match '/memberships' => 'users#edit_membership', via: :post
       post :change_status
-      post :edit_membership
-      post :destroy_membership
       post :resend_invitation
       get :deletion_info
     end
@@ -479,6 +501,14 @@ OpenProject::Application.routes.draw do
       scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
         match '(/:filename)' => 'attachments#download', as: 'download'
       end
+    end
+  end
+
+  resource :help, controller: :help, only: [] do
+    member do
+      get :wiki_syntax
+      get :wiki_syntax_detailed
+      get :keyboard_shortcuts
     end
   end
 
@@ -535,20 +565,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :projects, only: [:index, :show], controller: 'projects'
-    resources :reported_project_statuses,          controller: 'reported_project_statuses'
-  end
-
-  resources :projects, only: [:index, :show], controller: 'projects' do
-    resources :project_associations,   controller: 'project_associations' do
-      get :confirm_destroy, on: :member
-      get :available_projects, on: :collection
-    end
-
-    resources :reportings,             controller: 'reportings' do
-      get :confirm_destroy, on: :member
-    end
-
-    resources :timelines,              controller: 'timelines'
+    resources :reported_project_statuses, controller: 'reported_project_statuses'
   end
 
   resources :reported_project_statuses, controller: 'reported_project_statuses'

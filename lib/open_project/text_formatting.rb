@@ -399,7 +399,12 @@ module OpenProject
                                class: 'attachment'
               end
             when 'project'
-              if p = Project.visible.where(['identifier = :s OR LOWER(name) = :s', { s: name.downcase }]).first
+              p = Project
+                  .visible
+                  .where(['projects.identifier = :s OR LOWER(projects.name) = :s',
+                          { s: name.downcase }])
+                  .first
+              if p
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
               end
             end
@@ -421,8 +426,9 @@ module OpenProject
         attrs = $2
         content = $3
         item = strip_tags(content).strip
+        tocitem = strip_tags(content.gsub(/<br \/>/, ' '))
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-        @parsed_headings << [level, anchor, item]
+        @parsed_headings << [level, anchor, tocitem]
         url = full_url(anchor)
         "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
       end

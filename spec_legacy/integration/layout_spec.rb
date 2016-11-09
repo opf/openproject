@@ -36,6 +36,20 @@ describe 'Layout' do
     html_document.root
   end
 
+  context 'with login required', with_settings: { login_required?: true } do
+    it 'should top menu navigation not visible when login required' do
+      get '/'
+      assert_select '#account-nav-left', 0
+    end
+  end
+
+  context 'with login required', with_settings: { login_required?: false } do
+    it 'should top menu navigation visible when login not required' do
+      get '/'
+      assert_select '#account-nav-left'
+    end
+  end
+
   specify 'browsing to a missing page should render the base layout' do
     get '/users/100000000'
 
@@ -45,32 +59,16 @@ describe 'Layout' do
     assert_select '#main-menu', count: 0
   end
 
-  it 'should top menu navigation not visible when login required' do
-    with_settings login_required: '1' do
-      get '/'
-      assert_select '#account-nav-left', 0
-    end
-  end
-
-  it 'should top menu navigation visible when login not required' do
-    with_settings login_required: '0' do
-      get '/'
-      assert_select '#account-nav-left'
-    end
-  end
-
-  specify 'page titles should be properly escaped' do
+  specify 'page titles should be properly escaped',
+          with_settings: { app_title: '<3' } do
     project = FactoryGirl.create(:project, name: 'C&A', is_public: true)
+    get "/projects/#{project.to_param}"
 
-    with_settings app_title: '<3' do
-      get "/projects/#{project.to_param}"
-
-      def title_html
-        title = document_root_element.at('//title') and title.inner_html
-      end
-
-      expect(title_html).to match /C&amp;A/
-      expect(title_html).to match /&lt;3/
+    def title_html
+      title = document_root_element.at('//title') and title.inner_html
     end
+
+    expect(title_html).to match /C&amp;A/
+    expect(title_html).to match /&lt;3/
   end
 end

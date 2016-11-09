@@ -32,5 +32,6 @@ FactoryGirl.define do
     to do FactoryGirl.build(:work_package, project: from.project) end
     relation_type 'relates' # "relates", "duplicates", "duplicated", "blocks", "blocked", "precedes", "follows"
     delay nil
+    description nil
   end
 end

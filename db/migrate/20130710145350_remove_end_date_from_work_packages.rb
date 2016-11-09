@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveEndDateFromWorkPackages < ActiveRecord::Migration
+class RemoveEndDateFromWorkPackages < ActiveRecord::Migration[4.2]
   def up
     # This operation is destructive. The end dates of work packages will
     # be removed, updating due dates to the end date where due dates

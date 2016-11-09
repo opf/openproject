@@ -29,13 +29,14 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalResourceTypesService} from './hal-resource-types.service';
 
-function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
+function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
   halResourceTypes.setResourceTypeConfig({
     WorkPackage: {
       className: 'WorkPackageResource',
       attrTypes: {
         parent: 'WorkPackage',
         children: 'WorkPackage',
+        relations: 'Relation',
       }
     },
     Activity: {
@@ -47,10 +48,17 @@ function halResourceTypesStorage(halResourceTypes:HalResourceTypesService) {
     'Activity::Revision': {
       user: 'User'
     },
+    Relation: {
+      className: 'RelationResource',
+      attrTypes: {
+        from: 'WorkPackage',
+        to: 'WorkPackage'
+      }
+    },
     Error: 'ErrorResource',
     User: 'UserResource',
     Collection: 'CollectionResource'
   });
 }
 
-opApiModule.run(halResourceTypesStorage);
+opApiModule.run(halResourceTypesConfig);

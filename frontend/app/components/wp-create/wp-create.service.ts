@@ -41,21 +41,28 @@ export class WorkPackageCreateService {
   }
 
   public createNewWorkPackage(projectIdentifier) {
-    return this.getForm(projectIdentifier).then(form => {
+    return this.getEmptyForm(projectIdentifier).then(form => {
       return this.WorkPackageResource.fromCreateForm(form);
     });
   }
 
+  public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
+    return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
+      return this.WorkPackageResource.fromCreateForm(form);
+    });
+  }
 
   public copyWorkPackage(copyFromForm, projectIdentifier?) {
-    return this.getForm(projectIdentifier).then(form => {
+    var request = copyFromForm.payload.$source;
+
+    return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
       return this.WorkPackageResource.copyFrom(copyFromForm, form);
     });
   }
 
-  private getForm(projectIdentifier):ng.IPromise<HalResource> {
+  public getEmptyForm(projectIdentifier):ng.IPromise<HalResource> {
     if (!this.form) {
-      this.form = this.apiWorkPackages.emptyCreateForm(projectIdentifier);
+      this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }
 
     return this.form;

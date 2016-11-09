@@ -32,6 +32,8 @@ describe Api::V2::ProjectsController, type: :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    Role.anonymous
+    Role.non_member
     allow(User).to receive(:current).and_return current_user
   end
 
@@ -87,7 +89,7 @@ describe Api::V2::ProjectsController, type: :controller do
       describe 'public project' do
         let(:project) { FactoryGirl.create(:project, is_public: true) }
         def fetch
-          get 'show', id: project.identifier, format: 'xml'
+          get 'show', params: { id: project.identifier }, format: 'xml'
         end
         it_should_behave_like 'a controller action with unrestricted access'
       end
@@ -98,7 +100,7 @@ describe Api::V2::ProjectsController, type: :controller do
 
         let(:project) { FactoryGirl.create(:project, is_public: false) }
         def fetch
-          get 'show', id: project.identifier, format: 'xml'
+          get 'show', params: { id: project.identifier }, format: 'xml'
         end
         it_should_behave_like 'a controller action which needs project permissions'
       end
@@ -106,7 +108,7 @@ describe Api::V2::ProjectsController, type: :controller do
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {
-            get 'show', id: 'unknown_project', format: 'xml'
+            get 'show', params: { id: 'unknown_project' }, format: 'xml'
           }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
@@ -115,12 +117,12 @@ describe Api::V2::ProjectsController, type: :controller do
         let(:project) { FactoryGirl.create(:project, is_public: true) }
 
         it 'assigns the available project' do
-          get 'show', id: project.identifier, format: 'xml'
+          get 'show', params: { id: project.identifier }, format: 'xml'
           expect(assigns(:project)).to eq(project)
         end
 
         it 'renders the show template' do
-          get 'show', id: project.identifier, format: 'xml'
+          get 'show', params: { id: project.identifier }, format: 'xml'
           expect(response).to render_template('api/v2/projects/show')
         end
       end

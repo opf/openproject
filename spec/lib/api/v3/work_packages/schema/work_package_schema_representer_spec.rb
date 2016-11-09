@@ -40,12 +40,15 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
   let(:self_link) { '/a/self/link' }
+  let(:base_schema_link) { nil }
+  let(:hide_self_link) { false }
   let(:embedded) { true }
   let(:action) { :update }
   let(:representer) {
     described_class.create(schema,
                            form_embedded: embedded,
                            self_link: self_link,
+                           base_schema_link: base_schema_link,
                            current_user: current_user,
                            action: action)
   }
@@ -105,11 +108,21 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:href) { self_link }
       end
 
+      it_behaves_like 'has no link' do
+        let(:link) { 'baseSchema' }
+      end
+
       context 'embedded in a form' do
         let(:self_link) { nil }
+        let(:base_schema_link) { '/a/schema/link' }
 
         it_behaves_like 'has no link' do
           let(:link) { 'self' }
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'baseSchema' }
+          let(:href) { base_schema_link }
         end
       end
     end

@@ -99,9 +99,95 @@ describe Setting, type: :model do
 
     after do
       Setting.find_by(name: 'notified_events').destroy
-      # have to clear the cache as well
-      # as settings are stored there
+    end
+  end
+
+  describe 'caching' do
+    let(:cache_key) { Setting.send :cache_key }
+
+    before do
+      RequestStore.clear!
       Rails.cache.clear
+    end
+
+    after do
+      RequestStore.clear!
+      Rails.cache.clear
+    end
+
+    context 'cache is empty' do
+      it 'requests the settings once from database' do
+        expect(Setting).to receive(:pluck).with(:name, :value)
+          .once
+          .and_call_original
+
+        expect(Rails.cache).to receive(:fetch).once.and_call_original
+        expect(RequestStore).to receive(:fetch).exactly(3).times.and_call_original
+
+        # Settings are empty by default
+        expect(RequestStore.read(:cached_settings)).to be_nil
+        expect(Rails.cache.read(cache_key)).to be_nil
+
+        # Falls back to default values, but hitting cache
+        value = Setting.app_title
+        expect(Setting.app_title).to eq 'OpenProject'
+        expect(value).to eq(Setting.app_title)
+
+        # Settings are empty by default
+        expect(RequestStore.read(:cached_settings)).to eq({})
+        expect(Rails.cache.read(cache_key)).to eq({})
+      end
+
+      it 'clears the cache when writing a setting' do
+        expect(Setting.app_title).to eq 'OpenProject'
+        expect(RequestStore.read(:cached_settings)).to eq({})
+
+        new_title = 'OpenProject with changed title'
+        Setting.app_title = new_title
+        expect(RequestStore.read(:cached_settings)).to be_nil
+        expect(Rails.cache.read(cache_key)).to be_nil
+
+        expect(Setting.app_title).to eq(new_title)
+        expect(Setting.count).to eq(1)
+        expect(RequestStore.read(:cached_settings)).to eq('app_title' => new_title)
+      end
+    end
+
+    context 'cache is not empty' do
+      let(:cached_hash) {
+        { 'available_languages' => "---\n- en\n- de\n" }
+      }
+
+      before do
+        Rails.cache.write(cache_key, cached_hash)
+      end
+
+      it 'returns the value from the deeper cache' do
+        expect(RequestStore.read(:cached_settings)).to be_nil
+        expect(Setting.available_languages).to eq(%w(en de))
+
+        expect(RequestStore.read(:cached_settings)).to eq(cached_hash)
+      end
+
+      it 'expires the cache when writing a setting' do
+        Setting.available_languages = %w(en)
+        expect(RequestStore.read(:cached_settings)).to be_nil
+        expect(Rails.cache.read(cache_key)).to be_nil
+
+        # Creates a new cache key
+        new_cache_key = Setting.send(:cache_key)
+        new_hash = { 'available_languages' => "---\n- en\n" }
+        expect(new_cache_key).not_to be eq(cache_key)
+
+        # No caching is done until first read
+        expect(RequestStore.read(:cached_settings)).to be_nil
+        expect(Rails.cache.read(cache_key)).to be_nil
+        expect(Rails.cache.read(new_cache_key)).to be_nil
+
+        expect(Setting.available_languages).to eq(%w(en))
+        expect(Rails.cache.read(new_cache_key)).to eq(new_hash)
+        expect(RequestStore.read(:cached_settings)).to eq(new_hash)
+      end
     end
   end
 
@@ -168,9 +254,6 @@ describe Setting, type: :model do
 
     after do
       Setting.destroy_all
-      # have to clear the cache as well
-      # as settings are stored there
-      Rails.cache.clear
     end
   end
 end

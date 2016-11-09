@@ -34,24 +34,18 @@ class ProjectsController < ApplicationController
 
   helper :timelines
 
-  before_filter :disable_api
-  before_filter :find_project, except: [:index, :level_list, :new, :create]
-  before_filter :authorize, only: [
+  before_action :disable_api
+  before_action :find_project, except: [:index, :level_list, :new, :create]
+  before_action :authorize, only: [
     :show, :settings, :edit, :update, :modules, :types, :custom_fields
   ]
-  before_filter :authorize_global, only: [:new, :create]
-  before_filter :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
-  before_filter :jump_to_project_menu_item, only: :show
-  before_filter :load_project_settings, only: :settings
-  before_filter :determine_base
+  before_action :authorize_global, only: [:new, :create]
+  before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
+  before_action :jump_to_project_menu_item, only: :show
+  before_action :load_project_settings, only: :settings
+  before_action :determine_base
 
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
-
-  after_filter only: [:create, :edit, :update, :archive, :unarchive, :destroy] do |controller|
-    if controller.request.post?
-      controller.send :expire_action, controller: '/welcome', action: 'robots.txt'
-    end
-  end
 
   include SortHelper
   include CustomFieldsHelper
@@ -61,12 +55,14 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
+    @projects = Project.visible
+
     respond_to do |format|
       format.html do
-        @projects = Project.visible.order('lft')
+        @projects = @projects.order('lft')
       end
       format.atom do
-        projects = Project.visible
+        projects = @projects
                    .order('created_on DESC')
                    .limit(Setting.feeds_limit.to_i)
         render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
@@ -211,9 +207,13 @@ class ProjectsController < ApplicationController
     Project.transaction do
       @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
       if @project.save
-        flash[:notice] = l(:notice_successful_update)
+        @project.work_package_custom_fields.flat_map(&:types).uniq.each do |type|
+          TypesHelper.update_type_attribute_visibility! type
+        end
+
+        flash[:notice] = t(:notice_successful_update)
       else
-        flash[:error] = l(:notice_project_cannot_update_custom_fields,
+        flash[:error] = t(:notice_project_cannot_update_custom_fields,
                           errors: @project.errors.full_messages.join(', '))
         raise ActiveRecord::Rollback
       end

@@ -36,43 +36,45 @@ import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directiv
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageSingleViewController {
-  public formCtrl:WorkPackageEditFormController;
-  public workPackage:WorkPackageResourceInterface;
+  public formCtrl: WorkPackageEditFormController;
+  public workPackage: WorkPackageResourceInterface;
   public singleViewWp;
-  public groupedFields:any[] = [];
-  public hideEmptyFields:boolean = true;
-  public attachments:Array<any>;
-  public text:any;
-  public scope:any;
+  public groupedFields: any[] = [];
+  public hideEmptyFields: boolean = true;
+  public text: any;
+  public scope: any;
 
-  protected firstTimeFocused:boolean = false;
+  protected firstTimeFocused: boolean = false;
 
   constructor(protected $scope,
-              protected $window,
-              protected $state,
               protected $stateParams,
-              protected loadingIndicator,
               protected I18n,
               protected wpCacheService,
-              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpNotificationsService: WorkPackageNotificationService,
+              protected TimezoneService,
               protected WorkPackagesOverviewService,
-              protected wpAttachments,
               protected SingleViewWorkPackage) {
 
     var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;
 
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
       fields: {
+        description: I18n.t('js.work_packages.properties.description'),
         date: {
           startDate: I18n.t('js.label_no_start_date'),
           dueDate: I18n.t('js.label_no_due_date')
         }
       },
-      idLabel: ''
+      infoRow: {
+        createdBy: I18n.t('js.label_created_by'),
+        lastUpdatedOn: I18n.t('js.label_last_updated_on')
+      },
     };
 
-    scopedObservable($scope, wpCacheService.loadWorkPackage(wpId)).subscribe(wp => this.init(wp));
+    wpCacheService.loadWorkPackage(wpId).observe($scope).subscribe(wp => this.init(wp));
     $scope.$on('workPackageUpdatedInEditor', () => {
       this.wpNotificationsService.showSave(this.workPackage);
     });
@@ -83,7 +85,11 @@ export class WorkPackageSingleViewController {
   }
 
   public shouldHideField(field) {
-    let hideEmpty = !this.formCtrl.fields[field].hasFocus() && this.hideEmptyFields;
+    let hideEmpty = this.hideEmptyFields;
+
+    if (this.formCtrl.fields[field]) {
+      hideEmpty = !this.formCtrl.fields[field].hasFocus() && this.hideEmptyFields;
+    }
 
     return this.singleViewWp.shouldHideField(field, hideEmpty);
   };
@@ -95,25 +101,33 @@ export class WorkPackageSingleViewController {
     }
   }
 
-  public setIdLabel() {
-    if (!this.workPackage.type) {
+  public get idLabel() {
+    var text;
+
+    if (!(this.workPackage && this.workPackage.type)) {
       return;
     }
 
-    this.text.idLabel = this.workPackage.type.name;
+    text = this.workPackage.type.name;
     if (!this.workPackage.isNew) {
-      this.text.idLabel += ' #' + this.workPackage.id;
+      text += ' #' + this.workPackage.id;
     }
+
+    return text;
   }
 
   private init(wp) {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
 
+    if (this.workPackage.attachments) {
+      this.workPackage.attachments.updateElements();
+    }
+
     this.workPackage.schema.$load().then(schema => {
       this.setFocus();
 
-      var otherGroup:any = _.find(this.groupedFields, {groupName: 'other'});
+      var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
       otherGroup.attributes = [];
 
       angular.forEach(schema, (prop, propName) => {
@@ -139,13 +153,9 @@ function wpSingleViewDirective() {
   function wpSingleViewLink(scope,
                             element,
                             attrs,
-                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
+                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
-
-    scope.$watch(_ => controllers[1].workPackage.type, _ => {
-      controllers[1].setIdLabel();
-    });
   }
 
   return {

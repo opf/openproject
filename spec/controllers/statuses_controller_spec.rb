@@ -75,7 +75,10 @@ describe StatusesController, type: :controller do
   describe '#create' do
     let(:name) { 'New Status' }
 
-    before do post :create, status: { name: name } end
+    before do
+      post :create,
+           params: { status: { name: name } }
+    end
 
     it_behaves_like :statuses
 
@@ -91,7 +94,10 @@ describe StatusesController, type: :controller do
                            is_default: true)
       }
 
-      before do get :edit, id: status_default.id end
+      before do
+        get :edit,
+            params: { id: status_default.id }
+      end
 
       it_behaves_like :response
 
@@ -109,7 +115,7 @@ describe StatusesController, type: :controller do
       before do
         status
 
-        get :edit, id: status.id
+        get :edit, params: { id: status.id }
       end
 
       it_behaves_like :response
@@ -132,8 +138,10 @@ describe StatusesController, type: :controller do
       status
 
       patch :update,
-            id: status.id,
-            status: { name: name }
+            params: {
+              id: status.id,
+              status: { name: name }
+            }
     end
 
     it_behaves_like :statuses
@@ -154,7 +162,7 @@ describe StatusesController, type: :controller do
       before do
         status
 
-        delete :destroy, id: status.id
+        delete :destroy, params: { id: status.id }
       end
 
       it_behaves_like :destroyed
@@ -171,7 +179,7 @@ describe StatusesController, type: :controller do
       before do
         work_package
 
-        delete :destroy, id: status.id
+        delete :destroy, params: { id: status.id }
       end
 
       it_behaves_like :statuses
@@ -186,7 +194,7 @@ describe StatusesController, type: :controller do
       }
 
       before do
-        delete :destroy, id: status_default.id
+        delete :destroy, params: { id: status_default.id }
       end
 
       it_behaves_like :statuses

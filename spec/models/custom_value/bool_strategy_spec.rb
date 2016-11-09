@@ -128,4 +128,44 @@ describe CustomValue::BoolStrategy do
       end
     end
   end
+
+  describe '#db_value' do
+    subject { described_class.new(custom_value).db_value }
+
+    ActiveRecord::Type::Boolean::FALSE_VALUES.each do |falsey_value|
+      context "for #{falsey_value}" do
+        let(:value) { falsey_value }
+
+        it "is 'f'" do
+          is_expected.to eql 'f'
+        end
+      end
+    end
+
+    context 'for nil' do
+      let(:value) { nil }
+
+      it "is nil" do
+        is_expected.to be_nil
+      end
+    end
+
+    context "for ''" do
+      let(:value) { '' }
+
+      it "is nil" do
+        is_expected.to be_nil
+      end
+    end
+
+    [true, '1', 1, 't', 42, 'true'].each do |truthy_value|
+      context "for #{truthy_value}" do
+        let(:value) { truthy_value }
+
+        it "is 't'" do
+          is_expected.to eql 't'
+        end
+      end
+    end
+  end
 end
