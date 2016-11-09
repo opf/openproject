@@ -98,7 +98,7 @@ function PathHelper() {
       if (workPackageId) {
         return PathHelper.workPackagePath(workPackageId) + suffix;
       } else {
-        return suffix; // time entries root path
+        return PathHelper.staticBase + suffix; // time entries root path
       }
     },
     timeEntryPath: function(timeEntryIdentifier) {
