@@ -121,11 +121,7 @@ class Queries::BaseFilter
   end
 
   def self.key
-    name.to_sym
-  end
-
-  def self.name
-    to_s.demodulize.underscore.gsub(/_filter$/, '')
+    to_s.demodulize.underscore.gsub(/_filter$/, '').to_sym
   end
 
   def self.connection
