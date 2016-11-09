@@ -49,8 +49,11 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) {
                    schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
+                   schema_link = api_v3_paths.work_package_schema(represented.project_id,
+                                                                  represented.type_id)
                    Schema::WorkPackageSchemaRepresenter.create(schema,
                                                                form_embedded: true,
+                                                               base_schema_link: schema_link,
                                                                current_user: current_user,
                                                                action: action)
                  }
