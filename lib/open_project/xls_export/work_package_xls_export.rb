@@ -181,7 +181,8 @@ module OpenProject
       def relation_row(work_package, wp_columns, other, relation)
         type = relation_type work_package, other, relation
         delay = relation ? relation.delay : ""
-        relation_columns = ["", type, delay, other.id, other.type.name, other.subject]
+        description = relation ? relation.description : ""
+        relation_columns = ["", type, delay, description, other.id, other.type.name, other.subject]
 
         [""] + wp_columns + relation_columns
       end
@@ -200,6 +201,7 @@ module OpenProject
         [
           Relation.human_attribute_name(:relation_type),
           Relation.human_attribute_name(:delay),
+          Relation.human_attribute_name(:description),
           WorkPackage.human_attribute_name(:id),
           WorkPackage.human_attribute_name(:type),
           WorkPackage.human_attribute_name(:subject)
