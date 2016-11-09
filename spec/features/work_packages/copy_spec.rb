@@ -109,7 +109,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
     expect(copied_work_package).to_not eql original_work_package
 
-    work_package_page = Pages::FullWorkPackage.new(copied_work_package)
+    work_package_page = Pages::FullWorkPackage.new(copied_work_package, project)
 
     work_package_page.ensure_page_loaded
     work_package_page.expect_attributes Subject: original_work_package.subject,
