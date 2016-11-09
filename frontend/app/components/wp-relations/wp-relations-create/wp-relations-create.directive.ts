@@ -18,6 +18,7 @@ export class WorkPackageRelationsCreateController {
 
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
+  public loadingPromise = false;
 
   constructor(protected I18n,
               protected $scope:ng.IScope,
