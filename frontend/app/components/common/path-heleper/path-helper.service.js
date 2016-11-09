@@ -93,7 +93,13 @@ function PathHelper() {
       return PathHelper.staticBase + '/queries/' + queryIdentifier;
     },
     timeEntriesPath: function(workPackageId) {
-      return PathHelper.workPackagePath(workPackageId) + '/time_entries';
+      var suffix = '/time_entries';
+
+      if (workPackageId) {
+        return PathHelper.workPackagePath(workPackageId) + suffix;
+      } else {
+        return suffix; // time entries root path
+      }
     },
     timeEntryPath: function(timeEntryIdentifier) {
       return PathHelper.staticBase + '/time_entries/' + timeEntryIdentifier;

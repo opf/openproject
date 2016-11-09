@@ -53,6 +53,7 @@ class TimelogController < ApplicationController
                 'activity' => 'activity_id',
                 'project' => "#{Project.table_name}.name",
                 'work_package' => 'work_package_id',
+                'comments' => 'comments',
                 'hours' => 'hours'
 
     cond = ARCondition.new
