@@ -91,9 +91,12 @@ export class WorkPackageTimelineService {
     };
 
 
-    // setTimeout(() => {
-    //   console.log("time up");
-    // }, 3000);
+    setTimeout(() => {
+      console.log("scroll left");
+      const vp = new TimelineViewParameters();
+      vp.dateDisplayStart = moment({year: 2016, month: 10, day: 1, hour: 0, minute: 0, seconds: 0})
+      this.viewParamsSubject.onNext(vp);
+    }, 3000);
 
   }
 
@@ -118,13 +121,7 @@ export class WorkPackageTimelineService {
         const wp = renderInfo.workPackage;
         this.workPackagesInView[wp.id] = wp;
 
-        // console.log("start1:" + this._viewParameters.dateDisplayStart.toString());
-
         const viewParamsChanged = this.calculateViewParams(renderInfo.viewParams);
-
-        // console.log("changed:" + viewParamsChanged);
-        // console.log("start2:" + this._viewParameters.dateDisplayStart.toString());
-        // console.log("");
 
         if (viewParamsChanged) {
           // view params have changed, notify all cells
@@ -145,7 +142,6 @@ export class WorkPackageTimelineService {
 
     // Calculate view parameters
     for (const wpId in this.workPackagesInView) {
-      console.log("    wpId=" + wpId);
       const workPackage = this.workPackagesInView[wpId];
 
       if (workPackage.startDate && workPackage.dueDate) {
@@ -153,25 +149,33 @@ export class WorkPackageTimelineService {
         const due = moment(workPackage.dueDate as any);
 
         // start date
-        newParams.dateDisplayStart = moment.min(currentParams.dateDisplayStart, currentParams.now, start);
+        newParams.dateDisplayStart = moment.min(
+          newParams.dateDisplayStart,
+          currentParams.dateDisplayStart,
+          currentParams.now,
+          start);
 
         // due date
-        newParams.dateDisplayEnd = moment.max(currentParams.dateDisplayEnd, currentParams.now, due);
+        newParams.dateDisplayEnd = moment.max(
+          newParams.dateDisplayEnd,
+          currentParams.dateDisplayEnd,
+          currentParams.now,
+          due);
       }
     }
 
     // Check if view params changed:
 
     // start date
-    if (!newParams.dateDisplayStart.isSame(currentParams.dateDisplayStart)) {
+    if (!newParams.dateDisplayStart.isSame(this._viewParameters.dateDisplayStart)) {
       changed = true;
-      this._viewParameters.dateDisplayStart = currentParams.dateDisplayStart;
+      this._viewParameters.dateDisplayStart = newParams.dateDisplayStart;
     }
 
     // end date
-    if (!newParams.dateDisplayEnd.isSame(currentParams.dateDisplayEnd)) {
+    if (!newParams.dateDisplayEnd.isSame(this._viewParameters.dateDisplayEnd)) {
       changed = true;
-      this._viewParameters.dateDisplayEnd = currentParams.dateDisplayEnd;
+      this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
 
     console.log("        changed=" + changed);
@@ -180,6 +184,5 @@ export class WorkPackageTimelineService {
   }
 
 }
-
 
 openprojectModule.service("workPackageTimelineService", WorkPackageTimelineService);
