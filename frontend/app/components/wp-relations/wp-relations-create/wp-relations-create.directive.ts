@@ -105,6 +105,8 @@ export class WorkPackageRelationsCreateController {
 
     this.$timeout(() => {
       if (!this.showRelationsCreateForm) {
+        // Reset value
+        this.selectedWpId = '';
         this.$element.find('.-focus-after-save').first().focus();
       }
     });

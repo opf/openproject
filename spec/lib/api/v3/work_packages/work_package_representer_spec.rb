@@ -800,10 +800,19 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'atom' do
-        it_behaves_like 'action link' do
-          let(:action) { 'atom' }
-          let(:permission) { :export_work_packages }
-          let(:href) { "/work_packages/#{work_package.id}.atom"}
+        context 'with feeds enabled', with_settings: { feeds_enabled?: true } do
+          it_behaves_like 'action link' do
+            let(:action) { 'atom' }
+            let(:permission) { :export_work_packages }
+            let(:href) { "/work_packages/#{work_package.id}.atom" }
+          end
+        end
+
+        context 'with feeds disabled', with_settings: { feeds_enabled?: false } do
+          let(:permissions) { all_permissions + [:export_work_packages] }
+          it_behaves_like 'has no link' do
+            let(:link) { 'atom' }
+          end
         end
       end
 

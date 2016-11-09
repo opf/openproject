@@ -303,7 +303,7 @@ describe('WorkPackageResource service', () => {
 
         beforeEach(() => {
           uploadFilesDeferred.reject(error);
-          notificationStub = sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          notificationStub = sinon.stub(wpNotificationsService, 'handleRawError');
           $rootScope.$apply();
         });
 

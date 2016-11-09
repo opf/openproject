@@ -251,7 +251,7 @@ export class WorkPackageResource extends HalResource {
         return this.updateAttachments();
       })
       .catch(error => {
-        wpNotificationsService.handleErrorResponse(error, this);
+        wpNotificationsService.handleRawError(error, this);
       });
   }
 

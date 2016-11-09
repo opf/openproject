@@ -145,5 +145,15 @@
 .wp-relation--description-wrapper
   width: 100%
 
+// Disable create link until WP is selected
+.wp-create-relation--save[disabled]
+  color: $relations-save-button--disabled-color
+  cursor: not-allowed
 
+  .icon-button
+    cursor: not-allowed
 
+// Error highlighting
+input.wp-relations--autocomplete.-error
+  background: $nm-color-error-background
+  border-color: $nm-color-error-border
