@@ -8,10 +8,10 @@ ko:
         participants_attended: "참석자"
         participants_invited: "초대된 사람"
         start_time: "시간"
-        start_time_hour: "Starting time"
+        start_time_hour: "시작 시간"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: '은(는) 유효한 시간이 아닙니다. 필요한 형식: HH:MM'
     models:
       meeting_agenda: "의제"
       meeting_minutes: "의사록"
@@ -37,7 +37,7 @@ ko:
   label_meeting_date_time: "날짜/시간"
   label_meeting_diff: "차이"
   label_notify: "검토를 위해 보내기"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "iCalendar 보내기"
   label_version: "버전"
   label_time_zone: "표준 시간대"
   label_start_date: "시작일"
@@ -53,11 +53,11 @@ ko:
   permission_create_meeting_minutes: "의사록 관리"
   permission_send_meeting_minutes_notification: "의사록에 대한 검토 알림 보내기"
   project_module_meetings: "미팅"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "기간(시간)"
   text_in_hours: " 시간"
   text_meeting_agenda_for_meeting: '미팅 "%{meeting}"에 대한 의제'
   text_meeting_agenda_open_are_you_sure: "의사록의 저장되지 않은 콘텐츠는 손실됩니다! 계속하시겠습니까?"
   text_meeting_minutes_for_meeting: '미팅 "%{meeting}"에 대한 의사록'
   text_review_meeting_agenda: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
   text_review_meeting_minutes: "%{author} 님이 검토를 위해 %{link}을(를) 넣었습니다."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "이 메일에는 아래 모임에 대한 ics 항목이 포함되어 있습니다."
