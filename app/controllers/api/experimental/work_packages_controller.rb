@@ -86,8 +86,7 @@ module Api
       end
 
       def export_formats
-        [
-          { identifier: 'atom', format: 'atom', label_locale: 'label_format_atom' },
+        formats = [
           { identifier: 'pdf',  format: 'pdf', label_locale: 'label_format_pdf' },
           {
             identifier: 'pdf-descr',  format: 'pdf',
@@ -95,6 +94,12 @@ module Api
           },
           { identifier: 'csv', format: 'csv', label_locale: 'label_format_csv' }
         ]
+
+        if Setting.feeds_enabled?
+          formats << { identifier: 'atom', format: 'atom', label_locale: 'label_format_atom' }
+        end
+
+        formats
       end
     end
   end
