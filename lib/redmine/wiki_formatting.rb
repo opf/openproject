@@ -57,25 +57,30 @@ module Redmine
 
       def to_html(format, text, options = {}, &block)
         edit = !!options.delete(:edit)
-        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute], options[:edit])
-                 # Text retrieved from the cache store may be frozen
-                 # We need to dup it so we can do in-place substitutions with gsub!
-                 cache_store.fetch cache_key do
-                   formatter_for(format).new(text).to_html edit ? :edit : nil
-                 end.dup
-               else
-                 formatter_for(format).new(text).to_html edit ? :edit : nil
+        macros = catch_macros(text)
+        formatter = lambda { formatter_for(format).new(text).to_html edit ? :edit : nil }
+        if Setting.cache_formatted_text? && cache_store && text.size > 2.kilobyte
+          cache_key = cache_key_for(format, options[:object], options[:attribute], options[:edit])
+          # Text retrieved from the cache store may be frozen
+          # We need to dup it so we can do in-place substitutions with gsub!
+          text = cache_store.fetch cache_key do
+            formatter.call()
+          end.dup
+        else
+          text = formatter.call()
         end
-        if block_given? and !edit
-          execute_macros(text, block)
+        if macros
+          inject_macros(text, macros, block, execute: block_given? && !edit)
         end
         text
       end
 
       # Returns a cache key for the given text +format+, +object+ and +attribute+ or nil if no caching should be done
       def cache_key_for(format, object, attribute, edit)
-        if object && attribute && edit && !object.new_record? && object.respond_to?(:updated_on) && !format.blank?
-          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{edit}-#{object.updated_on.to_s(:number)}"
+        if object && attribute && edit && !object.new_record? &&
+           object.respond_to?(:updated_on) && !format.blank?
+          "formatted_text/#{format}/#{object.class.model_name.cache_key}/" +
+            "#{object.id}-#{attribute}-#{edit}-#{object.updated_on.to_s(:number)}"
         end
       end
 
@@ -84,37 +89,66 @@ module Redmine
         ActionController::Base.cache_store
       end
 
-      MACROS_RE = /
+      MACROS_RE = /(
                     (!)?                        # escaping
                     (
                     \{\{                        # opening tag
                     ([\w]+)                     # macro name
-                    (\(([^\}]*)\))?             # optional arguments
-                    \}\}                        # closing tag
+                    (\(([^\n\r]*)\))?           # optional arguments
+                    ([\n\r].*?[\n\r])?          # optional block of text
+                    \s*\}\}                     # closing tag, permit leading whitespace so that
+                                                # macro_list will display correctly when using
+                                                # here docs as desc
                     )
-                  /x unless const_defined?(:MACROS_RE)
+                  )/mx unless const_defined?(:MACROS_RE)
+
+      MACROS_SUB_RE = /(
+                        \{\{
+                        macro\((\d+)\)
+                        \}\}
+                      )/x unless const_defined?(:MACROS_SUB_RE)
+
+      # Extracts macros from text
+      def catch_macros(text)
+        macros = {}
+        text.gsub!(MACROS_RE) do
+          all = $1.try(:strip)
+          macro = $4.downcase
+          if Redmine::WikiFormatting::Macros.macro_exists?(macro) || all =~ MACROS_SUB_RE
+            index = macros.size
+            macros[index] = all
+            "{{macro(#{index})}}"
+          else
+            all
+          end
+        end
+        macros
+      end
 
       # Macros substitution
-      def execute_macros(text, macros_runner)
-        text.gsub!(MACROS_RE) do
-          esc = $1
-          all = $2
-          macro = $3
-          args = ($5 || '').split(',').each(&:strip!)
-          if esc.nil?
+      def inject_macros(text, macros, macros_runner, execute: true)
+        text.gsub!(MACROS_SUB_RE) do
+          index = $2.to_i
+          orig = macros.delete(index)
+          orig =~ MACROS_RE
+          esc = $2
+          macro = $4.downcase
+          args = $6.to_s
+          block = $7.try(:strip)
+          if esc.nil? && execute
             begin
-              macros_runner.call(macro, args)
+              macros_runner.call(macro, args, block)
             rescue => e
               "<span class=\"flash error macro-unavailable permanent\">\
               #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
-              </span>".squish
+            </span>".squish
             rescue NotImplementedError
               "<span class=\"flash error macro-unavailable permanent\">\
               #{::I18n.t(:macro_unavailable, macro_name: macro)}\
-              </span>".squish
-            end || all
+            </span>".squish
+            end
           else
-            all
+            esc ? orig[1..orig.size] : orig
           end
         end
       end

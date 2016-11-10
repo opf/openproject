@@ -88,8 +88,8 @@ module OpenProject
       text = Redmine::WikiFormatting.to_html(format, text,
                                              object: obj,
                                              attribute: attr,
-                                             edit: edit) { |macro, macro_args|
-        exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
+                                             edit: edit) { |macro, macro_args, block|
+        exec_macro(macro, obj, macro_args, block: block, view: self, edit: edit, project: project)
       }
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
