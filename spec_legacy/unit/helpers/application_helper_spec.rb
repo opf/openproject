@@ -445,7 +445,7 @@ RAW
                 '<li><a href="#An-Internet-link-inside-subtitle">An Internet link inside subtitle</a></li>' +
                 '</ul>' +
                 '</li>' +
-                '<li><a href="#Project-Name">Project Name</a></li>' +
+                '<li><a href="#Project-Name">Project Name </a></li>' +
                 '</ul>' +
                 '</li>' +
                 '</ul>'

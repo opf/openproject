@@ -337,7 +337,7 @@ describe Project, type: :model do
   it 'should ancestors' do
     a = Project.find(6).ancestors
     assert a.first.is_a?(Project)
-    assert_equal [1, 5], a.map(&:id)
+    assert_equal [1, 5], a.map(&:id).sort
   end
 
   it 'should root' do
@@ -1005,8 +1005,6 @@ describe Project, type: :model do
       assert_nil @project.start_date
     end
 
-    it 'should be tested when issues have no start date'
-
     it "should be the earliest start date of it's issues" do
       early = 7.days.ago.to_date
       FactoryGirl.create(:work_package, project: @project, start_date: Date.today)
@@ -1026,8 +1024,6 @@ describe Project, type: :model do
     it 'should be nil if there are no issues on the project' do
       assert_nil @project.due_date
     end
-
-    it 'should be tested when issues have no due date'
 
     it "should be the latest due date of it's issues" do
       future = 7.days.from_now.to_date
