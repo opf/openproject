@@ -78,7 +78,7 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
-    console.log("updateView() wpId=" + this.workPackageId);
+    // console.log("updateView() wpId=" + this.workPackageId);
 
     // display bar
     this.lazyInit();
@@ -89,7 +89,7 @@ export class WorkPackageTimelineCell {
     const due = moment(wp.dueDate as any);
 
     // update global elements
-    // this.updateGlobalElements(renderInfo);
+    this.updateGlobalElements(renderInfo);
 
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
@@ -102,11 +102,12 @@ export class WorkPackageTimelineCell {
     this.bar.style.backgroundColor = "#8CD1E8";
     this.bar.style.borderRadius = "5px";
     this.bar.style.cssFloat = "left";
+    this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
-    console.log("    viewParams.dateDisplayStart=" + moment(viewParams.dateDisplayStart));
-    console.log("    offsetStart=" + offsetStart);
+    // console.log("    viewParams.dateDisplayStart=" + moment(viewParams.dateDisplayStart));
+    // console.log("    offsetStart=" + offsetStart);
     this.bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
     // duration
@@ -140,7 +141,7 @@ export class WorkPackageTimelineCell {
       elem.style.top = "-" + cellHeight + "px";
       elem.style.height = (cellHeight * 4) + "px";
 
-      renderInfo.globalElements[elemType](renderInfo.workPackage, elem);
+      renderInfo.globalElements[elemType](renderInfo, elem);
     }
 
   }

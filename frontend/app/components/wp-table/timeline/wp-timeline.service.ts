@@ -33,29 +33,48 @@ import Observable = Rx.Observable;
 import Moment = moment.Moment;
 
 
+/**
+ *
+ */
 export class TimelineViewParameters {
+
+  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
   dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
 
-  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
-
   showDurationInPx = true;
 
   pixelPerDay = 10;
 
+  scrollOffsetInDays = 0;
+
   get maxWidthInPx() {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.pixelPerDay;
   }
+
+  get scrollOffsetInPx() {
+    return this.scrollOffsetInDays * this.pixelPerDay;
+  }
+
 }
 
+/**
+ *
+ */
 export interface RenderInfo {
   viewParams: TimelineViewParameters;
   workPackage: WorkPackage;
   globalElements: GlobalElementsRegistry;
 }
 
+/**
+ *
+ * @param viewParams
+ * @param days
+ * @returns {string}
+ */
 export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
   const daysInPx = days * viewParams.pixelPerDay;
   if (viewParams.showDurationInPx) {
@@ -65,8 +84,11 @@ export function calculatePositionValueForDayCount(viewParams: TimelineViewParame
   }
 }
 
-type GlobalElementsRegistry = {[type: string]: (wp: WorkPackage, elem: HTMLDivElement) => any};
+type GlobalElementsRegistry = {[type: string]: (renderInfo: RenderInfo, elem: HTMLDivElement) => any};
 
+/**
+ *
+ */
 export class WorkPackageTimelineService {
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
@@ -81,31 +103,35 @@ export class WorkPackageTimelineService {
     "ngInject";
 
     // Today Line
-    this.globalElementsRegistry["today"] = (wp: WorkPackage, elem: HTMLDivElement) => {
+    this.globalElementsRegistry["today"] = (renderInfo: RenderInfo, elem: HTMLDivElement) => {
       elem.style.position = "absolute";
       elem.style.width = "2px";
       elem.style.borderLeft = "2px solid red";
       elem.style.zIndex = "10";
-      const offsetToday = this._viewParameters.now.diff(this._viewParameters.dateDisplayStart, "days");
-      elem.style.left = calculatePositionValueForDayCount(this._viewParameters, offsetToday);
+      const offsetToday = this._viewParameters.now.diff(renderInfo.viewParams.dateDisplayStart, "days");
+      elem.style.left = calculatePositionValueForDayCount(renderInfo.viewParams, offsetToday);
+      elem.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     };
 
     setTimeout(() => {
-      console.log("timeout");
-      const vp = new TimelineViewParameters();
-      // vp.dateDisplayStart = moment({year: 2016, month: 10, day: 1, hour: 0, minute: 0, seconds: 0});
+      console.log("timeout1");
+      this.viewParameters.scrollOffsetInDays = 5;
+      this.refreshViewParameters();
+    }, 2000);
 
-      vp.dateDisplayStart = this._viewParameters.dateDisplayStart;
-      vp.dateDisplayEnd = this._viewParameters.dateDisplayEnd;
-      vp.showDurationInPx = this._viewParameters.showDurationInPx;
-      vp.pixelPerDay = 5;
-
-      this.viewParamsSubject.onNext(vp);
-    }, 3000);
+    setTimeout(() => {
+      console.log("timeout2");
+      this.viewParameters.scrollOffsetInDays = -2;
+      this.refreshViewParameters();
+    }, 4000);
   }
 
   get viewParameters() {
     return this._viewParameters;
+  }
+
+  refreshViewParameters() {
+    this.viewParamsSubject.onNext(this._viewParameters);
   }
 
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
@@ -155,14 +181,14 @@ export class WorkPackageTimelineService {
         // start date
         newParams.dateDisplayStart = moment.min(
           newParams.dateDisplayStart,
-          currentParams.dateDisplayStart,
+          // currentParams.dateDisplayStart,
           currentParams.now,
           start);
 
         // due date
         newParams.dateDisplayEnd = moment.max(
           newParams.dateDisplayEnd,
-          currentParams.dateDisplayEnd,
+          // currentParams.dateDisplayEnd,
           currentParams.now,
           due);
       }
