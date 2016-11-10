@@ -31,18 +31,56 @@ class Queries::BaseFilter
   include ActiveModel::Validations
   include Queries::SqlForField
 
-  attr_accessor :context
+  class_attribute :model,
+                  :filter_params,
+                  :operators,
+                  :operators_not_requiring_values,
+                  :operators_by_filter_type
 
-  class_attribute :model
+  self.filter_params = [:operator, :values]
 
-  @@filter_params = [:operator, :values]
+  self.operators = {
+    label_equals:               '=',
+    label_not_equals:           '!',
+    label_open_work_packages:   'o',
+    label_closed_work_packages: 'c',
+    label_none:                 '!*',
+    label_all:                  '*',
+    label_greater_or_equal:     '>=',
+    label_less_or_equal:        '<=',
+    label_in_less_than:         '<t+',
+    label_in_more_than:         '>t+',
+    label_in:                   't+',
+    label_today:                't',
+    label_this_week:            'w',
+    label_less_than_ago:        '>t-',
+    label_more_than_ago:        '<t-',
+    label_ago:                  't-',
+    label_contains:             '~',
+    label_not_contains:         '!~'
+  }.invert
 
-  attr_accessor *@@filter_params
+  self.operators_not_requiring_values = %w(o c !* * t w)
+
+  self.operators_by_filter_type = {
+    list:             ['=', '!'],
+    list_status:      ['o', '=', '!', 'c', '*'],
+    list_optional:    ['=', '!', '!*', '*'],
+    list_subprojects: ['*', '!*', '='],
+    date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-'],
+    date_past:        ['>t-', '<t-', 't-', 't', 'w'],
+    string:           ['=', '~', '!', '!~'],
+    text:             ['~', '!~'],
+    integer:          ['=', '>=', '<=', '!*', '*']
+  }
+
+  attr_accessor :context,
+                *filter_params
 
   def initialize(options = {})
     self.context = options[:context]
 
-    @@filter_params.each do |param_field|
+    self.class.filter_params.each do |param_field|
       send("#{param_field}=", options[param_field])
     end
   end
@@ -83,11 +121,7 @@ class Queries::BaseFilter
   end
 
   def self.key
-    name.to_sym
-  end
-
-  def self.name
-    to_s.demodulize.underscore.gsub(/_filter$/, '')
+    to_s.demodulize.underscore.gsub(/_filter$/, '').to_sym
   end
 
   def self.connection
@@ -108,48 +142,9 @@ class Queries::BaseFilter
     nil
   end
 
-  @@operators = {
-    label_equals:               '=',
-    label_not_equals:           '!',
-    label_open_work_packages:   'o',
-    label_closed_work_packages: 'c',
-    label_none:                 '!*',
-    label_all:                  '*',
-    label_greater_or_equal:     '>=',
-    label_less_or_equal:        '<=',
-    label_in_less_than:         '<t+',
-    label_in_more_than:         '>t+',
-    label_in:                   't+',
-    label_today:                't',
-    label_this_week:            'w',
-    label_less_than_ago:        '>t-',
-    label_more_than_ago:        '<t-',
-    label_ago:                  't-',
-    label_contains:             '~',
-    label_not_contains:         '!~'
-  }.invert
-
-  @@operators_not_requiring_values = %w(o c !* * t w)
-
-  @@operators_by_filter_type = {
-    list:             ['=', '!'],
-    list_status:      ['o', '=', '!', 'c', '*'],
-    list_optional:    ['=', '!', '!*', '*'],
-    list_subprojects: ['*', '!*', '='],
-    date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-'],
-    date_past:        ['>t-', '<t-', 't-', 't', 'w'],
-    string:           ['=', '~', '!', '!~'],
-    text:             ['~', '!~'],
-    integer:          ['=', '>=', '<=', '!*', '*']
-  }
-
-  cattr_reader :operators, :operators_by_filter_type
-
-  attr_accessor *@@filter_params
-
   validate :validate_inclusion_of_operator
   validate :validate_presence_of_values,
-           unless: Proc.new { |filter| @@operators_not_requiring_values.include?(filter.operator) }
+           unless: Proc.new { |filter| operators_not_requiring_values.include?(filter.operator) }
   validate :validate_filter_values
 
   def values
@@ -163,7 +158,7 @@ class Queries::BaseFilter
   protected
 
   def validate_inclusion_of_operator
-    unless @@operators_by_filter_type[type].include? operator
+    unless self.class.operators_by_filter_type[type].include? operator
       errors.add(:operator, :inclusion)
     end
   end
@@ -175,7 +170,7 @@ class Queries::BaseFilter
   end
 
   def validate_filter_values
-    return true if @@operators_not_requiring_values.include?(operator)
+    return true if self.class.operators_not_requiring_values.include?(operator)
 
     case type
     when :integer, :date, :date_past

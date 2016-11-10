@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'custom_value'
-
 class Queries::WorkPackages::Filter::CustomFieldFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   attr_accessor :custom_field
