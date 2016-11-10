@@ -78,6 +78,8 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
+    console.log("updateView() wpId=" + this.workPackageId);
+
     // display bar
     this.lazyInit();
     const viewParams = renderInfo.viewParams;
@@ -87,7 +89,7 @@ export class WorkPackageTimelineCell {
     const due = moment(wp.dueDate as any);
 
     // update global elements
-    this.updateGlobalElements(renderInfo);
+    // this.updateGlobalElements(renderInfo);
 
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
@@ -103,6 +105,8 @@ export class WorkPackageTimelineCell {
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
+    console.log("    viewParams.dateDisplayStart=" + moment(viewParams.dateDisplayStart));
+    console.log("    offsetStart=" + offsetStart);
     this.bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
     // duration

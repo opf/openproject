@@ -90,14 +90,18 @@ export class WorkPackageTimelineService {
       elem.style.left = calculatePositionValueForDayCount(this._viewParameters, offsetToday);
     };
 
-
     setTimeout(() => {
-      console.log("scroll left");
+      console.log("timeout");
       const vp = new TimelineViewParameters();
-      vp.dateDisplayStart = moment({year: 2016, month: 10, day: 1, hour: 0, minute: 0, seconds: 0})
+      // vp.dateDisplayStart = moment({year: 2016, month: 10, day: 1, hour: 0, minute: 0, seconds: 0});
+
+      vp.dateDisplayStart = this._viewParameters.dateDisplayStart;
+      vp.dateDisplayEnd = this._viewParameters.dateDisplayEnd;
+      vp.showDurationInPx = this._viewParameters.showDurationInPx;
+      vp.pixelPerDay = 5;
+
       this.viewParamsSubject.onNext(vp);
     }, 3000);
-
   }
 
   get viewParameters() {
@@ -135,7 +139,7 @@ export class WorkPackageTimelineService {
   }
 
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
-    console.log("calculateViewParams()");
+    // console.log("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;
@@ -178,7 +182,7 @@ export class WorkPackageTimelineService {
       this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
 
-    console.log("        changed=" + changed);
+    // console.log("        changed=" + changed);
 
     return changed;
   }
