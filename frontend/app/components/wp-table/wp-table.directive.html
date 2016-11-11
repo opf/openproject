@@ -1,5 +1,8 @@
 <div class="generic-table--container work-package-table--container"
   ng-class="{ '-with-footer': displaySums }">
+
+  <timeline-control></timeline-control>
+
   <div class="generic-table--results-container"
        wp-virtual-scroll-table>
     <table interactive-table class="keyboard-accessible-list generic-table work-package-table">
@@ -166,7 +169,7 @@
               ng-class="::{ '-short': column.name == 'id' }">
           </td>
 
-          <td class="wp-timeline-cell" style="position: relative; background-color: #fcebe4">
+          <td class="wp-timeline-cell" style="position: relative; background-color: #ebfaf5">
           </td>
 
         </tr>

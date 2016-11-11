@@ -36,13 +36,7 @@ import Moment = moment.Moment;
 /**
  *
  */
-export class TimelineViewParameters {
-
-  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
-
-  dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
-
-  dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+export class TimelineViewParametersSettings {
 
   showDurationInPx = true;
 
@@ -50,12 +44,27 @@ export class TimelineViewParameters {
 
   scrollOffsetInDays = 0;
 
+}
+
+/**
+ *
+ */
+export class TimelineViewParameters {
+
+  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
+
+  settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
+
+  dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
+
+  dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+
   get maxWidthInPx() {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.pixelPerDay;
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.settings.pixelPerDay;
   }
 
   get scrollOffsetInPx() {
-    return this.scrollOffsetInDays * this.pixelPerDay;
+    return this.settings.scrollOffsetInDays * this.settings.pixelPerDay;
   }
 
 }
@@ -76,8 +85,8 @@ export interface RenderInfo {
  * @returns {string}
  */
 export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
-  const daysInPx = days * viewParams.pixelPerDay;
-  if (viewParams.showDurationInPx) {
+  const daysInPx = days * viewParams.settings.pixelPerDay;
+  if (viewParams.settings.showDurationInPx) {
     return daysInPx + "px";
   } else {
     return (daysInPx / viewParams.maxWidthInPx * 100) + "%";
@@ -113,24 +122,31 @@ export class WorkPackageTimelineService {
       elem.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     };
 
-    setTimeout(() => {
-      console.log("timeout1");
-      this.viewParameters.scrollOffsetInDays = 5;
-      this.refreshViewParameters();
-    }, 2000);
-
-    setTimeout(() => {
-      console.log("timeout2");
-      this.viewParameters.scrollOffsetInDays = -2;
-      this.refreshViewParameters();
-    }, 4000);
+    // setTimeout(() => {
+    //   console.log("timeout1");
+    //   this.viewParameterSettings.scrollOffsetInDays = 5;
+    //   this.refreshView();
+    // }, 2000);
+    //
+    // setTimeout(() => {
+    //   console.log("timeout2");
+    //   this.viewParameterSettings.scrollOffsetInDays = -2;
+    //   this.refreshView();
+    // }, 4000);
   }
 
-  get viewParameters() {
-    return this._viewParameters;
+  /**
+   * Returns a defensive copy of the currently used view parameters.
+   */
+  getViewParameters(): TimelineViewParameters {
+    return _.cloneDeep(this._viewParameters);
   }
 
-  refreshViewParameters() {
+  get viewParameterSettings() {
+    return this._viewParameters.settings;
+  }
+
+  refreshView() {
     this.viewParamsSubject.onNext(this._viewParameters);
   }
 
