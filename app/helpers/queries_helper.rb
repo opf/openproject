@@ -78,10 +78,21 @@ module QueriesHelper
         @query.group_by = group_by_from_params params
         @query.display_sums = params[:display_sums].present? && params[:display_sums] == 'true'
         @query.column_names = column_names_from_params params
-        session[:query] = { project_id: @query.project_id, filters: @query.filters, group_by: @query.group_by, display_sums: @query.display_sums, column_names: @query.column_names }
+        session[:query] = {
+          project_id: @query.project_id,
+          filters: Queries::FilterSerializer.dump(@query.filters),
+          group_by: @query.group_by,
+          display_sums: @query.display_sums,
+          column_names: @query.column_names
+        }
       else
         @query = Query.find_by(id: session[:query][:id]) if session[:query][:id]
-        @query ||= Query.new(name: '_', project: @project, filters: session[:query][:filters], group_by: session[:query][:group_by], display_sums: session[:query][:display_sums], column_names: session[:query][:column_names])
+        @query ||= Query.new(name: '_',
+                             project: @project,
+                             filters: Queries::FilterSerializer.load(session[:query][:filters]),
+                             group_by: session[:query][:group_by],
+                             display_sums: session[:query][:display_sums],
+                             column_names: session[:query][:column_names])
         @query.project = @project
       end
     end
