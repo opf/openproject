@@ -31,7 +31,6 @@ The installation procedure assumes the following prerequisites:
   * Ubuntu 16.04 Xenial
   * Ubuntu 14.04 Trusty
   * CentOS/RHEL 7.x
-  * CentOS/RHEL 6.x
   * Suse Linux Enterprise Server 12
   * Suse Linux Enterprise Server 11
 
@@ -87,15 +86,6 @@ Note that all commands should either be run as root or should be prepended with
     echo "[openproject]
     name=Repository for opf/openproject-ce application.
     baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/6
-    enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
-    sudo yum install openproject
-
-## CentOS / RHEL 6.x
-
-    sudo rpm --import https://rpm.packager.io/key
-    echo "[openproject]
-    name=Repository for opf/openproject-ce application.
-    baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos6/stable/6
     enabled=1" | sudo tee /etc/yum.repos.d/openproject.repo
     sudo yum install openproject
 
