@@ -41,8 +41,8 @@ module API
         # @param limit [Integer] Maximum number of results to retrieve.
         def work_package_query(query, from, limit)
           wps = WorkPackage.visible
-                           .where("work_packages.id = ? OR work_packages.subject LIKE ?",
-                                  query.to_i, "%#{query}%")
+                           .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
+                                  query.to_i, "%#{query.downcase}%")
                            .where('work_packages.id != ?', from.id) # can't relate to itself
                            .references(:work_packages)
                            .limit(limit)
