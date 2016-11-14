@@ -53,7 +53,7 @@ describe.only('WorkPackageTimelineService', () => {
 
   it('should use the earliest start date ', (done: any) => {
 
-    const earlier = timelineService.getViewParameters().dateDisplayStart.subtract(1, "day");
+    const earlier = timelineService.getViewParametersCopy().dateDisplayStart.subtract(1, "day");
     const inOneMonth = moment().add(1, "month");
 
     const workPackage1: WorkPackage = new WorkPackageResource({_links: {self: ""}});

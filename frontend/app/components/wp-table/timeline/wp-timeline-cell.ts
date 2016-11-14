@@ -27,10 +27,12 @@
 // ++
 
 import {States} from "../../states.service";
-import {WorkPackageTimelineService, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline.service";
+import {
+  WorkPackageTimelineService, RenderInfo, calculatePositionValueForDayCount,
+  timelineElementCssClass
+} from "./wp-timeline.service";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {State} from "../../../helpers/reactive-fassade";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
@@ -56,15 +58,21 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    scopedObservable(
-      this.scope,
-      this.workPackageTimelineService.addWorkPackage(this.workPackageId))
+    // scopedObservable(
+    //   this.scope,
+    //   this.workPackageTimelineService.addWorkPackage(this.workPackageId))
+    //   .subscribe(renderInfo => {
+    //     this.updateView(renderInfo);
+    //   });
+
+    this.disposable = this.workPackageTimelineService.addWorkPackage(this.workPackageId)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
       });
+
   }
 
-  // TODO never called
+  // TODO never called so far
   deactivate() {
     this.timelineCell.innerHTML = "";
     this.disposable && this.disposable.dispose();
@@ -73,6 +81,7 @@ export class WorkPackageTimelineCell {
   private lazyInit() {
     if (this.bar === null) {
       this.bar = document.createElement("div");
+      this.bar.className = timelineElementCssClass;
       this.timelineCell.appendChild(this.bar);
     }
   }
@@ -125,6 +134,7 @@ export class WorkPackageTimelineCell {
     // new elements
     for (const newElem of newGlobalElementTypes) {
       const elem = document.createElement("div");
+      elem.className = timelineElementCssClass;
       this.timelineCell.appendChild(elem);
       this.globalElements[newElem] = elem;
     }

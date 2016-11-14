@@ -37,12 +37,12 @@ const template = `
 
     HScroll: <input type="number" 
                     ng-model="$ctrl.hscroll" 
-                    ng-change="$ctrl.updateView()" 
+                    ng-change="$ctrl.updateScroll()" 
                     style="display: inline-block; width: 200px"/>
 
     Zoom: <input type="number" 
                  ng-model="$ctrl.zoom" 
-                    ng-change="$ctrl.updateView()" 
+                    ng-change="$ctrl.updateZoom()" 
                  style="display: inline-block; width: 200px"/>
   
 </div>
@@ -61,9 +61,13 @@ class WorkPackageTimelineControlController {
     this.zoom = workPackageTimelineService.viewParameterSettings.pixelPerDay;
   }
 
-  updateView() {
-    this.workPackageTimelineService.viewParameterSettings.pixelPerDay = this.zoom;
+  updateScroll() {
     this.workPackageTimelineService.viewParameterSettings.scrollOffsetInDays = this.hscroll;
+    this.workPackageTimelineService.refreshScrollOnly();
+  }
+
+  updateZoom() {
+    this.workPackageTimelineService.viewParameterSettings.pixelPerDay = this.zoom;
     this.workPackageTimelineService.refreshView();
   }
 

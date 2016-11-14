@@ -32,6 +32,7 @@ import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import Moment = moment.Moment;
 
+export const timelineElementCssClass = "timeline-element";
 
 /**
  *
@@ -53,11 +54,11 @@ export class TimelineViewParameters {
 
   readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
-  settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
-
   dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+
+  settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
   get maxWidthInPx() {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.settings.pixelPerDay;
@@ -104,9 +105,11 @@ export class WorkPackageTimelineService {
 
   private workPackagesInView: {[id: string]: WorkPackage} = {};
 
-  private viewParamsSubject = new Rx.BehaviorSubject<TimelineViewParameters>(new TimelineViewParameters());
-
   private globalElementsRegistry: GlobalElementsRegistry = {};
+
+  private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
+
+  private refreshViewRequested = false;
 
   constructor(private states: States) {
     "ngInject";
@@ -121,24 +124,12 @@ export class WorkPackageTimelineService {
       elem.style.left = calculatePositionValueForDayCount(renderInfo.viewParams, offsetToday);
       elem.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     };
-
-    // setTimeout(() => {
-    //   console.log("timeout1");
-    //   this.viewParameterSettings.scrollOffsetInDays = 5;
-    //   this.refreshView();
-    // }, 2000);
-    //
-    // setTimeout(() => {
-    //   console.log("timeout2");
-    //   this.viewParameterSettings.scrollOffsetInDays = -2;
-    //   this.refreshView();
-    // }, 4000);
   }
 
   /**
    * Returns a defensive copy of the currently used view parameters.
    */
-  getViewParameters(): TimelineViewParameters {
+  getViewParametersCopy(): TimelineViewParameters {
     return _.cloneDeep(this._viewParameters);
   }
 
@@ -147,41 +138,85 @@ export class WorkPackageTimelineService {
   }
 
   refreshView() {
-    this.viewParamsSubject.onNext(this._viewParameters);
+    if (!this.refreshViewRequested) {
+      setTimeout(() => {
+        this.updateAllWorkPackagesSubject.onNext(true);
+        this.refreshViewRequested = false;
+      }, 30);
+    }
+    this.refreshViewRequested = true;
   }
 
+  refreshScrollOnly() {
+    // console.log("setScrollValue() " + this._viewParameters.scrollOffsetInPx);
+    jQuery(".timeline-element").css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
+  }
+
+
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
-    return Rx.Observable
-      .combineLatest(
-        this.viewParamsSubject,
-        this.states.workPackages.get(wpId).observe(null),
-        (vp: TimelineViewParameters, wp: any) => {
-          return {
-            viewParams: vp,
-            workPackage: wp,
-            globalElements: this.globalElementsRegistry
-          };
-        }
-      )
-      .flatMap(renderInfo => {
-        const wp = renderInfo.workPackage;
+    // console.log("addWorkPackage() = " + wpId);
+
+    const wpObs = this.states.workPackages.get(wpId).observe(null)
+      .map((wp: any) => {
         this.workPackagesInView[wp.id] = wp;
-
-        const viewParamsChanged = this.calculateViewParams(renderInfo.viewParams);
-
+        const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
           // view params have changed, notify all cells
-          this.viewParamsSubject.onNext(this._viewParameters);
-          return Observable.empty<RenderInfo>();
-        } else {
-          // view params have not changed, only notify this observer
-          return Observable.just(renderInfo);
+          this.refreshView();
         }
+
+        return {
+          viewParams: this._viewParameters,
+          workPackage: wp,
+          globalElements: this.globalElementsRegistry
+        };
       });
+
+    return Rx.Observable
+      .combineLatest(
+        wpObs,
+        this.updateAllWorkPackagesSubject,
+        (renderInfo, forceUpdate) => {
+          return renderInfo;
+        }
+      );
+
+    // const obs = Rx.Observable
+    //   .combineLatest(
+    //     this.updateAllWorkPackagesSubject,
+    //     this.states.workPackages.get(wpId).observe(null),
+    //     (vp: boolean, wp: any) => {
+    //       return {
+    //         viewParams: this._viewParameters,
+    //         workPackage: wp,
+    //         globalElements: this.globalElementsRegistry
+    //       };
+    //     }
+    //   )
+    //   .flatMap(renderInfo => {
+    //     const wp = renderInfo.workPackage;
+    //     this.workPackagesInView[wp.id] = wp;
+    //
+    //     console.log("    flatMap = " + wpId);
+    // const viewParamsChanged = this.calculateViewParams(renderInfo.viewParams);
+
+    // if (viewParamsChanged) {
+    // view params have changed, notify all cells
+    // this.viewParamsSubject.onNext(this._viewParameters);
+    // this.refreshView();
+    // return Observable.empty<RenderInfo>();
+    // } else {
+    // view params have not changed, only notify this observer
+    // console.log("    update wp=" + wpId);
+    // return Observable.just(renderInfo);
+    // }
+    // });
+
+    // return obs;
   }
 
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
-    // console.log("calculateViewParams()");
+    console.log("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;
