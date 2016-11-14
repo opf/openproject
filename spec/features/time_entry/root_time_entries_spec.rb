@@ -57,25 +57,28 @@ describe "/time_entries", type: :feature do
       page.all("td.hours").map(&:text).map(&:to_i)
     end
 
+    def ajax_indicator_saveguard
+      expect(page).to have_no_selector('#ajax-indicator')
+    end
+
     before do
       login_as user
       visit time_entries_path
     end
 
-    it "should show the time entries in the order of creation by default" do
-      expect(shown_comments).to eq comments
-    end
+    it "should allow sorting the time entries" do
+      expect(page).to have_selector('td.comments', "TE 2")
+      expect(page).to have_selector('td.comments', "TE 1")
+      expect(page).to have_selector('td.comments', "TE 3")
 
-    it "should sort the time entries by comments when clicking on the column header" do
+
       click_on "Comment"
-
+      ajax_indicator_saveguard
       expect(shown_comments).to eq comments.sort
-    end
 
-    it "should sort the time entries by hours when clicking on the column header" do
       click_on "Hours"
-
-      expect(shown_hours).to eq hours.sort
+      ajax_indicator_saveguard
+      expect(shown_hours).to eq hours.sort.reverse
     end
   end
 end
