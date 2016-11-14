@@ -63,6 +63,7 @@ module API
         property :warn_on_leaving_unsaved
         property :comments_in_reverse_order,
                  as: :commentSortDescending
+        property :auto_hide_popups
 
         property :impaired?,
                  as: :accessibilityMode
