@@ -148,9 +148,8 @@ export class WorkPackageTimelineCell {
     for (const elemType of _.keys(renderInfo.globalElements)) {
       const elem = this.globalElements[elemType];
       const cellHeight = jQuery(this.timelineCell).outerHeight();
-      elem.style.top = "-" + cellHeight + "px";
-      elem.style.height = (cellHeight * 4) + "px";
-
+      elem.style.top = "0px";
+      elem.style.height = (cellHeight + 1) + "px";
       renderInfo.globalElements[elemType](renderInfo, elem);
     }
 
