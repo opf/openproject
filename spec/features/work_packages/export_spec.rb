@@ -66,14 +66,7 @@ describe 'work package export', type: :feature do
 
   before do
     work_packages_page.visit_index
-    # ensure the page is loaded before expecting anything
-    find('.advanced-filters--filters select option', text: /\AAssignee\Z/,
-                                                     visible: false)
-
     work_packages_page.click_toolbar_button 'Activate Filter'
-    expect(work_packages_page.find_filter('status')).to have_content('Status')
-    expect(work_packages_page.find_filter('status'))
-      .to have_select('operators-status', selected: 'open')
 
     # render the CSV as plain text so we can run expectations against the output
     expect_any_instance_of(WorkPackagesController)
@@ -99,7 +92,6 @@ describe 'work package export', type: :feature do
   end
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
-    work_packages_page.ensure_loaded
     work_packages_page.open_settings!
 
     click_on 'Group by ...'
@@ -122,25 +114,25 @@ describe 'work package export', type: :feature do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
-    expect(page).not_to have_text(wp_2.description) # safeguard
+    expect(page).to have_no_content(wp_2.description) # safeguard
 
     export!
 
     expect(subject).to have_text(wp_1.description)
-    expect(subject).to_not have_text(wp_2.description)
-    expect(subject).to_not have_text(wp_3.description)
+    expect(subject).not_to have_text(wp_2.description)
+    expect(subject).not_to have_text(wp_3.description)
   end
 
   it 'shows only work packages of the filtered type', js: true, retry: 2 do
     select 'Type', from: 'add_filter_select'
     select wp_3.type.name, from: 'values-type'
 
-    expect(page).not_to have_text(wp_2.description) # safeguard
+    expect(page).to have_no_content(wp_2.description) # safeguard
 
     export!
 
-    expect(subject).to_not have_text(wp_1.description)
-    expect(subject).to_not have_text(wp_2.description)
+    expect(subject).not_to have_text(wp_1.description)
+    expect(subject).not_to have_text(wp_2.description)
     expect(subject).to have_text(wp_3.description)
   end
 

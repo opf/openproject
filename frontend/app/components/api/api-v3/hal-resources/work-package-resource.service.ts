@@ -190,7 +190,11 @@ export class WorkPackageResource extends HalResource {
    * be done automatically, but the backend does not provide typed collections yet.
    */
   protected $initialize(source) {
+    const oldSchema = this.schema;
     super.$initialize(source);
+
+    // Take over previously loaded schema resource
+    this.setExistingSchema(oldSchema);
 
     var attachments = this.attachments || {$source: void 0, $loaded: void 0};
     this.attachments = new AttachmentCollectionResource(
@@ -458,6 +462,25 @@ export class WorkPackageResource extends HalResource {
         this[key] = formPayload[key];
       }
     });
+  }
+
+  private setExistingSchema(previous) {
+    // Only when existing schema was loaded
+    if (!(previous && previous.$loaded)) {
+      return;
+    }
+
+    // If old schema was a regular schema and both href match
+    // assume they are matching
+    if (previous.href === this.schema.href) {
+      this.schema = previous;
+    }
+
+    // If old schema was embedded into the WP form, decide
+    // based on its baseSchema href.
+    if (previous.baseSchema && previous.baseSchema.href === this.schema.href) {
+      this.schema = previous;
+    }
   }
 
   /**

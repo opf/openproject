@@ -42,8 +42,9 @@ module DownloadedFile
     downloads.first
   end
 
-  def download_content
+  def download_content(ensure_content = true)
     wait_for_download
+    wait_for_download_content if ensure_content
     File.read(download)
   end
 
@@ -53,8 +54,18 @@ module DownloadedFile
     end
   end
 
+  def wait_for_download_content
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.1 until has_content?
+    end
+  end
+
   def downloaded?
     !downloading? && downloads.any?
+  end
+
+  def has_content?
+    !File.read(download).empty?
   end
 
   def downloading?

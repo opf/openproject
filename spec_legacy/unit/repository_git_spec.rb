@@ -69,7 +69,8 @@ describe Repository::Git, type: :model do
     @repository.reload
 
     assert_equal 22, @repository.changesets.count
-    assert_equal 34, @repository.file_changes.count
+    file_count = @repository.file_changes.count
+    assert([33,34].include? file_count) # Mac OS X reports one file less changed
 
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments

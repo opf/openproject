@@ -27,14 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require Rails.root.join('config/constants/query_register')
-
 module Queries::Register
   class << self
-    delegate :filter,
-             :filters,
-             :order,
-             :orders,
-             to: ::Constants::QueryRegister
+    def filter(query, filter)
+      @filters ||= Hash.new do |hash, filter_key|
+        hash[filter_key] = []
+      end
+
+      @filters[query] << filter
+    end
+
+    def order(query, order)
+      @orders ||= Hash.new do |hash, order_key|
+        hash[order_key] = []
+      end
+
+      @orders[query] << order
+    end
+
+    attr_accessor :filters, :orders
   end
 end
