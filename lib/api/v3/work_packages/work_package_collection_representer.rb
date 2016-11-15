@@ -57,11 +57,26 @@ module API
                 page: page,
                 per_page: per_page,
                 current_user: current_user)
+
+          # In order to optimize performance we
+          #   * override paged_models so that only the id is fetched from the
+          #     scope (typically a query with a couple of includes for e.g.
+          #     filtering), circumventing AR instantiation alltogether
+          #   * use the ids to fetch the actual work packages with all the fields
+          #     necessary for rendering the work packages in _elements
+          #
+          # This results in the weird flow where the scope is passed to super (models variable),
+          # which calls the overriden paged_models method fetching the ids. In order to have
+          # real AR objects again, we finally get the work packages we actually want to have
+          # and set those to be the represented collection.
+          # A potential ordering is reapplied to the work package collection in ruby.
+
+          @represented = full_work_packages(represented)
         end
 
         link :sumsSchema do
           {
-            href: api_v3_paths.work_package_sums_schema,
+            href: api_v3_paths.work_package_sums_schema
           } if total_sums || groups && groups.any?(&:has_sums?)
         end
 
@@ -81,20 +96,18 @@ module API
 
         collection :elements,
                    getter: -> (*) {
-                     work_packages = sorted_and_eager_loaded_work_packages
-
                      generated_classes = ::Hash.new do |hash, work_package|
-                       hit = hash.values.find { |klass|
+                       hit = hash.values.find do |klass|
                          klass.customizable.type_id == work_package.type_id &&
-                         klass.customizable.project_id == work_package.project_id
-                       }
+                           klass.customizable.project_id == work_package.project_id
+                       end
 
                        hash[work_package] = hit || element_decorator.create_class(work_package)
                      end
 
-                     work_packages.map { |model|
+                     represented.map do |model|
                        generated_classes[model].new(model, current_user: current_user)
-                     }
+                     end
                    },
                    exec_context: :decorator,
                    embedded: true
@@ -112,27 +125,26 @@ module API
                  },
                  render_nil: false
 
-        # Eager load elements used in the representer later
-        # to avoid n+1 queries triggered from each representer.
-        def sorted_and_eager_loaded_work_packages
-          ids_in_order = represented.map(&:id)
-          work_packages = eager_loaded_work_packages(ids_in_order)
-
-          work_packages.sort_by { |wp| ids_in_order.index(wp.id) }
-        end
-
-        def eager_loaded_work_packages(ids)
-          WorkPackage
-            .include_spent_hours(current_user)
-            .preload(element_decorator.to_eager_load)
-            .where(id: ids)
-            .select('work_packages.*')
-        end
-
         private
 
         def current_user_allowed_to_add_work_packages?
           current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+        end
+
+        def add_eager_loading(scope, current_user)
+          scope
+            .includes(element_decorator.to_eager_load)
+            .include_spent_hours(current_user)
+            .select('work_packages.*')
+        end
+
+        def paged_models(models)
+          models.page(@page).per_page(@per_page).pluck(:id).uniq
+        end
+
+        def full_work_packages(ids_in_order)
+          wps = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
+          wps.sort_by { |wp| ids_in_order.index(wp.id) }
         end
 
         attr_reader :project,
