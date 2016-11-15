@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,43 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-angular
-  .module('openproject.services')
-  .factory('wpWatchers', wpWatchers);
+import {wpDirectivesModule} from '../../../angular-modules';
 
-function wpWatchers($http, $q) {
-
-
-
-  var remove = function(workPackage, watcher) {
-    var removed = $q.defer(),
-      path = workPackage.removeWatcher.$link.href,
-      method = workPackage.removeWatcher.$link.method;
-
-    path = path.replace(/\{user\_id\}/, watcher.id);
-
-    $http[method](path).then(function() {
-      removed.resolve(watcher);
-
-    }, function(err) {
-      remove.reject(err);
-    });
-
-    return removed.promise;
-  };
-
-  /*
-   * NOTE: In theory, this service is independent from WorkPackages,
-   * however, the only thing currently handled by it is WorkPackage
-   * related watching.
-   * This might change in the future, as other Objects are watchable in
-   * OP - e.g. wiki pages.
-   *
-   * The public interface is therefore designed around handling WPs
-   */
+function opFullWidthTypeahead( $timeout ) {
   return {
-    removeFromWorkPackage: remove
+    restrict: 'A',
+    require: 'uibTypeahead',
+    link: function(scope, element, attrs, $select) {
+      const watchOn = attrs['typeaheadIsOpen'];
+
+      if (!watchOn) {
+        throw "Missing typeahead-is-open on typeahead directive!";
+      }
+
+      scope.$watch(watchOn, (isOpen) => {
+        if (isOpen) {
+          angular.element('#' + element.attr('aria-owns')).width(element.outerWidth());
+        }
+      });
+    }
   };
 }
+
+wpDirectivesModule.directive('opFullwidthTypeahead', opFullWidthTypeahead);
+

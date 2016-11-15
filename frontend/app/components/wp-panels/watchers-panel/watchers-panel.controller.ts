@@ -28,120 +28,108 @@
 
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 export class WatchersPanelController {
 
-  public workPackage:WorkPackageResourceInterface;
-  public loadingPromise:ng.IPromise<any>;
+  public workPackage: WorkPackageResourceInterface;
+  public loadingPromise: ng.IPromise<any>;
+  public autocompleteLoadingPromise: ng.IPromise<any>;
+  public autocompleteInput = '';
   public error = false;
   public allowedToAdd = false;
   public allowedToRemove = false;
 
-  public available:any[] = [];
-  public watching:any[] = [];
-  public text:any;
+  public watching: any[] = [];
+  public text: any;
 
   constructor(public $scope,
+              public $q,
               public I18n,
-              public wpCacheService:WorkPackageCacheService,
+              public wpNotificationsService: WorkPackageNotificationService,
+              public wpCacheService: WorkPackageCacheService,
               public wpWatchers) {
 
     this.text = {
       loading: I18n.t('js.watchers.label_loading'),
-      loadingError: I18n.t('js.watchers.label_error_loading')
+      loadingError: I18n.t('js.watchers.label_error_loading'),
+      autocomplete: {
+        placeholder: I18n.t('js.watchers.label_click_to_add')
+      }
     };
-
-
-    $scope.$on('watchers.add', (evt, watcher) => {
-      this.addWatcher(evt, watcher);
-    });
-    $scope.$on('watchers.remove', (evt, watcher) => {
-      this.removeWatcher(evt, watcher);
-    });
 
     if (!this.workPackage) {
       return;
     }
 
     wpCacheService.loadWorkPackage(<number> this.workPackage.id).observe($scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.fetchWatchers();
+        this.loadCurrentWatchers();
       });
   }
 
-  public fetchWatchers() {
+  public loadCurrentWatchers() {
     this.error = false;
     this.allowedToAdd = !!this.workPackage.addWatcher;
     this.allowedToRemove = !!this.workPackage.removeWatcher;
 
-    this.wpWatchers.forWorkPackage(this.workPackage)
-      .then(users => {
-        this.watching = users.watching;
-        this.available = users.available;
+    this.workPackage.watchers.$load()
+      .then((collection:CollectionResource) => {
+        this.watching = collection.elements;
       })
-      .catch(() => {
-        this.watching = [];
-        this.available = [];
-        this.error = true;
+      .catch((error) => {
+        this.wpNotificationsService.showError(error, this.workPackage);
       });
   };
 
-  public addWatcher(event, watcher) {
-    event.stopPropagation();
+  public autocompleteWatchers(query) {
+    if (!query) {
+      return [];
+    }
 
-    watcher.loading = true;
-    this.add(watcher, this.watching);
-    this.remove(watcher, this.available);
+    const deferred = this.$q.defer();
+    this.autocompleteLoadingPromise = deferred.promise;
 
-    this.loadingPromise = this.wpWatchers.addForWorkPackage(this.workPackage, watcher)
-      .then(watcher => {
-        this.$scope.$broadcast('watchers.add.finished', watcher);
+    this.workPackage.availableWatchers.$link.$fetch(
+      {
+        filters: JSON.stringify([{
+          name: {
+            operator: '~',
+            values: query,
+          }
+        }]),
+      },
+      {
+        caching: {enabled: false}
+      }).then(collection => {
+      deferred.resolve(collection.elements);
+    }).catch(() => deferred.reject());
 
+    return deferred.promise;
+  }
+
+  public addWatcher(user) {
+    this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({user: {href: user.href}})
+      .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
         this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.autocompleteInput = '';
       })
-      .finally(() => {
-        delete watcher.loading;
-      });
+      .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
   };
 
-  public removeWatcher(event, watcher) {
-    event.stopPropagation();
-
-    this.wpWatchers.removeFromWorkPackage(this.workPackage, watcher)
-      .then(watcher => {
-        this.remove(watcher, this.watching);
-        this.add(watcher, this.available);
+  public removeWatcher(watcher) {
+    this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
+      .then(() => {
+        _.remove(this.watching, (other) => { return other.href === watcher.href; });
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
         this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
-      });
+      })
+      .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
   };
-
-
-  private remove(watcher, arr) {
-    var idx = _.findIndex(arr, watcher, this.equality(watcher));
-
-    if (idx > -1) {
-      arr.splice(idx, 1);
-    }
-  };
-
-  private add(watcher, arr) {
-    var idx = _.findIndex(arr, watcher, this.equality(watcher));
-
-    if (idx === -1) {
-      arr.push(watcher);
-    }
-  };
-
-  private equality(firstElement) {
-    return function (secondElement) {
-      return firstElement.id === secondElement.id;
-    };
-  };
-
 }

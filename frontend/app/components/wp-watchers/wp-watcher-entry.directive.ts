@@ -26,37 +26,58 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
-  'use strict';
+import {WatchersPanelController} from '../wp-panels/watchers-panel/watchers-panel.controller';
+import {UserResource} from '../api/api-v3/hal-resources/user-resource.service';
+import {wpDirectivesModule} from '../../angular-modules';
 
-  var workPackageWatcherController = function(scope) {
-    scope.remove = function() {
-      scope.deleting = true;
-      scope.$emit('watchers.remove', scope.watcher);
-    };
+export class WatcherEntryController {
 
-    scope.I18n = I18n;
+  public watcher:UserResource;
+  public text;
+  public panelCtrl:WatchersPanelController;
 
-    var focused = false;
-    scope.focus = function() {
-      focused = true;
-    };
-
-    scope.blur = function() {
-      focused = false;
-    };
-
-    scope.focussing = function() {
-      return focused;
-    };
+  public state = {
+    deleting: false,
+    focussing: false
   };
 
+  constructor(public I18n) {
+    'ngInject';
+
+    this.text = {
+      remove: I18n.t('js.label_remove_watcher', { name: this.watcher.name })
+    };
+  }
+
+  public remove() {
+    this.state.deleting = true;
+    this.panelCtrl.removeWatcher(this.watcher);
+  }
+
+  public focus() {
+    this.state.focussing = true;
+  }
+
+  public blur() {
+    this.state.focussing = false;
+  }
+}
+
+function wpWatcher() {
   return {
-    replace: true,
-    templateUrl: '/templates/work_packages/watchers/watcher.html',
-    link: workPackageWatcherController,
+    templateUrl: '/components/wp-watchers/wp-watcher-entry.directive.html',
     scope: {
       watcher: '='
-    }
+    },
+    link: (scope, element, attr, controller:WatchersPanelController) => {
+      scope.$ctrl.panelCtrl = controller;
+    },
+    require: '^watchersPanel',
+    controller: WatcherEntryController,
+    controllerAs: '$ctrl',
+    bindToController: true
+
   };
 };
+
+wpDirectivesModule.directive('wpWatcher', wpWatcher);
