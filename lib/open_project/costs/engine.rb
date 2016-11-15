@@ -351,7 +351,7 @@ module OpenProject::Costs
     end
 
     module EagerLoadedCosts
-      def eager_loaded_work_packages(ids)
+      def add_eager_loading(*args)
         material = WorkPackage::MaterialCosts.new
         labor = WorkPackage::LaborCosts.new
 
