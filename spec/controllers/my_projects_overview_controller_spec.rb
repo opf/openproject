@@ -115,7 +115,7 @@ describe MyProjectsOverviewsController, type: :controller do
         let(:save_result) { true }
         it 'assigns all blocks that exist' do
           expect(controller).to set_flash[:notice].to I18n.t(:notice_successful_update)
-          expect(response).to redirect_to(action: :page_layout)
+          expect(response).to redirect_to(action: :index)
         end
       end
 

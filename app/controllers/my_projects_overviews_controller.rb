@@ -83,7 +83,7 @@ class MyProjectsOverviewsController < ApplicationController
 
     if overview.save
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to(action: :page_layout)
+      redirect_to(action: :index)
     else
       flash[:error] = I18n.t(:error_saving_changes,
                              errors: overview.errors.full_messages.join(', '))
