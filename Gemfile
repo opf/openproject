@@ -224,6 +224,7 @@ group :development do
   gem 'pry-doc', '~> 0.9.0'
 
   gem 'rubocop'
+  gem 'active_record_query_trace'
 end
 
 group :development, :test do
