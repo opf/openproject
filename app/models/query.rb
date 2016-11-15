@@ -239,9 +239,9 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = ::Query.available_columns
     @available_columns += if project
-                            project.all_work_package_custom_fields
+                            project.all_work_package_custom_fields(include: :translations)
                           else
-                            WorkPackageCustomField.all
+                            WorkPackageCustomField.includes(:translations).all
                           end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
 
     # have to use this instead of
