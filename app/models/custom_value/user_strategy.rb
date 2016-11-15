@@ -30,7 +30,9 @@
 class CustomValue::UserStrategy < CustomValue::FormatStrategy
   def typed_value
     unless value.blank?
-      User.find_by(id: value)
+      RequestStore.fetch(:"user_custom_value_#{value}") do
+        User.find_by(id: value)
+      end
     end
   end
 
