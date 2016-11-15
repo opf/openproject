@@ -29,14 +29,19 @@
 module API
   module V3
     class ParamsToQueryService
-      attr_accessor :model
+      attr_accessor :model, :scope
 
-      def initialize(model)
+      def initialize(model, scope: nil)
         self.model = model
+        self.scope = scope
       end
 
       def call(params)
         query = new_query
+
+        unless scope.nil?
+          query.scope = scope
+        end
 
         query = apply_filters(query, params)
         query = apply_order(query, params)
@@ -49,7 +54,7 @@ module API
       def new_query
         model_name = model.name
 
-        query_class = Kernel.const_get "::Queries::#{model_name.pluralize}::#{model_name}Query"
+        query_class = "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
 
         query_class.new
       end

@@ -38,6 +38,8 @@ class Queries::BaseQuery
   validate :filters_valid,
            :sortation_valid
 
+  attr_accessor :scope
+
   def initialize
     @scope = self.class.default_scope
     @filters = []
@@ -83,9 +85,7 @@ class Queries::BaseQuery
 
   protected
 
-  attr_accessor :scope,
-                :filters,
-                :orders
+  attr_accessor :filters, :orders
 
   def filters_valid
     filters.each do |filter|
