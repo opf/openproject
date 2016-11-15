@@ -47,7 +47,7 @@ describe Redmine::WikiFormatting::Macros, type: :helper do
     assert format_text(text).match(/Hello world!/)
     # escaping
     text = '!{{hello_world}}'
-    assert_equal '<p>{{ DOUBLE_LEFT_CURLY_BRACE }}hello_world}}</p>', format_text(text)
+    assert_equal '<p>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}hello_world}}</p>', format_text(text)
   end
 
   it 'should macro include' do

@@ -71,10 +71,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/rails-angular-xss
-  revision: 5f5622ec7b592e890e0d8ae8dbf786cf61ea2d24
-  ref: 5f5622e
+  revision: a45267d53d32610bad01f903e9f1b49a81b7c37b
+  ref: a45267d5
   specs:
-    rails-angular-xss (0.2.0.pre.pre)
+    rails-angular-xss (0.3.0.pre.pre)
       rails (>= 5.0.0, < 5.1)
 
 GIT

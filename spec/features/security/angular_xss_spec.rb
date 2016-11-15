@@ -48,7 +48,7 @@ describe 'Angular expression escaping', type: :feature do
       let(:login_string) { '{{ 3 + 5 }}' }
 
       it 'does not evaluate the expression' do
-        expect(login_field.value).to eq('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
+        expect(login_field.value).to eq('{{ $root.DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
       end
     end
 
@@ -127,7 +127,7 @@ describe 'Angular expression escaping', type: :feature do
       content.set '{{macro_list(wiki)}}'
       btn_preview.click
 
-      expect(preview.text).not_to include '{{ DOUBLE_LEFT_CURLY_BRACE }}'
+      expect(preview.text).not_to include '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}'
       expect(preview.text).to match /\{\{[\s\w]+\}\}/
 
       btn_cancel.click
@@ -145,7 +145,7 @@ describe 'Angular expression escaping', type: :feature do
     end
 
     it 'escapes the expression' do
-      expect(html).to include('{{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
+      expect(html).to include('{{ $root.DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }}')
     end
 
     it 'marks the string as safe' do
