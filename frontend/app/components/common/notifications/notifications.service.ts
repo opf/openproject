@@ -28,7 +28,7 @@
 
 import {opServicesModule} from '../../../angular-modules';
 
-function NotificationsService($rootScope, ConfigurationService) {
+function NotificationsService($rootScope, $timeout, ConfigurationService) {
   var createNotification = function (message) {
       if (typeof message === 'string') {
         return {message: message};
@@ -93,14 +93,12 @@ function NotificationsService($rootScope, ConfigurationService) {
   });
 
   // public
-  var add = function (message, timeout = 5000) {
+  var add = function (message, timeoutAfter = 5000) {
       var notification = createNotification(message);
       broadcast('notification.add', notification);
       notificationAdded(notification);
-      if (ConfigurationService.autoHidePopups()) {
-        window.setTimeout(function () {
-          remove(notification);
-        }, timeout); // || ConfigurationService.autoHidePopupTimeout());
+      if (message.type === 'success' && ConfigurationService.autoHidePopups()) {
+        $timeout(() => remove(notification), timeoutAfter);
       }
       return notification;
     },
