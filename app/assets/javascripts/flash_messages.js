@@ -32,4 +32,8 @@ jQuery(document).ready(function($) {
       $(this).parent('.flash, .errorExplanation').remove();
     }
   });
+
+  setTimeout(function() {
+    $('.flash.autohide-notification').remove();
+  }, 5000);
 });

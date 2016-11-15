@@ -40,6 +40,7 @@ export const animationsModule = angular.module('openproject.animations', [
 export const opConfigModule = angular.module('openproject.config', []);
 export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
+  'openproject.config',
   'openproject.helpers',
   'openproject.workPackages.config',
   'openproject.workPackages.helpers',
@@ -147,6 +148,10 @@ export const opApiModule = angular.module('openproject.api', [
 ]);
 
 export const opTemplatesModule = angular.module('openproject.templates', []);
+
+export const opNotificationsModule = angular.module('openproject.notifications', [
+  'openproject.config'
+]);
 
 // refactoring
 angular.module('openproject.inplace-edit', []);

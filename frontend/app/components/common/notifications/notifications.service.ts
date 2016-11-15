@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function notifications($rootScope) {
+import {opServicesModule} from '../../../angular-modules';
+
+function NotificationsService($rootScope, $timeout, ConfigurationService) {
   var createNotification = function (message) {
       if (typeof message === 'string') {
         return {message: message};
@@ -39,17 +41,17 @@ function notifications($rootScope) {
     createWarningNotification = function (message) {
       return _.extend(createNotification(message), {type: 'warning'});
     },
-    createErrorNotification = function (message, errors) {
+    createErrorNotification = function (message, errors : Array<any>) {
       return _.extend(createNotification(message), {
         type: 'error',
-        errors: errors || []
+        errors: errors
       });
     },
     createNoticeNotification = function (message) {
       return _.extend(createNotification(message), {type: ''});
     },
-    createWorkPackageUploadNotification = function (message, uploads) {
-      if (!uploads) {
+    createWorkPackageUploadNotification = function (message, uploads : Array<any>) {
+      if (!uploads.length) {
         throw new Error('Cannot create an upload notification without uploads!');
       }
       return _.extend(createNotification(message), {
@@ -91,13 +93,16 @@ function notifications($rootScope) {
   });
 
   // public
-  var add = function (message) {
+  var add = function (message, timeoutAfter = 5000) {
       var notification = createNotification(message);
       broadcast('notification.add', notification);
       notificationAdded(notification);
+      if (message.type === 'success' && ConfigurationService.autoHidePopups()) {
+        $timeout(() => remove(notification), timeoutAfter);
+      }
       return notification;
     },
-    addError = function (message, errors) {
+    addError = function (message, errors : Array<any> = []) {
       return add(createErrorNotification(message, errors));
     },
     addWarning = function (message) {
@@ -109,7 +114,7 @@ function notifications($rootScope) {
     addNotice = function (message) {
       return add(createNoticeNotification(message));
     },
-    addWorkPackageUpload = function (message, uploads) {
+    addWorkPackageUpload = function (message, uploads : Array<any>) {
       return add(createWorkPackageUploadNotification(message, uploads));
     },
     remove = function (notification) {
@@ -127,6 +132,4 @@ function notifications($rootScope) {
   };
 }
 
-angular
-  .module('openproject.services')
-  .factory('NotificationsService', notifications);
+opServicesModule.factory('NotificationsService', NotificationsService);

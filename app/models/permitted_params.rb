@@ -275,7 +275,8 @@ class PermittedParams
 
   def pref
     params.require(:pref).permit(:hide_mail, :time_zone, :impaired, :theme,
-                                 :comments_sorting, :warn_on_leaving_unsaved)
+                                 :comments_sorting, :warn_on_leaving_unsaved,
+                                 :auto_hide_popups)
   end
 
   def project

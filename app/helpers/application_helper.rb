@@ -203,8 +203,14 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
-    html_options = { class: css_classes, role: 'alert' }.merge(html_options)
+    css_classes  = ["flash #{type} icon icon-#{type}", html_options.delete(:class)]
+
+    # Add autohide class to notice flashes if configured
+    if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
+      css_classes << 'autohide-notification'
+    end
+
+    html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
 
     content_tag :div, html_options do
       if User.current.impaired?
