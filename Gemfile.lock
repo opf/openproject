@@ -124,6 +124,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_record_query_trace (1.5.4)
     activejob (5.0.0.1)
       activesupport (= 5.0.0.1)
       globalid (>= 0.3.6)
@@ -592,6 +593,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
+  active_record_query_trace
   activemodel-serializers-xml (~> 1.0.1)
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
