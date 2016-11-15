@@ -228,16 +228,19 @@ describe 'API v3 Watcher resource', type: :request do
   describe '#available_watchers' do
     let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
+    let(:returned_user_ids) {
+      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
+    }
 
     before do
       available_watcher
       get available_watchers_path
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'User'
+    it_behaves_like 'API V3 collection response', 2, 2, 'User'
 
     it 'includes a user eligible for watching' do
-      expect(subject.body).to be_json_eql(current_user.id).at_path('_embedded/elements/0/id')
+      expect(returned_user_ids).to match_array([available_watcher.id, current_user.id])
     end
 
     context 'when the user does not have the necessary permissions' do
