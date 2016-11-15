@@ -77,6 +77,31 @@ export class HalLink implements HalLinkInterface {
   }
 
   /**
+   * Prepare the templated link and return a CallableHalLink with the templated parameters set
+   *
+   * @returns {CallableHalLink}
+   */
+  public $prepare(templateValues:{[templateKey:string]: string}) {
+    if (!this.templated) {
+      throw 'The link ' + this.href + ' is not templated.';
+    }
+
+    let href = _.clone(this.href);
+    _.each(templateValues, (value, key) => {
+      let regexp = new RegExp('{' + key + '}');
+      href = href.replace(regexp, value);
+    });
+
+    return HalLink.callable({
+      href: href,
+      title: this.title,
+      method: this.method,
+      templated: false,
+      payload: this.payload
+    });
+  }
+
+  /**
    * Return a function that fetches the resource.
    *
    * @returns {CallableHalLink}
@@ -95,6 +120,7 @@ export class HalLink implements HalLinkInterface {
 
     return linkFunc;
   }
+
 }
 
 function halLinkService(...args) {
