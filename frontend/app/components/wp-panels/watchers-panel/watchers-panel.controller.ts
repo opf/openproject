@@ -48,8 +48,7 @@ export class WatchersPanelController {
               public $q,
               public I18n,
               public wpNotificationsService: WorkPackageNotificationService,
-              public wpCacheService: WorkPackageCacheService,
-              public wpWatchers) {
+              public wpCacheService: WorkPackageCacheService) {
 
     this.text = {
       loading: I18n.t('js.watchers.label_loading'),
