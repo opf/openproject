@@ -40,11 +40,10 @@ module API
           authorize(:add_work_package_watchers, context: @work_package.project)
 
           service = ::API::V3::ParamsToQueryService.new(User)
-          service.scope = @work_package.addable_watcher_users
           query = service.call(params)
 
           if query.valid?
-            users = query.results.includes(:preference)
+            users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
             ::API::V3::Users::PaginatedUserCollectionRepresenter.new(
               users,
               api_v3_paths.users,

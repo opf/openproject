@@ -29,19 +29,14 @@
 module API
   module V3
     class ParamsToQueryService
-      attr_accessor :model, :scope
+      attr_accessor :model
 
-      def initialize(model, scope: nil)
+      def initialize(model)
         self.model = model
-        self.scope = scope
       end
 
       def call(params)
         query = new_query
-
-        unless scope.nil?
-          query.scope = scope
-        end
 
         query = apply_filters(query, params)
         query = apply_order(query, params)
