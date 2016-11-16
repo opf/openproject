@@ -41,12 +41,15 @@ export class WatcherEntryController {
     focussing: false
   };
 
-  constructor(public I18n) {
+  constructor(public $element, public I18n, public $timeout) {
     'ngInject';
 
     this.text = {
       remove: I18n.t('js.label_remove_watcher', { name: this.watcher.name })
     };
+
+    this.$element.bind('focusin', this.focus.bind(this));
+    this.$element.bind('focusout', this.blur.bind(this));
   }
 
   public remove() {
@@ -55,12 +58,17 @@ export class WatcherEntryController {
   }
 
   public focus() {
-    this.state.focussing = true;
+    this.$timeout(() => {
+      this.state.focussing = true;
+    });
   }
 
   public blur() {
-    this.state.focussing = false;
+    this.$timeout(() => {
+      this.state.focussing = false;
+    });
   }
+
 }
 
 function wpWatcher() {
