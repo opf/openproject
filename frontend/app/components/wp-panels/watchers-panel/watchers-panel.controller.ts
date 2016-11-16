@@ -99,6 +99,7 @@ export class WatchersPanelController {
             values: query,
           }
         }]),
+        sortBy: JSON.stringify([["name", "asc"]])
       },
       {
         caching: {enabled: false}
