@@ -22,6 +22,7 @@
                typeahead-on-select="vm.addWatcher($model)"
                typeahead-no-results="noResults"
                typeahead-wait-ms="100"
+               typeahead-template-url="/components/common/typeahead/users/typeahead-match.html"
                placeholder="{{ ::vm.text.autocomplete.placeholder }}"
                uib-typeahead="item as item.name for item in vm.autocompleteWatchers($viewValue)">
       </form>
