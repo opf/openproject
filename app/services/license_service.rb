@@ -45,6 +45,18 @@ class LicenseService
     @license.present?
   end
 
+  def blocked?
+    if @license.nil?
+      return true
+    else
+      @license.block_changes?
+    end
+  end
+
+  def unblocked?
+    !blocked?
+  end
+
   def load_license
     begin
       # TODO: Try to find the first *.openproject-license file

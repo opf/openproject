@@ -45,7 +45,7 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     { partial: 'administration',
       if: Proc.new { User.current.admin? } },
     { partial: 'upsale',
-      if: Proc.new { LicenseService.instance.block_changes? } }
+      if: Proc.new { LicenseService.instance.blocked? } }
   )
 end
 

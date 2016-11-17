@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title "#{l('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
 
-<% if LicenseService.instance.block_changes? %>
+<% if LicenseService.instance.blocked? %>
   <div style="background: darkRed; color: white; padding: 6px; border-radius: 2px;">This feature is only availble for Enterprise Edition customers.</div>
 <% end %>
 
