@@ -32,14 +32,14 @@ import {todayLine} from "./wp-timeline.today-line";
 const cssClassTableBody = ".work-package-table";
 const cssClassHeader = ".wp-timeline-header";
 
-export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLDivElement) => any;
+export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
 type GlobalElementsRegistry = {[name: string]: GlobalElement};
 
 export class WpTimelineHeader {
 
   private globalElementsRegistry: GlobalElementsRegistry = {};
 
-  private globalElements: {[type: string]: HTMLDivElement} = {};
+  private globalElements: {[type: string]: HTMLElement} = {};
 
   private headerCell: HTMLElement;
 
@@ -49,6 +49,11 @@ export class WpTimelineHeader {
 
   constructor() {
     this.addElement("todayline", todayLine);
+
+    setTimeout(() => {
+      console.log("remove");
+      this.removeElement("todayline");
+    }, 4000);
   }
 
   refreshView(vp: TimelineViewParameters) {
@@ -56,9 +61,7 @@ export class WpTimelineHeader {
 
     const enabledGlobalElements = _.keys(this.globalElementsRegistry);
     const createdGlobalElements = _.keys(this.globalElements);
-
     const newGlobalElements = _.difference(enabledGlobalElements, createdGlobalElements);
-    const removedGlobalElements = _.difference(createdGlobalElements, enabledGlobalElements);
 
     // new elements
     for (const newElem of newGlobalElements) {
@@ -72,17 +75,11 @@ export class WpTimelineHeader {
       this.globalElements[newElem] = elem;
     }
 
-    // removed elements
-    for (const removedElem of removedGlobalElements) {
-      this.globalElements[removedElem].remove();
-    }
-
     // update elements
     for (const elemType of _.keys(this.globalElements)) {
       const elem = this.globalElements[elemType];
       this.globalElementsRegistry[elemType](vp, elem);
     }
-
   }
 
   addElement(name: string, renderer: GlobalElement) {
@@ -90,6 +87,7 @@ export class WpTimelineHeader {
   }
 
   removeElement(name: string) {
+    this.globalElements[name].remove();
     delete this.globalElementsRegistry[name];
   }
 

@@ -44,8 +44,6 @@ export class WorkPackageTimelineCell {
 
   private bar: HTMLDivElement = null;
 
-  // private globalElements: {[type: string]: HTMLDivElement} = {};
-
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
               private scope: IScope,
               private states: States,
@@ -56,18 +54,10 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    // scopedObservable(
-    //   this.scope,
-    //   this.workPackageTimelineService.addWorkPackage(this.workPackageId))
-    //   .subscribe(renderInfo => {
-    //     this.updateView(renderInfo);
-    //   });
-
     this.disposable = this.workPackageTimelineService.addWorkPackage(this.workPackageId)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
       });
-
   }
 
   // TODO never called so far

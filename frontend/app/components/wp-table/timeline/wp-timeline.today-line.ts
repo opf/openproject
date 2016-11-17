@@ -33,10 +33,9 @@ import Moment = moment.Moment;
 
 
 // Today Line
-export function todayLine(viewParams: TimelineViewParameters, elem: HTMLDivElement) {
-  // elem.style.position = "absolute";
+export function todayLine(viewParams: TimelineViewParameters, elem: HTMLElement) {
   elem.style.width = "2px";
-  elem.style.borderLeft = "2px solid red";
+  elem.style.borderLeft = "2px dotted red";
   const offsetToday = viewParams.now.diff(viewParams.dateDisplayStart, "days");
   elem.style.left = calculatePositionValueForDayCount(viewParams, offsetToday);
   elem.style.marginLeft = viewParams.scrollOffsetInPx + "px";
