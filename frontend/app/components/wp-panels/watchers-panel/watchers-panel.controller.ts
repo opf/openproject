@@ -54,7 +54,7 @@ export class WatchersPanelController {
       loading: I18n.t('js.watchers.label_loading'),
       loadingError: I18n.t('js.watchers.label_error_loading'),
       autocomplete: {
-        placeholder: I18n.t('js.watchers.tyepahead_placeholder')
+        placeholder: I18n.t('js.watchers.typeahead_placeholder')
       }
     };
 

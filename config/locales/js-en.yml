@@ -231,7 +231,7 @@ en:
       label_search_watchers: Search watchers
       label_add: Add watchers
       label_discard: Discard selection
-      tyepahead_placeholder: Search for possible watchers
+      typeahead_placeholder: Search for possible watchers
 
     filter_labels:
       assigned_to: "Assignee"
