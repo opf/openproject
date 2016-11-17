@@ -30,7 +30,9 @@
 class CustomValue::VersionStrategy < CustomValue::FormatStrategy
   def typed_value
     unless value.blank?
-      Version.find_by(id: value)
+      RequestStore.fetch(:"version_custom_value_#{value}") do
+        Version.find_by(id: value)
+      end
     end
   end
 
