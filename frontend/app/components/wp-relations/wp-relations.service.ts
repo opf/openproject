@@ -29,6 +29,7 @@
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
 
 export class WorkPackageRelationsService {
   constructor(protected $rootScope:ng.IRootScopeService,
@@ -36,70 +37,33 @@ export class WorkPackageRelationsService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
+              protected PathHelper,
               protected NotificationsService) {
   }
 
   public addCommonRelation(workPackage, relationType, relatedWpId) {
     const params = {
-      to_id: relatedWpId,
-      relation_type: relationType
+      _links: {
+        from: { href: workPackage.href },
+        to: { href: this.PathHelper.apiV3WorkPackagePath(relatedWpId) }
+      },
+      type: relationType
     };
 
     return workPackage.addRelation(params);
   }
 
-  public changeRelationDescription(relation, description) {
-    return relation.update({
-      description: description
-    });
-  }
+  public getRelationTypes(rejectParentChild?:boolean):any[] {
+    let relationTypes = RelationResource.TYPES();
 
-  public changeRelationType(relation, relationType) {
-    return relation.update({
-      relation_type: relationType
-    });
-  }
-
-  public removeCommonRelation(relation) {
-    return relation.remove();
-  }
-
-  public getTranslatedRelationTitle(relationTypeName:string) {
-    return this.getRelationTypeObjectByName(relationTypeName).label;
-  }
-
-  public getRelationTypeObjectByType(type:string) {
-    return _.find(this.configuration.relationTypes, {type: type});
-  }
-
-  public getRelationTypeObjectByName(name:string) {
-    return _.find(this.configuration.relationTypes, {name: name});
-  }
-
-  public getRelationTypes(rejectParentChild?:boolean) {
-
-    let relationTypes = angular.copy(this.configuration.relationTypes);
     if (rejectParentChild) {
-      _.remove(relationTypes, (relationType) => {
-        return relationType.name === 'parent' || relationType.name === 'children';
-      });
+      _.pull(relationTypes, 'parent', 'children');
     }
-    return relationTypes;
-  }
 
-  public configuration = {
-    relationTypes: [
-      {name: 'parent', type: 'parent', label: this.I18n.t('js.relation_labels.parent')},
-      {name: 'children', type: 'children', label: this.I18n.t('js.relation_labels.children')},
-      {name: 'relatedTo', type: 'Relation::Relates', id: 'relates', label: this.I18n.t('js.relation_labels.relates')},
-      {name: 'duplicates', type: 'Relation::Duplicates', label: this.I18n.t('js.relation_labels.duplicates')},
-      {name: 'duplicated', type: 'Relation::Duplicated', label: this.I18n.t('js.relation_labels.duplicated')},
-      {name: 'blocks', type: 'Relation::Blocks', label: this.I18n.t('js.relation_labels.blocks')},
-      {name: 'blocked', type: 'Relation::Blocked', label: this.I18n.t('js.relation_labels.blocked')},
-      {name: 'precedes', type: 'Relation::Precedes', label: this.I18n.t('js.relation_labels.precedes')},
-      {name: 'follows', type: 'Relation::Follows', label: this.I18n.t('js.relation_labels.follows')}
-    ]
-  };
+    return relationTypes.map((key:string) => {
+      return { name: key, label: this.I18n.t('js.relation_labels.' + key) };
+    });
+  }
 }
 
 wpDirectivesModule.service('wpRelationsService', WorkPackageRelationsService);

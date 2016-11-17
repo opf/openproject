@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 1 }
     let(:type) { :list }
     let(:class_key) { :project_id }
@@ -63,7 +62,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       let(:project) { nil }
 
       it 'is an array of group values' do
@@ -82,7 +81,7 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
           .and_yield(parent, 0)
           .and_yield(child, 1)
 
-        expect(instance.values)
+        expect(instance.allowed_values)
           .to match_array [[parent.name, parent.id.to_s],
                            ["-- #{child.name}", child.id.to_s]]
       end

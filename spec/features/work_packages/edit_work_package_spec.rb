@@ -100,7 +100,8 @@ describe 'edit work package', js: true do
     end
 
     it 'does not hide empty progress while it is being edited' do
-      wp_page.update_attributes({ percentageDone: '0' }, save: false)
+      field = wp_page.work_package_field(:percentageDone)
+      field.update('0', save: false, expect_failure: true)
 
       expect(page).to have_text("Progress (%)")
     end
@@ -149,9 +150,14 @@ describe 'edit work package', js: true do
     wp_page.update_attributes assignee: '-'
     wp_page.expect_attributes assignee: '-'
 
-    # Ensure the value is not only stored in the WP resource
     wp_page.visit!
-    wp_page.ensure_page_loaded
+
+    # Another (empty) journal should exist now
+    expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
+                                  text: work_package.journals.last.user.name,
+                                  wait: 10,
+                                  count: 2)
+
     wp_page.view_all_attributes
     wp_page.expect_attributes assignee: '-'
 
@@ -193,13 +199,12 @@ describe 'edit work package', js: true do
     wp_page.update_comment 'hallo welt'
     wp_page.preview_comment
 
-    expect(page).to have_text 'hallo welt'
-    expect(page).to have_selector('.inplace-edit--preview', text: 'hallo welt')
+    expect(page).to have_selector('.inplace-edit--preview', text: 'hallo welt', wait: 10)
 
     wp_page.save_comment
 
     wp_page.expect_notification(message: 'The comment was successfully added.')
-    expect(page).to have_selector('.user-comment .message', text: 'hallo welt')
+    expect(page).to have_selector('.user-comment .message', text: 'hallo welt', wait: 10)
   end
 
   it 'updates the presented custom fields based on the selected type' do
@@ -222,9 +227,22 @@ describe 'edit work package', js: true do
     too_long = ('Too long. Can you feel it? ' * 10).strip
 
     wp_page.ensure_page_loaded
-    wp_page.update_attributes subject: too_long
+    field = wp_page.work_package_field(:subject)
+    field.update(too_long, expect_failure: true)
 
     wp_page.expect_notification message: 'Subject is too long (maximum is 255 characters)',
                                 type: 'error'
+  end
+
+  it 'submits the edit mode when pressing enter' do
+    page.click_button(I18n.t('js.button_edit'))
+    subject_field = wp_page.edit_field(:subject)
+
+    subject_field.set_value 'My new subject!'
+    subject_field.input_element.send_keys(:return)
+
+    wp_page.expect_notification(message: 'Successful update')
+    subject_field.expect_inactive!
+    subject_field.expect_state_text 'My new subject!'
   end
 end

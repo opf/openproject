@@ -40,6 +40,7 @@ export const animationsModule = angular.module('openproject.animations', [
 export const opConfigModule = angular.module('openproject.config', []);
 export const opServicesModule = angular.module('openproject.services', [
   'openproject.uiComponents',
+  'openproject.config',
   'openproject.helpers',
   'openproject.workPackages.config',
   'openproject.workPackages.helpers',
@@ -148,6 +149,10 @@ export const opApiModule = angular.module('openproject.api', [
 
 export const opTemplatesModule = angular.module('openproject.templates', []);
 
+export const opNotificationsModule = angular.module('openproject.notifications', [
+  'openproject.config'
+]);
+
 // refactoring
 angular.module('openproject.inplace-edit', []);
 angular.module('openproject.responsive', []);
@@ -161,6 +166,8 @@ export const wpButtonsModule = angular.module('openproject.wpButtons',
 
 // main app
 var angularDragula:any = require('angular-dragula');
+var typeahead:any = require('angular-ui-bootstrap/src/typeahead/index-nocss.js');
+
 export const openprojectModule = angular.module('openproject', [
   'ui.router',
   'openproject.animations',
@@ -173,6 +180,7 @@ export const openprojectModule = angular.module('openproject', [
   'ngAnimate',
   'ngAria',
   'ngSanitize',
+  typeahead,
   angularDragula(angular),
   'ngDialog',
   'truncate',

@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 8abfca801cda8c4b3b44f1ffc8aea9e39604d1be
-  branch: dev
+  revision: fb2f19d5f632df43a2b4a4a9b09a05608299ece3
+  branch: release/6.1
   specs:
-    openproject-translations (6.1.0)
+    openproject-translations (6.1.1)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -255,7 +255,7 @@ GEM
       representable (~> 2.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.1)
     equalizer (0.0.11)
@@ -293,6 +293,7 @@ GEM
     fuubar (2.2.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    get_process_mem (0.2.1)
     gherkin (4.0.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -335,7 +336,7 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
-    livingstyleguide (2.0.0)
+    livingstyleguide (2.0.1)
       minisyntax (>= 0.2.5)
       redcarpet
       sass
@@ -466,6 +467,7 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    retriable (2.1.0)
     roar (1.0.4)
       representable (>= 2.0.1, < 2.4.0)
     rspec (3.5.0)
@@ -490,6 +492,8 @@ GEM
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
+    rspec-retry (0.5.2)
+      rspec-core (> 3.3, < 3.6)
     rspec-support (3.5.0)
     rubocop (0.43.0)
       parser (>= 2.3.1.1, < 3.0)
@@ -562,6 +566,9 @@ GEM
     unicorn (5.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
+    unicorn-worker-killer (0.4.4)
+      get_process_mem (~> 0)
+      unicorn (>= 4, < 6)
     url (0.3.2)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -603,7 +610,7 @@ DEPENDENCIES
   bourbon (~> 4.2.0)
   capybara (~> 2.8.1)
   capybara-ng (~> 0.2.7)
-  capybara-screenshot (~> 1.0.13)
+  capybara-screenshot (~> 1.0.14)
   capybara-select2!
   carrierwave!
   cells-erb (~> 0.0.8)
@@ -638,7 +645,7 @@ DEPENDENCIES
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
-  livingstyleguide (~> 2.0.0)
+  livingstyleguide (~> 2.0.1)
   multi_json (~> 1.12.1)
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.14.0)
@@ -672,12 +679,14 @@ DEPENDENCIES
   reform (~> 1.2.6)
   request_store (~> 1.3.1)
   responders (~> 2.3)
+  retriable (~> 2.1)
   roar (~> 1.0.0)
   rspec (~> 3.5.0)
   rspec-activemodel-mocks (~> 1.0.3)!
   rspec-example_disabler!
   rspec-legacy_formatters (~> 1.0.1)
   rspec-rails (~> 3.5.2)
+  rspec-retry (~> 0.5.2)
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-progressbar
@@ -699,6 +708,7 @@ DEPENDENCIES
   transactional_lock!
   tzinfo-data (~> 1.2016.1)
   unicorn
+  unicorn-worker-killer
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 2.1.0)
@@ -708,4 +718,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.5
+   1.13.6

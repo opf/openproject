@@ -301,6 +301,9 @@ OpenProject::Application.routes.draw do
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
       get '/create_new' => 'work_packages#index', on: :collection, as: 'new_split'
       get '/new' => 'work_packages#index', on: :collection, as: 'new'
+
+      # state for show view in project context
+      get '(/*state)' => 'work_packages#show', on: :member, as: ''
     end
 
     resources :activity, :activities, only: :index, controller: 'activities'

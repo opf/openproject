@@ -94,6 +94,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   background-color: $nm-color-warning-background
   border-color: $nm-color-warning-border
 
+%info-placeholder
+  background-color: $nm-color-background
+  border-color: $nm-color-border
+
 @mixin messages-icon($top:rem-calc(11), $left:rem-calc(10), $size:rem-calc(18))
   @include icon-common
   position: absolute
@@ -155,8 +159,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @extend %nm-icon-warning
 
   &.-info::before
-    @include messages-icon
-    @extend %nm-icon-info
+    @extend %info-placeholder
+    &::before
+      @include messages-icon
+      @extend %nm-icon-info
 
   &.-upload
     padding: $nm-upload-box-padding
@@ -321,6 +327,17 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     &::before
       @extend %nm-icon-error
       color: $nm-color-error-icon
+
+  &.info
+    @extend %info-placeholder
+
+    &::before
+      @include messages-icon
+      @extend %nm-icon-info
+
+    &::before
+      @extend %nm-icon-info
+      color: $nm-color-info-icon
 
   &.warning
     @extend %warning-placeholder

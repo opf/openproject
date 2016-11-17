@@ -48,6 +48,10 @@ describe ::API::V3::Utilities::PathHelper do
     RequestStore.store[:cached_root_path] = nil
   end
 
+  after(:each) do
+    RequestStore.clear!
+  end
+
   shared_examples_for 'api v3 path' do |url|
     it_behaves_like 'path', "/api/v3#{url}"
   end
@@ -327,10 +331,18 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
-  describe '#user' do
-    subject { helper.user 1 }
+  describe 'users paths' do
+    describe '#users' do
+      subject { helper.users }
 
-    it_behaves_like 'api v3 path', '/users/1'
+      it_behaves_like 'api v3 path', '/users'
+    end
+
+    describe '#user' do
+      subject { helper.user 1 }
+
+      it_behaves_like 'api v3 path', '/users/1'
+    end
   end
 
   describe '#version' do

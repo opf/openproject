@@ -186,9 +186,9 @@ module API
         end
 
         def convert_attribute(attribute, append_id: false)
-          @conversion_wp ||= WorkPackage.new
+          @@conversion_wp ||= WorkPackage.new
           ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
-                                                             context: @conversion_wp,
+                                                             context: @@conversion_wp,
                                                              refer_to_ids: append_id)
         end
 

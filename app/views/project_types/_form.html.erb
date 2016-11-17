@@ -43,18 +43,26 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= f.check_box :allows_association %>
 </div>
 
-<div class="box">
-  <p>
-    <label><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
-    <%= render partial: "checkbox_list",
-               locals: { model: project_type,
-                         attribute_name: :reported_project_status_ids,
-                         active_list: project_type.reported_project_statuses,
-                         available_list: ReportedProjectStatus.all,
-                         f: f
-                       } %>
-  </p>
-</div>
+<fieldset class="form--fieldset -with-control" id="project-type-statuses">
+  <legend class="form--fieldset-legend"><%= ProjectType.human_attribute_name(:reported_project_statuses) %></legend>
+
+  <div class="form--fieldset-control">
+    <span class="form--fieldset-control-container">
+      (<%= check_all_links 'project-type-statuses' %>)
+    </span>
+  </div>
+
+  <% ReportedProjectStatus.all.each do |association| %>
+  <div class="form--field">
+    <%= f.collection_check_box :reported_project_status_ids,
+                               association.id,
+                               project_type.reported_project_statuses.include?(association),
+                               association.name %>
+
+  </div>
+  <% end %>
+</fieldset>
+
 
 <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <%= link_to l(:button_cancel), project_types_path, class: 'button' %>

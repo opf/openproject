@@ -5,6 +5,7 @@
        ng-required="vm.field.required"
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
+       ng-keydown="vm.handleUserSubmitOnEnter($event)"
        transform-float-value
        ng-disabled="vm.workPackage.inFlight"
        focus="vm.shouldFocus()"

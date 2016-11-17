@@ -27,7 +27,7 @@
 #++
 
 worker_processes Integer(ENV['WEB_CONCURRENCY'] || 2)
-timeout Integer(ENV['WEB_TIMEOUT'] || 15)
+timeout Integer(ENV['WEB_TIMEOUT'] || 300)
 preload_app true
 
 # Preloading the unicorn server to have all workers spawn the application

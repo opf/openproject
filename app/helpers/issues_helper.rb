@@ -56,21 +56,6 @@ module IssuesHelper
       <strong>#{@cached_label_priority}</strong>: #{h(issue.priority.name)}".html_safe)
   end
 
-  # Find the name of an associated record stored in the field attribute
-  def find_name_by_reflection(field, id)
-    association = WorkPackage.reflect_on_association(field.to_sym)
-    if association
-      record = association.class_name.constantize.find_by(id: id)
-      return record.name if record
-    end
-  end
-
-  def entries_for_filter_select_sorted(query)
-    [['', '']] + query.available_work_package_filters.map { |field| [field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0]) }.compact.sort_by { |el|
-      ActiveSupport::Inflector.transliterate(el[0]).downcase
-    }
-  end
-
   def last_issue_note(issue)
     note_journals = issue.journals.select(&:notes?)
     return t(:text_no_notes) if note_journals.empty?

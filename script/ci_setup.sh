@@ -48,6 +48,5 @@ fi
 # run migrations for mysql or postgres
 if [ $1 != '' ]; then
   run "bundle exec rake db:migrate"
-  run "bundle exec rake spec:prepare"
-  run "bundle exec rake test:scm:setup:all"
+  run "bundle exec rake assets:precompile"
 fi

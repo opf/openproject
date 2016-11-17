@@ -124,16 +124,16 @@ time to finsih.
 [openproject@host] source ~/.profile
 [openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
-[openproject@host] nodenv install 0.12.7
+[openproject@host] nodenv install 6.9.1
 [openproject@host] nodenv rehash
-[openproject@host] nodenv global 0.12.7
+[openproject@host] nodenv global 6.9.1
 ```
 
 To check our Node installation we run `node --version`. It should output
 something very similar to:
 
 ```
-v0.12.7
+v6.9.1
 ```
 
 ## Installation of OpenProject
@@ -239,7 +239,7 @@ will seed the database in the french language.
 ### Secret Token
 
 You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
-In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively put set the environment variable in `/etc/environment` or pass it to the server upon start manually.
+In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in '/etc/apache2/envvars'.
 
 ```bash
 [openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile

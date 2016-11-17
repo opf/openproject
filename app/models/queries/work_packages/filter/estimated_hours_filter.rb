@@ -28,7 +28,7 @@
 #++
 
 class Queries::WorkPackages::Filter::EstimatedHoursFilter <
-  Queries::WorkPackages::Filter::BaseFilter
+  Queries::WorkPackages::Filter::WorkPackageFilter
   def type
     :integer
   end

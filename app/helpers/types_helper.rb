@@ -112,6 +112,29 @@ module ::TypesHelper
   end
 
   ##
+  # Calculates the visibility for all attributes of the given type.
+  #
+  # @param type [Type] Type for which to get the attribute visibilities.
+  # @return [Hash{String => String}] A map from each attribute name to the attribute's visibility.
+  def type_attribute_visibility(type)
+    enabled_cfs = type.custom_field_ids.join("|")
+    visibility = work_package_form_attributes
+      .keys
+      .select { |name| name !~ /^custom_field/ || name =~ /^custom_field_(#{enabled_cfs})$/ }
+      .map { |name| [name, attr_visibility(name, type) || "default"] }
+      .to_h
+  end
+
+  ##
+  # Updates the given type's attribute visibility map.
+  #
+  # @param type [Type] The type to be updated
+  # @return [Type] The updated type
+  def update_type_attribute_visibility!(type)
+    type.update! attribute_visibility: type_attribute_visibility(type)
+  end
+
+  ##
   # Checks visibility of a work package type's attribute.
   #
   # @param name [String] Name of the field of which to check the visibility.

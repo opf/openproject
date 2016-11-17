@@ -15,13 +15,13 @@
           ng-model="vm.field.fieldVal.raw"
           ng-attr-id="{{vm.htmlId}}">  </textarea>
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
-        <span ng-bind-html="vm.field.previewHtml"></span>
+        <span bind-unescaped-html="vm.field.previewHtml"></span>
     </div>
     <wp-edit-field-controls ng-show="!vm.inEditMode"
                             field-controller="vm"
-                            on-save="vm.submit()"
+                            on-save="vm.handleUserSubmit()"
                             on-cancel="vm.handleUserCancel()"
-                            save-title="{{ vm.field.text.saveTitle }}"
-                            cancel-title="{{ vm.field.text.cancelTitle }}">
+                            save-title="{{ vm.field.text.save }}"
+                            cancel-title="{{ vm.field.text.cancel }}">
     </wp-edit-field-controls>
 </div>

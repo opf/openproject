@@ -117,6 +117,7 @@ export class WorkPackageResource extends HalResource {
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
   public subject: string;
+  public updatedAt: Date;
   public lockVersion: number;
   public description: any;
   public inFlight: boolean;
@@ -189,7 +190,11 @@ export class WorkPackageResource extends HalResource {
    * be done automatically, but the backend does not provide typed collections yet.
    */
   protected $initialize(source) {
+    const oldSchema = this.schema;
     super.$initialize(source);
+
+    // Take over previously loaded schema resource
+    this.setExistingSchema(oldSchema);
 
     var attachments = this.attachments || {$source: void 0, $loaded: void 0};
     this.attachments = new AttachmentCollectionResource(
@@ -226,10 +231,13 @@ export class WorkPackageResource extends HalResource {
    * Do nothing, if the work package is being created.
    */
   public uploadPendingAttachments() {
-    if (!this.isNew) {
-      this.uploadAttachments(this.pendingAttachments)
-        .then(() => this.pendingAttachments = []);
-    }
+   if (!this.pendingAttachments.length) {
+     return;
+   }
+
+   const attachments = this.pendingAttachments;
+   this.pendingAttachments = [];
+   return this.uploadAttachments(attachments);
   }
 
   /**
@@ -247,7 +255,7 @@ export class WorkPackageResource extends HalResource {
         return this.updateAttachments();
       })
       .catch(error => {
-        wpNotificationsService.handleErrorResponse(error, this);
+        wpNotificationsService.handleRawError(error, this);
       });
   }
 
@@ -356,7 +364,6 @@ export class WorkPackageResource extends HalResource {
     var deferred = $q.defer();
     this.inFlight = true;
     const wasNew = this.isNew;
-
     this.updateForm(this.$source)
       .then(form => {
         const payload = this.mergeWithForm(form);
@@ -377,6 +384,10 @@ export class WorkPackageResource extends HalResource {
             angular.forEach(sentValues, (key) => {
               delete this.$pristine[key];
             });
+
+            // Remove the current form, otherwise old form data
+            // might still be used for the next edit field in #getSchema()
+            this.form = null;
 
             deferred.resolve(this);
           })
@@ -453,6 +464,25 @@ export class WorkPackageResource extends HalResource {
     });
   }
 
+  private setExistingSchema(previous) {
+    // Only when existing schema was loaded
+    if (!(previous && previous.$loaded)) {
+      return;
+    }
+
+    // If old schema was a regular schema and both href match
+    // assume they are matching
+    if (previous.href === this.schema.href) {
+      this.schema = previous;
+    }
+
+    // If old schema was embedded into the WP form, decide
+    // based on its baseSchema href.
+    if (previous.baseSchema && previous.baseSchema.href === this.schema.href) {
+      this.schema = previous;
+    }
+  }
+
   /**
    * Invalidate a set of linked resources of this work package.
    * And inform the cache service about the work package update.
@@ -460,16 +490,20 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the linked resources as properties.
    * Return a rejected promise, if the resource is not a property of the work package.
    */
-  public updateLinkedResources(...resourceNames): IPromise<{[linkName: string]: HalResource}> {
+  public updateLinkedResources(...resourceNames): ng.IPromise<any> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
 
     resourceNames.forEach(name => {
       const linked = this[name];
       resources[name] = linked ? linked.$update() : $q.reject();
     });
-    wpCacheService.updateWorkPackage(this);
 
-    return $q.all(resources);
+    const promise = $q.all(resources)
+    promise.then(() => {
+      wpCacheService.updateWorkPackage(this);
+    });
+
+    return promise;
   }
 
   /**

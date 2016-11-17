@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter::BaseFilter
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values
+    @allowed_values ||= begin
       ::Group.all.map { |g| [g.name, g.id.to_s] }
     end
   end
@@ -46,7 +46,7 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
     6
   end
 
-  def name
+  def human_name
     I18n.t('query_fields.member_of_group')
   end
 

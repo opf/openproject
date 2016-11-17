@@ -1,0 +1,230 @@
+
+# Group Forms
+
+This API provides forms as a concept to aid in editing or creating resources. The goal of forms is to:
+
+* make writable properties of a resource discoverable
+* show to which values a property can be set
+* validate changes to a resource and indicate validation errors
+
+These benefits aside, a client can freely choose to immediately edit a resource without prior validation by a form.
+In the case of an invalid request the edit will fail and return appropriate errors nevertheless.
+
+A form is associated to a single resource and aids in performing changes on that resource.
+When posting to a form endpoint with an empty request body or an empty JSON object,
+you will receive an initial form for the associated resource.
+Subsequent calls to the form should contain a single JSON object as described by the form.
+
+## Actions
+
+| Link                | Description                                                           | Condition                        |
+|:-------------------:| --------------------------------------------------------------------- | -------------------------------- |
+| validate            | Validate changes, show errors and allowed values for changed resource |                                  |
+| commit              | Actually perform changes to the resource                              | form content is valid            |
+| previewMarkup       | Post markup (e.g. textile) here to receive an HTML-rendered response  |                                  |
+
+## Linked Properties
+
+| Link                | Description                                      | Type          | Nullable | Supported operations |
+|:-------------------:| ------------------------------------------------ | ------------- | -------- | -------------------- |
+| self                | This form                                        | Form          |          | READ                 |
+
+## Embedded Properties:
+
+Apart from the linked properties, forms contain always three other embedded properties:
+
+* `payload`
+* `schema`
+* `validationErrors`
+
+Their purpose is explained below.
+
+### Payload
+
+The payload contains an edited version of the resource that will be modified when commiting the form.
+This representation contains all writable properties of the resource and reflects all changes that the latest call to **validate** included,
+thereby acting as a preview for the changes.
+
+In case the client tries to set the value to something invalid, the invalid change is also reflected here. However a validation error (see below)
+indicates that a commit of this payload would fail.
+
+It might happen that setting one property affects the allowed values for another property. Thus by changing a property A
+the current value of another property B might become invalid. If the client did not yet touch the value of B, the payload will
+contain a default value for that property. Nevertheless the client will also receive an apropriate validation error for value B.
+
+The content of this element *can* be used as a template for the request body of a call to **validate** or **commit**.
+
+A call to **validate** and **commit** does not need to include all properties that were defined in the `payload` section.
+It is only necessary to include the properties that you want to change, as well as the `lockVersion` if one is present.
+However you *may* include all the properties sent in the `payload` section.
+
+### Schema
+
+The schema embedded in a form is a normal [schema describing the underlying resource](#schema).
+However, the embedded schema can change with each revalidation of the form.
+For example it might be possible, that changing the type of a work package affects its available properties,
+as well as possible values for certain properties.
+As this makes the embedded schema very dynamic, it is not included as a static link.
+
+### Validation Errors
+
+Like a [schema](#schema) the validation errors build a dictionary where the key is a property name.
+Each value is an error object that indicates the error that occured validating the corresponding property.
+There are only key value pairs for properties that failed validation, the element is empty if all validations succeeded.
+
+However note that even in the case of validation errors, the response you receive from the form endpoint will be an HTTP 200.
+That is because the main purpose of a form is helping the client to sort out validation errors.
+
+## Example Form [/api/v3/example/form]
+
++ Model
+    + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/example/form" },
+                    "validate": {
+                        "href": "/api/v3/example/form",
+                        "method": "POST"
+                    },
+                    "previewMarkup": {
+                        "href": "/api/v3/render/textile",
+                        "method": "POST"
+                    },
+                    "commit": {
+                        "href": "/api/v3/example",
+                        "method": "PATCH"
+                    }
+                },
+
+                "_type": "Form",
+
+                "_embedded": {
+                    "payload": {
+                        "_links": {
+                            "status": { "href": "/api/v3/statuses/1" }
+                        },
+                        "_type": "Example",
+                        "lockVersion": 5,
+                        "subject": "An example title"
+                    },
+                    "schema": {
+                        "_type": "Schema",
+                        "_links": {
+                            "self": { "href": "/api/v3/example/schema" }
+                        },
+
+                        "lockVersion": {
+                            "type": "Integer",
+                            "writable": false
+                        },
+                        "subject": {
+                            "type": "String",
+                            "minLength": 1,
+                            "maxLength": 255
+                        },
+                        "status": {
+                            "_links": {
+                                "allowedValues": [
+                                    { "href": "/api/v3/statuses/1", "title": "New" },
+                                    { "href": "/api/v3/statuses/2", "title": "Closed" }
+                                ]
+                            },
+
+                            "type": "Status",
+
+                            "_embedded": {
+                                "allowedValues": [
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/1" } },
+                                        "_type": "Status",
+                                        "id": 1,
+                                        "name": "New",
+                                        "position": 1,
+                                        "isDefault": true,
+                                        "isClosed": false,
+                                        "defaultDoneRatio": 0,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    },
+                                    {
+                                        "_links": { "self": { "href": "/api/v3/statuses/2" } },
+                                        "_type": "Status",
+                                        "id": 2,
+                                        "name": "Closed",
+                                        "position": 2,
+                                        "isDefault": false,
+                                        "isClosed": true,
+                                        "defaultDoneRatio": 100,
+                                        "createdAt": "2014-05-21T08:51:20Z",
+                                        "updatedAt": "2014-05-21T09:12:00Z"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    "validationErrors": {
+                        "subject": {
+                            "_type": "Error",
+                            "errorIdentifier": "urn:openproject-org:api:v3:errors:BadExampleError",
+                            "message": "For the purpose of this example we need a validation error. The remainder of the response pretends there were no errors."
+                        }
+                    }
+                }
+            }
+
+## show or validate form [POST]
+
+This is an example of how a form might look like. Note that this endpoint does not exist in the actual implementation.
+
++ Request (application/json)
+
+        {
+            "lockVersion": 5,
+            "_type": "Example",
+            "subject": "An example title"
+        }
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body and the request body
+    was not empty.
+
+    Note that this error only occurs when the content is not at all a single JSON object.
+    It **does not occur** for requests containing undefined properties or invalid property values.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was neither empty, nor did it contain a single JSON object."
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to modify the associated resource.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to edit example resources."
+            }
+
++ Response 409 (application/hal+json)
+
+    Returned if underlying resource was changed since the client requested the form. This is determined using the `lockVersion` property.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:UpdateConflict",
+                "message": "The resource you are about to edit was changed in the meantime."
+            }

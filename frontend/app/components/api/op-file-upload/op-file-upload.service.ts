@@ -31,7 +31,7 @@ import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 
 export interface UploadFile extends File {
-  description: string;
+  description?: string;
 }
 
 export interface UploadResult {

@@ -54,7 +54,7 @@ body.controller-work_packages.action-show {
 
   .toolbar-container {
     @include clearfix;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     padding-right: 20px;
   }
 
@@ -93,8 +93,7 @@ body.controller-work_packages.action-show {
     flex-shrink: 8;
     border-top: 1px solid #ccc;
     overflow: visible;
-    // Important for Safari
-    height: initial;
+    height: 100%;
     // Important for Firefox to let 'flex-shrink' work correctly.
     min-height: 0;
 

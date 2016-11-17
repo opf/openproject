@@ -100,14 +100,11 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     describe 'with filters' do
-      let(:query) {
-        FactoryGirl.build_stubbed(:query,
-                                  filters: [
-                                    Queries::WorkPackages::Filter.new('status_id',
-                                                                      operator: '=',
-                                                                      values: ['1'])
-                                  ])
-      }
+      let(:query) do
+        query = FactoryGirl.build_stubbed(:query)
+        query.add_filter('status_id', '=', ['1'])
+        query
+      end
 
       it 'should render the filters' do
         expected = [

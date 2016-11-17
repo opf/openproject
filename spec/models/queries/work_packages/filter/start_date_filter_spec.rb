@@ -27,10 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared'
 
 describe Queries::WorkPackages::Filter::StartDateFilter, type: :model do
-  it_behaves_like 'work package query filter' do
+  it_behaves_like 'basic query filter' do
     let(:order) { 11 }
     let(:type) { :date }
     let(:class_key) { :start_date }
@@ -41,9 +40,9 @@ describe Queries::WorkPackages::Filter::StartDateFilter, type: :model do
       end
     end
 
-    describe '#values' do
+    describe '#allowed_values' do
       it 'is nil' do
-        expect(instance.values).to be_nil
+        expect(instance.allowed_values).to be_nil
       end
     end
   end

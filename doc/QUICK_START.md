@@ -77,7 +77,7 @@ These are generic (and condensed) installation instructions for the **current de
 * Git
 * Database (MySQL 5.x/PostgreSQL 8.x)
 * Ruby 2.1.x
-* Node.js (version v0.10.x)
+* Node.js (tested on LTS v6.9.1, lower versions may work)
 * Bundler (version 1.5.1 or higher required)
 
 ### Install Dependencies

@@ -27,15 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::VersionFilter < Queries::WorkPackages::Filter::BaseFilter
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::VersionFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+
+  def allowed_values
+    @allowed_values ||= begin
       versions.sort.map { |s| ["#{s.project.name} - #{s.name}", s.id.to_s] }
     end
-  end
-
-  def available?
-    versions.exists?
   end
 
   def type
@@ -46,7 +44,7 @@ class Queries::WorkPackages::Filter::VersionFilter < Queries::WorkPackages::Filt
     7
   end
 
-  def name
+  def human_name
     WorkPackage.human_attribute_name('fixed_version_id')
   end
 

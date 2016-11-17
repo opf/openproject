@@ -160,14 +160,14 @@ module Api::Experimental
     end
 
     def fetch_custom_field_filters(project)
-      filters = Queries::WorkPackages::Filter::CustomFieldFilter.create(project)
+      filters = Queries::WorkPackages::Filter::CustomFieldFilter.all_for(project)
 
-      filters.each_with_object({}) do |(key, filter), hash|
-        new_key = API::Utilities::PropertyNameConverter.from_ar_name(key)
+      filters.each_with_object({}) do |filter, hash|
+        new_key = API::Utilities::PropertyNameConverter.from_ar_name(filter.name)
         hash[new_key] = { type: filter.type,
-                          values: filter.values,
+                          values: filter.allowed_values,
                           order: filter.order,
-                          name: filter.name }
+                          name: filter.human_name }
       end
     end
   end

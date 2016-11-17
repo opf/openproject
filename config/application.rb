@@ -82,7 +82,14 @@ module OpenProject
     # different ETag on every request, Rack::Deflater has to be in the chain of
     # middlewares after Rack::ETag.  #insert_before is used because on
     # responses, the middleware stack is processed from top to bottom.
-    config.middleware.insert_before Rack::ETag, Rack::Deflater
+    config.middleware.insert_before Rack::ETag,
+                                    Rack::Deflater,
+                                    if: lambda { |_env, _code, headers, _body|
+                                      # Firefox fails to properly decode gzip attachments
+                                      # We thus avoid deflating if sending gzip already.
+                                      content_type = headers['Content-Type']
+                                      content_type != 'application/x-gzip'
+                                    }
 
     config.middleware.use ::ParamsParserWithExclusion,
                           exclude: -> (env) {

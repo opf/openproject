@@ -60,7 +60,7 @@ export class WorkPackageCreateService {
     });
   }
 
-  private getEmptyForm(projectIdentifier):ng.IPromise<HalResource> {
+  public getEmptyForm(projectIdentifier):ng.IPromise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

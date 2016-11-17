@@ -174,6 +174,31 @@ describe MyController, type: :controller do
     end
   end
 
+  describe 'settings:auto_hide_popups' do
+    context 'with render_views' do
+      before do
+        as_logged_in_user user do
+          get :settings
+        end
+      end
+
+      render_views
+      it 'renders auto hide popups checkbox' do
+        expect(response.body).to have_selector('#my_account_form #pref_auto_hide_popups')
+      end
+    end
+
+    context 'PATCH' do
+      before do
+        as_logged_in_user user do
+          user.pref.auto_hide_popups = false
+
+          patch :settings, params: { user: { language: 'en' } }
+        end
+      end
+    end
+  end
+
   describe 'account with disabled password login' do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)

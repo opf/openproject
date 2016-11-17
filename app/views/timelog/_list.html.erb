@@ -100,7 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <sort-link sort-attr="hours" sort-func="loadTimeEntries()">
+                  <sort-link sort-attr="comments" sort-func="loadTimeEntries()">
                     <%= TimeEntry.human_attribute_name(:comments) %>
                   </sort-link>
                 </span>
@@ -111,7 +111,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= TimeEntry.human_attribute_name(:hours) %>
+                  <sort-link sort-attr="hours" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:hours) %>
+                  </sort-link>
                 </span>
               </div>
             </div>

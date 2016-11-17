@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PriorityFilter < Queries::WorkPackages::Filter::BaseFilter
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::PriorityFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values
+    @allowed_values ||= begin
       priorities.map { |s| [s.name, s.id.to_s] }
     end
   end

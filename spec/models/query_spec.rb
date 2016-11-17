@@ -77,16 +77,66 @@ describe Query, type: :model do
     end
 
     context 'with a missing value for a custom field' do
-      let(:custom_field) { FactoryGirl.create :text_issue_custom_field }
-      let(:query) { FactoryGirl.build(:query) }
+      let(:custom_field) do
+        FactoryGirl.create :text_issue_custom_field, is_filter: true, is_for_all: true
+      end
 
       before do
-        query.filters = [Queries::WorkPackages::Filter.new('cf_' + custom_field.id.to_s, operator: '=', values: [''])]
+        query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
       end
 
       it 'should have the name of the custom field in the error message' do
-        expect(query.valid?).to be_falsey
+        expect(query).to_not be_valid
         expect(query.errors.messages[:base].to_s).to include(custom_field.name)
+      end
+    end
+
+    context 'with a filter for a non existing custom field' do
+      before do
+        query.add_filter('cf_0', '=', ['1'])
+      end
+
+      it 'is not valid' do
+        expect(query.valid?).to be_falsey
+      end
+    end
+  end
+
+  describe '#filter_for' do
+    context 'for a status_id filter' do
+      before do
+        allow(Status)
+          .to receive(:exists?)
+          .and_return(true)
+      end
+
+      subject { query.filter_for('status_id') }
+
+      it 'exists' do
+        is_expected.to_not be_nil
+      end
+
+      it 'has the context set' do
+        expect(subject.context).to eql query.project
+
+        query.project = nil
+
+        expect(query.filter_for('status_id').context).to be_nil
+      end
+
+      it 'reuses an existing filter' do
+        expect(subject.object_id).to eql query.filter_for('status_id').object_id
+      end
+    end
+  end
+
+  describe 'filters after deserialization' do
+    it 'sets the context (project) on deserialization' do
+      query.save!
+
+      query.reload
+      query.filters.each do |filter|
+        expect(filter.context).to eql(query.project)
       end
     end
   end

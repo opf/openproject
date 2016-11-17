@@ -126,6 +126,9 @@ group :production do
   # requires memcached 1.4+
   # see https://github.clientom/mperham/dalli
   gem 'dalli', '~> 2.7.6'
+
+  # Unicorn worker killer to restart unicorn child workers
+  gem 'unicorn-worker-killer', require: false
 end
 
 gem 'sprockets', '~> 3.7.0'
@@ -173,6 +176,10 @@ group :test do
   gem 'rspec-rails', '~> 3.5.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
+  # Retry failures within the same environment
+  gem 'rspec-retry', '~> 0.5.2'
+  gem 'retriable', '~> 2.1'
+
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
@@ -183,7 +190,7 @@ group :test do
   gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
   gem 'capybara', '~> 2.8.1'
-  gem 'capybara-screenshot', '~> 1.0.13'
+  gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
@@ -207,7 +214,7 @@ end
 group :development do
   gem 'letter_opener'
   gem 'faker'
-  gem 'livingstyleguide', '~> 2.0.0'
+  gem 'livingstyleguide', '~> 2.0.1'
 
   # Pry seems to cause a lot of segfaults in the tests.
   # Therefore, it has been removed from the :test group for now.
@@ -255,8 +262,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git',
-                                  branch: 'dev'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/6.1'
 end
 
 # TODO: Make this group :optional when bundler v10.x

@@ -59,15 +59,16 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="form--field"><%= setting_check_box :lost_password, label: :label_password_lost %></div>
       <% else %>
         <div class="form--field">
-          <label><%= I18n.t :note %></label>
-          <%=
-            url = 'https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md#disable-password-login'
+          <label><b><%= I18n.t :note %>: </b>
+            <%=
+              url = 'https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md#disable-password-login'
 
-            explanation = I18n.t :note_password_login_disabled,
-                                 configuration: "<a href=\"#{url}\">#{I18n.t('label_configuration')}</a>"
+              explanation = I18n.t :note_password_login_disabled,
+                                   configuration: "<a href=\"#{url}\"> #{I18n.t('label_configuration')}</a>"
 
-            explanation.html_safe
-          %>
+              explanation.html_safe
+            %>
+          </label>
         </div>
       <% end %>
     </fieldset>

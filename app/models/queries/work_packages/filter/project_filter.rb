@@ -27,15 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filter::BaseFilter
-  attr_accessor :project
-
-  def initialize(project)
-    self.project = project
-  end
-
-  def values
-    @values ||= begin
+class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def allowed_values
+    @allowed_values ||= begin
       project_values = []
       Project.project_tree(visible_projects) do |p, level|
         prefix = (level > 0 ? ('--' * level + ' ') : '')

@@ -144,7 +144,9 @@ describe('WorkPackageResource service', () => {
 
     const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
-        expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        result.then(() => {
+          expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+        });
       });
     };
 
@@ -301,7 +303,7 @@ describe('WorkPackageResource service', () => {
 
         beforeEach(() => {
           uploadFilesDeferred.reject(error);
-          notificationStub = sinon.stub(wpNotificationsService, 'handleErrorResponse');
+          notificationStub = sinon.stub(wpNotificationsService, 'handleRawError');
           $rootScope.$apply();
         });
 
@@ -343,35 +345,22 @@ describe('WorkPackageResource service', () => {
           .returns($q.when());
       });
 
-      describe('when the work package is new', () => {
-        beforeEach(() => {
-          workPackage.isNew = true;
-          workPackage.uploadPendingAttachments();
-        });
-
-        it('should not be called', () => {
-          expect(uploadAttachmentsStub.called).to.be.false;
-        });
+      beforeEach(() => {
+        workPackage.isNew = false;
+        workPackage.uploadPendingAttachments();
       });
 
-      describe('when the work package is not new', () => {
+      it('should call the uploadAttachments method with the pendingAttachments', () => {
+        expect(uploadAttachmentsStub.calledWith([{},{}])).to.be.true;
+      });
+
+      describe('when the upload succeeds', () => {
         beforeEach(() => {
-          workPackage.isNew = false;
-          workPackage.uploadPendingAttachments();
+          $rootScope.$apply();
         });
 
-        it('should call the uploadAttachments method with the pendingAttachments', () => {
-          expect(uploadAttachmentsStub.calledWith(workPackage.pendingAttachments)).to.be.true;
-        });
-
-        describe('when the upload succeeds', () => {
-          beforeEach(() => {
-            $rootScope.$apply();
-          });
-
-          it('should reset the pending attachments', () => {
-            expect(workPackage.pendingAttachments).to.have.length(0);
-          });
+        it('should reset the pending attachments', () => {
+          expect(workPackage.pendingAttachments).to.have.length(0);
         });
       });
     });

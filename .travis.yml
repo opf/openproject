@@ -34,8 +34,8 @@ rvm:
 sudo: false
 
 cache:
-  - bundler: true
-  - directories:
+  bundler: true
+  directories:
     - frontend/node_modules
     - frontend/bower_components
 
@@ -56,29 +56,27 @@ env:
   matrix:
     - "TEST_SUITE=npm"
 
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=2  GROUP=2"
+    - "TEST_SUITE=spec_legacy       DB=mysql"
     - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=2  GROUP=2"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=1"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=2"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=3"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=4"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=5"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=6"
-    - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=7  GROUP=7"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=1"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=2"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=3  GROUP=3"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=4"
 
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=1"
-    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=2"
+    - "TEST_SUITE=spec_legacy       DB=postgres"
     - "TEST_SUITE=cucumber          DB=postgres  GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=cucumber          DB=postgres  GROUP_SIZE=2  GROUP=2"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=1"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=2"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=3"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=4"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=5"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=6"
-    - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=7  GROUP=7"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=1"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=2"
+    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=3  GROUP=3"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=4"
 
 before_install:
   - "rvm @default,@global do gem uninstall bundler -a -x"
@@ -88,7 +86,11 @@ before_install:
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
-  - nvm install v0.12.9
+  # Install Node LTS Boron (6.9.1)
+  - nvm install 6.9.1
+  # We need npm 4.0 for a bugfix in cross-platform shrinkwrap
+  # https://github.com/npm/npm/issues/14042
+  - npm install npm@4.0
   - travis_retry npm install
 
   # We need phantomjs 2.0 to get tests passing
@@ -101,7 +103,7 @@ before_script:
   - sh script/ci_setup.sh $DB
 
 script:
-  - sh script/ci_runner.sh $TEST_SUITE $GROUP_SIZE $GROUP
+  - sh script/ci_runner.sh
 
 notifications:
   email: false

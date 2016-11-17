@@ -57,6 +57,12 @@ module API
         }
       end
 
+      link :relations do
+        {
+          href: api_v3_paths.relations
+        }
+      end
+
       link :statuses do
         {
           href: api_v3_paths.statuses

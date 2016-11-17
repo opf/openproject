@@ -101,6 +101,7 @@ en:
     label_board_locked: "Locked"
     label_board_sticky: "Sticky"
     label_create_work_package: "Create new work package"
+    label_created_by: "Created by"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
@@ -220,6 +221,7 @@ en:
     placeholders:
       default: '-'
       selection: 'Please select'
+      relation_description: 'Click to add description for this relation'
 
     text_are_you_sure: "Are you sure?"
 
@@ -270,6 +272,10 @@ en:
       blocked: "Blocked by"
       precedes: "Precedes"
       follows: "Follows"
+      includes: "Includes"
+      partof: "Part of"
+      requires: "Requires"
+      required: "Required by"
 
       relation_type: "relation type"
 
@@ -279,11 +285,14 @@ en:
     relation_buttons:
       change_parent: "Change parent"
       remove_parent: "Remove parent"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
       add_parent: "Add existing parent"
       add_new_child: "Create new child"
       add_existing_child: "Add existing child"
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
+      update_description: "Set or update description of this relation"
       remove: "Remove relation"
       save: "Save relation"
       abort: "Abort"
@@ -413,13 +422,15 @@ en:
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
+      message_view_spent_time: "Show spent time for this work package"
       no_value: "No value"
       inline_create:
        title: 'Click here to add a new work package to this list'
       create:
-        header: 'New work package'
+        header: 'New %{type}'
+        header_no_type: 'New work package (Type not yet set)'
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
-        header_with_parent: 'New work package (Child of %{type} #%{id})'
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.

@@ -217,6 +217,21 @@ en:
 
   actionview_instancetag_blank_option: "Please select"
 
+  activemodel:
+    errors:
+      models:
+        "relations/base_contract":
+          attributes:
+            to:
+              error_not_found: "work package in `to` position not found or not visible"
+              error_readonly: "an existing relation's `to` link is immutable"
+            from:
+              error_not_found: "work package in `from` position not found or not visible"
+              error_readonly: "an existing relation's `from` link is immutable"
+        "users/base_contract":
+          attributes:
+            status:
+              invalid_on_create: "is not a valid status for new users."
   activerecord:
     attributes:
       announcements:
@@ -295,18 +310,19 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
+        current_password: "Current password"
+        force_password_change: "Enforce password change on next login"
         language: "Language"
         last_login_on: "Last login"
         mail_notification: "Email notifications"
-        current_password: "Current password"
         new_password: "New password"
         password_confirmation: "Confirmation"
-        force_password_change: "Enforce password change on next login"
       user_preference:
         comments_sorting: "Display comments"
         hide_mail: "Hide my email address"
         impaired: "Accessibility mode"
         time_zone: "Time zone"
+        auto_hide_popups: "Auto-hide success notifications"
         warn_on_leaving_unsaved: "Warn me when leaving a page with unsaved text"
       version:
         effective_date: "Due date"
@@ -319,18 +335,15 @@ en:
         parent_title: "Parent page"
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
-        name: Name
         hexcode: Hex code
       project_association:
         description: Cause
         project_b: 'Dependent project'
       project_type:
         allows_association: Allows association
-        name: Name
         reported_project_statuses: Reported project statuses
         position: Position
       timeline:
-        name: Name
         options: ""
       reporting:
         reported_project_status_comment: Status comment
@@ -363,6 +376,7 @@ en:
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
+        does_not_exist: "does not exist."
         empty: "can't be empty."
         even: "must be even."
         exclusion: "is reserved."
@@ -400,6 +414,11 @@ en:
         project_association:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
+        query:
+          filters:
+            custom_fields:
+              inexistent: "There is no custom field for the filter."
+              invalid: "The custom field is not valid in the given context."
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
@@ -413,7 +432,6 @@ en:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
-              does_not_exist: "does not exist."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
             status_id:
@@ -770,10 +788,12 @@ en:
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
+  error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
@@ -1312,6 +1332,7 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_priority_updated: "Work package priority updated"
   label_work_package_status: "Work package status"
+  label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
   label_work_package_types: "Work package types"
   label_work_package_updated: "Work package updated"

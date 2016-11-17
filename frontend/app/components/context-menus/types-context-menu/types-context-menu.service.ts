@@ -27,19 +27,18 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {ApiWorkPackagesService} from '../../api/api-work-packages/api-work-packages.service';
+import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
 
 class TypesContextMenuController {
   public types = [];
 
-  constructor(protected $state, protected $scope, apiWorkPackages) {
+  constructor(protected $state, protected $scope, protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
 
-    apiWorkPackages
-      .emptyCreateForm({}, project)
-      .then(form =>
-              this.types = form.schema.type.allowedValues);
+    wpCreate.getEmptyForm(project).then((form:any) => {
+      this.types = form.schema.type.allowedValues;
+    });
   }
 
   public get stateName() {

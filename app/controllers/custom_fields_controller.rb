@@ -60,7 +60,13 @@ class CustomFieldsController < ApplicationController
 
   def update
     if @custom_field.update_attributes(@custom_field_params)
-      flash[:notice] = l(:notice_successful_update)
+      if @custom_field.is_a? WorkPackageCustomField
+        @custom_field.types.each do |type|
+          TypesHelper.update_type_attribute_visibility! type
+        end
+      end
+
+      flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_to custom_fields_path(tab: @custom_field.class.name)
     else

@@ -426,8 +426,9 @@ module OpenProject
         attrs = $2
         content = $3
         item = strip_tags(content).strip
+        tocitem = strip_tags(content.gsub(/<br \/>/, ' '))
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-        @parsed_headings << [level, anchor, item]
+        @parsed_headings << [level, anchor, tocitem]
         url = full_url(anchor)
         "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
       end

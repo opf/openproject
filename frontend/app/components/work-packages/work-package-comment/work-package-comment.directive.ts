@@ -98,7 +98,7 @@ export class CommentFieldDirectiveController {
     return this.editing = true;
   }
 
-  public submit() {
+  public handleUserSubmit() {
     if (this.field.isEmpty()) {
       return;
     }

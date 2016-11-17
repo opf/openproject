@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
+require 'spec_helper'
 require File.expand_path('../../support/permission_specs', __FILE__)
 
 describe BoardsController, 'manage_boards permission', type: :controller do

@@ -40,34 +40,30 @@ export class WorkPackageRelationsController {
   public workPackage:WorkPackageResourceInterface;
   public canAddRelation:boolean = !!this.workPackage.addRelation;
 
+  // By default, group by relation type
+  public groupByWorkPackageType = false;
   public currentRelations: RelatedWorkPackage[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
+              protected I18n:op.I18n,
               protected wpCacheService:WorkPackageCacheService) {
 
-    this.registerEventListeners();
-
-    if (this.workPackage.relations && !this.workPackage.relations.$loaded) {
-      this.workPackage.relations.$load().then(() => {
-        if (this.workPackage.relations.count > 0) {
-          this.loadRelations();
-        }
-      });
-    } else if (this.workPackage.relations && this.workPackage.relations.count > 0) {
-      this.loadRelations();
-    }
-  }
-
-  protected removeSingleRelation(evt, relation) {
-    this.currentRelations = _.remove(this.currentRelations, (latestRelation) => {
-      return latestRelation.relatedBy.$href !== relation.$href;
+    // Reload the current relations after a change, causing loadRelations to re-run
+    this.$scope.$on('wp-relations.changed', () => {
+      this.workPackage.updateLinkedResources('relations');
     });
 
-    this.buildRelationGroups();
+    // Listen for changes to this WP.
+    this.wpCacheService
+      .loadWorkPackage(<number> this.workPackage.id)
+      .observe(this.$scope)
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.workPackage = wp;
+        this.workPackage.relations.$load().then(this.loadRelations.bind(this));
+      });
   }
-
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
     let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
@@ -82,30 +78,38 @@ export class WorkPackageRelationsController {
   }
 
   protected getRelatedWorkPackageId(relation) {
-    let direction = (relation.relatedTo.href === this.workPackage.href) ? 'relatedFrom' : 'relatedTo';
+    let direction = (relation.to.href === this.workPackage.href) ? 'from' : 'to';
     return parseInt(relation[direction].href.split('/').pop());
   }
 
-  protected buildRelationGroups() {
-    if (angular.isDefined(this.currentRelations)) {
-      this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => wp.type.name);
-    }
+  public toggleGroupBy() {
+    this.groupByWorkPackageType = !this.groupByWorkPackageType;
+    this.buildRelationGroups();
   }
 
-  protected addSingleRelation(evt, relation) {
-    var relatedWorkPackageId = [this.getRelatedWorkPackageId(relation)];
-    this.getRelatedWorkPackages(relatedWorkPackageId)
-      .take(1)
-      .subscribe((relatedWorkPackage:RelatedWorkPackage) => {
-        relatedWorkPackage.relatedBy = relation;
-        this.currentRelations.push(relatedWorkPackage);
-        this.buildRelationGroups();
-      });
+  protected buildRelationGroups() {
+    if (!angular.isDefined(this.currentRelations)) {
+      return;
+    }
+
+    this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+      if (this.groupByWorkPackageType) {
+        return wp.type.name;
+      } else {
+        var normalizedType = wp.relatedBy.normalizedType(this.workPackage);
+        return this.I18n.t('js.relation_labels.' + normalizedType);
+      }
+    });
   }
 
   protected loadRelations():void {
     var relatedWpIds = [];
     var relations = [];
+
+    if (this.workPackage.relations.elements.length === 0) {
+      this.currentRelations = [];
+      return this.buildRelationGroups();
+    }
 
     this.workPackage.relations.elements.forEach(relation => {
       const relatedWpId = this.getRelatedWorkPackageId(relation);
@@ -116,24 +120,17 @@ export class WorkPackageRelationsController {
     this.getRelatedWorkPackages(relatedWpIds)
       .take(1)
       .subscribe(relatedWorkPackages => {
-        if (angular.isArray(relatedWorkPackages)) {
-          this.currentRelations = relatedWorkPackages.map((wp) => {
-            wp.relatedBy = relations[wp.id];
-            return wp;
-          });
+        if (!angular.isArray(relatedWorkPackages)) {
+          relatedWorkPackages = [relatedWorkPackages];
         }
-        else {
-          relatedWorkPackages.relatedBy = relations[relatedWorkPackages.id];
-          this.currentRelations[0] = relatedWorkPackages;
-        }
+
+        this.currentRelations = relatedWorkPackages.map((wp) => {
+          wp.relatedBy = relations[wp.id];
+          return wp;
+        });
 
         this.buildRelationGroups();
       });
-  }
-
-  private registerEventListeners() {
-    this.$scope.$on('wp-relations.added', this.addSingleRelation.bind(this));
-    this.$scope.$on('wp-relations.removed', this.removeSingleRelation.bind(this));
   }
 }
 

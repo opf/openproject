@@ -27,16 +27,32 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import ExpressionService from "../../common/xss/expression.service";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 
 export class FormattableDisplayField extends DisplayField {
   public template:string = '/components/wp-display/field-types/wp-display-formattable-field.directive.html'
 
+  protected ExpressionService:ExpressionService;
+
+  constructor(public resource: HalResource,
+              public name: string,
+              public schema) {
+    super(resource, name, schema);
+
+    this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
+  }
+
   public get value() {
-    if(this.schema) {
-      return this.resource[this.name].html;
-    }
-    else {
+    if(!this.schema) {
       return null;
     }
+    return this.unescape(this.resource[this.name].html);
+  }
+
+  // Escape the given HTML string from the backend, which contains escaped Angular expressions.
+  // Since formattable fields are only binded to but never evaluated, we can safely remove these expressions.
+  protected unescape(html:string) {
+    return this.ExpressionService.unescape(html);
   }
 }

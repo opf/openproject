@@ -48,6 +48,7 @@ describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
     it { is_expected.to have_json_path('theme') }
     it { is_expected.to have_json_path('commentSortDescending') }
     it { is_expected.to have_json_path('warnOnLeavingUnsaved') }
+    it { is_expected.to have_json_path('autoHidePopups') }
     it { is_expected.to have_json_path('accessibilityMode') }
 
     describe 'timeZone' do

@@ -183,6 +183,14 @@ class Relation < ActiveRecord::Base
     end
   end
 
+  def circular_dependency?
+    canonical_to.all_dependent_packages.include? canonical_from
+  end
+
+  def shared_hierarchy?
+    from.is_descendant_of?(to) || from.is_ancestor_of?(to)
+  end
+
   private
 
   def validate_sanity_of_relation
@@ -191,15 +199,13 @@ class Relation < ActiveRecord::Base
     errors.add :to_id, :invalid if from_id == to_id
     errors.add :to_id, :not_same_project unless from.project_id == to.project_id ||
                                                 Setting.cross_project_work_package_relations?
-    errors.add :base, :cant_link_a_work_package_with_a_descendant if from.is_descendant_of?(to) ||
-                                                                     from.is_ancestor_of?(to)
+    errors.add :base, :cant_link_a_work_package_with_a_descendant if shared_hierarchy?
   end
 
   def validate_no_circular_dependency
     return unless from && to
 
-    if !(changed & ['from_id', 'to_id']).empty? &&
-       canonical_to.all_dependent_packages.include?(canonical_from)
+    if !(changed & ['from_id', 'to_id']).empty? && circular_dependency?
       errors.add :base, :circular_dependency
     end
   end

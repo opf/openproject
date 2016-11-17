@@ -1,3 +1,11 @@
+# OpenProject 6.0.x to OpenProject 6.1 Debian/Ubuntu Upgrade Guide
+
+Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 6.x is being released under the branch `stable/6`.
+
+### When running with MySQL: Required changes in sql_mode
+
+If you're upgrading to OpenProject 6.1.x with a MySQL installation, you will need to update your database.yml to reflect some necessary changes to MySQL `sql_mode` made as part of the migration to Rails 5. Please see the `config/database.yml.example` file for more information.
+
 # OpenProject 5.0.x to OpenProject 6.0 Debian/Ubuntu Upgrade Guide
 
 Upgrading your OpenProject 5.0.x installation to 6.0 is very easy. Please upgrade your OpenProject installation first to the latest stable 6.0 path.

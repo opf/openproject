@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::DoneRatioFilter < Queries::WorkPackages::Filter::BaseFilter
+class Queries::WorkPackages::Filter::DoneRatioFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def type
     :integer
   end

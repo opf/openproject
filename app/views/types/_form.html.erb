@@ -84,10 +84,10 @@ See doc/COPYRIGHT.rdoc for more details.
               <%   attr = attributes[name] %>
                 <tr>
                   <td>
-                    <%= label "type_attribute_visibility_#{name}",
-                              translated_attribute_name(name, attr),
-                              value: "type_attribute_visibility[#{name}]",
-                              class: 'form--label' %>
+                    <%= label_tag "type_attribute_visibility_#{name}",
+                                  translated_attribute_name(name, attr),
+                                  value: "type_attribute_visibility[#{name}]",
+                                  class: 'form--label' %>
                   </td>
                   <td>
                     <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />

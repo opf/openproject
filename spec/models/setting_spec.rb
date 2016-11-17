@@ -110,6 +110,11 @@ describe Setting, type: :model do
       Rails.cache.clear
     end
 
+    after do
+      RequestStore.clear!
+      Rails.cache.clear
+    end
+
     context 'cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)

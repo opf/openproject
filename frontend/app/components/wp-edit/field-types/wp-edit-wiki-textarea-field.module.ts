@@ -59,8 +59,8 @@ export class WikiTextareaEditField extends EditField {
     this.fieldVal = workPackage[fieldName];
     this.workPackage = workPackage;
     this.text = {
-      saveTitle: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-      cancelTitle: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
+      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
   }
 

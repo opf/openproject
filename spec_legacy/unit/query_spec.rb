@@ -26,38 +26,31 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Query, type: :model do
   fixtures :all
 
-  it 'should custom fields for all projects should be available in global queries' do
-    query = Query.new(project: nil, name: '_')
-    assert query.work_package_filter_available?('cf_1')
-    assert !query.work_package_filter_available?('cf_3')
-  end
-
   it 'should system shared versions should be available in global queries' do
     Version.find(2).update_attribute :sharing, 'system'
     query = Query.new(project: nil, name: '_')
-    assert query.work_package_filter_available?('fixed_version_id')
-    assert query.available_work_package_filters['fixed_version_id'][:values].detect { |v| v.last == '2' }
+    assert query.filter_for('fixed_version_id')[:allowed_values].detect { |v| v.last == '2' }
   end
 
   it 'should project filter in global queries' do
     # User.current should be anonymous here
     query = Query.new(project: nil, name: '_')
-    project_filter = query.available_work_package_filters['project_id']
+    project_filter = query.filter_for('project_id')
     refute_nil project_filter
-    project_ids = project_filter[:values].map { |p| p[1] }
+    project_ids = project_filter[:allowed_values].map { |p| p[1] }
     assert project_ids.include?('1')  # public project
     assert !project_ids.include?('2') # private project anonymous user cannot see
   end
 
   def find_issues_with_query(query)
     WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
-      .where(query.statement)
-      .references(:projects)
+               .where(query.statement)
+               .references(:projects)
   end
 
   def assert_find_issues_with_query_is_successful(query)
@@ -67,7 +60,8 @@ describe Query, type: :model do
   end
 
   def assert_query_statement_includes(query, condition)
-    assert query.statement.include?(condition), "Query statement condition not found in: #{query.statement}"
+    assert query.statement.include?(condition),
+           "Query statement condition not found in: #{query.statement}"
   end
 
   it 'should query should allow shared versions for a project query' do
@@ -220,7 +214,7 @@ describe Query, type: :model do
     i3 = FactoryGirl.create(:work_package, project: project, type: project.types.first, assigned_to: Group.find(11))
     group.users << user
 
-    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
+    query = Query.new(name: '_', filters: [{ assigned_to_id: { operator: '=', values: ['me'] } }])
     result = query.results.work_packages
     assert_equal WorkPackage.visible.where(assigned_to_id: ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
 
@@ -233,7 +227,7 @@ describe Query, type: :model do
 
   it 'should filter watched issues' do
     User.current = User.find(1)
-    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
+    query = Query.new(name: '_', filters: [{ watcher_id: { operator: '=', values: ['me'] } }])
     result = find_issues_with_query(query)
     refute_nil result
     assert !result.empty?
@@ -243,11 +237,11 @@ describe Query, type: :model do
 
   it 'should filter unwatched issues' do
     User.current = User.find(1)
-    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
+    query = Query.new(name: '_', filters: [{ watcher_id: { operator: '!', values: ['me'] } }])
     result = find_issues_with_query(query)
     refute_nil result
     assert !result.empty?
-    assert_equal((WorkPackage.visible - WorkPackage.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
+    expect((WorkPackage.visible - WorkPackage.watched_by(User.current)).size).to eql result.size
     User.current = nil
   end
 
@@ -385,11 +379,6 @@ describe Query, type: :model do
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
   end
 
-  it 'should label for' do
-    q = Query.new name: '_'
-    assert_equal WorkPackage.human_attribute_name('assigned_to_id'), q.label_for('assigned_to_id')
-  end
-
   it 'should editable by' do
     admin = User.find(1)
     manager = User.find(2)
@@ -420,30 +409,30 @@ describe Query, type: :model do
     assert !q.editable_by?(developer)
   end
 
-  context '#available_work_package_filters' do
+  context '#filter_for' do
     before do
       @query = Query.new(name: '_')
     end
 
     it 'should include users of visible projects in cross-project view' do
-      users = @query.available_work_package_filters['assigned_to_id']
+      users = @query.filter_for('assigned_to_id')
       refute_nil users
-      assert users[:values].map { |u| u[1] }.include?('3')
+      assert users[:allowed_values].map { |u| u[1] }.include?('3')
     end
 
     it 'should include visible projects in cross-project view' do
-      projects = @query.available_work_package_filters['project_id']
+      projects = @query.filter_for('project_id')
       refute_nil projects
-      assert projects[:values].map { |u| u[1] }.include?('1')
+      assert projects[:allowed_values].map { |u| u[1] }.include?('1')
     end
 
     context "'member_of_group' filter" do
       it 'should be present' do
-        assert @query.available_work_package_filters.keys.include?('member_of_group')
+        assert @query.filter_for('member_of_group')
       end
 
       it 'should be an optional list' do
-        assert_equal :list_optional, @query.available_work_package_filters['member_of_group'][:type]
+        assert_equal :list_optional, @query.filter_for('member_of_group')[:type]
       end
 
       it 'should have a list of the groups as values' do
@@ -455,39 +444,33 @@ describe Query, type: :model do
           [group1.name, group1.id.to_s],
           [group2.name, group2.id.to_s]
         ]
-        assert_equal expected_group_list.sort, @query.available_work_package_filters['member_of_group'][:values].sort
+        assert_equal expected_group_list.sort, @query.filter_for('member_of_group')[:allowed_values].sort
       end
     end
 
     context "'assigned_to_role' filter" do
       it 'should be present' do
-        assert @query.available_work_package_filters.keys.include?('assigned_to_role')
+        assert @query.filter_for('assigned_to_role')
       end
 
       it 'should be an optional list' do
-        assert_equal :list_optional, @query.available_work_package_filters['assigned_to_role'][:type]
+        assert_equal :list_optional, @query.filter_for('assigned_to_role')[:type]
       end
 
       it 'should have a list of the Roles as values' do
-        assert @query.available_work_package_filters['assigned_to_role'][:values].include?(['Manager', '1'])
-        assert @query.available_work_package_filters['assigned_to_role'][:values].include?(['Developer', '2'])
-        assert @query.available_work_package_filters['assigned_to_role'][:values].include?(['Reporter', '3'])
+        assert @query.filter_for('assigned_to_role')[:allowed_values].include?(['Manager', '1'])
+        assert @query.filter_for('assigned_to_role')[:allowed_values].include?(['Developer', '2'])
+        assert @query.filter_for('assigned_to_role')[:allowed_values].include?(['Reporter', '3'])
       end
 
-      it 'should not include the built in Roles as values' do
-        assert ! @query.available_work_package_filters['assigned_to_role'][:values].include?(['Non member', '4'])
-        assert ! @query.available_work_package_filters['assigned_to_role'][:values].include?(['Anonymous', '5'])
+      it 'should not include the built in Roles as allowed_values' do
+        assert !@query.filter_for('assigned_to_role')[:allowed_values].include?(['Non member', '4'])
+        assert !@query.filter_for('assigned_to_role')[:allowed_values].include?(['Anonymous', '5'])
       end
     end
 
     context "'watcher_id' filter" do
       context 'globally' do
-        context 'for an anonymous user' do
-          it 'should not be present' do
-            assert ! @query.available_work_package_filters.keys.include?('watcher_id')
-          end
-        end
-
         context 'for a logged in user' do
           before do
             User.current = User.find 1
@@ -498,31 +481,31 @@ describe Query, type: :model do
           end
 
           it 'should be present' do
-            assert @query.available_work_package_filters.keys.include?('watcher_id')
+            assert @query.filter_for('watcher_id')
           end
 
           it 'should be a list' do
-            assert_equal :list, @query.available_work_package_filters['watcher_id'][:type]
+            assert_equal :list, @query.filter_for('watcher_id')[:type]
           end
 
-          it 'should have a list of active users as values' do
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['me', 'me'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['John Smith', '2'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['Dave Lopper', '3'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['redMine Admin', '1'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['User Misc', '8'])
+          it 'should have a list of active users as allowed_values' do
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['me', 'me'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['John Smith', '2'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['Dave Lopper', '3'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['redMine Admin', '1'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['User Misc', '8'])
           end
 
           it 'should not include active users not member of any project' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['Robert Hill', '4'])
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['Robert Hill', '4'])
           end
 
           it 'should not include locked users as values' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['Dave2 Lopper2', '5'])
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['Dave2 Lopper2', '5'])
           end
 
           it 'should not include the anonymous user as values' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['Anonymous', '6'])
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['Anonymous', '6'])
           end
         end
       end
@@ -532,45 +515,35 @@ describe Query, type: :model do
           @query.project = Project.find(1)
         end
 
-        context 'for an anonymous user' do
-          it 'should not be present' do
-            assert ! @query.available_work_package_filters.keys.include?('watcher_id')
-          end
-        end
-
         context 'for a logged in user' do
           before do
-            User.current = User.find 1
-          end
-
-          after do
-            User.current = nil
+            allow(User).to receive(:current).and_return(User.find(1))
           end
 
           it 'should be present' do
-            assert @query.available_work_package_filters.keys.include?('watcher_id')
+            assert @query.filter_for('watcher_id')
           end
 
           it 'should be a list' do
-            assert_equal :list, @query.available_work_package_filters['watcher_id'][:type]
+            assert_equal :list, @query.filter_for('watcher_id')[:type]
           end
 
-          it 'should have a list of the project members as values' do
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['me', 'me'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['John Smith', '2'])
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['Dave Lopper', '3'])
+          it 'should have a list of the project members as allowed_values' do
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['me', 'me'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['John Smith', '2'])
+            assert @query.filter_for('watcher_id')[:allowed_values].include?(['Dave Lopper', '3'])
           end
 
-          it 'should not include non-project members as values' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['redMine Admin', '1'])
+          it 'should not include non-project members as allowed_values' do
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['redMine Admin', '1'])
           end
 
-          it 'should not include locked project members as values' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['Dave2 Lopper2', '5'])
+          it 'should not include locked project members as allowed_values' do
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['Dave2 Lopper2', '5'])
           end
 
-          it 'should not include the anonymous user as values' do
-            assert ! @query.available_work_package_filters['watcher_id'][:values].include?(['Anonymous', '6'])
+          it 'should not include the anonymous user as allowed_values' do
+            assert !@query.filter_for('watcher_id')[:allowed_values].include?(['Anonymous', '6'])
           end
         end
       end

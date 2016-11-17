@@ -81,6 +81,7 @@ function wpTable(
       scope.$watchCollection('columns', function() {
         // force Browser rerender
         element.hide().show(0);
+        scope.numTableColumns = scope.columns.length + 2;
 
         angular.element($window).trigger('resize');
       });

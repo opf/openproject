@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'digest'
+
 FactoryGirl.define do
   factory :role do
     permissions []
@@ -47,13 +49,21 @@ FactoryGirl.define do
     end
 
     factory :existing_role do
-      name { 'Role with ' + permissions.map(&:to_s).join('/') }
+      name { 'Role ' + Digest::MD5.hexdigest(permissions.map(&:to_s).join('/'))[0..4] }
       assignable true
       permissions []
 
       initialize_with do
-        Role.find_or_create_by(
-          name: name, assignable: assignable, permissions: permissions)
+        role =
+          if Role.where(name: name).exists?
+            Role.find_by(name: name)
+          else
+            Role.create name: name, assignable: assignable
+          end
+
+        role.add_permission!(*permissions.reject { |p| role.permissions.include?(p) })
+
+        role
       end
     end
   end
