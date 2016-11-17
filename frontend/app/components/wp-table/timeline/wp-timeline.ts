@@ -48,6 +48,13 @@ export class TimelineViewParametersSettings {
 /**
  *
  */
+export enum ZoomLevel {
+  DAYS, WEEKS, MONTHS, QUARTERS, YEARS
+}
+
+/**
+ *
+ */
 export class TimelineViewParameters {
 
   readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
@@ -55,6 +62,8 @@ export class TimelineViewParameters {
   dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
 
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+
+  zoomLevel: ZoomLevel = ZoomLevel.DAYS;
 
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
 

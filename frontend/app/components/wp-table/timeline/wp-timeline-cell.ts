@@ -27,8 +27,6 @@
 // ++
 
 import {States} from "../../states.service";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {State} from "../../../helpers/reactive-fassade";
 import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
 import {WorkPackageTimelineService} from "./wp-timeline.service";
 import IScope = angular.IScope;
@@ -38,7 +36,7 @@ import IDisposable = Rx.IDisposable;
 
 export class WorkPackageTimelineCell {
 
-  private wpState: State<WorkPackageResource>;
+  // private wpState: State<WorkPackageResource>;
 
   private disposable: IDisposable;
 

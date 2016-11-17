@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimelineViewParameters, timelineElementCssClass} from "./wp-timeline";
+import {TimelineViewParameters, timelineElementCssClass, ZoomLevel} from "./wp-timeline";
 import {todayLine} from "./wp-timeline.today-line";
 
 const cssClassTableBody = ".work-package-table";
@@ -47,18 +47,48 @@ export class WpTimelineHeader {
 
   private height: number;
 
+  private zoomLevel: ZoomLevel;
+
   constructor() {
     this.addElement("todayline", todayLine);
-
-    setTimeout(() => {
-      console.log("remove");
-      this.removeElement("todayline");
-    }, 4000);
   }
 
   refreshView(vp: TimelineViewParameters) {
     this.lazyInit();
+    this.renderLabels(vp);
+    this.renderGlobalElements(vp);
+  }
 
+  addElement(name: string, renderer: GlobalElement) {
+    this.globalElementsRegistry[name] = renderer;
+  }
+
+  removeElement(name: string) {
+    this.globalElements[name].remove();
+    delete this.globalElementsRegistry[name];
+  }
+
+  private lazyInit() {
+    if (this.headerCell === undefined) {
+      this.headerCell = jQuery(cssClassHeader)[0];
+    }
+
+    this.marginTop = jQuery(this.headerCell).outerHeight();
+    this.height = jQuery(cssClassTableBody).outerHeight();
+  }
+
+  private renderLabels(vp: TimelineViewParameters) {
+    if (this.zoomLevel === vp.zoomLevel) {
+      return;
+    }
+
+
+
+
+    this.zoomLevel = vp.zoomLevel;
+  }
+
+  private renderGlobalElements(vp: TimelineViewParameters) {
     const enabledGlobalElements = _.keys(this.globalElementsRegistry);
     const createdGlobalElements = _.keys(this.globalElements);
     const newGlobalElements = _.difference(enabledGlobalElements, createdGlobalElements);
@@ -81,33 +111,5 @@ export class WpTimelineHeader {
       this.globalElementsRegistry[elemType](vp, elem);
     }
   }
-
-  addElement(name: string, renderer: GlobalElement) {
-    this.globalElementsRegistry[name] = renderer;
-  }
-
-  removeElement(name: string) {
-    this.globalElements[name].remove();
-    delete this.globalElementsRegistry[name];
-  }
-
-  private lazyInit() {
-    if (this.headerCell === undefined) {
-      this.headerCell = jQuery(cssClassHeader)[0];
-    }
-
-    this.marginTop = jQuery(this.headerCell).outerHeight();
-    this.height = jQuery(cssClassTableBody).outerHeight();
-  }
-
-  private clear() {
-  }
-
-  private renderLabels() {
-  }
-
-  private renderGlobalElements() {
-  }
-
 
 }
