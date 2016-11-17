@@ -327,6 +327,9 @@ export class WorkPackageResource extends HalResource {
         // this resource doesn't know yet.
         this.assignNewValues(form.$embedded.payload);
 
+        // Use the newest embedded form
+        this.schema = form.$embedded.schema;
+
         deferred.resolve(form);
       })
       .catch(error => {
@@ -369,7 +372,7 @@ export class WorkPackageResource extends HalResource {
         const payload = this.mergeWithForm(form);
         const sentValues = Object.keys(this.$pristine);
 
-        this.saveResource(payload)
+        this.$links.updateImmediately(payload)
           .then(workPackage => {
             // Initialize any potentially new HAL values
             this.$initialize(workPackage);
@@ -423,13 +426,6 @@ export class WorkPackageResource extends HalResource {
 
   public isParentOf(otherWorkPackage) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
-  }
-
-  protected saveResource(payload): ng.IPromise<any> {
-    if (this.isNew) {
-      return apiWorkPackages.createWorkPackage(payload);
-    }
-    return this.$links.updateImmediately(payload);
   }
 
   private mergeWithForm(form) {
@@ -543,6 +539,10 @@ export class WorkPackageResource extends HalResource {
 
     // Set update link to form
     this['update'] = this.$links.update = form.$links.self;
+    // Use POST /work_packages for saving link
+    this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
+      return apiWorkPackages.createWorkPackage(payload);
+    };
 
     this.parentId = this.parentId || $stateParams.parent_id;
   }
