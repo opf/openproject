@@ -122,36 +122,4 @@ export class WorkPackageTimelineCell {
     this.bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
   }
 
-  /*
-  private updateGlobalElements(renderInfo: RenderInfo) {
-    const activeGlobalElementTypes = _.keys(renderInfo.globalElements);
-    const knownGlobalElementTypes = _.keys(this.globalElements);
-
-    const newGlobalElementTypes = _.difference(activeGlobalElementTypes, knownGlobalElementTypes);
-    const removedGlobalElementTypes = _.difference(knownGlobalElementTypes, activeGlobalElementTypes);
-
-    // new elements
-    for (const newElem of newGlobalElementTypes) {
-      const elem = document.createElement("div");
-      elem.className = timelineElementCssClass;
-      this.timelineCell.appendChild(elem);
-      this.globalElements[newElem] = elem;
-    }
-
-    // removed elements
-    for (const removedElem of removedGlobalElementTypes) {
-      this.globalElements[removedElem].remove();
-    }
-
-    // update elements
-    for (const elemType of _.keys(renderInfo.globalElements)) {
-      const elem = this.globalElements[elemType];
-      const cellHeight = jQuery(this.timelineCell).outerHeight();
-      elem.style.top = "0px";
-      elem.style.height = (cellHeight + 1) + "px";
-      renderInfo.globalElements[elemType](renderInfo, elem);
-    }
-  }
-  */
-
 }

@@ -46,17 +46,12 @@ export class WorkPackageTimelineService {
 
   private wpTimelineHeader = new WpTimelineHeader();
 
-  // private globalElementsRegistry: GlobalElementsRegistry = {};
-
   private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
 
   private refreshViewRequested = false;
 
   constructor(private states: States) {
     "ngInject";
-
-    // Today Line
-    // this.globalElementsRegistry["today"] = todayLine;
   }
 
   /**
@@ -88,8 +83,6 @@ export class WorkPackageTimelineService {
 
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
     // console.log("addWorkPackage() = " + wpId);
-
-    this.wpTimelineHeader.init();
 
     const wpObs = this.states.workPackages.get(wpId).observe(null)
       .map((wp: any) => {

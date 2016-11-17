@@ -32,8 +32,6 @@ import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
 
-// export type GlobalElementsRegistry = {[type: string]: (renderInfo: RenderInfo, elem: HTMLDivElement) => any};
-
 /**
  *
  */
@@ -76,7 +74,6 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams: TimelineViewParameters;
   workPackage: WorkPackage;
-  // globalElements: GlobalElementsRegistry;
 }
 
 /**

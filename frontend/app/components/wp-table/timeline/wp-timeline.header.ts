@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimelineViewParameters, timelineElementCssClass, RenderInfo} from "./wp-timeline";
+import {TimelineViewParameters, timelineElementCssClass} from "./wp-timeline";
 import {todayLine} from "./wp-timeline.today-line";
 
-const cssClassTableBody = ".generic-table--results-container";
+const cssClassTableBody = ".work-package-table";
 const cssClassHeader = ".wp-timeline-header";
 
 export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLDivElement) => any;
@@ -51,16 +51,9 @@ export class WpTimelineHeader {
     this.addElement("todayline", todayLine);
   }
 
-  init() {
-    if (this.headerCell === undefined) {
-      this.headerCell = jQuery(cssClassHeader)[0];
-    }
-
-    this.marginTop = jQuery(this.headerCell).outerHeight();
-    this.height = jQuery(cssClassTableBody).outerHeight();
-  }
-
   refreshView(vp: TimelineViewParameters) {
+    this.lazyInit();
+
     const enabledGlobalElements = _.keys(this.globalElementsRegistry);
     const createdGlobalElements = _.keys(this.globalElements);
 
@@ -70,7 +63,7 @@ export class WpTimelineHeader {
     // new elements
     for (const newElem of newGlobalElements) {
       const elem = document.createElement("div");
-      elem.className = timelineElementCssClass + " wp-timeline-global-element-" + name;
+      elem.className = timelineElementCssClass + " wp-timeline-global-element-" + newElem;
       elem.style.position = "absolute";
       elem.style.top = this.marginTop + "px";
       elem.style.height = this.height + "px";
@@ -87,27 +80,26 @@ export class WpTimelineHeader {
     // update elements
     for (const elemType of _.keys(this.globalElements)) {
       const elem = this.globalElements[elemType];
-      // const cellHeight = jQuery(this.timelineCell).outerHeight();
-      // elem.style.top = "0px";
-      // elem.style.height = (cellHeight + 1) + "px";
       this.globalElementsRegistry[elemType](vp, elem);
     }
+
   }
 
   addElement(name: string, renderer: GlobalElement) {
     this.globalElementsRegistry[name] = renderer;
+  }
 
-    // const elem = document.createElement("div");
-    // elem.className = timelineElementCssClass + " wp-timeline-globalelement-" + name;
-    // elem.style.position = "absolute";
-    // elem.style.top = this.marginTop + "px";
-    // elem.style.left = "0px";
-    // elem.style.height = this.height + "px";
-    // elem.style.width = "10px";
-    // elem.style.zIndex = "10";
-    // elem.style.backgroundColor = "red";
-    //
-    // this.headerCell.appendChild(elem);
+  removeElement(name: string) {
+    delete this.globalElementsRegistry[name];
+  }
+
+  private lazyInit() {
+    if (this.headerCell === undefined) {
+      this.headerCell = jQuery(cssClassHeader)[0];
+    }
+
+    this.marginTop = jQuery(this.headerCell).outerHeight();
+    this.height = jQuery(cssClassTableBody).outerHeight();
   }
 
   private clear() {
