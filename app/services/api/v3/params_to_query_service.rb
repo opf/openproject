@@ -49,7 +49,7 @@ module API
       def new_query
         model_name = model.name
 
-        query_class = Kernel.const_get "::Queries::#{model_name.pluralize}::#{model_name}Query"
+        query_class = "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
 
         query_class.new
       end

@@ -26,37 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
-  'use strict';
+import {wpDirectivesModule} from '../../../angular-modules';
 
-  var workPackageWatcherController = function(scope) {
-    scope.remove = function() {
-      scope.deleting = true;
-      scope.$emit('watchers.remove', scope.watcher);
-    };
-
-    scope.I18n = I18n;
-
-    var focused = false;
-    scope.focus = function() {
-      focused = true;
-    };
-
-    scope.blur = function() {
-      focused = false;
-    };
-
-    scope.focussing = function() {
-      return focused;
-    };
-  };
-
+function opFullWidthTypeahead( $timeout ) {
   return {
-    replace: true,
-    templateUrl: '/templates/work_packages/watchers/watcher.html',
-    link: workPackageWatcherController,
-    scope: {
-      watcher: '='
+    restrict: 'A',
+    require: 'uibTypeahead',
+    link: function(scope, element, attrs, $select) {
+      const watchOn = attrs['typeaheadIsOpen'];
+
+      if (!watchOn) {
+        throw "Missing typeahead-is-open on typeahead directive!";
+      }
+
+      scope.$watch(watchOn, (isOpen) => {
+        if (isOpen) {
+          angular.element('#' + element.attr('aria-owns')).width(element.outerWidth());
+        }
+      });
     }
   };
-};
+}
+
+wpDirectivesModule.directive('opFullwidthTypeahead', opFullWidthTypeahead);
+

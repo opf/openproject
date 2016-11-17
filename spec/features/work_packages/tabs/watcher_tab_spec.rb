@@ -49,7 +49,7 @@ describe 'Watcher tab', js: true, selenium: true do
   end
 
   shared_examples 'watchers tab' do
-    include_context 'ui-select helpers'
+    include_context 'typeahead helpers'
 
     before do
       login_as(user)
@@ -59,14 +59,8 @@ describe 'Watcher tab', js: true, selenium: true do
 
     it 'modifying the watcher list modifies the watch button' do
       # Add user as watcher
-      trigger = find('.work-package--watchers-lookup .inplace-editing--trigger-container')
-      trigger.click
-
-      input = find('input.ui-select-search')
-      input.click
-      input.send_keys [user.name, :return]
-
-      find('.inplace-edit--control--save a').click
+      typeahead = find('.wp-watcher--autocomplete')
+      select_typeahead(typeahead, query: user.firstname, select_text: user.name)
 
       # Expect the addition of the user to toggle WP watch button
       expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
