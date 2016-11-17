@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTimelineService, RenderInfo} from "./wp-timeline.service";
+import {WorkPackageTimelineService} from "./wp-timeline.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {asyncTest} from "../../../helpers/angular-rx-utils";
+import {RenderInfo} from "./wp-timeline";
 import WorkPackage = op.WorkPackage;
 
 const expect = chai.expect;

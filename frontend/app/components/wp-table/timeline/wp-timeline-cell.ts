@@ -27,12 +27,10 @@
 // ++
 
 import {States} from "../../states.service";
-import {
-  WorkPackageTimelineService, RenderInfo, calculatePositionValueForDayCount,
-  timelineElementCssClass
-} from "./wp-timeline.service";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {State} from "../../../helpers/reactive-fassade";
+import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
+import {WorkPackageTimelineService} from "./wp-timeline.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
@@ -46,13 +44,13 @@ export class WorkPackageTimelineCell {
 
   private bar: HTMLDivElement = null;
 
-  private globalElements: {[type: string]: HTMLDivElement} = {};
+  // private globalElements: {[type: string]: HTMLDivElement} = {};
 
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
               private scope: IScope,
               private states: States,
               private workPackageId: string,
-              private timelineCell: HTMLTableElement) {
+              private timelineCell: HTMLElement) {
 
     // this.wpState = this.states.workPackages.get(this.workPackageId);
   }
@@ -98,7 +96,7 @@ export class WorkPackageTimelineCell {
     const due = moment(wp.dueDate as any);
 
     // update global elements
-    this.updateGlobalElements(renderInfo);
+    // this.updateGlobalElements(renderInfo);
 
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
@@ -124,6 +122,7 @@ export class WorkPackageTimelineCell {
     this.bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
   }
 
+  /*
   private updateGlobalElements(renderInfo: RenderInfo) {
     const activeGlobalElementTypes = _.keys(renderInfo.globalElements);
     const knownGlobalElementTypes = _.keys(this.globalElements);
@@ -152,7 +151,7 @@ export class WorkPackageTimelineCell {
       elem.style.height = (cellHeight + 1) + "px";
       renderInfo.globalElements[elemType](renderInfo, elem);
     }
-
   }
+  */
 
 }

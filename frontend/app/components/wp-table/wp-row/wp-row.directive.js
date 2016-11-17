@@ -49,7 +49,7 @@ function wpRow(WorkPackagesTableService) {
 
       // required data for timeline cell
       var workPackageId = $scope.row.object.id;
-      var timelineTd = $element.find("td.wp-timeline-cell")[0];
+      var timelineTd = $element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
         workPackageTimelineService,
         $scope,

@@ -28,73 +28,12 @@
 
 import {openprojectModule} from "../../../angular-modules";
 import {States} from "../../states.service";
+import {RenderInfo, TimelineViewParameters} from "./wp-timeline";
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import Moment = moment.Moment;
+import {WpTimelineHeader} from "./wp-timeline.header";
 
-export const timelineElementCssClass = "timeline-element";
-
-/**
- *
- */
-export class TimelineViewParametersSettings {
-
-  showDurationInPx = true;
-
-  pixelPerDay = 10;
-
-  scrollOffsetInDays = 0;
-
-}
-
-/**
- *
- */
-export class TimelineViewParameters {
-
-  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
-
-  dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
-
-  dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
-
-  settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
-
-  get maxWidthInPx() {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.settings.pixelPerDay;
-  }
-
-  get scrollOffsetInPx() {
-    return this.settings.scrollOffsetInDays * this.settings.pixelPerDay;
-  }
-
-}
-
-/**
- *
- */
-export interface RenderInfo {
-  viewParams: TimelineViewParameters;
-  workPackage: WorkPackage;
-  globalElements: GlobalElementsRegistry;
-}
-
-/**
- *
- * @param viewParams
- * @param days
- * @returns {string}
- */
-export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
-  const daysInPx = days * viewParams.settings.pixelPerDay;
-  if (viewParams.settings.showDurationInPx) {
-    return daysInPx + "px";
-  } else {
-    return (daysInPx / viewParams.maxWidthInPx * 100) + "%";
-  }
-}
-
-type GlobalElementsRegistry = {[type: string]: (renderInfo: RenderInfo, elem: HTMLDivElement) => any};
 
 /**
  *
@@ -105,7 +44,9 @@ export class WorkPackageTimelineService {
 
   private workPackagesInView: {[id: string]: WorkPackage} = {};
 
-  private globalElementsRegistry: GlobalElementsRegistry = {};
+  private wpTimelineHeader = new WpTimelineHeader();
+
+  // private globalElementsRegistry: GlobalElementsRegistry = {};
 
   private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
 
@@ -115,15 +56,7 @@ export class WorkPackageTimelineService {
     "ngInject";
 
     // Today Line
-    this.globalElementsRegistry["today"] = (renderInfo: RenderInfo, elem: HTMLDivElement) => {
-      elem.style.position = "absolute";
-      elem.style.width = "2px";
-      elem.style.borderLeft = "2px solid red";
-      elem.style.zIndex = "10";
-      const offsetToday = this._viewParameters.now.diff(renderInfo.viewParams.dateDisplayStart, "days");
-      elem.style.left = calculatePositionValueForDayCount(renderInfo.viewParams, offsetToday);
-      elem.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-    };
+    // this.globalElementsRegistry["today"] = todayLine;
   }
 
   /**
@@ -141,6 +74,7 @@ export class WorkPackageTimelineService {
     if (!this.refreshViewRequested) {
       setTimeout(() => {
         this.updateAllWorkPackagesSubject.onNext(true);
+        this.wpTimelineHeader.refreshView(this._viewParameters);
         this.refreshViewRequested = false;
       }, 30);
     }
@@ -148,13 +82,14 @@ export class WorkPackageTimelineService {
   }
 
   refreshScrollOnly() {
-    // console.log("setScrollValue() " + this._viewParameters.scrollOffsetInPx);
     jQuery(".timeline-element").css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
   }
 
 
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
     // console.log("addWorkPackage() = " + wpId);
+
+    this.wpTimelineHeader.init();
 
     const wpObs = this.states.workPackages.get(wpId).observe(null)
       .map((wp: any) => {
@@ -168,7 +103,7 @@ export class WorkPackageTimelineService {
         return {
           viewParams: this._viewParameters,
           workPackage: wp,
-          globalElements: this.globalElementsRegistry
+          // globalElements: this.globalElementsRegistry
         };
       });
 
@@ -180,43 +115,10 @@ export class WorkPackageTimelineService {
           return renderInfo;
         }
       );
-
-    // const obs = Rx.Observable
-    //   .combineLatest(
-    //     this.updateAllWorkPackagesSubject,
-    //     this.states.workPackages.get(wpId).observe(null),
-    //     (vp: boolean, wp: any) => {
-    //       return {
-    //         viewParams: this._viewParameters,
-    //         workPackage: wp,
-    //         globalElements: this.globalElementsRegistry
-    //       };
-    //     }
-    //   )
-    //   .flatMap(renderInfo => {
-    //     const wp = renderInfo.workPackage;
-    //     this.workPackagesInView[wp.id] = wp;
-    //
-    //     console.log("    flatMap = " + wpId);
-    // const viewParamsChanged = this.calculateViewParams(renderInfo.viewParams);
-
-    // if (viewParamsChanged) {
-    // view params have changed, notify all cells
-    // this.viewParamsSubject.onNext(this._viewParameters);
-    // this.refreshView();
-    // return Observable.empty<RenderInfo>();
-    // } else {
-    // view params have not changed, only notify this observer
-    // console.log("    update wp=" + wpId);
-    // return Observable.just(renderInfo);
-    // }
-    // });
-
-    // return obs;
   }
 
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
-    console.log("calculateViewParams()");
+    // console.log("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;

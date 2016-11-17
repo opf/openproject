@@ -1,7 +1,5 @@
 <div class="generic-table--container work-package-table--container"
-  ng-class="{ '-with-footer': displaySums }">
-
-  <timeline-control></timeline-control>
+     ng-class="{ '-with-footer': displaySums }">
 
   <div class="generic-table--results-container"
        wp-virtual-scroll-table>
@@ -42,6 +40,15 @@
                           query="query"
                           ng-class="column.name == 'id' && '-short' ">
           </th>
+
+          <th class="wp-timeline-header"
+              style="
+                position: relative;
+                background-color: #fae7e7;
+                overflow: visible;
+                ">&nbsp;TIMELINE</th>
+
+
         </tr>
       </thead>
 
@@ -169,7 +176,11 @@
               ng-class="::{ '-short': column.name == 'id' }">
           </td>
 
-          <td class="wp-timeline-cell" style="position: relative; background-color: #ebfaf5; overflow: visible">
+          <td class="wp-timeline-cell"
+              style="
+                position: relative;
+                background-color: #ebfaf5;
+                ">
           </td>
 
         </tr>
