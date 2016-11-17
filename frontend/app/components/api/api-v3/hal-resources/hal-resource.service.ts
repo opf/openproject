@@ -29,6 +29,7 @@
 import {opApiModule} from '../../../../angular-modules';
 import {HalLinkInterface} from '../hal-link/hal-link.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
+import {State} from './../../../../helpers/reactive-fassade';
 
 const ObservableArray:any = require('observable-array');
 
@@ -100,7 +101,27 @@ export class HalResource {
     this.$initialize($source);
   }
 
+  /**
+   * Return the associated state to this HAL resource, if any.
+   */
+  public get state():State<HalResource>|null {
+    return null;
+  }
+
   public $load(force = false):ng.IPromise<HalResource> {
+    const state = this.state;
+    if (!this.state) {
+      return this.$loadResource(force);
+    }
+
+    if (force) {
+      state.clear();
+    }
+
+    return <ng.IPromise<HalResource>> state.get();
+  }
+
+  protected $loadResource(force = false):ng.IPromise<HalResource> {
     if (!force) {
       if (this.$loaded) {
         return $q.when(this);

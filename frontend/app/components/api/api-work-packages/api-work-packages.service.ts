@@ -55,12 +55,21 @@ export class ApiWorkPackagesService {
    */
   public loadWorkPackageById(id:number, force = false) {
     const url = this.v3Path.wp({wp: id});
+    const deferred = this.$q.defer();
 
-    return <IPromise<WorkPackageResource>> this.halRequest.get(url, null, {
+    this.halRequest.get(url, null, {
       caching: {
         enabled: !force
       }
-    });
+    })
+    .then((workPackage:WorkPackageResource) => {
+      workPackage.schema.$load().then(() => {
+       deferred.resolve(workPackage);
+      })
+    })
+    .catch(deferred.reject);
+
+    return deferred.promise;
   }
 
   /**

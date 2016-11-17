@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,42 +24,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
+import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
-import {HalResourceTypesService} from './hal-resource-types.service';
+import {WorkPackageResource} from './work-package-resource.service';
+import {States} from '../../../states.service';
+import {State} from './../../../../helpers/reactive-fassade';
 
-function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
-  halResourceTypes.setResourceTypeConfig({
-    WorkPackage: {
-      className: 'WorkPackageResource',
-      attrTypes: {
-        parent: 'WorkPackage',
-        children: 'WorkPackage',
-        relations: 'Relation',
-      }
-    },
-    Activity: {
-      user: 'User'
-    },
-    'Activity::Comment': {
-      user: 'User'
-    },
-    'Activity::Revision': {
-      user: 'User'
-    },
-    Relation: {
-      className: 'RelationResource',
-      attrTypes: {
-        from: 'WorkPackage',
-        to: 'WorkPackage'
-      }
-    },
-    Schema: 'SchemaResource',
-    Error: 'ErrorResource',
-    User: 'UserResource',
-    Collection: 'CollectionResource'
-  });
+var states: States;
+
+export class SchemaResource extends HalResource {
+
+  public get state() {
+    return states.schemas.get(this.$link.href);
+  }
 }
 
-opApiModule.run(halResourceTypesConfig);
+function schemaResource(...args) {
+  [
+    states,
+  ] = args;
+  return SchemaResource;
+}
+
+schemaResource.$inject = [
+  'states',
+];
+
+opApiModule.factory('SchemaResource', schemaResource);

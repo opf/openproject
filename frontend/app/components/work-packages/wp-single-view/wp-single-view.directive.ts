@@ -124,27 +124,24 @@ export class WorkPackageSingleViewController {
       this.workPackage.attachments.updateElements();
     }
 
-    this.workPackage.schema.$load().then(schema => {
-      this.setFocus();
+    this.setFocus();
 
-      var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
-      otherGroup.attributes = [];
+    var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
+    otherGroup.attributes = [];
 
-      angular.forEach(schema, (prop, propName) => {
-        if (propName.match(/^customField/)) {
-          otherGroup.attributes.push(propName);
-        }
-      });
-
-      otherGroup.attributes.sort((leftField, rightField) => {
-        var getLabel = field => this.singleViewWp.getLabel(field);
-        var left = getLabel(leftField).toLowerCase();
-        var right = getLabel(rightField).toLowerCase();
-
-        return left.localeCompare(right);
-      });
+    angular.forEach(this.workPackage.schema, (prop, propName) => {
+      if (propName.match(/^customField/)) {
+        otherGroup.attributes.push(propName);
+      }
     });
 
+    otherGroup.attributes.sort((leftField, rightField) => {
+      var getLabel = field => this.singleViewWp.getLabel(field);
+      var left = getLabel(leftField).toLowerCase();
+      var right = getLabel(rightField).toLowerCase();
+
+      return left.localeCompare(right);
+    });
   }
 }
 

@@ -116,40 +116,38 @@ export class WorkPackageEditFieldController {
   }
 
   public initializeField() {
-    // Activate field when creating a work package
-    // and the schema requires this field
-    if (this.workPackage.isNew && this.workPackage.requiredValueFor(this.fieldName)) {
-      this.activate();
-
-      var activeField = this.formCtrl.firstActiveField;
-      if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
-        this.formCtrl.firstActiveField = this.fieldName;
-      }
-    }
-
     // Mark the td field if it is inline-editable
     // We're resolving the non-form schema here since its loaded anyway for the table
-    this.workPackage.schema.$load().then(schema => {
-      var fieldSchema = schema[this.fieldName];
+    const fieldSchema = this.workPackage.schema[this.fieldName];
 
-      this.editable = fieldSchema && fieldSchema.writable;
-      this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
+    this.editable = fieldSchema && fieldSchema.writable;
+    this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
 
-      this.updateDisplayAttributes();
+    this.updateDisplayAttributes();
 
-      if (fieldSchema) {
-        this.fieldLabel = this.fieldLabel || fieldSchema.name;
+    if (fieldSchema) {
+      this.fieldLabel = this.fieldLabel || fieldSchema.name;
 
-        // Activate the field automatically when in editAllMode
-        if (this.inEditMode && this.isEditable) {
-          // Set focus on the first field
-          if(this.fieldName === 'subject')
-            this.activate(true);
-          else
-            this.activate();
+      // Activate field when creating a work package
+      // and the schema requires this field
+      if (this.workPackage.isNew && this.isRequired() && !this.workPackage[this.fieldName]) {
+        this.activate();
+
+        var activeField = this.formCtrl.firstActiveField;
+        if (!activeField || this.formCtrl.fields[activeField].fieldIndex > this.fieldIndex) {
+          this.formCtrl.firstActiveField = this.fieldName;
         }
       }
-    });
+
+      // Activate the field automatically when in editAllMode
+      if (this.inEditMode && this.isEditable) {
+        // Set focus on the first field
+        if (this.fieldName === 'subject')
+          this.activate(true);
+        else
+          this.activate();
+      }
+    }
   }
 
   public activateIfEditable(event) {
@@ -314,7 +312,7 @@ export class WorkPackageEditFieldController {
   }
 
   protected buildEditField(): ng.IPromise<any> {
-    return this.formCtrl.loadSchema().then(schema => {
+    return this.workPackage.loadFormSchema().then(schema => {
       this.field = <EditField>this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
       this.workPackage.storePristine(this.fieldName);
     });

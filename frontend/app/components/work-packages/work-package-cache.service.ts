@@ -64,7 +64,9 @@ export class WorkPackageCacheService {
         ? wpState.getCurrentValue() // dirty, use current wp
         : wp; // not dirty or unknown, use new wp
 
-      this.states.workPackages.put(workPackageId, wpForPublish);
+      wpForPublish.schema.$load().then(() => {
+        this.states.workPackages.put(workPackageId, wpForPublish);
+      });
     }
   }
 

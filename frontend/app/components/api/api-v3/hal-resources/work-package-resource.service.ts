@@ -36,6 +36,8 @@ import {UploadFile} from '../../op-file-upload/op-file-upload.service';
 import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 import ITimeoutService = angular.ITimeoutService;
+import {States} from '../../../states.service';
+import {SchemaResource} from './schema-resource.service';
 
 interface WorkPackageResourceEmbedded {
   activities: CollectionResourceInterface;
@@ -50,7 +52,7 @@ interface WorkPackageResourceEmbedded {
   project: HalResource|any;
   relations: CollectionResourceInterface;
   responsible: HalResource|any;
-  schema: HalResource|any;
+  schema: SchemaResource|any;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
   type: HalResource|any;
@@ -80,6 +82,7 @@ var $q: IQService;
 var $stateParams: any;
 var $timeout: ITimeoutService;
 var I18n: op.I18n;
+var states: States;
 var apiWorkPackages: ApiWorkPackagesService;
 var wpCacheService: WorkPackageCacheService;
 var NotificationsService: any;
@@ -113,7 +116,7 @@ export class WorkPackageResource extends HalResource {
   public $embedded: WorkPackageResourceEmbedded;
   public $links: WorkPackageResourceLinks;
   public id: number|string;
-  public schema;
+  public schema: SchemaResource|any;
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
   public subject: string;
@@ -145,6 +148,10 @@ export class WorkPackageResource extends HalResource {
   public get dirty(): boolean {
     return this.modifiedFields.length > 0;
   }
+
+  /**
+   * Returns a reference to the
+   */
 
   public get modifiedFields(): string[] {
     var modified = [];
@@ -190,11 +197,7 @@ export class WorkPackageResource extends HalResource {
    * be done automatically, but the backend does not provide typed collections yet.
    */
   protected $initialize(source) {
-    const oldSchema = this.schema;
     super.$initialize(source);
-
-    // Take over previously loaded schema resource
-    this.setExistingSchema(oldSchema);
 
     var attachments = this.attachments || {$source: void 0, $loaded: void 0};
     this.attachments = new AttachmentCollectionResource(
@@ -259,18 +262,6 @@ export class WorkPackageResource extends HalResource {
       });
   }
 
-  public requiredValueFor(fieldName): boolean {
-    var fieldSchema = this.schema[fieldName];
-
-    // The field schema may be undefined if a custom field
-    // is used as a column, but not available for this type.
-    if (angular.isUndefined(fieldSchema)) {
-      return false;
-    }
-
-    return !this[fieldName] && fieldSchema.writable && fieldSchema.required;
-  }
-
   public allowedValuesFor(field): ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
@@ -319,15 +310,10 @@ export class WorkPackageResource extends HalResource {
 
     this.form
       .then(form => {
-        // Override the current schema with
-        // the changes from API
-        this.schema = form.$embedded.schema;
-
         // Take over new values from the form
         // this resource doesn't know yet.
         this.assignNewValues(form.$embedded.payload);
 
-        // Use the newest embedded form
         this.schema = form.$embedded.schema;
 
         deferred.resolve(form);
@@ -340,11 +326,11 @@ export class WorkPackageResource extends HalResource {
     return deferred.promise;
   }
 
-  public getSchema() {
+  public loadFormSchema() {
     return this.getForm().then(form => {
-      const schema = form.$embedded.schema;
+      this.schema = form.$embedded.schema;
 
-      angular.forEach(schema, (field, name) => {
+      angular.forEach(this.schema, (field, name) => {
         // Assign only links from schema when an href is set
         // and field is writable.
         // (exclude plain properties and null values)
@@ -355,11 +341,11 @@ export class WorkPackageResource extends HalResource {
         const hasAllowedValues = Array.isArray(field.allowedValues) && field.allowedValues.length > 0;
 
         if (isHalField && hasAllowedValues) {
-          this[name] = _.find(field.allowedValues, {href: this[name].href});
+          this[name] = _.find(field.allowedValues, {href: this[name].href}) || this[name];
         }
       });
 
-      return schema;
+      return this.schema;
     });
   }
 
@@ -373,26 +359,30 @@ export class WorkPackageResource extends HalResource {
         const sentValues = Object.keys(this.$pristine);
 
         this.$links.updateImmediately(payload)
-          .then(workPackage => {
-            // Initialize any potentially new HAL values
-            this.$initialize(workPackage);
-            this.updateActivities();
-
-            if (wasNew) {
-              this.uploadPendingAttachments();
-              wpCacheService.newWorkPackageCreated(this);
-            }
-
-            // Remove only those pristine values that were submitted
-            angular.forEach(sentValues, (key) => {
-              delete this.$pristine[key];
-            });
-
+          .then((workPackage:WorkPackageResource) => {
             // Remove the current form, otherwise old form data
-            // might still be used for the next edit field in #getSchema()
+            // might still be used for the next edit field to be edited
             this.form = null;
 
-            deferred.resolve(this);
+            // Ensure the schema is loaded before updating
+            workPackage.schema.$load().then((schema) => {
+              // Initialize any potentially new HAL values
+              this.$initialize(workPackage);
+              this.schema = schema;
+              this.updateActivities();
+
+              if (wasNew) {
+                this.uploadPendingAttachments();
+                wpCacheService.newWorkPackageCreated(this);
+              }
+
+              // Remove only those pristine values that were submitted
+              angular.forEach(sentValues, (key) => {
+                delete this.$pristine[key];
+              });
+
+              deferred.resolve(this);
+            });
           })
           .catch(error => {
             deferred.reject(error);
@@ -458,25 +448,6 @@ export class WorkPackageResource extends HalResource {
         this[key] = formPayload[key];
       }
     });
-  }
-
-  private setExistingSchema(previous) {
-    // Only when existing schema was loaded
-    if (!(previous && previous.$loaded)) {
-      return;
-    }
-
-    // If old schema was a regular schema and both href match
-    // assume they are matching
-    if (previous.href === this.schema.href) {
-      this.schema = previous;
-    }
-
-    // If old schema was embedded into the WP form, decide
-    // based on its baseSchema href.
-    if (previous.baseSchema && previous.baseSchema.href === this.schema.href) {
-      this.schema = previous;
-    }
   }
 
   /**
@@ -557,6 +528,7 @@ function wpResource(...args) {
     $stateParams,
     $timeout,
     I18n,
+    states,
     apiWorkPackages,
     wpCacheService,
     NotificationsService,
@@ -570,6 +542,7 @@ wpResource.$inject = [
   '$stateParams',
   '$timeout',
   'I18n',
+  'states',
   'apiWorkPackages',
   'wpCacheService',
   'NotificationsService',
