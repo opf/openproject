@@ -95,8 +95,7 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 type="text"
-                 value="" />
+                 type="text" />
         }).at_path('input')
       end
     end
@@ -137,8 +136,7 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 type="text"
-                 value="" />
+                 type="text" />
         }).at_path('input')
       end
     end
@@ -158,8 +156,7 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 type="text"
-                 value="" />
+                 type="text" />
         }).at_path('input')
       end
     end
@@ -179,8 +176,7 @@ describe CustomFieldFormBuilder do
                  id="user#{resource.custom_field_id}"
                  lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
-                 type="text"
-                 value="" />
+                 type="text" />
         }).at_path('input')
       end
     end

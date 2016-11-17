@@ -29,10 +29,24 @@
 
 class CustomValue::VersionStrategy < CustomValue::FormatStrategy
   def typed_value
+    return memoized_typed_value if memoized_typed_value
+
     unless value.blank?
       RequestStore.fetch(:"version_custom_value_#{value}") do
         Version.find_by(id: value)
       end
+    end
+  end
+
+  def parse_value(val)
+    if val.is_a?(Version)
+      self.memoized_typed_value = val
+
+      val.id.to_s
+    elsif value.blank?
+      super(nil)
+    else
+      super
     end
   end
 

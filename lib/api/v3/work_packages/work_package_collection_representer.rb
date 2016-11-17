@@ -144,7 +144,43 @@ module API
 
         def full_work_packages(ids_in_order)
           wps = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
+
+          eager_load_user_custom_values(wps)
+          eager_load_version_custom_values(wps)
+
           wps.sort_by { |wp| ids_in_order.index(wp.id) }
+        end
+
+        def eager_load_user_custom_values(work_packages)
+          eager_load_custom_values work_packages, 'user', User.includes(:preference)
+        end
+
+        def eager_load_version_custom_values(work_packages)
+          eager_load_custom_values work_packages, 'version', Version
+        end
+
+        def eager_load_custom_values(work_packages, field_format, scope)
+          cvs = custom_values_of(work_packages, field_format)
+
+          ids_of_values = cvs.map(&:value)
+
+          values_by_id = scope.find(ids_of_values).group_by(&:id)
+
+          cvs.each do |cv|
+            cv.value = values_by_id[cv.value.to_i].first
+          end
+        end
+
+        def custom_values_of(work_packages, field_format)
+          cvs = []
+
+          work_packages.each do |wp|
+            wp.custom_values.each do |cv|
+              cvs << cv if cv.custom_field.field_format == field_format && cv.value.present?
+            end
+          end
+
+          cvs
         end
 
         attr_reader :project,

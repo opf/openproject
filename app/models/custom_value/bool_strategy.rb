@@ -32,9 +32,7 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
   DB_VALUE_TRUE = 't'.freeze
 
   def value_present?
-    # can't use :blank? safely, because false.blank? == true
-    # can't use :present? safely, because false.present? == false
-    !value.nil? && value != ''
+    present?(value)
   end
 
   def typed_value
@@ -43,16 +41,26 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
     ActiveRecord::Type::Boolean.new.cast(value)
   end
 
-  def db_value
-    if !value_present?
-      nil
-    elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(value)
-      DB_VALUE_FALSE
-    else
-      DB_VALUE_TRUE
-    end
+  def parse_value(val)
+    parsed_val = if !present?(val)
+                   nil
+                 elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(val)
+                   DB_VALUE_FALSE
+                 else
+                   DB_VALUE_TRUE
+                 end
+
+    super(parsed_val)
   end
 
   def validate_type_of_value
+  end
+
+  private
+
+  def present?(val)
+    # can't use :blank? safely, because false.blank? == true
+    # can't use :present? safely, because false.present? == false
+    !val.nil? && val != ''
   end
 end

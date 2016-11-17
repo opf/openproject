@@ -92,23 +92,26 @@ describe CustomValue do
     end
   end
 
-  describe 'storing to db' do
-    context 'for a boolean custom field' do
-      context 'for the integer 1' do
-        let(:value) { 1 }
+  describe 'value/value=' do
+    let(:custom_value) { FactoryGirl.build_stubbed(:custom_value) }
+    let(:strategy_double) { double('strategy_double') }
 
-        it "is saved as 't'" do
-          expect(custom_value.value).to eql 't'
-        end
-      end
+    it 'calls the strategy for parsing and uses that value' do
+      original_value = 'original value'
+      parsed_value = 'parsed value'
 
-      context 'for the integer 0' do
-        let(:value) { 0 }
+      allow(custom_value)
+        .to receive(:strategy)
+        .and_return(strategy_double)
 
-        it "is saved as 'f'" do
-          expect(custom_value.value).to eql 'f'
-        end
-      end
+      allow(strategy_double)
+        .to receive(:parse_value)
+        .with(original_value)
+        .and_return(parsed_value)
+
+      custom_value.value = original_value
+
+      expect(custom_value.value).to eql parsed_value
     end
   end
 end
