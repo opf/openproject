@@ -65,7 +65,7 @@ describe('wpDisplayAttr directive', () => {
     scope = $rootScope.$new();
 
     // Expected request for updates
-    _$httpBackend_.expectGET('/api/v3/work_packages').respond(200);
+    _$httpBackend_.expectGET('/api/v3/work_packages/1').respond(200);
 
     compile = () => {
       $compile(element)(scope);
@@ -86,6 +86,7 @@ describe('wpDisplayAttr directive', () => {
         mybool: false,
         type: {id: 1, name: 'Bug'},
         sheep: 10,
+        id: 1,
         customField1: 'asdf1234',
         emptyField: null,
         schema: {

@@ -201,7 +201,6 @@ declare namespace op {
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
     getForm();
-    getSchema();
     save();
     links:WorkPackageLinks;
   }
