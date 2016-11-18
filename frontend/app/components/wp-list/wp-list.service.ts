@@ -109,6 +109,10 @@ export class WorkPackagesListService {
           this.mergeApiResponses(json, workPackageCollection);
 
           deferred.resolve(json);
+        })
+        .catch((error) => {
+          this.mergeApiResponses(json, { elements: [], count: 0, total: 0 });
+          deferred.reject({ error: error, json: json });
         });
     });
 
