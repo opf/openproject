@@ -60,7 +60,22 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
     },
 
     parseSingleValue: function (v) {
-      return (this.type == 'integer') ? parseInt(v) : v;
+      var result = v;
+      switch (this.type) {
+        case 'integer':
+          result = parseInt(v);
+          break;
+        case 'date':
+        case 'date_past':
+          switch (this.operator) {
+            case '=d':
+              result = new Date(Date.parse(v));
+              break;
+            default:
+              result = parseInt(v);
+          }
+      }
+      return result;
     },
 
     getValuesAsArray: function () {

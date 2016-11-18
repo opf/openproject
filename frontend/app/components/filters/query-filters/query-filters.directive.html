@@ -91,32 +91,66 @@
             {{ I18n.t('js.work_packages.description_enter_text') }}
           </label>
 
-          <span class="inline-label" ng-switch-when="date">
+          <span class="inline-label" ng-switch-when="date"
+                ng-switch="filter.operator">
             <input ng-model="filter.textValue"
                    ng-model-options="::filterModelOptions"
                    ng-required="true"
+                   ng-switch-when="=d"
+                   class="advanced-filters--date-field"
+                   id="values-{{filter.name}}"
+                   name="v[{{filter.name}}]"
+                   size="30"
+                   type="date"
+                   ng-disabled="isLoading"/>
+            <label for="values-{{filter.name}}" class="form-label -transparent"
+                   ng-switch-when="=d">
+              {{ I18n.t('js.work_packages.date.exact') }}
+            </label>
+            <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
+                   ng-required="true"
+                   ng-switch-default
                    class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label for="values_{{name}}" class="form-label -transparent">
+            <label for="values-{{filter.name}}" class="form-label -transparent"
+                   ng-switch-default>
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
           </span>
 
-          <span class="inline-label" ng-switch-when="date_past">
+          <span class="inline-label" ng-switch-when="date_past"
+                ng-switch="filter.operator">
             <input ng-model="filter.textValue"
                    ng-model-options="::filterModelOptions"
                    ng-required="true"
+                   ng-switch-when="=d"
+                   class="advanced-filters--date-field"
+                   id="values-{{filter.name}}"
+                   name="v[{{filter.name}}]"
+                   size="30"
+                   type="date"
+                   ng-disabled="isLoading"/>
+            <label for="values-{{filter.name}}" class="form-label -transparent"
+                   ng-switch-when="=d">
+              {{ I18n.t('js.work_packages.date.exact') }}
+            </label>
+            <input ng-model="filter.textValue"
+                   ng-model-options="::filterModelOptions"
+                   ng-required="true"
+                   ng-switch-default
                    class="advanced-filters--text-field"
                    id="values-{{filter.name}}"
                    name="v[{{filter.name}}]"
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label ng-switch-when="date_past" for="values_{{name}}" class="form-label -transparent">
+            <label for="values-{{filter.name}}" class="form-label -transparent"
+                   ng-switch-default>
               {{ I18n.t('js.work_packages.time_relative.days') }}
             </label>
           </span>
