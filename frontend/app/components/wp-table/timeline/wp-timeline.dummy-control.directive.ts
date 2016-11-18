@@ -28,6 +28,7 @@
 
 import {openprojectModule} from "../../../angular-modules";
 import {WorkPackageTimelineService} from "./wp-timeline.service";
+import {ZoomLevel} from "./wp-timeline";
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 
@@ -40,10 +41,18 @@ const template = `
                     ng-change="$ctrl.updateScroll()" 
                     style="display: inline-block; width: 200px"/>
 
-    Zoom: <input type="number" 
-                 ng-model="$ctrl.zoom" 
-                    ng-change="$ctrl.updateZoom()" 
-                 style="display: inline-block; width: 200px"/>
+    Zoom: <select type="number" 
+                  ng-model="$ctrl.zoom" 
+                  ng-change="$ctrl.updateZoom()" 
+                  style="display: inline-block; width: 200px">
+                  
+               <option value="${ZoomLevel.DAYS}">Days</option>
+               <option value="${ZoomLevel.WEEKS}">Weeks</option>
+               <option value="${ZoomLevel.MONTHS}">Months</option>
+               <option value="${ZoomLevel.QUARTERS}">Quarter</option>
+               <option value="${ZoomLevel.YEARS}">Years</option>
+               
+         </select>
   
 </div>
 `;
@@ -53,12 +62,12 @@ class WorkPackageTimelineControlController {
 
   hscroll: number;
 
-  zoom: number;
+  zoom: string;
 
   /*@ngInject*/
   constructor(private workPackageTimelineService: WorkPackageTimelineService) {
     this.hscroll = workPackageTimelineService.viewParameterSettings.scrollOffsetInDays;
-    this.zoom = workPackageTimelineService.viewParameterSettings.pixelPerDay;
+    this.zoom = ZoomLevel.DAYS.toString();
   }
 
   updateScroll() {
@@ -67,7 +76,7 @@ class WorkPackageTimelineControlController {
   }
 
   updateZoom() {
-    this.workPackageTimelineService.viewParameterSettings.pixelPerDay = this.zoom;
+    this.workPackageTimelineService.viewParameterSettings.zoomLevel = parseInt(this.zoom);
     this.workPackageTimelineService.refreshView();
   }
 

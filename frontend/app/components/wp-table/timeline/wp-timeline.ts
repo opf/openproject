@@ -39,9 +39,9 @@ export class TimelineViewParametersSettings {
 
   showDurationInPx = true;
 
-  pixelPerDay = 10;
-
   scrollOffsetInDays = 0;
+
+  zoomLevel: ZoomLevel = ZoomLevel.DAYS;
 
 }
 
@@ -63,16 +63,29 @@ export class TimelineViewParameters {
 
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
 
-  zoomLevel: ZoomLevel = ZoomLevel.DAYS;
-
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
+  get pixelPerDay() {
+    switch (this.settings.zoomLevel) {
+      case ZoomLevel.DAYS:
+        return 30;
+      case ZoomLevel.WEEKS:
+        return 24;
+      case ZoomLevel.MONTHS:
+        return 6;
+      case ZoomLevel.QUARTERS:
+        return 2;
+      case ZoomLevel.YEARS:
+        return 0.5;
+    }
+  }
+
   get maxWidthInPx() {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.settings.pixelPerDay;
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.pixelPerDay;
   }
 
   get scrollOffsetInPx() {
-    return this.settings.scrollOffsetInDays * this.settings.pixelPerDay;
+    return this.settings.scrollOffsetInDays * this.pixelPerDay;
   }
 
 }
@@ -92,7 +105,7 @@ export interface RenderInfo {
  * @returns {string}
  */
 export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
-  const daysInPx = days * viewParams.settings.pixelPerDay;
+  const daysInPx = days * viewParams.pixelPerDay;
   if (viewParams.settings.showDurationInPx) {
     return daysInPx + "px";
   } else {

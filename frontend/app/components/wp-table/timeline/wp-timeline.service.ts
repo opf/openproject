@@ -95,8 +95,7 @@ export class WorkPackageTimelineService {
 
         return {
           viewParams: this._viewParameters,
-          workPackage: wp,
-          // globalElements: this.globalElementsRegistry
+          workPackage: wp
         };
       });
 

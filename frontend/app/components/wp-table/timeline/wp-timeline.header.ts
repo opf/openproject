@@ -45,9 +45,9 @@ export class WpTimelineHeader {
 
   private marginTop: number;
 
-  private height: number;
+  private globalHeight: number;
 
-  private zoomLevel: ZoomLevel;
+  private activeZoomLevel: ZoomLevel;
 
   constructor() {
     this.addElement("todayline", todayLine);
@@ -74,18 +74,76 @@ export class WpTimelineHeader {
     }
 
     this.marginTop = jQuery(this.headerCell).outerHeight();
-    this.height = jQuery(cssClassTableBody).outerHeight();
+    this.globalHeight = jQuery(cssClassTableBody).outerHeight();
   }
 
   private renderLabels(vp: TimelineViewParameters) {
-    if (this.zoomLevel === vp.zoomLevel) {
+    if (this.activeZoomLevel === vp.settings.zoomLevel) {
       return;
     }
 
+    jQuery(this.headerCell).empty();
+    switch (vp.settings.zoomLevel) {
+      case ZoomLevel.DAYS:
+        return this.renderLabelsDays(vp);
+      case ZoomLevel.WEEKS:
+        return this.renderLabelsWeeks(vp);
+      case ZoomLevel.MONTHS:
+        return this.renderLabelsMonths(vp);
+      case ZoomLevel.QUARTERS:
+        return this.renderLabelsQuarters(vp);
+      case ZoomLevel.YEARS:
+        return this.renderLabelsYears(vp);
+    }
+
+    this.activeZoomLevel = vp.settings.zoomLevel;
+  }
+
+  private renderLabelsDays(vp: TimelineViewParameters) {
+    console.log("renderLabelsDays()");
+    this.headerCell.style.height = "48px";
+
+    const monthsCount = vp.dateDisplayEnd.diff(vp.dateDisplayStart, "months");
+    console.log(monthsCount);
+
+    for (let m = 0; m <= monthsCount; m++) {
+      const label = this.addLabelCell();
+
+      if (m === 0) {
+
+      }
+
+      if (m === monthsCount) {
+
+      }
 
 
+    }
 
-    this.zoomLevel = vp.zoomLevel;
+  }
+
+  private renderLabelsWeeks(vp: TimelineViewParameters) {
+  }
+
+  private renderLabelsMonths(vp: TimelineViewParameters) {
+  }
+
+  private renderLabelsQuarters(vp: TimelineViewParameters) {
+  }
+
+  private renderLabelsYears(vp: TimelineViewParameters) {
+  }
+
+  private addLabelCell(): HTMLElement {
+    const label = document.createElement("div");
+    label.style.position = "absolute";
+    label.style.height = "10px";
+    label.style.width = "10px";
+    label.style.top = "0px";
+    label.style.left = "30px";
+    label.style.backgroundColor = "yellow";
+    this.headerCell.appendChild(label);
+    return label;
   }
 
   private renderGlobalElements(vp: TimelineViewParameters) {
@@ -99,7 +157,6 @@ export class WpTimelineHeader {
       elem.className = timelineElementCssClass + " wp-timeline-global-element-" + newElem;
       elem.style.position = "absolute";
       elem.style.top = this.marginTop + "px";
-      elem.style.height = this.height + "px";
       elem.style.zIndex = "10";
       this.headerCell.appendChild(elem);
       this.globalElements[newElem] = elem;
@@ -108,6 +165,7 @@ export class WpTimelineHeader {
     // update elements
     for (const elemType of _.keys(this.globalElements)) {
       const elem = this.globalElements[elemType];
+      elem.style.height = this.globalHeight + "px";
       this.globalElementsRegistry[elemType](vp, elem);
     }
   }
