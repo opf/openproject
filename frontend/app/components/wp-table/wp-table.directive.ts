@@ -279,8 +279,14 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     expand: I18n.t('js.label_expand'),
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
-    noResults: I18n.t('js.work_packages.no_results.title'),
-    noResultsDescription: I18n.t('js.work_packages.no_results.description'),
+    noResults: {
+      title: I18n.t('js.work_packages.no_results.title'),
+      description: I18n.t('js.work_packages.no_results.description')
+    },
+    faultyQuery: {
+      title: I18n.t('js.work_packages.faulty_query.title'),
+      description: I18n.t('js.work_packages.faulty_query.description')
+    },
     tableSummary: I18n.t('js.work_packages.table.summary'),
     tableSummaryHints: [
       I18n.t('js.work_packages.table.text_inline_edit'),
