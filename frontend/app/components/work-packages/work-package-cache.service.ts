@@ -1,3 +1,4 @@
+import {SchemaResource} from './../api/api-v3/hal-resources/schema-resource.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -64,9 +65,15 @@ export class WorkPackageCacheService {
         ? wpState.getCurrentValue() // dirty, use current wp
         : wp; // not dirty or unknown, use new wp
 
-      wpForPublish.schema.$load().then(() => {
-        this.states.workPackages.put(workPackageId, wpForPublish);
-      });
+      // Ensure the schema is loaded
+      // so that no consumer needs to call schema#$load manually
+      const putIntoState = () => this.states.workPackages.put(workPackageId, wpForPublish);
+
+      if (wpForPublish.schema.$loaded) {
+        putIntoState();
+      } else {
+        wpForPublish.schema.$load().then(putIntoState);
+      }
     }
   }
 
@@ -76,8 +83,10 @@ export class WorkPackageCacheService {
       state.clear();
     }
 
-    state.putFromPromiseIfPristine(
-      () => this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+    if (workPackageId.toString() !== 'new') {
+    state.putFromPromiseIfPristine(() =>
+        this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+    }
 
     return state;
   }
