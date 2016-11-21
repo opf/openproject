@@ -67,13 +67,13 @@ export class WorkPackageCacheService {
 
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
-      const putIntoState = () => this.states.workPackages.put(workPackageId, wpForPublish);
-
       if (wpForPublish.schema.$loaded) {
-        putIntoState();
-      } else {
-        wpForPublish.schema.$load().then(putIntoState);
+        return wpState.put(wpForPublish);
       }
+
+      wpState.putFromPromise(wpForPublish.schema.$load().then(() => {
+        return wpForPublish;
+      }));
     }
   }
 

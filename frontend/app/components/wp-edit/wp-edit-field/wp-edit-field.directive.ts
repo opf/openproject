@@ -356,11 +356,6 @@ function wpEditField(wpCacheService: WorkPackageCacheService) {
         scope.vm.initializeField();
       });
 
-    if (formCtrl.workPackage) {
-      scope.vm.workPackage = formCtrl.workPackage;
-      scope.vm.initializeField();
-    }
-
     element.addClass(scope.vm.fieldName);
     element.keyup(event => {
       if (event.keyCode === 27) {
