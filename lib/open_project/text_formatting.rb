@@ -85,19 +85,22 @@ module OpenProject
       # offer 'plain' as readable version for 'no formatting' to callers
       options_format = options[:format] == 'plain' ? '' : options[:format]
       format = options_format || Setting.text_formatting
-      text = Redmine::WikiFormatting.to_html(format, text,
-                                             object: obj,
-                                             attribute: attr,
-                                             edit: edit) { |macro, macro_args|
-        exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
-      }
 
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
-      text = parse_non_pre_blocks(text) { |text|
+      text = parse_non_pre_blocks(text) { |piece|
+        piece = Redmine::WikiFormatting.to_html(format, piece,
+                                              object: obj,
+                                              attribute: attr,
+                                              edit: edit) { |macro, macro_args|
+          exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
+        }
+
         [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
-          send method_name, text, project, obj, attr, only_path, options
+          send method_name, piece, project, obj, attr, only_path, options
         end
+
+        piece
       }
 
       if @parsed_headings.any?
@@ -129,7 +132,7 @@ module OpenProject
         closing = s[3]
         tag = s[4]
         if tags.empty?
-          yield text
+          text = yield text
         end
         parsed << text
         if tag
