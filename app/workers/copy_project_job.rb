@@ -115,8 +115,8 @@ class CopyProjectJob < ApplicationJob
                  "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
     unless errors.empty?
-      logger.info('Encountered an errors while trying to copy related objects for '\
-                  "project '#{source_project_id}': #{errors.inspect}")
+      logger.error('Encountered an errors while trying to copy related objects for '\
+                   "project '#{source_project_id}': #{errors.inspect}")
     end
 
     return target_project, errors
