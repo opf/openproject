@@ -14,9 +14,16 @@ RSpec.configure do |config|
   config.display_try_failure_messages = true
 
   ##
-  # By default, retry specs twice
-  # TODO rather set this on features themselves.
-  config.default_retry_count = 2
+  # By default, do not retry specs
+  config.default_retry_count = 0
+
+  ##
+  # Retry JS feature specs, but not during single runs
+  unless config.files_to_run.one?
+    config.around :each, :js do |ex|
+      ex.run_with_retry retry: 2
+    end
+  end
 end
 
 ##
