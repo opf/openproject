@@ -55,6 +55,9 @@ module Redmine
 
         def acts_as_watchable(options = {})
           return if included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
+
+          acts_as_watchable_enforce_project_association
+
           class_eval do
             has_many :watchers, as: :watchable, dependent: :delete_all, validate: false
             has_many :watcher_users, through: :watchers, source: :user, validate: false
@@ -70,6 +73,22 @@ module Redmine
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
+        end
+
+        def acts_as_watchable_enforce_project_association
+          unless reflect_on_association(:project)
+            message = <<-MESSAGE
+
+              The #{self} model does not have an association to the Project model.
+
+              acts_as_watchable requires the including model to have such an association.
+
+              If no direct association exists, consider adding a
+                has_one :project, through: ...
+              association.
+            MESSAGE
+            raise message
+          end
         end
       end
 
