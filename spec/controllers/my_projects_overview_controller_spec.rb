@@ -41,7 +41,7 @@ describe MyProjectsOverviewsController, type: :controller do
   describe '#index' do
     describe "WHEN calling the page" do
       before do
-        get 'index', params
+        get 'index', params: params
       end
 
       it 'renders the overview page' do
@@ -55,7 +55,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
       before do
         params["jump"] = "work_packages"
-        get 'index', params
+        get 'index', params: params
       end
 
       it { expect(response).to redirect_to project_work_packages_path(project) }
@@ -64,7 +64,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
   describe '#page_layout' do
     before do
-      get 'page_layout', params
+      get 'page_layout', params: params
     end
 
     it 'renders the overview page' do
@@ -82,7 +82,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
     it 'updates the model' do
       expect(overview).to receive(:save_custom_element).with('a', 'Title', 'Content')
-      xhr :post, :update_custom_element, params
+      post :update_custom_element, xhr: true, params: params
     end
   end
 
@@ -108,14 +108,14 @@ describe MyProjectsOverviewsController, type: :controller do
           .to receive_message_chain(:errors, :full_messages)
           .and_return(['Some error'])
 
-        xhr :post, :save_changes, params.merge(blockparams)
+        post :save_changes, xhr: true, params: params.merge(blockparams)
       end
 
       context 'save successful' do
         let(:save_result) { true }
         it 'assigns all blocks that exist' do
           expect(controller).to set_flash[:notice].to I18n.t(:notice_successful_update)
-          expect(response).to redirect_to(action: :page_layout)
+          expect(response).to redirect_to(action: :index)
         end
       end
 
@@ -132,7 +132,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
   describe '#render_attachments' do
     before do
-      xhr :get, :render_attachments
+      get :render_attachments, xhr: true
     end
 
     it 'renders the attachments partial' do
@@ -146,14 +146,14 @@ describe MyProjectsOverviewsController, type: :controller do
       render_views
 
       it 'renders that block' do
-        xhr :post, :add_block, params.merge(block: 'calendar')
+        post :add_block, xhr: true, params: params.merge(block: 'calendar')
         expect(response).to be_success
         expect(response).to render_template(partial: '_block')
         expect(response).to render_template(partial: 'my_projects_overviews/blocks/_calendar')
       end
 
       it 'does not render an invalid block' do
-        xhr :post, :add_block, params.merge(block: 'doesnotexist')
+        post :add_block, xhr: true, params: params.merge(block: 'doesnotexist')
         expect(response.body).to be_blank
       end
     end
@@ -168,7 +168,7 @@ describe MyProjectsOverviewsController, type: :controller do
       it 'creates and saves a new custom block' do
         expect(overview).to receive(:save).and_return(true)
 
-        xhr :post, :add_block, params.merge(block: 'custom_element')
+        post :add_block, xhr: true, params: params.merge(block: 'custom_element')
 
         expect(hidden.length).to eq(1)
         expect(response).to be_success
@@ -181,7 +181,7 @@ describe MyProjectsOverviewsController, type: :controller do
           .to receive_message_chain(:errors, :full_messages)
           .and_return(["Error 1", "Error 2"])
 
-        xhr :post, :add_block, params.merge(block: 'custom_element')
+        post :add_block, xhr: true, params: params.merge(block: 'custom_element')
 
         expect(response.status).to eq(500)
         expect(response.body).to include("The changes could not be saved: Error 1, Error 2")

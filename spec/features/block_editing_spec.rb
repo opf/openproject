@@ -127,6 +127,7 @@ describe 'My project page editing', type: :feature, js: true do
     expect_block(left, :calendar)
 
     # Remove the block again
+    find('#my-project-page-layout').click
     find('#block_calendar .remove-block').click
     expect(page).to have_no_selector('#list-left #block_calendar')
 
@@ -168,9 +169,11 @@ describe 'My project page editing', type: :feature, js: true do
 
     # Saving the block
     save_changes.click
-
     expect(page).to have_selector('.flash.notice', text: I18n.t('js.notice_successful_update'))
     expect_block(right, :a)
+
+    # Go back to editing page
+    find('#my-project-page-layout').click
     expect(page).to have_no_selector('#list-hidden #block_a')
 
     # Removing the block

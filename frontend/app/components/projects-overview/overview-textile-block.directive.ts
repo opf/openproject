@@ -41,7 +41,7 @@ export class OverviewTextileBlockController {
   public newBlock:boolean;
 
   // Current state of edit form showing
-  public formVisible:boolean;
+  public formVisible:boolean = false;
 
   constructor(public $element,
               public $timeout,
