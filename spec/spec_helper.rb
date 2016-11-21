@@ -96,15 +96,6 @@ RSpec.configure do |config|
     end
   end
 
-  if ENV['CI']
-    $stderr.puts <<-EOS
-    WARNING
-
-    Silencing all ActiveSupport::Deprecation message output due to CI=true.
-    EOS
-    ActiveSupport::Deprecation.behavior = :silence
-  end
-
   # Print the 10 slowest examples and example groups at the
   # end of the spec run, to help surface which specs are running
   # particularly slow.
