@@ -44,7 +44,7 @@ describe 'Search', type: :feature do
     before do
       login_as FactoryGirl.create(:admin)
 
-      visit "/search?q=Subject"
+      visit "/search?q=#{query}"
     end
 
     def expect_range(a, b)
