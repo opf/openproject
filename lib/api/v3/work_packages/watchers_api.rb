@@ -30,15 +30,30 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < ::API::OpenProjectAPI
+        helpers do
+          def to_i_or_nil(string)
+            string ? string.to_i : nil
+          end
+        end
+
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
 
-          available_watchers = @work_package.addable_watcher_users.includes(:preference)
-          self_link = api_v3_paths.available_watchers(@work_package.id)
+          service = ::API::V3::ParamsToQueryService.new(User)
+          query = service.call(params)
 
-          ::API::V3::Users::UserCollectionRepresenter.new(available_watchers,
-                                                          self_link,
-                                                          current_user: current_user)
+          if query.valid?
+            users = query.results.merge(@work_package.addable_watcher_users).includes(:preference)
+            ::API::V3::Users::PaginatedUserCollectionRepresenter.new(
+              users,
+              api_v3_paths.users,
+              page: to_i_or_nil(params[:offset]),
+              per_page: to_i_or_nil(params[:pageSize]),
+              current_user: current_user
+            )
+          else
+            raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+          end
         end
 
         resources :watchers do

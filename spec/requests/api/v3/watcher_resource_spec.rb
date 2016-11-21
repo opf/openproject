@@ -43,6 +43,8 @@ describe 'API v3 Watcher resource', type: :request do
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:available_watcher) {
     FactoryGirl.create :user,
+                       firstname: 'Something',
+                       lastname: 'Strange',
                        member_in_project: project,
                        member_through_role: view_work_packages_role
   }
@@ -226,15 +228,19 @@ describe 'API v3 Watcher resource', type: :request do
   describe '#available_watchers' do
     let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
+    let(:returned_user_ids) {
+      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
+    }
 
     before do
+      available_watcher
       get available_watchers_path
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'User'
+    it_behaves_like 'API V3 collection response', 2, 2, 'User'
 
     it 'includes a user eligible for watching' do
-      expect(subject.body).to be_json_eql(current_user.id).at_path('_embedded/elements/0/id')
+      expect(returned_user_ids).to match_array([available_watcher.id, current_user.id])
     end
 
     context 'when the user does not have the necessary permissions' do
@@ -242,6 +248,24 @@ describe 'API v3 Watcher resource', type: :request do
 
       it 'responds with 403' do
         expect(subject.status).to eql(403)
+      end
+    end
+
+    describe 'searching for a user' do
+      let(:available_watchers_path) {
+        path = api_v3_paths.available_watchers work_package.id
+        filters = %([{ "name": { "operator": "~", "values": ["#{query}"] } }])
+        "#{path}?filters=#{filters}"
+      }
+
+      context 'that does not exist' do
+        let(:query) { 'asdfasdfasdfasdf' }
+        it_behaves_like 'API V3 collection response', 0, 0, 'User'
+      end
+
+      context 'that does exist' do
+        let(:query) { 'strange' }
+        it_behaves_like 'API V3 collection response', 1, 1, 'User'
       end
     end
   end

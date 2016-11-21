@@ -26,37 +26,41 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
-  'use strict';
+.avatar, .gravatar
+  border-radius: $user-avatar-border-radius
+  width: $user-avatar-width
 
-  var workPackageWatcherController = function(scope) {
-    scope.remove = function() {
-      scope.deleting = true;
-      scope.$emit('watchers.remove', scope.watcher);
-    };
+.avatar-mini
+  border-radius: $user-avatar-mini-border-radius
+  width: $user-avatar-mini-width
 
-    scope.I18n = I18n;
+h1, h2, h3, h4, tr
+  .avatar, .avatar-mini
+    vertical-align: middle
+    margin-right: 7px
 
-    var focused = false;
-    scope.focus = function() {
-      focused = true;
-    };
 
-    scope.blur = function() {
-      focused = false;
-    };
+.user-avatar--container
+  +display(flex)
+  +align-items(flex-start)
+  width: 100%
 
-    scope.focussing = function() {
-      return focused;
-    };
-  };
+.user-avatar--avatar
+  @extend .avatar-mini
+  margin-right: 0.5em
 
-  return {
-    replace: true,
-    templateUrl: '/templates/work_packages/watchers/watcher.html',
-    link: workPackageWatcherController,
-    scope: {
-      watcher: '='
-    }
-  };
-};
+.user-avatar--user-with-role
+  +flex(1)
+
+.user-avatar--user
+  display:        block
+  word-wrap:      break-word
+  overflow-wrap:  break-word
+
+.user-avatar--role
+  display:      block
+  font-style:   italic
+  color:        #777777
+
+.user-link
+  display: inline-block

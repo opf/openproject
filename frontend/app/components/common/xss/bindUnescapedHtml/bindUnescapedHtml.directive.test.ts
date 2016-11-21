@@ -57,7 +57,7 @@ describe('bindUnescapedHtml Directive', function() {
 
   describe('when content is escaped', function() {
     beforeEach(function() {
-      scope.text = '<p>Some escaped {{ DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }} angular expression</p>';
+      scope.text = '<p>Some escaped {{ $root.DOUBLE_LEFT_CURLY_BRACE }} 3 + 5 }} angular expression</p>';
       compile();
     });
 

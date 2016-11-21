@@ -146,7 +146,10 @@ export class WorkPackageEditFormController {
 
     this.workPackage.save()
       .then(() => {
-        angular.forEach(this.fields, (field:WorkPackageEditFieldController) => field.setErrors([]));
+        angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
+          field.setErrors([]);
+          field.deactivate();
+        });
         deferred.resolve(this.workPackage);
 
         this.wpNotificationsService.showSave(this.workPackage, isInitial);

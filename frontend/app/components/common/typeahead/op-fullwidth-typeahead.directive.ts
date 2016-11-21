@@ -26,38 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.avatar, .gravatar
-  border-radius: $user-avatar-border-radius
-  width: $user-avatar-width
+import {wpDirectivesModule} from '../../../angular-modules';
 
-.avatar-mini
-  border-radius: $user-avatar-mini-border-radius
-  width: $user-avatar-mini-width
+function opFullWidthTypeahead( $timeout ) {
+  return {
+    restrict: 'A',
+    require: 'uibTypeahead',
+    link: function(scope, element, attrs, $select) {
+      const watchOn = attrs['typeaheadIsOpen'];
 
-h1, h2, h3, h4, tr
-  .avatar, .avatar-mini
-    vertical-align: middle
-    margin-right: 7px
+      if (!watchOn) {
+        throw "Missing typeahead-is-open on typeahead directive!";
+      }
 
+      scope.$watch(watchOn, (isOpen) => {
+        if (isOpen) {
+          angular.element('#' + element.attr('aria-owns')).width(element.outerWidth());
+        }
+      });
+    }
+  };
+}
 
-.user-avatar--container
-  +display(flex)
-  +align-items(flex-start)
-  width: 100%
+wpDirectivesModule.directive('opFullwidthTypeahead', opFullWidthTypeahead);
 
-.user-avatar--avatar
-  @extend .avatar-mini
-  margin-right: 0.5em
-
-.user-avatar--user-with-role
-  +flex(1)
-
-.user-avatar--user
-  display:        block
-  word-wrap:      break-word
-  overflow-wrap:  break-word
-
-.user-avatar--role
-  display:      block
-  font-style:   italic
-  color:        #777777

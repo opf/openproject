@@ -44,13 +44,4 @@ angular.module('openproject.workPackages.directives')
     { key: 'export-atom', link: 'atom', resource: 'workPackage' }
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
-    './work-package-dynamic-attribute-directive')])
-  .directive('workPackageWatcher', [
-    'I18n',
-    require('./work-package-watcher-directive')
-  ])
-  .directive('workPackageWatchersLookup', [
-    'I18n',
-    'FocusHelper',
-    require('./work-package-watchers-lookup-directive.js')
-  ]);
+    './work-package-dynamic-attribute-directive')]);

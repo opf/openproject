@@ -42,7 +42,7 @@ function bindUnescapedHtml(ExpressionService:ExpressionService, $sce) {
 
   return {
     restrict: 'A',
-    template: '<span ng-bind-html="escapedValue"></span>',
+    template: '<span class="read-value--html" ng-bind-html="escapedValue"></span>',
     scope: {
       value: '=bindUnescapedHtml',
     },

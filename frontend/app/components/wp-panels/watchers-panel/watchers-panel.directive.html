@@ -8,9 +8,24 @@
   <div ng-hide="vm.error">
     <div class="work-package--watchers work-package--details--long-field"
          ng-class="{'-read-only': !vm.allowedToRemove}">
-      <work-package-watcher watcher="watcher"
-                            ng-repeat="watcher in vm.watching track by watcher.id"></work-package-watcher>
+      <wp-watcher watcher="watcher"
+                  ng-repeat="watcher in vm.watching track by watcher.id"></wp-watcher>
     </div>
-    <work-package-watchers-lookup watchers="vm.available" ng-show="vm.allowedToAdd"></work-package-watchers-lookup>
+    <div class="work-package--watchers-lookup" ng-if="vm.allowedToAdd">
+      <form name="watcherForm" novalidate>
+        <input type="text"
+               class="wp-watcher--autocomplete typeahead-autocomplete"
+               ng-class="{ '-error': vm.autocompleteInput.length && noResults }"
+               ng-model="vm.autocompleteInput"
+               op-fullwidth-typeahead
+               typeahead-is-open="autocompleteIsOpen"
+               typeahead-on-select="vm.addWatcher($model)"
+               typeahead-no-results="noResults"
+               typeahead-wait-ms="100"
+               typeahead-template-url="/components/common/typeahead/users/typeahead-match.html"
+               placeholder="{{ ::vm.text.autocomplete.placeholder }}"
+               uib-typeahead="item as item.name for item in vm.autocompleteWatchers($viewValue)">
+      </form>
+    </div>
   </div>
 </div>

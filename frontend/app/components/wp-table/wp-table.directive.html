@@ -46,14 +46,18 @@
         <!-- Empty row notification -->
         <tr id="empty-row-notification" ng-if="!rows.length">
           <td colspan="{{ numTableColumns }}">
-            <span>
+            <span ng-if="!query.hasError">
               <i class="icon-info1 icon-context"></i>
-              <strong ng-bind="text.noResults"></strong>
-              <span ng-bind="text.noResultsDescription"></span>
+              <strong ng-bind="text.noResults.title"></strong>
+              <span ng-bind="text.noResults.description"></span>
+            </span>
+            <span ng-if="query.hasError">
+              <i class="wp-table--faulty-query-icon icon-warning icon-context"></i>
+              <strong ng-bind="text.faultyQuery.title"></strong>
+              <span ng-bind="text.faultyQuery.description"></span>
             </span>
           </td>
         </tr>
-
         <!-- Group headers -->
 
         <tr wp-group-header

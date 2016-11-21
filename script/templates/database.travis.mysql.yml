@@ -33,4 +33,12 @@ test:
   encoding: utf8
   pool: 20
   variables:
-    sql_mode: "no_auto_value_on_zero,strict_trans_tables,strict_all_tables,no_zero_in_date,no_zero_date,error_for_division_by_zero,no_auto_create_user,no_engine_substitution"
+    sql_mode:
+      "no_auto_value_on_zero,\
+      strict_trans_tables,\
+      no_zero_date,\
+      strict_all_tables,\
+      no_zero_in_date,\
+      error_for_division_by_zero,\
+      no_auto_create_user,\
+      no_engine_substitution"

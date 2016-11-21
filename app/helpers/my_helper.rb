@@ -33,8 +33,12 @@ module MyHelper
   def calendar_items(startdt, enddt)
     WorkPackage.visible
       .where(project_id: User.current.projects.map(&:id))
-      .where('(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)', startdt, enddt, startdt, enddt)
+      .where("(#{WorkPackage.table_name}.start_date >= ? AND " \
+             "#{WorkPackage.table_name}.start_date <= ?)" \
+             "OR (#{WorkPackage.table_name}.due_date >= ? AND  " \
+             "#{WorkPackage.table_name}.due_date <= ? )", startdt, enddt, startdt, enddt)
       .includes(:project, :type, :priority, :assigned_to)
+      .references(:work_packages)
   end
 
   def wps_assigned_to_me

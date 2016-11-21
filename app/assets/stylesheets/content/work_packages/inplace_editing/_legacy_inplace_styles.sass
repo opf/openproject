@@ -54,8 +54,9 @@ a.inplace-editing--trigger-link,
     display: inline-block
     span
       line-height: 2
-    i
-      vertical-align: middle
+
+  .inplace-editing--container
+    position: relative
 
 .work-package--details--long-field
   .inplace-edit--read .inplace-edit--read-value
@@ -70,15 +71,20 @@ a.inplace-editing--trigger-link,
       float: inherit
 
 .inplace-edit--icon-wrapper
-  display: inline-block
+  position: absolute
+  height: 100%
+  right: 0
   text-align: center
   width: 32px
-  line-height: 2.5
   background: $gray-light
   border-left: 1px solid $inplace-edit--border-color
   color: $body-font-color
   visibility: hidden
-  float: right
+
+  .icon-context
+    position: relative
+    // Position the icon in the middle
+    top: calc(50% - 0.5rem)
 
   .icon-context:before
     // HACK: overriding default padding here
