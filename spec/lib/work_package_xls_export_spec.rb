@@ -24,6 +24,7 @@ describe "WorkPackageXlsExport" do
       r.to = followed
       r.relation_type = 'follows'
       r.delay = 0
+      r.description = 'description foobar'
       r.save
     end
   end
@@ -85,7 +86,7 @@ describe "WorkPackageXlsExport" do
     expect(sheet.rows[1])
       .to eq [
         nil, 'ID', 'Subject', 'Type', 'Status', 'Assignee',
-        nil, 'Relation type', 'Delay', 'ID', 'Type', 'Subject',
+        nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
         nil
       ]
   end
@@ -104,7 +105,8 @@ describe "WorkPackageXlsExport" do
   SINGLE = 8
   FOLLOWED = 9
   RELATION = 7
-  RELATED_SUBJECT = 11
+  RELATION_DESCRIPTION = 9
+  RELATED_SUBJECT = 12
 
   it 'marks Parent as parent of Child 1 and 2' do
     expect(sheet.row(PARENT)[RELATION]).to eq 'parent of'
@@ -140,6 +142,7 @@ describe "WorkPackageXlsExport" do
 
   it 'shows Followed as preceding Child 2' do
     expect(sheet.row(FOLLOWED)[RELATION]).to eq 'precedes'
+    expect(sheet.row(FOLLOWED)[RELATION_DESCRIPTION]).to eq 'description foobar'
     expect(sheet.row(FOLLOWED)[RELATED_SUBJECT]).to eq 'Child 2'
   end
 
@@ -147,7 +150,7 @@ describe "WorkPackageXlsExport" do
     expect(sheet.row(PARENT))
       .to eq [
         nil, parent.id, parent.subject, parent.type.name, parent.status.name, parent.assigned_to,
-        nil, 'parent of', nil, child_1.id, child_1.type.name, child_1.subject
+        nil, 'parent of', nil, nil, child_1.id, child_1.type.name, child_1.subject
       ] # delay nil as this is a parent-child relation not represented by an actual Relation record
 
     expect(sheet.row(SINGLE))
@@ -159,7 +162,7 @@ describe "WorkPackageXlsExport" do
       .to eq [
         nil, followed.id, followed.subject, followed.type.name, followed.status.name,
           followed.assigned_to,
-        nil, 'precedes', 0, child_2.id, child_2.type.name, child_2.subject
+        nil, 'precedes', 0, relation.description, child_2.id, child_2.type.name, child_2.subject
       ]
   end
 
