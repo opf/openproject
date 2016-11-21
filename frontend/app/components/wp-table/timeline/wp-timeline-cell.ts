@@ -101,12 +101,10 @@ export class WorkPackageTimelineCell {
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
-    // console.log("    viewParams.dateDisplayStart=" + moment(viewParams.dateDisplayStart));
-    // console.log("    offsetStart=" + offsetStart);
     this.bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
     // duration
-    const duration = due.diff(start, "days");
+    const duration = due.diff(start, "days") + 1;
     this.bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
   }
 

@@ -26,8 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TimelineViewParameters, timelineElementCssClass, ZoomLevel} from "./wp-timeline";
+import {
+  TimelineViewParameters,
+  timelineElementCssClass,
+  ZoomLevel,
+  calculatePositionValueForDayCount
+} from "./wp-timeline";
 import {todayLine} from "./wp-timeline.today-line";
+import Moment = moment.Moment;
 
 const cssClassTableBody = ".work-package-table";
 const cssClassHeader = ".wp-timeline-header";
@@ -83,6 +89,9 @@ export class WpTimelineHeader {
     }
 
     jQuery(this.headerCell).empty();
+    this.globalElements = {};
+    this.renderGlobalElements(vp);
+
     switch (vp.settings.zoomLevel) {
       case ZoomLevel.DAYS:
         return this.renderLabelsDays(vp);
@@ -100,26 +109,23 @@ export class WpTimelineHeader {
   }
 
   private renderLabelsDays(vp: TimelineViewParameters) {
-    console.log("renderLabelsDays()");
     this.headerCell.style.height = "48px";
 
-    const monthsCount = vp.dateDisplayEnd.diff(vp.dateDisplayStart, "months");
-    console.log(monthsCount);
+    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
+    });
 
-    for (let m = 0; m <= monthsCount; m++) {
-      const label = this.addLabelCell();
+    this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = parseInt(start.format("WW")) + 1;
+    });
 
-      if (m === 0) {
+    this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("D");
+    });
 
-      }
-
-      if (m === monthsCount) {
-
-      }
-
-
-    }
-
+    this.renderTimeSlices(vp, "day", 30, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("dd");
+    });
   }
 
   private renderLabelsWeeks(vp: TimelineViewParameters) {
@@ -134,14 +140,48 @@ export class WpTimelineHeader {
   private renderLabelsYears(vp: TimelineViewParameters) {
   }
 
+
+  renderTimeSlices(vp: TimelineViewParameters,
+                   unit: string,
+                   marginTop: number,
+                   startView: Moment,
+                   endView: Moment,
+                   cellCallback: (start: Moment, cell: HTMLElement) => void) {
+
+    const slices: [Moment, Moment][] = [];
+
+    const time = startView.clone().startOf(unit);
+    const end = endView.clone().endOf(unit);
+
+    while (time.isBefore(end)) {
+      const sliceStart = moment.max(time, startView).clone();
+      const sliceEnd = moment.min(time.clone().endOf(unit), endView).clone();
+      time.add(1, unit);
+      slices.push([sliceStart, sliceEnd]);
+    }
+
+    for (let [start, end] of slices) {
+      const cell = this.addLabelCell();
+      cell.style.borderRight = "1px solid black";
+      cell.style.top = marginTop + "px";
+      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
+      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
+      cell.style.textAlign = "center";
+      cell.style.fontSize = "8px";
+      cellCallback(start, cell);
+    }
+  }
+
   private addLabelCell(): HTMLElement {
     const label = document.createElement("div");
+    label.className = timelineElementCssClass;
     label.style.position = "absolute";
     label.style.height = "10px";
     label.style.width = "10px";
     label.style.top = "0px";
-    label.style.left = "30px";
+    label.style.left = "0px";
     label.style.backgroundColor = "yellow";
+    label.style.lineHeight = "normal";
     this.headerCell.appendChild(label);
     return label;
   }
