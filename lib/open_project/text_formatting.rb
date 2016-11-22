@@ -76,7 +76,7 @@ module OpenProject
       end
       return '' if text.blank?
 
-      edit = !!options.delete(:edit)
+      edit = !!options[:edit]
       # don't return html in edit mode when textile or text formatting is enabled
       return text if edit
       project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
@@ -85,22 +85,16 @@ module OpenProject
       # offer 'plain' as readable version for 'no formatting' to callers
       options_format = options[:format] == 'plain' ? '' : options[:format]
       format = options_format || Setting.text_formatting
-
+      text = Redmine::WikiFormatting.to_html(format, text,
+                                             object: obj,
+                                             attribute: attr,
+                                             edit: edit)
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
-      text = parse_non_pre_blocks(text) { |piece|
-        piece = Redmine::WikiFormatting.to_html(format, piece,
-                                              object: obj,
-                                              attribute: attr,
-                                              edit: edit) { |macro, macro_args|
-          exec_macro(macro, obj, macro_args, view: self, edit: edit, project: project)
-        }
-
-        [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
-          send method_name, piece, project, obj, attr, only_path, options
+      text = parse_non_pre_blocks(text) { |text|
+        [:execute_macros, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
+          send method_name, text, project, obj, attr, only_path, options
         end
-
-        piece
       }
 
       if @parsed_headings.any?
@@ -132,7 +126,7 @@ module OpenProject
         closing = s[3]
         tag = s[4]
         if tags.empty?
-          text = yield text
+          yield text
         end
         parsed << text
         if tag
@@ -151,6 +145,43 @@ module OpenProject
         parsed << "</#{tag}>"
       end
       parsed
+    end
+
+
+    MACROS_RE = /
+                  (!)?                        # escaping
+                  (
+                  \{\{                        # opening tag
+                  ([\w]+)                     # macro name
+                  (\(([^\}]*)\))?             # optional arguments
+                  \}\}                        # closing tag
+                  )
+                /x unless const_defined?(:MACROS_RE)
+
+    # Macros substitution
+    def execute_macros(text, project, obj, _attr, _only_path, options)
+      return if !!options[:edit]
+      text.gsub!(MACROS_RE) do
+        esc = $1
+        all = $2
+        macro = $3
+        args = ($5 || '').split(',').each(&:strip!)
+        if esc.nil?
+          begin
+            exec_macro(macro, obj, args, view: self, project: project)
+          rescue => e
+            "<span class=\"flash error macro-unavailable permanent\">\
+            #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
+            </span>".squish
+          rescue NotImplementedError
+            "<span class=\"flash error macro-unavailable permanent\">\
+            #{::I18n.t(:macro_unavailable, macro_name: macro)}\
+            </span>".squish
+          end || all
+        else
+          all
+        end
+      end
     end
 
     RELATIVE_LINK_RE = %r{

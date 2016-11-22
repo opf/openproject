@@ -56,8 +56,8 @@ module Redmine
       end
 
       def to_html(format, text, options = {}, &block)
-        edit = !!options.delete(:edit)
-        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute], options[:edit])
+        edit = !!options[:edit]
+        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute], edit)
                  # Text retrieved from the cache store may be frozen
                  # We need to dup it so we can do in-place substitutions with gsub!
                  cache_store.fetch cache_key do
@@ -65,9 +65,6 @@ module Redmine
                  end.dup
                else
                  formatter_for(format).new(text).to_html edit ? :edit : nil
-        end
-        if block_given? and !edit
-          execute_macros(text, block)
         end
         text
       end
@@ -82,41 +79,6 @@ module Redmine
       # Returns the cache store used to cache HTML output
       def cache_store
         ActionController::Base.cache_store
-      end
-
-      MACROS_RE = /
-                    (!)?                        # escaping
-                    (
-                    \{\{                        # opening tag
-                    ([\w]+)                     # macro name
-                    (\(([^\}]*)\))?             # optional arguments
-                    \}\}                        # closing tag
-                    )
-                  /x unless const_defined?(:MACROS_RE)
-
-      # Macros substitution
-      def execute_macros(text, macros_runner)
-        text.gsub!(MACROS_RE) do
-          esc = $1
-          all = $2
-          macro = $3
-          args = ($5 || '').split(',').each(&:strip!)
-          if esc.nil?
-            begin
-              macros_runner.call(macro, args)
-            rescue => e
-              "<span class=\"flash error macro-unavailable permanent\">\
-              #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
-              </span>".squish
-            rescue NotImplementedError
-              "<span class=\"flash error macro-unavailable permanent\">\
-              #{::I18n.t(:macro_unavailable, macro_name: macro)}\
-              </span>".squish
-            end || all
-          else
-            all
-          end
-        end
       end
     end
   end
