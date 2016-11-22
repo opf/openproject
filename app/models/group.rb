@@ -88,14 +88,19 @@ class Group < Principal
   end
 
   def user_removed(user)
-    members.each do |member|
-      MemberRole.includes(:member)
-        .where(["#{Member.table_name}.user_id = ? AND #{MemberRole.table_name}.inherited_from IN (?)",
-                user.id, member.member_role_ids])
-        .references(:members).each do |member_role|
-        member_role.member.remove_member_role_and_destroy_member_if_last(member_role)
-      end
+    member_roles = MemberRole
+                   .includes(member: :member_roles)
+                   .where(inherited_from: members.joins(:member_roles).select('member_roles.id'))
+                   .where(members: { user_id: user.id })
+
+    project_ids = member_roles.map { |mr| mr.member.project_id }
+
+    member_roles.each do |member_role|
+      member_role.member.remove_member_role_and_destroy_member_if_last(member_role,
+                                                                       prune_watchers: false)
     end
+
+    Watcher.prune(user: user, project_id: project_ids)
   end
 
   # adds group members

@@ -32,6 +32,7 @@ require 'enumerator'
 
 class WikiPage < ActiveRecord::Base
   belongs_to :wiki
+  has_one :project, through: :wiki
   has_one :content, class_name: 'WikiContent', foreign_key: 'page_id', dependent: :destroy
   acts_as_attachable delete_permission: :delete_wiki_pages_attachments
   acts_as_tree dependent: :nullify, order: 'title'
@@ -166,10 +167,6 @@ class WikiPage < ActiveRecord::Base
     version = version ? version.to_i : content.version
     c = content.versions.find_by(version: version)
     c ? WikiAnnotate.new(c) : nil
-  end
-
-  def project
-    wiki.project
   end
 
   def text

@@ -31,6 +31,7 @@ class Message < ActiveRecord::Base
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :board
+  has_one :project, through: :board
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   acts_as_tree counter_cache: :replies_count, order: "#{Message.table_name}.created_on ASC"
   acts_as_attachable after_add: :attachments_changed,
@@ -122,10 +123,6 @@ class Message < ActiveRecord::Base
 
   def sticky?
     sticky == 1
-  end
-
-  def project
-    board.project
   end
 
   def editable_by?(usr)
