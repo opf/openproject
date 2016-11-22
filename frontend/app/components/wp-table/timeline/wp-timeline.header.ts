@@ -109,22 +109,31 @@ export class WpTimelineHeader {
   }
 
   private renderLabelsDays(vp: TimelineViewParameters) {
-    this.headerCell.style.height = "48px";
+    this.headerCell.style.height = "44px";
 
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
     });
 
     this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = parseInt(start.format("WW")) + 1;
+      cell.innerHTML = start.format("ww");
+      cell.style.borderColor = "#000000";
+      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.zIndex = "2";
     });
 
     this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
+      cell.style.borderColor = "#CCCCCC";
+      cell.style.zIndex = "1";
+      cell.style.height = (this.globalHeight - 20) + "px";
     });
 
     this.renderTimeSlices(vp, "day", 30, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("dd");
+      cell.style.borderColor = "#CCCCCC";
+      cell.style.borderBottom = "1px solid black";
+      cell.style.height = "15px";
     });
   }
 
@@ -180,7 +189,6 @@ export class WpTimelineHeader {
     label.style.width = "10px";
     label.style.top = "0px";
     label.style.left = "0px";
-    label.style.backgroundColor = "yellow";
     label.style.lineHeight = "normal";
     this.headerCell.appendChild(label);
     return label;
@@ -197,7 +205,7 @@ export class WpTimelineHeader {
       elem.className = timelineElementCssClass + " wp-timeline-global-element-" + newElem;
       elem.style.position = "absolute";
       elem.style.top = this.marginTop + "px";
-      elem.style.zIndex = "10";
+      elem.style.zIndex = "100";
       this.headerCell.appendChild(elem);
       this.globalElements[newElem] = elem;
     }

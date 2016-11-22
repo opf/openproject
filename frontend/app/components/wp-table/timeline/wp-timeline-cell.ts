@@ -97,6 +97,7 @@ export class WorkPackageTimelineCell {
     this.bar.style.backgroundColor = "#8CD1E8";
     this.bar.style.borderRadius = "2px";
     this.bar.style.cssFloat = "left";
+    this.bar.style.zIndex = "50";
     this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
 
     // offset left

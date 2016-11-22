@@ -17,7 +17,7 @@
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-elastic": "~2.5.1",
     "angular-cache": "~4.6.0",
-    "moment": "~2.10.6",
+    "moment": "~2.16.0",
     "moment-timezone": "0.4.x",
     "angular-context-menu": "nickmessing/angular-context-menu#a908eccaec323cd66973d58af4965694bdff16a1",
     "angular-busy": "~4.1.3",
