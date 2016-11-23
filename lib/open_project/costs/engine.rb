@@ -88,7 +88,7 @@ module OpenProject::Costs
       end
     end
 
-    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
+    patches [:Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
@@ -355,13 +355,16 @@ module OpenProject::Costs
         material = WorkPackage::MaterialCosts.new
         labor = WorkPackage::LaborCosts.new
 
-        material.add_to_work_packages(labor.add_to_work_packages(super))
+        material.add_to_work_package_collection(labor.add_to_work_package_collection(super))
       end
     end
 
     config.to_prepare do
       require 'open_project/costs/patches/members_patch'
       OpenProject::Costs::Members.mixin!
+
+      require 'open_project/costs/patches/work_package_patch'
+      OpenProject::Costs::Patches::WorkPackagePatch.mixin!
 
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject

@@ -18,6 +18,12 @@ class WorkPackage
     end
 
     ##
+    # Adds to the given WorkPackage collection query an extra costs column
+    def add_to_work_package_collection(wp_collection_scope)
+      add_costs_to wp_collection_scope
+    end
+
+    ##
     # For the given work packages calculates the sum of all costs.
     #
     # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
@@ -62,10 +68,6 @@ class WorkPackage
 
     def costs_table_name
       costs_model.table_name
-    end
-
-    def table_alias
-      "#{costs_table_name}_sum_per_wp"
     end
 
     def add_costs_to(scope)
