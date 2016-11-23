@@ -37,6 +37,7 @@ import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 import ITimeoutService = angular.ITimeoutService;
 import {States} from '../../../states.service';
+import {State} from './../../../../helpers/reactive-fassade';
 import {SchemaResource} from './schema-resource.service';
 
 interface WorkPackageResourceEmbedded {
@@ -52,7 +53,7 @@ interface WorkPackageResourceEmbedded {
   project: HalResource|any;
   relations: CollectionResourceInterface;
   responsible: HalResource|any;
-  schema: SchemaResource|any;
+  schema: SchemaResource;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
   type: HalResource|any;
@@ -116,7 +117,7 @@ export class WorkPackageResource extends HalResource {
   public $embedded: WorkPackageResourceEmbedded;
   public $links: WorkPackageResourceLinks;
   public id: number|string;
-  public schema: SchemaResource|any;
+  public schema: SchemaResource;
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
   public subject: string;
@@ -150,9 +151,8 @@ export class WorkPackageResource extends HalResource {
   }
 
   /**
-   * Returns a reference to the
+   * Returns all modified fields by comparing open $pristine fields.
    */
-
   public get modifiedFields(): string[] {
     var modified = [];
 
@@ -310,11 +310,13 @@ export class WorkPackageResource extends HalResource {
 
     this.form
       .then(form => {
+        // Override the current schema with
+        // the changes from API
+        this.schema = form.$embedded.schema;
+
         // Take over new values from the form
         // this resource doesn't know yet.
         this.assignNewValues(form.$embedded.payload);
-
-        this.schema = form.$embedded.schema;
 
         deferred.resolve(form);
       })

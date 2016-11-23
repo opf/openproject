@@ -37,7 +37,7 @@ var states: States;
 export class SchemaResource extends HalResource {
 
   public get state() {
-    return states.schemas.get(this.$link.href);
+    return states.schemas.get(this.href);
   }
 }
 
