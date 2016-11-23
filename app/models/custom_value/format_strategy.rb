@@ -45,9 +45,13 @@ class CustomValue::FormatStrategy
     raise 'SubclassResponsibility'
   end
 
-  # Returns the value of the CustomValue to be stored in the db.
-  def db_value
-    value
+  # Parses the value to
+  # 1) have a unified representation for different inputs
+  # 2) memoize typed values (if the subclass descides to do so
+  def parse_value(val)
+    self.memoized_typed_value = nil
+
+    val
   end
 
   # Validates the type of the custom field and returns a symbol indicating the validation error
@@ -55,4 +59,8 @@ class CustomValue::FormatStrategy
   def validate_type_of_value
     raise 'SubclassResponsibility'
   end
+
+  private
+
+  attr_accessor :memoized_typed_value
 end

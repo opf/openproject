@@ -36,7 +36,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
      :edit_timelines,
      :edit_work_packages]
   end
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project, name: "Lil'ol'project") }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:other_user) do
     FactoryGirl.create(:user,
@@ -47,7 +47,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
   end
   let(:type) { project.types.first }
 
-  let(:bool_cf) {
+  let(:bool_cf) do
     field = FactoryGirl.create(:bool_wp_custom_field,
                                name: 'A_bool',
                                is_filter: true,
@@ -56,8 +56,8 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     type.custom_fields << field
 
     field
-  }
-  let(:list_cf) {
+  end
+  let(:list_cf) do
     field = FactoryGirl.create(:list_wp_custom_field,
                                name: 'A_list',
                                is_filter: true,
@@ -69,8 +69,8 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     type.custom_fields << field
 
     field
-  }
-  let(:bool_cf_local) {
+  end
+  let(:bool_cf_local) do
     field = FactoryGirl.create(:bool_wp_custom_field,
                                name: 'A_local_bool',
                                is_filter: true,
@@ -80,8 +80,8 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     project.work_package_custom_fields << field
 
     field
-  }
-  let(:user_cf_local) {
+  end
+  let(:user_cf_local) do
     field = FactoryGirl.create(:user_wp_custom_field,
                                name: 'A_user',
                                is_filter: true,
@@ -91,42 +91,29 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     project.work_package_custom_fields << field
 
     field
-  }
-  let(:work_package1) {
-    wp = FactoryGirl.create(:work_package,
-                            assigned_to: other_user,
-                            type: type,
-                            project: project)
-    FactoryGirl.create(:custom_value,
-                       custom_field: bool_cf,
-                       customized: wp,
-                       value: true)
-    FactoryGirl.create(:custom_value,
-                       custom_field: bool_cf_local,
-                       customized: wp,
-                       value: false)
-    FactoryGirl.create(:custom_value,
-                       custom_field: user_cf_local,
-                       customized: wp,
-                       value: user.id)
-    FactoryGirl.create(:custom_value,
-                       custom_field: list_cf,
-                       customized: wp,
-                       value: list_cf.possible_values.first)
+  end
+  let(:work_package1) do
+    wp = FactoryGirl.build(:work_package,
+                           subject: "Lil'ol'wp",
+                           assigned_to: other_user,
+                           type: type,
+                           project: project)
+
+    wp.custom_field_values = { bool_cf.id => true,
+                               bool_cf_local.id => false,
+                               user_cf_local.id => user,
+                               list_cf.id => list_cf.possible_values.first }
+
+    wp.save!
 
     wp
-  }
+  end
 
   let(:timeline) do
     FactoryGirl.create(:timeline, project: project)
   end
 
   before do
-    bool_cf
-    list_cf
-    bool_cf_local
-    user_cf_local
-
     work_package1
 
     login_as(user)
@@ -135,38 +122,39 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
   include_context 'ui-select helpers'
 
   it 'displays custom values' do
-    # For reasons I cannot begin to fathom it was not possible
-    # to get a test to pass on travis where the boolean custom fields where selected.
-    # It only failed on postgresql but it did fail there consistently.
-    # The same test setup worked locally without problems.
     visit edit_project_timeline_path(project_id: project, id: timeline)
 
     select = page.find('#s2id_timeline_options_columns_')
     ui_select(select, list_cf.name)
     ui_select(select, 'Assignee')
+    ui_select(select, bool_cf_local.name)
 
     click_button 'Save'
 
     within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
-      expect(page).to have_selector('.tl-column', text: list_cf.possible_values.first)
-      expect(page).to have_selector('.tl-column', text: work_package1.assigned_to.name)
-      expect(page).to have_no_selector('.tl-column', text: 'Yes')
-      expect(page).to have_no_selector('.tl-column', text: 'No')
-      expect(page).to have_no_selector('.tl-column', text: user.name)
-
-      expect(page.body.index(list_cf.name) <
-             page.body.index('Assignee')).to be_truthy
-      expect(page.body.index(list_cf.possible_values.first) <
-             page.body.index(work_package1.assigned_to.name)).to be_truthy
+      expect(page).to have_selector('th:nth-of-type(2)',
+                                    text: list_cf.name)
+      expect(page).to have_selector('td:nth-of-type(2)',
+                                    text: list_cf.possible_values.first)
+      expect(page).to have_selector('th:nth-of-type(3)',
+                                    text: 'Assignee')
+      expect(page).to have_selector('td:nth-of-type(3)',
+                                    text: work_package1.assigned_to.name)
+      expect(page).to have_selector('th:nth-of-type(4)',
+                                    text: bool_cf_local.name)
+      expect(page).to have_selector('td:nth-of-type(4)',
+                                    text: 'No')
+      expect(page).to have_no_selector('td', text: 'Yes')
+      expect(page).to have_no_selector('td', text: user.name)
     end
 
     visit edit_project_timeline_path(project_id: project, id: timeline)
 
     select = page.find('#s2id_timeline_options_columns_')
     ui_select_clear(select)
-    ui_select(select, 'Assignee')
+    ui_select(select, bool_cf.name)
     ui_select(select, user_cf_local.name)
 
     click_button 'Save'
@@ -174,16 +162,17 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
-      expect(page).to have_selector('.tl-column', text: work_package1.assigned_to.name)
-      expect(page).to have_selector('.tl-column', text: user.name)
-      expect(page).to have_no_selector('.tl-column', text: 'No')
-      expect(page).to have_no_selector('.tl-column', text: 'Yes')
-      expect(page).to have_no_selector('.tl-column', text: list_cf.possible_values.first)
-
-      expect(page.body.index(user_cf_local.name) >
-             page.body.index('Assignee')).to be_truthy
-      expect(page.body.index(work_package1.assigned_to.name) >
-             page.body.index(user.name)).to be_truthy
+      expect(page).to have_selector('th:nth-of-type(2)',
+                                    text: bool_cf.name)
+      expect(page).to have_selector('td:nth-of-type(2)',
+                                    text: 'Yes')
+      expect(page).to have_selector('th:nth-of-type(3)',
+                                    text: user_cf_local.name)
+      expect(page).to have_selector('td:nth-of-type(3)',
+                                    text: user.name)
+      expect(page).to have_no_selector('td', text: 'No')
+      expect(page).to have_no_selector('td', text: list_cf.possible_values.first)
+      expect(page).to have_no_selector('td', text: work_package1.assigned_to.name)
     end
 
     # if the custom value has been deactivated in the project
@@ -196,11 +185,14 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     within '#timeline' do
       expect(page).to have_content(work_package1.subject)
 
-      expect(page).to have_selector('.tl-column', text: work_package1.assigned_to.name)
-      expect(page).to have_no_selector('.tl-column', text: user.name)
-      expect(page).to have_no_selector('.tl-column', text: 'No')
-      expect(page).to have_no_selector('.tl-column', text: 'Yes')
-      expect(page).to have_no_selector('.tl-column', text: list_cf.possible_values.first)
+      expect(page).to have_selector('th:nth-of-type(2)',
+                                    text: bool_cf.name)
+      expect(page).to have_selector('td:nth-of-type(2)',
+                                    text: 'Yes')
+      expect(page).to have_no_selector('td', text: user.name)
+      expect(page).to have_no_selector('td', text: 'No')
+      expect(page).to have_no_selector('td', text: list_cf.possible_values.first)
+      expect(page).to have_no_selector('td', text: work_package1.assigned_to.name)
     end
   end
 end
