@@ -31,6 +31,7 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
 var pathConfig = require('./rails-plugins.conf');
+var autoprefixer = require('autoprefixer');
 
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -56,9 +57,9 @@ fs.readdirSync(translations).forEach(function (file) {
 });
 
 var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
-var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), function (entry) {
+var browsersList = _.filter(browsersListConfig.split('\n'), function (entry) {
   return entry && entry.charAt(0) !== '#';
-}));
+});
 
 var loaders = [
   { test: /\.tsx?$/, loader: 'ng-annotate!awesome-typescript-loader'},
@@ -71,7 +72,7 @@ var loaders = [
     test: /\.css$/,
     loader: ExtractTextPlugin.extract(
         'style-loader',
-        'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
+        'css-loader!postcss-loader'
     )
   },
   {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
@@ -155,6 +156,11 @@ function getWebpackMainConfig() {
     ts: {
       configFileName: path.resolve(__dirname, 'tsconfig.json')
     },
+
+    // CSS postprocessing (autoprefixer)
+    postcss: [
+      autoprefixer({ browsers: browsersList, cascade: false })
+    ],
 
     externals: {
       "I18n": "I18n"
