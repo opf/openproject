@@ -32,7 +32,10 @@ describe WorkPackages::BulkController, type: :controller do
 
   describe '#update' do
     context 'when a cost report is assigned' do
-      before do put :update, ids: [work_package.id], work_package: { cost_object_id: cost_object.id } end
+      before do
+        put :update, params: { ids: [work_package.id],
+                               work_package: { cost_object_id: cost_object.id } }
+      end
 
       subject { work_package.reload.cost_object.try :id }
 

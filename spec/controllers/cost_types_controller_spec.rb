@@ -26,7 +26,7 @@ describe CostTypesController, type: :controller do
   describe 'DELETE destroy' do
     it 'allows an admin to delete' do
       as_logged_in_user admin do
-        delete :destroy, id: cost_type.id
+        delete :destroy, params: { id: cost_type.id }
       end
 
       expect(assigns(:cost_type).deleted_at).to be_a Time
@@ -42,7 +42,7 @@ describe CostTypesController, type: :controller do
 
     it 'allows an admin to restore' do
       as_logged_in_user admin do
-        patch :restore, id: cost_type.id
+        patch :restore, params: { id: cost_type.id }
       end
 
       expect(assigns(:cost_type).deleted_at).to be_nil

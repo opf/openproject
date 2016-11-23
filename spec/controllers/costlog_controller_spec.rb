@@ -88,7 +88,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful new' do
       before do
-        get :new, params
+        get :new, params: { params }
       end
 
       it { expect(response).to be_success }
@@ -98,7 +98,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'forbidden new' do
       before do
-        get :new, params
+        get :new, params: { params }
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -152,7 +152,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful edit' do
       before do
-        get :edit, params
+        get :edit, params: { params }
       end
 
       it { expect(response).to be_success }
@@ -163,7 +163,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'forbidden edit' do
       before do
-        get :edit, params
+        get :edit, params: { params }
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -239,7 +239,7 @@ describe CostlogController, type: :controller do
 
         params['id'] = (cost_entry.id + 1).to_s
 
-        get :edit, params
+        get :edit, params: { params }
       end
 
       it { expect(response.response_code).to eq(404) }
@@ -276,7 +276,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful create' do
       before do
-        post :create, params
+        post :create, params: { params }
       end
 
       # is this really usefull, shouldn't it redirect to the creating work_package by default?
@@ -288,7 +288,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'invalid create' do
       before do
-        post :create, params
+        post :create, params: { params }
       end
 
       it { expect(response).to be_success }
@@ -298,7 +298,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'forbidden create' do
       before do
-        post :create, params
+        post :create, params: { params }
       end
 
       it { expect(response.response_code).to eq(403) }
@@ -502,7 +502,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'successful update' do
       before do
-        put :update, params
+        put :update, params: { params }
       end
 
       it { expect(response).to redirect_to(controller: 'costlog', action: 'index', project_id: project) }
@@ -513,7 +513,7 @@ describe CostlogController, type: :controller do
     end
 
     shared_examples_for 'invalid update' do
-      before { put :update, params }
+      before { put :update, params: { params } }
 
       it_should_behave_like 'assigns'
       it { expect(response).to be_success }
@@ -522,7 +522,7 @@ describe CostlogController, type: :controller do
 
     shared_examples_for 'forbidden update' do
       before do
-        put :update, params
+        put :update, params: { params }
       end
 
       it { expect(response.response_code).to eq(403) }
