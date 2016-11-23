@@ -22,7 +22,7 @@ module OpenProject::Costs::Patches::ProjectsControllerPatch
     base.send(:include, InstanceMethods)
 
     base.class_eval do
-      before_filter :own_total_hours, only: [:show]
+      before_action :own_total_hours, only: [:show]
     end
   end
 

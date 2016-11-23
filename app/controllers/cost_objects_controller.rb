@@ -18,16 +18,16 @@
 #++
 
 class CostObjectsController < ApplicationController
-  before_filter :find_cost_object, only: [:show, :edit, :update, :copy]
-  before_filter :find_cost_objects, only: :destroy
-  before_filter :find_project, only: [
+  before_action :find_cost_object, only: [:show, :edit, :update, :copy]
+  before_action :find_cost_objects, only: :destroy
+  before_action :find_project, only: [
     :new, :create,
     :update_material_budget_item, :update_labor_budget_item
   ]
-  before_filter :find_optional_project, only: :index
+  before_action :find_optional_project, only: :index
 
-  before_filter :authorize_global, only: :index
-  before_filter :authorize, except: [
+  before_action :authorize_global, only: :index
+  before_action :authorize, except: [
     # unrestricted actions
     :index,
     :update_material_budget_item, :update_labor_budget_item

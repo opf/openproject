@@ -24,13 +24,13 @@ class HourlyRatesController < ApplicationController
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_filter :find_user, only: [:show, :edit, :update, :set_rate]
+  before_action :find_user, only: [:show, :edit, :update, :set_rate]
 
-  before_filter :find_optional_project, only: [:show, :edit, :update]
-  before_filter :find_project, only: [:set_rate]
+  before_action :find_optional_project, only: [:show, :edit, :update]
+  before_action :find_project, only: [:set_rate]
 
   # #show, #edit have their own authorization
-  before_filter :authorize, except: [:show, :edit, :update]
+  before_action :authorize, except: [:show, :edit, :update]
 
   # TODO: this should be an index
   def show
