@@ -36,18 +36,18 @@ require('phantomjs-polyfill');
 
 require('jquery');
 require('jquery-ujs');
-require('jquery-ui/ui/jquery-ui.js');
-require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
-require('jquery-ui/ui/i18n/jquery.ui.datepicker-de.js');
+require('jquery-ui/jquery-ui.js');
+require('jquery-ui/ui/i18n/datepicker-en-GB.js');
+require('jquery-ui/ui/i18n/datepicker-de.js');
 require('./misc/datepicker-defaults');
 
 require('dragula');
 require('angular-dragula');
 
-require('jquery-ui/themes/base/jquery.ui.core.css');
-require('jquery-ui/themes/base/jquery.ui.datepicker.css');
+require('jquery-ui/themes/base/core.css');
+require('jquery-ui/themes/base/datepicker.css');
 // TODO: move require to backlogs plugin
-require('jquery-ui/themes/base/jquery.ui.dialog.css');
+require('jquery-ui/themes/base/dialog.css');
 
 require('moment');
 require('moment/locale/en-gb.js');
