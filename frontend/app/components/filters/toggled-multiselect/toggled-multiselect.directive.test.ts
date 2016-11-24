@@ -83,8 +83,8 @@ describe('toggledMultiselect Directive', function() {
         });
 
         it('should render only one select', function() {
-          expect(element.find('select').size()).to.equal(1);
-          expect(element.find('select.ng-hide').size()).to.equal(0);
+          expect(element.find('select').length).to.equal(1);
+          expect(element.find('select.ng-hide').length).to.equal(0);
         });
 
         it('should render two OPTIONs + Please select for displayed SELECT', function() {
@@ -100,10 +100,10 @@ describe('toggledMultiselect Directive', function() {
 
         xit('should render a link that toggles multi-select', function() {
           var a = element.find('a');
-          expect(element.find('select.ng-hide').size()).to.equal(1);
+          expect(element.find('select.ng-hide').length).to.equal(1);
           a.click();
           scope.$apply();
-          expect(element.find('select.ng-hide').size()).to.equal(1);
+          expect(element.find('select.ng-hide').length).to.equal(1);
         });
       });
     });

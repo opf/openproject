@@ -43,3 +43,7 @@ require('../tests/unit/tests/legacy-tests.js');
 
 requireComponent = require.context('./components/', true, /^.*\.test\.(js|ts)$/);
 requireComponent.keys().forEach(requireComponent);
+
+
+// Disable jQuery animations for the run
+jQuery.fx.off = true;

@@ -387,7 +387,12 @@ jQuery(document).ready(function($) {
       }
     });
     // Moving the newly attached handler to the beginning of the handler chain
-    select2.search.data('events').keydown.unshift(select2.search.data('events').keydown.pop());
+    // Warning: This uses the internal jQuery API.
+    // http://stackoverflow.com/a/2641047/420614
+    if (select2.search.length) {
+      var last_handler = jQuery._data(select2.search[0], 'events').keydown.pop();
+      jQuery._data(select2.search[0], 'events').keydown.unshift(last_handler);
+    }
 
     menu.bind("closed", function () {
       // Close select2 result list, when menu is closed
