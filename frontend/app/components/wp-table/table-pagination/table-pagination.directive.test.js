@@ -108,7 +108,7 @@ describe('tablePagination Directive', function () {
 
     it('should display correct number of page number links', function () {
       var numberOfPageNumberLinks = function () {
-        return element.find('a[rel="next"]').size();
+        return element.find('a[rel="next"]').length;
       };
 
       compile();

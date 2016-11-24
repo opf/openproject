@@ -92,12 +92,12 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
 
     function previousMenuItem(title) {
       var allItems     = getContainer().find('li'),
-          previousElement = angular.element(allItems[allItems.size() - 1]),
-          i = allItems.size() - 2;
+          previousElement = angular.element(allItems[allItems.length - 1]),
+          i = allItems.length - 2;
 
       for (i; i >= 0; i--) {
         if ((title > previousElement.find('a').attr('title')) ||
-            (previousElement.find('.' + type).size() === 0))
+            (previousElement.find('.' + type).length === 0))
         {
           return previousElement;
         }
