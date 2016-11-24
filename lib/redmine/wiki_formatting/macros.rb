@@ -31,14 +31,10 @@ module Redmine
   module WikiFormatting
     module Macros
       module Definitions
-        def exec_macro(name, obj, args, options = {})
+        def exec_macro(name, obj, args, block:, **options)
           method_name = "macro_#{name}"
           if respond_to?(method_name)
-            if method(method_name).arity == 2
-              send(method_name, obj, args)
-            else
-              send(method_name, obj, args, options)
-            end
+            send(method_name, obj, args, block: block, **options)
           end
         end
 
@@ -74,6 +70,10 @@ module Redmine
 
         def available_macros
           @@available_macros
+        end
+
+        def macro_exists?(name)
+          available_macros.key?(name.to_sym)
         end
 
         private

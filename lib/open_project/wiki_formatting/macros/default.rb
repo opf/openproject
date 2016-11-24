@@ -35,14 +35,14 @@ module OpenProject
 
           desc 'Sample macro.'
 
-          macro :hello_world do |obj, args|
+          macro :hello_world do |obj, args, **_options|
             "Hello world! Object: #{obj.class.name}, " + (args.empty? ? 'Called with no argument.' : "Arguments: #{args.join(', ')}")
           end
         end
 
         Redmine::WikiFormatting::Macros.register do
           desc 'Displays a list of all available macros, including description if available.'
-          macro :macro_list do |_obj, _args|
+          macro :macro_list do |_obj, _args, **_options|
             out = ''
             available_macros = Redmine::WikiFormatting::Macros.available_macros
 
@@ -60,7 +60,7 @@ module OpenProject
             "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
             '  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo'
 
-          macro :child_pages do |obj, args|
+          macro :child_pages do |obj, args, **_options|
             args, options = extract_macro_options(args, :parent)
             page = nil
             if args.size > 0
@@ -78,15 +78,43 @@ module OpenProject
 
         Redmine::WikiFormatting::Macros.register do
           desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
-          macro :include do |_obj, args|
-            page = Wiki.find_page(args.first.to_s, project: @project)
+          macro :include do |_obj, args, **options|
+            page = Wiki.find_page(args, project: options[:project])
             raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
             @included_wiki_pages ||= []
             raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
             @included_wiki_pages << page.title
-            out = format_text(page.content, :text, attachments: page.attachments, headings: false)
+            out = format_text(page.content, :text, attachments: page.attachments)
             @included_wiki_pages.pop
             out
+          end
+        end
+
+        Redmine::WikiFormatting::Macros.register do
+          desc "A PRE block. Example:\n\n  !{{pre\npre-block-content\n}}"
+          macro :pre do |_obj, args, block:, **_options|
+            attrs = []
+            unless args.empty?
+              attrs << ' '
+              args.scan(/([^,]+)/) do
+                attrs << $1
+              end
+            end
+            "<pre#{attrs.join(' ')}>#{block}</pre>".html_safe
+          end
+        end
+
+        Redmine::WikiFormatting::Macros.register do
+          desc "A CODE block. Example:\n\n  !{{code(options)\ncode-block-content\n}}"
+          macro :code do |_obj, args, block:, **_options|
+            attrs = []
+            unless args.empty?
+              attrs << ' '
+              args.scan(/([^,]+)/) do
+                attrs << $1
+              end
+            end
+            "<code#{attrs.join(' ')}>#{block}</code>".html_safe
           end
         end
 
@@ -95,7 +123,7 @@ module OpenProject
             Display a timeline report on the Wiki page.
           EOF
 
-          macro :timeline do |obj, args, options|
+          macro :timeline do |obj, args, **options|
             OpenProject::WikiFormatting::Macros::TimelinesWikiMacro.new.apply obj, args, options.merge(view: self)
           end
         end
