@@ -2,7 +2,7 @@
   "name": "openproject",
   "version": "3.0",
   "dependencies": {
-    "jquery": "1.11.0",
+    "jquery": "3.1.1",
     "jquery-ujs": "1.0.0",
     "jquery-ui": "~1.10.4",
     "select2": "3.5.2",
@@ -17,7 +17,6 @@
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-elastic": "~2.5.1",
     "angular-cache": "~4.6.0",
-    "jquery-migrate": "~1.2.1",
     "moment": "~2.10.6",
     "moment-timezone": "0.4.x",
     "angular-context-menu": "nickmessing/angular-context-menu#a908eccaec323cd66973d58af4965694bdff16a1",

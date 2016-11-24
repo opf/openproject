@@ -35,7 +35,6 @@
 require('phantomjs-polyfill');
 
 require('jquery');
-require('jquery-migrate/jquery-migrate');
 require('jquery-ujs');
 require('jquery-ui/ui/jquery-ui.js');
 require('jquery-ui/ui/i18n/jquery.ui.datepicker-en-GB.js');
