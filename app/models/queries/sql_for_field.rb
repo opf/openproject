@@ -78,19 +78,19 @@ module Queries::SqlForField
     when 'c'
       sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == 'status_id'
     when '>t-'
-      sql = date_range_clause(db_table, db_field, - values.first.to_i, 0)
+      sql = relative_date_range_clause(db_table, db_field, - values.first.to_i, 0)
     when '<t-'
-      sql = date_range_clause(db_table, db_field, nil, - values.first.to_i)
+      sql = relative_date_range_clause(db_table, db_field, nil, - values.first.to_i)
     when 't-'
-      sql = date_range_clause(db_table, db_field, - values.first.to_i, - values.first.to_i)
+      sql = relative_date_range_clause(db_table, db_field, - values.first.to_i, - values.first.to_i)
     when '>t+'
-      sql = date_range_clause(db_table, db_field, values.first.to_i, nil)
+      sql = relative_date_range_clause(db_table, db_field, values.first.to_i, nil)
     when '<t+'
-      sql = date_range_clause(db_table, db_field, 0, values.first.to_i)
+      sql = relative_date_range_clause(db_table, db_field, 0, values.first.to_i)
     when 't+'
-      sql = date_range_clause(db_table, db_field, values.first.to_i, values.first.to_i)
+      sql = relative_date_range_clause(db_table, db_field, values.first.to_i, values.first.to_i)
     when 't'
-      sql = date_range_clause(db_table, db_field, 0, 0)
+      sql = relative_date_range_clause(db_table, db_field, 0, 0)
     when 'w'
       from = l(:general_first_day_of_week) == '7' ?
       # week starts on sunday
@@ -102,19 +102,37 @@ module Queries::SqlForField
       sql = "LOWER(#{db_table}.#{db_field}) LIKE '%#{connection.quote_string(values.first.to_s.downcase)}%'"
     when '!~'
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(values.first.to_s.downcase)}%'"
+    when '=d'
+      # +1 day work around for angular currently applying TZ offsets to user input
+      sql = date_range_clause(db_table, db_field, Date.parse(values.first) + 1, Date.parse(values.last) + 1)
     end
 
     sql
   end
 
-  # Returns a SQL clause for a date or datetime field.
-  def date_range_clause(table, field, from, to)
+  # TODO:weird work around calculating it from the end of the day of yesterday + from, it should be the beginning of the day of today + from instead
+  # Returns a SQL clause for a date or datetime field for a relative range from the end of the day of yesterday + from
+  # until the end of today + to.
+  def relative_date_range_clause(table, field, from, to)
     s = []
     if from
       s << ("#{table}.#{field} > '%s'" % [connection.quoted_date((Date.yesterday + from).to_time.end_of_day)])
     end
     if to
       s << ("#{table}.#{field} <= '%s'" % [connection.quoted_date((Date.today + to).to_time.end_of_day)])
+    end
+    s.join(' AND ')
+  end
+
+  # Returns a SQL clause for date or datetime field for an exact range starting at the beginning of the day of from
+  # until the end of the day of to
+  def date_range_clause(table, field, from, to)
+    s = []
+    if from
+      s << ("#{table}.#{field} > '%s'" % [from.to_time.beginning_of_day.to_s])
+    end
+    if to
+      s << ("#{table}.#{field} <= '%s'" % [to.to_time.end_of_day.to_s])
     end
     s.join(' AND ')
   end

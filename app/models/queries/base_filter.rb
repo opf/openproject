@@ -57,7 +57,8 @@ class Queries::BaseFilter
     label_more_than_ago:        '<t-',
     label_ago:                  't-',
     label_contains:             '~',
-    label_not_contains:         '!~'
+    label_not_contains:         '!~',
+    label_exact_date:           '=d'
   }.invert
 
   self.operators_not_requiring_values = %w(o c !* * t w)
@@ -67,8 +68,8 @@ class Queries::BaseFilter
     list_status:      ['o', '=', '!', 'c', '*'],
     list_optional:    ['=', '!', '!*', '*'],
     list_subprojects: ['*', '!*', '='],
-    date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-'],
-    date_past:        ['>t-', '<t-', 't-', 't', 'w'],
+    date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-', '=d'],
+    date_past:        ['>t-', '<t-', 't-', 't', 'w', '=d'],
     string:           ['=', '~', '!', '!~'],
     text:             ['~', '!~'],
     integer:          ['=', '>=', '<=', '!*', '*']
@@ -173,10 +174,20 @@ class Queries::BaseFilter
     return true if self.class.operators_not_requiring_values.include?(operator)
 
     case type
-    when :integer, :date, :date_past
-      validate_values_all_integer
+      when :integer, :date, :date_past
+        if operator == '=d'
+          validate_values_all_date
+        else
+          validate_values_all_integer
+        end
     when :list, :list_optional
       validate_values_in_allowed_values_list
+    end
+  end
+
+  def validate_values_all_date
+    unless values.all? { |value| date?(value) }
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_a_date'))
     end
   end
 
@@ -197,6 +208,12 @@ class Queries::BaseFilter
 
   def integer?(str)
     true if Integer(str)
+  rescue
+    false
+  end
+
+  def date?(str)
+    true if Date.parse(str)
   rescue
     false
   end

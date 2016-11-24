@@ -38,8 +38,17 @@ angular.module('openproject.workPackages.config')
   list_status: [['o', 'label_open_work_packages'], ['=', 'label_equals'], ['!', 'label_not_equals'], ['c', 'label_closed_work_packages'], ['*', 'label_all']],
   list_optional: [['=', 'label_equals'], ['!', 'label_not_equals'], ['!*', 'label_none'], ['*', 'label_all']],
   list_subprojects: [['*', 'label_all'], ['!*', 'label_none'], ['=', 'label_equals']],
-  date: [['<t+', 'label_in_less_than'], ['>t+', 'label_in_more_than'], ['t+', 'label_in'], ['t', 'label_today'], ['w', 'label_this_week'], ['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'], ['t-', 'label_ago']],
-  date_past: [['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'], ['t-', 'label_ago'], ['t', 'label_today'], ['w', 'label_this_week']],
+  date: [
+    ['<t+', 'label_in_less_than'], ['>t+', 'label_in_more_than'],
+    ['t+', 'label_in'], ['t', 'label_today'], ['w', 'label_this_week'],
+    ['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'], ['t-', 'label_ago'],
+    ['=d', 'label_exact_date']
+  ],
+  date_past: [
+    ['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'],
+    ['t-', 'label_ago'], ['t', 'label_today'], ['w', 'label_this_week'],
+    ['=d', 'label_exact_date']
+  ],
   string: [['=', 'label_equals'], ['~', 'label_contains'], ['!', 'label_not_equals'], ['!~', 'label_not_contains']],
   text: [['~', 'label_contains'], ['!~', 'label_not_contains']],
   integer: [['=', 'label_equals'], ['>=', 'label_greater_or_equal'], ['<=', 'label_less_or_equal'], ['!*', 'label_none'], ['*', 'label_all']]
