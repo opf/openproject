@@ -35,7 +35,7 @@
     "mocha": "~1.14.0",
     "angular-mocks": "~1.5.8",
     "chai": "~1.9.0",
-    "jquery-mockjax": "~1.5.3"
+    "jquery-mockjax": "~2.2.1"
   },
   "resolutions": {
     "jquery": "1.11.0",
