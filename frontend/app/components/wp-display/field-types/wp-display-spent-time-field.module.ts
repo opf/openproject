@@ -35,10 +35,14 @@ export class SpentTimeDisplayField extends DurationDisplayField {
   public timeEntriesLink: string;
   public isManualRenderer = false;
 
+  private PathHelper:any;
+
   constructor(public resource: WorkPackageResourceInterface,
               public name: string,
               public schema) {
     super(resource, name, schema);
+
+    this.PathHelper = this.$injector.get('PathHelper');
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
@@ -46,11 +50,9 @@ export class SpentTimeDisplayField extends DurationDisplayField {
 
     if (resource.project) {
       resource.project.$load().then(project => {
-        this.timeEntriesLink =
-          URI
-            .expand('/projects/{identifier}/time_entries', project)
-            .search({ work_package_id: resource.id })
-            .toString();
+        this.timeEntriesLink = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+          .search({ work_package_id: resource.id })
+          .toString();
       });
     }
   }
