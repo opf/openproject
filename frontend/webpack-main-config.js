@@ -89,7 +89,7 @@ for (var k in pathConfig.pluginNamesPaths) {
     loaders.push({
       test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
       loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html'
+      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html?-minimize'
     });
   }
 }
@@ -97,7 +97,7 @@ for (var k in pathConfig.pluginNamesPaths) {
 loaders.push({
   test: /^((?!templates\/plugin).)*\.html$/,
   loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-  path.resolve(__dirname, './app') + '!html'
+  path.resolve(__dirname, './app') + '!html?-minimize'
 });
 
 
