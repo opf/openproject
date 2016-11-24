@@ -93,19 +93,17 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute(wp) {
     this.workPackage = wp;
-    this.schema.$load().then(() => {
-      this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
+    this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
-        if (this.field.isManualRenderer) {
-          this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
-          this.field.render(this.__d__renderer, this);
-        }
+      if (this.field.isManualRenderer) {
+        this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
+        this.field.render(this.__d__renderer, this);
+      }
 
-        this.$element.attr("aria-label", this.label + " " + this.displayText);
+      this.$element.attr("aria-label", this.label + " " + this.displayText);
 
-        this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-        this.__d__cell.toggleClass("-placeholder", this.isEmpty);
-    });
+      this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
+      this.__d__cell.toggleClass("-placeholder", this.isEmpty);
   }
 }
 

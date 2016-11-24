@@ -56,7 +56,7 @@ export class ApiWorkPackagesService {
   public loadWorkPackageById(id:number, force = false) {
     const url = this.v3Path.wp({wp: id});
 
-    return <IPromise<WorkPackageResource>> this.halRequest.get(url, null, {
+    return this.halRequest.get(url, null, {
       caching: {
         enabled: !force
       }

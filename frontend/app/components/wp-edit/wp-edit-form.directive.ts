@@ -63,12 +63,6 @@ export class WorkPackageEditFormController {
       });
   }
 
-  public isFieldRequired() {
-    return _.filter((this.fields as any), (name: string) => {
-      return !this.workPackage[name] && this.workPackage.requiredValueFor(name);
-    });
-  }
-
   public registerField(field) {
     this.fields[field.fieldName] = field;
     field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
@@ -103,10 +97,6 @@ export class WorkPackageEditFormController {
 
   public get isEditable() {
     return this.workPackage.isEditable;
-  }
-
-  public loadSchema() {
-    return this.workPackage.getSchema();
   }
 
   /**

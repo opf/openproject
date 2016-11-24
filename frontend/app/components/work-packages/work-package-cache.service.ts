@@ -1,3 +1,4 @@
+import {WorkPackagesListService} from './../wp-list/wp-list.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,6 +30,7 @@
 
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {SchemaResource} from './../api/api-v3/hal-resources/schema-resource.service';
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {State} from "../../helpers/reactive-fassade";
 import IScope = angular.IScope;
@@ -45,6 +47,7 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
+              private $q: ng.IQService,
               private apiWorkPackages: ApiWorkPackagesService) {
   }
 
@@ -64,7 +67,15 @@ export class WorkPackageCacheService {
         ? wpState.getCurrentValue() // dirty, use current wp
         : wp; // not dirty or unknown, use new wp
 
-      this.states.workPackages.put(workPackageId, wpForPublish);
+      // Ensure the schema is loaded
+      // so that no consumer needs to call schema#$load manually
+      if (wpForPublish.schema.$loaded) {
+        return wpState.put(wpForPublish);
+      }
+
+      wpState.putFromPromise(wpForPublish.schema.$load().then(() => {
+        return wpForPublish;
+      }));
     }
   }
 
@@ -74,8 +85,25 @@ export class WorkPackageCacheService {
       state.clear();
     }
 
-    state.putFromPromiseIfPristine(
-      () => this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate));
+    // Several services involved in the creation of work packages 
+    // use this method to resolve the latest created work package,
+    // so let them just subscribe.
+    if (workPackageId.toString() === 'new') {
+      return state;
+    }
+
+    state.putFromPromiseIfPristine(() => {
+      const deferred = this.$q.defer();
+
+      this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate)
+        .then((workPackage:WorkPackageResource) => {
+          workPackage.schema.$load().then(() => {
+            deferred.resolve(workPackage);
+          });
+        });
+
+      return deferred.promise;
+    });
 
     return state;
   }
