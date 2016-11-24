@@ -36,6 +36,9 @@ var autoprefixer = require('autoprefixer');
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
+var uglify = (process.env['RAILS_ENV'] !== 'development');
+
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
   return entries;
@@ -99,7 +102,7 @@ loaders.push({
 
 
 function getWebpackMainConfig() {
-  return {
+  config = {
     context: path.join(__dirname, '/app'),
 
     entry: _.merge({
@@ -195,6 +198,24 @@ function getWebpackMainConfig() {
       ])
     ]
   };
+
+  if (uglify) {
+    console.log("Applying webpack.optimize plugins for production.");
+    // Add compression and optimization plugins
+    // to the webpack build.
+    config.plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        mangle: false,
+        compress: true,
+        compressor: { warnings: false },
+        sourceMap: false
+      }),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.OccurenceOrderPlugin()
+    );
+  }
+
+  return config;
 }
 
 module.exports = getWebpackMainConfig;
