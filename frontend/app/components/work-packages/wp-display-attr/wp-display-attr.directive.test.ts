@@ -89,6 +89,7 @@ describe('wpDisplayAttr directive', () => {
         id: 1,
         customField1: 'asdf1234',
         emptyField: null,
+        hiddenField: 'foobar',
         schema: {
           "$load": () => $q.when(true),
           "_type": "Schema",
@@ -131,6 +132,13 @@ describe('wpDisplayAttr directive', () => {
             "name": "empty field",
             "required": false,
             "writable": true
+          },
+          "hiddenField": {
+            "type": "String",
+            "name": "hidden field",
+            "required": false,
+            "writable": true,
+            "visibility": "hidden"
           }
         }
       }
@@ -248,6 +256,16 @@ describe('wpDisplayAttr directive', () => {
     describe('rendering an empty field', () => {
       beforeEach(() => {
         scope.attribute = 'emptyField';
+        compile();
+      });
+
+      it('should adorne the element with the -placeholder class', () => {
+        expect(element.find('.inplace-edit--read-value--value.-placeholder').length).to.eql(1);
+      });
+    });
+    describe('rendering a hidden field', () => {
+      beforeEach(() => {
+        scope.attribute = 'hiddenField';
         compile();
       });
 
