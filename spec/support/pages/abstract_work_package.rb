@@ -54,6 +54,12 @@ module Pages
       WorkPackageField.new(context, attribute)
     end
 
+    def expect_hidden_field(attribute)
+      within(container) do
+        expect(page).to have_no_selectro(".inplace-edit.#{attribute}")
+      end
+    end
+
     def expect_subject
       within(container) do
         expect(page).to have_content(work_package.subject)
