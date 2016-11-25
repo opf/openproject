@@ -57,33 +57,47 @@ module API
           super
         end
 
+        attr_accessor :cache_level
+
+        def cache_level_id?
+          cache_level == :id
+        end
+
+        def cache_level_user?
+          cache_level == :user
+        end
+
+        def cache_level_permission?
+          cache_level == :permission
+        end
+
         self_link title_getter: -> (*) { represented.subject }
 
         link :update do
           {
             href: api_v3_paths.work_package_form(represented.id),
             method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
         link :schema do
           {
             href: api_v3_paths.work_package_schema(represented.project.id, represented.type.id)
-          }
+          } if cache_level_id?
         end
 
         link :updateImmediately do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :patch
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:edit_work_packages, context: represented.project)
         end
 
         link :delete do
           {
             href: api_v3_paths.work_package(represented.id),
             method: :delete
-          } if current_user_allowed_to(:delete_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:delete_work_packages, context: represented.project)
         end
 
         link :logTime do
@@ -91,7 +105,7 @@ module API
             href: new_work_package_time_entry_path(represented),
             type: 'text/html',
             title: "Log time on #{represented.subject}"
-          } if current_user_allowed_to(:log_time, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:log_time, context: represented.project)
         end
 
         link :move do
@@ -99,7 +113,7 @@ module API
             href: new_work_package_move_path(represented),
             type: 'text/html',
             title: "Move #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:move_work_packages, context: represented.project)
         end
 
         link :copy do
@@ -107,7 +121,7 @@ module API
             href: new_work_package_move_path(represented, copy: true, ids: [represented.id]),
             type: 'text/html',
             title: "Copy #{represented.subject}"
-          } if current_user_allowed_to(:move_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:move_work_packages, context: represented.project)
         end
 
         link :pdf do
@@ -115,7 +129,7 @@ module API
             href: work_package_path(id: represented.id, format: :pdf),
             type: 'application/pdf',
             title: 'Export as PDF'
-          } if current_user_allowed_to(:export_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:export_work_packages, context: represented.project)
         end
 
         link :atom do
@@ -123,7 +137,8 @@ module API
             href: work_package_path(id: represented.id, format: :atom),
             type: 'application/rss+xml',
             title: 'Atom feed'
-          } if Setting.feeds_enabled? &&
+          } if cache_level_permission? &&
+               Setting.feeds_enabled? &&
                current_user_allowed_to(:export_work_packages, context: represented.project)
         end
 
@@ -131,52 +146,53 @@ module API
           {
             href: "/api/v3/work_packages/#{represented.id}/available_relation_candidates",
             title: "Potential work packages to relate to"
-          }
+          } if cache_level_id?
         end
 
-        linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
-        linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
+        linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter, show_if: ->(*) { cache_level_id? }
+        linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter, show_if: ->(*) { cache_level_id? }
 
-        linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :assigned_to, path: :user, embed_as: ::API::V3::Users::UserRepresenter
+        linked_property :author, path: :user, embed_as: ::API::V3::Users::UserRepresenter, show_if: ->(*) { cache_level_id? }
+        linked_property :responsible, path: :user, embed_as: ::API::V3::Users::UserRepresenter, show_if: ->(*) { cache_level_id? }
+        linked_property :assigned_to, path: :user, embed_as: ::API::V3::Users::UserRepresenter, show_if: ->(*) { cache_level_id? }
 
         link :activities do
           {
             href: api_v3_paths.work_package_activities(represented.id)
-          }
+          } if cache_level_id?
         end
 
         link :attachments do
           {
             href: api_v3_paths.attachments_by_work_package(represented.id)
-          }
+          } if cache_level_id?
         end
 
         link :addAttachment do
           {
             href: api_v3_paths.attachments_by_work_package(represented.id),
             method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project) ||
-               current_user_allowed_to(:add_work_packages, context: represented.project)
+          } if cache_level_permission? &&
+               (current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+               current_user_allowed_to(:add_work_packages, context: represented.project))
         end
 
         link :availableWatchers do
           {
             href: api_v3_paths.available_watchers(represented.id)
-          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
         link :relations do
           {
             href: api_v3_paths.work_package_relations(represented.id)
-          }
+          } if cache_level_id?
         end
 
         link :revisions do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
-          }
+          } if cache_level_id?
         end
 
         link :watch do
@@ -184,20 +200,20 @@ module API
             href: api_v3_paths.work_package_watchers(represented.id),
             method: :post,
             payload: { user: { href: api_v3_paths.user(current_user.id) } }
-          } unless current_user.anonymous? || represented.watcher_users.include?(current_user)
+          } if cache_level_user? && !(current_user.anonymous? || represented.watcher_users.include?(current_user))
         end
 
         link :unwatch do
           {
             href: api_v3_paths.watcher(current_user.id, represented.id),
             method: :delete
-          } if represented.watcher_users.include?(current_user)
+          } if cache_level_user? && represented.watcher_users.include?(current_user)
         end
 
         link :watchers do
           {
             href: api_v3_paths.work_package_watchers(represented.id)
-          } if current_user_allowed_to(:view_work_package_watchers, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:view_work_package_watchers, context: represented.project)
         end
 
         link :addWatcher do
@@ -206,7 +222,7 @@ module API
             method: :post,
             payload: { user: { href: api_v3_paths.user('{user_id}') } },
             templated: true
-          } if current_user_allowed_to(:add_work_package_watchers, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:add_work_package_watchers, context: represented.project)
         end
 
         link :removeWatcher do
@@ -214,7 +230,7 @@ module API
             href: api_v3_paths.watcher('{user_id}', represented.id),
             method: :delete,
             templated: true
-          } if current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:delete_work_package_watchers, context: represented.project)
         end
 
         link :addRelation do
@@ -222,7 +238,7 @@ module API
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
             title: 'Add relation'
-          } if current_user_allowed_to(:manage_work_package_relations,
+          } if cache_level_permission? && current_user_allowed_to(:manage_work_package_relations,
                                        context: represented.project)
         end
 
@@ -231,7 +247,7 @@ module API
             href: api_v3_paths.work_packages_by_project(represented.project.identifier),
             method: :post,
             title: "Add child of #{represented.subject}"
-          } if current_user_allowed_to(:add_work_packages, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:add_work_packages, context: represented.project)
         end
 
         link :changeParent do
@@ -239,7 +255,7 @@ module API
             href: api_v3_paths.work_package(represented.id),
             method: :patch,
             title: "Change parent of #{represented.subject}"
-          } if current_user_allowed_to(:manage_subtasks, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:manage_subtasks, context: represented.project)
         end
 
         link :addComment do
@@ -247,39 +263,40 @@ module API
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
             title: 'Add comment'
-          } if current_user_allowed_to(:add_work_package_notes, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:add_work_package_notes, context: represented.project)
         end
 
         link :previewMarkup do
           {
             href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),
             method: :post
-          }
+          } if cache_level_id?
         end
 
         linked_property :parent,
                         path: :work_package,
                         title_getter: -> (*) { represented.parent.subject },
-                        show_if: -> (*) { represented.parent.nil? || represented.parent.visible? }
+                        show_if: -> (*) { cache_level_user? && (represented.parent.nil? || represented.parent.visible?) }
 
         link :timeEntries do
           {
             href: work_package_time_entries_path(represented.id),
             type: 'text/html',
             title: 'Time entries'
-          } if current_user_allowed_to(:view_time_entries, context: represented.project)
+          } if cache_level_permission? && current_user_allowed_to(:view_time_entries, context: represented.project)
         end
 
-        linked_property :category, embed_as: ::API::V3::Categories::CategoryRepresenter
-        linked_property :priority, embed_as: ::API::V3::Priorities::PriorityRepresenter
-        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
+        linked_property :category, embed_as: ::API::V3::Categories::CategoryRepresenter, show_if: -> (*) { cache_level_id? }
+        linked_property :priority, embed_as: ::API::V3::Priorities::PriorityRepresenter, show_if: -> (*) { cache_level_id? }
+        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter, show_if: -> (*) { cache_level_id? }
 
         linked_property :version,
                         getter: :fixed_version,
                         title_getter: -> (*) {
                           represented.fixed_version.to_s
                         },
-                        embed_as: ::API::V3::Versions::VersionRepresenter
+                        embed_as: ::API::V3::Versions::VersionRepresenter,
+                        show_if: -> (*) { cache_level_id? }
 
         links :children do
           visible_children.map do |child|
@@ -287,19 +304,19 @@ module API
               href: api_v3_paths.work_package(child.id),
               title: child.subject
             }
-          end unless visible_children.empty?
+          end if cache_level_user? && visible_children.any?
         end
 
-        property :id, render_nil: true
-        property :lock_version
-        property :subject, render_nil: true
+        property :id, render_nil: true#, if: -> (_) { cache_level_id? }
+        property :lock_version#, if: -> (_) { cache_level_id? }
+        property :subject, render_nil: true#, if: -> (_) { cache_level_id? }
         property :description,
                  exec_context: :decorator,
                  getter: -> (*) {
                    ::API::Decorators::Formattable.new(represented.description, object: represented)
                  },
                  setter: -> (value, *) { represented.description = value['raw'] },
-                 render_nil: true
+                 render_nil: true, if: -> (_) { cache_level_user? }
 
         property :start_date,
                  exec_context: :decorator,
@@ -308,7 +325,7 @@ module API
                  end,
                  render_nil: true,
                  if: -> (_) {
-                   !represented.is_milestone?
+                   cache_level_id? && !represented.is_milestone?
                  }
         property :due_date,
                  exec_context: :decorator,
@@ -317,7 +334,7 @@ module API
                  end,
                  render_nil: true,
                  if: -> (_) {
-                   !represented.is_milestone?
+                   cache_level_id? && !represented.is_milestone?
                  }
         property :date,
                  exec_context: :decorator,
@@ -326,7 +343,7 @@ module API
                  end,
                  render_nil: true,
                  if: -> (_) {
-                   represented.is_milestone?
+                   cache_level_id? && represented.is_milestone?
                  }
         property :estimated_time,
                  exec_context: :decorator,
@@ -335,7 +352,7 @@ module API
                                                                  allow_nil: true)
                  end,
                  render_nil: true,
-                 writeable: false
+                 writeable: false, if: -> (_) { cache_level_id? }
         property :spent_time,
                  exec_context: :decorator,
                  getter: -> (*) do
@@ -343,42 +360,84 @@ module API
                  end,
                  writeable: false,
                  if: -> (_) {
-                   current_user_allowed_to(:view_time_entries, context: represented.project)
+                   cache_level_permission? && current_user_allowed_to(:view_time_entries, context: represented.project)
                  }
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
                  writeable: false,
                  if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
-        property :parent_id, writeable: true
+                 #if: -> (*) { cache_level_id? && Setting.work_package_done_ratio != 'disabled' }
+        property :parent_id, writeable: true#, if: -> (_) { cache_level_id? }
         property :created_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }, if: -> (_) { cache_level_id? }
         property :updated_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
+                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }, if: -> (_) { cache_level_id? }
 
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
                  if: -> (*) {
+                   cache_level_permission? &&
                    current_user_allowed_to(:view_work_package_watchers,
                                            context: represented.project) &&
                      embed_links
                  }
 
+                 #TODO: needs to be cache_level_user
         property :attachments,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) { embed_links }
+                 if: -> (*) { cache_level_id? && embed_links }
 
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) { embed_links }
+                 if: -> (*) { cache_level_id? && embed_links }
+
+        def to_hash(*)
+          #Rails.cache.fetch("work_package_user_#{embed_links}_#{represented.cache_key}") do
+            permission_cache = Rails.cache.fetch("a_work_package_permission_#{embed_links}_#{represented.cache_key}") do
+              id_cache = Rails.cache.fetch("a_work_package_id_#{embed_links}_#{represented.cache_key}") do
+                self.cache_level = :id
+
+                # TODO remove
+                to_cache = super
+                to_hash_for_some(to_cache)
+
+                to_cache
+              end
+
+              self.cache_level = :permission
+                # TODO remove
+                to_cache = super
+                to_hash_for_some(to_cache)
+
+              id_cache.deep_merge(to_cache)
+            end
+
+            self.cache_level = :user
+                # TODO remove
+            to_cache = super
+
+            permission_cache.deep_merge(to_cache)
+          #end
+        end
 
         def _type
           'WorkPackage'
+        end
+
+        def to_hash_for_some(hash)
+          hash["customField1"] = hash["customField1"].to_hash if hash["customField1"]
+          if hash["_embedded"]
+            hash["_embedded"]["attachments"] = hash["_embedded"]["attachments"].to_hash if hash["_embedded"]["attachments"]
+            hash["_embedded"]["relations"] = hash["_embedded"]["relations"].to_hash if hash["_embedded"]["relations"]
+            hash["_embedded"]["watchers"] = hash["_embedded"]["watchers"].to_hash if hash["_embedded"]["watchers"]
+          end
+          hash["description"] = hash["description"].to_hash if hash["description"]
         end
 
         def watchers
