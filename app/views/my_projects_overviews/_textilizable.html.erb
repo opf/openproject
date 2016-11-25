@@ -29,7 +29,7 @@ See doc/COPYRIGHT.md for more details.
 
 <div class="textile-body" ng-hide="$ctrl.formVisible">
 <% if defined? block_name %>
-  <div id="<%= block_name %>-text">
+  <div id="<%= block_name %>-text" class="wiki">
     <%= format_text(textile, :object => overview) %>
   </div>
 <% else %>
