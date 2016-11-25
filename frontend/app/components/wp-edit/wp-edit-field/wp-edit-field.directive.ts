@@ -132,7 +132,7 @@ export class WorkPackageEditFieldController {
     this.workPackage.schema.$load().then(schema => {
       var fieldSchema = schema[this.fieldName];
 
-      this.editable = fieldSchema && fieldSchema.writable;
+      this.editable = fieldSchema && fieldSchema.writable && fieldSchema.visibility !== 'hidden';
       this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
 
       this.updateDisplayAttributes();

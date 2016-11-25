@@ -51,14 +51,6 @@ export class DisplayField extends Field {
     return (this.constructor as typeof DisplayField).type;
   }
 
-  public get required(): boolean {
-    return this.schema.required;
-  }
-
-  public isEmpty(): boolean {
-    return !this.value;
-  }
-
   public get placeholder(): string {
     return this.I18n.t('js.work_packages.placeholders.default');
   }
