@@ -115,9 +115,10 @@ class UserMailer < BaseMailer
     end
   end
 
-  def copy_project_failed(user, source_project, target_project_name)
+  def copy_project_failed(user, source_project, target_project_name, errors)
     @source_project = source_project
     @target_project_name = target_project_name
+    @errors = errors
 
     open_project_headers 'Source-Project' => source_project.identifier,
                          'Author'         => user.login

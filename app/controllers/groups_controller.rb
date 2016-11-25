@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1/edit
   def edit
-    @group = Group.eager_load(:members, :users).find(params[:id])
+    @group = Group.includes(:members, :users).find(params[:id])
   end
 
   # POST /groups

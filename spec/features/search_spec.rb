@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,16 +25,40 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 require 'spec_helper'
 
-describe CustomFieldsHelper, type: :helper do
-  include OpenProject::FormTagHelper
-  include CustomFieldsHelper
-  include Redmine::I18n
+describe 'Search', type: :feature do
+  describe 'pagination' do
+    let(:project) { FactoryGirl.create :project }
 
-  it 'should format boolean value' do
-    I18n.locale = 'en'
-    expect(format_value('1', 'bool')).to eq 'Yes'
-    expect(format_value('0', 'bool')).to eq 'No'
+    let!(:work_packages) do
+      (1..23).map do |n|
+        subject = "Subject No. #{n}"
+        FactoryGirl.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
+      end
+    end
+
+    let(:query) { "Subject" }
+
+    before do
+      login_as FactoryGirl.create(:admin)
+
+      visit "/search?q=#{query}"
+    end
+
+    def expect_range(a, b)
+      (a..b).each { |n| expect(page.body).to include ("No. #{n}") }
+    end
+
+    it "works" do
+      expect_range 14, 23
+
+      click_on "Next", match: :first
+      expect_range 4, 13
+
+      click_on "Previous", match: :first
+      expect_range 14, 23
+    end
   end
 end
