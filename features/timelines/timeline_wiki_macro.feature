@@ -96,7 +96,7 @@ Feature: Timeline Wiki Macro
     When I go to the wiki page "macro_testing" for the project called "ecookbook"
     And I fill in a wiki macro for timeline "Testline" for "content_text"
     And I press "Save"
-    And I wait 30 seconds for Ajax
+    And I wait for timeline to load table
     Then I should see the timeline "Testline"
 
   Scenario: Adding a timeline with invalid id to a wiki
