@@ -87,3 +87,7 @@ npm-debug.log*
 /.sass-cache/
 # Frontend debug log
 /frontend/npm-debug.log*
+/frontend/tests/*.hot-update.js
+/frontend/tests/*.hot-update.json
+/frontend/tests/openproject-main.css
+/frontend/tests/openproject-test-bundle.js
