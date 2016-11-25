@@ -37,7 +37,7 @@ var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
-var uglify = (process.env['RAILS_ENV'] !== 'development');
+var uglify = (mode !== 'development');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
