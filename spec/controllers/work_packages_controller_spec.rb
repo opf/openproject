@@ -357,4 +357,19 @@ describe WorkPackagesController, type: :controller do
       end
     end
   end
+
+  describe 'redirect deep link', with_settings: { login_required?: true } do
+    let(:current_user) { User.anonymous }
+    let(:params) {
+      { project_id: project.id }
+    }
+
+   it 'redirects to collection with query' do
+     get 'index', params: params.merge(query_id: 123, query_props: 'foo')
+     expect(response).to be_redirect
+
+     location = "/projects/#{project.id}/work_packages?query_id=123&query_props=foo"
+     expect(response.location).to end_with(CGI.escape(location))
+   end
+  end
 end
