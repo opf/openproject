@@ -123,7 +123,7 @@ describe('revisionActivity Directive', function () {
 
     describe('message', function () {
       it('should render commit message', function () {
-        var message = element.find('span.user-comment > span.message').html();
+        var message = element.find('.user-comment > span.message').html();
 
         expect(message).to.eq(scope.activity.message.html);
       });
