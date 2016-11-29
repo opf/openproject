@@ -69,6 +69,20 @@ export class WorkPackageTimelineCell {
       this.bar = document.createElement("div");
       this.bar.className = timelineElementCssClass;
       this.timelineCell.appendChild(this.bar);
+
+      this.bar.onmousedown = (ev: MouseEvent) => {
+        console.log("mouseDown", this.workPackageId, ev);
+        ev.preventDefault();
+      };
+
+      this.bar.onmouseup = (ev: MouseEvent) => {
+        console.log("mouseUp", this.workPackageId);
+      };
+
+      this.bar.onmousemove = (ev: MouseEvent) => {
+        // console.log("mouseMove", this.workPackageId);
+      };
+
     }
   }
 
