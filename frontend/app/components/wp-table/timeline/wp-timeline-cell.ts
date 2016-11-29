@@ -33,6 +33,7 @@ import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 export class WorkPackageTimelineCell {
 
@@ -41,6 +42,7 @@ export class WorkPackageTimelineCell {
   private bar: HTMLDivElement = null;
 
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
+              private wpCacheService: WorkPackageCacheService,
               private workPackageId: string,
               private timelineCell: HTMLElement) {
   }
@@ -71,12 +73,25 @@ export class WorkPackageTimelineCell {
     const jBody = jQuery("body");
     let startX: number;
 
+    let initialStartDate: string;
+    let initialDueDate: string;
+
     const mouseMoveFn = (ev: JQueryEventObject) => {
       const mev: MouseEvent = ev as any;
       const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
       const days = distance < 0 ? distance + 1 : distance;
-      console.log("days", days);
+      const wp = renderInfo.workPackage;
 
+      const start = moment(initialStartDate as any);
+      start.add(days, "days");
+      wp.startDate = start.format("YYYY-MM-DD") as any;
+
+      const due = moment(initialDueDate as any);
+      due.add(days, "days");
+      wp.dueDate = due.format("YYYY-MM-DD") as any;
+
+      this.updateView(renderInfo);
+      // this.wpCacheService.updateWorkPackage(wp);
     };
 
     const keyPressFn = (ev: JQueryEventObject) => {
@@ -96,6 +111,8 @@ export class WorkPackageTimelineCell {
     this.bar.onmousedown = (ev: MouseEvent) => {
       ev.preventDefault();
       startX = ev.clientX;
+      initialStartDate = renderInfo.workPackage.startDate as any;
+      initialDueDate = renderInfo.workPackage.dueDate as any;
       jBody.on("mousemove", mouseMoveFn);
       jBody.on("keyup", keyPressFn);
     };

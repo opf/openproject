@@ -44,7 +44,7 @@ function wpRow(WorkPackagesTableService) {
   return {
     restrict: 'A',
 
-    controller: function (states, $scope, $element, workPackageTimelineService) {
+    controller: function (states, $scope, $element, workPackageTimelineService, wpCacheService) {
       "ngInject";
 
       // required data for timeline cell
@@ -52,6 +52,7 @@ function wpRow(WorkPackagesTableService) {
       var timelineTd = $element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
         workPackageTimelineService,
+        wpCacheService,
         workPackageId,
         timelineTd
       );
