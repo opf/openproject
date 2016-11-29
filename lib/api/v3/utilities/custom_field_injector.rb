@@ -64,10 +64,10 @@ module API
         }.freeze
 
         class << self
-          def create_value_representer(customizable, representer)
+          def create_value_representer(customizable, representer, embed_links: true)
             new_representer_class_with(representer, customizable) do |injector|
               customizable.available_custom_fields.each do |custom_field|
-                injector.inject_value(custom_field, embed_links: true)
+                injector.inject_value(custom_field, embed_links: embed_links)
               end
             end
           end
