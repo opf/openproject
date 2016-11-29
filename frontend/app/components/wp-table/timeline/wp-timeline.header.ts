@@ -79,6 +79,7 @@ export class WpTimelineHeader {
       this.headerCell = jQuery(cssClassHeader)[0];
     }
 
+    this.headerCell.style.height = "44px";
     this.marginTop = jQuery(this.headerCell).outerHeight();
     this.globalHeight = jQuery(cssClassTableBody).outerHeight();
   }
@@ -90,6 +91,7 @@ export class WpTimelineHeader {
 
     jQuery(this.headerCell).empty();
     this.globalElements = {};
+    this.lazyInit();
     this.renderGlobalElements(vp);
 
     switch (vp.settings.zoomLevel) {
@@ -109,8 +111,6 @@ export class WpTimelineHeader {
   }
 
   private renderLabelsDays(vp: TimelineViewParameters) {
-    this.headerCell.style.height = "44px";
-
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
     });
@@ -138,9 +138,43 @@ export class WpTimelineHeader {
   }
 
   private renderLabelsWeeks(vp: TimelineViewParameters) {
+    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
+    });
+
+    this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("ww");
+      cell.style.borderColor = "#000000";
+      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.zIndex = "2";
+    });
+
+    this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("D");
+      cell.style.borderColor = "#CCCCCC";
+      cell.style.height = "15px";
+      cell.style.borderBottom = "1px solid black";
+    });
   }
 
   private renderLabelsMonths(vp: TimelineViewParameters) {
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("YYYY");
+    });
+
+    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("Q");
+      cell.style.borderColor = "#000000";
+      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.zIndex = "2";
+    });
+
+    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MM");
+      cell.style.borderColor = "#CCCCCC";
+      cell.style.height = "15px";
+      cell.style.borderBottom = "1px solid black";
+    });
   }
 
   private renderLabelsQuarters(vp: TimelineViewParameters) {

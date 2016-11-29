@@ -70,7 +70,7 @@ export class TimelineViewParameters {
       case ZoomLevel.DAYS:
         return 30;
       case ZoomLevel.WEEKS:
-        return 24;
+        return 15;
       case ZoomLevel.MONTHS:
         return 6;
       case ZoomLevel.QUARTERS:

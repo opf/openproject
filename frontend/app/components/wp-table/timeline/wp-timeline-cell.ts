@@ -36,19 +36,13 @@ import IDisposable = Rx.IDisposable;
 
 export class WorkPackageTimelineCell {
 
-  // private wpState: State<WorkPackageResource>;
-
   private disposable: IDisposable;
 
   private bar: HTMLDivElement = null;
 
   constructor(private workPackageTimelineService: WorkPackageTimelineService,
-              private scope: IScope,
-              private states: States,
               private workPackageId: string,
               private timelineCell: HTMLElement) {
-
-    // this.wpState = this.states.workPackages.get(this.workPackageId);
   }
 
   activate() {
@@ -64,38 +58,60 @@ export class WorkPackageTimelineCell {
     this.disposable && this.disposable.dispose();
   }
 
-  private lazyInit() {
+  private lazyInit(renderInfo: RenderInfo) {
     if (this.bar === null) {
       this.bar = document.createElement("div");
       this.bar.className = timelineElementCssClass;
       this.timelineCell.appendChild(this.bar);
-
-      this.bar.onmousedown = (ev: MouseEvent) => {
-        console.log("mouseDown", this.workPackageId, ev);
-        ev.preventDefault();
-      };
-
-      this.bar.onmouseup = (ev: MouseEvent) => {
-        console.log("mouseUp", this.workPackageId);
-      };
-
-      this.bar.onmousemove = (ev: MouseEvent) => {
-        // console.log("mouseMove", this.workPackageId);
-      };
-
+      this.registerMouseHandler(renderInfo);
     }
+  }
+
+  private registerMouseHandler(renderInfo: RenderInfo) {
+    const jBody = jQuery("body");
+    let startX: number;
+
+    const mouseMoveFn = (ev: JQueryEventObject) => {
+      const mev: MouseEvent = ev as any;
+      const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
+      const days = distance < 0 ? distance + 1 : distance;
+      console.log("days", days);
+
+    };
+
+    const keyPressFn = (ev: JQueryEventObject) => {
+      const kev: KeyboardEvent = ev as any;
+
+      // ESC
+      if (kev.keyCode === 27) {
+        deregister();
+      }
+    };
+
+    const deregister = () => {
+      jBody.off("mousemove", mouseMoveFn);
+      jBody.off("keyup", keyPressFn);
+    };
+
+    this.bar.onmousedown = (ev: MouseEvent) => {
+      ev.preventDefault();
+      startX = ev.clientX;
+      jBody.on("mousemove", mouseMoveFn);
+      jBody.on("keyup", keyPressFn);
+    };
+
+    jBody.on("mouseup", () => {
+      deregister();
+    });
   }
 
   private updateView(renderInfo: RenderInfo) {
     // console.log("updateView() wpId=" + this.workPackageId);
 
     // display bar
-    this.lazyInit();
+    this.lazyInit(renderInfo);
     const viewParams = renderInfo.viewParams;
     const wp = renderInfo.workPackage;
-
-    const start = moment(wp.startDate as any);
-    const due = moment(wp.dueDate as any);
 
     // update global elements
     // this.updateGlobalElements(renderInfo);
@@ -113,6 +129,9 @@ export class WorkPackageTimelineCell {
     this.bar.style.cssFloat = "left";
     this.bar.style.zIndex = "50";
     this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+
+    const start = moment(wp.startDate as any);
+    const due = moment(wp.dueDate as any);
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");

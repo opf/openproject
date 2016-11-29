@@ -52,8 +52,6 @@ function wpRow(WorkPackagesTableService) {
       var timelineTd = $element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
         workPackageTimelineService,
-        $scope,
-        states,
         workPackageId,
         timelineTd
       );
