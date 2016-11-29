@@ -71,13 +71,13 @@ module Pages
     end
 
     def add_unit_costs_row!
-      find('#material_budget_items_fieldset a', text: 'Add planned costs').click
+      find('#material_budget_items_fieldset .wp-inline-create--add-link').click
 
       @unit_rows = unit_rows + 1
     end
 
     def add_labor_costs_row!
-      find('#labor_budget_items_fieldset a', text: 'Add planned costs').click
+      find('#labor_budget_items_fieldset .wp-inline-create--add-link').click
 
       @labor_rows = labor_rows + 1
     end

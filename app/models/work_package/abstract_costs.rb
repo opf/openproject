@@ -18,6 +18,12 @@ class WorkPackage
     end
 
     ##
+    # Adds to the given WorkPackage collection query an extra costs column
+    def add_to_work_package_collection(wp_collection_scope)
+      add_costs_to wp_collection_scope
+    end
+
+    ##
     # For the given work packages calculates the sum of all costs.
     #
     # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
@@ -64,10 +70,6 @@ class WorkPackage
       costs_model.table_name
     end
 
-    def table_alias
-      "#{costs_table_name}_sum_per_wp"
-    end
-
     def add_costs_to(scope)
       scope
         .joins(sum_arel.join_sources)
@@ -102,6 +104,10 @@ class WorkPackage
       WorkPackage.arel_table
     end
 
+    def wp_table_descendants
+      wp_table.alias 'descendants'
+    end
+
     def ce_table
       costs_model.arel_table
     end
@@ -110,7 +116,9 @@ class WorkPackage
       authorization_scope = filter_authorized costs_model.all
       authorization_where = authorization_scope.ast.cores.last.wheres.last
 
-      ce_table[:work_package_id].eq(wp_table[:id]).and(authorization_where)
+      # relies on the scope having the wp descendants joined at least
+      # when #to_sql is called.
+      ce_table[:work_package_id].eq(wp_table_descendants[:id]).and(authorization_where)
     end
 
     def projects_table

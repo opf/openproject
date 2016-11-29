@@ -88,7 +88,7 @@ module OpenProject::Costs
       end
     end
 
-    patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :PermittedParams,
+    patches [:Project, :Query, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
@@ -355,13 +355,36 @@ module OpenProject::Costs
         material = WorkPackage::MaterialCosts.new
         labor = WorkPackage::LaborCosts.new
 
-        material.add_to_work_packages(labor.add_to_work_packages(super))
+        super_scope = super
+
+        # The core adds a "LEFT OUTER JOIN time_entries" where the on clause
+        # allows all time entries to be joined if he has the :view_time_entries.
+        # Because the cost scopes add another "LEFT OUTER JOIN time_entries"
+        # where the on clause allows all time entries to be joined if he has
+        # the :view_time_entries permission and additionally those which are
+        # his and for which he has the :view_own_time_entries permission.
+        # Because costs join includes the values of the core, entries are joined twice.
+        # We therefore have to remove core's join.
+        #
+        # This is very hacky.
+        #
+        # The bright part is, that it improves performance.
+        super_scope.joins_values.reject! do |join|
+          join.is_a?(Arel::Nodes::OuterJoin) &&
+            join.left.is_a?(Arel::Table) &&
+            join.left.name == 'time_entries'
+        end
+
+        material.add_to_work_package_collection(labor.add_to_work_package_collection(super_scope))
       end
     end
 
     config.to_prepare do
       require 'open_project/costs/patches/members_patch'
       OpenProject::Costs::Members.mixin!
+
+      require 'open_project/costs/patches/work_package_patch'
+      OpenProject::Costs::Patches::WorkPackagePatch.mixin!
 
       # loading the class so that acts_as_journalized gets registered
       VariableCostObject

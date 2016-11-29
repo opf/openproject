@@ -77,11 +77,13 @@ describe 'adding a new budget', type: :feature, js: true do
       expect(page).to have_content('Successful creation')
 
       new_budget_page.toggle_unit_costs!
+      expect(page).to have_selector('td.currency', text: '150.00 EUR')
       expect(new_budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
       expect(new_budget_page.unit_costs_at(2)).to have_content '100.00 EUR'
       expect(new_budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
       new_budget_page.toggle_labor_costs!
+      expect(page).to have_selector('td.currency', text: '125.00 EUR')
       expect(new_budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
       expect(new_budget_page.labor_costs_at(2)).to have_content '50.00 EUR'
       expect(new_budget_page.overall_labor_costs).to have_content '175.00 EUR'
