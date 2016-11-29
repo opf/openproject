@@ -37,10 +37,11 @@ Capybara.register_driver :selenium do |app|
 
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv'
 
+  capabilities["firefox_profile"] = profile
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    profile: profile,
     http_client: client,
     desired_capabilities: capabilities
   )
