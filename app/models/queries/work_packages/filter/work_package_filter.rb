@@ -50,7 +50,7 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::BaseFilter
   end
 
   def possible_types_by_operator
-    @@operators_by_filter_type.select { |_key, operators| operators.include?(operator) }.keys.sort
+    self.class.operators_by_filter_type.select { |_key, operators| operators.include?(operator) }.keys.sort
   end
 
   def ==(filter)
@@ -60,7 +60,7 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::BaseFilter
   protected
 
   def attributes_hash
-    @@filter_params.inject({}) do |params, param_field|
+    self.class.filter_params.inject({}) do |params, param_field|
       params.merge(param_field => send(param_field))
     end
   end

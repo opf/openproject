@@ -39,11 +39,13 @@ function setExpandStatus(expanderObject) {
 }
 
 function initMainMenuExpandStatus() {
+  var wrapper = jQuery('#wrapper')
+
   jQuery('#main-menu .toggler').each(function(index) {
     var menu_expander = jQuery(this);
     var menu_item = menu_expander.closest('li').find('a.selected');
 
-    if (menu_item.length == 1) {
+    if (menu_item.length == 1 && !wrapper.hasClass('hidden-navigation')) {
       menu_expander.trigger('click');
     } else {
       setExpandStatus(menu_expander);

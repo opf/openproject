@@ -169,9 +169,12 @@ describe CopyProjectJob, type: :model do
 
         subject { Project.find_by(identifier: 'copy') }
 
-        it { expect(subject).not_to be_nil }
+        it 'copies the project' do
+          expect(subject).not_to be_nil
+          expect(subject.parent).to eql(project)
 
-        it { expect(subject.parent).to eql(project) }
+          expect(subproject.reload.enabled_module_names).not_to be_empty
+        end
       end
     end
   end

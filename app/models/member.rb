@@ -41,7 +41,8 @@ class Member < ActiveRecord::Base
   validate :validate_presence_of_principal
 
   before_destroy :remove_from_category_assignments
-  after_destroy :unwatch_from_permission_change
+  after_destroy :unwatch_from_permission_change,
+                if: ->(member) { member.prune_watchers_on_destruction != false }
 
   after_save :save_notification
   after_destroy :destroy_notification
@@ -98,8 +99,8 @@ class Member < ActiveRecord::Base
   #
   # Make sure to get the MemberRole instance from the member's association, otherwise the
   # destruction of the member, when the last MemberRole is destroyed, might not work.
-  def remove_member_role_and_destroy_member_if_last(member_role)
-    do_remove_member_role(member_role, true)
+  def remove_member_role_and_destroy_member_if_last(member_role, prune_watchers: true)
+    do_remove_member_role(member_role, true, prune_watchers: prune_watchers)
   end
 
   def <=>(member)
@@ -145,6 +146,8 @@ class Member < ActiveRecord::Base
   end
 
   protected
+
+  attr_accessor :prune_watchers_on_destruction
 
   def destroy_if_no_roles_left!
     destroy if member_roles.empty? || member_roles.all? do |member_role|
@@ -202,14 +205,25 @@ class Member < ActiveRecord::Base
     member_roles_to_destroy.each { |mr| do_remove_member_role(mr, save_and_possibly_destroy) }
   end
 
-  def do_remove_member_role(member_role, destroy)
+  def do_remove_member_role(member_role, destroy, prune_watchers: true)
+    self.prune_watchers_on_destruction = prune_watchers
+
+    # because we later on check whether all member_roles have been destroyed
+    # (at least when we do destroy it) we have to work on the member_role
+    # instance existing in the member_roles association.  Otherwise, while
+    # representing the same db entry, the instances could be different and the
+    # wrong instance might have the destroyed flag.
+    to_destroy = member_roles.detect { |mr| mr.id == member_role.id }
+
     if destroy
-      member_role.destroy_for_member
+      to_destroy.destroy_for_member
       destroy_if_no_roles_left!
     else
-      member_role.mark_for_destruction
+      to_destroy.mark_for_destruction
     end
-    unwatch_from_permission_change
+    unwatch_from_permission_change if prune_watchers
+
+    self.prune_watchers_on_destruction = true
   end
 
   private
@@ -220,7 +234,7 @@ class Member < ActiveRecord::Base
   #       Accordingly it has to be changed there too should this bit change at all.
   def unwatch_from_permission_change
     if user
-      Watcher.prune(user: user, project: project)
+      Watcher.prune(user: user, project_id: project.id)
     end
   end
 

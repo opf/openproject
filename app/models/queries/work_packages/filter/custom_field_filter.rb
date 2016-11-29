@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'custom_value'
-
 class Queries::WorkPackages::Filter::CustomFieldFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   attr_accessor :custom_field
@@ -102,9 +100,10 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   def self.custom_fields(context)
     if context
       context
-        .all_work_package_custom_fields
+        .all_work_package_custom_fields(include: :translations)
     else
       WorkPackageCustomField
+        .includes(:translations)
         .filter
         .for_all
         .where.not(field_format: ['user', 'version'])

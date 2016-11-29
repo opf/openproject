@@ -48,6 +48,15 @@ end
 
 require 'rails/all'
 
+if Rails.env.production? || (Rails.env.test? && ENV['CI'])
+  $stderr.puts <<-EOS
+    WARNING
+
+    Silencing all ActiveSupport::Deprecation message output!
+  EOS
+  ActiveSupport::Deprecation.behavior = :silence
+end
+
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
   # the open_project/plugins files can be found (places under lib).

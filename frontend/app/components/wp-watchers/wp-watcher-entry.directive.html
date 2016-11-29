@@ -1,0 +1,32 @@
+<div class="inplace-edit--read watcher-element">
+  <span class="inplace-editing--trigger-container">
+    <span class="inplace-editing--trigger-link"
+          data-ng-class="{'-focus': $ctrl.state.focussing}">
+      <span class="inplace-editing--container">
+        <span class="inplace-edit--read-value" >
+          <span data-ng-class="{'deleting': $ctrl.state.deleting}">
+            <a ng-href="{{ $ctrl.watcher.showUser.href }}"
+               title="{{ $ctrl.watcher.name }}">
+              <img ng-attr-src="{{ $ctrl.watcher.avatar }}"
+                   ng-attr-alt="{{ $ctrl.watcher.name }}"
+                   ng-show="$ctrl.watcher.avatar"
+                   class="avatar-mini">
+              <span class="work-package--watcher-name">{{ $ctrl.watcher.name }}</span>
+            </a>
+          </span>
+        </span>
+        <accessible-by-keyboard execute="$ctrl.remove()"
+                                aria-label="{{ ::$ctrl.text.remove }}"
+                                link-title="{{ ::$ctrl.text.remove }}"
+                                link-class="inplace-edit--icon-wrapper remove-watcher-btn">
+          <icon-wrapper icon-name="remove"
+                        data-icon-title="{{::$ctrl.text.remove}}">
+          </icon-wrapper>
+        </accessible-by-keyboard>
+      </span>
+    </span>
+  </span>
+</div>
+
+
+

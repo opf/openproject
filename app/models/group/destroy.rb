@@ -38,13 +38,33 @@ module Group::Destroy
   # With this patch the number of queries is reduced to the 5 + 1 for each group member
   # as explained above, making it:
   #
-  # num_queries_prost_patch = 5 + 150 + W = 155 + W
+  # num_queries_post_patch = 5 + 150 + W = 155 + W
   #
   def destroy
     MemberRole.transaction do
       members = Member.table_name
       member_roles = MemberRole.table_name
-      watchers = Watcher.table_name
+
+      # Store all project/user combinations for later watcher pruning
+      # See: Member#unwatch_from_permission_change
+      user_id_and_project_id = Member
+                               .joins(
+                                 "INNER JOIN #{member_roles} umr
+                                    ON #{members}.id = umr.member_id
+                                  INNER JOIN #{member_roles} gmr
+                                    ON umr.inherited_from = gmr.id
+                                  INNER JOIN #{members} gm
+                                    ON gm.id = gmr.member_id AND gm.user_id = #{id}"
+                               )
+                               .distinct
+                               .pluck(:user_id, :project_id)
+
+      user_ids, project_ids = user_id_and_project_id.each_with_object([[], []]) do |element, array|
+        array.first << element.first
+        array.last << element.last
+      end
+
+      users = User.find(user_ids)
 
       # Delete all MemberRoles created through this group for each user within it.
       MemberRole
@@ -59,15 +79,7 @@ module Group::Destroy
         .where("#{members}.user_id" => self.id)
         .delete_all
 
-      # Prune member rows related to this group whose users are watching something.
-      # See: Member#unwatch_from_permission_change
-      Member
-        .joins(
-          "INNER JOIN #{members} b ON #{members}.project_id = b.project_id
-           INNER JOIN #{watchers} ON #{watchers}.user_id = #{members}.user_id
-           WHERE b.user_id = #{self.id}")
-        .distinct
-        .each { |member| Watcher.prune(user: member.user, project_id: member.project_id) }
+      Watcher.prune(user: users, project_id: project_ids)
 
       # Destroy member instances for this group itself to trigger
       # member destroyed notifications.

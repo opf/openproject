@@ -29,8 +29,24 @@
 
 class CustomValue::UserStrategy < CustomValue::FormatStrategy
   def typed_value
-    unless value.blank?
-      User.find_by(id: value)
+    return memoized_typed_value if memoized_typed_value
+
+    if value.present?
+      RequestStore.fetch(:"user_custom_value_#{value}") do
+        self.memoized_typed_value = User.find_by(id: value)
+      end
+    end
+  end
+
+  def parse_value(val)
+    if val.is_a?(User)
+      self.memoized_typed_value = val
+
+      val.id.to_s
+    elsif val.blank?
+      super(nil)
+    else
+      super
     end
   end
 

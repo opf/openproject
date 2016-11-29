@@ -677,11 +677,15 @@ class ApplicationController < ActionController::Base
     @permitted_params ||= PermittedParams.new(params, current_user)
   end
 
+  def login_back_url_params
+    {}
+  end
+
   def login_back_url
     # Extract only the basic url parameters on non-GET requests
     if request.get?
       # rely on url_for to fill in the parameters of the current request
-      url_for
+      url_for(login_back_url_params)
     else
       url_params = params.permit(:action, :id, :project_id, :controller)
 

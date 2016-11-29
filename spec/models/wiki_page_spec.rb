@@ -99,4 +99,10 @@ describe WikiPage, type: :model do
       end
     end
   end
+
+  describe '#project' do
+    it 'is the same as the project on wiki' do
+      expect(wiki_page.project).to eql(wiki.project)
+    end
+  end
 end

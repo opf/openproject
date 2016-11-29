@@ -31,9 +31,17 @@ require 'spec_helper'
 require 'support/shared/acts_as_watchable'
 
 describe Message, type: :model do
+  let(:message) { FactoryGirl.create(:message) }
+
   it_behaves_like 'acts_as_watchable included' do
-    let(:model_instance) { FactoryGirl.create(:message) }
+    let(:model_instance) { message }
     let(:watch_permission) { :view_messages } # view_messages is a public permission
     let(:project) { model_instance.board.project }
+  end
+
+  describe '#project' do
+    it 'is the same as the project on wiki' do
+      expect(message.project).to eql(message.board.project)
+    end
   end
 end

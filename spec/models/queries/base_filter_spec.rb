@@ -34,6 +34,10 @@ describe Queries::BaseFilter, type: :model do
       def type
         :integer
       end
+
+      def self.name
+        "TestIntegerFilter"
+      end
     end
 
     filter_class.new
@@ -44,6 +48,10 @@ describe Queries::BaseFilter, type: :model do
       def type
         :date
       end
+
+      def self.name
+        "TestDateFilter"
+      end
     end
 
     filter_class.new
@@ -53,6 +61,10 @@ describe Queries::BaseFilter, type: :model do
     filter_class = Class.new(described_class) do
       def type
         :date_past
+      end
+
+      def self.name
+        "TestDatePastFilter"
       end
     end
 

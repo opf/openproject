@@ -104,6 +104,16 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
     end
 
+    describe "case-insensitive matches" do
+      before do
+        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=wp"
+      end
+
+      it "should return WP 2.1 and 2.2" do
+        expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
+      end
+    end
+
     describe "relation candidates for WP 2.2 (circular dependency check)" do
       before do
         get "/api/v3/work_packages/#{wp_2_2.id}/available_relation_candidates?query=WP"

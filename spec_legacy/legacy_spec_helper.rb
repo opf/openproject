@@ -29,14 +29,6 @@
 
 ENV['RAILS_ENV'] = 'test'
 
-if ENV['COVERAGE']
-  require 'bundler'
-  Bundler.setup(:default, :test)
-
-  require 'simplecov'
-  SimpleCov.start 'rails'
-end
-
 require File.expand_path('../../config/environment', __FILE__)
 
 require 'fileutils'
@@ -94,32 +86,16 @@ RSpec.configure do |config|
     I18n.locale = 'en'
   end
 
-  config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation
-  end
+  if ENV['CI']
+    $stderr.puts <<-EOS
+    WARNING
 
-  config.before(:each) do |example|
-    DatabaseCleaner.strategy = if example.metadata[:js]
-                                 # JS => doesn't share connections => can't use transactions
-                                 # as of database_cleaner 1.4 'deletion' causes error:
-                                 # 'column "table_rows" does not exist'
-                                 # https://github.com/DatabaseCleaner/database_cleaner/issues/345
-                                 :truncation
-                               else
-                                 # No JS/Devise => run with Rack::Test => transactions are ok
-                                 :transaction
-                               end
-
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
+    Silencing all ActiveSupport::Deprecation message output due to CI=true.
+    EOS
+    ActiveSupport::Deprecation.behavior = :silence
   end
 
   # colorized rspec output
   config.color = true
-
-  config.example_status_persistence_file_path = 'tmp/rspec-legacy-examples.txt'
-  config.run_all_when_everything_filtered = true
+  config.formatter = 'progress'
 end

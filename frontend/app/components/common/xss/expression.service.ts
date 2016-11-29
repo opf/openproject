@@ -37,7 +37,7 @@ export default class ExpressionService {
   }
 
   public get ESCAPED_EXPRESSION() {
-    return '{{ DOUBLE_LEFT_CURLY_BRACE }}';
+    return '{{ \\$root\\.DOUBLE_LEFT_CURLY_BRACE }}';
   }
 
   public escape(input:string) {

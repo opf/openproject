@@ -27,11 +27,14 @@
 // ++
 
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
                                     $state,
                                     $location,
+                                    wpNotificationsService: WorkPackageNotificationService,
                                     WorkPackagesTableService,
                                     WorkPackageService,
                                     wpListService,
@@ -58,30 +61,28 @@ function WorkPackagesListController($scope,
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
     $scope.disableNewWorkPackage = true;
+    $scope.queryError = false;
 
     loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
 
+        // Update work package states
         wpCacheService.updateWorkPackageList(json.work_packages);
-
-        setupPage(json, !!$state.params.query_props);
-
-        QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-        QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data) {
-          $scope.availableUnusedColumns = data;
-        });
-
-        if ($scope.projectIdentifier) {
-          ProjectService.getProject($scope.projectIdentifier).then(function (project) {
-            $scope.project = project;
-            $scope.projects = [project];
-          });
-        }
+        setupPage(json);
+      })
+      .catch((result:{ error: ErrorResource|any , json: api.ex.WorkPackagesMeta }) => {
+        wpNotificationsService.handleErrorResponse(result.error);
+        setupPage(result.json);
+        $scope.query.hasError = true;
       });
   }
 
-  function setupPage(json, queryParamsPresent) {
-    // Init query
+  function setupQuery(json) {
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data) {
+      $scope.availableUnusedColumns = data;
+    });
+
     var metaData = json.meta;
     var queryData = metaData.query;
     var columnData = metaData.columns;
@@ -97,10 +98,27 @@ function WorkPackagesListController($scope,
       $scope.query = QueryService.initQuery(
         $state.params.query_id, queryData, columnData, metaData.export_formats);
 
-      if (queryParamsPresent) {
+      if (!!$state.params.query_props) {
         $scope.query.dirty = true;
       }
     }
+  }
+
+  function loadProject() {
+    if ($scope.projectIdentifier) {
+      ProjectService.getProject($scope.projectIdentifier).then(function (project) {
+        $scope.project = project;
+        $scope.projects = [project];
+      });
+    }
+  }
+
+  function setupPage(json) {
+    // Init query
+    setupQuery(json);
+
+    // Load project
+    loadProject();
 
     $scope.maintainBackUrl();
 

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,26 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Constants
-  module QueryRegister
-    class << self
-      def filter(query, filter)
-        self.filters ||= Hash.new do |hash, filter_key|
-          hash[filter_key] = []
-        end
+require 'spec_helper'
 
-        self.filters[query] << filter
+describe 'Search', type: :feature do
+  describe 'pagination' do
+    let(:project) { FactoryGirl.create :project }
+
+    let!(:work_packages) do
+      (1..23).map do |n|
+        subject = "Subject No. #{n}"
+        FactoryGirl.create :work_package, subject: subject, project: project, created_at: "2016-11-21 #{n}:00".to_datetime
       end
+    end
 
-      def order(query, order)
-        self.orders ||= Hash.new do |hash, order_key|
-          hash[order_key] = []
-        end
+    let(:query) { "Subject" }
 
-        self.orders[query] << order
-      end
+    before do
+      login_as FactoryGirl.create(:admin)
 
-      attr_accessor :filters, :orders
+      visit "/search?q=#{query}"
+    end
+
+    def expect_range(a, b)
+      (a..b).each { |n| expect(page.body).to include ("No. #{n}") }
+    end
+
+    it "works" do
+      expect_range 14, 23
+
+      click_on "Next", match: :first
+      expect_range 4, 13
+
+      click_on "Previous", match: :first
+      expect_range 14, 23
     end
   end
 end

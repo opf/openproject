@@ -55,7 +55,7 @@ interface WorkPackageResourceEmbedded {
   timeEntries: HalResource[]|any[];
   type: HalResource|any;
   version: HalResource|any;
-  watchers: HalResource[]|any[];
+  watchers: CollectionResourceInterface;
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
