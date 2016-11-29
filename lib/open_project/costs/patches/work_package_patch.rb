@@ -74,7 +74,7 @@ module OpenProject::Costs::Patches
       end
 
       def reassign_cost_entries_before_destruction(work_packages, user, ids)
-        reassign_to = WorkPackage
+        reassign_to = ::WorkPackage
                       .joins(:project)
                       .merge(Project.allowed_to(user, :edit_cost_entries))
                       .find_by_id(ids)
@@ -87,7 +87,7 @@ module OpenProject::Costs::Patches
           false
         else
           condition = "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}"
-          WorkPackage.update_cost_entries(work_packages.map(&:id), condition)
+          ::WorkPackage.update_cost_entries(work_packages.map(&:id), condition)
         end
       end
 
@@ -115,7 +115,7 @@ module OpenProject::Costs::Patches
         if respond_to?(:cost_entries_sum) # column has been eager loaded into result set
           cost_entries_sum.to_f
         else
-          WorkPackage::MaterialCosts.new(user: User.current).costs_of work_packages: self
+          ::WorkPackage::MaterialCosts.new(user: User.current).costs_of work_packages: self
         end
       end
 
@@ -123,7 +123,7 @@ module OpenProject::Costs::Patches
         if respond_to?(:time_entries_sum) # column has been eager loaded into result set
           time_entries_sum.to_f
         else
-          WorkPackage::LaborCosts.new(user: User.current).costs_of work_packages: self
+          ::WorkPackage::LaborCosts.new(user: User.current).costs_of work_packages: self
         end
       end
 
