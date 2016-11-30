@@ -43,7 +43,7 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
 
   function buildTimelineCell(scope, element, wpTimelineContainer) {
       // required data for timeline cell
-      var workPackageId = scope.row.object.id;
+      var workPackageId = scope.workPackage.id;
       var timelineTd = element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
         wpTimelineContainer,
@@ -68,6 +68,8 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
 
     require: '^wpTimelineContainer',
     link: function (scope, element, attr, wpTimelineContainer) {
+      scope.workPackage = scope.row.object;
+
       buildTimelineCell(scope, element, wpTimelineContainer);
       setCheckboxTitle(scope);
 

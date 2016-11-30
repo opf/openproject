@@ -27,7 +27,7 @@
 // ++
 
 import {openprojectModule} from "../../../angular-modules";
-import {WorkPackageTimelineTableController} from './wp-table-timeline.directive';
+import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
 import {ZoomLevel} from "./wp-timeline";
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;

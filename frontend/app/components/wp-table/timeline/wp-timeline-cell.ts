@@ -28,7 +28,7 @@
 
 import {States} from "../../states.service";
 import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
-import {WorkPackageTimelineTableController} from './wp-table-timeline.directive';
+import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;

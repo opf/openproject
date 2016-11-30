@@ -57,7 +57,6 @@ export class WorkPackageTimelineTableController {
     "ngInject";
 
     $element.on(InteractiveTableController.eventName, () => {
-      console.log("REFRESHING TIMELINE");
       this.refreshView();
     })
   }
