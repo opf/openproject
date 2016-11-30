@@ -25,15 +25,17 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
 import {States} from "../../states.service";
 import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
-import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+
+const classNameLeftHandle = "leftHandle";
+const classNameRightHandle = "rightHandle";
 
 export class WorkPackageTimelineCell {
 
@@ -68,6 +70,31 @@ export class WorkPackageTimelineCell {
       this.bar.className = timelineElementCssClass;
       this.timelineCell.appendChild(this.bar);
       this.registerMouseHandler(renderInfo);
+
+      const left = document.createElement("div");
+      left.className = classNameLeftHandle;
+      left.style.position = "absolute";
+      // left.style.backgroundColor = "#9c00ff";
+      left.style.left = "0px";
+      left.style.top = "0px";
+      left.style.width = "20px";
+      left.style.maxWidth = "20%";
+      left.style.height = "100%";
+      left.style.cursor = "w-resize";
+      this.bar.appendChild(left);
+
+      const right = document.createElement("div");
+      right.className = classNameRightHandle;
+      right.style.position = "absolute";
+      // right.style.backgroundColor = "#9c00ff";
+      right.style.right = "0px";
+      right.style.top = "0px";
+      right.style.width = "20px";
+      right.style.maxWidth = "20%";
+      right.style.height = "100%";
+      right.style.cursor = "e-resize";
+      this.bar.appendChild(right);
+
     }
   }
 
@@ -75,8 +102,8 @@ export class WorkPackageTimelineCell {
     const jBody = jQuery("body");
     let startX: number;
 
-    let initialStartDate: string;
-    let initialDueDate: string;
+    let initialStartDate: string = null;
+    let initialDueDate: string = null;
 
     const mouseMoveFn = (ev: JQueryEventObject) => {
       const mev: MouseEvent = ev as any;
@@ -84,15 +111,18 @@ export class WorkPackageTimelineCell {
       const days = distance < 0 ? distance + 1 : distance;
       const wp = renderInfo.workPackage;
 
-      const start = moment(initialStartDate as any);
-      start.add(days, "days");
-      wp.startDate = start.format("YYYY-MM-DD") as any;
+      if (initialStartDate !== null) {
+        const start = moment(initialStartDate as any);
+        start.add(days, "days");
+        wp.startDate = start.format("YYYY-MM-DD") as any;
+      }
 
-      const due = moment(initialDueDate as any);
-      due.add(days, "days");
-      wp.dueDate = due.format("YYYY-MM-DD") as any;
+      if (initialDueDate !== null) {
+        const due = moment(initialDueDate as any);
+        due.add(days, "days");
+        wp.dueDate = due.format("YYYY-MM-DD") as any;
+      }
 
-      // this.updateView(renderInfo);
       this.wpCacheService.updateWorkPackage(wp as any);
     };
 
@@ -108,13 +138,21 @@ export class WorkPackageTimelineCell {
     const deregister = () => {
       jBody.off("mousemove", mouseMoveFn);
       jBody.off("keyup", keyPressFn);
+      initialStartDate = null;
+      initialDueDate = null;
     };
 
     this.bar.onmousedown = (ev: MouseEvent) => {
       ev.preventDefault();
+
+      const className = (ev.target as HTMLElement).className;
       startX = ev.clientX;
-      initialStartDate = renderInfo.workPackage.startDate as any;
-      initialDueDate = renderInfo.workPackage.dueDate as any;
+      if (className !== classNameRightHandle) {
+        initialStartDate = renderInfo.workPackage.startDate as any;
+      }
+      if (className !== classNameLeftHandle) {
+        initialDueDate = renderInfo.workPackage.dueDate as any;
+      }
       jBody.on("mousemove", mouseMoveFn);
       jBody.on("keyup", keyPressFn);
     };
@@ -148,7 +186,8 @@ export class WorkPackageTimelineCell {
     this.bar.style.cssFloat = "left";
     this.bar.style.zIndex = "50";
     this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-    this.bar.style.cursor = "move";
+    this.bar.style.cursor = "ew-resize";
+    // this.bar.style.cursor = "move";
 
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
