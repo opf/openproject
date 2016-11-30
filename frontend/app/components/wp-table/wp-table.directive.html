@@ -40,14 +40,13 @@
                           query="query"
                           ng-class="column.name == 'id' && '-short' ">
           </th>
-
-          <th class="wp-timeline-header"
-              style="
-                position: relative;
-                overflow: visible;
-                "></th>
-
-
+          
+          <th style="pointer-events: none">
+            <div class="generic-table--sort-header-outer" style="width: 500px;">
+              <span class="generic-table--sort-header wp-timeline-header" style="position: relative; overflow: hidden">
+              </span>
+            </div>
+          </th>
         </tr>
       </thead>
 
@@ -177,6 +176,7 @@
 
           <td class="wp-timeline-cell"
               style="
+                width: 500px;
                 position: relative;
                 ">
           </td>

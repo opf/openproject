@@ -28,7 +28,8 @@
 
 import {opUiComponentsModule} from "../../../angular-modules";
 
-export class interactiveTableController {
+export class InteractiveTableController {
+  static eventName = 'op:tableChanged';
 
   // Width of the table and container last applied by this directive
   private lastWidthSet;
@@ -73,6 +74,7 @@ export class interactiveTableController {
     });
 
   }
+
 
   private get table() {
     return this.$element;
@@ -189,6 +191,8 @@ export class interactiveTableController {
     this.invalidateWidths();
     this.setTableContainerWidths();
     this.setHeaderFooterWidths();
+
+    this.table.trigger(InteractiveTableController.eventName);
   };
 
   private refreshWhenNeeded() {
@@ -220,7 +224,7 @@ export class interactiveTableController {
 function interactiveTable() {
   return {
     restrict: 'A',
-    controller: interactiveTableController,
+    controller: InteractiveTableController,
     bindToController: true,
 
     link: function(scope, element) {
@@ -232,4 +236,3 @@ function interactiveTable() {
 };
 
 opUiComponentsModule.directive('interactiveTable', interactiveTable);
-

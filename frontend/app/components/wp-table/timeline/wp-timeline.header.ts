@@ -1,3 +1,4 @@
+import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -79,7 +80,7 @@ export class WpTimelineHeader {
       this.headerCell = jQuery(cssClassHeader)[0];
     }
 
-    this.headerCell.style.height = "44px";
+    this.headerCell.style.height = jQuery(cssClassTableBody).outerHeight() + 'px';
     this.marginTop = jQuery(this.headerCell).outerHeight();
     this.globalHeight = jQuery(cssClassTableBody).outerHeight();
   }
