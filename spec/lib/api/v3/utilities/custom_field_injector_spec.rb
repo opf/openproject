@@ -226,8 +226,9 @@ describe ::API::V3::Utilities::CustomFieldInjector do
              available_custom_fields: [custom_field],
              custom_field.accessor_name => value)
     }
-    let(:custom_value) { double('CustomValue', value: raw_value) }
+    let(:custom_value) { double('CustomValue', value: raw_value, typed_value: typed_value) }
     let(:raw_value) { nil }
+    let(:typed_value) { raw_value }
     let(:value) { '' }
     let(:current_user) { FactoryGirl.build(:user) }
     subject { modified_class.new(represented, current_user: current_user).to_json }
@@ -240,11 +241,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     context 'user custom field' do
       let(:value) { FactoryGirl.build(:user, id: 2) }
       let(:raw_value) { value.id.to_s }
+      let(:typed_value) { value }
       let(:field_format) { 'user' }
 
-      it_behaves_like 'has an untitled link' do
+      it_behaves_like 'has a titled link' do
         let(:link) { cf_path }
         let(:href) { api_v3_paths.user 2 }
+        let(:title) { value.name }
       end
 
       it 'has the user embedded' do
@@ -263,13 +266,15 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'version custom field' do
-      let(:value) { FactoryGirl.build(:version, id: 2) }
+      let(:value) { FactoryGirl.build_stubbed(:version, id: 2) }
       let(:raw_value) { value.id.to_s }
+      let(:typed_value) { value }
       let(:field_format) { 'version' }
 
-      it_behaves_like 'has an untitled link' do
+      it_behaves_like 'has a titled link' do
         let(:link) { cf_path }
         let(:href) { api_v3_paths.version 2 }
+        let(:title) { value.name }
       end
 
       it 'has the version embedded' do
@@ -292,9 +297,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       let(:raw_value) { value }
       let(:field_format) { 'list' }
 
-      it_behaves_like 'has an untitled link' do
+      it_behaves_like 'has a titled link' do
         let(:link) { cf_path }
         let(:href) { api_v3_paths.string_object 'Foobar' }
+        let(:title) { value }
       end
 
       it 'has the string object embedded' do
@@ -381,8 +387,9 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       double('represented',
              available_custom_fields: [custom_field])
     }
-    let(:custom_value) { double('CustomValue', value: value) }
+    let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
     let(:value) { '' }
+    let(:typed_value) { value }
     subject { "{ \"_links\": #{modified_class.new(represented, current_user: nil).to_json} }" }
 
     before do
@@ -391,11 +398,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     context 'reading' do
       let(:value) { '2' }
+      let(:typed_value) { FactoryGirl.build_stubbed(:user) }
       let(:field_format) { 'user' }
 
-      it_behaves_like 'has an untitled link' do
+      it_behaves_like 'has a titled link' do
         let(:link) { cf_path }
         let(:href) { api_v3_paths.user 2 }
+        let(:title) { typed_value.name }
       end
 
       context 'value is nil' do

@@ -35,16 +35,19 @@ module API
     module WorkPackages
       class WorkPackageRepresenter < ::API::Decorators::Single
         class << self
-          def create_class(work_package)
+          def create_class(work_package, embed_links: false)
             injector_class = ::API::V3::Utilities::CustomFieldInjector
             injector_class.create_value_representer(work_package,
-                                                    WorkPackageRepresenter)
+                                                    WorkPackageRepresenter,
+                                                    embed_links: embed_links)
           end
 
           def create(work_package, current_user:, embed_links: false)
-            create_class(work_package).new(work_package,
-                                           current_user: current_user,
-                                           embed_links: embed_links)
+            create_class(work_package,
+                         embed_links: embed_links)
+              .new(work_package,
+                   current_user: current_user,
+                   embed_links: embed_links)
           end
         end
 
