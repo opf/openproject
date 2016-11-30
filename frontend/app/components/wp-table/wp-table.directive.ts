@@ -28,6 +28,7 @@
 
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
@@ -46,6 +47,7 @@ function wpTable(
   return {
     restrict: 'E',
     replace: true,
+    require: '^wpTimelineContainer',
     templateUrl: '/components/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
@@ -62,8 +64,10 @@ function wpTable(
 
     controller: WorkPackagesTableController,
 
-    link: function(scope, element) {
+    link: function(scope, element, attr, wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
+
+      scope.wpTimelineContainer = wpTimelineContainer;
 
       // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;

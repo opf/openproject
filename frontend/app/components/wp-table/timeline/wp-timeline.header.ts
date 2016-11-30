@@ -153,7 +153,7 @@ export class WpTimelineHeader {
     this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
       cell.style.borderColor = "#CCCCCC";
-      cell.style.height = "15px";
+      cell.style.height = "25px";
       cell.style.borderBottom = "1px solid black";
     });
   }

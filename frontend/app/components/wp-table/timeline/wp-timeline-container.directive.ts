@@ -51,6 +51,8 @@ export class WorkPackageTimelineTableController {
 
   private refreshViewRequested = false;
 
+  public visible = false;
+
   constructor(private $element: ng.IAugmentedJQuery,
               private states: States) {
 
@@ -59,6 +61,13 @@ export class WorkPackageTimelineTableController {
     $element.on(InteractiveTableController.eventName, () => {
       this.refreshView();
     })
+  }
+
+  /** 
+   * Toggle whether this instance is currently showing.
+   */
+  public toggle() {
+    return this.visible = !this.visible;
   }
 
   /**

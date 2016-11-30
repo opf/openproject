@@ -41,17 +41,16 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
       {id: scope.row.parent.object.id});
   }
 
-  function buildTimelineCell(scope, element, wpTimelineContainer) {
+  function buildTimelineCell(scope, timelineTd, wpTimelineContainer) {
       // required data for timeline cell
       var workPackageId = scope.workPackage.id;
-      var timelineTd = element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
         wpTimelineContainer,
         wpCacheService,
         scope,
         states,
         workPackageId,
-        timelineTd
+        timelineTd[0]
       );
 
       // show timeline cell
@@ -61,6 +60,8 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
       scope.$on("$destroy", function () {
         timelineCell.deactivate();
       });
+
+      return timelineCell;
   }
 
   return {
@@ -69,8 +70,16 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
     require: '^wpTimelineContainer',
     link: function (scope, element, attr, wpTimelineContainer) {
       scope.workPackage = scope.row.object;
+      var timelineCell;
 
-      buildTimelineCell(scope, element, wpTimelineContainer);
+      scope.$watch('wpTimelineContainer.visible', (visible) => {
+        var timelineTd = element.find(".wp-timeline-cell");
+        timelineTd.toggle(visible);
+
+        if (visible && !timelineCell) {
+          timelineCell = buildTimelineCell(scope, timelineTd, wpTimelineContainer);
+        }
+      })
       setCheckboxTitle(scope);
 
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);

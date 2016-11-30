@@ -41,7 +41,7 @@
                           ng-class="column.name == 'id' && '-short' ">
           </th>
           
-          <th style="pointer-events: none">
+          <th style="pointer-events: none" ng-show="wpTimelineContainer.visible">
             <div class="generic-table--sort-header-outer" style="width: 500px;">
               <span class="generic-table--sort-header wp-timeline-header" style="position: relative; overflow: hidden">
               </span>
@@ -176,6 +176,7 @@
 
           <td class="wp-timeline-cell"
               style="
+                display: none;
                 width: 500px;
                 position: relative;
                 ">

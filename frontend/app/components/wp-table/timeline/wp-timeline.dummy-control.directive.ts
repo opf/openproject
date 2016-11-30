@@ -34,7 +34,7 @@ import IScope = angular.IScope;
 
 
 const template = `
-<div style="background-color: #c6eecc">
+<div class="wp-timeline--dummy-controls" ng-if="$ctrl.wpTimeline.visible">
 
     HScroll: <input type="number" 
                     ng-model="$ctrl.hscroll" 
