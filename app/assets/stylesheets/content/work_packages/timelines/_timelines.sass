@@ -4,10 +4,15 @@
   border: 1px solid #EAEAEA
 
 
-#wp-timeline-header-container
+.wp-timeline-header-container.generic-table--sort-header-outer
   padding: 0
+  z-index: 100
   margin-left: -2px
   height: $generic-table--header-height
+
+  // Show scroll buttons on hover
+  &:hover .wp-timeline--scroll-btn
+    display: block
 
 .wp-timeline--scroll-wrapper
   border-left: 2px solid $primary-color-dark
@@ -21,3 +26,16 @@
   // Since height is explicitly set, this is effectively
   // overflow-x: hidden / overflow-y: visible
   overflow: hidden
+
+
+.wp-timeline--scroll-btn
+  position: absolute
+  top: -12px
+  display: none
+  cursor: pointer
+
+  &.-left
+    left: 5px
+  
+  &.-right
+    right: 5px

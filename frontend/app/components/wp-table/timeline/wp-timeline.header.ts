@@ -1,4 +1,3 @@
-import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -34,10 +33,13 @@ import {
   calculatePositionValueForDayCount
 } from "./wp-timeline";
 import {todayLine} from "./wp-timeline.today-line";
+import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
+import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
 import Moment = moment.Moment;
 
 const cssClassTableBody = ".work-package-table tbody";
 const cssClassHeader = ".wp-timeline-header";
+const cssHeaderContainer = ".wp-timeline-header-container";
 
 export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
 type GlobalElementsRegistry = {[name: string]: GlobalElement};
@@ -49,6 +51,7 @@ export class WpTimelineHeader {
   private globalElements: {[type: string]: HTMLElement} = {};
 
   private headerCell: HTMLElement;
+  private outerHeader: JQuery;
 
   private marginTop: number;
 
@@ -60,7 +63,7 @@ export class WpTimelineHeader {
 
   private activeZoomLevel: ZoomLevel;
 
-  constructor() {
+  constructor(protected wpTimeline:WorkPackageTimelineTableController) {
     this.addElement("todayline", todayLine);
   }
 
@@ -79,9 +82,21 @@ export class WpTimelineHeader {
     delete this.globalElementsRegistry[name];
   }
 
+  registerScrollListeners() {
+    this.outerHeader.find('.wp-timeline--scroll-btn').on('mousedown', (evt) => {
+      var btn = jQuery(evt.currentTarget);
+      var vector = btn.hasClass('-left') ? 1 : -1;
+
+      this.wpTimeline.viewParameterSettings.scrollOffsetInDays += vector;
+      this.wpTimeline.refreshScrollOnly();
+    });
+  }
+
   private lazyInit() {
     if (this.headerCell === undefined) {
       this.headerCell = jQuery(cssClassHeader)[0];
+      this.outerHeader = jQuery(cssHeaderContainer);
+      this.registerScrollListeners();
     }
 
     this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;

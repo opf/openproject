@@ -45,7 +45,7 @@ export class WorkPackageTimelineTableController {
 
   private workPackagesInView: {[id: string]: WorkPackage} = {};
 
-  private wpTimelineHeader = new WpTimelineHeader();
+  private wpTimelineHeader;
 
   private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
 
@@ -58,6 +58,7 @@ export class WorkPackageTimelineTableController {
 
     "ngInject";
 
+    this.wpTimelineHeader = new WpTimelineHeader(this);
     $element.on(InteractiveTableController.eventName, () => {
       this.refreshView();
     })
