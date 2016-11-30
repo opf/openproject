@@ -55,11 +55,11 @@
   </div>
 </div>
 
+<timeline-control></timeline-control>
+
 <filter-container></filter-container>
 
 <back-url></back-url>
-
-<timeline-control></timeline-control>
 
 <div class="work-packages--split-view"
      ng-class="{'edit-all-mode': wpEditModeState.active}">
@@ -71,7 +71,8 @@
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <div class="work-packages--list"
+  <div table-timeline
+       class="work-packages--list"
        cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}">
 
     <div class="work-packages--list-table-area">

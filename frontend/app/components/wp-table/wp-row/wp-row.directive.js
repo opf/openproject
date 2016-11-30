@@ -29,7 +29,7 @@
 
 var WorkPackagesTimelineCell = require("../timeline/wp-timeline-cell").WorkPackageTimelineCell;
 
-function wpRow(WorkPackagesTableService) {
+function wpRow(WorkPackagesTableService, wpCacheService, states) {
 
   function setCheckboxTitle(scope) {
     scope.checkboxTitle = I18n.t('js.description_select_work_package',
@@ -41,18 +41,15 @@ function wpRow(WorkPackagesTableService) {
       {id: scope.row.parent.object.id});
   }
 
-  return {
-    restrict: 'A',
-
-    controller: function (states, $scope, $element, workPackageTimelineService, wpCacheService) {
-      "ngInject";
-
+  function buildTimelineCell(scope, element, wpTimelineContainer) {
       // required data for timeline cell
-      var workPackageId = $scope.row.object.id;
-      var timelineTd = $element.find(".wp-timeline-cell")[0];
+      var workPackageId = scope.workPackage.id;
+      var timelineTd = element.find(".wp-timeline-cell")[0];
       const timelineCell = new WorkPackagesTimelineCell(
-        workPackageTimelineService,
+        wpTimelineContainer,
         wpCacheService,
+        scope,
+        states,
         workPackageId,
         timelineTd
       );
@@ -61,13 +58,19 @@ function wpRow(WorkPackagesTableService) {
       timelineCell.activate();
 
       // remove timeline cell on scope destroy
-      $scope.$on("$destroy", function () {
+      scope.$on("$destroy", function () {
         timelineCell.deactivate();
       });
-    },
+  }
 
-    link: function (scope) {
+  return {
+    restrict: 'A',
+
+    require: '^wpTimelineContainer',
+    link: function (scope, element, attr, wpTimelineContainer) {
       scope.workPackage = scope.row.object;
+
+      buildTimelineCell(scope, element, wpTimelineContainer);
       setCheckboxTitle(scope);
 
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);

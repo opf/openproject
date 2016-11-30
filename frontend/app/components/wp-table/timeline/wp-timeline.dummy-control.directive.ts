@@ -27,7 +27,7 @@
 // ++
 
 import {openprojectModule} from "../../../angular-modules";
-import {WorkPackageTimelineService} from "./wp-timeline.service";
+import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
 import {ZoomLevel} from "./wp-timeline";
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
@@ -60,24 +60,27 @@ const template = `
 
 class WorkPackageTimelineControlController {
 
-  hscroll: number;
+  private wpTimeline: WorkPackageTimelineTableController;
 
+  hscroll: number;
   zoom: string;
 
-  /*@ngInject*/
-  constructor(private workPackageTimelineService: WorkPackageTimelineService) {
-    this.hscroll = workPackageTimelineService.viewParameterSettings.scrollOffsetInDays;
+  constructor() {
+  }
+
+  $onInit() {
+    this.hscroll = this.wpTimeline.viewParameterSettings.scrollOffsetInDays;
     this.zoom = ZoomLevel.DAYS.toString();
   }
 
   updateScroll() {
-    this.workPackageTimelineService.viewParameterSettings.scrollOffsetInDays = this.hscroll;
-    this.workPackageTimelineService.refreshScrollOnly();
+    this.wpTimeline.viewParameterSettings.scrollOffsetInDays = this.hscroll;
+    this.wpTimeline.refreshScrollOnly();
   }
 
   updateZoom() {
-    this.workPackageTimelineService.viewParameterSettings.zoomLevel = parseInt(this.zoom);
-    this.workPackageTimelineService.refreshView();
+    this.wpTimeline.viewParameterSettings.zoomLevel = parseInt(this.zoom);
+    this.wpTimeline.refreshView();
   }
 
 }
@@ -85,6 +88,9 @@ class WorkPackageTimelineControlController {
 
 openprojectModule.component("timelineControl", {
   controller: WorkPackageTimelineControlController,
+  require: {
+    wpTimeline: '^wpTimelineContainer'
+  },
   template: template
 });
 

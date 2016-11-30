@@ -27,18 +27,19 @@
 // ++
 
 import {openprojectModule} from "../../../angular-modules";
-import {States} from "../../states.service";
-import {RenderInfo, TimelineViewParameters} from "./wp-timeline";
+import {TimelineViewParameters, RenderInfo} from './wp-timeline';
+import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
+import {ZoomLevel} from "./wp-timeline";
+import {WpTimelineHeader} from './wp-timeline.header';
+import {States} from './../../states.service';
+
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import Moment = moment.Moment;
-import {WpTimelineHeader} from "./wp-timeline.header";
+import IDirective = angular.IDirective;
+import IScope = angular.IScope;
 
-
-/**
- *
- */
-export class WorkPackageTimelineService {
+export class WorkPackageTimelineTableController {
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
@@ -50,8 +51,14 @@ export class WorkPackageTimelineService {
 
   private refreshViewRequested = false;
 
-  constructor(private states: States) {
+  constructor(private $element: ng.IAugmentedJQuery,
+              private states: States) {
+
     "ngInject";
+
+    $element.on(InteractiveTableController.eventName, () => {
+      this.refreshView();
+    })
   }
 
   /**
@@ -156,8 +163,17 @@ export class WorkPackageTimelineService {
     // console.log("        changed=" + changed);
 
     return changed;
+   
   }
-
 }
 
-openprojectModule.service("workPackageTimelineService", WorkPackageTimelineService);
+
+function wpTimelineContainer() {
+  return {
+    restrict: 'A',
+    controller: WorkPackageTimelineTableController,
+    bindToController: true
+  };
+};
+
+openprojectModule.directive('wpTimelineContainer', wpTimelineContainer);

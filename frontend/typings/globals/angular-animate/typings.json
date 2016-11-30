@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d9e7db3b1068ec56a929624ee25f977fa38f68b7/angularjs/angular-animate.d.ts",
+    "raw": "registry:dt/angular-animate#1.5.0+20160709061515",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/d9e7db3b1068ec56a929624ee25f977fa38f68b7/angularjs/angular-animate.d.ts"
+  }
+}
