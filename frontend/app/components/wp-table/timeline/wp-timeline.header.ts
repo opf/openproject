@@ -36,7 +36,7 @@ import {
 import {todayLine} from "./wp-timeline.today-line";
 import Moment = moment.Moment;
 
-const cssClassTableBody = ".work-package-table";
+const cssClassTableBody = ".work-package-table tbody";
 const cssClassHeader = ".wp-timeline-header";
 
 export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
@@ -52,6 +52,10 @@ export class WpTimelineHeader {
 
   private marginTop: number;
 
+  /** Height of the header elements */
+  private headerHeight = 45;
+
+  /** Height of the table body + table header */
   private globalHeight: number;
 
   private activeZoomLevel: ZoomLevel;
@@ -80,9 +84,9 @@ export class WpTimelineHeader {
       this.headerCell = jQuery(cssClassHeader)[0];
     }
 
-    this.headerCell.style.height = jQuery(cssClassTableBody).outerHeight() + 'px';
-    this.marginTop = 45;
-    this.globalHeight = jQuery(cssClassTableBody).outerHeight();
+    this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;
+    this.marginTop = this.headerHeight;
+    this.headerCell.style.height = this.globalHeight + 'px';
   }
 
   private renderLabels(vp: TimelineViewParameters) {
