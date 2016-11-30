@@ -1,7 +1,8 @@
 {
   "name": "openproject-frontend",
   "globalDependencies": {
-    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#4ec3c5bf291bc02f49eb30c1077340b235165c67",
+    "angular": "registry:dt/angular#1.5.0+20161101124950",
+    "angular-animate": "registry:dt/angular-animate#1.5.0+20160709061515",
     "angular-mocks": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-mocks.d.ts#40c60850ad6c8175a62d5ab48c4e016ea5b3dffe",
     "angular-ui-router": "github:DefinitelyTyped/DefinitelyTyped/angular-ui-router/angular-ui-router.d.ts#78ba6e41543e5ababbd1dda19797601be3c1f304",
     "assertion-error": "github:DefinitelyTyped/DefinitelyTyped/assertion-error/assertion-error.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908",
