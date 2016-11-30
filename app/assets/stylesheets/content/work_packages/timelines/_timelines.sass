@@ -4,8 +4,20 @@
   border: 1px solid #EAEAEA
 
 
-table.generic-table
-  .generic-table--sort-header-outer.wp-timeline--header
-    padding: 0
-    margin-left: -2px
-    border-left: 2px solid $primary-color-dark
+#wp-timeline-header-container
+  padding: 0
+  margin-left: -2px
+  height: $generic-table--header-height
+
+.wp-timeline--scroll-wrapper
+  border-left: 2px solid $primary-color-dark
+
+  // The scroll wrapper is resized to span the entire table.
+  // Without this, scroll is caught by the header.
+  pointer-events: none
+  position: relative
+
+  // Overflow must be hidden since the width of the column is fixed.
+  // Since height is explicitly set, this is effectively
+  // overflow-x: hidden / overflow-y: visible
+  overflow: hidden
