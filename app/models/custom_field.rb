@@ -203,9 +203,9 @@ class CustomField < ActiveRecord::Base
 
   # to move in project_custom_field
   def self.for_all(options = {})
-    where(['is_for_all=?', true])
+    where(is_for_all: true)
       .includes(options[:include])
-      .order('position')
+      .order("#{table_name}.position")
   end
 
   def self.filter

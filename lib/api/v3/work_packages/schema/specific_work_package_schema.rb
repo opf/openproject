@@ -43,6 +43,7 @@ module API
                    :type,
                    :id,
                    :milestone?,
+                   :available_custom_fields,
                    to: :@work_package
 
           def assignable_values(property, current_user)
@@ -69,13 +70,6 @@ module API
             when 'version'
               assignable_values(:version, nil)
             end
-          end
-
-          def available_custom_fields
-            # we might have received a (currently) invalid work package
-            return [] if project.nil? || type.nil?
-
-            project.all_work_package_custom_fields.to_a & type.custom_fields.to_a
           end
 
           def writable?(property)
