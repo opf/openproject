@@ -92,8 +92,8 @@ export class WorkPackageTimelineCell {
       due.add(days, "days");
       wp.dueDate = due.format("YYYY-MM-DD") as any;
 
-      this.updateView(renderInfo);
-      // this.wpCacheService.updateWorkPackage(wp);
+      // this.updateView(renderInfo);
+      this.wpCacheService.updateWorkPackage(wp as any);
     };
 
     const keyPressFn = (ev: JQueryEventObject) => {
@@ -148,6 +148,7 @@ export class WorkPackageTimelineCell {
     this.bar.style.cssFloat = "left";
     this.bar.style.zIndex = "50";
     this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    this.bar.style.cursor = "move";
 
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
