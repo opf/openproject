@@ -177,57 +177,57 @@ table.generic-table
       padding: 0 8px
       margin: 0
 
-  .generic-table--footer-outer
-    position:     absolute
-    bottom:       0
-    padding:      0 6px
-    line-height:  $generic-table--footer-height
-    z-index:      1
+.generic-table--footer-outer
+  position:     absolute
+  bottom:       0
+  padding:      0 6px
+  line-height:  $generic-table--footer-height
+  z-index:      1
 
-  .generic-table--header-outer,
-  .generic-table--sort-header-outer
-    position:     absolute
-    top:          0
-    padding:      0 6px
-    line-height:  $generic-table--header-height
-    z-index:      1
+.generic-table--header-outer,
+.generic-table--sort-header-outer
+  position:     absolute
+  top:          0
+  padding:      0 6px
+  line-height:  $generic-table--header-height
+  z-index:      1
 
-    &:hover,
-    &.hover
-      background:   #f8f8f8
+  &:hover,
+  &.hover
+    background:   #f8f8f8
 
-  .generic-table--column-spacer
-    padding:      0 6px
-    visibility:   hidden
-    height:       0px
-    font-size:    0px
-    line-height:  0px
+.generic-table--column-spacer
+  padding:      0 6px
+  visibility:   hidden
+  height:       0px
+  font-size:    0px
+  line-height:  0px
 
-  .generic-table--sort-header
-    white-space: nowrap
-    width:   100%
-    clear:   both
+.generic-table--sort-header
+  white-space: nowrap
+  width:   100%
+  clear:   both
+  display: block
+
+  & > a,
+  & > span
     display: block
+    font-weight: bold
+    overflow: hidden
+    text-overflow: ellipsis
 
-    & > a,
-    & > span
-      display: block
-      font-weight: bold
-      overflow: hidden
-      text-overflow: ellipsis
+  & > a
+    float: left
+    width: calc(100% - 18px)
 
-    & > a
-      float: left
-      width: calc(100% - 18px)
+  & > .dropdown-indicator
+    width: 1em
+    text-align: right
+    overflow: visible
+    min-width: 1em
 
-    & > .dropdown-indicator
-      width: 1em
-      text-align: right
-      overflow: visible
-      min-width: 1em
-
-  .generic-table--cell-controls
-    white-space: nowrap
+.generic-table--cell-controls
+  white-space: nowrap
 
 .generic-table--header-background
   position:     absolute
