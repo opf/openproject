@@ -28,7 +28,7 @@
 
 import {States} from "../../states.service";
 import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
-import {WorkPackageTimelineService} from "./wp-timeline.service";
+import {WorkPackageTimelineTableController} from './wp-table-timeline.directive';
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
@@ -41,14 +41,16 @@ export class WorkPackageTimelineCell {
 
   private bar: HTMLDivElement = null;
 
-  constructor(private workPackageTimelineService: WorkPackageTimelineService,
+  constructor(private workPackageTimeline: WorkPackageTimelineTableController,
               private wpCacheService: WorkPackageCacheService,
+              private scope: IScope,
+              private states: States,
               private workPackageId: string,
               private timelineCell: HTMLElement) {
   }
 
   activate() {
-    this.disposable = this.workPackageTimelineService.addWorkPackage(this.workPackageId)
+    this.disposable = this.workPackageTimeline.addWorkPackage(this.workPackageId)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
       });
