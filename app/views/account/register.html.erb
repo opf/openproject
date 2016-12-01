@@ -28,8 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% disable_accessibility_css! %>
-<% html_title l(:label_register) %>
-<%= toolbar title: l(:label_register) %>
+<% html_title t(:label_register) %>
+<%= toolbar title: t(:label_register) %>
 
 <%= labelled_tabular_form_for(@user, url: url_for(action: 'register')) do |f| %>
   <%= back_url_hidden_field_tag %>
@@ -38,7 +38,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <% if @user.auth_source_id.nil? %>
       <div class="form--field">
-        <%= f.text_field :login, size: 25, required: true %>
+        <% if Setting.email_login? %>
+          <%= email_field(f) %>
+        <% else %>
+          <%= login_field(f) %>
+        <% end %>
       </div>
     <% end %>
 
@@ -68,9 +72,11 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= f.text_field :lastname,  required: true %>
     </div>
 
-    <div class="form--field">
-      <%= f.text_field :mail,      required: true %>
-    </div>
+    <% if registration_show_email? %>
+      <div class="form--field">
+        <%= email_field(f) %>
+      </div>
+    <% end %>
 
     <%= call_hook :view_account_register_after_basic_information, f: f %>
     <div class="form--field"><%= f.select(:language, lang_options_for_select) %></div>
@@ -86,4 +92,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-checkmark' %>
 
   <%= render partial: 'auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
+
+  <%= render partial: 'footer' %>
 <% end %>
