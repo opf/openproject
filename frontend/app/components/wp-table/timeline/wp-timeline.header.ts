@@ -53,6 +53,10 @@ export class WpTimelineHeader {
   private headerCell: HTMLElement;
   private outerHeader: JQuery;
 
+  /** UI Scrollbar */
+  private scrollBar: JQuery;
+  private scrollBarHandle: JQuery;
+
   private marginTop: number;
 
   /** Height of the header elements */
@@ -71,6 +75,7 @@ export class WpTimelineHeader {
     this.lazyInit();
     this.renderLabels(vp);
     this.renderGlobalElements(vp);
+    this.updateScrollbar(vp);
   }
 
   addElement(name: string, renderer: GlobalElement) {
@@ -82,21 +87,40 @@ export class WpTimelineHeader {
     delete this.globalElementsRegistry[name];
   }
 
-  registerScrollListeners() {
-    this.outerHeader.find('.wp-timeline--scroll-btn').on('mousedown', (evt) => {
-      var btn = jQuery(evt.currentTarget);
-      var vector = btn.hasClass('-left') ? 1 : -1;
+  setupScrollbar() {
+    this.scrollBar = this.outerHeader.find('.wp-timeline--slider');
+    this.scrollBar.slider({
+         min: 0,
+         max: 50, // TODO change to actual max
+         slide: (evt, ui) => {
+           this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -ui.value;
+           this.wpTimeline.refreshScrollOnly(); 
 
-      this.wpTimeline.viewParameterSettings.scrollOffsetInDays += vector;
-      this.wpTimeline.refreshScrollOnly();
-    });
+           // The handle uses left offset to set the current position.
+           // With different widths, this causes the slider to move outside the container
+           // which we can control through and additional margin-left.
+           let currentMax = this.scrollBar.slider('option', 'max');
+           let handleOffset =  this.scrollBarHandle.width() * (ui.value / currentMax);
+           this.scrollBarHandle.css('margin-left', -1 * handleOffset);
+         }
+      });
+
+    this.scrollBarHandle = this.outerHeader.find('.ui-slider-handle');
+  }
+
+  private updateScrollbar(vp: TimelineViewParameters) {
+    this.scrollBar.slider('option', 'max', vp.maxSteps);
+
+    // Set width of handle
+    let newWidth = Math.max((vp.maxSteps / vp.pixelPerDay), 20) + 'px';
+    this.scrollBarHandle.css('width', newWidth);
   }
 
   private lazyInit() {
     if (this.headerCell === undefined) {
       this.headerCell = jQuery(cssClassHeader)[0];
       this.outerHeader = jQuery(cssHeaderContainer);
-      this.registerScrollListeners();
+      this.setupScrollbar();
     }
 
     this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;
