@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opUiComponentsModule} from "../../../angular-modules";
+import {opUiComponentsModule} from '../../../angular-modules';
 
 export class InteractiveTableController {
   static eventName = 'op:tableChanged';
@@ -196,7 +196,7 @@ export class InteractiveTableController {
   };
 
   private refreshWhenNeeded() {
-    if(!this.visible) {
+    if (!this.visible) {
       return;
     }
 
