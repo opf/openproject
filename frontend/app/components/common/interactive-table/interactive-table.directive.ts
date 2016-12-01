@@ -92,10 +92,6 @@ export class InteractiveTableController {
     return this.table.closest('.generic-table--container');
   }
 
-  private isWorkPackagesTable () {
-    return this.table.closest('.work-package-table--container').length !== 0;
-  }
-
   private getBackgrounds() {
     return this.getInnerContainer()
                .find('.generic-table--header-background,.generic-table--footer-background');
