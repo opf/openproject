@@ -164,6 +164,22 @@ table.generic-table
         min-width: 50px
         width: 50px
 
+      // In the interactive table the behaviour is like this:
+      // * if there is more space available than is required to render
+      //   all columns, the container width is set to 100%.
+      //   Then, td.-max will take up all space available and it will cause all other
+      //   elements to shrink to their minimum value. td-max will grow even beyond
+      //   what is specified as max-width.
+      // * if the contents requires more space than the container width permits,
+      //   then the container width is set to the width calculated by summing up
+      //   all the column widths. For td.-max, the max-width will be taken to be
+      //   the column width because of the combination of max-width and width: 100%.
+      // as a result, td.-max will aways have at least a width of max-width, but it can
+      // become even wider.
+      &.-max
+        width: 100%
+        max-width: 600px
+
       &.info
         a
           text-decoration: none
