@@ -1,3 +1,4 @@
+import {DisplayFieldFactory} from './../../wp-display/wp-display-field/wp-display-field.module';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -97,7 +98,7 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute(wp) {
     this.workPackage = wp;
-    this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
+    this.field = DisplayFieldFactory.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
       if (this.field.isManualRenderer) {
         this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");

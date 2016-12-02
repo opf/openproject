@@ -30,6 +30,9 @@ require('angular-animate');
 require('angular-aria');
 require('angular-modal');
 
+// DOM4 polyfills for IE11/Edge
+require('dom4');
+
 // depends on the html element having a 'lang' attribute
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
 require('angular-i18n/angular-locale_' + documentLang + '.js');

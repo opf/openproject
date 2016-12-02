@@ -29,16 +29,22 @@
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 import * as MouseTrap from "mousetrap";
-
-
+import {States} from './../states.service';
+import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
+import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
 function wpTable(
   WorkPackagesTableService,
+  states:States,
+  wpDisplayField:WorkPackageDisplayFieldService,
+  wpCacheService:WorkPackageCacheService,
   WorkPackageService,
   keepTab:KeepTabService,
+  I18n,
   QueryService,
   $window,
   $rootScope,
@@ -70,6 +76,11 @@ function wpTable(
       var activeSelectionBorderIndex;
 
       // Total columns = all available columns + id + action link
+      scope.tbody = element.find('.work-package-table tbody');
+      scope.table = new WorkPackageTable(scope.tbody[0], wpCacheService, states.workPackages, wpDisplayField, I18n);
+      scope.table.initialize(scope.rows, scope.columns);
+
+      // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;
 
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();

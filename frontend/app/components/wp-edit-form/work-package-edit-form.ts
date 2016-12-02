@@ -26,41 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
-import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
-import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../states.service";
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
+import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-field.directive';
 
-export class WorkPackageEditFormController {
+export class WorkPackageEditForm {
   public workPackage;
-  public hasEditMode: boolean;
-  public errorHandler: Function;
-  public successHandler: Function;
   public fields = {};
+
+  protected $q: ng.IQService;
+  protected $rootScope: ng.IRootScopeService;
+  protected wpCacheService: WorkPackageCacheService;
 
   private errorsPerAttribute: Object = {};
   public firstActiveField: string;
 
-  constructor(protected states: States,
-              protected $scope: ng.IScope,
-              protected $q,
-              protected $rootScope,
-              protected wpNotificationsService,
-              protected QueryService,
-              protected loadingIndicator,
-              protected wpEditModeState: WorkPackageEditModeStateService,
-              protected wpCacheService: WorkPackageCacheService) {
+  constructor(protected $injector:ng.auto.IInjectorService,
+              protected $scope:ng.IScope) {
 
-    if (this.hasEditMode) {
-      wpEditModeState.register(this);
-    }
+    this.$inject('wpCacheService', '$q', '$rootScope');
 
-    states.workPackages.get(this.workPackage.id.toString()).observeOnScope($scope)
+    this.wpCacheService.loadWorkPackage(this.workPackage.id).observe($scope)
       .subscribe((wp: WorkPackageResource) => {
         this.workPackage = wp;
       });
+  }
+
+  protected $inject(...args:string[]) {
+    args.forEach(field => {
+      this[field] = this.$injector.get(field);
+    });
   }
 
   public registerField(field) {
@@ -92,11 +89,7 @@ export class WorkPackageEditFormController {
   }
 
   public get inEditMode() {
-    return this.hasEditMode && this.wpEditModeState.active;
-  }
-
-  public get isEditable() {
-    return this.workPackage.isEditable;
+    return false;
   }
 
   /**
@@ -110,18 +103,6 @@ export class WorkPackageEditFormController {
     });
   }
 
-  /**
-   * Handle submission event of a single work package field that may or
-   * may not be involved inside an active edit mode.
-   */
-  public onFieldSubmit() {
-    if (this.wpEditModeState.active) {
-      return this.wpEditModeState.save();
-    }
-
-    return this.updateWorkPackage();
-  }
-
   public updateWorkPackage() {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       return this.$q.when(this.workPackage);
@@ -131,6 +112,7 @@ export class WorkPackageEditFormController {
     var isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
+    this.$rootScope.$emit('notifications.clearAll');
     this.errorsPerAttribute = {};
 
     this.workPackage.save()
@@ -154,13 +136,13 @@ export class WorkPackageEditFormController {
     return deferred.promise;
   }
 
-  protected handleSubmissionErrors(error: any, deferred: any) {
+  private handleSubmissionErrors(error: any, deferred: any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  protected handleErroneousAttributes(error: any) {
+  private handleErroneousAttributes(error: any) {
     let attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
@@ -196,3 +178,25 @@ export class WorkPackageEditFormController {
     });
   }
 }
+
+function wpEditForm() {
+  return {
+    restrict: 'A',
+
+    scope: {
+      workPackage: '=wpEditForm',
+      hasEditMode: '=hasEditMode',
+      errorHandler: '&wpEditFormOnError',
+      successHandler: '&wpEditFormOnSave'
+    },
+
+    controller: WorkPackageEditFormController,
+    controllerAs: 'vm',
+    bindToController: true
+  };
+}
+
+//TODO: Use 'openproject.wpEdit' module
+angular
+  .module('openproject')
+  .directive('wpEditForm', wpEditForm);

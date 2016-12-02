@@ -51,21 +51,41 @@ export class DisplayField extends Field {
     return (this.constructor as typeof DisplayField).type;
   }
 
-  public get placeholder(): string {
-    return this.I18n.t('js.work_packages.placeholders.default');
-  }
-
   public get valueString(): string {
     return this.value;
+  }
+
+  public get label() {
+    return (this.schema[this.name] && this.schema[this.name].name) ||
+           this.name;
   }
 
   protected get $injector(): ng.auto.IInjectorService {
     return (this.constructor as typeof DisplayField).$injector;
   }
 
-  public render(element: JQuery, fieldDisplay: WorkPackageDisplayAttributeController): void {
-    element.attr("title", fieldDisplay.displayText);
-    element.text(fieldDisplay.displayText);
+  public render(element: HTMLElement, displayText): void {
+    if (this.template == null || this.isEmpty()) {
+      element.setAttribute("title", displayText);
+      element.textContent = displayText;
+    } else {
+      this.renderTemplate(element, displayText);
+    }
+  }
+
+  protected renderTemplate(element, displayText) {
+    let $templateCache = this.$inject('$templateCache');
+    let $compile = this.$inject('$compile');
+    let $rootScope = this.$inject('$rootScope');
+    let fieldScope = $rootScope.$new();
+
+    fieldScope.workPackage = this.resource;
+    fieldScope.name = this.name;
+    fieldScope.displayText = displayText;
+    fieldScope.field = this;
+
+    element.innerHTML = $templateCache.get(this.template);
+    $compile(element)(fieldScope);
   }
 
   constructor(public resource: HalResource,

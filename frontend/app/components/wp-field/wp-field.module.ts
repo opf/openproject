@@ -64,6 +64,10 @@ export class Field {
     return (this.constructor as typeof Field).$injector;
   }
 
+  protected $inject(name):any {
+    return this.$injector.get(name);
+  }
+
   constructor(public resource:HalResource,
               public name:string,
               public schema) {
