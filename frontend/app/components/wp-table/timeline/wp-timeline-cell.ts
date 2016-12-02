@@ -35,6 +35,7 @@ import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
 
+const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
 
@@ -68,7 +69,7 @@ export class WorkPackageTimelineCell {
   private lazyInit(renderInfo: RenderInfo) {
     if (this.bar === null) {
       this.bar = document.createElement("div");
-      this.bar.className = timelineElementCssClass;
+      this.bar.className = timelineElementCssClass + " " + classNameBar;
       this.bar.style.position = "relative";
       this.bar.style.height = "1em";
       this.bar.style.backgroundColor = "#8CD1E8";
@@ -80,7 +81,7 @@ export class WorkPackageTimelineCell {
       this.registerMouseHandler(renderInfo);
 
       const left = document.createElement("div");
-      left.className = classNameLeftHandle;
+      left.className = timelineElementCssClass + " " + classNameLeftHandle;
       left.style.position = "absolute";
       // left.style.backgroundColor = "#9c00ff";
       left.style.left = "0px";
@@ -92,7 +93,7 @@ export class WorkPackageTimelineCell {
       this.bar.appendChild(left);
 
       const right = document.createElement("div");
-      right.className = classNameRightHandle;
+      right.className = timelineElementCssClass + " " + classNameRightHandle;
       right.style.position = "absolute";
       // right.style.backgroundColor = "#9c00ff";
       right.style.right = "0px";
@@ -106,9 +107,9 @@ export class WorkPackageTimelineCell {
   }
 
   private registerMouseHandler(renderInfo: RenderInfo) {
-    const jBody = jQuery("body");
-    let startX: number;
 
+    const jBody = jQuery("body");
+    let startX: number = null; // also flag to signal active drag'n'drpü
     let initialStartDate: string = null;
     let initialDueDate: string = null;
 
@@ -123,51 +124,80 @@ export class WorkPackageTimelineCell {
       const mev: MouseEvent = ev as any;
       const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
       const days = distance < 0 ? distance + 1 : distance;
-
       const start = initialStartDate ? moment(initialStartDate).add(days, "days") : null;
       const due = initialDueDate ? moment(initialDueDate).add(days, "days") : null;
-
       applyDateValues(start, due);
     };
 
     const keyPressFn = (ev: JQueryEventObject) => {
       const kev: KeyboardEvent = ev as any;
-
-      // ESC
-      if (kev.keyCode === 27) {
-        deregister(true);
+      if (kev.keyCode === 27) { // ESC
+        deactivate(true);
       }
     };
 
-    const deregister = (cancelled: boolean) => {
-      jBody.off("mousemove", mouseMoveFn);
-      jBody.off("keyup", keyPressFn);
+    const mouseUpFn = () => {
+      deactivate(false);
+    };
 
-      if (cancelled) {
-        applyDateValues(moment(initialStartDate), moment(initialDueDate));
+    const mouseDownFn = (ev: MouseEvent) => {
+      ev.preventDefault();
+      const className = (ev.target as HTMLElement).className;
+
+      // Set cursor
+      if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
+        jQuery(".hascontextmenu").css("cursor", "w-resize");
+        jQuery("." + timelineElementCssClass).css("cursor", "w-resize");
+      } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
+        jQuery(".hascontextmenu").css("cursor", "e-resize");
+        jQuery("." + timelineElementCssClass).css("cursor", "e-resize");
+      } else {
+        jQuery(".hascontextmenu").css("cursor", "ew-resize");
+        jQuery("." + timelineElementCssClass).css("cursor", "ew-resize");
       }
 
+      // Determine what of start/due should be changed
+      startX = ev.clientX;
+      if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
+        initialStartDate = renderInfo.workPackage.startDate as any;
+      }
+      if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
+        initialDueDate = renderInfo.workPackage.dueDate as any;
+      }
+
+      jBody.on("mousemove", mouseMoveFn);
+      jBody.on("keyup", keyPressFn);
+    };
+
+    const deactivate = (cancelled: boolean) => {
+      if (startX == null) {
+        return;
+      }
+
+      if (cancelled) {
+        applyDateValues(
+          initialStartDate ? moment(initialStartDate) : null,
+          initialDueDate ? moment(initialDueDate) : null);
+      }
+
+      jBody.off("mousemove", mouseMoveFn);
+      jBody.off("keyup", keyPressFn);
+      jQuery(".hascontextmenu").css("cursor", "context-menu");
+      jQuery("." + timelineElementCssClass).css("cursor", "auto");
+      jQuery("." + classNameLeftHandle).css("cursor", "w-resize");
+      jQuery("." + classNameBar).css("cursor", "ew-resize");
+      jQuery("." + classNameRightHandle).css("cursor", "e-resize");
+      startX = null;
       initialStartDate = null;
       initialDueDate = null;
     };
 
     this.bar.onmousedown = (ev: MouseEvent) => {
-      ev.preventDefault();
-
-      const className = (ev.target as HTMLElement).className;
-      startX = ev.clientX;
-      if (className !== classNameRightHandle) {
-        initialStartDate = renderInfo.workPackage.startDate as any;
-      }
-      if (className !== classNameLeftHandle) {
-        initialDueDate = renderInfo.workPackage.dueDate as any;
-      }
-      jBody.on("mousemove", mouseMoveFn);
-      jBody.on("keyup", keyPressFn);
+      mouseDownFn(ev);
     };
 
     jBody.on("mouseup", () => {
-      deregister(false);
+      deactivate(false);
     });
   }
 
