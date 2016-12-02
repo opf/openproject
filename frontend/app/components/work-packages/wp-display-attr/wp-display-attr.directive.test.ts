@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageCacheService} from './../work-package-cache.service';
 
 describe('wpDisplayAttr directive', () => {
   var compile;
@@ -33,6 +34,8 @@ describe('wpDisplayAttr directive', () => {
   var rootScope;
   var scope;
   var I18n;
+  var wpCacheService: WorkPackageCacheService;
+
 
   beforeEach(angular.mock.module(
     'openproject',
@@ -49,13 +52,14 @@ describe('wpDisplayAttr directive', () => {
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_) => {
+  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_, _wpCacheService_) => {
     var html = `
       <wp-display-attr work-package="workPackage" attribute="attribute">
       </wp-display-attr>
     `;
 
     I18n = _I18n_;
+    wpCacheService = _wpCacheService_;
     var stub = sinon.stub(I18n, 't');
     stub.withArgs('js.general_text_no').returns('No');
     stub.withArgs(sinon.match.any).returns('');
@@ -68,6 +72,8 @@ describe('wpDisplayAttr directive', () => {
     _$httpBackend_.expectGET('/api/v3/work_packages/1').respond(200);
 
     compile = () => {
+      wpCacheService.updateWorkPackage(scope.workPackage);
+
       $compile(element)(scope);
       scope.$digest();
     };
