@@ -53,7 +53,7 @@ export class WorkPackageDisplayAttributeController {
               protected $scope: ng.IScope) {
 
     // Update the attribute initially
-    if (this.workPackage) {
+    if (this.workPackage && this.customSchema && this.schema[this.attribute]) {
       this.updateAttribute(this.workPackage);
     }
   }
