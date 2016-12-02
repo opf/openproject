@@ -33,6 +33,7 @@ import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
+import Moment = moment.Moment;
 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
@@ -105,25 +106,22 @@ export class WorkPackageTimelineCell {
     let initialStartDate: string = null;
     let initialDueDate: string = null;
 
+    const applyDateValues = (start: Moment, due: Moment) => {
+      const wp = renderInfo.workPackage;
+      wp.startDate = start ? start.format("YYYY-MM-DD") as any : null;
+      wp.dueDate = due ? due.format("YYYY-MM-DD") as any : null;
+      this.wpCacheService.updateWorkPackage(wp as any);
+    };
+
     const mouseMoveFn = (ev: JQueryEventObject) => {
       const mev: MouseEvent = ev as any;
       const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
       const days = distance < 0 ? distance + 1 : distance;
-      const wp = renderInfo.workPackage;
 
-      if (initialStartDate !== null) {
-        const start = moment(initialStartDate as any);
-        start.add(days, "days");
-        wp.startDate = start.format("YYYY-MM-DD") as any;
-      }
+      const start = initialStartDate ? moment(initialStartDate).add(days, "days") : null;
+      const due = initialDueDate ? moment(initialDueDate).add(days, "days") : null;
 
-      if (initialDueDate !== null) {
-        const due = moment(initialDueDate as any);
-        due.add(days, "days");
-        wp.dueDate = due.format("YYYY-MM-DD") as any;
-      }
-
-      this.wpCacheService.updateWorkPackage(wp as any);
+      applyDateValues(start, due);
     };
 
     const keyPressFn = (ev: JQueryEventObject) => {
@@ -131,13 +129,18 @@ export class WorkPackageTimelineCell {
 
       // ESC
       if (kev.keyCode === 27) {
-        deregister();
+        deregister(true);
       }
     };
 
-    const deregister = () => {
+    const deregister = (cancelled: boolean) => {
       jBody.off("mousemove", mouseMoveFn);
       jBody.off("keyup", keyPressFn);
+
+      if (cancelled) {
+        applyDateValues(moment(initialStartDate), moment(initialDueDate));
+      }
+
       initialStartDate = null;
       initialDueDate = null;
     };
@@ -158,7 +161,7 @@ export class WorkPackageTimelineCell {
     };
 
     jBody.on("mouseup", () => {
-      deregister();
+      deregister(false);
     });
   }
 
