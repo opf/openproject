@@ -72,7 +72,7 @@ function wpRow(WorkPackagesTableService, wpCacheService, states) {
       scope.workPackage = scope.row.object;
       var timelineCell;
 
-      scope.$watch('wpTimelineContainer.visible', (visible) => {
+      scope.$watch('wpTimelineContainer.visible', function(visible) {
         var timelineTd = element.find(".wp-timeline-cell");
         timelineTd.toggle(visible);
 
