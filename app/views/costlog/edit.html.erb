@@ -93,16 +93,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <div class="form--field">
         <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
         <span class="form--field-container">
-          <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
-            <a href="javascript:;" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
-              <%= number_to_currency(@cost_entry.calculated_costs) %>
-            </a>
-          <% else %>
-            <span id="cost_entry_costs_editor" class="form--text-field-container">
-              <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
-            </span>
-            <br /><em><%= t(:help_override_rate) %></em>
-          <% end %>
+          <cost-unit-subform obj-id="cost_entry_costs" obj-name="cost_entry[overridden_costs]">
+            <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
+              <a href="javascript:;" id="cost_entry_costs" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+                <%= number_to_currency(@cost_entry.calculated_costs) %>
+              </a>
+            <% else %>
+              <span id="cost_entry_costs_editor" class="form--text-field-container">
+                <input class="currency form--text-field" value="<%= number_to_currency(@cost_entry.overridden_costs, unit: "").strip if @cost_entry.overridden_costs %>" size="7" name="cost_entry[overridden_costs]" id="cost_entry_costs_edit"/> <%= Setting.plugin_openproject_costs['costs_currency'] %>
+              </span>
+              <br /><em><%= t(:help_override_rate) %></em>
+            <% end %>
+          </cost-unit-subform>
         </span>
       </div>
 
