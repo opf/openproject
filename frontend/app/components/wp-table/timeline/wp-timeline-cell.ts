@@ -69,6 +69,13 @@ export class WorkPackageTimelineCell {
     if (this.bar === null) {
       this.bar = document.createElement("div");
       this.bar.className = timelineElementCssClass;
+      this.bar.style.position = "relative";
+      this.bar.style.height = "1em";
+      this.bar.style.backgroundColor = "#8CD1E8";
+      this.bar.style.borderRadius = "2px";
+      this.bar.style.cssFloat = "left";
+      this.bar.style.zIndex = "50";
+      this.bar.style.cursor = "ew-resize";
       this.timelineCell.appendChild(this.bar);
       this.registerMouseHandler(renderInfo);
 
@@ -95,7 +102,6 @@ export class WorkPackageTimelineCell {
       right.style.height = "100%";
       right.style.cursor = "e-resize";
       this.bar.appendChild(right);
-
     }
   }
 
@@ -108,8 +114,8 @@ export class WorkPackageTimelineCell {
 
     const applyDateValues = (start: Moment, due: Moment) => {
       const wp = renderInfo.workPackage;
-      wp.startDate = start ? start.format("YYYY-MM-DD") as any : null;
-      wp.dueDate = due ? due.format("YYYY-MM-DD") as any : null;
+      wp.startDate = start ? start.format("YYYY-MM-DD") as any : wp.startDate;
+      wp.dueDate = due ? due.format("YYYY-MM-DD") as any : wp.dueDate;
       this.wpCacheService.updateWorkPackage(wp as any);
     };
 
@@ -166,15 +172,10 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
-    // console.log("updateView() wpId=" + this.workPackageId);
-
     // display bar
     this.lazyInit(renderInfo);
     const viewParams = renderInfo.viewParams;
     const wp = renderInfo.workPackage;
-
-    // update global elements
-    // this.updateGlobalElements(renderInfo);
 
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
@@ -182,15 +183,7 @@ export class WorkPackageTimelineCell {
     }
 
     // general settings - bar
-    this.bar.style.position = "relative";
-    this.bar.style.height = "1em";
-    this.bar.style.backgroundColor = "#8CD1E8";
-    this.bar.style.borderRadius = "2px";
-    this.bar.style.cssFloat = "left";
-    this.bar.style.zIndex = "50";
     this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-    this.bar.style.cursor = "ew-resize";
-    // this.bar.style.cursor = "move";
 
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
