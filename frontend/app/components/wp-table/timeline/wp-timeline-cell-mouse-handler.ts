@@ -32,6 +32,7 @@ import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 
 const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
@@ -39,6 +40,7 @@ const classNameRightHandle = "rightHandle";
 
 
 export function registerWorkPackageMouseHandler(this: void,
+                                                workPackageTimeline: WorkPackageTimelineTableController,
                                                 wpCacheService: WorkPackageCacheService,
                                                 bar: HTMLElement,
                                                 renderInfo: RenderInfo) {
@@ -83,6 +85,8 @@ export function registerWorkPackageMouseHandler(this: void,
   function mouseDownFn(ev: MouseEvent) {
     ev.preventDefault();
 
+    workPackageTimeline.disableViewParamsCalculation = true;
+
     // Set cursor
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       jQuery(".hascontextmenu").css("cursor", "w-resize");
@@ -109,6 +113,8 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function deactivate(cancelled: boolean) {
+    workPackageTimeline.disableViewParamsCalculation = false;
+
     if (startX == null) {
       return;
     }
@@ -129,6 +135,8 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = null;
     initialStartDate = null;
     initialDueDate = null;
+
+    workPackageTimeline.refreshView();
   }
 
 }

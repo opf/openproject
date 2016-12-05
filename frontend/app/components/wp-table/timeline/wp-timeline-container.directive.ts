@@ -25,13 +25,11 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
 import {openprojectModule} from "../../../angular-modules";
-import {TimelineViewParameters, RenderInfo} from './wp-timeline';
-import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
-import {ZoomLevel} from "./wp-timeline";
-import {WpTimelineHeader} from './wp-timeline.header';
-import {States} from './../../states.service';
+import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
+import {InteractiveTableController} from "./../../common/interactive-table/interactive-table.directive";
+import {WpTimelineHeader} from "./wp-timeline.header";
+import {States} from "./../../states.service";
 
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
@@ -53,6 +51,8 @@ export class WorkPackageTimelineTableController {
 
   public visible = false;
 
+  public disableViewParamsCalculation = false;
+
   constructor(private $element: ng.IAugmentedJQuery,
               private states: States) {
 
@@ -64,7 +64,7 @@ export class WorkPackageTimelineTableController {
     })
   }
 
-  /** 
+  /**
    * Toggle whether this instance is currently showing.
    */
   public toggle() {
@@ -85,6 +85,7 @@ export class WorkPackageTimelineTableController {
   refreshView() {
     if (!this.refreshViewRequested) {
       setTimeout(() => {
+        this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.onNext(true);
         this.wpTimelineHeader.refreshView(this._viewParameters);
         this.refreshViewRequested = false;
@@ -94,7 +95,7 @@ export class WorkPackageTimelineTableController {
   }
 
   refreshScrollOnly() {
-    jQuery(".timeline-element").css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
+    jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
   }
 
 
@@ -127,6 +128,10 @@ export class WorkPackageTimelineTableController {
   }
 
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
+    if (this.disableViewParamsCalculation) {
+      return false;
+    }
+
     // console.log("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
@@ -177,7 +182,6 @@ export class WorkPackageTimelineTableController {
     // console.log("        changed=" + changed);
 
     return changed;
-   
   }
 }
 
