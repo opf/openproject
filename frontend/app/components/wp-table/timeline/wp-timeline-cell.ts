@@ -30,21 +30,25 @@ import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} 
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
+import {TimelineMilestoneCellRenderer} from './cell-renderer/timeline-milestone-cell-renderer';
+import {TimelineCellRenderer} from './cell-renderer/timeline-cell-renderer';
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
 
-const classNameBar = "bar";
-const classNameLeftHandle = "leftHandle";
-const classNameRightHandle = "rightHandle";
+const renderers = {
+  milestone: new TimelineMilestoneCellRenderer(),
+  generic: new TimelineCellRenderer()
+}
 
 export class WorkPackageTimelineCell {
 
   private disposable: IDisposable;
 
-  private bar: HTMLDivElement = null;
+  private element: HTMLDivElement = null;
+  private elementShape: string = null;
 
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
               private wpCacheService: WorkPackageCacheService,
@@ -67,77 +71,47 @@ export class WorkPackageTimelineCell {
     this.disposable && this.disposable.dispose();
   }
 
-  private lazyInit(renderInfo: RenderInfo) {
-    if (this.bar !== null) {
+  private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
+
+    // If already rendered with correct shape, ignore
+    if (this.element !== null && (this.elementShape === renderer.type)) {
       return;
     }
 
-    this.bar = document.createElement("div");
-    this.bar.className = timelineElementCssClass + " " + classNameBar;
-    this.bar.style.position = "relative";
-    this.bar.style.height = "1em";
-    this.bar.style.backgroundColor = "#8CD1E8";
-    this.bar.style.borderRadius = "2px";
-    this.bar.style.cssFloat = "left";
-    this.bar.style.zIndex = "50";
-    this.bar.style.cursor = "ew-resize";
-    this.timelineCell.appendChild(this.bar);
+    // Remove the element first if we're redrawing
+    if (this.element !== null) {
+       this.element.parentNode.removeChild(this.element);
+    }
 
-    const left = document.createElement("div");
-    left.className = classNameLeftHandle;
-    left.style.position = "absolute";
-    left.style.backgroundColor = "red";
-    left.style.left = "0px";
-    left.style.top = "0px";
-    left.style.width = "20px";
-    left.style.maxWidth = "20%";
-    left.style.height = "100%";
-    left.style.cursor = "w-resize";
-    this.bar.appendChild(left);
+    // Render the given element
+    this.element = renderer.render(renderInfo);
+    this.elementShape = renderer.type;
 
-    const right = document.createElement("div");
-    right.className = classNameRightHandle;
-    right.style.position = "absolute";
-    right.style.backgroundColor = "green";
-    right.style.right = "0px";
-    right.style.top = "0px";
-    right.style.width = "20px";
-    right.style.maxWidth = "20%";
-    right.style.height = "100%";
-    right.style.cursor = "e-resize";
-    this.bar.appendChild(right);
-
+    // Register the element
+    this.timelineCell.appendChild(this.element);
     registerWorkPackageMouseHandler(
       this.workPackageTimeline,
       this.wpCacheService,
-      this.bar,
-      renderInfo);
+      this.element,
+      renderInfo)    
+  }
+
+  private cellRenderer(workPackage):TimelineCellRenderer {
+    if (workPackage.isMilestone) {
+      return renderers.milestone;
+    }
+
+    return renderers.generic;
   }
 
   private updateView(renderInfo: RenderInfo) {
-    // display bar
-    this.lazyInit(renderInfo);
-    const viewParams = renderInfo.viewParams;
     const wp = renderInfo.workPackage;
+    const renderer = this.cellRenderer(wp);
 
-    // abort if no start or due date
-    if (!wp.startDate || !wp.dueDate) {
-      return;
-    }
+    // Render initial element if necessary
+    this.lazyInit(renderer, renderInfo);
 
-    // general settings - bar
-    this.bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-
-    const start = moment(wp.startDate as any);
-    const due = moment(wp.dueDate as any);
-
-    // offset left
-    const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
-    this.bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
-
-    // duration
-    const duration = due.diff(start, "days") + 1;
-    this.bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
+    // Render the upgrade from renderInfo
+    renderer.update(this.element, wp, renderInfo);
   }
-
 }

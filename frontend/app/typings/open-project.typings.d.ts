@@ -72,6 +72,7 @@ declare namespace api {
       parentId:number;
       startDate:Date;
       dueDate:Date;
+      date:Date;
       estimatedTime:Duration;
       spentTime:Duration;
       percentageDone:number;
