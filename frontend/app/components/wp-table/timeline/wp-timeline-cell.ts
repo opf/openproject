@@ -34,6 +34,7 @@ import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
+import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 
 const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
@@ -78,7 +79,7 @@ export class WorkPackageTimelineCell {
       this.bar.style.zIndex = "50";
       this.bar.style.cursor = "ew-resize";
       this.timelineCell.appendChild(this.bar);
-      this.registerMouseHandler(renderInfo);
+      registerWorkPackageMouseHandler(this.wpCacheService, this.bar, renderInfo);
 
       const left = document.createElement("div");
       left.className = timelineElementCssClass + " " + classNameLeftHandle;
@@ -104,101 +105,6 @@ export class WorkPackageTimelineCell {
       right.style.cursor = "e-resize";
       this.bar.appendChild(right);
     }
-  }
-
-  private registerMouseHandler(renderInfo: RenderInfo) {
-
-    const jBody = jQuery("body");
-    let startX: number = null; // also flag to signal active drag'n'drpü
-    let initialStartDate: string = null;
-    let initialDueDate: string = null;
-
-    const applyDateValues = (start: Moment, due: Moment) => {
-      const wp = renderInfo.workPackage;
-      wp.startDate = start ? start.format("YYYY-MM-DD") as any : wp.startDate;
-      wp.dueDate = due ? due.format("YYYY-MM-DD") as any : wp.dueDate;
-      this.wpCacheService.updateWorkPackage(wp as any);
-    };
-
-    const mouseMoveFn = (ev: JQueryEventObject) => {
-      const mev: MouseEvent = ev as any;
-      const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
-      const days = distance < 0 ? distance + 1 : distance;
-      const start = initialStartDate ? moment(initialStartDate).add(days, "days") : null;
-      const due = initialDueDate ? moment(initialDueDate).add(days, "days") : null;
-      applyDateValues(start, due);
-    };
-
-    const keyPressFn = (ev: JQueryEventObject) => {
-      const kev: KeyboardEvent = ev as any;
-      if (kev.keyCode === 27) { // ESC
-        deactivate(true);
-      }
-    };
-
-    const mouseUpFn = () => {
-      deactivate(false);
-    };
-
-    const mouseDownFn = (ev: MouseEvent) => {
-      ev.preventDefault();
-      const className = (ev.target as HTMLElement).className;
-
-      // Set cursor
-      if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
-        jQuery(".hascontextmenu").css("cursor", "w-resize");
-        jQuery("." + timelineElementCssClass).css("cursor", "w-resize");
-      } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
-        jQuery(".hascontextmenu").css("cursor", "e-resize");
-        jQuery("." + timelineElementCssClass).css("cursor", "e-resize");
-      } else {
-        jQuery(".hascontextmenu").css("cursor", "ew-resize");
-        jQuery("." + timelineElementCssClass).css("cursor", "ew-resize");
-      }
-
-      // Determine what of start/due should be changed
-      startX = ev.clientX;
-      if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
-        initialStartDate = renderInfo.workPackage.startDate as any;
-      }
-      if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
-        initialDueDate = renderInfo.workPackage.dueDate as any;
-      }
-
-      jBody.on("mousemove", mouseMoveFn);
-      jBody.on("keyup", keyPressFn);
-    };
-
-    const deactivate = (cancelled: boolean) => {
-      if (startX == null) {
-        return;
-      }
-
-      if (cancelled) {
-        applyDateValues(
-          initialStartDate ? moment(initialStartDate) : null,
-          initialDueDate ? moment(initialDueDate) : null);
-      }
-
-      jBody.off("mousemove", mouseMoveFn);
-      jBody.off("keyup", keyPressFn);
-      jQuery(".hascontextmenu").css("cursor", "context-menu");
-      jQuery("." + timelineElementCssClass).css("cursor", "auto");
-      jQuery("." + classNameLeftHandle).css("cursor", "w-resize");
-      jQuery("." + classNameBar).css("cursor", "ew-resize");
-      jQuery("." + classNameRightHandle).css("cursor", "e-resize");
-      startX = null;
-      initialStartDate = null;
-      initialDueDate = null;
-    };
-
-    this.bar.onmousedown = (ev: MouseEvent) => {
-      mouseDownFn(ev);
-    };
-
-    jBody.on("mouseup", () => {
-      deactivate(false);
-    });
   }
 
   private updateView(renderInfo: RenderInfo) {
