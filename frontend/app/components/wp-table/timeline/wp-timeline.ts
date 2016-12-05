@@ -81,7 +81,11 @@ export class TimelineViewParameters {
   }
 
   get maxWidthInPx() {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days") * this.pixelPerDay;
+    return this.maxSteps * this.pixelPerDay;
+  }
+
+  get maxSteps():number {
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days");
   }
 
   get scrollOffsetInPx() {

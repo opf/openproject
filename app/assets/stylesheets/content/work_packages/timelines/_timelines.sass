@@ -10,9 +10,10 @@
   margin-left: -2px
   height: $generic-table--header-height
 
-  // Show scroll buttons on hover
-  &:hover .wp-timeline--scroll-btn
-    display: block
+  &:hover
+    // Show scroll buttons on hover
+    .wp-timeline--scroll-btn
+      display: block
 
 .wp-timeline--scroll-wrapper
   border-left: 2px solid $primary-color-dark
@@ -27,15 +28,23 @@
   // overflow-x: hidden / overflow-y: visible
   overflow: hidden
 
+// Scroll slider container
+// (To maintain border style)
+.wp-timeline--slider-wrapper
+  border-left: 2px solid $primary-color-dark
 
-.wp-timeline--scroll-btn
-  position: absolute
-  top: -12px
-  display: none
-  cursor: pointer
+// Scroll slider
+.wp-timeline--slider
+  position: relative
+  height: 1rem
+  border-radius: none
 
-  &.-left
-    left: 5px
-  
-  &.-right
-    right: 5px
+  .ui-slider-handle
+    position: absolute
+    top: 0
+    width: 1rem
+    height: 100%
+    cursor: default
+    touch-action: none
+    border-radius: none
+    background: $primary-color
