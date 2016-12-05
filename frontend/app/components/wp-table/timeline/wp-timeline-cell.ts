@@ -29,12 +29,12 @@ import {States} from "../../states.service";
 import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import IScope = angular.IScope;
 import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
-import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 
 const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
@@ -68,43 +68,43 @@ export class WorkPackageTimelineCell {
   }
 
   private lazyInit(renderInfo: RenderInfo) {
-    if (this.bar === null) {
-      this.bar = document.createElement("div");
-      this.bar.className = timelineElementCssClass + " " + classNameBar;
-      this.bar.style.position = "relative";
-      this.bar.style.height = "1em";
-      this.bar.style.backgroundColor = "#8CD1E8";
-      this.bar.style.borderRadius = "2px";
-      this.bar.style.cssFloat = "left";
-      this.bar.style.zIndex = "50";
-      this.bar.style.cursor = "ew-resize";
-      this.timelineCell.appendChild(this.bar);
-      registerWorkPackageMouseHandler(this.wpCacheService, this.bar, renderInfo);
-
-      const left = document.createElement("div");
-      left.className = timelineElementCssClass + " " + classNameLeftHandle;
-      left.style.position = "absolute";
-      // left.style.backgroundColor = "#9c00ff";
-      left.style.left = "0px";
-      left.style.top = "0px";
-      left.style.width = "20px";
-      left.style.maxWidth = "20%";
-      left.style.height = "100%";
-      left.style.cursor = "w-resize";
-      this.bar.appendChild(left);
-
-      const right = document.createElement("div");
-      right.className = timelineElementCssClass + " " + classNameRightHandle;
-      right.style.position = "absolute";
-      // right.style.backgroundColor = "#9c00ff";
-      right.style.right = "0px";
-      right.style.top = "0px";
-      right.style.width = "20px";
-      right.style.maxWidth = "20%";
-      right.style.height = "100%";
-      right.style.cursor = "e-resize";
-      this.bar.appendChild(right);
+    if (this.bar !== null) {
+      return;
     }
+
+    this.bar = document.createElement("div");
+    this.bar.className = timelineElementCssClass + " " + classNameBar;
+    this.bar.style.position = "relative";
+    this.bar.style.height = "1em";
+    this.bar.style.backgroundColor = "#8CD1E8";
+    this.bar.style.borderRadius = "2px";
+    this.bar.style.cssFloat = "left";
+    this.bar.style.zIndex = "50";
+    this.bar.style.cursor = "ew-resize";
+    this.timelineCell.appendChild(this.bar);
+    registerWorkPackageMouseHandler(this.wpCacheService, this.bar, renderInfo);
+
+    const left = document.createElement("div");
+    left.className = timelineElementCssClass + " " + classNameLeftHandle;
+    left.style.position = "absolute";
+    left.style.left = "0px";
+    left.style.top = "0px";
+    left.style.width = "20px";
+    left.style.maxWidth = "20%";
+    left.style.height = "100%";
+    left.style.cursor = "w-resize";
+    this.bar.appendChild(left);
+
+    const right = document.createElement("div");
+    right.className = timelineElementCssClass + " " + classNameRightHandle;
+    right.style.position = "absolute";
+    right.style.right = "0px";
+    right.style.top = "0px";
+    right.style.width = "20px";
+    right.style.maxWidth = "20%";
+    right.style.height = "100%";
+    right.style.cursor = "e-resize";
+    this.bar.appendChild(right);
   }
 
   private updateView(renderInfo: RenderInfo) {

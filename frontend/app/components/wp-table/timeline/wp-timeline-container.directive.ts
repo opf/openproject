@@ -156,6 +156,10 @@ export class WorkPackageTimelineTableController {
       }
     }
 
+    // left/right spacing
+    newParams.dateDisplayStart.subtract(3, "days");
+    newParams.dateDisplayEnd.add(2, "month");
+
     // Check if view params changed:
 
     // start date
