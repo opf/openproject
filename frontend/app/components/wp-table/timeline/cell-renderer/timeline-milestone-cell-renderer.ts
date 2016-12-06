@@ -57,6 +57,11 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
+  public willRender(renderInfo):boolean {
+    const wp = renderInfo.workPackage;
+    return !!wp.date;
+  }
+
   public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.date) {
@@ -65,6 +70,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     element.style.width = '1em';
+    element.style.height = '1em';
 
     const viewParams = renderInfo.viewParams;
     const date = moment(wp.date as any);
@@ -83,7 +89,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     el.className = timelineElementCssClass + " " + this.type;
     el.style.position = "relative";
-    el.style.height = "1em";
     el.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     el.style.borderRadius = "2px";
     el.style.zIndex = "50";

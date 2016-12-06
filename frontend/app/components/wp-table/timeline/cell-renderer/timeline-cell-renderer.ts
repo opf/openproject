@@ -83,6 +83,14 @@ export class TimelineCellRenderer {
     return dates;
   }
 
+  /**
+   * Decide whether we need to render anything for the work package.
+   */
+  public willRender(renderInfo):boolean {
+    const wp = renderInfo.workPackage;
+    return !!(wp.startDate || wp.dueDate)
+  }
+
   public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
