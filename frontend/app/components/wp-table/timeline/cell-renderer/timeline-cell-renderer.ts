@@ -4,7 +4,7 @@ import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
 
-interface CellDateMovement extends Object {
+interface CellDateMovement {
   // Target values to move work package to
   startDate?: moment.Moment;
   dueDate?: moment.Moment;

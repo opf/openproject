@@ -2,7 +2,7 @@ import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
-interface CellMilestoneMovement extends Object {
+interface CellMilestoneMovement {
   // Target value to move milestone to
   date?: moment.Moment;
 
