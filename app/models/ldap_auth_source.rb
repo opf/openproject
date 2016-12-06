@@ -75,6 +75,7 @@ class LdapAuthSource < AuthSource
   def initialize_ldap_con(ldap_user, ldap_password)
     options = { host: host,
                 port: port,
+                force_no_page: true,
                 encryption: (tls ? :simple_tls : nil)
               }
     options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
