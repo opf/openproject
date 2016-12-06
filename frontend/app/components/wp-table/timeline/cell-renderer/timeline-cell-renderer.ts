@@ -129,7 +129,6 @@ export class TimelineCellRenderer {
     const left = document.createElement("div");
     left.className = classNameLeftHandle;
     left.style.position = "absolute";
-    left.style.backgroundColor = "red";
     left.style.left = "0px";
     left.style.top = "0px";
     left.style.width = "20px";
@@ -141,7 +140,6 @@ export class TimelineCellRenderer {
     const right = document.createElement("div");
     right.className = classNameRightHandle;
     right.style.position = "absolute";
-    right.style.backgroundColor = "green";
     right.style.right = "0px";
     right.style.top = "0px";
     right.style.width = "20px";
