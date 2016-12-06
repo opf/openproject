@@ -2,12 +2,9 @@ import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
-interface CellMilestoneMovement extends Object {
+interface CellMilestoneMovement {
   // Target value to move milestone to
   date?: moment.Moment;
-
-  // Original values once cell was clicked
-  initialDate?: moment.Moment;
 }
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
@@ -32,14 +29,15 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Restore the original date, if any was set.
    */
   public onCancel(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
-    this.assignDate(wp, 'date', dates.initialDate);
+    wp.restoreFromPristine('date');
   }
 
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(dates:CellMilestoneMovement, delta:number) {
-    const initialDate = dates.initialDate;
+  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+    const initialDate = wp.$pristine['date'];
+    let dates:CellMilestoneMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, "days");
@@ -52,19 +50,26 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     let dates:CellMilestoneMovement = {};
 
     this.forceCursor('ew-resize');
-    dates.initialDate = moment(renderInfo.workPackage.date);
+    renderInfo.workPackage.storePristine('date');
 
     return dates;
   }
 
-  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
+  public willRender(renderInfo):boolean {
+    const wp = renderInfo.workPackage;
+    return !!wp.date;
+  }
+
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.date) {
-      return false;
+      return;
     }
 
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
     element.style.width = '1em';
+    element.style.height = '1em';
 
     const viewParams = renderInfo.viewParams;
     const date = moment(wp.date as any);
@@ -72,8 +77,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
     element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
-
-    return true;
   }
 
   /**
@@ -85,13 +88,11 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     el.className = timelineElementCssClass + " " + this.type;
     el.style.position = "relative";
-    el.style.height = "1em";
-    el.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     el.style.borderRadius = "2px";
     el.style.zIndex = "50";
     el.style.cursor = "ew-resize";
     el.style.transform = 'rotate(45deg)';
-    el.style.transformOrigin = '75% 100%';
+    el.style.transformOrigin = 'center center';
 
     return el;
   }

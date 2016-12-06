@@ -76,14 +76,21 @@ export class WorkPackageTimelineCell {
   }
 
   private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
+    const wasRendered = this.element !== null && this.element.parentNode;
+
+    // Remove the element if it should no longer be rendered at the moment
+    if (wasRendered && !renderer.willRender(renderInfo)) {
+       this.element.parentNode.removeChild(this.element);
+       return;
+    }
 
     // If already rendered with correct shape, ignore
-    if (this.element !== null && (this.elementShape === renderer.type)) {
+    if (wasRendered && (this.elementShape === renderer.type)) {
       return;
     }
 
     // Remove the element first if we're redrawing
-    if (this.element !== null) {
+    if (wasRendered) {
        this.element.parentNode.removeChild(this.element);
     }
 

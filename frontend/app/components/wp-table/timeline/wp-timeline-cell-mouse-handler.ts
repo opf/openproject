@@ -64,7 +64,9 @@ export function registerWorkPackageMouseHandler(this: void,
 
     // Let the renderer decide which fields we change
     renderer.assignDateValues(wp, dates);
-    wpCacheService.updateWorkPackage(wp as any);
+
+    // Update the work package to refresh dates columns
+    wpCacheService.updateWorkPackage(wp);
   }
 
   function mouseMoveFn(ev: JQueryEventObject) {
@@ -72,7 +74,7 @@ export function registerWorkPackageMouseHandler(this: void,
     const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
     const days = distance < 0 ? distance + 1 : distance;
 
-    dateStates = renderer.onDaysMoved(dateStates, days);
+    dateStates = renderer.onDaysMoved(renderInfo.workPackage, days);
 
    applyDateValues(dateStates);
   }
@@ -106,6 +108,9 @@ export function registerWorkPackageMouseHandler(this: void,
 
     if (cancelled) {
       renderer.onCancel(renderInfo.workPackage, dateStates);
+    } else {
+      // Persist the changes
+      wpCacheService.saveIfChanged(renderInfo.workPackage);
     }
 
     jBody.off("mousemove", mouseMoveFn);
@@ -119,6 +124,7 @@ export function registerWorkPackageMouseHandler(this: void,
     dateStates = {};
 
     workPackageTimeline.refreshView();
+
   }
 
 }

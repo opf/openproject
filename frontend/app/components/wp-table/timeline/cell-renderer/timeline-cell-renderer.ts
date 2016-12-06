@@ -1,17 +1,13 @@
-import {WorkPackageResourceInterface} from "./../../../api/api-v3/hal-resources/work-package-resource.service";
-import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "./../wp-timeline";
+import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/work-package-resource.service';
+import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
 
-interface CellDateMovement extends Object {
+interface CellDateMovement {
   // Target values to move work package to
   startDate?: moment.Moment;
   dueDate?: moment.Moment;
-
-  // Original values once cell was clicked
-  initialStartDate?: moment.Moment;
-  initialDueDate?: moment.Moment;
 }
 
 export class TimelineCellRenderer {
@@ -38,17 +34,18 @@ export class TimelineCellRenderer {
    * Restore the original date, if any was set.
    */
   public onCancel(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
-    this.assignDate(wp, 'startDate', dates.initialStartDate);
-    this.assignDate(wp, 'dueDate', dates.initialDueDate);
+    wp.restoreFromPristine('startDate');
+    wp.restoreFromPristine('dueDate');
   }
 
   /**
    * Handle movement by <delta> days of the work package to either (or both) edge(s)
    * depending on which initial date was set.
    */
-  public onDaysMoved(dates:CellDateMovement, delta:number) {
-    const initialStartDate = dates.initialStartDate;
-    const initialDueDate = dates.initialDueDate;
+  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+    const initialStartDate = wp.$pristine['startDate'];
+    const initialDueDate = wp.$pristine['dueDate'];
+    let dates:CellDateMovement = {};
 
     if (initialStartDate) {
       dates.startDate = moment(initialStartDate).add(delta, "days");
@@ -74,27 +71,32 @@ export class TimelineCellRenderer {
     }
 
     if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
-      dates.initialStartDate = moment(renderInfo.workPackage.startDate);
+      renderInfo.workPackage.storePristine('startDate');
     }
     if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
-      dates.initialDueDate = moment(renderInfo.workPackage.dueDate);
+      renderInfo.workPackage.storePristine('dueDate');
     }
 
     return dates;
   }
 
   /**
-   * @return true, if the element should still be displayed.
-   *         false, if the element must be removed from the timeline.
+   * Decide whether we need to render anything for the work package.
    */
-  public update(element: HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo: RenderInfo): boolean {
+  public willRender(renderInfo):boolean {
+    const wp = renderInfo.workPackage;
+    return !!(wp.startDate || wp.dueDate)
+  }
+
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
-      return false;
+      return;
     }
 
     // general settings - bar
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
     const start = moment(wp.startDate as any);
@@ -107,8 +109,6 @@ export class TimelineCellRenderer {
     // duration
     const duration = due.diff(start, "days") + 1;
     element.style.width = calculatePositionValueForDayCount(viewParams, duration);
-
-    return true;
   }
 
   /**
@@ -121,7 +121,6 @@ export class TimelineCellRenderer {
     bar.className = timelineElementCssClass + " " + this.type;
     bar.style.position = "relative";
     bar.style.height = "1em";
-    bar.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     bar.style.borderRadius = "2px";
     bar.style.cssFloat = "left";
     bar.style.zIndex = "50";
@@ -130,7 +129,6 @@ export class TimelineCellRenderer {
     const left = document.createElement("div");
     left.className = classNameLeftHandle;
     left.style.position = "absolute";
-    left.style.backgroundColor = "red";
     left.style.left = "0px";
     left.style.top = "0px";
     left.style.width = "20px";
@@ -142,14 +140,13 @@ export class TimelineCellRenderer {
     const right = document.createElement("div");
     right.className = classNameRightHandle;
     right.style.position = "absolute";
-    right.style.backgroundColor = "green";
     right.style.right = "0px";
     right.style.top = "0px";
     right.style.width = "20px";
     right.style.maxWidth = "20%";
     right.style.height = "100%";
     right.style.cursor = "e-resize";
-    bar.appendChild(right);
+    bar.appendChild(right)
 
     return bar;
   }
