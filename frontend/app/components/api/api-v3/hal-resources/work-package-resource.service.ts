@@ -143,10 +143,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   public get isMilestone(): boolean {
-    /**
-     * it would be better if this was not deduced but rather taken from the type
-     */
-    return this.hasOwnProperty('date');
+    return this.schema.hasOwnProperty('date');
   }
 
   /**
