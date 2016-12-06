@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {States} from "../../states.service";
-import {timelineElementCssClass, RenderInfo, calculatePositionValueForDayCount} from "./wp-timeline";
+import {RenderInfo} from "./wp-timeline";
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
-import {TimelineMilestoneCellRenderer} from './cell-renderer/timeline-milestone-cell-renderer';
-import {TimelineCellRenderer} from './cell-renderer/timeline-cell-renderer';
+import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
+import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import IScope = angular.IScope;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
@@ -40,7 +40,7 @@ import Moment = moment.Moment;
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),
   generic: new TimelineCellRenderer()
-}
+};
 
 export class WorkPackageTimelineCell {
 
@@ -78,12 +78,6 @@ export class WorkPackageTimelineCell {
   private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
     const wasRendered = this.element !== null && this.element.parentNode;
 
-    // Remove the element if it should no longer be rendered at the moment
-    if (wasRendered && !renderer.willRender(renderInfo)) {
-       this.element.parentNode.removeChild(this.element);
-       return;
-    }
-
     // If already rendered with correct shape, ignore
     if (wasRendered && (this.elementShape === renderer.type)) {
       return;
@@ -91,7 +85,7 @@ export class WorkPackageTimelineCell {
 
     // Remove the element first if we're redrawing
     if (wasRendered) {
-       this.element.parentNode.removeChild(this.element);
+      this.clear();
     }
 
     // Render the given element
@@ -105,10 +99,10 @@ export class WorkPackageTimelineCell {
       this.wpCacheService,
       this.element,
       renderer,
-      renderInfo)
+      renderInfo);
   }
 
-  private cellRenderer(workPackage):TimelineCellRenderer {
+  private cellRenderer(workPackage): TimelineCellRenderer {
     if (workPackage.isMilestone) {
       return renderers.milestone;
     }

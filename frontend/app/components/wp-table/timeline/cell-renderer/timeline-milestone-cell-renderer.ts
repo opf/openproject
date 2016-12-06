@@ -1,6 +1,6 @@
-import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/work-package-resource.service';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {TimelineCellRenderer} from "./timeline-cell-renderer";
+import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
 
 interface CellMilestoneMovement {
   // Target value to move milestone to
@@ -55,15 +55,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public willRender(renderInfo):boolean {
-    const wp = renderInfo.workPackage;
-    return !!wp.date;
-  }
-
-  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
     // abort if no start or due date
     if (!wp.date) {
-      return;
+      return false;
     }
 
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
@@ -77,6 +72,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
     element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+
+    return true;
   }
 
   /**
