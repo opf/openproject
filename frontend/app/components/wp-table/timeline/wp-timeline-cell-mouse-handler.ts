@@ -47,7 +47,7 @@ export function registerWorkPackageMouseHandler(this: void,
                                                 renderInfo: RenderInfo) {
 
   let startX: number = null; // also flag to signal active drag'n'drop
-  let dateStates:{[name:string]: Moment};
+  let dateStates:any;
   let jBody = jQuery("body");
 
   bar.onmousedown = (ev: MouseEvent) => {
