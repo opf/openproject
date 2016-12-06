@@ -96,6 +96,7 @@ export class TimelineCellRenderer {
 
     // general settings - bar
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
     const start = moment(wp.startDate as any);
@@ -120,7 +121,6 @@ export class TimelineCellRenderer {
     bar.className = timelineElementCssClass + " " + this.type;
     bar.style.position = "relative";
     bar.style.height = "1em";
-    bar.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     bar.style.borderRadius = "2px";
     bar.style.cssFloat = "left";
     bar.style.zIndex = "50";

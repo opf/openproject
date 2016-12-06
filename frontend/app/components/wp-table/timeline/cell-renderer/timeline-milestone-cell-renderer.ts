@@ -67,6 +67,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
     element.style.width = '1em';
     element.style.height = '1em';
 
@@ -87,7 +88,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     el.className = timelineElementCssClass + " " + this.type;
     el.style.position = "relative";
-    el.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     el.style.borderRadius = "2px";
     el.style.zIndex = "50";
     el.style.cursor = "ew-resize";
