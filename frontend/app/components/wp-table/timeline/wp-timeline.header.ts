@@ -91,17 +91,11 @@ export class WpTimelineHeader {
     this.scrollBar = this.outerHeader.find('.wp-timeline--slider');
     this.scrollBar.slider({
          min: 0,
-         max: 50, // TODO change to actual max
          slide: (evt, ui) => {
            this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -ui.value;
-           this.wpTimeline.refreshScrollOnly(); 
+           this.wpTimeline.refreshScrollOnly();
 
-           // The handle uses left offset to set the current position.
-           // With different widths, this causes the slider to move outside the container
-           // which we can control through and additional margin-left.
-           let currentMax = this.scrollBar.slider('option', 'max');
-           let handleOffset =  this.scrollBarHandle.width() * (ui.value / currentMax);
-           this.scrollBarHandle.css('margin-left', -1 * handleOffset);
+           this.recalculateScrollBarLeftMargin(ui.value);
          }
       });
 
@@ -109,11 +103,28 @@ export class WpTimelineHeader {
   }
 
   private updateScrollbar(vp: TimelineViewParameters) {
-    this.scrollBar.slider('option', 'max', vp.maxSteps);
+    let maxWidth = this.scrollBar.width(),
+        daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
+        newMax = vp.maxSteps - daysDisplayed,
+        newWidth = Math.max(Math.min(maxWidth, (vp.maxSteps / vp.pixelPerDay)), 20) + 'px',
+        currentValue = this.scrollBar.slider('option', 'value'),
+        newValue = Math.min(newMax, currentValue);
 
-    // Set width of handle
-    let newWidth = Math.max((vp.maxSteps / vp.pixelPerDay), 20) + 'px';
+    this.scrollBar.slider('option', 'max', newMax);
     this.scrollBarHandle.css('width', newWidth);
+    this.scrollBar.slider('option', 'value', newValue);
+
+    this.recalculateScrollBarLeftMargin(newValue);
+  }
+
+  // The handle uses left offset to set the current position.
+  // With different widths, this causes the slider to move outside the container
+  // which we can control through and additional margin-left.
+  private recalculateScrollBarLeftMargin(value) {
+    let currentMax = this.scrollBar.slider('option', 'max');
+
+     let handleOffset = (currentMax === 0) ? 0 : this.scrollBarHandle.width() * (value / currentMax);
+     this.scrollBarHandle.css('margin-left', -1 * handleOffset);
   }
 
   private lazyInit() {
