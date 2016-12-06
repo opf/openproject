@@ -1,3 +1,4 @@
+import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/work-package-resource.service';
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
 const classNameLeftHandle = "leftHandle";
@@ -7,6 +8,10 @@ export class TimelineCellRenderer {
 
   public get type():string {
     return 'bar';
+  }
+
+  public get fallbackColor():string {
+    return '#8CD1E8';
   }
 
   /**
@@ -100,7 +105,7 @@ export class TimelineCellRenderer {
     bar.className = timelineElementCssClass + " " + this.type;
     bar.style.position = "relative";
     bar.style.height = "1em";
-    bar.style.backgroundColor = "#8CD1E8";
+    bar.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     bar.style.borderRadius = "2px";
     bar.style.cssFloat = "left";
     bar.style.zIndex = "50";
@@ -131,6 +136,15 @@ export class TimelineCellRenderer {
     bar.appendChild(right)
 
     return bar;
+  }
+
+  protected typeColor(wp: WorkPackageResourceInterface):string {
+    let type = wp.type.state.getCurrentValue();
+    if (type) {
+      return type.color;
+    }
+
+    return this.fallbackColor;
   }
 
   protected assignDate(wp: op.WorkPackage, attributeName:string, value: moment.Moment) {

@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
 /**
  * API interfaces
  *
@@ -198,6 +197,7 @@ declare namespace op {
 
   interface WorkPackageLinks {
     schema:FieldSchema;
+    type: any;
   }
 
   interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {

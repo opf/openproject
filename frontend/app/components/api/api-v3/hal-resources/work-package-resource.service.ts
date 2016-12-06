@@ -39,6 +39,7 @@ import ITimeoutService = angular.ITimeoutService;
 import {States} from '../../../states.service';
 import {State} from './../../../../helpers/reactive-fassade';
 import {SchemaResource} from './schema-resource.service';
+import {TypeResource} from './type-resource.service';
 
 interface WorkPackageResourceEmbedded {
   activities: CollectionResourceInterface;
@@ -56,7 +57,7 @@ interface WorkPackageResourceEmbedded {
   schema: SchemaResource;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
-  type: HalResource|any;
+  type: TypeResource;
   version: HalResource|any;
   watchers: CollectionResourceInterface;
 }

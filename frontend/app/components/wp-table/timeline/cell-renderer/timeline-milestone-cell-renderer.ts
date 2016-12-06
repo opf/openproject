@@ -6,6 +6,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return 'milestone';
   }
 
+  public get fallbackColor():string {
+    return '#C0392B';
+  }
+
   /**
    * Assign changed dates to the work package.
    * For generic work packages, assigns start and due date.
@@ -71,7 +75,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     el.className = timelineElementCssClass + " " + this.type;
     el.style.position = "relative";
     el.style.height = "1em";
-    el.style.backgroundColor = "red";
+    el.style.backgroundColor = this.typeColor(renderInfo.workPackage as any);
     el.style.borderRadius = "2px";
     el.style.zIndex = "50";
     el.style.cursor = "ew-resize";

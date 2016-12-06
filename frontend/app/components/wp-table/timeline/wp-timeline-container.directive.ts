@@ -54,6 +54,7 @@ export class WorkPackageTimelineTableController {
   public disableViewParamsCalculation = false;
 
   constructor(private $element: ng.IAugmentedJQuery,
+              private TypeResource,
               private states: States) {
 
     "ngInject";
@@ -61,7 +62,10 @@ export class WorkPackageTimelineTableController {
     this.wpTimelineHeader = new WpTimelineHeader(this);
     $element.on(InteractiveTableController.eventName, () => {
       this.refreshView();
-    })
+    });
+
+    // TODO: Load only necessary types from API
+    TypeResource.loadAll();
   }
 
   /**
