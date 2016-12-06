@@ -92,7 +92,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     el.style.zIndex = "50";
     el.style.cursor = "ew-resize";
     el.style.transform = 'rotate(45deg)';
-    el.style.transformOrigin = '75% 100%';
+    el.style.transformOrigin = 'center center';
 
     return el;
   }
