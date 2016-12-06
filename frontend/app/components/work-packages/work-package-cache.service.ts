@@ -47,6 +47,7 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
+              private $rootScope: ng.IRootScopeService,
               private $q: ng.IQService,
               private wpNotificationsService:WorkPackageNotificationService,
               private apiWorkPackages: ApiWorkPackagesService) {
@@ -86,8 +87,13 @@ export class WorkPackageCacheService {
     }
 
     return workPackage.save()
-      .then(() => { this.wpNotificationsService.showSave(workPackage); })
-      .catch((error) => { this.wpNotificationsService.handleErrorResponse(error, workPackage); });
+      .then(() => {
+        this.wpNotificationsService.showSave(workPackage);
+        this.$rootScope.$emit('workPackagesRefreshInBackground');
+      })
+      .catch((error) => {
+        this.wpNotificationsService.handleErrorResponse(error, workPackage);
+      });
   }
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {

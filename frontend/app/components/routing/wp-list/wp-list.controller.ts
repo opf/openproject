@@ -254,6 +254,8 @@ function WorkPackagesListController($scope,
           var staleRow = rowLookup[fresh.id];
           if (staleRow && staleRow.object.lockVersion === fresh.lockVersion) {
             json.work_packages[i] = staleRow.object;
+          } else {
+            wpCacheService.updateWorkPackage(fresh);
           }
         });
 
