@@ -116,7 +116,7 @@ export function registerWorkPackageMouseHandler(this: void,
     jBody.off("mousemove", mouseMoveFn);
     jBody.off("keyup", keyPressFn);
     jQuery(".hascontextmenu").css("cursor", "context-menu");
-    jQuery("." + timelineElementCssClass).css("cursor", "auto");
+    jQuery("." + timelineElementCssClass).css("cursor", '');
     jQuery("." + classNameLeftHandle).css("cursor", "w-resize");
     jQuery("." + classNameBar).css("cursor", "ew-resize");
     jQuery("." + classNameRightHandle).css("cursor", "e-resize");

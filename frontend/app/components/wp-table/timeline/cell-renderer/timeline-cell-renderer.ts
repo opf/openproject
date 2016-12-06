@@ -115,35 +115,14 @@ export class TimelineCellRenderer {
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
     const bar = document.createElement("div");
+    const left = document.createElement("div");
+    const right = document.createElement("div");
 
     bar.className = timelineElementCssClass + " " + this.type;
-    bar.style.position = "relative";
-    bar.style.height = "1em";
-    bar.style.borderRadius = "2px";
-    bar.style.cssFloat = "left";
-    bar.style.zIndex = "50";
-    bar.style.cursor = "ew-resize";
-
-    const left = document.createElement("div");
     left.className = classNameLeftHandle;
-    left.style.position = "absolute";
-    left.style.left = "0px";
-    left.style.top = "0px";
-    left.style.width = "20px";
-    left.style.maxWidth = "20%";
-    left.style.height = "100%";
-    left.style.cursor = "w-resize";
-    bar.appendChild(left);
-
-    const right = document.createElement("div");
     right.className = classNameRightHandle;
-    right.style.position = "absolute";
-    right.style.right = "0px";
-    right.style.top = "0px";
-    right.style.width = "20px";
-    right.style.maxWidth = "20%";
-    right.style.height = "100%";
-    right.style.cursor = "e-resize";
+
+    bar.appendChild(left);
     bar.appendChild(right);
 
     return bar;

@@ -84,13 +84,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     const el = document.createElement("div");
 
     el.className = timelineElementCssClass + " " + this.type;
-    el.style.position = "relative";
-    el.style.borderRadius = "2px";
-    el.style.zIndex = "50";
-    el.style.cursor = "ew-resize";
-    el.style.transform = 'rotate(45deg)';
-    el.style.transformOrigin = 'center center';
-
     return el;
   }
 }
