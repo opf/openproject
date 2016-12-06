@@ -2,6 +2,14 @@ import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
+interface CellMilestoneMovement extends Object {
+  // Target value to move milestone to
+  date?: moment.Moment;
+
+  // Original values once cell was clicked
+  initialDate?: moment.Moment;
+}
+
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
     return 'milestone';
@@ -16,35 +24,35 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
-    this.assignDate(wp, 'date', dates['date']);
+  public assignDateValues(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
+    this.assignDate(wp, 'date', dates.date);
   }
 
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
-    this.assignDate(wp, 'date', dates['initialDate']);
+  public onCancel(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
+    this.assignDate(wp, 'date', dates.initialDate);
   }
 
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(dates:{[name:string]: moment.Moment}, delta:number) {
-    const initialDate = dates['initialDate'];
+  public onDaysMoved(dates:CellMilestoneMovement, delta:number) {
+    const initialDate = dates.initialDate;
 
     if (initialDate) {
-      dates['date'] = moment(initialDate).add(delta, "days");
+      dates.date = moment(initialDate).add(delta, "days");
     }
 
     return dates;
   }
 
   public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
-    let dates:{[name:string]: moment.Moment} = {};
+    let dates:CellMilestoneMovement = {};
 
     this.forceCursor('ew-resize');
-    dates['initialDate'] = moment(renderInfo.workPackage.date);
+    dates.initialDate = moment(renderInfo.workPackage.date);
 
     return dates;
   }

@@ -4,6 +4,16 @@ import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
 
+interface CellDateMovement extends Object {
+  // Target values to move work package to
+  startDate?: moment.Moment;
+  dueDate?: moment.Moment;
+
+  // Original values once cell was clicked
+  initialStartDate?: moment.Moment;
+  initialDueDate?: moment.Moment;
+}
+
 export class TimelineCellRenderer {
 
   public get type():string {
@@ -19,40 +29,40 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
-    this.assignDate(wp, 'startDate', dates['startDate']);
-    this.assignDate(wp, 'dueDate', dates['dueDate']);
+  public assignDateValues(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
+    this.assignDate(wp, 'startDate', dates.startDate);
+    this.assignDate(wp, 'dueDate', dates.dueDate);
   }
 
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
-    this.assignDate(wp, 'startDate', dates['initialStartDate']);
-    this.assignDate(wp, 'dueDate', dates['initialDueDate']);
+  public onCancel(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
+    this.assignDate(wp, 'startDate', dates.initialStartDate);
+    this.assignDate(wp, 'dueDate', dates.initialDueDate);
   }
 
   /**
    * Handle movement by <delta> days of the work package to either (or both) edge(s)
    * depending on which initial date was set.
    */
-  public onDaysMoved(dates:{[name:string]: moment.Moment}, delta:number) {
-    const initialStartDate = dates['initialStartDate'];
-    const initialDueDate = dates['initialDueDate'];
+  public onDaysMoved(dates:CellDateMovement, delta:number) {
+    const initialStartDate = dates.initialStartDate;
+    const initialDueDate = dates.initialDueDate;
 
     if (initialStartDate) {
-      dates['startDate'] = moment(initialStartDate).add(delta, "days");
+      dates.startDate = moment(initialStartDate).add(delta, "days");
     }
 
     if (initialDueDate) {
-      dates['dueDate'] = moment(initialDueDate).add(delta, "days");
+      dates.dueDate = moment(initialDueDate).add(delta, "days");
     }
 
     return dates;
   }
 
   public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
-    let dates:{[name:string]: moment.Moment} = {};
+    let dates:CellDateMovement = {};
 
     // Update the cursor to
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
@@ -64,10 +74,10 @@ export class TimelineCellRenderer {
     }
 
     if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
-      dates['initialStartDate'] = moment(renderInfo.workPackage.startDate);
+      dates.initialStartDate = moment(renderInfo.workPackage.startDate);
     }
     if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
-      dates['initialDueDate'] = moment(renderInfo.workPackage.dueDate);
+      dates.initialDueDate = moment(renderInfo.workPackage.dueDate);
     }
 
     return dates;
