@@ -1,3 +1,4 @@
+import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/work-package-resource.service';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
 
@@ -15,14 +16,14 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+  public assignDateValues(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
     this.assignDate(wp, 'date', dates['date']);
   }
 
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+  public onCancel(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
     this.assignDate(wp, 'date', dates['initialDate']);
   }
 
@@ -48,7 +49,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public update(element:HTMLDivElement, wp: op.WorkPackage, renderInfo:RenderInfo) {
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.date) {
       return;

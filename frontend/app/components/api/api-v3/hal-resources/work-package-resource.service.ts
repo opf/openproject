@@ -60,6 +60,11 @@ interface WorkPackageResourceEmbedded {
   type: TypeResource;
   version: HalResource|any;
   watchers: CollectionResourceInterface;
+  // For regular work packages
+  startDate?: string;
+  dueDate?: string;
+  // Only for milestones
+  date?: string;
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {

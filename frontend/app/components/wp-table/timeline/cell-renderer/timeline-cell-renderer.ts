@@ -19,7 +19,7 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+  public assignDateValues(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
     this.assignDate(wp, 'startDate', dates['startDate']);
     this.assignDate(wp, 'dueDate', dates['dueDate']);
   }
@@ -27,7 +27,7 @@ export class TimelineCellRenderer {
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+  public onCancel(wp: WorkPackageResourceInterface, dates:{[name:string]: moment.Moment}) {
     this.assignDate(wp, 'startDate', dates['initialStartDate']);
     this.assignDate(wp, 'dueDate', dates['initialDueDate']);
   }
@@ -73,7 +73,7 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public update(element:HTMLDivElement, wp: op.WorkPackage, renderInfo:RenderInfo) {
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
       return;
@@ -147,7 +147,7 @@ export class TimelineCellRenderer {
     return this.fallbackColor;
   }
 
-  protected assignDate(wp: op.WorkPackage, attributeName:string, value: moment.Moment) {
+  protected assignDate(wp: WorkPackageResourceInterface, attributeName:string, value: moment.Moment) {
     if (value) {
      wp[attributeName] = value.format("YYYY-MM-DD") as any;
     }
