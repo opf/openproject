@@ -93,7 +93,8 @@ export class WorkPackageTimelineCell {
       this.workPackageTimeline,
       this.wpCacheService,
       this.element,
-      renderInfo)    
+      renderer,
+      renderInfo)
   }
 
   private cellRenderer(workPackage):TimelineCellRenderer {

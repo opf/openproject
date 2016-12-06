@@ -6,6 +6,44 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return 'milestone';
   }
 
+  /**
+   * Assign changed dates to the work package.
+   * For generic work packages, assigns start and due date.
+   *
+   */
+  public assignDateValues(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+    this.assignDate(wp, 'date', dates['date']);
+  }
+
+  /**
+   * Restore the original date, if any was set.
+   */
+  public onCancel(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+    this.assignDate(wp, 'date', dates['initialDate']);
+  }
+
+  /**
+   * Handle movement by <delta> days of milestone.
+   */
+  public onDaysMoved(dates:{[name:string]: moment.Moment}, delta:number) {
+    const initialDate = dates['initialDate'];
+
+    if (initialDate) {
+      dates['date'] = moment(initialDate).add(delta, "days");
+    }
+
+    return dates;
+  }
+
+  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
+    let dates:{[name:string]: moment.Moment} = {};
+
+    this.forceCursor('ew-resize');
+    dates['initialDate'] = moment(renderInfo.workPackage.date);
+
+    return dates;
+  }
+
   public update(element:HTMLDivElement, wp: op.WorkPackage, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.date) {

@@ -9,6 +9,65 @@ export class TimelineCellRenderer {
     return 'bar';
   }
 
+  /**
+   * Assign changed dates to the work package.
+   * For generic work packages, assigns start and due date.
+   *
+   */
+  public assignDateValues(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+    this.assignDate(wp, 'startDate', dates['startDate']);
+    this.assignDate(wp, 'dueDate', dates['dueDate']);
+  }
+
+  /**
+   * Restore the original date, if any was set.
+   */
+  public onCancel(wp: op.WorkPackage, dates:{[name:string]: moment.Moment}) {
+    this.assignDate(wp, 'startDate', dates['initialStartDate']);
+    this.assignDate(wp, 'dueDate', dates['initialDueDate']);
+  }
+
+  /**
+   * Handle movement by <delta> days of the work package to either (or both) edge(s)
+   * depending on which initial date was set.
+   */
+  public onDaysMoved(dates:{[name:string]: moment.Moment}, delta:number) {
+    const initialStartDate = dates['initialStartDate'];
+    const initialDueDate = dates['initialDueDate'];
+
+    if (initialStartDate) {
+      dates['startDate'] = moment(initialStartDate).add(delta, "days");
+    }
+
+    if (initialDueDate) {
+      dates['dueDate'] = moment(initialDueDate).add(delta, "days");
+    }
+
+    return dates;
+  }
+
+  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
+    let dates:{[name:string]: moment.Moment} = {};
+
+    // Update the cursor to
+    if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
+      this.forceCursor('w-resize');
+    } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
+      this.forceCursor('e-resize');
+    } else {
+      this.forceCursor('ew-resize');
+    }
+
+    if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
+      dates['initialStartDate'] = moment(renderInfo.workPackage.startDate);
+    }
+    if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
+      dates['initialDueDate'] = moment(renderInfo.workPackage.dueDate);
+    }
+
+    return dates;
+  }
+
   public update(element:HTMLDivElement, wp: op.WorkPackage, renderInfo:RenderInfo) {
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
@@ -72,5 +131,19 @@ export class TimelineCellRenderer {
     bar.appendChild(right)
 
     return bar;
+  }
+
+  protected assignDate(wp: op.WorkPackage, attributeName:string, value: moment.Moment) {
+    if (value) {
+     wp[attributeName] = value.format("YYYY-MM-DD") as any;
+    }
+  }
+
+  /**
+   * Force the cursor to the given cursor type.
+   */
+  protected forceCursor(cursor:string) {
+    jQuery(".hascontextmenu").css("cursor", cursor);
+    jQuery("." + timelineElementCssClass).css("cursor", cursor);
   }
 }

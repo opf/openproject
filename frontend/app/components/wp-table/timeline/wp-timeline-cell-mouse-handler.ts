@@ -33,6 +33,7 @@ import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {TimelineCellRenderer} from './cell-renderer/timeline-cell-renderer';
 
 const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
@@ -43,11 +44,11 @@ export function registerWorkPackageMouseHandler(this: void,
                                                 workPackageTimeline: WorkPackageTimelineTableController,
                                                 wpCacheService: WorkPackageCacheService,
                                                 bar: HTMLElement,
+                                                renderer: TimelineCellRenderer,
                                                 renderInfo: RenderInfo) {
 
   let startX: number = null; // also flag to signal active drag'n'drop
-  let initialStartDate: string = null;
-  let initialDueDate: string = null;
+  let dateStates:{[name:string]: Moment};
   let jBody = jQuery("body");
 
   bar.onmousedown = (ev: MouseEvent) => {
@@ -59,10 +60,11 @@ export function registerWorkPackageMouseHandler(this: void,
     }
   );
 
-  function applyDateValues(start: Moment, due: Moment) {
+  function applyDateValues(dates:{[name:string]: Moment}) {
     const wp = renderInfo.workPackage;
-    wp.startDate = start ? start.format("YYYY-MM-DD") as any : wp.startDate;
-    wp.dueDate = due ? due.format("YYYY-MM-DD") as any : wp.dueDate;
+
+    // Let the renderer decide which fields we change
+    renderer.assignDateValues(wp, dates);
     wpCacheService.updateWorkPackage(wp as any);
   }
 
@@ -70,9 +72,10 @@ export function registerWorkPackageMouseHandler(this: void,
     const mev: MouseEvent = ev as any;
     const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
     const days = distance < 0 ? distance + 1 : distance;
-    const start = initialStartDate ? moment(initialStartDate).add(days, "days") : null;
-    const due = initialDueDate ? moment(initialDueDate).add(days, "days") : null;
-    applyDateValues(start, due);
+
+    dateStates = renderer.onDaysMoved(dateStates, days);
+
+   applyDateValues(dateStates);
   }
 
   function keyPressFn(ev: JQueryEventObject) {
@@ -86,27 +89,10 @@ export function registerWorkPackageMouseHandler(this: void,
     ev.preventDefault();
 
     workPackageTimeline.disableViewParamsCalculation = true;
-
-    // Set cursor
-    if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
-      jQuery(".hascontextmenu").css("cursor", "w-resize");
-      jQuery("." + timelineElementCssClass).css("cursor", "w-resize");
-    } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
-      jQuery(".hascontextmenu").css("cursor", "e-resize");
-      jQuery("." + timelineElementCssClass).css("cursor", "e-resize");
-    } else {
-      jQuery(".hascontextmenu").css("cursor", "ew-resize");
-      jQuery("." + timelineElementCssClass).css("cursor", "ew-resize");
-    }
-
-    // Determine what of start/due should be changed
     startX = ev.clientX;
-    if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
-      initialStartDate = renderInfo.workPackage.startDate as any;
-    }
-    if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
-      initialDueDate = renderInfo.workPackage.dueDate as any;
-    }
+
+    // Determine what attributes of the work package should be changed
+    dateStates = renderer.onMouseDown(ev, renderInfo);
 
     jBody.on("mousemove", mouseMoveFn);
     jBody.on("keyup", keyPressFn);
@@ -120,9 +106,7 @@ export function registerWorkPackageMouseHandler(this: void,
     }
 
     if (cancelled) {
-      applyDateValues(
-        initialStartDate ? moment(initialStartDate) : null,
-        initialDueDate ? moment(initialDueDate) : null);
+      renderer.onCancel(renderInfo.workPackage, dateStates);
     }
 
     jBody.off("mousemove", mouseMoveFn);
@@ -133,8 +117,7 @@ export function registerWorkPackageMouseHandler(this: void,
     jQuery("." + classNameBar).css("cursor", "ew-resize");
     jQuery("." + classNameRightHandle).css("cursor", "e-resize");
     startX = null;
-    initialStartDate = null;
-    initialDueDate = null;
+    dateStates = {};
 
     workPackageTimeline.refreshView();
   }
