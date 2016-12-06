@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
 /**
  * API interfaces
  *
@@ -61,31 +60,6 @@ declare namespace api {
       format:string;
       raw:string;
       html:string;
-    }
-
-    interface WorkPackage {
-      id:number;
-      lockVersion:number;
-      subject:string;
-      type:string;
-      description:Formattable;
-      parentId:number;
-      startDate:Date;
-      dueDate:Date;
-      date:Date;
-      estimatedTime:Duration;
-      spentTime:Duration;
-      percentageDone:number;
-      createdAt:Date;
-      updatedAt:Date;
-    }
-
-    interface Project {
-
-    }
-
-    interface Query {
-
     }
   }
 
@@ -194,16 +168,6 @@ declare namespace op {
     type:string;
     writable:boolean;
     allowedValues;
-  }
-
-  interface WorkPackageLinks {
-    schema:FieldSchema;
-  }
-
-  interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
-    getForm();
-    save();
-    links:WorkPackageLinks;
   }
 
   interface QueryParams {

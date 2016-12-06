@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import Moment = moment.Moment;
 
+import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 export const timelineElementCssClass = "timeline-element";
 
 /**
@@ -99,7 +99,7 @@ export class TimelineViewParameters {
  */
 export interface RenderInfo {
   viewParams: TimelineViewParameters;
-  workPackage: WorkPackage;
+  workPackage: WorkPackageResourceInterface;
 }
 
 /**

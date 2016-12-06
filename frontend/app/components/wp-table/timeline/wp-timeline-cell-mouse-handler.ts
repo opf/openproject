@@ -28,7 +28,6 @@
 import {timelineElementCssClass, RenderInfo} from "./wp-timeline";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import IScope = angular.IScope;
-import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;

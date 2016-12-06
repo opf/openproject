@@ -27,11 +27,11 @@
 // ++
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
+import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {InteractiveTableController} from "./../../common/interactive-table/interactive-table.directive";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
 
-import WorkPackage = op.WorkPackage;
 import Observable = Rx.Observable;
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
@@ -41,7 +41,7 @@ export class WorkPackageTimelineTableController {
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
-  private workPackagesInView: {[id: string]: WorkPackage} = {};
+  private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
 
   private wpTimelineHeader;
 
@@ -54,6 +54,7 @@ export class WorkPackageTimelineTableController {
   public disableViewParamsCalculation = false;
 
   constructor(private $element: ng.IAugmentedJQuery,
+              private TypeResource,
               private states: States) {
 
     "ngInject";
@@ -61,7 +62,10 @@ export class WorkPackageTimelineTableController {
     this.wpTimelineHeader = new WpTimelineHeader(this);
     $element.on(InteractiveTableController.eventName, () => {
       this.refreshView();
-    })
+    });
+
+    // TODO: Load only necessary types from API
+    TypeResource.loadAll();
   }
 
   /**
