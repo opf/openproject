@@ -36,7 +36,7 @@ export function todayLine(viewParams: TimelineViewParameters, elem: HTMLElement)
   elem.style.width = "2px";
   elem.style.borderLeft = "2px dotted red";
   const offsetToday = viewParams.now.diff(viewParams.dateDisplayStart, "days");
-  const dayProgress = moment().day() / 24;
+  const dayProgress = moment().hour() / 24;
   elem.style.left = calculatePositionValueForDayCount(viewParams, offsetToday + dayProgress);
   elem.style.marginLeft = viewParams.scrollOffsetInPx + "px";
 }
