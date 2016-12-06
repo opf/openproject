@@ -8,10 +8,6 @@ interface CellDateMovement {
   // Target values to move work package to
   startDate?: moment.Moment;
   dueDate?: moment.Moment;
-
-  // Original values once cell was clicked
-  initialStartDate?: moment.Moment;
-  initialDueDate?: moment.Moment;
 }
 
 export class TimelineCellRenderer {
@@ -38,17 +34,18 @@ export class TimelineCellRenderer {
    * Restore the original date, if any was set.
    */
   public onCancel(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
-    this.assignDate(wp, 'startDate', dates.initialStartDate);
-    this.assignDate(wp, 'dueDate', dates.initialDueDate);
+    wp.restoreFromPristine('startDate');
+    wp.restoreFromPristine('dueDate');
   }
 
   /**
    * Handle movement by <delta> days of the work package to either (or both) edge(s)
    * depending on which initial date was set.
    */
-  public onDaysMoved(dates:CellDateMovement, delta:number) {
-    const initialStartDate = dates.initialStartDate;
-    const initialDueDate = dates.initialDueDate;
+  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+    const initialStartDate = wp.$pristine['startDate'];
+    const initialDueDate = wp.$pristine['dueDate'];
+    let dates:CellDateMovement = {};
 
     if (initialStartDate) {
       dates.startDate = moment(initialStartDate).add(delta, "days");
@@ -74,10 +71,10 @@ export class TimelineCellRenderer {
     }
 
     if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
-      dates.initialStartDate = moment(renderInfo.workPackage.startDate);
+      renderInfo.workPackage.storePristine('startDate');
     }
     if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
-      dates.initialDueDate = moment(renderInfo.workPackage.dueDate);
+      renderInfo.workPackage.storePristine('dueDate');
     }
 
     return dates;

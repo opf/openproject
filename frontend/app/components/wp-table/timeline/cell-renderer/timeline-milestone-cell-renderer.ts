@@ -5,9 +5,6 @@ import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} 
 interface CellMilestoneMovement {
   // Target value to move milestone to
   date?: moment.Moment;
-
-  // Original values once cell was clicked
-  initialDate?: moment.Moment;
 }
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
@@ -32,14 +29,15 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Restore the original date, if any was set.
    */
   public onCancel(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
-    this.assignDate(wp, 'date', dates.initialDate);
+    wp.restoreFromPristine('date');
   }
 
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(dates:CellMilestoneMovement, delta:number) {
-    const initialDate = dates.initialDate;
+  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+    const initialDate = wp.$pristine['date'];
+    let dates:CellMilestoneMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, "days");
@@ -52,7 +50,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     let dates:CellMilestoneMovement = {};
 
     this.forceCursor('ew-resize');
-    dates.initialDate = moment(renderInfo.workPackage.date);
+    renderInfo.workPackage.storePristine('date');
 
     return dates;
   }
