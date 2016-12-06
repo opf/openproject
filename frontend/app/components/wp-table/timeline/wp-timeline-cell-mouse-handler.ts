@@ -121,6 +121,7 @@ export function registerWorkPackageMouseHandler(this: void,
     dateStates = {};
 
     workPackageTimeline.refreshView();
+    wpCacheService.saveIfChanged(renderInfo.workPackage);
   }
 
 }
