@@ -108,6 +108,9 @@ export function registerWorkPackageMouseHandler(this: void,
 
     if (cancelled) {
       renderer.onCancel(renderInfo.workPackage, dateStates);
+    } else {
+      // Persist the changes
+      wpCacheService.saveIfChanged(renderInfo.workPackage);
     }
 
     jBody.off("mousemove", mouseMoveFn);
@@ -121,7 +124,7 @@ export function registerWorkPackageMouseHandler(this: void,
     dateStates = {};
 
     workPackageTimeline.refreshView();
-    wpCacheService.saveIfChanged(renderInfo.workPackage);
+
   }
 
 }
