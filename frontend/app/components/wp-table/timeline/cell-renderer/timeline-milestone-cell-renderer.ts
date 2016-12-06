@@ -57,10 +57,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
+  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
     // abort if no start or due date
     if (!wp.date) {
-      return;
+      return false;
     }
 
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
@@ -72,6 +72,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
     element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+
+    return true;
   }
 
   /**

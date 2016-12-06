@@ -1,5 +1,5 @@
-import {WorkPackageResourceInterface} from './../../../api/api-v3/hal-resources/work-package-resource.service';
-import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from './../wp-timeline';
+import {WorkPackageResourceInterface} from "./../../../api/api-v3/hal-resources/work-package-resource.service";
+import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "./../wp-timeline";
 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
@@ -83,10 +83,14 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo) {
+  /**
+   * @return true, if the element should still be displayed.
+   *         false, if the element must be removed from the timeline.
+   */
+  public update(element: HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo: RenderInfo): boolean {
     // abort if no start or due date
     if (!wp.startDate || !wp.dueDate) {
-      return;
+      return false;
     }
 
     // general settings - bar
@@ -103,6 +107,8 @@ export class TimelineCellRenderer {
     // duration
     const duration = due.diff(start, "days") + 1;
     element.style.width = calculatePositionValueForDayCount(viewParams, duration);
+
+    return true;
   }
 
   /**
@@ -143,7 +149,7 @@ export class TimelineCellRenderer {
     right.style.maxWidth = "20%";
     right.style.height = "100%";
     right.style.cursor = "e-resize";
-    bar.appendChild(right)
+    bar.appendChild(right);
 
     return bar;
   }

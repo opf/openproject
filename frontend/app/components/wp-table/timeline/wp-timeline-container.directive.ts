@@ -92,6 +92,7 @@ export class WorkPackageTimelineTableController {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.onNext(true);
         this.wpTimelineHeader.refreshView(this._viewParameters);
+        this.refreshScrollOnly();
         this.refreshViewRequested = false;
       }, 30);
     }

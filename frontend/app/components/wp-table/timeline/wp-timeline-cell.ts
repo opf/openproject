@@ -66,8 +66,13 @@ export class WorkPackageTimelineCell {
 
   // TODO never called so far
   deactivate() {
-    this.timelineCell.innerHTML = "";
+    this.clear();
     this.disposable && this.disposable.dispose();
+  }
+
+  private clear() {
+    this.timelineCell.innerHTML = "";
+    this.element = null;
   }
 
   private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
@@ -112,6 +117,9 @@ export class WorkPackageTimelineCell {
     this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    renderer.update(this.element, wp, renderInfo);
+    const shouldBeDisplayed = renderer.update(this.element, wp, renderInfo);
+    if (!shouldBeDisplayed) {
+      this.clear();
+    }
   }
 }
