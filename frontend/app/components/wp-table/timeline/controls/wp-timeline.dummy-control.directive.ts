@@ -26,51 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../../angular-modules";
-import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
-import {ZoomLevel} from "./wp-timeline";
+import {openprojectModule} from "../../../../angular-modules";
+import {WorkPackageTimelineTableController} from '../wp-timeline-container.directive';
+import {ZoomLevel, sortedZoomLevels} from '../wp-timeline';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-
-
-const template = `
-<div class="wp-timeline--dummy-controls" ng-if="$ctrl.wpTimeline.visible">
-
-    HScroll: <input type="number" 
-                    ng-model="$ctrl.hscroll" 
-                    ng-change="$ctrl.updateScroll()" 
-                    style="display: inline-block; width: 200px"/>
-
-    Zoom: <select type="number" 
-                  ng-model="$ctrl.zoom" 
-                  ng-change="$ctrl.updateZoom()" 
-                  style="display: inline-block; width: 200px">
-                  
-               <option value="${ZoomLevel.DAYS}">Days</option>
-               <option value="${ZoomLevel.WEEKS}">Weeks</option>
-               <option value="${ZoomLevel.MONTHS}">Months</option>
-               <option value="${ZoomLevel.QUARTERS}">Quarter</option>
-               <option value="${ZoomLevel.YEARS}">Years</option>
-               
-         </select>
-  
-</div>
-`;
-
 
 class WorkPackageTimelineControlController {
 
   private wpTimeline: WorkPackageTimelineTableController;
 
   hscroll: number;
-  zoom: string;
+  currentZoom: string;
+  localizedZoomLevels = {};
+  text:any;
 
-  constructor() {
+  static $inject = ['I18n'];
+
+  constructor(private I18n:op.I18n) {
+    this.text = {
+      zoomLabel: 'Zoom'
+    }
   }
 
   $onInit() {
     this.hscroll = this.wpTimeline.viewParameterSettings.scrollOffsetInDays;
-    this.zoom = ZoomLevel.DAYS.toString();
+    this.localizedZoomLevels = {};
+
+    sortedZoomLevels.forEach((value) => {
+      let valueString = ZoomLevel[value];
+      this.localizedZoomLevels[value] = this.I18n.t('timeline.zoomlevel.' + valueString);
+    })
+
+    this.currentZoom = ZoomLevel.DAYS.toString();
+  }
+
+  get zoomLevels():number[] {
+    return sortedZoomLevels;
   }
 
   updateScroll() {
@@ -79,7 +71,7 @@ class WorkPackageTimelineControlController {
   }
 
   updateZoom() {
-    this.wpTimeline.viewParameterSettings.zoomLevel = parseInt(this.zoom);
+    this.wpTimeline.viewParameterSettings.zoomLevel = parseInt(this.currentZoom);
     this.wpTimeline.refreshView();
   }
 
@@ -87,10 +79,10 @@ class WorkPackageTimelineControlController {
 
 
 openprojectModule.component("timelineControl", {
+  templateUrl: '/components/wp-table/timeline/controls/wp-timeline.dummy-controls.directive.html',
   controller: WorkPackageTimelineControlController,
   require: {
     wpTimeline: '^wpTimelineContainer'
-  },
-  template: template
+  }
 });
 

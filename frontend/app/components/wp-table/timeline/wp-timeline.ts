@@ -45,12 +45,17 @@ export class TimelineViewParametersSettings {
 
 }
 
-/**
- *
- */
 export enum ZoomLevel {
   DAYS, WEEKS, MONTHS, QUARTERS, YEARS
 }
+
+export const sortedZoomLevels:number[] = [
+  ZoomLevel.DAYS,
+  ZoomLevel.WEEKS,
+  ZoomLevel.MONTHS,
+  ZoomLevel.QUARTERS,
+  ZoomLevel.YEARS,
+]
 
 /**
  *

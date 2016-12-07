@@ -1,0 +1,10 @@
+<div class="wp-timeline--dummy-controls" ng-if="$ctrl.wpTimeline.visible">
+  <label for="timeline-zoom-level" ng-bind="$ctrl.text.zoomLabel"></label>
+  <select type="number"
+          name="timeline-zoom-level"
+          ng-model="$ctrl.currentZoom"
+          ng-change="$ctrl.updateZoom()"
+          ng-options="key as label for (key, label) in $ctrl.localizedZoomLevels"
+          style="display: inline-block; width: 200px">
+  </select>
+</div
