@@ -11,7 +11,7 @@
 .wp-timeline-header-container.generic-table--sort-header-outer
   padding: 0
   z-index: 100
-  margin-left: -2px
+  margin-left: -5px
   height: $generic-table--header-height
 
   &:hover
@@ -20,7 +20,7 @@
       display: block
 
 .wp-timeline--scroll-wrapper
-  border-left: 2px solid $primary-color-dark
+  border-left: 5px solid $gray
 
   // The scroll wrapper is resized to span the entire table.
   // Without this, scroll is caught by the header.
@@ -31,24 +31,3 @@
   // Since height is explicitly set, this is effectively
   // overflow-x: hidden / overflow-y: visible
   overflow: hidden
-
-// Scroll slider container
-// (To maintain border style)
-.wp-timeline--slider-wrapper
-  border-left: 2px solid $primary-color-dark
-
-// Scroll slider
-.wp-timeline--slider
-  position: relative
-  height: 1rem
-  border-radius: none
-
-  .ui-slider-handle
-    position: absolute
-    top: 0
-    width: 1rem
-    height: 100%
-    cursor: default
-    touch-action: none
-    border-radius: none
-    background: $primary-color

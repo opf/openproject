@@ -57,6 +57,7 @@ export class WpTimelineHeader {
 
   /** UI Scrollbar */
   private scrollBar: HTMLElement;
+  private scrollWrapper: JQuery;
   private scrollBarHandle: JQuery;
   private scrollBarOrigin: JQuery;
 
@@ -91,7 +92,8 @@ export class WpTimelineHeader {
   }
 
   setupScrollbar() {
-    this.scrollBar = this.outerHeader.find('.wp-timeline--slider')[0];
+    this.scrollWrapper = jQuery('.wp-timeline--slider-wrapper');
+    this.scrollBar = this.scrollWrapper.find('.wp-timeline--slider')[0];
     noUiSlider.create(this.scrollBar, {
       start: [0],
       range: {
@@ -106,21 +108,10 @@ export class WpTimelineHeader {
       let value = values[0];
       this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -value;
       this.wpTimeline.refreshScrollOnly();
-
-      //this.recalculateScrollBarLeftMargin(value);
     });
-    // this.scrollBar.slider({
-    //      min: 0,
-    //      slide: (evt, ui) => {
-    //        this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -ui.value;
-    //        this.wpTimeline.refreshScrollOnly();≥
 
-    //        this.recalculateScrollBarLeftMargin(ui.value);
-    //      }
-    //   });
-
-    this.scrollBarHandle = this.outerHeader.find('.noUi-handle');
-    this.scrollBarOrigin = this.outerHeader.find('.noUi-origin');
+    this.scrollBarHandle = this.scrollWrapper.find('.noUi-handle');
+    this.scrollBarOrigin = this.scrollWrapper.find('.noUi-origin');
   }
 
   // noUiSlider doesn't extend the HTMLElement interface
@@ -130,6 +121,9 @@ export class WpTimelineHeader {
   }
 
   private updateScrollbar(vp: TimelineViewParameters) {
+    // Update the scollbar to match the current width
+    this.scrollWrapper.css('width', this.outerHeader.width() + 'px');
+
     let maxWidth = this.scrollBar.offsetWidth,
         daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
         newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
