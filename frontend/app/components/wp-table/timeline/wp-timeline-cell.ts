@@ -109,7 +109,7 @@ export class WorkPackageTimelineCell {
       // horizontal scroll
       // if (Math.abs(mwe.deltaY) < 20) {
       mwe.preventDefault();
-      const scrollInDays = -Math.round(mwe.deltaX / 50);
+      const scrollInDays = -Math.round(mwe.deltaX / 15);
       this.workPackageTimeline.viewParameterSettings.scrollOffsetInDays += scrollInDays;
       this.workPackageTimeline.refreshScrollOnly();
       // }
