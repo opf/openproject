@@ -172,16 +172,6 @@
         }
       }
     },
-    "autoprefixer-core": {
-      "version": "5.2.1",
-      "from": "autoprefixer-core@>=5.0.0 <6.0.0",
-      "resolved": "https://registry.npmjs.org/autoprefixer-core/-/autoprefixer-core-5.2.1.tgz"
-    },
-    "autoprefixer-loader": {
-      "version": "1.2.0",
-      "from": "autoprefixer-loader@>=1.2.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/autoprefixer-loader/-/autoprefixer-loader-1.2.0.tgz"
-    },
     "awesome-typescript-loader": {
       "version": "2.2.4",
       "from": "awesome-typescript-loader@>=2.2.4 <3.0.0",
@@ -320,11 +310,6 @@
       "from": "browserify-zlib@>=0.1.4 <0.2.0",
       "resolved": "https://registry.npmjs.org/browserify-zlib/-/browserify-zlib-0.1.4.tgz"
     },
-    "browserslist": {
-      "version": "0.4.0",
-      "from": "browserslist@>=0.4.0 <0.5.0",
-      "resolved": "https://registry.npmjs.org/browserslist/-/browserslist-0.4.0.tgz"
-    },
     "buffer": {
       "version": "4.9.1",
       "from": "buffer@>=4.9.0 <5.0.0",
@@ -365,11 +350,6 @@
           "dev": true
         }
       }
-    },
-    "caniuse-db": {
-      "version": "1.0.30000569",
-      "from": "caniuse-db@>=1.0.30000214 <2.0.0",
-      "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000569.tgz"
     },
     "caseless": {
       "version": "0.11.0",
@@ -880,11 +860,6 @@
       "version": "2.0.0",
       "from": "es6-iterator@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/es6-iterator/-/es6-iterator-2.0.0.tgz"
-    },
-    "es6-promise": {
-      "version": "2.3.0",
-      "from": "es6-promise@>=2.3.0 <2.4.0",
-      "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-2.3.0.tgz"
     },
     "es6-symbol": {
       "version": "3.1.0",
@@ -3184,6 +3159,11 @@
       "from": "normalize-range@>=0.1.2 <0.2.0",
       "resolved": "https://registry.npmjs.org/normalize-range/-/normalize-range-0.1.2.tgz"
     },
+    "nouislider": {
+      "version": "9.0.0",
+      "from": "nouislider@>=9.0.0 <10.0.0",
+      "resolved": "https://registry.npmjs.org/nouislider/-/nouislider-9.0.0.tgz"
+    },
     "num2fraction": {
       "version": "1.2.2",
       "from": "num2fraction@>=1.1.0 <2.0.0",
@@ -3409,11 +3389,6 @@
       "from": "policyfile@0.0.4",
       "resolved": "https://registry.npmjs.org/policyfile/-/policyfile-0.0.4.tgz",
       "dev": true
-    },
-    "postcss": {
-      "version": "4.1.16",
-      "from": "postcss@>=4.1.12 <4.2.0",
-      "resolved": "https://registry.npmjs.org/postcss/-/postcss-4.1.16.tgz"
     },
     "postcss-load-config": {
       "version": "1.0.0",
