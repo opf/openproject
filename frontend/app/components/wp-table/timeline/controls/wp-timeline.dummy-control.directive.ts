@@ -37,15 +37,21 @@ class WorkPackageTimelineControlController {
   private wpTimeline: WorkPackageTimelineTableController;
 
   hscroll: number;
-  currentZoom: string;
-  localizedZoomLevels = {};
+  currentZoom: number;
+  localizedZoomLevels:{[idx: number]: string} = {};
+
+  minZoomLevel = ZoomLevel.DAYS;
+  maxZoomLevel = ZoomLevel.YEARS;
+
   text:any;
 
   static $inject = ['I18n'];
 
   constructor(private I18n:op.I18n) {
     this.text = {
-      zoomLabel: 'Zoom'
+      zoomLabel: I18n.t('js.timelines.zoom.slider'),
+      zoomIn: I18n.t('js.timelines.zoom.in'),
+      zoomOut: I18n.t('js.timelines.zoom.out'),
     }
   }
 
@@ -55,10 +61,10 @@ class WorkPackageTimelineControlController {
 
     sortedZoomLevels.forEach((value) => {
       let valueString = ZoomLevel[value];
-      this.localizedZoomLevels[value] = this.I18n.t('timeline.zoomlevel.' + valueString);
+      this.localizedZoomLevels[value] = this.I18n.t('js.timelines.zoom.' + valueString.toLowerCase());
     })
 
-    this.currentZoom = ZoomLevel.DAYS.toString();
+    this.currentZoom = ZoomLevel.DAYS;
   }
 
   get zoomLevels():number[] {
@@ -70,8 +76,13 @@ class WorkPackageTimelineControlController {
     this.wpTimeline.refreshScrollOnly();
   }
 
-  updateZoom() {
-    this.wpTimeline.viewParameterSettings.zoomLevel = parseInt(this.currentZoom);
+  updateZoom(delta?:number) {
+
+    if (delta !== undefined) {
+      this.currentZoom += delta;
+    }
+
+    this.wpTimeline.viewParameterSettings.zoomLevel = this.currentZoom;
     this.wpTimeline.refreshView();
   }
 

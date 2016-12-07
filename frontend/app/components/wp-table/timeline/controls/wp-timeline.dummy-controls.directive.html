@@ -4,7 +4,19 @@
           name="timeline-zoom-level"
           ng-model="$ctrl.currentZoom"
           ng-change="$ctrl.updateZoom()"
-          ng-options="key as label for (key, label) in $ctrl.localizedZoomLevels"
+          ng-options="+key as label for (key, label) in $ctrl.localizedZoomLevels"
           style="display: inline-block; width: 200px">
   </select>
+  <div class="timeline-controls--zoom-buttons">
+    <button class="button -transparent"
+            ng-disabled="$ctrl.currentZoom == $ctrl.minZoomLevel"
+            ng-click="$ctrl.updateZoom(-1)">
+      <i class="button--icon icon-zoom-out"></i>
+    </button>
+    <button class="button -transparent"
+            ng-disabled="$ctrl.currentZoom == $ctrl.maxZoomLevel"
+            ng-click="$ctrl.updateZoom(1)">
+      <i class="button--icon icon-zoom-in"></i>
+    </button>
+   </div>
 </div
