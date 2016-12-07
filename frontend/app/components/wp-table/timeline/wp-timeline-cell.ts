@@ -106,12 +106,20 @@ export class WorkPackageTimelineCell {
     jQuery(this.timelineCell).on("wheel", ev => {
       const mwe = ev.originalEvent as MouseWheelEvent;
 
-      if (Math.abs(mwe.deltaY) < 20) {
-        mwe.preventDefault();
-        const scrollInDays = -Math.round(mwe.deltaX / 50);
-        this.workPackageTimeline.viewParameterSettings.scrollOffsetInDays += scrollInDays;
-        this.workPackageTimeline.refreshScrollOnly();
-      }
+      // horizontal scroll
+      // if (Math.abs(mwe.deltaY) < 20) {
+      mwe.preventDefault();
+      const scrollInDays = -Math.round(mwe.deltaX / 50);
+      this.workPackageTimeline.viewParameterSettings.scrollOffsetInDays += scrollInDays;
+      this.workPackageTimeline.refreshScrollOnly();
+      // }
+
+      // forward vertical scroll
+      const s = jQuery(".generic-table--results-container");
+      window.requestAnimationFrame(() => {
+        s.scrollTop(s.scrollTop() + mwe.deltaY);
+        // s.stop().animate({scrollTop: s.scrollTop() + mwe.deltaY}, 200);
+      });
     });
     //-------------------------------------------------
   }
