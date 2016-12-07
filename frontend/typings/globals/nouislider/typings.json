@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/92b2c03c297b8c5c7c2c7e169134da61f8abee6a/nouislider/nouislider.d.ts",
+    "raw": "registry:dt/nouislider#8.0.2+20160412140110",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/92b2c03c297b8c5c7c2c7e169134da61f8abee6a/nouislider/nouislider.d.ts"
+  }
+}

@@ -47,6 +47,7 @@
     "lodash": "^4.17.2",
     "ng-annotate-loader": "0.0.10",
     "ngtemplate-loader": "^0.1.2",
+    "nouislider": "^9.0.0",
     "observable-array": "0.0.4",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^1.1.1",
