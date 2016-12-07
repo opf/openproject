@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+const noUiSlider:any = require('nouislider');
+
 import {
   TimelineViewParameters,
   timelineElementCssClass,
@@ -54,8 +56,9 @@ export class WpTimelineHeader {
   private outerHeader: JQuery;
 
   /** UI Scrollbar */
-  private scrollBar: JQuery;
+  private scrollBar: HTMLElement;
   private scrollBarHandle: JQuery;
+  private scrollBarOrigin: JQuery;
 
   private marginTop: number;
 
@@ -88,43 +91,82 @@ export class WpTimelineHeader {
   }
 
   setupScrollbar() {
-    this.scrollBar = this.outerHeader.find('.wp-timeline--slider');
-    this.scrollBar.slider({
-         min: 0,
-         slide: (evt, ui) => {
-           this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -ui.value;
-           this.wpTimeline.refreshScrollOnly();
+    this.scrollBar = this.outerHeader.find('.wp-timeline--slider')[0];
+    noUiSlider.create(this.scrollBar, {
+      start: [0],
+      range: {
+        min: [0],
+        max: [100]
+      },
+      orientation: 'horizontal',
+      tooltips: false,
+    });
 
-           this.recalculateScrollBarLeftMargin(ui.value);
-         }
-      });
+    this.sliderInstance.on('update', (values:any[]) => {
+      let value = values[0];
+      this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -value;
+      this.wpTimeline.refreshScrollOnly();
 
-    this.scrollBarHandle = this.outerHeader.find('.ui-slider-handle');
+      //this.recalculateScrollBarLeftMargin(value);
+    });
+    // this.scrollBar.slider({
+    //      min: 0,
+    //      slide: (evt, ui) => {
+    //        this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -ui.value;
+    //        this.wpTimeline.refreshScrollOnly();≥
+
+    //        this.recalculateScrollBarLeftMargin(ui.value);
+    //      }
+    //   });
+
+    this.scrollBarHandle = this.outerHeader.find('.noUi-handle');
+    this.scrollBarOrigin = this.outerHeader.find('.noUi-origin');
+  }
+
+  // noUiSlider doesn't extend the HTMLElement interface
+  // and thus requires casting for now.
+  private get sliderInstance():noUiSlider.noUiSlider {
+    return (this.scrollBar as noUiSlider.Instance).noUiSlider;
   }
 
   private updateScrollbar(vp: TimelineViewParameters) {
-    let maxWidth = this.scrollBar.width(),
+    let maxWidth = this.scrollBar.offsetWidth,
         daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
-        newMax = vp.maxSteps - daysDisplayed,
-        newWidth = Math.max(Math.min(maxWidth, (vp.maxSteps / vp.pixelPerDay)), 20) + 'px',
-        currentValue = this.scrollBar.slider('option', 'value'),
-        newValue = Math.min(newMax, currentValue);
+        newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
+        currentValue = <number> this.sliderInstance.get(),
+        newValue = Math.min(newMax, currentValue),
+        desiredWidth, newWidth, cssWidth;
 
-    this.scrollBar.slider('option', 'max', newMax);
-    this.scrollBarHandle.css('width', newWidth);
-    this.scrollBar.slider('option', 'value', newValue);
+    // Compute the actual width of the handle depending on the scrollable content
+    // The width should be no smaller than 30px
+    desiredWidth = Math.max(vp.maxSteps / vp.pixelPerDay, (40 - vp.pixelPerDay)) * 2;
 
-    this.recalculateScrollBarLeftMargin(newValue);
-  }
+    // The actual width should be no larger than the actual width of the scrollbar
+    // If the entirety of the timeline is already visible
+    // override the width to span the entire width
+    if (newMax === 1) {
+      newWidth = maxWidth;
+    } else {
+      newWidth = Math.min(maxWidth, desiredWidth);
+    }
 
-  // The handle uses left offset to set the current position.
-  // With different widths, this causes the slider to move outside the container
-  // which we can control through and additional margin-left.
-  private recalculateScrollBarLeftMargin(value) {
-    let currentMax = this.scrollBar.slider('option', 'max');
+    let newCssWidth = newWidth + 'px';
 
-     let handleOffset = (currentMax === 0) ? 0 : this.scrollBarHandle.width() * (value / currentMax);
-     this.scrollBarHandle.css('margin-left', -1 * handleOffset);
+    // With changed widths, we need to correct the
+    // - right padding of the scrollbar (avoid right boundary traversal)
+    // - width of the actual handle
+    // - offset for origin of the slider.
+    jQuery(this.scrollBar).css('padding-right', (newWidth - 1) + 'px');
+    this.scrollBarHandle.css('width', newCssWidth);
+    this.scrollBarOrigin.css('right', '-' + newCssWidth);
+
+    (this.sliderInstance as any).updateOptions({
+      start: newValue,
+      range: {
+        min: 0,
+        max: newMax
+      }
+    });
   }
 
   private lazyInit() {
