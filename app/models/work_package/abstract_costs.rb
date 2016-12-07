@@ -56,6 +56,10 @@ class WorkPackage
       raise NotImplementedError, "subclass responsiblity"
     end
 
+    def subselect_alias
+      raise NotImplementedError, "subclass responsiblity"
+    end
+
     private
 
     def work_package_ids(work_packages)
@@ -72,9 +76,8 @@ class WorkPackage
 
     def add_costs_to(scope)
       scope
-        .joins(sum_arel.join_sources)
-        .select("#{costs_sum} AS #{costs_sum_alias}")
-        .group(wp_table[:id])
+        .joins(sum_arel(scope).join_sources)
+        .select(costs_sum_alias)
     end
 
     def costs_sum
@@ -94,8 +97,19 @@ class WorkPackage
       scope # allow all
     end
 
-    def sum_arel
-      wp_table
+    def sum_arel(base_scope)
+      subselect = sum_subselect(base_scope)
+                  .as(subselect_alias)
+      wp_table.
+        outer_join(subselect).on(subselect[:id].eq(wp_table[:id]))
+    end
+
+    def sum_subselect(base_scope)
+      base_scope
+        .dup
+        .except(:select)
+        .select("#{costs_sum} AS #{costs_sum_alias}")
+        .select(wp_table[:id])
         .outer_join(ce_table).on(ce_table_join_condition)
         .group(wp_table[:id])
     end
