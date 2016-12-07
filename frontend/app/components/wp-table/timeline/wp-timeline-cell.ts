@@ -100,6 +100,17 @@ export class WorkPackageTimelineCell {
       this.element,
       renderer,
       renderInfo);
+
+    //-------------------------------------------------
+    // TODO Naive horizontal scroll logic, for testing purpose only
+    jQuery(this.timelineCell).on("mousewheel", ev => {
+      const mwe = ev.originalEvent as MouseWheelEvent;
+      mwe.preventDefault();
+      const scrollInDays = -Math.round(mwe.deltaX / 50);
+      this.workPackageTimeline.viewParameterSettings.scrollOffsetInDays += scrollInDays;
+      this.workPackageTimeline.refreshScrollOnly();
+    });
+    //-------------------------------------------------
   }
 
   private cellRenderer(workPackage): TimelineCellRenderer {
