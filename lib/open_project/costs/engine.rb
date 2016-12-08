@@ -421,11 +421,7 @@ module OpenProject::Costs
 
       require 'api/v3/work_packages/work_package_representer'
 
-      API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [{ time_entries: [:project,
-                                                                                       :user] },
-                                                                      { cost_entries: [:project,
-                                                                                       :user] },
-                                                                      :cost_object]
+      API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
       API::V3::WorkPackages::WorkPackageCollectionRepresenter.prepend EagerLoadedCosts
     end
