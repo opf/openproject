@@ -385,11 +385,23 @@ module OpenProject::Costs
         material_scope = material.add_to_work_package_collection(scope.dup)
         labor_scope = labor.add_to_work_package_collection(scope.dup)
 
-        scope.joins(material_scope.join_sources)
-             .joins(labor_scope.join_sources)
-             .select(material_scope.select_values)
-             .select(labor_scope.select_values)
-             .select('time_entries.hours')
+        target_scope = scope.joins(material_scope.join_sources)
+                       .joins(labor_scope.join_sources)
+                       .select(material_scope.select_values)
+                       .select(labor_scope.select_values)
+                       .select('time_entries.hours')
+
+        target_scope.joins_values.reject! do |join|
+          join.is_a?(Arel::Nodes::OuterJoin) &&
+               join.left.is_a?(Arel::Nodes::TableAlias) &&
+               join.left.right == 'descendants'
+        end
+
+        target_scope.group_values.reject! do |group|
+          group == :id
+        end
+
+        target_scope
       end
     end
 
