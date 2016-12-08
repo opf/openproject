@@ -4,7 +4,7 @@ db:
     POSTGRES_USER: app
     POSTGRES_PASSWORD: p4ssw0rd
     POSTGRES_DB: app
-  memory: 32
+  memory: 64
   expose:
     - '5432'
 
@@ -27,4 +27,4 @@ web:
   ports:
     - "80:8080"
   command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- ./docker/web"
-  memory: 608
+  memory: 576
