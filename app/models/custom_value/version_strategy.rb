@@ -43,7 +43,7 @@ class CustomValue::VersionStrategy < CustomValue::FormatStrategy
       self.memoized_typed_value = val
 
       val.id.to_s
-    elsif value.blank?
+    elsif val.blank?
       super(nil)
     else
       super
