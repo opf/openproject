@@ -352,10 +352,12 @@ module OpenProject::Costs
 
     module EagerLoadedCosts
       def add_eager_loading(*args)
+        EagerLoadedCosts.join_costs(super)
+      end
+
+      def self.join_costs(scope)
         material = WorkPackage::MaterialCosts.new
         labor = WorkPackage::LaborCosts.new
-
-        super_scope = super
 
         # The core adds a "LEFT OUTER JOIN time_entries" where the on clause
         # allows all time entries to be joined if he has the :view_time_entries.
@@ -368,14 +370,38 @@ module OpenProject::Costs
         #
         # This is very hacky.
         #
-        # The bright part is, that it improves performance.
-        super_scope.joins_values.reject! do |join|
+        # We also have to remove the sum calcualtion for time_entries.hours as
+        # the calculation is later on performed within the subquery added by
+        # LaborCosts. With it, we can use the value as it is calculated by the subquery.
+        scope.joins_values.reject! do |join|
           join.is_a?(Arel::Nodes::OuterJoin) &&
-            join.left.is_a?(Arel::Table) &&
-            join.left.name == 'time_entries'
+               join.left.is_a?(Arel::Table) &&
+               join.left.name == 'time_entries'
+        end
+        scope.select_values.reject! do |select|
+          select == "SUM(time_entries.hours) AS hours"
         end
 
-        material.add_to_work_package_collection(labor.add_to_work_package_collection(super_scope))
+        material_scope = material.add_to_work_package_collection(scope.dup)
+        labor_scope = labor.add_to_work_package_collection(scope.dup)
+
+        target_scope = scope.joins(material_scope.join_sources)
+                       .joins(labor_scope.join_sources)
+                       .select(material_scope.select_values)
+                       .select(labor_scope.select_values)
+                       .select('time_entries.hours')
+
+        target_scope.joins_values.reject! do |join|
+          join.is_a?(Arel::Nodes::OuterJoin) &&
+               join.left.is_a?(Arel::Nodes::TableAlias) &&
+               join.left.right == 'descendants'
+        end
+
+        target_scope.group_values.reject! do |group|
+          group == :id
+        end
+
+        target_scope
       end
     end
 
@@ -395,11 +421,7 @@ module OpenProject::Costs
 
       require 'api/v3/work_packages/work_package_representer'
 
-      API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [{ time_entries: [:project,
-                                                                                       :user] },
-                                                                      { cost_entries: [:project,
-                                                                                       :user] },
-                                                                      :cost_object]
+      API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
       API::V3::WorkPackages::WorkPackageCollectionRepresenter.prepend EagerLoadedCosts
     end

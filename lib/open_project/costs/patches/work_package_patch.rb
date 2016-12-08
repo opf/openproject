@@ -115,7 +115,7 @@ module OpenProject::Costs::Patches
         if respond_to?(:cost_entries_sum) # column has been eager loaded into result set
           cost_entries_sum.to_f
         else
-          ::WorkPackage::MaterialCosts.new(user: User.current).costs_of work_packages: self
+          ::WorkPackage::MaterialCosts.new(user: User.current).costs_of work_packages: self_and_descendants
         end
       end
 
@@ -123,7 +123,7 @@ module OpenProject::Costs::Patches
         if respond_to?(:time_entries_sum) # column has been eager loaded into result set
           time_entries_sum.to_f
         else
-          ::WorkPackage::LaborCosts.new(user: User.current).costs_of work_packages: self
+          ::WorkPackage::LaborCosts.new(user: User.current).costs_of work_packages: self_and_descendants
         end
       end
 
