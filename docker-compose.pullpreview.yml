@@ -19,6 +19,7 @@ worker: &ruby
     - "DATABASE_URL=postgresql://app:p4ssw0rd@db:5432/app?encoding=utf8&pool=5&timeout=5000"
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
     - "RAILS_ENV=production"
+    - "HEROKU=true"
   command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- bundle exec rake db:migrate db:seed jobs:work"
   memory: 384
 
@@ -27,4 +28,4 @@ web:
   ports:
     - "80:8080"
   command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- ./docker/web"
-  memory: 512
+  memory: 1024
