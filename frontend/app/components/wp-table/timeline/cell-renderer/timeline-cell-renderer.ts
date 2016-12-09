@@ -42,7 +42,7 @@ export class TimelineCellRenderer {
    * Handle movement by <delta> days of the work package to either (or both) edge(s)
    * depending on which initial date was set.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+  public onDaysMoved(wp: WorkPackageResourceInterface, delta: number): CellDateMovement {
     const initialStartDate = wp.$pristine['startDate'];
     const initialDueDate = wp.$pristine['dueDate'];
     let dates:CellDateMovement = {};
@@ -53,6 +53,15 @@ export class TimelineCellRenderer {
 
     if (initialDueDate) {
       dates.dueDate = moment(initialDueDate).add(delta, "days");
+    }
+
+    // only start or due are changed
+    if (_.keys(dates).length === 1) {
+      if (dates.startDate != undefined && dates.startDate.isAfter(moment(wp.dueDate))) {
+        dates.startDate = moment(wp.dueDate);
+      } else if (dates.dueDate != undefined && dates.dueDate.isBefore(moment(wp.startDate))) {
+        dates.dueDate = moment(wp.startDate);
+      }
     }
 
     return dates;

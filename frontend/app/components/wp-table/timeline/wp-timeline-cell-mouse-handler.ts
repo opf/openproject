@@ -27,12 +27,12 @@
 // ++
 import {timelineElementCssClass, RenderInfo} from "./wp-timeline";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import IScope = angular.IScope;
 import Observable = Rx.Observable;
 import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
-import {TimelineCellRenderer} from './cell-renderer/timeline-cell-renderer';
 
 const classNameBar = "bar";
 const classNameLeftHandle = "leftHandle";
@@ -76,7 +76,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
     dateStates = renderer.onDaysMoved(renderInfo.workPackage, days);
 
-   applyDateValues(dateStates);
+    applyDateValues(dateStates);
   }
 
   function keyPressFn(ev: JQueryEventObject) {
