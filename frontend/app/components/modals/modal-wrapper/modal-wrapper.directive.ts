@@ -49,6 +49,12 @@ export class ModalWrapperController {
               protected $attrs: ng.IAttributes,
               protected ngDialog: IDialogService) {
 
+    // Find activation link
+    const activationLink = $element.find('.modal-wrapper--activation-link');
+    if(this.activationLinkId) {
+      activationLink = jQuery(this.activationLinkId);
+    }
+
     // Set template from wrapped element
     const wrappedElement = $element.find('.modal-wrapper--content');
     this.modalBody = wrappedElement.html();
@@ -64,7 +70,7 @@ export class ModalWrapperController {
       this.initialize();
     }
     else {
-      $element.find('.modal-wrapper--activation-link').click(() => this.initialize());
+      activationLink.click(() => this.initialize());
     }
   }
 
@@ -87,7 +93,8 @@ function modalWrapper() {
   return {
     restrict: 'E',
     scope: {
-      modalParams: '='
+      modalParams: '=',
+      activationLinkId: '=?'
     },
     controller: ModalWrapperController,
     controllerAs: '$ctrl',

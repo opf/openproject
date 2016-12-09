@@ -46,24 +46,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     <% end %>
 
-    <% if @user.change_password_allowed? %>
-      <div class="form--field">
-        <%= f.password_field :password,
-                             required: true,
-                             size: 25,
-                             autocomplete: 'off' %>
-        <div class="form--field-instructions">
-          <%= password_complexity_requirements %>
-        </div>
-      </div>
-      <div class="form--field">
-        <%= f.password_field :password_confirmation,
-                             required: true,
-                             size: 25,
-                             autocomplete: 'off'  %>
-      </div>
-    <% end %>
-
     <div class="form--field">
       <%= f.text_field :firstname, required: true %>
     </div>
@@ -87,9 +69,28 @@ See doc/COPYRIGHT.rdoc for more details.
                             },
                as:          :value,
                locals:      { form: f } %>
+
+    <br /><br />
+    <% if @user.change_password_allowed? %>
+      <div class="form--field">
+        <%= f.password_field :password,
+                             required: true,
+                             size: 25,
+                             autocomplete: 'off' %>
+        <div class="form--field-instructions">
+          <%= password_complexity_requirements %>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= f.password_field :password_confirmation,
+                             required: true,
+                             size: 25,
+                             autocomplete: 'off'  %>
+      </div>
+    <% end %>
   </section>
 
-  <%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 
   <%= render partial: 'auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
 
