@@ -71,7 +71,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
-    element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+    element.style.left = 'calc(0.5em + ' + calculatePositionValueForDayCount(viewParams, offsetStart) + ')';
 
     return true;
   }
