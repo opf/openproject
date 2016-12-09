@@ -40,6 +40,7 @@ import {InteractiveTableController} from './../../common/interactive-table/inter
 import Moment = moment.Moment;
 
 const cssClassTableBody = ".work-package-table tbody";
+const cssClassTableContainer = ".generic-table--results-container";
 const cssClassHeader = ".wp-timeline-header";
 const cssHeaderContainer = ".wp-timeline-header-container";
 
@@ -68,6 +69,9 @@ export class WpTimelineHeader {
 
   /** Height of the table body + table header */
   private globalHeight: number;
+
+  /** The total outer height available to the wrapping container */
+  private containerHeight: number;
 
   private activeZoomLevel: ZoomLevel;
 
@@ -176,8 +180,14 @@ export class WpTimelineHeader {
       this.setupScrollbar();
     }
 
+    this.containerHeight = jQuery(cssClassTableContainer).outerHeight() + this.headerHeight;
     this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;
     this.marginTop = this.headerHeight;
+
+    // Ensure the timeline is always rendered across the entire page.
+    if (this.globalHeight < this.containerHeight) {
+      this.globalHeight = this.containerHeight;
+    }
     this.headerCell.style.height = this.globalHeight + 'px';
   }
 
