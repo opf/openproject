@@ -114,6 +114,12 @@ export class WpTimelineHeader {
     this.scrollBarOrigin = this.scrollWrapper.find('.noUi-origin');
   }
 
+  public addScrollDelta(delta) {
+    const value = (this.wpTimeline.viewParameterSettings.scrollOffsetInDays += delta);
+    this.sliderInstance.set(-value)
+    this.wpTimeline.refreshScrollOnly();
+  }
+
   // noUiSlider doesn't extend the HTMLElement interface
   // and thus requires casting for now.
   private get sliderInstance():noUiSlider.noUiSlider {

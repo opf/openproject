@@ -43,7 +43,7 @@ export class WorkPackageTimelineTableController {
 
   private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
 
-  private wpTimelineHeader;
+  public wpTimelineHeader;
 
   private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
 
@@ -102,7 +102,6 @@ export class WorkPackageTimelineTableController {
   refreshScrollOnly() {
     jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
   }
-
 
   addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
     // console.log("addWorkPackage() = " + wpId);

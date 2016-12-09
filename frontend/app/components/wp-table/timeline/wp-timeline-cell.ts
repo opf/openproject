@@ -110,8 +110,7 @@ export class WorkPackageTimelineCell {
       // if (Math.abs(mwe.deltaY) < 20) {
       mwe.preventDefault();
       const scrollInDays = -Math.round(mwe.deltaX / 15);
-      this.workPackageTimeline.viewParameterSettings.scrollOffsetInDays += scrollInDays;
-      this.workPackageTimeline.refreshScrollOnly();
+      this.workPackageTimeline.wpTimelineHeader.addScrollDelta(scrollInDays);
       // }
 
       // forward vertical scroll
