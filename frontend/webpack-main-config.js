@@ -39,6 +39,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var uglify = (mode !== 'development');
 
+var node_root = path.resolve(__dirname, 'node_modules');
+
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
   return entries;
@@ -139,16 +141,13 @@ function getWebpackMainConfig() {
 
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
+        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         'mousetrap': 'mousetrap/mousetrap.js',
         'ngFileUpload': 'ng-file-upload/ng-file-upload',
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
-        'crossvent': path.join(__dirname,
-                               'node_modules',
-                               'crossvent',
-                               'src',
-                               'crossvent.js')
+        'crossvent': path.resolve(node_root, 'crossvent', 'src', 'crossvent.js')
       }, pluginAliases)
     },
 
