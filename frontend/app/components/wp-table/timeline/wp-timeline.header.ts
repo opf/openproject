@@ -131,10 +131,11 @@ export class WpTimelineHeader {
   }
 
   private updateScrollbar(vp: TimelineViewParameters) {
+    const headerWidth = this.outerHeader.width();
     // Update the scollbar to match the current width
-    this.scrollWrapper.css('width', this.outerHeader.width() + 'px');
+    this.scrollWrapper.css('width', headerWidth + 'px');
 
-    let maxWidth = this.scrollBar.offsetWidth,
+    let maxWidth = headerWidth,
         daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
         newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
         currentValue = <number> this.sliderInstance.get(),
@@ -146,11 +147,12 @@ export class WpTimelineHeader {
     desiredWidth = Math.max(vp.maxSteps / vp.pixelPerDay, (40 - vp.pixelPerDay)) * 2;
 
     // The actual width should be no larger than the actual width of the scrollbar
-    // If the entirety of the timeline is already visible
-    // override the width to span the entire width
+    // If the entirety of the timeline is already visible, hide the scrollbar
     if (newMax === 1) {
       newWidth = maxWidth;
+      this.scrollWrapper.hide();
     } else {
+      this.scrollWrapper.show();
       newWidth = Math.min(maxWidth, desiredWidth);
     }
 
