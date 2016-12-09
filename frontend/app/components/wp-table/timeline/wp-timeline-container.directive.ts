@@ -43,7 +43,7 @@ export class WorkPackageTimelineTableController {
 
   private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
 
-  public wpTimelineHeader;
+  public wpTimelineHeader: WpTimelineHeader;
 
   private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
 

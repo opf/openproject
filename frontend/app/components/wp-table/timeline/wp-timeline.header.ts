@@ -26,8 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-const noUiSlider:any = require('nouislider');
-
 import {
   TimelineViewParameters,
   timelineElementCssClass,
@@ -35,8 +33,8 @@ import {
   calculatePositionValueForDayCount
 } from "./wp-timeline";
 import {todayLine} from "./wp-timeline.today-line";
-import {WorkPackageTimelineTableController} from './wp-timeline-container.directive';
-import {InteractiveTableController} from './../../common/interactive-table/interactive-table.directive';
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import * as noUiSlider from "nouislider";
 import Moment = moment.Moment;
 
 const cssClassTableBody = ".work-package-table tbody";
@@ -75,7 +73,7 @@ export class WpTimelineHeader {
 
   private activeZoomLevel: ZoomLevel;
 
-  constructor(protected wpTimeline:WorkPackageTimelineTableController) {
+  constructor(protected wpTimeline: WorkPackageTimelineTableController) {
     this.addElement("todayline", todayLine);
   }
 
@@ -108,7 +106,7 @@ export class WpTimelineHeader {
       tooltips: false,
     });
 
-    this.sliderInstance.on('update', (values:any[]) => {
+    this.sliderInstance.on('update', (values: any[]) => {
       let value = values[0];
       this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -value;
       this.wpTimeline.refreshScrollOnly();
@@ -120,13 +118,13 @@ export class WpTimelineHeader {
 
   public addScrollDelta(delta) {
     const value = (this.wpTimeline.viewParameterSettings.scrollOffsetInDays += delta);
-    this.sliderInstance.set(-value)
+    this.sliderInstance.set(-value);
     this.wpTimeline.refreshScrollOnly();
   }
 
   // noUiSlider doesn't extend the HTMLElement interface
   // and thus requires casting for now.
-  private get sliderInstance():noUiSlider.noUiSlider {
+  private get sliderInstance(): noUiSlider.noUiSlider {
     return (this.scrollBar as noUiSlider.Instance).noUiSlider;
   }
 
@@ -136,11 +134,11 @@ export class WpTimelineHeader {
     this.scrollWrapper.css('width', headerWidth + 'px');
 
     let maxWidth = headerWidth,
-        daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
-        newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
-        currentValue = <number> this.sliderInstance.get(),
-        newValue = Math.min(newMax, currentValue),
-        desiredWidth, newWidth, cssWidth;
+      daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
+      newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
+      currentValue = <number> this.sliderInstance.get(),
+      newValue = Math.min(newMax, currentValue),
+      desiredWidth, newWidth, cssWidth;
 
     // Compute the actual width of the handle depending on the scrollable content
     // The width should be no smaller than 30px
