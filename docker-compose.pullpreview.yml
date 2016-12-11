@@ -4,6 +4,8 @@ db:
     POSTGRES_USER: app
     POSTGRES_PASSWORD: p4ssw0rd
     POSTGRES_DB: app
+  volumes:
+    - ./export/db:/var/lib/postgresql/data
   memory: 64
   expose:
     - '5432'
