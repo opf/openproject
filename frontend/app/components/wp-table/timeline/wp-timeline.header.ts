@@ -41,6 +41,7 @@ const cssClassTableBody = ".work-package-table tbody";
 const cssClassTableContainer = ".generic-table--results-container";
 const cssClassHeader = ".wp-timeline-header";
 const cssHeaderContainer = ".wp-timeline-header-container";
+const scrollBarHeight = 16;
 
 export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
 type GlobalElementsRegistry = {[name: string]: GlobalElement};
@@ -130,8 +131,17 @@ export class WpTimelineHeader {
 
   private updateScrollbar(vp: TimelineViewParameters) {
     const headerWidth = this.outerHeader.width();
+
     // Update the scollbar to match the current width
     this.scrollWrapper.css('width', headerWidth + 'px');
+
+    // Re-position the scrollbar depending on the global height
+    // It should not be any larger than the container height
+    if (this.containerHeight > (this.globalHeight + scrollBarHeight)) {
+      this.scrollWrapper.css('top', this.globalHeight + 'px');
+    } else {
+      this.scrollWrapper.css('top', (this.containerHeight - scrollBarHeight) + 'px');
+    }
 
     let maxWidth = headerWidth,
       daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
@@ -184,10 +194,6 @@ export class WpTimelineHeader {
     this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;
     this.marginTop = this.headerHeight;
 
-    // Ensure the timeline is always rendered across the entire page.
-    if (this.globalHeight < this.containerHeight) {
-      this.globalHeight = this.containerHeight;
-    }
     this.headerCell.style.height = this.globalHeight + 'px';
   }
 
