@@ -416,6 +416,7 @@ export class WorkPackageResource extends HalResource {
   public restoreFromPristine(attribute: string) {
     if (this.$pristine[attribute]) {
       this[attribute] = this.$pristine[attribute];
+      delete this.$pristine[attribute];
     }
   }
 
