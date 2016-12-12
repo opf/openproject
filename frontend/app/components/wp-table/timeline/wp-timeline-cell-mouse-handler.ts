@@ -93,7 +93,7 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = ev.clientX;
 
     // Determine what attributes of the work package should be changed
-    dateStates = renderer.onMouseDown(ev, renderInfo);
+    dateStates = renderer.onMouseDown(ev, renderInfo, bar);
 
     jBody.on("mousemove", mouseMoveFn);
     jBody.on("keyup", keyPressFn);
@@ -116,6 +116,7 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = null;
     dateStates = {};
 
+    renderer.onMouseDownEnd();
     if (cancelled) {
       renderer.onCancel(renderInfo.workPackage);
       return workPackageTimeline.refreshView();

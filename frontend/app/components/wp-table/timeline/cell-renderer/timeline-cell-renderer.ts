@@ -1,5 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
+import MomentStatic = moment.MomentStatic;
+import Moment = moment.Moment;
 
 const classNameLeftHandle = "leftHandle";
 const classNameRightHandle = "rightHandle";
@@ -11,6 +13,8 @@ interface CellDateMovement {
 }
 
 export class TimelineCellRenderer {
+
+  private dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
 
   public get type():string {
     return 'bar';
@@ -28,6 +32,8 @@ export class TimelineCellRenderer {
   public assignDateValues(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
     this.assignDate(wp, 'startDate', dates.startDate);
     this.assignDate(wp, 'dueDate', dates.dueDate);
+
+    this.displayDateDisplays(dates.startDate, dates.dueDate);
   }
 
   /**
@@ -67,7 +73,7 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
+  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo, elem: HTMLElement) {
     let dates:CellDateMovement = {};
 
     // Update the cursor to
@@ -79,14 +85,37 @@ export class TimelineCellRenderer {
       this.forceCursor('ew-resize');
     }
 
+    this.dateDisplaysOnMouseMove = [null, null];
+
     if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
+      const leftInfo = document.createElement("div");
+      leftInfo.className = "leftDateDisplay";
+      this.dateDisplaysOnMouseMove.left = leftInfo;
+      elem.appendChild(leftInfo);
+
       renderInfo.workPackage.storePristine('startDate');
     }
     if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
+      const rightInfo = document.createElement("div");
+      rightInfo.className = "rightDateDisplay";
+      this.dateDisplaysOnMouseMove.right = rightInfo;
+      elem.appendChild(rightInfo);
+
       renderInfo.workPackage.storePristine('dueDate');
     }
 
+    this.displayDateDisplays(
+      moment(renderInfo.workPackage.startDate),
+      moment(renderInfo.workPackage.dueDate));
+
+    // Display date information
     return dates;
+  }
+
+  public onMouseDownEnd() {
+    this.dateDisplaysOnMouseMove.left && this.dateDisplaysOnMouseMove.left.remove();
+    this.dateDisplaysOnMouseMove.right && this.dateDisplaysOnMouseMove.right.remove();
+    this.dateDisplaysOnMouseMove = {};
   }
 
   /**
@@ -158,5 +187,15 @@ export class TimelineCellRenderer {
   protected forceCursor(cursor:string) {
     jQuery(".hascontextmenu").css("cursor", cursor);
     jQuery("." + timelineElementCssClass).css("cursor", cursor);
+  }
+
+  private displayDateDisplays(start: Moment, due: Moment) {
+    if (this.dateDisplaysOnMouseMove.left && start) {
+      this.dateDisplaysOnMouseMove.left.innerText = start.format("L");
+    }
+
+    if (this.dateDisplaysOnMouseMove.right && due) {
+      this.dateDisplaysOnMouseMove.right.innerText = due.format("L");
+    }
   }
 }
