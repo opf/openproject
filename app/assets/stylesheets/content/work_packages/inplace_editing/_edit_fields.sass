@@ -71,6 +71,9 @@
       display: block
       line-height: 1.6em
 
+    &.-placeholder
+      font-style: italic
+
     p
       word-wrap: break-word
       margin-bottom: 0
@@ -143,3 +146,6 @@
     line-height: 0
     opacity: 0
 
+// Allow horizontal scrolling in descripton field
+.work-packages--details--description .wp-table--cell-span .inplace-edit--read-value--value-span
+  overflow-x: auto

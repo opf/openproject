@@ -64,10 +64,10 @@ module API
         }.freeze
 
         class << self
-          def create_value_representer(customizable, representer)
+          def create_value_representer(customizable, representer, embed_links: true)
             new_representer_class_with(representer, customizable) do |injector|
               customizable.available_custom_fields.each do |custom_field|
-                injector.inject_value(custom_field, embed_links: true)
+                injector.inject_value(custom_field, embed_links: embed_links)
               end
             end
           end
@@ -257,16 +257,24 @@ module API
         end
 
         def link_value_getter_for(custom_field, path_method)
-          -> (*) {
+          -> (*) do
             # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
             # because we need to generate a link even if the id does not belong to an existing
             # object (that behaviour is only required for form payloads)
             custom_value = represented.custom_value_for(custom_field)
-            value = custom_value ? custom_value.value : nil
-            path = api_v3_paths.send(path_method, value) if value.present?
 
-            { href: path }
-          }
+            unless custom_value && custom_value.value.present?
+              return { href: nil, title: nil }
+            end
+
+            hash = { href: api_v3_paths.send(path_method, custom_value.value) }
+            hash[:title] = if custom_value.typed_value.respond_to?(:name)
+                             custom_value.typed_value.name
+                           else
+                             custom_value.typed_value
+                           end
+            hash
+          end
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)

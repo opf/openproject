@@ -28,7 +28,6 @@
 #++
 
 class DeliverWorkPackageNotificationJob < DeliverNotificationJob
-
   def initialize(journal_id, recipient_id, author_id)
     @journal_id = journal_id
     super(recipient_id, author_id)

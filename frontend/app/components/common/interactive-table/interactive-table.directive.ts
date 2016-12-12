@@ -107,7 +107,7 @@ export class InteractiveTableController {
 
   private cloneSpacer() {
     this.getHeadersFooters().each((i, el) => {
-      var element = angular.element(this);
+      var element = angular.element(el);
       var html = element.text();
       var hiddenForSighted = element.find('.hidden-for-sighted').text();
 
