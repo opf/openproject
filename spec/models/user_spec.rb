@@ -554,6 +554,12 @@ describe User, type: :model do
       FactoryGirl.build_stubbed(:role)
     end
 
+    it 'is false for an inactive user' do
+      user.status = User::STATUSES[:locked]
+      user.mail_notification = 'all'
+      expect(user.notify_about?({})).to be_falsey
+    end
+
     context 'Work package' do
       it 'is true for a user with :all' do
         author.mail_notification = 'all'

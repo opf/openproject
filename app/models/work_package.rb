@@ -435,17 +435,32 @@ class WorkPackage < ActiveRecord::Base
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
     # locked or don't want to be notified
-    notified << author if author && author.active? && author.notify_about?(self)
+    notified << author if author && author.notify_about?(self)
     if assigned_to
       if assigned_to.is_a?(Group)
-        notified += assigned_to.users.select { |u| u.active? && u.notify_about?(self) }
+        notified += assigned_to.users.select { |u| u.notify_about?(self) }
       else
-        notified << assigned_to if assigned_to.active? && assigned_to.notify_about?(self)
+        notified << assigned_to if assigned_to.notify_about?(self)
       end
     end
     notified.uniq!
     # Remove users that can not view the issue
     notified.select { |user| visible?(user) }
+  end
+
+  def notify?(user)
+    case user.mail_notification
+    when 'selected', 'only_my_events'
+      author == user || user.is_or_belongs_to?(assigned_to)
+    when 'none'
+      false
+    when 'only_assigned'
+      user.is_or_belongs_to?(assigned_to)
+    when 'only_owner'
+      author == user
+    else
+      false
+    end
   end
 
   def done_ratio
