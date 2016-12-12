@@ -916,142 +916,140 @@ describe WorkPackage, type: :model do
   end
 
   describe '#recipients' do
-    let(:project) { FactoryGirl.create(:project) }
-    let(:member) { FactoryGirl.create(:user) }
-    let(:author) { FactoryGirl.create(:user, mail_notification: 'only_owner') }
-    let(:assignee) { FactoryGirl.create(:user, mail_notification: 'only_assigned') }
-    let(:responsible) { FactoryGirl.create(:user, mail_notification: 'only_assigned') }
-    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-    let(:project_member) {
-      FactoryGirl.create(:member,
-                         user: member,
-                         project: project,
-                         roles: [role])
-    }
-    let(:project_author) {
-      FactoryGirl.create(:member,
-                         user: author,
-                         project: project,
-                         roles: [role])
-    }
-    let(:project_assignee) {
-      FactoryGirl.create(:member,
-                         user: assignee,
-                         project: project,
-                         roles: [role])
-    }
-    let(:project_responsible) {
-      FactoryGirl.create(:member,
-                         user: responsible,
-                         project: project,
-                         roles: [role])
-    }
-    let(:work_package) {
-      FactoryGirl.create(:work_package,
-                         author: author,
-                         assigned_to: assignee,
-                         responsible: responsible,
-                         project: project)
-    }
-
-    shared_examples_for 'includes expected users' do
-      subject { work_package.recipients }
-
-      it { is_expected.to include(*expected_users) }
+    let(:project) { FactoryGirl.build_stubbed(:project) }
+    let(:member) { FactoryGirl.build_stubbed(:user) }
+    let(:author) { FactoryGirl.build_stubbed(:user) }
+    let(:assignee) { FactoryGirl.build_stubbed(:user) }
+    let(:responsible) { FactoryGirl.build_stubbed(:user) }
+    let(:work_package) do
+      FactoryGirl.build_stubbed(:work_package,
+                                author: author,
+                                assigned_to: assignee,
+                                responsible: responsible,
+                                project: project)
     end
 
-    shared_examples_for 'includes not expected users' do
-      subject { work_package.recipients }
-
-      it { is_expected.not_to include(*expected_users) }
+    let(:project_notified_users) do
+      [member]
     end
 
-    describe 'includes project recipients' do
-      before do project_member end
+    let(:users_with_view_permission) do
+      project_notified_users + [author, assignee, responsible]
+    end
 
-      context 'pre-condition' do
-        subject { project.recipients }
+    before do
+      allow(project)
+        .to receive(:notified_users)
+        .and_return(project_notified_users)
 
-        it { is_expected.not_to be_empty }
+      allow(User)
+        .to receive(:allowed)
+        .and_return users_with_view_permission
+
+      [author, assignee, responsible].each do |user|
+        allow(user)
+          .to receive(:notify_about?)
+          .with(work_package)
+          .and_return(true)
+      end
+    end
+
+    it 'contains author, assignee, responsible and all from project#notified_users' do
+      expect(work_package.recipients)
+        .to match_array users_with_view_permission
+    end
+
+    context 'with users lacking the view permission' do
+      let(:users_with_view_permission) do
+        []
       end
 
-      let(:expected_users) { project.recipients }
-
-      it_behaves_like 'includes expected users'
-    end
-
-    describe 'includes work package author' do
-      before do project_author end
-
-      context 'pre-condition' do
-        subject { work_package.author }
-
-        it { is_expected.not_to be_nil }
+      it 'does not contain such users' do
+        expect(work_package.recipients)
+          .to be_empty
       end
-
-      let(:expected_users) { work_package.author }
-
-      it_behaves_like 'includes expected users'
     end
 
-    describe 'includes work package assignee' do
-      before do project_assignee end
-
-      context 'pre-condition' do
-        subject { work_package.assigned_to }
-
-        it { is_expected.not_to be_nil }
-      end
-
-      let(:expected_users) { work_package.assigned_to }
-
-      it_behaves_like 'includes expected users'
-    end
-
-    describe 'includes work package responsible' do
+    context 'with author, assignee, responsible not interested' do
       before do
-        project_responsible
+        [author, assignee, responsible].each do |user|
+          allow(user)
+            .to receive(:notify_about?)
+            .with(work_package)
+            .and_return(false)
+        end
       end
 
-      context 'pre-condition' do
-        subject { work_package.responsible }
-
-        it { is_expected.not_to be_nil }
+      it 'does not contain such users' do
+        expect(work_package.recipients)
+          .to match_array project_notified_users
       end
-
-      let(:expected_users) { work_package.responsible }
-
-      it_behaves_like 'includes expected users'
     end
 
-    context 'mail notification settings' do
+    context 'with author, assignee, responsible also being in project#notified_users' do
+      let(:project_notified_users) do
+        [member] + [author, assignee, responsible]
+      end
+
+      it 'contains the users but once' do
+        expect(work_package.recipients)
+          .to match_array project_notified_users
+      end
+    end
+
+    context 'with a group' do
+      let(:user1) { FactoryGirl.build_stubbed(:user) }
+      let(:user2) { FactoryGirl.build_stubbed(:user) }
+      let(:user3) { FactoryGirl.build_stubbed(:user) }
+
+      let(:users_with_view_permission) do
+        [user1, user3]
+      end
+
       before do
-        project_author
-        project_assignee
+        allow(user1)
+          .to receive(:notify_about?)
+          .with(work_package)
+          .and_return(false)
+
+        [user2, user3].each do |user|
+          allow(user)
+            .to receive(:notify_about?)
+            .with(work_package)
+            .and_return(true)
+        end
       end
 
-      describe '#none' do
-        before do author.update_attribute(:mail_notification, :none) end
+      context 'for assignee' do
+        let(:assignee) do
+          group = FactoryGirl.build_stubbed(:group)
+          allow(group)
+            .to receive(:users)
+            .and_return([user1, user2, user3])
+          group
+        end
 
-        let(:expected_users) { work_package.author.mail }
-
-        it_behaves_like 'includes not expected users'
+        it 'returns those group members who want to be notified
+            and who have the permission to see the work package' do
+          expect(work_package.recipients)
+            .to match_array [user3]
+        end
       end
 
-      describe '#only_assigned' do
-        before do author.update_attribute(:mail_notification, :only_assigned) end
+      context 'for responsible' do
+        let(:responsible) do
+          group = FactoryGirl.build_stubbed(:group)
+          allow(group)
+            .to receive(:users)
+            .and_return([user1, user2, user3])
+          group
+        end
 
-        let(:expected_users) { work_package.author.mail }
-
-        it_behaves_like 'includes not expected users'
-      end
-
-      describe '#only_assigned' do
-        before do assignee.update_attribute(:mail_notification, :only_owner) end
-
-        let(:expected_users) { work_package.assigned_to.mail }
-
-        it_behaves_like 'includes not expected users'
+        it 'returns those group members who want to be notified
+            and who have the permission to see the work package' do
+          expect(work_package.recipients)
+            .to match_array [user3]
+        end
       end
     end
   end
