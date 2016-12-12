@@ -28,7 +28,7 @@
 
 import {openprojectModule} from "../../../../angular-modules";
 import {WorkPackageTimelineTableController} from '../wp-timeline-container.directive';
-import {ZoomLevel, sortedZoomLevels} from '../wp-timeline';
+import {ZoomLevel} from '../wp-timeline';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 
@@ -38,7 +38,6 @@ class WorkPackageTimelineControlController {
 
   hscroll: number;
   currentZoom: number;
-  localizedZoomLevels:{[idx: number]: string} = {};
 
   minZoomLevel = ZoomLevel.DAYS;
   maxZoomLevel = ZoomLevel.YEARS;
@@ -49,7 +48,6 @@ class WorkPackageTimelineControlController {
 
   constructor(private I18n:op.I18n) {
     this.text = {
-      zoomLabel: I18n.t('js.timelines.zoom.slider'),
       zoomIn: I18n.t('js.timelines.zoom.in'),
       zoomOut: I18n.t('js.timelines.zoom.out'),
     }
@@ -57,18 +55,7 @@ class WorkPackageTimelineControlController {
 
   $onInit() {
     this.hscroll = this.wpTimeline.viewParameterSettings.scrollOffsetInDays;
-    this.localizedZoomLevels = {};
-
-    sortedZoomLevels.forEach((value) => {
-      let valueString = ZoomLevel[value];
-      this.localizedZoomLevels[value] = this.I18n.t('js.timelines.zoom.' + valueString.toLowerCase());
-    })
-
     this.currentZoom = ZoomLevel.DAYS;
-  }
-
-  get zoomLevels():number[] {
-    return sortedZoomLevels;
   }
 
   updateScroll() {
@@ -76,11 +63,8 @@ class WorkPackageTimelineControlController {
     this.wpTimeline.refreshScrollOnly();
   }
 
-  updateZoom(delta?:number) {
-
-    if (delta !== undefined) {
-      this.currentZoom += delta;
-    }
+  updateZoom(delta:number) {
+    this.currentZoom += delta;
 
     this.wpTimeline.viewParameterSettings.zoomLevel = this.currentZoom;
     this.wpTimeline.refreshView();

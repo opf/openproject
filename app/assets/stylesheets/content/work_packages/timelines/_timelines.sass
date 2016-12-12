@@ -3,21 +3,20 @@
 @import 'elements/_milestone'
 
 .wp-timeline--dummy-controls
-  padding: 0.625rem
-  display: flex
-  justify-content: flex-end
-  align-items: center
+  position: absolute
+  right: 5px
+  background: white
+  top: calc(#{$generic-table--header-height} + 10px)
+  z-index: 101
+  border: 1px solid #D7D7D7
+  box-shadow: 0 5px 3px -4px #DDDDDD
 
-  label
-    margin-right: 1rem
+  # Ensure even padding around buttons
+  padding: 5px
+  line-height: 1
 
   button
     margin: 0
-    padding: 8px
-
-.timeline-controls--zoom-buttons
-  margin-left: 1rem
-
 
 .wp-timeline-header-container.generic-table--sort-header-outer
   padding: 0
