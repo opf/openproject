@@ -539,12 +539,16 @@ describe User, type: :model do
     let(:work_package) do
       FactoryGirl.build_stubbed(:work_package,
                                 assigned_to: assignee,
+                                responsible: responsible,
                                 author: author)
     end
     let(:author) do
       FactoryGirl.build_stubbed(:user)
     end
     let(:assignee) do
+      FactoryGirl.build_stubbed(:user)
+    end
+    let(:responsible) do
       FactoryGirl.build_stubbed(:user)
     end
     let(:project) do
@@ -571,7 +575,7 @@ describe User, type: :model do
         expect(author.notify_about?(work_package)).to be_falsey
       end
 
-      it "is false for a user with :only_my_events and isn't an author, creator, or assignee" do
+      it "is false for a user with :only_my_events who has no relation to the work package" do
         user = FactoryGirl.build_stubbed(:user, mail_notification: 'only_my_events')
         (Member.new.tap do |m|
           m.attributes = { user: user, project: project, role_ids: [role.id] }
@@ -579,47 +583,57 @@ describe User, type: :model do
         expect(user.notify_about?(work_package)).to be_falsey
       end
 
-      it 'is true for a user with :only_my_events and is the author' do
+      it 'is true for a user with :only_my_events who is the author' do
         author.mail_notification = 'only_my_events'
         expect(author.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is true for a user with :only_my_events and is the assignee' do
+      it 'is true for a user with :only_my_events who is the assignee' do
         assignee.mail_notification = 'only_my_events'
         expect(assignee.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is true for a user with :only_assigned and is the assignee' do
+      it 'is true for a user with :only_assigned who is the assignee' do
         assignee.mail_notification = 'only_assigned'
         expect(assignee.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is false for a user with :only_assigned and is not the assignee' do
+      it 'is true for a user with :only_assigned who is the responsible' do
+        responsible.mail_notification = 'only_assigned'
+        expect(responsible.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is false for a user with :only_assigned who is neither assignee nor responsible' do
         author.mail_notification = 'only_assigned'
         expect(author.notify_about?(work_package)).to be_falsey
       end
 
-      it 'is true for a user with :only_owner and is the author' do
+      it 'is true for a user with :only_owner who is the author' do
         author.mail_notification = 'only_owner'
         expect(author.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is false for a user with :only_owner and is not the author' do
+      it 'is false for a user with :only_owner who is not the author' do
         assignee.mail_notification = 'only_owner'
         expect(assignee.notify_about?(work_package)).to be_falsey
       end
 
-      it 'is true for a user with :selected and is the author' do
+      it 'is true for a user with :selected who is the author' do
         author.mail_notification = 'selected'
         expect(author.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is true for a user with :selected and is the assignee' do
+      it 'is true for a user with :selected who is the assignee' do
         assignee.mail_notification = 'selected'
         expect(assignee.notify_about?(work_package)).to be_truthy
       end
 
-      it 'is false for a user with :selected and is not the author or assignee' do
+      it 'is true for a user with :selected who is the responsible' do
+        responsible.mail_notification = 'selected'
+        expect(responsible.notify_about?(work_package)).to be_truthy
+      end
+
+      it "is false for a user with :only_my_events who has no relation to the work package" do
         user = FactoryGirl.build(:user, mail_notification: 'selected')
         (Member.new.tap do |m|
           m.attributes = { user: user, project: project, role_ids: [role.id] }

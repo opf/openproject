@@ -918,12 +918,10 @@ describe WorkPackage, type: :model do
   describe '#recipients' do
     let(:project) { FactoryGirl.create(:project) }
     let(:member) { FactoryGirl.create(:user) }
-    let(:author) { FactoryGirl.create(:user) }
-    let(:assignee) { FactoryGirl.create(:user) }
-    let(:role) {
-      FactoryGirl.create(:role,
-                         permissions: [:view_work_packages])
-    }
+    let(:author) { FactoryGirl.create(:user, mail_notification: 'only_owner') }
+    let(:assignee) { FactoryGirl.create(:user, mail_notification: 'only_assigned') }
+    let(:responsible) { FactoryGirl.create(:user, mail_notification: 'only_assigned') }
+    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
     let(:project_member) {
       FactoryGirl.create(:member,
                          user: member,
@@ -942,10 +940,17 @@ describe WorkPackage, type: :model do
                          project: project,
                          roles: [role])
     }
+    let(:project_responsible) {
+      FactoryGirl.create(:member,
+                         user: responsible,
+                         project: project,
+                         roles: [role])
+    }
     let(:work_package) {
       FactoryGirl.create(:work_package,
                          author: author,
                          assigned_to: assignee,
+                         responsible: responsible,
                          project: project)
     }
 
@@ -999,6 +1004,22 @@ describe WorkPackage, type: :model do
       end
 
       let(:expected_users) { work_package.assigned_to }
+
+      it_behaves_like 'includes expected users'
+    end
+
+    describe 'includes work package responsible' do
+      before do
+        project_responsible
+      end
+
+      context 'pre-condition' do
+        subject { work_package.responsible }
+
+        it { is_expected.not_to be_nil }
+      end
+
+      let(:expected_users) { work_package.responsible }
 
       it_behaves_like 'includes expected users'
     end
