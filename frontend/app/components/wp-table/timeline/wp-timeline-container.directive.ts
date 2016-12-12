@@ -72,7 +72,12 @@ export class WorkPackageTimelineTableController {
    * Toggle whether this instance is currently showing.
    */
   public toggle() {
-    return this.visible = !this.visible;
+    this.visible = !this.visible;
+
+    // If hiding view, resize table afterwards
+    if (!this.visible) {
+      jQuery(window).trigger('resize');
+    }
   }
 
   /**
