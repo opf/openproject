@@ -534,4 +534,92 @@ describe User, type: :model do
       it { expect(user.impaired?).to be_truthy }
     end
   end
+
+  describe '#notify_about?' do
+    let(:work_package) do
+      FactoryGirl.build_stubbed(:work_package,
+                                assigned_to: assignee,
+                                author: author)
+    end
+    let(:author) do
+      FactoryGirl.build_stubbed(:user)
+    end
+    let(:assignee) do
+      FactoryGirl.build_stubbed(:user)
+    end
+    let(:project) do
+      work_package.project
+    end
+    let(:role) do
+      FactoryGirl.build_stubbed(:role)
+    end
+
+    context 'Work package' do
+      it 'is true for a user with :all' do
+        author.mail_notification = 'all'
+        assert author.notify_about?(work_package)
+      end
+
+      it 'is false for a user with :none' do
+        author.mail_notification = 'none'
+        expect(author.notify_about?(work_package)).to be_falsey
+      end
+
+      it "is false for a user with :only_my_events and isn't an author, creator, or assignee" do
+        user = FactoryGirl.build_stubbed(:user, mail_notification: 'only_my_events')
+        (Member.new.tap do |m|
+          m.attributes = { user: user, project: project, role_ids: [role.id] }
+        end)
+        expect(user.notify_about?(work_package)).to be_falsey
+      end
+
+      it 'is true for a user with :only_my_events and is the author' do
+        author.mail_notification = 'only_my_events'
+        expect(author.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is true for a user with :only_my_events and is the assignee' do
+        assignee.mail_notification = 'only_my_events'
+        expect(assignee.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is true for a user with :only_assigned and is the assignee' do
+        assignee.mail_notification = 'only_assigned'
+        expect(assignee.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is false for a user with :only_assigned and is not the assignee' do
+        author.mail_notification = 'only_assigned'
+        expect(author.notify_about?(work_package)).to be_falsey
+      end
+
+      it 'is true for a user with :only_owner and is the author' do
+        author.mail_notification = 'only_owner'
+        expect(author.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is false for a user with :only_owner and is not the author' do
+        assignee.mail_notification = 'only_owner'
+        expect(assignee.notify_about?(work_package)).to be_falsey
+      end
+
+      it 'is true for a user with :selected and is the author' do
+        author.mail_notification = 'selected'
+        expect(author.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is true for a user with :selected and is the assignee' do
+        assignee.mail_notification = 'selected'
+        expect(assignee.notify_about?(work_package)).to be_truthy
+      end
+
+      it 'is false for a user with :selected and is not the author or assignee' do
+        user = FactoryGirl.build(:user, mail_notification: 'selected')
+        (Member.new.tap do |m|
+          m.attributes = { user: user, project: project, role_ids: [role.id] }
+        end)
+        expect(user.notify_about?(work_package)).to be_falsey
+      end
+    end
+  end
 end
