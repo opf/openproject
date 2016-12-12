@@ -28,6 +28,9 @@
 
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
+import * as MouseTrap from "mousetrap";
+
+
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
@@ -65,7 +68,7 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      // Total columns = all available columns + id + checkbox
+      // Total columns = all available columns + id + action link
       scope.numTableColumns = scope.columns.length + 2;
 
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
@@ -112,6 +115,26 @@ function wpTable(
           if (!totalSumsFetched()) { fetchTotalSums(); }
           if (!sumsSchemaFetched()) { fetchSumsSchema(); }
         }
+      });
+
+      // Bind CTRL+A to select all work packages
+      Mousetrap.bind(['command+a', 'ctrl+a'], function(e) {
+        scope.$evalAsync(() => {
+          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, true);
+        });
+
+        e.preventDefault();
+        return false;
+      });
+
+      // Bind CTRL+D to deselect all work packages
+      Mousetrap.bind(['command+d', 'ctrl+d'], function(e) {
+        scope.$evalAsync(() => {
+          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, false);
+        });
+
+        e.preventDefault();
+        return false;
       });
 
       // Set and keep the current details tab state remembered
@@ -205,32 +228,30 @@ function wpTable(
         // Thus save that row for the details view button
         WorkPackageService.cache().put('preselectedWorkPackageId', row.object.id);
 
-        if ($event.target.type != 'checkbox') {
-          var currentRowCheckState = row.checked;
-          var multipleChecked = mulipleRowsChecked();
-          var isLink = angular.element($event.target).is('a');
+        var currentRowCheckState = row.checked;
+        var multipleChecked = mulipleRowsChecked();
+        var isLink = angular.element($event.target).is('a');
 
-          if (!($event.ctrlKey || $event.shiftKey)) {
-            scope.setCheckedStateForAllRows(false);
-          }
+        if (!($event.ctrlKey || $event.shiftKey)) {
+          scope.setCheckedStateForAllRows(false);
+        }
 
-          if(isLink) {
-            return;
-          }
+        if(isLink) {
+          return;
+        }
 
-          if ($event.shiftKey) {
-            clearSelection();
-            activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
-          } else if($event.ctrlKey || $event.metaKey){
-            setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-          } else {
-            setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-          }
+        if ($event.shiftKey) {
+          clearSelection();
+          activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
+        } else if($event.ctrlKey || $event.metaKey){
+          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
+        } else {
+          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
+        }
 
-          // Avoid bubbling of elements within the details link
-          if ($event.target.parentElement.className.indexOf('wp-table--details-link') === -1) {
-            openWhenInSplitView(row.object);
-          }
+        // Avoid bubbling of elements within the details link
+        if ($event.target.parentElement.className.indexOf('wp-table--details-link') === -1) {
+          openWhenInSplitView(row.object);
         }
       };
 

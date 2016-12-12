@@ -14,17 +14,9 @@
       </caption>
       <thead>
         <tr>
-          <th class="checkbox -short hide-when-print">
-            <div class="generic-table--header-outer">
-              <a href
-                 alt="{{ text.toggleRows }}"
-                 class="no-decoration-on-hover"
-                 ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
-                 title="{{ text.toggleRows }}">
-
-                <icon-wrapper icon-title="{{ text.toggleRows }}"
-                              icon-name="checkmark"></icon-wrapper>
-              </a>
+          <th class="wp-table--details-column">
+            <div class="generic-table--sort-header-outer">
+              <span class="icon-button icon-columns icon-small"></span>
             </div>
           </th>
           <th sort-header ng-repeat="column in columns"
@@ -114,7 +106,7 @@
             ng-class="[
               'issue',
               'hascontextmenu',
-              row.checked && 'context-menu-selection',
+              row.checked && '-checked context-menu-selection',
               !row.object['leaf?'] && 'parent' || '',
               row.level > 0 && 'child idnt' || '',
               row.level > 0 && ('idnt-' + row.level) || '',
@@ -128,13 +120,7 @@
             wp-edit-form-on-save="onWorkPackageSave(workPackage, fields)"
             wp-attachments-formattable
             tabindex="-1">
-          <td ng-if="!row.object.isNew" class="checkbox -short hide-when-print">
-            <accessible-checkbox name="ids[]"
-                                 checkbox-id="work_package{{row.object.id}}"
-                                 checkbox-value="row.object.id"
-                                 checkbox-title="{{::checkboxTitle}}"
-                                 model="row.checked">
-            </accessible-checkbox>
+          <td ng-if="!row.object.isNew" class="wp-table--details-column hide-when-print">
             <span>
               <a class="wp-table--details-link hidden-for-sighted"
                  ui-state="desiredSplitViewState"
@@ -144,7 +130,7 @@
               </a>
             </span>
           </td>
-          <td ng-if="row.object.isNew" class="cancel-inline-create -short">
+          <td ng-if="row.object.isNew" class="cancel-inline-create wp-table--details-column">
             <span>
               <accessible-by-keyboard
                           execute="cancelInlineWorkPackage($index, row)"
