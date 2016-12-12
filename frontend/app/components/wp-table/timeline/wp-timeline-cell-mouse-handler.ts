@@ -106,13 +106,6 @@ export function registerWorkPackageMouseHandler(this: void,
       return;
     }
 
-    if (cancelled) {
-      renderer.onCancel(renderInfo.workPackage, dateStates);
-    } else {
-      // Persist the changes
-      wpCacheService.saveIfChanged(renderInfo.workPackage);
-    }
-
     jBody.off("mousemove", mouseMoveFn);
     jBody.off("keyup", keyPressFn);
     jQuery(".hascontextmenu").css("cursor", "context-menu");
@@ -123,9 +116,20 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = null;
     dateStates = {};
 
-    workPackageTimeline.refreshView();
+    if (cancelled) {
+      renderer.onCancel(renderInfo.workPackage);
+      return workPackageTimeline.refreshView();
+    }
 
+    // Persist the changes
+    wpCacheService.saveIfChanged(renderInfo.workPackage)
+      .catch(() => {
+        // Reset the changes on error
+        renderer.onCancel(renderInfo.workPackage);
+      })
+      .finally(() => {
+        workPackageTimeline.refreshView();
+      });
   }
-
 }
 

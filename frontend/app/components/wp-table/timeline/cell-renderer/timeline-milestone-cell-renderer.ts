@@ -28,7 +28,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
+  public onCancel(wp: WorkPackageResourceInterface) {
     wp.restoreFromPristine('date');
   }
 

@@ -33,7 +33,7 @@ export class TimelineCellRenderer {
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
+  public onCancel(wp:WorkPackageResourceInterface) {
     wp.restoreFromPristine('startDate');
     wp.restoreFromPristine('dueDate');
   }

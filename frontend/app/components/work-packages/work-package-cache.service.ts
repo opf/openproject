@@ -86,14 +86,19 @@ export class WorkPackageCacheService {
       return this.$q.when(workPackage);
     }
 
-    return workPackage.save()
+    const deferred = this.$q.defer();
+    workPackage.save()
       .then(() => {
         this.wpNotificationsService.showSave(workPackage);
         this.$rootScope.$emit('workPackagesRefreshInBackground');
+        deferred.resolve(workPackage);
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, workPackage);
+        deferred.reject(error);
       });
+
+    return deferred.promise;
   }
 
   loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
