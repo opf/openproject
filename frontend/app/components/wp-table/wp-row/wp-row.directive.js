@@ -26,32 +26,54 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpRow', wpRow);
 
+var WorkPackagesTimelineCell = require("../timeline/wp-timeline-cell").WorkPackageTimelineCell;
 
-function wpRow(WorkPackagesTableService){
+function wpRow(WorkPackagesTableService) {
+
   function setCheckboxTitle(scope) {
     scope.checkboxTitle = I18n.t('js.description_select_work_package',
-                                 { id: scope.workPackage.id });
+      {id: scope.workPackage.id});
   }
 
   function setHiddenWorkPackageLabel(scope) {
     scope.parentWorkPackageHiddenText = I18n.t('js.description_subwork_package',
-                                               { id: scope.row.parent.object.id }) ;
+      {id: scope.row.parent.object.id});
   }
 
   return {
     restrict: 'A',
 
-    link: function(scope) {
+    controller: function (states, $scope, $element, workPackageTimelineService) {
+      "ngInject";
+
+      // required data for timeline cell
+      var workPackageId = $scope.row.object.id;
+      var timelineTd = $element.find("td.wp-timeline-cell")[0];
+      const timelineCell = new WorkPackagesTimelineCell(
+        workPackageTimelineService,
+        $scope,
+        states,
+        workPackageId,
+        timelineTd
+      );
+
+      // show timeline cell
+      timelineCell.activate();
+
+      // remove timeline cell on scope destroy
+      $scope.$on("$destroy", function () {
+        timelineCell.deactivate();
+      });
+    },
+
+    link: function (scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
 
       if (scope.row.parent) setHiddenWorkPackageLabel(scope);
 
-      scope.$watch('row.checked', function(checked, formerState) {
+      scope.$watch('row.checked', function (checked, formerState) {
         if (checked !== formerState) {
           WorkPackagesTableService.setAllRowsChecked(scope.rows, scope.row, checked);
         }
@@ -59,3 +81,7 @@ function wpRow(WorkPackagesTableService){
     }
   };
 }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpRow', wpRow);
