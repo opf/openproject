@@ -33,7 +33,6 @@ namespace :attachments do
     CarrierWave.clean_cached_files!
   end
 
-
   desc 'Copies all attachments from the current to the given storage.'
   task :copy_to, [:to] => :environment do |_task, args|
     if args.empty?
