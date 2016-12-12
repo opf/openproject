@@ -36,7 +36,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
-  constructor(public I18n, public _) {
+  constructor(public I18n) {
     'ngInject';
 
     super(I18n);
@@ -48,7 +48,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
 
   public isToggle():boolean {
     return true;
-  }  
+  }
 
   public isActive():boolean {
     return this.wpTimelineContainer && this.wpTimelineContainer.visible;
