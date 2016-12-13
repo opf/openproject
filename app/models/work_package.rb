@@ -432,20 +432,26 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Returns users that should be notified
   def recipients
-    notified = project.notified_users
-    # Author and assignee are always notified unless they have been
-    # locked or don't want to be notified
-    notified << author if author && author.active? && author.notify_about?(self)
-    if assigned_to
-      if assigned_to.is_a?(Group)
-        notified += assigned_to.users.select { |u| u.active? && u.notify_about?(self) }
-      else
-        notified << assigned_to if assigned_to.active? && assigned_to.notify_about?(self)
-      end
-    end
+    notified = project.notified_users + attribute_users.select { |u| u.notify_about?(self) }
+
     notified.uniq!
-    # Remove users that can not view the issue
-    notified.select { |user| visible?(user) }
+    # Remove users that can not view the work package
+    notified & User.allowed(:view_work_packages, project)
+  end
+
+  def notify?(user)
+    case user.mail_notification
+    when 'selected', 'only_my_events'
+      author == user || user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
+    when 'none'
+      false
+    when 'only_assigned'
+      user.is_or_belongs_to?(assigned_to) || user.is_or_belongs_to?(responsible)
+    when 'only_owner'
+      author == user
+    else
+      false
+    end
   end
 
   def done_ratio
@@ -935,5 +941,19 @@ class WorkPackage < ActiveRecord::Base
       .where(id: id)
       .pluck('SUM(hours)')
       .first
+  end
+
+  def attribute_users
+    related = [author]
+
+    [responsible, assigned_to].each do |user|
+      if user.is_a?(Group)
+        related += user.users
+      else
+        related << user
+      end
+    end
+
+    related.select(&:present?)
   end
 end
