@@ -589,6 +589,7 @@ en:
   button_remove: Remove
   button_remove_widget: "Remove widget"
   button_rename: "Rename"
+  button_replace: "Replace"
   button_reply: "Reply"
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
@@ -603,6 +604,7 @@ en:
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
   button_update: "Update"
+  button_upload: "Upload"
   button_view: "View"
   button_watch: "Watch"
   button_manage_menu_entry: "Configure menu item"
@@ -1084,6 +1086,7 @@ en:
   label_loading: "Loading..."
   label_logged_as: "Logged in as"
   label_login: "Sign in"
+  label_custom_logo: "Custom logo"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
   label_manage_groups: "Manage groups"

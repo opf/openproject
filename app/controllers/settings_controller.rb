@@ -64,6 +64,8 @@ class SettingsController < ApplicationController
       @deliveries = ActionMailer::Base.perform_deliveries
 
       @guessed_host = request.host_with_port.dup
+
+      @custom_style = CustomStyle.current || CustomStyle.new
     end
   end
 

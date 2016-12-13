@@ -158,6 +158,12 @@ OpenProject::Application.routes.draw do
       post 'update_work_package_done_ratio'
     end
   end
+
+  get     'custom-styles/:digest' => 'custom_styles#css', as: 'custom_styles_css'
+  delete  'custom-styles/logo' => 'custom_styles#logo_delete', as: 'custom_styles_logo_delete'
+  resources :custom_styles, path: 'custom-styles'
+  get     'custom-styles/:digest/logo/:filename' => 'custom_styles#logo_download', as: 'custom_styles_logo', constraints: { filename: /[^\/]*/ }
+
   resources :custom_fields, except: :show
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
 
