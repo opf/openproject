@@ -9,6 +9,12 @@ GIT
       mime-types (>= 1.16)
 
 GIT
+  remote: https://github.com/finnlabs/openproject-license.git
+  revision: 7153ba938af23e732bfc372ea779a3fce3898b14
+  specs:
+    openproject-license (1.0.0)
+
+GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
   revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
   specs:
@@ -94,11 +100,6 @@ GIT
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-
-PATH
-  remote: ../openproject-license
-  specs:
-    openproject-license (1.0.0)
 
 GEM
   remote: https://rubygems.org/
