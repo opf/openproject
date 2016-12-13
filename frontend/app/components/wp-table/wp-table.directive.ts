@@ -43,6 +43,7 @@ function wpTable(
   $window,
   $rootScope,
   PathHelper,
+  columnsModal,
   apiWorkPackages,
   $state
 ){
@@ -286,7 +287,14 @@ function wpTable(
      scope.onWorkPackageSave = function(workPackage, fields) {
        $rootScope.$emit('workPackageSaved', workPackage);
        $rootScope.$emit('workPackagesRefreshInBackground');
-     } ;
+     };
+
+     /** Open the settings modal */
+     scope.openColumnsModal = function() {
+       scope.$emit('hideAllDropdowns');
+       scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+       columnsModal.activate();
+     };
     }
   };
 }

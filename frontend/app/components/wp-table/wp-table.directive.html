@@ -14,11 +14,6 @@
       </caption>
       <thead>
         <tr>
-          <th class="wp-table--details-column">
-            <div class="generic-table--sort-header-outer">
-              <span class="icon-button icon-columns icon-small"></span>
-            </div>
-          </th>
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
                           position-relative-to=".generic-table--sort-header-outer"
@@ -30,6 +25,15 @@
                           sortable="column.sortable"
                           query="query"
                           ng-class="column.name == 'id' && '-short' ">
+          </th>
+          <th class="wp-table--details-column -short">
+            <div class="generic-table--sort-header-outer">
+              <accessible-by-keyboard
+                          execute="openColumnsModal()"
+                          link-class="wp-table--columns-selection">
+                <span class="icon-button icon-columns"></span>
+              </accessible-by-keyboard>
+            </div>
           </th>
         </tr>
       </thead>
@@ -120,7 +124,17 @@
             wp-edit-form-on-save="onWorkPackageSave(workPackage, fields)"
             wp-attachments-formattable
             tabindex="-1">
-          <td ng-if="!row.object.isNew" class="wp-table--details-column hide-when-print">
+          <td ng-repeat="column in columns"
+              lang="::{{column.custom_field && column.custom_field.name_locale || locale}}"
+              wp-edit-field="::getTableColumnName(row.object, column.name)"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-classes="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"
+              columns="::columns"
+              field-index="::$index"
+              class="wp-table--cell"
+              ng-class="::{ '-short': column.name == 'id' }">
+          </td>
+          <td ng-if="!row.object.isNew" class="wp-table--details-column hide-when-print -short">
             <span>
               <a class="wp-table--details-link hidden-for-sighted"
                  ui-state="desiredSplitViewState"
@@ -139,17 +153,6 @@
                           link-class="wp-table--cancel-create-link">
               </accessible-by-keyboard>
             </span>
-          </td>
-
-          <td ng-repeat="column in columns"
-              lang="::{{column.custom_field && column.custom_field.name_locale || locale}}"
-              wp-edit-field="::getTableColumnName(row.object, column.name)"
-              wp-edit-field-wrapper-classes="'-small -shrink'"
-              display-classes="[row.level > 0 && column.name == 'subject' && 'icon-context icon-arrow-right5 icon-small']"
-              columns="::columns"
-              field-index="::$index"
-              class="wp-table--cell"
-              ng-class="::{ '-short': column.name == 'id' }">
           </td>
         </tr>
 

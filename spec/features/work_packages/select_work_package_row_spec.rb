@@ -69,9 +69,9 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     loading_indicator_saveguard
 
     page.driver.browser.action.key_down(:shift)
-      .click(element.native)
-      .key_up(:shift)
-      .perform
+        .click(element.native)
+        .key_up(:shift)
+        .perform
   end
 
   def select_work_package_row_with_ctrl(number)
@@ -79,9 +79,9 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     loading_indicator_saveguard
 
     page.driver.browser.action.key_down(:control)
-      .click(element.native)
-      .key_up(:control)
-      .perform
+        .click(element.native)
+        .key_up(:control)
+        .perform
   end
 
   def expect_row_checked(*indices)
@@ -104,12 +104,12 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
   def check_all
     wp_table.table_container.send_keys [:control, 'a']
-    expect_row_checked(1,2,3)
+    expect_row_checked(1, 2, 3)
   end
 
   def uncheck_all
     wp_table.table_container.send_keys [:control, 'd']
-    expect_row_unchecked(1,2,3)
+    expect_row_unchecked(1, 2, 3)
   end
 
   it 'handles selection flows' do
@@ -132,7 +132,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     # select different row with right click
     select_work_package_row(3, :right)
-    expect_row_unchecked(1,2)
+    expect_row_unchecked(1, 2)
     expect_row_checked(3)
 
     ###
@@ -143,7 +143,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     expect_row_checked(1)
 
     select_work_package_row_with_shift(2)
-    expect_row_checked(1,2)
+    expect_row_checked(1, 2)
     expect_row_unchecked(3)
 
     ###
@@ -154,11 +154,11 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     expect_row_checked(1)
 
     select_work_package_row_with_shift(3)
-    expect_row_checked(1,2,3)
+    expect_row_checked(1, 2, 3)
 
     # Unselect the last row
     select_work_package_row_with_shift(2)
-    expect_row_checked(1,2)
+    expect_row_checked(1, 2)
     expect_row_unchecked(3)
 
     ###
@@ -170,13 +170,13 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     # Select predecessor
     select_work_package_row_with_shift(1)
-    expect_row_checked(1,2)
+    expect_row_checked(1, 2)
     expect_row_unchecked(3)
 
     # Select successor
     select_work_package_row_with_shift(3)
     expect_row_unchecked(1)
-    expect_row_checked(2,3)
+    expect_row_checked(2, 3)
 
     ###
     # CTRL selections
@@ -187,12 +187,12 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     # Select last row
     select_work_package_row_with_ctrl(3)
-    expect_row_checked(1,3)
+    expect_row_checked(1, 3)
     expect_row_unchecked(2)
 
     # Right click does not lose selection
     select_work_package_row(3, :right)
-    expect_row_checked(1,3)
+    expect_row_checked(1, 3)
     expect_row_unchecked(2)
   end
 
