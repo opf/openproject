@@ -145,14 +145,14 @@ module Pages
       end
     end
 
+    def table_container
+      find('#content .work-package-table--container')
+    end
+
     private
 
     def path
       project ? project_work_packages_path(project) : work_packages_path
-    end
-
-    def table_container
-      find('#content .work-package-table--container')
     end
 
     def get_filter_name(label)
