@@ -93,7 +93,7 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = ev.clientX;
 
     // Determine what attributes of the work package should be changed
-    dateStates = renderer.onMouseDown(ev, renderInfo, bar);
+    renderer.onMouseDown(ev, renderInfo, bar);
 
     jBody.on("mousemove", mouseMoveFn);
     jBody.on("keyup", keyPressFn);

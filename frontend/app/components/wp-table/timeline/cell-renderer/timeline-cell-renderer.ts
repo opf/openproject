@@ -73,9 +73,7 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo, elem: HTMLElement) {
-    let dates:CellDateMovement = {};
-
+  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo, elem: HTMLElement): void {
     // Update the cursor to
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       this.forceCursor('w-resize');
@@ -107,9 +105,6 @@ export class TimelineCellRenderer {
     this.displayDateDisplays(
       moment(renderInfo.workPackage.startDate),
       moment(renderInfo.workPackage.dueDate));
-
-    // Display date information
-    return dates;
   }
 
   public onMouseDownEnd() {
