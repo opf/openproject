@@ -169,4 +169,69 @@ describe 'layouts/base', type: :view do
       expect(page.status_code).to eq(200)
     end
   end
+
+  describe "inline custom styles" do
+    let(:a_token) { EnterpriseToken.new }
+
+    before do
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
+    end
+
+    context "EE is active and styles are present" do
+      let(:custom_style) { CustomStyle.new }
+
+      before do
+        allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
+
+        render
+      end
+
+      it "contains inline CSS block with those styles." do
+        expect(response).to render_template partial: 'custom_styles/_inline_css'
+      end
+
+    end
+
+    context "EE is active and styles are not present" do
+      before do
+        allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(CustomStyle).to receive(:current).and_return(nil)
+
+        render
+      end
+
+      it "does not contain an inline CSS block for styles." do
+        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+      end
+    end
+
+    context "EE does not allow custom styles" do
+      before do
+        allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(false)
+
+        render
+      end
+
+      it "does not contain an inline CSS block for styles." do
+        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+      end
+    end
+
+    context "no EE present" do
+      before do
+        allow(EnterpriseToken).to receive(:current).and_return(nil)
+
+        render
+      end
+
+      it "does not contain an inline CSS block for styles." do
+        expect(response).to_not render_template partial: 'custom_styles/_inline_css'
+      end
+    end
+  end
 end
