@@ -506,6 +506,7 @@ module.exports = function($timeout) {
           lastOverrideGroup = swimlanes[key].overrides.length;
 
           lastDivider = 0;
+          captionWidth = 0;
           dividerPath = '';
           first = true;
           while (lastDivider < width || swimlanes[key].delimiter.compareTo(end) <= 0) {
@@ -523,7 +524,8 @@ module.exports = function($timeout) {
               'font-size': 10
             });
 
-            x = (lastDivider + (left - lastDivider) / 2) - (jQuery(captionElement.node).width() / 16);
+            lastDivider = jQuery(captionElement.node).width() || 0;
+            x = (lastDivider + (left - lastDivider) / 2) - (lastDivider / 16);
             y = (deco - padding);
 
             captionElement

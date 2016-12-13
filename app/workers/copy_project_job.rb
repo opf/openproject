@@ -58,9 +58,9 @@ class CopyProjectJob < ApplicationJob
     if target_project
       UserMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
     else
-      target_project_name = target_project_params[:name]
+      target_project_name = target_project_params['name']
 
-      UserMailer.copy_project_failed(user, source_project, target_project_name).deliver_now
+      UserMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
     end
   end
 
@@ -106,6 +106,7 @@ class CopyProjectJob < ApplicationJob
       else
         errors         = target_project.errors.full_messages
         target_project = nil
+        logger.error("Copying project fails with validation errors: #{errors.join("\n")}")
       end
     end
   rescue ActiveRecord::RecordNotFound => e
@@ -115,8 +116,8 @@ class CopyProjectJob < ApplicationJob
                  "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
     unless errors.empty?
-      logger.info('Encountered an errors while trying to copy related objects for '\
-                  "project '#{source_project_id}': #{errors.inspect}")
+      logger.error('Encountered an errors while trying to copy related objects for '\
+                   "project '#{source_project_id}': #{errors.inspect}")
     end
 
     return target_project, errors

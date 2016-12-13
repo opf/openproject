@@ -29,36 +29,71 @@
 require 'spec_helper'
 
 describe CustomValue::UserStrategy do
-  let(:custom_value) {
+  let(:custom_value) do
     double('CustomValue',
            value: value,
            custom_field: custom_field,
            customized: customized)
-  }
+  end
   let(:customized) { double('customized') }
   let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
 
-  describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
-    let(:user) { FactoryGirl.build(:user) }
+  describe '#parse_value/#typed_value' do
+    subject { described_class.new(custom_value) }
 
-    before do
-      allow(User).to receive(:find_by).with(id: value).and_return(user)
+    context 'with a user' do
+      let(:value) { user }
+
+      it 'returns the user and sets it for later retrieval' do
+        expect(User)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to eql user.id.to_s
+
+        expect(subject.typed_value).to eql value
+      end
     end
 
-    context 'value is some id string' do
-      let(:value) { '10' }
-      it { is_expected.to eql(user) }
+    context 'with an id string' do
+      let(:value) { user.id.to_s }
+
+      it 'returns the string and has to later find the user' do
+        allow(User)
+          .to receive(:find_by)
+          .with(id: user.id.to_s)
+          .and_return(user)
+
+        expect(subject.parse_value(value)).to eql value
+
+        expect(subject.typed_value).to eql user
+      end
     end
 
     context 'value is blank' do
       let(:value) { '' }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the user' do
+        expect(User)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
 
     context 'value is nil' do
       let(:value) { nil }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the user' do
+        expect(User)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
   end
 

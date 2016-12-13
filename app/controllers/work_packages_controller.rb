@@ -188,4 +188,8 @@ class WorkPackagesController < ApplicationController
                        []
                     end
   end
+
+  def login_back_url_params
+    params.permit(:query_id, :state, :query_props)
+  end
 end

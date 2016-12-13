@@ -27,8 +27,7 @@
           'tl-last-row': $last,
           'tl-project-row': rowObjectType === 'Project'
         }"
-        ng-if="!(hideTreeRoot && $first || rowObjectType === 'Project' && excludeEmpty && !row.childNodes)"
-        ng-show="rowObjectType === 'Project' && row.level === 1 || (row.ancestors | ancestorsExpanded)">
+        ng-if="!(hideTreeRoot && $first || rowObjectType === 'Project' && (excludeEmpty && !row.childNodes)) && (rowObjectType === 'Project' && row.level === 1 || !!(row.ancestors | ancestorsExpanded))">
 
       <!-- tree node expansion toggle -->
 

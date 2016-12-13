@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe CustomValue::BoolStrategy do
-  let(:custom_value) {
+  let(:custom_value) do
     double('CustomValue',
            value: value)
-  }
+  end
 
   describe '#value_present?' do
     subject { described_class.new(custom_value).value_present? }
@@ -129,8 +129,8 @@ describe CustomValue::BoolStrategy do
     end
   end
 
-  describe '#db_value' do
-    subject { described_class.new(custom_value).db_value }
+  describe '#parse_value' do
+    subject { described_class.new(custom_value).parse_value(value) }
 
     ActiveRecord::Type::Boolean::FALSE_VALUES.each do |falsey_value|
       context "for #{falsey_value}" do

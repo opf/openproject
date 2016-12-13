@@ -31,9 +31,15 @@ var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
 var pathConfig = require('./rails-plugins.conf');
+var autoprefixer = require('autoprefixer');
 
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
+var uglify = (mode !== 'development');
+
+var node_root = path.resolve(__dirname, 'node_modules');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
   entries[name.replace(/^openproject\-/, '')] = name;
@@ -56,9 +62,9 @@ fs.readdirSync(translations).forEach(function (file) {
 });
 
 var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
-var browsersList = JSON.stringify(_.filter(browsersListConfig.split('\n'), function (entry) {
+var browsersList = _.filter(browsersListConfig.split('\n'), function (entry) {
   return entry && entry.charAt(0) !== '#';
-}));
+});
 
 var loaders = [
   { test: /\.tsx?$/, loader: 'ng-annotate!awesome-typescript-loader'},
@@ -71,7 +77,7 @@ var loaders = [
     test: /\.css$/,
     loader: ExtractTextPlugin.extract(
         'style-loader',
-        'css-loader!autoprefixer-loader?{browsers:' + browsersList + ',cascade:false}'
+        'css-loader!postcss-loader'
     )
   },
   {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
@@ -85,7 +91,7 @@ for (var k in pathConfig.pluginNamesPaths) {
     loaders.push({
       test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
       loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html'
+      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html?-minimize'
     });
   }
 }
@@ -93,12 +99,12 @@ for (var k in pathConfig.pluginNamesPaths) {
 loaders.push({
   test: /^((?!templates\/plugin).)*\.html$/,
   loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-  path.resolve(__dirname, './app') + '!html'
+  path.resolve(__dirname, './app') + '!html?-minimize'
 });
 
 
 function getWebpackMainConfig() {
-  return {
+  config = {
     context: path.join(__dirname, '/app'),
 
     entry: _.merge({
@@ -135,16 +141,13 @@ function getWebpackMainConfig() {
 
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
+        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         'mousetrap': 'mousetrap/mousetrap.js',
         'ngFileUpload': 'ng-file-upload/ng-file-upload',
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
-        'crossvent': path.join(__dirname,
-                               'node_modules',
-                               'crossvent',
-                               'src',
-                               'crossvent.js')
+        'crossvent': path.resolve(node_root, 'crossvent', 'src', 'crossvent.js')
       }, pluginAliases)
     },
 
@@ -155,6 +158,11 @@ function getWebpackMainConfig() {
     ts: {
       configFileName: path.resolve(__dirname, 'tsconfig.json')
     },
+
+    // CSS postprocessing (autoprefixer)
+    postcss: [
+      autoprefixer({ browsers: browsersList, cascade: false })
+    ],
 
     externals: {
       "I18n": "I18n"
@@ -189,6 +197,24 @@ function getWebpackMainConfig() {
       ])
     ]
   };
+
+  if (uglify) {
+    console.log("Applying webpack.optimize plugins for production.");
+    // Add compression and optimization plugins
+    // to the webpack build.
+    config.plugins.push(
+      new webpack.optimize.UglifyJsPlugin({
+        mangle: false,
+        compress: true,
+        compressor: { warnings: false },
+        sourceMap: false
+      }),
+      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.OccurenceOrderPlugin()
+    );
+  }
+
+  return config;
 }
 
 module.exports = getWebpackMainConfig;

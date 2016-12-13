@@ -49,15 +49,7 @@ module FileUploader
 
   module ClassMethods
     def cache_dir
-      @cache_dir ||= begin
-        tmp = Tempfile.new 'op_uploaded_files'
-        path = Pathname(tmp)
-
-        tmp.close! # delete temp file
-        path.mkdir # create temp directory
-
-        path.to_s
-      end
+      @cache_dir ||= File.join(Dir.tmpdir, 'op_uploaded_files')
     end
   end
 end

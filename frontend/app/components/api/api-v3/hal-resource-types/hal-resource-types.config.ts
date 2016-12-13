@@ -55,6 +55,7 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
         to: 'WorkPackage'
       }
     },
+    Schema: 'SchemaResource',
     Error: 'ErrorResource',
     User: 'UserResource',
     Collection: 'CollectionResource'

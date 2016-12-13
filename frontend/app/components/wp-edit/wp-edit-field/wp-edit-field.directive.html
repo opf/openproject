@@ -1,5 +1,4 @@
 <div class="wp-edit-field inplace-edit"
-     ng-if="::vm.workPackage"
      ng-switch="vm.active"
      ng-class="[
       vm.errorenous && '-error' || '',
@@ -31,7 +30,7 @@
   <wp-display-attr ng-switch-when="false"
                    attribute="::vm.fieldName"
                    schema="vm.workPackage.schema"
-                   work-package="::vm.workPackage"
+                   work-package="::vm.formCtrl.workPackage"
                    placeholder="::vm.displayPlaceholder"
                    label="vm.fieldLabel"
                    class="inplace-edit--read-value __d__inplace-edit--read-value"

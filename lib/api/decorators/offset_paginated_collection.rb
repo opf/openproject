@@ -45,11 +45,10 @@ module API
         @per_page = [per_page || self.class.per_page_default(models),
                      self.class.per_page_maximum].min
 
-        # FIXME: calling :to_a is a hack to circumvent a counting error in will_paginate
-        # see https://github.com/mislav/will_paginate/issues/449
-        page_models = models.page(@page).per_page(@per_page).to_a
         full_self_link = make_page_link(page: @page, page_size: @per_page)
-        super(page_models, models.count, full_self_link, current_user: current_user)
+        paged = paged_models(models)
+
+        super(paged, models.count, full_self_link, current_user: current_user)
       end
 
       link :jumpTo do
@@ -91,6 +90,12 @@ module API
       def make_page_link(page:, page_size:)
         query = @query.merge(offset: page, pageSize: page_size).to_query
         "#{@self_link_base}?#{query}"
+      end
+
+      def paged_models(models)
+        # FIXME: calling :to_a is a hack to circumvent a counting error in will_paginate
+        # see https://github.com/mislav/will_paginate/issues/449
+        models.page(@page).per_page(@per_page).to_a
       end
     end
   end

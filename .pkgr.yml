@@ -39,6 +39,7 @@ targets:
 before_precompile: "packaging/setup"
 crons:
   - packaging/cron/openproject-clear-old-sessions
+  - packaging/cron/openproject-clear-uploaded-files
 services:
   - postgres
 installer: https://github.com/pkgr/installer.git

@@ -125,7 +125,6 @@ module Redmine
 
         def validate_custom_values
           custom_field_values.reject(&:marked_for_destruction?).select(&:invalid?).each do |cv|
-
             cv.errors.each do |attribute, _|
               # Relies on patch to AR::Errors in 10-patches.rb.
               # We need to take the original symbol used to set the message to
@@ -151,14 +150,16 @@ module Redmine
           super
         end
 
-        def respond_to?(method, include_private = false)
+        def respond_to_missing?(method, include_private = false)
+          super_value = super
+
           for_custom_field_accessor(method) do |custom_field|
             # pro-actively add the accessors, the method will probably be called next
             add_custom_field_accessors(custom_field)
             return true
-          end
+          end unless super_value
 
-          super
+          super_value
         end
 
         def define_all_custom_field_accessors
@@ -183,11 +184,18 @@ module Redmine
           getter_name = custom_field.accessor_name
           setter_name = "#{getter_name}="
 
+          define_custom_field_getter(getter_name, custom_field)
+          define_custom_field_setter(setter_name, custom_field)
+        end
+
+        def define_custom_field_getter(getter_name, custom_field)
           define_singleton_method getter_name do
             custom_value = custom_value_for(custom_field)
             custom_value ? custom_value.typed_value : nil
           end
+        end
 
+        def define_custom_field_setter(setter_name, custom_field)
           define_singleton_method setter_name do |value|
             # N.B. we do no strict type checking here, it would be possible to assign a user
             # to an integer custom field...

@@ -229,5 +229,63 @@ describe('HalLink service', () => {
         runChecks();
       });
     });
+
+    describe('when $preparing the link', () => {
+      var func;
+
+      beforeEach(() => {
+        link.href = '/foo/bar/{user_id}';
+        link.title = 'title';
+        link.method = 'post';
+        link.templated = true;
+      });
+
+      describe('when the link is NOT templated', () => {
+        beforeEach(() => {
+          link.templated = false;
+        });
+        it('should raise an exception', () => {
+          expect(function() {
+            link.$prepare({});
+          }).to.throw;
+        });
+      });
+
+      describe('when the link is templated', () => {
+        beforeEach(() => {
+          func = link.$prepare({ user_id: '1234' });
+        });
+
+        it('should return a function that fetches the data', () => {
+          func();
+
+          $httpBackend.expectPOST('/foo/bar/1234').respond(200, {});
+          $httpBackend.flush();
+        });
+
+        it('should pass the params to $fetch', () => {
+          var $fetch = sinon.spy(func.$link, '$fetch');
+          func('hello');
+
+          expect($fetch.calledWith('hello')).to.be.true;
+        });
+
+        it('should have the untemplated href property', () => {
+          expect(func.href).to.equal('/foo/bar/1234');
+        });
+
+        it('should have the title property of the link', () => {
+          expect(func.title).to.equal(link.title);
+        });
+
+        it('should have the method property of the link', () => {
+          expect(func.method).to.equal(link.method);
+        });
+
+        it('should not be templated', () => {
+          expect(func.templated).to.equal(false);
+        });
+      });
+    });
   });
 });

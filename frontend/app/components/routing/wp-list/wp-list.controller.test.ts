@@ -175,6 +175,12 @@ describe('WorkPackagesListController', () => {
       }
     };
 
+    var workPackage = {
+      schema: {
+        '$load': () => { return $q.when(true) }
+      }
+    }
+
     wpListServiceMock = {
       fromQueryParams() {
         return $q.when({
@@ -186,9 +192,7 @@ describe('WorkPackagesListController', () => {
           resource: {
             total: 10
           },
-          work_packages: [
-            {}
-          ]
+          work_packages: [ workPackage ]
         });
       }
     };

@@ -618,23 +618,7 @@ class User < Principal
   # Utility method to help check if a user should be notified about an
   # event.
   def notify_about?(object)
-    case mail_notification
-    when 'all'
-      true
-    when 'selected'
-      # user receives notifications for created/assigned issues on unselected projects
-      object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
-    when 'none'
-      false
-    when 'only_my_events'
-      object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
-    when 'only_assigned'
-      object.is_a?(WorkPackage) && is_or_belongs_to?(object.assigned_to)
-    when 'only_owner'
-      object.is_a?(WorkPackage) && object.author == self
-    else
-      false
-    end
+    active? && (mail_notification == 'all' || (object.is_a?(WorkPackage) && object.notify?(self)))
   end
 
   def reported_work_package_count

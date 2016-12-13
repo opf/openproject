@@ -598,6 +598,8 @@ class PermittedParams
           permissions: []],
         search: [
           :q,
+          :offset,
+          :previous,
           :scope,
           :all_words,
           :titles_only,

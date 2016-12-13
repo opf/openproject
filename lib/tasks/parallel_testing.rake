@@ -53,15 +53,7 @@ namespace :parallel do
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      # Change this if changed in spec/support/rspec_failures.rb
-      if File.exist? 'tmp/rspec-examples.txt'
-        sh 'rm tmp/rspec-examples.txt'
-      end
-
-      cmd  = "bundle exec parallel_test --type rspec #{group_options} #{spec_folders}"
-      cmd += " || bundle exec rspec --only-failures #{spec_folders}"
-
-      sh cmd
+      sh "bundle exec parallel_test --type rspec #{group_options} #{spec_folders}"
     end
 
     desc 'Run plugin cucumber features in parallel'
@@ -82,14 +74,7 @@ namespace :parallel do
       feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
       cucumber_options = "-o ' -p rerun #{support_files}'"
 
-      cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{feature_folders}"
-      cmd += " || bundle exec cucumber -p rerun #{support_files}"
-
-      if File.exist? 'tmp/cucumber-rerun.txt'
-        sh 'rm tmp/cucumber-rerun.txt'
-      end
-
-      sh cmd
+      sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} #{feature_folders}"
     end
   end
 
@@ -105,10 +90,7 @@ namespace :parallel do
     spec_options += " --only-group #{group}" if group
     spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{spec_options} spec_legacy"
-    cmd += ' || bundle exec rspec -I spec_legacy --only-failures spec_legacy'
-
-    sh cmd
+    sh "bundle exec parallel_test --type rspec -o '-I spec_legacy' #{spec_options} spec_legacy"
   end
 
   desc 'Run cucumber features in parallel (custom task)'
@@ -128,14 +110,7 @@ namespace :parallel do
 
     cucumber_options = "-o ' -p rerun #{support_files}'"
 
-    cmd  = "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} features"
-    cmd += " || bundle exec cucumber -p rerun #{support_files}"
-
-    if File.exist? 'tmp/cucumber-rerun.txt'
-      sh 'rm tmp/cucumber-rerun.txt'
-    end
-
-    sh cmd
+    sh "bundle exec parallel_test --type cucumber #{cucumber_options} #{group_options} features"
   end
 
   desc 'Run rspec in parallel (custom task)'
@@ -150,9 +125,6 @@ namespace :parallel do
     spec_options += " --only-group #{group}" if group
     spec_options += " -o '--seed #{seed}'" if seed
 
-    cmd  = "bundle exec parallel_test --type rspec #{spec_options} spec"
-    cmd += ' || bundle exec rspec --only-failures'
-
-    sh cmd
+    sh "bundle exec parallel_test --type rspec #{spec_options} spec"
   end
 end

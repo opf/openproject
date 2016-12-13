@@ -100,9 +100,6 @@ export class WorkPackageViewController {
    * Initialize controller after workPackage resource has been loaded.
    */
   protected init() {
-    // Ensure the schema is being loaded as soon as possible
-    this.workPackage.schema.$load();
-
     // Set elements
     this.workPackage.project.$load().then(() => {
       this.projectIdentifier = this.workPackage.project.identifier;

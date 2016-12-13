@@ -35,6 +35,8 @@ export class ModalWrapperController {
   public modal: any;
   public modalParams: any;
 
+  public iframeSelector = '.iframe-target-wrapper';
+
   private modalOptions: any = {
     plain: true,
     closeByEscape: true,
@@ -51,6 +53,10 @@ export class ModalWrapperController {
     const wrappedElement = $element.find('.modal-wrapper--content');
     this.modalBody = wrappedElement.html();
 
+    if ($attrs['iframeUrl']) {
+      this.appendIframe($attrs['iframeUrl']);
+    }
+
     angular.extend(this.modalOptions, this.modalParams || {});
     this.modalOptions.template = this.modalBody;
 
@@ -64,6 +70,16 @@ export class ModalWrapperController {
 
   public initialize() {
     this.modal = this.ngDialog.open(this.modalOptions);
+  }
+
+  private appendIframe(url) {
+    let subdom = angular.element(this.modalBody);
+    let iframe = angular.element('<iframe frameborder="0" height="282" allowfullscreen>></iframe>');
+    iframe.attr('src', url);
+
+    subdom.find(this.iframeSelector).append(iframe);;
+
+    this.modalBody = subdom.html();
   }
 }
 

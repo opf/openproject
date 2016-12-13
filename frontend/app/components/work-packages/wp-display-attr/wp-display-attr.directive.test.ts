@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageCacheService} from './../work-package-cache.service';
 
 describe('wpDisplayAttr directive', () => {
   var compile;
@@ -33,6 +34,8 @@ describe('wpDisplayAttr directive', () => {
   var rootScope;
   var scope;
   var I18n;
+  var wpCacheService: WorkPackageCacheService;
+
 
   beforeEach(angular.mock.module(
     'openproject',
@@ -49,13 +52,14 @@ describe('wpDisplayAttr directive', () => {
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_) => {
+  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_, _wpCacheService_) => {
     var html = `
       <wp-display-attr work-package="workPackage" attribute="attribute">
       </wp-display-attr>
     `;
 
     I18n = _I18n_;
+    wpCacheService = _wpCacheService_;
     var stub = sinon.stub(I18n, 't');
     stub.withArgs('js.general_text_no').returns('No');
     stub.withArgs(sinon.match.any).returns('');
@@ -65,9 +69,11 @@ describe('wpDisplayAttr directive', () => {
     scope = $rootScope.$new();
 
     // Expected request for updates
-    _$httpBackend_.expectGET('/api/v3/work_packages').respond(200);
+    _$httpBackend_.expectGET('/api/v3/work_packages/1').respond(200);
 
     compile = () => {
+      wpCacheService.updateWorkPackage(scope.workPackage);
+
       $compile(element)(scope);
       scope.$digest();
     };
@@ -86,8 +92,10 @@ describe('wpDisplayAttr directive', () => {
         mybool: false,
         type: {id: 1, name: 'Bug'},
         sheep: 10,
+        id: 1,
         customField1: 'asdf1234',
         emptyField: null,
+        hiddenField: 'foobar',
         schema: {
           "$load": () => $q.when(true),
           "_type": "Schema",
@@ -130,6 +138,13 @@ describe('wpDisplayAttr directive', () => {
             "name": "empty field",
             "required": false,
             "writable": true
+          },
+          "hiddenField": {
+            "type": "String",
+            "name": "hidden field",
+            "required": false,
+            "writable": true,
+            "visibility": "hidden"
           }
         }
       }
@@ -247,6 +262,16 @@ describe('wpDisplayAttr directive', () => {
     describe('rendering an empty field', () => {
       beforeEach(() => {
         scope.attribute = 'emptyField';
+        compile();
+      });
+
+      it('should adorne the element with the -placeholder class', () => {
+        expect(element.find('.inplace-edit--read-value--value.-placeholder').length).to.eql(1);
+      });
+    });
+    describe('rendering a hidden field', () => {
+      beforeEach(() => {
+        scope.attribute = 'hiddenField';
         compile();
       });
 

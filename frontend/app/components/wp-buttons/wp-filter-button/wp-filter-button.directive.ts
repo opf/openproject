@@ -44,7 +44,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(public I18n, public _, protected wpFiltersService:WorkPackageFiltersService) {
+  constructor(public I18n, protected wpFiltersService:WorkPackageFiltersService) {
     'ngInject';
 
     super(I18n);
@@ -63,7 +63,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   public get filterCount():number {
-    return this._.size(_.where(this.filters, filter => !filter.deactivated));
+    return _.size(_.where(this.filters, filter => !filter.deactivated));
   }
 
   public isActive():boolean {

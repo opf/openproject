@@ -82,13 +82,13 @@ module.exports = function ($timeout, FOCUSABLE_SELECTOR) {
         isDisabled = $focusable.is('[disabled]');
 
       if (isDisabled && !$focusable.attr('ng-disabled')) {
-        $focusable.removeProp('disabled');
+        $focusable.prop('disabled', false);
       }
 
       focusable.focus();
 
       if (isDisabled && !$focusable.attr('ng-disabled')) {
-        $focusable.prop('disabled');
+        $focusable.prop('disabled', true);
       }
     },
 

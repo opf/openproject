@@ -37,28 +37,63 @@ describe CustomValue::VersionStrategy do
   }
   let(:customized) { double('customized') }
   let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:version) { FactoryGirl.build_stubbed(:version) }
 
-  describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
-    let(:version) { FactoryGirl.build(:version) }
+  describe '#parse_value/#typed_value' do
+    subject { described_class.new(custom_value) }
 
-    before do
-      allow(Version).to receive(:find_by).with(id: value).and_return(version)
+    context 'with a version' do
+      let(:value) { version }
+
+      it 'returns the version and sets it for later retrieval' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to eql version.id.to_s
+
+        expect(subject.typed_value).to eql value
+      end
     end
 
-    context 'value is some id string' do
-      let(:value) { '10' }
-      it { is_expected.to eql(version) }
+    context 'with an id string' do
+      let(:value) { version.id.to_s }
+
+      it 'returns the string and has to later find the version' do
+        allow(Version)
+          .to receive(:find_by)
+          .with(id: version.id.to_s)
+          .and_return(version)
+
+        expect(subject.parse_value(value)).to eql value
+
+        expect(subject.typed_value).to eql version
+      end
     end
 
     context 'value is blank' do
       let(:value) { '' }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the version' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
 
     context 'value is nil' do
       let(:value) { nil }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the version' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
   end
 

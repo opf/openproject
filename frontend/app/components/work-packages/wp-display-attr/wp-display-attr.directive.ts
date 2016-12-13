@@ -53,7 +53,7 @@ export class WorkPackageDisplayAttributeController {
               protected $scope: ng.IScope) {
 
     // Update the attribute initially
-    if (this.workPackage) {
+    if (this.workPackage && this.customSchema && this.schema[this.attribute]) {
       this.updateAttribute(this.workPackage);
     }
   }
@@ -73,7 +73,11 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public get isEmpty(): boolean {
-    return !this.field || this.field.isEmpty();
+    return !this.field || this.field.isEmpty() || this.field.hidden;
+  }
+
+  public get isHidden(): boolean {
+    return !this.field || this.field.hidden;
   }
 
   /**
@@ -85,7 +89,7 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public get displayText(): string {
-    if (this.isEmpty) {
+    if (this.isEmpty || this.isHidden) {
       return this.placeholder;
     }
     return this.field.valueString;
@@ -93,19 +97,17 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute(wp) {
     this.workPackage = wp;
-    this.schema.$load().then(() => {
-      this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
+    this.field = <DisplayField>this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
-        if (this.field.isManualRenderer) {
-          this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
-          this.field.render(this.__d__renderer, this);
-        }
+      if (this.field.isManualRenderer) {
+        this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
+        this.field.render(this.__d__renderer, this);
+      }
 
-        this.$element.attr("aria-label", this.label + " " + this.displayText);
+      this.$element.attr("aria-label", this.label + " " + this.displayText);
 
-        this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-        this.__d__cell.toggleClass("-placeholder", this.isEmpty);
-    });
+      this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
+      this.__d__cell.toggleClass("-placeholder", this.isEmpty);
   }
 }
 

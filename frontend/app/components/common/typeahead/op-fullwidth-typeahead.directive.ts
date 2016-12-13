@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,14 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import LoDashStatic = _.LoDashStatic;
+import {wpDirectivesModule} from '../../../angular-modules';
 
-function lodash():LoDashStatic {
-  return _;
+function opFullWidthTypeahead( $timeout ) {
+  return {
+    restrict: 'A',
+    require: 'uibTypeahead',
+    link: function(scope, element, attrs, $select) {
+      const watchOn = attrs['typeaheadIsOpen'];
+
+      if (!watchOn) {
+        throw "Missing typeahead-is-open on typeahead directive!";
+      }
+
+      scope.$watch(watchOn, (isOpen) => {
+        if (isOpen) {
+          angular.element('#' + element.attr('aria-owns')).width(element.outerWidth());
+        }
+      });
+    }
+  };
 }
 
-angular
-  .module('openproject.services')
-  .factory('_', lodash);
+wpDirectivesModule.directive('opFullwidthTypeahead', opFullWidthTypeahead);
+

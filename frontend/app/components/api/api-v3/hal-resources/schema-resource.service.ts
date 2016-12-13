@@ -26,37 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n) {
-  'use strict';
+import {HalResource} from './hal-resource.service';
+import {opApiModule} from '../../../../angular-modules';
+import {WorkPackageResource} from './work-package-resource.service';
+import {States} from '../../../states.service';
+import {State} from './../../../../helpers/reactive-fassade';
 
-  var workPackageWatcherController = function(scope) {
-    scope.remove = function() {
-      scope.deleting = true;
-      scope.$emit('watchers.remove', scope.watcher);
-    };
+var states: States;
 
-    scope.I18n = I18n;
+export class SchemaResource extends HalResource {
 
-    var focused = false;
-    scope.focus = function() {
-      focused = true;
-    };
+  public get state() {
+    return states.schemas.get(this.href);
+  }
+}
 
-    scope.blur = function() {
-      focused = false;
-    };
+function schemaResource(...args) {
+  [
+    states,
+  ] = args;
+  return SchemaResource;
+}
 
-    scope.focussing = function() {
-      return focused;
-    };
-  };
+schemaResource.$inject = [
+  'states',
+];
 
-  return {
-    replace: true,
-    templateUrl: '/templates/work_packages/watchers/watcher.html',
-    link: workPackageWatcherController,
-    scope: {
-      watcher: '='
-    }
-  };
-};
+opApiModule.factory('SchemaResource', schemaResource);

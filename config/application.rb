@@ -48,6 +48,15 @@ end
 
 require 'rails/all'
 
+if Rails.env.production? || (Rails.env.test? && ENV['CI'])
+  $stderr.puts <<-EOS
+    WARNING
+
+    Silencing all ActiveSupport::Deprecation message output!
+  EOS
+  ActiveSupport::Deprecation.behavior = :silence
+end
+
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
   # the open_project/plugins files can be found (places under lib).
@@ -97,6 +106,9 @@ module OpenProject
                           }
 
     config.middleware.use Rack::Attack
+    # Ensure that tempfiles are cleared after request
+    # http://stackoverflow.com/questions/4590229
+    config.middleware.use Rack::TempfileReaper
     config.middleware.use ::ResetCurrentUser
 
     # Custom directories with classes and modules you want to be autoloadable.

@@ -34,6 +34,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
 
     this.filters = [];
     this.groupBy = this.groupBy || '';
+    this.hasError = false;
 
     if(queryData.filters){
       if(options && options.rawFilters) {

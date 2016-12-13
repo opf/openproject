@@ -36,7 +36,7 @@ class CustomFieldsController < ApplicationController
   before_action :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
-    @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.includes(:translations).group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 

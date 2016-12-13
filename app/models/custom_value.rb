@@ -38,12 +38,10 @@ class CustomValue < ActiveRecord::Base
     'user' => CustomValue::UserStrategy,
     'version' => CustomValue::VersionStrategy,
     'list' => CustomValue::ListStrategy
-  }
+  }.freeze
 
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
-
-  before_save :to_db_value
 
   validate :validate_presence_of_required_value
   validate :validate_format_of_value
@@ -80,11 +78,13 @@ class CustomValue < ActiveRecord::Base
     value.to_s
   end
 
-  protected
+  def value=(val)
+    parsed_value = strategy.parse_value(val)
 
-  def to_db_value
-    self.value = strategy.db_value
+    super(parsed_value)
   end
+
+  protected
 
   def validate_presence_of_required_value
     errors.add(:value, :blank) if custom_field.is_required? && !strategy.value_present?

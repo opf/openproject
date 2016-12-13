@@ -172,8 +172,9 @@ describe('WorkPackageResource service', () => {
       beforeEach(() => {
         source = {
           _links: {
-            attachments: {href: 'attachmentsHref'},
-            activities: {href: 'activitiesHref'}
+            schema: { _type: 'Schema', href: 'schema' },
+            attachments: { href: 'attachmentsHref' },
+            activities: { href: 'activitiesHref' }
           }
         };
         createWorkPackage();
@@ -257,14 +258,11 @@ describe('WorkPackageResource service', () => {
     beforeEach(() => {
       source = {
         _links: {
-          attachments: {
-            href: 'attachments'
-          },
-          activities: {
-            href: 'activities'
-          }
+          schema: { _type: 'Schema', href: 'schema' },
+          attachments: { href: 'attachments' },
+          activities: { href: 'activities' }
         },
-        isNew: false
+        isNew: true
       };
       createWorkPackage();
     });
@@ -319,7 +317,12 @@ describe('WorkPackageResource service', () => {
           uploadFilesDeferred.resolve();
           removeStub = sinon.stub(NotificationsService, 'remove');
 
-          expectUncachedRequests('activities', 'attachments');
+          expectUncachedRequest('activities');
+          expectUncachedRequest('attachments');
+          $httpBackend
+            .when('GET', 'schema')
+            .respond(200, {_links: {self: 'schema'}});
+          $httpBackend.flush();
           $rootScope.$apply();
         });
 

@@ -38,33 +38,4 @@ describe CustomFieldsHelper, type: :helper do
     expect(format_value('1', 'bool')).to eq 'Yes'
     expect(format_value('0', 'bool')).to eq 'No'
   end
-
-  it 'unknown field format should be edited as string' do
-    field = CustomField.new(field_format: 'foo')
-    value = CustomValue.new(value: 'bar', custom_field: field)
-    field.id = 52
-
-    expect(custom_field_tag('object', value)).to be_html_eql(%{
-      <span lang="en">
-        <span class="form--text-field-container">
-          <input class="form--text-field"
-                 id="object_custom_field_values_52"
-                 name="object[custom_field_values][52]"
-                 type="text"
-                 value="bar" />
-        </span>
-      </span>
-    })
-  end
-
-  it 'unknown field format should be bulk edited as string' do
-    field = CustomField.new(field_format: 'foo')
-    field.id = 52
-
-    expect(custom_field_tag_for_bulk_edit('object', field)).to be_html_eql(%{
-      <span class="form--text-field-container"><input class="form--text-field"
-            id="object_custom_field_values_52" name="object[custom_field_values][52]"
-            type="text" value="" /></span>
-    })
-  end
 end

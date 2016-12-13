@@ -48,6 +48,14 @@ export class Field {
     return this.schema.required;
   }
 
+  public get visibility():string {
+    return this.schema.visibility;
+  }
+
+  public get hidden():boolean {
+    return this.visibility === 'hidden';
+  } 
+
   public isEmpty():boolean {
     return !this.value;
   }
