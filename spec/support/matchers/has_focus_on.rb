@@ -40,6 +40,7 @@ module Capybara
 
         focused_element = driver.browser.switch_to.active_element
 
+        $stderr.puts(focused_element['class'])
         return_value = find(selector).native == focused_element
       end
 

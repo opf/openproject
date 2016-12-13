@@ -107,9 +107,7 @@ module Pages
     end
 
     def open_full_screen_by_button(work_package)
-      row(work_package).check(I18n.t('js.description_select_work_package',
-                                     id: work_package.id))
-
+      row(work_package).click
       click_button(I18n.t('js.label_activate') + ' ' + I18n.t('js.button_show_view'))
 
       FullWorkPackage.new(work_package, project)
