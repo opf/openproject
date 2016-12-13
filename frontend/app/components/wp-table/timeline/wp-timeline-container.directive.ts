@@ -27,7 +27,7 @@
 // ++
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {InteractiveTableController} from "./../../common/interactive-table/interactive-table.directive";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
@@ -150,24 +150,23 @@ export class WorkPackageTimelineTableController {
     for (const wpId in this.workPackagesInView) {
       const workPackage = this.workPackagesInView[wpId];
 
-      if (workPackage.startDate && workPackage.dueDate) {
-        const start = moment(workPackage.startDate as any);
-        const due = moment(workPackage.dueDate as any);
+      const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
+      const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
+      const date = workPackage.date ? moment(workPackage.date) : currentParams.now;
 
-        // start date
-        newParams.dateDisplayStart = moment.min(
-          newParams.dateDisplayStart,
-          // currentParams.dateDisplayStart,
-          currentParams.now,
-          start);
+      // start date
+      newParams.dateDisplayStart = moment.min(
+        newParams.dateDisplayStart,
+        currentParams.now,
+        startDate,
+        date);
 
-        // due date
-        newParams.dateDisplayEnd = moment.max(
-          newParams.dateDisplayEnd,
-          // currentParams.dateDisplayEnd,
-          currentParams.now,
-          due);
-      }
+      // due date
+      newParams.dateDisplayEnd = moment.max(
+        newParams.dateDisplayEnd,
+        currentParams.now,
+        dueDate,
+        date);
     }
 
     // left/right spacing

@@ -86,6 +86,7 @@ export class TimelineCellRenderer {
     this.dateDisplaysOnMouseMove = [null, null];
 
     if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
+      // create left date label
       const leftInfo = document.createElement("div");
       leftInfo.className = "leftDateDisplay";
       this.dateDisplaysOnMouseMove.left = leftInfo;
@@ -94,6 +95,7 @@ export class TimelineCellRenderer {
       renderInfo.workPackage.storePristine('startDate');
     }
     if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
+      // create right date label
       const rightInfo = document.createElement("div");
       rightInfo.className = "rightDateDisplay";
       this.dateDisplaysOnMouseMove.right = rightInfo;
