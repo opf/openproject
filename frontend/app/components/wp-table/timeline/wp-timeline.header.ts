@@ -275,27 +275,61 @@ export class WpTimelineHeader {
       cell.innerHTML = start.format("YYYY");
     });
 
-    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format("Q");
+    this.renderTimeSlices(vp, "month", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
       cell.style.borderColor = "#000000";
       cell.style.height = (this.globalHeight - 10) + "px";
-      cell.style.zIndex = "2";
     });
 
-    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format("MM");
+    this.renderTimeSlices(vp, "week", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("ww");
       cell.style.borderColor = "#CCCCCC";
-      cell.style.height = "15px";
+      cell.style.height = "25px";
       cell.style.borderBottom = "1px solid black";
+      cell.style.backgroundColor = "white";
     });
   }
 
   private renderLabelsQuarters(vp: TimelineViewParameters) {
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("YYYY");
+    });
+
+    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = "Q" + start.format("Q");
+      cell.style.borderColor = "#000000";
+      cell.style.height = (this.globalHeight - 10) + "px";
+    });
+
+    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("MMM");
+      cell.style.borderColor = "#000000";
+      cell.style.height = "25px";
+      cell.style.borderBottom = "1px solid black";
+      cell.style.backgroundColor = "white";
+    });
   }
 
   private renderLabelsYears(vp: TimelineViewParameters) {
-  }
+    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("YYYY");
+      cell.style.backgroundColor = "white";
+    });
 
+    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = "Q" + start.format("Q");
+      cell.style.borderColor = "#000000";
+      cell.style.height = (this.globalHeight - 10) + "px";
+    });
+
+    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.innerHTML = start.format("M");
+      cell.style.borderColor = "#000000";
+      cell.style.height = "25px";
+      cell.style.borderBottom = "1px solid black";
+      cell.style.backgroundColor = "white";
+    });
+  }
 
   renderTimeSlices(vp: TimelineViewParameters,
                    unit: string,
