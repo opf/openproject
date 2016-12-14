@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
-    <%= stylesheet_link_tag(custom_styles_css_path(digest: CustomStyle.current.digest), media: "all") if CustomStyle.try(:current).try(:logo).present? %>
+    <%= stylesheet_link_tag(custom_styles_css_path(digest: CustomStyle.current.digest), media: "all") if LicenseService.instance.unblocked? && CustomStyle.try(:current).try(:logo).present? %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <!-- user specific tags -->
