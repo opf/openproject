@@ -127,7 +127,10 @@ module SettingsHelper
     label = options[:label]
     return ''.html_safe if label == false
 
-    styled_label_tag("settings_#{setting}", I18n.t(label || "setting_#{setting}"))
+    styled_label_tag(
+      "settings_#{setting}", I18n.t(label || "setting_#{setting}"),
+      options.slice(:title)
+    )
   end
 
   # Renders a notification field for a Redmine::Notifiable option

@@ -69,7 +69,7 @@ module Api::Experimental::Concerns::QueryLoading
       end
 
       if params[:fields] || params[:f] || params[:accept_empty_query_fields]
-        view_context.add_filter_from_params
+        view_context.add_filter_from_params(@query, filters: params)
       end
 
       @query.group_by = params[:group_by]
