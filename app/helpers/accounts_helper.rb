@@ -1,4 +1,18 @@
 module AccountsHelper
+  class Footer
+    include OpenProject::TextFormatting
+
+    attr_reader :source
+
+    def initialize(source)
+      @source = source
+    end
+
+    def to_html
+      format_text source
+    end
+  end
+
   def login_field(form)
     form.text_field :login, size: 25, required: true
   end
@@ -18,6 +32,6 @@ module AccountsHelper
   def registration_footer
     footer = Setting.registration_footer[I18n.locale.to_s].presence
 
-    RedCloth3.new(footer).to_html if footer
+    Footer.new(footer).to_html if footer
   end
 end

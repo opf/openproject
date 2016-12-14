@@ -33,7 +33,7 @@ describe 'account/register', type: :view do
 
   context 'with the email_login setting disabled (default value)' do
     before do
-      Setting.email_login = 0
+      allow(Setting).to receive(:email_login?).and_return(false)
 
       assign(:user, user)
       render
@@ -57,7 +57,7 @@ describe 'account/register', type: :view do
 
   context 'with the email_login setting enabled' do
     before do
-      Setting.email_login = 1
+      allow(Setting).to receive(:email_login?).and_return(true)
 
       assign(:user, user)
       render
@@ -93,7 +93,7 @@ describe 'account/register', type: :view do
     let(:footer) { "Some email footer" }
 
     before do
-      Setting.registration_footer = { "en" => footer }
+      allow(Setting).to receive(:registration_footer).and_return("en" => footer)
 
       assign(:user, user)
       render
