@@ -95,10 +95,10 @@ module API
         private
 
         def special_api_to_ar_conversions
-          @api_to_ar_conversions ||= WELL_KNOWN_AR_TO_API_CONVERSIONS.inject({}) { |result, (k, v)|
+          @api_to_ar_conversions ||= WELL_KNOWN_AR_TO_API_CONVERSIONS.inject({}) do |result, (k, v)|
             result[v.underscore] = k.to_s
             result
-          }
+          end
         end
 
         # Unifies different attributes refering to the same thing via a foreign key
@@ -107,19 +107,23 @@ module API
           attribute.to_s.sub(/(.+)_id\z/, '\1')
         end
 
-        # Adds _id suffix to field names that refer to foreign key relations,
+        # Adds _id(s) suffix to field names that refer to foreign key relations,
         # leaves other names untouched.
-        # e.g. status_id -> status
+        # e.g.
+        #   status -> status_id
+        #   watcher -> watcher_ids
         def denormalize_foreign_key_name(attribute, context)
           name, id_name = key_name_with_and_without_id attribute
 
           # When appending an ID is valid, the context object will understand that message
           # in case of a `belongs_to` relation (e.g. status => status_id). The second check is for
-          # `has_many` relations (e.g. watcher => watchers).
-          if context.respond_to?(id_name) || context.respond_to?(name.pluralize)
+          # `has_many` relations (e.g. watcher => watcher_ids).
+          if context.respond_to?(id_name)
             id_name
+          elsif context.respond_to?(id_name.pluralize)
+            id_name.pluralize
           else
-            attribute
+            name
           end
         end
 
