@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= breadcrumb_toolbar(@user.new_record? ? l(:label_user_new) : @user.name) do %>
   <% unless @user.new_record? %>
-    <% if @user.invited? and current_user.admin? %>
+    <% if current_user.admin? || current_user.id == @user.id %>
       <li class="toolbar-item">
         <%= form_for(@user, html: { class: 'toolbar-item'},
                             url: { action: :resend_invitation },
