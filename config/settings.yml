@@ -150,6 +150,8 @@ available_languages:
   - ru
 default_language:
   default: en
+email_login: # use email address as login, hide login in registration form
+  default: 0
 host_name:
   default: localhost:3000
 protocol:
@@ -319,6 +321,10 @@ users_deletable_by_self:
 journal_aggregation_time_minutes:
   default: 5
   format: int
+registration_footer:
+  serialized: true
+  default:
+    en:
 repository_storage_cache_minutes:
   default: 720
   format: int
