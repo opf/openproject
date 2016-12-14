@@ -20,6 +20,12 @@ class LicensesController < ApplicationController
 
   end
 
+  def destroy
+    @license = License.current
+    @license.destroy
+    head :ok
+  end
+
   private
 
   def default_breadcrumb
