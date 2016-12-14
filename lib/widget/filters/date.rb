@@ -38,8 +38,7 @@ class Widget::Filters::Date < Widget::Filters::Base
                                class: 'advanced-filters--text-field',
                                id: "#{id_prefix}arg_1_val",
                                :'data-type' => 'date'
-        cal1 = calendar_for("#{id_prefix}arg_1_val")
-        label1 + text1 + cal1
+        label1 + text1
       end
 
       label2 = label_tag "#{id_prefix}arg_2_val",
@@ -52,11 +51,12 @@ class Widget::Filters::Date < Widget::Filters::Base
                                class: 'advanced-filters--text-field',
                                id: "#{id_prefix}arg_2_val",
                                :'data-type' => 'date'
-        cal2 = calendar_for "#{id_prefix}arg_2_val"
-        label2 + text2 + cal2
+        label2 + text2
       end
 
-      arg1 + arg2
+      cal1 = calendar_for("#{id_prefix}arg_1_val")
+      cal2 = calendar_for("#{id_prefix}arg_2_val")
+      arg1 + arg2 + cal1 + cal2
     end)
   end
 end
