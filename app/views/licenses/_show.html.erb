@@ -1,14 +1,12 @@
 <% if @license.present? && LicenseService.instance.present? %>
-<div class="form--field">
-  <div class="form--label">
-    <%= t('admin.licenses.active_license') %>
-  </div>
-  <div class="form--field-cotainer">
-    <div class="notification-box -info">
-      <div class="notification-box--content">
-        <pre class="license"><%= LicenseService.instance.attributes.to_yaml.gsub(/---\n/,'') %></pre>
-      </div>
+<div class="promote-ee">
+  <h4><%= t('admin.licenses.active_license') + ":" %></h4>
+
+  <div class="notification-box">
+    <div class="notification-box--content">
+      <pre class="license"><%= LicenseService.instance.attributes.to_yaml.gsub(/---\n/,'') %></pre>
     </div>
+    <%= link_to l(:button_delete), license_destroy_path, data: { confirm: l(:text_are_you_sure) }, method: :delete, remote: true, class: 'icon icon-delete' %>
   </div>
 </div>
 <% end %>

@@ -2,29 +2,29 @@
 
 <%= error_messages_for 'license' %>
 
-<%= toolbar title: t('admin.licenses.enterprise_edition_license') do %>
-  <li class="toolbar-item">
-    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
-          { class: 'button -alt-highlight',
-            aria: {label: t('admin.licenses.order_license')},
-            title: t('admin.licenses.order_license')}) do %>
-      <i class="button--icon icon-add"></i>
-      <span class="button--text"><%= t('admin.licenses.order_license') %></span>
-    <% end %>
-  </li>
+<%= toolbar title: t('admin.licenses.license') do %>
+  <% if @license.encoded_license.present? %>
+    <li class="toolbar-item">
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
+            { class: 'button -alt-highlight',
+              aria: {label: t('admin.licenses.order_license')},
+              title: t('admin.licenses.order_license')}) do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= t('admin.licenses.order_license') %></span>
+      <% end %>
+    </li>
+  <% end %>
 <% end %>
 
 <% unless LicenseService.instance.present? %>
-<div class="form--field">
-  <div class="form--label">
-  </div>
-  <div class="form--field-cotainer">
-
+  <div class="notification-box">
+    <div class="notification-box--content">
+      <h3><%= t('admin.licenses.upgrade_to_ee') %></h3>
       <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
 
       <p><%= t('homescreen.blocks.upsale.description') %></p>
 
-      <ul class="widget-box--feature-list">
+      <ul class="">
         <li>
           <%= t('homescreen.blocks.upsale.additional_features') %>
         </li>
@@ -32,6 +32,17 @@
           <%= t('homescreen.blocks.upsale.professional_support') %>
         </li>
       </ul>
+      <p>
+        <b>Become a hero!</b> Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort.
+        <%# t('homescreen.blocks.upsale.professional_support') %>
+      </p>
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
+            { class: 'button -alt-highlight',
+              aria: {label: t('admin.licenses.order_license')},
+              title: t('admin.licenses.order_license')}) do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= t('admin.licenses.order_license') %></span>
+      <% end %>
     </div>
   </div>
 <% end %>
@@ -39,13 +50,13 @@
 
 <%= render partial: "show" %>
 
-<%= labelled_tabular_form_for @license,
+<%= form_for @license,
              :url => {:action => :update},
              :html => {:method => :put} do |f|%>
-  <div class="form--field">
-    <%= f.text_area :encoded_license, :cols => 80, :rows => 15, label: t('admin.licenses.paste') %>
-  </div>
-  <hr class="form-separator">
+
+  <%= f.label :encoded_license, t('admin.licenses.file') + ":"  %>
+  <%= f.text_area :encoded_license, :cols => 60, :rows => 15, placeholder: t('admin.licenses.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
+
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
   <%= link_to t(:button_cancel), {action: :edit}, class: 'button' %>
 <% end %>
