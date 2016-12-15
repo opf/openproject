@@ -14,7 +14,7 @@ interface CellDateMovement {
 
 export class TimelineCellRenderer {
 
-  private dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
+  protected dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
 
   public get type():string {
     return 'bar';
@@ -33,7 +33,7 @@ export class TimelineCellRenderer {
     this.assignDate(wp, 'startDate', dates.startDate);
     this.assignDate(wp, 'dueDate', dates.dueDate);
 
-    this.displayDateDisplays(dates.startDate, dates.dueDate);
+    this.updateLeftRightMovedLabel(dates.startDate, dates.dueDate);
   }
 
   /**
@@ -104,7 +104,7 @@ export class TimelineCellRenderer {
       renderInfo.workPackage.storePristine('dueDate');
     }
 
-    this.displayDateDisplays(
+    this.updateLeftRightMovedLabel(
       moment(renderInfo.workPackage.startDate),
       moment(renderInfo.workPackage.dueDate));
   }
@@ -186,7 +186,7 @@ export class TimelineCellRenderer {
     jQuery("." + timelineElementCssClass).css("cursor", cursor);
   }
 
-  private displayDateDisplays(start: Moment, due: Moment) {
+  private updateLeftRightMovedLabel(start: Moment, due: Moment) {
     if (this.dateDisplaysOnMouseMove.left && start) {
       this.dateDisplaysOnMouseMove.left.innerText = start.format("L");
     }

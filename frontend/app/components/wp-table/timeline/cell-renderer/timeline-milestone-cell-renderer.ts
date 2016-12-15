@@ -1,6 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {TimelineCellRenderer} from "./timeline-cell-renderer";
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
+import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
   // Target value to move milestone to
@@ -8,6 +9,7 @@ interface CellMilestoneMovement {
 }
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
+
   public get type():string {
     return 'milestone';
   }
@@ -23,6 +25,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public assignDateValues(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
     this.assignDate(wp, 'date', dates.date);
+
+    this.updateMilestoneMovedLabel(dates.date);
   }
 
   /**
@@ -46,13 +50,17 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo) {
-    let dates:CellMilestoneMovement = {};
-
+  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): void {
     this.forceCursor('ew-resize');
     renderInfo.workPackage.storePristine('date');
 
-    return dates;
+    // create date label
+    const dateInfo = document.createElement("div");
+    dateInfo.className = "rightDateDisplay";
+    this.dateDisplaysOnMouseMove.right = dateInfo;
+    elem.appendChild(dateInfo);
+
+    this.updateMilestoneMovedLabel(moment(renderInfo.workPackage.date));
   }
 
   public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
@@ -61,10 +69,15 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return false;
     }
 
+    const diamond = jQuery(".diamond", element)[0];
+
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
     element.style.width = '1em';
     element.style.height = '1em';
+    diamond.style.width = '1em';
+    diamond.style.height = '1em';
+
+    diamond.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
     const date = moment(wp.date as any);
@@ -81,9 +94,18 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * move functionality.
    */
   public render(renderInfo: RenderInfo):HTMLDivElement {
-    const el = document.createElement("div");
+    const element = document.createElement("div");
+    element.className = timelineElementCssClass + " " + this.type;
 
-    el.className = timelineElementCssClass + " " + this.type;
-    return el;
+    const diamond = document.createElement("div");
+    diamond.className = "diamond";
+    element.appendChild(diamond);
+
+    return element;
   }
+
+  private updateMilestoneMovedLabel(date: Moment) {
+    this.dateDisplaysOnMouseMove.right.innerText = date.format("L");
+  }
+
 }
