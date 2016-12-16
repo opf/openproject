@@ -34,6 +34,7 @@ export class ModalWrapperController {
   private modalBody: string;
   public modal: any;
   public modalParams: any;
+  public activationLinkId: string;
 
   public iframeSelector = '.iframe-target-wrapper';
 
@@ -50,7 +51,7 @@ export class ModalWrapperController {
               protected ngDialog: IDialogService) {
 
     // Find activation link
-    const activationLink = $element.find('.modal-wrapper--activation-link');
+    var activationLink = $element.find('.modal-wrapper--activation-link');
     if(this.activationLinkId) {
       activationLink = jQuery(this.activationLinkId);
     }
