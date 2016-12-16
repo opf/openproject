@@ -85,7 +85,7 @@
     span
       // to hide the lines from behind the text, you have to set the
       // background color the same as the container
-      background: $content-form-bg-color
+      background: $header-drop-down-bg-color
       padding: 0 15px
 
   .login-auth-provider-list
@@ -93,14 +93,15 @@
 
   a.auth-provider
     float: left
-    width: 147px
-    height: 40px
-    padding-left: 50px
+    padding: 0.5rem 0.5rem 0.5rem 2rem
     margin-left: 10px
-    margin-top: 20px
+    margin-bottom: 10px
     background-image: image-url('auth_provider-developer.png')
-    background-size: 40px 40px
+    background-size: 20px 20px
     background-repeat: no-repeat
+    background-position-x: 5px
+    background-position-y: center
+    background-color: light-grey
     font-weight: normal
     color: $body-font-color
 
@@ -108,17 +109,13 @@
       text-decoration: none
 
     .auth-provider-name
-      vertical-align: middle
-      height: 40px
-      display: table-cell
+      line-height: normal
       white-space: normal
 
 #top-menu #nav-login-content .login-auth-providers
   h3
     &:before
       width: 100%
-    span
-      background: $header-drop-down-bg-color
   .login-auth-provider-list
     margin-top: -15px
     margin-bottom: 10px

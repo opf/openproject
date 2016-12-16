@@ -27,11 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% disable_accessibility_css! %>
-<% html_title t(:label_register) %>
-
 <div class="modal-wrapper--content">
-  <%= labelled_tabular_form_for(@user, url: url_for(action: 'register'), html: { class: 'form -wide-labels' }) do |f| %>
+  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels' }) do |f| %>
 
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
@@ -77,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <br/><br/>
         <% if @user.change_password_allowed? %>
-          <div class="form--field -wide-label">
+          <div class="form--field -wide-label -reduced-margin">
             <%= f.password_field :password,
                                  required: true,
                                  size: 25,
