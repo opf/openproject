@@ -27,11 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+module Queries
+  module Relations
+    module Orders
+      class DefaultOrder < ::Queries::BaseOrder
+        self.model = Relation
+
+        def self.key
+          /id|from|to|involved|type/
+        end
       end
     end
   end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,11 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+module Queries
+  module Relations
+    class RelationQuery < ::Queries::BaseQuery
+      def self.model
+        Relation
+      end
+
+      def self.default_scope
+        Relation.all
       end
     end
   end

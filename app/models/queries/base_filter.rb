@@ -71,7 +71,7 @@ class Queries::BaseFilter
     date_past:        ['>t-', '<t-', 't-', 't', 'w'],
     string:           ['=', '~', '!', '!~'],
     text:             ['~', '!~'],
-    integer:          ['=', '>=', '<=', '!*', '*']
+    integer:          ['=', '!', '>=', '<=', '!*', '*']
   }
 
   attr_accessor :context,
