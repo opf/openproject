@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= stylesheet_link_tag 'auth_plugins/auth_plugins' %>
+
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
     opts = {
@@ -37,14 +39,17 @@ See doc/COPYRIGHT.rdoc for more details.
       opts[:origin] = params['back_url']
     end
   %>
-  <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro[:name] %>">
+  <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro[:name] %> button">
     <style type="text/css" scoped="scoped">
       <% if pro[:icon] %>
         #content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
           background-image: url('<%= image_path(pro[:icon]) %>');
         }
         #top-menu #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
-          background-image: url('<%= image_path(pro[:icon]) %>');
+          background-image: url('<%= image_path(pro[:icon]) %>') ;
+        }
+        .modal-wrapper .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
+          background-image: url('<%= image_path(pro[:icon]) %>') ;
         }
       <% end %>
     </style>
