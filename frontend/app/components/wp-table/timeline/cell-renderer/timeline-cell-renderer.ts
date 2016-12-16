@@ -165,7 +165,7 @@ export class TimelineCellRenderer {
 
   protected typeColor(wp: WorkPackageResourceInterface):string {
     let type = wp.type.state.getCurrentValue();
-    if (type) {
+    if (type && type.color) {
       return type.color;
     }
 
