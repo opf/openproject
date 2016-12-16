@@ -2,12 +2,17 @@
 @import 'elements/_bar'
 @import 'elements/_milestone'
 
+.wp-timeline-header-controls
+  z-index: 101 !important
+
+.wp-timeline--th
+  min-width: 600px !important
+
 .wp-timeline--dummy-controls
   position: absolute
   right: 20px
   background: white
   top: calc(#{$generic-table--header-height} + 10px)
-  z-index: 101
   border: 1px solid #D7D7D7
   box-shadow: 0 5px 3px -4px #DDDDDD
 

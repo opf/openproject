@@ -3,7 +3,6 @@
 
   <div class="generic-table--results-container"
        wp-virtual-scroll-table>
-    <timeline-control></timeline-control>
     <table interactive-table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
         <col highlight-col />
@@ -42,9 +41,12 @@
                           ng-class="column.name == 'id' && '-short' ">
           </th>
 
-          <th ng-show="wpTimelineContainer.visible">
+          <th class="wp-timeline--th" ng-show="wpTimelineContainer.visible">
             <div class="wp-timeline--slider-wrapper">
               <div class="wp-timeline--slider"></div>
+            </div>
+            <div class="wp-timeline-header-controls generic-table--sort-header-outer">
+              <timeline-control></timeline-control>
             </div>
             <div class="wp-timeline-header-container generic-table--sort-header-outer">
               <div class="wp-timeline--scroll-wrapper">
