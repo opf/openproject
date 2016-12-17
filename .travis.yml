@@ -35,9 +35,9 @@ sudo: false
 
 cache:
   bundler: true
+  yarn: true
   directories:
     - frontend/node_modules
-    - frontend/bower_components
 
 bundler_args: --without development production docker
 
@@ -88,16 +88,9 @@ before_install:
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
   # Install Node LTS Boron (6.9.1)
   - nvm install 6.9.1
-  # We need npm 4.0 for a bugfix in cross-platform shrinkwrap
-  # https://github.com/npm/npm/issues/14042
-  - npm install npm@4.0
-  - travis_retry npm install
-
-  # We need phantomjs 2.0 to get tests passing
-  - mkdir travis-phantomjs
-  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
-  - export PATH=$PWD/travis-phantomjs:$PATH
+  # Install yarn
+  - npm install -g yarn
+  - yarn
 
 before_script:
   - sh script/ci_setup.sh $DB
