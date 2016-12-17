@@ -107,9 +107,7 @@ module Pages
     end
 
     def open_full_screen_by_button(work_package)
-      row(work_package).check(I18n.t('js.description_select_work_package',
-                                     id: work_package.id))
-
+      row(work_package).click
       click_button(I18n.t('js.label_activate') + ' ' + I18n.t('js.button_show_view'))
 
       FullWorkPackage.new(work_package, project)
@@ -145,14 +143,14 @@ module Pages
       end
     end
 
+    def table_container
+      find('#content .work-package-table--container')
+    end
+
     private
 
     def path
       project ? project_work_packages_path(project) : work_packages_path
-    end
-
-    def table_container
-      find('#content .work-package-table--container')
     end
 
     def get_filter_name(label)

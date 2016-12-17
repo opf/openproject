@@ -215,7 +215,7 @@ describe 'new work package', js: true do
       wp_page.subject_field.set('new work package')
       save_work_package!
 
-      expect(page).to have_selector('.wp--row input[type=checkbox]:checked')
+      expect(page).to have_selector('.wp--row.-checked')
 
       # Editing the subject after creation
       # Fix for WP #23879
