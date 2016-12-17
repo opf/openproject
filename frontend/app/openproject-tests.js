@@ -27,6 +27,8 @@
 //++
 
 require('./init-app');
+require('angular-mocks/ngMock');
+require('jquery-mockjax')(jQuery, window);
 
 var requireComponent;
 
