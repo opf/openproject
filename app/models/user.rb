@@ -147,7 +147,7 @@ class User < Principal
   }
   scope :admin, -> { where(admin: true) }
 
-  scope :newest, -> { order(created_on: :desc) }
+  scope :newest, -> { not_builtin.order(created_on: :desc) }
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?
