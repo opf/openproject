@@ -77,9 +77,25 @@ But then no other value is possible (even when you update the work package) unle
 
 ### Work Packages
 
+#### Sending user address
+
+The address the mail is sent from must match an existing account in order to map the user action.
+If a matching account is found, the mail handler impersonates the user to create the ticket.
+
+If no matching account is found, the mail is rejected. To override this behavior and allow unknown mail address
+to create work packages, set the option `no_permission_check=1`.
+
+**Note**: This feature only provides a mapping of mail to user account, it does not authenticate the user based on the mail.
+Since you can easily spoof mail addresses, you should not rely on the authenticity of work packages created that way.
+
 #### Attributes
 
-The Attributes you can use in your email are the same whether you create or update a work package. Only the project is a bit special: If you create a work package and do not specify the project via an environment variable you pass along to the rake task you have to put it into the email. If you specify it via an environment variable or you update a work package you do not need to specify it.
+The Attributes you can use in your email are the same whether you create or update a work package.
+
+Only the `project` attribute is a bit special:
+
+You must either add `project` to the set of allowed overridden attributes with `allow_override=project,..` in order to use it in a mail,
+OR set it as fixed variable with `project=identifier`.
 
 The subject of the work package that shall be created is derived from the subject of the email. The body of the email gets parsed and all lines that contain recognized keys are removed. What is left will become the description.
 
