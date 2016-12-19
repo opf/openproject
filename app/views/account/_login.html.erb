@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <label class="form--label-with-check-box" for="autologin"><%= styled_check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
           <% elsif Setting.self_registration? %>
             <%# show here if autologin is disabled, otherwise below lost_password link %>
-            <%= link_to l(:label_register), { controller: '/account', action: 'register' } %>
+            <%= link_to t(:label_register), account_register_url %>
           <% end %>
         </div>
       </div>

@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/347311a5f0c374a05b43b98286933ccc03542f8b/mousetrap/index.d.ts",
+    "raw": "registry:dt/mousetrap#1.5.0+20160725212620",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/347311a5f0c374a05b43b98286933ccc03542f8b/mousetrap/index.d.ts"
+  }
+}

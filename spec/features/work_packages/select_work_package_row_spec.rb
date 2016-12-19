@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
 
 describe 'Select work package row', type: :feature, js:true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
@@ -35,7 +34,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
   let(:work_package_1) { FactoryGirl.create(:work_package, project: project) }
   let(:work_package_2) { FactoryGirl.create(:work_package, project: project) }
   let(:work_package_3) { FactoryGirl.create(:work_package, project: project) }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 
   include_context 'work package table helpers'
 
@@ -46,312 +45,201 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     work_package_2
     work_package_3
 
-    work_packages_page.visit_index
+    wp_table.visit!
+    wp_table.expect_work_package_listed(work_package_1)
+    wp_table.expect_work_package_listed(work_package_2)
+    wp_table.expect_work_package_listed(work_package_3)
   end
 
-  describe 'Work package row selection', js: true do
-    def select_work_package_row(number, mouse_button_behavior = :left)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
-      loading_indicator_saveguard
-      case mouse_button_behavior
-      when :double
-        element.double_click
-      when :right
-        element.right_click
-      else
-        element.click
-      end
+  def select_work_package_row(number, mouse_button_behavior = :left)
+    element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
+    loading_indicator_saveguard
+    case mouse_button_behavior
+    when :double
+      element.double_click
+    when :right
+      element.right_click
+    else
+      element.click
     end
+  end
 
-    def select_work_package_row_with_shift(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
-      loading_indicator_saveguard
+  def select_work_package_row_with_shift(number)
+    element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
+    loading_indicator_saveguard
 
-      page.driver.browser.action.key_down(:shift)
+    page.driver.browser.action.key_down(:shift)
         .click(element.native)
         .key_up(:shift)
         .perform
-    end
+  end
 
-    def select_work_package_row_with_ctrl(number)
-      element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
-      loading_indicator_saveguard
+  def select_work_package_row_with_ctrl(number)
+    element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell.id")
+    loading_indicator_saveguard
 
-      page.driver.browser.action.key_down(:control)
+    page.driver.browser.action.key_down(:control)
         .click(element.native)
         .key_up(:control)
         .perform
+  end
+
+  def expect_row_checked(*indices)
+    indices.each do |i|
+      check_row_selection_state(i, true)
+    end
+  end
+
+  def expect_row_unchecked(*indices)
+    indices.each do |i|
+      check_row_selection_state(i, false)
+    end
+  end
+
+  def check_row_selection_state(row_index, state = true)
+    selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue.-checked"
+
+    expect(page).to (state ? have_selector(selector) : have_no_selector(selector))
+  end
+
+  def check_all
+    wp_table.table_container.send_keys [:control, 'a']
+    expect_row_checked(1, 2, 3)
+  end
+
+  def uncheck_all
+    wp_table.table_container.send_keys [:control, 'd']
+    expect_row_unchecked(1, 2, 3)
+  end
+
+  it 'handles selection flows' do
+    ###
+    # Keyboard shortcuts
+    ###
+    check_all
+    uncheck_all
+
+    ###
+    # SINGLE selections
+    ###
+    select_work_package_row(1, :left)
+    expect_row_checked(1)
+
+    # Select different row
+    select_work_package_row(2, :left)
+    expect_row_unchecked(1)
+    expect_row_checked(2)
+
+    # select different row with right click
+    select_work_package_row(3, :right)
+    expect_row_unchecked(1, 2)
+    expect_row_checked(3)
+
+    ###
+    # RANGE subselection
+    ###
+    uncheck_all
+    select_work_package_row_with_shift(1)
+    expect_row_checked(1)
+
+    select_work_package_row_with_shift(2)
+    expect_row_checked(1, 2)
+    expect_row_unchecked(3)
+
+    ###
+    # RANGE select all
+    ###
+    uncheck_all
+    select_work_package_row_with_shift(1)
+    expect_row_checked(1)
+
+    select_work_package_row_with_shift(3)
+    expect_row_checked(1, 2, 3)
+
+    # Unselect the last row
+    select_work_package_row_with_shift(2)
+    expect_row_checked(1, 2)
+    expect_row_unchecked(3)
+
+    ###
+    # SWAPPING
+    ###
+    uncheck_all
+    select_work_package_row(2)
+    expect_row_checked(2)
+
+    # Select predecessor
+    select_work_package_row_with_shift(1)
+    expect_row_checked(1, 2)
+    expect_row_unchecked(3)
+
+    # Select successor
+    select_work_package_row_with_shift(3)
+    expect_row_unchecked(1)
+    expect_row_checked(2, 3)
+
+    ###
+    # CTRL selections
+    ###
+    uncheck_all
+    select_work_package_row_with_ctrl(1)
+    expect_row_checked(1)
+
+    # Select last row
+    select_work_package_row_with_ctrl(3)
+    expect_row_checked(1, 3)
+    expect_row_unchecked(2)
+
+    # Right click does not lose selection
+    select_work_package_row(3, :right)
+    expect_row_checked(1, 3)
+    expect_row_unchecked(2)
+  end
+
+  describe 'opening work package full screen view' do
+    before do
+      select_work_package_row(1, :double)
     end
 
-    def check_row_selection_state(row_index, state = true)
-      selector = ".work-package-table--container tr:nth-of-type(#{row_index}).issue input[type=checkbox]:checked"
-
-      expect(page).to (state ? have_selector(selector) : have_no_selector(selector))
+    it do
+      expect(page).to have_selector('.work-packages--details--subject',
+                                    text: work_package_3.subject)
     end
+  end
 
-    shared_examples_for 'work package row selected' do
-      let(:indices) { Array(index) }
-
-      it do
-        indices.each do |i|
-          check_row_selection_state(i)
-        end
-      end
-    end
-
-    shared_examples_for 'work package row not selected' do
-      let(:indices) { Array(index) }
-
-      it do
-        indices.each do |i|
-          check_row_selection_state(i, false)
-        end
-      end
-    end
-
-    shared_examples_for 'right click preserves selection' do
-      before do select_work_package_row(selected_rows.first, :right) end
-
-      it_behaves_like 'work package row selected' do
-        let(:index) { selected_rows }
-      end
-
-      it_behaves_like 'work package row not selected' do
-        let(:index) { unselected_rows }
-      end
-    end
-
-    describe 'single selection' do
-      shared_examples_for 'single select' do
-        before do select_work_package_row(1, :left) end
-
-        it_behaves_like 'work package row selected' do
-          let(:index) { 1 }
-        end
-
-        context 'select a different row' do
-          before do
-            check_row_selection_state(1)
-            select_work_package_row(2, mouse_button)
-          end
-
-          it_behaves_like 'work package row selected' do
-            let(:index) { 2 }
-          end
-
-          it_behaves_like 'work package row not selected' do
-            let(:index) { 1 }
-          end
-        end
-      end
-
-      shared_examples_for 'double select unselects' do
-        context 'clicking selected row again' do
-          before do
-            select_work_package_row(1, mouse_button)
-            check_row_selection_state(1)
-            select_work_package_row(1, mouse_button)
-          end
-
-          it_behaves_like 'work package row not selected' do
-            let(:index) { 1 }
-          end
-        end
-      end
-
-      it_behaves_like 'single select' do
-        let(:mouse_button) { :left }
-      end
-
-      it_behaves_like 'double select unselects' do
-        let(:mouse_button) { :left }
-      end
-
-      it_behaves_like 'single select' do
-        let(:mouse_button) { :right }
-      end
-    end
-
-    describe 'range selection' do
-      context 'first row selected' do
-        before do select_work_package_row_with_shift(1) end
-
-        it_behaves_like 'work package row selected' do
-          let(:index) { 1 }
-        end
-
-        context 'select following row' do
-          before do
-            check_row_selection_state(1)
-            select_work_package_row_with_shift(2)
-          end
-
-          it_behaves_like 'work package row selected' do
-            let(:index) { [1, 2] }
-          end
-
-          context 'uninvolved row' do
-            before do check_row_selection_state(2) end
-
-            it_behaves_like 'work package row not selected' do
-              let(:index) { 3 }
-            end
-
-            it_behaves_like 'right click preserves selection' do
-              let(:selected_rows) { [1, 2] }
-              let(:unselected_rows) { 3 }
-            end
-          end
-        end
-
-        context 'select first after next row' do
-          before do
-            check_row_selection_state(1)
-            select_work_package_row_with_shift(3)
-          end
-
-          it_behaves_like 'work package row selected' do
-            let(:index) { [1, 2, 3] }
-          end
-
-          context 'select row after first selected row' do
-            before do
-              check_row_selection_state(2)
-              check_row_selection_state(3)
-
-              select_work_package_row_with_shift(2)
-
-              check_row_selection_state(3, false)
-            end
-
-            it_behaves_like 'work package row selected' do
-              let(:index) { [1, 2] }
-            end
-
-            it_behaves_like 'work package row not selected' do
-              let(:index) { 3 }
-            end
-          end
-        end
-      end
-
-      context 'swapping' do
-        before do select_work_package_row(2) end
-
-        it_behaves_like 'work package row selected' do
-          let(:index) { 2 }
-        end
-
-        context 'select predecessor' do
-          before do
-            check_row_selection_state(2)
-            select_work_package_row_with_shift(1)
-          end
-
-          it_behaves_like 'work package row selected' do
-            let(:index) { [1, 2] }
-          end
-
-          context 'select successor' do
-            before do
-              check_row_selection_state(1)
-              select_work_package_row_with_shift(3)
-            end
-
-            it_behaves_like 'work package row selected' do
-              let(:index) { [2, 3] }
-            end
-
-            it_behaves_like 'work package row not selected' do
-              let(:index) { 1 }
-            end
-          end
-        end
+  describe 'opening work package edit mode' do
+    before do
+      select_work_package_row(1, :right)
+      within '.dropdown-menu' do
+        click_on 'Edit'
       end
     end
 
-    describe 'specific selection' do
-      before do
-        select_work_package_row_with_ctrl(1)
-      end
+    it do
+      wp_page = Pages::FullWorkPackage.new(work_package_3)
+      subject_field = wp_page.edit_field :subject
 
-      it_behaves_like 'work package row selected' do
-        # apparently it should be selected if there one row only
-        let(:index) { 1 }
-      end
+      subject_field.expect_active!
+      expect(subject_field.input_element.value).to eq(work_package_3.subject)
 
-      context 'select first after next row' do
-        before do
-          check_row_selection_state(1)
-          select_work_package_row_with_ctrl(3)
-        end
+      # Cancel edit
+      find('#work-packages--edit-actions-cancel').click
+    end
+  end
 
-        it_behaves_like 'work package row selected' do
-          let(:index) { [1, 3] }
-        end
-
-        context 'uninvolved row' do
-          before do
-            check_row_selection_state(3)
-          end
-
-          it_behaves_like 'work package row not selected' do
-            let(:index) { 2 }
-          end
-
-          it_behaves_like 'right click preserves selection' do
-            let(:selected_rows) { [1, 3] }
-            let(:unselected_rows) { 2 }
-          end
-        end
-      end
+  describe 'opening last selected work package' do
+    before do
+      select_work_package_row(2)
+      expect_row_checked(2)
     end
 
-    describe 'opening work package full screen view' do
-      before do
-        select_work_package_row(1, :double)
-      end
+    it do
+      find('#work-packages-details-view-button').click
 
-      it do
-        expect(page).to have_selector('.work-packages--details--subject',
-                                      text: work_package_3.subject)
-      end
-    end
+      split_wp = Pages::SplitWorkPackage.new(work_package_2)
+      split_wp.expect_attributes Subject: work_package_2.subject
 
-    describe 'opening work package edit mode' do
-      before do
-        select_work_package_row(1, :right)
-        within '.dropdown-menu' do
-          click_on 'Edit'
-        end
-      end
-
-      it do
-        wp_page = Pages::FullWorkPackage.new(work_package_3)
-        subject_field = wp_page.edit_field :subject
-
-        subject_field.expect_active!
-        expect(subject_field.input_element.value).to eq(work_package_3.subject)
-
-        # Cancel edit
-        find('#work-packages--edit-actions-cancel').click
-      end
-    end
-
-    describe 'opening last selected work package' do
-      before do
-        select_work_package_row(2)
-        check_row_selection_state(2)
-      end
-
-      it do
-        find('#work-packages-details-view-button').click
-
-        split_wp = Pages::SplitWorkPackage.new(work_package_2)
-        split_wp.expect_attributes Subject: work_package_2.subject
-
-        find('#work-packages-list-view-button').click
-      end
+      find('#work-packages-list-view-button').click
     end
   end
 end
