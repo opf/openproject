@@ -33,7 +33,7 @@ module.exports = function(TimezoneService) {
     scope: { timeValue: '=', hideTitle: '@' },
     template: '<span title="{{ timeTitle }}">{{time}}</span>',
     link: function(scope, element, attrs) {
-      scope.time = TimezoneService.formattedTime(scope.timeValue);
+      scope.time = TimezoneService.formattedTime(TimezoneService.parseDatetime(scope.timeValue));
       if (!scope.hideTitle) {
         scope.timeTitle = scope.time;
       }

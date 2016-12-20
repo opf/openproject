@@ -33,8 +33,9 @@ module.exports = function($compile, TimezoneService) {
     scope: { dateTimeValue: '=' },
     template: '<span title="{{ date }} {{ time }}"><op-date date-value="dateTimeValue" hide-title="true"></op-date> <op-time time-value="dateTimeValue" hide-title="true"></op-time></span>',
     link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
-      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
+      var datetime = TimezoneService.parseDatetime(scope.dateTimeValue);
+      scope.date = TimezoneService.formattedDate(datetime);
+      scope.time = TimezoneService.formattedTime(datetime);
 
       $compile(element.contents())(scope);
     }

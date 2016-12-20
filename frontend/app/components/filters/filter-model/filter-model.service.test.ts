@@ -55,7 +55,7 @@ describe('Filter', function () {
     var filter, textValue;
 
     beforeEach(function () {
-      filter = Factory.build('Filter', {name: 'subject', values: []});
+      filter = Factory.build('Filter', {name: 'subject', type:'string', values: []});
     });
 
     describe('and the text value is set', function () {
@@ -70,6 +70,82 @@ describe('Filter', function () {
 
       it('should serialize the text value', function () {
         expect(filter.getValuesAsArray()).to.eql([textValue]);
+      });
+    });
+  });
+
+  describe('single date filter', function () {
+    var filter, dateValue;
+
+    beforeEach(function () {
+      filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '=d', values: []});
+    });
+
+    describe('and the date value is set', function () {
+      beforeEach(function () {
+        dateValue = '2016-12-01';
+        filter.dateValue = dateValue;
+      });
+
+      it('is considered to be configured', function () {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the date value', function () {
+        expect(filter.getValuesAsArray()).to.eql([dateValue]);
+      });
+    });
+  });
+
+  describe('date range filter', function () {
+    var filter, dateValues;
+
+    beforeEach(function () {
+      filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '<>d', values: []});
+    });
+
+    describe('and the values are set incl. both from and until', function () {
+      beforeEach(function () {
+        dateValues = ['2016-12-01', '2016-12-31'];
+        filter.values = {'0': dateValues[0], '1': dateValues[1]};
+      });
+
+      it('is considered to be configured', function () {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the date values', function () {
+        expect(filter.getValuesAsArray()).to.eql(dateValues);
+      });
+    });
+
+    describe('and the values are set incl. from excl. until', function () {
+      beforeEach(function () {
+        dateValues = ['2016-12-01'];
+        filter.values = {'0': dateValues[0], '1': dateValues[1]};
+      });
+
+      it('is considered to be configured', function () {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the date values', function () {
+        expect(filter.getValuesAsArray()).to.eql(dateValues);
+      });
+    });
+
+    describe('and the values are set excl. from incl. until', function () {
+      beforeEach(function () {
+        dateValues = ['undefined', '2016-12-31'];
+        filter.values = {'0': dateValues[0], '1': dateValues[1]};
+      });
+
+      it('is considered to be configured', function () {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the date values', function () {
+        expect(filter.getValuesAsArray()).to.eql(dateValues);
       });
     });
   });

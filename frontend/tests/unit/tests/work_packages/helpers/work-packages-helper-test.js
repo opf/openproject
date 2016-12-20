@@ -29,20 +29,13 @@
 /*jshint expr: true*/
 
 describe('Work packages helper', function() {
-  var WorkPackagesHelper;
+  var WorkPackagesHelper, TimezoneService;
 
   beforeEach(angular.mock.module('openproject.helpers', 'openproject.services'));
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
 
-    configurationService.isTimezoneSet = sinon.stub();
-    configurationService.dateFormatPresent = sinon.stub();
-    configurationService.timeFormatPresent = sinon.stub();
-
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-  beforeEach(inject(function(_WorkPackagesHelper_) {
+  beforeEach(inject(function(_WorkPackagesHelper_, _TimezoneService_) {
     WorkPackagesHelper = _WorkPackagesHelper_;
+    TimezoneService = _TimezoneService_;
   }));
 
   describe('getRowObjectContent', function() {
@@ -97,34 +90,29 @@ describe('Work packages helper', function() {
   });
 
   describe('formatValue', function() {
-    var formatValue;
-
-    beforeEach(function() {
-      formatValue = WorkPackagesHelper.formatValue;
-    });
 
     it('should display a currency value', function() {
-      expect(formatValue(99,     'currency')).to.equal("EUR 99.00");
-      expect(formatValue(20.99,  'currency')).to.equal("EUR 20.99");
-      expect(formatValue("20",   'currency')).to.equal("EUR 20.00");
+      expect(WorkPackagesHelper.formatValue(99,     'currency')).to.equal("EUR 99.00");
+      expect(WorkPackagesHelper.formatValue(20.99,  'currency')).to.equal("EUR 20.99");
+      expect(WorkPackagesHelper.formatValue("20",   'currency')).to.equal("EUR 20.00");
     });
 
     it('should display empty strings for empty/undefined dates', function() {
-      expect(formatValue("", 'datetime')).to.equal("");
-      expect(formatValue(undefined, 'datetime')).to.equal("");
-      expect(formatValue(null, 'datetime')).to.equal("");
-      expect(formatValue("", 'date')).to.equal("");
-      expect(formatValue(undefined, 'date')).to.equal("");
-      expect(formatValue(null, 'date')).to.equal("");
+      expect(WorkPackagesHelper.formatValue("", 'datetime')).to.equal("");
+      expect(WorkPackagesHelper.formatValue(undefined, 'datetime')).to.equal("");
+      expect(WorkPackagesHelper.formatValue(null, 'datetime')).to.equal("");
+      expect(WorkPackagesHelper.formatValue("", 'date')).to.equal("");
+      expect(WorkPackagesHelper.formatValue(undefined, 'date')).to.equal("");
+      expect(WorkPackagesHelper.formatValue(null, 'date')).to.equal("");
     });
 
-    var TIME = '2014-01-01T00:00:00';
-    var EXPECTED_DATE = '01/01/2014';
-    var EXPECTED_DATETIME = '01/01/2014 12:00 AM';
-
     it('should display parsed dates and datetimes', function(){
-      expect(formatValue(TIME, 'date')).to.equal(EXPECTED_DATE);
-      expect(formatValue(TIME, 'datetime')).to.equal(EXPECTED_DATETIME);
+      var datetime = '2014-01-01T00:00:00';
+      var localDatetime = TimezoneService.parseDatetime(datetime);
+      var expectedDate = TimezoneService.formattedDate(localDatetime);
+      var expectedDatetime= TimezoneService.formattedDatetime(localDatetime);
+      expect(WorkPackagesHelper.formatValue(datetime, 'date')).to.equal(expectedDate);
+      expect(WorkPackagesHelper.formatValue(datetime, 'datetime')).to.equal(expectedDatetime);
     });
   });
 

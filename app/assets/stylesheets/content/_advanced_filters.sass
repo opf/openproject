@@ -35,6 +35,27 @@
   &.collapsed
     display: none
 
+.advanced-filters--operator-value-container
+  display: flex
+  flex: 1 1 auto
+  flex-flow: row wrap
+  align-items: flex-start
+  min-width: 40%
+  max-width: 600px
+
+.advanced-filters--value-container
+  display: flex
+  align-items: flex-start
+  flex: 1 1 auto
+  flex-flow: row nowrap
+
+.advanced-filters--value-container > *
+  margin-right: 8px
+
+.advanced-filters--value-container
+  .advanced-filters--date-field
+    min-width: 100px
+
 @mixin advanced-filters--sizing()
   @include grid-block()
 

@@ -115,32 +115,20 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
     },
 
     formatValue: function(value, dataType) {
-      switch(dataType) {
+      switch(dataType ? dataType.toLowerCase() : null) {
         case 'datetime':
-          var dateTime;
-          if (value) {
-            dateTime = TimezoneService.formattedDatetime(value);
-          }
-          return dateTime || '';
-        case 'date':
-          return value ? TimezoneService.formattedDate(value) : '';
+          return value ? TimezoneService.formattedDatetime(TimezoneService.parseDatetime(value)) : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
-        case 'Duration':
+        case 'duration':
           return TimezoneService.formattedDuration(value);
-        case 'DateTime':
-          return TimezoneService.formattedDatetime(value);
-        case('Boolean'):
+        case('boolean'):
           return value ? I18n.t('js.general_text_yes') : I18n.t('js.general_text_no');
-        case 'Date':
-          return TimezoneService.formattedDate(value);
+        case 'date':
+          return value ? TimezoneService.formattedDate(TimezoneService.parseDate(value)) : '';
         default:
           return value;
       }
-    },
-
-    parseDateTime: function(value) {
-      return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     }
   };
 
