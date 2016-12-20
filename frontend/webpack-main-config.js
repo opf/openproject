@@ -123,27 +123,27 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      root: __dirname,
+      root: [
+        path.resolve(__dirname, 'app'),
+        path.resolve(__dirname, 'tests')
+      ],
 
       extensions: ['', '.webpack.js', '.ts', '.js'],
 
-      modulesDirectories: [
-        'node_modules',
-        'bower_components',
-        'vendor'
-      ].concat(pathConfig.pluginDirectories),
-
-      fallback: [path.join(__dirname, 'bower_components')],
+      modulesDirectories: ['node_modules'].concat(pathConfig.pluginDirectories),
 
       alias: _.merge({
         'locales': './../../config/locales',
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
+        'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
+        'select2': path.resolve(__dirname, 'vendor', 'select2'),
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         'mousetrap': 'mousetrap/mousetrap.js',
-        'ngFileUpload': 'ng-file-upload/ng-file-upload',
+        'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
+        'rxjs': 'rx/dist/rx.all.min.js',
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
@@ -188,13 +188,7 @@ function getWebpackMainConfig() {
       new webpack.ContextReplacementPlugin(
         /(angular-i18n)/,
         new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$', 'i')
-      ),
-
-      // Resolve bower dependencies
-      new webpack.ResolverPlugin([
-        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
-            'bower.json', ['main'])
-      ])
+      )
     ]
   };
 

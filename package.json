@@ -2,11 +2,11 @@
   "name": "openproject",
   "version": "0.1.0",
   "scripts": {
-    "postinstall": "cd frontend && npm install",
-    "test": "cd frontend && npm test && cd ..",
-    "karma": "cd frontend && npm run karma && cd ..",
-    "webpack": "cd frontend && npm run webpack && cd ..",
-    "webpack-watch": "cd frontend && npm run webpack-watch"
+    "postinstall": "cd frontend && yarn",
+    "test": "cd frontend && yarn test && cd ..",
+    "karma": "cd frontend && yarn run karma && cd ..",
+    "webpack": "cd frontend && yarn run webpack && cd ..",
+    "webpack-watch": "cd frontend && yarn run webpack-watch"
   },
   "private": true,
   "dependencies": {

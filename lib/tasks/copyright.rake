@@ -202,7 +202,6 @@ namespace :copyright do
                 'app/assets/javascripts/date-en-US.js',
                 'app/assets/javascripts/jstoolbar/',
                 'app/assets/javascripts/lib/',
-                'frontend/bower_components',
                 'frontend/node_modules',
                 'frontend/vendor']
 
@@ -237,8 +236,6 @@ namespace :copyright do
     excluded = [
       'coverage',
       'frontend/app/templates/',
-      'frontend/bower_components',
-      'frontend/coverage',
       'frontend/node_modules',
       'frontend/tmp',
       'frontend/vendor'

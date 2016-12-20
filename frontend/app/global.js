@@ -36,7 +36,7 @@ require('phantomjs-polyfill');
 
 require('jquery');
 require('jquery-ujs');
-require('jquery-ui/jquery-ui.js');
+require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/i18n/datepicker-en-GB.js');
 require('jquery-ui/ui/i18n/datepicker-de.js');
 require('./misc/datepicker-defaults');
@@ -49,26 +49,24 @@ require('jquery-ui/themes/base/datepicker.css');
 // TODO: move require to backlogs plugin
 require('jquery-ui/themes/base/dialog.css');
 
-require('moment');
+require('expose?moment!moment');
 require('moment/locale/en-gb.js');
 require('moment/locale/de.js');
 
-require('moment-timezone/moment-timezone.js');
-require('moment-timezone/moment-timezone-data.js');
+require('jquery.caret');
+require('at.js/jquery.atwho.min.js');
+require('at.js/jquery.atwho.min.css');
 
-require('jquery.atwho/dist/js/jquery.atwho.js');
-require('jquery.atwho/dist/css/jquery.atwho.css');
+require('moment-timezone/builds/moment-timezone-with-data.min.js');
 
-require('Caret.js/src/jquery.caret.js');
-
-require('select2/select2.js');
+require('select2/select2.min.js');
 require('select2/select2.css');
 
 require('angular');
 require('angular-sanitize');
 
-require('angular-ui-select/dist/select');
-require('angular-ui-select/dist/select.css');
+require('ui-select/dist/select.min.js');
+require('ui-select/dist/select.min.css');
 
 require('rxjs');
 require('ng-dialog/js/ngDialog.min.js');

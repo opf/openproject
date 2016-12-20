@@ -30,6 +30,7 @@ import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {HalResource} from './hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 import {HalRequestService} from '../hal-request/hal-request.service';
+import {HalLinkInterface} from './../hal-link/hal-link.service';
 
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
@@ -257,7 +258,7 @@ describe('HalResource service', () => {
         }
       };
       resource = new HalResource(source);
-      resource.resource = null;
+      (resource as any).resource = null;
     });
 
     it('should be null', () => {
@@ -399,10 +400,13 @@ describe('HalResource service', () => {
     });
 
     describe('when overriding the property with a resource', () => {
-      var link;
+      var link:HalLinkInterface;
 
       beforeEach(() => {
-        link = {href: 'pony'};
+        link = {
+          href: 'pony',
+          method: 'GET'
+        };
         resource.resource = HalResource.fromLink(link);
       });
 

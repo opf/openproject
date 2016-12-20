@@ -62,8 +62,6 @@ module.exports = function (config) {
       '../app/assets/javascripts/date-en-US.js',
 
       'tests/unit/lib/rosie.js',
-      'bower_components/angular-mocks/angular-mocks.js',
-      'bower_components/jquery-mockjax/src/jquery.mockjax.js',
       'tests/unit/tests/asset_functions.js',
 
       'tests/openproject-test-bundle.js'
