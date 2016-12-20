@@ -481,6 +481,23 @@ class User < Principal
     end
   end
 
+  ##
+  # Returns the first user that matches (in this order), either:
+  # 1. The given ID
+  # 2. The given login
+  def self.find_by_unique(login_or_id)
+    matches = where(id: login_or_id).or(where(login: login_or_id)).to_a
+
+    case matches.length
+    when 0
+      raise ActiveRecord::RecordNotFound
+    when 1
+      return matches.first
+    else
+      return matches.find { |user| user.id.to_s == login_or_id.to_s }
+    end
+  end
+
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
