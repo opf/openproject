@@ -7,7 +7,7 @@
     "assertion-error": "github:DefinitelyTyped/DefinitelyTyped/assertion-error/assertion-error.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908",
     "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908",
     "chai-as-promised": "github:DefinitelyTyped/DefinitelyTyped/chai-as-promised/chai-as-promised.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908",
-    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160726072212",
     "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#4ec3c5bf291bc02f49eb30c1077340b235165c67",
     "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#627b6c158b73494c803f36fc2fe00ad75faa8fde",
     "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#86bb15f6b9a3515bd9b3ca61f2a670533ac6b908",
