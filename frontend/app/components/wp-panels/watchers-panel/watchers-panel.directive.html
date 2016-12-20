@@ -24,7 +24,7 @@
                typeahead-wait-ms="100"
                typeahead-template-url="/components/common/typeahead/users/typeahead-match.html"
                placeholder="{{ ::vm.text.autocomplete.placeholder }}"
-               uib-typeahead="item as item.name for item in vm.autocompleteWatchers($viewValue)">
+               uib-typeahead="item as (item.name | htmlEscape) for item in vm.autocompleteWatchers($viewValue)">
       </form>
     </div>
   </div>
