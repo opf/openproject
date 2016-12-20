@@ -44,10 +44,4 @@ describe Queries::Users::Filters::StatusFilter, type: :model do
       end
     end
   end
-
-  it_behaves_like 'list query filter' do
-    let(:attribute) { :status }
-    let(:model) { User }
-    let(:valid_values) { [Principal::STATUSES.keys.first] }
-  end
 end
