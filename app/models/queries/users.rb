@@ -31,6 +31,7 @@ module Queries::Users
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::NameFilter
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::GroupFilter
   Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::StatusFilter
+  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::LoginFilter
 
   Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::DefaultOrder
   Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::NameOrder
