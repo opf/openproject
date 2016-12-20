@@ -71,17 +71,12 @@ module.exports = function(I18n, PaginationService, PathHelper) {
           return !filter.deactivated;
         })
         .map(function(filter) {
-          var filterData = {
+          return {
             n: filter.name,
             o: encodeURIComponent(filter.operator),
-            t: filter.type
+            t: filter.type,
+            v: filter.getValuesAsArray()
           };
-          if(filter.textValue) {
-            angular.extend(filterData, { v: filter.textValue });
-          } else if(filter.values) {
-            angular.extend(filterData, { v: filter.values });
-          }
-          return filterData;
         });
       }
       paramsData.pa = PaginationService.getPage();

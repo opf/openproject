@@ -42,7 +42,8 @@ describe('queryFilters', () => {
 
   beforeEach(angular.mock.module('openproject.templates', function ($provide) {
     $provide.constant('ConfigurationService', {
-      accessibilityModeEnabled: sinon.stub().returns(false)
+      accessibilityModeEnabled: sinon.stub().returns(false),
+      isTimezoneSet: sinon.stub().returns(false)
     });
   }));
 
@@ -90,6 +91,7 @@ describe('queryFilters', () => {
       var filter2 = Factory.build('Filter', {name: 'start_date'});
       var filter3 = Factory.build('Filter', {name: 'done_ratio'});
 
+      // currently unused
       var removeFilter = filterName => {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
           ' .advanced-filters--remove-filter a');
@@ -108,28 +110,29 @@ describe('queryFilters', () => {
 
       describe('operator dropdown preselected value', () => {
         context('OPERATORS_NOT_REQUIRING_VALUES', () => {
-          context('does intersect with filter\'s operators', () => {
+          context('will not preselect any operators not requiring values', () => {
             beforeEach(() => {
               OPERATORS_AND_LABELS_BY_FILTER_TYPE['some_type'] = [
-                ['!*', 'label_none'], ['*', 'label_all']
+                {symbol:'!*', label:'label_none'}, {symbol:'*', label:'label_all'}
               ];
               scope.query.filters.push({
-                isSingleInputField: () => true,
+                isSelectInputField: () => false,
                 name: 'some_value',
                 type: 'some_type',
                 values: []
               });
               scope.$apply();
             });
-            it('should be undefined', () => {
-              expect(scope.operator).to.be.undefined;
+            it('should have injected an undefined option', () => {
+              var operatorValue = element.find('#operators-some_value').val();
+              expect(operatorValue).to.eq('? undefined:undefined ?');
             });
           });
 
-          context('doesn\'t intersect with filter\'s operators', () => {
+          context('will preselect first operator requiring values', () => {
             beforeEach(() => {
               scope.query.filters.push({
-                isSingleInputField: () => true,
+                isSelectInputField: () => false,
                 name: 'some_value',
                 type: 'integer',
                 values: []
@@ -139,7 +142,6 @@ describe('queryFilters', () => {
             it('should take the first one', () => {
               var operatorValue = element.find('#operators-some_value').val();
               expect(operatorValue).to.eq('=');
-              expect(operatorValue).to.eq(OPERATORS_AND_LABELS_BY_FILTER_TYPE['integer'][0][0]);
             });
           });
         });

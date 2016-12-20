@@ -35,7 +35,7 @@ module.exports = function(TimezoneService) {
     link: function(scope, element, attrs) {
       function setDate(date) {
         if(date){
-          scope.date = TimezoneService.formattedDate(date);
+          scope.date = TimezoneService.formattedDate(TimezoneService.parseDate(date));
         } else {
           scope.date = scope.noDateText;
         }

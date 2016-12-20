@@ -27,11 +27,11 @@
 // ++
 
 interface OpDatePickerScope extends ng.IScope {
-  onChange:Function;
+  onChange?:Function;
   onClose?:Function;
 }
 
-function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, attrs, ngModel) {
+function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs) {
   // we don't want the date picker in the accessibility mode
   if (this.ConfigurationService.accessibilityModeEnabled()) {
     return;
@@ -40,16 +40,15 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
   let input = element.find('input');
   let datePickerInstance;
   let DatePicker = this.Datepicker;
-  let onChange = scope.onChange;
-  let onClose = scope.onClose;
 
-  let unbindNgModelInitializationWatch = scope.$watch(() => ngModel.$viewValue !== NaN, () => {
-    // This indirection is needed to prevent
-    // 'Missing instance data for this datepicker' errors.
-    input.focus( () => {
-      showDatePicker();
-    });
-    unbindNgModelInitializationWatch();
+  let defaultHandler = function () {
+    input.change();
+  };
+  let onChange = scope.onChange || defaultHandler;
+  let onClose = scope.onClose || defaultHandler;
+
+  input.focus( () => {
+    showDatePicker();
   });
 
   input.keydown((event) => {
@@ -68,12 +67,12 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
         if (input.val().trim() === '') {
           val = null;
         }
-        ngModel.$setViewValue(val);
+        input.val(val);
         onChange();
       },
       onClose: onClose
     };
-    datePickerInstance = new DatePicker(input, ngModel.$viewValue, options);
+    datePickerInstance = new DatePicker(input, input.val(), options);
 
     datePickerInstance.show();
   }
@@ -91,10 +90,9 @@ function opDatePicker(ConfigurationService, Datepicker) {
     templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
     // http://stackoverflow.com/a/33614939/3206935
     link: angular.bind(dependencies, opDatePickerLink),
-    require: 'ngModel',
     scope: {
-      onChange: '&',
-      onClose: '&',
+      onChange: '&?',
+      onClose: '&?',
     }
   };
 }
