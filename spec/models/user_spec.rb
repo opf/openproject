@@ -46,21 +46,18 @@ describe User, type: :model do
   }
 
   describe 'a user with a long login (<= 256 chars)' do
+    let(:login) { 'a' * 256 }
     it 'is valid' do
-      user.login = 'a' * 256
+      user.login = login
       expect(user).to be_valid
     end
 
-    it 'may be stored in the database' do
-      user.login = 'a' * 256
-      expect(user.save).to be_truthy
-    end
-
     it 'may be loaded from the database' do
-      user.login = 'a' * 256
-      user.save
+      user.login = login
+      expect(user.save).to be_truthy
 
-      expect(User.find_by_login('a' * 256)).to eq(user)
+      expect(User.find_by_login(login)).to eq(user)
+      expect(User.find_by_unique(login)).to eq(user)
     end
   end
 
