@@ -34,6 +34,7 @@ describe 'API v3 Query resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
+  let(:other_project) { FactoryGirl.create(:project) }
   let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
   end
@@ -43,14 +44,21 @@ describe 'API v3 Query resource', type: :request do
     FactoryGirl.create(:role, permissions: [:manage_public_queries])
   end
   let(:query) { FactoryGirl.create(:public_query, project: project) }
+  let(:other_query) { FactoryGirl.create(:public_query, project: other_project) }
+  let(:global_query) { FactoryGirl.create(:global_query) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe '#get queries/' do
+    let(:path) { api_v3_paths.queries }
+    let(:prepare) {}
+
     before do
-      get api_v3_paths.queries
+      prepare
+
+      get path
     end
 
     context 'user has view_work_packages in a project' do
@@ -79,6 +87,68 @@ describe 'API v3 Query resource', type: :request do
         let(:non_member_permissions) { [] }
 
         it_behaves_like 'unauthorized access'
+      end
+    end
+
+    context 'filtering for project' do
+      let(:path) do
+        filter = [project: { operator: "=", values: [project.id.to_s] }].to_json
+
+        "#{api_v3_paths.queries}?filters=#{filter}"
+      end
+
+      let(:prepare) do
+        query
+        global_query
+        other_query
+
+        FactoryGirl.create(:member,
+                           roles: [role],
+                           project: other_query.project,
+                           user: current_user)
+      end
+
+      it 'includes only queries from the specified project' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(query.name.to_json)
+          .at_path("_embedded/elements/0/name")
+      end
+    end
+
+    context 'filtering for global query' do
+      let(:path) do
+        filter = [project: { operator: "!*", values: [] }].to_json
+
+        "#{api_v3_paths.queries}?filters=#{filter}"
+      end
+
+      let(:prepare) do
+        query
+        global_query
+        other_query
+
+        FactoryGirl.create(:member,
+                           roles: [role],
+                           project: other_query.project,
+                           user: current_user)
+      end
+
+      it 'includes only queries from the specified project' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(global_query.name.to_json)
+          .at_path("_embedded/elements/0/name")
       end
     end
   end

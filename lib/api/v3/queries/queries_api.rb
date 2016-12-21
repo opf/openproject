@@ -37,11 +37,17 @@ module API
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
-            queries = Query.visible(to: current_user).global
-            self_link = api_v3_paths.queries
-            ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
-                                                               self_link,
-                                                               current_user: current_user)
+            query_query = ::API::V3::ParamsToQueryService.new(Query, current_user).call(params)
+
+            if query_query.valid?
+              queries = query_query.results
+              self_link = api_v3_paths.queries
+              ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
+                                                                 self_link,
+                                                                 current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query_query.errors.full_messages)
+            end
           end
 
           params do

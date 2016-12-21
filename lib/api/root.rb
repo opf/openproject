@@ -131,7 +131,6 @@ module API
       # projects
       def authorize_any(permissions, projects: nil, global: false, user: current_user)
         raise ArgumentError if projects.nil? && !global
-        raise ArgumentError if global && !projects.nil?
 
         projects = Array(projects)
 
@@ -153,9 +152,8 @@ module API
 
     def self.auth_headers
       lambda do
-        header = OpenProject::Authentication::WWWAuthenticate.response_header(
-          scope: API_V3,
-          request_headers: env)
+        header = OpenProject::Authentication::WWWAuthenticate
+                 .response_header(scope: API_V3, request_headers: env)
 
         { 'WWW-Authenticate' => header }
       end

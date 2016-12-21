@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :query do
-    project
-    user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
-
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
-    end
-
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
-    end
-
-    factory :global_query do
-      project nil
-      is_public true
-      sequence(:name) { |n| "Global query #{n}" }
-    end
-
-    callback(:after_build) { |query| query.add_default_filter }
-  end
+# Configures a Query on the Query model.  This allows to
+# e.g get all queries that belong to a specific project or
+# all projects that are global
+module Queries::Queries
+  Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectFilter
 end
