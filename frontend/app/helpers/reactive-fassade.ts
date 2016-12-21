@@ -1,7 +1,6 @@
 import {scopedObservable} from "./angular-rx-utils";
-import Observable = Rx.Observable;
 import IScope = angular.IScope;
-import IPromise = Rx.IPromise;
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 export abstract class StoreElement {
 
@@ -27,11 +26,11 @@ export class State<T> extends StoreElement {
 
   private timestampOfLastPromise = -1;
 
-  private subject = new Rx.BehaviorSubject<T>(null);
+  private subject = new BehaviorSubject<T>(null);
 
   private lastValue: T = null;
 
-  private cleared = new Rx.Subject();
+  private cleared = new Subject();
 
   private observable: Observable<T>;
 
@@ -105,7 +104,7 @@ export class State<T> extends StoreElement {
     return this;
   }
 
-  public get(): IPromise<T> {
+  public get() {
     return this.observable.take(1).toPromise();
   }
 
@@ -119,12 +118,12 @@ export class State<T> extends StoreElement {
 
   private setState(val: T) {
     this.lastValue = val;
-    this.subject.onNext(val);
+    this.subject.next(val);
 
     if (val === null || val === undefined) {
       this.timestampOfLastValue = -1;
       this.timestampOfLastPromise = -1;
-      this.cleared.onNext(null);
+      this.cleared.next(null);
     } else {
       this.timestampOfLastValue = Date.now();
     }

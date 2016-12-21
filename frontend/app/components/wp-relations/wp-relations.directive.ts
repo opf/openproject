@@ -34,6 +34,7 @@ import {
   WorkPackageResource
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {Observable} from "rxjs";
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -69,9 +70,9 @@ export class WorkPackageRelationsController {
     let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
 
     if (observablesToGetZipped.length > 1) {
-      return Rx.Observable
+      return Observable
         .zip
-        .apply(Rx.Observable, observablesToGetZipped);
+        .apply(Observable, observablesToGetZipped);
     }
 
     return observablesToGetZipped[0];
