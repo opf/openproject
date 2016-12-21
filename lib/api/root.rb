@@ -131,17 +131,20 @@ module API
       # projects
       def authorize_any(permissions, projects: nil, global: false, user: current_user)
         raise ArgumentError if projects.nil? && !global
+        raise ArgumentError if global && !projects.nil?
+
         projects = Array(projects)
 
-        authorized = permissions.any? { |permission|
-          allowed_projects = Project.allowed_to(user, permission)
-
+        authorized = permissions.any? do |permission|
           if global
-            allowed_projects.any?
+            authorize(permission, global: true, user: user) do
+              false
+            end
           else
+            allowed_projects = Project.allowed_to(user, permission)
             !(allowed_projects & projects).empty?
           end
-        }
+        end
 
         raise API::Errors::Unauthorized unless authorized
         authorized

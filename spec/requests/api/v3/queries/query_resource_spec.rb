@@ -34,12 +34,14 @@ describe 'API v3 Query resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:manage_public_queries_role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
+  let(:manage_public_queries_role) do
+    FactoryGirl.create(:role, permissions: [:manage_public_queries])
+  end
   let(:query) { FactoryGirl.create(:public_query, project: project) }
 
   before do
@@ -51,8 +53,17 @@ describe 'API v3 Query resource', type: :request do
       get api_v3_paths.queries
     end
 
-    it 'should succeed' do
-      expect(last_response.status).to eq(200)
+    context 'user has view_work_packages in a project' do
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
+    end
+
+    context 'user has manage_public_queries in a project' do
+      let(:permissions) { [:manage_public_queries] }
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
     end
 
     context 'user not allowed to see queries' do
