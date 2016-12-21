@@ -40,7 +40,9 @@ module API
             query_query = ::API::V3::ParamsToQueryService.new(Query, current_user).call(params)
 
             if query_query.valid?
-              queries = query_query.results
+              queries = query_query
+                        .results
+
               self_link = api_v3_paths.queries
               ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
                                                                  self_link,

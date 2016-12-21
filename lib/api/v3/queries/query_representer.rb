@@ -34,7 +34,6 @@ module API
   module V3
     module Queries
       class QueryRepresenter < ::API::Decorators::Single
-
         self_link
 
         linked_property :user
@@ -45,12 +44,12 @@ module API
         property :filters,
                  exec_context: :decorator,
                  getter: -> (*) {
-                   represented.filters.map { |filter|
+                   represented.filters.map do |filter|
                      attribute = convert_attribute filter.field
                      {
                        attribute => { operator: filter.operator, values: filter.values }
                      }
-                   }
+                   end
                  }
         property :is_public, getter: -> (*) { is_public }
         property :column_names,
@@ -63,9 +62,9 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) {
                    return nil unless represented.sort_criteria
-                   represented.sort_criteria.map { |attribute, order|
+                   represented.sort_criteria.map do |attribute, order|
                      [convert_attribute(attribute), order]
-                   }
+                   end
                  }
         property :group_by,
                  exec_context: :decorator,
@@ -75,6 +74,9 @@ module API
                  render_nil: true
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
+
+        self.to_eager_load = [:query_menu_item,
+                              project: { work_package_custom_fields: :translations }]
 
         private
 
