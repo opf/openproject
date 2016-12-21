@@ -47,15 +47,19 @@ class Query < ActiveRecord::Base
 
   validate :validate_work_package_filters
 
-  scope :visible, -> (to:) {
+  scope :visible, -> (to:) do
     # User can see public queries and his own queries
-    where('is_public = ? OR user_id = ?',
-          true,
-          (to.logged? ? to.id : 0))
-  }
+    scope = where(is_public: true)
+
+    if to.logged?
+      scope.or(where(user_id: to.id))
+    else
+      scope
+    end
+  end
 
   scope :global, -> {
-    where('project_id IS NULL')
+    where(project_id: nil)
   }
 
   # WARNING: sortable should not contain a column called id (except for the
