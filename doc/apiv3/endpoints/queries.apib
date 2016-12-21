@@ -20,6 +20,8 @@
 | isPublic         | Can users besides the owner see the query?             | Boolean     |                                  | READ                 |
 | isStarred        | Should the query be highlighted to the user?           | Boolean     |                                  | READ                 |
 
+A query that is not assigned to a project (`"project": null`) is called a global query. Global queries filter work packages regarless of the project they are assigned to. As such, a different set of filters exists for those queries.
+
 ## Query [/api/v3/queries/{id}]
 
 + Model
@@ -366,7 +368,7 @@
                 "message": "The specified query does not exist."
             }
 
-##Global Queries [/api/v3/queries]
+##Queries [/api/v3/queries{?filters}]
 
 + Model
     + Body
@@ -423,20 +425,25 @@
                 }
             }
 
-## List global queries [GET]
+## List queries [GET]
+
+Returns a collection of queries. The collection can be filtered via query parameters similar to how work packages are filtered. Please note however, that the filters are applied to the queries and not to the work packages the filters in turn might return.
 
 + Parameters
-    + id (required, integer, `1`) ... Query id
+    + filters (optional, string, `[{ "project_id": { "operator": "!*", "values": null }" }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint.
+    Currently supported filters are:
+      + project: filters queries by the project they are assigned to. If the project filter is passed with the `!*` (not any) operator, global queries are returned.
 
 + Response 200 (application/hal+json)
 
-    [Global Queries][]
+    [Queries][]
 
 + Response 403 (application/hal+json)
 
     Returned if the client does not have sufficient permissions to see queries.
 
-    **Required permission:** view work packages in any project or globally
+    **Required permission:** view work packages in any project
 
     + Body
 
@@ -445,105 +452,3 @@
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
                 "message": "You are not allowed to see the queries."
             }
-
-## Queries by project [/api/v3/projects/{id}/queries]
-
-+ Model
-    + Body
-
-            {
-                "_links":
-                {
-                    "self":
-                    {
-                        "href": "/api/v3/projects/1/queries"
-                    }
-                },
-                "total": 1,
-                "count": 1,
-                "_type": "Collection",
-                "_embedded":
-                {
-                    "elements": [
-                        {
-                            "_type": "Query",
-                            "_links": {
-                                "self": {
-                                    "href": "/api/v3/queries/2",
-                                    "title": "My work packages"
-                                },
-                                "project": {
-                                    "href": "/api/v3/projects/1"
-                                },
-                                "user": {
-                                    "href": "/api/v3/users/1",
-                                    "title": "John Sheppard"
-                                }
-                            },
-                            "id": 2,
-                            "name": "My work packages",
-                            "filters": [],
-                            "isPublic": false,
-                            "columnNames": [
-                                "type",
-                                "status",
-                                "subject"
-                            ],
-                            "sortCriteria": [
-                                [
-                                    "parent",
-                                    "desc"
-                                ]
-                            ],
-                            "groupBy": null,
-                            "displaySums": false,
-                            "isStarred": true
-                        }
-                    ]
-                }
-            }
-
-## List project queries [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... Query id
-
-+ Response 200 (application/hal+json)
-
-    [Queries by project][]
-
-+ Response 403 (application/hal+json)
-
-    Returned if the client does not have sufficient permissions to see queries.
-
-    **Required permission:** view work packages (on given project)
-
-    *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
-                "message": "You are not allowed to see the queries of this project."
-            }
-
-+ Response 404 (application/hal+json)
-
-    Returned if the project does not exist or the client does not have sufficient permissions
-    to see it.
-
-    **Required permission:** view work packages (on given project)
-
-    *Note: A client without sufficient permissions shall not be able to test for the existence of a project.
-    That's why a 404 is returned here, even if a 403 might be more appropriate.*
-
-    + Body
-
-            {
-                "_type": "Error",
-                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
-                "message": "The specified project does not exist."
-            }
-
-

@@ -56,7 +56,6 @@ module API
             mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsByProjectAPI
             mount API::V3::Types::TypesByProjectAPI
-            mount API::V3::Queries::QueriesByProjectAPI
           end
         end
       end

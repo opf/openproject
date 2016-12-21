@@ -127,10 +127,6 @@ module API
             "#{projects}/#{id}"
           end
 
-          def self.project_queries(id)
-            "#{project(id)}/queries"
-          end
-
           def self.queries
             "#{root}/queries"
           end
