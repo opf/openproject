@@ -27,7 +27,7 @@
 #++
 
 shared_context 'typeahead helpers' do
-  def select_typeahead(element, query:, select_text: nil)
+  def search_typeahead(element, query:)
     # Open the element
     element.click
     # Insert the text to find
@@ -35,7 +35,11 @@ shared_context 'typeahead helpers' do
 
     ##
     # Find the dropdown by reference
-    target_dropdown = element['aria-owns']
+    element['aria-owns']
+  end
+
+  def select_typeahead(element, query:, select_text: nil)
+    target_dropdown = search_typeahead(element, query: query)
 
     ##
     # If a specific select_text is given, use that to locate the match,

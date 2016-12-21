@@ -79,7 +79,7 @@ describe ::API::Utilities::PropertyNameConverter do
 
   describe '#to_ar_name' do
     let(:attribute_name) { 'anAttribute' }
-    let(:context) { FactoryGirl.build(:work_package) }
+    let(:context) { FactoryGirl.build_stubbed(:work_package) }
 
     subject { described_class.to_ar_name(attribute_name, context: context) }
 
@@ -97,8 +97,20 @@ describe ::API::Utilities::PropertyNameConverter do
       context 'requesting ids via refer_to_ids' do
         subject { described_class.to_ar_name(attribute_name, context: context, refer_to_ids: true) }
 
-        it 'adds an id suffix' do
-          is_expected.to eql('status_id')
+        context 'for keys refering to a belongs_to association' do
+          let(:attribute_name) { 'status' }
+
+          it 'adds an id suffix' do
+            is_expected.to eql('status_id')
+          end
+        end
+
+        context 'for keys refering to a has_many association' do
+          let(:attribute_name) { 'watcher' }
+
+          it 'adds an id suffix' do
+            is_expected.to eql('watcher_ids')
+          end
         end
 
         context 'for non-foreign keys' do
@@ -106,6 +118,14 @@ describe ::API::Utilities::PropertyNameConverter do
 
           it 'does not add an id suffix' do
             is_expected.to eql('subject')
+          end
+        end
+
+        context 'does not append an id to pluarlized attributes' do
+          let(:attribute_name) { 'estimatedTime' }
+
+          it 'does not add an id suffix' do
+            is_expected.to eql('estimated_hours')
           end
         end
       end
@@ -144,7 +164,7 @@ describe ::API::Utilities::PropertyNameConverter do
         end
 
         context 'in an apropriate context' do
-          let(:context) { FactoryGirl.build(:version) }
+          let(:context) { FactoryGirl.build_stubbed(:version) }
 
           it 'should be performed' do
             is_expected.to eql('updated_on')

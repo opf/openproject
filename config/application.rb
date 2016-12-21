@@ -49,11 +49,6 @@ end
 require 'rails/all'
 
 if Rails.env.production? || (Rails.env.test? && ENV['CI'])
-  $stderr.puts <<-EOS
-    WARNING
-
-    Silencing all ActiveSupport::Deprecation message output!
-  EOS
   ActiveSupport::Deprecation.behavior = :silence
 end
 

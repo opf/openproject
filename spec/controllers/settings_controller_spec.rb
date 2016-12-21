@@ -40,11 +40,11 @@ describe SettingsController, type: :controller do
   describe 'edit' do
     render_views
 
-    before(:all) do
+    before do
       @previous_projects_modules = Setting.default_projects_modules
     end
 
-    after(:all) do
+    after do
       Setting.default_projects_modules = @previous_projects_modules
     end
 

@@ -34,7 +34,7 @@ export class StringObjectDisplayField extends DisplayField {
 
   public get value() {
     if(this.schema) {
-      return this.resource[this.name] && this.resource[this.name].value;
+      return this.resource[this.name] && (this.resource[this.name].value || this.resource[this.name].name);
     }
     else {
       return null;

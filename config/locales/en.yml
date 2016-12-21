@@ -227,6 +227,8 @@ en:
           attributes:
             status:
               invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
   activerecord:
     attributes:
       announcements:
@@ -1738,6 +1740,7 @@ en:
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
+  setting_email_login: "Use e-mail as login"
   setting_enabled_scm: "Enabled SCM"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
@@ -1772,6 +1775,7 @@ en:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
+  setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
   setting_repositories_encodings: "Repositories encodings"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
@@ -2119,6 +2123,10 @@ en:
       default: Show if not empty
       visible: Show even if empty
       hidden: Hide by default
+    setting_email_login: >
+      If enabled a user will be unable to chose a login during registration.
+      Instead their given e-mail address will serve as the login.
+      An administrator may still change the login separately.
 
   queries:
     apply_filter: Apply preconfigured filter

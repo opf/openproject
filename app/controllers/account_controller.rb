@@ -120,6 +120,10 @@ class AccountController < ApplicationController
     if request.get?
       registration_through_invitation!
     else
+      if Setting.email_login?
+        params[:user][:login] = params[:user][:mail]
+      end
+
       self_registration!
     end
   end

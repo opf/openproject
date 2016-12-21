@@ -83,39 +83,128 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
   describe 'active status' do
     let(:status) { 'active' }
-    let(:password) { 'admin!admin!' }
+
     let(:parameters) {
       {
         status: status,
         login: 'myusername',
         firstName: 'Foo',
         lastName: 'Bar',
-        email: 'foobar@example.org',
-        password: password
+        email: 'foobar@example.org'
       }
     }
 
-    it 'returns the represented user' do
-      send_request
+    context 'with auth_source' do
+      let(:auth_source_id) { 'some_ldap' }
+      let(:auth_source) { FactoryGirl.create :auth_source, name: auth_source_id }
 
-      expect(response.body).not_to have_json_path("_embedded/errors")
-      expect(response.body).to have_json_type(Object).at_path('_links')
-      expect(response.body)
-        .to be_json_eql('User'.to_json)
-        .at_path('_type')
+      context 'ID' do
+        before do
+          parameters[:_links] = {
+            authSource: {
+              href: "/api/v3/auth_sources/#{auth_source.id}"
+            }
+          }
+        end
+
+        it 'creates the user with the given auth_source ID' do
+          send_request
+
+          user = User.find_by(login: parameters[:login])
+
+          expect(user.auth_source).to eq auth_source
+        end
+
+        it_behaves_like 'represents the created user'
+      end
+
+      context 'name' do
+        before do
+          parameters[:_links] = {
+            authSource: {
+              href: "/api/v3/auth_sources/#{auth_source.name}"
+            }
+          }
+        end
+
+        it 'creates the user with the given auth_source ID' do
+          send_request
+
+          user = User.find_by(login: parameters[:login])
+
+          expect(user.auth_source).to eq auth_source
+        end
+
+        it_behaves_like 'represents the created user'
+      end
+
+      context 'invalid identifier' do
+        before do
+          parameters[:_links] = {
+            authSource: {
+              href: "/api/v3/auth_sources/foobar"
+            }
+          }
+        end
+
+        it 'returns an error for the authSource attribute' do
+          send_request
+
+          attr = JSON.parse(response.body).dig "_embedded", "details", "attribute"
+
+          expect(response.status).to eq 422
+          expect(attr).to eq "authSource"
+        end
+      end
     end
 
-    it_behaves_like 'represents the created user'
+    context 'with identity_url' do
+      let(:identity_url) { 'google:3289272389298' }
 
-    context 'empty password' do
-      let(:password) { '' }
+      before do
+        parameters[:identityUrl] = identity_url
+      end
 
-      it 'marks the password missing and too short' do
+      it 'creates the user with the given identity_url' do
         send_request
 
-        expect(errors.count).to eq(2)
-        expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
-          .to match_array %w(password password)
+        user = User.find_by(login: parameters[:login])
+
+        expect(user.identity_url).to eq identity_url
+      end
+
+      it_behaves_like 'represents the created user'
+    end
+
+    context 'with password' do
+      let(:password) { 'admin!admin!' }
+
+      before do
+        parameters[:password] = password
+      end
+
+      it 'returns the represented user' do
+        send_request
+
+        expect(response.body).not_to have_json_path("_embedded/errors")
+        expect(response.body).to have_json_type(Object).at_path('_links')
+        expect(response.body)
+          .to be_json_eql('User'.to_json)
+          .at_path('_type')
+      end
+
+      it_behaves_like 'represents the created user'
+
+      context 'empty password' do
+        let(:password) { '' }
+
+        it 'marks the password missing and too short' do
+          send_request
+
+          expect(errors.count).to eq(2)
+          expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
+            .to match_array %w(password password)
+        end
       end
     end
   end

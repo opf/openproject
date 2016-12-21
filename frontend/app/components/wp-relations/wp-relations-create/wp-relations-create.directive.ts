@@ -19,6 +19,7 @@ export class WorkPackageRelationsCreateController {
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
   public loadingPromise = false;
+  public isDisabled = false;
 
   constructor(protected I18n,
               protected $scope:ng.IScope,
@@ -55,20 +56,26 @@ export class WorkPackageRelationsCreateController {
       return;
     }
 
+    let promise;
+    this.isDisabled = true;
     switch (this.selectedRelationType) {
       case 'parent':
-        this.changeParent();
+        promise = this.changeParent();
         break;
       case 'children':
-        this.addExistingChildRelation();
+        promise = this.addExistingChildRelation();
         break;
       default:
-        this.createCommonRelation();
+        promise = this.createCommonRelation();
     }
+
+    promise.finally(() => {
+      this.isDisabled = false;
+    });
   }
 
   protected addExistingChildRelation() {
-    this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
+    return this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
       .then(() => this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true))
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
       .finally(() => this.toggleRelationsCreateForm());
@@ -80,18 +87,18 @@ export class WorkPackageRelationsCreateController {
 
   protected changeParent() {
     this.toggleRelationsCreateForm();
-    this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
+    return this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then(updatedWp => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--parent').focus();
         });
       })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
+      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage));
   }
 
   protected createCommonRelation() {
-    this.wpRelationsService.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
+    return this.wpRelationsService.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
       .then(relation => {
         this.$scope.$emit('wp-relations.changed', relation);
         this.wpNotificationsService.showSave(this.workPackage);

@@ -29,25 +29,78 @@
 require 'spec_helper'
 
 describe 'account/register', type: :view do
-  before do
-    assign(:user, user)
-    render
-  end
+  let(:user) { FactoryGirl.build :user, auth_source: nil }
 
-  context 'with auth source' do
-    let(:auth_source) { FactoryGirl.create :auth_source }
-    let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
+  context 'with the email_login setting disabled (default value)' do
+    before do
+      allow(Setting).to receive(:email_login?).and_return(false)
 
-    it 'should not show a login field' do
-      expect(rendered).not_to include('user[login]')
+      assign(:user, user)
+      render
+    end
+
+    context 'with auth source' do
+      let(:auth_source) { FactoryGirl.create :auth_source }
+      let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
+
+      it 'should not show a login field' do
+        expect(rendered).not_to include('user[login]')
+      end
+    end
+
+    context 'without auth source' do
+      it 'should show a login field' do
+        expect(rendered).to include('user[login]')
+      end
     end
   end
 
-  context 'without auth source' do
-    let(:user) { FactoryGirl.build :user, auth_source: nil }
+  context 'with the email_login setting enabled' do
+    before do
+      allow(Setting).to receive(:email_login?).and_return(true)
 
-    it 'should show a login field' do
-      expect(rendered).to include('user[login]')
+      assign(:user, user)
+      render
+    end
+
+    context 'with auth source' do
+      let(:auth_source) { FactoryGirl.create :auth_source }
+      let(:user)        { FactoryGirl.build :user, auth_source: auth_source }
+
+      it 'should not show a login field' do
+        expect(rendered).not_to include('user[login]')
+      end
+
+      it 'should show an email field' do
+        expect(rendered).to include('user[mail]')
+      end
+    end
+
+    context 'without auth source' do
+      it 'should not show a login field' do
+        puts rendered
+
+        expect(rendered).not_to include('user[login]')
+      end
+
+      it 'should show an email field' do
+        expect(rendered).to include('user[mail]')
+      end
+    end
+  end
+
+  context 'with the registration_footer setting enabled' do
+    let(:footer) { "Some email footer" }
+
+    before do
+      allow(Setting).to receive(:registration_footer).and_return("en" => footer)
+
+      assign(:user, user)
+      render
+    end
+
+    it 'should render the emai footer' do
+      expect(rendered).to include(footer)
     end
   end
 end

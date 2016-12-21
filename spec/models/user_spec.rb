@@ -46,21 +46,18 @@ describe User, type: :model do
   }
 
   describe 'a user with a long login (<= 256 chars)' do
+    let(:login) { 'a' * 256 }
     it 'is valid' do
-      user.login = 'a' * 256
+      user.login = login
       expect(user).to be_valid
     end
 
-    it 'may be stored in the database' do
-      user.login = 'a' * 256
-      expect(user.save).to be_truthy
-    end
-
     it 'may be loaded from the database' do
-      user.login = 'a' * 256
-      user.save
+      user.login = login
+      expect(user.save).to be_truthy
 
-      expect(User.find_by_login('a' * 256)).to eq(user)
+      expect(User.find_by_login(login)).to eq(user)
+      expect(User.find_by_unique(login)).to eq(user)
     end
   end
 
@@ -532,6 +529,18 @@ describe User, type: :model do
       end
 
       it { expect(user.impaired?).to be_truthy }
+    end
+  end
+
+  describe 'scope.newest' do
+    let!(:anonymous) { FactoryGirl.create(:anonymous) }
+    let!(:user1) { FactoryGirl.create(:user) }
+    let!(:user2) { FactoryGirl.create(:user) }
+
+    it 'without anonymous user' do
+      expect( User.newest.length ).to eq(2)
+      expect( User.newest ).to include(user1, user2)
+      expect( User.newest ).not_to include(anonymous)
     end
   end
 end

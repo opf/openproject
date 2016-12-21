@@ -41,4 +41,17 @@ class Queries::Users::Filters::StatusFilter < Queries::Users::Filters::UserFilte
   def self.key
     :status
   end
+
+  def status_values
+    values.map { |value| Principal::STATUSES[value.to_sym] }
+  end
+
+  def where
+    case operator
+    when "="
+      ["users.status IN (?)", status_values.join(", ")]
+    when "!"
+      ["users.status NOT IN (?)", status_values.join(", ")]
+    end
+  end
 end
