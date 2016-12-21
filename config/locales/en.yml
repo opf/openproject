@@ -1554,7 +1554,7 @@ en:
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View Work Packages"
+  permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
   permission_view_members: "View members"
   permission_view_project_associations: "View project dependencies"
