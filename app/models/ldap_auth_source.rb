@@ -33,7 +33,7 @@ class LdapAuthSource < AuthSource
   validates_presence_of :host, :port, :attr_login
   validates_length_of :name, :host, maximum: 60, allow_nil: true
   validates_length_of :account, :account_password, :base_dn, maximum: 255, allow_nil: true
-  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, maximum: 30, allow_nil: true
+  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin, maximum: 30, allow_nil: true
   validates_numericality_of :port, only_integer: true
 
   before_validation :strip_ldap_attributes
@@ -67,7 +67,7 @@ class LdapAuthSource < AuthSource
   private
 
   def strip_ldap_attributes
-    [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
+    [:attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin].each do |attr|
       write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
     end
   end
@@ -88,6 +88,7 @@ class LdapAuthSource < AuthSource
       firstname: LdapAuthSource.get_attr(entry, attr_firstname),
       lastname: LdapAuthSource.get_attr(entry, attr_lastname),
       mail: LdapAuthSource.get_attr(entry, attr_mail),
+      admin: !!LdapAuthSource.get_attr(entry, attr_admin),
       auth_source_id: id
     }
   end
