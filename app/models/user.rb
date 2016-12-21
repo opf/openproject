@@ -149,6 +149,11 @@ class User < Principal
 
   scope :newest, -> { order(created_on: :desc) }
 
+  def self.unique_attribute
+    :login
+  end
+  prepend ::Mixins::UniqueFinder
+
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?
     true
@@ -478,23 +483,6 @@ class User < Principal
       MAIL_NOTIFICATION_OPTIONS.reject { |option| option.first == 'selected' }
     else
       MAIL_NOTIFICATION_OPTIONS
-    end
-  end
-
-  ##
-  # Returns the first user that matches (in this order), either:
-  # 1. The given ID
-  # 2. The given login
-  def self.find_by_unique(login_or_id)
-    matches = where(id: login_or_id).or(where(login: login_or_id)).to_a
-
-    case matches.length
-    when 0
-      raise ActiveRecord::RecordNotFound
-    when 1
-      return matches.first
-    else
-      return matches.find { |user| user.id.to_s == login_or_id.to_s }
     end
   end
 

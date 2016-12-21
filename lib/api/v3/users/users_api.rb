@@ -89,7 +89,7 @@ module API
             helpers ::API::V3::Users::UpdateUser
 
             before do
-              @user = User.find_by_unique(params[:id])
+              @user = User.find_by_unique!(params[:id])
             end
 
             get do
