@@ -36,6 +36,11 @@ class AuthSource < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, maximum: 60
 
+  def self.unique_attribute
+    :name
+  end
+  prepend ::Mixins::UniqueFinder
+
   def authenticate(_login, _password)
   end
 
