@@ -122,10 +122,10 @@ module QueriesHelper
 
   def visible_queries
     unless @visible_queries
-      # Project specific queries and global queries
-      project_condition = @project.nil? ? ['project_id IS NULL'] : ['project_id = ?', @project.id]
-      @visible_queries = Query.visible(to: User.current)
-                         .where(project_condition)
+      # Find project queries or global queries depending on @project.nil?
+      @visible_queries = Query
+                         .visible(to: User.current)
+                         .where(project_id: @project)
                          .order('name ASC')
                          .select(:id, :name, :is_public, :project_id)
     end

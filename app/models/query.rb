@@ -47,7 +47,7 @@ class Query < ActiveRecord::Base
 
   validate :validate_work_package_filters
 
-  scope :visible, -> (to:) do
+  scope :visible, ->(to:) do
     # User can see public queries and his own queries
     scope = where(is_public: true)
 

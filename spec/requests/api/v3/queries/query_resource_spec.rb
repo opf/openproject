@@ -202,9 +202,6 @@ describe 'API v3 Query resource', type: :request do
 
   describe '#star' do
     let(:star_path) { api_v3_paths.query_star query.id }
-    let(:filters) do
-      query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
-    end
 
     before(:each) do
       patch star_path
@@ -285,9 +282,6 @@ describe 'API v3 Query resource', type: :request do
 
   describe '#unstar' do
     let(:unstar_path) { api_v3_paths.query_unstar query.id }
-    let(:filters) do
-      query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
-    end
 
     describe 'public queries' do
       let(:query) { FactoryGirl.create(:public_query, project: project) }
@@ -311,7 +305,9 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when unstarring an unstarred query' do
-          before(:each) do patch unstar_path end
+          before(:each) do
+            patch unstar_path
+          end
 
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
@@ -324,7 +320,9 @@ describe 'API v3 Query resource', type: :request do
 
         context 'when trying to unstar nonexistent query' do
           let(:unstar_path) { api_v3_paths.query_unstar 999 }
-          before(:each) do patch unstar_path end
+          before(:each) do
+            patch unstar_path
+          end
 
           it_behaves_like 'not found' do
             let(:id) { 999 }
