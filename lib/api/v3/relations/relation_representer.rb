@@ -170,6 +170,9 @@ module API
             embed_links: false
           )
         end
+
+        self.to_eager_load = [:to,
+                              from: { project: :enabled_modules }]
       end
     end
   end
