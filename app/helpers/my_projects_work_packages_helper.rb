@@ -27,7 +27,7 @@ module MyProjectsWorkPackagesHelper
 
   def subproject_condition
     @subproject_condition ||= project.project_condition(Setting.display_subprojects_work_packages?)
-  end  
+  end
 
   def open_work_packages_by_type
     @open_work_packages_by_tracker ||= work_packages_by_type
@@ -42,6 +42,7 @@ module MyProjectsWorkPackagesHelper
   def work_packages_by_type
     WorkPackage
       .visible
+      .joins(:project)
       .group(:type)
       .includes([:project, :status, :type])
       .where(subproject_condition)
