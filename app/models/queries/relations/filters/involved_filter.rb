@@ -27,11 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+module Queries
+  module Relations
+    module Filters
+      ##
+      # Filters relations by work package ID in either `from` or `to` position of a relation.
+      # For instance:
+      #   Given relations [{ from_id: 3, to_id: 7 }, { from_id: 8, to_id: 3}]
+      #   filtering by involved=3 would yield both these relations.
+      class InvolvedFilter < ::Queries::Relations::Filters::RelationFilter
+        def type
+          :integer
+        end
+
+        def self.key
+          :involved
+        end
+
+        def where
+          case operator
+          when "="
+            ["from_id IN (?) OR to_id IN (?)", values.join(", "), values.join(", ")]
+          when "!"
+            ["from_id NOT IN (?) AND to_id NOT IN (?)", values.join(", "), values.join(", ")]
+          end
+        end
       end
     end
   end

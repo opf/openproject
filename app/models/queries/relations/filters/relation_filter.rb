@@ -27,11 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+module Queries
+  module Relations
+    module Filters
+      class RelationFilter < ::Queries::BaseFilter
+        self.model = Relation
+
+        def human_name
+          Relation.human_attribute_name(name)
+        end
       end
     end
   end

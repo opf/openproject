@@ -27,11 +27,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        element_decorator ::API::V3::Relations::RelationRepresenter
+module Queries
+  module Relations
+    module Filters
+      class TypeFilter < ::Queries::Relations::Filters::RelationFilter
+        def type
+          :string
+        end
+
+        def self.key
+          :relation_type
+        end
       end
     end
   end
