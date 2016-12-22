@@ -139,7 +139,7 @@ module API
         end
 
         def paged_models(models)
-          models.page(@page).per_page(@per_page).pluck(:id).uniq
+          models.page(@page).per_page(@per_page).pluck(:id)
         end
 
         def full_work_packages(ids_in_order)
