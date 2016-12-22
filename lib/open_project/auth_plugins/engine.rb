@@ -42,7 +42,5 @@ module OpenProject::AuthPlugins
     initializer 'auth_plugins.register_hooks' do
       require 'open_project/auth_plugins/hooks'
     end
-
-    assets %w(auth_plugins/auth_plugins.css)
   end
 end
