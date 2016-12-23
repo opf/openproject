@@ -71,7 +71,7 @@ describe('UrlParamsHelper', function() {
       };
       var filter2 = {
         name: 'created_at',
-        type: 'date_past',
+        type: 'datetime_past',
         operator: '<t-',
         textValue: '5'
       };
@@ -89,7 +89,7 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}],\"pa\":1,\"pp\":10}";
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"datetime_past\",\"v\":[\"5\"]}],\"pa\":1,\"pp\":10}";
       expect(encodedJSON).to.eq(expectedJSON);
     });
   });
@@ -99,7 +99,7 @@ describe('UrlParamsHelper', function() {
     var queryId;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"date_past\",\"v\":\"5\"}]}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"datetime_past\",\"v\":[\"5\"]}]}";
       queryId = 2;
     });
 
@@ -120,7 +120,7 @@ describe('UrlParamsHelper', function() {
           values: ['knoblauch']
         },{
           name: 'created_at',
-          type: 'date_past',
+          type: 'datetime_past',
           operator: '<t-',
           values: ['5']
         }]

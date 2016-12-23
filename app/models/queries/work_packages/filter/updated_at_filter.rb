@@ -29,7 +29,7 @@
 
 class Queries::WorkPackages::Filter::UpdatedAtFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def type
-    :date_past
+    :datetime_past
   end
 
   def order

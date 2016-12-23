@@ -34,6 +34,7 @@ function queryFilterDirective($timeout,
                               QueryService,
                               PaginationService,
                               I18n,
+                              TimezoneService,
                               OPERATORS_NOT_REQUIRING_VALUES) {
   var updateResultsJob;
 
@@ -78,18 +79,13 @@ function queryFilterDirective($timeout,
       });
 
       scope.$watch('filter', function (filter, oldFilter) {
-        var isEmptyText = filter.type === 'text' && filter.textValue === undefined;
-        var isEmptySelect = filter.type === 'list_status' && filter.values && filter.values[0] === 'undefined';
+        if (filter !== oldFilter && (filter.hasValues() || filter.isConfigured())
+          && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
 
-        if (filter !== oldFilter && !isEmptySelect) {
-          if ((isEmptyText || filter.isConfigured())
-            && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
-
-            PaginationService.resetPage();
-            scope.$emit('queryStateChange');
-            scope.$emit('workPackagesRefreshRequired');
-            scope.query.dirty = true;
-          }
+          PaginationService.resetPage();
+          scope.$emit('queryStateChange');
+          scope.$emit('workPackagesRefreshRequired');
+          scope.query.dirty = true;
         }
       }, true);
 

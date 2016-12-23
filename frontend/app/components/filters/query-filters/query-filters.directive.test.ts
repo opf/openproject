@@ -42,7 +42,8 @@ describe('queryFilters', () => {
 
   beforeEach(angular.mock.module('openproject.templates', function ($provide) {
     $provide.constant('ConfigurationService', {
-      accessibilityModeEnabled: sinon.stub().returns(false)
+      accessibilityModeEnabled: sinon.stub().returns(false),
+      isTimezoneSet: sinon.stub().returns(false)
     });
   }));
 
@@ -90,6 +91,7 @@ describe('queryFilters', () => {
       var filter2 = Factory.build('Filter', {name: 'start_date'});
       var filter3 = Factory.build('Filter', {name: 'done_ratio'});
 
+      // TODO:unused
       var removeFilter = filterName => {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
           ' .advanced-filters--remove-filter a');
@@ -111,7 +113,7 @@ describe('queryFilters', () => {
           context('does intersect with filter\'s operators', () => {
             beforeEach(() => {
               OPERATORS_AND_LABELS_BY_FILTER_TYPE['some_type'] = [
-                ['!*', 'label_none'], ['*', 'label_all']
+                [{op:'!*', label:'label_none'}, {op:'*', label:'label_all'}]
               ];
               scope.query.filters.push({
                 isSingleInputField: () => true,
@@ -121,8 +123,9 @@ describe('queryFilters', () => {
               });
               scope.$apply();
             });
-            it('should be undefined', () => {
-              expect(scope.operator).to.be.undefined;
+            it('should take the first one', () => {
+              var operatorValue = element.find('#operators-some_value').val();
+              expect(operatorValue).to.eq('!*');
             });
           });
 
@@ -139,7 +142,6 @@ describe('queryFilters', () => {
             it('should take the first one', () => {
               var operatorValue = element.find('#operators-some_value').val();
               expect(operatorValue).to.eq('=');
-              expect(operatorValue).to.eq(OPERATORS_AND_LABELS_BY_FILTER_TYPE['integer'][0][0]);
             });
           });
         });

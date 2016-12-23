@@ -28,6 +28,7 @@
 
 import {filtersModule} from '../../../angular-modules';
 
+//function QueryModelService(FilterModelFactory, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
 function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
   var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -184,6 +185,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         var self = this;
 
         this.filters = filters.map(function(filterData){
+          //return FilterModelFactory.createFilter(self.getExtendedFilterData(filterData));
           return new Filter(self.getExtendedFilterData(filterData));
         });
       }
@@ -195,6 +197,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         var self = this;
 
         this.filters = filters.map(function(filterData){
+          //return FilterModelFactory.createFilter(filterData);
           return new Filter(filterData);
         });
       }
@@ -207,11 +210,18 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     applyDefaultsFromFilters: function(workPackage) {
       angular.forEach(this.filters, function(filter) {
 
+        // FIXME:breaks on multi select
         // Ignore any filters except =
         if (filter.operator !== '=') {
           return;
         }
 
+        /* FIXME
+        if (!filter.hasValue()) {
+          return;
+        }
+         var value = filter.getValuesAsArray()[0];
+        */
         // Select the first value
         var value = filter.values;
         if (Array.isArray(filter.values)) {
@@ -256,6 +266,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
      * scoped to a project.
      * @returns {boolean} default
      */
+    // FIXME:unused
     isGlobal: function() {
       return !this.projectId;
     },
@@ -271,6 +282,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
      */
     setDefaultFilter: function() {
       var statusOpenFilterData = this.getExtendedFilterData({name: 'status', operator: 'o'});
+      //this.filters = [FilterModelFactory.createFilter(statusOpenFilterData)];
       this.filters = [new Filter(statusOpenFilterData)];
     },
 
@@ -332,6 +344,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         filter.deactivated = false;
       } else {
         var filterData = this.getExtendedFilterData(angular.extend({name: filterName}, options));
+        //filter = FilterModelFactory.createNewFilter(filterData);
         filter = new Filter(filterData);
 
         this.filters.push(filter);

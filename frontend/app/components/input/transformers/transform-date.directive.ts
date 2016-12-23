@@ -32,9 +32,11 @@ function transformDate() {
     require: '^ngModel',
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(data) {
-        if (data === '') {
-          return null;
-        } else {
+        // TODO:coy test
+        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
+          return undefined;
+        }
+        else {
           return data;
         }
       });

@@ -95,6 +95,50 @@ module.exports = function(ConfigurationService, I18n) {
 
     getTimeFormat: function() {
       return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+    },
+
+    /**
+     * Returns the current date time adjusted to the user's local time zone or
+     * UTC if the user did not configure the time zone.
+     *
+     * @returns {Object} the current date time, a moment
+     */
+    now: function() {
+      var result = moment();
+      if (ConfigurationService.isTimezoneSet()) {
+        result.tz(ConfigurationService.timezone());
+      }
+      return result;
+    },
+
+    /**
+     * Returns the time zone offset based on either the user's configured time zone,
+     * or, if no time zone was configured, from the user agent's current time zone.
+     *
+     * @returns {int} time zone offset
+     */
+    getOffset: function() {
+      TimezoneService.now().utcOffset();
+    },
+
+    /**
+     * Returns the time zone offset based on either the user's configured time zone,
+     * or, if no time zone was configured, from the user agent's current time zone.
+     *
+     * @returns {string} time zone offset, e.g. +01:00
+     */
+    getOffsetAsString: function() {
+      return TimezoneService.now().format('Z');
+    },
+
+    /**
+     * Returns the time zone offset in a format that angular understands.
+     * This is intended to be used with ngModelOptions#timezone.
+     *
+     * @returns {string} timezone offset for use with angular model options
+     */
+    getOffsetAsStringNG: function() {
+      return this.getOffsetAsString().replace(':', '');
     }
   };
 

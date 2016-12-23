@@ -36,6 +36,7 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
     link: function(scope, element, attrs) {
       moment.locale(I18n.locale);
 
+      // TODO: requires UTC
       var createdOn = TimezoneService.parseDatetime(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
@@ -54,7 +55,7 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
       scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
 
       if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
+        scope.timestamp = '<a title="' + time + '" href="' + activityFromPath(scope.project, TimezoneService.formattedISODate(createdOn)) + '">' + timeago + '</a>';
       } else {
         scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
       }
