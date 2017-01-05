@@ -70,7 +70,6 @@ require('angular-sanitize');
 require('angular-ui-select/dist/select');
 require('angular-ui-select/dist/select.css');
 
-require('rxjs');
 require('ng-dialog/js/ngDialog.min.js');
 require('ng-dialog/css/ngDialog.min.css');
 

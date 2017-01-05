@@ -68,7 +68,7 @@ module API
           get do
             allow_only_admin
 
-            query = ::API::V3::ParamsToQueryService.new(User).call(params)
+            query = ::API::V3::ParamsToQueryService.new(User, current_user).call(params)
 
             if query.valid?
               users = query.results.includes(:preference)

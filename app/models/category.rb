@@ -34,7 +34,7 @@ class Category < ActiveRecord::Base
 
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:project_id]
-  validates_length_of :name, maximum: 30
+  validates_length_of :name, maximum: 256
 
   # validates that assignee is member of the issue category's project
   validates_each :assigned_to_id do |record, attr, value|

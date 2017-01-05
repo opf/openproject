@@ -31,11 +31,12 @@ module.exports = function($compile, TimezoneService) {
     restrict: 'EA',
     replace: true,
     scope: { dateTimeValue: '=' },
-    template: '<span title="{{ date }} {{ time }}"><op-date date-value="dateTimeValue" hide-title="true"></op-date> <op-time time-value="dateTimeValue" hide-title="true"></op-time></span>',
+    // Note: we cannot reuse op-date here as this does not apply the user's configured timezone
+    template: '<span title="{{ date }} {{ time }}"><span>{{date}}</span> <span>{{time}}</span></span>',
     link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
-      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
-
+      var c = TimezoneService.formattedDatetimeComponents(scope.dateTimeValue);
+      scope.date = c[0];
+      scope.time = c[1];
       $compile(element.contents())(scope);
     }
   };

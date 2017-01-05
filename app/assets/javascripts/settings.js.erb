@@ -53,11 +53,17 @@ See doc/COPYRIGHT.rdoc for more details.
       }
     });
 
-    /** Toggle current email decorator fields */
-    var lang = jQuery("#emails_decorators_switch").val();
-    $(".emails_decorators").hide();
-    $("#emails_decorators_" + lang).show();
+    /* Javascript for Settings::TextSettingCell */
+    $(document).ready(function() {
+      $(".lang-select-switch").change(function() {
+        var self = $(this);
+        var id = self.attr("id");
+        var lang = self.val();
 
+        $("." + id).hide();
+        $("#" + id + "-" + lang).show();
+      });
+    });
 
     /** Toggle notification settings fields */
     $("#email_delivery_method_switch").on("change", function() {

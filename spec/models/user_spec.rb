@@ -642,4 +642,14 @@ describe User, type: :model do
       end
     end
   end
+
+  describe 'scope.newest' do
+    let!(:anonymous) { FactoryGirl.create(:anonymous) }
+    let!(:user1) { FactoryGirl.create(:user) }
+    let!(:user2) { FactoryGirl.create(:user) }
+
+    it 'without anonymous user' do
+      expect(User.newest).to match_array([user1, user2])
+    end
+  end
 end
