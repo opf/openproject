@@ -271,6 +271,8 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
+      license:
+        encoded_license: "License data"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -409,6 +411,8 @@ en:
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
       models:
+        license:
+          import_failed: "can't be read from your input. Are you sure it is a license?"
         project:
           attributes:
             types:

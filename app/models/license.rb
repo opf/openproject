@@ -15,7 +15,7 @@ class License < ActiveRecord::Base
       begin
         OpenProject::License.import(encoded_license)
       rescue OpenProject::License::ImportError => error
-        errors.add(:encoded_license, "can't be importet. Sure it is a license?")
+        errors.add(:encoded_license, :import_failed)
       end
     end
 
