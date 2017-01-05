@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :query do
-    project
-    user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
-
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
-    end
-
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
-    end
-
-    factory :global_query do
-      project nil
-      is_public true
-      sequence(:name) { |n| "Global query #{n}" }
-    end
-
-    callback(:after_build) { |query| query.add_default_filter }
+class Queries::Queries::Filters::ProjectFilter < Queries::Queries::Filters::QueryFilter
+  def type
+    :list_optional
   end
+
+  def self.key
+    :project_id
+  end
+
+  # Instead of getting the IDs of all the projects a user is allowed
+  # to see we only check that the value is an integer.  Non valid ids
+  # will then simply create an empty result but will not cause any
+  # harm.
+  alias :validate_values_in_allowed_values_list :validate_values_all_integer
 end

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,28 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :query do
-    project
-    user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
+module API
+  module V3
+    module Queries
+      class QueryCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        element_decorator ::API::V3::Queries::QueryRepresenter
 
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
+        def initialize(models, self_link, current_user:)
+          super(models.includes(::API::V3::Queries::QueryRepresenter.to_eager_load),
+                self_link,
+                current_user: current_user)
+        end
+      end
     end
-
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
-    end
-
-    factory :global_query do
-      project nil
-      is_public true
-      sequence(:name) { |n| "Global query #{n}" }
-    end
-
-    callback(:after_build) { |query| query.add_default_filter }
   end
 end

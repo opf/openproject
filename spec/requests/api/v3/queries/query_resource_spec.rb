@@ -34,19 +34,126 @@ describe 'API v3 Query resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:current_user) {
+  let(:other_project) { FactoryGirl.create(:project) }
+  let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
-  let(:manage_public_queries_role) { FactoryGirl.create(:role, permissions: [:manage_public_queries]) }
+  let(:manage_public_queries_role) do
+    FactoryGirl.create(:role, permissions: [:manage_public_queries])
+  end
   let(:query) { FactoryGirl.create(:public_query, project: project) }
+  let(:other_query) { FactoryGirl.create(:public_query, project: other_project) }
+  let(:global_query) { FactoryGirl.create(:global_query) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe '#get' do
+  describe '#get queries/' do
+    let(:path) { api_v3_paths.queries }
+    let(:prepare) {}
+
+    before do
+      prepare
+
+      get path
+    end
+
+    context 'user has view_work_packages in a project' do
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
+    end
+
+    context 'user has manage_public_queries in a project' do
+      let(:permissions) { [:manage_public_queries] }
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
+    end
+
+    context 'user not allowed to see queries' do
+      include_context 'with non-member permissions from non_member_permissions'
+      let(:current_user) { FactoryGirl.create(:user) }
+      let(:non_member_permissions) { [:view_work_packages] }
+
+      it 'should succeed' do
+        expect(last_response.status).to eq(200)
+      end
+
+      context 'that is not allowed to see queries anywhere' do
+        let(:non_member_permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
+      end
+    end
+
+    context 'filtering for project' do
+      let(:path) do
+        filter = [project: { operator: "=", values: [project.id.to_s] }].to_json
+
+        "#{api_v3_paths.queries}?filters=#{filter}"
+      end
+
+      let(:prepare) do
+        query
+        global_query
+        other_query
+
+        FactoryGirl.create(:member,
+                           roles: [role],
+                           project: other_query.project,
+                           user: current_user)
+      end
+
+      it 'includes only queries from the specified project' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(query.name.to_json)
+          .at_path("_embedded/elements/0/name")
+      end
+    end
+
+    context 'filtering for global query' do
+      let(:path) do
+        filter = [project: { operator: "!*", values: [] }].to_json
+
+        "#{api_v3_paths.queries}?filters=#{filter}"
+      end
+
+      let(:prepare) do
+        query
+        global_query
+        other_query
+
+        FactoryGirl.create(:member,
+                           roles: [role],
+                           project: other_query.project,
+                           user: current_user)
+      end
+
+      it 'includes only queries from the specified project' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+          .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(global_query.name.to_json)
+          .at_path("_embedded/elements/0/name")
+      end
+    end
+  end
+
+  describe '#get queries/:id' do
     before do
       get api_v3_paths.query(query.id)
     end
@@ -54,15 +161,9 @@ describe 'API v3 Query resource', type: :request do
     it 'should succeed' do
       expect(last_response.status).to eq(200)
     end
-
-    context 'user not allowed to see queries' do
-      let(:permissions) { [] }
-
-      it_behaves_like 'not found'
-    end
   end
 
-  describe '#delete' do
+  describe '#delete queries/:id' do
     let(:path) { api_v3_paths.query query.id }
     let(:permissions) { [:view_work_packages, :manage_public_queries] }
 
@@ -101,9 +202,6 @@ describe 'API v3 Query resource', type: :request do
 
   describe '#star' do
     let(:star_path) { api_v3_paths.query_star query.id }
-    let(:filters) do
-      query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
-    end
 
     before(:each) do
       patch star_path
@@ -184,9 +282,6 @@ describe 'API v3 Query resource', type: :request do
 
   describe '#unstar' do
     let(:unstar_path) { api_v3_paths.query_unstar query.id }
-    let(:filters) do
-      query.filters.map { |f| { f.field.to_s => { 'operator' => f.operator, 'values' => f.values } } }
-    end
 
     describe 'public queries' do
       let(:query) { FactoryGirl.create(:public_query, project: project) }
@@ -210,7 +305,9 @@ describe 'API v3 Query resource', type: :request do
         end
 
         context 'when unstarring an unstarred query' do
-          before(:each) do patch unstar_path end
+          before(:each) do
+            patch unstar_path
+          end
 
           it 'should respond with 200' do
             expect(last_response.status).to eq(200)
@@ -223,7 +320,9 @@ describe 'API v3 Query resource', type: :request do
 
         context 'when trying to unstar nonexistent query' do
           let(:unstar_path) { api_v3_paths.query_unstar 999 }
-          before(:each) do patch unstar_path end
+          before(:each) do
+            patch unstar_path
+          end
 
           it_behaves_like 'not found' do
             let(:id) { 999 }

@@ -31,7 +31,7 @@ class Queries::Users::UserQuery < Queries::BaseQuery
     User
   end
 
-  def self.default_scope
+  def default_scope
     User.not_builtin
   end
 end

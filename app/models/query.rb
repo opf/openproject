@@ -47,6 +47,21 @@ class Query < ActiveRecord::Base
 
   validate :validate_work_package_filters
 
+  scope :visible, ->(to:) do
+    # User can see public queries and his own queries
+    scope = where(is_public: true)
+
+    if to.logged?
+      scope.or(where(user_id: to.id))
+    else
+      scope
+    end
+  end
+
+  scope :global, -> {
+    where(project_id: nil)
+  }
+
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
   # optimizes a query into two separate DB queries (e.g. when joining tables).

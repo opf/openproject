@@ -26,28 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :query do
-    project
-    user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
+#
+shared_context 'with non-member permissions from non_member_permissions' do
+  around do |example|
+    non_member = Role.non_member
+    previous_permissions = non_member.permissions
 
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
-    end
-
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
-    end
-
-    factory :global_query do
-      project nil
-      is_public true
-      sequence(:name) { |n| "Global query #{n}" }
-    end
-
-    callback(:after_build) { |query| query.add_default_filter }
+    non_member.update_attribute(:permissions, non_member_permissions)
+    example.run
+    non_member.update_attribute(:permissions, previous_permissions)
   end
 end

@@ -26,28 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :query do
-    project
-    user factory: :user
-    sequence(:name) { |n| "Query #{n}" }
+require 'spec_helper'
 
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
+describe Queries::Queries::QueryQuery, type: :model do
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:instance) { described_class.new(user: user) }
+  let(:base_scope) { Query.visible(to: user) }
+
+  context 'without a filter' do
+    describe '#results' do
+      it 'is the same as getting all visible queries' do
+        expect(instance.results.to_sql).to eql base_scope.to_sql
+      end
+    end
+  end
+
+  context 'with a project filter' do
+    before do
+      instance.where('project_id', '=', ['1', '2'])
     end
 
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        # apparently, strings are accepted to be compared to
+        # integers in the dbs (mysql, postgresql)
+        expected = base_scope
+                   .merge(Query
+                   .where("queries.project_id IN ('1','2')"))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
     end
 
-    factory :global_query do
-      project nil
-      is_public true
-      sequence(:name) { |n| "Global query #{n}" }
-    end
+    describe '#valid?' do
+      it 'is true' do
+        expect(instance).to be_valid
+      end
 
-    callback(:after_build) { |query| query.add_default_filter }
+      it 'is invalid if the filter is invalid' do
+        instance.where('name', '=', [''])
+        expect(instance).to be_invalid
+      end
+    end
   end
 end

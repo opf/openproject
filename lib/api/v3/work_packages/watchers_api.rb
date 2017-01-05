@@ -39,7 +39,7 @@ module API
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
 
-          service = ::API::V3::ParamsToQueryService.new(User)
+          service = ::API::V3::ParamsToQueryService.new(User, current_user)
           query = service.call(params)
 
           if query.valid?

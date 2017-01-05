@@ -218,6 +218,12 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe '#queries' do
+    subject { helper.queries }
+
+    it_behaves_like 'api v3 path', '/queries'
+  end
+
   describe '#query' do
     subject { helper.query 1 }
 
