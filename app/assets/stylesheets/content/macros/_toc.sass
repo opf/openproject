@@ -1,0 +1,77 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.wiki
+
+  ul.toc
+    margin-bottom: 12px
+    margin-right: 12px
+    margin-left: 0
+    display: table
+    font-size: $wiki-toc-ul-font-size
+    &.right
+      float: right
+      margin-left: 12px
+      margin-right: 0
+      width: auto
+    &.left
+      float: left
+      margin-right: 12px
+      margin-left: 0
+      width: auto
+    &.center
+      margin-right: auto
+      margin-left: auto
+      width: auto
+
+    a
+      font-weight: normal
+      background-repeat: no-repeat
+      background-position: 0% 60%
+      &.icon-context:before
+        padding: 3px 3px 0 0
+    li
+      list-style-type: none
+    li.level-1
+      padding-left: 0
+    li.level-2
+      padding-left: .8em
+    li.level-3
+      padding-left: 1.6em
+    li.level-4
+      padding-left: 2.4em
+    li.level-5
+      padding-left: 3.0em
+    li.level-6
+      padding-left: 3.6em
+
+  ul.toc::after
+    content: " "
+    font-size: 0px
+    float: none
+    clear: both

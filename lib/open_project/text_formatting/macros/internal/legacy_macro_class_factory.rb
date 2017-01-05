@@ -6,7 +6,7 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,26 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module WikiFormatting
-    module Macros
-      class TimelinesWikiMacro
-        def apply(_content, args, options = {})
-          timeline = Timeline.find_by(id: args[0])
+module OpenProject::TextFormatting::Macros::Internal
+  #
+  # Factory for legacy macro classes
+  #
+  # NOTE: we must get rid of this of once legacy macros have been eliminated
+  #
+  class LegacyMacroClassFactory
+    require 'open_project/text_formatting/macros/internal/legacy_macro_base'
 
-          raise I18n.t('timelines.no_timeline_for_id', id: args[0].to_s) if timeline.nil?
-          raise I18n.t('timelines.no_right_to_view_timeline') unless User.current.allowed_to?(:view_timelines, timeline.project)
+    def self.create_new_class(id, desc, block)
+      result = Class.new(LegacyMacroBase) do
+        define_method :execute_legacy, block
 
-          view = options[:view]
+        descriptor {
+          prefix  :legacy
+          id      id
+          desc    desc
+          legacy
+        }
 
-          if view.respond_to?(:render)
-            view.render partial: '/timelines/timeline',
-                        locals: { timeline: timeline }
-          else
-            raise NotImplementedError, 'Timeline rendering is not supported'
-          end
-        end
+        # will be registered using a different mechanism,
+        # @see OpenProject::TextFormatting::Macros::MacroRegistry#register_legacy
+        # @see Redmine::WikiFormatting::Macros.macro
+        # register!
       end
+      result
     end
   end
 end

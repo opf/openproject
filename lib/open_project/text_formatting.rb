@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open_project/text_formatting/transformers'
-
 module OpenProject
   module SimpleTextFormatting
     # Truncates and returns the string as a single line
@@ -49,77 +47,91 @@ module OpenProject
   end
 
   module TextFormatting
-    extend ActiveSupport::Concern
-    extend DeprecatedAlias
+    require 'open_project/text_formatting/macros/provided'
 
     include SimpleTextFormatting
-    include Redmine::WikiFormatting::Macros::Definitions
-    include ActionView::Helpers::SanitizeHelper
-    include ERB::Util # for h()
-    include Redmine::I18n
-    include ActionView::Helpers::TextHelper
-    include OpenProject::ObjectLinking
-    # The WorkPackagesHelper is required to get access to the methods
-    # 'work_package_css_classes' and 'work_package_quick_info'.
-    include WorkPackagesHelper
+
+    extend ActiveSupport::Concern
+    extend DeprecatedAlias
 
     # Formats text according to system settings.
     # 2 ways to call this method:
     # * with a String: format_text(text, options)
     # * with an object and one of its attribute: format_text(issue, :description, options)
     def format_text(*args)
-      text, options = parse_args *args
+      text, options = PrivateMethods::parse_args args, @project
       # don't return html in edit mode when textile or text formatting is enabled
       return text if text.blank? or options[:edit]
 
-      # the order of processors is important as most processors will operate on the direct
-      # child axis of the currently processed fragment, only
-      processors = [
-        Transformers::RedmineLinkTransformer.new(current_request, @controller),
-        Transformers::WikiLinkTransformer.new(current_request, @controller),
-        Transformers::RedmineWikiTransformer.new(current_request, @controller),
-        # must run after redmine*/wiki link transformers
-        Transformers::MacroTransformer.new(current_request, @controller),
-        # must run after post_process macro expansion
-        Transformers::ImageAttachmentTransformer.new(current_request, @controller)
-      ]
+      fragment = PrivateMethods::do_process text, options, self
 
-      fragment = Nokogiri::XML.fragment text
-
-      # preprocess old style macros, etc.
-      processors.each do |processor|
-        if processor.respond_to?(:pre_process)
-          fragment = processor.pre_process(fragment, options)
-        end
-      end
-
-      # process link formatting, wiki markup, macros, etc.
-      processors.each do |processor|
-        if processor.respond_to?(:process)
-          fragment = processor.process(fragment, options)
-          fragment
-        end
-      end
-
-      # post process post processing macros, etc.
-      processors.each do |processor|
-        if processor.respond_to?(:post_process)
-          fragment = processor.post_process(fragment, options)
-        end
-      end
-
-      text = escape_non_macros(fragment.to_s)
-      text.html_safe
+      fragment.to_s.html_safe
     end
     deprecated_alias :textilizable, :format_text
     deprecated_alias :textilize,    :format_text
 
-    private
+    def current_request
+      request
+    rescue
+      nil
+    end
 
-    def parse_args(*args)
-      options = args.last.is_a?(Hash) ? args.pop : {}
+    # prevent the following private methods from leaking into the including context
+    module PrivateMethods
+      require 'open_project/text_formatting/internal/transformers'
 
-      case args.size
+      def self.prepare_processors(view)
+        # the order of processors is important and must not be changed
+        processors = [
+          # must run before all other processors during the process stage
+          OpenProject::TextFormatting::Internal::Transformers::RedmineWikiTransformer.new(view),
+          OpenProject::TextFormatting::Internal::Transformers::RedmineLinkTransformer.new(view),
+          OpenProject::TextFormatting::Internal::Transformers::WikiLinkTransformer.new(view),
+          # must run after redmine*/wiki link transformers during the
+          # process stage
+          OpenProject::TextFormatting::Internal::Transformers::MacroTransformer.new(view),
+          # the below two must run after macro transformer during the
+          # post process stage
+          OpenProject::TextFormatting::Internal::Transformers::ImageAttachmentTransformer.new(view),
+          # WTF?: all occurrences of {{ have already been replaced by {{ $root... }} by whatever
+          # is responsible for doing so
+          #OpenProject::TextFormatting::Internal::Transformers::NGExpressionTransformer.new(view)
+        ]
+        result = {}
+        [:legacy_pre_process, :pre_process, :process, :post_process].each do |stage|
+          result[stage] = processors.select do |transformer|
+            transformer.respond_to? stage
+          end
+        end
+        result
+      end
+
+      def self.do_process(text, options, view)
+        processors = prepare_processors view
+
+        processed_text = text.dup
+
+        # legacy preprocess stage for dealing with text that could interfere
+        # with nokogiri's parsing of the fragment, e.g. {{<toc}}
+        processors[:legacy_pre_process].each do |processor|
+          processed_text = processor.legacy_pre_process processed_text, **options
+        end
+
+        fragment = Nokogiri::XML.fragment processed_text
+
+        [:pre_process, :process, :post_process].each do |stage|
+          processors[stage].each do |processor|
+            fragment = processor.send stage, fragment, **options
+          end
+        end
+
+        fragment
+      end
+
+      def self.parse_args(args, project)
+        options = args.last.is_a?(Hash) ? args.pop : {}
+
+        case args.size
         when 1
           obj = options[:object]
           text = args.shift
@@ -129,59 +141,25 @@ module OpenProject
           text = obj.send(attr).to_s
         else
           raise ArgumentError, 'invalid arguments to format_text'
-      end
-
-      options[:project] = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-      options[:edit] = !!options[:edit]
-      # offer 'plain' as readable version for 'no formatting' to callers
-      options_format = options[:format] == 'plain' ? '' : options[:format]
-      options[:format] = options_format || Setting.text_formatting
-
-      [text, options]
-    end
-
-    ##
-    # Escape double curly braces after macro expansion.
-    # This will avoid arbitrary angular expressions to be evaluated in
-    # formatted text marked html_safe.
-    def escape_non_macros(text)
-      text.gsub(/\{\{(?! \$root\.DOUBLE_LEFT_CURLY_BRACE)/, '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}')
-    end
-
-    def parse_non_pre_blocks(text)
-      s = StringScanner.new(text)
-      tags = []
-      parsed = ''
-      while !s.eos?
-        s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
-        text = s[1]
-        full_tag = s[2]
-        closing = s[3]
-        tag = s[4]
-        if tags.empty?
-          yield text
         end
-        parsed << text
-        if tag
-          if closing
-            if tags.last == tag.downcase
-              tags.pop
-            end
-          else
-            tags << tag.downcase
-          end
-          parsed << full_tag
-        end
-      end
-      # Close any non closing tags
-      while tag = tags.pop
-        parsed << "</#{tag}>"
-      end
-      parsed
-    end
 
-    def current_request
-      request rescue nil
+        prepare_options options, obj, project
+
+        [text, options]
+      end
+
+      def self.prepare_options(options, obj, project)
+        options[:project] = options[:project] || project || (
+          obj && obj.respond_to?(:project) ? obj.project : nil
+        )
+        options[:edit] = !!options[:edit]
+        # offer 'plain' as readable version for 'no formatting' to callers
+        options_format = options[:format] == 'plain' ? '' : options[:format]
+        options[:format] = options_format || Setting.text_formatting
+        options[:attachments] = options[:attachments] || (
+          obj && obj.respond_to?(:attachments) ? obj.attachments : nil
+        )
+      end
     end
   end
 end

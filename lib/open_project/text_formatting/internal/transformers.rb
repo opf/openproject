@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,16 @@
 
 module OpenProject
   module TextFormatting
-    module Transformers
-      require 'open_project/text_formatting/transformers/text_transformer'
-      require 'open_project/text_formatting/transformers/image_attachment_transformer'
-      require 'open_project/text_formatting/transformers/macro_transformer'
-      require 'open_project/text_formatting/transformers/redmine_link_transformer'
-      require 'open_project/text_formatting/transformers/redmine_wiki_transformer'
-      require 'open_project/text_formatting/transformers/wiki_link_transformer'
+    module Internal
+      module Transformers
+        require 'open_project/text_formatting/internal/transformers/text_transformer'
+        require 'open_project/text_formatting/internal/transformers/image_attachment_transformer'
+        require 'open_project/text_formatting/internal/transformers/macro_transformer'
+        require 'open_project/text_formatting/internal/transformers/ng_expression_transformer'
+        require 'open_project/text_formatting/internal/transformers/redmine_link_transformer'
+        require 'open_project/text_formatting/internal/transformers/redmine_wiki_transformer'
+        require 'open_project/text_formatting/internal/transformers/wiki_link_transformer'
+      end
     end
   end
 end

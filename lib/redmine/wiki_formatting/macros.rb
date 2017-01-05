@@ -27,22 +27,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# NOTE:this becomes obsolete once all existing legacy macros have been migrated to the new api
 module Redmine
   module WikiFormatting
     module Macros
       module Definitions
-        def exec_macro(name, obj, args, options = {})
-          method_name = "macro_#{name}"
-          if respond_to?(method_name)
-            if method(method_name).arity == 2
-              send(method_name, obj, args)
-            else
-              send(method_name, obj, args, options)
-            end
-          end
-        end
-
-        def extract_macro_options(args, *keys)
+        def self.extract_macro_options(args, *keys)
+          warn '[DEPRECATION] `extract_macro_options` is deprecated.' +
+               'Migrate your wiki macros to the new macro API.'
           options = {}
           while args.last.to_s.strip =~ %r{^(.+)\=(.+)$} && keys.include?($1.downcase.to_sym)
             options[$1.downcase.to_sym] = $2
@@ -50,9 +42,18 @@ module Redmine
           end
           [args, options]
         end
+
+        def extract_macro_options(args, *keys)
+          Definitions::extract_macro_options(args, *keys)
+        end
       end
 
-      @@available_macros = {}
+      def self.available_macros
+        warn '[DEPRECATION] `available_macros` is deprecated. Use ' +
+             '`OpenProject::TextFormatting::Macros::MacroRegistry.instance.registered_macros` ' +
+             'instead.'
+        OpenProject::TextFormatting::Macros::Internal::MacroRegistry.instance.registered_macros
+      end
 
       class << self
         # Called with a block to define additional macros.
@@ -68,12 +69,12 @@ module Redmine
         #       "My macro output"
         #     end
         #   end
-        def register(&block)
-          class_eval(&block) if block_given?
-        end
 
-        def available_macros
-          @@available_macros
+        def register(&block)
+          warn '[DEPRECATION] `register` is deprecated.' +
+               'Use `OpenProject::TextFormatting::Macros::MacroRegistry.instance.register` '
+               'instead, and migrate your wiki macros to the new macro API.'
+          class_eval(&block) if block_given?
         end
 
         private
@@ -81,18 +82,17 @@ module Redmine
         # Defines a new macro with the given name and block.
         def macro(name, &block)
           name = name.to_sym if name.is_a?(String)
-          @@available_macros[name] = @@desc || ''
-          @@desc = nil
           raise 'Can not create a macro without a block!' unless block_given?
-          Definitions.send :define_method, "macro_#{name}".downcase, &block
+
+          # register legacy macro with new macro registry
+          OpenProject::TextFormatting::Macros::Internal::MacroRegistry
+            .instance.register_legacy(name, @@desc || '', block)
         end
 
         # Sets description for the next macro to be defined
         def desc(txt)
           @@desc = txt
         end
-
-        include OpenProject::WikiFormatting::Macros::Default
       end
     end
   end

@@ -45,6 +45,9 @@ npm-debug.log*
 /.idea
 /frontend/.idea
 
+# Ignore Pry files
+.pryrc
+
 /backup
 /.project
 /.loadpath

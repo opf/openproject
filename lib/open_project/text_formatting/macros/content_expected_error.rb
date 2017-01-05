@@ -1,0 +1,4 @@
+
+class ContentExpectedError < Exception
+
+end

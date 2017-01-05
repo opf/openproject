@@ -151,6 +151,30 @@ en:
     index:
       no_results_content_text: Add a new wiki page
 
+    macros:
+      missing_description: No description given
+      description: Description
+      error_executing_macro: "Error executing macro %{name}"
+      error_unknown_macro: "Unknown macro %{name}"
+      unknown_info: There is no macro of that name. Please check your spelling first. If everything is ok, try to consult your administrator.
+      error_info: An error occurred during execution of the macro. Please read below information carefully and decide whether you are able to resolve the issue by yourself. If you still feel that this is a bug, please report an issue using the link provided below. Just copy and paste the detailed information on the error below into your report and the we will be glad to assist you in resolving the issue.
+      file_your_report: Please file your report with
+      file_report_info: Please note that you might have to register/sign up with the site for doing so. If you feel unsure about this, please consult your administrator first before filing the report.
+
+      macro_list:
+        title: Available Macros
+        parameters: Parameters
+        name: Name
+        usage: Usage
+        optional: optional
+        required: required
+        default_value: Default Value
+        permitted_values: Permitted Values
+        one_of: one of
+        type: Type
+        boolean: Boolean
+        string: String
+
   work_flows:
     index:
       no_results_title_text: There are currently no workflows.

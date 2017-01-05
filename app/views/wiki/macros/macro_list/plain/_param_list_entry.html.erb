@@ -1,0 +1,70 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<dt class="param">
+  <span class="name">
+    <%= param[:id] %>
+    <span class="param-option">
+      {<%= param[:optional] ? l('wiki.macros.macro_list.optional') : l('wiki.macros.macro_list.required') %>}
+    </span>
+  </span>
+</dt>
+<dd class="param">
+  <dl>
+    <dt class="description"><span class="title"><%= l('wiki.macros.description') %></span></dt>
+    <dd class="description">
+      <%= param[:desc] ? format_text(param[:desc]) : l('wiki.macros.missing_description') %>
+    </dd>
+    <% if param[:one_of] %>
+      <dt class="one-of">
+        <span class="title">
+          <%= l('wiki.macros.macro_list.permitted_values') %>
+          (<%= l('wiki.macros.macro_list.one_of') %>)
+        </span>
+      </dt>
+      <dd class="one-of"><%= param[:one_of].join('|') %></dd>
+    <% end %>
+    <dt class="value-type">
+      <span class="title"><%= l('wiki.macros.macro_list.type') %></span>
+    </dt>
+    <dd class="value-type"><%= l("wiki.macros.macro_list.#{param[:type]}") %></dd>
+    <% if param[:optional] %>
+      <dt class="default-value">
+        <span class="title"><%= l('wiki.macros.macro_list.default_value') %></span>
+      </dt>
+      <dd class="default-value">
+        <% if param[:default].nil? %>
+          nil
+        <% else %>
+          <%= param[:default] %>
+        <% end %>
+      </dd>
+    <% end %>
+  </dl>
+</dd>
