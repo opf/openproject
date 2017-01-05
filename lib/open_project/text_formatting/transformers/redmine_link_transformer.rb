@@ -57,12 +57,18 @@ module OpenProject
       #   Forum messages:
       #     message#1218 -> Link to message with id 1218
       #
-      #   Links can refer other objects from other projects, using project identifier:
+      #   Links can refer other objects from other work_package_css_classesprojects, using project identifier:
       #     identifier:r52
       #     identifier:document:"Some document"
       #     identifier:version:1.0.0
       #     identifier:source:some/file
       class RedmineLinkTransformer < TextTransformer
+        include ActionView::Helpers::UrlHelper
+        include ActionView::Helpers::TextHelper
+        include ::OpenProject::StaticRouting::UrlHelpers
+        include ::OpenProject::ObjectLinking
+        include ::WorkPackagesHelper
+
         def process(fragment, options)
           result = Nokogiri::XML.fragment ''
           fragment.children.each do |node|

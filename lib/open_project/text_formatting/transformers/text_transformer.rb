@@ -35,6 +35,8 @@ module OpenProject
       # process
       # post_process
       class TextTransformer
+        attr_reader :controller, :request
+
         def initialize(request, controller)
           @request = request
           @controller = controller

@@ -27,9 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'open_project/text_formatting/transformers/text_transformer'
-require 'open_project/text_formatting/transformers/image_attachment_transformer'
-require 'open_project/text_formatting/transformers/macro_transformer'
-require 'open_project/text_formatting/transformers/redmine_link_transformer'
-require 'open_project/text_formatting/transformers/redmine_wiki_transformer'
-require 'open_project/text_formatting/transformers/wiki_link_transformer'
+module OpenProject
+  module TextFormatting
+    module Transformers
+      require 'open_project/text_formatting/transformers/text_transformer'
+      require 'open_project/text_formatting/transformers/image_attachment_transformer'
+      require 'open_project/text_formatting/transformers/macro_transformer'
+      require 'open_project/text_formatting/transformers/redmine_link_transformer'
+      require 'open_project/text_formatting/transformers/redmine_wiki_transformer'
+      require 'open_project/text_formatting/transformers/wiki_link_transformer'
+    end
+  end
+end
