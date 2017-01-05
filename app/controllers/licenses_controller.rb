@@ -1,5 +1,6 @@
 class LicensesController < ApplicationController
   layout 'admin'
+  menu_item :license
 
   before_action :require_admin
 
