@@ -6,7 +6,7 @@
     <div class="notification-box--content">
       <pre class="license"><%= LicenseService.instance.attributes.to_yaml.gsub(/---\n/,'') %></pre>
     </div>
-    <%= link_to l(:button_delete), license_destroy_path, data: { confirm: l(:text_are_you_sure) }, method: :delete, remote: true, class: 'icon icon-delete' %>
+    <%= link_to l(:button_delete), license_path(@license), data: { confirm: l(:text_are_you_sure) }, method: :delete, remote: true, class: 'icon icon-delete' %>
   </div>
 </div>
 <% end %>

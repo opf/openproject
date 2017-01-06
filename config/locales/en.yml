@@ -42,7 +42,6 @@ en:
     licenses:
       active_license: "Active license"
       upgrade_to_ee: "Upgrade to Enterprise Edition"
-      license: "License"
       file: "License file"
       order_license: "Order license"
       paste: "Paste content of license file"
@@ -799,6 +798,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
@@ -1090,6 +1090,7 @@ en:
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_license: "License"
+  label_licenses: "Licenses"
   label_loading: "Loading..."
   label_logged_as: "Logged in as"
   label_login: "Sign in"

@@ -200,8 +200,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
             html: { class: 'icon2 icon-project-types' }
 
   menu.push :license,
-            { controller: '/licenses', action: 'edit' },
-            caption:    :'label_license',
+            { controller: '/licenses', action: 'index' },
+            caption:    :'label_licenses',
             html: { class: 'license icon2 icon-key' },
             if: proc { OpenProject::Configuration.license_manager_visible? }
 end
