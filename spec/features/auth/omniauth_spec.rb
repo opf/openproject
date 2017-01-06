@@ -65,7 +65,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'sign in existing user' do
     it 'should redirect to back url' do
       visit account_lost_password_path
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -134,7 +134,7 @@ describe 'Omniauth authentication', type: :feature do
   shared_examples 'omniauth user registration' do
     it 'should register new user' do
       visit '/'
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
 
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
@@ -171,7 +171,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it 'should redirect to homesceen' do
       visit account_lost_password_path
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
 
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
