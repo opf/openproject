@@ -1,7 +1,7 @@
 class License < ActiveRecord::Base
 
   validates_presence_of :encoded_license
-  validate :encoded_license_is_valid
+  validate :load_license
 
   after_save :update_license_service
   after_destroy :update_license_service
@@ -10,15 +10,16 @@ class License < ActiveRecord::Base
     License.order('created_at DESC').first
   end
 
-  private
-    def encoded_license_is_valid
-      begin
-        OpenProject::License.import(encoded_license)
-      rescue OpenProject::License::ImportError => error
-        errors.add(:encoded_license, :import_failed)
-      end
+  def load_license
+    begin
+      OpenProject::License.import(encoded_license)
+    rescue OpenProject::License::ImportError => error
+      errors.add(:encoded_license, :import_failed)
+      nil
     end
+  end
 
+  private
     def update_license_service
       LicenseService.instance.update
     end

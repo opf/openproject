@@ -96,9 +96,10 @@ GIT
       rspec-mocks (>= 2.99, < 4.0)
 
 PATH
-  remote: ../openproject-license
+  remote: ../gems/openproject-license
   specs:
     openproject-license (1.0.0)
+      activemodel (~> 5.0)
 
 GEM
   remote: https://rubygems.org/

@@ -58,16 +58,8 @@ class LicenseService
   end
 
   def load_license
-    begin
-      # TODO: Try to find the first *.openproject-license file
-      # data = File.read(File.join(Rails.root, "ForkmergeSLU.openproject-license") )
-      if license = License.current
-        return OpenProject::License.import(license.encoded_license)
-      end
-    rescue => error
-      Rails.logger.error "We ran into problems with your license file:\n\t#{error.massage}\nWe continue without license."
-      return nil
-    end
+    license = License.current
+    return license && license.load_license
   end
 
   def method_missing(m, *args, &block)

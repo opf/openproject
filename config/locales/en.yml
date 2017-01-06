@@ -412,7 +412,7 @@ en:
         could_not_be_copied: "could not be (fully) copied."
       models:
         license:
-          import_failed: "can't be read from your input. Are you sure it is a license?"
+          unreadable: "can't be read. Are you sure it is a license?"
         project:
           attributes:
             types:
