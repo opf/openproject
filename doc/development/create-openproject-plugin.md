@@ -7,20 +7,26 @@ OpenProject plugins are special ruby gems. You may include them in your `Gemfile
 You can generate a new plugin directly from OpenProject. Think of a good name and a place (in your filesystem) where the plugin should go. In this example, we have a `plugins` directory right next to the `openproject` directory. Then do
 
 ```bash
-bundle exec rails generate open_project:plugin a_good_name ../plugins/
+bundle exec rails generate open_project:plugin my_plugin ../plugins/
 ```
 
-This generates the plugins `openproject-a_good_name` into the directory `../plugins/openproject-a_good_name`. The new plugin is a rails engine, which can be published as a gem. Please edit the `openproject-a_good_name.gemspec` file to be ready.
+This generates the plugins `openproject-my_plugin` into the directory `../plugins/openproject-my_plugin`. The new plugin is a rails engine, which can be published as a gem.
+
+You may want to update the generated plugin's gemspec (`openproject-my_plugin.gemspec`).
 
 ## Hook the new plugin into OpenProject
 
-To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following line to `Gemfile.plugins`:
+To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following lines to `Gemfile.plugins`:
 
 ```
-gem "openproject-a_good_name", :path => '../plugins/openproject-a_good_name'
+group :opf_plugins do
+  gem "openproject-a_good_name", :path => '../plugins/openproject-a_good_name'
+end
 ```
 
-and install it via
+If there already is an `opf_plugins` group, just add the `gem` line to it.
+
+Once you've done that install it via
 
 ```bash
 bundle install
