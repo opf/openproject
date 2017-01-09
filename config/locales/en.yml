@@ -273,6 +273,9 @@ en:
       custom_value:
         value: "Value"
       license:
+        starts_at: "Valid since"
+        expires_at: "Expires at"
+        licensee: "Licensee"
         encoded_license: "License data"
       relation:
         delay: "Delay"

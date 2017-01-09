@@ -69,11 +69,12 @@ describe LicensesController, type: :controller do
     end
 
     describe '#create' do
-      let(:params) {
+      let(:params) do
         {
           license: { encoded_license: 'foo' }
         }
-      }
+      end
+
       before do
         allow(License).to receive(:new).and_return(a_license)
         expect(a_license).to receive(:encoded_license=).with('foo')

@@ -1,10 +1,34 @@
-<div class="promote-ee">
-  <h4><%= t('admin.licenses.active_license') + ":" %></h4>
-
-  <div class="notification-box">
-    <div class="notification-box--content">
-      <pre class="license"><%= @current_license.attributes.to_yaml.gsub(/---\n/,'') %></pre>
+<div class="license--active-license">
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:licensee) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @current_license.licensee %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:mail) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @current_license.mail %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:starts_at) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= format_date @current_license.starts_at %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:expires_at) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= format_date @current_license.expires_at %></span>
+        </div>
+      </div>
     </div>
-    <%= link_to l(:button_delete), license_path(@license), data: { confirm: l(:text_are_you_sure) }, method: :delete, remote: true, class: 'icon icon-delete' %>
   </div>
 </div>
+
+<%= form_tag({ action: :destroy }, { method: :delete }) do %>
+  <%= styled_button_tag l(:button_delete), name: 'submit', data: { confirm: l(:text_are_you_sure) }, class: '-with-icon icon-delete' %>
+<% end %>

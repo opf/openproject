@@ -26,27 +26,59 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 class License < ActiveRecord::Base
-  validates_presence_of :encoded_license
-  validate :load_license
+  class << self
+    def current
+      set_current_license unless defined?(@@current_license)
+      @@current_license
+    end
 
-  after_save :update_license_service
-  after_destroy :update_license_service
+    def show_banners
+      !current || current.expired?
+    end
 
-  def self.current
-    License.order('created_at DESC').first
+    def set_current_license
+      license = License.order('created_at DESC').first
+
+      @@current_license =
+        if license && license.license_object
+          license
+        end
+    end
   end
+
+  validates_presence_of :encoded_license
+  validate :valid_license_object
+
+  after_save :set_current_license
+  after_destroy :set_current_license
+
+  delegate :will_expire?,
+           :expired?,
+           :licensee,
+           :mail,
+           :issued_at,
+           :starts_at,
+           :expires_at,
+           :restrictions,
+           to: :license_object
+
+  def license_object
+    @license_object = load_license unless defined?(@license_object)
+    @license_object
+  end
+
+  private
+
+  delegate :set_current_license, to: :class
 
   def load_license
     OpenProject::License.import(encoded_license)
   rescue OpenProject::License::ImportError => error
     Rails.logger.error "Failed to load license: #{error}"
-    errors.add(:encoded_license, :import_failed)
     nil
   end
 
-  private
-
-  def update_license_service
-    LicenseService.instance.update
+  def valid_license_object
+    errors.add(:encoded_license, :import_failed) unless license_object
   end
 end
