@@ -30,9 +30,18 @@ require 'spec_helper'
 
 describe LicensesController, type: :controller do
   let(:a_license) { License.new }
+  let(:license_object) { double(OpenProject::License) }
 
   before do
     login_as user
+
+    allow(a_license).to receive(:license_object).and_return(license_object)
+    allow(license_object).to receive_messages(
+      licensee: 'Foobar',
+      mail: 'foo@example.org',
+      starts_at: Date.today,
+      expires_at: nil
+    )
   end
 
   context 'with admin' do
