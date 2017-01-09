@@ -42,6 +42,8 @@ en:
     licenses:
       active_license: "Active license"
       upgrade_to_ee: "Upgrade to Enterprise Edition"
+      add_license: "Upload new license"
+      replace_license: "Replace your current license"
       file: "License file"
       order_license: "Order license"
       paste: "Paste content of license file"
@@ -1090,7 +1092,6 @@ en:
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_license: "License"
-  label_licenses: "Licenses"
   label_loading: "Loading..."
   label_logged_as: "Logged in as"
   label_login: "Sign in"

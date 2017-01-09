@@ -1,6 +1,6 @@
-<% html_title t(:label_administration), t(:label_licenses) %>
+<% html_title t(:label_administration), t(:label_license) %>
 
-<%= toolbar title: t(:label_licenses) do %>
+<%= toolbar title: t(:label_license) do %>
     <li class="toolbar-item">
       <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
             { class: 'button -alt-highlight',
@@ -12,8 +12,10 @@
     </li>
 <% end %>
 
-<% unless LicenseService.instance.present? %>
-  <div class="notification-box">
+<% if @current_license.present? %>
+  <%= render partial: "current" %>
+<% else %>
+  <div class="notification-box upsale-notification">
     <div class="notification-box--content">
       <h3><%= t('admin.licenses.upgrade_to_ee') %></h3>
       <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
@@ -43,16 +45,4 @@
   </div>
 <% end %>
 
-
-<%#= render partial: "show" %>
-
-<%= form_for @license,
-             :url => {:action => :update},
-             :html => {:method => :put} do |f|%>
-
-  <%= f.label :encoded_license, t('admin.licenses.file') + ":"  %>
-  <%= f.text_area :encoded_license, :cols => 60, :rows => 15, placeholder: t('admin.licenses.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
-
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-  <%= link_to t(:button_cancel), {action: :edit}, class: 'button' %>
-<% end %>
+<%= render partial: "form" %>

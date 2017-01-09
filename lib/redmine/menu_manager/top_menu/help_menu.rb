@@ -84,7 +84,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   title: l('top_menu.help_and_support')
     }
     if LicenseService.instance.blocked?
-      result << static_link_item(:upsale, {href_suffix: "?utm_source=ce-helpmenu"})
+      result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
     end
     result << static_link_item(:user_guides)
     result << static_link_item(:faq)

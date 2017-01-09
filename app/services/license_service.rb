@@ -59,7 +59,7 @@ class LicenseService
 
   def load_license
     license = License.current
-    return license && license.load_license
+    license && license.load_license
   end
 
   def method_missing(m, *args, &block)
@@ -69,5 +69,4 @@ class LicenseService
       raise NoMethodError
     end
   end
-
 end
