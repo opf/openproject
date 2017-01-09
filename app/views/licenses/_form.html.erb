@@ -6,8 +6,8 @@
                        section-title="<%=h t('admin.licenses.add_license') %>">
 <% end %>
 <%= form_for @license,
-             :url => {:action => :update},
-             :html => {:method => :put} do |f|%>
+             url: { action: :create },
+             method: :post do |f|%>
 
   <%= f.text_area :encoded_license, :cols => 60, :rows => 15, placeholder: t('admin.licenses.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
 
