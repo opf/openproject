@@ -33,7 +33,7 @@ module Queries
         Relation
       end
 
-      def self.default_scope
+      def default_scope
         Relation.all
       end
     end
