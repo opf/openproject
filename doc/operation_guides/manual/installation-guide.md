@@ -1,6 +1,6 @@
-# Installation of OpenProject 5.0 with Apache on Ubuntu 14.04. LTS
+# Installation of OpenProject 6.1 with Apache on Ubuntu 14.04. LTS
 
-This tutorial helps you to deploy OpenProject 5.0. Please, aware that:
+This tutorial helps you to deploy OpenProject 6.1. Please, aware that:
 
 This guide requires that you have a clean Ubuntu 14.04 x64 installation
 with administrative rights. We have tested the installation guide on an
@@ -144,7 +144,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/5 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/6 --depth 1
 [openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer docker
@@ -239,7 +239,7 @@ will seed the database in the french language.
 ### Secret Token
 
 You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
-In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in '/etc/apache2/envvars'.
+In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in `/etc/apache2/envvars`.
 
 ```bash
 [openproject@host] echo "export SECRET_KEY_BASE=$(./bin/rake secret)" >> ~/.profile
