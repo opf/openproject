@@ -137,13 +137,8 @@ images, styles and I18n translations.
 
 Translations are processed by I18n.js through Rails and will be picked up from `config/locales/js-<locale>.js`.
 
-Pure frontend plugins should be considered _a work in progress_. As such, it is
-currently recommended to create hybrid plugins (see below).
-
-**To use a frontend plugin:**
-
-  * You will currently need to modify the `package.json` of OpenProject core
-    directly. A more robust solution is currently in planning.
+Pure frontend plugins are currently not possible without modifications to the OpenProject core `package.json`.
+We instead recommend to create a hybrid gem plugin instead (see below).
 
 ## Hybrid plugins
 
@@ -159,6 +154,5 @@ _CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
 
   * then run `bundle install`.
 
-You **do not** need to modify the `package.json` of OpenProject core. Provided
-Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
+Provided Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
 will bundle their assets.
