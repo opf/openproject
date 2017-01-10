@@ -46,14 +46,16 @@ A code review should check the whole code and remove glitches like:
 ### Resolve licensing and copyright issues
 
 1. Check the license and the copyright of the plugin to be released
-Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
-```bash
+
+ Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
+ ```bash
 rake copyright:authors:show['../Path/to/repository/']
 ```
 
 2. Add a copyright notice to all the source files
-There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `doc/COPYRIGHT_short.md` to all relevant plugin files.
-If no such file exists, `doc/COPYRIGHT_short.md` from the core is used.
+
+ There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `doc/COPYRIGHT_short.md` to all relevant plugin files.
+ If no such file exists, `doc/COPYRIGHT_short.md` from the core is used.
 
 3. Check for existence of `doc/COPYRIGHT.md` and `doc/GPL.txt` if referenced by the copyright notice.
 
