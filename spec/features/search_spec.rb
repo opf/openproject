@@ -31,6 +31,7 @@ require 'spec_helper'
 describe 'Search', type: :feature do
   describe 'pagination' do
     let(:project) { FactoryGirl.create :project }
+    let(:user) { FactoryGirl.create :admin }
 
     let!(:work_packages) do
       (1..23).map do |n|
@@ -41,24 +42,45 @@ describe 'Search', type: :feature do
 
     let(:query) { "Subject" }
 
-    before do
-      login_as FactoryGirl.create(:admin)
-
-      visit "/search?q=#{query}"
-    end
-
     def expect_range(a, b)
       (a..b).each { |n| expect(page.body).to include ("No. #{n}") }
     end
 
-    it "works" do
-      expect_range 14, 23
+    context 'project search' do
+      before do
+        login_as user
 
-      click_on "Next", match: :first
-      expect_range 4, 13
+        visit search_path(project, q: query)
+      end
+      it "works" do
+        expect_range 14, 23
 
-      click_on "Previous", match: :first
-      expect_range 14, 23
+        click_on "Next", match: :first
+        expect_range 4, 13
+        expect(current_path).to match "/projects/#{project.identifier}/search"
+
+        click_on "Previous", match: :first
+        expect_range 14, 23
+        expect(current_path).to match "/projects/#{project.identifier}/search"
+      end
+    end
+
+    context 'global search' do
+      before do
+        login_as user
+
+        visit "/search?q=#{query}"
+      end
+
+      it "works" do
+        expect_range 14, 23
+
+        click_on "Next", match: :first
+        expect_range 4, 13
+
+        click_on "Previous", match: :first
+        expect_range 14, 23
+      end
     end
   end
 end
