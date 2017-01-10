@@ -40,7 +40,8 @@ describe LicensesController, type: :controller do
       licensee: 'Foobar',
       mail: 'foo@example.org',
       starts_at: Date.today,
-      expires_at: nil
+      expires_at: nil,
+      will_expire?: false
     )
   end
 
