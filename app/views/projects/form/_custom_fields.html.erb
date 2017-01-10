@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
         css_classes[:lang] = custom_field.name_locale
       %>
 
-    <div class="form--field">
+    <div class="form--field -wide-label ellipsis">
       <%= form.collection_check_box :work_package_custom_field_ids,
                                     custom_field.id,
                                     @project.all_work_package_custom_fields.include?(custom_field),

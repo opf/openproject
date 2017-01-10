@@ -37,7 +37,12 @@ module Users
     attribute :lastname
     attribute :name
     attribute :mail
-    attribute :status
+
+    attribute :auth_source_id
+    attribute :identity_url
+    attribute :password
+
+    validate :existing_auth_source
 
     def initialize(user, current_user)
       super(user)
@@ -48,5 +53,11 @@ module Users
     private
 
     attr_reader :current_user
+
+    def existing_auth_source
+      if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
+        errors.add :auth_source, :error_not_found
+      end
+    end
   end
 end

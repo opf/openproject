@@ -60,12 +60,12 @@ See doc/COPYRIGHT.rdoc for more details.
         </legend>
         <div>
           <p><%= I18n.t('text_form_configuration') %></p>
-          <table class="attributes-table">
+          <table class="attributes-table -two-options">
             <thead>
               <tr>
                 <th><%= I18n.t('label_attribute') %></th>
-                <th><%= I18n.t('label_active') %></th>
-                <th><%= I18n.t('label_always_visible') %></th>
+                <th class="attributes-table--option"><%= I18n.t('label_active') %></th>
+                <th class="attributes-table--option"><%= I18n.t('label_always_visible') %></th>
               </tr>
             </thead>
             <tbody>
@@ -87,7 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= label_tag "type_attribute_visibility_#{name}",
                                   translated_attribute_name(name, attr),
                                   value: "type_attribute_visibility[#{name}]",
-                                  class: 'form--label' %>
+                                  class: 'ellipsis' %>
                   </td>
                   <td>
                     <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />

@@ -69,8 +69,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :visible, ->(*args) {
-    joins(:project)
-      .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
+    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
   scope :in_status, -> (*args) do

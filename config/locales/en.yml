@@ -227,6 +227,8 @@ en:
           attributes:
             status:
               invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
   activerecord:
     attributes:
       announcements:

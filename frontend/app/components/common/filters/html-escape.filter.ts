@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,40 +24,13 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
+import {filtersModule} from './../../../angular-modules';
 
-.attributes-table
-  width:            100%
-  table-layout:     fixed
-  border-collapse:  collapse
-  margin:           0
-  font-size:        0.9rem
-  line-height:      1.5
+function htmlEscape() {
+  return function(string) {
+    return _.escape(string);
+  };
+}
 
-  td, th
-    padding:        0.25rem 0.5rem 0.25rem 0
-    text-align:     left
-
-  thead
-    font-weight:    bold
-    text-transform: uppercase
-
-  tbody
-    td
-      white-space:    nowrap
-      overflow:       hidden
-      text-overflow:  ellipsis
-      &.icon
-        white-space: normal
-
-  &.-hidden
-    display: none
-
-  &.-two-options
-    .attributes-table--option
-      width: 25%
-
-.delete-item
-  cursor: pointer
-  float: right
-  height: 1em
+filtersModule.filter('htmlEscape', htmlEscape);

@@ -182,6 +182,22 @@ describe 'API v3 User resource', type: :request do
       end
     end
 
+    context 'get with login' do
+      let(:get_path) { api_v3_paths.user user.login }
+      before do
+        allow(User).to receive(:current).and_return current_user
+        get get_path
+      end
+
+      it 'should respond with 200' do
+        expect(subject.status).to eq(200)
+      end
+
+      it 'should respond with correct body' do
+        expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
+      end
+    end
+
     it_behaves_like 'handling anonymous user' do
       let(:path) { api_v3_paths.user user.id }
     end

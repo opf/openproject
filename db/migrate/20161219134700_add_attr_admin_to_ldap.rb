@@ -27,31 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::StatusFilter < Queries::Users::Filters::UserFilter
-  def allowed_values
-    Principal::STATUSES.keys.map do |key|
-      [I18n.t(:"status_#{key}"), key]
-    end
-  end
-
-  def type
-    :list
-  end
-
-  def self.key
-    :status
-  end
-
-  def status_values
-    values.map { |value| Principal::STATUSES[value.to_sym] }
-  end
-
-  def where
-    case operator
-    when "="
-      ["users.status IN (?)", status_values.join(", ")]
-    when "!"
-      ["users.status NOT IN (?)", status_values.join(", ")]
-    end
+class AddAttrAdminToLdap < ActiveRecord::Migration[5.0]
+  def change
+    add_column :auth_sources, :attr_admin, :string
   end
 end
