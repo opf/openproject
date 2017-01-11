@@ -67,6 +67,14 @@ class License < ActiveRecord::Base
     @license_object
   end
 
+  def allows_to?(ability)
+    case ability
+    when :define_custom_styles
+      # Every valid license allows for defining custom styles
+      !expired?
+    end
+  end
+
   private
 
   delegate :set_current_license, to: :class

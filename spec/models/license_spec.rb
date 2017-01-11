@@ -46,6 +46,12 @@ RSpec.describe License, type: :model do
         expect(subject.expires_at).to eq('never')
         expect(subject.restrictions).to eq(foo: :bar)
       end
+
+      it 'allows to define custom styles' do
+        allow(object).to receive(:expired?).and_return(false)
+
+        expect(subject.allows_to? :define_custom_styles).to eq(true)
+      end
     end
 
     context 'when inner license is expired' do
@@ -56,6 +62,10 @@ RSpec.describe License, type: :model do
       it 'has an expired license' do
         expect(License.current).to eq(subject)
         expect(License.show_banners).to eq(true)
+      end
+
+      it 'prohibits to define custom styles' do
+        expect(subject.allows_to? :define_custom_styles).to eq(false)
       end
     end
   end
