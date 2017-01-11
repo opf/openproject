@@ -41,7 +41,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
-    <%= stylesheet_link_tag(custom_styles_css_path(digest: CustomStyle.current.digest), media: "all") if License.current.try(:allows_to, :define_custom_styles) && CustomStyle.try(:current).try(:logo).present? %>
+    <% if License.current.try(:allows_to?, :define_custom_styles) && CustomStyle.try(:current).try(:logo).present? %>
+      <% cache(CustomStyle.current) do %>
+        <%= render partial: "custom_styles/inline_css" %>
+      <% end %>
+    <% end %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <!-- user specific tags -->

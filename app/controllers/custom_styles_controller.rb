@@ -29,24 +29,6 @@
 
 class CustomStylesController < ApplicationController
 
-  def css
-    logo_styles = ''
-    if @custom_style = CustomStyle.current
-      logo_styles = %{
-  margin: 0px;
-  width: 230px;
-  height: 55px;
-  background-image: url(\"#{custom_styles_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier)}\");
-  background-repeat: no-repeat;
-  background-position-x: 0px;
-  background-position-y: 0px;
-  background-size: cover;
-}
-    end
-    css_body = "#logo .home-link {#{logo_styles}}"
-    render :plain => css_body, :content_type => Mime::CSS
-  end
-
   def create
     if @custom_style = CustomStyle.create(custom_style_params)
 
