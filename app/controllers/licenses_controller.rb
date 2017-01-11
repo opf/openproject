@@ -37,7 +37,7 @@ class LicensesController < ApplicationController
   end
 
   def create
-    @license = License.new
+    @license = License.current || License.new
     @license.encoded_license = params[:license][:encoded_license]
 
     if @license.save

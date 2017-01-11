@@ -30,15 +30,15 @@ require 'spec_helper'
 
 describe LicensesController, type: :controller do
   let(:a_license) { License.new }
-  let(:license_object) {
+  let(:license_object) do
     license = OpenProject::License.new
-    license.licensee =  'Foobar'
+    license.licensee = 'Foobar'
     license.mail = 'foo@example.org'
     license.starts_at = Date.today
     license.expires_at = nil
 
     license
-  }
+  end
 
   before do
     login_as user
