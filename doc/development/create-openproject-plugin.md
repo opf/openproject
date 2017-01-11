@@ -12,12 +12,20 @@ bundle exec rails generate open_project:plugin a_good_name ../plugins/
 
 This generates the plugins `openproject-a_good_name` into the directory `../plugins/openproject-a_good_name`. The new plugin is a rails engine, which can be published as a gem. Please edit the `openproject-a_good_name.gemspec` file to be ready.
 
+**Example Plugin**
+
+There is an [example plugin](https://github.com/opf/openproject-proto_plugin) which does some of the basic things (adding menu items, hooking into views, defining a project menu, etc.) and provides further info in its README.
+
+Instead of generating a new plugin you can also just clone the example plugin and adapt it.
+
 ## Hook the new plugin into OpenProject
 
 To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following line to `Gemfile.plugins`:
 
 ```
-gem "openproject-a_good_name", :path => '../plugins/openproject-a_good_name'
+group :opf_plugins do
+  gem "openproject-my_plugin", :path => '../plugins/openproject-my_plugin'
+end
 ```
 
 and install it via
