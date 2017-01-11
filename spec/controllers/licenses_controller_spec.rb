@@ -71,7 +71,7 @@ describe LicensesController, type: :controller do
           get :show
         end
 
-        it 'stil renders #show with form' do
+        it 'still renders #show with form' do
           expect(response).not_to render_template partial: 'licenses/_current'
           expect(response.body).to have_selector '.upsale-notification'
         end
