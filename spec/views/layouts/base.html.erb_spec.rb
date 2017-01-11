@@ -169,4 +169,50 @@ describe 'layouts/base', type: :view do
       expect(page.status_code).to eq(200)
     end
   end
+
+  describe "inline custom styles" do
+    let(:a_license) { License.new }
+
+    before do
+      allow(User).to receive(:current).and_return anonymous
+      allow(view).to receive(:current_user).and_return anonymous
+    end
+
+    context "license is active and styles are present" do
+      let(:custom_styles) { CustomStyle.new }
+
+      before do
+        allow(License).to receive(:current).and_return(a_license)
+        allow(a_license).to receive(:allows_to?).with(:define_custom_styles).and_return(true)
+        allow(CustomStyle).to receive(:current).and_return(custom_styles)
+
+        render
+      end
+
+      it "contains inline CSS block with those styles." do
+        expect(response).to render_template partial: 'custom_styles/_inline_css'
+      end
+
+    end
+
+    context "license is active and styles are not present" do
+      before do
+        #
+      end
+
+      pending("Check that the layout does not contain a CSS block for custom styles.")
+    end
+
+    context "license does not allow custom styles" do
+      before do
+        #
+      end
+
+      pending("Check that the layout does not contain a CSS block for custom styles.")
+    end
+
+    context "no license present" do
+      pending "Check that the layout does not contain a CSS block for custom styles."
+    end
+  end
 end
