@@ -16,7 +16,7 @@ provide any official support for them.
 | Distribution (64 bits only)     | Identifier   | init system |
 | :------------------------------ | :----------- | :---------- |
 | Ubuntu 14.04 Trusty Tahr        | ubuntu-14.04 | upstart     |
-| Ubuntu 14.06 Xenial Xerus       | ubuntu-14.04 | upstart     |
+| Ubuntu 16.04 Xenial Xerus       | ubuntu-14.04 | upstart     |
 | Debian 8 Jessie                 | debian-8     | systemd     |
 | Debian 7 Wheezy                 | debian-7     | sysvinit    |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
