@@ -1,6 +1,5 @@
 <% if @current_license.present? %>
-  <collapsible-section initially-expanded="false"
-                       section-title="<%=h t('admin.licenses.replace_license') %>">
+  <collapsible-section section-title="<%=h t('admin.licenses.replace_license') %>">
 <% else %>
   <collapsible-section initially-expanded="true"
                        section-title="<%=h t('admin.licenses.add_license') %>">
