@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_logo) %></legend>
-      <% if License.current.try(:allows_to, :define_custom_styles) %>
+      <% if License.current.try(:allows_to?, :define_custom_styles) %>
         <div class="form--field">
           <label class="form--label">Logo</label>
           <div>
