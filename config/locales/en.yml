@@ -862,11 +862,13 @@ en:
     blocks:
       community: "OpenProject community"
       upsale:
+        become_hero: "Become a hero!"
         title: "Upgrade to Enterprise Edition"
         description: "Boost your productivity with the Enterprise Edition"
         more_info: "More information"
         additional_features: "Additional powerful premium features"
         professional_support: "Professional support from the OpenProject experts"
+        you_contribute: "Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort."
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
       user_guides: "User guides"
