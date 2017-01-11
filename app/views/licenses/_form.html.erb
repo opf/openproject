@@ -5,12 +5,14 @@
   <collapsible-section initially-expanded="true"
                        section-title="<%=h t('admin.licenses.add_license') %>">
 <% end %>
-<%= form_for @license,
+<%= labelled_tabular_form_for @license,
              url: { action: :create },
              html: { class: 'license-form' },
              method: :post do |f|%>
 
-  <%= f.text_area :encoded_license, :cols => 60, :rows => 15, placeholder: t('admin.licenses.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
+  <div class="form--space">
+    <%= f.text_area :encoded_license, :cols => 60, :rows => 15, placeholder: t('admin.licenses.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
+  </div>
 
   <div class="form--space">
     <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>

@@ -12,6 +12,8 @@
     </li>
 <% end %>
 
+<%= error_messages_for 'license' %>
+
 <% if @current_license.present? %>
   <%= render partial: "current" %>
 <% else %>

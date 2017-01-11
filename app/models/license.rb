@@ -79,6 +79,6 @@ class License < ActiveRecord::Base
   end
 
   def valid_license_object
-    errors.add(:encoded_license, :import_failed) unless license_object
+    errors.add(:encoded_license, :unreadable) unless license_object
   end
 end
