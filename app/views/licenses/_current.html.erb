@@ -31,6 +31,8 @@
   </div>
 </div>
 
-<%= form_tag({ action: :destroy }, { method: :delete }) do %>
-  <%= styled_button_tag l(:button_delete), name: 'submit', data: { confirm: l(:text_are_you_sure) }, class: '-with-icon icon-delete' %>
+<%= form_tag({ action: :destroy },
+             method: :delete,
+             class: 'confirm-form-submit') do %>
+  <%= styled_button_tag l(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>
 <% end %>
