@@ -32,6 +32,7 @@ import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
 import IAnimateProvider = angular.IAnimateProvider;
 import ITranscludeFunction = angular.ITranscludeFunction;
+import {ReplaySubject, Subject} from "rxjs";
 
 function wpVirtualScrollRow(workPackageTableVirtualScrollService: WorkPackageTableVirtualScrollService) {
   return {
@@ -122,7 +123,7 @@ class RowDisplay {
 
 class WorkPackageTableVirtualScrollService {
 
-  public viewportChanges: Rx.Subject<[number, number]> = new Rx.ReplaySubject<[number, number]>(0);
+  public viewportChanges: Subject<[number, number]> = new ReplaySubject<[number, number]>(0);
 
   private requestedUpdateTimeout: any;
 
@@ -132,7 +133,7 @@ class WorkPackageTableVirtualScrollService {
 
   updateScrollInfo() {
     runInScopeDigest(this.$rootScope, () => {
-      this.viewportChanges.onNext([-50, window.innerHeight + 50]);
+      this.viewportChanges.next([-50, window.innerHeight + 50]);
     });
   }
 

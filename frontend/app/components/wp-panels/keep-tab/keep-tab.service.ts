@@ -26,10 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ReplaySubject} from "rxjs";
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
-  protected subject = new Rx.ReplaySubject<{ [tab: string]: string; }>(1);
+  protected subject = new ReplaySubject<{ [tab: string]: string; }>(1);
 
   constructor(public $state:ng.ui.IStateService, protected $rootScope:ng.IRootScopeService) {
     'ngInject';
@@ -79,7 +80,7 @@ export class KeepTabService {
 
   protected notify() {
     // Notify when updated
-    this.subject.onNext({
+    this.subject.next({
       active: this.lastActiveTab,
       show: this.currentShowState,
       details: this.currentDetailsState

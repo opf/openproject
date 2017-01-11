@@ -62,34 +62,6 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
                                   visible: false)
   end
 
-  describe 'Select all link' do
-    let(:link_selector) { '.work-package-table--container th.checkbox a' }
-
-    before do visit_index_page end
-
-    describe 'Initial state', js: true do
-      it { expect(page).to have_selector(link_selector) }
-
-      context 'attributes' do
-        before do expect(page).to have_selector(link_selector) end
-
-        it { expect(find(link_selector)[:title]).to eq(I18n.t(:button_check_all)) }
-
-        it { expect(find(link_selector)[:alt]).to eq(I18n.t(:button_check_all)) }
-
-        it do
-          expect(find(link_selector)).to have_selector('.hidden-for-sighted',
-                                                       visible: false,
-                                                       text: I18n.t(:button_check_all))
-        end
-      end
-    end
-
-    describe 'Change state', js: true do
-      # TODO
-    end
-  end
-
   describe 'Sort link', js: true do
     before do visit_index_page end
 
@@ -154,7 +126,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'id column' do
       let(:link_caption) { 'ID' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(1)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -162,7 +134,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -170,7 +142,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(4)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(3)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -178,7 +150,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(5)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(4)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -186,7 +158,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(6)' }
+      let(:column_header_selector) { '.work-package-table--container th:nth-of-type(5)' }
       let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -206,10 +178,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        'table.keyboard-accessible-list tbody tr:first-child .wp-table--details-link'
+        'table.keyboard-accessible-list tbody tr:first-child a'
       end
       let(:second_link_selector) do
-        'table.keyboard-accessible-list tbody tr:nth-child(2) .wp-table--details-link'
+        'table.keyboard-accessible-list tbody tr:nth-child(2) a'
       end
 
       it 'navigates with J' do
@@ -240,6 +212,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it 'resets the context menu focus properly' do
         expect(page).to have_selector(source_link)
         element = find(source_link)
+        element.hover
         element.native.send_keys(keys)
 
         # Expect to open and focus the menu

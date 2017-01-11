@@ -1,29 +1,62 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
 class LicensesController < ApplicationController
   layout 'admin'
+  menu_item :license
 
   before_action :require_admin
 
-  def edit
-    @license = License.current || License.new
+  def show
+    @current_license = License.current
+    @license = @current_license || License.new
   end
 
-  def update
-    @license = License.current || License.new
+  def create
+    @license = License.new
     @license.encoded_license = params[:license][:encoded_license]
 
     if @license.save
       flash[:notice] = t(:notice_successful_update)
-      redirect_to action: 'edit'
+      redirect_to action: :show
     else
-      render action: 'edit'
+      render action: :show
     end
-
   end
 
   def destroy
-    @license = License.current
-    @license.destroy
-    head :ok
+    license = License.current
+    if license
+      license.destroy
+      flash[:notice] = t(:notice_successful_delete)
+      redirect_to action: :show
+    else
+      render_404
+    end
   end
 
   private
@@ -31,5 +64,4 @@ class LicensesController < ApplicationController
   def default_breadcrumb
     t(:label_license)
   end
-
 end

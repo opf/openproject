@@ -42,7 +42,8 @@ en:
     licenses:
       active_license: "Active license"
       upgrade_to_ee: "Upgrade to Enterprise Edition"
-      license: "License"
+      add_license: "Upload new license"
+      replace_license: "Replace your current license"
       file: "License file"
       order_license: "Order license"
       paste: "Paste content of license file"
@@ -271,6 +272,11 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
+      license:
+        starts_at: "Valid since"
+        expires_at: "Expires at"
+        licensee: "Licensee"
+        encoded_license: "License data"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -409,6 +415,8 @@ en:
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
       models:
+        license:
+          unreadable: "can't be read. Are you sure it is a license?"
         project:
           attributes:
             types:
@@ -797,6 +805,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
   error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
@@ -1202,6 +1211,7 @@ en:
   label_registration_automatic_activation: "automatic account activation"
   label_registration_manual_activation: "manual account activation"
   label_related_work_packages: "Related work packages"
+  label_relates: "related to"
   label_relates_to: "related to"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
@@ -1577,7 +1587,7 @@ en:
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View Work Packages"
+  permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
   permission_view_members: "View members"
   permission_view_project_associations: "View project dependencies"
@@ -1763,6 +1773,7 @@ en:
   setting_display_subprojects_work_packages: "Display subprojects work packages on main projects by default"
   setting_emails_footer: "Emails footer"
   setting_emails_header: "Emails header"
+  setting_email_login: "Use e-mail as login"
   setting_enabled_scm: "Enabled SCM"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
@@ -1797,6 +1808,7 @@ en:
   setting_per_page_options: "Objects per page options"
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
+  setting_registration_footer: "Registration footer"
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
   setting_repositories_encodings: "Repositories encodings"
   setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
@@ -2144,6 +2156,10 @@ en:
       default: Show if not empty
       visible: Show even if empty
       hidden: Hide by default
+    setting_email_login: >
+      If enabled a user will be unable to chose a login during registration.
+      Instead their given e-mail address will serve as the login.
+      An administrator may still change the login separately.
 
   queries:
     apply_filter: Apply preconfigured filter

@@ -45,11 +45,14 @@ module Redmine
                                     title: ::I18n.t('js.inplace.link_formatting_help')
 
           javascript_tag(<<-EOF)
-            var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}'));
-            wikiToolbar.setHelpLink(jQuery('#{escape_javascript help_button}')[0]);
             // initialize the toolbar later, so that i18n-js has a chance to set the translations
             // for the wiki-buttons first.
-            jQuery(function(){ wikiToolbar.draw(); });
+            jQuery(document).ready(function(){
+              var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}'));
+
+              wikiToolbar.setHelpLink(jQuery('#{escape_javascript help_button}')[0]);
+              wikiToolbar.draw();
+            });
           EOF
         end
 

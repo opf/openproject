@@ -29,10 +29,12 @@
 module API
   module V3
     class ParamsToQueryService
-      attr_accessor :model
+      attr_accessor :model,
+                    :user
 
-      def initialize(model)
+      def initialize(model, user)
         self.model = model
+        self.user = user
       end
 
       def call(params)
@@ -51,7 +53,7 @@ module API
 
         query_class = "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
 
-        query_class.new
+        query_class.new(user: user)
       end
 
       def apply_filters(query, params)

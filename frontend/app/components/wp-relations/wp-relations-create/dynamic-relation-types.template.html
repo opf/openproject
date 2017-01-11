@@ -35,7 +35,7 @@
             <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
                 <accessible-by-keyboard
                         execute="$ctrl.createRelation()"
-                        is-disabled="!$ctrl.selectedWpId"
+                        is-disabled="$ctrl.isDisabled || !$ctrl.selectedWpId"
                         link-class="wp-create-relation--save"
                         aria-hidden="false">
                     <icon-wrapper icon-name="checkmark"

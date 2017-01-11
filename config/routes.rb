@@ -379,8 +379,7 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: [:edit, :update]
-    delete "licenses/destroy" => 'licenses#destroy', as: 'license_destroy'
-    resource :licenses, only: [:edit, :update], path: 'license'
+    resource :license, only: [:show, :create, :destroy]
     resources :enumerations
 
     resources :groups do

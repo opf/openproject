@@ -62,9 +62,16 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedDatetime: function(datetimeString) {
+      var c = TimezoneService.formattedDatetimeComponents(datetimeString);
+      return c[0] + ' ' + c[1];
+    },
+
+    formattedDatetimeComponents: function(datetimeString) {
       var d = TimezoneService.parseDatetime(datetimeString);
-      return d.format(TimezoneService.getDateFormat()) + ' ' +
-        d.format(TimezoneService.getTimeFormat());
+      return [
+        d.format(TimezoneService.getDateFormat()),
+        d.format(TimezoneService.getTimeFormat())
+      ];
     },
 
     toHours: function(durationString) {

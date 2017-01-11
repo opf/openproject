@@ -153,7 +153,7 @@ gem 'nokogiri', '~> 1.6.8'
 gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
-gem 'openproject-license', git: 'https://github.com/finnlabs/openproject-license.git'
+gem 'openproject-license', '~> 1.0.0'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'

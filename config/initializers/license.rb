@@ -1,7 +1,7 @@
 begin
-  public_key_file = File.read(Rails.root.join(".license_encryption_key.pub"))
-  public_key = OpenSSL::PKey::RSA.new(public_key_file)
-  OpenProject::License.encryption_key = public_key
+  data = File.read(Rails.root.join(".openproject-license.pub"))
+  key = OpenSSL::PKey::RSA.new(data)
+  OpenProject::License.key = key
 rescue
-  warn "WARNING: No valid license encryption key provided."
+  warn "WARNING: Missing .openproject-license.pub key"
 end

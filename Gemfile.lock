@@ -9,12 +9,6 @@ GIT
       mime-types (>= 1.16)
 
 GIT
-  remote: https://github.com/finnlabs/openproject-license.git
-  revision: 7153ba938af23e732bfc372ea779a3fce3898b14
-  specs:
-    openproject-license (1.0.0)
-
-GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git
   revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
   specs:
@@ -66,7 +60,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: df7cb4b8f55749ce1a6fff70dc91a156e186158c
+  revision: 495075444d0227625ea064907a629197e107b3e9
   branch: release/6.1
   specs:
     openproject-translations (6.1.2)
@@ -368,6 +362,8 @@ GEM
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
     oj (2.17.4)
+    openproject-license (1.0.0)
+      activemodel (~> 5.0)
     parallel (1.9.0)
     parallel_tests (2.4.1)
       parallel
@@ -656,7 +652,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.8)
   oj (~> 2.17.4)
   omniauth!
-  openproject-license!
+  openproject-license (~> 1.0.0)
   openproject-translations!
   parallel_tests (~> 2.4.1)
   passenger

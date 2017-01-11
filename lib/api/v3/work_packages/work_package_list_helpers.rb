@@ -31,6 +31,7 @@ module API
     module WorkPackages
       module WorkPackageListHelpers
         extend Grape::API::Helpers
+        include QueriesHelper
 
         def work_packages_by_params(project: nil)
           query = Query.new(name: '_', project: project)
@@ -81,21 +82,19 @@ module API
           values = {}
           filters.each do |filter|
             attribute = filter.keys.first # there should only be one attribute per filter
-            ar_attribute = convert_attribute attribute, append_id: true
-            operators[ar_attribute] = filter[attribute]['operator']
-            values[ar_attribute] = filter[attribute]['values']
+            operators[attribute] = filter[attribute]['operator']
+            values[attribute] = filter[attribute]['values']
           end
 
           {
-            attributes: values.keys,
+            fields: values.keys,
             operators: operators,
             values: values
           }
         end
 
         def set_filters(query, filters)
-          query.filters = []
-          query.add_filters(filters[:attributes], filters[:operators], filters[:values])
+          add_filter_from_params(query, filters: filters)
 
           bad_filter = query.filters.detect(&:invalid?)
           if bad_filter

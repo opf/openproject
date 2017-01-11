@@ -28,7 +28,7 @@
 
 class Queries::BaseQuery
   class << self
-    attr_accessor :model, :default_scope
+    attr_accessor :model
   end
 
   include Queries::AvailableFilters
@@ -38,23 +38,25 @@ class Queries::BaseQuery
   validate :filters_valid,
            :sortation_valid
 
-  def initialize
-    @scope = self.class.default_scope
+  def initialize(user: nil)
     @filters = []
     @orders = []
+    @user = user
   end
 
   def results
+    scope = default_scope
+
     if valid?
       filters.each do |filter|
-        self.scope = scope.merge(filter.scope)
+        scope = scope.merge(filter.scope)
       end
 
       orders.each do |order|
-        self.scope = scope.merge(order.scope)
+        scope = scope.merge(order.scope)
       end
     else
-      empty_scope
+      scope = empty_scope
     end
 
     scope
@@ -81,11 +83,15 @@ class Queries::BaseQuery
     self
   end
 
+  def default_scope
+    self.class.model
+  end
+
   protected
 
-  attr_accessor :scope,
-                :filters,
-                :orders
+  attr_accessor :filters,
+                :orders,
+                :user
 
   def filters_valid
     filters.each do |filter|
@@ -115,7 +121,7 @@ class Queries::BaseQuery
   end
 
   def empty_scope
-    self.scope = self.class.model.where(Arel::Nodes::Equality.new(1, 0))
+    self.class.model.where(Arel::Nodes::Equality.new(1, 0))
   end
 
   def context

@@ -27,6 +27,8 @@
 #++
 
 require 'api/v3/relations/relation_representer'
+require 'api/v3/relations/relation_collection_representer'
+
 require 'relations/create_relation_service'
 require 'relations/update_relation_service'
 
@@ -38,11 +40,17 @@ module API
 
         resources :relations do
           get do
-            relations = Relation.all
+            query = ::API::V3::ParamsToQueryService.new(Relation, current_user).call(params)
 
-            RelationCollectionRepresenter.new(relations,
-                                              api_v3_paths.relations,
-                                              current_user: current_user)
+            if query.valid?
+              RelationCollectionRepresenter.new(
+                query.results.includes(::API::V3::Relations::RelationRepresenter.to_eager_load),
+                api_v3_paths.relations,
+                current_user: current_user
+              )
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
           end
 
           params do

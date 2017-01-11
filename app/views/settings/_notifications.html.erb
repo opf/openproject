@@ -46,27 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= check_all_links('notified_events') %></div>
     </fieldset>
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_emails_header) %> & <%= l(:setting_emails_footer) %></legend>
-      <div class="form--field -vertical">
-        <div class="form--field-container">
-          <%= styled_select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s), id: 'emails_decorators_switch', onchange: "toggleEmailDecoratorFields()" %>
-        </div>
-      </div>
-      <% Setting.available_languages.each do |lang| %>
-        <div id="emails_decorators_<%= lang %>" style="display:none" class="emails_decorators">
-          <div class="form--field -vertical">
-            <%= styled_label_tag "settings[emails_header][#{lang}]", l(:setting_emails_header) %>
-            <div class="form--field-container">
-              <%= styled_text_area_tag("settings[emails_header][#{lang}]", Setting.emails_header[lang], label: false, class: 'wiki-edit', rows: 5) %>
-            </div>
-          </div>
-          <div class="form--field -vertical">
-            <%= styled_label_tag "settings[emails_footer][#{lang}]", l(:setting_emails_footer) %>
-            <div class="form--field-container">
-              <%= styled_text_area_tag("settings[emails_footer][#{lang}]", Setting.emails_footer[lang], label: false, class: 'wiki-edit', rows: 5) %>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
+      <%= cell Settings::TextSettingCell, I18n.locale, name: "emails_footer" %>
     </fieldset>
     <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
       <legend class="form--fieldset-legend"><%=l(:text_setup_mail_configuration)%></legend>

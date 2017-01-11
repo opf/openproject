@@ -44,12 +44,13 @@ module QueriesHelper
     column.is_a?(QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
   end
 
-  def add_filter_from_params
-    @query.filters = []
-    @query.add_filters(
-      fields_from_params(@query, params),
-      operators_from_params(@query, params),
-      values_from_params(@query, params))
+  def add_filter_from_params(query, filters: params)
+    query.filters = []
+    query.add_filters(
+      fields_from_params(query, filters),
+      operators_from_params(query, filters),
+      values_from_params(query, filters)
+    )
   end
 
   # Retrieve query from session or build a new query
@@ -59,7 +60,7 @@ module QueriesHelper
       cond << " OR project_id = #{@project.id}" if @project
       @query = Query.where(cond).find(params[:query_id])
       @query.project = @project
-      add_filter_from_params if params[:accept_empty_query_fields]
+      add_filter_from_params(@query) if params[:accept_empty_query_fields]
       session[:query] = { id: @query.id, project_id: @query.project_id }
       sort_clear
     else
@@ -68,7 +69,7 @@ module QueriesHelper
         @query = Query.new(name: '_')
         @query.project = @project
         if params[:fields] || params[:f]
-          add_filter_from_params
+          add_filter_from_params(@query)
         else
           @query.available_filters.map(&:name).each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
@@ -115,17 +116,16 @@ module QueriesHelper
     if names
       context = WorkPackage.new
 
-      names.map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
+      names.map { |name| converter.to_ar_name name, context: context }
     end
   end
 
   def visible_queries
     unless @visible_queries
-      # User can see public queries and his own queries
-      visible = ARCondition.new(['is_public = ? OR user_id = ?', true, (User.current.logged? ? User.current.id : 0)])
-      # Project specific queries and global queries
-      visible << (@project.nil? ? ['project_id IS NULL'] : ['project_id = ?', @project.id])
-      @visible_queries = Query.where(visible.conditions)
+      # Find project queries or global queries depending on @project.nil?
+      @visible_queries = Query
+                         .visible(to: User.current)
+                         .where(project_id: @project)
                          .order('name ASC')
                          .select(:id, :name, :is_public, :project_id)
     end
@@ -155,9 +155,9 @@ module QueriesHelper
 
     names = field_hash.keys
     entries = names
-      .zip(fix_field_array(query, names))
-      .select { |_name, field| field.present? }
-      .map { |name, field| [field, field_hash[name]] }
+              .zip(fix_field_array(query, names))
+              .select { |_name, field| field.present? }
+              .map { |name, field| [field, field_hash[name]] }
 
     Hash[entries]
   end
@@ -181,11 +181,16 @@ module QueriesHelper
   def fix_field_array(query, field_names)
     return [] if field_names.nil?
 
-    context = WorkPackage.new
+    # memoize to reduce overhead of WorkPackage.new
+    @fix_field_array_wp ||= WorkPackage.new
     available_keys = query.available_filters.map(&:name)
 
     field_names
-      .map { |name| API::Utilities::PropertyNameConverter.to_ar_name name, context: context }
-      .map { |name| available_keys.find { |k| k =~ /#{name}(_id)?$/ } }
+      .map { |name| converter.to_ar_name name, context: @fix_field_array_wp, refer_to_ids: true }
+      .map { |name| available_keys.find { |k| name =~ /#{k}(s|_id)?$/ } }
+  end
+
+  def converter
+    API::Utilities::PropertyNameConverter
   end
 end
