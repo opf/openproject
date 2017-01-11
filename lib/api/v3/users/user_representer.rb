@@ -99,6 +99,7 @@ module API
                  getter: ->(*) {
                    represented.admin?
                  },
+                 setter: ->(value, *) { represented.admin = value },
                  if: ->(*) { current_user_is_admin }
         property :subtype,
                  getter: -> (*) { type },

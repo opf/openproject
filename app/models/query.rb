@@ -464,7 +464,7 @@ class Query < ActiveRecord::Base
                WHERE #{db_table}.watchable_type='WorkPackage'
                  AND #{sql_for_field field, '=', values, db_table, db_field})
                  AND #{Project.table_name}.id IN
-                   (#{Project.allowed_to(User.current, :view_work_package_watchers).to_sql})
+                   (#{Project.allowed_to(User.current, :view_work_package_watchers).select("#{Project.table_name}.id").to_sql})
           SQL
           sql << "(#{sql_parts.join(' OR ')})"
         end

@@ -37,6 +37,7 @@ module Users
     attribute :lastname
     attribute :name
     attribute :mail
+    attribute :admin
 
     attribute :auth_source_id
     attribute :identity_url
