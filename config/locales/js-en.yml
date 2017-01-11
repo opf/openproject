@@ -43,6 +43,7 @@ en:
     button_cancel: "Cancel"
     button_check_all: "Check all"
     button_confirm: "Confirm"
+    button_continue: "Continue"
     button_copy: "Copy"
     button_delete: "Delete"
     button_delete_watcher: "Delete watcher"
@@ -525,6 +526,10 @@ en:
       button_save: "Save"
       button_submit: "Submit"
       button_cancel: "Cancel"
+      form_submit:
+        title: 'Confirm to continue'
+        text: 'Are you sure you want to perform this action?'
+
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
