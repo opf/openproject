@@ -33,8 +33,7 @@
         </li>
       </ul>
       <p>
-        <b>Become a hero!</b> Developers need to pay their bills, too. With Enterprise Edition you substantially contribute to this Open-Source community effort.
-        <%# t('homescreen.blocks.upsale.professional_support') %>
+        <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
       </p>
       <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
             { class: 'button -alt-highlight',
