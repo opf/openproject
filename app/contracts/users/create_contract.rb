@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -32,11 +32,7 @@ require 'users/base_contract'
 module Users
   class CreateContract < BaseContract
     validate :user_allowed_to_add
-
-    attribute :password do
-      # when user's are created as 'active', a password must be set
-      errors.add :password, :blank if model.active? && model.password.blank?
-    end
+    validate :authentication_defined
 
     attribute :status do
       unless model.active? || model.invited?
@@ -46,6 +42,14 @@ module Users
     end
 
     private
+
+    def authentication_defined
+      errors.add :password, :blank if model.active? && no_auth?
+    end
+
+    def no_auth?
+      model.password.blank? && model.auth_source_id.blank? && model.identity_url.blank?
+    end
 
     ##
     # Users can only be created by Admins

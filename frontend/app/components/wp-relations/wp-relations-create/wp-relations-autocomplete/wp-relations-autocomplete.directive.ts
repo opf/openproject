@@ -56,7 +56,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
 
       scope.getIdentifier = function(workPackage){
         if (workPackage) {
-          return `#${workPackage.id} - ${workPackage.subject}`;
+          return _.escape(`#${workPackage.id} - ${workPackage.subject}`);
         }
       };
 

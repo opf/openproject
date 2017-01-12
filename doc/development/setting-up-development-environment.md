@@ -14,7 +14,7 @@ Install tools needed to compile Ruby and run OpenProject:
 
 ```bash
 [dev@debian]# sudo apt-get update
-[dev@debian]# sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev libsqlite3-dev memcached libffi5
+[dev@debian]# sudo apt-get install git curl build-essential zlib1g-dev libyaml-dev libssl-dev libmysqlclient-dev libpq-dev libsqlite3-dev memcached libffi6
 ```
 
 ## Install Database (MySQL) packages
@@ -71,8 +71,8 @@ Switch to your development directory. In this guide we develop straight in the `
 [dev@centos]# source $HOME/.rvm/scripts/rvm
 [dev@debian]# export -f rvm_debug
 [dev@debian]# rvm autolibs disable
-[dev@debian]# rvm install 2.1.4
-[dev@debian]# rvm use --default 2.1.4
+[dev@debian]# rvm install 2.2.5
+[dev@debian]# rvm use --default 2.2.5
 [dev@debian]# gem install bundler
 ```
 

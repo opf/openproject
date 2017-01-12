@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -40,5 +40,18 @@ class Queries::Users::Filters::StatusFilter < Queries::Users::Filters::UserFilte
 
   def self.key
     :status
+  end
+
+  def status_values
+    values.map { |value| Principal::STATUSES[value.to_sym] }
+  end
+
+  def where
+    case operator
+    when "="
+      ["users.status IN (?)", status_values.join(", ")]
+    when "!"
+      ["users.status NOT IN (?)", status_values.join(", ")]
+    end
   end
 end

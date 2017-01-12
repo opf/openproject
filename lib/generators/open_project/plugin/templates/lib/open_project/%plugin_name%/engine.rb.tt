@@ -9,8 +9,8 @@ module OpenProject::<%= plugin_name.camelcase %>
     include OpenProject::Plugins::ActsAsOpEngine
 
     register '<%= full_name %>',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre13'
+             :author_url => 'https://openproject.org',
+             :requires_openproject => '>= 6.0.0'
 
   end
 end

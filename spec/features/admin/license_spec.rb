@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -31,16 +31,16 @@ require 'spec_helper'
 describe 'License', type: :feature do
   include Redmine::I18n
 
-  let(:admin)  { FactoryGirl.create(:admin) }
-  let(:license_object) {
+  let(:admin) { FactoryGirl.create(:admin) }
+  let(:license_object) do
     license = OpenProject::License.new
-    license.licensee =  'Foobar'
+    license.licensee = 'Foobar'
     license.mail = 'foo@example.org'
     license.starts_at = Date.today
     license.expires_at = nil
 
     license
-  }
+  end
 
   let(:textarea) { find '#license_encoded_license' }
   let(:submit_button) { find '#license-submit-button' }
@@ -59,7 +59,8 @@ describe 'License', type: :feature do
       submit_button.click
 
       # Error output
-      expect(page).to have_selector('.errorExplanation', text: "License data can't be read. Are you sure it is a license?")
+      expect(page).to have_selector('.errorExplanation',
+                                    text: "License data can't be read. Are you sure it is a license?")
       expect(page).to have_selector('span.errorSpan #license_encoded_license')
 
       # Keeps value

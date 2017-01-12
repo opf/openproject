@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ namespace :copyright do
       short_copyright_surrounding('<%#', '#%>', options)
     when :rdoc
       "----------\n#{short_copyright_line(' ', options)}\n----------\n".gsub(' -- copyright', "==== copyright\n")
-    when :md, :html
+    when :md
       short_copyright_surrounding('<!--', '-->', options)
     else
       raise "Undefined format #{format}"
@@ -72,6 +72,21 @@ namespace :copyright do
     "#{sign}-- copyright\n#{short_copyright}\n#{sign}++"
   end
 
+  def exluded_paths
+    %w(
+      app/assets/javascripts/lib/
+      app/assets/javascripts/bundles/
+      app/assets/javascripts/locales/
+      coverage
+      frontend/bower_components
+      frontend/node_modules
+      frontend/vendor
+      frontend/coverage
+      frontend/tmp
+      tmp
+    )
+  end
+
   def copyright_regexp(format)
     case format
     when :ruby, :rb
@@ -91,26 +106,23 @@ namespace :copyright do
     end
   end
 
-  def rewrite_copyright(ending, exclude, format, path, options = {})
+  def rewrite_copyright(ending, additional_excludes, format, path, options = {})
     regexp = options[:regex] || copyright_regexp(format)
     path = '.' if path.nil?
     copyright = options[:copyright] || short_copyright(format, path: path)
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
+    excluded = exluded_paths.concat(additional_excludes)
 
     raise 'Path not found' unless Dir.exists?(path)
     file_list.each do |file_name|
       # Skip 3rd party code
-      next if exclude.any? { |e| file_name.include?(e) }
+      next if excluded.any? { |e| file_name.include?(e) }
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
         file_content.gsub!(regexp, '\k<shebang>' + '\k<additional>' + copyright)
       else
-        if options[:position] == :bottom
-          file_content = file_content + "\n\n" + copyright # append
-        else
-          file_content = copyright + "\n\n" + file_content # prepend
-        end
+        puts "#{file_name} does not match regexp. Missing copyright notice?"
       end
 
       File.open(file_name, 'w') do |file|
@@ -122,8 +134,7 @@ namespace :copyright do
   desc 'Update special files, which do not have an ending'
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Guardfile Rakefile config.ru .travis.yml
-                   .rspec .gitignore}.map { |f|
+    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map { |f|
       File.absolute_path f
     }
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
@@ -200,11 +211,8 @@ namespace :copyright do
   task :update_js, :arg1 do |_task, args|
     excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
-                'app/assets/javascripts/jstoolbar/',
-                'app/assets/javascripts/lib/',
-                'frontend/bower_components',
-                'frontend/node_modules',
-                'frontend/vendor']
+                'app/assets/javascripts/jstoolbar/']
+
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
   end
@@ -230,20 +238,6 @@ namespace :copyright do
   desc 'Update the copyright on .html.erb source files'
   task :update_html_erb, :arg1 do |_task, args|
     rewrite_copyright('html.erb', [], :erb, args[:arg1])
-  end
-
-  desc 'Update the copyright on .html source files'
-  task :update_html, :arg1 do |_task, args|
-    excluded = [
-      'coverage',
-      'frontend/app/templates/',
-      'frontend/bower_components',
-      'frontend/coverage',
-      'frontend/node_modules',
-      'frontend/tmp',
-      'frontend/vendor'
-    ]
-    rewrite_copyright('html', excluded, :html, args[:arg1])
   end
 
   desc 'Update the copyright on .json.erb source files'

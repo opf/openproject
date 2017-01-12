@@ -75,6 +75,23 @@ describe 'Watcher tab', js: true, selenium: true do
       expect_button_is_not_watching
     end
 
+    context 'with a user with arbitrary characters' do
+      let!(:html_user) {
+        FactoryGirl.create :user,
+                           firstname: '<em>foo</em>',
+                           member_in_project: project,
+                           member_through_role: role
+      }
+
+      it 'escapes the user name' do
+        typeahead = find('.wp-watcher--autocomplete')
+        target_dropdown = search_typeahead(typeahead, query: 'foo')
+
+        expect(page).to have_selector("##{target_dropdown} .uib-typeahead-match", text: html_user.firstname)
+        expect(page).to have_no_selector("##{target_dropdown} .uib-typeahead-match em")
+      end
+    end
+
     context 'with all permissions' do
       it_behaves_like 'watch and unwatch with button'
     end
