@@ -1010,6 +1010,7 @@ en:
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_descending: "Descending"
+  label_design: "Design"
   label_details: "Details"
   label_development_roadmap: "Development roadmap"
   label_diff: "diff"

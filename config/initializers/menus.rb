@@ -189,6 +189,11 @@ Redmine::MenuManager.map :admin_menu do |menu|
             last: true,
             html: { class: 'icon2 icon-info1' }
 
+  menu.push :custom_style,
+            { controller: '/custom_styles', action: 'show' },
+            caption:    :label_design,
+            html: { class: 'icon2 icon-status' }
+
   menu.push :colors,
             { controller: '/planning_element_type_colors', action: 'index' },
             caption:    :'timelines.admin_menu.colors',

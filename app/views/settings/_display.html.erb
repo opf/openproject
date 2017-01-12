@@ -26,56 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= form_for @custom_style, html: { multipart: true } do |f| %>
-  <section class="form--section">
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_logo) %></legend>
-      <% if License.current.try(:allows_to?, :define_custom_style) %>
-        <div class="form--field">
-          <label class="form--label">Logo</label>
-          <div>
-            <% if @custom_style.id && @custom_style.logo.present? %>
-              <p>
-                <%= image_tag(custom_styles_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
-                <%= link_to l(:button_delete), custom_styles_logo_delete_path, data: { confirm: l(:text_are_you_sure) }, method: :delete, remote: true, class: 'icon icon-delete' %>
-              </p>
-            <% end %>
-            <div>
-              <%= f.file_field :logo %>
-            </div>
-          </div>
-        </div>
-        <div class="form--field-instructions">
-          <p>
-            For best results make sure your image's dimensions are 230 by 55px.
-          </p>
-        </div>
-        <div class="form--field">
-          <label class="form--label"></label>
-          <div class="form--field-container">
-            <div>
-              <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload), class: "-alt-highlight #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
-            </div>
-          </div>
-        </div>
-      <% else %>
-        <p>
-          Customize your OpenProject installation with your own logo.
-        </p>
-        <p>
-          As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for <i>Enterprise Edition</i> subscribers.
-        </p>
-        <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-custom-logo",
-              { class: 'button -alt-highlight',
-                aria: {label: t('admin.licenses.order_license')},
-                title: t('admin.licenses.order_license')}) do %>
-          <i class="button--icon icon-add"></i>
-          <span class="button--text"><%= t('admin.licenses.order_license') %></span>
-        <% end %>
-      <% end %>
-    </fieldset>
-  </section>
-<% end %>
 
 <%= styled_form_tag({action: 'edit', tab: 'display'}) do %>
 

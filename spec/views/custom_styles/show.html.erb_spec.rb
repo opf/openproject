@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,59 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomStylesController < ApplicationController
-  layout 'admin'
-  menu_item :custom_style
+require 'spec_helper'
 
-  before_action :require_admin, :require_valid_license, except: [:upsale]
+describe 'custom_styles/show', type: :view do
+  let(:a_license) { License.new }
+  let(:user) { FactoryGirl.build(:admin) }
 
-  def show
-    @custom_style = CustomStyle.current || CustomStyle.new
+  before do
+    login_as user
   end
 
-  def upsale
-  end
+  context "no custom logo yet" do
+    before do
+      assign(:custom_style, CustomStyle.new)
+      render
+    end
 
-  def create
-    @custom_style = CustomStyle.new custom_style_params
-    if @custom_style.save
-      redirect_to custom_styles_path
-    else
-      flash[:error] = @custom_style.errors.full_messages
-      render action: :show
+    it 'shows an upload button' do
+      expect(rendered).to include "Upload"
     end
   end
 
-  def update
-    @custom_style = CustomStyle.current
-    @custom_style.update_attributes(custom_style_params)
-    redirect_to custom_styles_path
-  end
+  context "with existing custom logo" do
 
-  def logo_download
-    @custom_style = CustomStyle.current
-    if @custom_style && @custom_style.logo
-      send_file(@custom_style.logo_url)
-    else
-      head :not_found
-    end
-  end
-
-  def logo_delete
-    @custom_style = CustomStyle.current
-    @custom_style.remove_logo!
-    @custom_style.save
-    redirect_to custom_styles_path
-  end
-
-  private
-    def require_valid_license
-      unless License.try(:current).try(:allows_to?, :define_custom_style)
-        redirect_to custom_style_upsale_path
-      end
+    before do
+      assign(:custom_style, FactoryGirl.build(:custom_style_with_logo))
+      render
     end
 
-    def custom_style_params
-      params.require(:custom_style).permit(:logo, :remove_logo)
+    it 'shows a replace button' do
+      expect(rendered).to include "Replace"
     end
+  end
 end

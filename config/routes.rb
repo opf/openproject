@@ -159,9 +159,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get     'custom-styles/:digest' => 'custom_styles#css', as: 'custom_styles_css'
-  delete  'custom-styles/logo' => 'custom_styles#logo_delete', as: 'custom_styles_logo_delete'
-  resources :custom_styles, path: 'custom-styles'
   get     'custom-styles/:digest/logo/:filename' => 'custom_styles#logo_download', as: 'custom_styles_logo', constraints: { filename: /[^\/]*/ }
 
   resources :custom_fields, except: :show
@@ -381,6 +378,10 @@ OpenProject::Application.routes.draw do
     resource :announcements, only: [:edit, :update]
     resource :license, only: [:show, :create, :destroy]
     resources :enumerations
+
+    delete   'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
+    get      'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
+    resource :custom_styles, only: [:update, :show, :create], path: 'design'
 
     resources :groups do
       member do
