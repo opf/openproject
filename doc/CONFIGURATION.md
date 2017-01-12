@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # OpenProject Configuration
 
-This file describes a part of the OpenProject configuration. You can find general installation instructions [here](INSTALL.md). OpenProject also allows configuring many aspects via its admin interface. The config/settings.yml file should *not* be used for changing these settings.
+This file describes a part of the OpenProject configuration. You can find general installation instructions [here](https://www.openproject.org/download/). OpenProject also allows configuring many aspects via its admin interface. The config/settings.yml file should *not* be used for changing these settings.
 
 OpenProject can be configured either via a `configuration.yml` file, environment variables or a mix of both. While the latter is probably a bad idea, the environment variable option is often helpful for automatically deploying production systems. Using the configuration file is probably the simplest way of configuration.
 
