@@ -179,12 +179,12 @@ describe 'layouts/base', type: :view do
     end
 
     context "license is active and styles are present" do
-      let(:custom_styles) { CustomStyle.new }
+      let(:custom_style) { CustomStyle.new }
 
       before do
         allow(License).to receive(:current).and_return(a_license)
-        allow(a_license).to receive(:allows_to?).with(:define_custom_styles).and_return(true)
-        allow(CustomStyle).to receive(:current).and_return(custom_styles)
+        allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
 
         render
       end
@@ -198,7 +198,7 @@ describe 'layouts/base', type: :view do
     context "license is active and styles are not present" do
       before do
         allow(License).to receive(:current).and_return(a_license)
-        allow(a_license).to receive(:allows_to?).with(:define_custom_styles).and_return(true)
+        allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(CustomStyle).to receive(:current).and_return(nil)
 
         render
@@ -212,7 +212,7 @@ describe 'layouts/base', type: :view do
     context "license does not allow custom styles" do
       before do
         allow(License).to receive(:current).and_return(a_license)
-        allow(a_license).to receive(:allows_to?).with(:define_custom_styles).and_return(false)
+        allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(false)
 
         render
       end

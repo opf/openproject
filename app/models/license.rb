@@ -69,7 +69,7 @@ class License < ActiveRecord::Base
 
   def allows_to?(ability)
     case ability
-    when :define_custom_styles
+    when :define_custom_style
       # Every valid license allows for defining custom styles
       !expired?
     end

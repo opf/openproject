@@ -50,7 +50,7 @@ RSpec.describe License, type: :model do
       it 'allows to define custom styles' do
         allow(object).to receive(:expired?).and_return(false)
 
-        expect(subject.allows_to? :define_custom_styles).to eq(true)
+        expect(subject.allows_to? :define_custom_style).to eq(true)
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe License, type: :model do
       end
 
       it 'prohibits to define custom styles' do
-        expect(subject.allows_to? :define_custom_styles).to eq(false)
+        expect(subject.allows_to? :define_custom_style).to eq(false)
       end
     end
   end
