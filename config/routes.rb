@@ -159,7 +159,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get     'custom-styles/:digest/logo/:filename' => 'custom_styles#logo_download', as: 'custom_styles_logo', constraints: { filename: /[^\/]*/ }
+  get     'custom-style/:digest/logo/:filename' => 'custom_styles#logo_download', as: 'custom_style_logo', constraints: { filename: /[^\/]*/ }
 
   resources :custom_fields, except: :show
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
@@ -381,7 +381,7 @@ OpenProject::Application.routes.draw do
 
     delete   'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     get      'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
-    resource :custom_styles, only: [:update, :show, :create], path: 'design'
+    resource :custom_style, only: [:update, :show, :create], path: 'design'
 
     resources :groups do
       member do

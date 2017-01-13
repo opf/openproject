@@ -27,13 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_design) %>
+<% html_title t(:label_administration), t(:label_custom_style) %>
 
-<%= toolbar title: t(:label_design) %>
+<%= toolbar title: t(:label_custom_style) %>
 
 <%= error_messages_for 'custom_style' %>
 
-<%= form_for @custom_style, url: custom_styles_path, html: { multipart: true } do |f| %>
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true } do |f| %>
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_logo) %></legend>
@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div>
           <% if @custom_style.id && @custom_style.logo.present? %>
             <p>
-              <%= image_tag(custom_styles_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
+              <%= image_tag(custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
               <%= link_to l(:button_delete),
                     custom_style_logo_delete_path,
                     method: :delete,
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </p>
           <% end %>
           <div>
-            <%= f.file_field :logo %>
+            <%= f.file_field :logo, required: true %>
           </div>
         </div>
       </div>

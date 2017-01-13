@@ -191,7 +191,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :custom_style,
             { controller: '/custom_styles', action: 'show' },
-            caption:    :label_design,
+            caption:    :label_custom_style,
             html: { class: 'icon2 icon-status' }
 
   menu.push :colors,

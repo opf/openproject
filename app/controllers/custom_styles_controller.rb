@@ -31,7 +31,8 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, :require_valid_license, except: [:upsale]
+  before_action :require_admin
+  before_action :require_valid_license, except: [:upsale, :logo_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -41,9 +42,9 @@ class CustomStylesController < ApplicationController
   end
 
   def create
-    @custom_style = CustomStyle.new custom_style_params
-    if @custom_style.save
-      redirect_to custom_styles_path
+    @custom_style = CustomStyle.create(custom_style_params)
+    if @custom_style.valid?
+      redirect_to custom_style_path
     else
       flash[:error] = @custom_style.errors.full_messages
       render action: :show
@@ -52,8 +53,12 @@ class CustomStylesController < ApplicationController
 
   def update
     @custom_style = CustomStyle.current
-    @custom_style.update_attributes(custom_style_params)
-    redirect_to custom_styles_path
+    if @custom_style.update_attributes(custom_style_params)
+      redirect_to custom_style_path
+    else
+      flash[:error] = @custom_style.errors.full_messages
+      render action: :show
+    end
   end
 
   def logo_download
@@ -69,7 +74,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current
     @custom_style.remove_logo!
     @custom_style.save
-    redirect_to custom_styles_path
+    redirect_to custom_style_path
   end
 
   private

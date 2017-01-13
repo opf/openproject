@@ -66,7 +66,7 @@ describe CustomStylesController, type: :controller do
     end
 
     describe "#upsale" do
-      subject { get :upsale}
+      subject { get :upsale }
       render_views
 
       it 'renders upsale' do
@@ -86,19 +86,19 @@ describe CustomStylesController, type: :controller do
       before do
         allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(License).to receive(:current).and_return(a_license)
-        allow(CustomStyle).to receive(:new).and_return(custom_style)
-        expect(custom_style).to receive(:save).and_return(valid)
 
-        # How do I test strong parameters?
-        # expect(CustomStyle).to receive(:create).with(logo: "foo").and_return(valid)
+        expect(CustomStyle).to receive(:create).and_return(custom_style)
+        expect(custom_style).to receive(:valid?).and_return(valid)
 
         post :create, params: params
       end
 
       context 'valid custom_style input' do
+        # let(:valid) { true }
         let(:valid) { true }
 
         it 'redirects to show' do
+          # expect(custom_style).to receive(:logo=)
           expect(response).to redirect_to action: :show
         end
       end
@@ -111,20 +111,89 @@ describe CustomStylesController, type: :controller do
           expect(response).to render_template 'custom_styles/show'
         end
       end
-
-
     end
 
     describe "#update" do
-      pending("#update")
+      let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
+      let(:params) do
+        {
+          custom_style: { logo: 'foo' }
+        }
+      end
+
+      before do
+        allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(License).to receive(:current).and_return(a_license)
+
+        expect(CustomStyle).to receive(:current).and_return(custom_style)
+        expect(custom_style).to receive(:update_attributes).and_return(valid)
+
+        post :update, params: params
+      end
+
+      context 'valid custom_style input' do
+        # let(:valid) { true }
+        let(:valid) { true }
+
+        it 'redirects to show' do
+          # expect(custom_style).to receive(:logo=)
+          expect(response).to redirect_to action: :show
+        end
+      end
+
+      context 'invalid custom_style input' do
+        let(:valid) { false }
+
+        it 'renders with error' do
+          expect(response).not_to be_redirect
+          expect(response).to render_template 'custom_styles/show'
+        end
+      end
     end
 
-    describe "#logo_download" do
-      pending("#logo_download")
-    end
 
     describe "#logo_download" do
-      pending("#logo_downdload")
+
+      subject { get :logo_download, params: { digest: "1234", filename: "logo_image.png" }}
+      render_views
+
+      before do
+        expect(CustomStyle).to receive(:current).and_return(custom_style)
+      end
+
+      context "when logo is present" do
+        let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
+
+        it 'will send a file' do
+          expect(controller).to receive(:send_file) {controller.render nothing: true}
+          expect(subject.status).to eq(200)
+        end
+      end
+
+      context "when no logo is present" do
+        let(:custom_style){ nil }
+
+        it 'renders with error' do
+          expect(controller).to_not receive(:send_file)
+          expect(subject.status).to eq(404)
+        end
+      end
+    end
+
+    describe "#logo_delete" do
+      let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
+      subject { delete :logo_delete }
+
+      before do
+        allow(a_license).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(License).to receive(:current).and_return(a_license)
+      end
+
+      it 'removes the logo from custom_style' do
+        expect(CustomStyle).to receive(:current).and_return(custom_style)
+        expect(custom_style).to receive(:remove_logo!).and_return(custom_style)
+        expect(subject).to redirect_to action: :show
+      end
     end
 
   end
