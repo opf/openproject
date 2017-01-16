@@ -46,6 +46,22 @@ RSpec.describe License, type: :model do
         expect(subject.expires_at).to eq('never')
         expect(subject.restrictions).to eq(foo: :bar)
       end
+
+      describe '#allows_to?' do
+        let(:service_double) { ::Authorization::LicenseService.new(subject) }
+
+        before do
+          expect(::Authorization::LicenseService).to receive(:new).twice.with(subject).and_return(service_double)
+        end
+
+        it 'forwards to LicenseService for checks' do
+          expect(service_double).to receive(:call).with(:forbidden_action).and_return double('ServiceResult', result: false)
+          expect(service_double).to receive(:call).with(:allowed_action).and_return double('ServiceResult', result: true)
+
+          expect(License.allows_to?(:forbidden_action)).to eq false
+          expect(License.allows_to?(:allowed_action)).to eq true
+        end
+      end
     end
 
     context 'when inner license is expired' do

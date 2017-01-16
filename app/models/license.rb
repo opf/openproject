@@ -45,6 +45,10 @@ class License < ActiveRecord::Base
       RequestStore.delete :current_license_updated_at
     end
 
+    def allows_to?(action)
+      Authorization::LicenseService.new(current).call(action).result
+    end
+
     def show_banners
       !current || current.expired?
     end
@@ -77,6 +81,10 @@ class License < ActiveRecord::Base
   def license_object
     @license_object = load_license unless defined?(@license_object)
     @license_object
+  end
+
+  def allows_to?(action)
+    Authorization::LicenseService.new(self).call(action).result
   end
 
   def unset_current_license
