@@ -40,7 +40,7 @@ module API
 
         resources :relations do
           get do
-            query = ::API::V3::ParamsToQueryService.new(Relation).call(params)
+            query = ::API::V3::ParamsToQueryService.new(Relation, current_user).call(params)
 
             if query.valid?
               RelationCollectionRepresenter.new(
