@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -29,10 +29,12 @@
 module API
   module V3
     class ParamsToQueryService
-      attr_accessor :model
+      attr_accessor :model,
+                    :user
 
-      def initialize(model)
+      def initialize(model, user)
         self.model = model
+        self.user = user
       end
 
       def call(params)
@@ -51,7 +53,7 @@ module API
 
         query_class = "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
 
-        query_class.new
+        query_class.new(user: user)
       end
 
       def apply_filters(query, params)

@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -46,21 +46,18 @@ describe User, type: :model do
   }
 
   describe 'a user with a long login (<= 256 chars)' do
+    let(:login) { 'a' * 256 }
     it 'is valid' do
-      user.login = 'a' * 256
+      user.login = login
       expect(user).to be_valid
     end
 
-    it 'may be stored in the database' do
-      user.login = 'a' * 256
-      expect(user.save).to be_truthy
-    end
-
     it 'may be loaded from the database' do
-      user.login = 'a' * 256
-      user.save
+      user.login = login
+      expect(user.save).to be_truthy
 
-      expect(User.find_by_login('a' * 256)).to eq(user)
+      expect(User.find_by_login(login)).to eq(user)
+      expect(User.find_by_unique(login)).to eq(user)
     end
   end
 
@@ -640,6 +637,16 @@ describe User, type: :model do
         end)
         expect(user.notify_about?(work_package)).to be_falsey
       end
+    end
+  end
+
+  describe 'scope.newest' do
+    let!(:anonymous) { FactoryGirl.create(:anonymous) }
+    let!(:user1) { FactoryGirl.create(:user) }
+    let!(:user2) { FactoryGirl.create(:user) }
+
+    it 'without anonymous user' do
+      expect(User.newest).to match_array([user1, user2])
     end
   end
 end

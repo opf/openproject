@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -147,7 +147,12 @@ class User < Principal
   }
   scope :admin, -> { where(admin: true) }
 
-  scope :newest, -> { order(created_on: :desc) }
+  scope :newest, -> { not_builtin.order(created_on: :desc) }
+
+  def self.unique_attribute
+    :login
+  end
+  prepend ::Mixins::UniqueFinder
 
   def sanitize_mail_notification_setting
     self.mail_notification = Setting.default_notification_option if mail_notification.blank?

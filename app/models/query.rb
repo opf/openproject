@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -46,6 +46,21 @@ class Query < ActiveRecord::Base
   validates_length_of :name, maximum: 255
 
   validate :validate_work_package_filters
+
+  scope :visible, ->(to:) do
+    # User can see public queries and his own queries
+    scope = where(is_public: true)
+
+    if to.logged?
+      scope.or(where(user_id: to.id))
+    else
+      scope
+    end
+  end
+
+  scope :global, -> {
+    where(project_id: nil)
+  }
 
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
@@ -449,7 +464,7 @@ class Query < ActiveRecord::Base
                WHERE #{db_table}.watchable_type='WorkPackage'
                  AND #{sql_for_field field, '=', values, db_table, db_field})
                  AND #{Project.table_name}.id IN
-                   (#{Project.allowed_to(User.current, :view_work_package_watchers).to_sql})
+                   (#{Project.allowed_to(User.current, :view_work_package_watchers).select("#{Project.table_name}.id").to_sql})
           SQL
           sql << "(#{sql_parts.join(' OR ')})"
         end

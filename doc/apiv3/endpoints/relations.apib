@@ -321,7 +321,7 @@ applicable for the other relations.
                 "message": "The specified relation type does not exist."
             }
 
-## Relations [/api/v3/relations{?offset,pageSize,filters,sortBy}]
+## Relations [/api/v3/relations{?filters,sortBy}]
 
 + Model
     + Body
@@ -391,14 +391,13 @@ Lists all relations according to the given (optional, logically conjunctive) fil
 The response only includes relations between work packages which the user is allowed to see.
 
 + Parameters
-    + offset = `0` (optional, integer, `5`) ... Page number inside the requested collection
-
-    + pageSize (optional, integer, `20`) ... Number of elements to display per page
-
     + filters (optional, string, `[{ "from": { "operator": "=", "values": 42 }" }]`) ... JSON specifying filter conditions.
     Accepts the same format as returned by the [queries](#queries) endpoint. Valid fields to filter by are:
-    `from` (ID of work package from which the filtered relations emanates), `to` (ID of work package to which this related points),
-    `involved` (ID of either the `from` or the `to` work package.), `type` (The type of relation to filter by, e.g. "follows")
+      + id - ID of relation
+      + from - ID of work package from which the filtered relations emanates.
+      + to - ID of work package to which this related points.
+      + involved - ID of either the `from` or the `to` work package.
+      + type - The type of relation to filter by, e.g. "follows".
 
     + sortBy (optional, string, `[["type", "asc"]]`) ... JSON specifying sort criteria.
     Accepts the same format as returned by the [queries](#queries) endpoint.

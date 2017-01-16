@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #++
 
 shared_context 'typeahead helpers' do
-  def select_typeahead(element, query:, select_text: nil)
+  def search_typeahead(element, query:)
     # Open the element
     element.click
     # Insert the text to find
@@ -35,7 +35,11 @@ shared_context 'typeahead helpers' do
 
     ##
     # Find the dropdown by reference
-    target_dropdown = element['aria-owns']
+    element['aria-owns']
+  end
+
+  def select_typeahead(element, query:, select_text: nil)
+    target_dropdown = search_typeahead(element, query: query)
 
     ##
     # If a specific select_text is given, use that to locate the match,

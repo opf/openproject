@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -34,7 +34,6 @@ module API
   module V3
     module Queries
       class QueryRepresenter < ::API::Decorators::Single
-
         self_link
 
         linked_property :user
@@ -44,37 +43,40 @@ module API
         property :name
         property :filters,
                  exec_context: :decorator,
-                 getter: -> (*) {
-                   represented.filters.map { |filter|
+                 getter: ->(*) {
+                   represented.filters.map do |filter|
                      attribute = convert_attribute filter.field
                      {
                        attribute => { operator: filter.operator, values: filter.values }
                      }
-                   }
+                   end
                  }
         property :is_public, getter: -> (*) { is_public }
         property :column_names,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    return nil unless represented.column_names
                    represented.column_names.map { |name| convert_attribute name }
                  }
         property :sort_criteria,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    return nil unless represented.sort_criteria
-                   represented.sort_criteria.map { |attribute, order|
+                   represented.sort_criteria.map do |attribute, order|
                      [convert_attribute(attribute), order]
-                   }
+                   end
                  }
         property :group_by,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    represented.grouped? ? convert_attribute(represented.group_by) : nil
                  },
                  render_nil: true
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
+
+        self.to_eager_load = [:query_menu_item,
+                              project: { work_package_custom_fields: :translations }]
 
         private
 

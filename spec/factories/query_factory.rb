@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :query do
     project
     user factory: :user
-    sequence(:name) do |n| "Query #{n}" end
+    sequence(:name) { |n| "Query #{n}" }
 
     factory :public_query do
       is_public true
@@ -40,6 +40,12 @@ FactoryGirl.define do
     factory :private_query do
       is_public false
       sequence(:name) { |n| "Private query #{n}" }
+    end
+
+    factory :global_query do
+      project nil
+      is_public true
+      sequence(:name) { |n| "Global query #{n}" }
     end
 
     callback(:after_build) { |query| query.add_default_filter }

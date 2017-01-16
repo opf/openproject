@@ -35,6 +35,7 @@ import {WorkPackageNotificationService} from './../wp-edit/wp-notification.servi
 import {State} from "../../helpers/reactive-fassade";
 import IScope = angular.IScope;
 import {States} from "../states.service";
+import {Observable, Subject} from "rxjs";
 
 
 function getWorkPackageId(id: number|string): string {
@@ -43,7 +44,7 @@ function getWorkPackageId(id: number|string): string {
 
 export class WorkPackageCacheService {
 
-  private newWorkPackageCreatedSubject = new Rx.Subject<WorkPackageResource>();
+  private newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
   /*@ngInject*/
   constructor(private states: States,
@@ -54,7 +55,7 @@ export class WorkPackageCacheService {
   }
 
   newWorkPackageCreated(wp: WorkPackageResource) {
-    this.newWorkPackageCreatedSubject.onNext(wp);
+    this.newWorkPackageCreatedSubject.next(wp);
   }
 
   updateWorkPackage(wp: WorkPackageResource) {
@@ -130,7 +131,7 @@ export class WorkPackageCacheService {
     return state;
   }
 
-  onNewWorkPackage(): Rx.Observable<WorkPackageResource> {
+  onNewWorkPackage(): Observable<WorkPackageResource> {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 

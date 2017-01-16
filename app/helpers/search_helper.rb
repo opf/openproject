@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -126,6 +126,7 @@ module SearchHelper
   def link_to_previous_search_page(pagination_previous_date)
     link_to_content_update(l(:label_previous),
                            @search_params.merge(previous: 1,
+                                                project_id: @project.try(:identifier),
                                                 offset: pagination_previous_date.to_r.to_s),
                            class: 'navigate-left')
   end
@@ -133,6 +134,7 @@ module SearchHelper
   def link_to_next_search_page(pagination_next_date)
     link_to_content_update(l(:label_next),
                            @search_params.merge(previous: nil,
+                                                project_id: @project.try(:identifier),
                                                 offset: pagination_next_date.to_r.to_s),
                            class: 'navigate-right')
   end

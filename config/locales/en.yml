@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -227,6 +227,8 @@ en:
           attributes:
             status:
               invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
   activerecord:
     attributes:
       announcements:
@@ -1180,6 +1182,7 @@ en:
   label_registration_automatic_activation: "automatic account activation"
   label_registration_manual_activation: "manual account activation"
   label_related_work_packages: "Related work packages"
+  label_relates: "related to"
   label_relates_to: "related to"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
@@ -1554,7 +1557,7 @@ en:
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
-  permission_view_work_packages: "View Work Packages"
+  permission_view_work_packages: "View work packages"
   permission_view_messages: "View messages"
   permission_view_members: "View members"
   permission_view_project_associations: "View project dependencies"

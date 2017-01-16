@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,6 +27,8 @@
 #++
 
 require 'api/v3/relations/relation_representer'
+require 'api/v3/relations/relation_collection_representer'
+
 require 'relations/create_relation_service'
 require 'relations/update_relation_service'
 
@@ -38,11 +40,17 @@ module API
 
         resources :relations do
           get do
-            relations = Relation.all
+            query = ::API::V3::ParamsToQueryService.new(Relation).call(params)
 
-            RelationCollectionRepresenter.new(relations,
-                                              api_v3_paths.relations,
-                                              current_user: current_user)
+            if query.valid?
+              RelationCollectionRepresenter.new(
+                query.results.includes(::API::V3::Relations::RelationRepresenter.to_eager_load),
+                api_v3_paths.relations,
+                current_user: current_user
+              )
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
           end
 
           params do

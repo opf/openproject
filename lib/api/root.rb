@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -131,17 +131,19 @@ module API
       # projects
       def authorize_any(permissions, projects: nil, global: false, user: current_user)
         raise ArgumentError if projects.nil? && !global
+
         projects = Array(projects)
 
-        authorized = permissions.any? { |permission|
-          allowed_projects = Project.allowed_to(user, permission)
-
+        authorized = permissions.any? do |permission|
           if global
-            allowed_projects.any?
+            authorize(permission, global: true, user: user) do
+              false
+            end
           else
+            allowed_projects = Project.allowed_to(user, permission)
             !(allowed_projects & projects).empty?
           end
-        }
+        end
 
         raise API::Errors::Unauthorized unless authorized
         authorized
@@ -150,9 +152,8 @@ module API
 
     def self.auth_headers
       lambda do
-        header = OpenProject::Authentication::WWWAuthenticate.response_header(
-          scope: API_V3,
-          request_headers: env)
+        header = OpenProject::Authentication::WWWAuthenticate
+                 .response_header(scope: API_V3, request_headers: env)
 
         { 'WWW-Authenticate' => header }
       end

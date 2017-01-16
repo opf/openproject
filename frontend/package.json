@@ -51,6 +51,7 @@
     "observable-array": "0.0.4",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^1.1.1",
+    "rxjs": "^5.0.1",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
     "typescript": "^2.0.3",

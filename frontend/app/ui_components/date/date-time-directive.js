@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -31,11 +31,12 @@ module.exports = function($compile, TimezoneService) {
     restrict: 'EA',
     replace: true,
     scope: { dateTimeValue: '=' },
-    template: '<span title="{{ date }} {{ time }}"><op-date date-value="dateTimeValue" hide-title="true"></op-date> <op-time time-value="dateTimeValue" hide-title="true"></op-time></span>',
+    // Note: we cannot reuse op-date here as this does not apply the user's configured timezone
+    template: '<span title="{{ date }} {{ time }}"><span>{{date}}</span> <span>{{time}}</span></span>',
     link: function(scope, element, attrs) {
-      scope.date = TimezoneService.formattedDate(scope.dateTimeValue);
-      scope.time = TimezoneService.formattedTime(scope.dateTimeValue);
-
+      var c = TimezoneService.formattedDatetimeComponents(scope.dateTimeValue);
+      scope.date = c[0];
+      scope.time = c[1];
       $compile(element.contents())(scope);
     }
   };

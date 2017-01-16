@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -99,6 +99,7 @@ module API
                  getter: ->(*) {
                    represented.admin?
                  },
+                 setter: ->(value, *) { represented.admin = value },
                  if: ->(*) { current_user_is_admin }
         property :subtype,
                  getter: -> (*) { type },
@@ -147,13 +148,67 @@ module API
                  setter: -> (value, *) { self.status = User::STATUSES[value.to_sym] },
                  render_nil: true
 
+        link :auth_source do
+          {
+            href: "/api/v3/auth_sources/#{represented.auth_source_id}",
+            title: represented.auth_source.name
+          } if represented.is_a?(User) && represented.auth_source && current_user.admin?
+        end
+
+        property :identity_url,
+                 as: 'identityUrl',
+                 exec_context: :decorator,
+                 getter: -> (*) { represented.identity_url },
+                 setter: -> (value, *) { represented.identity_url = value },
+                 render_nil: true,
+                 if: ->(*) { represented.is_a?(User) && current_user_is_admin_or_self }
+
         # Write-only properties
+
         property :password,
                  getter: -> (*) { nil },
                  render_nil: false,
                  setter: -> (value, *) {
                    self.password = self.password_confirmation = value
                  }
+
+        ##
+        # Used while parsing JSON to initialize `auth_source_id` through the given link.
+        def initialize_embedded_links!(data)
+          auth_source_id = parse_auth_source_id data, "authSource"
+
+          if auth_source_id
+            auth_source = AuthSource.find_by_unique auth_source_id
+            id = auth_source ? auth_source.id : 0
+
+            # set id to 0 (as opposed to nil) to produce an auth source not found
+            # error further down the line in the user's base contract
+            represented.auth_source_id = id
+          end
+        end
+
+        ##
+        # Overrides Roar::JSON::HAL::Resources#from_hash
+        def from_hash(hash, *)
+          if hash["_links"]
+            initialize_embedded_links! hash
+          end
+
+          super
+        end
+
+        def parse_auth_source_id(data, link_name)
+          value = data.dig("_links", link_name, "href")
+
+          if value
+            ::API::Utilities::ResourceLinkParser.parse_id(
+              value,
+              property: :auth_source,
+              expected_version: "3",
+              expected_namespace: "auth_sources"
+            )
+          end
+        end
 
         def _type
           'User'

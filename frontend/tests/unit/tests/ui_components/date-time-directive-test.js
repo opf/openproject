@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -49,7 +49,7 @@ describe('date time Directives', function() {
   beforeEach(inject(function($rootScope, $compile, _I18n_, _TimezoneService_) {
     scope = $rootScope.$new();
 
-    scope.testDateTime = "2013-02-08T09:30:26";
+    scope.testDateTime = "2013-02-08T09:30:26Z";
 
     compile = function(html) {
       element = $compile(html)(scope);
@@ -82,6 +82,7 @@ describe('date time Directives', function() {
 
     describe('without configuration', function() {
       beforeEach(function() {
+        configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(false);
 
         compile(html);
@@ -96,6 +97,7 @@ describe('date time Directives', function() {
 
     describe('with configuration', function() {
       beforeEach(function() {
+        configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(true);
         configurationService.dateFormat = sinon.stub().returns("DD-MM-YYYY");
 
@@ -129,6 +131,7 @@ describe('date time Directives', function() {
 
     describe('with configuration', function() {
       beforeEach(function() {
+        configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.timeFormatPresent = sinon.stub().returns(true);
         configurationService.timeFormat = sinon.stub().returns("HH:mm a");
 
@@ -159,10 +162,11 @@ describe('date time Directives', function() {
 
     describe('without configuration', function() {
       beforeEach(function() {
+        configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(false);
         configurationService.timeFormatPresent = sinon.stub().returns(false);
 
-        scope.dateTimeValue = "2013-02-08T09:30:26";
+        scope.dateTimeValue = "2013-02-08T09:30:26Z";
 
         compile(html);
       });
@@ -177,6 +181,7 @@ describe('date time Directives', function() {
 
     describe('with configuration', function() {
       beforeEach(function() {
+        configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(true);
         configurationService.timeFormatPresent = sinon.stub().returns(true);
         configurationService.dateFormat = sinon.stub().returns("DD-MM-YYYY");

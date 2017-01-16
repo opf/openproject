@@ -7,20 +7,38 @@ OpenProject plugins are special ruby gems. You may include them in your `Gemfile
 You can generate a new plugin directly from OpenProject. Think of a good name and a place (in your filesystem) where the plugin should go. In this example, we have a `plugins` directory right next to the `openproject` directory. Then do
 
 ```bash
-bundle exec rails generate open_project:plugin a_good_name ../plugins/
+bundle exec rails generate open_project:plugin my_plugin ../plugins/
 ```
 
-This generates the plugins `openproject-a_good_name` into the directory `../plugins/openproject-a_good_name`. The new plugin is a rails engine, which can be published as a gem. Please edit the `openproject-a_good_name.gemspec` file to be ready.
+This generates the plugins `openproject-my_plugin` into the directory `../plugins/openproject-my_plugin`. The new plugin is a rails engine, which can be published as a gem.
+
+You may want to update the generated plugin's gemspec (`openproject-my_plugin.gemspec`).
+
+**Example Plugin**
+
+There is an [example plugin](https://github.com/opf/openproject-proto_plugin) which does some of the basic things (adding menu items, hooking into views, defining a project menu, etc.) and provides further info in its README.
+
+Instead of generating a new plugin you can also just clone the example plugin and adapt it.
+
+**Example Plugin**
+
+There is an [example plugin](https://github.com/opf/openproject-proto_plugin) which does some of the basic things (adding menu items, hooking into views, defining a project menu, etc.) and provides further info in its README.
+
+Instead of generating a new plugin you can also just clone the example plugin and adapt it.
 
 ## Hook the new plugin into OpenProject
 
-To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following line to `Gemfile.plugins`:
+To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following lines to `Gemfile.plugins`:
 
 ```
-gem "openproject-a_good_name", :path => '../plugins/openproject-a_good_name'
+group :opf_plugins do
+  gem "openproject-my_plugin", :path => '../plugins/openproject-my_plugin'
+end
 ```
 
-and install it via
+If there already is an `opf_plugins` group, just add the `gem` line to it.
+
+Once you've done that install it via
 
 ```bash
 bundle install
@@ -46,14 +64,16 @@ A code review should check the whole code and remove glitches like:
 ### Resolve licensing and copyright issues
 
 1. Check the license and the copyright of the plugin to be released
-Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
-```bash
+
+ Usually, this should be GPLv3 and we are the copyright owner. However, some plugins might have additional authors or might originate from code with a different license. These issues have to be resolved first. Also check the years in the copyright. If you need to find all contributors of a repository including their contribution period use the following rake task:
+ ```bash
 rake copyright:authors:show['../Path/to/repository/']
 ```
 
 2. Add a copyright notice to all the source files
-There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `doc/COPYRIGHT_short.md` to all relevant plugin files.
-If no such file exists, `doc/COPYRIGHT_short.md` from the core is used.
+
+ There is a rake task in the core to perform this job. Use `rake copyright:update['path_to_plugin']` (e.g. `rake copyright:update['../plugins/openproject-global_roles']`) to add the copyright header in `doc/COPYRIGHT_short.md` to all relevant plugin files.
+ If no such file exists, `doc/COPYRIGHT_short.md` from the core is used.
 
 3. Check for existence of `doc/COPYRIGHT.md` and `doc/GPL.txt` if referenced by the copyright notice.
 
@@ -131,13 +151,8 @@ images, styles and I18n translations.
 
 Translations are processed by I18n.js through Rails and will be picked up from `config/locales/js-<locale>.js`.
 
-Pure frontend plugins should be considered _a work in progress_. As such, it is
-currently recommended to create hybrid plugins (see below).
-
-**To use a frontend plugin:**
-
-  * You will currently need to modify the `package.json` of OpenProject core
-    directly. A more robust solution is currently in planning.
+Pure frontend plugins are currently not possible without modifications to the OpenProject core `package.json`.
+We instead recommend to create a hybrid gem plugin instead (see below).
 
 ## Hybrid plugins
 
@@ -153,6 +168,5 @@ _CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
 
   * then run `bundle install`.
 
-You **do not** need to modify the `package.json` of OpenProject core. Provided
-Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
+Provided Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
 will bundle their assets.

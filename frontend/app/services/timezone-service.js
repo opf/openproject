@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -62,9 +62,16 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     formattedDatetime: function(datetimeString) {
+      var c = TimezoneService.formattedDatetimeComponents(datetimeString);
+      return c[0] + ' ' + c[1];
+    },
+
+    formattedDatetimeComponents: function(datetimeString) {
       var d = TimezoneService.parseDatetime(datetimeString);
-      return d.format(TimezoneService.getDateFormat()) + ' ' +
-        d.format(TimezoneService.getTimeFormat());
+      return [
+        d.format(TimezoneService.getDateFormat()),
+        d.format(TimezoneService.getTimeFormat())
+      ];
     },
 
     toHours: function(durationString) {
