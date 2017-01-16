@@ -84,7 +84,7 @@ class Queries::BaseQuery
   end
 
   def default_scope
-    self.class.model
+    self.class.model.all
   end
 
   protected
