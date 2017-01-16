@@ -97,6 +97,8 @@ describe 'License', type: :feature do
         submit_button.click
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
 
+        # Assume next request
+        RequestStore.clear!
         expect(License.current.encoded_license).to eq('blabla')
 
         # Remove license
@@ -107,6 +109,8 @@ describe 'License', type: :feature do
         expect(textarea.value).to be_empty
         expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_delete))
 
+        # Assume next request
+        RequestStore.clear!
         expect(License.current).to be_nil
       end
     end

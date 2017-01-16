@@ -5,7 +5,7 @@ RSpec.describe License, type: :model do
   subject { License.new(encoded_license: 'foo') }
 
   before do
-    License.set_current_license
+    License.clear_cache
   end
 
   describe 'existing license' do

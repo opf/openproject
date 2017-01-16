@@ -28,8 +28,21 @@
 class License < ActiveRecord::Base
   class << self
     def current
-      set_current_license unless defined?(@@current_license)
-      @@current_license
+      RequestStore.fetch(cache_key) do
+        set_current_license
+      end
+    end
+
+    def cache_key
+      RequestStore.fetch(:current_license_updated_at) { License.maximum(:updated_at) }
+      most_recent_update = (RequestStore[:current_license_updated_at] || Time.now.utc).to_i
+      "/openproject/license/#{most_recent_update}"
+    end
+
+    def clear_cache(key = cache_key)
+      Rails.cache.delete(key)
+      RequestStore.delete key
+      RequestStore.delete :current_license_updated_at
     end
 
     def show_banners
@@ -39,18 +52,17 @@ class License < ActiveRecord::Base
     def set_current_license
       license = License.order('created_at DESC').first
 
-      @@current_license =
-        if license && license.license_object
-          license
-        end
+      if license && license.license_object
+        license
+      end
     end
   end
 
   validates_presence_of :encoded_license
   validate :valid_license_object
 
-  after_save :set_current_license
-  after_destroy :set_current_license
+  before_save :unset_current_license
+  before_destroy :unset_current_license
 
   delegate :will_expire?,
            :expired?,
@@ -67,9 +79,12 @@ class License < ActiveRecord::Base
     @license_object
   end
 
-  private
+  def unset_current_license
+    # Clear current cache
+    self.class.clear_cache
+  end
 
-  delegate :set_current_license, to: :class
+  private
 
   def load_license
     OpenProject::License.import(encoded_license)
