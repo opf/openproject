@@ -12,7 +12,7 @@ running the `openproject configure` command.
     sudo apt-get install --only-upgrade openproject
     sudo openproject configure
 
-## Fedora / CentOS / RHEL
+## CentOS / RHEL
 
     sudo yum update
     sudo yum install openproject
@@ -44,12 +44,12 @@ you will need to adjust that package source.
  - Update the reference to `stable/5` in `/etc/apt/sources.list.d/openproject.list` to `stable/6`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
-### YUM-based systems (Fedora, CentOS)
+### YUM-based systems (CentOS, RHEL)
 
  - Update the reference to `stable/5` in `/etc/yum.repos.d/openproject.repo` to `stable/6`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
-### SUSE Linux Enterprise Server 11, 12
+### SUSE Linux Enterprise Server 11, 11
 
  - Update the reference to `stable/5` in `/etc/zypp/repos.d/openproject.repo` to `stable/6`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
