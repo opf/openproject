@@ -27,10 +27,11 @@
 #++
 
 require 'support/pages/page'
+require_relative 'budget_form'
 
 module Pages
   class EditBudget < Page
-    include BudgetForm
+    include ::Pages::BudgetForm
 
     attr_reader :cost_object_id # cost_object == budget
 

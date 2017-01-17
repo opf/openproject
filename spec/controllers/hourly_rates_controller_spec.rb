@@ -34,7 +34,7 @@ describe HourlyRatesController do
       }
       before do
         as_logged_in_user admin do
-          post :update, params
+          post :update, params: params
         end
       end
 

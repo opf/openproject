@@ -8,12 +8,16 @@ class WorkPackage
       TimeEntry.with_visible_costs_on scope
     end
 
-    def ce_table
-      super.alias 'time_entry_labor'
-    end
-
     def costs_sum_alias
       'time_entries_sum'
+    end
+
+    def subselect_alias
+      'time_entries'
+    end
+
+    def sum_subselect(base_scope)
+      super.project('SUM(hours) hours')
     end
   end
 end

@@ -32,6 +32,7 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                        :view_cost_rates,
                                                        :log_costs] }
   let(:work_package) {FactoryGirl.create :work_package }
+  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package) }
   let(:hourly_rate) { FactoryGirl.create :default_hourly_rate, user: user,
                                                                rate: 10.00 }
   let(:time_entry) { FactoryGirl.create :time_entry, user: user,
@@ -65,8 +66,8 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                            user: other_user,
                                                            cost_type: cost_type }
 
-  it 'only displays own entries and rates' do
-    allow(User).to receive(:current).and_return(user)
+  before do
+    login_as(user)
 
     work_package
     hourly_rate
@@ -76,9 +77,11 @@ describe 'Only see your own rates', type: :feature, js: true do
     other_time_entry
     other_cost_entry
 
-    wp_page = Pages::FullWorkPackage.new(work_package)
     wp_page.visit!
+    wp_page.ensure_page_loaded
+  end
 
+  it 'only displays own entries and rates' do
     # All the values do not include the entries made by the other user
     wp_page.expect_attributes spent_time: '1 hour',
                               costs_by_type: '2 Translations',

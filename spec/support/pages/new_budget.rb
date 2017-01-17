@@ -27,10 +27,11 @@
 #++
 
 require 'support/pages/page'
+require_relative 'budget_form'
 
 module Pages
   class NewBudget < Page
-    include BudgetForm
+    include ::Pages::BudgetForm
 
     attr_reader :project_identifier
 

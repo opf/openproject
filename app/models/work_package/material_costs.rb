@@ -11,5 +11,9 @@ class WorkPackage
     def costs_sum_alias
       'cost_entries_sum'
     end
+
+    def subselect_alias
+      'cost_entries'
+    end
   end
 end

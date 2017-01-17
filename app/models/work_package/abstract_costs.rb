@@ -18,6 +18,12 @@ class WorkPackage
     end
 
     ##
+    # Adds to the given WorkPackage collection query an extra costs column
+    def add_to_work_package_collection(wp_collection_scope)
+      add_costs_to wp_collection_scope
+    end
+
+    ##
     # For the given work packages calculates the sum of all costs.
     #
     # @param [WorkPackage::ActiveRecord_Relation | Array[WorkPackage]] List of work packages.
@@ -50,6 +56,10 @@ class WorkPackage
       raise NotImplementedError, "subclass responsiblity"
     end
 
+    def subselect_alias
+      raise NotImplementedError, "subclass responsiblity"
+    end
+
     private
 
     def work_package_ids(work_packages)
@@ -64,15 +74,10 @@ class WorkPackage
       costs_model.table_name
     end
 
-    def table_alias
-      "#{costs_table_name}_sum_per_wp"
-    end
-
     def add_costs_to(scope)
       scope
-        .joins(sum_arel.join_sources)
-        .select("#{costs_sum} AS #{costs_sum_alias}")
-        .group(wp_table[:id])
+        .joins(sum_arel(scope).join_sources)
+        .select(costs_sum_alias)
     end
 
     def costs_sum
@@ -92,14 +97,29 @@ class WorkPackage
       scope # allow all
     end
 
-    def sum_arel
-      wp_table
+    def sum_arel(base_scope)
+      subselect = sum_subselect(base_scope)
+                  .as(subselect_alias)
+      wp_table.
+        outer_join(subselect).on(subselect[:id].eq(wp_table[:id]))
+    end
+
+    def sum_subselect(base_scope)
+      base_scope
+        .dup
+        .except(:select)
+        .select("#{costs_sum} AS #{costs_sum_alias}")
+        .select(wp_table[:id])
         .outer_join(ce_table).on(ce_table_join_condition)
         .group(wp_table[:id])
     end
 
     def wp_table
       WorkPackage.arel_table
+    end
+
+    def wp_table_descendants
+      wp_table.alias 'descendants'
     end
 
     def ce_table
@@ -110,7 +130,9 @@ class WorkPackage
       authorization_scope = filter_authorized costs_model.all
       authorization_where = authorization_scope.ast.cores.last.wheres.last
 
-      ce_table[:work_package_id].eq(wp_table[:id]).and(authorization_where)
+      # relies on the scope having the wp descendants joined at least
+      # when #to_sql is called.
+      ce_table[:work_package_id].eq(wp_table_descendants[:id]).and(authorization_where)
     end
 
     def projects_table

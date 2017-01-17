@@ -19,14 +19,14 @@
 
 class CostlogController < ApplicationController
   menu_item :work_packages
-  before_filter :find_project, :authorize, only: [:edit,
+  before_action :find_project, :authorize, only: [:edit,
                                                   :new,
                                                   :create,
                                                   :update,
                                                   :destroy]
-  before_filter :find_associated_objects, only: [:create,
+  before_action :find_associated_objects, only: [:create,
                                                  :update]
-  before_filter :find_optional_project, only: [:report,
+  before_action :find_optional_project, only: [:report,
                                                :index]
 
   helper :sort
