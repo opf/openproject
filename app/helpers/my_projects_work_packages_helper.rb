@@ -45,6 +45,7 @@ module MyProjectsWorkPackagesHelper
       .joins(:project)
       .group(:type)
       .includes([:project, :status, :type])
+      .references(:projects)
       .where(subproject_condition)
   end
 
