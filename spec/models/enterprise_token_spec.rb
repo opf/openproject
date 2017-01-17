@@ -5,7 +5,7 @@ RSpec.describe EnterpriseToken, type: :model do
   subject { EnterpriseToken.new(encoded_token: 'foo') }
 
   before do
-    EnterpriseToken.clear_cache
+    RequestStore.delete :current_ee_token
   end
 
   describe 'existing token' do

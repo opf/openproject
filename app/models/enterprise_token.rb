@@ -28,21 +28,9 @@
 class EnterpriseToken < ActiveRecord::Base
   class << self
     def current
-      RequestStore.fetch(cache_key) do
+      RequestStore.fetch(:current_ee_token) do
         set_current_token
       end
-    end
-
-    def cache_key
-      RequestStore.fetch(:current_ee_token_updated_at) { EnterpriseToken.maximum(:updated_at) }
-      most_recent_update = (RequestStore[:current_ee_token_updated_at] || Time.now.utc).to_i
-      "/openproject/ee/#{most_recent_update}"
-    end
-
-    def clear_cache(key = cache_key)
-      Rails.cache.delete(key)
-      RequestStore.delete key
-      RequestStore.delete :current_ee_token_updated_at
     end
 
     def allows_to?(action)
@@ -89,7 +77,7 @@ class EnterpriseToken < ActiveRecord::Base
 
   def unset_current_token
     # Clear current cache
-    self.class.clear_cache
+    RequestStore.delete :current_ee_token
   end
 
   private
