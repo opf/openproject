@@ -70,7 +70,7 @@ class Queries::BaseFilter
     list_optional:    ['=', '!', '!*', '*'],
     list_subprojects: ['*', '!*', '='],
     date:             ['<t+', '>t+', 't+', 't', 'w', '>t-', '<t-', 't-', '=d', '<>d'],
-    datetime_past:    ['>t-', '<t-', 't-', 't', 'w'],
+    datetime_past:    ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d'],
     string:           ['=', '~', '!', '!~'],
     text:             ['~', '!~'],
     integer:          ['=', '!', '>=', '<=', '!*', '*']
@@ -137,7 +137,7 @@ class Queries::BaseFilter
   end
 
   def where
-    sql_for_field(self.class.key, operator, values, self.class.model.table_name, self.class.key)
+    sql_for_field(self.class.key, operator, values, self.class.model.table_name, self.class.key, false, type)
   end
 
   def joins
@@ -177,7 +177,11 @@ class Queries::BaseFilter
     case type
     when :integer, :date, :datetime_past
       if operator == '=d' || operator == '<>d'
-        validate_values_all_date
+        if type == :date
+          validate_values_all_date
+        else
+          validate_values_all_datetime
+        end
       else
         validate_values_all_integer
       end
@@ -188,6 +192,12 @@ class Queries::BaseFilter
 
   def validate_values_all_date
     unless values.all? { |value| value != 'undefined' ? date?(value) : true }
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_a_date'))
+    end
+  end
+
+  def validate_values_all_datetime
+    unless values.all? { |value| value != 'undefined' ? datetime?(value) : true }
       errors.add(:values, I18n.t('activerecord.errors.messages.not_a_date'))
     end
   end
@@ -215,6 +225,12 @@ class Queries::BaseFilter
 
   def date?(str)
     true if Date.parse(str)
+  rescue
+    false
+  end
+
+  def datetime?(str)
+    true if DateTime.parse(str)
   rescue
     false
   end

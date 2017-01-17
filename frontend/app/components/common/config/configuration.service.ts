@@ -97,11 +97,8 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     autoHidePopups: function () {
       return this.settings.user_preferences.others.auto_hide_popups === true;
     },
-    isTimezoneSet: function () {
-      return this.settings.user_preferences.time_zone !== '';
-    },
     timezone: function () {
-      return this.settings.user_preferences.time_zone;
+      return this.settings.user_preferences.time_zone || 'UTC';
     },
     dateFormatPresent: function () {
       return this.displaySettingPresent('date_format') &&

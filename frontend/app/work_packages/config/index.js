@@ -99,7 +99,9 @@ angular.module('openproject.workPackages.config')
     OP_AGO_GT,
     OP_AGO,
     OP_TODAY,
-    OP_THIS_WEEK
+    OP_THIS_WEEK,
+    OP_DATE_EQ,
+    OP_DATE_BETWEEN
   ],
   string: [
     OP_EQ,
