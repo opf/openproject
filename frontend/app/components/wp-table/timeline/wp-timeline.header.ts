@@ -85,6 +85,10 @@ export class WpTimelineHeader {
     this.updateScrollbar(vp);
   }
 
+  getHeaderWidth() {
+    return this.outerHeader ? this.outerHeader.width() : 1;
+  }
+
   addElement(name: string, renderer: GlobalElement) {
     this.globalElementsRegistry[name] = renderer;
   }
@@ -130,9 +134,9 @@ export class WpTimelineHeader {
   }
 
   private updateScrollbar(vp: TimelineViewParameters) {
-    const headerWidth = this.outerHeader.width();
+    const headerWidth = this.getHeaderWidth();
 
-    // Update the scollbar to match the current width
+    // Update the scrollbar to match the current width
     this.scrollWrapper.css('width', headerWidth + 'px');
 
     // Re-position the scrollbar depending on the global height

@@ -28,7 +28,7 @@
 
 import Moment = moment.Moment;
 
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 export const timelineElementCssClass = "timeline-element";
 
 /**
@@ -48,13 +48,6 @@ export enum ZoomLevel {
   DAYS, WEEKS, MONTHS, QUARTERS, YEARS
 }
 
-export const sortedZoomLevels:number[] = [
-  ZoomLevel.DAYS,
-  ZoomLevel.WEEKS,
-  ZoomLevel.MONTHS,
-  ZoomLevel.QUARTERS,
-  ZoomLevel.YEARS,
-]
 
 /**
  *

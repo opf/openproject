@@ -168,9 +168,14 @@ export class WorkPackageTimelineTableController {
         date);
     }
 
-    // left/right spacing
+    // left spacing
     newParams.dateDisplayStart.subtract(3, "days");
-    newParams.dateDisplayEnd.add(2, "month");
+
+    // right spacing
+    const headerWidth = this.wpTimelineHeader.getHeaderWidth();
+    const pixelPerDay = currentParams.pixelPerDay;
+    const visibleDays = Math.ceil(headerWidth / pixelPerDay);
+    newParams.dateDisplayEnd.add(visibleDays, "days");
 
     // Check if view params changed:
 
