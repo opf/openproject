@@ -27,13 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title "#{l('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
+<% html_title "#{t('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
+
 <%= toolbar title: @timeline.name do %>
   <% if timeline_action_authorized?(:new) %>
     <li class="toolbar-item">
       <%= new_timeline_link @project do %>
         <i class="button--icon icon-add"></i>
-        <span class="button--text"><%= l('timelines.timeline') %></span>
+        <span class="button--text"><%= t('timelines.timeline') %></span>
       <% end %>
     </li>
   <% end %>
@@ -42,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= edit_timeline_link @project, @timeline do %>
         <i class="button--icon icon-edit"></i>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
         <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
     </li>
@@ -52,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= destroy_timeline_link @project, @timeline do %>
         <i class="button--icon icon-delete"></i>
-        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class="button--text"><%= t(:button_delete) %></span>
         <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
     </li>
@@ -61,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <%= link_to url_for(controller: '/reportings', action: 'index', project_id: @project.id), class: 'button' do %>
       <i class="button--icon icon-status-reporting"></i>
-      <span class="button--text"><%= l('timelines.project_menu.reportings') %></span>
+      <span class="button--text"><%= t('timelines.project_menu.reportings') %></span>
     <% end %>
   </li>
 <% end %>
@@ -69,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="timeline">
   <%= form_tag '', {id: "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
     <div class="form--field">
-      <%= label_tag 'timeline_select', l("timelines.timeline"), class: "form--label -transparent" %>
+      <%= label_tag 'timeline_select', t("timelines.timeline"), class: "form--label -transparent" %>
       <div class="form--field-container">
         <div class="form--select-container">
           <select

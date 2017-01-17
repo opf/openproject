@@ -1,0 +1,38 @@
+<div class="license--active-license">
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:licensee) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @current_license.licensee %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:mail) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @current_license.mail %></span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:starts_at) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= format_date @current_license.starts_at %></span>
+        </div>
+      </div>
+      <% if @current_license.will_expire? %>
+      <div class="attributes-key-value--key"><%= License.human_attribute_name(:expires_at) %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= format_date @current_license.expires_at %></span>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= form_tag({ action: :destroy },
+             method: :delete,
+             class: 'confirm-form-submit') do %>
+  <%= styled_button_tag l(:button_delete), type: 'submit', class: '-with-icon icon-delete' %>
+<% end %>
