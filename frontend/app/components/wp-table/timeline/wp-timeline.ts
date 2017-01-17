@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import Observable = Rx.Observable;
 import Moment = moment.Moment;
 
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';

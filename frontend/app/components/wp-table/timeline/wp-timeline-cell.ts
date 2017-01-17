@@ -33,8 +33,6 @@ import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler"
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import IScope = angular.IScope;
-import Observable = Rx.Observable;
-import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
 
 const renderers = {
@@ -44,7 +42,7 @@ const renderers = {
 
 export class WorkPackageTimelineCell {
 
-  private disposable: IDisposable;
+  private disposable: any;
 
   private element: HTMLDivElement = null;
   private elementShape: string = null;

@@ -27,7 +27,6 @@
 // ++
 
 import {calculatePositionValueForDayCount, TimelineViewParameters} from "./wp-timeline";
-import Observable = Rx.Observable;
 import Moment = moment.Moment;
 
 

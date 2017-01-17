@@ -31,8 +31,8 @@ import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/wor
 import {InteractiveTableController} from "./../../common/interactive-table/interactive-table.directive";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
+import {BehaviorSubject, Observable} from "rxjs";
 
-import Observable = Rx.Observable;
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
@@ -45,7 +45,7 @@ export class WorkPackageTimelineTableController {
 
   public wpTimelineHeader: WpTimelineHeader;
 
-  private updateAllWorkPackagesSubject = new Rx.BehaviorSubject<boolean>(true);
+  private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
   private refreshViewRequested = false;
 
@@ -95,7 +95,7 @@ export class WorkPackageTimelineTableController {
     if (!this.refreshViewRequested) {
       setTimeout(() => {
         this.calculateViewParams(this._viewParameters);
-        this.updateAllWorkPackagesSubject.onNext(true);
+        this.updateAllWorkPackagesSubject.next(true);
         this.wpTimelineHeader.refreshView(this._viewParameters);
         this.refreshScrollOnly();
         this.refreshViewRequested = false;
@@ -108,7 +108,7 @@ export class WorkPackageTimelineTableController {
     jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
   }
 
-  addWorkPackage(wpId: string): Rx.Observable<RenderInfo> {
+  addWorkPackage(wpId: string): Observable<RenderInfo> {
     // console.log("addWorkPackage() = " + wpId);
 
     const wpObs = this.states.workPackages.get(wpId).observe(null)
@@ -126,8 +126,7 @@ export class WorkPackageTimelineTableController {
         };
       });
 
-    return Rx.Observable
-      .combineLatest(
+    return Observable.combineLatest(
         wpObs,
         this.updateAllWorkPackagesSubject,
         (renderInfo, forceUpdate) => {

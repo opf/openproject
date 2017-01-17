@@ -30,8 +30,6 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import IScope = angular.IScope;
-import Observable = Rx.Observable;
-import IDisposable = Rx.IDisposable;
 import Moment = moment.Moment;
 
 const classNameBar = "bar";
@@ -70,6 +68,7 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function mouseMoveFn(ev: JQueryEventObject) {
+
     const mev: MouseEvent = ev as any;
     const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
     const days = distance < 0 ? distance + 1 : distance;

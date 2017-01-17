@@ -12,7 +12,6 @@
 /// <reference path="globals/mocha/index.d.ts" />
 /// <reference path="globals/moment-node/index.d.ts" />
 /// <reference path="globals/moment/index.d.ts" />
-/// <reference path="globals/mousetrap/index.d.ts" />
 /// <reference path="globals/ng-dialog/index.d.ts" />
 /// <reference path="globals/nouislider/index.d.ts" />
 /// <reference path="globals/promises-a-plus/index.d.ts" />
