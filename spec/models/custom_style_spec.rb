@@ -18,6 +18,9 @@ RSpec.describe CustomStyle, type: :model do
     end
 
     context "there is none in DB" do
+      before do
+        RequestStore.delete(:current_custom_style)
+      end
       it 'returns nil' do
         expect(subject).to be nil
       end

@@ -3,14 +3,12 @@ class CustomStyle < ActiveRecord::Base
 
   class << self
     def current
-      if RequestStore.store[:current_custom_style].present?
-        return RequestStore.store[:current_custom_style]
-      else
+      RequestStore.fetch(:current_custom_style) do
         custom_style = CustomStyle.order('created_at DESC').first
         if custom_style.nil?
           return nil
         else
-          RequestStore.store[:current_custom_style] = custom_style
+          custom_style
         end
       end
     end

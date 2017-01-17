@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
-    <% if EnterpriseToken.allows_to?(:define_custom_styles) && CustomStyle.try(:current).present? %>
+    <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
       <% cache(CustomStyle.current) do %>
         <%= render partial: "custom_styles/inline_css" %>
       <% end %>

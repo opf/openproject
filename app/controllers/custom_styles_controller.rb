@@ -71,6 +71,10 @@ class CustomStylesController < ApplicationController
 
   def logo_delete
     @custom_style = CustomStyle.current
+    if @custom_style.nil?
+      return render_404
+    end
+
     @custom_style.remove_logo!
     @custom_style.save
     redirect_to custom_style_path

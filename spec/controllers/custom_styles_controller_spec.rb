@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe CustomStylesController, type: :controller do
-  let(:a_token) { EnterpriseToken.new }
-
   before do
     login_as user
   end
@@ -44,8 +42,7 @@ describe CustomStylesController, type: :controller do
 
       context 'when active token exists' do
         before do
-          allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
-          allow(EnterpriseToken).to receive(:current).and_return(a_token)
+          allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         end
 
         it 'renders show' do
@@ -84,8 +81,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
-        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
-        allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
 
         expect(CustomStyle).to receive(:create).and_return(custom_style)
         expect(custom_style).to receive(:valid?).and_return(valid)
@@ -122,8 +118,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
-        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
-        allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
 
         expect(CustomStyle).to receive(:current).and_return(custom_style)
         expect(custom_style).to receive(:update_attributes).and_return(valid)
@@ -156,6 +151,7 @@ describe CustomStylesController, type: :controller do
 
       before do
         expect(CustomStyle).to receive(:current).and_return(custom_style)
+        allow(controller).to receive(:send_file) { controller.render nothing: true }
         get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
       end
 
@@ -163,7 +159,6 @@ describe CustomStylesController, type: :controller do
         let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
 
         it 'will send a file' do
-          expect(controller).to receive(:send_file) { controller.render nothing: true }
           expect(response.status).to eq(200)
         end
       end
@@ -182,15 +177,30 @@ describe CustomStylesController, type: :controller do
       let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
 
       before do
-        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
-        allow(EnterpriseToken).to receive(:current).and_return(a_token)
-        delete :logo_delete
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
       end
 
-      it 'removes the logo from custom_style' do
-        expect(CustomStyle).to receive(:current).and_return(custom_style)
-        expect(custom_style).to receive(:remove_logo!).and_return(custom_style)
-        expect(response).to redirect_to action: :show
+      context 'if it exists' do
+        before do
+          expect(CustomStyle).to receive(:current).and_return(custom_style)
+          expect(custom_style).to receive(:remove_logo!).and_return(custom_style)
+          delete :logo_delete
+        end
+
+        it 'removes the logo from custom_style' do
+          expect(response).to redirect_to action: :show
+        end
+      end
+
+      context 'if it does not exist' do
+        before do
+          expect(CustomStyle).to receive(:current).and_return(nil)
+          delete :logo_delete
+        end
+
+        it 'renders 404' do
+          expect(response.status).to eq 404
+        end
       end
     end
   end

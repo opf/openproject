@@ -1,4 +1,4 @@
-Grequire 'spec_helper'
+require 'spec_helper'
 
 RSpec.describe EnterpriseToken, type: :model do
   let(:object) { OpenProject::Token.new }
