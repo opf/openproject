@@ -63,6 +63,7 @@ class CustomStylesController < ApplicationController
   def logo_download
     @custom_style = CustomStyle.current
     if @custom_style && @custom_style.logo
+      expires_in 1.years, public: true, must_revalidate: false
       send_file(@custom_style.logo_url)
     else
       head :not_found

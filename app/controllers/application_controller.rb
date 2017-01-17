@@ -132,9 +132,11 @@ class ApplicationController < ActionController::Base
   # http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
   def set_cache_buster
     if OpenProject::Configuration['disable_browser_cache']
-      response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
-      response.headers['Pragma'] = 'no-cache'
-      response.headers['Expires'] = 'Fri, 01 Jan 1990 00:00:00 GMT'
+      response.cache_control.merge!(
+        max_age: 0,
+        public: false,
+        must_revalidate: true
+      )
     end
   end
 
