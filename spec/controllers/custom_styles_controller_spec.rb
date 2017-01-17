@@ -151,51 +151,48 @@ describe CustomStylesController, type: :controller do
       end
     end
 
-
     describe "#logo_download" do
-
-      subject { get :logo_download, params: { digest: "1234", filename: "logo_image.png" }}
       render_views
 
       before do
         expect(CustomStyle).to receive(:current).and_return(custom_style)
+        get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
       end
 
       context "when logo is present" do
         let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
 
         it 'will send a file' do
-          expect(controller).to receive(:send_file) {controller.render nothing: true}
-          expect(subject.status).to eq(200)
+          expect(controller).to receive(:send_file) { controller.render nothing: true }
+          expect(response.status).to eq(200)
         end
       end
 
       context "when no logo is present" do
-        let(:custom_style){ nil }
+        let(:custom_style) { nil }
 
         it 'renders with error' do
           expect(controller).to_not receive(:send_file)
-          expect(subject.status).to eq(404)
+          expect(response.status).to eq(404)
         end
       end
     end
 
     describe "#logo_delete" do
       let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
-      subject { delete :logo_delete }
 
       before do
         allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        delete :logo_delete
       end
 
       it 'removes the logo from custom_style' do
         expect(CustomStyle).to receive(:current).and_return(custom_style)
         expect(custom_style).to receive(:remove_logo!).and_return(custom_style)
-        expect(subject).to redirect_to action: :show
+        expect(response).to redirect_to action: :show
       end
     end
-
   end
 
   context 'regular user' do

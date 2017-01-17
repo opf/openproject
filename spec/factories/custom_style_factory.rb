@@ -28,6 +28,10 @@
 
 FactoryGirl.define do
   factory :custom_style_with_logo, class: CustomStyle do
-    logo { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'custom_styles', 'logos', 'logo_image.png')) }
+    logo do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join('spec', 'support', 'custom_styles', 'logos', 'logo_image.png')
+      )
+    end
   end
 end

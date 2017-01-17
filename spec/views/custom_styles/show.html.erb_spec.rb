@@ -47,7 +47,6 @@ describe 'custom_styles/show', type: :view do
   end
 
   context "with existing custom logo" do
-
     before do
       assign(:custom_style, FactoryGirl.build(:custom_style_with_logo))
       render

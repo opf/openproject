@@ -51,12 +51,15 @@ RSpec.describe EnterpriseToken, type: :model do
         let(:service_double) { ::Authorization::EnterpriseService.new(subject) }
 
         before do
-          expect(::Authorization::EnterpriseService).to receive(:new).twice.with(subject).and_return(service_double)
+          expect(::Authorization::EnterpriseService)
+            .to receive(:new).twice.with(subject).and_return(service_double)
         end
 
         it 'forwards to EnterpriseTokenService for checks' do
-          expect(service_double).to receive(:call).with(:forbidden_action).and_return double('ServiceResult', result: false)
-          expect(service_double).to receive(:call).with(:allowed_action).and_return double('ServiceResult', result: true)
+          expect(service_double).to receive(:call).with(:forbidden_action)
+            .and_return double('ServiceResult', result: false)
+          expect(service_double).to receive(:call).with(:allowed_action)
+            .and_return double('ServiceResult', result: true)
 
           expect(EnterpriseToken.allows_to?(:forbidden_action)).to eq false
           expect(EnterpriseToken.allows_to?(:allowed_action)).to eq true

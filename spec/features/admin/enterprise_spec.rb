@@ -60,7 +60,8 @@ describe 'Enterprise token', type: :feature do
 
       # Error output
       expect(page).to have_selector('.errorExplanation',
-                                    text: "Enterprise support token can't be read. Are you sure it is a support token?")
+                                    text: "Enterprise support token can't be read. " \
+                                          "Are you sure it is a support token?")
       expect(page).to have_selector('span.errorSpan #enterprise_token_encoded_token')
 
       # Keeps value

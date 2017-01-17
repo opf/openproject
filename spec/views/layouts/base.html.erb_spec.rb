@@ -192,7 +192,6 @@ describe 'layouts/base', type: :view do
       it "contains inline CSS block with those styles." do
         expect(response).to render_template partial: 'custom_styles/_inline_css'
       end
-
     end
 
     context "EE is active and styles are not present" do

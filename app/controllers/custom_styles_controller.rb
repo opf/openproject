@@ -38,8 +38,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current || CustomStyle.new
   end
 
-  def upsale
-  end
+  def upsale; end
 
   def create
     @custom_style = CustomStyle.create(custom_style_params)

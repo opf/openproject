@@ -2,13 +2,7 @@ require 'spec_helper'
 
 RSpec.describe CustomStyle, type: :model do
   describe "#current" do
-    # let(:custom_style) { CustomStyle.create }
     subject { CustomStyle.current }
-
-    # before do
-    #   custom_style = CustomStyle.create
-    # end
-
 
     context "there is one in DB" do
       it 'returns an instance' do
