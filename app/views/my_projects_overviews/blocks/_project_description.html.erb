@@ -31,7 +31,7 @@ See doc/COPYRIGHT.md for more details.
   <%= format_text @project.description %>
 </div>
 
-<% if current_user.admin? %>
+<% if current_user.allowed_to?(:edit_project, project) %>
   <%= link_to settings_project_path(project), class: 'button -highlight' do %>
     <i class="button--icon icon-edit"></i>
     <span class="button--text"><%= l(:button_edit) %></span>

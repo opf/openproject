@@ -34,7 +34,12 @@ describe 'My project page editing', type: :feature, js: true do
   let(:mypage) { ::Pages::Page.new }
 
   let(:button_selector) { '.toolbar a.button' }
-  let(:user) { FactoryGirl.create :admin }
+
+  let(:user) { FactoryGirl.create :user,
+                                  member_in_project: project,
+                                  member_through_role: role }
+  let(:role) { FactoryGirl.create :role, permissions: [:view_project,
+                                                       :edit_project] }
 
   # Add block select
   let(:select) { find('#block-select') }

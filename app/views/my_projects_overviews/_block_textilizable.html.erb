@@ -71,7 +71,7 @@ See doc/COPYRIGHT.md for more details.
                ng-click="$ctrl.toggleEditForm(true)"
                title="<%= l(:button_edit) %>"></a>
           <% end %>
-          <% if User.current.allowed_to?(:remove_block, nil, global: true) %>
+          <% if User.current.allowed_to?(:edit_project, project) %>
             <a href="javascript:"
                ng-click="$ctrl.remove()"
                class="icon icon-close remove-block"
