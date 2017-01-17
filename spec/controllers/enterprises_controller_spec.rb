@@ -86,6 +86,7 @@ describe EnterprisesController, type: :controller do
       end
 
       before do
+        allow(EnterpriseToken).to receive(:current).and_return(nil)
         allow(EnterpriseToken).to receive(:new).and_return(a_token)
         expect(a_token).to receive(:encoded_token=).with('foo')
         expect(a_token).to receive(:save).and_return(valid)

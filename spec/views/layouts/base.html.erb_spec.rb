@@ -182,8 +182,7 @@ describe 'layouts/base', type: :view do
       let(:custom_style) { CustomStyle.new }
 
       before do
-        allow(EnterpriseToken).to receive(:current).and_return(a_token)
-        allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(CustomStyle).to receive(:current).and_return(custom_style)
 
         render
