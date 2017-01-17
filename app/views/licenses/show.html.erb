@@ -1,0 +1,49 @@
+<% html_title t(:label_administration), t(:label_license) %>
+
+<%= toolbar title: t(:label_license) do %>
+    <li class="toolbar-item">
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
+            { class: 'button -alt-highlight',
+              aria: {label: t('admin.licenses.order_license')},
+              title: t('admin.licenses.order_license')}) do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= t('admin.licenses.order_license') %></span>
+      <% end %>
+    </li>
+<% end %>
+
+<%= error_messages_for 'license' %>
+
+<% if @current_license.present? %>
+  <%= render partial: "current" %>
+<% else %>
+  <div class="notification-box upsale-notification">
+    <div class="notification-box--content">
+      <h3><%= t('admin.licenses.upgrade_to_ee') %></h3>
+      <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+      <p><%= t('homescreen.blocks.upsale.description') %></p>
+
+      <ul class="">
+        <li>
+          <%= t('homescreen.blocks.upsale.additional_features') %>
+        </li>
+        <li>
+          <%= t('homescreen.blocks.upsale.professional_support') %>
+        </li>
+      </ul>
+      <p>
+        <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+      </p>
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-license-admin",
+            { class: 'button -alt-highlight',
+              aria: {label: t('admin.licenses.order_license')},
+              title: t('admin.licenses.order_license')}) do %>
+        <i class="button--icon icon-add"></i>
+        <span class="button--text"><%= t('admin.licenses.order_license') %></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= render partial: "form" %>

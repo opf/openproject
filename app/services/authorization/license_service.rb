@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,16 +27,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries
-  module Relations
-    class RelationQuery < ::Queries::BaseQuery
-      def self.model
-        Relation
+class Authorization::LicenseService
+  attr_accessor :license
+
+  def initialize(license)
+    self.license = license
+  end
+
+  # Return a true ServiceResult if the license allows this particular action.
+  def call(action)
+
+    allowed =
+      if license.nil? || license.expired?
+        false
+      else
+        process(action)
       end
 
-      def default_scope
-        Relation.all
-      end
+    result(allowed)
+  end
+
+  private
+
+  def process(action)
+    case action
+    when :define_custom_style
+      true # Every non-expired license
+    else
+      false
     end
+  end
+
+  def result(bool)
+    ServiceResult.new(success: bool, result: bool)
   end
 end

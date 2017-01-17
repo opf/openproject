@@ -25,17 +25,43 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+class LicensesController < ApplicationController
+  layout 'admin'
+  menu_item :license
 
-module Queries
-  module Relations
-    class RelationQuery < ::Queries::BaseQuery
-      def self.model
-        Relation
-      end
+  before_action :require_admin
 
-      def default_scope
-        Relation.all
-      end
+  def show
+    @current_license = License.current
+    @license = @current_license || License.new
+  end
+
+  def create
+    @license = License.current || License.new
+    @license.encoded_license = params[:license][:encoded_license]
+
+    if @license.save
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to action: :show
+    else
+      render action: :show
     end
+  end
+
+  def destroy
+    license = License.current
+    if license
+      license.destroy
+      flash[:notice] = t(:notice_successful_delete)
+      redirect_to action: :show
+    else
+      render_404
+    end
+  end
+
+  private
+
+  def default_breadcrumb
+    t(:label_license)
   end
 end
