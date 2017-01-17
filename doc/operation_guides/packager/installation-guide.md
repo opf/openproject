@@ -25,15 +25,7 @@ server machine.
 
 The installation procedure assumes the following prerequisites:
 
-* A server running one of the following Linux distributions (**64bit variant only**):
-  * Debian 8 Jessie
-  * Debian 7 Wheezy
-  * Ubuntu 16.04 Xenial
-  * Ubuntu 14.04 Trusty
-  * CentOS/RHEL 7.x
-  * Suse Linux Enterprise Server 12
-  * Suse Linux Enterprise Server 11
-
+* A server running one of the Linux distributions listed in the [system requirements]: https://www.openproject.org/systemrequirements  
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails. OpenProject supports authentication, yet does not
 provide support for SMTP via SSL/TLS.
@@ -234,7 +226,7 @@ and running the `openproject configure` command.
     sudo apt-get install --only-upgrade openproject
     sudo openproject configure
 
-## Fedora / CentOS / RHEL
+## CentOS / RHEL
 
     sudo yum update
     sudo yum install openproject

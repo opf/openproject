@@ -27,8 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'migration_utils/ar_parameter_patch'
-
 class QueryEmptyColumnNamesToArray < ActiveRecord::Migration[5.0]
   class QueryWithWhatever < ActiveRecord::Base
     self.table_name = :queries
@@ -36,8 +34,6 @@ class QueryEmptyColumnNamesToArray < ActiveRecord::Migration[5.0]
   end
 
   def up
-    ArParametersPatch.load
-
     QueryWithWhatever.transaction do
       empty = QueryWithWhatever.where(column_names: '')
       null = QueryWithWhatever.where(column_names: nil)

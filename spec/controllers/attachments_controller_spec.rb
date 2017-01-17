@@ -125,6 +125,7 @@ describe AttachmentsController, type: :controller do
       att.id = 42
       att.file.store!
       att.send :write_attribute, :file, file.original_filename
+      att.send :write_attribute, :content_type, file.content_type
       att
     end
 
