@@ -28,10 +28,13 @@
 #++
 
 module Queries::SqlForField
+  include Queries::SqlForCalendarialField
+
   private
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +values+ array
-  def sql_for_field(field, operator, values, db_table, db_field, is_custom_filter = false)
+  def sql_for_field(field, operator, values, db_table, db_field, is_custom_filter = false,
+                    type = nil)
     # code expects strings (e.g. for quoting), but ints would work as well: unify them here
     values = values.map(&:to_s)
 
@@ -81,86 +84,20 @@ module Queries::SqlForField
       sql = "#{Status.table_name}.is_closed=#{connection.quoted_false}" if field == 'status_id'
     when 'c'
       sql = "#{Status.table_name}.is_closed=#{connection.quoted_true}" if field == 'status_id'
-    when '>t-'
-      sql = relative_date_range_clause(db_table, db_field, - values.first.to_i, 0)
-    when '<t-'
-      sql = relative_date_range_clause(db_table, db_field, nil, - values.first.to_i)
-    when 't-'
-      sql = relative_date_range_clause(db_table, db_field,
-                                       - values.first.to_i, - values.first.to_i)
-    when '>t+'
-      sql = relative_date_range_clause(db_table, db_field, values.first.to_i, nil)
-    when '<t+'
-      sql = relative_date_range_clause(db_table, db_field, 0, values.first.to_i)
-    when 't+'
-      sql = relative_date_range_clause(db_table, db_field, values.first.to_i, values.first.to_i)
-    when 't'
-      sql = relative_date_range_clause(db_table, db_field, 0, 0)
-    when 'w'
-      from = begin_of_week
-      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [
-        connection.quoted_date(from), connection.quoted_date(from + 7.days)
-      ]
     when '~'
       sql = "LOWER(#{db_table}.#{db_field}) LIKE " +
             "'%#{connection.quote_string(values.first.to_s.downcase)}%'"
     when '!~'
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE " +
             "'%#{connection.quote_string(values.first.to_s.downcase)}%'"
-    when '=d'
-      sql = date_range_clause(db_table, db_field,
-                              Date.parse(values.first), Date.parse(values.first))
-    when '<>d'
-      if values.first != 'undefined'
-        from = Date.parse(values.first)
+    else
+      if type == 'date'
+        sql = sql_for_date_field(field, operator, values, db_table, db_field)
+      else
+        sql = sql_for_datetime_field(field, operator, values, db_table, db_field)
       end
-      if values.size == 2
-        to = Date.parse(values.last)
-      end
-      sql = date_range_clause(db_table, db_field, from, to)
     end
     sql
-  end
-
-  def begin_of_week
-    if l(:general_first_day_of_week) == '7'
-      # week starts on sunday
-      if Date.today.cwday == 7
-        Time.now.at_beginning_of_day
-      else
-        Time.now.at_beginning_of_week - 1.day
-      end
-    else
-      # week starts on monday (Rails default)
-      Time.now.at_beginning_of_week
-    end
-  end
-
-  # Returns a SQL clause for a date or datetime field for a relative range from
-  # the end of the day of yesterday + from until the end of today + to.
-  def relative_date_range_clause(table, field, from, to)
-    if from
-      from_date = Date.today + from
-    end
-    if to
-      to_date = Date.today + to
-    end
-    date_range_clause(table, field, from_date, to_date)
-  end
-
-  # Returns a SQL clause for date or datetime field for an exact range starting
-  # at the beginning of the day of from until the end of the day of to
-  def date_range_clause(table, field, from, to)
-    s = []
-    if from
-      s << "#{table}.#{field} > '%s'" % [
-        connection.quoted_date(from.yesterday.to_time(:utc).end_of_day)
-      ]
-    end
-    if to
-      s << "#{table}.#{field} <= '%s'" % [connection.quoted_date(to.to_time(:utc).end_of_day)]
-    end
-    s.join(' AND ')
   end
 
   def connection

@@ -48,6 +48,45 @@ module.exports = function(ConfigurationService, I18n) {
       return moment(date, format);
     },
 
+    /**
+     * Parses a string that is considered to be a local date, which is always considered to be in UTC.
+     * If the user's settings define a different timezone, then that timezone is applied.
+     *
+     * @param {String} date
+     * @param {String} format
+     * @returns {Moment}
+     */
+    parseLocalDate: function(date, format) {
+      var result = moment.utc(date, format);
+
+      if (ConfigurationService.isTimezoneSet()) {
+        result.local();
+        result.tz(ConfigurationService.timezone());
+      }
+
+      return result;
+    },
+
+    /**
+     * Parses the specified datetime and applies the user's configured timezone, if any.
+     *
+     * This will effectfully transform the [server] provided datetime object to the user's configured local timezone.
+     *
+     * @param {String} datetime in 'YYYY-MM-DDTHH:mm:ssZ' format
+     * @returns {Moment}
+     */
+    parseISODatetime: function(datetime) {
+      var result = moment(datetime, 'YYYY-MM-DDTHH:mm:ssZ');
+
+      if (ConfigurationService.isTimezoneSet()) {
+        // TODO:needs to be moved out of the conditional, all date/datetimes need to be displayed using the system timezone
+        result.local();
+        result.tz(ConfigurationService.timezone());
+      }
+
+      return result;
+    },
+
     parseISODate: function(date) {
       return TimezoneService.parseDate(date, 'YYYY-MM-DD');
     },
@@ -86,6 +125,10 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
+    formattedISODatetime: function(datetime) {
+      return datetime.format('YYYY-MM-DDTHH:mm:ssZ');
+    },
+
     isValidISODate: function(date) {
       return TimezoneService.isValid(date, 'YYYY-MM-DD');
     },
@@ -102,6 +145,15 @@ module.exports = function(ConfigurationService, I18n) {
 
     getTimeFormat: function() {
       return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+    },
+
+    getTimezoneNG: function() {
+      var now = moment().utc();
+      if (ConfigurationService.isTimezoneSet()) {
+        now.local();
+        now.tz(ConfigurationService.timezone());
+      }
+      return now.format('ZZ');
     }
   };
 

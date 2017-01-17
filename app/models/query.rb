@@ -485,6 +485,7 @@ class Query < ActiveRecord::Base
       next if field == 'subproject_id'
 
       operator = filter.operator
+      type = filter.type
       values = filter.values ? filter.values.clone : [''] # HACK - some operators don't require values, but they are needed for building the statement
 
       # "me" value substitution
@@ -506,7 +507,7 @@ class Query < ActiveRecord::Base
         db_field = 'value'
         is_custom_filter = true
         sql << "#{WorkPackage.table_name}.id IN (SELECT #{WorkPackage.table_name}.id FROM #{WorkPackage.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='WorkPackage' AND #{db_table}.customized_id=#{WorkPackage.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
-        sql << sql_for_field(field, operator, values, db_table, db_field, true) + ')'
+        sql << sql_for_field(field, operator, values, db_table, db_field, true, type) + ')'
       elsif field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
@@ -578,7 +579,7 @@ class Query < ActiveRecord::Base
         # regular field
         db_table = WorkPackage.table_name
         db_field = field
-        sql << '(' + sql_for_field(field, operator, values, db_table, db_field) + ')'
+        sql << '(' + sql_for_field(field, operator, values, db_table, db_field, false, type) + ')'
       end
       filters_clauses << sql
     end if filters.present? and valid?
