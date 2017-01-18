@@ -174,7 +174,7 @@ export class WorkPackageTimelineTableController {
     // right spacing
     const headerWidth = this.wpTimelineHeader.getHeaderWidth();
     const pixelPerDay = currentParams.pixelPerDay;
-    const visibleDays = Math.ceil(headerWidth / pixelPerDay);
+    const visibleDays = Math.ceil((headerWidth / pixelPerDay) * 1.5);
     newParams.dateDisplayEnd.add(visibleDays, "days");
 
     // Check if view params changed:
