@@ -159,7 +159,7 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  get 'custom-style/:digest/logo/:filename' => 'custom_styles#logo_download',
+  get 'custom_style/:digest/logo/:filename' => 'custom_styles#logo_download',
       as: 'custom_style_logo',
       constraints: { filename: /[^\/]*/ }
 
