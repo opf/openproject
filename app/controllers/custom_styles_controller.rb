@@ -31,8 +31,9 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin
+  before_action :require_admin, except: :logo_download
   before_action :require_ee_token, except: [:upsale, :logo_download]
+  skip_before_action :check_if_login_required, only: :logo_download
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new

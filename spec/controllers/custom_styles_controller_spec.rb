@@ -151,7 +151,7 @@ describe CustomStylesController, type: :controller do
 
       before do
         expect(CustomStyle).to receive(:current).and_return(custom_style)
-        allow(controller).to receive(:send_file) { controller.render nothing: true }
+        allow(controller).to receive(:send_file) { controller.head 200 }
         get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
       end
 
@@ -208,12 +208,45 @@ describe CustomStylesController, type: :controller do
   context 'regular user' do
     let(:user) { FactoryGirl.build(:user) }
 
-    before do
-      get :show
-    end
+    describe '#get' do
+      before do
+        get :show
+      end
 
-    it 'is forbidden' do
-      expect(response.status).to eq 403
+      it 'requires admin' do
+        expect(response.status).to eq 403
+      end
+    end
+  end
+
+  context 'anonymous user' do
+    let(:user) { User.anonymous }
+
+    describe "#logo_download" do
+      render_views
+
+      before do
+        expect(CustomStyle).to receive(:current).and_return(custom_style)
+        allow(controller).to receive(:send_file) { controller.head 200 }
+        get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
+      end
+
+      context "when logo is present" do
+        let(:custom_style) { FactoryGirl.build(:custom_style_with_logo) }
+
+        it 'will send a file' do
+          expect(response.status).to eq(200)
+        end
+      end
+
+      context "when no logo is present" do
+        let(:custom_style) { nil }
+
+        it 'renders with error' do
+          expect(controller).to_not receive(:send_file)
+          expect(response.status).to eq(404)
+        end
+      end
     end
   end
 end
