@@ -32,9 +32,9 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
+import {Subscription} from "rxjs";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
-import {Subscription} from "rxjs";
 
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),

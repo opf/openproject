@@ -33,8 +33,8 @@ import IScope = angular.IScope;
 import Moment = moment.Moment;
 
 const classNameBar = "bar";
-const classNameLeftHandle = "leftHandle";
-const classNameRightHandle = "rightHandle";
+export const classNameLeftHandle = "leftHandle";
+export const classNameRightHandle = "rightHandle";
 
 
 export function registerWorkPackageMouseHandler(this: void,

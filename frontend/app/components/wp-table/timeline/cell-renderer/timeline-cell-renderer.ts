@@ -1,10 +1,8 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
+import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import MomentStatic = moment.MomentStatic;
 import Moment = moment.Moment;
-
-const classNameLeftHandle = "leftHandle";
-const classNameRightHandle = "rightHandle";
 
 interface CellDateMovement {
   // Target values to move work package to
@@ -16,11 +14,11 @@ export class TimelineCellRenderer {
 
   protected dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
 
-  public get type():string {
+  public get type(): string {
     return 'bar';
   }
 
-  public get fallbackColor():string {
+  public get fallbackColor(): string {
     return '#8CD1E8';
   }
 
@@ -29,7 +27,7 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
+  public assignDateValues(wp: WorkPackageResourceInterface, dates: CellDateMovement) {
     this.assignDate(wp, 'startDate', dates.startDate);
     this.assignDate(wp, 'dueDate', dates.dueDate);
 
@@ -39,7 +37,7 @@ export class TimelineCellRenderer {
   /**
    * Restore the original date, if any was set.
    */
-  public onCancel(wp:WorkPackageResourceInterface) {
+  public onCancel(wp: WorkPackageResourceInterface) {
     wp.restoreFromPristine('startDate');
     wp.restoreFromPristine('dueDate');
   }
@@ -51,7 +49,7 @@ export class TimelineCellRenderer {
   public onDaysMoved(wp: WorkPackageResourceInterface, delta: number): CellDateMovement {
     const initialStartDate = wp.$pristine['startDate'];
     const initialDueDate = wp.$pristine['dueDate'];
-    let dates:CellDateMovement = {};
+    let dates: CellDateMovement = {};
 
     if (initialStartDate) {
       dates.startDate = moment(initialStartDate).add(delta, "days");
@@ -73,19 +71,28 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo:RenderInfo, elem: HTMLElement): void {
-    // Update the cursor to
+  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): void {
+    // Update the cursor and maybe set start/due values
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
+      // only left
       this.forceCursor('w-resize');
+      if (renderInfo.workPackage.startDate === null) {
+        renderInfo.workPackage.startDate = renderInfo.workPackage.dueDate;
+      }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
+      // only right
       this.forceCursor('e-resize');
+      if (renderInfo.workPackage.dueDate === null) {
+        renderInfo.workPackage.dueDate = renderInfo.workPackage.startDate;
+      }
     } else {
+      // both
       this.forceCursor('ew-resize');
     }
 
     this.dateDisplaysOnMouseMove = [null, null];
 
-    if (!jQuery(ev.target).hasClass(classNameRightHandle)) {
+    if (!jQuery(ev.target).hasClass(classNameRightHandle) && renderInfo.workPackage.startDate) {
       // create left date label
       const leftInfo = document.createElement("div");
       leftInfo.className = "leftDateDisplay";
@@ -94,7 +101,7 @@ export class TimelineCellRenderer {
 
       renderInfo.workPackage.storePristine('startDate');
     }
-    if (!jQuery(ev.target).hasClass(classNameLeftHandle)) {
+    if (!jQuery(ev.target).hasClass(classNameLeftHandle) && renderInfo.workPackage.dueDate) {
       // create right date label
       const rightInfo = document.createElement("div");
       rightInfo.className = "rightDateDisplay";
@@ -120,18 +127,29 @@ export class TimelineCellRenderer {
    *         false, if the element must be removed from the timeline.
    */
   public update(element: HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo: RenderInfo): boolean {
-    // abort if no start or due date
-    if (!wp.startDate || !wp.dueDate) {
-      return false;
-    }
-
     // general settings - bar
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
-    const start = moment(wp.startDate as any);
-    const due = moment(wp.dueDate as any);
+    let start = moment(wp.startDate as any);
+    let due = moment(wp.dueDate as any);
+
+    // only start date, fade out bar to the right
+    if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
+      due = start.clone();//.add(1, "days");
+      element.style.backgroundColor = "inherit";
+      const color = this.typeColor(renderInfo.workPackage);
+      element.style.backgroundImage = `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 80%)`;
+    }
+
+    // only due date, fade out bar to the left
+    if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
+      start = due.clone();//.add(1, "days");
+      element.style.backgroundColor = "inherit";
+      const color = this.typeColor(renderInfo.workPackage);
+      element.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${color} 100%)`;
+    }
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
@@ -148,7 +166,7 @@ export class TimelineCellRenderer {
    * Render the generic cell element, a bar spanning from
    * start to due date.
    */
-  public render(renderInfo:RenderInfo):HTMLDivElement {
+  public render(renderInfo: RenderInfo): HTMLDivElement {
     const bar = document.createElement("div");
     const left = document.createElement("div");
     const right = document.createElement("div");
@@ -163,7 +181,7 @@ export class TimelineCellRenderer {
     return bar;
   }
 
-  protected typeColor(wp: WorkPackageResourceInterface):string {
+  protected typeColor(wp: WorkPackageResourceInterface): string {
     let type = wp.type.state.getCurrentValue();
     if (type && type.color) {
       return type.color;
@@ -172,16 +190,16 @@ export class TimelineCellRenderer {
     return this.fallbackColor;
   }
 
-  protected assignDate(wp: WorkPackageResourceInterface, attributeName:string, value: moment.Moment) {
+  protected assignDate(wp: WorkPackageResourceInterface, attributeName: string, value: moment.Moment) {
     if (value) {
-     wp[attributeName] = value.format("YYYY-MM-DD") as any;
+      wp[attributeName] = value.format("YYYY-MM-DD") as any;
     }
   }
 
   /**
    * Force the cursor to the given cursor type.
    */
-  protected forceCursor(cursor:string) {
+  protected forceCursor(cursor: string) {
     jQuery(".hascontextmenu").css("cursor", cursor);
     jQuery("." + timelineElementCssClass).css("cursor", cursor);
   }

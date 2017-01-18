@@ -18,7 +18,7 @@ export class States {
   constructor() {
     initStates(this, function (msg: any) {
       if (~location.hostname.indexOf("localhost")) {
-        (console.trace as any)(msg); // RR: stupid hack to avoid compiler error
+        (console.debug as any)(msg); // RR: stupid hack to avoid compiler error
       }
     });
   }
