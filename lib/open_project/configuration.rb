@@ -93,7 +93,9 @@ module OpenProject
       'apiv2_enable_basic_auth' => true,
 
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
-      'onboarding_enabled' => true
+      'onboarding_enabled' => true,
+
+      'ee_manager_visible' => true
     }
 
     @config = nil
