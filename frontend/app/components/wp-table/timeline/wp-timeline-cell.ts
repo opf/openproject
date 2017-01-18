@@ -63,7 +63,6 @@ export class WorkPackageTimelineCell {
       });
   }
 
-  // TODO never called so far
   deactivate() {
     this.clear();
     this.subscription && this.subscription.unsubscribe();
