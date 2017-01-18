@@ -34,6 +34,7 @@ import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
+import {Subscription} from "rxjs";
 
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),
@@ -42,7 +43,7 @@ const renderers = {
 
 export class WorkPackageTimelineCell {
 
-  private disposable: any;
+  private subscription: Subscription;
 
   private element: HTMLDivElement = null;
   private elementShape: string = null;
@@ -56,7 +57,7 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    this.disposable = this.workPackageTimeline.addWorkPackage(this.workPackageId)
+    this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
       });
@@ -65,7 +66,7 @@ export class WorkPackageTimelineCell {
   // TODO never called so far
   deactivate() {
     this.clear();
-    this.disposable && this.disposable.dispose();
+    this.subscription && this.subscription.unsubscribe();
   }
 
   private clear() {
