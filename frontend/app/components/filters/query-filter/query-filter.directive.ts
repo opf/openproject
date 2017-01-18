@@ -50,6 +50,11 @@ function queryFilterDirective($timeout,
         debounce: {'default': 400, 'blur': 0}
       };
 
+      scope.filterDateModelOptions = {
+        updateOn: 'default change blur',
+        debounce: {'default': 400, 'change': 0, 'blur': 0}
+      };
+
       $animate.enabled(false, element);
       scope.showValueOptionsAsSelect = scope.filter.isSelectInputField();
 
