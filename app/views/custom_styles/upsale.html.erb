@@ -32,10 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: t(:label_design) %>
 
 <p>
-  Customize your OpenProject installation with your own logo.
+  <%= t('admin.custom_styles.customize') %>
 </p>
 <p>
-  As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for <em>Enterprise Edition</em> support subscribers.
+  <%= t('admin.custom_styles.enterprise_notice') %>
 </p>
 <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-custom-style",
       { class: 'button -alt-highlight',
