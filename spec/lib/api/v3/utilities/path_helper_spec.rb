@@ -277,6 +277,12 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path', '/work_packages/schemas/1-2'
     end
 
+    describe '#work_package_schemas' do
+      subject { helper.work_package_schemas }
+
+      it_behaves_like 'api v3 path', '/work_packages/schemas'
+    end
+
     describe '#work_package_sums_schema' do
       subject { helper.work_package_sums_schema }
 

@@ -41,6 +41,7 @@ module API
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
+          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
 
           get do
             authorize(:view_work_packages, global: true)
@@ -52,7 +53,7 @@ module API
           end
 
           params do
-            requires :id, desc: 'Work package id'
+            requires :id, desc: 'Work package id', type: Integer
           end
           route_param :id do
             helpers WorkPackagesSharedHelpers
@@ -115,7 +116,6 @@ module API
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
           end
 
-          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
           mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end
