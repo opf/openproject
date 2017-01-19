@@ -6,7 +6,7 @@
 <% end %>
 <%= labelled_tabular_form_for @token,
              url: { action: :create },
-             html: { class: 'token-form' },
+             html: { class: 'token-form form -vertical' },
              method: :post do |f|%>
 
   <div class="form--space">
@@ -14,7 +14,7 @@
   </div>
 
   <div class="form--space">
-    <%= styled_button_tag t(:button_create), id: 'token-submit-button', class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_save), id: 'token-submit-button', class: '-highlight -with-icon icon-checkmark' %>
     <%= link_to t(:button_cancel), { action: :show }, class: 'button' %>
   </div>
 <% end %>
