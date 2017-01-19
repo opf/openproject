@@ -29,24 +29,17 @@
 /*jshint expr: true*/
 
 describe('date time Directives', function() {
-  var I18n, compile, element, scope, configurationService, TimezoneService;
+  var I18n, compile, element, scope, configurationService, TimezoneService, localDatetime;
 
   var formattedDate = function() {
     var formattedDateElement = element[0];
 
-    return formattedDateElement.innerText || formattedDateElement.textContent;
+    return (formattedDateElement.innerText || formattedDateElement.textContent || '').trim();
   };
 
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    configurationService = {};
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-
-    $provide.constant('ConfigurationService', configurationService);
-  }));
-
-  beforeEach(inject(function($rootScope, $compile, _I18n_, _TimezoneService_) {
+  beforeEach(inject(function($rootScope, $compile, _I18n_, _ConfigurationService_, _TimezoneService_) {
     scope = $rootScope.$new();
 
     scope.testDateTime = "2013-02-08T09:30:26Z";
@@ -57,21 +50,21 @@ describe('date time Directives', function() {
     };
 
     TimezoneService = _TimezoneService_;
+    configurationService = _ConfigurationService_;
 
     I18n = _I18n_;
-
     I18n.locale = 'en';
-
     TimezoneService.setupLocale();
+
+    localDatetime = TimezoneService.parseDatetime(scope.testDateTime);
   }));
 
   afterEach(function() {
     I18n.locale = undefined;
-
     TimezoneService.setupLocale();
   });
 
-  var shouldBehaveLikeHashTitle = function(title) {
+  var shouldHaveTitle = function(title) {
     it('has title', function() {
       expect(angular.element(element)[0].title).to.eq(title);
     });
@@ -79,20 +72,20 @@ describe('date time Directives', function() {
 
   describe('date directive', function() {
     var html = '<op-date date-value="testDateTime"></op-date>';
+    var expected;
 
     describe('without configuration', function() {
       beforeEach(function() {
         configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(false);
-
         compile(html);
+        expected = TimezoneService.formattedDate(localDatetime);
       });
 
       it('should use default formatting', function() {
-        expect(formattedDate()).to.contain('02/08/2013');
+        expect(formattedDate()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('02/08/2013');
     });
 
     describe('with configuration', function() {
@@ -100,33 +93,31 @@ describe('date time Directives', function() {
         configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(true);
         configurationService.dateFormat = sinon.stub().returns("DD-MM-YYYY");
-
+        expected = TimezoneService.formattedDate(localDatetime);
         compile(html);
       });
 
       it('should use user specified formatting', function() {
-        expect(formattedDate()).to.contain('08-02-2013');
+        expect(formattedDate()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('08-02-2013');
     });
   });
 
   describe('time directive', function() {
     var html = '<op-time time-value="testDateTime"></op-time>';
+    var expected;
 
     describe('without configuration', function() {
       beforeEach(function() {
-        configurationService.timeFormatPresent = sinon.stub().returns(false);
-
+        expected = TimezoneService.formattedTime(localDatetime);
         compile(html);
       });
 
       it('should use default formatting', function() {
-        expect(formattedDate()).to.contain('9:30 AM');
+        expect(formattedDate()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('9:30 AM');
     });
 
     describe('with configuration', function() {
@@ -134,20 +125,20 @@ describe('date time Directives', function() {
         configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.timeFormatPresent = sinon.stub().returns(true);
         configurationService.timeFormat = sinon.stub().returns("HH:mm a");
-
+        expected = TimezoneService.formattedTime(localDatetime);
         compile(html);
       });
 
       it('should use user specified formatting', function() {
-        expect(formattedDate()).to.contain('09:30 am');
+        expect(formattedDate()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('09:30 am');
     });
   });
 
   describe('date time directive', function() {
     var html = '<op-date-time date-time-value="testDateTime"></op-date-time>';
+    var expected;
 
     var formattedDateTime = function() {
       var formattedDateElements = [element.children()[0], element.children()[1]];
@@ -157,7 +148,7 @@ describe('date time Directives', function() {
         formattedDateTime += (formattedDateElements[x].innerText || formattedDateElements[x].textContent) + " ";
       }
 
-      return formattedDateTime;
+      return formattedDateTime.trim();
     };
 
     describe('without configuration', function() {
@@ -167,35 +158,32 @@ describe('date time Directives', function() {
         configurationService.timeFormatPresent = sinon.stub().returns(false);
 
         scope.dateTimeValue = "2013-02-08T09:30:26Z";
-
+        expected = TimezoneService.formattedDatetime(localDatetime);
         compile(html);
       });
 
       it('should use default formatting', function() {
-        expect(formattedDateTime()).to.contain('02/08/2013');
-        expect(formattedDateTime()).to.contain('9:30 AM');
+        expect(formattedDateTime()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('02/08/2013 9:30 AM');
     });
 
     describe('with configuration', function() {
+
       beforeEach(function() {
         configurationService.isTimezoneSet = sinon.stub().returns(false);
         configurationService.dateFormatPresent = sinon.stub().returns(true);
         configurationService.timeFormatPresent = sinon.stub().returns(true);
         configurationService.dateFormat = sinon.stub().returns("DD-MM-YYYY");
         configurationService.timeFormat = sinon.stub().returns("HH:mm a");
-
+        expected = TimezoneService.formattedDatetime(localDatetime);
         compile(html);
       });
 
       it('should use user specified formatting', function() {
-        expect(formattedDateTime()).to.contain('08-02-2013');
-        expect(formattedDateTime()).to.contain('09:30 am');
+        expect(formattedDateTime()).to.eq(expected);
+        shouldHaveTitle(expected);
       });
-
-      shouldBehaveLikeHashTitle('08-02-2013 09:30 am');
     });
   });
 });

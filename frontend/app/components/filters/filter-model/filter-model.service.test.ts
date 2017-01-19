@@ -54,14 +54,15 @@ describe('Filter', function () {
   describe('when it is a single input filter', function () {
     var filter, textValue;
 
-    beforeEach(function () {
-      filter = Factory.build('Filter', {name: 'subject', values: []});
-    });
-
-    describe('and the text value is set', function () {
+    describe('with newly created instances', function() {
       beforeEach(function () {
+        filter = Factory.build('Filter', {name: 'subject', type: 'string', values: []});
         textValue = 'abc';
         filter.textValue = textValue;
+      });
+
+      it('the text value is set', function () {
+        expect(filter.textValue).to.be.eql(textValue);
       });
 
       it('is considered to be configured', function () {
@@ -70,6 +71,118 @@ describe('Filter', function () {
 
       it('should serialize the text value', function () {
         expect(filter.getValuesAsArray()).to.eql([textValue]);
+      });
+    });
+
+    describe('with instances restored from existing query', function () {
+      beforeEach(function () {
+        textValue = 'abc';
+        filter = Factory.build('Filter', {name: 'subject', type: 'string', values: [textValue]});
+      });
+
+      it('the text value is set', function () {
+        expect(filter.textValue).to.be.eql(textValue);
+      });
+    });
+  });
+
+  describe('single date filter', function () {
+    var filter, dateValue;
+
+    describe('with newly created instances', function () {
+      beforeEach(function () {
+        filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '=d', values: []});
+        dateValue = '2016-12-01';
+        filter.dateValue = dateValue;
+      });
+
+      it('is considered to be configured', function () {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the date value', function () {
+        expect(filter.getValuesAsArray()).to.eql([dateValue]);
+      });
+    });
+
+    describe('with instances restored from existing query', function () {
+      beforeEach(function () {
+        dateValue = '2016-12-01';
+        filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '=d', values: [dateValue]});
+      });
+
+      it('date value is set', function () {
+        expect(filter.dateValue).to.eql(dateValue);
+      });
+    });
+  });
+
+  describe('date range filter', function () {
+    var filter, dateValues;
+
+    describe('with newly created instances', function () {
+      beforeEach(function () {
+        filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '<>d', values: []});
+      });
+
+      it('#isConfigured() returns a boolean', function () {
+        expect(typeof filter.isConfigured()).to.eql('boolean');
+      });
+
+      describe('and the values are set incl. both from and until', function () {
+        beforeEach(function () {
+          dateValues = ['2016-12-01', '2016-12-31'];
+          filter.values = {'0': dateValues[0], '1': dateValues[1]};
+        });
+
+        it('is considered to be configured', function () {
+          expect(filter.isConfigured()).to.be.true;
+        });
+
+        it('should serialize the date values', function () {
+          expect(filter.getValuesAsArray()).to.eql(dateValues);
+        });
+      });
+
+      describe('and the values are set incl. from excl. until', function () {
+        beforeEach(function () {
+          dateValues = ['2016-12-01'];
+          filter.values = {'0': dateValues[0], '1': dateValues[1]};
+        });
+
+        it('is considered to be configured', function () {
+          expect(filter.isConfigured()).to.be.true;
+        });
+
+        it('should serialize the date values', function () {
+          expect(filter.getValuesAsArray()).to.eql(dateValues);
+        });
+      });
+
+      describe('and the values are set excl. from incl. until', function () {
+        beforeEach(function () {
+          dateValues = ['undefined', '2016-12-31'];
+          filter.values = {'0': dateValues[0], '1': dateValues[1]};
+        });
+
+        it('is considered to be configured', function () {
+          expect(filter.isConfigured()).to.be.true;
+        });
+
+        it('should serialize the date values', function () {
+          expect(filter.getValuesAsArray()).to.eql(dateValues);
+        });
+      });
+    });
+
+    describe('with instances restored from existing query', function () {
+      beforeEach(function () {
+        dateValues = ['2016-12-01', '2016-12-31'];
+        filter = Factory.build('Filter', {name: 'createdAt', type: 'date', operator: '<>d', values: dateValues});
+      });
+
+      it('values is set and is a hash', function () {
+        expect(filter.values).to.eql({'0':dateValues[0], '1':dateValues[1]});
       });
     });
   });

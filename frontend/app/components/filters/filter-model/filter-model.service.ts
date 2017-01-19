@@ -28,12 +28,12 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function filterModel(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
+function filterModel(OPERATORS_NOT_REQUIRING_VALUES, MULTIPLE_VALUE_FILTER_OPERATORS, SELECTABLE_FILTER_TYPES) {
   var Filter = function (data) {
     angular.extend(this, data);
 
     // Experimental API controller will always give back strings even for numeric values so need to parse them
-    if (this.isSingleInputField() && Array.isArray(this.values)) this.textValue = this.parseSingleValue(this.values[0]);
+    if (this.isSingleInputField() && Array.isArray(this.values)) this.parseSingleValue(this.values[0]);
 
     this.pruneValues();
   };
@@ -56,23 +56,58 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
     },
 
     isSingleInputField: function () {
-      return SELECTABLE_FILTER_TYPES.indexOf(this.type) === -1;
+      return !this.isSelectInputField() &&
+             MULTIPLE_VALUE_FILTER_OPERATORS.indexOf(this.operator) === -1;
+    },
+
+    isSelectInputField: function () {
+      return SELECTABLE_FILTER_TYPES.indexOf(this.type) !== -1;
     },
 
     parseSingleValue: function (v) {
-      return (this.type == 'integer') ? parseInt(v) : v;
+      if (this.type == 'integer' || this.type == 'date') {
+        if (this.operator == '=d') {
+          this.dateValue = v;
+        }
+        else {
+          this.textValue = parseInt(v);
+        }
+      }
+      else {
+        this.textValue = v;
+      }
     },
 
     getValuesAsArray: function () {
+      var result = [];
       if (this.isSingleInputField()) {
-        return [this.textValue];
-      } else if (Array.isArray(this.values)) {
-        return this.values;
-      } else if (this.values) {
-        return [this.values];
+        if (this.operator == '=d') {
+          result.push(this.dateValue);
+        }
+        else {
+          result.push(this.textValue);
+        }
+      } else if (!Array.isArray(this.values)) {
+        if (this.operator == '<>d') {
+          if (this.values['0']) {
+            result.push(this.values['0']);
+          }
+          else {
+            // make sure that first value does not get pruned
+            result.push('undefined');
+          }
+          if (this.values['1'])
+          {
+            result.push(this.values['1']);
+          }
+        }
+        else {
+          result.push(this.values);
+        }
       } else {
-        return [];
+        result = this.values;
       }
+      return result;
     },
 
     requiresValues: function () {
@@ -85,15 +120,32 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
 
     pruneValues: function () {
       if (this.values) {
-        this.values = this.values.filter(function (value) {
-          return value !== '';
-        });
+        if (this.operator == '<>d') {
+          this.values = {
+            '0': this.values[0] == 'undefined' ? null : this.values[0],
+            '1': this.values[1]
+          };
+        }
+        else {
+          this.values = this.values.filter(function (value) {
+            return value !== '';
+          });
+        }
+      } else {
+        this.values = [];
       }
     },
 
     hasValues: function () {
       if (this.isSingleInputField()) {
-        return !!this.textValue;
+        if (this.operator == '=d') {
+          return !!this.dateValue;
+        }
+        else {
+          return !!this.textValue;
+        }
+      } else if (this.operator == '<>d') {
+        return !!(this.values['0'] || this.values['1']);
       } else {
         return Array.isArray(this.values) ? this.values.length > 0 : !!this.values;
       }

@@ -57,14 +57,14 @@ describe Queries::BaseFilter, type: :model do
     filter_class.new
   end
 
-  let(:date_past_filter) do
+  let(:datetime_past_filter) do
     filter_class = Class.new(described_class) do
       def type
-        :date_past
+        :datetime_past
       end
 
       def self.name
-        "TestDatePastFilter"
+        "TestDatetimePastFilter"
       end
     end
 
@@ -198,8 +198,8 @@ describe Queries::BaseFilter, type: :model do
     it_behaves_like 'date validity checked'
   end
 
-  context 'for a date_past filter' do
-    let(:filter) { date_past_filter }
+  context 'for a datetime_past filter' do
+    let(:filter) { datetime_past_filter }
     let(:valid_values) { [5] }
     let(:valid_operator) { '<t-' }
     let(:operator_without_value) { 't' }

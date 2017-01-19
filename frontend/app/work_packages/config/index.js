@@ -28,38 +28,113 @@
 
 /* jshint camelcase: false */
 
+// shared operator defs
+const OP_NONE = {symbol:'!*', label:'label_none'};
+const OP_ALL = {symbol:'*', label:'label_all'};
+const OP_SEL_EQ = {symbol:'=', label:'label_equals'};
+const OP_SEL_NEQ = {symbol:'!', label:'label_not_equals'};
+const OP_TODAY = {symbol:'t', label:'label_today'};
+const OP_THIS_WEEK = {symbol:'w', label:'label_this_week'};
+const OP_AGO_LT = {symbol:'>t-', label:'label_less_than_ago'};
+const OP_AGO_GT = {symbol:'<t-', label:'label_more_than_ago'};
+const OP_AGO = {symbol:'t-', label:'label_ago'};
+const OP_DATE_EQ = {symbol:'=d', label:'label_on'};
+const OP_DATE_BETWEEN = {symbol:'<>d', label:'label_between'};
+const OP_CONTAINS = {symbol:'~', label:'label_contains'};
+const OP_NOT_CONTAINS = {symbol:'!~', label:'label_not_contains'};
+const OP_EQ = {symbol:'=', label:'label_equals'};
+const OP_NEQ = {symbol:'!', label:'label_not_equals'};
+const OP_LEQ = {symbol:'<=', label:'label_less_or_equal'};
+const OP_GEQ = {symbol:'>=', label:'label_greater_or_equal'};
+
+
 angular.module('openproject.workPackages.config')
 
-.constant('INITIALLY_SELECTED_COLUMNS', [{ name: 'id' }, { name: 'project' }, { name: 'type' }, { name: 'status' }, { name: 'priority' }, { name: 'subject' }, { name: 'assigned_to_id' }, { name: 'updated_at' }])
+.constant('INITIALLY_SELECTED_COLUMNS', [
+  { name: 'id' }, { name: 'project' }, { name: 'type' }, { name: 'status' },
+  { name: 'priority' }, { name: 'subject' }, { name: 'assigned_to_id' }, { name: 'updated_at' }
+])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
-  list: [['=', 'label_equals'], ['!', 'label_not_equals']],
-  list_model: [['=', 'label_equals'], ['!', 'label_not_equals']],
-  list_status: [['o', 'label_open_work_packages'], ['=', 'label_equals'], ['!', 'label_not_equals'], ['c', 'label_closed_work_packages'], ['*', 'label_all']],
-  list_optional: [['=', 'label_equals'], ['!', 'label_not_equals'], ['!*', 'label_none'], ['*', 'label_all']],
-  list_subprojects: [['*', 'label_all'], ['!*', 'label_none'], ['=', 'label_equals']],
-  date: [['<t+', 'label_in_less_than'], ['>t+', 'label_in_more_than'], ['t+', 'label_in'], ['t', 'label_today'], ['w', 'label_this_week'], ['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'], ['t-', 'label_ago']],
-  date_past: [['>t-', 'label_less_than_ago'], ['<t-', 'label_more_than_ago'], ['t-', 'label_ago'], ['t', 'label_today'], ['w', 'label_this_week']],
-  string: [['=', 'label_equals'], ['~', 'label_contains'], ['!', 'label_not_equals'], ['!~', 'label_not_contains']],
-  text: [['~', 'label_contains'], ['!~', 'label_not_contains']],
-  integer: [['=', 'label_equals'], ['>=', 'label_greater_or_equal'], ['<=', 'label_less_or_equal'], ['!*', 'label_none'], ['*', 'label_all']]
+  list: [
+    OP_SEL_EQ,
+    OP_SEL_NEQ
+  ],
+  list_model: [
+    OP_SEL_EQ,
+    OP_SEL_NEQ
+  ],
+  list_status: [
+    {symbol:'o', label:'label_open_work_packages'},
+    OP_SEL_EQ,
+    OP_SEL_NEQ,
+    {symbol:'c', label:'label_closed_work_packages'},
+    OP_ALL
+  ],
+  list_optional: [
+    OP_SEL_EQ,
+    OP_SEL_NEQ,
+    OP_NONE,
+    OP_ALL
+  ],
+  list_subprojects: [
+    OP_SEL_EQ,
+    OP_NONE,
+    OP_ALL
+  ],
+  date: [
+    {symbol:'<t+', label:'label_in_less_than'},
+    {symbol:'>t+', label:'label_in_more_than'},
+    {symbol:'t+', label:'label_in'},
+    OP_TODAY,
+    OP_THIS_WEEK,
+    OP_AGO_LT,
+    OP_AGO_GT,
+    OP_AGO,
+    OP_DATE_EQ,
+    OP_DATE_BETWEEN
+  ],
+  datetime_past: [
+    OP_AGO_LT,
+    OP_AGO_GT,
+    OP_AGO,
+    OP_TODAY,
+    OP_THIS_WEEK
+  ],
+  string: [
+    OP_EQ,
+    OP_CONTAINS,
+    OP_NEQ,
+    OP_NOT_CONTAINS
+  ],
+  text: [
+    OP_CONTAINS,
+    OP_NOT_CONTAINS
+  ],
+  integer: [
+    OP_EQ,
+    OP_GEQ,
+    OP_LEQ,
+    OP_NONE,
+    OP_ALL
+  ]
 })
 
 .constant('AVAILABLE_WORK_PACKAGE_FILTERS', {
   status: { type: 'list_status', modelName: 'status' , order: 1, locale_name: 'status' },
   type: { type: 'list_model', modelName: 'type', order: 2, locale_name: 'type' },
-  priority: { type: 'list_model', modelName: 'priority', order: 3, locale_name: 'priority'},
+  priority: { type: 'list_model', modelName: 'priority', order: 3, locale_name: 'priority' },
   assignee: { type: 'list_optional', modelName: 'user' , order: 4, locale_name: 'assigned_to' },
   author: { type: 'list_model', modelName: 'user' , order: 5, locale_name: 'author' },
-  watcher: {type: 'list_model', modelName: 'user', order: 6, locale_name: 'watcher'},
-  responsible: {type: 'list_optional', modelName: 'user', order: 6, locale_name: 'responsible'},
-  version: {type: 'list_optional', modelName: 'version', order: 7, locale_name: 'fixed_version'},
+  watcher: {type: 'list_model', modelName: 'user', order: 6, locale_name: 'watcher' },
+  responsible: {type: 'list_optional', modelName: 'user', order: 6, locale_name: 'responsible' },
+  version: {type: 'list_optional', modelName: 'version', order: 7, locale_name: 'fixed_version' },
   category: { type: 'list_optional', modelName: 'category', order: 7, locale_name: 'category' },
-  memberOfGroup: {type: 'list_optional', modelName: 'group', order: 8, locale_name: 'member_of_group'},
-  assignedToRole: {type: 'list_optional', modelName: 'role', order: 9, locale_name: 'assigned_to_role'},
+  memberOfGroup: {type: 'list_optional', modelName: 'group', order: 8, locale_name: 'member_of_group' },
+  assignedToRole: {type: 'list_optional', modelName: 'role', order: 9, locale_name: 'assigned_to_role' },
   subject: { type: 'text', order: 10, locale_name: 'subject' },
-  createdAt: { type: 'date_past', order: 11, locale_name: 'created_at' },
-  updatedAt: { type: 'date_past', order: 12, locale_name: 'updated_at' },
+  createdAt: { type: 'datetime_past', order: 11, locale_name: 'created_at' },
+  updatedAt: { type: 'datetime_past', order: 12, locale_name: 'updated_at' },
   startDate: { type: 'date', order: 13, locale_name: 'start_date' },
   dueDate: { type: 'date', order: 14, locale_name: 'due_date' },
   estimatedTime: { type: 'integer', order: 15, locale_name: 'estimated_hours' },

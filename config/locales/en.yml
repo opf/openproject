@@ -945,6 +945,7 @@ en:
   label_available_project_versions: 'Available versions'
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API documentation"
+  label_between: "between"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
   label_blog: "Blog"
@@ -1162,6 +1163,7 @@ en:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
+  label_on: "on"
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"

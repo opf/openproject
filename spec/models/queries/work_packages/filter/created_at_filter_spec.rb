@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Queries::WorkPackages::Filter::CreatedAtFilter, type: :model do
   it_behaves_like 'basic query filter' do
     let(:order) { 9 }
-    let(:type) { :date_past }
+    let(:type) { :datetime_past }
     let(:class_key) { :created_at }
 
     describe '#available?' do
