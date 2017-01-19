@@ -67,15 +67,15 @@ export function registerWorkPackageMouseHandler(this: void,
     wpCacheService.updateWorkPackage(wp);
   }
 
-  function mouseMoveFn(ev: JQueryEventObject) {
+  function createMouseMoveFn(direction: "left" | "right" | "both") {
+    return (ev: JQueryEventObject) => {
+      const mev: MouseEvent = ev as any;
+      const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
+      const days = distance < 0 ? distance + 1 : distance;
 
-    const mev: MouseEvent = ev as any;
-    const distance = Math.floor((mev.clientX - startX) / renderInfo.viewParams.pixelPerDay);
-    const days = distance < 0 ? distance + 1 : distance;
-
-    dateStates = renderer.onDaysMoved(renderInfo.workPackage, days);
-
-    applyDateValues(dateStates);
+      dateStates = renderer.onDaysMoved(renderInfo.workPackage, days, direction);
+      applyDateValues(dateStates);
+    }
   }
 
   function keyPressFn(ev: JQueryEventObject) {
@@ -92,9 +92,9 @@ export function registerWorkPackageMouseHandler(this: void,
     startX = ev.clientX;
 
     // Determine what attributes of the work package should be changed
-    renderer.onMouseDown(ev, renderInfo, bar);
+    const direction = renderer.onMouseDown(ev, renderInfo, bar);
 
-    jBody.on("mousemove", mouseMoveFn);
+    jBody.on("mousemove", createMouseMoveFn(direction));
     jBody.on("keyup", keyPressFn);
   }
 
@@ -105,8 +105,8 @@ export function registerWorkPackageMouseHandler(this: void,
       return;
     }
 
-    jBody.off("mousemove", mouseMoveFn);
-    jBody.off("keyup", keyPressFn);
+    jBody.off("mousemove");
+    jBody.off("keyup");
     jQuery(".hascontextmenu").css("cursor", "context-menu");
     jQuery("." + timelineElementCssClass).css("cursor", '');
     jQuery("." + classNameLeftHandle).css("cursor", "w-resize");

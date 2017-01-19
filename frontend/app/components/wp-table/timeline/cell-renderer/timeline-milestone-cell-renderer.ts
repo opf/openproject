@@ -39,7 +39,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number) {
+  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number, direction: "left" | "right" | "both") {
     const initialDate = wp.$pristine['date'];
     let dates:CellMilestoneMovement = {};
 
@@ -50,7 +50,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): void {
+  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): "left" | "right" | "both" {
     this.forceCursor('ew-resize');
     renderInfo.workPackage.storePristine('date');
 
@@ -61,6 +61,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     elem.appendChild(dateInfo);
 
     this.updateMilestoneMovedLabel(moment(renderInfo.workPackage.date));
+
+    return "both";
   }
 
   public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
