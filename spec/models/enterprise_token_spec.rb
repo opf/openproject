@@ -77,6 +77,13 @@ RSpec.describe EnterpriseToken, type: :model do
         expect(EnterpriseToken.show_banners).to eq(true)
       end
     end
+
+    context 'updating it with an invalid token' do
+      it 'will fail validations' do
+        subject.encoded_token = "bar"
+        expect(subject.save).to be_falsey
+      end
+    end
   end
 
   describe 'no token' do

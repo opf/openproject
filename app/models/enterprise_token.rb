@@ -80,6 +80,13 @@ class EnterpriseToken < ActiveRecord::Base
     RequestStore.delete :current_ee_token
   end
 
+  def unset_current_token_object
+    # Clear current cache
+    if defined?(@token_object)
+      remove_instance_variable(:@token_object)
+    end
+  end
+
   private
 
   def load_token
@@ -90,6 +97,7 @@ class EnterpriseToken < ActiveRecord::Base
   end
 
   def valid_token_object
-    errors.add(:encoded_token, :unreadable) unless token_object
+    unset_current_token_object
+    errors.add(:encoded_token, :unreadable) unless load_token
   end
 end
