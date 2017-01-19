@@ -92,6 +92,6 @@ module Api::Experimental::Concerns::V3Naming
   def context_dummy
     # memorize the work package because
     # initializing a work package queries the db
-    @context_dummy ||= WorkPackage.new
+    @context_dummy ||= API::Utilities::PropertyNameConverterQueryContext.new
   end
 end
