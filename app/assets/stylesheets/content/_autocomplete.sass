@@ -57,3 +57,39 @@ div.autocomplete
 
 #parent_issue_candidates ul li, #related_issue_candidates ul li
   width: 500px
+
+
+/** jquery-ui autocomplete */
+
+.ui-autocomplete
+  position: absolute
+  top: 0
+  left: 0
+  cursor: default
+  margin: 0
+  list-style: none
+
+  .ui-menu-item
+    border-bottom: 1px solid $content-default-border-color
+
+  a
+    color: $body-font-color
+    padding-left: 5px
+
+  .ui-menu-item-wrapper
+    word-break: break-word
+    padding: 10px 5px
+
+    &.ui-state-active, &.ui-state-active a
+      border: none
+      background: $primary-color-dark
+      color: $font-color-on-primary-dark
+
+.ui-autocomplete--input
+  // Error highlighting
+  &.-error, &.-error:hover, &.-error:focus
+    background: $nm-color-error-background
+    border-color: $nm-color-error-border
+
+
+
