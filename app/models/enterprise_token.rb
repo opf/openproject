@@ -67,7 +67,7 @@ class EnterpriseToken < ActiveRecord::Base
            to: :token_object
 
   def token_object
-    @token_object = load_token unless defined?(@token_object)
+    load_token! unless defined?(@token_object)
     @token_object
   end
 
@@ -80,24 +80,16 @@ class EnterpriseToken < ActiveRecord::Base
     RequestStore.delete :current_ee_token
   end
 
-  def unset_current_token_object
-    # Clear current cache
-    if defined?(@token_object)
-      remove_instance_variable(:@token_object)
-    end
-  end
-
   private
 
-  def load_token
-    OpenProject::Token.import(encoded_token)
+  def load_token!
+    @token_object = OpenProject::Token.import(encoded_token)
   rescue OpenProject::Token::ImportError => error
     Rails.logger.error "Failed to load EE token: #{error}"
     nil
   end
 
   def valid_token_object
-    unset_current_token_object
-    errors.add(:encoded_token, :unreadable) unless load_token
+    errors.add(:encoded_token, :unreadable) unless load_token!
   end
 end
