@@ -55,7 +55,7 @@ describe 'API v3 Work package resource', type: :request do
   end
   let(:watcher) do
     FactoryGirl
-      .create(:user,  member_in_project: project, member_through_role: role)
+      .create(:user, member_in_project: project, member_through_role: role)
       .tap do |user|
         work_package.add_watcher(user)
       end

@@ -219,7 +219,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing sums' do
-      let(:total_sums) { OpenStruct.new({ estimated_hours: 1 }) }
+      let(:total_sums) { OpenStruct.new(estimated_hours: 1) }
 
       it 'renders the groups object as json' do
         expected = { 'estimatedTime': 'PT1H' }
