@@ -17,11 +17,6 @@ targets:
     <<: *debian7
   ubuntu-16.04:
     <<: *debian8
-  centos-6:
-    build_dependencies:
-      - ImageMagick-devel
-    dependencies:
-      - ImageMagick
   centos-7:
    build_dependencies:
       - ImageMagick-devel
