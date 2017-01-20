@@ -154,6 +154,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           let(:page) { 1 }
           let(:page_size) { page_size_parameter }
           let(:actual_count) { page_size_parameter }
+          let(:collection_type) { 'WorkPackageCollection' }
 
           it_behaves_like 'links to next page by offset'
         end
@@ -170,6 +171,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           let(:page) { 3 }
           let(:page_size) { page_size_parameter }
           let(:actual_count) { 1 }
+          let(:collection_type) { 'WorkPackageCollection' }
 
           it_behaves_like 'links to previous page by offset'
         end

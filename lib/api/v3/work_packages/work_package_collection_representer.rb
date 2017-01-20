@@ -140,19 +140,27 @@ module API
         end
 
         def schemas
-          schemas = represented.map do |work_package|
-            ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema.new(project: work_package.project, type: work_package.type)
+          schemas = schema_pairs.map do |project, type|
+            Schema::TypedWorkPackageSchema.new(project: project, type: type)
           end
 
-          ids = represented.map do |work_package|
-            "#{work_package.project.id}-#{work_package.type.id}"
+          Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
+                                                             schemas_path,
+                                                             current_user: current_user)
+        end
+
+        def schemas_path
+          ids = schema_pairs.map do |project, type|
+            [project.id, type.id]
           end
 
-          path = "#{api_v3_paths.work_package_schemas}?#{{ filter: { id: { operator: '=', values: ids } }.to_query}}"
+          api_v3_paths.work_package_schemas(*ids)
+        end
 
-          ::API::V3::WorkPackages::Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
-                                                                                      path,
-                                                                                      current_user: current_user)
+        def schema_pairs
+          represented
+            .map { |work_package| [work_package.project, work_package.type] }
+            .uniq
         end
 
         def add_eager_loading(scope, current_user)

@@ -36,7 +36,8 @@ shared_examples_for 'generic APIv3 collection' do
   end
 
   it 'has a collection type' do
-    expect(collection).to be_json_eql('Collection'.to_json).at_path('_type')
+    expected_type = defined?(collection_type) ? collection_type : 'Collection'
+    expect(collection).to be_json_eql(expected_type.to_json).at_path('_type')
   end
 
   describe 'elements are typed correctly' do
