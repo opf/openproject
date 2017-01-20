@@ -181,16 +181,19 @@ module QueriesHelper
   def fix_field_array(query, field_names)
     return [] if field_names.nil?
 
-    # memoize to reduce overhead of WorkPackage.new
-    @fix_field_array_wp ||= WorkPackage.new
     available_keys = query.available_filters.map(&:name)
 
     field_names
-      .map { |name| converter.to_ar_name name, context: @fix_field_array_wp, refer_to_ids: true }
+      .map { |name| converter.to_ar_name name, context: converter_context, refer_to_ids: true }
       .map { |name| available_keys.find { |k| name =~ /#{k}(s|_id)?$/ } }
   end
 
   def converter
     API::Utilities::PropertyNameConverter
+  end
+
+  def converter_context
+    # memoize to reduce overhead of WorkPackage.new
+    @fix_field_array_wp ||= API::Utilities::PropertyNameConverterQueryContext.new
   end
 end

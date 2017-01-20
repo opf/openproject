@@ -51,4 +51,4 @@ wizards:
   - https://github.com/pkgr/addon-smtp.git
   - https://github.com/pkgr/addon-memcached.git
   - https://github.com/pkgr/addon-openproject.git
-buildpack: https://github.com/ddollar/heroku-buildpack-multi.git
+buildpack: https://github.com/opf/heroku-buildpack-multi.git
