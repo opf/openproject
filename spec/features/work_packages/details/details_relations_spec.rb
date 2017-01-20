@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Work package relations tab', js: true, selenium: true do
-  include_context 'typeahead helpers'
+  include_context 'ui-autocomplete helpers'
 
   let(:user) { FactoryGirl.create :admin }
 
@@ -30,8 +30,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     container = find(container)
 
     # Enter the query and select the child
-    typeahead = container.find(".wp-relations--autocomplete")
-    select_typeahead(typeahead, query: query, select_text: expected_text)
+    autocomplete = container.find(".wp-relations--autocomplete")
+    select_autocomplete(autocomplete, query: query, select_text: expected_text)
 
     container.find('.wp-create-relation--save').click
 
@@ -53,8 +53,8 @@ describe 'Work package relations tab', js: true, selenium: true do
     select relation_label, from: 'relation-type--select'
 
     # Enter the query and select the child
-    typeahead = container.find(".wp-relations--autocomplete")
-    select_typeahead(typeahead, query: wp.subject, select_text: wp.subject)
+    autocomplete = container.find(".wp-relations--autocomplete")
+    select_autocomplete(autocomplete, query: wp.subject, select_text: wp.subject)
 
     container.find('.wp-create-relation--save').click
 
