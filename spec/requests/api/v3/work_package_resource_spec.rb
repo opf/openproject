@@ -88,6 +88,14 @@ describe 'API v3 Work package resource', type: :request do
       expect(subject.body).to be_json_eql(1.to_json).at_path('total')
     end
 
+    it 'embedds the work package schemas' do
+      FactoryGirl.create(:work_package, project: project)
+
+      expect(subject.body)
+        .to be_json_eql(api_v3_paths.work_package_schema(project.id, work_package.type.id).to_json)
+        .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+    end
+
     context 'user not seeing any work packages' do
       include_context 'with non-member permissions from non_member_permissions'
       let(:current_user) { FactoryGirl.create(:user) }

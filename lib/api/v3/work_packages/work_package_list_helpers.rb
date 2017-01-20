@@ -181,6 +181,7 @@ module API
             per_page: to_i_or_nil(params[:pageSize]),
             groups: groups,
             total_sums: sums,
+            embed_schemas: true,
             current_user: current_user
           )
         end

@@ -46,10 +46,12 @@ module API
                        total_sums:,
                        page: nil,
                        per_page: nil,
+                       embed_schemas: false,
                        current_user:)
           @project = project
           @groups = groups
           @total_sums = total_sums
+          @embed_schemas = embed_schemas
 
           super(models,
                 self_link,
@@ -112,6 +114,12 @@ module API
                    exec_context: :decorator,
                    embedded: true
 
+        property :schemas,
+                 exec_context: :decorator,
+                 if: ->(*) { embed_schemas },
+                 embedded: true,
+                 render_nil: false
+
         property :groups,
                  exec_context: :decorator,
                  render_nil: false
@@ -129,6 +137,22 @@ module API
 
         def current_user_allowed_to_add_work_packages?
           current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+        end
+
+        def schemas
+          schemas = represented.map do |work_package|
+            ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema.new(project: work_package.project, type: work_package.type)
+          end
+
+          ids = represented.map do |work_package|
+            "#{work_package.project.id}-#{work_package.type.id}"
+          end
+
+          path = "#{api_v3_paths.work_package_schemas}?#{{ filter: { id: { operator: '=', values: ids } }.to_query}}"
+
+          ::API::V3::WorkPackages::Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
+                                                                                      path,
+                                                                                      current_user: current_user)
         end
 
         def add_eager_loading(scope, current_user)
@@ -185,7 +209,8 @@ module API
 
         attr_reader :project,
                     :groups,
-                    :total_sums
+                    :total_sums,
+                    :embed_schemas
       end
     end
   end
