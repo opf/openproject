@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {DisplayField} from 'app/components/wp-display/wp-display-field/wp-display-field.module';
-import {WorkPackageCacheService} from 'app/components/work-packages/work-package-cache.service';
+import {DisplayField} from 'core-components/wp-display/wp-display-field/wp-display-field.module';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 
 interface ICostsByType {
   $source: {
