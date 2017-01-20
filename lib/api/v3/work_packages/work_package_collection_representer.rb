@@ -96,6 +96,12 @@ module API
           } if current_user_allowed_to_add_work_packages?
         end
 
+        link :schemas do
+          {
+            href: schemas_path
+          } if represented.any?
+        end
+
         collection :elements,
                    getter: -> (*) {
                      generated_classes = ::Hash.new do |hash, work_package|
@@ -116,7 +122,7 @@ module API
 
         property :schemas,
                  exec_context: :decorator,
-                 if: ->(*) { embed_schemas },
+                 if: ->(*) { embed_schemas && represented.any? },
                  embedded: true,
                  render_nil: false
 

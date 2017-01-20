@@ -77,6 +77,18 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       is_expected.not_to have_json_path('totalSums')
     end
 
+    it 'has a schemas link' do
+      ids = work_packages.map do |wp|
+        [wp.project_id, wp.type_id]
+      end
+
+      path = api_v3_paths.work_package_schemas *ids
+
+      is_expected
+        .to be_json_eql(path.to_json)
+        .at_path('_links/schemas/href')
+    end
+
     context 'when the user has the add_work_package permission in any project' do
       before do
         allow(user)
