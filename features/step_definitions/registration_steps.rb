@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given (/^I open the login modal$/) do
+Given (/^I open the registration modal$/) do
   steps %{
     Given I am on the homepage
     And I open the "Sign in" menu

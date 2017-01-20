@@ -143,8 +143,10 @@ describe 'Omniauth authentication', type: :feature do
       click_link_or_button 'Sign In'
 
       # on register form, we are prompted for a last name
-      fill_in('user_lastname', with: user.lastname)
-      click_link_or_button 'Submit'
+      within('#content') do
+        fill_in('user_lastname', with: user.lastname)
+        click_link_or_button 'Create'
+      end
 
       expect(page).to have_content(I18n.t(:notice_account_registered_and_logged_in))
       expect(page).to have_link('Sign out')
@@ -180,8 +182,10 @@ describe 'Omniauth authentication', type: :feature do
       click_link_or_button 'Sign In'
 
       # on register form, we are prompted for a last name
-      fill_in('user_lastname', with: user.lastname)
-      click_link_or_button 'Submit'
+      within('#content') do
+        fill_in('user_lastname', with: user.lastname)
+        click_link_or_button 'Create'
+      end
 
       expect(current_url).to eql home_url(first_time_user: true)
     end

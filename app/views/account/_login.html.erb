@@ -86,11 +86,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <modal-wrapper activation-link-id="'#registration-modal--activation-link'" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
-    <% @user = User.new %>
+    <% @user ||= User.new %>
     <%= render partial: '/account/register' %>
   </modal-wrapper>
   <modal-wrapper activation-link-id="'#autologin-registration-modal--activation-link'" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
-    <% @user = User.new %>
+    <% @user ||= User.new %>
     <%= render partial: '/account/register' %>
   </modal-wrapper>
 </div>
