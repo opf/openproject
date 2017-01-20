@@ -1,13 +1,13 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,37 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+module API
+  module Utilities
+    # The PropertyNameConverter checks whether the object responds to the attribute
+    # that is to be converted.
+    # If the context is Query (e.g. when filters are restored), a WorkPackage
+    # is used instead.  However, some of the methods a work package does not
+    # respond to are nevertheless valid for transformation.  We therefore
+    # delegate to a WorkPackage per default but also explicitly respond in some
+    # cases.
+    class PropertyNameConverterQueryContext < SimpleDelegator
+      def initialize
+        super(WorkPackage.new)
+      end
 
-module Users
-  class BaseContract < ::ModelContract
-    attribute :type
-    attribute :login
-    attribute :firstname
-    attribute :lastname
-    attribute :name
-    attribute :mail
-    attribute :admin
-
-    attribute :auth_source_id
-    attribute :identity_url
-    attribute :password
-
-    validate :existing_auth_source
-
-    def initialize(user, current_user)
-      super(user)
-
-      @current_user = current_user
-    end
-
-    private
-
-    attr_reader :current_user
-
-    def existing_auth_source
-      if auth_source_id && AuthSource.find_by_unique(auth_source_id).nil?
-        errors.add :auth_source, :error_not_found
+      def subproject_id
       end
     end
   end
