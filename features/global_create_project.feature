@@ -42,7 +42,7 @@ Feature: Global Create Project
     And the user "bob" has the global role "Global"
     When I am already logged in as "bob"
     And I go to the overall projects page
-    Then I should see "New project"
+    Then I should see "Project" within ".toolbar-items"
 
   Scenario: Create Project not displayed to user without global role
     Given there is 1 User with:
@@ -51,7 +51,7 @@ Feature: Global Create Project
       | Lastname | Bobbit |
     When I am already logged in as "bob"
     And I go to the overall projects page
-    Then I should not see "New project"
+    Then I should not see "Project" within ".toolbar-items"
 
   @javascript
   Scenario: Create Project displayed to user
