@@ -77,7 +77,7 @@ describe MailHandler, type: :model do
   describe '#cleanup_body' do
     let(:input) { "Subject:foo\nDescription:bar\n" \
                   ">>> myserver.example.org 2016-01-27 15:56 >>>\n... (Email-Body) ..." }
-    let(:handler) { MailHandler.send :new }
+    let(:handlers) { MailHandler.send :new }
 
     context 'with regex delimiter' do
       before do

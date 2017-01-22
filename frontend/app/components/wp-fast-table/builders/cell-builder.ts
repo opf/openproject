@@ -1,12 +1,16 @@
 import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from './../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
+import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 export const cellClassName = 'wp-table--cell-span';
 export const cellEmptyPlaceholder = '-';
 
 export class CellBuilder {
 
-  constructor(private wpDisplayField:WorkPackageDisplayFieldService) {
+  public wpDisplayField:WorkPackageDisplayFieldService;
+
+  constructor() {
+    injectorBridge(this);
   }
 
   public build(workPackage:WorkPackageResource, name:string) {
@@ -31,8 +35,8 @@ export class CellBuilder {
       span.classList.add('-placeholder');
       text = cellEmptyPlaceholder;
     } else {
-      td.setAttribute("aria-label", field.label + " " + text);
       text = field.valueString;
+      td.setAttribute('aria-label', `${field.label} ${text}`);
     }
 
     field.render(span, text);
@@ -40,5 +44,6 @@ export class CellBuilder {
 
     return td;
   }
-
 }
+
+CellBuilder.$inject = ['wpDisplayField'];

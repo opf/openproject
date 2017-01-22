@@ -1,33 +1,47 @@
-import * as op from 'op';
 import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
 import {CellBuilder} from './cell-builder';
+import {States} from '../../states.service';
+import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
+export const rowClassName = 'wp-table--row';
 
 export class RowBuilder {
-  static PLACEHOLDER = '-';
-  static CELLNAME = 'wp-table--edit-cell';
+  // Injections
+  public states:States;
+  public I18n:op.I18n;
 
-  private cellBuilder: CellBuilder;
+  // Cell builder instance
+  private cellBuilder = new CellBuilder();
 
-  constructor(private wpDisplayField: WorkPackageDisplayFieldService,
-              private I18n:op.I18n,
-              private columns: any[]) {
-    this.cellBuilder = new CellBuilder(wpDisplayField);
+  constructor() {
+    injectorBridge(this);
   }
 
-  public buildEmpty(numCols:number) {
-    let row = document.createElement('tr');
-    let td = document.createElement('td');
+  public createEmptyRow(workPackage) {
+    let tr = document.createElement('tr');
+    tr.id = 'wp-row-' + workPackage.id;
+    tr.dataset.workPackageId = workPackage.id;
 
-    for (var i = numCols; i >= 0; i--) {
-      row.appendChild(td);
-    }
+    return tr;
+  }
 
-    return row;
+  /**
+   * Returns a shortcut to the current column state.
+   * It is not responsible for subscribing to updates.
+   */
+  public get columns() {
+    return this.states.table.columns.getCurrentValue();
   }
 
   public build(workPackage:WorkPackageResource, row:HTMLElement) {
-    row.classList.add('wp--row', 'issue');
+    // Temporary check whether schema is available
+    // This shouldn't be necessary with the queries refactor
+    if (!workPackage.schema.$loaded) {
+      workPackage.schema.$load();
+      return;
+    }
+
+    row.id = `wp-row-${workPackage.id}`;
+    row.classList.add('wp-table--row', 'wp--row', 'issue');
 
     this.columns.forEach((col:any) => {
       let cell = this.cellBuilder.build(workPackage, col.name);
@@ -50,3 +64,6 @@ export class RowBuilder {
     row.appendChild(td);
   }
 }
+
+
+RowBuilder.$inject = ['states', 'I18n'];

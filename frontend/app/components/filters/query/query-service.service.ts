@@ -149,6 +149,7 @@ function QueryService($rootScope,
 
     hideColumns: function(columnNames) {
       WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
+      
     },
 
     showColumns: function(columnNames) {

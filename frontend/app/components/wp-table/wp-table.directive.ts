@@ -75,10 +75,17 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      // Total columns = all available columns + id + action link
+      // Set current columns to state
+      states.table.columns.put(scope.columns);
+
+      var t0 = performance.now();
       scope.tbody = element.find('.work-package-table tbody');
-      scope.table = new WorkPackageTable(scope.tbody[0], wpCacheService, states.workPackages, wpDisplayField, I18n);
-      scope.table.initialize(scope.rows, scope.columns);
+      scope.table = new WorkPackageTable(scope.tbody[0]);
+      scope.table.initialize(scope.rows);
+
+      console.log("Num rows = " + scope.tbody.find('tr').length);
+      var t1 = performance.now();
+      console.log("Render took " + (t1 - t0) + " milliseconds.")
 
       // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;
@@ -234,38 +241,7 @@ function wpTable(
         return false;
       }
 
-      scope.selectWorkPackage = function(row, $event) {
-        // The current row is the last selected work package
-        // not matter what other rows are (de-)selected below.
-        // Thus save that row for the details view button
-        WorkPackageService.cache().put('preselectedWorkPackageId', row.object.id);
 
-        var currentRowCheckState = row.checked;
-        var multipleChecked = mulipleRowsChecked();
-        var isLink = angular.element($event.target).is('a');
-
-        if (!($event.ctrlKey || $event.shiftKey)) {
-          scope.setCheckedStateForAllRows(false);
-        }
-
-        if(isLink) {
-          return;
-        }
-
-        if ($event.shiftKey) {
-          clearSelection();
-          activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
-        } else if($event.ctrlKey || $event.metaKey){
-          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-        } else {
-          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-        }
-
-        // Avoid bubbling of elements within the details link
-        if ($event.target.parentElement.className.indexOf('wp-table--details-link') === -1) {
-          openWhenInSplitView(row.object);
-        }
-      };
 
       scope.openWorkPackageInFullView = function(row) {
         clearSelection();

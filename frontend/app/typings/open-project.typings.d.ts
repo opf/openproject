@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
 /**
  * API interfaces
  *

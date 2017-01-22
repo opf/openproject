@@ -1,12 +1,13 @@
 import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
-import {DisplayField} from './../wp-display/wp-display-field/wp-display-field.module';
-import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
-import {State, MultiState} from './../../helpers/reactive-fassade';
-import {WorkPackageResource} from './../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-import {cellClassName} from './builders/cell-builder';
-import {RowBuilder} from './builders/row-builder';
-import {RowEditHandler} from './handler/row-edit-handler';
+import {RowBuilder, rowClassName} from './builders/row-builder';
+import {States} from '../states.service';
+import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {TableEventsRegistry} from './handlers/table-events-registry';
+
+import {Observable} from 'rxjs';
+import {WorkPackageTableRow, WPTableRowSelectionState} from './wp-table.interfaces';
 
 interface WorkPackageRow {
   workPackage:WorkPackageResource;
@@ -18,91 +19,89 @@ interface WorkPackageRow {
 }
 
 export class WorkPackageTable {
+  public wpCacheService:WorkPackageCacheService;
+  public states:States;
+  public I18n:op.I18n;
 
   public rows: WorkPackageResource[];
-  public rowIndex:{[id: number]: number};
-
-  public columns: string[];
-
-  private text:any;
+  public rowIndex:{[id: number]: WorkPackageTableRow};
 
   // Row builder instance
-  private rowBuilder:RowBuilder;
+  private rowBuilder = new RowBuilder();
 
-  constructor(public tbody:HTMLElement,
-              public wpCacheService:WorkPackageCacheService,
-              public wpState:MultiState<WorkPackageResource>,
-              public wpDisplayField:WorkPackageDisplayFieldService,
-              private I18n:op.I18n) {
+  constructor(public tbody:HTMLElement) {
+    injectorBridge(this);
+    TableEventsRegistry.attachTo(this);
   }
 
-  private registerClickListener() {
-    jQuery(this.tbody).on('click', '.' + cellClassName, (evt) => {
-      let row = jQuery(evt.target).closest('tr');
-      this.handleCellClick(row, evt);
-    });
+  public rowObject(workPackageId):WorkPackageTableRow {
+    return this.rowIndex[workPackageId];
   }
 
-  private handleCellClick(row:JQuery, evt:JQueryEventObject) {
-    const cell:Element = evt.target;
-
-    // Ignore clicks on non-editable fields
-    if (!cell.classList.contains('-editable')) {
-       return;
-    }
-
-    new RowEditHandler(row, cell, evt);
-  }
-
-  public initialize(rows, columns) {
+  public initialize(rows) {
     this.rows = rows;
     this.rowIndex = {};
-    this.columns = columns;
-    this.tbody.innerHTML = '';
 
-    this.rowBuilder = new RowBuilder(this.wpDisplayField, this.I18n, columns);
-    this.registerClickListener();
+    this.initializeStates();
 
-    rows.forEach((row, i) => {
-      let workPackage = row.object;
-      this.rowIndex[workPackage.id] = i;
-
-      let state = this.wpState.get(workPackage.id);
-      let tr = this.createEmptyRow(workPackage);
-
-      this.tbody.appendChild(tr);
-
-      state.observe(null).subscribe(() => {
-        this.refreshWorkPackage(workPackage, tr);
+    // Draw work packages and watch for changes
+    this.refreshAllWorkPackages((row, index) => {
+      let state = this.states.workPackages.get(row.object.id);
+      row.observer = state.observe(null).subscribe((wp) => {
+        row.object = wp;
+        this.rows[index] = row;
+        this.refreshWorkPackage(wp);
       });
     });
   }
 
-  public refreshWorkPackage(workPackage, oldRow:HTMLTableRowElement) {
+  public refreshAllWorkPackages(rowCallback?:Function) {
+    let tbodyContent = document.createDocumentFragment();
+    this.rows.forEach((row, i) => {
+      let workPackage = row.object;
+      this.rowIndex[workPackage.id] = { workPackageId: workPackage.id, position: i };
+
+      let tr = this.rowBuilder.createEmptyRow(workPackage);
+      this.rowBuilder.build(workPackage, tr);
+
+      tbodyContent.appendChild(tr);
+      rowCallback && rowCallback(row, tr, i);
+    });
+
+    this.tbody.innerHTML = '';
+    this.tbody.appendChild(tbodyContent);
+  }
+
+  public refreshWorkPackage(workPackage) {
     // Get the row for the WP if refreshing existing
-    if (oldRow === undefined) {
-      oldRow = document.getElementById('wp-row-' + workPackage.id);
+    let oldRow = <HTMLElement> document.getElementById('wp-row-' + workPackage.id);
+    let newRow = this.rowBuilder.createEmptyRow(workPackage);
+    this.rowBuilder.build(workPackage, newRow);
+    oldRow.parentNode.replaceChild(newRow, oldRow);
+  }
+
+  private renderSelectionState(state:WPTableRowSelectionState) {
+    console.log(state);
+    jQuery('.' + rowClassName).toggleClass('-checked', state.all);
+
+    if (state.all) {
+      return;
     }
 
-    let newRow = this.createEmptyRow(workPackage);
-    this.rowBuilder.build(workPackage, newRow);
-    oldRow.replaceWith(newRow);
+    _.forEach(state.selected, (selected: boolean, workPackageId:number) => {
+      jQuery('#wp-row-' + workPackageId).toggleClass('-checked', selected);
+    });
   }
 
-  public createEmptyRow(workPackage) {
-    let tr = document.createElement('tr');
-    tr.id = 'wp-row-' + workPackage.id;
+  private initializeStates() {
+    this.states.table.columns.observe(null).subscribe(() => {
+      this.refreshAllWorkPackages();
+    });
 
-    return tr;
-  }
-
-  public insertAllRows() {
-    this.rows.forEach((row:any) => {
-      let workPackage = row.object;
-      let tr = this.createEmptyRow(workPackage);
-
-      this.rowBuilder.build(workPackage, tr);
-      this.tbody.appendChild(tr);
+    this.states.table.selection.observe(null).subscribe((state:WPTableRowSelectionState) => {
+      this.renderSelectionState(state);
     });
   }
 }
+
+WorkPackageTable.$inject = ['wpCacheService', 'states', 'I18n'];
