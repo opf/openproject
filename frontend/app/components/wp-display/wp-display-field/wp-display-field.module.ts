@@ -29,6 +29,7 @@
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {Field, FieldFactory} from "../../wp-field/wp-field.module";
 import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
+import {SimpleTemplateRenderer} from '../../angular/simple-template-renderer';
 
 export class DisplayField extends Field {
 
@@ -74,18 +75,14 @@ export class DisplayField extends Field {
   }
 
   protected renderTemplate(element, displayText) {
-    let $templateCache = this.$inject('$templateCache');
-    let $compile = this.$inject('$compile');
-    let $rootScope = this.$inject('$rootScope');
-    let fieldScope = $rootScope.$new();
+    let renderer:SimpleTemplateRenderer = this.$injector.get('templateRenderer');
 
-    fieldScope.workPackage = this.resource;
-    fieldScope.name = this.name;
-    fieldScope.displayText = displayText;
-    fieldScope.field = this;
-
-    element.innerHTML = $templateCache.get(this.template);
-    $compile(element)(fieldScope);
+    renderer.renderIsolated(element, this.template, {
+      workPackage: this.resource,
+      name: this.name,
+      displayText: displayText,
+      field: this
+    });
   }
 
   constructor(public resource: HalResource,
