@@ -71,12 +71,12 @@ export class WorkPackageCacheService {
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       if (wpForPublish.schema.$loaded) {
-        return wpState.put(wpForPublish);
+        wpState.put(wpForPublish);
+      } else {
+        wpState.putFromPromise(wpForPublish.schema.$load().then(() => {
+          return wpForPublish;
+        }));
       }
-
-      wpState.putFromPromise(wpForPublish.schema.$load().then(() => {
-        return wpForPublish;
-      }));
     }
   }
 
@@ -86,7 +86,7 @@ export class WorkPackageCacheService {
       state.clear();
     }
 
-    // Several services involved in the creation of work packages 
+    // Several services involved in the creation of work packages
     // use this method to resolve the latest created work package,
     // so let them just subscribe.
     if (workPackageId.toString() === 'new') {
