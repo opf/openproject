@@ -30,6 +30,7 @@ import {wpDirectivesModule} from '../../../../angular-modules';
 import {WorkPackageRelationsController} from "../../wp-relations.directive";
 import {WorkPackageRelationsHierarchyController} from "../../wp-relations-hierarchy/wp-relations-hierarchy.directive";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
 
 function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
   return {
@@ -50,17 +51,30 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
       scope.options = [];
       scope.relatedWps = [];
 
-      scope.onSelect = (selected) => {
-        scope.selectedWpId = selected.id;
-      };
+      jQuery('.wp-relations--autocomplete').autocomplete({
+        delay: 250,
+        autoFocus: false, // Accessibility!
+        source: (request:{ term:string }, response:Function) => {
+          autocompleteWorkPackages(request.term).then((values) => {
+            response(values.map(wp => {
+              return { workPackage: wp, value: getIdentifier(wp) };
+            }));
+          });
+        },
+        select: (evt, ui:any) => {
+          scope.$evalAsync(() => {
+            scope.selectedWpId = ui.item.workPackage.id;
+          });
+        }
+      });
 
-      scope.getIdentifier = function(workPackage){
+      function getIdentifier(workPackage){
         if (workPackage) {
           return _.escape(`#${workPackage.id} - ${workPackage.subject}`);
         }
       };
 
-      scope.autocompleteWorkPackages = (query) => {
+      function autocompleteWorkPackages(query) {
         if (!query) {
           return [];
         }
@@ -68,15 +82,15 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
         const deferred = $q.defer();
         scope.loadingPromise = deferred.promise;
 
-        scope.workPackage
-          .available_relation_candidates.$link.$fetch({
+        scope.workPackage.available_relation_candidates.$link.$fetch({
             query: query,
             type: scope.filterCandidatesFor
           }, {
             'caching': {
               enabled: false
             }
-          }).then(collection => {
+          }).then((collection:CollectionResource) => {
+            scope.noResults = collection.count === 0;
             deferred.resolve(collection.elements);
           }).catch(() => deferred.reject());
 

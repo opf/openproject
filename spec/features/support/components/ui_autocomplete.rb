@@ -26,20 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-shared_context 'typeahead helpers' do
-  def search_typeahead(element, query:)
+shared_context 'ui-autocomplete helpers' do
+  def search_autocomplete(element, query:)
     # Open the element
     element.click
     # Insert the text to find
     element.set(query)
 
     ##
-    # Find the dropdown by reference
-    element['aria-owns']
+    # Find the open dropdown
+    page.find('.ui-autocomplete', visible: true)
   end
 
-  def select_typeahead(element, query:, select_text: nil)
-    target_dropdown = search_typeahead(element, query: query)
+  def select_autocomplete(element, query:, select_text: nil)
+    target_dropdown = search_autocomplete(element, query: query)
 
     ##
     # If a specific select_text is given, use that to locate the match,
@@ -47,6 +47,6 @@ shared_context 'typeahead helpers' do
     text = select_text.presence || query
 
     # click the element to select it
-    page.find("##{target_dropdown} .uib-typeahead-match", text: text).click
+    target_dropdown.find('.ui-menu-item', text: text).click
   end
 end

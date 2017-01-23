@@ -45,8 +45,11 @@ export class WatchersPanelController {
   public text: any;
 
   constructor(public $scope,
+              public $element,
               public $q,
               public I18n,
+              public $templateCache:ng.ITemplateCacheService,
+              public $compile:ng.ICompileService,
               public wpNotificationsService: WorkPackageNotificationService,
               public wpCacheService: WorkPackageCacheService) {
 
@@ -81,7 +84,45 @@ export class WatchersPanelController {
       .catch((error) => {
         this.wpNotificationsService.showError(error, this.workPackage);
       });
+
+    this.setupAutoCompletion();
   };
+
+  public setupAutoCompletion() {
+    const input = this.$element.find('.ui-autocomplete--input');
+    input.autocomplete({
+      delay: 250,
+      autoFocus: false, // Accessibility!
+      source: (request:{ term:string }, response:Function) => {
+        this.autocompleteWatchers(request.term).then((values) => {
+          response(values.map(watcher => {
+            return { watcher: watcher, value: watcher.name };
+          }));
+        });
+      },
+      select: (evt, ui:any) => {
+        this.addWatcher(ui.item.watcher);
+        input.val('');
+        return false; // Avoid setting the value after selection
+      },
+      _renderItem: (ul:JQuery, item) => this.renderWatcherItem(ul, item)
+    })
+    .autocomplete( "instance" )._renderItem = (ul, item) => this.renderWatcherItem(ul,item);
+  }
+
+  public renderWatcherItem(ul:JQuery, item:{value: string, watcher: any}) {
+    let itemScope = this.$scope.$new();
+    itemScope['value'] = item.value;
+    itemScope['watcher'] = item.watcher;
+
+    // Render template
+    let template = this.$templateCache.get('/components/common/autocomplete/users/user-autocomplete-item.html');
+    let element = angular.element(template);
+    ul.append(element);
+    this.$compile(element)(itemScope);
+
+    return element;
+  }
 
   public autocompleteWatchers(query) {
     if (!query) {
@@ -103,7 +144,8 @@ export class WatchersPanelController {
       },
       {
         caching: {enabled: false}
-      }).then(collection => {
+      }).then((collection:CollectionResource) => {
+        this.$scope.noResults = collection.count === 0;
       deferred.resolve(collection.elements);
     }).catch(() => deferred.reject());
 
