@@ -62,6 +62,7 @@ export class RowBuilder {
     detailsLink.appendChild(icon);
 
     td.appendChild(detailsLink);
+
     row.appendChild(td);
   }
 }

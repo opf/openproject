@@ -144,7 +144,6 @@ export class WorkPackageEditFieldController {
         // Set focus on the first field
         if (this.fieldName === 'subject')
           this.activate(true);
-        else
           this.activate();
       }
     }

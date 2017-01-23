@@ -19,6 +19,8 @@ export class CellBuilder {
     let td = document.createElement('td');
     let span = document.createElement('span');
     span.classList.add(cellClassName, name);
+    span.dataset.fieldName = name;
+
     const field = <DisplayField> this.wpDisplayField.getField(workPackage, name, fieldSchema);
 
     let text;

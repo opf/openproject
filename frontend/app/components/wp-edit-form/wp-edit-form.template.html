@@ -1,0 +1,25 @@
+<div class="wp-edit-field inplace-edit"
+     ng-class="[
+      vm.errorenous && '-error' || '',
+      vm.isEditable && '-editable' || '',
+      vm.active && '-active' || '',
+      vm.fieldName,
+      vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
+     ]">
+
+  <form ng-click="vm.haltUserFormClick($event)"
+        ng-dblclick="vm.haltUserFormClick($event)"
+        ng-submit="vm.handleUserSubmit()"
+        role="form"
+        tabindex="-1">
+
+    <label for="{{::vm.htmlId}}"
+           class="hidden-for-sighted">
+      {{::vm.fieldLabel}}
+
+      {{vm.errorMessageOnLabel}}
+    </label>
+
+    <ng-include src="vm.field.template"></ng-include>
+  </form>
+</div>

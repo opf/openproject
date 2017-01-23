@@ -31,33 +31,33 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-field.directive';
+import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {WorkPackageEditContext} from './work-package-edit-context';
 
 export class WorkPackageEditForm {
-  public workPackage;
-  public fields = {};
-
+  // Injections
   protected $q: ng.IQService;
   protected $rootScope: ng.IRootScopeService;
   protected wpCacheService: WorkPackageCacheService;
 
+  // The edit context for this current edit
+  public editContext: WorkPackageEditContext | null;
+
+
+  // Other fields
+  public workPackage;
+  public fields = {};
+
   private errorsPerAttribute: Object = {};
   public firstActiveField: string;
 
-  constructor(protected $injector:ng.auto.IInjectorService,
-              protected $scope:ng.IScope) {
+  constructor() {
+    injectorBridge(this);
 
-    this.$inject('wpCacheService', '$q', '$rootScope');
-
-    this.wpCacheService.loadWorkPackage(this.workPackage.id).observe($scope)
+    this.wpCacheService.loadWorkPackage(this.workPackage.id).observe(this.$scope)
       .subscribe((wp: WorkPackageResource) => {
         this.workPackage = wp;
       });
-  }
-
-  protected $inject(...args:string[]) {
-    args.forEach(field => {
-      this[field] = this.$injector.get(field);
-    });
   }
 
   public registerField(field) {
@@ -179,24 +179,4 @@ export class WorkPackageEditForm {
   }
 }
 
-function wpEditForm() {
-  return {
-    restrict: 'A',
-
-    scope: {
-      workPackage: '=wpEditForm',
-      hasEditMode: '=hasEditMode',
-      errorHandler: '&wpEditFormOnError',
-      successHandler: '&wpEditFormOnSave'
-    },
-
-    controller: WorkPackageEditFormController,
-    controllerAs: 'vm',
-    bindToController: true
-  };
-}
-
-//TODO: Use 'openproject.wpEdit' module
-angular
-  .module('openproject')
-  .directive('wpEditForm', wpEditForm);
+WorkPackageEditForm.$inject = ['wpCacheService', '$q', '$rootScope'];
