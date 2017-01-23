@@ -221,6 +221,10 @@ module API
           cvs
         end
 
+        def _type
+          'WorkPackageCollection'
+        end
+
         attr_reader :project,
                     :groups,
                     :total_sums,

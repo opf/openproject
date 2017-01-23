@@ -30,19 +30,30 @@ import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 import {opApiModule} from '../../../angular-modules';
 import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
 import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCollectionResource, } from '../api-v3/hal-resources/wp-collection-resource.service';
 import IPromise = angular.IPromise;
+import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
 
 export class ApiWorkPackagesService {
   constructor(protected DEFAULT_PAGINATION_OPTIONS,
               protected $q:ng.IQService,
               protected halRequest:HalRequestService,
-              protected v3Path) {
+              protected v3Path,
+              protected states) {
   }
 
-  public list(offset:number, pageSize:number, query:api.ex.Query) {
+  public list(offset:number, pageSize:number, query:api.ex.Query):ng.IPromise<WorkPackageCollectionResource> {
     const params = this.queryAsV3Params(offset, pageSize, query);
     return this.halRequest.get(this.v3Path.wp({project: query.projectId}), params, {
       caching: {enabled: false}
+    }).then((workPackageCollection:WorkPackageCollectionResource) => {
+      if (workPackageCollection.schemas) {
+        _.each(workPackageCollection.schemas.elements, (schema:SchemaResource) => {
+          this.states.schemas.get(schema.$href).put(schema);
+        });
+      }
+
+      return workPackageCollection;
     });
   }
 
