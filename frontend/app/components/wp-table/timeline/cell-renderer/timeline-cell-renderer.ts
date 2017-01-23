@@ -151,7 +151,7 @@ export class TimelineCellRenderer {
 
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
-      due = start.clone();//.add(1, "days");
+      due = start.clone();
       element.style.backgroundColor = "inherit";
       const color = this.typeColor(renderInfo.workPackage);
       element.style.backgroundImage = `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 80%)`;
@@ -159,7 +159,7 @@ export class TimelineCellRenderer {
 
     // only due date, fade out bar to the left
     if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
-      start = due.clone();//.add(1, "days");
+      start = due.clone();
       element.style.backgroundColor = "inherit";
       const color = this.typeColor(renderInfo.workPackage);
       element.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${color} 100%)`;
@@ -172,6 +172,7 @@ export class TimelineCellRenderer {
     // duration
     const duration = due.diff(start, "days") + 1;
     element.style.width = calculatePositionValueForDayCount(viewParams, duration);
+    element.style.minWidth = "10px";
 
     return true;
   }
