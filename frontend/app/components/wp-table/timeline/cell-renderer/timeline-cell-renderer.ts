@@ -141,6 +141,10 @@ export class TimelineCellRenderer {
    *         false, if the element must be removed from the timeline.
    */
   public update(element: HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo: RenderInfo): boolean {
+
+    console.log(wp);
+
+
     // general settings - bar
     element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
@@ -172,7 +176,11 @@ export class TimelineCellRenderer {
     // duration
     const duration = due.diff(start, "days") + 1;
     element.style.width = calculatePositionValueForDayCount(viewParams, duration);
-    element.style.minWidth = "10px";
+
+    // ensure minimum width
+    if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
+      element.style.minWidth = "10px";
+    }
 
     return true;
   }
