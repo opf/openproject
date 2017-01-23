@@ -53,7 +53,7 @@
     var additionalMessage = I18n.t("js.unsupported_browser.update_message");
 
     var agent = navigator.userAgent;
-    if (isIE || agent.match(/Firefox\/(([1-2][0-9]|3[0-7])\.)/)) { // Firefox 10-37
+    if (isIE || agent.match(/Firefox\/(([1-3][0-9]|4[0-4])\.)/)) { // Firefox 10-44
 
       if (isIE) {
         additionalMessage = I18n.t("js.unsupported_browser.update_ie_user");
