@@ -18,9 +18,7 @@ export interface WorkPackageTableGroupState {
 }
 
 export interface WPTableRowSelectionState {
-  // Set if all rows selected
-  all: boolean;
-  // Map of selected rows otherwise
+  // Map of selected rows
   selected: {[workPackageId: number]: boolean};
   // Index of current selection
   // required for shift-offsets

@@ -5,7 +5,7 @@ import {WPTableRowSelectionState, WorkPackageTableRow} from '../wp-table.interfa
 
 export class WorkPackageTableSelection {
 
-  private selectionState:State<WPTableRowSelectionState>;
+  public selectionState:State<WPTableRowSelectionState>;
 
   constructor(public states: States) {
     this.selectionState = states.table.selection;
@@ -18,10 +18,14 @@ export class WorkPackageTableSelection {
   /**
    * Select all work packages
    */
-  public selectAll() {
-    const value = this.currentState;
-    value.all = true;
-    this.selectionState.put(value);
+  public selectAll(rows: WorkPackageTableRow[]) {
+    const state = this._emptyState
+
+    rows.forEach((row) => {
+      state.selected[row.object.id] = true;
+    });
+
+    this.selectionState.put(state);
   }
 
 
@@ -29,11 +33,7 @@ export class WorkPackageTableSelection {
    * Reset the selection state to an empty selection
    */
   public reset() {
-    this.selectionState.put({
-      activeRowIndex: null,
-      all: false,
-      selected: {}
-    });
+    this.selectionState.put(this._emptyState);
   }
 
   /**
@@ -45,8 +45,7 @@ export class WorkPackageTableSelection {
   }
 
   /**
-   * Return the number of selected rows
-   * (does not correctly reflect count when `all` is set.
+   * Return the number of selected rows.
    */
   public get selectionCount():number {
     return _.size(this.currentState.selected);
@@ -57,11 +56,12 @@ export class WorkPackageTableSelection {
    * @param workPackageId
    */
   public toggleRow(workPackageId:number) {
-    this.setRowState(workPackageId, !this.currentState.selected[workPackageId]);
+    let isSelected = this.currentState.selected[workPackageId];
+    this.setRowState(workPackageId, !isSelected);
   }
 
   /**
-   * Force the given work package's selection state.
+   * Force the given work package's selection state. Does not modify other states.
    * @param workPackageId
    * @param newState
    */
@@ -75,10 +75,11 @@ export class WorkPackageTableSelection {
    * Override current selection with the given work package id.
    */
   public setSelection(row:WorkPackageTableRow) {
-    let state = this.currentState;
-    state.selected = {};
+    let state = {
+      selected: {},
+      activeRowIndex: row.position
+    };
     state.selected[row.workPackageId] = true;
-    state.activeRowIndex = row.position;
 
     this.selectionState.put(state);
   }
@@ -90,22 +91,30 @@ export class WorkPackageTableSelection {
    * @param rows Current visible rows
    * @param selected Selection target
    */
-  public setMultiSelectionFrom(rows:WorkPackageTableRow[], selected) {
+  public setMultiSelectionFrom(rows:WorkPackageTableRow[], selected:WorkPackageTableRow) {
     let state = this.currentState;
 
     if (this.selectionCount === 0) {
       state.selected[selected.workPackageId] = true;
-      state.activeRowIndex = selected.index;
+      state.activeRowIndex = selected.position;
     } else {
-      let start = Math.min(selected.index, state.activeRowIndex);
-      let end = Math.max(selected.index, state.activeRowIndex);
+      let start = Math.min(selected.position, state.activeRowIndex);
+      let end = Math.max(selected.position, state.activeRowIndex);
 
       rows.forEach((row, i) => {
-        state.selected[row.workPackageId] = i >= start && i <= end;
+        state.selected[row.object.id] = i >= start && i <= end;
       });
     }
 
     this.selectionState.put(state);
+  }
+
+
+  private get _emptyState() {
+    return {
+      selected: {},
+      activeRowIndex: null
+    };
   }
 }
 

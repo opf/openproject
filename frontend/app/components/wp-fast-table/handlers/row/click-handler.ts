@@ -60,6 +60,7 @@ export class RowClickHandler implements TableEventHandler {
     }
   }
 
+  // TODO check if this can be replace with css user-select: none?
   // Thanks to http://stackoverflow.com/a/880518
   private clearSelection() {
     var selection = (document as any).selection;

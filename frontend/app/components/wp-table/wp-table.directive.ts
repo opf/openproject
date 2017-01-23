@@ -136,26 +136,6 @@ function wpTable(
         }
       });
 
-      // Bind CTRL+A to select all work packages
-      Mousetrap.bind(['command+a', 'ctrl+a'], function(e) {
-        scope.$evalAsync(() => {
-          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, true);
-        });
-
-        e.preventDefault();
-        return false;
-      });
-
-      // Bind CTRL+D to deselect all work packages
-      Mousetrap.bind(['command+d', 'ctrl+d'], function(e) {
-        scope.$evalAsync(() => {
-          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, false);
-        });
-
-        e.preventDefault();
-        return false;
-      });
-
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
       scope.desiredSplitViewState = keepTab.currentDetailsState;

@@ -55,6 +55,7 @@ export class RowBuilder {
     let detailsLink = document.createElement('a');
     detailsLink.classList.add('wp-table--details-link', 'hidden-for-sighted');
     detailsLink.setAttribute('title', this.I18n.t('js.button_open_details'));
+    detailsLink.dataset.workPackageId = workPackage.id;
 
     let icon = document.createElement('i');
     icon.classList.add('icon', 'icon-view-split');

@@ -82,11 +82,7 @@ export class WorkPackageTable {
 
   private renderSelectionState(state:WPTableRowSelectionState) {
     console.log(state);
-    jQuery('.' + rowClassName).toggleClass('-checked', state.all);
-
-    if (state.all) {
-      return;
-    }
+    jQuery(`.${rowClassName}.-checked`).removeClass('-checked');
 
     _.forEach(state.selected, (selected: boolean, workPackageId:number) => {
       jQuery('#wp-row-' + workPackageId).toggleClass('-checked', selected);
