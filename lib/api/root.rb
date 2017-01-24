@@ -148,6 +148,20 @@ module API
         raise API::Errors::Unauthorized unless authorized
         authorized
       end
+
+      def raise_invalid_query_on_service_failure
+        service = yield
+
+        if service.success?
+          service
+        else
+          api_errors = service.errors.full_messages.map do |message|
+            ::API::Errors::InvalidQuery.new(message)
+          end
+
+          raise ::API::Errors::MultipleErrors.create_if_many api_errors
+        end
+      end
     end
 
     def self.auth_headers

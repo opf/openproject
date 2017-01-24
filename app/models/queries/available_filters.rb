@@ -28,6 +28,16 @@
 #++
 
 module Queries::AvailableFilters
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def registered_filters
+      Queries::Register.filters[self]
+    end
+  end
+
   def available_filters
     uninitialized = registered_filters - already_initialized_filters
 
@@ -86,15 +96,11 @@ module Queries::AvailableFilters
     @already_initialized_filters ||= []
   end
 
-  def registered_filters
-    @registered_filters ||= filter_register
-  end
-
   def initialized_filters
     @initialized_filters ||= []
   end
 
-  def filter_register
-    Queries::Register.filters[self.class]
+  def registered_filters
+    self.class.registered_filters
   end
 end

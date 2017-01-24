@@ -246,6 +246,10 @@ class Query < ActiveRecord::Base
     filter
   end
 
+  def filtered?
+    filters.any?
+  end
+
   def normalized_name
     name.parameterize.underscore
   end
@@ -358,6 +362,10 @@ class Query < ActiveRecord::Base
 
   def sort_criteria_order(arg)
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
+  end
+
+  def sorted?
+    sort_criteria.any?
   end
 
   # Returns the SQL sort order that should be prepended for grouping

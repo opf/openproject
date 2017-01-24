@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,26 +26,59 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
-  extend Queries::AvailableFilters
+class UpdateQueryFromParamsService
+  def initialize(query, user)
+    self.query = query
+    self.current_user = user
+  end
 
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
+  def call(params)
+    apply_group_by(params)
 
-    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
+    apply_sort_by(params)
+
+    apply_filters(params)
+
+    apply_columns(params)
+
+    apply_sums(params)
+
+    if query.valid?
+      ServiceResult.new(success: true,
+                        result: query)
+    else
+      ServiceResult.new(errors: query.errors)
     end
   end
 
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+  private
+
+  def apply_group_by(params)
+    query.group_by = params[:group_by] if params[:group_by]
   end
 
-  def self.registered_filters
-    Queries::Register.filters[Query]
+  def apply_sort_by(params)
+    query.sort_criteria = params[:sort_by] if params[:sort_by]
   end
+
+  def apply_filters(params)
+    return unless params[:filters]
+    query.filters = []
+
+    params[:filters].each do |filter|
+      query.add_filter(filter[:field], filter[:operator], filter[:values])
+    end
+  end
+
+  def apply_columns(params)
+    query.column_names = params[:columns] if params[:columns]
+  end
+
+  def apply_sums(params)
+    query.display_sums = params[:display_sums] if params[:display_sums]
+  end
+
+  attr_accessor :query,
+                :current_user,
+                :params
 end

@@ -27,26 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
-  extend Queries::AvailableFilters
+require 'api/utilities/property_name_converter'
+require 'api/utilities/property_name_converter_work_package_dummy'
 
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
+module API
+  module Utilities
+    class WpPropertyNameConverter
+      class << self
+        def to_ar_name(attribute, refer_to_ids: false)
+          conversion_wp = ::API::Utilities::PropertyNameConverterWorkPackageDummy.new
 
-    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
+          ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
+                                                             context: conversion_wp,
+                                                             refer_to_ids: refer_to_ids)
+        end
+      end
     end
-  end
-
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
-  end
-
-  def self.registered_filters
-    Queries::Register.filters[Query]
   end
 end

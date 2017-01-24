@@ -36,6 +36,37 @@ module API
       class QueryRepresenter < ::API::Decorators::Single
         self_link
 
+        attr_accessor :results,
+                      :params
+
+        def initialize(model,
+                       current_user:,
+                       results: nil,
+                       embed_links: false,
+                       params: {})
+
+          self.results = results
+          self.params = params
+
+          super(model, current_user: current_user, embed_links: embed_links)
+        end
+
+        link :results do
+          path = if represented.project
+                   api_v3_paths.work_packages_by_project(represented.project.id)
+                 else
+                   api_v3_paths.work_packages
+                 end
+
+          url_query = ::API::V3::Queries::QueryParamsRepresenter
+                      .new(represented)
+                      .to_h
+                      .merge(params.slice(:offset, :pageSize))
+          {
+            href: [path, url_query.to_query].join('?')
+          }
+        end
+
         linked_property :user
         linked_property :project
 
@@ -77,6 +108,14 @@ module API
 
         self.to_eager_load = [:query_menu_item,
                               project: { work_package_custom_fields: :translations }]
+
+        property :results,
+                 exec_context: :decorator,
+                 render_nil: true,
+                 embedded: true,
+                 if: ->(*) {
+                   results
+                 }
 
         private
 

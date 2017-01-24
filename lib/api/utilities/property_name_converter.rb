@@ -84,12 +84,18 @@ module API
           attribute = collapse_custom_field_name(attribute)
 
           special_conversion = special_api_to_ar_conversions[attribute]
-          if special_conversion && context.respond_to?(special_conversion)
-            attribute = special_conversion
+
+          if refer_to_ids
+            special_conversion = denormalize_foreign_key_name(special_conversion, context)
           end
 
-          attribute = denormalize_foreign_key_name(attribute, context) if refer_to_ids
-          attribute
+          if special_conversion && context.respond_to?(special_conversion)
+            special_conversion
+          elsif refer_to_ids
+            denormalize_foreign_key_name(attribute, context)
+          else
+            attribute
+          end
         end
 
         private

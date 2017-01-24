@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,26 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::FilterSerializer
-  extend Queries::AvailableFilters
+module API
+  module V3
+    class WorkPackageCollectionFromQueryParamsService
+      def initialize(user)
+        self.current_user = user
+      end
 
-  def self.load(serialized_filter_hash)
-    return [] if serialized_filter_hash.nil?
+      def call(params = {})
+        query = Query.new(name: '_', project: params[:project], sort_criteria: [['parent', 'desc']])
 
-    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, true)
-      filter.operator = options['operator']
-      filter.values = options['values']
-      array << filter
+        WorkPackageCollectionFromQueryService
+          .new(query, current_user)
+          .call(params)
+      end
+
+      private
+
+      attr_accessor :current_user
     end
-  end
-
-  def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
-  end
-
-  def self.registered_filters
-    Queries::Register.filters[Query]
   end
 end

@@ -58,7 +58,15 @@ module API
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer = QueryRepresenter.new(@query, current_user: current_user)
+
+              results_representer = ::API::V3::WorkPackageCollectionFromQueryService
+                                    .new(@query, current_user)
+                                    .call(params)
+
+              @representer = QueryRepresenter.new(@query,
+                                                  current_user: current_user,
+                                                  results: results_representer.result,
+                                                  params: params)
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end
