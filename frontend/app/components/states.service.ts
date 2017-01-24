@@ -22,9 +22,10 @@ export class States {
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
     // Active editing rows
-    editing: new MultiState<WorkPackageEditForm>(),
     group: new State<string[]>(),
   };
+
+  editing = new MultiState<WorkPackageEditForm>();
 
   constructor() {
     initStates(this, function (msg: any) {

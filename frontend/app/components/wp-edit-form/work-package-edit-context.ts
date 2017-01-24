@@ -26,6 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 export interface WorkPackageEditContext {
-  getField(name: string);
+
+  /**
+   * Show this required field. E.g., add the necessary column
+   */
+  requireVisible(fieldName:string);
+
+  /**
+   * Reset the field and re-render the current WPs value.
+   */
+  reset(workPackage:WorkPackageResource, fieldName: string);
+
+  /**
+   * Locate a display field in the current dom
+   */
+  find(fieldName:string);
+
+  /**
+   * Return the first relevant field from the given list of attributes.
+   */
+  firstField(names:string[]):string;
 }

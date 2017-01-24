@@ -23,7 +23,7 @@ export class WorkPackageTable {
   public states:States;
   public I18n:op.I18n;
 
-  public rows: WorkPackageResource[];
+  public rows: WorkPackageTableRow[];
   public rowIndex:{[id: number]: WorkPackageTableRow};
 
   // Row builder instance
@@ -57,9 +57,9 @@ export class WorkPackageTable {
 
   public refreshAllWorkPackages(rowCallback?:Function) {
     let tbodyContent = document.createDocumentFragment();
-    this.rows.forEach((row, i) => {
+    this.rows.forEach((row:WorkPackageTableRow, i) => {
       let workPackage = row.object;
-      this.rowIndex[workPackage.id] = { workPackageId: workPackage.id, position: i };
+      this.rowIndex[workPackage.id] = { object: workPackage, workPackageId: workPackage.id, position: i };
 
       let tr = this.rowBuilder.createEmptyRow(workPackage);
       this.rowBuilder.build(workPackage, tr);
@@ -73,6 +73,12 @@ export class WorkPackageTable {
   }
 
   public refreshWorkPackage(workPackage) {
+    // If the work package is dirty, we're working on it
+    if (workPackage.dirty) {
+      console.log("Skipping row " + workPackage.id + " since its dirty");
+      return;
+    }
+
     // Get the row for the WP if refreshing existing
     let oldRow = <HTMLElement> document.getElementById('wp-row-' + workPackage.id);
     let newRow = this.rowBuilder.createEmptyRow(workPackage);
@@ -81,10 +87,9 @@ export class WorkPackageTable {
   }
 
   private renderSelectionState(state:WPTableRowSelectionState) {
-    console.log(state);
     jQuery(`.${rowClassName}.-checked`).removeClass('-checked');
 
-    _.forEach(state.selected, (selected: boolean, workPackageId:number) => {
+    _.each(state.selected, (selected: boolean, workPackageId:any) => {
       jQuery('#wp-row-' + workPackageId).toggleClass('-checked', selected);
     });
   }

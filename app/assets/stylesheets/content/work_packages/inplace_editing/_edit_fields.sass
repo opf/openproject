@@ -36,7 +36,8 @@
   &.-active
     padding: 0
 
-  &.-error
+  &.-error,
+  .wp-table--cell-td.-error &
     .wp-table--cell-span,
     .wp-inline-edit--field
       background: $nm-color-error-background
@@ -88,7 +89,7 @@
       vertical-align: middle
 
 // Editable fields cursor
-.-editable .wp-table--cell-span,
+.-editable .wp-table--cell-span
 .wp-table--cell-span.-editable
   cursor: text
   border-color: transparent

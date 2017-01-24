@@ -71,7 +71,7 @@
     "lodash": "^2.4.2",
     "moment": "~2.10.6",
     "moment-timezone": "0.4.x",
-    "mousetrap": "~1.4.6",
+    "mousetrap": "~1.6.0",
     "ng-annotate-loader": "^0.2.0",
     "ng-dialog": "^0.6.4",
     "ng-file-upload": "~5.0.9",

@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {DisplayFieldFactory} from './wp-display-field.module';
-import {DisplayField} from "./wp-display-field.module";
-import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
 import {opServicesModule} from '../../angular-modules';
 
 export class SimpleTemplateRenderer {

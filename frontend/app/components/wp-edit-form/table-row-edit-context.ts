@@ -28,15 +28,40 @@
 
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
+import {tdClassName, CellBuilder} from '../wp-fast-table/builders/cell-builder';
+import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 
 export class TableRowEditContext implements WorkPackageEditContext {
+  // Injections
+  public wpCacheService:WorkPackageCacheService;
+
+  // Use cell builder to reset edit fields
+  private cellBuilder = new CellBuilder();
 
   constructor(public rowElement:JQuery, public row:WorkPackageTableRow) {
-
+    injectorBridge(this);
   }
 
+  public find(fieldName:string):JQuery {
+    return this.rowElement.find(`.${tdClassName}.${fieldName}`);
+  }
 
-  public getField(name: string) {
+  public reset(workPackage, fieldName:string) {
+    let element = this.find(fieldName);
 
+    let newCell = this.cellBuilder.build(workPackage, fieldName);
+    element.replaceWith(newCell);
+  }
+
+  public requireVisible(name:string) {
+    // TODO Implement for table and single view
+    console.log("Requested to show field ", name);
+  }
+
+  public firstField(names:string[]) {
+    return 'subject';
   }
 }
+
+TableRowEditContext.$inject = ['wpCacheService'];

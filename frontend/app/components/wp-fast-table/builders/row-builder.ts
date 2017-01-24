@@ -2,6 +2,7 @@ import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package
 import {CellBuilder} from './cell-builder';
 import {States} from '../../states.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
+import {DetailsLinkBuilder} from './details-link-builder';
 export const rowClassName = 'wp-table--row';
 
 export class RowBuilder {
@@ -11,6 +12,8 @@ export class RowBuilder {
 
   // Cell builder instance
   private cellBuilder = new CellBuilder();
+  // Details Link builder
+  private detailsLinkBuilder = new DetailsLinkBuilder();
 
   constructor() {
     injectorBridge(this);
@@ -19,7 +22,7 @@ export class RowBuilder {
   public createEmptyRow(workPackage) {
     let tr = document.createElement('tr');
     tr.id = 'wp-row-' + workPackage.id;
-    tr.dataset.workPackageId = workPackage.id;
+    tr.dataset['workPackageId'] = workPackage.id;
 
     return tr;
   }
@@ -48,22 +51,8 @@ export class RowBuilder {
       row.appendChild(cell);
     });
 
-    // Last column
-    let td = document.createElement('td');
-    td.classList.add('wp-table--details-column', 'hide-when-print', '-short');
-
-    let detailsLink = document.createElement('a');
-    detailsLink.classList.add('wp-table--details-link', 'hidden-for-sighted');
-    detailsLink.setAttribute('title', this.I18n.t('js.button_open_details'));
-    detailsLink.dataset.workPackageId = workPackage.id;
-
-    let icon = document.createElement('i');
-    icon.classList.add('icon', 'icon-view-split');
-    detailsLink.appendChild(icon);
-
-    td.appendChild(detailsLink);
-
-    row.appendChild(td);
+    // Last column: details link
+    this.detailsLinkBuilder.build(workPackage, row);
   }
 }
 

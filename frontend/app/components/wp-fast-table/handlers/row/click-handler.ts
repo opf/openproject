@@ -1,10 +1,10 @@
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {rowClassName} from '../../builders/row-builder';
 import {TableEventHandler} from '../table-events-registry';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {rowClassName} from '../../builders/row-builder';
+import {tdClassName} from '../../builders/cell-builder';
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
@@ -23,13 +23,19 @@ export class RowClickHandler implements TableEventHandler {
     return `.${rowClassName}`;
   }
 
-  protected workPackage:WorkPackageResource;
-
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+    let target = jQuery(evt.target);
+
+    // Shortcut to any clicks within a cell
+    // We don't want to handle these.
+    if (target.parents(`.${tdClassName}`).length) {
+      console.log('Skipping click on inner cell');
+      return;
+    }
+
     console.log('ROW CLICK!');
 
     // Locate the row from event
-    let target = jQuery(evt.target);
     let element = target.closest(this.SELECTOR);
     let row = table.rowObject(element.data('workPackageId'));
 
@@ -41,7 +47,7 @@ export class RowClickHandler implements TableEventHandler {
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
-    this.states.table.activeRow.put(row.workPackageId);
+    this.states.table.activeRow.put(row);
 
     // Update single selection if no modifier present
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {

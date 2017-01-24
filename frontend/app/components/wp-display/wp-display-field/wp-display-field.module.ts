@@ -56,6 +56,10 @@ export class DisplayField extends Field {
     return this.value;
   }
 
+  public get placeholder():string {
+    return '-';
+  }
+
   public get label() {
     return (this.schema[this.name] && this.schema[this.name].name) ||
            this.name;
@@ -75,7 +79,7 @@ export class DisplayField extends Field {
   }
 
   protected renderTemplate(element, displayText) {
-    let renderer:SimpleTemplateRenderer = this.$injector.get('templateRenderer');
+    let renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
 
     renderer.renderIsolated(element, this.template, {
       workPackage: this.resource,

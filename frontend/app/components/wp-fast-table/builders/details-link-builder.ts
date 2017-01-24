@@ -20,7 +20,7 @@ export class DetailsLinkBuilder {
     let detailsLink = document.createElement('a');
     detailsLink.classList.add(detailsLinkClassName, 'hidden-for-sighted');
     detailsLink.setAttribute('title', this.I18n.t('js.button_open_details'));
-    detailsLink.dataset.workPackageId = workPackage.id;
+    detailsLink.dataset['workPackageId'] = workPackage.id.toString();
 
     let icon = document.createElement('i');
     icon.classList.add('icon', 'icon-view-split');

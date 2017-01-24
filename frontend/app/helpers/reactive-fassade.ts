@@ -164,7 +164,6 @@ export class MultiState<T> extends StoreElement {
     }
     return this.states[id];
   }
-
 }
 
 function traverse(elem: any, path: string, logFn: (msg: any) => any) {

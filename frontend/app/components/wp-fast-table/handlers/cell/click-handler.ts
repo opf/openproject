@@ -27,6 +27,7 @@ export class CellClickHandler implements TableEventHandler {
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     console.log('CLICK!');
+    evt.preventDefault();
 
     // Locate the cell from event
     let target = jQuery(evt.target);
@@ -45,17 +46,19 @@ export class CellClickHandler implements TableEventHandler {
 
     // Get any existing edit state for this work package
     let state = this.editState(row.workPackageId);
-    let form = state.getCurrentValue() || this.startEditing(state);
+    let form = state.getCurrentValue() || this.startEditing(state, row.workPackageId);
 
     // Set editing context to table
-    form.editingContext = new TableRowEditContext(rowElement, row);
+    form.editContext = new TableRowEditContext(rowElement, row);
 
     // Activate the field
     form.activate(fieldName);
+
+    return false;
   }
 
-  private startEditing(state):WorkPackageEditForm {
-    let form = new WorkPackageEditForm();
+  private startEditing(state, workPackageId:number):WorkPackageEditForm {
+    let form = new WorkPackageEditForm(workPackageId);
     state.put(form);
     return form;
   }
@@ -64,7 +67,7 @@ export class CellClickHandler implements TableEventHandler {
    * Retrieve the edit state for this work package
    */
   private editState(workPackageId:number):State<WorkPackageEditForm> {
-    return this.states.table.editing.get(workPackageId.toString());
+    return this.states.editing.get(workPackageId.toString());
   }
 }
 

@@ -1,5 +1,6 @@
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 export interface WorkPackageTableRow {
+  object:WorkPackageResource;
   workPackageId:number;
   position:number;
 }
