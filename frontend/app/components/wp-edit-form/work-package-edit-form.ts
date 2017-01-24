@@ -116,7 +116,7 @@ export class WorkPackageEditForm {
         // this.successHandler({workPackage: this.workPackage, fields: this.fields});
 
         // TODO destroy this form
-        this.states.editing.get(this.workPackageId.toString()).clear("Editing completed");
+        this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
      })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);

@@ -9,7 +9,7 @@ import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form'
 import {State} from '../../../../helpers/reactive-fassade';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
 
-export class CellClickHandler implements TableEventHandler {
+export class BaseCellEditHandler {
   // Injections
   public states:States;
 
@@ -17,16 +17,8 @@ export class CellClickHandler implements TableEventHandler {
     injectorBridge(this);
   }
 
-  public get EVENT() {
-    return 'click.table.cell';
-  }
-
-  public get SELECTOR() {
-    return `.${cellClassName}`;
-  }
-
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
-    console.log('CLICK!');
+    console.log('Start editing row!');
     evt.preventDefault();
 
     // Locate the cell from event
@@ -42,7 +34,6 @@ export class CellClickHandler implements TableEventHandler {
     // Locate the row
     let rowElement = target.closest(`.${rowClassName}`);
     let row = table.rowObject(rowElement.data('workPackageId'));
-
 
     // Get any existing edit state for this work package
     let state = this.editState(row.workPackageId);
@@ -71,4 +62,4 @@ export class CellClickHandler implements TableEventHandler {
   }
 }
 
-CellClickHandler.$inject = ['states'];
+BaseCellEditHandler.$inject = ['states'];

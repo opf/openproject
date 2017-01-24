@@ -3,6 +3,9 @@ import {DisplayField} from './../../wp-display/wp-display-field/wp-display-field
 import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 export const tdClassName = 'wp-table--cell-td';
+export const editableClassName = '-editable';
+export const requiredClassName = '-required';
+export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
 export const cellEmptyPlaceholder = '-';
 
@@ -23,6 +26,9 @@ export class CellBuilder {
     span.classList.add(cellClassName, name);
     span.dataset['fieldName'] = name;
 
+    // Make span tabbable unless it's an id field
+    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+
     const field = <DisplayField> this.wpDisplayField.getField(workPackage, name, fieldSchema);
 
     let text;
@@ -32,15 +38,15 @@ export class CellBuilder {
     }
 
     if (fieldSchema.writable) {
-      span.classList.add('-editable');
+      span.classList.add(editableClassName);
     }
 
     if (fieldSchema.required) {
-      span.classList.add('-required');
+      span.classList.add(requiredClassName);
     }
 
     if (field.isEmpty()) {
-      span.classList.add('-placeholder');
+      span.classList.add(placeholderClassName);
       text = cellEmptyPlaceholder;
     } else {
       text = field.valueString;
