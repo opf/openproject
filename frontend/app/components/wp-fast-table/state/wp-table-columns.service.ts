@@ -81,6 +81,13 @@ export class WorkPackageTableColumnsService {
   }
 
   /**
+   * Update the selected columns to a new set of columns.
+   */
+  public setColumns(columns:string[]) {
+    this.columnsState.put(columns);
+  }
+
+  /**
    * Move the column at index {fromIndex} to {toIndex}.
    * - If toIndex is larger than all columns, insert at the end.
    * - If toIndex is less than zero, insert at the start.
@@ -133,7 +140,8 @@ export class WorkPackageTableColumnsService {
     let index = this.index(name);
 
     if (index !== -1) {
-      let columns = this.currentState.splice(index, 1);
+      let columns = this.currentState
+      columns.splice(index, 1);
       this.columnsState.put(columns);
     }
   }

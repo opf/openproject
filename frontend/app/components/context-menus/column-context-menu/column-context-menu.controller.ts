@@ -79,8 +79,6 @@ function ColumnContextMenuController($scope,
     columnContextMenu.close();
     let previousColumn = wpTableColumns.previous(columnName);
     wpTableColumns.removeColumn(columnName);
-
-    QueryService.hideColumns(new Array(columnName));
     QueryService.getQuery().dirty = true;
 
     window.setTimeout(function () {
