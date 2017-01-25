@@ -140,46 +140,50 @@ export class TimelineCellRenderer {
    * @return true, if the element should still be displayed.
    *         false, if the element must be removed from the timeline.
    */
-  public update(element: HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo: RenderInfo): boolean {
-
-    console.log(wp);
-
+  public update(timelineCell: HTMLElement, bar: HTMLDivElement, renderInfo: RenderInfo): boolean {
+    const wp = renderInfo.workPackage;
 
     // general settings - bar
-    element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
-    element.style.backgroundColor = this.typeColor(renderInfo.workPackage);
+    bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    bar.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
     let start = moment(wp.startDate as any);
     let due = moment(wp.dueDate as any);
 
+    if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
+      bar.style.visibility = "hidden";
+    } else {
+      bar.style.visibility = "visible";
+    }
+
     // only start date, fade out bar to the right
     if (_.isNaN(due.valueOf()) && !_.isNaN(start.valueOf())) {
       due = start.clone();
-      element.style.backgroundColor = "inherit";
+      bar.style.backgroundColor = "inherit";
       const color = this.typeColor(renderInfo.workPackage);
-      element.style.backgroundImage = `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 80%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, ${color} 0%, rgba(255,255,255,0) 80%)`;
     }
 
     // only due date, fade out bar to the left
     if (_.isNaN(start.valueOf()) && !_.isNaN(due.valueOf())) {
       start = due.clone();
-      element.style.backgroundColor = "inherit";
+      bar.style.backgroundColor = "inherit";
       const color = this.typeColor(renderInfo.workPackage);
-      element.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${color} 100%)`;
+      bar.style.backgroundImage = `linear-gradient(90deg, rgba(255,255,255,0) 0%, ${color} 100%)`;
     }
 
     // offset left
     const offsetStart = start.diff(viewParams.dateDisplayStart, "days");
-    element.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
+    bar.style.left = calculatePositionValueForDayCount(viewParams, offsetStart);
 
     // duration
     const duration = due.diff(start, "days") + 1;
-    element.style.width = calculatePositionValueForDayCount(viewParams, duration);
+    bar.style.width = calculatePositionValueForDayCount(viewParams, duration);
 
     // ensure minimum width
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-      element.style.minWidth = "10px";
+      bar.style.minWidth = "10px";
     }
 
     return true;

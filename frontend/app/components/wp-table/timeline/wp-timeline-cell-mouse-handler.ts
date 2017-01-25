@@ -29,27 +29,46 @@ import {timelineElementCssClass, RenderInfo} from "./wp-timeline";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
+
+const keyCodeESC = 27;
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
 export const classNameRightHandle = "rightHandle";
 
 
+function createPlaceholderForEmptyCell() {
+  const placeholder = document.createElement("div");
+  placeholder.style.pointerEvents = "none";
+  placeholder.style.backgroundColor = "#DDDDDD";
+  placeholder.style.position = "absolute";
+  placeholder.style.height = "1em";
+  placeholder.style.width = "30px";
+  return placeholder;
+}
+
 export function registerWorkPackageMouseHandler(this: void,
+                                                getRenderInfo: () => RenderInfo,
                                                 workPackageTimeline: WorkPackageTimelineTableController,
                                                 wpCacheService: WorkPackageCacheService,
-                                                bar: HTMLElement,
+                                                cell: HTMLElement,
+                                                bar: HTMLDivElement,
                                                 renderer: TimelineCellRenderer,
                                                 renderInfo: RenderInfo) {
 
   let startX: number = null; // also flag to signal active drag'n'drop
   let dateStates:any;
-  let jBody = jQuery("body");
+  const jBody = jQuery("body");
+  const placeholderForEmptyCell = createPlaceholderForEmptyCell();
+
+  // handle mouse move on cell
+  cell.onmousemove = handleMouseMoveOnEmptyCell;
 
   bar.onmousedown = (ev: MouseEvent) => {
-    mouseDownFn(ev);
+    workPackageMouseDownFn(ev);
   };
 
   jBody.on("mouseup", () => {
@@ -80,12 +99,12 @@ export function registerWorkPackageMouseHandler(this: void,
 
   function keyPressFn(ev: JQueryEventObject) {
     const kev: KeyboardEvent = ev as any;
-    if (kev.keyCode === 27) { // ESC
+    if (kev.keyCode === keyCodeESC) {
       deactivate(true);
     }
   }
 
-  function mouseDownFn(ev: MouseEvent) {
+  function workPackageMouseDownFn(ev: MouseEvent) {
     ev.preventDefault();
 
     workPackageTimeline.disableViewParamsCalculation = true;
@@ -96,6 +115,80 @@ export function registerWorkPackageMouseHandler(this: void,
 
     jBody.on("mousemove", createMouseMoveFn(direction));
     jBody.on("keyup", keyPressFn);
+  }
+
+  function handleMouseMoveOnEmptyCell(ev: MouseEvent) {
+    const renderInfo = getRenderInfo();
+    const wp = renderInfo.workPackage;
+    const start = moment(wp.startDate as any);
+    const due = moment(wp.dueDate as any);
+    const noStartDueValues = _.isNaN(start.valueOf()) && _.isNaN(due.valueOf());
+
+    if (!noStartDueValues) {
+      return;
+    }
+
+    // placeholder logic
+    const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+    // const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(days, "days");
+    placeholderForEmptyCell.style.left = (days * renderInfo.viewParams.pixelPerDay) + "px";
+    cell.appendChild(placeholderForEmptyCell);
+    cell.onmouseleave = () => {
+      placeholderForEmptyCell.remove();
+    };
+
+    // create logic
+    cell.onmousedown = (ev) => {
+      console.log("create - mouse down");
+      placeholderForEmptyCell.remove();
+      ev.preventDefault();
+
+      bar.style.pointerEvents = "none";
+
+      const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+      const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(days, "days");
+      renderInfo.workPackage.startDate = clickStart.format("YYYY-MM-DD");
+      renderInfo.workPackage.dueDate = clickStart.format("YYYY-MM-DD");
+      renderer.update(cell, bar, renderInfo);
+
+      function cancel(resetStartDueValues: boolean) {
+        console.log("create - cancel()");
+        jBody.off(".create");
+
+        if (resetStartDueValues) {
+          renderInfo.workPackage.startDate = null;
+          renderInfo.workPackage.dueDate = null;
+        }
+        bar.style.pointerEvents = "auto";
+        renderer.update(cell, bar, renderInfo);
+
+        cell.onmousemove = handleMouseMoveOnEmptyCell;
+      }
+
+      cell.onmousemove = (ev) => {
+        console.log("create - mouse move");
+        const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+        const currentEnd = renderInfo.viewParams.dateDisplayStart.clone().add(days, "days");
+        renderInfo.workPackage.dueDate = currentEnd.format("YYYY-MM-DD");
+        renderer.update(cell, bar, renderInfo);
+      };
+
+      cell.onmouseleave = () => {
+        cancel(true);
+      };
+
+      cell.onmouseup = () => {
+        cancel(false);
+        saveWorkPackage(renderInfo.workPackage);
+      };
+
+      jBody.on("keyup.create", (ev) => {
+        const kev: KeyboardEvent = ev as any;
+        if (kev.keyCode === keyCodeESC) {
+          cancel(true);
+        }
+      });
+    };
   }
 
   function deactivate(cancelled: boolean) {
@@ -122,10 +215,16 @@ export function registerWorkPackageMouseHandler(this: void,
     }
 
     // Persist the changes
-    wpCacheService.saveIfChanged(renderInfo.workPackage)
+    saveWorkPackage(renderInfo.workPackage);
+  }
+
+  function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
+    console.log("saveWorkPackage()");
+
+    wpCacheService.saveIfChanged(workPackage)
       .catch(() => {
         // Reset the changes on error
-        renderer.onCancel(renderInfo.workPackage);
+        renderer.onCancel(workPackage);
       })
       .finally(() => {
         workPackageTimeline.refreshView();

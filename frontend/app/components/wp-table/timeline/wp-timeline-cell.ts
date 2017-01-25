@@ -33,6 +33,7 @@ import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler"
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import {Subscription} from "rxjs";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
 
@@ -45,7 +46,10 @@ export class WorkPackageTimelineCell {
 
   private subscription: Subscription;
 
-  private element: HTMLDivElement = null;
+  private latestRenderInfo: RenderInfo;
+
+  private wpElement: HTMLDivElement = null;
+
   private elementShape: string = null;
 
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
@@ -70,11 +74,11 @@ export class WorkPackageTimelineCell {
 
   private clear() {
     this.timelineCell.innerHTML = "";
-    this.element = null;
+    this.wpElement = null;
   }
 
   private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
-    const wasRendered = this.element !== null && this.element.parentNode;
+    const wasRendered = this.wpElement !== null && this.wpElement.parentNode;
 
     // If already rendered with correct shape, ignore
     if (wasRendered && (this.elementShape === renderer.type)) {
@@ -87,15 +91,17 @@ export class WorkPackageTimelineCell {
     }
 
     // Render the given element
-    this.element = renderer.render(renderInfo);
+    this.wpElement = renderer.render(renderInfo);
     this.elementShape = renderer.type;
 
     // Register the element
-    this.timelineCell.appendChild(this.element);
+    this.timelineCell.appendChild(this.wpElement);
     registerWorkPackageMouseHandler(
+      () => this.latestRenderInfo,
       this.workPackageTimeline,
       this.wpCacheService,
-      this.element,
+      this.timelineCell,
+      this.wpElement,
       renderer,
       renderInfo);
 
@@ -130,14 +136,14 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
-    const wp = renderInfo.workPackage;
-    const renderer = this.cellRenderer(wp);
+    this.latestRenderInfo = renderInfo;
+    const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
     this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(this.element, wp, renderInfo);
+    const shouldBeDisplayed = renderer.update(this.timelineCell, this.wpElement, renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }

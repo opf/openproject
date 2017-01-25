@@ -65,7 +65,9 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return "both";
   }
 
-  public update(element:HTMLDivElement, wp: WorkPackageResourceInterface, renderInfo:RenderInfo): boolean {
+  public update(timelineCell: HTMLElement, element: HTMLDivElement, renderInfo: RenderInfo): boolean {
+    const wp = renderInfo.workPackage;
+
     // abort if no start or due date
     if (!wp.date) {
       return false;
