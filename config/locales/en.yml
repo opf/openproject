@@ -238,6 +238,12 @@ en:
               invalid_on_create: "is not a valid status for new users."
             auth_source:
               error_not_found: "not found"
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: "The operator is not supported."
+              invalid_values: "A value is invalid."
+              id_filter_required: "An 'id' filter is required."
   activerecord:
     attributes:
       announcements:
@@ -2263,9 +2269,9 @@ en:
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
       missing_request_body: "There was no request body."
+      missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
-      writing_read_only_attributes: "You must not write a read-only attribute."
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         unsupported_context: "The resource given is not supported as context."
@@ -2276,5 +2282,6 @@ en:
         estimated_hours: "Estimated hours cannot be set on parent work packages."
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
+      writing_read_only_attributes: "You must not write a read-only attribute."
     resources:
       schema: 'Schema'
