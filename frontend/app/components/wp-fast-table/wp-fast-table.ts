@@ -23,7 +23,7 @@ export class WorkPackageTable {
   public states:States;
   public I18n:op.I18n;
 
-  public rows: WorkPackageResource[];
+  public rows: WorkPackageTableRow[];
   public rowIndex:{[id: number]: WorkPackageTableRow};
 
   // Row builder instance
@@ -40,31 +40,35 @@ export class WorkPackageTable {
   }
 
   public initialize(rows:WorkPackageResource[]) {
-    this.rows = rows;
     this.rowIndex = {};
+    this.rows = rows.map((wp:WorkPackageResource, i:number) => {
+      let row = <WorkPackageTableRow> { object: wp, workPackageId: wp.id, position: i };
+      this.rowIndex[wp.id] = row;
 
-    // Draw work packages and watch for changes
-    this.refreshAllWorkPackages((row, tr, index) => {
-      let state = this.states.workPackages.get(row.object.id);
-      row.observer = state.observe(null).subscribe((wp) => {
-        row.object = wp;
-        this.rows[index] = row;
-        this.refreshWorkPackage(wp);
-      });
+      return row;
+    });
+
+    // Draw work packages
+    this.refreshAllWorkPackages();
+
+    // Observe changes on the work packages multistate
+    this.states.workPackages.observe(null).subscribe((changedId:string) => {
+      let row = this.rowIndex[changedId];
+
+      if (row !== undefined) {
+        this.refreshWorkPackage(row.object);
+      }
     });
   }
 
-  public refreshAllWorkPackages(rowCallback?:Function) {
+  public refreshAllWorkPackages() {
     let tbodyContent = document.createDocumentFragment();
-    this.rows.forEach((workPackage:WorkPackageResource, i) => {
-      let row = { object: workPackage, workPackageId: workPackage.id, position: i };
-      this.rowIndex[workPackage.id] = row;
+    this.rows.forEach((row:WorkPackageTableRow, i) => {
 
-      let tr = this.rowBuilder.createEmptyRow(workPackage);
-      this.rowBuilder.build(workPackage, tr);
+      let tr = this.rowBuilder.createEmptyRow(row.object);
+      this.rowBuilder.build(row.object, tr);
 
       tbodyContent.appendChild(tr);
-      rowCallback && rowCallback(row, tr, i);
     });
 
     this.tbody.innerHTML = '';

@@ -367,7 +367,7 @@ export class WorkPackageResource extends HalResource {
             this.form = null;
 
             // Ensure the schema is loaded before updating
-            workPackage.schema.$load().then((schema) => {
+            workPackage.schema.$load().then((schema:SchemaResource) => {
               // Initialize any potentially new HAL values
               this.$initialize(workPackage);
               this.schema = schema;

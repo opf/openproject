@@ -19,10 +19,10 @@ export class WorkPackageTableSelection {
    * Select all work packages
    */
   public selectAll(rows: WorkPackageTableRow[]) {
-    const state = this._emptyState
+    const state = this._emptyState;
 
     rows.forEach((row) => {
-      state.selected[row.object.id] = true;
+      state.selected[row.workPackageId] = true;
     });
 
     this.selectionState.put(state);
