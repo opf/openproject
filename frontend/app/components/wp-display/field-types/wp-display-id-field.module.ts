@@ -28,9 +28,9 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class IdDisplayField extends DisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-id-field.directive.html'
   public text: Object;
 
 
@@ -41,7 +41,7 @@ export class IdDisplayField extends DisplayField {
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
-    }
+    };
   }
 
   public get value() {
@@ -51,6 +51,20 @@ export class IdDisplayField extends DisplayField {
     else {
       return this.resource[this.name];
     }
+  }
+
+  public render(element: HTMLElement, displayText): void {
+    if (!this.value) {
+      return;
+    }
+
+    let link = UiStateLinkBuilder.linkToShow(
+      <number> this.value,
+      displayText,
+      this.value
+    );
+
+    element.appendChild(link);
   }
 
   public isEmpty(): boolean {

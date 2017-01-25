@@ -1,23 +1,32 @@
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {cellClassName} from '../../builders/cell-builder';
+import {cellClassName, editableClassName} from '../../builders/cell-builder';
 import {TableEventHandler} from '../table-events-registry';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {rowClassName} from '../../builders/row-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {State} from '../../../../helpers/reactive-fassade';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
+import {ClickOrEnterHandler} from '../click-or-enter-handler';
 
-export class BaseCellEditHandler {
+export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
   public states:States;
 
+  public get EVENT() {
+    return 'click.table.cell, keydown.table.cell';
+  }
+
+  public get SELECTOR() {
+    return `.${cellClassName}.${editableClassName}`;
+  }
+
   constructor() {
+    super();
     injectorBridge(this);
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  protected processEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     console.log('Start editing row!');
     evt.preventDefault();
 
@@ -62,4 +71,4 @@ export class BaseCellEditHandler {
   }
 }
 
-BaseCellEditHandler.$inject = ['states'];
+EditCellHandler.$inject = ['states'];

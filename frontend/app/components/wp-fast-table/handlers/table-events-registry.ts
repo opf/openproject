@@ -1,9 +1,8 @@
 import {WorkPackageTable} from '../wp-fast-table';
-import {CellClickHandler} from './cell/click-to-edit-handler';
 import {RowClickHandler} from './row/click-handler';
 import {MousetrapHandler} from './global-mousetrap-handler';
-import {DetailsLinkClickHandler} from './row/details-link-click-handler';
-import {EnterToEditHandler} from './cell/enter-to-edit-handler';
+import {EditCellHandler} from './cell/edit-cell-handler';
+import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -13,12 +12,10 @@ export interface TableEventHandler {
 
 export class TableEventsRegistry {
   static eventHandlers = [
-    // Clicking a single cell, editable or not
-    CellClickHandler,
-    // Pressing enter on a cell
-    EnterToEditHandler,
+    // Clicking or pressing Enter on a single cell, editable or not
+    EditCellHandler,
     // Clicking on the details view
-    DetailsLinkClickHandler,
+    WorkPackageStateLinksHandler,
     // Clicking on the row (not within a cell)
     RowClickHandler
   ];

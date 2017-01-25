@@ -63,6 +63,7 @@ export class WorkPackageTable {
 
   public refreshAllWorkPackages() {
     let tbodyContent = document.createDocumentFragment();
+    let selection = this.states.table.selection.getCurrentValue();
 
     let times = 0;
     this.rows.forEach((row:WorkPackageTableRow) => {
@@ -72,6 +73,10 @@ export class WorkPackageTable {
       this.rowBuilder.build(row.object, tr);
       var t1 = performance.now();
       times += (t1-t0);
+
+      if (selection.selected[row.workPackageId]) {
+        tr.classList.add('-checked');
+      }
 
       tbodyContent.appendChild(tr);
     });
@@ -92,8 +97,8 @@ export class WorkPackageTable {
     // Get the row for the WP if refreshing existing
     let oldRow = <HTMLElement> document.getElementById('wp-row-' + workPackage.id);
 
-    if (!oldRow) {
-      console.warn("Trying to update " + workPackage.id + " but its not inserted.");
+    if (oldRow.dataset['lockVersion'] === workPackage.lockVersion.toString()) {
+      console.log("Skipping row " + workPackage.id + " since its fresh");
       return;
     }
 
