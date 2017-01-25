@@ -29,16 +29,21 @@
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
+import {States} from '../../states.service';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import { Observable } from 'rxjs/Observable';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
                                     $state,
                                     $location,
-                                    wpNotificationsService: WorkPackageNotificationService,
+                                    states:States,
+                                    wpNotificationsService:WorkPackageNotificationService,
+                                    wpTableColumns:WorkPackageTableColumnsService,
                                     WorkPackagesTableService,
                                     WorkPackageService,
                                     wpListService,
-                                    wpCacheService: WorkPackageCacheService,
+                                    wpCacheService:WorkPackageCacheService,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
@@ -79,15 +84,17 @@ function WorkPackagesListController($scope,
 
   function setupQuery(json) {
     QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data) {
-      $scope.availableUnusedColumns = data;
-    });
+    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier);
 
     var metaData = json.meta;
     var queryData = metaData.query;
     var columnData = metaData.columns;
     var cachedQuery = QueryService.getQuery();
     var urlQueryId = $state.params.query_id;
+
+
+    // Set current column state
+    states.table.columns.put(metaData.columns.map(column => column.name));
 
     if (cachedQuery && urlQueryId && cachedQuery.id === urlQueryId) {
       // Augment current unsaved query with url param data
@@ -126,7 +133,7 @@ function WorkPackagesListController($scope,
     setupWorkPackagesTable(json);
 
     if (json.work_packages.length) {
-      WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
+      states.table.focusedWorkPackage.put(json.work_packages[0].id);
     }
   }
 
@@ -135,13 +142,14 @@ function WorkPackagesListController($scope,
       workPackages = json.work_packages,
       bulkLinks = json._bulk_links;
 
-    // register data
+    // register data in state
+    states.table.rows.put(workPackages);
 
     // table data
-    WorkPackagesTableService.setColumns($scope.query.columns);
+    // WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
     WorkPackagesTableService.setGroupBy($scope.query.groupBy);
-    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
+    // WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
@@ -153,16 +161,13 @@ function WorkPackagesListController($scope,
     PaginationService.setPage(meta.page);
 
     // yield updatable data to scope
-    $scope.columns = $scope.query.columns;
+    Observable.combineLatest(
+      states.table.columns.observe(null),
+      states.query.availableColumns.observe(null)
+    ).subscribe(() => {
+      $scope.columns = wpTableColumns.getColumns();
+    });
 
-    // Merge new row if it exists
-    var newRows = WorkPackagesTableService.getRows();
-    var last = <any> _.last($scope.rows);
-
-    if (last && last.object.isNew) {
-      newRows.push(last);
-    }
-    $scope.rows = newRows;
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;

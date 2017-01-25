@@ -75,13 +75,9 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      // Set current columns to state
-      states.table.columns.put(scope.columns);
-
       var t0 = performance.now();
       scope.tbody = element.find('.work-package-table tbody');
       scope.table = new WorkPackageTable(scope.tbody[0]);
-      scope.table.initialize(scope.rows);
 
       console.log("Num rows = " + scope.tbody.find('tr').length);
       var t1 = performance.now();

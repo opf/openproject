@@ -31,7 +31,7 @@ export class RowBuilder {
    * Returns a shortcut to the current column state.
    * It is not responsible for subscribing to updates.
    */
-  public get columns() {
+  public get columns():string[] {
     return this.states.table.columns.getCurrentValue();
   }
 
@@ -46,8 +46,8 @@ export class RowBuilder {
     row.id = `wp-row-${workPackage.id}`;
     row.classList.add('wp-table--row', 'wp--row', 'issue');
 
-    this.columns.forEach((col:any) => {
-      let cell = this.cellBuilder.build(workPackage, col.name);
+    this.columns.forEach((column:string) => {
+      let cell = this.cellBuilder.build(workPackage, column);
       row.appendChild(cell);
     });
 

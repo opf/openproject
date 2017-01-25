@@ -4,6 +4,7 @@ import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resou
 import {opServicesModule} from "../angular-modules";
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
+import {QueryColumn} from './wp-query/query-column';
 
 
 export class States {
@@ -14,15 +15,21 @@ export class States {
   // Work package table states
   table = {
     // Set of rows in strict order of appearance
-    rows: new State<Object[]>(),
+    rows: new State<WorkPackageResource[]>(),
     // Set of columns in strict order of appearance
     columns: new State<string[]>(),
-    // Active row (highlight, preselected for details button)
-    activeRow: new State<WorkPackageTableRow>(),
+    // Current row (preselected for details button)
+    focusedWorkPackage: new State<number>(),
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
     // Active editing rows
     group: new State<string[]>(),
+  };
+
+  // Query states
+  query = {
+    // All available columns for selection
+    availableColumns: new State<any[]>()
   };
 
   editing = new MultiState<WorkPackageEditForm>();

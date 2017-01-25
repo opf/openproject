@@ -27,6 +27,7 @@
 // ++
 
 import {filtersModule} from "../../../angular-modules";
+import {States} from '../../states.service';
 
 function QueryService($rootScope,
                       $http,
@@ -44,6 +45,7 @@ function QueryService($rootScope,
                       GroupService,
                       ProjectService,
                       WorkPackagesTableHelper,
+                      states:States,
                       I18n,
                       queryMenuItemFactory,
                       QUERY_MENU_ITEM_TYPE
@@ -147,15 +149,6 @@ function QueryService($rootScope,
       return totalEntries;
     },
 
-    hideColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
-      
-    },
-
-    showColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
-    },
-
     getAvailableGroupedQueries: function() {
       return availableGroupedQueries;
     },
@@ -189,8 +182,11 @@ function QueryService($rootScope,
     },
 
     selectUnusedColumns: function(columns) {
-      return WorkPackagesTableHelper.getColumnDifference(
-        columns, QueryService.getSelectedColumns());
+      let identifiers = columns.map(column => column.name);
+
+      return columns.filter(function(column) {
+        return identifiers.indexOf(column.name) === -1;
+      });
     },
 
     loadAvailableColumns: function(projectIdentifier) {
@@ -201,7 +197,11 @@ function QueryService($rootScope,
 
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doGet(url, (response) => response.data.available_columns);
+      return QueryService.doGet(url, (response) => {
+        let columns = response.data.available_columns;
+        states.query.availableColumns.put(columns);
+        return columns;
+      });
     },
 
     getGroupBy: function() {

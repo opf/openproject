@@ -48,20 +48,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       return workPackagesTableData;
     },
 
-    setAllRowsChecked: function(rows, currentRow, currentState) {
-      rows = rows.filter(function(row) {
-        return row !== currentRow;
-      });
-      workPackagesTableData.allRowsChecked = $filter('allRowsChecked')(rows) && currentState;
-    },
-    allRowsChecked: function() {
-      return workPackagesTableData.allRowsChecked;
-    },
-
-    setColumns: function(columns) {
-      workPackagesTableData.columns = columns;
-    },
-
     addColumnMetaData: function(metaData) {
       angular.forEach(workPackagesTableData.columns, function(column, i){
         if (metaData.group_sums) column.group_sums = metaData.group_sums[i];
@@ -99,32 +85,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
       return groups;
     },
 
-    setRows: function(rows) {
-      workPackagesTableData.rows = rows;
-    },
-
-    getRows: function() {
-      return workPackagesTableData.rows;
-    },
-
-    getRowsData: function() {
-      return WorkPackagesTableService.getRows().map(function(row) {
-        return row.object;
-      });
-    },
-
-    getRowsByWorkPackageIds: function(ids) {
-      var rows = [];
-
-      angular.forEach(WorkPackagesTableService.getRows(), function(row) {
-        if (ids.indexOf(row.object.id) >= 0) {
-          rows.push(row);
-        }
-      });
-
-      return rows;
-    },
-
     getGroupBy: function() {
       return workPackagesTableData.groupBy;
     },
@@ -157,32 +117,6 @@ function WorkPackagesTableService($filter, QueryService, WorkPackagesTableHelper
         field: columnName,
         direction: direction
       });
-    },
-
-    setCheckedStateForAllRows: function(rows, state) {
-      angular.forEach(rows, function(row) {
-        row.checked = state;
-      });
-    },
-    setRowSelection: function(row, state) {
-      row.checked = state;
-    },
-    selectRowRange: function(rows, row, activeSelectionBorderIndex) {
-      if (WorkPackagesTableHelper.getSelectedRows(rows).length == 0) {
-        this.setRowSelection(row, true);
-
-        activeSelectionBorderIndex = rows.indexOf(row);
-      } else {
-        var index = rows.indexOf(row);
-        var start = Math.min(index, activeSelectionBorderIndex);
-        var end = Math.max(index, activeSelectionBorderIndex);
-
-        for (var x = 0; x < rows.length; x++) {
-          rows[x].checked = x >= start && x <= end;
-        }
-      }
-
-      return activeSelectionBorderIndex;
     }
   };
 
