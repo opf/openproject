@@ -59,11 +59,25 @@ export class WorkPackageTableColumnsService {
   public next(name:string):string|null {
     let index = this.index(name);
 
-    if (index === -1 || (index === this.currentState.length - 1)) {
+    if (index === -1 || this.isLast(name)) {
       return null;
     }
 
     return this.columnsState[index + 1];
+  }
+
+  /**
+   * Returns true if the column is the first selected
+   */
+  public isFirst(name:string):boolean {
+    return this.index(name) === 0;
+  }
+
+  /**
+   * Returns true if the column is the last selected
+   */
+  public isLast(name:string):boolean {
+    return this.index(name) === this.columnCount - 1;
   }
 
   /**
@@ -98,6 +112,8 @@ export class WorkPackageTableColumnsService {
     if (index === -1) {
       return;
     }
+
+    this.moveColumn(index, index + offset);
   }
 
   /**
@@ -135,7 +151,7 @@ export class WorkPackageTableColumnsService {
    * Return the number of selected rows.
    */
   public get columnCount():number {
-    return _.size(this.currentState);
+    return this.currentState.length;
   }
 }
 

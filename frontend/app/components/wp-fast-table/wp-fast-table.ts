@@ -63,14 +63,21 @@ export class WorkPackageTable {
 
   public refreshAllWorkPackages() {
     let tbodyContent = document.createDocumentFragment();
-    this.rows.forEach((row:WorkPackageTableRow, i) => {
 
+    let times = 0;
+    this.rows.forEach((row:WorkPackageTableRow) => {
+
+      var t0 = performance.now();
       let tr = this.rowBuilder.createEmptyRow(row.object);
       this.rowBuilder.build(row.object, tr);
+      var t1 = performance.now();
+      times += (t1-t0);
 
       tbodyContent.appendChild(tr);
     });
 
+    console.log("Rows took " + (times / this.rows.length) + " ms on average.");
+    console.log("Inner refresh " + times );
     this.tbody.innerHTML = '';
     this.tbody.appendChild(tbodyContent);
   }
@@ -104,12 +111,32 @@ export class WorkPackageTable {
   }
 
   private initializeStates() {
-    // Redraw table if columns or rows changed
-    Observable.combineLatest(
-      this.states.table.rows.observe(null),
-      this.states.table.columns.observe(null)
-    ).subscribe((newState:[WorkPackageResource[], string[]]) => {
-      this.initialize(newState[0]);
+    let initialize = (rows) => {
+      var t0 = performance.now();
+      this.initialize(rows);
+      var t1 = performance.now();
+      console.log("Initialize took " + (t1 - t0) + " milliseconds.");
+    };
+    // Redraw table if rows changed
+    this.states.table.rows.observe(null).subscribe((rows:WorkPackageResource[]) => {
+      if (!this.states.table.columns.hasValue()) {
+        console.log("Waiting for columns ... ");
+        this.states.table.columns.get().then(() => {
+          initialize(rows);
+        });
+      } else {
+        initialize(rows);
+      }
+
+    });
+
+    this.states.table.columns.observe(null).subscribe(() => {
+      if (this.rows) {
+        var t0 = performance.now();
+        this.refreshAllWorkPackages();
+        var t1 = performance.now();
+        console.log("column redraw took " + (t1 - t0) + " milliseconds.");
+      }
     });
 
     this.states.table.selection.observe(null).subscribe((state:WPTableRowSelectionState) => {
