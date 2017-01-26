@@ -31,23 +31,31 @@ $gray-dark:               #878787
 $gray-light:              #F8F8F8
 $gray-lighter:            #E9E9E9
 
-$light-gray: #ccc
+$light-gray:              #CCCCCC
 
-$body-background:         white !default
+$body-background:         #FFFFFF !default
 $body-font-family:        'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif !default
-$body-font-color:         #333 !default
+$body-font-color:         #333333 !default
 $base-line-height:        1.5 !default
 
-$primary-color:           #3493B3 !default
-$primary-color-dark:      #06799F !default
+
+<%  DesignColor.defaults.each do |var, hexcode| %>
+$<%= var %>: <%= hexcode %>
+<% end %>
+
+\:root
+  <%  DesignColor.defaults.each do |var, hexcode| %>
+  --<%= var %>: <%= hexcode %>
+  <% end %>
+
+
 $secondary-color:         #bfbfbf !default
-$alternative-color:       #35c53f !default
 
 // these colors should ensure a satisfying contrast for text on the given BG color
-$font-color-on-primary:      white !default
-$font-color-on-primary-dark: white !default
-$font-color-on-secondary:    white !default
-$font-color-on-alternative:  white !default
+$font-color-on-primary:      #FFFFFF !default
+$font-color-on-primary-dark: #FFFFFF !default
+$font-color-on-secondary:    #FFFFFF !default
+$font-color-on-alternative:  #FFFFFF !default
 
 $h1-font-size:            2rem              !default
 $h1-font-color:           $body-font-color  !default
@@ -72,6 +80,7 @@ $header-drop-down-item-font-color:              $body-font-color !default
 $header-drop-down-item-font-hover-color:        #FFFFFF !default
 
 $header-logo-bg-color:                          $primary-color-dark !default
+
 $header-home-link-bg:                           image-url('logo_openproject_white_big.png') no-repeat 20px 0 !default
 
 $header-drop-down-projects-search-font-color:         $body-font-color !default
@@ -160,7 +169,7 @@ $content-form-error-color:                      #9E2A1C !default
 $content-form-separator-color:                  #DDDDDD !default
 
 $content-form-danger-zone-bg-color:             #CA3F3F !default
-$content-form-danger-zone-font-color:           white !default
+$content-form-danger-zone-font-color:           #FFFFFF !default
 
 $content-calendar-border-width:                 1px !default
 $content-calendar-border-color:                 #D7D7D7 !default

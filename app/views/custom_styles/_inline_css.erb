@@ -40,4 +40,11 @@ See doc/COPYRIGHT.rdoc for more details.
       background-size: cover;
     }
   <% end %>
+
+  :root {
+  <%  DesignColor.overwritten.each do |design_color| %>
+    --<%= design_color.variable %>: <%= design_color.hexcode %>;
+  <% end %>
+  }
+
 </style>

@@ -40,8 +40,10 @@ en:
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
+      custom_colors: "Custom colors"
       customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      manage_colors: "Edit color select options"
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"

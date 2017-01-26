@@ -66,3 +66,25 @@ See doc/COPYRIGHT.rdoc for more details.
     </fieldset>
   </section>
 <% end %>
+
+<%= form_tag update_design_colors_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.custom_colors') %></legend>
+
+      <% DesignColor.setables.each do |design_color|  %>
+        <div class="form--field -required">
+          <label class="form--label"><%= design_color.variable %>:</label>
+          <div class="form--field-container">
+            <div class="form--text-container">
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: design_color.get_hexcode, style: "border: 2px solid #{design_color.get_hexcode}" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <button type="submit" class="button">Save</button>
+
+    </fieldset>
+  </section>
+<% end %>

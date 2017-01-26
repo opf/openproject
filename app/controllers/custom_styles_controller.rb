@@ -82,6 +82,29 @@ class CustomStylesController < ApplicationController
     redirect_to custom_style_path
   end
 
+  def update_colors
+    variable_params = params[:design_colors].first
+
+    variable_params.each do |param_variable, param_hexcode|
+      if design_color = DesignColor.find_by(variable: param_variable)
+        if param_hexcode.blank?
+          design_color.destroy
+        else
+          if design_color.hexcode != param_hexcode
+            design_color.hexcode = param_hexcode
+            design_color.save
+          end
+        end
+      else
+       # craete that design_color
+       design_color = DesignColor.new variable: param_variable, hexcode: param_hexcode
+       design_color.save
+      end
+    end
+
+    redirect_to action: :show
+  end
+
   private
 
   def require_ee_token
@@ -93,4 +116,5 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.require(:custom_style).permit(:logo, :remove_logo)
   end
+
 end
