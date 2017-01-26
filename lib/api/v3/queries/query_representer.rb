@@ -76,6 +76,22 @@ module API
           end
         end
 
+        link :groupBy do
+          column = represented.group_by_column
+
+          if column
+            {
+              href: api_v3_paths.query_group_by(convert_attribute(column.name).underscore),
+              title: column.caption
+            }
+          else
+            {
+              href: nil,
+              title: nil
+            }
+          end
+        end
+
         linked_property :user
         linked_property :project
 
@@ -100,12 +116,6 @@ module API
                      [convert_attribute(attribute), order]
                    end
                  }
-        property :group_by,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   represented.grouped? ? convert_attribute(represented.group_by) : nil
-                 },
-                 render_nil: true
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
 
@@ -120,6 +130,21 @@ module API
                  if: ->(*) {
                    embed_links
                  }
+
+        property :group_by,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   return unless represented.grouped?
+
+                   column = represented.group_by_column
+
+                   ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
+                 },
+                 render_nil: true
 
         property :results,
                  exec_context: :decorator,

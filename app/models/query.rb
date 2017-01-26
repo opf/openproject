@@ -279,6 +279,10 @@ class Query < ActiveRecord::Base
       .concat(available_columns)
   end
 
+  def self.groupable_columns
+    all_columns.select(&:groupable)
+  end
+
   def self.add_available_column(column)
     available_columns << column if column.is_a?(QueryColumn)
   end

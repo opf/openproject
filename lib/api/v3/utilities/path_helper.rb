@@ -147,6 +147,10 @@ module API
             "#{queries}/columns/#{name}"
           end
 
+          def self.query_group_by(name)
+            "#{queries}/group_bys/#{name}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

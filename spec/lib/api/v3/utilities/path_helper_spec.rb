@@ -248,6 +248,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/columns/updated_on'
   end
 
+  describe '#query_group_by' do
+    subject { helper.query_group_by 'status' }
+
+    it_behaves_like 'api v3 path', '/queries/group_bys/status'
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
