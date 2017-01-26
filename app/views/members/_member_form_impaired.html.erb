@@ -34,45 +34,33 @@ See doc/COPYRIGHT.rdoc for more details.
              complete: 'jQuery(\'#member-add-submit\').enable(); activateFlashError();',
              html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
   <div class="form--section">
-    <remote-field-updater url="<%= url_for(controller: '/members', action: 'autocomplete_for_member', project_id: project) %>">
-      <div id="new-member-message"></div>
-      <div class="grid-block">
-        <div class="grid-block medium-6">
-          <div class="form--field">
-            <%
-               user_id_title = I18n.t(:label_principal_search)
+    <div id="new-member-message"></div>
+    <div class="grid-block medium-6">
+      <div class="form--field">
+        <%
+           user_id_title = I18n.t(:label_principal_search)
 
-               if current_user.admin?
-                 user_id_title += I18n.t(:label_principal_invite_via_email)
-               end
-            %>
-            <%= styled_label_tag :principal_search, user_id_title %>
-            <%= styled_text_field_tag :principal_search,
-                                      nil,
-                                      data: { :'remote-field-key' => 'q' },
-                                      class: 'remote-field--input' %>
-          </div>
-        </div>
+           if current_user.admin?
+             user_id_title += I18n.t(:label_principal_invite_via_email)
+           end
+        %>
+        <%= styled_label_tag "member[user_id]", user_id_title %>
+        <% options = principals.collect { |obj| [obj.name, obj.id.to_i] } %>
+        <%= styled_select_tag "member[user_id]", options_for_select(options),
+                     include_blank: true,
+                     title: user_id_title,
+                     class: "select2-select" %>
       </div>
-      <div class="grid-block">
-        <div class="grid-block">
-          <div class="grid-block remote-field--target medium-4" id="principal_results">
-            <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
-          </div>
-          <div class="grid-block medium-4 roles">
-            <fieldset class="form--fieldset medium-11">
-              <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
-              <%= labeled_check_box_tags 'member[role_ids][]', roles %>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-      <%= f.button l(:button_add),
-                   id: 'member-add-submit',
-                   class: 'button -highlight -with-icon icon-checkmark',
-                   style: roles.any? && (principals.any? && principals.size <= 20) ? "": "display:none" %>
-      <%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
-    </remote-field-updater>
+    </div>
+    <div class="grid-block medium-6 roles">
+      <fieldset class="form--fieldset medium-11">
+        <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
+        <%= labeled_check_box_tags 'member[role_ids][]', roles %>
+      </fieldset>
+    </div>
+    <%= f.button l(:button_add),
+                 id: 'member-add-submit',
+                 class: 'button -highlight -with-icon icon-checkmark' %>
+    <%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
   </div>
-
 <% end %>
