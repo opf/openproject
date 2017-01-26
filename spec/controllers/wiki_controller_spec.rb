@@ -293,8 +293,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
         end
 
         it "is inactive, when another wiki menu item's page is shown" do
@@ -303,8 +303,8 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item"
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected", false
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
         end
 
         it 'is active, when the given wiki menu item is shown' do
@@ -313,7 +313,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
       end
 
@@ -325,7 +325,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
 
         it 'is active, when a toc page is shown' do
@@ -333,7 +333,7 @@ describe WikiController, type: :controller do
 
           expect(response).to be_success
           assert_select '#content h2', text: 'Index by title'
-          assert_select "#main-menu a.#{@wiki_menu_item.name}-menu-item.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
 
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
         end
@@ -346,7 +346,7 @@ describe WikiController, type: :controller do
           expect(response).to be_success
           expect(response.body).to have_selector('#main-menu a.selected', count: 1)
 
-          assert_select "#main-menu a.#{@wiki_menu_item.item_class}-menu-item.selected"
+          assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end
       end
 
