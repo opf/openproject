@@ -312,8 +312,10 @@ describe('WorkPackageResource service', () => {
 
       describe('when the upload succeeds', () => {
         var removeStub;
+        var updateWorkPackageStub;
 
         beforeEach(() => {
+          updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
           uploadFilesDeferred.resolve();
           removeStub = sinon.stub(NotificationsService, 'remove');
 
@@ -334,6 +336,11 @@ describe('WorkPackageResource service', () => {
         it('should return an attachment collection resource promise', () => {
           expect(uploadAttachmentsPromise).to.eventually.have.property('$href', 'attachments');
           $rootScope.$apply();
+        });
+
+        afterEach(() => {
+          updateWorkPackageStub.restore();
+          removeStub.restore();
         });
       });
     });

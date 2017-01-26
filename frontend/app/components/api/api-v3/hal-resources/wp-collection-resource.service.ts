@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,44 +24,24 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
+import {CollectionResource} from './collection-resource.service';
 import {opApiModule} from '../../../../angular-modules';
-import {HalResourceTypesService} from './hal-resource-types.service';
 
-function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
-  halResourceTypes.setResourceTypeConfig({
-    WorkPackage: {
-      className: 'WorkPackageResource',
-      attrTypes: {
-        parent: 'WorkPackage',
-        children: 'WorkPackage',
-        relations: 'Relation',
-        schema: 'Schema'
-      }
-    },
-    Activity: {
-      user: 'User'
-    },
-    'Activity::Comment': {
-      user: 'User'
-    },
-    'Activity::Revision': {
-      user: 'User'
-    },
-    Relation: {
-      className: 'RelationResource',
-      attrTypes: {
-        from: 'WorkPackage',
-        to: 'WorkPackage'
-      }
-    },
-    Schema: 'SchemaResource',
-    Error: 'ErrorResource',
-    User: 'UserResource',
-    Collection: 'CollectionResource',
-    WorkPackageCollection: 'WorkPackageCollectionResource'
-  });
+interface WorkPackageCollectionResourceEmbedded {
+  schemas: CollectionResource;
 }
 
-opApiModule.run(halResourceTypesConfig);
+export class WorkPackageCollectionResource extends CollectionResource {
+  public schemas: CollectionResource;
+}
+
+export interface WorkPackageCollectionResourceInterface extends WorkPackageCollectionResourceEmbedded, WorkPackageCollectionResource {
+}
+
+function workPackageCollectionResource() {
+  return WorkPackageCollectionResource;
+}
+
+opApiModule.factory('WorkPackageCollectionResource', workPackageCollectionResource);

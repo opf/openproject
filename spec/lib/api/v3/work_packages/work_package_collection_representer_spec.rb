@@ -44,8 +44,9 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:page_size_parameter) { nil }
   let(:default_page_size) { 30 }
   let(:total) { 5 }
+  let(:embed_schemas) { false }
 
-  let(:representer) {
+  let(:representer) do
     described_class.new(
       work_packages,
       self_base_link,
@@ -55,8 +56,10 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       total_sums: total_sums,
       page: page_parameter,
       per_page: page_size_parameter,
-      current_user: user)
-  }
+      current_user: user,
+      embed_schemas: embed_schemas
+    )
+  end
 
   before do
     FactoryGirl.create_list(:work_package, total)
@@ -72,6 +75,18 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     it 'does not render sums' do
       is_expected.not_to have_json_path('totalSums')
+    end
+
+    it 'has a schemas link' do
+      ids = work_packages.map do |wp|
+        [wp.project_id, wp.type_id]
+      end
+
+      path = api_v3_paths.work_package_schemas *ids
+
+      is_expected
+        .to be_json_eql(path.to_json)
+        .at_path('_links/schemas/href')
     end
 
     context 'when the user has the add_work_package permission in any project' do
@@ -151,6 +166,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           let(:page) { 1 }
           let(:page_size) { page_size_parameter }
           let(:actual_count) { page_size_parameter }
+          let(:collection_type) { 'WorkPackageCollection' }
 
           it_behaves_like 'links to next page by offset'
         end
@@ -167,6 +183,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           let(:page) { 3 }
           let(:page_size) { page_size_parameter }
           let(:actual_count) { 1 }
+          let(:collection_type) { 'WorkPackageCollection' }
 
           it_behaves_like 'links to previous page by offset'
         end
@@ -219,7 +236,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing sums' do
-      let(:total_sums) { OpenStruct.new({ estimated_hours: 1 }) }
+      let(:total_sums) { OpenStruct.new(estimated_hours: 1) }
 
       it 'renders the groups object as json' do
         expected = { 'estimatedTime': 'PT1H' }
@@ -232,6 +249,19 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         }
 
         is_expected.to be_json_eql(expected.to_json).at_path('_links/sumsSchema')
+      end
+    end
+
+    context 'passing schemas' do
+      let(:embed_schemas) { true }
+
+      it 'embeds a schema collection' do
+        expected_path = api_v3_paths.work_package_schema(work_packages[0].project.id,
+                                                         work_packages[0].type.id)
+
+        is_expected
+          .to be_json_eql(expected_path.to_json)
+          .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
       end
     end
   end

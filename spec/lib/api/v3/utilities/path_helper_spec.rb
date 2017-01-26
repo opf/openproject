@@ -283,6 +283,17 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path', '/work_packages/schemas'
     end
 
+    describe '#work_package_schemas with filters' do
+      subject { helper.work_package_schemas [1, 2], [3, 4] }
+
+      def self.filter
+        CGI.escape([{ id: { operator: '=', values: ['1-2', '3-4'] } }].to_s)
+      end
+
+      it_behaves_like 'api v3 path',
+                      "/work_packages/schemas?filters=#{filter}"
+    end
+
     describe '#work_package_sums_schema' do
       subject { helper.work_package_sums_schema }
 
