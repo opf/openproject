@@ -143,6 +143,10 @@ module API
             "#{query(id)}/unstar"
           end
 
+          def self.query_column(name)
+            "#{queries}/columns/#{name}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

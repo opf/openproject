@@ -272,6 +272,13 @@ class Query < ActiveRecord::Base
     self.available_columns = v
   end
 
+  def self.all_columns
+    WorkPackageCustomField
+      .includes(:translations)
+      .map { |cf| ::QueryCustomFieldColumn.new(cf) }
+      .concat(available_columns)
+  end
+
   def self.add_available_column(column)
     available_columns << column if column.is_a?(QueryColumn)
   end

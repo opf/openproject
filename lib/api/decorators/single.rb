@@ -66,7 +66,14 @@ module API
       def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
           path = _type.underscore unless path
-          link_object = { href: api_v3_paths.send(path, represented.send(id_attribute)) }
+
+          id = if id_attribute.respond_to?(:call)
+                 instance_eval(&id_attribute)
+               else
+                 represented.send(id_attribute)
+               end
+
+          link_object = { href: api_v3_paths.send(path, id) }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title
 

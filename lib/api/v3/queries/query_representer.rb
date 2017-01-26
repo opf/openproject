@@ -67,6 +67,15 @@ module API
           }
         end
 
+        links :columns do
+          represented.columns.map do |column|
+            {
+              href: api_v3_paths.query_column(convert_attribute(column.name).underscore),
+              title: column.caption
+            }
+          end
+        end
+
         linked_property :user
         linked_property :project
 
@@ -83,12 +92,6 @@ module API
                    end
                  }
         property :is_public, getter: -> (*) { is_public }
-        property :column_names,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   return nil unless represented.column_names
-                   represented.column_names.map { |name| convert_attribute name }
-                 }
         property :sort_criteria,
                  exec_context: :decorator,
                  getter: ->(*) {
@@ -106,8 +109,17 @@ module API
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
 
-        self.to_eager_load = [:query_menu_item,
-                              project: { work_package_custom_fields: :translations }]
+        property :columns,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   represented.columns.map do |column|
+                     ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
+                   end
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
+                 }
 
         property :results,
                  exec_context: :decorator,
@@ -116,6 +128,9 @@ module API
                  if: ->(*) {
                    results
                  }
+
+        self.to_eager_load = [:query_menu_item,
+                              project: { work_package_custom_fields: :translations }]
 
         private
 

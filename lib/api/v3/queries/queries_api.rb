@@ -34,6 +34,8 @@ module API
     module Queries
       class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
+          mount API::V3::Queries::Columns::QueryColumnsAPI
+
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 

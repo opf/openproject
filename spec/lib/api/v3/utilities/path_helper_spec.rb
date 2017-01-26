@@ -242,6 +242,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/1/unstar'
   end
 
+  describe '#query_column' do
+    subject { helper.query_column 'updated_on' }
+
+    it_behaves_like 'api v3 path', '/queries/columns/updated_on'
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
