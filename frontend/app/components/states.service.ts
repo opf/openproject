@@ -18,8 +18,6 @@ export class States {
     rows: new State<WorkPackageResource[]>(),
     // Set of columns in strict order of appearance
     columns: new State<string[]>(),
-    // Current row (preselected for details button)
-    focusedWorkPackage: new State<number>(),
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
     // Active editing rows
@@ -32,6 +30,10 @@ export class States {
     availableColumns: new State<any[]>()
   };
 
+  // Current focused work package (e.g, row preselected for details button)
+  focusedWorkPackage = new State<number>();
+
+  // Open editing forms
   editing = new MultiState<WorkPackageEditForm>();
 
   constructor() {

@@ -47,7 +47,7 @@ export class RowClickHandler implements TableEventHandler {
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
-    this.states.table.focusedWorkPackage.put(row.workPackageId);
+    this.states.focusedWorkPackage.put(row.workPackageId);
 
     // Update single selection if no modifier present
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {

@@ -59,6 +59,11 @@ export class WorkPackageTable {
         this.refreshWorkPackage(row.object);
       }
     });
+
+    // Preselect first work package as focused
+    if (this.rows.length) {
+      this.states.focusedWorkPackage.put(this.rows[0].workPackageId);
+    }
   }
 
   public refreshAllWorkPackages() {

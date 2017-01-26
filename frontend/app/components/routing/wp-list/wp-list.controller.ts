@@ -131,10 +131,6 @@ function WorkPackagesListController($scope,
 
     // setup table
     setupWorkPackagesTable(json);
-
-    if (json.work_packages.length) {
-      states.table.focusedWorkPackage.put(json.work_packages[0].id);
-    }
   }
 
   function setupWorkPackagesTable(json) {
@@ -268,13 +264,6 @@ function WorkPackagesListController($scope,
   });
 
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
-
-  function nextAvailableWorkPackage() {
-    var selected = WorkPackageService.cache().get('preselectedWorkPackageId');
-    return selected || $scope.rows.first().object.id;
-  }
-
-  $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
 
   $scope.openWorkPackageInFullView = function (id, force) {
     if (force || $state.current.url !== '') {
