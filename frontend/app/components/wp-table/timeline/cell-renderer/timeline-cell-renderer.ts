@@ -22,6 +22,27 @@ export class TimelineCellRenderer {
     return '#8CD1E8';
   }
 
+  public isEmpty(wp: WorkPackageResourceInterface) {
+    const start = moment(wp.startDate as any);
+    const due = moment(wp.dueDate as any);
+    const noStartAndDueValues = _.isNaN(start.valueOf()) && _.isNaN(due.valueOf());
+    return noStartAndDueValues;
+  }
+
+  public displayPlaceholderUnderCursor(ev: MouseEvent, renderInfo: RenderInfo): HTMLElement {
+    const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+
+    const placeholder = document.createElement("div");
+    placeholder.style.pointerEvents = "none";
+    placeholder.style.backgroundColor = "#DDDDDD";
+    placeholder.style.position = "absolute";
+    placeholder.style.height = "1em";
+    placeholder.style.width = "30px";
+    placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + "px";
+
+    return placeholder;
+  }
+
   /**
    * Assign changed dates to the work package.
    * For generic work packages, assigns start and due date.
@@ -47,8 +68,9 @@ export class TimelineCellRenderer {
    * depending on which initial date was set.
    */
   public onDaysMoved(wp: WorkPackageResourceInterface,
+                     dayUnderCursor: Moment,
                      delta: number,
-                     direction: "left" | "right" | "both"): CellDateMovement {
+                     direction: "left" | "right" | "both" | "create" | "dragright"): CellDateMovement {
 
     const initialStartDate = wp.$pristine['startDate'];
     const initialDueDate = wp.$pristine['dueDate'];
@@ -66,6 +88,8 @@ export class TimelineCellRenderer {
       if (initialDueDate) {
         dates.dueDate = moment(initialDueDate).add(delta, "days");
       }
+    } else if (direction === "dragright") {
+      dates.dueDate = moment(wp.startDate).clone().add(delta, "days");
     }
 
     // avoid negative "overdrag" if only start or due are changed
@@ -80,10 +104,14 @@ export class TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): "left" | "right" | "both" {
+  public onMouseDown(ev: MouseEvent,
+                     dateForCreate: string|null,
+                     renderInfo: RenderInfo,
+                     elem: HTMLElement): "left" | "right" | "both" | "dragright" | "create" {
+
     renderInfo.workPackage.storePristine('startDate');
     renderInfo.workPackage.storePristine('dueDate');
-    let direction: "left" | "right" | "both";
+    let direction: "left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
@@ -93,7 +121,7 @@ export class TimelineCellRenderer {
       if (renderInfo.workPackage.startDate === null) {
         renderInfo.workPackage.startDate = renderInfo.workPackage.dueDate;
       }
-    } else if (jQuery(ev.target).hasClass(classNameRightHandle)) {
+    } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = "right";
       this.forceCursor('e-resize');
@@ -107,6 +135,12 @@ export class TimelineCellRenderer {
     }
 
     this.dateDisplaysOnMouseMove = [null, null];
+
+    if (dateForCreate) {
+      renderInfo.workPackage.startDate = dateForCreate;
+      renderInfo.workPackage.dueDate = dateForCreate;
+      direction = "dragright";
+    }
 
     if (!jQuery(ev.target).hasClass(classNameRightHandle) && renderInfo.workPackage.startDate) {
       // create left date label

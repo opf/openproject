@@ -10,12 +10,40 @@ interface CellMilestoneMovement {
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
-  public get type():string {
+  public get type(): string {
     return 'milestone';
   }
 
-  public get fallbackColor():string {
+  public get fallbackColor(): string {
     return '#C0392B';
+  }
+
+  public isEmpty(wp: WorkPackageResourceInterface) {
+    const date = moment(wp.date as any);
+    const noDateValue = _.isNaN(date.valueOf());
+    return noDateValue;
+  }
+
+  public displayPlaceholderUnderCursor(ev: MouseEvent, renderInfo: RenderInfo): HTMLElement {
+    const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
+
+    const placeholder = document.createElement("div");
+    placeholder.className = "timeline-element milestone";
+    placeholder.style.pointerEvents = "none";
+    placeholder.style.position = "absolute";
+    placeholder.style.height = "1em";
+    placeholder.style.width = "1em";
+    placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + "px";
+
+    const diamond = document.createElement("div");
+    diamond.className = "diamond";
+    diamond.style.backgroundColor = "#DDDDDD";
+    diamond.style.left = "0.5em";
+    diamond.style.height = "1em";
+    diamond.style.width = "1em";
+    placeholder.appendChild(diamond);
+
+    return placeholder;
   }
 
   /**
@@ -23,7 +51,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp: WorkPackageResourceInterface, dates:CellMilestoneMovement) {
+  public assignDateValues(wp: WorkPackageResourceInterface, dates: CellMilestoneMovement) {
     this.assignDate(wp, 'date', dates.date);
 
     this.updateMilestoneMovedLabel(dates.date);
@@ -39,9 +67,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface, delta:number, direction: "left" | "right" | "both") {
+  public onDaysMoved(wp: WorkPackageResourceInterface,
+                     dayUnderCursor: Moment,
+                     delta: number,
+                     direction: "left" | "right" | "both" | "create" | "dragright") {
+
     const initialDate = wp.$pristine['date'];
-    let dates:CellMilestoneMovement = {};
+    let dates: CellMilestoneMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, "days");
@@ -50,9 +82,19 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return dates;
   }
 
-  public onMouseDown(ev: MouseEvent, renderInfo: RenderInfo, elem: HTMLElement): "left" | "right" | "both" {
-    this.forceCursor('ew-resize');
+  public onMouseDown(ev: MouseEvent,
+                     dateForCreate: string|null,
+                     renderInfo: RenderInfo,
+                     elem: HTMLElement): "left" | "right" | "both" | "create" | "dragright" {
+
+    let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
     renderInfo.workPackage.storePristine('date');
+    this.forceCursor('ew-resize');
+
+    if (dateForCreate) {
+      renderInfo.workPackage.date = dateForCreate;
+      direction = "create";
+    }
 
     // create date label
     const dateInfo = document.createElement("div");
@@ -62,11 +104,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     this.updateMilestoneMovedLabel(moment(renderInfo.workPackage.date));
 
-    return "both";
+    return direction;
   }
 
   public update(timelineCell: HTMLElement, element: HTMLDivElement, renderInfo: RenderInfo): boolean {
     const wp = renderInfo.workPackage;
+    const viewParams = renderInfo.viewParams;
+    const date = moment(wp.date as any);
 
     // abort if no start or due date
     if (!wp.date) {
@@ -75,16 +119,12 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery(".diamond", element)[0];
 
-    element.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
+    element.style.marginLeft = viewParams.scrollOffsetInPx + "px";
     element.style.width = '1em';
     element.style.height = '1em';
     diamond.style.width = '1em';
     diamond.style.height = '1em';
-
-    diamond.style.backgroundColor = this.typeColor(renderInfo.workPackage);
-
-    const viewParams = renderInfo.viewParams;
-    const date = moment(wp.date as any);
+    diamond.style.backgroundColor = this.typeColor(wp);
 
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
@@ -97,7 +137,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * Render a milestone element, a single day event with no resize, but
    * move functionality.
    */
-  public render(renderInfo: RenderInfo):HTMLDivElement {
+  public render(renderInfo: RenderInfo): HTMLDivElement {
     const element = document.createElement("div");
     element.className = timelineElementCssClass + " " + this.type;
 

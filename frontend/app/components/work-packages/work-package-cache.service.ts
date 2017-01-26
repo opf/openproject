@@ -83,13 +83,14 @@ export class WorkPackageCacheService {
   }
 
   saveIfChanged(workPackage) {
-    console.log("saveIfChangedaaaaaaaaaaa");
+    console.log("saveIfChanged");
 
     if (!(workPackage.dirty || workPackage.isNew)) {
+      console.log("    - aborted");
       return this.$q.when(workPackage);
     }
 
-    console.log("saveIfChangedbbbbbbbbbbbbb");
+    console.log("     - pass");
 
     const deferred = this.$q.defer();
     workPackage.save()
