@@ -127,7 +127,7 @@ export class HalResource {
     return <ng.IPromise<HalResource>> state.get().then(source => {
       this.$initialize(source);
       this.$loaded = true;
-      return source;
+      return this;
     });
   }
 
