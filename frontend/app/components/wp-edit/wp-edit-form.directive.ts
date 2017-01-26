@@ -131,6 +131,7 @@ export class WorkPackageEditFormController {
     var isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
+    this.$rootScope.$emit('notifications.clearAll');
     this.errorsPerAttribute = {};
 
     this.workPackage.save()
@@ -154,13 +155,13 @@ export class WorkPackageEditFormController {
     return deferred.promise;
   }
 
-  protected handleSubmissionErrors(error: any, deferred: any) {
+  private handleSubmissionErrors(error: any, deferred: any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  protected handleErroneousAttributes(error: any) {
+  private handleErroneousAttributes(error: any) {
     let attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
@@ -196,3 +197,25 @@ export class WorkPackageEditFormController {
     });
   }
 }
+
+function wpEditForm() {
+  return {
+    restrict: 'A',
+
+    scope: {
+      workPackage: '=wpEditForm',
+      hasEditMode: '=hasEditMode',
+      errorHandler: '&wpEditFormOnError',
+      successHandler: '&wpEditFormOnSave'
+    },
+
+    controller: WorkPackageEditFormController,
+    controllerAs: 'vm',
+    bindToController: true
+  };
+}
+
+//TODO: Use 'openproject.wpEdit' module
+angular
+  .module('openproject')
+  .directive('wpEditForm', wpEditForm);
