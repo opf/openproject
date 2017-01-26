@@ -116,23 +116,14 @@ export class WorkPackageTable {
   }
 
   private initializeStates() {
-    let initialize = (rows) => {
-      var t0 = performance.now();
-      this.initialize(rows);
-      var t1 = performance.now();
-      console.log("Initialize took " + (t1 - t0) + " milliseconds.");
-    };
     // Redraw table if rows changed
     this.states.table.rows.observe(null).subscribe((rows:WorkPackageResource[]) => {
-      if (!this.states.table.columns.hasValue()) {
-        console.log("Waiting for columns ... ");
-        this.states.table.columns.get().then(() => {
-          initialize(rows);
-        });
-      } else {
-        initialize(rows);
-      }
-
+      this.states.table.columns.get().then(() => {
+        var t0 = performance.now();
+        this.initialize(rows);
+        var t1 = performance.now();
+        console.log("Initialize took " + (t1 - t0) + " milliseconds.");
+      });
     });
 
     this.states.table.columns.observe(null).subscribe(() => {

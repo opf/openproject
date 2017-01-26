@@ -14,11 +14,6 @@ export class WorkPackageTableColumnsService {
   constructor(public states: States) {
     this.columnsState = states.table.columns;
     this.availableColumnsState = states.query.availableColumns;
-
-    // Initialize as empty array for easier access
-    if (!this.columnsState.hasValue()) {
-      this.columnsState.put([]);
-    }
   }
 
   /**

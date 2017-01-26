@@ -29,6 +29,11 @@ export class CellBuilder {
     // Make span tabbable unless it's an id field
     span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
 
+    if (!fieldSchema) {
+      // startDate / dueDate
+      return td;
+    }
+
     const field = <DisplayField> this.wpDisplayField.getField(workPackage, name, fieldSchema);
 
     let text;
