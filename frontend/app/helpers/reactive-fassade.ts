@@ -144,7 +144,7 @@ export class MultiStateMember<T> extends State<T> {
 
   // Behaves as a regular state, but keeps a reference to a multistate
   // to notify the overall observable.
-  constructor(public id:string, public state:MultiState<T>) {
+  constructor(public id:string, public parentMultiState:MultiState<T>) {
     super();
   }
 
@@ -152,7 +152,7 @@ export class MultiStateMember<T> extends State<T> {
   // of the change.
   protected setState(val: T) {
     super.setState(val);
-    this.state.changed(this.id);
+    this.parentMultiState.changed(this.id);
   }
 }
 
