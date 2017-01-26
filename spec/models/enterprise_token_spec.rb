@@ -102,15 +102,9 @@ RSpec.describe EnterpriseToken, type: :model do
   end
 
   describe "Configuration file has `ee_manager_visible` set to false" do
-    before do
-      expect(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
-    end
-
-    it 'allows all EE features' do
-      expect(EnterpriseToken.allows_to?(:define_custom_style)).to be_truthy
-    end
 
     it 'does not show banners promoting EE' do
+      expect(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
       expect(EnterpriseToken.show_banners?).to be_falsey
     end
   end
