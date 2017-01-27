@@ -26,22 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformDate() {
+function transformDate(TimezoneService) {
   return {
     restrict:'A',
     require: '^ngModel',
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(data) {
-        if (data === '') {
-          return null;
-        } else {
-          return data;
+        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
+          return undefined;
         }
+        return data;
+      });
+      ngModelController.$formatters.push(function(data) {
+        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
+          return undefined;
+        }
+        var d = TimezoneService.parseDate(data);
+        return TimezoneService.formattedISODate(d);
       });
     }
   };
 };
 
+// TODO:deprecate and replace by transformDate
 angular
   .module('openproject')
   .directive('transformDateValue', transformDate);
+
+// angular
+//   .module('openproject')
+//   .directive('transformDate', transformDate);

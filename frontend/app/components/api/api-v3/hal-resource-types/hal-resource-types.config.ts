@@ -37,7 +37,8 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
         parent: 'WorkPackage',
         children: 'WorkPackage',
         relations: 'Relation',
-        type: 'Type',
+        schema: 'Schema',
+        type: 'Type'
       }
     },
     Activity: {
@@ -60,7 +61,8 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
     Type: 'TypeResource',
     Error: 'ErrorResource',
     User: 'UserResource',
-    Collection: 'CollectionResource'
+    Collection: 'CollectionResource',
+    WorkPackageCollection: 'WorkPackageCollectionResource'
   });
 }
 

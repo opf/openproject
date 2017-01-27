@@ -118,7 +118,17 @@ export class HalResource {
       state.clear();
     }
 
-    return <ng.IPromise<HalResource>> state.get();
+    // If nobody has asked yet for the resource to be $loaded, do it ourselves.
+    // Otherwise, we risk returning a promise, that will never be resolved.
+    if (state.isPristine()) {
+      state.putFromPromise(this.$loadResource(force));
+    }
+
+    return <ng.IPromise<HalResource>> state.get().then(source => {
+      this.$initialize(source);
+      this.$loaded = true;
+      return this;
+    });
   }
 
   protected $loadResource(force = false):ng.IPromise<HalResource> {

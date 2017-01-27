@@ -28,6 +28,7 @@
 
 (function(Filter) {
   Factory.define('Filter', Filter)
+    .attr('type', 'list_model')
     .attr('name', 'type_id')
     .attr('operator', '~')
     .attr('values', ['Bug', 'Feature']);

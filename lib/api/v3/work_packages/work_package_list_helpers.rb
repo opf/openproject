@@ -113,9 +113,9 @@ module API
         end
 
         def parse_sorting_from_json(json)
-          JSON.parse(json).map { |(attribute, order)|
+          JSON.parse(json).map do |(attribute, order)|
             [convert_attribute(attribute), order]
-          }
+          end
         end
 
         def apply_and_generate_groups(query, query_params)
@@ -128,14 +128,14 @@ module API
         end
 
         def generate_groups(results)
-          results.work_package_count_by_group.map { |group, count|
+          results.work_package_count_by_group.map do |group, count|
             sums = nil
             if params[:showSums] == 'true'
               sums = format_query_sums results.all_sums_for_group(group)
             end
 
             ::API::Decorators::AggregationGroup.new(group, count, sums: sums)
-          }
+          end
         end
 
         def generate_total_sums(results, query_params)
@@ -151,7 +151,7 @@ module API
 
         def format_column_keys(hash_by_column)
           ::Hash[
-            hash_by_column.map { |column, value|
+            hash_by_column.map do |column, value|
               match = /cf_(\d+)/.match(column.name.to_s)
 
               column_name = if match
@@ -161,7 +161,7 @@ module API
                             end
 
               [column_name, value]
-            }
+            end
           ]
         end
 
@@ -177,26 +177,32 @@ module API
             self_link,
             project: project,
             query: query_params,
-            page: params[:offset] ? params[:offset].to_i : nil,
-            per_page: params[:pageSize] ? params[:pageSize].to_i : nil,
+            page: to_i_or_nil(params[:offset]),
+            per_page: to_i_or_nil(params[:pageSize]),
             groups: groups,
             total_sums: sums,
-            current_user: current_user)
+            embed_schemas: true,
+            current_user: current_user
+          )
         end
 
         def convert_attribute(attribute, append_id: false)
-          @@conversion_wp ||= WorkPackage.new
+          @@conversion_wp ||= ::API::Utilities::PropertyNameConverterQueryContext.new
           ::API::Utilities::PropertyNameConverter.to_ar_name(attribute,
                                                              context: @@conversion_wp,
                                                              refer_to_ids: append_id)
         end
 
         def raise_invalid_query(errors)
-          api_errors = errors.full_messages.map { |message|
+          api_errors = errors.full_messages.map do |message|
             ::API::Errors::InvalidQuery.new(message)
-          }
+          end
 
           raise ::API::Errors::MultipleErrors.create_if_many api_errors
+        end
+
+        def to_i_or_nil(value)
+          value ? value.to_i : nil
         end
       end
     end

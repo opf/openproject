@@ -1,15 +1,6 @@
 <form name="add_relation_form" class="form">
   <input type="text"
-         class="wp-relations--autocomplete typeahead-autocomplete"
+         class="wp-relations--autocomplete ui-autocomplete--input"
          ng-class="{ '-error': noResults }"
-         ng-model="selectedWp"
-         op-fullwidth-typeahead
-         typeahead-is-open="autocompleteIsOpen"
-         typeahead-append-to-body="true"
-         typeahead-on-select="onSelect($model)"
-         typeahead-no-results="noResults"
-         typeahead-wait-ms="100"
-         typeahead-input-formatter="getIdentifier($model)"
-         placeholder="{{ ::text.placeholder }}"
-         uib-typeahead="item as getIdentifier(item) for item in autocompleteWorkPackages($viewValue)">
+         placeholder="{{ ::text.placeholder }}">
 </form>

@@ -18,6 +18,8 @@
         {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
       </label>
 
+      <div class="advanced-filters--operator-value-container">
+
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
          <label for="operators-{{filter.name}}" class="hidden-for-sighted">
@@ -32,8 +34,7 @@
                 ng-model="filter.operator"
                 style="vertical-align: top;"
                 ng-disabled="isLoading">
-
-          <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="option[0] == filter.operator" label="{{ I18n.t('js.' + option[1]) }}">{{ I18n.t('js.' + option[1]) }}</option>
+          <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option['symbol'] }}" ng-selected="option['symbol'] == filter.operator" label="{{ I18n.t('js.' + option['label']) }}">{{ I18n.t('js.' + option['label']) }}</option>
         </select>
       </div>
 
@@ -42,7 +43,7 @@
         <div id="div-values-{{filter.name}}"
              ng-if="!showValueOptionsAsSelect"
              ng-show="showValuesInput"
-             ng-switch="filter.type">
+             ng-switch="filter.type.startsWith('date') ? 'date' : filter.type">
 
           <input ng-switch-when="string"
                  ng-model="filter.textValue"
@@ -91,8 +92,49 @@
             {{ I18n.t('js.work_packages.description_enter_text') }}
           </label>
 
-          <span class="inline-label" ng-switch-when="date">
-            <input ng-model="filter.textValue"
+          <ng-switch ng-switch-when="date" on="filter.operator">
+            <div ng-switch-when="=d">
+              <op-date-picker>
+                <input ng-model="filter.dateValue"
+                     ng-model-options="::filterDateModelOptions"
+                     ng-required="true"
+                     ng-disabled="isLoading"
+                     id="values-{{filter.name}}"
+                     name="v[{{filter.name}}]"
+                     class="advanced-filters--date-field"
+                     size="3"
+                     transform-date-value
+                     type="text"/>
+              </op-date-picker>
+            </div>
+            <div class="advanced-filters--value-container" ng-switch-when="<>d">
+              <op-date-picker>
+                <input ng-model="filter.values[0]"
+                     ng-model-options="::filterDateModelOptions"
+                     ng-required="true"
+                     ng-disabled="isLoading"
+                     id="values-{{filter.name}}-begin"
+                     name="v[{{filter.name}}]"
+                     class="advanced-filters--date-field"
+                     size="10"
+                     transform-date-value
+                     type="text"/>
+              </op-date-picker>
+              <op-date-picker>
+                <input ng-model="filter.values[1]"
+                     ng-model-options="::filterDateModelOptions"
+                     ng-required="true"
+                     ng-disabled="isLoading"
+                     id="values-{{filter.name}}-end"
+                     name="v[{{filter.name}}]"
+                     class="advanced-filters--date-field"
+                     size="10"
+                     transform-date-value
+                     type="text"/>
+              </op-date-picker>
+            </div>
+            <div ng-switch-default class="inline-label">
+              <input ng-model="filter.textValue"
                    ng-model-options="::filterModelOptions"
                    ng-required="true"
                    class="advanced-filters--text-field"
@@ -101,25 +143,11 @@
                    size="3"
                    type="text"
                    ng-disabled="isLoading"/>
-            <label for="values_{{name}}" class="form-label -transparent">
-              {{ I18n.t('js.work_packages.time_relative.days') }}
-            </label>
-          </span>
-
-          <span class="inline-label" ng-switch-when="date_past">
-            <input ng-model="filter.textValue"
-                   ng-model-options="::filterModelOptions"
-                   ng-required="true"
-                   class="advanced-filters--text-field"
-                   id="values-{{filter.name}}"
-                   name="v[{{filter.name}}]"
-                   size="3"
-                   type="text"
-                   ng-disabled="isLoading"/>
-            <label ng-switch-when="date_past" for="values_{{name}}" class="form-label -transparent">
-              {{ I18n.t('js.work_packages.time_relative.days') }}
-            </label>
-          </span>
+              <label for="values-{{filter.name}}" class="form-label -transparent">
+                {{ I18n.t('js.work_packages.time_relative.days') }}
+              </label>
+            </div>
+          </ng-switch>
         </div>
 
         <div ng-if="showValueOptionsAsSelect"
@@ -128,7 +156,6 @@
                                filter="filter"
                                is-multiselect="false"
                                isDisabled="isLoading"/>
-
         </div>
       </div>
 
@@ -140,6 +167,7 @@
         </accessible-by-keyboard>
         <!-- TODO I18n -->
       </div>
+
     </li>
 
     <li class="advanced-filters--spacer" ng-if="query.getActiveFilters().length > 0"></li>

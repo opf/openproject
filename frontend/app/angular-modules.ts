@@ -166,7 +166,6 @@ export const wpButtonsModule = angular.module('openproject.wpButtons',
 
 // main app
 var angularDragula:any = require('angular-dragula');
-var typeahead:any = require('angular-ui-bootstrap/src/typeahead/index-nocss.js');
 
 export const openprojectModule = angular.module('openproject', [
   'ui.router',
@@ -180,7 +179,6 @@ export const openprojectModule = angular.module('openproject', [
   'ngAnimate',
   'ngAria',
   'ngSanitize',
-  typeahead,
   angularDragula(angular),
   'ngDialog',
   'truncate',

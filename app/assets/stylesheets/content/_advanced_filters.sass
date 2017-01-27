@@ -35,6 +35,27 @@
   &.collapsed
     display: none
 
+.advanced-filters--operator-value-container
+  display: flex
+  flex: 0 0 60%
+  flex-flow: row wrap
+  align-items: flex-start
+  min-width: 60%
+  max-width: 60%
+
+.advanced-filters--value-container
+  display: flex
+  align-items: flex-start
+  flex: 1 1 auto
+  flex-flow: row nowrap
+
+.advanced-filters--value-container > *
+  margin-right: 8px
+
+.advanced-filters--value-container
+  .advanced-filters--date-field
+    min-width: 100px
+
 @mixin advanced-filters--sizing()
   @include grid-block()
 
@@ -75,16 +96,20 @@
   @extend .form--text-field, .form--text-field.-small
 
 .advanced-filters--filter-name
-  @include grid-content(3)
+  @include grid-content(2)
   overflow-y: hidden
   white-space: nowrap
   text-overflow: ellipsis
 
 .advanced-filters--filter-operator
-  @include grid-content(3)
+  @include grid-content()
+  @include grid-visible-overflow
+  min-width: 120px
+  max-width: 200px
 
 .advanced-filters--filter-value
-  @include grid-content(5)
+  @include grid-content()
+  @include grid-visible-overflow
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)

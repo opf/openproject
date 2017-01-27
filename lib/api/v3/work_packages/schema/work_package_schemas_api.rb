@@ -37,15 +37,53 @@ module API
       module Schema
         class WorkPackageSchemasAPI < ::API::OpenProjectAPI
           resources :schemas do
-            params do
-              requires :project, desc: 'Work package schema id'
-              requires :type, desc: 'Work package schema id'
-            end
-
             helpers do
               def raise404
                 raise ::API::Errors::NotFound.new
               end
+
+              def raise_invalid_query
+                message = I18n.t('api_v3.errors.missing_or_malformed_parameter',
+                                 parameter: 'filters')
+
+                raise ::API::Errors::InvalidQuery.new(message)
+              end
+
+              def parse_filter_for_project_type_pairs
+                begin
+                  filter = JSON::parse(params[:filters])
+                rescue TypeError, JSON::ParseError
+                  raise_invalid_query
+                end
+
+                service = ParseSchemaFilterParamsService
+                          .new(user: current_user)
+                          .call(filter)
+
+                if service.success?
+                  service.result
+                else
+                  raise_invalid_query
+                end
+              end
+
+              def schemas_path_with_filters_params
+                "#{api_v3_paths.work_package_schemas}?#{{ filters: params[:filters] }.to_query}"
+              end
+            end
+
+            get do
+              authorize(:view_work_packages, global: true)
+
+              project_type_pairs = parse_filter_for_project_type_pairs
+
+              schemas = project_type_pairs.map do |project, type|
+                TypedWorkPackageSchema.new(project: project, type: type)
+              end
+
+              WorkPackageSchemaCollectionRepresenter.new(schemas,
+                                                         schemas_path_with_filters_params,
+                                                         current_user: current_user)
             end
 
             # The schema identifier is an artificial identifier that is composed of a work package's
@@ -53,6 +91,10 @@ module API
             # This allows to have a separate schema URL for each kind of different work packages
             # but with better caching capabilities than simply using the work package id as
             # identifier for the schema.
+            params do
+              requires :project, desc: 'Work package schema id'
+              requires :type, desc: 'Work package schema id'
+            end
             namespace ':project-:type' do
               before do
                 begin

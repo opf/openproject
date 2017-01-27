@@ -26,27 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
+import {CollectionResource} from './collection-resource.service';
+import {opApiModule} from '../../../../angular-modules';
 
-function opFullWidthTypeahead( $timeout ) {
-  return {
-    restrict: 'A',
-    require: 'uibTypeahead',
-    link: function(scope, element, attrs, $select) {
-      const watchOn = attrs['typeaheadIsOpen'];
-
-      if (!watchOn) {
-        throw "Missing typeahead-is-open on typeahead directive!";
-      }
-
-      scope.$watch(watchOn, (isOpen) => {
-        if (isOpen) {
-          angular.element('#' + element.attr('aria-owns')).width(element.outerWidth());
-        }
-      });
-    }
-  };
+interface WorkPackageCollectionResourceEmbedded {
+  schemas: CollectionResource;
 }
 
-wpDirectivesModule.directive('opFullwidthTypeahead', opFullWidthTypeahead);
+export class WorkPackageCollectionResource extends CollectionResource {
+  public schemas: CollectionResource;
+}
 
+export interface WorkPackageCollectionResourceInterface extends WorkPackageCollectionResourceEmbedded, WorkPackageCollectionResource {
+}
+
+function workPackageCollectionResource() {
+  return WorkPackageCollectionResource;
+}
+
+opApiModule.factory('WorkPackageCollectionResource', workPackageCollectionResource);

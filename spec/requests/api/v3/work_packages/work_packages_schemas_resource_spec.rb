@@ -35,7 +35,97 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
 
   let(:project) { FactoryGirl.create(:project) }
   let(:type) { FactoryGirl.create(:type) }
-  let(:current_user) { FactoryGirl.build(:user, member_in_project: project) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:current_user) do
+    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+  end
+
+  describe 'GET /api/v3/work_packages/schemas/filters=...' do
+    let(:filter_values) { ["#{project.id}-#{type.id}"] }
+    let(:schema_path) do
+      filter = [{ 'id' => {
+        'operator' => '=',
+        'values' => filter_values
+      } }]
+
+      "#{api_v3_paths.work_package_schemas}?#{{ filters: filter.to_json }.to_query}"
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(current_user)
+      get schema_path
+    end
+
+    context 'authorized' do
+      context 'valid' do
+        it 'returns HTTP 200' do
+          expect(last_response.status).to eql(200)
+        end
+
+        it 'returns a collection of schemas' do
+          expect(last_response.body)
+            .to be_json_eql(api_v3_paths.work_package_schema(project.id, type.id).to_json)
+            .at_path('_embedded/elements/0/_links/self/href')
+        end
+
+        it 'has the self href set correctly' do
+          expect(last_response.body)
+            .to be_json_eql(schema_path.to_json)
+            .at_path('_links/self/href')
+        end
+      end
+
+      context 'for a non existing project' do
+        let(:filter_values) { ["#{0}-#{type.id}"] }
+
+        it 'returns HTTP 200' do
+          expect(last_response.status).to eql(200)
+        end
+
+        it 'returns an empty collection' do
+          expect(last_response.body)
+            .to be_json_eql(0.to_json)
+            .at_path('count')
+        end
+      end
+
+      context 'for a non existing type' do
+        let(:filter_values) { ["#{project.id}-#{0}"] }
+
+        it 'returns HTTP 200' do
+          expect(last_response.status).to eql(200)
+        end
+
+        it 'returns an empty collection' do
+          expect(last_response.body)
+            .to be_json_eql(0.to_json)
+            .at_path('count')
+        end
+      end
+
+      context 'for a non valid filter' do
+        let(:filter_values) { ['bogus'] }
+
+        it 'returns HTTP 400' do
+          expect(last_response.status).to eql(400)
+        end
+
+        it 'returns an error' do
+          expect(last_response.body)
+            .to be_json_eql('urn:openproject-org:api:v3:errors:InvalidQuery'.to_json)
+            .at_path('errorIdentifier')
+        end
+      end
+    end
+
+    context 'not authorized' do
+      let(:role) { FactoryGirl.create(:role, permissions: []) }
+
+      it 'returns HTTP 403' do
+        expect(last_response.status).to eql(403)
+      end
+    end
+  end
 
   describe 'GET /api/v3/work_packages/schemas/:id' do
     let(:schema_path) { api_v3_paths.work_package_schema project.id, type.id }
@@ -91,12 +181,6 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
       context 'id is too short' do
         it_behaves_like 'not found' do
           let(:schema_path) { "/api/v3/work_packages/schemas/#{project.id}" }
-        end
-      end
-
-      context 'id is missing' do
-        it_behaves_like 'not found' do
-          let(:schema_path) { '/api/v3/work_packages/schemas/' }
         end
       end
     end

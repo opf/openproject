@@ -34,6 +34,7 @@ function queryFilterDirective($timeout,
                               QueryService,
                               PaginationService,
                               I18n,
+                              TimezoneService,
                               OPERATORS_NOT_REQUIRING_VALUES) {
   var updateResultsJob;
 
@@ -49,8 +50,13 @@ function queryFilterDirective($timeout,
         debounce: {'default': 400, 'blur': 0}
       };
 
+      scope.filterDateModelOptions = {
+        updateOn: 'default change blur',
+        debounce: {'default': 400, 'change': 0, 'blur': 0}
+      };
+
       $animate.enabled(false, element);
-      scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
+      scope.showValueOptionsAsSelect = scope.filter.isSelectInputField();
 
       if (scope.showValueOptionsAsSelect) {
         WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues,
@@ -78,18 +84,13 @@ function queryFilterDirective($timeout,
       });
 
       scope.$watch('filter', function (filter, oldFilter) {
-        var isEmptyText = filter.type === 'text' && filter.textValue === undefined;
-        var isEmptySelect = filter.type === 'list_status' && filter.values && filter.values[0] === 'undefined';
+        if (filter !== oldFilter && (filter.hasValues() || filter.isConfigured())
+          && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
 
-        if (filter !== oldFilter && !isEmptySelect) {
-          if ((isEmptyText || filter.isConfigured())
-            && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
-
-            PaginationService.resetPage();
-            scope.$emit('queryStateChange');
-            scope.$emit('workPackagesRefreshRequired');
-            scope.query.dirty = true;
-          }
+          PaginationService.resetPage();
+          scope.$emit('queryStateChange');
+          scope.$emit('workPackagesRefreshRequired');
+          scope.query.dirty = true;
         }
       }, true);
 
@@ -118,13 +119,13 @@ function queryFilterDirective($timeout,
 
       function preselectOperator() {
         if (!scope.filter.operator) {
-          var operatorArray = _.find(
+          var operator = _.find(
             scope.operatorsAndLabelsByFilterType[scope.filter.type],
             function (operator) {
-              return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator[0]) === -1;
+              return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator['symbol']) === -1;
             }
           );
-          scope.filter.operator = operatorArray ? operatorArray[0] : undefined;
+          scope.filter.operator = operator ? operator['symbol'] : undefined;
         }
       }
     }
