@@ -45,7 +45,7 @@ module Redmine
                                     title: ::I18n.t('js.inplace.link_formatting_help')
 
           javascript_tag(<<-EOF)
-            // initialize the toolbar later, so that i18n-js has a chance to set the translations
+            // initialSetup the toolbar later, so that i18n-js has a chance to set the translations
             // for the wiki-buttons first.
             jQuery(document).ready(function(){
               var wikiToolbar = new jsToolBar(document.getElementById('#{field_id}'));

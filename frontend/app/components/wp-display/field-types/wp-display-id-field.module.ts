@@ -59,7 +59,7 @@ export class IdDisplayField extends DisplayField {
     }
 
     let link = UiStateLinkBuilder.linkToShow(
-      <number> this.value,
+      this.value,
       displayText,
       this.value
     );

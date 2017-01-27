@@ -2,6 +2,7 @@ import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {State} from '../../../helpers/reactive-fassade';
 import {WPTableRowSelectionState, WorkPackageTableRow} from '../wp-table.interfaces';
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageTableSelection {
 
@@ -15,14 +16,18 @@ export class WorkPackageTableSelection {
     }
   }
 
+  public isSelected(workPackageId:string) {
+    return this.currentState.selected[workPackageId];
+  }
+
   /**
    * Select all work packages
    */
-  public selectAll(rows: WorkPackageTableRow[]) {
+  public selectAll(rows: string[]) {
     const state = this._emptyState;
 
-    rows.forEach((row) => {
-      state.selected[row.workPackageId] = true;
+    rows.forEach((workPackageId) => {
+      state.selected[workPackageId] = true;
     });
 
     this.selectionState.put(state);
@@ -55,7 +60,7 @@ export class WorkPackageTableSelection {
    * Toggle a single row selection state and update the state.
    * @param workPackageId
    */
-  public toggleRow(workPackageId:number) {
+  public toggleRow(workPackageId:string) {
     let isSelected = this.currentState.selected[workPackageId];
     this.setRowState(workPackageId, !isSelected);
   }
@@ -65,7 +70,7 @@ export class WorkPackageTableSelection {
    * @param workPackageId
    * @param newState
    */
-  public setRowState(workPackageId:number, newState:boolean) {
+  public setRowState(workPackageId:string, newState:boolean) {
     let state = this.currentState;
     state.selected[workPackageId] = newState;
     this.selectionState.put(state);
@@ -91,7 +96,7 @@ export class WorkPackageTableSelection {
    * @param rows Current visible rows
    * @param selected Selection target
    */
-  public setMultiSelectionFrom(rows:WorkPackageTableRow[], selected:WorkPackageTableRow) {
+  public setMultiSelectionFrom(rows:string[], selected:WorkPackageTableRow) {
     let state = this.currentState;
 
     if (this.selectionCount === 0) {
@@ -101,8 +106,8 @@ export class WorkPackageTableSelection {
       let start = Math.min(selected.position, state.activeRowIndex);
       let end = Math.max(selected.position, state.activeRowIndex);
 
-      rows.forEach((row, i) => {
-        state.selected[row.object.id] = i >= start && i <= end;
+      rows.forEach((workPackageId, i) => {
+        state.selected[workPackageId] = i >= start && i <= end;
       });
     }
 

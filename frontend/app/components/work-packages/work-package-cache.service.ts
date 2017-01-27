@@ -80,7 +80,7 @@ export class WorkPackageCacheService {
     }
   }
 
-  loadWorkPackage(workPackageId: number, forceUpdate = false): State<WorkPackageResource> {
+  loadWorkPackage(workPackageId: string, forceUpdate = false): State<WorkPackageResource> {
     const state = this.states.workPackages.get(getWorkPackageId(workPackageId));
     if (forceUpdate) {
       state.clear();
@@ -89,7 +89,7 @@ export class WorkPackageCacheService {
     // Several services involved in the creation of work packages
     // use this method to resolve the latest created work package,
     // so let them just subscribe.
-    if (workPackageId.toString() === 'new') {
+    if (workPackageId === 'new') {
       return state;
     }
 

@@ -31,7 +31,7 @@ export class States {
   };
 
   // Current focused work package (e.g, row preselected for details button)
-  focusedWorkPackage = new State<number>();
+  focusedWorkPackage = new State<string>();
 
   // Open editing forms
   editing = new MultiState<WorkPackageEditForm>();

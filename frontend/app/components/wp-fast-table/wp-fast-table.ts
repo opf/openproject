@@ -8,6 +8,7 @@ import {TableEventsRegistry} from './handlers/table-events-registry';
 
 import {Observable} from 'rxjs';
 import {WorkPackageTableRow, WPTableRowSelectionState} from './wp-table.interfaces';
+import {WorkPackageTableSelection} from './state/wp-table-selection.service';
 
 interface WorkPackageRow {
   workPackage:WorkPackageResource;
@@ -23,8 +24,8 @@ export class WorkPackageTable {
   public states:States;
   public I18n:op.I18n;
 
-  public rows: WorkPackageTableRow[];
-  public rowIndex:{[id: number]: WorkPackageTableRow};
+  public rows: string[];
+  public rowIndex:{[id: string]: WorkPackageTableRow};
 
   // Row builder instance
   private rowBuilder = new RowBuilder();
@@ -39,77 +40,92 @@ export class WorkPackageTable {
     return this.rowIndex[workPackageId];
   }
 
-  public initialize(rows:WorkPackageResource[]) {
+  /**
+   * Build the row index and positions from the given set of ordered work packages.
+   * @param rows
+   */
+  private buildIndex(rows) {
     this.rowIndex = {};
     this.rows = rows.map((wp:WorkPackageResource, i:number) => {
-      let row = <WorkPackageTableRow> { object: wp, workPackageId: wp.id, position: i };
-      this.rowIndex[wp.id] = row;
-
-      return row;
+      let id = wp.id;
+      this.rowIndex[id] = <WorkPackageTableRow> { object: wp, workPackageId: id, position: i };
+      return id;
     });
+  }
+
+  /**
+   * Observe the WP multi state for _any_ change on the known work packages.
+   * If a visible row is affected, refresh it immediately.
+   */
+  private observeRowChanges() {
+    this.states.workPackages.observe(null)
+      .subscribe(([changedId, wp]: [string, WorkPackageResource]) => {
+      let row = this.rowIndex[changedId];
+
+      if (row !== undefined) {
+        row.object = wp;
+        this.refreshWorkPackage(row);
+        this.rowIndex[changedId] = row;
+      }
+    });
+  }
+
+  /**
+   *
+   * @param rows
+   */
+  public initialSetup(rows:WorkPackageResource[]) {
+    // Build the row representation
+    this.buildIndex(rows);
 
     // Draw work packages
     this.refreshAllWorkPackages();
 
     // Observe changes on the work packages multistate
-    this.states.workPackages.observe(null).subscribe((changedId:string) => {
-      let row = this.rowIndex[changedId];
-
-      if (row !== undefined) {
-        this.refreshWorkPackage(row.object);
-      }
-    });
+    this.observeRowChanges();
 
     // Preselect first work package as focused
     if (this.rows.length) {
-      this.states.focusedWorkPackage.put(this.rows[0].workPackageId);
+      this.states.focusedWorkPackage.put(this.rows[0]);
     }
   }
 
   public refreshAllWorkPackages() {
     let tbodyContent = document.createDocumentFragment();
-    let selection = this.states.table.selection.getCurrentValue();
 
-    let times = 0;
-    this.rows.forEach((row:WorkPackageTableRow) => {
+    this.rows.forEach((wpId:string) => {
+      let row = this.rowIndex[wpId];
 
-      var t0 = performance.now();
       let tr = this.rowBuilder.createEmptyRow(row.object);
       this.rowBuilder.build(row.object, tr);
-      var t1 = performance.now();
-      times += (t1-t0);
-
-      if (selection.selected[row.workPackageId]) {
-        tr.classList.add('-checked');
-      }
+      row.element = tr;
 
       tbodyContent.appendChild(tr);
     });
 
-    console.log("Rows took " + (times / this.rows.length) + " ms on average.");
-    console.log("Inner refresh " + times );
     this.tbody.innerHTML = '';
     this.tbody.appendChild(tbodyContent);
   }
 
-  public refreshWorkPackage(workPackage) {
+  public refreshWorkPackage(row:WorkPackageTableRow) {
     // If the work package is dirty, we're working on it
-    if (workPackage.dirty) {
-      console.log("Skipping row " + workPackage.id + " since its dirty");
+    if (row.object.dirty) {
+      console.log("Skipping row " + row.workPackageId + " since its dirty");
       return;
     }
 
     // Get the row for the WP if refreshing existing
-    let oldRow = <HTMLElement> document.getElementById('wp-row-' + workPackage.id);
+    let oldRow = row.element || this.locateRow(row.workPackageId);
 
-    if (oldRow.dataset['lockVersion'] === workPackage.lockVersion.toString()) {
-      console.log("Skipping row " + workPackage.id + " since its fresh");
+    if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
+      console.log("Skipping row " + row.workPackageId + " since its fresh");
       return;
     }
 
-    let newRow = this.rowBuilder.createEmptyRow(workPackage);
-    this.rowBuilder.build(workPackage, newRow);
+    let newRow = this.rowBuilder.createEmptyRow(row.object);
+    this.rowBuilder.build(row.object, newRow);
     oldRow.parentNode.replaceChild(newRow, oldRow);
+    row.element = newRow;
   }
 
   private renderSelectionState(state:WPTableRowSelectionState) {
@@ -120,15 +136,17 @@ export class WorkPackageTable {
     });
   }
 
+  private locateRow(id):HTMLElement {
+    return document.getElementById('wp-row-' + id);
+  }
+
   private initializeStates() {
     // Redraw table if rows changed
     this.states.table.rows.observe(null).subscribe((rows:WorkPackageResource[]) => {
-      this.states.table.columns.get().then(() => {
-        var t0 = performance.now();
-        this.initialize(rows);
-        var t1 = performance.now();
-        console.log("Initialize took " + (t1 - t0) + " milliseconds.");
-      });
+      var t0 = performance.now();
+      this.initialSetup(rows);
+      var t1 = performance.now();
+      console.log("Initialize took " + (t1 - t0) + " milliseconds.");
     });
 
     this.states.table.columns.observe(null).subscribe(() => {

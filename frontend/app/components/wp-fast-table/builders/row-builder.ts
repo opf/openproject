@@ -3,11 +3,13 @@ import {CellBuilder} from './cell-builder';
 import {States} from '../../states.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 import {DetailsLinkBuilder} from './details-link-builder';
+import {WorkPackageTableSelection} from '../state/wp-table-selection.service';
 export const rowClassName = 'wp-table--row';
 
 export class RowBuilder {
   // Injections
   public states:States;
+  public wpTableSelection:WorkPackageTableSelection;
   public I18n:op.I18n;
 
   // Cell builder instance
@@ -36,13 +38,6 @@ export class RowBuilder {
   }
 
   public build(workPackage:WorkPackageResource, row:HTMLElement) {
-    // Temporary check whether schema is available
-    // This shouldn't be necessary with the queries refactor
-    if (!workPackage.schema.$loaded) {
-      workPackage.schema.$load();
-      return;
-    }
-
     row.id = `wp-row-${workPackage.id}`;
     row.classList.add('wp-table--row', 'wp--row', 'issue');
 
@@ -53,8 +48,13 @@ export class RowBuilder {
 
     // Last column: details link
     this.detailsLinkBuilder.build(workPackage, row);
+
+    // Set the row selection state
+    if (this.wpTableSelection.isSelected(<string>workPackage.id)) {
+      row.classList.add('-checked');
+    }
   }
 }
 
 
-RowBuilder.$inject = ['states', 'I18n'];
+RowBuilder.$inject = ['states', 'wpTableSelection', 'I18n'];

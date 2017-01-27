@@ -22,7 +22,7 @@ export class DetailsLinkBuilder {
     td.classList.add('wp-table--details-column', 'hide-when-print', '-short');
 
     let detailsLink = UiStateLinkBuilder.linkToDetails(
-      <number> workPackage.id,
+      workPackage.id,
       this.text.button,
       ''
     );

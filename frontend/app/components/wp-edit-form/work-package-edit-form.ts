@@ -63,7 +63,7 @@ export class WorkPackageEditForm {
   // The last field that got activated
   public lastActiveField:string;
 
-  constructor(public workPackageId:number,
+  constructor(public workPackageId:string,
               public editMode = false) {
     injectorBridge(this);
 

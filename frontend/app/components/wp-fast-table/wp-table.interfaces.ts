@@ -1,12 +1,13 @@
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 export interface WorkPackageTableRow {
   object:WorkPackageResource;
-  workPackageId:number;
+  workPackageId:string;
   position:number;
+  element?:HTMLElement;
 }
 
 export interface WorkPackageTableRowsState {
-  [workPackageId:number]:WorkPackageTableRow;
+  [workPackageId:string]:WorkPackageTableRow;
 }
 
 export interface WorkPackageTableColumns {

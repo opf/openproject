@@ -65,7 +65,7 @@ export class WatchersPanelController {
       return;
     }
 
-    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observeOnScope($scope)
+    wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadCurrentWatchers();
@@ -157,7 +157,7 @@ export class WatchersPanelController {
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.autocompleteInput = '';
       })
       .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
@@ -170,7 +170,7 @@ export class WatchersPanelController {
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
       .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
   };
