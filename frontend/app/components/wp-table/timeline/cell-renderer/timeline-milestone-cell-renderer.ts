@@ -30,7 +30,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     const placeholder = document.createElement("div");
     placeholder.className = "timeline-element milestone";
     placeholder.style.pointerEvents = "none";
-    placeholder.style.position = "absolute";
     placeholder.style.height = "1em";
     placeholder.style.width = "1em";
     placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + "px";
@@ -94,6 +93,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     if (dateForCreate) {
       renderInfo.workPackage.date = dateForCreate;
       direction = "create";
+      return direction;
     }
 
     // create date label

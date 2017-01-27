@@ -61,11 +61,6 @@ export function registerWorkPackageMouseHandler(this: void,
     workPackageMouseDownFn(ev);
   };
 
-  jBody.on("mouseup", () => {
-      deactivate(false);
-    }
-  );
-
   function applyDateValues(dates:{[name:string]: Moment}) {
     const wp = renderInfo.workPackage;
 
@@ -108,6 +103,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
     jBody.on("mousemove", createMouseMoveFn(direction));
     jBody.on("keyup", keyPressFn);
+    jBody.on("mouseup", () => deactivate(false));
   }
 
   function handleMouseMoveOnEmptyCell(ev: MouseEvent) {
@@ -142,6 +138,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
       if (mouseDownType === "create") {
         deactivate(false);
+        ev.preventDefault();
         return;
       }
 
@@ -162,25 +159,17 @@ export function registerWorkPackageMouseHandler(this: void,
         deactivate(false);
       };
 
-      jBody.on("keyup", (ev) => {
-        const kev: KeyboardEvent = ev as any;
-        if (kev.keyCode === keyCodeESC) {
-          deactivate(true);
-        }
-      });
-
+      jBody.on("keyup", keyPressFn);
     };
   }
 
   function deactivate(cancelled: boolean) {
     workPackageTimeline.disableViewParamsCalculation = false;
 
-    // if (startX == null) {
-    //   return;
-    // }
-
     cell.onmousemove = handleMouseMoveOnEmptyCell;
+    cell.onmouseup = null;
     bar.style.pointerEvents = "auto";
+    jBody.off("mouseup");
     jBody.off("mousemove");
     jBody.off("keyup");
     jQuery(".hascontextmenu").css("cursor", "context-menu");
