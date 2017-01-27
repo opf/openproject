@@ -62,7 +62,7 @@ export class WorkPackageTable {
       .subscribe(([changedId, wp]: [string, WorkPackageResource]) => {
       let row = this.rowIndex[changedId];
 
-      if (row !== undefined) {
+      if (wp && row) {
         row.object = wp;
         this.refreshWorkPackage(row);
         this.rowIndex[changedId] = row;
