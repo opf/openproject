@@ -152,7 +152,7 @@ export class MultiStateMember<T> extends State<T> {
   // of the change.
   protected setState(val: T) {
     super.setState(val);
-    this.parentMultiState.changed(this.id);
+    this.parentMultiState.changed(this.id, val);
   }
 }
 
@@ -160,7 +160,7 @@ export class MultiState<T> extends StoreElement {
 
   private states: {[id: string]: MultiStateMember<T>} = {};
 
-  private memberSubject = new BehaviorSubject<string>(null);
+  private memberSubject = new BehaviorSubject<[string, T]>(null);
 
   constructor() {
     super();
@@ -183,16 +183,17 @@ export class MultiState<T> extends StoreElement {
    * @param scope An optional scope
    * @returns {Observable<string>} Observable on the changed ids
    */
-  public observe(scope: IScope): Observable<string> {
+  public observe(scope: IScope): Observable<[string, T]> {
     return scope ? scopedObservable(scope, this.memberSubject) : this.memberSubject;
   }
 
   /**
    * Notify MultiState of a change in member {id}.
-   * @param id
+   * @param id The id of the changed member
+   * @param value The next value
    */
-  public changed(id: string) {
-    this.memberSubject.next(id);
+  public changed(id: string, value: T) {
+    this.memberSubject.next([id, value]);
   }
 }
 
