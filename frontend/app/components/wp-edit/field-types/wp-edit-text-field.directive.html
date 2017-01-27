@@ -2,6 +2,7 @@
        class="wp-inline-edit--field"
        wp-edit-field-requirements="vm.field.schema"
        ng-model="vm.workPackage[vm.fieldName]"
+       ng-required="vm.field.required"
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
        ng-disabled="vm.workPackage.inFlight"
