@@ -32,8 +32,7 @@ import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
-
-const keyCodeESC = 27;
+import {keyCodes} from "../../common/keyCodes.enum";
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
@@ -87,7 +86,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
   function keyPressFn(ev: JQueryEventObject) {
     const kev: KeyboardEvent = ev as any;
-    if (kev.keyCode === keyCodeESC) {
+    if (kev.keyCode === keyCodes.ESCAPE) {
       deactivate(true);
     }
   }
