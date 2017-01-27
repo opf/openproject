@@ -102,7 +102,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
     wp.custom_field_values = { bool_cf.id => true,
                                bool_cf_local.id => false,
                                user_cf_local.id => user,
-                               list_cf.id => list_cf.possible_values.first }
+                               list_cf.id => list_cf.possible_values.first.id }
 
     wp.save!
 
@@ -137,7 +137,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
       expect(page).to have_selector('th:nth-of-type(2)',
                                     text: list_cf.name)
       expect(page).to have_selector('td:nth-of-type(2)',
-                                    text: list_cf.possible_values.first)
+                                    text: list_cf.possible_values.first.value)
       expect(page).to have_selector('th:nth-of-type(3)',
                                     text: 'Assignee')
       expect(page).to have_selector('td:nth-of-type(3)',
@@ -171,7 +171,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
       expect(page).to have_selector('td:nth-of-type(3)',
                                     text: user.name)
       expect(page).to have_no_selector('td', text: 'No')
-      expect(page).to have_no_selector('td', text: list_cf.possible_values.first)
+      expect(page).to have_no_selector('td', text: list_cf.possible_values.first.value)
       expect(page).to have_no_selector('td', text: work_package1.assigned_to.name)
     end
 
@@ -191,7 +191,7 @@ describe Timeline, 'view custom fields', type: :feature, js: true do
                                     text: 'Yes')
       expect(page).to have_no_selector('td', text: user.name)
       expect(page).to have_no_selector('td', text: 'No')
-      expect(page).to have_no_selector('td', text: list_cf.possible_values.first)
+      expect(page).to have_no_selector('td', text: list_cf.possible_values.first.value)
       expect(page).to have_no_selector('td', text: work_package1.assigned_to.name)
     end
   end

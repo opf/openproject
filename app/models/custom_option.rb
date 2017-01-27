@@ -1,12 +1,13 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,20 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Localized decimal custom fields can be created
+##
+# A custom option is a possible value for a given custom field
+# which is restricted to a set of specific values.
+class CustomOption < ActiveRecord::Base
+  acts_as_list
 
-  Background:
-    Given I am already admin
-    And the following languages are active:
-      | en |
-      | de |
-    When I go to the custom fields page
-    When I follow "Create a new custom field" within "#tab-content-WorkPackageCustomField"
+  belongs_to :custom_field
 
-  @javascript
-  Scenario: Creating a decimal custom field
-    When I select "Float" from "custom_field_field_format"
-    And I set the english localization of the "name" attribute to "New Field"
-    And I set the english localization of the "default_value" attribute to "20.34"
-    And I press "Save"
-    Then I should be on the custom fields page
+  validates :value, presence: true, length: { maximum: 255 }
+end

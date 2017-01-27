@@ -87,7 +87,7 @@ FactoryGirl.define do
       factory :list_wp_custom_field do
         sequence(:name) do |n| "List CF #{n}" end
         field_format 'list'
-        possible_values ['1', '2', '3', '4', '5', '6', '7']
+        possible_values ['A', 'B', 'C', 'D', 'E', 'F', 'G']
       end
 
       factory :version_wp_custom_field do

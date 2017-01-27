@@ -40,7 +40,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:instance_key) { nil }
   let(:name) { field.name }
 
-  let(:list_wp_custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
+  let(:list_wp_custom_field) { FactoryGirl.create(:list_wp_custom_field) }
   let(:bool_wp_custom_field) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
   let(:int_wp_custom_field) { FactoryGirl.build_stubbed(:int_wp_custom_field) }
   let(:float_wp_custom_field) { FactoryGirl.build_stubbed(:float_wp_custom_field) }
@@ -112,7 +112,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         let(:custom_field) { list_wp_custom_field }
 
         before do
-          instance.values = [list_wp_custom_field.possible_values.first.to_s]
+          instance.values = [list_wp_custom_field.possible_values.first.id]
         end
 
         it 'is valid' do
@@ -294,7 +294,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     it 'is list_optional for a list' do
       instance.name = "cf_#{list_wp_custom_field.id}"
       expect(instance.allowed_values)
-        .to match_array list_wp_custom_field.possible_values.map { |value| [value, value] }
+        .to match_array list_wp_custom_field.custom_options.map { |co| [co.value, co.id] }
     end
 
     it 'is list_optional for a user' do

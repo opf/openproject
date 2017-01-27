@@ -66,7 +66,7 @@ module API
           def assignable_custom_field_values(custom_field)
             case custom_field.field_format
             when 'list'
-              custom_field.possible_values
+              custom_field.custom_options.map { |co| [co.value, co.id] }
             when 'version'
               assignable_values(:version, nil)
             end

@@ -442,8 +442,23 @@ export class WorkPackageResource extends HalResource {
     // Merged linked properties from form payload
     Object.keys(plainPayload._links).forEach(key => {
       if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
-        var value = this[key] ? this[key].href : null;
-        plainPayload._links[key] = {href: value};
+        var isArray = (schema[key].type || '').startsWith('[]');
+
+        if (isArray) {
+          var links:{href:string}[] = [];
+          var elements = (this[key].forEach && this[key]) || this[key].elements;
+
+          elements.forEach((link:{href:string}) => {
+            if (link.href) {
+              links.push({ href: link.href });
+            }
+          });
+
+          plainPayload._links[key] = links;
+        } else {
+          var value = this[key] ? this[key].href : null;
+          plainPayload._links[key] = {href: value};
+        }
       }
     });
 

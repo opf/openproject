@@ -31,11 +31,19 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content = object[option];
+      var displayContent = function(content) {
+        return content.name || content.subject || content.title || content.value || '';
+      };
 
       switch(typeof(content)) {
         case 'object':
-          if (content === null) { return ''; }
-          return content.name || content.subject || content.title || content.value || '';
+          if (content === null) {
+            return '';
+          } else if (content instanceof Array) {
+            return content.map(displayContent).join(", ");
+          } else {
+            return displayContent(content);
+          }
         case 'number':
           return content;
         default:

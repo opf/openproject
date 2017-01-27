@@ -30,16 +30,39 @@
 class QueryCustomFieldColumn < QueryColumn
   def initialize(custom_field)
     super
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statements || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statements
-    end
-    self.groupable ||= false
-    self.summable = %w(float int).include?(custom_field.field_format)
-    self.available = custom_field.field_format != 'text'
+
+    set_name! custom_field
+    set_sortable! custom_field
+    set_groupable! custom_field
+    set_summable! custom_field
+    set_available! custom_field
 
     @cf = custom_field
+  end
+
+  def set_name!(custom_field)
+    self.name = "cf_#{custom_field.id}".to_sym
+  end
+
+  def set_sortable!(custom_field)
+    self.sortable = custom_field.order_statements || false
+  end
+
+  def set_groupable!(custom_field)
+    self.groupable = custom_field.order_statements if groupable_custom_field?(custom_field)
+    self.groupable ||= false
+  end
+
+  def set_summable!(custom_field)
+    self.summable = %w(float int).include?(custom_field.field_format)
+  end
+
+  def set_available!(custom_field)
+    self.available = custom_field.field_format != 'text'
+  end
+
+  def groupable_custom_field?(custom_field)
+    %w(list date bool int).include?(custom_field.field_format)
   end
 
   def caption

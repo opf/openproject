@@ -36,10 +36,11 @@ module API
         resources :string_objects do
           params do
             requires :value, type: String
+            optional :name, type: String
           end
 
           get do
-            StringObjectRepresenter.new(params[:value])
+            StringObjectRepresenter.new([params[:name], params[:value]].compact)
           end
         end
       end

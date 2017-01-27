@@ -36,7 +36,7 @@ module API
       class StringObjectRepresenter < ::API::Decorators::Single
         # accepting current_user as argument to match common interface, we do not need it though
         def initialize(string, current_user: nil)
-          super(string, current_user: nil)
+          super(string, current_user: current_user)
         end
 
         link :self do
@@ -45,17 +45,25 @@ module API
           }
         end
 
+        property :name,
+                 exec_context: :decorator,
+                 getter: ->(*) { values.reverse.last || '' }
+
         property :value,
                  exec_context: :decorator,
                  # empty values sometimes get passed as nil. Thus we make sure that we will always
                  # display an empty string
                  # (nil values are not supported by a string_objects URL anyway)
-                 getter: -> (*) { represented || '' }
+                 getter: ->(*) { values.last || '' }
 
         private
 
         def _type
           'StringObject'
+        end
+
+        def values
+          @values ||= Array(represented).compact
         end
 
         def model_required?

@@ -54,6 +54,8 @@ en:
       replace_token: "Replace your current support token"
       order: "Order Enterprise Edition"
       paste: "Paste your Enterprise Edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+      enterprise_link: "For more information, click here."
 
   announcements:
     show_until: Show until
@@ -289,6 +291,7 @@ en:
         is_required: "Required"
         max_length: "Maximum length"
         min_length: "Minimum length"
+        multi_value: "Allow multi-select"
         possible_values: "Possible values"
         regexp: "Regular expression"
         searchable: "Searchable"
@@ -828,6 +831,7 @@ en:
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_check_user_and_role: "Please choose a user and a role."
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_custom_option_not_found: "Option does not exist."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token.'
@@ -1492,6 +1496,7 @@ en:
   notice_api_access_key_reseted: "Your API access key was reset."
   notice_api_access_key_generated: "Your API access key was generated."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
+  notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."

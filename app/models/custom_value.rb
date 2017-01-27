@@ -48,14 +48,6 @@ class CustomValue < ActiveRecord::Base
   validate :validate_type_of_value
   validate :validate_length_of_value
 
-  after_initialize :set_default_value
-
-  def set_default_value
-    if new_record? && custom_field && (customized_type.blank? || (customized && customized.new_record?))
-      self.value ||= custom_field.default_value
-    end
-  end
-
   # returns the value of this custom value, but converts it according to the field_format
   # of the custom field beforehand
   def typed_value

@@ -183,13 +183,19 @@ describe CustomFieldFormBuilder do
 
     context 'for a list custom field' do
       before do
-        resource.custom_field.field_format = 'list'
-        resource.custom_field.possible_values = 'my_option'
+        custom_field = resource.custom_field
+
+        custom_field.field_format = 'list'
+        custom_field.save!
+
+        custom_field.custom_options.create! value: 'my_option', position: 1
       end
 
       it_behaves_like 'wrapped in container', 'select-container'
 
       it 'should output element' do
+        value = resource.custom_field.custom_options.first.id
+
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
@@ -197,7 +203,7 @@ describe CustomFieldFormBuilder do
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option
                   value=\"\"></option>
-                  <option value=\"my_option\">my_option</option></select>
+                  <option value=\"#{value}\">my_option</option></select>
         }).at_path('select')
       end
 
@@ -207,6 +213,8 @@ describe CustomFieldFormBuilder do
         end
 
         it 'should output element' do
+          value = resource.custom_field.custom_options.first.id
+
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
@@ -214,7 +222,7 @@ describe CustomFieldFormBuilder do
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
-                    <option value=\"my_option\">my_option</option></select>
+                    <option value=\"#{value}\">my_option</option></select>
           }).at_path('select')
         end
       end
@@ -222,17 +230,19 @@ describe CustomFieldFormBuilder do
       context 'which is required and a default value' do
         before do
           resource.custom_field.is_required = true
-          resource.custom_field.default_value = 'my_option'
+          resource.custom_field.custom_options.first.update default_value: true
         end
 
         it 'should output element' do
+          value = resource.custom_field.custom_options.first.id
+
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option
-                    value=\"my_option\">my_option</option></select>
+                    value=\"#{value}\">my_option</option></select>
           }).at_path('select')
         end
       end

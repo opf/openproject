@@ -245,8 +245,18 @@ module API
             "#{statuses}/#{id}"
           end
 
+          ##
+          # Accepts either a single value or a [value, title] tuple (array)
+          # and returns an URL to a string object for it.
           def self.string_object(value)
-            "#{root}/string_objects?value=#{::ERB::Util::url_encode(value)}"
+            val, title = Array(value).reverse.map { |v| ::ERB::Util::url_encode(v) }
+            path = "#{root}/string_objects?value=#{val}"
+
+            if title
+              "#{path}&title=#{title}"
+            else
+              path
+            end
           end
 
           def self.types

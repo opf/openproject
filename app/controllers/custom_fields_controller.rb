@@ -32,7 +32,7 @@ class CustomFieldsController < ApplicationController
 
   before_action :require_admin
   before_action :find_types, except: [:index, :destroy]
-  before_action :find_custom_field, only: [:edit, :update, :destroy, :move]
+  before_action :find_custom_field, only: [:edit, :update, :destroy, :move, :delete_option]
   before_action :blank_translation_attributes_as_nil, only: [:create, :update]
 
   def index
@@ -47,6 +47,8 @@ class CustomFieldsController < ApplicationController
   def create
     @custom_field = careful_new_custom_field permitted_params.custom_field_type, @custom_field_params
 
+    set_custom_options!
+
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_custom_fields_new_after_save, custom_field: @custom_field)
@@ -60,6 +62,8 @@ class CustomFieldsController < ApplicationController
 
   def update
     if @custom_field.update_attributes(@custom_field_params)
+      set_custom_options!
+
       if @custom_field.is_a? WorkPackageCustomField
         @custom_field.types.each do |type|
           TypesHelper.update_type_attribute_visibility! type
@@ -68,7 +72,7 @@ class CustomFieldsController < ApplicationController
 
       flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
-      redirect_to custom_fields_path(tab: @custom_field.class.name)
+      redirect_to edit_custom_field_path(id: @custom_field.id)
     else
       render action: 'edit'
     end
@@ -83,10 +87,72 @@ class CustomFieldsController < ApplicationController
     redirect_to custom_fields_path(tab: @custom_field.class.name)
   end
 
+  def delete_option
+    custom_option = CustomOption.find params[:option_id]
+
+    if custom_option
+      num_deleted = delete_custom_values! custom_option
+      custom_option.destroy!
+
+      flash[:notice] = I18n.t(
+        :notice_custom_options_deleted, option_value: custom_option.value, num_deleted: num_deleted
+      )
+    else
+      flash[:error] = I18n.t(:error_custom_option_not_found)
+    end
+
+    redirect_to edit_custom_field_path(id: @custom_field.id)
+  end
+
   private
+
+  def delete_custom_values!(custom_option)
+    CustomValue
+      .where(custom_field_id: custom_option.custom_field_id, value: custom_option.id)
+      .delete_all
+  end
+
+  def set_custom_options!
+    if @custom_field.list?
+      custom_options = Hash(params.permit!.to_h.dig("custom_field", "custom_options"))
+      custom_options.each_with_index do |(id, attr), i|
+        set_custom_option! id, attr, i
+      end
+    end
+  end
+
+  def set_custom_option!(id, attr, i)
+    attr = attr.slice(:value, :default_value)
+
+    if @custom_field.new_record? || !CustomOption.exists?(id)
+      build_custom_option! attr, i
+    else
+      update_custom_option! id, attr, i
+    end
+  end
+
+  def build_custom_option!(attr, i)
+    @custom_field.custom_options.build(
+      value: attr[:value], position: i + 1, default_value: attr[:default_value]
+    )
+  end
+
+  def update_custom_option!(id, attr, i)
+    @custom_field.custom_options.select { |co| co.id == id.to_i }.each do |custom_option|
+      custom_option.value = attr[:value] if custom_option.value != attr[:value]
+      custom_option.default_value = attr[:default_value].present?
+      custom_option.position = i + 1
+      custom_option.save!
+    end
+  end
 
   def blank_translation_attributes_as_nil
     @custom_field_params = permitted_params.custom_field
+
+    if !EnterpriseToken.allows_to?(:multiselect_custom_fields)
+      @custom_field_params.delete :multi_value
+    end
+
     return unless @custom_field_params['translations_attributes']
 
     @custom_field_params['translations_attributes'].each do |_index, attributes|
@@ -102,7 +168,9 @@ class CustomFieldsController < ApplicationController
         klass = type.to_s.constantize
         klass.new(params) if klass.ancestors.include? CustomField
       end
-    rescue
+    rescue NameError => e
+      Rails.logger.error "#{e.message}:\n#{e.backtrace.join("\n")}"
+      nil
     end
     redirect_to custom_fields_path unless cf
     cf

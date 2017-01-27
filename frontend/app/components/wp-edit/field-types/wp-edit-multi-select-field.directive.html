@@ -1,0 +1,33 @@
+<div class="textarea-wrapper">
+  <select
+    ng-model="vm.workPackage[vm.fieldName]"
+    class="focus-input wp-inline-edit--field inplace-edit--textarea -animated form--select"
+    wp-edit-field-requirements="vm.field.schema"
+    ng-options="value as (value.name || value.value) for value in vm.field.options track by value.href"
+    ng-required="vm.field.required"
+    ng-focus="vm.handleUserFocus()"
+    ng-disabled="vm.workPackage.inFlight"
+    focus="vm.shouldFocus()"
+    focus-priority="vm.shouldFocus()"
+    ng-attr-id="{{vm.htmlId}}"
+    multiple=""
+    size=5
+  >
+    <option
+      value=""
+      ng-bind="vm.field.text.requiredPlaceholder"
+      ng-if="vm.field.currentValueInvalid || vm.field.options.length == 0"
+      ng-selected="vm.field.currentValueInvalid || vm.field.options.length == 0"
+      disabled
+    >
+    </option>
+  </select>
+
+  <wp-edit-field-controls ng-show="!vm.inEditMode"
+                          field-controller="vm"
+                          on-save="vm.handleUserSubmit()"
+                          on-cancel="vm.handleUserCancel()"
+                          save-title="{{ vm.field.text.save }}"
+                          cancel-title="{{ vm.field.text.cancel }}">
+  </wp-edit-field-controls>
+</div>

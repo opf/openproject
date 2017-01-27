@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe CustomField, type: :model do
   it 'should create' do
@@ -35,21 +35,21 @@ describe CustomField, type: :model do
   end
 
   it 'should possible values should accept an array' do
-    field = CustomField.new
+    field = CustomField.new field_format: "list"
     field.possible_values = ['One value', '']
-    assert_equal ['One value'], field.possible_values
+    assert_equal ['One value'], field.possible_values.map(&:value)
   end
 
   it 'should possible values should accept a string' do
-    field = CustomField.new
+    field = CustomField.new field_format: "list"
     field.possible_values = 'One value'
-    assert_equal ['One value'], field.possible_values
+    assert_equal ['One value'], field.possible_values.map(&:value)
   end
 
   it 'should possible values should accept a multiline string' do
-    field = CustomField.new
+    field = CustomField.new field_format: "list"
     field.possible_values = "One value\nAnd another one  \r\n \n"
-    assert_equal ['One value', 'And another one'], field.possible_values
+    assert_equal ['One value', 'And another one'], field.possible_values.map(&:value)
   end
 
   it 'should destroy' do
