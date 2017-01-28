@@ -2,11 +2,11 @@ de:
   js:
     work_packages:
       property_groups:
-        costs: Kosten
+        costs: "Kosten"
       properties:
-        costObject: Budget
-        overallCosts: Gesamtkosten
-        spentUnits: Gebuchte Einheiten
-    button_log_costs: Stückkosten buchen
-    label_hour: Stunde
-    label_hours: Stunden
+        costObject: "Budget"
+        overallCosts: "Gesamtkosten"
+        spentUnits: "Gebuchte Einheiten"
+    button_log_costs: "Stückkosten buchen"
+    label_hour: "Stunde"
+    label_hours: "Stunden"
