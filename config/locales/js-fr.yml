@@ -3,4 +3,4 @@ fr:
     work_packages:
       properties:
         storyPoints: "Points d'histoire"
-        remainingTime: Heures restantes
+        remainingTime: "Heures restantes"

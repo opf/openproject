@@ -2,5 +2,5 @@ pt-BR:
   js:
     work_packages:
       properties:
-        storyPoints: Pontos de história
-        remainingTime: Horas restantes
+        storyPoints: "Pontos de história"
+        remainingTime: "Horas restantes"

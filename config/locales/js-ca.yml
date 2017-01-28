@@ -3,4 +3,4 @@ ca:
     work_packages:
       properties:
         storyPoints: "Punts d'història"
-        remainingTime: Hores restants
+        remainingTime: "Hores restants"

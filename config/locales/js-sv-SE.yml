@@ -2,5 +2,5 @@ sv:
   js:
     work_packages:
       properties:
-        storyPoints: Berättelsepoäng
-        remainingTime: Återstående timmar
+        storyPoints: "Berättelsepoäng"
+        remainingTime: "Återstående timmar"
