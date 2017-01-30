@@ -46,7 +46,7 @@ export class CostUnitSubformController {
   public makeEditable(id, name){
     var obj = jQuery(id);
 
-    jQuery(id).on('click', this.edit_and_focus(obj, name));
+    jQuery(id).click(this.edit_and_focus(obj, name));
   }
 
   private edit_and_focus(obj, name) {
@@ -56,7 +56,7 @@ export class CostUnitSubformController {
     jQuery('#'+obj[0].id+'_edit').select();
   }
 
-  private edit(obj, name, obj_value) {
+  private edit(obj, name, obj_value?:any) {
     obj.hide();
 
     var obj_value = typeof(obj_value) != 'undefined' ? obj_value : obj[0].innerHTML;

@@ -28,6 +28,8 @@
 
 import {DisplayField} from 'core-components/wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource.service.ts';
+import {WorkPackageResource} from 'core-components/api/api-v3/hal-resources/work-package-resource.service.ts';
 
 interface ICostsByType {
   $source: {
@@ -59,8 +61,8 @@ export class CostsByTypeDisplayField extends DisplayField {
     if (this.value && this.value.$loaded === false) {
       this.value.$load().then(() => {
 
-        if (this.resource._type === 'WorkPackage') {
-          this.wpCacheService.updateWorkPackage(this.resource);
+        if (this.resource.$source._type === 'WorkPackage') {
+          this.wpCacheService.updateWorkPackage(<WorkPackageResource> this.resource);
         }
       });
     }
