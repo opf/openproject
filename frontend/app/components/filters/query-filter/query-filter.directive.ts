@@ -51,25 +51,28 @@ function queryFilterDirective($timeout,
       };
 
       scope.filterDateModelOptions = {
-        updateOn: 'default change blur',
-        debounce: {'default': 400, 'change': 0, 'blur': 0}
+        updateOn: 'default blur',
+        debounce: {'default': 400, 'blur': 0},
+        timezone: TimezoneService.getTimezoneNG()
       };
 
       $animate.enabled(false, element);
-      scope.showValueOptionsAsSelect = scope.filter.isSelectInputField();
-
-      if (scope.showValueOptionsAsSelect) {
-        WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues,
-          [scope.filter.name, scope.projectIdentifier])
-
-          .then(buildOptions)
-          .then(addStandardOptions)
-          .then(function (options) {
-            scope.availableFilterValueOptions = options;
-          });
+      if (scope.filter.model != undefined) {
+        scope.showValueOptionsAsSelect = scope.filter.model.isSelectInputField();
       }
 
-      preselectOperator();
+      scope.$watch('showValueOptionsAsSelect', function(newValue, oldValue) {
+        if (newValue) {
+          WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues,
+            [scope.filter.name, scope.projectIdentifier])
+
+            .then(buildOptions)
+            .then(addStandardOptions)
+            .then(function (options) {
+              scope.availableFilterValueOptions = options;
+            });
+        }
+      });
 
       scope.$on('openproject.workPackages.updateResults', function () {
         $timeout.cancel(updateResultsJob);
@@ -78,12 +81,13 @@ function queryFilterDirective($timeout,
       // Filter updates
 
       scope.$watch('filter.operator', function (operator) {
-        if (operator && scope.filter.requiresValues) {
-          scope.showValuesInput = scope.filter.requiresValues();
+        if (operator) {
+          scope.showValuesInput = scope.filter.model.requiresValues();
+          scope.showValueOptionsAsSelect = scope.filter.model.isSelectInputField();
         }
       });
 
-      scope.$watch('filter', function (filter, oldFilter) {
+      scope.$watch('filter.model', function (filter, oldFilter) {
         if (filter !== oldFilter && (filter.hasValues() || filter.isConfigured())
           && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
 
@@ -101,7 +105,7 @@ function queryFilterDirective($timeout,
       }
 
       function addStandardOptions(options) {
-        if (scope.filter.modelName === 'user') {
+        if (scope.filter.model.modelName === 'user') {
           options.unshift([I18n.t('js.label_me'), 'me']);
         }
 
@@ -128,6 +132,8 @@ function queryFilterDirective($timeout,
           scope.filter.operator = operator ? operator['symbol'] : undefined;
         }
       }
+
+      preselectOperator();
     }
   };
 }

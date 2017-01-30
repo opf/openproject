@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('Filter', function () {
+describe('FilterModelFactory', function () {
   var Filter;
 
   beforeEach(angular.mock.module('openproject.filters'));

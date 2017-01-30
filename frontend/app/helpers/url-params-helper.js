@@ -75,7 +75,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
             n: filter.name,
             o: encodeURIComponent(filter.operator),
             t: filter.type,
-            v: filter.getValuesAsArray()
+            v: filter.model.getValuesAsArray()
           };
         });
       }

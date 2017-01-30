@@ -1,0 +1,20 @@
+<div>
+  <div class="float-left">
+    <op-datetime-picker
+      ng-model="data.from"
+      ng-if="withFrom"
+      fixed-time="fromTime"
+      with-time-input="withTimeInput"/>
+  </div>
+  <div class="float-left float-clear-after">
+    <op-datetime-picker
+      ng-if="withUntil"
+      ng-model="data.until"
+      fixed-time="untilTime"
+      with-time-input="withTimeInput"/>
+  </div>
+  <div ng-if="withDetail" class="op-datetime-range-filter-detail">
+    <p>({{from}} - {{until}} {{tz}})</p>
+    <p ng-if="withDetailLocal">({{fromLocal}} - {{untilLocal}} {{tzLocal}})</p>
+  </div>
+</div>

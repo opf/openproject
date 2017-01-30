@@ -43,10 +43,10 @@
         <div id="div-values-{{filter.name}}"
              ng-if="!showValueOptionsAsSelect"
              ng-show="showValuesInput"
-             ng-switch="filter.type.startsWith('date') ? 'date' : filter.type">
+             ng-switch="filter.type.startsWith('datetime') ? 'datetime' : filter.type.startsWith('date') ? 'date' : filter.type">
 
           <input ng-switch-when="string"
-                 ng-model="filter.textValue"
+                 ng-model="filter.model.textValue"
                  ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--text-field"
@@ -63,7 +63,7 @@
           </label>
 
           <input ng-switch-when="text"
-                 ng-model="filter.textValue"
+                 ng-model="filter.model.textValue"
                  ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--text-field"
@@ -78,7 +78,7 @@
           </label>
 
           <input ng-switch-when="integer"
-                 ng-model="filter.textValue"
+                 ng-model="filter.model.textValue"
                  ng-model-options="::filterModelOptions"
                  ng-required="true"
                  class="advanced-filters--number-field"
@@ -95,7 +95,7 @@
           <ng-switch ng-switch-when="date" on="filter.operator">
             <div ng-switch-when="=d">
               <op-date-picker>
-                <input ng-model="filter.dateValue"
+                <input ng-model="filter.model.dateValue"
                      ng-model-options="::filterDateModelOptions"
                      ng-required="true"
                      ng-disabled="isLoading"
@@ -109,7 +109,7 @@
             </div>
             <div class="advanced-filters--value-container" ng-switch-when="<>d">
               <op-date-picker>
-                <input ng-model="filter.values[0]"
+                <input ng-model="filter.model.values[0]"
                      ng-model-options="::filterDateModelOptions"
                      ng-required="true"
                      ng-disabled="isLoading"
@@ -121,7 +121,7 @@
                      type="text"/>
               </op-date-picker>
               <op-date-picker>
-                <input ng-model="filter.values[1]"
+                <input ng-model="filter.model.values[1]"
                      ng-model-options="::filterDateModelOptions"
                      ng-required="true"
                      ng-disabled="isLoading"
@@ -134,7 +134,46 @@
               </op-date-picker>
             </div>
             <div ng-switch-default class="inline-label">
-              <input ng-model="filter.textValue"
+              <input ng-model="filter.model.textValue"
+                   ng-model-options="::filterModelOptions"
+                   ng-required="true"
+                   class="advanced-filters--text-field"
+                   id="values-{{filter.name}}"
+                   name="v[{{filter.name}}]"
+                   size="3"
+                   type="text"
+                   ng-disabled="isLoading"/>
+              <label for="values-{{filter.name}}" class="form-label -transparent">
+                {{ I18n.t('js.work_packages.time_relative.days') }}
+              </label>
+            </div>
+          </ng-switch>
+
+          <ng-switch ng-switch-when="datetime" on="filter.operator">
+            <div ng-switch-when="=d">
+              <op-datetime-range-filter
+                      ng-model="filter.model.data"
+                      with-time-input="false"
+                      target-tz="UTC"
+                      from-time="00:00:00"
+                      until-time="P23H59M59S"
+                      with-until="false"
+                      with-detail="true"
+                      with-detail-local="true"/>
+            </div>
+            <div class="advanced-filters--value-container" ng-switch-when="<>d">
+              <op-datetime-range-filter
+                ng-model="filter.model.data"
+                with-time-input="false"
+                target-tz="UTC"
+                from-time="00:00:00"
+                until-time="23:59:59"
+                with-until="true"
+                with-detail="true"
+                with-detail-local="true"/>
+            </div>
+            <div ng-switch-default class="inline-label">
+              <input ng-model="filter.model.textValue"
                    ng-model-options="::filterModelOptions"
                    ng-required="true"
                    class="advanced-filters--text-field"
@@ -153,7 +192,7 @@
         <div ng-if="showValueOptionsAsSelect"
              ng-show="showValuesInput">
           <toggled-multiselect available-options="availableFilterValueOptions"
-                               filter="filter"
+                               filter="filter.model"
                                is-multiselect="false"
                                isDisabled="isLoading"/>
         </div>

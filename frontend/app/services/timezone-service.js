@@ -34,18 +34,31 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     parseDatetime: function(datetime, format) {
-      var d = moment.utc(datetime, format);
-
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
-
-      return d;
+      return moment.utc(datetime, format).local().tz(ConfigurationService.timezone());
     },
 
     parseDate: function(date, format) {
       return moment(date, format);
+    },
+
+    /**
+     * Parses a string that is considered to be a local date, which is considered to be in local time
+     * applies the user's configured timezone to it.
+     *
+     * @param {String} date
+     * @param {String} format
+     * @returns {Moment}
+     */
+    parseLocalDate: function(date, format) {
+      return moment.tz(date, format || 'YYYY-MM-DD', ConfigurationService.timezone())
+    },
+
+    /**
+     * @param {String} datetime in 'YYYY-MM-DDTHH:mm:ssZ' format
+     * @returns {Moment}
+     */
+    parseISODatetime: function(datetime) {
+      return TimezoneService.parseDatetime(datetime, 'YYYY-MM-DDTHH:mm:ssZ');
     },
 
     parseISODate: function(date) {
@@ -86,6 +99,10 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
+    formattedISODatetime: function(datetime) {
+      return datetime.format('YYYY-MM-DDTHH:mm:ssZ');
+    },
+
     isValidISODate: function(date) {
       return TimezoneService.isValid(date, 'YYYY-MM-DD');
     },
@@ -102,6 +119,11 @@ module.exports = function(ConfigurationService, I18n) {
 
     getTimeFormat: function() {
       return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
+    },
+
+    getTimezoneNG: function() {
+      var now = moment.utc().tz(ConfigurationService.timezone());
+      return now.format('ZZ');
     }
   };
 

@@ -28,7 +28,7 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
+function QueryModelService(FilterModelHolderFactory, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
   var Query = function (queryData, options) {
     angular.extend(this, queryData, options);
 
@@ -71,7 +71,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
           'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty(),
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
-          return filter.toParams();
+          return filter.model.toParams();
         }))
       );
     },
@@ -90,7 +90,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
           'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
-          return filter.toParams();
+          return filter.model.toParams();
         }))
       );
     },
@@ -184,7 +184,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         var self = this;
 
         this.filters = filters.map(function(filterData){
-          return new Filter(self.getExtendedFilterData(filterData));
+          return FilterModelHolderFactory.createNewInstanceFromPersistedData(self.getExtendedFilterData(filterData));
         });
       }
     },
@@ -192,10 +192,8 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     setRawFilters: function(filters) {
       this.dirty = true;
       if (filters){
-        var self = this;
-
         this.filters = filters.map(function(filterData){
-          return new Filter(filterData);
+          return FilterModelHolderFactory.createNewInstanceFromPersistedData(filterData);
         });
       }
     },
@@ -213,9 +211,9 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         }
 
         // Select the first value
-        var value = filter.values;
-        if (Array.isArray(filter.values)) {
-          value = filter.values[0];
+        var value = filter.model.values;
+        if (Array.isArray(filter.model.values)) {
+          value = filter.model.values[0];
         }
 
         // Avoid empty values
@@ -261,7 +259,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     },
 
     /**
-     * @name setFilters
+     * @name setDefaultFilter
      * @function
      *
      * @description
@@ -271,7 +269,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
      */
     setDefaultFilter: function() {
       var statusOpenFilterData = this.getExtendedFilterData({name: 'status', operator: 'o'});
-      this.filters = [new Filter(statusOpenFilterData)];
+      this.filters = [FilterModelHolderFactory.createNewInstanceFromNewData(statusOpenFilterData)];
     },
 
     /**
@@ -332,7 +330,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
         filter.deactivated = false;
       } else {
         var filterData = this.getExtendedFilterData(angular.extend({name: filterName}, options));
-        filter = new Filter(filterData);
+        filter = FilterModelHolderFactory.createNewInstanceFromNewData(filterData);
 
         this.filters.push(filter);
       }
@@ -375,7 +373,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
 
     getActiveConfiguredFilters: function() {
       return this.getActiveFilters().filter(function(filter){
-        return filter.isConfigured();
+        return filter.model.isConfigured();
       });
     },
 
