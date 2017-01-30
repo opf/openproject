@@ -1,8 +1,10 @@
 import {WorkPackageTable} from '../wp-fast-table';
 import {RowClickHandler} from './row/click-handler';
-import {MousetrapHandler} from './global-mousetrap-handler';
 import {EditCellHandler} from './cell/edit-cell-handler';
 import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
+import {SelectionTransformer} from './state/selection-transformer';
+import {RowsTransformer} from './state/rows-transformer';
+import {ColumnsTransformer} from './state/columns-transformer';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -10,7 +12,7 @@ export interface TableEventHandler {
   handleEvent(table: WorkPackageTable, evt: JQueryEventObject):void;
 }
 
-export class TableEventsRegistry {
+export class TableHandlerRegistry {
   static eventHandlers = [
     // Clicking or pressing Enter on a single cell, editable or not
     EditCellHandler,
@@ -20,23 +22,26 @@ export class TableEventsRegistry {
     RowClickHandler
   ];
 
-  static delegatedHandlers = [
-    MousetrapHandler
+  static stateTransformers = [
+    SelectionTransformer,
+    RowsTransformer,
+    ColumnsTransformer,
   ];
 
   static attachTo(table: WorkPackageTable) {
     let body = jQuery(table.tbody);
 
-    this.delegatedHandlers.map((cls) => {
-      let handler = new cls();
-      handler.attachTo(table);
+    this.stateTransformers.map((cls) => {
+      return new cls(table);
     });
 
     this.eventHandlers.map((cls) => {
-      let handler = new cls();
+      let handler = <TableEventHandler> new cls();
       body.on(handler.EVENT, handler.SELECTOR, (evt:JQueryEventObject) => {
         handler.handleEvent(table, evt);
       });
+
+      return handler;
     });
   }
 

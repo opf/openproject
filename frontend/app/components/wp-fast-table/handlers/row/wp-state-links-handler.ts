@@ -1,7 +1,7 @@
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {TableEventHandler} from '../table-events-registry';
+import {TableEventHandler} from '../table-handler-registry';
 import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
 import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 

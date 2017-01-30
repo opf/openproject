@@ -1,39 +1,28 @@
 import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-import {RowBuilder, rowClassName} from './builders/row-builder';
+import {RowBuilder} from './builders/row-builder';
 import {States} from '../states.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {TableEventsRegistry} from './handlers/table-events-registry';
 
-import {Observable} from 'rxjs';
-import {WorkPackageTableRow, WPTableRowSelectionState} from './wp-table.interfaces';
-import {WorkPackageTableSelection} from './state/wp-table-selection.service';
-
-interface WorkPackageRow {
-  workPackage:WorkPackageResource;
-  position:number;
-
-  // States
-  checked: false;
-  editing: false;
-}
+import {WorkPackageTableRow} from './wp-table.interfaces';
+import {TableHandlerRegistry} from './handlers/table-handler-registry';
+import {locateRow} from './helpers/wp-table-row-helpers';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
   public states:States;
   public I18n:op.I18n;
 
-  public rows: string[];
-  public rowIndex:{[id: string]: WorkPackageTableRow};
+  public rows: string[] = [];
+  public rowIndex:{[id: string]: WorkPackageTableRow} = {};
 
   // Row builder instance
   private rowBuilder = new RowBuilder();
 
   constructor(public tbody:HTMLElement) {
     injectorBridge(this);
-    TableEventsRegistry.attachTo(this);
-    this.initializeStates();
+    TableHandlerRegistry.attachTo(this);
   }
 
   public rowObject(workPackageId):WorkPackageTableRow {
@@ -52,24 +41,6 @@ export class WorkPackageTable {
       return id;
     });
   }
-
-  /**
-   * Observe the WP multi state for _any_ change on the known work packages.
-   * If a visible row is affected, refresh it immediately.
-   */
-  private observeRowChanges() {
-    this.states.workPackages.observe(null)
-      .subscribe(([changedId, wp]: [string, WorkPackageResource]) => {
-      let row = this.rowIndex[changedId];
-
-      if (wp && row) {
-        row.object = wp;
-        this.refreshWorkPackage(row);
-        this.rowIndex[changedId] = row;
-      }
-    });
-  }
-
   /**
    *
    * @param rows
@@ -79,10 +50,7 @@ export class WorkPackageTable {
     this.buildIndex(rows);
 
     // Draw work packages
-    this.refreshAllWorkPackages();
-
-    // Observe changes on the work packages multistate
-    this.observeRowChanges();
+    this.refreshBody();
 
     // Preselect first work package as focused
     if (this.rows.length) {
@@ -90,14 +58,16 @@ export class WorkPackageTable {
     }
   }
 
-  public refreshAllWorkPackages() {
+  /**
+   * Removes the contents of this table's tbody and redraws
+   * all elements.
+   */
+  public refreshBody() {
     let tbodyContent = document.createDocumentFragment();
 
     this.rows.forEach((wpId:string) => {
       let row = this.rowIndex[wpId];
-
-      let tr = this.rowBuilder.createEmptyRow(row.object);
-      this.rowBuilder.build(row.object, tr);
+      let tr = this.rowBuilder.buildEmpty(row.object);
       row.element = tr;
 
       tbodyContent.appendChild(tr);
@@ -115,53 +85,18 @@ export class WorkPackageTable {
     }
 
     // Get the row for the WP if refreshing existing
-    let oldRow = row.element || this.locateRow(row.workPackageId);
+    let oldRow = row.element || locateRow(row.workPackageId);
 
     if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
       console.log("Skipping row " + row.workPackageId + " since its fresh");
       return;
     }
 
-    let newRow = this.rowBuilder.createEmptyRow(row.object);
-    this.rowBuilder.build(row.object, newRow);
+    let newRow = this.rowBuilder.buildEmpty(row.object);
     oldRow.parentNode.replaceChild(newRow, oldRow);
     row.element = newRow;
   }
 
-  private renderSelectionState(state:WPTableRowSelectionState) {
-    jQuery(`.${rowClassName}.-checked`).removeClass('-checked');
-
-    _.each(state.selected, (selected: boolean, workPackageId:any) => {
-      jQuery('#wp-row-' + workPackageId).toggleClass('-checked', selected);
-    });
-  }
-
-  private locateRow(id):HTMLElement {
-    return document.getElementById('wp-row-' + id);
-  }
-
-  private initializeStates() {
-    // Redraw table if rows changed
-    this.states.table.rows.observe(null).subscribe((rows:WorkPackageResource[]) => {
-      var t0 = performance.now();
-      this.initialSetup(rows);
-      var t1 = performance.now();
-      console.log("Initialize took " + (t1 - t0) + " milliseconds.");
-    });
-
-    this.states.table.columns.observe(null).subscribe(() => {
-      if (this.rows) {
-        var t0 = performance.now();
-        this.refreshAllWorkPackages();
-        var t1 = performance.now();
-        console.log("column redraw took " + (t1 - t0) + " milliseconds.");
-      }
-    });
-
-    this.states.table.selection.observe(null).subscribe((state:WPTableRowSelectionState) => {
-      this.renderSelectionState(state);
-    });
-  }
 }
 
 WorkPackageTable.$inject = ['wpCacheService', 'states', 'I18n'];

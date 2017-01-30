@@ -4,6 +4,8 @@ import {States} from '../../states.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 import {DetailsLinkBuilder} from './details-link-builder';
 import {WorkPackageTableSelection} from '../state/wp-table-selection.service';
+import {checkedClassName} from './ui-state-link-builder';
+import {rowId} from '../helpers/wp-table-row-helpers';
 export const rowClassName = 'wp-table--row';
 
 export class RowBuilder {
@@ -21,14 +23,6 @@ export class RowBuilder {
     injectorBridge(this);
   }
 
-  public createEmptyRow(workPackage) {
-    let tr = document.createElement('tr');
-    tr.id = 'wp-row-' + workPackage.id;
-    tr.dataset['workPackageId'] = workPackage.id;
-
-    return tr;
-  }
-
   /**
    * Returns a shortcut to the current column state.
    * It is not responsible for subscribing to updates.
@@ -37,9 +31,13 @@ export class RowBuilder {
     return this.states.table.columns.getCurrentValue();
   }
 
-  public build(workPackage:WorkPackageResource, row:HTMLElement) {
+  /**
+   * Build the columns on the given empty row
+   */
+  public buildEmpty(workPackage:WorkPackageResource):HTMLElement {
+    let row = this.createEmptyRow(workPackage);
     row.id = `wp-row-${workPackage.id}`;
-    row.classList.add('wp-table--row', 'wp--row', 'issue');
+    row.classList.add(rowClassName, 'wp--row', 'issue');
 
     this.columns.forEach((column:string) => {
       let cell = this.cellBuilder.build(workPackage, column);
@@ -51,9 +49,25 @@ export class RowBuilder {
 
     // Set the row selection state
     if (this.wpTableSelection.isSelected(<string>workPackage.id)) {
-      row.classList.add('-checked');
+      row.classList.add(checkedClassName);
     }
+
+    return row;
   }
+
+  /**
+   * Create an empty unattached row element for the given work package
+   * @param workPackage
+   * @returns {any}
+   */
+  private createEmptyRow(workPackage) {
+    let tr = document.createElement('tr');
+    tr.id = rowId(workPackage.id);
+    tr.dataset['workPackageId'] = workPackage.id;
+
+    return tr;
+  }
+
 }
 
 

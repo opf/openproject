@@ -1,7 +1,7 @@
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {cellClassName, editableClassName} from '../../builders/cell-builder';
-import {TableEventHandler} from '../table-events-registry';
+import {TableEventHandler} from '../table-handler-registry';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {rowClassName} from '../../builders/row-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';

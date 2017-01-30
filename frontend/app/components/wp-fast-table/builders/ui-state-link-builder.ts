@@ -1,4 +1,5 @@
 export const uiStateLinkClass = '__ui-state-link';
+export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
 
