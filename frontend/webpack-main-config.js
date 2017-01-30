@@ -93,7 +93,6 @@ loaders.push({
   path.resolve(__dirname, './app') + '!html-loader?-minimize'
 });
 
-
 function getWebpackMainConfig() {
   config = {
     context: path.resolve(__dirname, 'app'),
@@ -114,11 +113,7 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      modules: [
-        path.resolve(__dirname, 'app'),
-        path.resolve(__dirname, 'tests'),
-        'node_modules',
-      ].concat(pathConfig.pluginDirectories),
+      modules: ['node_modules'].concat(pathConfig.pluginDirectories),
 
       extensions: ['.ts', '.tsx', '.js'],
 
@@ -135,6 +130,7 @@ function getWebpackMainConfig() {
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'mousetrap': 'mousetrap/mousetrap.js',
         'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
+        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
@@ -186,7 +182,7 @@ function getWebpackMainConfig() {
       }),
       new webpack.LoaderOptionsPlugin({
         // Let loaders know that we're in minification mode
-        minimize: true,
+        minimize: true
       })
     );
   }

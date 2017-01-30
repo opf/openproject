@@ -7,8 +7,7 @@
     "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true,
-    "rootDir": "app"
+    "sourceMap": true
   },
   "compileOnSave": false
 }
