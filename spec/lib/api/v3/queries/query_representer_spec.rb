@@ -99,7 +99,7 @@ describe ::API::V3::Queries::QueryRepresenter do
           query = FactoryGirl.build_stubbed(:query, project: project)
           query.add_filter('subject', '~', ['bogus'])
           query.group_by = 'author'
-          query.sort_criteria = [['assigned_to_id', 'asc'], ['type_id', 'desc']]
+          query.sort_criteria = [['assigned_to', 'asc'], ['type', 'desc']]
 
           query
         end
@@ -216,6 +216,38 @@ describe ::API::V3::Queries::QueryRepresenter do
           let(:title) { 'Status' }
         end
       end
+
+      context 'without sort_by' do
+        it 'has an empty sortBy array' do
+          is_expected
+            .to be_json_eql([].to_json)
+            .at_path('_links/sortBy')
+        end
+      end
+
+      context 'with sort_by' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query,
+                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+        end
+
+        it 'has an array of sortBy' do
+          expected = [
+            {
+              href: api_v3_paths.query_sort_by('subject', 'asc'),
+              title: 'Subject (Ascending)'
+            },
+            {
+              href: api_v3_paths.query_sort_by('assignee', 'desc'),
+              title: 'Assignee (Descending)'
+            }
+          ]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/sortBy')
+        end
+      end
     end
 
     it 'should show an id' do
@@ -260,10 +292,14 @@ describe ::API::V3::Queries::QueryRepresenter do
                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
       end
 
-      it 'should render the filters' do
+      it 'has the sort criteria embedded' do
         is_expected
-          .to be_json_eql([['subject', 'asc'], ['assignee', 'desc']].to_json)
-          .at_path('sortCriteria')
+          .to be_json_eql('/api/v3/queries/sort_bys/subject-asc'.to_json)
+          .at_path('_embedded/sortBy/0/_links/self/href')
+
+        is_expected
+          .to be_json_eql('/api/v3/queries/sort_bys/assignee-desc'.to_json)
+          .at_path('_embedded/sortBy/1/_links/self/href')
       end
     end
 

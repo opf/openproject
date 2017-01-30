@@ -65,15 +65,9 @@ module API
 
       def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
         link :self do
-          path = _type.underscore unless path
+          self_path = self_v3_path(path, id_attribute)
 
-          id = if id_attribute.respond_to?(:call)
-                 instance_eval(&id_attribute)
-               else
-                 represented.send(id_attribute)
-               end
-
-          link_object = { href: api_v3_paths.send(path, id) }
+          link_object = { href: self_path }
           title = instance_eval(&title_getter)
           link_object[:title] = title if title
 
@@ -157,6 +151,20 @@ module API
       # representer is non-nil.
       def model_required?
         true
+      end
+
+      def self_v3_path(path, id_attribute)
+        path = _type.underscore unless path
+
+        id = if id_attribute.respond_to?(:call)
+               instance_eval(&id_attribute)
+             else
+               represented.send(id_attribute)
+             end
+
+        id = [nil] if id.nil?
+
+        api_v3_paths.send(path, *Array(id))
       end
     end
   end

@@ -283,6 +283,10 @@ class Query < ActiveRecord::Base
     all_columns.select(&:groupable)
   end
 
+  def self.sortable_columns
+    all_columns.select(&:sortable)
+  end
+
   def self.add_available_column(column)
     available_columns << column if column.is_a?(QueryColumn)
   end

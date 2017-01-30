@@ -151,6 +151,10 @@ module API
             "#{queries}/group_bys/#{name}"
           end
 
+          def self.query_sort_by(name, direction)
+            "#{queries}/sort_bys/#{name}-#{direction}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

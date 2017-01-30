@@ -92,6 +92,15 @@ module API
           end
         end
 
+        links :sortBy do
+          map_with_sort_by_as_decorated do |sort_by|
+            {
+              href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
+              title: sort_by.name
+            }
+          end
+        end
+
         linked_property :user
         linked_property :project
 
@@ -108,14 +117,21 @@ module API
                    end
                  }
         property :is_public, getter: -> (*) { is_public }
-        property :sort_criteria,
+
+        property :sort_by,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   return nil unless represented.sort_criteria
-                   represented.sort_criteria.map do |attribute, order|
-                     [convert_attribute(attribute), order]
+                   return unless represented.sort_criteria
+
+                   map_with_sort_by_as_decorated do |sort_by|
+                     ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
                    end
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
                  }
+
         property :display_sums, getter: -> (*) { display_sums }
         property :is_starred, getter: -> (*) { starred }
 
@@ -161,6 +177,15 @@ module API
 
         def convert_attribute(attribute)
           ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
+
+        def map_with_sort_by_as_decorated
+          represented.sort_criteria.map do |attribute, order|
+            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(attribute,
+                                                                         order)
+
+            yield decorated
+          end
         end
 
         def _type

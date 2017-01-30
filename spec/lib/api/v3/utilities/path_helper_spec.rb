@@ -254,6 +254,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/group_bys/status'
   end
 
+  describe '#query_sort_by' do
+    subject { helper.query_sort_by 'status', 'desc' }
+
+    it_behaves_like 'api v3 path', '/queries/sort_bys/status-desc'
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
