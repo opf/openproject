@@ -235,3 +235,19 @@ shared_examples_for 'list_optional query filter' do
     end
   end
 end
+
+shared_examples_for 'non ar filter' do
+  describe '#ar_object_filter?' do
+    it 'is false' do
+      expect(instance)
+        .not_to be_ar_object_filter
+    end
+  end
+
+  describe '#value_objects' do
+    it 'is empty' do
+      expect(instance.value_objects)
+        .to be_empty
+    end
+  end
+end

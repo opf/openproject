@@ -86,5 +86,30 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
                            ["-- #{child.name}", child.id.to_s]]
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project2) { FactoryGirl.build_stubbed(:project) }
+
+      before do
+        allow(Project)
+          .to receive(:visible)
+          .and_return([project, project2])
+
+        instance.values = [project.id.to_s]
+      end
+
+      it 'returns an array of projects' do
+        expect(instance.value_objects)
+          .to match_array([project])
+      end
+    end
   end
 end

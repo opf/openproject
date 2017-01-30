@@ -28,24 +28,39 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::DueDateFilter, type: :model do
-  it_behaves_like 'basic query filter' do
-    let(:order) { 12 }
-    let(:type) { :date }
-    let(:class_key) { :due_date }
+describe ::API::V3::Queries::Operators::QueryOperatorRepresenter do
+  include ::API::V3::Utilities::PathHelper
 
-    describe '#available?' do
-      it 'is true' do
-        expect(instance).to be_available
+  let(:operator) { '!~' }
+  let(:representer) { described_class.new(operator) }
+
+  subject { representer.to_json }
+
+  describe 'generation' do
+    describe '_links' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.query_operator operator }
+        let(:title) { I18n.t(:label_not_contains) }
       end
     end
 
-    describe '#allowed_values' do
-      it 'is nil' do
-        expect(instance.allowed_values).to be_nil
-      end
+    it 'has _type QueryOperator' do
+      is_expected
+        .to be_json_eql('QueryOperator'.to_json)
+        .at_path('_type')
     end
 
-    it_behaves_like 'non ar filter'
+    it 'has id attribute' do
+      is_expected
+        .to be_json_eql(operator.to_json)
+        .at_path('id')
+    end
+
+    it 'has name attribute' do
+      is_expected
+        .to be_json_eql(I18n.t(:label_not_contains).to_json)
+        .at_path('name')
+    end
   end
 end

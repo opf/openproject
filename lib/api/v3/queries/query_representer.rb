@@ -110,10 +110,7 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    represented.filters.map do |filter|
-                     attribute = convert_attribute filter.field
-                     {
-                       attribute => { operator: filter.operator, values: filter.values }
-                     }
+                     ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
                    end
                  }
         property :is_public, getter: -> (*) { is_public }

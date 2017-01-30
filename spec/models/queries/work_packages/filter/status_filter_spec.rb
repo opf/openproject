@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
   let(:status) { FactoryGirl.build_stubbed(:status) }
+  let(:status2) { FactoryGirl.build_stubbed(:status) }
 
   it_behaves_like 'basic query filter' do
     let(:order) { 1 }
@@ -64,6 +65,28 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
       it 'is an array of status values' do
         expect(instance.allowed_values)
           .to match_array [[status.name, status.id.to_s]]
+      end
+    end
+
+    describe '#value_objects' do
+      before do
+        allow(Status)
+          .to receive(:all)
+          .and_return [status, status2]
+      end
+
+      it 'is an array of statuses' do
+        instance.values = [status.id.to_s]
+
+        expect(instance.value_objects)
+          .to match_array [status]
+      end
+    end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
       end
     end
   end

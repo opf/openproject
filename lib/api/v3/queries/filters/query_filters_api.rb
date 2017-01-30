@@ -26,26 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Queries
+      module Filters
+        class QueryFiltersAPI < ::API::OpenProjectAPI
+          resource :filters do
+            helpers do
+              def convert_to_ar(attribute)
+                ::API::Utilities::QueryFiltersNameConverter.to_ar_name(attribute,
+                                                                       refer_to_ids: true)
+              end
+            end
 
-describe Queries::WorkPackages::Filter::DueDateFilter, type: :model do
-  it_behaves_like 'basic query filter' do
-    let(:order) { 12 }
-    let(:type) { :date }
-    let(:class_key) { :due_date }
+            params do
+              requires :id, desc: 'Filter id'
+            end
 
-    describe '#available?' do
-      it 'is true' do
-        expect(instance).to be_available
+            before do
+              authorize(:view_work_packages, global: true, user: current_user)
+            end
+
+            route_param :id do
+              get do
+                ar_id = convert_to_ar(params[:id])
+
+                filter_class = Query.find_registered_filter(ar_id)
+
+                if filter_class
+                  filter = filter_class.new
+                  filter.name = ar_id
+
+                  ::API::V3::Queries::Filters::QueryFilterRepresenter.new(filter)
+                else
+                  raise API::Errors::NotFound
+                end
+              end
+            end
+          end
+        end
       end
     end
-
-    describe '#allowed_values' do
-      it 'is nil' do
-        expect(instance.allowed_values).to be_nil
-      end
-    end
-
-    it_behaves_like 'non ar filter'
   end
 end

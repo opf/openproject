@@ -66,5 +66,29 @@ describe Queries::WorkPackages::Filter::PriorityFilter, type: :model do
           .to match_array [[priority.name, priority.id.to_s]]
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:priority2) { FactoryGirl.build_stubbed(:priority) }
+
+      before do
+        allow(IssuePriority)
+          .to receive(:active)
+          .and_return([priority, priority2])
+
+        instance.values = [priority2.id.to_s]
+      end
+
+      it 'returns an array of priorities' do
+        expect(instance.value_objects)
+          .to match_array([priority2])
+      end
+    end
   end
 end

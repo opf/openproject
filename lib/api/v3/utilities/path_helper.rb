@@ -155,6 +155,14 @@ module API
             "#{queries}/sort_bys/#{name}-#{direction}"
           end
 
+          def self.query_filter(name)
+            "#{queries}/filters/#{name}"
+          end
+
+          def self.query_operator(name)
+            "#{queries}/operators/#{name}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

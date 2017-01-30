@@ -269,19 +269,64 @@ describe ::API::V3::Queries::QueryRepresenter do
     describe 'with filters' do
       let(:query) do
         query = FactoryGirl.build_stubbed(:query)
-        query.add_filter('status_id', '=', ['1'])
+        query.add_filter('status_id', '=', [filter_status.id.to_s])
+        allow(query.filters.last)
+          .to receive(:value_objects)
+          .and_return([filter_status])
+        query.add_filter('assigned_to_id', '!', [filter_user.id.to_s])
+        allow(query.filters.last)
+          .to receive(:value_objects)
+          .and_return([filter_user])
         query
       end
 
+      let(:filter_status) { FactoryGirl.build_stubbed(:status) }
+      let(:filter_user) { FactoryGirl.build_stubbed(:user) }
+
       it 'should render the filters' do
-        expected = [
-          {
-            status: {
-              operator: '=',
-              values: ['1']
-            }
+        expected_status = {
+          "_type": "StatusQueryFilter",
+          "name": "Status",
+          "_links": {
+            "filter": {
+              "href": "/api/v3/queries/filters/status",
+              "title": "Status"
+            },
+            "operator": {
+              "href": "/api/v3/queries/operators/=",
+              "title": "is"
+            },
+            "values": [
+              {
+                "href": api_v3_paths.status(filter_status.id),
+                "title": filter_status.name
+              }
+            ]
           }
-        ]
+        }
+        expected_assignee = {
+          "_type": "AssigneeQueryFilter",
+          "name": "Assignee",
+          "_links": {
+            "filter": {
+              "href": "/api/v3/queries/filters/assignee",
+              "title": "Assignee"
+            },
+            "operator": {
+              "href": "/api/v3/queries/operators/!",
+              "title": "is not"
+            },
+            "values": [
+              {
+                "href": api_v3_paths.user(filter_user.id),
+                "title": filter_user.name
+              }
+            ]
+          }
+        }
+
+        expected = [expected_status, expected_assignee]
+
         is_expected.to be_json_eql(expected.to_json).at_path('filters')
       end
     end

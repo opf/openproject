@@ -99,5 +99,30 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
         end
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:version1) { FactoryGirl.build_stubbed(:version) }
+      let(:version2) { FactoryGirl.build_stubbed(:version) }
+
+      before do
+        allow(project)
+          .to receive(:shared_versions)
+          .and_return([version1, version2])
+
+        instance.values = [version1.id.to_s]
+      end
+
+      it 'returns an array of versions' do
+        expect(instance.value_objects)
+          .to match_array([version1])
+      end
+    end
   end
 end

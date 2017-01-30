@@ -29,6 +29,7 @@
 
 module Queries::FilterSerializer
   extend Queries::AvailableFilters
+  extend Queries::AvailableFilters::ClassMethods
 
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?

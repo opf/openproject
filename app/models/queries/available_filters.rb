@@ -36,6 +36,12 @@ module Queries::AvailableFilters
     def registered_filters
       Queries::Register.filters[self]
     end
+
+    def find_registered_filter(key)
+      registered_filters.detect do |f|
+        f.key === key.to_sym
+      end
+    end
   end
 
   def available_filters
@@ -81,9 +87,7 @@ module Queries::AvailableFilters
   end
 
   def find_registered_filter(key)
-    registered_filters.detect do |f|
-      f.key === key.to_sym
-    end
+    self.class.find_registered_filter(key)
   end
 
   def find_initialized_filter(key)

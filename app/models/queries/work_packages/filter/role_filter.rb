@@ -54,6 +54,16 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
     :assigned_to_role
   end
 
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    roles.select { |r| value_ints.include?(r.id) }
+  end
+
   private
 
   def roles

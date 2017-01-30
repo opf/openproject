@@ -26,26 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Queries
+      module Operators
+        class QueryOperatorsAPI < ::API::OpenProjectAPI
+          resource :operators do
+            params do
+              requires :id, desc: 'Operator id'
+            end
 
-describe Queries::WorkPackages::Filter::DueDateFilter, type: :model do
-  it_behaves_like 'basic query filter' do
-    let(:order) { 12 }
-    let(:type) { :date }
-    let(:class_key) { :due_date }
+            before do
+              authorize(:view_work_packages, global: true, user: current_user)
+            end
 
-    describe '#available?' do
-      it 'is true' do
-        expect(instance).to be_available
+            route_param :id do
+              get do
+                if ::Queries::BaseFilter.operators[params[:id].to_sym]
+                  ::API::V3::Queries::Operators::QueryOperatorRepresenter.new(params[:id])
+                else
+                  raise API::Errors::NotFound
+                end
+              end
+            end
+          end
+        end
       end
     end
-
-    describe '#allowed_values' do
-      it 'is nil' do
-        expect(instance.allowed_values).to be_nil
-      end
-    end
-
-    it_behaves_like 'non ar filter'
   end
 end

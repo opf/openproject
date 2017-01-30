@@ -142,5 +142,30 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
         end
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:user1) { FactoryGirl.build_stubbed(:user) }
+
+      before do
+        allow(Principal)
+          .to receive(:find)
+          .with([user1.id.to_s])
+          .and_return([user1])
+
+        instance.values = [user1.id.to_s]
+      end
+
+      it 'returns an array of users' do
+        expect(instance.value_objects)
+          .to match_array([user1])
+      end
+    end
   end
 end

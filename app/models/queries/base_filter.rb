@@ -157,6 +157,17 @@ class Queries::BaseFilter
     @values = Array(values).reject(&:blank?).map(&:to_s)
   end
 
+  # Does the filter filter on other models, e.g. User, Status
+  def ar_object_filter?
+    false
+  end
+
+  # List of objects the value represents
+  # is empty if the filter does not filter on other AR objects
+  def value_objects
+    []
+  end
+
   protected
 
   def validate_inclusion_of_operator

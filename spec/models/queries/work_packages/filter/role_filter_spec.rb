@@ -67,5 +67,29 @@ describe Queries::WorkPackages::Filter::RoleFilter, type: :model do
           .to match_array [[role.name, role.id.to_s]]
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:role2) { FactoryGirl.build_stubbed(:role) }
+
+      before do
+        allow(Role)
+          .to receive(:givable)
+          .and_return([role, role2])
+
+        instance.values = [role.id.to_s, role2.id.to_s]
+      end
+
+      it 'returns an array of projects' do
+        expect(instance.value_objects)
+          .to match_array([role, role2])
+      end
+    end
   end
 end

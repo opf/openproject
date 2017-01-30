@@ -45,9 +45,9 @@ describe Queries::AvailableFilters, type: :model do
   let(:includer) do
     includer = HelperClass.new(context)
 
-    allow(includer)
-      .to receive(:registered_filters)
-      .and_return(registered_filters)
+    allow(Queries::Register)
+      .to receive(:filters)
+      .and_return(HelperClass => registered_filters)
 
     includer
   end

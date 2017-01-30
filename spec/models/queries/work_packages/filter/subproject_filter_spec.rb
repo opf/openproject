@@ -101,7 +101,32 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
 
       it 'returns a list of all visible descendants' do
         expect(instance.allowed_values).to match_array [[subproject1.name, subproject1.id.to_s],
-                                                [subproject2.name, subproject2.id.to_s]]
+                                                        [subproject2.name, subproject2.id.to_s]]
+      end
+    end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:subproject1) { FactoryGirl.build_stubbed(:project) }
+      let(:subproject2) { FactoryGirl.build_stubbed(:project) }
+
+      before do
+        allow(project)
+          .to receive_message_chain(:descendants, :visible)
+          .and_return([subproject1, subproject2])
+
+        instance.values = [subproject1.id.to_s, subproject2.id.to_s]
+      end
+
+      it 'returns an array of projects' do
+        expect(instance.value_objects)
+          .to match_array([subproject1, subproject2])
       end
     end
   end

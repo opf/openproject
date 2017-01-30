@@ -260,6 +260,18 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/sort_bys/status-desc'
   end
 
+  describe '#query_filter' do
+    subject { helper.query_filter 'status' }
+
+    it_behaves_like 'api v3 path', '/queries/filters/status'
+  end
+
+  describe '#query_operator' do
+    subject { helper.query_operator '=' }
+
+    it_behaves_like 'api v3 path', '/queries/operators/='
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }

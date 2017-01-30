@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,26 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Queries
+      module Filters
+        class QueryFilterRepresenter < ::API::Decorators::Single
+          self_link id_attribute: ->(*) { converted_key },
+                    title_getter: ->(*) { represented.human_name },
+                    path: :query_filter
 
-describe Queries::WorkPackages::Filter::DueDateFilter, type: :model do
-  it_behaves_like 'basic query filter' do
-    let(:order) { 12 }
-    let(:type) { :date }
-    let(:class_key) { :due_date }
+          def initialize(model)
+            super(model, current_user: nil, embed_links: true)
+          end
 
-    describe '#available?' do
-      it 'is true' do
-        expect(instance).to be_available
+          property :id,
+                   exec_context: :decorator
+
+          private
+
+          def converted_key
+            convert_attribute(represented.name)
+          end
+
+          alias :id :converted_key
+
+          def _type
+            'QueryFilter'
+          end
+
+          def convert_attribute(attribute)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          end
+        end
       end
     end
-
-    describe '#allowed_values' do
-      it 'is nil' do
-        expect(instance.allowed_values).to be_nil
-      end
-    end
-
-    it_behaves_like 'non ar filter'
   end
 end
