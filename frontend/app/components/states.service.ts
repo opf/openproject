@@ -4,7 +4,6 @@ import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resou
 import {opServicesModule} from "../angular-modules";
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
-import {QueryColumn} from './wp-query/query-column';
 
 
 export class States {
@@ -20,8 +19,8 @@ export class States {
     columns: new State<string[]>(),
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
-    // Active editing rows
-    group: new State<string[]>(),
+    // Current state of collapsed groups (if any)
+    collapsedGroups: new State<{[index:string]: boolean}>(),
   };
 
   // Query states

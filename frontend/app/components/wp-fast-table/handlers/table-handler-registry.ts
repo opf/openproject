@@ -5,6 +5,7 @@ import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
 import {SelectionTransformer} from './state/selection-transformer';
 import {RowsTransformer} from './state/rows-transformer';
 import {ColumnsTransformer} from './state/columns-transformer';
+import {GroupRowHandler} from './row/group-row-handler';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -19,7 +20,8 @@ export class TableHandlerRegistry {
     // Clicking on the details view
     WorkPackageStateLinksHandler,
     // Clicking on the row (not within a cell)
-    RowClickHandler
+    RowClickHandler,
+    GroupRowHandler
   ];
 
   static stateTransformers = [

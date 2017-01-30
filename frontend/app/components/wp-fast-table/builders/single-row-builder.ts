@@ -8,7 +8,7 @@ import {checkedClassName} from './ui-state-link-builder';
 import {rowId} from '../helpers/wp-table-row-helpers';
 export const rowClassName = 'wp-table--row';
 
-export class RowBuilder {
+export class SingleRowBuilder {
   // Injections
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
@@ -71,4 +71,4 @@ export class RowBuilder {
 }
 
 
-RowBuilder.$inject = ['states', 'wpTableSelection', 'I18n'];
+SingleRowBuilder.$inject = ['states', 'wpTableSelection', 'I18n'];

@@ -1,13 +1,17 @@
 import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-import {RowBuilder} from './builders/row-builder';
+import {SingleRowBuilder} from './builders/single-row-builder';
 import {States} from '../states.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 
-import {WorkPackageTableRow} from './wp-table.interfaces';
+import {RowsBuilderInterface, WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
+import {GroupedRowsBuilder} from './builders/grouped-rows-builder';
+import {PlainRowsBuilder} from './builders/plain-rows-builder';
+
+
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -17,16 +21,25 @@ export class WorkPackageTable {
   public rows: string[] = [];
   public rowIndex:{[id: string]: WorkPackageTableRow} = {};
 
-  // Row builder instance
-  private rowBuilder = new RowBuilder();
 
-  constructor(public tbody:HTMLElement) {
+  private groupedRowsBuilder = new GroupedRowsBuilder();
+  private plainRowsBuilder = new PlainRowsBuilder();
+
+  constructor(public metaData:any, public tbody:HTMLElement) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }
 
   public rowObject(workPackageId):WorkPackageTableRow {
     return this.rowIndex[workPackageId];
+  }
+
+  public get rowBuilder():RowsBuilderInterface {
+    if (this.metaData.groupBy) {
+      return this.groupedRowsBuilder;
+    } else {
+      return this.plainRowsBuilder;
+    }
   }
 
   /**
@@ -63,20 +76,15 @@ export class WorkPackageTable {
    * all elements.
    */
   public refreshBody() {
-    let tbodyContent = document.createDocumentFragment();
-
-    this.rows.forEach((wpId:string) => {
-      let row = this.rowIndex[wpId];
-      let tr = this.rowBuilder.buildEmpty(row.object);
-      row.element = tr;
-
-      tbodyContent.appendChild(tr);
-    });
+    let newBody = this.rowBuilder.buildRows(this);
 
     this.tbody.innerHTML = '';
-    this.tbody.appendChild(tbodyContent);
+    this.tbody.appendChild(newBody);
   }
 
+  /**
+   * Refreshes a single entity.
+   */
   public refreshWorkPackage(row:WorkPackageTableRow) {
     // If the work package is dirty, we're working on it
     if (row.object.dirty) {
@@ -92,7 +100,7 @@ export class WorkPackageTable {
       return;
     }
 
-    let newRow = this.rowBuilder.buildEmpty(row.object);
+    let newRow = this.rowBuilder.redrawRow(row, this);
     oldRow.parentNode.replaceChild(newRow, oldRow);
     row.element = newRow;
   }

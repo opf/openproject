@@ -75,9 +75,16 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
+      let tableData:any = {};
+
+      if (scope.groupBy) {
+        tableData.groupBy = scope.groupBy;
+        tableData.groups = scope.resource.groups;
+      }
+
       var t0 = performance.now();
       scope.tbody = element.find('.work-package-table tbody');
-      scope.table = new WorkPackageTable(scope.tbody[0]);
+      scope.table = new WorkPackageTable(tableData, scope.tbody[0]);
 
       console.log("Num rows = " + scope.tbody.find('tr').length);
       var t1 = performance.now();
@@ -176,82 +183,6 @@ function wpTable(
         }
       }
 
-      scope.setCheckedStateForAllRows = function(state) {
-        WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
-      };
-
-      // Thanks to http://stackoverflow.com/a/880518
-      function clearSelection() {
-        var selection = (document as any).selection;
-        if(selection && selection.empty) {
-          selection.empty();
-        } else if(window.getSelection) {
-          var sel = window.getSelection();
-          sel.removeAllRanges();
-        }
-      }
-
-      function setRowSelectionState(row, selected) {
-        activeSelectionBorderIndex = scope.rows.indexOf(row);
-        WorkPackagesTableService.setRowSelection(row, selected);
-      }
-
-      function openWhenInSplitView(workPackage) {
-        if ($state.includes('work-packages.list.details')) {
-          $state.go(
-            $state.$current.name,
-            { workPackageId: workPackage.id }
-          );
-        }
-      }
-
-      function mulipleRowsChecked(){
-        var counter = 0;
-        for (var i = 0, l = scope.rows.length; i<l; i++) {
-          if (scope.rows[i].checked) {
-            if (++counter === 2) {
-              return true;
-            }
-          }
-        }
-        return false;
-      }
-
-
-
-      scope.openWorkPackageInFullView = function(row) {
-        clearSelection();
-
-        scope.setCheckedStateForAllRows(false);
-
-        setRowSelectionState(row, true);
-
-        scope.activationCallback({ id: row.object.id, force: true });
-      };
-
-      /** Expand current columns with erroneous columns */
-      scope.handleErroneousColumns = function(workPackage, editFields, errorFieldNames)  {
-        if (errorFieldNames.length === 0) { return; }
-
-        var selected = QueryService.getSelectedColumnNames();
-        var active = _.find(editFields, (f:any) => f.active);
-
-        errorFieldNames.reverse().map(name => {
-          if (selected.indexOf(name) === -1) {
-          selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
-        }
-      });
-
-        QueryService.setSelectedColumns(selected);
-        return _.find(selected, (column) => errorFieldNames.indexOf(column) !== -1);
-      };
-
-      /** Save callbacks for work package */
-     scope.onWorkPackageSave = function(workPackage, fields) {
-       $rootScope.$emit('workPackageSaved', workPackage);
-       $rootScope.$emit('workPackagesRefreshInBackground');
-     };
-
      /** Open the settings modal */
      scope.openColumnsModal = function() {
        scope.$emit('hideAllDropdowns');
@@ -267,8 +198,6 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
 
   $scope.text = {
     cancel: I18n.t('js.button_cancel'),
-    collapse: I18n.t('js.label_collapse'),
-    expand: I18n.t('js.label_expand'),
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
     noResults: {

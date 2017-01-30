@@ -3,7 +3,7 @@ import {WorkPackageTableSelection} from '../../state/wp-table-selection.service'
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {rowClassName} from '../../builders/row-builder';
+import {rowClassName} from '../../builders/single-row-builder';
 import {rowId} from '../../helpers/wp-table-row-helpers';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
 export class SelectionTransformer {
@@ -40,7 +40,7 @@ export class SelectionTransformer {
     jQuery(`.${rowClassName}.${checkedClassName}`).removeClass(checkedClassName);
 
     _.each(state.selected, (selected: boolean, workPackageId:any) => {
-      jQuery(rowId(workPackageId)).toggleClass(checkedClassName, selected);
+      jQuery(`#${rowId(workPackageId)}`).toggleClass(checkedClassName, selected);
     });
   }
 }

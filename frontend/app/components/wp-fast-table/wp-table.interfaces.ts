@@ -1,22 +1,10 @@
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTable} from './wp-fast-table';
 export interface WorkPackageTableRow {
   object:WorkPackageResource;
   workPackageId:string;
   position:number;
   element?:HTMLElement;
-}
-
-export interface WorkPackageTableRowsState {
-  [workPackageId:string]:WorkPackageTableRow;
-}
-
-export interface WorkPackageTableColumns {
-  selected: string[];
-  available: string[];
-}
-
-export interface WorkPackageTableGroupState {
-  [group: string]: boolean;
 }
 
 export interface WPTableRowSelectionState {
@@ -27,3 +15,7 @@ export interface WPTableRowSelectionState {
   activeRowIndex: number | null;
 }
 
+export interface RowsBuilderInterface {
+  buildRows(table:WorkPackageTable):DocumentFragment;
+  redrawRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement;
+}

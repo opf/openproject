@@ -3,7 +3,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {rowClassName} from '../../builders/row-builder';
+import {rowClassName} from '../../builders/single-row-builder';
 import {tdClassName} from '../../builders/cell-builder';
 
 export class RowClickHandler implements TableEventHandler {
