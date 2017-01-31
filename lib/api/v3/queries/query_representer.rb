@@ -113,7 +113,7 @@ module API
                      ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
                    end
                  }
-        property :is_public, getter: -> (*) { is_public }
+        property :public, getter: -> (*) { is_public }
 
         property :sort_by,
                  exec_context: :decorator,
@@ -129,8 +129,8 @@ module API
                    embed_links
                  }
 
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
+        property :sums, getter: -> (*) { display_sums }
+        property :starred, getter: -> (*) { starred }
 
         property :columns,
                  exec_context: :decorator,

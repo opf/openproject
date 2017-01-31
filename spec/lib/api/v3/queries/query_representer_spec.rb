@@ -259,11 +259,11 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     it 'should indicate whether sums are shown' do
-      is_expected.to be_json_eql(query.display_sums.to_json).at_path('displaySums')
+      is_expected.to be_json_eql(query.display_sums.to_json).at_path('sums')
     end
 
     it 'should indicate whether the query is publicly visible' do
-      is_expected.to be_json_eql(query.is_public.to_json).at_path('isPublic')
+      is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
     end
 
     describe 'with filters' do

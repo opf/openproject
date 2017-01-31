@@ -227,8 +227,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to true' do
-            expect(last_response.body).to be_json_eql(true).at_path('isStarred')
+          it 'should return the query with "starred" property set to true' do
+            expect(last_response.body).to be_json_eql(true).at_path('starred')
           end
         end
 
@@ -237,8 +237,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to true' do
-            expect(last_response.body).to be_json_eql(true).at_path('isStarred')
+          it 'should return the query with "starred" property set to true' do
+            expect(last_response.body).to be_json_eql(true).at_path('starred')
           end
         end
 
@@ -269,8 +269,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to true' do
-            expect(last_response.body).to be_json_eql(true).at_path('isStarred')
+          it 'should return the query with "starred" property set to true' do
+            expect(last_response.body).to be_json_eql(true).at_path('starred')
           end
         end
 
@@ -310,8 +310,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to false' do
-            expect(last_response.body).to be_json_eql(false).at_path('isStarred')
+          it 'should return the query with "starred" property set to false' do
+            expect(last_response.body).to be_json_eql(false).at_path('starred')
           end
         end
 
@@ -324,8 +324,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to true' do
-            expect(last_response.body).to be_json_eql(false).at_path('isStarred')
+          it 'should return the query with "starred" property set to true' do
+            expect(last_response.body).to be_json_eql(false).at_path('starred')
           end
         end
 
@@ -365,8 +365,8 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "isStarred" property set to true' do
-            expect(last_response.body).to be_json_eql(false).at_path('isStarred')
+          it 'should return the query with "starred" property set to true' do
+            expect(last_response.body).to be_json_eql(false).at_path('starred')
           end
         end
 
