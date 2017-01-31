@@ -78,6 +78,7 @@ describe('persistentToggle Directive', function() {
 
     it('persists the notification status when clicked', function() {
       button.click();
+      scope.$apply();
 
       expect(notification.prop('hidden')).to.be.true;
       var value = CacheService.localStorage().get('test.foobar');
