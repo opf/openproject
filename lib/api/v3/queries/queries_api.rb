@@ -39,6 +39,7 @@ module API
           mount API::V3::Queries::SortBys::QuerySortBysAPI
           mount API::V3::Queries::Filters::QueryFiltersAPI
           mount API::V3::Queries::Operators::QueryOperatorsAPI
+          mount API::V3::Queries::Schemas::QuerySchemaAPI
 
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true

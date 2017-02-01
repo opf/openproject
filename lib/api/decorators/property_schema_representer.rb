@@ -42,7 +42,11 @@ module API
         @required = required
         @has_default = has_default
         @writable = writable
-        @visibility = visibility || 'default'
+        @visibility = if visibility == false
+                        nil
+                      else
+                        visibility || 'default'
+                      end
 
         super(nil, current_user: current_user)
       end

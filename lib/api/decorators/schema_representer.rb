@@ -56,7 +56,7 @@ module API
                    name_source: property,
                    required: true,
                    has_default: false,
-                   writable: -> { represented.writable?(property) },
+                   writable: default_writable_property(property),
                    visibility: nil,
                    min_length: nil,
                    max_length: nil,
@@ -98,7 +98,7 @@ module API
                                      href_callback:,
                                      required: true,
                                      has_default: false,
-                                     writable: -> { represented.writable?(property) },
+                                     writable: default_writable_property(property),
                                      visibility: nil,
                                      show_if: true)
           raise ArgumentError if property.nil?
@@ -140,7 +140,7 @@ module API
                                            link_factory:,
                                            required: true,
                                            has_default: false,
-                                           writable: -> { represented.writable?(property) },
+                                           writable: default_writable_property(property),
                                            visibility: nil,
                                            show_if: true)
           raise ArgumentError unless property
@@ -169,7 +169,7 @@ module API
                    name_source: lambda {
                      API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source,
-                                          self.represented_class
+                                          represented_class
                    }
         end
 
@@ -181,19 +181,39 @@ module API
         def make_type(property_name)
           property_name.to_s.camelize
         end
+
+        def default_writable_property(property)
+          -> do
+            if represented.respond_to?(:writable?)
+              represented.writable?(property)
+            else
+              false
+            end
+          end
+        end
       end
 
       include InstanceMethods
 
-      attr_reader :form_embedded
+      def initialize(represented,
+                     current_user:,
+                     form_embedded: false,
+                     self_link: nil)
 
+        self.form_embedded = form_embedded
+        self.self_link = self_link
 
-      def initialize(represented, current_user:, form_embedded: false)
-        @form_embedded = form_embedded
         super(represented, current_user: current_user)
       end
 
+      link :self do
+        { href: self_link } if self_link
+      end
+
       private
+
+      attr_accessor :form_embedded,
+                    :self_link
 
       def _type
         'Schema'

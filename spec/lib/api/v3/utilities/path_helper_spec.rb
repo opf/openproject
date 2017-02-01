@@ -272,6 +272,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/operators/='
   end
 
+  describe '#query_schema' do
+    subject { helper.query_schema }
+
+    it_behaves_like 'api v3 path', '/queries/schema'
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
@@ -353,7 +359,7 @@ describe ::API::V3::Utilities::PathHelper do
 
       it 'escapes correctly' do
         value = 'foo/bar baz'
-        expect(helper.string_object value).to eql('/api/v3/string_objects?value=foo%2Fbar%20baz')
+        expect(helper.string_object(value)).to eql('/api/v3/string_objects?value=foo%2Fbar%20baz')
       end
     end
 

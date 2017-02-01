@@ -61,25 +61,21 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
 
     describe 'basic custom field' do
+      let(:path) { cf_path }
+
       it_behaves_like 'has basic schema properties' do
-        let(:path) { cf_path }
         let(:type) { 'Boolean' }
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
+        let(:has_default) { true }
       end
 
       it 'indicates no regular expression' do
         is_expected.not_to have_json_path("#{cf_path}/regularExpression")
       end
 
-      it 'indicates no minimum size' do
-        is_expected.not_to have_json_path("#{cf_path}/minLength")
-      end
-
-      it 'indicates no maximum size' do
-        is_expected.not_to have_json_path("#{cf_path}/maxLength")
-      end
+      it_behaves_like 'indicates length requirements' # meaning they won't as no values are specified
 
       context 'custom field is not required' do
         let(:custom_field) { FactoryGirl.build(:custom_field, is_required: false) }
@@ -100,16 +96,16 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       context 'custom field has minimum length' do
         let(:custom_field) { FactoryGirl.build(:custom_field, min_length: 5) }
 
-        it 'renders the minimum length' do
-          is_expected.to be_json_eql(5.to_json).at_path("#{cf_path}/minLength")
+        it_behaves_like 'indicates length requirements' do
+          let(:min_length) { 5 }
         end
       end
 
       context 'custom field has maximum length' do
         let(:custom_field) { FactoryGirl.build(:custom_field, max_length: 5) }
 
-        it 'renders the maximum length' do
-          is_expected.to be_json_eql(5.to_json).at_path("#{cf_path}/maxLength")
+        it_behaves_like 'indicates length requirements' do
+          let(:max_length) { 5 }
         end
       end
     end

@@ -166,20 +166,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'subject' do
+      let(:path) { 'subject' }
+
       it_behaves_like 'has basic schema properties' do
-        let(:path) { 'subject' }
         let(:type) { 'String' }
         let(:name) { I18n.t('attributes.subject') }
         let(:required) { true }
         let(:writable) { true }
       end
 
-      it 'indicates its minimum length' do
-        is_expected.to be_json_eql(1.to_json).at_path('subject/minLength')
-      end
-
-      it 'indicates its maximum length' do
-        is_expected.to be_json_eql(255.to_json).at_path('subject/maxLength')
+      it_behaves_like 'indicates length requirements' do
+        let(:min_length) { 1 }
+        let(:max_length) { 255 }
       end
     end
 
@@ -531,6 +529,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('attributes.status') }
         let(:required) { true }
         let(:writable) { true }
+        let(:has_default) { true }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -583,6 +582,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
         let(:required) { true }
         let(:writable) { true }
+        let(:has_default) { true }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -602,6 +602,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
           let(:required) { true }
           let(:writable) { false }
+          let(:has_default) { true }
         end
       end
     end

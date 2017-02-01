@@ -163,6 +163,10 @@ module API
             "#{queries}/operators/#{name}"
           end
 
+          def self.query_schema
+            "#{queries}/schema"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end
