@@ -27,63 +27,7 @@
 // ++
 
 function hasDropdownMenu($rootScope, $injector, $window, FocusHelper) {
-  function getCssPositionProperties(dropdown, trigger) {
-    var hOffset = 0,
-      vOffset = 0;
-    if (dropdown.hasClass('dropdown-anchor-top')) {
-      vOffset = -dropdown.outerHeight() - trigger.outerHeight() + parseInt(trigger.css('margin-top'), 10);
-    }
 
-    // Styling logic taken from jQuery-dropdown plugin: https://github.com/plapier/jquery-dropdown
-    // (dual MIT/GPL-Licensed)
-
-    // Position the dropdown relative-to-parent or relative-to-document
-    if (dropdown.hasClass('dropdown-relative')) {
-      return {
-        left: dropdown.hasClass('dropdown-anchor-right') ?
-        trigger.position().left -
-        (dropdown.outerWidth(true) - trigger.outerWidth(true)) -
-        parseInt(trigger.css('margin-right'), 10) + hOffset :
-        trigger.position().left + parseInt(trigger.css('margin-left'), 10) + hOffset,
-        top: trigger.position().top +
-        trigger.outerHeight(true) -
-        parseInt(trigger.css('margin-top'), 10) + vOffset
-      };
-    }
-    else {
-      return {
-        left: dropdown.hasClass('dropdown-anchor-right') ?
-        trigger.offset().left - (dropdown.outerWidth() - trigger.outerWidth()) + hOffset : trigger.offset().left + hOffset,
-        top: trigger.offset().top + trigger.outerHeight() + vOffset
-      };
-    }
-  }
-
-  function getPositionPropertiesOfEvent(event) {
-    var position = {};
-
-    if (event.pageX && event.pageY) {
-      position.top = Math.max(event.pageY, 0);
-      position.left = Math.max(event.pageX, 0);
-    }
-    else {
-      var bounding = angular.element(event.target)[0].getBoundingClientRect();
-
-      position.top = Math.max(bounding.bottom, 0);
-      position.left = Math.max(bounding.left, 0);
-    }
-
-    return position;
-  }
-
-  function getCssPositionPropertiesOfEvent(event) {
-    var position = getPositionPropertiesOfEvent(event);
-
-    position.top += 'px';
-    position.left += 'px';
-
-    return position;
-  }
 
   return {
     restrict: 'A',

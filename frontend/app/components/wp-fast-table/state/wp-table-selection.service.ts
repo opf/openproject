@@ -33,6 +33,25 @@ export class WorkPackageTableSelection {
     this.selectionState.put(state);
   }
 
+  /**
+   * Get the current work package resource form the selection state.
+   */
+  public getSelectedWorkPackages():WorkPackageResource[] {
+    let wpState = this.states.workPackages;
+    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).getCurrentValue());
+  }
+
+  public getSelectedWorkPackageIds():string[] {
+    let selected:string[] = [];
+
+    _.each(this.currentState.selected, (isSelected:boolean, wpId:string) => {
+      if (isSelected) {
+        selected.push(wpId);
+      }
+    });
+
+    return selected;
+  }
 
   /**
    * Reset the selection state to an empty selection

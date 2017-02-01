@@ -6,6 +6,7 @@ import {SelectionTransformer} from './state/selection-transformer';
 import {RowsTransformer} from './state/rows-transformer';
 import {ColumnsTransformer} from './state/columns-transformer';
 import {GroupRowHandler} from './row/group-row-handler';
+import {ContextMenuHandler} from './row/context-menu-handler';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -21,7 +22,10 @@ export class TableHandlerRegistry {
     WorkPackageStateLinksHandler,
     // Clicking on the row (not within a cell)
     RowClickHandler,
-    GroupRowHandler
+    // Clicking on group headers
+    GroupRowHandler,
+    // Right clicking on rows
+    ContextMenuHandler,
   ];
 
   static stateTransformers = [
