@@ -33,7 +33,7 @@ import {StringObjectDisplayField} from '../field-types/wp-display-string-object-
 import {FormattableDisplayField} from '../field-types/wp-display-formattable-field.module';
 import {DurationDisplayField} from '../field-types/wp-display-duration-field.module';
 import {DateDisplayField} from '../field-types/wp-display-date-field.module';
-import {DateTimeDisplayField} from '../field-types/wp-display-datetime-field.module.ts';
+import {DateTimeDisplayField} from '../field-types/wp-display-datetime-field.module';
 import {IdDisplayField} from '../field-types/wp-display-id-field.module';
 import {BooleanDisplayField} from '../field-types/wp-display-boolean-field.module';
 import {ProgressDisplayField} from '../field-types/wp-display-progress-field.module';

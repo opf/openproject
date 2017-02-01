@@ -188,7 +188,6 @@ Node.js is necessary to precompile the assets (JavaScript and CSS). We will inst
 [openproject@debian]# cd /home/openproject
 [openproject@debian]# nodeenv nodeenv
 [openproject@debian]# source ./nodeenv/bin/activate
-[openproject@debian]# npm -g install bower
 ```
 
 As a reference, the following Node.js and NPM versions have been installed on our system:
@@ -198,8 +197,6 @@ As a reference, the following Node.js and NPM versions have been installed on ou
                       v0.12.2
 [openproject@debian]# npm --version
                       1.4.28
-[openproject@debian]# bower --version
-                      1.3.12
 ```
 
 ## The Upgrade

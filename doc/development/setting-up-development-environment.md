@@ -81,7 +81,6 @@ Switch to your development directory. In this guide we develop straight in the `
 ```bash
 [dev@debian]# nodeenv nodeenv
 [dev@debian]# source ./nodeenv/bin/activate
-[dev@debian]# npm -g install bower
 ```
 
 If the first step fails with `OSError: Command make --jobs=2 failed with error code 2` try:
@@ -94,7 +93,6 @@ If the first step fails with `OSError: Command make --jobs=2 failed with error c
 [dev@debian]# source ./nodeenv/bin/activate
 [dev@debian]# pip install nodeenv
 [dev@debian]# nodeenv -p --prebuilt
-[dev@debian]# npm -g install bower
 ```
 
 As a reference, the following Node.js and NPM versions have been installed on our system:
@@ -104,8 +102,6 @@ As a reference, the following Node.js and NPM versions have been installed on ou
                       v6.2.2
 [dev@debian]# npm --version
                       3.9.5
-[dev@debian]# bower --version
-                      1.7.9
 ```
 
 ## Install OpenProject
@@ -116,9 +112,6 @@ As a reference, the following Node.js and NPM versions have been installed on ou
 [dev@debian]# bundle install
 [dev@debian]# npm install
 [dev@debian]# npm run webpack
-[dev@debian]# cd frontend
-[dev@debian]# bower install
-[dev@debian]# cd ..
 ```
 
 Note that we have checked out the `dev` branch of the OpenProject repository. Development in OpenProject happens in the `dev` branch (there is no `master` branch).

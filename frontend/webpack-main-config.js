@@ -61,55 +61,45 @@ fs.readdirSync(translations).forEach(function (file) {
   }
 });
 
-var browsersListConfig = fs.readFileSync(path.join(__dirname, '..', 'browserslist'), 'utf8');
-var browsersList = _.filter(browsersListConfig.split('\n'), function (entry) {
-  return entry && entry.charAt(0) !== '#';
-});
-
 var loaders = [
-  { test: /\.tsx?$/, loader: 'ng-annotate!awesome-typescript-loader'},
-  {test: /[\/]angular\.js$/, loader: 'exports?angular'},
-  {test: /[\/]jquery\.js$/, loader: 'expose?jQuery'},
-  {test: /[\/]dragula\.js$/, loader: 'expose?dragula'},
-  {test: /[\/]moment\.js$/, loader: 'expose?moment'},
-  {test: /[\/]mousetrap\.js$/, loader: 'expose?Mousetrap'},
+  { test: /\.tsx?$/, loader: 'ng-annotate-loader!ts-loader'},
   {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract(
-        'style-loader',
-        'css-loader!postcss-loader'
-    )
+    loader: ExtractTextPlugin.extract({
+      fallbackLoader: 'style-loader',
+      loader: 'css-loader!postcss-loader',
+      publicPath: '/assets/bundles/'
+    })
   },
   {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
   {test: /\.gif$/, loader: 'file-loader'},
   {test: /\.jpg$/, loader: 'file-loader'},
-  {test: /[\/].*\.js$/, loader: 'ng-annotate?map=true'}
+  {test: /[\/].*\.js$/, loader: 'ng-annotate-loader?map=true'}
 ];
 
 for (var k in pathConfig.pluginNamesPaths) {
   if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
     loaders.push({
       test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
-      loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html?-minimize'
+      loader: 'ngtemplate-loader?module=openproject.templates&relativeTo=' +
+      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html-loader?-minimize'
     });
   }
 }
 
 loaders.push({
   test: /^((?!templates\/plugin).)*\.html$/,
-  loader: 'ngtemplate?module=openproject.templates&relativeTo=' +
-  path.resolve(__dirname, './app') + '!html?-minimize'
+  loader: 'ngtemplate-loader?module=openproject.templates&relativeTo=' +
+  path.resolve(__dirname, './app') + '!html-loader?-minimize'
 });
-
 
 function getWebpackMainConfig() {
   config = {
-    context: path.join(__dirname, '/app'),
+    context: path.resolve(__dirname, 'app'),
 
     entry: _.merge({
-      'global': './global.js',
-      'core-app': './openproject-app.js'
+      'global': './global',
+      'core-app': './openproject-app'
     }, pluginEntries),
 
     output: {
@@ -123,46 +113,30 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      root: __dirname,
+      modules: ['node_modules'].concat(pathConfig.pluginDirectories),
 
-      extensions: ['', '.webpack.js', '.ts', '.js'],
+      extensions: ['.ts', '.tsx', '.js'],
 
-      modulesDirectories: [
-        'node_modules',
-        'bower_components',
-        'vendor'
-      ].concat(pathConfig.pluginDirectories),
-
-      fallback: [path.join(__dirname, 'bower_components')],
+      // Allow empty import without extension
+      // enforceExtension: true,
 
       alias: _.merge({
         'locales': './../../config/locales',
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
+        'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
+        'select2': path.resolve(__dirname, 'vendor', 'select2'),
         'angular-truncate': 'angular-truncate/src/truncate',
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
-        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         'mousetrap': 'mousetrap/mousetrap.js',
-        'ngFileUpload': 'ng-file-upload/ng-file-upload',
+        'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
+        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868
         'crossvent': path.resolve(node_root, 'crossvent', 'src', 'crossvent.js')
       }, pluginAliases)
     },
-
-    resolveLoader: {
-      root: path.join(__dirname, '/node_modules')
-    },
-
-    ts: {
-      configFileName: path.resolve(__dirname, 'tsconfig.json')
-    },
-
-    // CSS postprocessing (autoprefixer)
-    postcss: [
-      autoprefixer({ browsers: browsersList, cascade: false })
-    ],
 
     externals: {
       "I18n": "I18n"
@@ -175,7 +149,10 @@ function getWebpackMainConfig() {
       TypeScriptDiscruptorPlugin,
 
       // Extract CSS into its own bundle
-      new ExtractTextPlugin('openproject-[name].css'),
+      new ExtractTextPlugin({
+        filename: 'openproject-[name].css',
+        disable: false
+      }),
 
       // Global variables provided in all entries
       // We should avoid this since it reduces webpack
@@ -188,13 +165,7 @@ function getWebpackMainConfig() {
       new webpack.ContextReplacementPlugin(
         /(angular-i18n)/,
         new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$', 'i')
-      ),
-
-      // Resolve bower dependencies
-      new webpack.ResolverPlugin([
-        new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
-            'bower.json', ['main'])
-      ])
+      )
     ]
   };
 
@@ -209,8 +180,10 @@ function getWebpackMainConfig() {
         compressor: { warnings: false },
         sourceMap: false
       }),
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.OccurenceOrderPlugin()
+      new webpack.LoaderOptionsPlugin({
+        // Let loaders know that we're in minification mode
+        minimize: true
+      })
     );
   }
 
