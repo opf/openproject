@@ -111,11 +111,21 @@ module API
                  has_default: true,
                  visibility: false
 
-          schema :group_by,
-                 type: '[]QueryGroupBy',
-                 required: false,
-                 writable: true,
-                 visibility: false
+          schema_with_allowed_collection :group_by,
+                                         type: '[]QueryGroupBy',
+                                         required: false,
+                                         writable: true,
+                                         visibility: false,
+                                         values_callback: -> { represented.groupable_columns },
+                                         value_representer: GroupBys::QueryGroupByRepresenter,
+                                         link_factory: -> (column) {
+                                           converted_name = convert_attribute(column.name)
+
+                                           {
+                                             href: api_v3_paths.query_group_by(converted_name),
+                                             title: column.caption
+                                           }
+                                         }
 
           schema :sort_by,
                  type: '[]QuerySortBy',

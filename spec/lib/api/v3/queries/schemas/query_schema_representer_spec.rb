@@ -243,6 +243,22 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         it_behaves_like 'has no visibility property'
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+
+          it_behaves_like 'has a collection of allowed values' do
+            let(:available_values) do
+              [QueryColumn.new(:bogus1),
+               QueryColumn.new(:bogus2),
+               QueryColumn.new(:bogus3)]
+            end
+            let(:available_values_method) { :groupable_columns }
+            let(:href_factory) { ->(value) { api_v3_paths.query_group_by(value.name) } }
+          end
+        end
       end
 
       describe 'sortBy' do
