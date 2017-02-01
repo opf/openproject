@@ -1,19 +1,29 @@
+import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
+  // Injected dependencies
+  public $state:ng.ui.IStateService;
+  public keepTab:KeepTabService;
 
-  public static linkToDetails(workPackageId:string, title:string, content:string) {
+  constructor() {
+    injectorBridge(this);
+  }
+
+  public linkToDetails(workPackageId:string, title:string, content:string) {
     return this.build(workPackageId, 'currentDetailsState', title, content);
   }
 
-  public static linkToShow(workPackageId:string, title:string, content:string) {
+  public linkToShow(workPackageId:string, title:string, content:string) {
     return this.build(workPackageId, 'currentShowState', title, content);
   }
 
-  private static build(workPackageId:string, state:string, title:string, content:string) {
+  private build(workPackageId:string, state:string, title:string, content:string) {
     let a = document.createElement('a');
 
+    a.href = this.$state.href(this.keepTab[state], { workPackageId: workPackageId });
     a.classList.add(uiStateLinkClass);
     a.dataset['workPackageId'] = workPackageId;
     a.dataset['wpState'] = state;
@@ -24,3 +34,5 @@ export class UiStateLinkBuilder {
     return a;
   }
 }
+
+UiStateLinkBuilder.$inject = ['$state', 'keepTab'];

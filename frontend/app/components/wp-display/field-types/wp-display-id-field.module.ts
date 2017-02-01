@@ -32,12 +32,15 @@ import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-bui
 
 export class IdDisplayField extends DisplayField {
   public text: Object;
+  private uiStateBuilder;
 
 
   constructor(public resource:WorkPackageResource,
               public name:string,
               public schema) {
     super(resource, name, schema);
+
+    this.uiStateBuilder = new UiStateLinkBuilder();
 
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
@@ -58,7 +61,7 @@ export class IdDisplayField extends DisplayField {
       return;
     }
 
-    let link = UiStateLinkBuilder.linkToShow(
+    let link = this.uiStateBuilder.linkToShow(
       this.value,
       displayText,
       this.value

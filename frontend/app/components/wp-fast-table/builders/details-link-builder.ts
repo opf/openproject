@@ -8,12 +8,14 @@ export class DetailsLinkBuilder {
   public I18n:op.I18n;
 
   public text:any;
+  private uiStatebuilder:UiStateLinkBuilder;
 
   constructor() {
     injectorBridge(this);
     this.text = {
       button: this.I18n.t('js.button_open_details')
     };
+    this.uiStatebuilder = new UiStateLinkBuilder();
   }
 
   public build(workPackage:WorkPackageResource, row:HTMLElement) {
@@ -21,7 +23,7 @@ export class DetailsLinkBuilder {
     let td = document.createElement('td');
     td.classList.add('wp-table--details-column', 'hide-when-print', '-short');
 
-    let detailsLink = UiStateLinkBuilder.linkToDetails(
+    let detailsLink = this.uiStatebuilder.linkToDetails(
       workPackage.id,
       this.text.button,
       ''
