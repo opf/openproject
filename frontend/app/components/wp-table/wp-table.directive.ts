@@ -103,20 +103,6 @@ function wpTable(
 
       applyGrouping();
 
-      scope.$watchCollection('columns', function() {
-        // force Browser rerender
-        element.hide().show(0);
-        scope.numTableColumns = scope.columns.length + 2;
-
-        angular.element($window).trigger('resize');
-      });
-      scope.$watchCollection('rows', function() {
-        // force Browser rerender
-        element.hide().show(0);
-
-        angular.element($window).trigger('resize');
-      });
-
       scope.sumsLoaded = function() {
         return scope.displaySums &&
           scope.resource.sumsSchema &&
