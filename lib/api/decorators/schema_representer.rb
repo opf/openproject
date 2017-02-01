@@ -86,7 +86,7 @@ module API
                    required: required,
                    has_default: has_default,
                    name_source: lambda {
-                     API::Decorators::Schema::InstanceMethods
+                     API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source,
                                           self.represented_class
                    }
@@ -124,7 +124,7 @@ module API
                    required: required,
                    has_default: has_default,
                    name_source: lambda {
-                     API::Decorators::Schema::InstanceMethods
+                     API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source,
                                           self.represented_class
                    }
@@ -167,7 +167,7 @@ module API
                    required: required,
                    has_default: has_default,
                    name_source: lambda {
-                     API::Decorators::Schema::InstanceMethods
+                     API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source,
                                           self.represented_class
                    }
