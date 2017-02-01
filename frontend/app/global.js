@@ -47,6 +47,7 @@ require('jquery-ujs');
 require('angular-dragula');
 
 require('jquery-ui/ui/core.js');
+require('jquery-ui/ui/position.js');
 require('jquery-ui/ui/widgets/datepicker.js');
 require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/ui/widgets/autocomplete.js');

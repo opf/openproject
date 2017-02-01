@@ -40,7 +40,7 @@ export class ContextMenuHandler implements TableEventHandler {
     let element = target.closest(this.SELECTOR);
     let row = table.rowObject(element.data('workPackageId'));
 
-    this.contextMenu.activate('WorkPackageContextMenu', target, { row: row });
+    this.contextMenu.activate('WorkPackageContextMenu', evt, { row: row });
     return false;
   }
 }

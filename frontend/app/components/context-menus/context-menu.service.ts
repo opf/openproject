@@ -30,7 +30,9 @@ interface ContextMenu {
   active();
   close();
   open();
-  reposition();
+
+  target?:JQuery;
+  menuElement?:JQuery;
 }
 
 export class ContextMenuService {
@@ -59,7 +61,8 @@ export class ContextMenuService {
     this.active && this.active.close();
   }
 
-  public activate(contextMenuName, target:JQuery, locals) {
+  public activate(contextMenuName, event:JQueryEventObject, locals) {
+    let target = jQuery(event.target);
     let contextMenu = this.$injector.get(contextMenuName);
 
     // Close other context menu
@@ -69,7 +72,7 @@ export class ContextMenuService {
     contextMenu.open(target, locals).then((menuElement) => {
       contextMenu.menuElement = menuElement;
       this._active_menu = contextMenu;
-      this.reposition();
+      setTimeout(() => this.reposition(event), 50);
       (menuElement as any).trap();
       menuElement.on('click', function (e) {
         // allow inputs to be clickable
@@ -81,7 +84,7 @@ export class ContextMenuService {
     });
   }
 
-  public reposition() {
+  public reposition(event:JQueryEventObject) {
     if (!this.active) {
       return;
     }
@@ -89,7 +92,13 @@ export class ContextMenuService {
     let menuElement = this.active.menuElement;
     let target = this.active.target;
 
-    menuElement.position({ my: 'center', at: 'bottom right', of: target });
+    // Uses jquery-ui position
+    menuElement.position({
+      my: 'left top',
+      at: 'right bottom',
+      of: event,
+      collision: 'flipfit'
+    });
   }
 }
 
