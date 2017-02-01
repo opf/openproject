@@ -112,6 +112,16 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         it_behaves_like 'has no visibility property'
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+
+          it_behaves_like 'links to allowed values via collection link' do
+            let(:href) { api_v3_paths.available_query_projects }
+          end
+        end
       end
 
       describe 'public' do

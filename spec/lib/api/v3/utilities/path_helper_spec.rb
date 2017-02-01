@@ -278,6 +278,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/schema'
   end
 
+  describe '#available_query_projects' do
+    subject { helper.available_query_projects }
+
+    it_behaves_like 'api v3 path', '/queries/available_projects'
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }

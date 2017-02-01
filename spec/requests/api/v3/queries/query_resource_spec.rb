@@ -211,6 +211,38 @@ describe 'API v3 Query resource', type: :request do
     end
   end
 
+  describe '#get queries/available_projects' do
+    before do
+      other_project
+      get api_v3_paths.available_query_projects
+    end
+
+    it 'should succeed' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'returns a Collection of projects for which the user has view work packages permission' do
+      expect(last_response.body)
+        .to be_json_eql('Collection'.to_json)
+        .at_path('_type')
+      expect(last_response.body)
+        .to be_json_eql(1.to_json)
+        .at_path('count')
+      expect(last_response.body)
+        .to be_json_eql(1.to_json)
+        .at_path('total')
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.project(project.id).to_json)
+        .at_path('_embedded/elements/0/_links/self/href')
+    end
+
+    context 'user not allowed' do
+      let(:permissions) { [] }
+
+      it_behaves_like 'unauthorized access'
+    end
+  end
+
   describe '#star' do
     let(:star_path) { api_v3_paths.query_star query.id }
 

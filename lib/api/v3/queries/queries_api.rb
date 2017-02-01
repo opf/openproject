@@ -59,6 +59,21 @@ module API
             end
           end
 
+          namespace 'available_projects' do
+            before do
+              authorize(:view_work_packages, global: true, user: current_user)
+            end
+
+            get do
+              available_projects = Project.allowed_to(current_user, :view_work_packages)
+              self_link = api_v3_paths.available_query_projects
+
+              ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                                    self_link,
+                                                                    current_user: current_user)
+            end
+          end
+
           params do
             requires :id, desc: 'Query id'
           end

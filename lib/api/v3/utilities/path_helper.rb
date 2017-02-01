@@ -167,6 +167,10 @@ module API
             "#{queries}/schema"
           end
 
+          def self.available_query_projects
+            "#{queries}/available_projects"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

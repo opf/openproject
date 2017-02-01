@@ -58,12 +58,14 @@ module API
                  has_default: true,
                  visibility: false
 
-          schema :project,
-                 type: 'Project',
-                 required: false,
-                 writable: true,
-                 visibility: false
-
+          schema_with_allowed_link :project,
+                                   type: 'Project',
+                                   required: false,
+                                   writable: true,
+                                   visibility: false,
+                                   href_callback: -> (*) {
+                                     api_v3_paths.available_query_projects
+                                   }
           schema :public,
                  type: 'Boolean',
                  required: false,
