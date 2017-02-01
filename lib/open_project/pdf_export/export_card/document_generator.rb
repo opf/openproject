@@ -55,6 +55,10 @@ module OpenProject::PdfExport::ExportCard
         :bottom_margin => 0,
         :page_size => page_size)
 
+      view = ::WorkPackage::PdfExport::View.new(I18n.locale)
+      view.register_fonts! @pdf
+      @pdf.set_font @pdf.font('NotoSans')
+
       @paper_width = @pdf.bounds.width
       @paper_height = @pdf.bounds.height
     end
