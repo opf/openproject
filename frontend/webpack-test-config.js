@@ -32,7 +32,7 @@ var getWebpackMainConfig = require('./webpack-main-config');
 function getWebpackTestConfig() {
   var webpackConfig = getWebpackMainConfig();
 
-  webpackConfig.entry = './openproject-tests.js';
+  webpackConfig.entry = './openproject-tests';
   webpackConfig.output = {
     path: path.join(__dirname, '/tests'),
     filename: 'openproject-test-bundle.js'

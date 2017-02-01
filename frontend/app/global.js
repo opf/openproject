@@ -34,10 +34,16 @@
 // See: https://github.com/webpack/style-loader/issues/31
 require('phantomjs-polyfill');
 
-require('jquery');
+// Globally exposed dependencies
+require('expose-loader?jQuery!jquery');
+require('expose-loader?angular!angular');
+require('expose-loader?dragula!dragula');
+require('expose-loader?moment!moment');
+require('expose-loader?mousetrap!mousetrap');
+require('expose-loader?URI!URIjs');
+
 require('jquery-ujs');
 
-require('dragula');
 require('angular-dragula');
 
 require('jquery-ui/ui/core.js');
@@ -56,7 +62,6 @@ require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/themes/base/dialog.css');
 
-require('expose?moment!moment');
 require('moment/locale/en-gb.js');
 require('moment/locale/de.js');
 
@@ -69,7 +74,6 @@ require('moment-timezone/builds/moment-timezone-with-data.min.js');
 require('select2/select2.min.js');
 require('select2/select2.css');
 
-require('angular');
 require('angular-sanitize');
 
 require('ui-select/dist/select.min.js');
@@ -78,5 +82,4 @@ require('ui-select/dist/select.min.css');
 require('ng-dialog/js/ngDialog.min.js');
 require('ng-dialog/css/ngDialog.min.css');
 
-require('expose?URI!URIjs');
 require('URIjs/src/URITemplate');
