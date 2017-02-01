@@ -122,7 +122,7 @@ function wpTable(
       });
 
       // Bind CTRL+A to select all work packages
-      Mousetrap.bind(['command+a', 'ctrl+a'], function(e) {
+      MouseTrap.bind(['command+a', 'ctrl+a'], function(e) {
         scope.$evalAsync(() => {
           WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, true);
         });
@@ -132,7 +132,7 @@ function wpTable(
       });
 
       // Bind CTRL+D to deselect all work packages
-      Mousetrap.bind(['command+d', 'ctrl+d'], function(e) {
+      MouseTrap.bind(['command+d', 'ctrl+d'], function(e) {
         scope.$evalAsync(() => {
           WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, false);
         });

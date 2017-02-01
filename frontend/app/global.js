@@ -84,5 +84,4 @@ require('ng-dialog/css/ngDialog.min.css');
 
 require('nouislider/distribute/nouislider.min.css');
 
-require('expose?URI!URIjs');
 require('URIjs/src/URITemplate');

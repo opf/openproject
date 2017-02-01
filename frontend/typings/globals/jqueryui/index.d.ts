@@ -1351,8 +1351,8 @@ interface JQuery {
       * @param optionName 'autohide'
       */
       datepicker(methodName: 'option', optionName: 'autohide'): boolean;
-
-
+    
+   
       /**
       * Get the endDate after initialization
       *
