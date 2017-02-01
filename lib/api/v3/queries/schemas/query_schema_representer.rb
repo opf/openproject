@@ -127,12 +127,29 @@ module API
                                            }
                                          }
 
-          schema :sort_by,
-                 type: '[]QuerySortBy',
-                 required: false,
-                 writable: true,
-                 has_default: true,
-                 visibility: false
+          schema_with_allowed_collection :sort_by,
+                                         type: '[]QuerySortBy',
+                                         required: false,
+                                         writable: true,
+                                         has_default: true,
+                                         visibility: false,
+                                         values_callback: -> do
+                                           values = represented.sortable_columns.map do |column|
+                                             [SortBys::SortByDecorator.new(column.name, 'asc'),
+                                              SortBys::SortByDecorator.new(column.name, 'desc')]
+                                           end
+
+                                           values.flatten
+                                         end,
+                                         value_representer: SortBys::QuerySortByRepresenter,
+                                         link_factory: -> (sort_by) {
+                                           name = sort_by.converted_name
+                                           direction = sort_by.direction_name
+                                           {
+                                             href: api_v3_paths.query_sort_by(name, direction),
+                                             title: sort_by.name
+                                           }
+                                         }
 
           schema :results,
                  type: 'WorkPackageCollection',

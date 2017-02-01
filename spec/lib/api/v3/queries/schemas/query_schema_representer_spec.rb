@@ -31,7 +31,24 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { Query.new }
+  let(:query) do
+    query = Query.new
+
+    # Stub some methods to avoid a test failure in unrelated tests
+    allow(query)
+      .to receive(:groupable_columns)
+      .and_return([])
+
+    allow(query)
+      .to receive(:available_columns)
+      .and_return([])
+
+    allow(query)
+      .to receive(:sortable_columns)
+      .and_return([])
+
+    query
+  end
 
   let(:instance) { described_class.new(query, form_embedded: form_embedded, self_link: self_link) }
   let(:form_embedded) { false }
@@ -56,7 +73,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
     context 'when values are allowed' do
       it_behaves_like 'links to and embeds allowed values directly' do
-        let(:hrefs) { available_values.map { |value| href_factory.call(value) } }
+        let(:hrefs) { expected_hrefs }
       end
     end
   end
@@ -213,7 +230,11 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                QueryColumn.new(:bogus3)]
             end
             let(:available_values_method) { :available_columns }
-            let(:href_factory) { ->(value) { api_v3_paths.query_column(value.name) } }
+            let(:expected_hrefs) do
+              available_values.map do |value|
+                api_v3_paths.query_column(value.name)
+              end
+            end
           end
         end
       end
@@ -256,7 +277,11 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                QueryColumn.new(:bogus3)]
             end
             let(:available_values_method) { :groupable_columns }
-            let(:href_factory) { ->(value) { api_v3_paths.query_group_by(value.name) } }
+            let(:expected_hrefs) do
+              available_values.map do |value|
+                api_v3_paths.query_group_by(value.name)
+              end
+            end
           end
         end
       end
@@ -273,6 +298,36 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         it_behaves_like 'has no visibility property'
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+
+          it_behaves_like 'has a collection of allowed values' do
+            before do
+              allow(Query)
+                .to receive(:sortable_columns)
+                .and_return(available_values)
+            end
+
+            let(:available_values) do
+              [QueryColumn.new(:bogus1),
+               QueryColumn.new(:bogus2),
+               QueryColumn.new(:bogus3)]
+            end
+            let(:available_values_method) { :sortable_columns }
+
+            let(:expected_hrefs) do
+              expected = available_values.map do |value|
+                [api_v3_paths.query_sort_by(value.name, 'asc'),
+                 api_v3_paths.query_sort_by(value.name, 'desc')]
+              end
+
+              expected.flatten
+            end
+          end
+        end
       end
 
       describe 'results' do
