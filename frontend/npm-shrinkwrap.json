@@ -3273,9 +3273,9 @@
       }
     },
     "mousetrap": {
-      "version": "1.4.6",
-      "from": "mousetrap@>=1.4.6 <1.5.0",
-      "resolved": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.4.6.tgz"
+      "version": "1.6.0",
+      "from": "mousetrap@>=1.6.0 <1.7.0",
+      "resolved": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.0.tgz"
     },
     "ms": {
       "version": "0.7.2",
