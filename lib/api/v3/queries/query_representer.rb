@@ -70,7 +70,7 @@ module API
         links :columns do
           represented.columns.map do |column|
             {
-              href: api_v3_paths.query_column(convert_attribute(column.name).underscore),
+              href: api_v3_paths.query_column(convert_attribute(column.name)),
               title: column.caption
             }
           end
@@ -81,7 +81,7 @@ module API
 
           if column
             {
-              href: api_v3_paths.query_group_by(convert_attribute(column.name).underscore),
+              href: api_v3_paths.query_group_by(convert_attribute(column.name)),
               title: column.caption
             }
           else

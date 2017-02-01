@@ -87,12 +87,22 @@ module API
                  has_default: true,
                  visibility: false
 
-          schema :columns,
-                 type: '[]QueryColumn',
-                 required: false,
-                 writable: true,
-                 has_default: true,
-                 visibility: false
+          schema_with_allowed_collection :columns,
+                                         type: '[]QueryColumn',
+                                         required: false,
+                                         writable: true,
+                                         has_default: true,
+                                         visibility: false,
+                                         values_callback: -> { represented.available_columns },
+                                         value_representer: Columns::QueryColumnRepresenter,
+                                         link_factory: -> (column) {
+                                           converted_name = convert_attribute(column.name)
+
+                                           {
+                                             href: api_v3_paths.query_column(converted_name),
+                                             title: column.caption
+                                           }
+                                         }
 
           schema :filters,
                  type: '[]QueryFilterInstance',
@@ -122,6 +132,12 @@ module API
 
           def self.represented_class
             Query
+          end
+
+          private
+
+          def convert_attribute(attribute)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
           end
         end
       end

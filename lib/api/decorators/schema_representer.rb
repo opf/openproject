@@ -159,7 +159,9 @@ module API
                        writable: call_or_use(writable),
                        visibility: call_or_use(visibility))
 
-                     representer.allowed_values = instance_exec(&values_callback)
+                     if form_embedded
+                       representer.allowed_values = instance_exec(&values_callback)
+                     end
 
                      representer
                    },

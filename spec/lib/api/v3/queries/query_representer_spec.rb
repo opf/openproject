@@ -181,7 +181,7 @@ describe ::API::V3::Queries::QueryRepresenter do
             title: 'Assignee'
           }
           subproject = {
-            href: '/api/v3/queries/columns/updated_at',
+            href: '/api/v3/queries/columns/updatedAt',
             title: 'Updated on'
           }
 
