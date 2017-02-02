@@ -110,6 +110,21 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     end
   end
 
+  def ar_object_filter?
+    %w{user version}.include? custom_field.field_format
+  end
+
+  def value_objects
+    case custom_field.field_format
+    when 'user'
+      User.find(values)
+    when 'version'
+      Version.find(values)
+    else
+      super
+    end
+  end
+
   private
 
   def custom_field_valid

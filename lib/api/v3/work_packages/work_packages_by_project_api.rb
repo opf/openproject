@@ -26,7 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'api/v3/work_packages/work_package_list_helpers'
 require 'api/v3/work_packages/create_work_packages'
 
 module API
@@ -35,11 +34,17 @@ module API
       class WorkPackagesByProjectAPI < ::API::OpenProjectAPI
         resources :work_packages do
           helpers ::API::V3::WorkPackages::CreateWorkPackages
-          helpers ::API::V3::WorkPackages::WorkPackageListHelpers
 
           get do
             authorize(:view_work_packages, context: @project)
-            work_packages_by_params(project: @project)
+
+            service = raise_invalid_query_on_service_failure do
+              WorkPackageCollectionFromQueryParamsService
+                .new(current_user)
+                .call(params.merge(project: @project))
+            end
+
+            service.result
           end
 
           post do

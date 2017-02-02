@@ -29,6 +29,7 @@
 
 module Queries::FilterSerializer
   extend Queries::AvailableFilters
+  extend Queries::AvailableFilters::ClassMethods
 
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
@@ -46,7 +47,7 @@ module Queries::FilterSerializer
     YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
   end
 
-  def self.filter_register
+  def self.registered_filters
     Queries::Register.filters[Query]
   end
 end

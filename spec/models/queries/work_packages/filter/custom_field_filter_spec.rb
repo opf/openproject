@@ -393,4 +393,108 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       end
     end
   end
+
+  describe '#ar_object_filter? / #value_objects' do
+    context 'list cf' do
+      let(:custom_field) { list_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'bool cf' do
+      let(:custom_field) { bool_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'int cf' do
+      let(:custom_field) { int_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'float cf' do
+      let(:custom_field) { float_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'text cf' do
+      let(:custom_field) { text_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'user cf' do
+      let(:custom_field) { user_wp_custom_field }
+
+      describe '#ar_object_filter?' do
+        it 'is true' do
+          expect(instance)
+            .to be_ar_object_filter
+        end
+      end
+
+      describe '#value_objects' do
+        let(:user1) { FactoryGirl.build_stubbed(:user) }
+        let(:user2) { FactoryGirl.build_stubbed(:user) }
+
+        before do
+          allow(User)
+            .to receive(:find)
+            .with([user1.id.to_s, user2.id.to_s])
+            .and_return([user1, user2])
+
+          instance.values = [user1.id.to_s, user2.id.to_s]
+        end
+
+        it 'returns an array with users' do
+          expect(instance.value_objects)
+            .to match_array([user1, user2])
+        end
+      end
+    end
+
+    context 'version cf' do
+      let(:custom_field) { version_wp_custom_field }
+
+      describe '#ar_object_filter?' do
+        it 'is true' do
+          expect(instance)
+            .to be_ar_object_filter
+        end
+      end
+
+      describe '#value_objects' do
+        let(:version1) { FactoryGirl.build_stubbed(:version) }
+        let(:version2) { FactoryGirl.build_stubbed(:version) }
+
+        before do
+          allow(Version)
+            .to receive(:find)
+            .with([version1.id.to_s, version2.id.to_s])
+            .and_return([version1, version2])
+
+          instance.values = [version1.id.to_s, version2.id.to_s]
+        end
+
+        it 'returns an array with users' do
+          expect(instance.value_objects)
+            .to match_array([version1, version2])
+        end
+      end
+    end
+
+    context 'date cf' do
+      let(:custom_field) { date_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+
+    context 'string cf' do
+      let(:custom_field) { string_wp_custom_field }
+
+      it_behaves_like 'non ar filter'
+    end
+  end
 end

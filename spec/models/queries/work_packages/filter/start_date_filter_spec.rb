@@ -45,5 +45,7 @@ describe Queries::WorkPackages::Filter::StartDateFilter, type: :model do
         expect(instance.allowed_values).to be_nil
       end
     end
+
+    it_behaves_like 'non ar filter'
   end
 end

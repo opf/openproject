@@ -67,5 +67,29 @@ describe Queries::WorkPackages::Filter::GroupFilter, type: :model do
           .to match_array [[group.name, group.id.to_s]]
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:group2) { FactoryGirl.build_stubbed(:group) }
+
+      before do
+        allow(Group)
+          .to receive(:all)
+          .and_return([group, group2])
+
+        instance.values = [group2.id.to_s]
+      end
+
+      it 'returns an array of groups' do
+        expect(instance.value_objects)
+          .to match_array([group2])
+      end
+    end
   end
 end

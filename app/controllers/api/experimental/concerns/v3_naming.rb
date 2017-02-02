@@ -28,9 +28,13 @@
 
 module Api::Experimental::Concerns::V3Naming
   def v3_to_internal_name(string, append_id: true)
-    API::Utilities::PropertyNameConverter.to_ar_name(string,
-                                                     context: context_dummy,
-                                                     refer_to_ids: append_id)
+    if append_id
+      API::Utilities::QueryFiltersNameConverter.to_ar_name(string,
+                                                           refer_to_ids: append_id)
+    else
+      API::Utilities::WpPropertyNameConverter.to_ar_name(string,
+                                                         refer_to_ids: append_id)
+    end
   end
 
   def internal_to_v3_name(string)
@@ -85,13 +89,5 @@ module Api::Experimental::Concerns::V3Naming
     end
 
     json_query
-  end
-
-  private
-
-  def context_dummy
-    # memorize the work package because
-    # initializing a work package queries the db
-    @context_dummy ||= API::Utilities::PropertyNameConverterQueryContext.new
   end
 end

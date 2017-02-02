@@ -171,6 +171,15 @@ describe ::API::Utilities::PropertyNameConverter do
           end
         end
       end
+
+      context 'inappropriate replacement as context does not respond to it with foreign key' do
+        let(:attribute_name) { 'type' }
+        subject { described_class.to_ar_name(attribute_name, context: context, refer_to_ids: true) }
+
+        it 'does not take the special replacement but appends the id suffix' do
+          is_expected.to eql('type_id')
+        end
+      end
     end
   end
 end

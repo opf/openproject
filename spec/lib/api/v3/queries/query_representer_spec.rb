@@ -31,10 +31,11 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) {
-    FactoryGirl.build_stubbed(:query)
-  }
-  let(:representer) { described_class.new(query, current_user: double('current_user')) }
+  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:representer) do
+    described_class.new(query, current_user: double('current_user'), embed_links: true)
+  end
 
   subject { representer.to_json }
 
@@ -58,11 +59,193 @@ describe ::API::V3::Queries::QueryRepresenter do
         let(:title) { query.project.name }
       end
 
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'results' }
+        let(:href) do
+          params = {
+            offset: 1,
+            pageSize: Setting.per_page_options_array.first
+          }
+          "#{api_v3_paths.work_packages_by_project(project.id)}?#{params.to_query}"
+        end
+      end
+
       context 'has no project' do
         let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
 
         it_behaves_like 'has an empty link' do
           let(:link) { 'project' }
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'results' }
+          let(:href) do
+            params = {
+              offset: 1,
+              pageSize: Setting.per_page_options_array.first
+            }
+            "#{api_v3_paths.work_packages}?#{params.to_query}"
+          end
+        end
+      end
+
+      context 'with filter, sort, group by and pageSize' do
+        let(:representer) do
+          described_class.new(query,
+                              current_user: double('current_user'))
+        end
+
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+          query.add_filter('subject', '~', ['bogus'])
+          query.group_by = 'author'
+          query.sort_criteria = [['assigned_to', 'asc'], ['type', 'desc']]
+
+          query
+        end
+
+        let(:expected_href) do
+          params = {
+            offset: 1,
+            pageSize: Setting.per_page_options_array.first,
+            filters: JSON::dump([{ subject: { operator: '~', values: ['bogus'] } }]),
+            groupBy: 'author',
+            sortBy: JSON::dump([['assignee', 'asc'], ['type', 'desc']])
+          }
+
+          api_v3_paths.work_packages_by_project(project.id) + "?#{params.to_query}"
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'results' }
+          let(:href) { expected_href }
+        end
+      end
+
+      context 'with offset and page size' do
+        let(:representer) do
+          described_class.new(query,
+                              current_user: double('current_user'),
+                              params: { offset: 2, pageSize: 25 })
+        end
+
+        let(:expected_href) do
+          params = {
+            offset: 2,
+            pageSize: 25
+          }
+
+          api_v3_paths.work_packages_by_project(project.id) + "?#{params.to_query}"
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'results' }
+          let(:href) { expected_href }
+        end
+      end
+
+      context 'without columns' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+
+          # need to write bogus here because the query
+          # will otherwise sport the default columns
+          query.column_names = ['blubs']
+
+          query
+        end
+
+        it 'has an empty columns array' do
+          is_expected
+            .to be_json_eql([].to_json)
+            .at_path('_links/columns')
+        end
+      end
+
+      context 'with columns' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+
+          query.column_names = ['status', 'assigned_to', 'updated_at']
+
+          query
+        end
+
+        it 'has an array of columns' do
+          status = {
+            href: '/api/v3/queries/columns/status',
+            title: 'Status'
+          }
+          assignee = {
+            href: '/api/v3/queries/columns/assignee',
+            title: 'Assignee'
+          }
+          subproject = {
+            href: '/api/v3/queries/columns/updated_at',
+            title: 'Updated on'
+          }
+
+          expected = [status, assignee, subproject]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/columns')
+        end
+      end
+
+      context 'without group_by' do
+        it_behaves_like 'has a titled link' do
+          let(:href) { nil }
+          let(:link) { 'groupBy' }
+          let(:title) { nil }
+        end
+      end
+
+      context 'with group_by' do
+        let(:query) do
+          query = FactoryGirl.build_stubbed(:query, project: project)
+
+          query.group_by = 'status'
+
+          query
+        end
+
+        it_behaves_like 'has a titled link' do
+          let(:href) { '/api/v3/queries/group_bys/status' }
+          let(:link) { 'groupBy' }
+          let(:title) { 'Status' }
+        end
+      end
+
+      context 'without sort_by' do
+        it 'has an empty sortBy array' do
+          is_expected
+            .to be_json_eql([].to_json)
+            .at_path('_links/sortBy')
+        end
+      end
+
+      context 'with sort_by' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query,
+                                    sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+        end
+
+        it 'has an array of sortBy' do
+          expected = [
+            {
+              href: api_v3_paths.query_sort_by('subject', 'asc'),
+              title: 'Subject (Ascending)'
+            },
+            {
+              href: api_v3_paths.query_sort_by('assignee', 'desc'),
+              title: 'Assignee (Descending)'
+            }
+          ]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/sortBy')
         end
       end
     end
@@ -76,68 +259,178 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     it 'should indicate whether sums are shown' do
-      is_expected.to be_json_eql(query.display_sums.to_json).at_path('displaySums')
+      is_expected.to be_json_eql(query.display_sums.to_json).at_path('sums')
     end
 
     it 'should indicate whether the query is publicly visible' do
-      is_expected.to be_json_eql(query.is_public.to_json).at_path('isPublic')
-    end
-
-    describe 'grouping' do
-      let(:query) { FactoryGirl.build_stubbed(:query, group_by: 'assigned_to') }
-
-      it 'should show the grouping column' do
-        is_expected.to be_json_eql('assignee'.to_json).at_path('groupBy')
-      end
-
-      context 'without grouping' do
-        let(:query) { FactoryGirl.build_stubbed(:query, group_by: nil) }
-
-        it 'should show no grouping column' do
-          is_expected.to be_json_eql(nil.to_json).at_path('groupBy')
-        end
-      end
+      is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
     end
 
     describe 'with filters' do
       let(:query) do
         query = FactoryGirl.build_stubbed(:query)
-        query.add_filter('status_id', '=', ['1'])
+        query.add_filter('status_id', '=', [filter_status.id.to_s])
+        allow(query.filters.last)
+          .to receive(:value_objects)
+          .and_return([filter_status])
+        query.add_filter('assigned_to_id', '!', [filter_user.id.to_s])
+        allow(query.filters.last)
+          .to receive(:value_objects)
+          .and_return([filter_user])
         query
       end
 
+      let(:filter_status) { FactoryGirl.build_stubbed(:status) }
+      let(:filter_user) { FactoryGirl.build_stubbed(:user) }
+
       it 'should render the filters' do
-        expected = [
-          {
-            status: {
-              operator: '=',
-              values: ['1']
-            }
+        expected_status = {
+          "_type": "StatusQueryFilter",
+          "name": "Status",
+          "_links": {
+            "filter": {
+              "href": "/api/v3/queries/filters/status",
+              "title": "Status"
+            },
+            "operator": {
+              "href": "/api/v3/queries/operators/=",
+              "title": "is"
+            },
+            "values": [
+              {
+                "href": api_v3_paths.status(filter_status.id),
+                "title": filter_status.name
+              }
+            ]
           }
-        ]
+        }
+        expected_assignee = {
+          "_type": "AssigneeQueryFilter",
+          "name": "Assignee",
+          "_links": {
+            "filter": {
+              "href": "/api/v3/queries/filters/assignee",
+              "title": "Assignee"
+            },
+            "operator": {
+              "href": "/api/v3/queries/operators/!",
+              "title": "is not"
+            },
+            "values": [
+              {
+                "href": api_v3_paths.user(filter_user.id),
+                "title": filter_user.name
+              }
+            ]
+          }
+        }
+
+        expected = [expected_status, expected_assignee]
+
         is_expected.to be_json_eql(expected.to_json).at_path('filters')
       end
     end
 
     describe 'with sort criteria' do
-      let(:query) {
+      let(:query) do
         FactoryGirl.build_stubbed(:query,
                                   sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
-      }
+      end
 
-      it 'should render the filters' do
-        is_expected.to be_json_eql([
-                                     ['subject', 'asc'],
-                                     ['assignee', 'desc']
-                                   ].to_json).at_path('sortCriteria')
+      it 'has the sort criteria embedded' do
+        is_expected
+          .to be_json_eql('/api/v3/queries/sort_bys/subject-asc'.to_json)
+          .at_path('_embedded/sortBy/0/_links/self/href')
+
+        is_expected
+          .to be_json_eql('/api/v3/queries/sort_bys/assignee-desc'.to_json)
+          .at_path('_embedded/sortBy/1/_links/self/href')
       end
     end
 
     describe 'with columns' do
-      let(:query) { FactoryGirl.build_stubbed(:query, column_names: ['subject', 'assigned_to']) }
+      let(:query) do
+        query = FactoryGirl.build_stubbed(:query, project: project)
 
-      it 'should render the filters' do
-        is_expected.to be_json_eql(['subject', 'assignee'].to_json).at_path('columnNames')
+        query.column_names = ['status', 'assigned_to', 'updated_at']
+
+        query
+      end
+
+      it 'has the columns embedded' do
+        is_expected
+          .to be_json_eql('/api/v3/queries/columns/status'.to_json)
+          .at_path('_embedded/columns/0/_links/self/href')
+      end
+
+      context 'when not embedding' do
+        let(:representer) do
+          described_class.new(query, current_user: double('current_user'), embed_links: false)
+        end
+
+        it 'has no columns embedded' do
+          is_expected
+            .not_to have_json_path('_embedded/columns')
+        end
+      end
+    end
+
+    describe 'with group by' do
+      let(:query) do
+        query = FactoryGirl.build_stubbed(:query, project: project)
+
+        query.group_by = 'status'
+
+        query
+      end
+
+      it 'has the group by embedded' do
+        is_expected
+          .to be_json_eql('/api/v3/queries/group_bys/status'.to_json)
+          .at_path('_embedded/groupBy/_links/self/href')
+      end
+
+      context 'when not embedding' do
+        let(:representer) do
+          described_class.new(query, current_user: double('current_user'), embed_links: false)
+        end
+
+        it 'has no group bys embedded' do
+          is_expected
+            .not_to have_json_path('_embedded/groupBy')
+        end
+      end
+    end
+
+    describe 'embedded results' do
+      let(:query) { FactoryGirl.build_stubbed(:query) }
+      let(:representer) do
+        described_class.new(query,
+                            current_user: double('current_user'),
+                            results: results_representer)
+      end
+
+      context 'results are provided' do
+        let(:results_representer) do
+          {
+            _type: 'BogusResultType'
+          }
+        end
+
+        it 'should embed the results' do
+          is_expected
+            .to be_json_eql('BogusResultType'.to_json)
+            .at_path('_embedded/results/_type')
+        end
+      end
+
+      context 'no results provided' do
+        let(:results_representer) { nil }
+
+        it 'should not embed the results' do
+          is_expected
+            .not_to have_json_path('_embedded/results')
+        end
       end
     end
   end

@@ -78,5 +78,30 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
           .to match_array [[category.name, category.id.to_s]]
       end
     end
+
+    describe '#value_objects' do
+      let(:category1) { FactoryGirl.build_stubbed(:category) }
+      let(:category2) { FactoryGirl.build_stubbed(:category) }
+
+      before do
+        allow(project)
+          .to receive(:categories)
+          .and_return [category1, category2]
+
+        instance.values = [category2.id.to_s]
+      end
+
+      it 'returns an array of category' do
+        expect(instance.value_objects)
+          .to match_array [category2]
+      end
+    end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
   end
 end

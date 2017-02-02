@@ -52,6 +52,16 @@ class Queries::WorkPackages::Filter::VersionFilter <
     :fixed_version_id
   end
 
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    versions.select { |v| value_ints.include?(v.id) }
+  end
+
   private
 
   def versions

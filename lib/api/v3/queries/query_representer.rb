@@ -36,6 +36,71 @@ module API
       class QueryRepresenter < ::API::Decorators::Single
         self_link
 
+        attr_accessor :results,
+                      :params
+
+        def initialize(model,
+                       current_user:,
+                       results: nil,
+                       embed_links: false,
+                       params: {})
+
+          self.results = results
+          self.params = params
+
+          super(model, current_user: current_user, embed_links: embed_links)
+        end
+
+        link :results do
+          path = if represented.project
+                   api_v3_paths.work_packages_by_project(represented.project.id)
+                 else
+                   api_v3_paths.work_packages
+                 end
+
+          url_query = ::API::V3::Queries::QueryParamsRepresenter
+                      .new(represented)
+                      .to_h
+                      .merge(params.slice(:offset, :pageSize))
+          {
+            href: [path, url_query.to_query].join('?')
+          }
+        end
+
+        links :columns do
+          represented.columns.map do |column|
+            {
+              href: api_v3_paths.query_column(convert_attribute(column.name).underscore),
+              title: column.caption
+            }
+          end
+        end
+
+        link :groupBy do
+          column = represented.group_by_column
+
+          if column
+            {
+              href: api_v3_paths.query_group_by(convert_attribute(column.name).underscore),
+              title: column.caption
+            }
+          else
+            {
+              href: nil,
+              title: nil
+            }
+          end
+        end
+
+        links :sortBy do
+          map_with_sort_by_as_decorated do |sort_by|
+            {
+              href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
+              title: sort_by.name
+            }
+          end
+        end
+
         linked_property :user
         linked_property :project
 
@@ -45,35 +110,62 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) {
                    represented.filters.map do |filter|
-                     attribute = convert_attribute filter.field
-                     {
-                       attribute => { operator: filter.operator, values: filter.values }
-                     }
+                     ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
                    end
                  }
-        property :is_public, getter: -> (*) { is_public }
-        property :column_names,
+        property :public, getter: -> (*) { is_public }
+
+        property :sort_by,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   return nil unless represented.column_names
-                   represented.column_names.map { |name| convert_attribute name }
-                 }
-        property :sort_criteria,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   return nil unless represented.sort_criteria
-                   represented.sort_criteria.map do |attribute, order|
-                     [convert_attribute(attribute), order]
+                   return unless represented.sort_criteria
+
+                   map_with_sort_by_as_decorated do |sort_by|
+                     ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
                    end
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
                  }
+
+        property :sums, getter: -> (*) { display_sums }
+        property :starred, getter: -> (*) { starred }
+
+        property :columns,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   represented.columns.map do |column|
+                     ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
+                   end
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
+                 }
+
         property :group_by,
                  exec_context: :decorator,
                  getter: ->(*) {
-                   represented.grouped? ? convert_attribute(represented.group_by) : nil
+                   return unless represented.grouped?
+
+                   column = represented.group_by_column
+
+                   ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
+                 },
+                 embedded: true,
+                 if: ->(*) {
+                   embed_links
                  },
                  render_nil: true
-        property :display_sums, getter: -> (*) { display_sums }
-        property :is_starred, getter: -> (*) { starred }
+
+        property :results,
+                 exec_context: :decorator,
+                 render_nil: true,
+                 embedded: true,
+                 if: ->(*) {
+                   results
+                 }
 
         self.to_eager_load = [:query_menu_item,
                               project: { work_package_custom_fields: :translations }]
@@ -82,6 +174,15 @@ module API
 
         def convert_attribute(attribute)
           ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
+
+        def map_with_sort_by_as_decorated
+          represented.sort_criteria.map do |attribute, order|
+            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(attribute,
+                                                                         order)
+
+            yield decorated
+          end
         end
 
         def _type

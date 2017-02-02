@@ -34,7 +34,6 @@ module API
     module WorkPackages
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::WorkPackageListHelpers
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
           # The enpoint needs to be mounted before the GET :work_packages/:id.
@@ -45,7 +44,19 @@ module API
 
           get do
             authorize(:view_work_packages, global: true)
-            work_packages_by_params
+            service = WorkPackageCollectionFromQueryParamsService
+                      .new(current_user)
+                      .call(params)
+
+            if service.success?
+              service.result
+            else
+              api_errors = service.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
+
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            end
           end
 
           post do

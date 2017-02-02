@@ -143,6 +143,26 @@ module API
             "#{query(id)}/unstar"
           end
 
+          def self.query_column(name)
+            "#{queries}/columns/#{name}"
+          end
+
+          def self.query_group_by(name)
+            "#{queries}/group_bys/#{name}"
+          end
+
+          def self.query_sort_by(name, direction)
+            "#{queries}/sort_bys/#{name}-#{direction}"
+          end
+
+          def self.query_filter(name)
+            "#{queries}/filters/#{name}"
+          end
+
+          def self.query_operator(name)
+            "#{queries}/operators/#{name}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end

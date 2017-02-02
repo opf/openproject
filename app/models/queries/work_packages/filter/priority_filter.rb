@@ -27,11 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PriorityFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+class Queries::WorkPackages::Filter::PriorityFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      priorities.map { |s| [s.name, s.id.to_s] }
-    end
+    priorities.map { |s| [s.name, s.id.to_s] }
   end
 
   def available?
@@ -50,9 +49,19 @@ class Queries::WorkPackages::Filter::PriorityFilter < Queries::WorkPackages::Fil
     :priority_id
   end
 
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    priorities.select { |p| value_ints.include? p.id }
+  end
+
   private
 
   def priorities
-    IssuePriority.active
+    @priorities ||= IssuePriority.active
   end
 end
