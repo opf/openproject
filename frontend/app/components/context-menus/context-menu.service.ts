@@ -28,7 +28,7 @@
 
 interface ContextMenu {
   active();
-  close();
+  close(disableFocus);
   open();
 
   target?:JQuery;
@@ -38,7 +38,7 @@ interface ContextMenu {
 export class ContextMenuService {
   private _active_menu:ContextMenu|null;
 
-  constructor(public $window, public $injector, public $rootScope) {
+  constructor(public $window, public $injector, public $q, public $timeout, public $rootScope) {
     "ngInject";
 
     // Close context menus on state change
@@ -57,11 +57,16 @@ export class ContextMenuService {
     return this._active_menu;
   }
 
-  public close() {
-    this.active && this.active.close();
+  public close(disableFocus:boolean = false) {
+    if (!this.active) {
+      return this.$q.when(true);
+    } else {
+      return this.active.close(disableFocus);
+    }
   }
 
-  public activate(contextMenuName, event:JQueryEventObject, locals) {
+  public activate(contextMenuName, event:JQueryEventObject, locals, positionArgs?:any) {
+    let deferred = this.$q.defer();
     let target = jQuery(event.target);
     let contextMenu = this.$injector.get(contextMenuName);
 
@@ -70,9 +75,12 @@ export class ContextMenuService {
 
     // Open the menu
     contextMenu.open(target, locals).then((menuElement) => {
+
+      // Hide menu until rendered
+      menuElement.css('visibility', 'hidden');
+
       contextMenu.menuElement = menuElement;
       this._active_menu = contextMenu;
-      setTimeout(() => this.reposition(event), 50);
       (menuElement as any).trap();
       menuElement.on('click', function (e) {
         // allow inputs to be clickable
@@ -81,24 +89,26 @@ export class ContextMenuService {
           e.stopPropagation();
         }
       });
+
+      this.$timeout(() => {
+        this.reposition(event, positionArgs);
+        menuElement.css('visibility', 'visible');
+        deferred.resolve(menuElement);
+      });
     });
+
+    return deferred.promise;
   }
 
-  public reposition(event:JQueryEventObject) {
+  public reposition(event:JQueryEventObject, positionArgs?) {
     if (!this.active) {
       return;
     }
 
-    let menuElement = this.active.menuElement;
-    let target = this.active.target;
+    let position = { my: 'left top', at: 'right bottom', of: event, collision: 'flipfit' };
+    _.assign(position, positionArgs);
 
-    // Uses jquery-ui position
-    menuElement.position({
-      my: 'left top',
-      at: 'right bottom',
-      of: event,
-      collision: 'flipfit'
-    });
+    this.active.menuElement.position(position);
   }
 }
 
