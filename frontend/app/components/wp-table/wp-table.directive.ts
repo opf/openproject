@@ -186,10 +186,6 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     cancel: I18n.t('js.button_cancel'),
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
-    noResults: {
-      title: I18n.t('js.work_packages.no_results.title'),
-      description: I18n.t('js.work_packages.no_results.description')
-    },
     faultyQuery: {
       title: I18n.t('js.work_packages.faulty_query.title'),
       description: I18n.t('js.work_packages.faulty_query.description')

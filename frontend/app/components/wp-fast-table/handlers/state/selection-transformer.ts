@@ -3,9 +3,9 @@ import {WorkPackageTableSelection} from '../../state/wp-table-selection.service'
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {rowClassName} from '../../builders/single-row-builder';
 import {rowId} from '../../helpers/wp-table-row-helpers';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
+import {rowClassName} from '../../builders/rows/single-row-builder';
 export class SelectionTransformer {
   public wpTableSelection:WorkPackageTableSelection;
 

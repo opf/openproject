@@ -1,17 +1,15 @@
 import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-import {SingleRowBuilder} from './builders/single-row-builder';
 import {States} from '../states.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 
 import {RowsBuilderInterface, WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
-import {GroupedRowsBuilder} from './builders/grouped-rows-builder';
-import {PlainRowsBuilder} from './builders/plain-rows-builder';
-
-
+import {GroupedRowsBuilder} from './builders/rows/grouped-rows-builder';
+import {PlainRowsBuilder} from './builders/rows/plain-rows-builder';
+import {EmptyRowsBuilder} from './builders/rows/empty-rows-builder';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -24,6 +22,7 @@ export class WorkPackageTable {
 
   private groupedRowsBuilder = new GroupedRowsBuilder();
   private plainRowsBuilder = new PlainRowsBuilder();
+  private emptyRowsBuilder = new EmptyRowsBuilder();
 
   constructor(public metaData:any, public tbody:HTMLElement) {
     injectorBridge(this);
@@ -35,7 +34,10 @@ export class WorkPackageTable {
   }
 
   public get rowBuilder():RowsBuilderInterface {
-    if (this.metaData.groupBy) {
+    if (this.rows.length === 0) {
+      return this.emptyRowsBuilder;
+    }
+    else if (this.metaData.groupBy) {
       return this.groupedRowsBuilder;
     } else {
       return this.plainRowsBuilder;

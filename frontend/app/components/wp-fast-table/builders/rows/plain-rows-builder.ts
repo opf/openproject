@@ -1,10 +1,9 @@
-import {States} from '../../states.service';
-import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
-import {WorkPackageTableColumnsService} from '../state/wp-table-columns.service';
-import {State} from '../../../helpers/reactive-fassade';
-import {WorkPackageTable} from '../wp-fast-table';
+import {States} from '../../../states.service';
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
-import {RowsBuilderInterface} from '../wp-table.interfaces';
+import {RowsBuilderInterface} from '../../wp-table.interfaces';
 
 export class PlainRowsBuilder implements RowsBuilderInterface {
   // Injections

@@ -3,7 +3,7 @@ import {States} from '../../../states.service';
 import {cellClassName, editableClassName} from '../../builders/cell-builder';
 import {TableEventHandler} from '../table-handler-registry';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {rowClassName} from '../../builders/single-row-builder';
+import {rowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {State} from '../../../../helpers/reactive-fassade';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';

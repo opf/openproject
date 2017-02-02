@@ -1,11 +1,11 @@
-import {States} from '../../states.service';
-import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
-import {groupedRowClassName} from '../helpers/wp-table-row-helpers';
-import {WorkPackageTableColumnsService} from '../state/wp-table-columns.service';
-import {WorkPackageTable} from '../wp-fast-table';
+import {States} from '../../../states.service';
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {groupedRowClassName} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {RowsBuilderInterface} from '../wp-table.interfaces';
+import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {RowsBuilderInterface} from '../../wp-table.interfaces';
 
 export interface GroupObject {
   value:any;

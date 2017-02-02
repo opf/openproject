@@ -1,11 +1,11 @@
-import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {CellBuilder} from './cell-builder';
-import {States} from '../../states.service';
-import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
-import {DetailsLinkBuilder} from './details-link-builder';
-import {WorkPackageTableSelection} from '../state/wp-table-selection.service';
-import {checkedClassName} from './ui-state-link-builder';
-import {rowId} from '../helpers/wp-table-row-helpers';
+import {States} from '../../../states.service';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {CellBuilder} from '../cell-builder';
+import {DetailsLinkBuilder} from '../details-link-builder';
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {checkedClassName} from '../ui-state-link-builder';
+import {rowId} from '../../helpers/wp-table-row-helpers';
 export const rowClassName = 'wp-table--row';
 
 export class SingleRowBuilder {
