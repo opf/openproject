@@ -115,7 +115,7 @@ export class WorkPackageEditForm {
         // TODO do in subform
         // this.successHandler({workPackage: this.workPackage, fields: this.fields});
 
-        // TODO destroy this form
+        // Destroy this form
         this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
      })
       .catch((error) => {

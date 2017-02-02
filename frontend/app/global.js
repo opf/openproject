@@ -39,7 +39,7 @@ require('expose-loader?jQuery!jquery');
 require('expose-loader?angular!angular');
 require('expose-loader?dragula!dragula');
 require('expose-loader?moment!moment');
-require('expose-loader?mousetrap!mousetrap');
+require('expose-loader?Mousetrap!mousetrap');
 require('expose-loader?URI!URIjs');
 
 require('jquery-ujs');
