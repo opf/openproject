@@ -121,10 +121,15 @@ export class WorkPackageTableColumnsService {
   /**
    * Add a new column to the selection at the given position
    */
-  public addColumn(name:string, position:number) {
+  public addColumn(name:string, position?:number) {
     let columns = this.currentState;
-    columns.splice(position, 0, name);
+    if (position === undefined) {
+      position = columns.length;
+    }
 
+    // TODO check for invalid column
+
+    columns.splice(position, 0, name);
     this.columnsState.put(columns);
   }
 
@@ -135,7 +140,7 @@ export class WorkPackageTableColumnsService {
     let index = this.index(name);
 
     if (index !== -1) {
-      let columns = this.currentState
+      let columns = this.currentState;
       columns.splice(index, 1);
       this.columnsState.put(columns);
     }

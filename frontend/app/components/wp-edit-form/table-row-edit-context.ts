@@ -31,20 +31,27 @@ import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
 import {tdClassName, CellBuilder} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {locateRow} from '../wp-fast-table/helpers/wp-table-row-helpers';
 
 export class TableRowEditContext implements WorkPackageEditContext {
   // Injections
   public wpCacheService:WorkPackageCacheService;
+  public wpTableColumns:WorkPackageTableColumnsService;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
 
-  constructor(public rowElement:JQuery, public row:WorkPackageTableRow) {
+  constructor(public row:WorkPackageTableRow) {
     injectorBridge(this);
   }
 
+  public get rowElement():HTMLElement {
+    return locateRow(this.row.workPackageId);
+  }
+
   public find(fieldName:string):JQuery {
-    return this.rowElement.find(`.${tdClassName}.${fieldName}`);
+    return jQuery(this.rowElement).find(`.${tdClassName}.${fieldName}`);
   }
 
   public reset(workPackage, fieldName:string) {
@@ -55,8 +62,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public requireVisible(name:string) {
-    // TODO Implement for table and single view
-    console.log("Requested to show field ", name);
+    this.wpTableColumns.addColumn(name);
   }
 
   public firstField(names:string[]) {
@@ -64,4 +70,4 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 }
 
-TableRowEditContext.$inject = ['wpCacheService'];
+TableRowEditContext.$inject = ['wpCacheService', 'wpTableColumns'];

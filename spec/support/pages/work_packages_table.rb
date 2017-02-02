@@ -27,7 +27,6 @@
 #++
 
 require 'support/pages/page'
-require 'support/work_packages/inline_edit_field'
 
 module Pages
   class WorkPackagesTable < Page
@@ -118,7 +117,7 @@ module Pages
     end
 
     def row(work_package)
-      table_container.find("#work-package-#{work_package.id}")
+      table_container.find("#wp-row-#{work_package.id}")
     end
 
     def edit_field(work_package, attribute)
@@ -129,7 +128,7 @@ module Pages
           row(work_package)
         end
 
-      WorkPackageField.new(context, attribute)
+      ::TableWorkPackageField.new(context, attribute)
     end
 
     def click_setting_item(label)

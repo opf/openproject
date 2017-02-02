@@ -49,7 +49,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     let form = state.getCurrentValue() || this.startEditing(state, row.workPackageId);
 
     // Set editing context to table
-    form.editContext = new TableRowEditContext(rowElement, row);
+    form.editContext = new TableRowEditContext(row);
 
     // Activate the field
     form.activate(fieldName);

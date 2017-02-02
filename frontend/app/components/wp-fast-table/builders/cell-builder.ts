@@ -23,7 +23,7 @@ export class CellBuilder {
     let td = document.createElement('td');
     td.classList.add(tdClassName, name);
     let span = document.createElement('span');
-    span.classList.add(cellClassName, name);
+    span.classList.add(cellClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
 
     // Make span tabbable unless it's an id field
