@@ -25,17 +25,18 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
-
 import {opWorkPackagesModule} from "../../angular-modules";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {SchemaResource} from './../api/api-v3/hal-resources/schema-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
+import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
 import {State} from "../../helpers/reactive-fassade";
-import IScope = angular.IScope;
 import {States} from "../states.service";
 import {Observable, Subject} from "rxjs";
+import IScope = angular.IScope;
+import IPromise = angular.IPromise;
 
 
 function getWorkPackageId(id: number|string): string {
@@ -82,15 +83,17 @@ export class WorkPackageCacheService {
     }
   }
 
-  saveIfChanged(workPackage) {
-
+  saveIfChanged(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface> {
+    // console.log("saveIfChanged()");
     if (!(workPackage.dirty || workPackage.isNew)) {
       return this.$q.when(workPackage);
     }
 
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
+    // console.log("    calling save");
     workPackage.save()
       .then(() => {
+        // console.log("    saved!");
         this.wpNotificationsService.showSave(workPackage);
         this.$rootScope.$emit('workPackagesRefreshInBackground');
         deferred.resolve(workPackage);

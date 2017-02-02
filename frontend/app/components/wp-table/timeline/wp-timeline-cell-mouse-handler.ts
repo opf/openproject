@@ -92,6 +92,7 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function workPackageMouseDownFn(ev: MouseEvent) {
+    // console.log("on bar workPackageMouseDownFn()");
     ev.preventDefault();
 
     workPackageTimeline.disableViewParamsCalculation = true;
@@ -106,12 +107,19 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function handleMouseMoveOnEmptyCell(ev: MouseEvent) {
-    const renderInfo = getRenderInfo();
+    // const renderInfo = getRenderInfo();
     const wp = renderInfo.workPackage;
 
+
     if (!renderer.isEmpty(wp)) {
+      // console.log("handleMouseMoveOnEmptyCell()    not empty -> return");
       return;
+    } else {
+      // console.log("handleMouseMoveOnEmptyCell()    empty -> continue");
     }
+
+    // console.log("    startDate", wp.startDate);
+    // console.log("    dueDate", wp.dueDate);
 
     // placeholder logic
     placeholderForEmptyCell && placeholderForEmptyCell.remove();
@@ -125,6 +133,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
     // create logic
     cell.onmousedown = (ev) => {
+      // console.log("    cell.onmousedown");
       placeholderForEmptyCell.remove();
       bar.style.pointerEvents = "none";
       ev.preventDefault();
@@ -155,6 +164,9 @@ export function registerWorkPackageMouseHandler(this: void,
       };
 
       cell.onmouseup = () => {
+        // console.log("    cell.onmouseup");
+        // console.log("        startDate", wp.startDate);
+        // console.log("        dueDate", wp.dueDate);
         deactivate(false);
       };
 
@@ -166,7 +178,10 @@ export function registerWorkPackageMouseHandler(this: void,
     workPackageTimeline.disableViewParamsCalculation = false;
 
     cell.onmousemove = handleMouseMoveOnEmptyCell;
+    cell.onmousedown = null;
+    cell.onmouseleave = null;
     cell.onmouseup = null;
+
     bar.style.pointerEvents = "auto";
     jBody.off("mouseup");
     jBody.off("mousemove");
@@ -180,13 +195,20 @@ export function registerWorkPackageMouseHandler(this: void,
     dateStates = {};
 
     renderer.onMouseDownEnd();
-    if (cancelled) {
-      renderer.onCancel(renderInfo.workPackage);
-      return workPackageTimeline.refreshView();
-    }
 
-    // Persist the changes
-    saveWorkPackage(renderInfo.workPackage);
+    // const renderInfo = getRenderInfo();
+    const wp = renderInfo.workPackage;
+    if (cancelled) {
+      // cancelled
+      renderer.onCancel(wp);
+      workPackageTimeline.refreshView();
+    } else {
+      // Persist the changes
+      // console.log("    -> saveWorkPackage");
+      // console.log("        startDate", wp.startDate);
+      // console.log("        dueDate", wp.dueDate);
+      saveWorkPackage(wp);
+    }
   }
 
   function saveWorkPackage(workPackage: WorkPackageResourceInterface) {

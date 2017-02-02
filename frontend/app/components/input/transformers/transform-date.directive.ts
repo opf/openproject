@@ -33,20 +33,20 @@ function transformDate(TimezoneService) {
     link: function(scope, element, attrs, ngModelController) {
       ngModelController.$parsers.push(function(data) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
-          return undefined;
+          return null;
         }
         return data;
       });
       ngModelController.$formatters.push(function(data) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
-          return undefined;
+          return null;
         }
         var d = TimezoneService.parseDate(data);
         return TimezoneService.formattedISODate(d);
       });
     }
   };
-};
+}
 
 // TODO:deprecate and replace by transformDate
 angular
