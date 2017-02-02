@@ -26,12 +26,63 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-/**
- * An object holding promises for page load indication for cg-busy.
- *
- * @see https://github.com/cgross/angular-busy/
- */
+export const indicatorLocationSelector = '.loading-indicator--location';
+export const indicatorBackgroundSelector = '.loading-indicator--background';
 
-angular
-  .module('openproject.workPackages.services')
-  .value('loadingIndicator', {});
+export class LoadingIndicator {
+
+  constructor(public indicator:JQuery, public element:JQuery) {}
+
+  public set promise(promise:ng.IPromise<any>) {
+    this.start();
+    promise.finally(() => {
+      this.stop();
+    });
+  }
+
+  public start() {
+    this.indicator.prepend(this.element);
+  }
+
+  public stop() {
+    this.indicator.find(indicatorBackgroundSelector).remove();
+  }
+}
+
+export class LoadingIndicatorService {
+
+  private indicatorTemplate;
+  constructor() {
+    this.indicatorTemplate = `
+      <div class="loading-indicator--background">
+        <div class="loading-indicator">
+          <div class="block-1"></div>
+          <div class="block-2"></div> 
+          <div class="block-3"></div>
+          <div class="block-4"></div> 
+          <div class="block-5"></div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Provide a shortcut to the primarily used indicator
+  // (aka mainPage)
+  public get table() {
+    return this.indicator('table');
+  }
+
+  // Return an indicator by name
+  public indicator(name:string):LoadingIndicator {
+    let indicator = this.getIndicatorAt(name);
+    return new LoadingIndicator(indicator, jQuery(this.indicatorTemplate));
+  }
+
+  private getIndicatorAt(name:string):JQuery {
+    return jQuery(indicatorLocationSelector).filter(`[data-indicator-name="${name}"`);
+  }
+}
+
+
+import {opServicesModule} from '../../../angular-modules';
+opServicesModule.service('loadingIndicator', LoadingIndicatorService);

@@ -69,10 +69,9 @@
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <div class="work-packages--list"
-       cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}">
-
-    <div class="work-packages--list-table-area">
+  <div class="work-packages--list">
+    <div class="work-packages--list-table-area loading-indicator--location"
+         data-indicator-name="table">
       <wp-table ng-if="columns"
                 project-identifier="projectIdentifier"
                 columns="columns"

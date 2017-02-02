@@ -32,6 +32,7 @@ import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.servi
 import {States} from '../../states.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import { Observable } from 'rxjs/Observable';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
@@ -50,11 +51,10 @@ function WorkPackagesListController($scope,
                                     AuthorisationService,
                                     UrlParamsHelper,
                                     OPERATORS_AND_LABELS_BY_FILTER_TYPE,
-                                    loadingIndicator,
+                                    loadingIndicator:LoadingIndicatorService,
                                     I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
-  $scope.loadingIndicator = loadingIndicator;
   $scope.I18n = I18n;
   $scope.text = {
     'jump_to_pagination': I18n.t('js.work_packages.jump_marks.pagination'),
@@ -68,7 +68,7 @@ function WorkPackagesListController($scope,
     $scope.disableNewWorkPackage = true;
     $scope.queryError = false;
 
-    loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
+    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
 
         // Update work package states
@@ -199,7 +199,7 @@ function WorkPackagesListController($scope,
   };
 
   $scope.loadQuery = function (queryId) {
-    loadingIndicator.mainPage = $state.go('work-packages.list',
+    loadingIndicator.table.promise= $state.go('work-packages.list',
       {'query_id': queryId,
        'query_props': null});
   };
@@ -207,7 +207,7 @@ function WorkPackagesListController($scope,
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    loadingIndicator.mainPage = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
+    loadingIndicator.table.promise = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
         wpCacheService.updateWorkPackageList(json.work_packages);
         setupWorkPackagesTable(json);
@@ -260,7 +260,7 @@ function WorkPackagesListController($scope,
         workPackageId: id
       }
 
-      loadingIndicator.mainPage = $state.go(
+      loadingIndicator.table.promise = $state.go(
         'work-packages.show',
         angular.extend($state.params, params)
       );
