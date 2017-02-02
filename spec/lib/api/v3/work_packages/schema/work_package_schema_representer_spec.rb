@@ -33,25 +33,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.build(:user, member_in_project: work_package.project)
-  }
-  let(:schema) {
+  end
+  let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
-  }
+  end
   let(:self_link) { '/a/self/link' }
   let(:base_schema_link) { nil }
   let(:hide_self_link) { false }
   let(:embedded) { true }
   let(:action) { :update }
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema,
                            form_embedded: embedded,
                            self_link: self_link,
                            base_schema_link: base_schema_link,
                            current_user: current_user,
                            action: action)
-  }
+  end
 
   before do
     allow(schema).to receive(:writable?).and_call_original
@@ -143,11 +143,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'lockVersion disabled' do
-        let(:representer) {
+        let(:representer) do
           described_class.create(schema,
                                  current_user: current_user,
                                  hide_lock_version: true)
-        }
+        end
 
         it 'is hidden' do
           is_expected.to_not have_json_path('lockVersion')

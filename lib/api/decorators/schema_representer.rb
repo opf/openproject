@@ -62,34 +62,24 @@ module API
                    max_length: nil,
                    regular_expression: nil,
                    show_if: true)
-          raise ArgumentError if property.nil?
+          getter = ->(*) do
+            schema_property_getter(type,
+                                   name_source,
+                                   required,
+                                   has_default,
+                                   writable,
+                                   visibility,
+                                   min_length,
+                                   max_length,
+                                   regular_expression)
+          end
 
-          property property,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     name = call_or_translate(name_source)
-                     schema = ::API::Decorators::PropertySchemaRepresenter.new(
-                       type: type,
-                       name: name,
-                       required: call_or_use(required),
-                       has_default: call_or_use(has_default),
-                       writable: call_or_use(writable),
-                       visibility: call_or_use(visibility))
-                     schema.min_length = min_length
-                     schema.max_length = max_length
-                     schema.regular_expression = regular_expression
-
-                     schema
-                   },
-                   writeable: false,
-                   if: show_if,
-                   required: required,
-                   has_default: has_default,
-                   name_source: lambda {
-                     API::Decorators::SchemaRepresenter::InstanceMethods
-                       .call_or_translate name_source,
-                                          self.represented_class
-                   }
+          schema_property(property,
+                          getter,
+                          show_if,
+                          required,
+                          has_default,
+                          name_source)
         end
 
         def schema_with_allowed_link(property,
@@ -101,41 +91,30 @@ module API
                                      writable: default_writable_property(property),
                                      visibility: nil,
                                      show_if: true)
-          raise ArgumentError if property.nil?
+          getter = ->(*) do
+            schema_with_allowed_link_property_getter(type,
+                                                     name_source,
+                                                     required,
+                                                     has_default,
+                                                     writable,
+                                                     visibility,
+                                                     href_callback)
+          end
 
-          property property,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     representer = ::API::Decorators::AllowedValuesByLinkRepresenter.new(
-                       type: type,
-                       name: call_or_translate(name_source),
-                       required: call_or_use(required),
-                       has_default: call_or_use(has_default),
-                       writable: call_or_use(writable),
-                       visibility: call_or_use(visibility))
-
-                     if form_embedded
-                       representer.allowed_values_href = instance_eval(&href_callback)
-                     end
-
-                     representer
-                   },
-                   if: show_if,
-                   required: required,
-                   has_default: has_default,
-                   name_source: lambda {
-                     API::Decorators::SchemaRepresenter::InstanceMethods
-                       .call_or_translate name_source,
-                                          self.represented_class
-                   }
+          schema_property(property,
+                          getter,
+                          show_if,
+                          required,
+                          has_default,
+                          name_source)
         end
 
         def schema_with_allowed_collection(property,
                                            type: make_type(property),
                                            name_source: property,
-                                           values_callback: -> {
+                                           values_callback: -> do
                                              represented.assignable_values(property, current_user)
-                                           },
+                                           end,
                                            value_representer:,
                                            link_factory:,
                                            required: true,
@@ -143,40 +122,29 @@ module API
                                            writable: default_writable_property(property),
                                            visibility: nil,
                                            show_if: true)
-          raise ArgumentError unless property
 
-          property property,
-                   exec_context: :decorator,
-                   getter: -> (*) {
-                     representer = ::API::Decorators::AllowedValuesByCollectionRepresenter.new(
-                       type: type,
-                       name: call_or_translate(name_source),
-                       current_user: current_user,
-                       value_representer: value_representer,
-                       link_factory: -> (value) { instance_exec(value, &link_factory) },
-                       required: call_or_use(required),
-                       has_default: call_or_use(has_default),
-                       writable: call_or_use(writable),
-                       visibility: call_or_use(visibility))
+          getter = ->(*) do
+            schema_with_allowed_collection_getter(type,
+                                                  name_source,
+                                                  current_user,
+                                                  value_representer,
+                                                  link_factory,
+                                                  required,
+                                                  has_default,
+                                                  writable,
+                                                  visibility,
+                                                  values_callback)
+          end
 
-                     if form_embedded
-                       representer.allowed_values = instance_exec(&values_callback)
-                     end
-
-                     representer
-                   },
-                   if: show_if,
-                   required: required,
-                   has_default: has_default,
-                   name_source: lambda {
-                     API::Decorators::SchemaRepresenter::InstanceMethods
-                       .call_or_translate name_source,
-                                          represented_class
-                   }
+          schema_property(property,
+                          getter,
+                          show_if,
+                          required,
+                          has_default,
+                          name_source)
         end
 
-        def represented_class
-        end
+        def represented_class; end
 
         private
 
@@ -192,6 +160,26 @@ module API
               false
             end
           end
+        end
+
+        def schema_property(property,
+                            getter,
+                            show_if,
+                            required,
+                            has_default,
+                            name_source)
+          raise ArgumentError unless property
+
+          property property,
+                   exec_context: :decorator,
+                   getter: getter,
+                   if: show_if,
+                   required: required,
+                   has_default: has_default,
+                   name_source: lambda {
+                     API::Decorators::SchemaRepresenter::InstanceMethods
+                       .call_or_translate name_source, represented_class
+                   }
         end
       end
 
@@ -219,6 +207,80 @@ module API
 
       def _type
         'Schema'
+      end
+
+      def schema_property_getter(type,
+                                 name_source,
+                                 required,
+                                 has_default,
+                                 writable,
+                                 visibility,
+                                 min_length,
+                                 max_length,
+                                 regular_expression)
+        name = call_or_translate(name_source)
+        schema = ::API::Decorators::PropertySchemaRepresenter
+                 .new(type: type,
+                      name: name,
+                      required: call_or_use(required),
+                      has_default: call_or_use(has_default),
+                      writable: call_or_use(writable),
+                      visibility: call_or_use(visibility))
+        schema.min_length = min_length
+        schema.max_length = max_length
+        schema.regular_expression = regular_expression
+
+        schema
+      end
+
+      def schema_with_allowed_link_property_getter(type,
+                                                   name_source,
+                                                   required,
+                                                   has_default,
+                                                   writable,
+                                                   visibility,
+                                                   href_callback)
+        representer = ::API::Decorators::AllowedValuesByLinkRepresenter
+                      .new(type: type,
+                           name: call_or_translate(name_source),
+                           required: call_or_use(required),
+                           has_default: call_or_use(has_default),
+                           writable: call_or_use(writable),
+                           visibility: call_or_use(visibility))
+
+        if form_embedded
+          representer.allowed_values_href = instance_eval(&href_callback)
+        end
+
+        representer
+      end
+
+      def schema_with_allowed_collection_getter(type,
+                                                name_source,
+                                                current_user,
+                                                value_representer,
+                                                link_factory,
+                                                required,
+                                                has_default,
+                                                writable,
+                                                visibility,
+                                                values_callback)
+        representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
+                      .new(type: type,
+                           name: call_or_translate(name_source),
+                           current_user: current_user,
+                           value_representer: value_representer,
+                           link_factory: ->(value) { instance_exec(value, &link_factory) },
+                           required: call_or_use(required),
+                           has_default: call_or_use(has_default),
+                           writable: call_or_use(writable),
+                           visibility: call_or_use(visibility))
+
+        if form_embedded
+          representer.allowed_values = instance_exec(&values_callback)
+        end
+
+        representer
       end
     end
   end

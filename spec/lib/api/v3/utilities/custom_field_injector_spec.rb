@@ -33,12 +33,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
   let(:cf_path) { "customField#{custom_field.id}" }
   let(:field_format) { 'bool' }
-  let(:custom_field) {
+  let(:custom_field) do
     FactoryGirl.build(:custom_field,
                       id: 1,
                       field_format: field_format,
                       is_required: true)
-  }
+  end
 
   describe 'TYPE_MAP' do
     it 'supports all available formats' do
@@ -51,12 +51,12 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe '#inject_schema' do
     let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer(schema, base_class) }
-    let(:schema) {
+    let(:schema) do
       double('WorkPackageSchema',
              project: double(id: 42),
              defines_assignable_values?: true,
              available_custom_fields: [custom_field])
-    }
+    end
 
     subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
 
@@ -75,7 +75,8 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         is_expected.not_to have_json_path("#{cf_path}/regularExpression")
       end
 
-      it_behaves_like 'indicates length requirements' # meaning they won't as no values are specified
+      # meaning they won't as no values are specified
+      it_behaves_like 'indicates length requirements'
 
       context 'custom field is not required' do
         let(:custom_field) { FactoryGirl.build(:custom_field, is_required: false) }
@@ -111,10 +112,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'version custom field' do
-      let(:custom_field) {
+      let(:custom_field) do
         FactoryGirl.build(:version_wp_custom_field,
                           is_required: true)
-      }
+      end
 
       let(:assignable_versions) { FactoryGirl.build_list(:version, 3) }
 
@@ -157,11 +158,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           .and_return(custom_field.possible_values)
       end
 
-      let(:custom_field) {
+      let(:custom_field) do
         FactoryGirl.build(:list_wp_custom_field,
                           is_required: true,
                           possible_values: values)
-      }
+      end
       let(:values) { ['foo', 'bar', 'baz'] }
 
       it_behaves_like 'has basic schema properties' do
@@ -179,11 +180,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     describe 'user custom field' do
-      let(:custom_field) {
+      let(:custom_field) do
         FactoryGirl.build(:custom_field,
                           field_format: 'user',
                           is_required: true)
-      }
+      end
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { cf_path }
@@ -217,11 +218,11 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     let(:base_class) { Class.new(::API::Decorators::Single) }
     let(:modified_class) { described_class.create_value_representer(represented, base_class) }
-    let(:represented) {
+    let(:represented) do
       double('represented',
              available_custom_fields: [custom_field],
              custom_field.accessor_name => value)
-    }
+    end
     let(:custom_value) { double('CustomValue', value: raw_value, typed_value: typed_value) }
     let(:raw_value) { nil }
     let(:typed_value) { raw_value }
@@ -376,13 +377,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
   describe '#inject_patchable_link_value' do
     let(:base_class) { Class.new(::API::Decorators::Single) }
-    let(:modified_class) {
+    let(:modified_class) do
       described_class.create_value_representer_for_link_patching(represented, base_class)
-    }
-    let(:represented) {
+    end
+    let(:represented) do
       double('represented',
              available_custom_fields: [custom_field])
-    }
+    end
     let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
     let(:value) { '' }
     let(:typed_value) { value }

@@ -63,7 +63,7 @@ module API
                                    required: false,
                                    writable: true,
                                    visibility: false,
-                                   href_callback: -> (*) {
+                                   href_callback: ->(*) {
                                      api_v3_paths.available_query_projects
                                    }
           schema :public,
@@ -95,7 +95,7 @@ module API
                                          visibility: false,
                                          values_callback: -> { represented.available_columns },
                                          value_representer: Columns::QueryColumnRepresenter,
-                                         link_factory: -> (column) {
+                                         link_factory: ->(column) {
                                            converted_name = convert_attribute(column.name)
 
                                            {
@@ -118,7 +118,7 @@ module API
                                          visibility: false,
                                          values_callback: -> { represented.groupable_columns },
                                          value_representer: GroupBys::QueryGroupByRepresenter,
-                                         link_factory: -> (column) {
+                                         link_factory: ->(column) {
                                            converted_name = convert_attribute(column.name)
 
                                            {
@@ -142,7 +142,7 @@ module API
                                            values.flatten
                                          end,
                                          value_representer: SortBys::QuerySortByRepresenter,
-                                         link_factory: -> (sort_by) {
+                                         link_factory: ->(sort_by) {
                                            name = sort_by.converted_name
                                            direction = sort_by.direction_name
                                            {
