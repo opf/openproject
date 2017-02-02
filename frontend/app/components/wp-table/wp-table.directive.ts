@@ -33,6 +33,7 @@ import {States} from './../states.service';
 import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
+import {ContextMenuService} from '../context-menus/context-menu.service';
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
@@ -50,6 +51,7 @@ function wpTable(
   $rootScope,
   PathHelper,
   columnsModal,
+  contextMenu:ContextMenuService,
   apiWorkPackages,
   $state
 ){
@@ -171,8 +173,7 @@ function wpTable(
 
      /** Open the settings modal */
      scope.openColumnsModal = function() {
-       scope.$emit('hideAllDropdowns');
-       scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+       contextMenu.close();
        columnsModal.activate();
      };
     }

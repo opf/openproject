@@ -27,12 +27,14 @@
 // ++
 
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {ContextMenuService} from '../context-menu.service';
 function wpContextMenuController($scope,
                                  $rootScope,
                                  $state,
                                  WorkPackagesTableHelper,
                                  WorkPackageContextMenuHelper,
                                  WorkPackageService,
+                                 contextMenu:ContextMenuService,
                                  I18n,
                                  $window,
                                  wpTableSelection:WorkPackageTableSelection,
@@ -73,8 +75,7 @@ function wpContextMenuController($scope,
   };
 
   function emitClosingEvents() {
-    $scope.$emit('hideAllDropdowns');
-    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+    contextMenu.close();
   }
 
   function deleteSelectedWorkPackages() {

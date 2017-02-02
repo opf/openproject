@@ -31,6 +31,7 @@ import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 import {EditField} from "./wp-edit-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {ContextMenuService} from '../../context-menus/context-menu.service';
 
 
 export class WorkPackageEditFieldController {
@@ -64,6 +65,7 @@ export class WorkPackageEditFieldController {
               protected FocusHelper,
               protected NotificationsService,
               protected ConfigurationService,
+              protected contextMenu:ContextMenuService,
               protected wpCacheService: WorkPackageCacheService,
               protected ENTER_KEY,
               protected I18n) {
@@ -154,7 +156,7 @@ export class WorkPackageEditFieldController {
       this.handleUserActivate();
     }
 
-    this.$scope.$root.$broadcast('openproject.dropdown.closeDropdowns');
+    this.contextMenu.close();
     event.stopImmediatePropagation();
   }
 

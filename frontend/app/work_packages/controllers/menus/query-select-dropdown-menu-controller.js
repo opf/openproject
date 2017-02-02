@@ -180,7 +180,7 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
   scope.handleSelection = function(event) {
     switch(event.which) {
       case KEY_CODES.enter:
-        scope.switchToSelectedQuery(scope.selectedId);
+        scope.transitionMethod(scope.selectedId);
         preventDefault(event);
         break;
       case KEY_CODES.down:
@@ -196,15 +196,9 @@ module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
     }
   };
 
-  scope.switchToSelectedQuery = function(queryId) {
-    scope.transitionMethod(queryId);
-    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
-  }
-
   scope.reload = function(modelId, newTitle) {
     scope.selectedTitle = newTitle;
     scope.reloadMethod(modelId);
-    scope.$emit('hideAllDropdowns');
   };
 
   scope.filterModels = function(filterBy) {

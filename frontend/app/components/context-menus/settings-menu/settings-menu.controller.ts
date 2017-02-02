@@ -1,4 +1,3 @@
-//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -27,6 +26,7 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
+import {ContextMenuService} from '../context-menu.service';
 
 function SettingsDropdownMenuController($scope,
                                         $window,
@@ -40,6 +40,7 @@ function SettingsDropdownMenuController($scope,
                                         shareModal,
                                         sortingModal,
                                         groupingModal,
+                                        contextMenu:ContextMenuService,
                                         QueryService,
                                         AuthorisationService,
                                         NotificationsService) {
@@ -57,7 +58,7 @@ function SettingsDropdownMenuController($scope,
     }
     if ($scope.query.isNew()) {
       if (allowQueryAction(event, 'create')) {
-        emitClosingEvents($scope);
+        closeAnyContextMenu();
         saveModal.activate();
       }
     } else {
@@ -152,7 +153,7 @@ function SettingsDropdownMenuController($scope,
   };
 
   $scope.toggleDisplaySums = function () {
-    emitClosingEvents($scope);
+    closeAnyContextMenu();
     $scope.query.displaySums = !$scope.query.displaySums;
 
     // This eventually calls the resize event handler defined in the
@@ -200,13 +201,13 @@ function SettingsDropdownMenuController($scope,
   }
 
   function showModal() {
-    emitClosingEvents($scope);
+    closeAnyContextMenu();
     this.activate();
   }
 
   function showExistingQueryModal(event) {
     if (preventNewQueryAction(event)) {
-      emitClosingEvents($scope);
+      closeAnyContextMenu();
       this.activate();
     }
   }
@@ -228,9 +229,8 @@ function SettingsDropdownMenuController($scope,
     }
   }
 
-  function emitClosingEvents($scope) {
-    $scope.$emit('hideAllDropdowns');
-    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+  function closeAnyContextMenu() {
+    contextMenu.close();
   }
 
   function deleteConfirmed() {
