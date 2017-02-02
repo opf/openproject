@@ -35,11 +35,28 @@ module API
     module Queries
       module Schemas
         class QuerySchemaRepresenter < ::API::Decorators::SchemaRepresenter
-          def initialize(represented, form_embedded: false, self_link: nil)
+          def initialize(represented, self_link = nil, current_user: nil, form_embedded: false)
             super(represented,
-                  current_user: nil,
-                  form_embedded: form_embedded,
-                  self_link: self_link)
+                  self_link,
+                  current_user: current_user,
+                  form_embedded: form_embedded)
+          end
+
+          def self.filters_schema
+            ->(*) do
+              {
+                'type': '[]QueryFilterInstance',
+                'name': Query.human_attribute_name('filters'),
+                'required': false,
+                'writable': true,
+                'hasDefault': true,
+                '_links': {
+                  'allowedValuesSchemas': {
+                    'href': filter_instance_schemas_href
+                  }
+                }
+              }
+            end
           end
 
           schema :id,
@@ -64,7 +81,7 @@ module API
                                    writable: true,
                                    visibility: false,
                                    href_callback: ->(*) {
-                                     api_v3_paths.available_query_projects
+                                     api_v3_paths.query_available_projects
                                    }
           schema :public,
                  type: 'Boolean',
@@ -104,12 +121,12 @@ module API
                                            }
                                          }
 
-          schema :filters,
-                 type: '[]QueryFilterInstance',
-                 required: false,
-                 writable: true,
-                 has_default: true,
-                 visibility: false
+          schema_property :filters,
+                          filters_schema,
+                          true,
+                          false,
+                          true,
+                          :filters
 
           schema_with_allowed_collection :group_by,
                                          type: '[]QueryGroupBy',
@@ -157,6 +174,10 @@ module API
                  writable: false,
                  visibility: false
 
+          property :filters_schemas,
+                   embedded: true,
+                   exec_context: :decorator
+
           def self.represented_class
             Query
           end
@@ -165,6 +186,22 @@ module API
 
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          end
+
+          def filters_schemas
+            filters = represented.available_filters
+
+            QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
+                                                               filter_instance_schemas_href,
+                                                               current_user: current_user)
+          end
+
+          def filter_instance_schemas_href
+            if represented.context
+              api_v3_paths.query_project_filter_instance_schemas(represented.context.id)
+            else
+              api_v3_paths.query_filter_instance_schemas
+            end
           end
         end
       end

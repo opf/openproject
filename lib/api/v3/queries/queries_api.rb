@@ -40,6 +40,7 @@ module API
           mount API::V3::Queries::Filters::QueryFiltersAPI
           mount API::V3::Queries::Operators::QueryOperatorsAPI
           mount API::V3::Queries::Schemas::QuerySchemaAPI
+          mount API::V3::Queries::Schemas::QueryFilterInstanceSchemaAPI
 
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
@@ -66,7 +67,7 @@ module API
 
             get do
               available_projects = Project.allowed_to(current_user, :view_work_packages)
-              self_link = api_v3_paths.available_query_projects
+              self_link = api_v3_paths.query_available_projects
 
               ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
                                                                     self_link,

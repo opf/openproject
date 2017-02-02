@@ -40,18 +40,19 @@ module API
 
         property :payload,
                  embedded: true,
-                 decorator: -> (represented, *) {
+                 decorator: ->(represented, *) {
                    WorkPackagePayloadRepresenter.create_class(represented)
                  },
-                 getter: -> (*) { self }
+                 getter: ->(*) { self }
         property :schema,
                  embedded: true,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
                    schema_link = api_v3_paths.work_package_schema(represented.project_id,
                                                                   represented.type_id)
                    Schema::WorkPackageSchemaRepresenter.create(schema,
+                                                               nil,
                                                                form_embedded: true,
                                                                base_schema_link: schema_link,
                                                                current_user: current_user,

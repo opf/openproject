@@ -50,20 +50,21 @@ class Queries::WorkPackages::Filter::PrincipalLoader
                       end
   end
 
-  private
-
-  def principals_by_class
-    @principals_by_class ||= get_principals.group_by(&:class)
-  end
-
-  def get_principals
+  def principal_values
     if project
       project.principals.sort
     elsif visible_projects.any?
-      Principal.active.in_project(visible_projects).sort
+      user_or_principal = Setting.work_package_group_assignment? ? Principal : User
+      user_or_principal.active.in_project(visible_projects).sort
     else
       []
     end
+  end
+
+  private
+
+  def principals_by_class
+    @principals_by_class ||= principal_values.group_by(&:class)
   end
 
   def visible_projects

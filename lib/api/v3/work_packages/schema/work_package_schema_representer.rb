@@ -46,8 +46,8 @@ module API
                                                        WorkPackageSchemaRepresenter)
             end
 
-            def create(work_package_schema, context)
-              create_class(work_package_schema).new(work_package_schema, context)
+            def create(work_package_schema, self_link, context)
+              create_class(work_package_schema).new(work_package_schema, self_link, context)
             end
 
             def visibility(property)
@@ -85,11 +85,11 @@ module API
             end
           end
 
-          def initialize(schema, context)
+          def initialize(schema, self_link, context)
             @base_schema_link = context.delete(:base_schema_link) || nil
             @show_lock_version = !context.delete(:hide_lock_version)
             @action = context.delete(:action) || :update
-            super(schema, context)
+            super(schema, self_link, context)
           end
 
           def cache_key

@@ -214,7 +214,7 @@ describe 'API v3 Query resource', type: :request do
   describe '#get queries/available_projects' do
     before do
       other_project
-      get api_v3_paths.available_query_projects
+      get api_v3_paths.query_available_projects
     end
 
     it 'should succeed' do

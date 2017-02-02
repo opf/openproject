@@ -111,6 +111,10 @@ module API
             "#{root}/my_preferences"
           end
 
+          def self.principals
+            "#{root}/principals"
+          end
+
           def self.priorities
             "#{root}/priorities"
           end
@@ -159,6 +163,18 @@ module API
             "#{queries}/filters/#{name}"
           end
 
+          def self.query_filter_instance_schemas
+            "#{queries}/filter_instance_schemas"
+          end
+
+          def self.query_filter_instance_schema(id)
+            "#{queries}/filter_instance_schemas/#{id}"
+          end
+
+          def self.query_project_filter_instance_schemas(id)
+            "#{project(id)}/queries/filter_instance_schemas"
+          end
+
           def self.query_operator(name)
             "#{queries}/operators/#{name}"
           end
@@ -167,7 +183,11 @@ module API
             "#{queries}/schema"
           end
 
-          def self.available_query_projects
+          def self.query_project_schema(id)
+            "#{project(id)}/queries/schema"
+          end
+
+          def self.query_available_projects
             "#{queries}/available_projects"
           end
 
@@ -191,6 +211,14 @@ module API
             path += "?context=#{link}" if link
 
             path
+          end
+
+          def self.roles
+            "#{root}/roles"
+          end
+
+          def self.role(id)
+            "#{root}/roles/#{id}"
           end
 
           def self.show_revision(project_id, identifier)
@@ -239,6 +267,10 @@ module API
 
           def self.version(version_id)
             "#{root}/versions/#{version_id}"
+          end
+
+          def self.versions
+            "#{root}/versions"
           end
 
           def self.versions_by_project(project_id)

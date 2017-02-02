@@ -101,6 +101,17 @@ module API
           end
         end
 
+        link :schema do
+          href = if represented.project
+                   api_v3_paths.query_project_schema(represented.project.id)
+                 else
+                   api_v3_paths.query_schema
+                 end
+          {
+            href: href
+          }
+        end
+
         linked_property :user
         linked_property :project
 

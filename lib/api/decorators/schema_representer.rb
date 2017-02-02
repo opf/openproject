@@ -144,24 +144,6 @@ module API
                           name_source)
         end
 
-        def represented_class; end
-
-        private
-
-        def make_type(property_name)
-          property_name.to_s.camelize
-        end
-
-        def default_writable_property(property)
-          -> do
-            if represented.respond_to?(:writable?)
-              represented.writable?(property)
-            else
-              false
-            end
-          end
-        end
-
         def schema_property(property,
                             getter,
                             show_if,
@@ -181,14 +163,39 @@ module API
                        .call_or_translate name_source, represented_class
                    }
         end
+
+        def represented_class; end
+
+        private
+
+        def make_type(property_name)
+          property_name.to_s.camelize
+        end
+
+        def default_writable_property(property)
+          -> do
+            if represented.respond_to?(:writable?)
+              represented.writable?(property)
+            else
+              false
+            end
+          end
+        end
       end
 
       include InstanceMethods
 
+      def self.create(represented, self_link = nil, current_user:, form_embedded: false)
+        new(represented,
+            self_link,
+            current_user: current_user,
+            form_embedded: form_embedded)
+      end
+
       def initialize(represented,
+                     self_link = nil,
                      current_user:,
-                     form_embedded: false,
-                     self_link: nil)
+                     form_embedded: false)
 
         self.form_embedded = form_embedded
         self.self_link = self_link
@@ -200,6 +207,9 @@ module API
         { href: self_link } if self_link
       end
 
+      property :_dependencies,
+               exec_context: :decorator
+
       private
 
       attr_accessor :form_embedded,
@@ -207,6 +217,10 @@ module API
 
       def _type
         'Schema'
+      end
+
+      def _dependencies
+        []
       end
 
       def schema_property_getter(type,
@@ -220,7 +234,7 @@ module API
                                  regular_expression)
         name = call_or_translate(name_source)
         schema = ::API::Decorators::PropertySchemaRepresenter
-                 .new(type: type,
+                 .new(type: call_or_use(type),
                       name: name,
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
@@ -241,7 +255,7 @@ module API
                                                    visibility,
                                                    href_callback)
         representer = ::API::Decorators::AllowedValuesByLinkRepresenter
-                      .new(type: type,
+                      .new(type: call_or_use(type),
                            name: call_or_translate(name_source),
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
@@ -266,7 +280,7 @@ module API
                                                 visibility,
                                                 values_callback)
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
-                      .new(type: type,
+                      .new(type: call_or_use(type),
                            name: call_or_translate(name_source),
                            current_user: current_user,
                            value_representer: value_representer,

@@ -20,6 +20,7 @@ As of now, no actions are defined.
 | sortBy           | Ordered list of QuerySortBys. Indicates the WorkPackage property the results will be ordered by as well as the direction          | []QuerySortBy         |                                  | READ                 |
 | groupBy          | The WorkPackage property results of this query are grouped by                                                                     | String                |                                  | READ                 |
 | results          | The list of work packages returned by applying the filters, sorting and grouping defined in the query                             | WorkPackageCollection |                                  | READ                 |
+| schema           | This query's schema                                                                                                               | Schema                |                                  | READ                 |
 
 Please note, that all the properties listed above will also be embedded when individual queries are returned but will not be embedded when a list of queries is returned. Whether the properties are embedded or not may be subject to change in the future.
 
@@ -38,7 +39,7 @@ A query that is not assigned to a project (`"project": null`) is called a global
 
 ## Query Filter Instance
 
-A QueryFilterInstance defines a filtering applied to the list of work packages. As such it contains of:
+A QueryFilterInstance defines a filtering applied to the list of work packages. As such it contains:
 * the filter type (`QueryFilter`) used
 * the operator (`QueryOperator`) used
 * the list of values
@@ -61,6 +62,9 @@ The list of values can either consist of a list of links or of a list of strings
         "href": "/api/v3/queries/operators/<t+",
         "title": "in less than"
       }
+      "schema": {
+        "href": "/api/v3/queries/filter_instance_schemas/dueDate"
+      }
     }
   }
 ```
@@ -78,6 +82,9 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
       "operator": {
         "href": "/api/v3/queries/operators/=",
         "title": "is"
+      },
+      "schema": {
+        "href": "/api/v3/queries/filter_instance_schemas/assignee"
       },
       "values": [
         {
@@ -112,6 +119,9 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
                       "href": "/api/v3/queries/operators/o",
                       "title": "open"
                     },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/status"
+                    },
                     "values": []
                   }
                 },
@@ -129,6 +139,9 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
                     "operator": {
                       "href": "/api/v3/queries/operators/<t+",
                       "title": "in less than"
+                    },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/dueDate"
                     }
                   }
                 }
@@ -326,6 +339,9 @@ Delete the query identified by the id parameter
                       "href": "/api/v3/queries/operators/o",
                       "title": "open"
                     },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/status"
+                    },
                     "values": []
                   }
                 },
@@ -343,6 +359,9 @@ Delete the query identified by the id parameter
                     "operator": {
                       "href": "/api/v3/queries/operators/<t+",
                       "title": "in less than"
+                    },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/dueDate"
                     }
                   }
                 }
@@ -519,6 +538,9 @@ Delete the query identified by the id parameter
                       "href": "/api/v3/queries/operators/o",
                       "title": "open"
                     },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/status"
+                    },
                     "values": []
                   }
                 },
@@ -536,6 +558,9 @@ Delete the query identified by the id parameter
                     "operator": {
                       "href": "/api/v3/queries/operators/<t+",
                       "title": "in less than"
+                    },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/dueDate"
                     }
                   }
                 }
@@ -690,7 +715,7 @@ Delete the query identified by the id parameter
                 "message": "The specified query does not exist."
             }
 
-##Queries [/api/v3/queries{?filters}]
+## Queries [/api/v3/queries{?filters}]
 
 + Model
     + Body
@@ -726,6 +751,9 @@ Delete the query identified by the id parameter
                                   "href": "/api/v3/queries/operators/o",
                                   "title": "open"
                                 },
+                                "schema": {
+                                  "href": "/api/v3/queries/filter_instance_schemas/status"
+                                },
                                 "values": []
                               }
                             },
@@ -743,6 +771,9 @@ Delete the query identified by the id parameter
                                 "operator": {
                                   "href": "/api/v3/queries/operators/<t+",
                                   "title": "in less than"
+                                },
+                                "schema": {
+                                  "href": "/api/v3/queries/filter_instance_schemas/dueDate"
                                 }
                               }
                             }
@@ -875,6 +906,625 @@ Returns a collection of queries. The collection can be filtered via query parame
                 "message": "You are not allowed to see the queries."
             }
 
+## Schema For Global Queries [/api/v3/queries/schema]
+
++ Model
+    + Body
+
+            {
+              "_type": "Schema",
+              "_dependencies": [],
+              "id": {
+                "type": "Integer",
+                "name": "ID",
+                "required": true,
+                "hasDefault": false,
+                "writable": false
+              },
+              "name": {
+                "type": "String",
+                "name": "Name",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "user": {
+                "type": "User",
+                "name": "User",
+                "required": true,
+                "hasDefault": true,
+                "writable": false
+              },
+              "project": {
+                "type": "Project",
+                "name": "Project",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "_links": {}
+              },
+              "public": {
+                "type": "Boolean",
+                "name": "Public",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "sums": {
+                "type": "Boolean",
+                "name": "Sums",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "starred": {
+                "type": "Boolean",
+                "name": "Starred",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "columns": {
+                "type": "[]QueryColumn",
+                "name": "Columns",
+                "required": false,
+                "hasDefault": true,
+                "writable": true,
+                "_links": {}
+              },
+              "filters": {
+                "type": "[]QueryFilterInstance",
+                "name": "Filters",
+                "required": false,
+                "writable": true,
+                "hasDefault": true,
+                "_links": {
+                  "allowedValuesSchemas": {
+                    "href": "/api/v3/queries/filter_instance_schemas"
+                  }
+                }
+              },
+              "groupBy": {
+                "type": "[]QueryGroupBy",
+                "name": "Group results by",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "_links": {}
+              },
+              "sortBy": {
+                "type": "[]QuerySortBy",
+                "name": "Sort by",
+                "required": false,
+                "hasDefault": true,
+                "writable": true,
+                "_links": {}
+              },
+              "results": {
+                "type": "WorkPackageCollection",
+                "name": "Results",
+                "required": false,
+                "hasDefault": false,
+                "writable": false
+              },
+              "_embedded": {
+                "filtersSchemas": {
+                  "_type": "Collection",
+                  "total": 20,
+                  "count": 20,
+                  "_embedded": {
+                    "elements": [
+                      {
+                        "_type": "QueryFilterInstanceSchema",
+                        "_dependencies": [
+                          {
+                            "_type": "SchemaDependency",
+                            "on": "operator",
+                            "dependencies": {
+                              "/api/v3/queries/operators/=": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!*": {},
+                              "/api/v3/queries/operators/*": {}
+                            }
+                          }
+                        ],
+                        "name": {
+                          "type": "String",
+                          "name": "Name",
+                          "required": true,
+                          "hasDefault": true,
+                          "writable": false
+                        },
+                        "filter": {
+                          "type": "QueryFilter",
+                          "name": "Filter",
+                          "required": true,
+                          "hasDefault": false,
+                          "writable": true,
+                          "_links": {}
+                        },
+                        "_links": {
+                          "self": {
+                            "href": "/api/v3/queries/filter_instance_schemas/assignee"
+                          },
+                          "filter": {
+                            "href": "/api/v3/queries/filters/assignee",
+                            "title": "Assignee"
+                          }
+                        }
+                      },
+                      {
+                        "_type": "QueryFilterInstanceSchema",
+                        "_dependencies": [
+                          {
+                            "_type": "SchemaDependency",
+                            "on": "operator",
+                            "dependencies": {
+                              "/api/v3/queries/operators/=": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "name": {
+                          "type": "String",
+                          "name": "Name",
+                          "required": true,
+                          "hasDefault": true,
+                          "writable": false
+                        },
+                        "filter": {
+                          "type": "QueryFilter",
+                          "name": "Filter",
+                          "required": true,
+                          "hasDefault": false,
+                          "writable": true,
+                          "_links": {}
+                        },
+                        "_links": {
+                          "self": {
+                            "href": "/api/v3/queries/filter_instance_schemas/author"
+                          },
+                          "filter": {
+                            "href": "/api/v3/queries/filters/author",
+                            "title": "Author"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/api/v3/queries/filter_instance_schemas"
+                    }
+                  }
+                }
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/queries/schema"
+                }
+              }
+            }
+
+## View schema for global queries [GET]
+
+Retrieve the schema for global queries, those, that are not assigned to a project.
+
++ Response 200 (application/hal+json)
+
+    [Schema For Global Queries][]
+
++ Response 403 (application/hal+json)
+
+    **Required permission:** view work package in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Schema For Project Queries [/api/v3/projects/{id}/queries/schema]
+
++ Model
+    + Body
+
+            {
+              "_type": "Schema",
+              "_dependencies": [],
+              "id": {
+                "type": "Integer",
+                "name": "ID",
+                "required": true,
+                "hasDefault": false,
+                "writable": false
+              },
+              "name": {
+                "type": "String",
+                "name": "Name",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "user": {
+                "type": "User",
+                "name": "User",
+                "required": true,
+                "hasDefault": true,
+                "writable": false
+              },
+              "project": {
+                "type": "Project",
+                "name": "Project",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "_links": {}
+              },
+              "public": {
+                "type": "Boolean",
+                "name": "Public",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "sums": {
+                "type": "Boolean",
+                "name": "Sums",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "starred": {
+                "type": "Boolean",
+                "name": "Starred",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "columns": {
+                "type": "[]QueryColumn",
+                "name": "Columns",
+                "required": false,
+                "hasDefault": true,
+                "writable": true,
+                "_links": {}
+              },
+              "filters": {
+                "type": "[]QueryFilterInstance",
+                "name": "Filters",
+                "required": false,
+                "writable": true,
+                "hasDefault": true,
+                "_links": {
+                  "allowedValuesSchemas": {
+                    "href": "/api/v3/projects/42/queries/filter_instance_schemas"
+                  }
+                }
+              },
+              "groupBy": {
+                "type": "[]QueryGroupBy",
+                "name": "Group results by",
+                "required": false,
+                "hasDefault": false,
+                "writable": true,
+                "_links": {}
+              },
+              "sortBy": {
+                "type": "[]QuerySortBy",
+                "name": "Sort by",
+                "required": false,
+                "hasDefault": true,
+                "writable": true,
+                "_links": {}
+              },
+              "results": {
+                "type": "WorkPackageCollection",
+                "name": "Results",
+                "required": false,
+                "hasDefault": false,
+                "writable": false
+              },
+              "_embedded": {
+                "filtersSchemas": {
+                  "_type": "Collection",
+                  "total": 20,
+                  "count": 20,
+                  "_embedded": {
+                    "elements": [
+                      {
+                        "_type": "QueryFilterInstanceSchema",
+                        "_dependencies": [
+                          {
+                            "_type": "SchemaDependency",
+                            "on": "operator",
+                            "dependencies": {
+                              "/api/v3/queries/operators/=": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!*": {},
+                              "/api/v3/queries/operators/*": {}
+                            }
+                          }
+                        ],
+                        "name": {
+                          "type": "String",
+                          "name": "Name",
+                          "required": true,
+                          "hasDefault": true,
+                          "writable": false
+                        },
+                        "filter": {
+                          "type": "QueryFilter",
+                          "name": "Filter",
+                          "required": true,
+                          "hasDefault": false,
+                          "writable": true,
+                          "_links": {}
+                        },
+                        "_links": {
+                          "self": {
+                            "href": "/api/v3/queries/filter_instance_schemas/assignee"
+                          },
+                          "filter": {
+                            "href": "/api/v3/queries/filters/assignee",
+                            "title": "Assignee"
+                          }
+                        }
+                      },
+                      {
+                        "_type": "QueryFilterInstanceSchema",
+                        "_dependencies": [
+                          {
+                            "_type": "SchemaDependency",
+                            "on": "operator",
+                            "dependencies": {
+                              "/api/v3/queries/operators/=": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              },
+                              "/api/v3/queries/operators/!": {
+                                "values": {
+                                  "type": "[]User",
+                                  "name": "Values",
+                                  "required": true,
+                                  "hasDefault": false,
+                                  "writable": true,
+                                  "_links": {}
+                                }
+                              }
+                            }
+                          }
+                        ],
+                        "name": {
+                          "type": "String",
+                          "name": "Name",
+                          "required": true,
+                          "hasDefault": true,
+                          "writable": false
+                        },
+                        "filter": {
+                          "type": "QueryFilter",
+                          "name": "Filter",
+                          "required": true,
+                          "hasDefault": false,
+                          "writable": true,
+                          "_links": {}
+                        },
+                        "_links": {
+                          "self": {
+                            "href": "/api/v3/queries/filter_instance_schemas/author"
+                          },
+                          "filter": {
+                            "href": "/api/v3/queries/filters/author",
+                            "title": "Author"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/api/v3/projects/42/queries/filter_instance_schemas"
+                    }
+                  }
+                }
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/projects/42/queries/schema"
+                }
+              }
+            }
+
+## View schema for project queries [GET]
+
+Retrieve the schema for project queries.
+
++ Response 200 (application/hal+json)
+
+    [Schema For Project Queries][]
+
++ Response 403 (application/hal+json)
+
+    **Required permission:** view work package in the project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
+
+## Query Available Projects [/api/v3/queries/available_projects]
+
++ Model
+    + Body
+
+            {
+              "_links": {
+                "self": {
+                  "href": "/api/v3/queries/available_projects"
+                }
+              },
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/6",
+                        "title": "A project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/6/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/6/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/6/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/6/versions"
+                      }
+                    },
+                    "id": 6,
+                    "identifier": "a_project",
+                    "name": "A project",
+                    "description": "Eveniet molestias omnis quis aut qui eum adipisci.",
+                    "createdAt": "2015-07-06T13:28:14+00:00",
+                    "updatedAt": "2015-10-01T09:55:02+00:00",
+                    "type": "Customer Project"
+                  },
+                  {
+                    "_type": "Project",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/projects/14",
+                        "title": "Another project"
+                      },
+                      "createWorkPackage": {
+                        "href": "/api/v3/projects/14/work_packages/form",
+                        "method": "post"
+                      },
+                      "createWorkPackageImmediate": {
+                        "href": "/api/v3/projects/14/work_packages",
+                        "method": "post"
+                      },
+                      "categories": {
+                        "href": "/api/v3/projects/14/categories"
+                      },
+                      "versions": {
+                        "href": "/api/v3/projects/14/versions"
+                      }
+                    },
+                    "id": 14,
+                    "identifier": "another_project",
+                    "name": "Another project",
+                    "description": "",
+                    "createdAt": "2016-02-29T12:50:20+00:00",
+                    "updatedAt": "2016-02-29T12:50:20+00:00",
+                    "type": null
+                  }]
+                }
+              }
+            }
+
+## Available projects [GET]
+
+Gets a list of projects that are available as projects a query can be assigned to.
+
++ Response 200 (application/hal+json)
+
+    [Query Available Projects][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** view work packages
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
 # Group Query Columns
 
 A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property.
@@ -938,7 +1588,7 @@ Retreive an individual QueryColumn as identified by the `id` parameter.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
-                "message": "You need to be authenticated to access this resource."
+                "message": "You are not authorized to access this resource."
             }
 
 + Response 404 (application/hal+json)
@@ -1014,7 +1664,7 @@ Retreive an individual QueryFilter as identified by the id parameter.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
-                "message": "You need to be authenticated to access this resource."
+                "message": "You are not authorized to access this resource."
             }
 
 + Response 404 (application/hal+json)
@@ -1092,7 +1742,7 @@ Retreive an individual QueryOperator as identified by the `id` parameter.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
-                "message": "You need to be authenticated to access this resource."
+                "message": "You are not authorized to access this resource."
             }
 
 + Response 404 (application/hal+json)
@@ -1180,7 +1830,7 @@ Retreive an individual QuerySortBy as identified by the id parameter.
             {
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
-                "message": "You need to be authenticated to access this resource."
+                "message": "You are not authorized to access this resource."
             }
 
 + Response 404 (application/hal+json)
@@ -1193,4 +1843,432 @@ Retreive an individual QuerySortBy as identified by the id parameter.
                 "_type": "Error",
                 "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
                 "message": "The specified query does not exist."
+            }
+
+## Group Query Filter Instance Schema
+
+A QueryFilterInstanceSchema is a Schema specifically for describing QueryFilterInstances. Because the behaviour of FilterInstances, with regards to the `values` property, differs from one another depending on the choosen Filter, the QueryFilterInstanceSchema explicitly lists the dependencies in its `_dependencies` property. As the property causing the difference is the selected Filter, that property is linked. Apart from that, a QueryFilterInstanceSchema has the same structure a Schema does.
+
+## Linked Properties
+
+| Link                  | Description                                         | Type                      | Constraints | Supported operations |
+| :-------------------: | ----------------------------------------            | -------------             | --------    | -------------------- |
+| self                  | This QueryFilterInstanceSchema (same as for schema) | QueryFilterInstanceSchema | not null    | READ                 |
+| filter                | The filter for which this schema is specific        | Filter                    | not null    | READ                 |
+
+## Local Properties
+
+| Property         | Description                                            | Type         | Constraints                      | Supported operations |
+| :--------------: | ------------------------------------------------------ | ------------ | -------------------------------- | -------------------- |
+| name             | Describes the name attribute                           | Field schema | not null                         | READ                 |
+| filter           | QuerySortBy name                                       | Field schema | not null                         | READ                 |
+
+
+## Query Filter Instance Schema [/api/v3/queries/filter_instance_schemas/{identifier}]
+
++ Model
+    + Body
+
+            {
+              "_type": "QueryFilterInstanceSchema",
+              "_dependencies": [
+                {
+                  "_type": "SchemaDependency",
+                  "on": "operator",
+                  "dependencies": {
+                    "/api/v3/queries/operators/=": {
+                      "values": {
+                        "type": "[]User",
+                        "name": "Values",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "_links": {}
+                      }
+                    },
+                    "/api/v3/queries/operators/!": {
+                      "values": {
+                        "type": "[]User",
+                        "name": "Values",
+                        "required": true,
+                        "hasDefault": false,
+                        "writable": true,
+                        "_links": {}
+                      }
+                    }
+                  }
+                }
+              ],
+              "name": {
+                "type": "String",
+                "name": "Name",
+                "required": true,
+                "hasDefault": true,
+                "writable": false
+              },
+              "filter": {
+                "type": "QueryFilter",
+                "name": "Filter",
+                "required": true,
+                "hasDefault": false,
+                "writable": true,
+                "_links": {}
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/queries/filter_instance_schemas/author"
+                },
+                "filter": {
+                  "href": "/api/v3/queries/filters/author",
+                  "title": "Author"
+                }
+              }
+            }
+
+## View Query Filter Instance Schema [GET]
+
+Retreive an individual QueryFilterInstanceSchema as identified by the id parameter.
+
++ Parameters
+    + identifier (required, string, `author`) ... QueryFilterInstanceSchema identifier. The identifier is the filter identifier.
+
++ Response 200 (application/hal+json)
+
+    [Query Filter Instance Schema][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
+                "message": "You are not authorized to access this resource."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned if the QueryFilterInstanceSchema does not exist.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The specified query does not exist."
+            }
+
+## Query Filter Instance Schemas [/api/v3/queries/filter_instance_schemas]
+
++ Model
+    + Body
+
+            {
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "QueryFilterInstanceSchema",
+                    "_dependencies": [
+                      {
+                        "_type": "SchemaDependency",
+                        "on": "operator",
+                        "dependencies": {
+                          "/api/v3/queries/operators/=": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!*": {},
+                          "/api/v3/queries/operators/*": {}
+                        }
+                      }
+                    ],
+                    "name": {
+                      "type": "String",
+                      "name": "Name",
+                      "required": true,
+                      "hasDefault": true,
+                      "writable": false
+                    },
+                    "filter": {
+                      "type": "QueryFilter",
+                      "name": "Filter",
+                      "required": true,
+                      "hasDefault": false,
+                      "writable": true,
+                      "_links": {}
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/queries/filter_instance_schemas/assignee"
+                      },
+                      "filter": {
+                        "href": "/api/v3/queries/filters/assignee",
+                        "title": "Assignee"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "QueryFilterInstanceSchema",
+                    "_dependencies": [
+                      {
+                        "_type": "SchemaDependency",
+                        "on": "operator",
+                        "dependencies": {
+                          "/api/v3/queries/operators/=": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "name": {
+                      "type": "String",
+                      "name": "Name",
+                      "required": true,
+                      "hasDefault": true,
+                      "writable": false
+                    },
+                    "filter": {
+                      "type": "QueryFilter",
+                      "name": "Filter",
+                      "required": true,
+                      "hasDefault": false,
+                      "writable": true,
+                      "_links": {}
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/queries/filter_instance_schemas/author"
+                      },
+                      "filter": {
+                        "href": "/api/v3/queries/filters/author",
+                        "title": "Author"
+                      }
+                    }
+                  }
+                ]
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/queries/filter_instance_schemas"
+                }
+              }
+            }
+
+## List Query Filter Instance Schemas [GET]
+
+Returns the list of QueryFilterInstanceSchemas defined for a global query. That is a query not assigned to a project.
+
++ Response 200 (application/hal+json)
+
+    [Query Filter Instance Schemas][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
+                "message": "You are not authorized to access this resource."
+            }
+
+## Query Filter Instance Schemas For Project [/api/v3/projects/{id}/queries/filter_instance_schemas]
+
++ Model
+    + Body
+
+            {
+              "_type": "Collection",
+              "total": 2,
+              "count": 2,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "QueryFilterInstanceSchema",
+                    "_dependencies": [
+                      {
+                        "_type": "SchemaDependency",
+                        "on": "operator",
+                        "dependencies": {
+                          "/api/v3/queries/operators/=": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!*": {},
+                          "/api/v3/queries/operators/*": {}
+                        }
+                      }
+                    ],
+                    "name": {
+                      "type": "String",
+                      "name": "Name",
+                      "required": true,
+                      "hasDefault": true,
+                      "writable": false
+                    },
+                    "filter": {
+                      "type": "QueryFilter",
+                      "name": "Filter",
+                      "required": true,
+                      "hasDefault": false,
+                      "writable": true,
+                      "_links": {}
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/queries/filter_instance_schemas/assignee"
+                      },
+                      "filter": {
+                        "href": "/api/v3/queries/filters/assignee",
+                        "title": "Assignee"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "QueryFilterInstanceSchema",
+                    "_dependencies": [
+                      {
+                        "_type": "SchemaDependency",
+                        "on": "operator",
+                        "dependencies": {
+                          "/api/v3/queries/operators/=": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          },
+                          "/api/v3/queries/operators/!": {
+                            "values": {
+                              "type": "[]User",
+                              "name": "Values",
+                              "required": true,
+                              "hasDefault": false,
+                              "writable": true,
+                              "_links": {}
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "name": {
+                      "type": "String",
+                      "name": "Name",
+                      "required": true,
+                      "hasDefault": true,
+                      "writable": false
+                    },
+                    "filter": {
+                      "type": "QueryFilter",
+                      "name": "Filter",
+                      "required": true,
+                      "hasDefault": false,
+                      "writable": true,
+                      "_links": {}
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/queries/filter_instance_schemas/author"
+                      },
+                      "filter": {
+                        "href": "/api/v3/queries/filters/author",
+                        "title": "Author"
+                      }
+                    }
+                  }
+                ]
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/projects/42/queries/filter_instance_schemas"
+                }
+              }
+            }
+
+## List Query Filter Instance Schemas for Project[GET]
+
+Returns the list of QueryFilterInstanceSchemas defined for a query of the specified project.
+
++ Parameters
+    + id (required, integer, `1`) ... Id of the project.
+
++ Response 200 (application/hal+json)
+
+    [Query Filter Instance Schemas For Project][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see it.
+
+    **Required permission:** view work package in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
+                "message": "You are not authorized to access this resource."
             }

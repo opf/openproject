@@ -70,11 +70,21 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
       end
 
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'schema' }
+        let(:href) { api_v3_paths.query_project_schema(project.id) }
+      end
+
       context 'has no project' do
         let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
 
         it_behaves_like 'has an empty link' do
           let(:link) { 'project' }
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'schema' }
+          let(:href) { api_v3_paths.query_schema }
         end
 
         it_behaves_like 'has an untitled link' do
@@ -301,7 +311,10 @@ describe ::API::V3::Queries::QueryRepresenter do
                 "href": api_v3_paths.status(filter_status.id),
                 "title": filter_status.name
               }
-            ]
+            ],
+            "schema": {
+              "href": api_v3_paths.query_filter_instance_schema('status')
+            }
           }
         }
         expected_assignee = {
@@ -321,7 +334,10 @@ describe ::API::V3::Queries::QueryRepresenter do
                 "href": api_v3_paths.user(filter_user.id),
                 "title": filter_user.name
               }
-            ]
+            ],
+            "schema": {
+              "href": api_v3_paths.query_filter_instance_schema('assignee')
+            }
           }
         }
 

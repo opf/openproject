@@ -31,24 +31,30 @@ require 'rack/test'
 shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
-  let(:admin) { FactoryGirl.create(:admin) }
-  let(:role) { FactoryGirl.create(:role) }
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
+  let(:other_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:user2) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let(:group) {
+  let(:group) do
     group = FactoryGirl.create(:group)
     project.add_member! group, FactoryGirl.create(:role)
     group
-  }
+  end
+  let(:permissions) { [:view_work_packages] }
 
   shared_context "request available #{principals}" do
-    before { get api_v3_paths.send(:"available_#{principals}", project.id) }
+    before { get href }
+  end
+
+  before do
+    allow(User).to receive(:current).and_return(current_user)
   end
 
   describe 'response' do
-    before do allow(User).to receive(:current).and_return(admin) end
-
     shared_examples_for "returns available #{principals}" do |total, count|
       include_context "request available #{principals}"
 
@@ -56,15 +62,17 @@ shared_examples_for 'available principals' do |principals|
     end
 
     describe 'users' do
-
       context 'single user' do
-        let!(:users) { [user] }
+        # The current user
 
         it_behaves_like "returns available #{principals}", 1, 1
       end
 
       context 'multiple users' do
-        let!(:users) { [user, user2] }
+        before do
+          other_user
+          # and the current user
+        end
 
         it_behaves_like "returns available #{principals}", 2, 2
       end
@@ -78,7 +86,8 @@ shared_examples_for 'available principals' do |principals|
           allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
         end
 
-        it_behaves_like "returns available #{principals}", 1, 1
+        # current user and group
+        it_behaves_like "returns available #{principals}", 2, 2
       end
 
       context 'without work_package_group_assignment' do
@@ -86,8 +95,17 @@ shared_examples_for 'available principals' do |principals|
           allow(Setting).to receive(:work_package_group_assignment?).and_return(false)
         end
 
-        it_behaves_like "returns available #{principals}", 0, 0
+        # Only the current user
+        it_behaves_like "returns available #{principals}", 1, 1
       end
     end
+  end
+
+  describe 'if not allowed' do
+    include Rack::Test::Methods
+    let(:permissions) { [] }
+    before { get href }
+
+    it_behaves_like 'unauthorized access'
   end
 end

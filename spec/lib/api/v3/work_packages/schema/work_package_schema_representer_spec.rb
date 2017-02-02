@@ -46,8 +46,8 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:action) { :update }
   let(:representer) do
     described_class.create(schema,
+                           self_link,
                            form_embedded: embedded,
-                           self_link: self_link,
                            base_schema_link: base_schema_link,
                            current_user: current_user,
                            action: action)
@@ -145,6 +145,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       context 'lockVersion disabled' do
         let(:representer) do
           described_class.create(schema,
+                                 nil,
                                  current_user: current_user,
                                  hide_lock_version: true)
         end

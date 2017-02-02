@@ -32,6 +32,21 @@ module API
     module Versions
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
+          get do
+            query = ::API::V3::ParamsToQueryService.new(Version, current_user).call(params)
+
+            if query.valid?
+              versions = query.results.visible(current_user)
+              self_link = [api_v3_paths.versions, params.to_query].join('?')
+
+              ::API::V3::Versions::VersionCollectionRepresenter.new(versions,
+                                                                    self_link,
+                                                                    current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
+          end
+
           route_param :id do
             before do
               @version = Version.find(params[:id])

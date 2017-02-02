@@ -152,7 +152,7 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/work_packages/form'
   end
 
-  describe '#user_preferences' do
+  describe '#my_preferences' do
     subject { helper.my_preferences }
 
     it_behaves_like 'api v3 path', '/my_preferences'
@@ -188,6 +188,12 @@ describe ::API::V3::Utilities::PathHelper do
         it { is_expected.to eql('/api/v3/render/plain') }
       end
     end
+  end
+
+  describe '#principals' do
+    subject { helper.principals }
+
+    it_behaves_like 'api v3 path', '/principals'
   end
 
   describe 'priorities paths' do
@@ -266,6 +272,24 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/filters/status'
   end
 
+  describe '#query_filter_instance_schemas' do
+    subject { helper.query_filter_instance_schemas }
+
+    it_behaves_like 'api v3 path', '/queries/filter_instance_schemas'
+  end
+
+  describe '#query_filter_instance_schema' do
+    subject { helper.query_filter_instance_schema('bogus') }
+
+    it_behaves_like 'api v3 path', '/queries/filter_instance_schemas/bogus'
+  end
+
+  describe '#query_project_filter_instance_schemas' do
+    subject { helper.query_project_filter_instance_schemas(42) }
+
+    it_behaves_like 'api v3 path', '/projects/42/queries/filter_instance_schemas'
+  end
+
   describe '#query_operator' do
     subject { helper.query_operator '=' }
 
@@ -278,8 +302,14 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/schema'
   end
 
-  describe '#available_query_projects' do
-    subject { helper.available_query_projects }
+  describe '#query_project_schema' do
+    subject { helper.query_project_schema('42') }
+
+    it_behaves_like 'api v3 path', '/projects/42/queries/schema'
+  end
+
+  describe '#query_available_projects' do
+    subject { helper.query_available_projects }
 
     it_behaves_like 'api v3 path', '/queries/available_projects'
   end
@@ -310,6 +340,18 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'path', '/projects/foo/repository/revision/1234'
     end
+  end
+
+  describe '#roles' do
+    subject { helper.roles }
+
+    it_behaves_like 'api v3 path', '/roles'
+  end
+
+  describe '#role' do
+    subject { helper.role 12 }
+
+    it_behaves_like 'api v3 path', '/roles/12'
   end
 
   describe 'schemas paths' do
@@ -414,6 +456,12 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.version 42 }
 
     it_behaves_like 'api v3 path', '/versions/42'
+  end
+
+  describe '#versions' do
+    subject { helper.versions }
+
+    it_behaves_like 'api v3 path', '/versions'
   end
 
   describe '#versions_by_project' do

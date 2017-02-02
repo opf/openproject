@@ -33,6 +33,21 @@ module API
     module Projects
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
+          get do
+            query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
+
+            if query.valid?
+              available_projects = query.results.visible(current_user)
+              self_link = [api_v3_paths.projects, params.to_query].join('?')
+
+              ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                                    self_link,
+                                                                    current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
+          end
+
           params do
             requires :id, desc: 'Project id'
           end
@@ -56,6 +71,7 @@ module API
             mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsByProjectAPI
             mount API::V3::Types::TypesByProjectAPI
+            mount API::V3::Queries::QueriesByProjectAPI
           end
         end
       end

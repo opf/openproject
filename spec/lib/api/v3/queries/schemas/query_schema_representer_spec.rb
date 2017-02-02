@@ -32,7 +32,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:query) do
-    query = Query.new
+    query = Query.new project: project
 
     # Stub some methods to avoid a test failure in unrelated tests
     allow(query)
@@ -50,9 +50,10 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
     query
   end
 
-  let(:instance) { described_class.new(query, form_embedded: form_embedded, self_link: self_link) }
+  let(:instance) { described_class.new(query, self_link, form_embedded: form_embedded) }
   let(:form_embedded) { false }
   let(:self_link) { 'bogus_self_path' }
+  let(:project) { nil }
 
   subject(:generated) { instance.to_json }
 
@@ -158,7 +159,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:form_embedded) { true }
 
           it_behaves_like 'links to allowed values via collection link' do
-            let(:href) { api_v3_paths.available_query_projects }
+            let(:href) { api_v3_paths.query_available_projects }
           end
         end
       end
@@ -251,6 +252,29 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         it_behaves_like 'has no visibility property'
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when global query' do
+          let(:href) { api_v3_paths.query_filter_instance_schemas }
+
+          it 'contains the link to the filter schemas' do
+            is_expected
+              .to be_json_eql(href.to_json)
+              .at_path("#{path}/_links/allowedValuesSchemas/href")
+          end
+        end
+
+        context 'when project query' do
+          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
+
+          it 'contains the link to the filter schemas' do
+            is_expected
+              .to be_json_eql(href.to_json)
+              .at_path("#{path}/_links/allowedValuesSchemas/href")
+          end
+        end
       end
 
       describe 'groupBy' do
@@ -341,6 +365,33 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         it_behaves_like 'has no visibility property'
+      end
+    end
+
+    context '_embedded' do
+      describe 'filtersSchemas' do
+        let(:path) { '_embedded/filtersSchemas' }
+
+        context 'when global query' do
+          let(:href) { api_v3_paths.query_filter_instance_schemas }
+
+          it 'contains a collection of filter schemas' do
+            is_expected
+              .to be_json_eql(href.to_json)
+              .at_path("#{path}/_links/self/href")
+          end
+        end
+
+        context 'when project query' do
+          let(:project) { FactoryGirl.build_stubbed(:project) }
+          let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
+
+          it 'contains a collection of filter schemas' do
+            is_expected
+              .to be_json_eql(href.to_json)
+              .at_path("#{path}/_links/self/href")
+          end
+        end
       end
     end
   end
