@@ -24,13 +24,20 @@ export class WorkPackageTable {
   private plainRowsBuilder = new PlainRowsBuilder();
   private emptyRowsBuilder = new EmptyRowsBuilder();
 
-  constructor(public metaData:any, public tbody:HTMLElement) {
+  constructor(public tbody:HTMLElement) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }
 
   public rowObject(workPackageId):WorkPackageTableRow {
     return this.rowIndex[workPackageId];
+  }
+
+  /**
+   * Returns the reference to the last table.metadata state value
+   */
+  public get metaData() {
+    return this.states.table.metadata.getCurrentValue();
   }
 
   public get rowBuilder():RowsBuilderInterface {

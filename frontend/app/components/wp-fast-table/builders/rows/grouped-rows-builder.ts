@@ -5,18 +5,7 @@ import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.servi
 import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {RowsBuilderInterface} from '../../wp-table.interfaces';
-
-export interface GroupObject {
-  value:any;
-  count:number;
-  collapsed?:boolean;
-  index?:number;
-  href:string;
-  _links?: {
-    valueLink: { href:string };
-  }
-}
+import {GroupObject, RowsBuilderInterface} from '../../wp-table.interfaces';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
@@ -62,7 +51,8 @@ export class GroupedRowsBuilder implements RowsBuilderInterface {
         currentGroup = nextGroup;
       }
 
-      let tr = this.buildSingleRow(row, currentGroup);
+      row.group = currentGroup;
+      let tr = this.buildSingleRow(row);
       tbodyContent.appendChild(tr);
     });
 
@@ -126,21 +116,17 @@ export class GroupedRowsBuilder implements RowsBuilderInterface {
    * Redraw a single row, while maintain its group state.
    */
   public redrawRow(row, table):HTMLElement {
-    let groups = this.getGroupData(table.metaData.groups);
-    let groupBy = table.metaData.groupBy;
-    let group = this.matchingGroup(row.object, groups, groupBy);
-
-    return this.buildSingleRow(row, group);
+    return this.buildSingleRow(row);
   }
 
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row, group) {
+  private buildSingleRow(row) {
     let tr = this.rowBuilder.buildEmpty(row.object);
-    tr.classList.add(groupedRowClassName(group.index));
+    tr.classList.add(groupedRowClassName(row.group.index));
 
-    if (group.collapsed) {
+    if (row.group.collapsed) {
       tr.classList.add(collapsedRowClass);
     }
 

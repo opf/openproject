@@ -33,6 +33,7 @@ import {States} from '../../states.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import { Observable } from 'rxjs/Observable';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
@@ -134,27 +135,32 @@ function WorkPackagesListController($scope,
   }
 
   function setupWorkPackagesTable(json) {
-    var meta = json.meta,
-      workPackages = json.work_packages,
-      bulkLinks = json._bulk_links;
+
+    // Set metadata from results
+    let meta = json.meta;
+    let metadata = new WorkPackageTableMetadata(json);
+
+    // Update the current metadata state
+    states.table.metadata.put(metadata);
 
     // register data in state
-    states.table.rows.put(workPackages);
+    states.table.rows.put(json.work_packages);
 
     // table data
+    // WorkPackagesTableService.addColumnMetaData(meta);
+    // WorkPackagesTableService.setBulkLinks(bulkLinks);
     // WorkPackagesTableService.setColumns($scope.query.columns);
-    WorkPackagesTableService.addColumnMetaData(meta);
-    WorkPackagesTableService.setGroupBy($scope.query.groupBy);
+    // WorkPackagesTableService.addColumnMetaData(meta);
+    // WorkPackagesTableService.setGroupBy($scope.query.groupBy);
     // WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
-    WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
-    QueryService.setTotalEntries(json.resource.total);
+    // QueryService.setTotalEntries(json.resource.total);
 
     // pagination data
-    PaginationService.setPerPageOptions(meta.per_page_options);
-    PaginationService.setPerPage(meta.per_page);
-    PaginationService.setPage(meta.page);
+    // PaginationService.setPerPageOptions(meta.per_page_options);
+    // PaginationService.setPerPage(meta.per_page);
+    // PaginationService.setPage(meta.page);
 
     // yield updatable data to scope
     Observable.combineLatest(
@@ -164,10 +170,10 @@ function WorkPackagesListController($scope,
       $scope.columns = wpTableColumns.getColumns();
     });
 
-    $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
-    $scope.totalEntries = QueryService.getTotalEntries();
+    // $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
+    // $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
-    $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
+    // $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
 
     // Authorisation
     AuthorisationService.initModelAuth('work_package', meta._links);

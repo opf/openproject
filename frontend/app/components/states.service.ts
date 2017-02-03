@@ -4,6 +4,7 @@ import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resou
 import {opServicesModule} from "../angular-modules";
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
+import {WorkPackageTableMetadata} from './wp-fast-table/wp-table-metadata';
 
 
 export class States {
@@ -13,6 +14,9 @@ export class States {
 
   // Work package table states
   table = {
+    // Metadata of the current table result
+    // (page, links, grouping information)
+    metadata: new State<WorkPackageTableMetadata>(),
     // Set of rows in strict order of appearance
     rows: new State<WorkPackageResource[]>(),
     // Set of columns in strict order of appearance

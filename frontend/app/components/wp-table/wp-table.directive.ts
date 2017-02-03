@@ -77,16 +77,9 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      let tableData:any = {};
-
-      if (scope.groupBy) {
-        tableData.groupBy = scope.groupBy;
-        tableData.groups = scope.resource.groups;
-      }
-
       var t0 = performance.now();
       scope.tbody = element.find('.work-package-table tbody');
-      scope.table = new WorkPackageTable(tableData, scope.tbody[0]);
+      scope.table = new WorkPackageTable(scope.tbody[0]);
 
       console.log("Num rows = " + scope.tbody.find('tr').length);
       var t1 = performance.now();
@@ -198,11 +191,6 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
       I18n.t('js.work_packages.table.text_sort_hint')
     ].join(' ')
   };
-
-  $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
-    $scope.text.toggleRows =
-        checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
-  });
 
   $scope.cancelInlineWorkPackage = function (index, row) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
