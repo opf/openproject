@@ -29,6 +29,7 @@
 import Moment = moment.Moment;
 
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WpTimelineHeader} from "./wp-timeline.header";
 export const timelineElementCssClass = "timeline-element";
 
 /**
@@ -61,6 +62,8 @@ export class TimelineViewParameters {
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
 
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
+
+  timelineHeader: WpTimelineHeader;
 
   get pixelPerDay() {
     switch (this.settings.zoomLevel) {

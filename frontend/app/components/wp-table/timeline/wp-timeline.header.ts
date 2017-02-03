@@ -89,6 +89,10 @@ export class WpTimelineHeader {
     return this.outerHeader ? this.outerHeader.width() : 1;
   }
 
+  getAbsoluteLeftCoordinates(): number {
+    return jQuery(this.headerCell).offset().left;
+  }
+
   addElement(name: string, renderer: GlobalElement) {
     this.globalElementsRegistry[name] = renderer;
   }
@@ -230,6 +234,7 @@ export class WpTimelineHeader {
   private renderLabelsDays(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
+      cell.style.borderTop = "1px solid black";
     });
 
     this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -237,6 +242,7 @@ export class WpTimelineHeader {
       cell.style.borderColor = "#000000";
       cell.style.height = (this.globalHeight - 10) + "px";
       cell.style.zIndex = "2";
+      cell.style.borderTop = "1px solid black";
     });
 
     this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -244,6 +250,7 @@ export class WpTimelineHeader {
       cell.style.borderColor = "#CCCCCC";
       cell.style.zIndex = "1";
       cell.style.height = (this.globalHeight - 20) + "px";
+      cell.style.borderTop = "1px solid black";
     });
 
     this.renderTimeSlices(vp, "day", 30, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -251,6 +258,7 @@ export class WpTimelineHeader {
       cell.style.borderColor = "#CCCCCC";
       cell.style.borderBottom = "1px solid black";
       cell.style.height = "15px";
+      cell.style.borderTop = "1px solid black";
     });
   }
 

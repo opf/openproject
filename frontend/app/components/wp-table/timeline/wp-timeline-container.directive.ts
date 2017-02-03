@@ -193,6 +193,8 @@ export class WorkPackageTimelineTableController {
 
     // console.log("        changed=" + changed);
 
+    this._viewParameters.timelineHeader = this.wpTimelineHeader;
+
     return changed;
   }
 }
