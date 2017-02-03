@@ -31,7 +31,6 @@ import {ContextMenuService} from '../context-menu.service';
 function wpContextMenuController($scope,
                                  $rootScope,
                                  $state,
-                                 WorkPackagesTableHelper,
                                  WorkPackageContextMenuHelper,
                                  WorkPackageService,
                                  contextMenu:ContextMenuService,

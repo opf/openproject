@@ -35,8 +35,6 @@ function ColumnContextMenuController($scope,
                                      columnContextMenu,
                                      QueryService,
                                      wpTableColumns:WorkPackageTableColumnsService,
-                                     WorkPackagesTableHelper,
-                                     WorkPackagesTableService,
                                      I18n,
                                      columnsModal) {
 
@@ -45,7 +43,7 @@ function ColumnContextMenuController($scope,
   $scope.$watch('column', function () {
     // fall back to 'id' column as the default
     $scope.column = $scope.column || {name: 'id', sortable: true};
-    $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
+    $scope.isGroupable = wpTableColumns.isGroupable($scope.column.name);
   });
 
   // context menu actions
@@ -56,12 +54,18 @@ function ColumnContextMenuController($scope,
   };
 
   $scope.sortAscending = function (columnName) {
-    WorkPackagesTableService.sortBy(columnName || 'id', 'asc');
+    QueryService.getQuery().sortation.addSortElement({
+        field: columnName || 'id',
+        direction: 'asc'
+      });
     QueryService.getQuery().dirty = true;
   };
 
   $scope.sortDescending = function (columnName) {
-    WorkPackagesTableService.sortBy(columnName || 'id', 'desc');
+    QueryService.getQuery().sortation.addSortElement({
+        field: columnName || 'id',
+        direction: 'desc'
+      });
     QueryService.getQuery().dirty = true;
   };
 

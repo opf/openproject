@@ -39,7 +39,6 @@ angular
   .directive('wpTable', wpTable);
 
 function wpTable(
-  WorkPackagesTableService,
   states:States,
   wpDisplayField:WorkPackageDisplayFieldService,
   wpCacheService:WorkPackageCacheService,
@@ -88,15 +87,12 @@ function wpTable(
       // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;
 
-      scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.workPackagePath;
 
       var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
       scope.adaptVerticalPosition = function(event) {
         event.pageY -= topMenuHeight;
       };
-
-      applyGrouping();
 
       scope.sumsLoaded = function() {
         return scope.displaySums &&
@@ -109,8 +105,6 @@ function wpTable(
         if (scope.displaySums) {
           fetchSumsSchema();
         }
-
-        applyGrouping();
       });
 
       scope.$watch('displaySums', function(sumsToBeDisplayed) {
@@ -126,19 +120,6 @@ function wpTable(
       scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
         scope.desiredSplitViewState = tabs.details;
       });
-
-      function applyGrouping() {
-        if (scope.groupByColumn != scope.workPackagesTableData.groupByColumn) {
-          scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
-          scope.grouped = scope.groupByColumn !== undefined;
-          scope.groupExpanded = {};
-
-          // Open new groups by default
-          Object.keys(scope.groupHeaders).forEach((key) => {
-            scope.groupExpanded[key] = true;
-          });
-        }
-      }
 
       function fetchTotalSums() {
         apiWorkPackages

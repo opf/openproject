@@ -1,3 +1,4 @@
+import {WorkPackageTableMetadata} from '../wp-table-metadata';
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {State} from '../../../helpers/reactive-fassade';
@@ -11,9 +12,13 @@ export class WorkPackageTableColumnsService {
   // The selected columns state of the current table instance
   public columnsState:State<string[]>;
 
+  // The current table metadata state
+  public metadata:State<WorkPackageTableMetadata>;
+
   constructor(public states: States) {
     this.columnsState = states.table.columns;
     this.availableColumnsState = states.query.availableColumns;
+    this.metadata = states.table.metadata;
   }
 
   /**
@@ -24,6 +29,15 @@ export class WorkPackageTableColumnsService {
     return this.currentState.map(name => {
       return _.find(available, (column) => column.name === name);
     });
+  }
+
+  /**
+   * Returns whether the given column is contained in the current set
+   * of groupable columns.
+   */
+  public isGroupable(name:string):boolean {
+    let metadata = this.metadata.getCurrentValue();
+    return !!_.find(metadata.groupableColumns, (column) => column.name === name);
   }
 
   /**
