@@ -145,14 +145,6 @@ function WorkPackagesListController($scope,
     // register data in state
     states.table.rows.put(json.work_packages);
 
-    // table data
-    // WorkPackagesTableService.addColumnMetaData(meta);
-    // WorkPackagesTableService.setBulkLinks(bulkLinks);
-    // WorkPackagesTableService.setColumns($scope.query.columns);
-    // WorkPackagesTableService.addColumnMetaData(meta);
-    // WorkPackagesTableService.setGroupBy($scope.query.groupBy);
-    // WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
-
     // query data
     // QueryService.setTotalEntries(json.resource.total);
 

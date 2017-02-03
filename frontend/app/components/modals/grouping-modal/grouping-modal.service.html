@@ -27,7 +27,7 @@
                 title="{{ fieldController.editTitle }}"
                 id="selected_columns_new"
                 class="form--select"
-                ng-options="column.name as column.title for column in vm.groupableColumns | orderBy: 'title'">
+                ng-options="column.name as column.title for column in vm.groupableColumns() | orderBy: 'title'">
             </select>
           </div>
         </div>

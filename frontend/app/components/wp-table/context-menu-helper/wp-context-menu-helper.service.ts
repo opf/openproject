@@ -26,11 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+
 angular
   .module('openproject.workPackages.helpers')
   .factory('WorkPackageContextMenuHelper', WorkPackageContextMenuHelper);
 
-function WorkPackageContextMenuHelper(PERMITTED_BULK_ACTIONS, WorkPackagesTableService, HookService, UrlParamsHelper) {
+function WorkPackageContextMenuHelper(
+  PERMITTED_BULK_ACTIONS,
+  wpTableMetadata:WorkPackageTableMetadataService,
+  HookService,
+  UrlParamsHelper) {
 
   function getPermittedActionLinks(workPackage, permittedActionConstants) {
     var singularPermittedActions = [];
@@ -69,7 +75,7 @@ function WorkPackageContextMenuHelper(PERMITTED_BULK_ACTIONS, WorkPackagesTableS
   }
 
   function getBulkActionLink(action, workPackages) {
-    var bulkLinks = WorkPackagesTableService.getBulkLinks();
+    var bulkLinks = wpTableMetadata.current.bulkLinks;
 
     var workPackageIdParams = {
       'ids[]': workPackages.map(function(wp){

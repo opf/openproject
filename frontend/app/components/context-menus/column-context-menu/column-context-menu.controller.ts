@@ -27,6 +27,8 @@
 // ++
 
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+
 angular
   .module('openproject.workPackages')
   .controller('ColumnContextMenuController', ColumnContextMenuController);
@@ -35,6 +37,7 @@ function ColumnContextMenuController($scope,
                                      columnContextMenu,
                                      QueryService,
                                      wpTableColumns:WorkPackageTableColumnsService,
+                                     wpTableMetadata:WorkPackageTableMetadataService,
                                      I18n,
                                      columnsModal) {
 
@@ -43,7 +46,7 @@ function ColumnContextMenuController($scope,
   $scope.$watch('column', function () {
     // fall back to 'id' column as the default
     $scope.column = $scope.column || {name: 'id', sortable: true};
-    $scope.isGroupable = wpTableColumns.isGroupable($scope.column.name);
+    $scope.isGroupable = wpTableMetadata.isGroupable($scope.column.name);
   });
 
   // context menu actions
