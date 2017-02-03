@@ -31,14 +31,14 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
     @allowed_values ||= begin
-      project.descendants.visible.map { |s| [s.name, s.id.to_s] }
+      visible_subprojects.map { |s| [s.name, s.id.to_s] }
     end
   end
 
   def available?
     project &&
       !project.leaf? &&
-      project.descendants.visible.exists?
+      visible_subprojects.exists?
   end
 
   def type
@@ -55,5 +55,21 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
 
   def self.key
     :subproject_id
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    visible_subprojects.select { |p| value_ints.include?(p.id) }
+  end
+
+  private
+
+  def visible_subprojects
+    @visible_subprojects ||= project.descendants.visible
   end
 end

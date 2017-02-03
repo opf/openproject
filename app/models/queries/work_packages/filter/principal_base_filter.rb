@@ -33,6 +33,16 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     User.current.logged? || allowed_values.any?
   end
 
+  def value_objects
+    prepared_values = values.map { |value| value == 'me' ? User.current : value }
+
+    Principal.find(prepared_values)
+  end
+
+  def ar_object_filter?
+    true
+  end
+
   private
 
   def me_value

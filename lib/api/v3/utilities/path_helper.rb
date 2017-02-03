@@ -143,6 +143,26 @@ module API
             "#{query(id)}/unstar"
           end
 
+          def self.query_column(name)
+            "#{queries}/columns/#{name}"
+          end
+
+          def self.query_group_by(name)
+            "#{queries}/group_bys/#{name}"
+          end
+
+          def self.query_sort_by(name, direction)
+            "#{queries}/sort_bys/#{name}-#{direction}"
+          end
+
+          def self.query_filter(name)
+            "#{queries}/filters/#{name}"
+          end
+
+          def self.query_operator(name)
+            "#{queries}/operators/#{name}"
+          end
+
           def self.relation(id)
             "#{root}/relations/#{id}"
           end
@@ -259,6 +279,21 @@ module API
 
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
+          end
+
+          def self.work_package_schemas(*args)
+            path = "#{root}/work_packages/schemas"
+            if args.empty?
+              path
+            else
+              values = args.map do |project_id, type_id|
+                "#{project_id}-#{type_id}"
+              end
+
+              filter = [{ id: { operator: '=', values: values } }]
+
+              path + "?filters=#{CGI.escape(filter.to_s)}"
+            end
           end
 
           def self.work_package_sums_schema

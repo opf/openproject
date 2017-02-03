@@ -37,7 +37,6 @@ cache:
   bundler: true
   directories:
     - frontend/node_modules
-    - frontend/bower_components
 
 bundler_args: --without development production docker
 

@@ -34,17 +34,29 @@ module API
     module WorkPackages
       class WorkPackagesAPI < ::API::OpenProjectAPI
         resources :work_packages do
-          helpers ::API::V3::WorkPackages::WorkPackageListHelpers
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
           # The enpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
+          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
 
           get do
             authorize(:view_work_packages, global: true)
-            work_packages_by_params
+            service = WorkPackageCollectionFromQueryParamsService
+                      .new(current_user)
+                      .call(params)
+
+            if service.success?
+              service.result
+            else
+              api_errors = service.errors.full_messages.map do |message|
+                ::API::Errors::InvalidQuery.new(message)
+              end
+
+              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            end
           end
 
           post do
@@ -52,7 +64,7 @@ module API
           end
 
           params do
-            requires :id, desc: 'Work package id'
+            requires :id, desc: 'Work package id', type: Integer
           end
           route_param :id do
             helpers WorkPackagesSharedHelpers
@@ -115,7 +127,6 @@ module API
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
           end
 
-          mount ::API::V3::WorkPackages::Schema::WorkPackageSchemasAPI
           mount ::API::V3::WorkPackages::CreateFormAPI
         end
       end

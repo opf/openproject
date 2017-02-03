@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -26,31 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-var fs = require('fs');
-var globSync = require('glob').sync;
-var bodyParser = require('body-parser');
+import {CollectionResource} from './collection-resource.service';
+import {opApiModule} from '../../../../angular-modules';
 
-var express = require('express');
-var railsRoot = __dirname + '/..';
-var appRoot   = __dirname;
-var app = express();
+interface WorkPackageCollectionResourceEmbedded {
+  schemas: CollectionResource;
+}
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+export class WorkPackageCollectionResource extends CollectionResource {
+  public schemas: CollectionResource;
+}
 
-app.use(express.static(appRoot + '/public'));
-app.use('/assets', express.static(railsRoot + '/app/assets/javascripts'));
-app.use('/assets', express.static(railsRoot + '/app/assets/images'));
-app.use('/javascripts', express.static(railsRoot + '/public/javascripts'));
+export interface WorkPackageCollectionResourceInterface extends WorkPackageCollectionResourceEmbedded, WorkPackageCollectionResource {
+}
 
-app.use('/bower_components', express.static(appRoot + '/bower_components'));
+function workPackageCollectionResource() {
+  return WorkPackageCollectionResource;
+}
 
-app.get('/work_packages*', function(req, res) {
-  fs.readFile(appRoot + '/public/index.html', 'utf8', function(err, text) {
-    res.send(text);
-  });
-});
-
-module.exports = app;
+opApiModule.factory('WorkPackageCollectionResource', workPackageCollectionResource);

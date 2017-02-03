@@ -27,9 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-namespace :bower do
-  task :install, :options do |_, args|
-    args.with_defaults(options: '')
-    sh "bower install #{args[:options]}"
+module API
+  module V3
+    module Queries
+      module Filters
+        class QueryFilterDecorator
+          def initialize(filter)
+            self.filter = filter
+          end
+
+          private
+
+          attr_accessor :filter
+        end
+      end
+    end
   end
 end

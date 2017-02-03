@@ -436,6 +436,82 @@ Deletes the work package, as well as:
                 "message": "The specified schema does not exist."
             }
 
+## Work Package Schemas [/api/v3/work_packages/schemas/{?filters}]
+
++ Model
+  + Body
+
+            {
+                "_links": {
+                    "self": { "href": "/api/v3/work_packages/schemas" }
+                },
+                "total": 5,
+                "count": 2,
+                "_type": "Collection",
+                "_embedded": {
+                    "elements": [
+                        {
+                            "_type": "Schema",
+                            "_links": {
+                                "self": { "href": "/api/v3/work_packages/schemas/13-1" }
+                            }
+
+                            <snip>
+
+                        },
+                        {
+                            "_type": "Schema",
+                            "_links": {
+                                "self": { "href": "/api/v3/work_packages/schemas/7-6" }
+                            }
+
+                            <snip>
+
+                        }
+                    ]
+                }
+            }
+
+## List Work Package Schemas [GET]
+
+List work package schemas.
+
++ Parameters
+    + filters (required, string, `[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + id: The schema's id
+
++ Response 200 (application/hal+json)
+
+    [Work Package Schemas][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends invalid request.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": "Unknown filter."
+            }
+
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions.
+
+    **Required permission:** View work packages in any project.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not allowed to list schemas."
+            }
+
 ## Work Package Edit Form [/api/v3/work_packages/{id}/form]
 
 This endpoint returns a form to allow a guided modification of an existing work package.
@@ -533,7 +609,7 @@ For more details and all possible responses see the general specification of [Fo
 
     + groupBy (optional, string, `status`) ... The column to group by.
 
-    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it.
 
 + Response 200 (application/hal+json)
 
@@ -719,7 +795,7 @@ A project link must be set when creating work packages through this route.
 
     + groupBy (optional, string, `status`) ... The column to group by.
 
-    + showSums = `false` (optional), boolean, `true` ... Indicates whether properties should be summed up if they support it.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it.
 
 + Response 200 (application/hal+json)
 

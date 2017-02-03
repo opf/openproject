@@ -245,13 +245,13 @@ and running the `openproject configure` command.
 You can get an SSL certificate for free via Let's Encrypt.
 Here is how you do it using [certbot](https://github.com/certbot/certbot):
 
-    curl https://dl.eff.org/certbot-auto > /usr/local/bin
+    curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto
     chmod a+x /usr/local/bin/certbot-auto
     
-    certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openprojecct.mydomain.com
+    certbot-auto certonly --webroot --webroot-path /opt/openproject/public -d openproject.mydomain.com
 
 This requires your OpenProject server to be available from the Internet on port 443 or 80.
-If this works the certificate (`cert.pem`) and private key (`privkey.pem`) will be created under `/etc/letsencrypt/live/openproject.mydomain.com/`. Configure these for OpenProject to use by running `openproject reconfigure` and choosing yes when the wizard asks for SSL.
+If this works the certificate (`cert.pem`) and private key (`privkey.pem`) will be created under `/etc/letsencrypt/live/openproject.mydomain.com/`.
 
 Now this Let's Encryt certificate is only valid for 90 days. To renew it automatically all you have to do is to add the following entry to your crontab (run `crontab -e`):
 

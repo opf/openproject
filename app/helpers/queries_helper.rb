@@ -47,9 +47,9 @@ module QueriesHelper
   def add_filter_from_params(query, filters: params)
     query.filters = []
     query.add_filters(
-      fields_from_params(query, filters),
-      operators_from_params(query, filters),
-      values_from_params(query, filters)
+      fields_from_params(filters),
+      operators_from_params(filters),
+      values_from_params(filters)
     )
   end
 
@@ -113,11 +113,7 @@ module QueriesHelper
   def column_names_from_params(params)
     names = params[:c] || (params[:query] && params[:query][:column_names])
 
-    if names
-      context = WorkPackage.new
-
-      names.map { |name| converter.to_ar_name name, context: context }
-    end
+    names.map { |name| attribute_converter.to_ar_name name } if names
   end
 
   def visible_queries
@@ -138,24 +134,24 @@ module QueriesHelper
     params[:group_by] || params[:groupBy] || params[:g]
   end
 
-  def fields_from_params(query, params)
-    fix_field_array(query, params[:fields] || params[:f]).compact
+  def fields_from_params(params)
+    fix_field_array(params[:fields] || params[:f]).compact
   end
 
-  def operators_from_params(query, params)
-    fix_field_hash(query, params[:operators] || params[:op])
+  def operators_from_params(params)
+    fix_field_hash(params[:operators] || params[:op])
   end
 
-  def values_from_params(query, params)
-    fix_field_hash(query, params[:values] || params[:v])
+  def values_from_params(params)
+    fix_field_hash(params[:values] || params[:v])
   end
 
-  def fix_field_hash(query, field_hash)
+  def fix_field_hash(field_hash)
     return nil if field_hash.nil?
 
     names = field_hash.keys
     entries = names
-              .zip(fix_field_array(query, names))
+              .zip(fix_field_array(names))
               .select { |_name, field| field.present? }
               .map { |name, field| [field, field_hash[name]] }
 
@@ -178,22 +174,18 @@ module QueriesHelper
   # @param field_names [Array] Field names as read from the params.
   # @return [Array] Returns a list of fixed field names. The list may contain nil values
   #                 for fields which could not be found.
-  def fix_field_array(query, field_names)
+  def fix_field_array(field_names)
     return [] if field_names.nil?
 
-    available_keys = query.available_filters.map(&:name)
-
     field_names
-      .map { |name| converter.to_ar_name name, context: converter_context, refer_to_ids: true }
-      .map { |name| available_keys.find { |k| name =~ /#{k}(s|_id)?$/ } }
+      .map { |name| filter_converter.to_ar_name name, refer_to_ids: true }
   end
 
-  def converter
-    API::Utilities::PropertyNameConverter
+  def filter_converter
+    API::Utilities::QueryFiltersNameConverter
   end
 
-  def converter_context
-    # memoize to reduce overhead of WorkPackage.new
-    @fix_field_array_wp ||= API::Utilities::PropertyNameConverterQueryContext.new
+  def attribute_converter
+    API::Utilities::WpPropertyNameConverter
   end
 end

@@ -64,7 +64,7 @@ describe('AttachmentCollectionResource service', () => {
       beforeEach(() => {
         params = [{}, {}];
         uploadStub = sinon.stub(opFileUpload, 'upload');
-        collection.upload(params);
+        collection.upload((params as any));
       });
 
       it('should upload the files as expected', () => {

@@ -242,6 +242,36 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/queries/1/unstar'
   end
 
+  describe '#query_column' do
+    subject { helper.query_column 'updated_on' }
+
+    it_behaves_like 'api v3 path', '/queries/columns/updated_on'
+  end
+
+  describe '#query_group_by' do
+    subject { helper.query_group_by 'status' }
+
+    it_behaves_like 'api v3 path', '/queries/group_bys/status'
+  end
+
+  describe '#query_sort_by' do
+    subject { helper.query_sort_by 'status', 'desc' }
+
+    it_behaves_like 'api v3 path', '/queries/sort_bys/status-desc'
+  end
+
+  describe '#query_filter' do
+    subject { helper.query_filter 'status' }
+
+    it_behaves_like 'api v3 path', '/queries/filters/status'
+  end
+
+  describe '#query_operator' do
+    subject { helper.query_operator '=' }
+
+    it_behaves_like 'api v3 path', '/queries/operators/='
+  end
+
   describe 'relations paths' do
     describe '#relation' do
       subject { helper.relation 1 }
@@ -275,6 +305,23 @@ describe ::API::V3::Utilities::PathHelper do
       subject { helper.work_package_schema 1, 2 }
 
       it_behaves_like 'api v3 path', '/work_packages/schemas/1-2'
+    end
+
+    describe '#work_package_schemas' do
+      subject { helper.work_package_schemas }
+
+      it_behaves_like 'api v3 path', '/work_packages/schemas'
+    end
+
+    describe '#work_package_schemas with filters' do
+      subject { helper.work_package_schemas [1, 2], [3, 4] }
+
+      def self.filter
+        CGI.escape([{ id: { operator: '=', values: ['1-2', '3-4'] } }].to_s)
+      end
+
+      it_behaves_like 'api v3 path',
+                      "/work_packages/schemas?filters=#{filter}"
     end
 
     describe '#work_package_sums_schema' do

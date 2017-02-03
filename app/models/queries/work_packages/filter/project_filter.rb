@@ -56,6 +56,16 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     :project_id
   end
 
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    visible_projects.select { |p| value_ints.include?(p.id) }
+  end
+
   private
 
   def visible_projects

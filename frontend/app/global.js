@@ -34,44 +34,52 @@
 // See: https://github.com/webpack/style-loader/issues/31
 require('phantomjs-polyfill');
 
-require('jquery');
+// Globally exposed dependencies
+require('expose-loader?jQuery!jquery');
+require('expose-loader?angular!angular');
+require('expose-loader?dragula!dragula');
+require('expose-loader?moment!moment');
+require('expose-loader?mousetrap!mousetrap');
+require('expose-loader?URI!URIjs');
+
 require('jquery-ujs');
-require('jquery-ui/jquery-ui.js');
-require('jquery-ui/ui/i18n/datepicker-en-GB.js');
-require('jquery-ui/ui/i18n/datepicker-de.js');
+
+require('angular-dragula');
+
+require('jquery-ui/ui/core.js');
+require('jquery-ui/ui/widgets/datepicker.js');
+require('jquery-ui/ui/widgets/dialog.js');
+require('jquery-ui/ui/widgets/autocomplete.js');
+require('jquery-ui/ui/widgets/sortable.js');
 require('./misc/datepicker-defaults');
 
-require('dragula');
-require('angular-dragula');
+require('jquery-ui/ui/i18n/datepicker-en-GB.js');
+require('jquery-ui/ui/i18n/datepicker-de.js');
 
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 // TODO: move require to backlogs plugin
+require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/themes/base/dialog.css');
 
-require('moment');
 require('moment/locale/en-gb.js');
 require('moment/locale/de.js');
 
-require('moment-timezone/moment-timezone.js');
-require('moment-timezone/moment-timezone-data.js');
+require('jquery.caret');
+require('at.js/jquery.atwho.min.js');
+require('at.js/jquery.atwho.min.css');
 
-require('jquery.atwho/dist/js/jquery.atwho.js');
-require('jquery.atwho/dist/css/jquery.atwho.css');
+require('moment-timezone/builds/moment-timezone-with-data.min.js');
 
-require('Caret.js/src/jquery.caret.js');
-
-require('select2/select2.js');
+require('select2/select2.min.js');
 require('select2/select2.css');
 
-require('angular');
 require('angular-sanitize');
 
-require('angular-ui-select/dist/select');
-require('angular-ui-select/dist/select.css');
+require('ui-select/dist/select.min.js');
+require('ui-select/dist/select.min.css');
 
 require('ng-dialog/js/ngDialog.min.js');
 require('ng-dialog/css/ngDialog.min.css');
 
-require('expose?URI!URIjs');
 require('URIjs/src/URITemplate');

@@ -34,6 +34,12 @@ module API
     module Queries
       class QueriesAPI < ::API::OpenProjectAPI
         resources :queries do
+          mount API::V3::Queries::Columns::QueryColumnsAPI
+          mount API::V3::Queries::GroupBys::QueryGroupBysAPI
+          mount API::V3::Queries::SortBys::QuerySortBysAPI
+          mount API::V3::Queries::Filters::QueryFiltersAPI
+          mount API::V3::Queries::Operators::QueryOperatorsAPI
+
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
@@ -58,7 +64,15 @@ module API
           route_param :id do
             before do
               @query = Query.find(params[:id])
-              @representer = QueryRepresenter.new(@query, current_user: current_user)
+
+              results_representer = ::API::V3::WorkPackageCollectionFromQueryService
+                                    .new(@query, current_user)
+                                    .call(params)
+
+              @representer = QueryRepresenter.new(@query,
+                                                  current_user: current_user,
+                                                  results: results_representer.result,
+                                                  params: params)
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end

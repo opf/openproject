@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../../angular-modules';
+import {openprojectModule} from '../../../angular-modules';
 
 describe('URI service', () => {
   var URI;
 
-  beforeEach(angular.mock.module(opApiModule.name));
+  beforeEach(angular.mock.module(openprojectModule.name));
   beforeEach(angular.mock.inject(function (_URI_) {
     URI = _URI_;
   }));

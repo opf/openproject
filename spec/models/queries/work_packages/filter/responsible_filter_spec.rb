@@ -132,5 +132,31 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
         end
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:user) { FactoryGirl.build_stubbed(:user) }
+      let(:user2) { FactoryGirl.build_stubbed(:user) }
+
+      before do
+        allow(Principal)
+          .to receive(:find)
+          .with([user.id.to_s, user2.id.to_s])
+          .and_return([user, user2])
+
+        instance.values = [user.id.to_s, user2.id.to_s]
+      end
+
+      it 'returns an array of projects' do
+        expect(instance.value_objects)
+          .to match_array([user, user2])
+      end
+    end
   end
 end

@@ -31,9 +31,7 @@ class Queries::WorkPackages::Filter::CategoryFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
 
   def allowed_values
-    @allowed_values ||= begin
-      project.categories.map { |s| [s.name, s.id.to_s] }
-    end
+    all_project_categories.map { |s| [s.name, s.id.to_s] }
   end
 
   def available?
@@ -51,5 +49,21 @@ class Queries::WorkPackages::Filter::CategoryFilter <
 
   def self.key
     :category_id
+  end
+
+  def value_objects
+    int_values = values.map(&:to_i)
+
+    all_project_categories.select { |c| int_values.include?(c.id) }
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  private
+
+  def all_project_categories
+    @all_project_categories ||= project.categories
   end
 end
