@@ -83,7 +83,7 @@ describe 'create users', type: :feature, selenium: true do
           fill_in 'user_password', with: 'foobarbaz1'
           fill_in 'user_password_confirmation', with: 'foobarbaz1'
 
-          click_button 'Submit'
+          click_button 'Create'
 
           # landed on the 'my page'
           expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'

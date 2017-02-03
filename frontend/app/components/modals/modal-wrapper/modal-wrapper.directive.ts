@@ -34,6 +34,7 @@ export class ModalWrapperController {
   private modalBody: string;
   public modal: any;
   public modalParams: any;
+  public activationLinkId: string;
 
   public iframeSelector = '.iframe-target-wrapper';
 
@@ -48,6 +49,12 @@ export class ModalWrapperController {
               protected $scope,
               protected $attrs: ng.IAttributes,
               protected ngDialog: IDialogService) {
+
+    // Find activation link
+    var activationLink = $element.find('.modal-wrapper--activation-link');
+    if(this.activationLinkId) {
+      activationLink = jQuery(this.activationLinkId);
+    }
 
     // Set template from wrapped element
     const wrappedElement = $element.find('.modal-wrapper--content');
@@ -64,7 +71,7 @@ export class ModalWrapperController {
       this.initialize();
     }
     else {
-      $element.find('.modal-wrapper--activation-link').click(() => this.initialize());
+      activationLink.click(() => this.initialize());
     }
   }
 
@@ -87,7 +94,8 @@ function modalWrapper() {
   return {
     restrict: 'E',
     scope: {
-      modalParams: '='
+      modalParams: '=',
+      activationLinkId: '=?'
     },
     controller: ModalWrapperController,
     controllerAs: '$ctrl',

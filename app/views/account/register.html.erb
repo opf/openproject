@@ -27,71 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% disable_accessibility_css! %>
-<% html_title t(:label_register) %>
-<%= toolbar title: t(:label_register) %>
-
-<%= labelled_tabular_form_for(@user, url: url_for(action: 'register')) do |f| %>
-  <%= back_url_hidden_field_tag %>
-  <%= error_messages_for :user %>
-
-  <section class="form--section">
-    <% if @user.auth_source_id.nil? %>
-      <div class="form--field">
-        <% if Setting.email_login? %>
-          <%= email_field(f) %>
-        <% else %>
-          <%= login_field(f) %>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if @user.change_password_allowed? %>
-      <div class="form--field">
-        <%= f.password_field :password,
-                             required: true,
-                             size: 25,
-                             autocomplete: 'off' %>
-        <div class="form--field-instructions">
-          <%= password_complexity_requirements %>
-        </div>
-      </div>
-      <div class="form--field">
-        <%= f.password_field :password_confirmation,
-                             required: true,
-                             size: 25,
-                             autocomplete: 'off'  %>
-      </div>
-    <% end %>
-
-    <div class="form--field">
-      <%= f.text_field :firstname, required: true %>
-    </div>
-
-    <div class="form--field">
-      <%= f.text_field :lastname,  required: true %>
-    </div>
-
-    <% if registration_show_email? %>
-      <div class="form--field">
-        <%= email_field(f) %>
-      </div>
-    <% end %>
-
-    <%= call_hook :view_account_register_after_basic_information, f: f %>
-    <div class="form--field"><%= f.select(:language, lang_options_for_select) %></div>
-
-    <%= render partial:     'customizable/field',
-               collection:  @user.custom_field_values.select { |v|
-                              v.editable? || v.required?
-                            },
-               as:          :value,
-               locals:      { form: f } %>
-  </section>
-
-  <%= styled_button_tag l(:button_submit), class: '-highlight -with-icon icon-checkmark' %>
-
-  <%= render partial: 'auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
-
-  <%= render partial: 'footer' %>
-<% end %>
+<modal-wrapper initialize="true" modal-params="{ appendClassName: 'registration-modal modal-wrapper' }">
+  <% @user ||= User.new %>
+  <%= render partial: '/account/register' %>
+</modal-wrapper>
