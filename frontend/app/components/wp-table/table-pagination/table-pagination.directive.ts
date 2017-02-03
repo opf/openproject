@@ -1,3 +1,4 @@
+import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,17 +27,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+
 angular
   .module('openproject.workPackages.directives')
   .directive('tablePagination', tablePagination);
 
-function tablePagination(PaginationService) {
+function tablePagination(PaginationService,
+                         wpTableMetadata:WorkPackageTableMetadataService,
+                         I18n:op.I18n) {
   return {
     restrict: 'EA',
     templateUrl: '/components/wp-table/table-pagination/table-pagination.directive.html',
 
     scope: {
-      totalEntries: '=',
       updateResults: '&'
     },
 
@@ -121,11 +125,11 @@ function tablePagination(PaginationService) {
         }
       }
 
-      scope.$watch('totalEntries', function() {
+      wpTableMetadata.metadata.observe(scope).subscribe((metadata:WorkPackageTableMetadata) => {
+        scope.totalEntries = metadata.total;
         updateCurrentRangeLabel();
         updatePageNumbers();
       });
-
     }
   };
 }

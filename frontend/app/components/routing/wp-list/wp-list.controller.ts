@@ -139,6 +139,11 @@ function WorkPackagesListController($scope,
     let meta = json.meta;
     let metadata = new WorkPackageTableMetadata(json);
 
+    // pagination data
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+
     // Update the current metadata state
     states.table.metadata.put(metadata);
 
@@ -148,11 +153,6 @@ function WorkPackagesListController($scope,
     // query data
     // QueryService.setTotalEntries(json.resource.total);
 
-    // pagination data
-    // PaginationService.setPerPageOptions(meta.per_page_options);
-    // PaginationService.setPerPage(meta.per_page);
-    // PaginationService.setPage(meta.page);
-
     // yield updatable data to scope
     Observable.combineLatest(
       states.table.columns.observe(null),
@@ -161,7 +161,6 @@ function WorkPackagesListController($scope,
       $scope.columns = wpTableColumns.getColumns();
     });
 
-    // $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     // $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
     // $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);

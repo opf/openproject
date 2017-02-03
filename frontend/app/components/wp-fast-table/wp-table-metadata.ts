@@ -47,7 +47,7 @@ export class WorkPackageTableMetadata {
     this.exportFormats = meta.export_formats;
 
     // Pagination
-    this.total = json.total;
+    this.total = json.resource.total;
     this.pagination = {
       page: meta.page,
       perPage: meta.per_page,

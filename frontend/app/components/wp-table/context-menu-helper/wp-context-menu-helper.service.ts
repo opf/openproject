@@ -36,7 +36,8 @@ function WorkPackageContextMenuHelper(
   PERMITTED_BULK_ACTIONS,
   wpTableMetadata:WorkPackageTableMetadataService,
   HookService,
-  UrlParamsHelper) {
+  UrlParamsHelper,
+  I18n:op.I18n) {
 
   function getPermittedActionLinks(workPackage, permittedActionConstants) {
     var singularPermittedActions = [];
@@ -62,7 +63,7 @@ function WorkPackageContextMenuHelper(
         return getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
-    angular.forEach(permittedActions, function(permittedAction) {
+    angular.forEach(permittedActions, function(permittedAction:any) {
       bulkPermittedActions.push({
         icon: permittedAction.icon,
         text: permittedAction.text,
