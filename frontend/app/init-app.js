@@ -26,22 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-require('angular-animate');
-require('angular-aria');
-require('angular-modal');
+// Globally exposed dependencies
+require('./vendors');
 
-// depends on the html element having a 'lang' attribute
-var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
-require('angular-i18n/angular-locale_' + documentLang + '.js');
-
-require('angular-ui-router');
-
-require('angular-truncate');
-
-require('angular-context-menu');
-require('angular-elastic');
-require('angular-cache');
-require('ngFileUpload');
+// Styles for global dependencies
+require('at.js/jquery.atwho.min.css');
+require('select2/select2.css');
+require('ui-select/dist/select.min.css');
+require('ng-dialog/css/ngDialog.min.css');
+require('jquery-ui/themes/base/core.css');
+require('jquery-ui/themes/base/datepicker.css');
+require('jquery-ui/themes/base/dialog.css');
+require('nouislider/distribute/nouislider.min.css');
 
 var opApp = require('./angular-modules.ts').default;
 

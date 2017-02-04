@@ -107,6 +107,7 @@
     "webpack": "^2.2.0"
   },
   "scripts": {
+    "postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
     "pretest": "npm run webpack-with-test",
     "test": "npm run karma",
     "karma": "./scripts/karma-runner.js",
