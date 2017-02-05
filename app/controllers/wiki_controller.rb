@@ -371,12 +371,12 @@ class WikiController < ApplicationController
     end
   end
 
-  def current_menu_item_sym(page, symbol_postfix = '')
+  def current_menu_item_sym(page)
     menu_item = send(page).try(:nearest_menu_item)
 
-    menu_item.present? ?
-      :"#{menu_item.item_class}#{symbol_postfix}" :
-      nil
+    if menu_item.present?
+      menu_item.menu_identifier
+    end
   end
 
   protected

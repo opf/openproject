@@ -41,7 +41,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the first child in
   # the current list of children for the receiver node.
   def prepend(child)
-    raise 'Child already added' if @children_hash.has_key?(child.name)
+    raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children = [child] + @children
@@ -53,7 +53,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added at the position
   # into the current list of children for the receiver node.
   def add_at(child, position)
-    raise 'Child already added' if @children_hash.has_key?(child.name)
+    raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children = @children.insert(position, child)
@@ -62,7 +62,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   end
 
   def add_last(child)
-    raise 'Child already added' if @children_hash.has_key?(child.name)
+    raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
     @children_hash[child.name]  = child
     @children << child
@@ -75,6 +75,8 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   # parent is set to be the receiver.  The child is added as the last child in
   # the current list of children for the receiver node.
   def add(child)
+    raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
+
     @children_hash[key!(child)] = child
     position = @children.size - @last_items_count
     @children.insert(position, child)
