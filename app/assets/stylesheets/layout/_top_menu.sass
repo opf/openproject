@@ -48,7 +48,8 @@
   padding: 0
   z-index: 22
   position: relative
-  border-bottom: $header-border-bottom-width solid $header-border-bottom-color
+  border-bottom: $header-border-bottom-width solid      $header-border-bottom-color
+  border-bottom: $header-border-bottom-width solid var(--header-border-bottom-color)
 
   %absolute-layout-mode &
     position: absolute
@@ -80,7 +81,9 @@
       padding: 0 15px 0 15px
 
     > a:hover
-      background: $header-item-bg-hover-color
+      background:      $header-item-bg-hover-color
+      background: var(--header-item-bg-hover-color)
+
       color: $header-item-font-hover-color
     > ul
       top: $header-height + $header-border-bottom-width
@@ -120,9 +123,11 @@
         padding: 0 0 0 9px
         @extend .icon-pulldown:before
     &:hover
-      background-color: $header-item-bg-hover-color
+      background-color:      $header-item-bg-hover-color
+      background-color: var(--header-item-bg-hover-color)
     &.open > a
-      background-color: $header-item-bg-hover-color
+      background-color:      $header-item-bg-hover-color
+      background-color: var(--header-item-bg-hover-color)
       color: $header-item-font-hover-color
       &:after
         @include icon-common
@@ -135,7 +140,8 @@
         color: $header-drop-down-item-font-color
         padding: 0 15px
         &:hover
-          background: $header-item-bg-hover-color
+          background:      $header-item-bg-hover-color
+          background: var(--header-item-bg-hover-color)
           color: $header-drop-down-item-font-hover-color
 
     > ul
@@ -212,7 +218,8 @@
   .top-menu-search.-collapsed &
     display: block
     &:hover
-      background: $header-item-bg-hover-color
+      background:      $header-item-bg-hover-color
+      background: var(--header-item-bg-hover-color)
       color: $header-item-font-hover-color
 
 input.top-menu-search--input
@@ -277,7 +284,8 @@ input.top-menu-search--input
     padding: 0
 
     .select2-highlighted
-      background: $primary-color !important
+      background:      $primary-color !important
+      background: var(--primary-color) !important
       border-radius: 0 !important
       font-weight: bold !important
       color: $font-color-on-primary

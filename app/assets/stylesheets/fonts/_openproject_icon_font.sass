@@ -45,7 +45,8 @@ $icon-font-file-formats: eot woff ttf
 
 @mixin icon-rules
   padding: 10px 5px 0 10px
-  color: $content-icon-color
+  color:      $content-icon-color
+  color: var(--content-icon-color)
 
 @mixin icon2-rules
   padding: 0 20px 0 7px
@@ -70,7 +71,8 @@ $icon-font-file-formats: eot woff ttf
 
 @mixin icon-context-rules
   @include icon-context-padding
-  color: $content-icon-color
+  color:      $content-icon-color
+  color: var(--content-icon-color)
 
 @mixin icon-table-rules
   padding: 0
