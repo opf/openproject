@@ -29,29 +29,8 @@
 $toggler-width: 40px
 
 @mixin highlight-left-item-border
-  border-left: $main-menu-selected-hover-indicator-width solid $main-menu-selected-hover-indicator-color
-
-@mixin toggle-menu-item-background($bg-color: $main-menu-bg-hover-selected-background, $color: $main-menu-selected-font-color)
-  @include default-transition
-
-  &:hover
-    background: $bg-color
-
-    @if $main-menu-enable-toggle-highlighting != true
-      // simultaneously hover all menu item anchor tags
-      > a
-        color: $color
-
-  > a
-    @include default-transition
-    cursor: pointer
-    text-decoration: none
-
-    &.selected, &.selected + a
-      background: $bg-color
-
-    &:hover, &.selected, &.selected + a
-      color: $color
+  border-left: $main-menu-selected-hover-indicator-width solid      $main-menu-selected-hover-indicator-color
+  border-left: $main-menu-selected-hover-indicator-width solid var(--main-menu-selected-hover-indicator-color)
 
 #main-menu
   bottom: auto
@@ -81,7 +60,31 @@ $toggler-width: 40px
 
         .main-item-wrapper
           display: flex
-          +toggle-menu-item-background
+
+          @include default-transition
+
+          &:hover
+            background: $main-menu-bg-hover-selected-background
+            background: var(--main-menu-bg-hover-selected-background)
+
+            @if $main-menu-enable-toggle-highlighting != true
+              // simultaneously hover all menu item anchor tags
+              > a
+                color: $main-menu-selected-font-color
+
+          > a
+            @include default-transition
+            cursor: pointer
+            text-decoration: none
+
+            &.selected, &.selected + a
+              background:      $main-menu-bg-hover-selected-background
+              background: var(--main-menu-bg-hover-selected-background)
+
+            &:hover, &.selected, &.selected + a
+              color: $main-menu-selected-font-color
+
+
 
           // left item border hover / selected effect
           &:hover
@@ -147,7 +150,29 @@ $toggler-width: 40px
       &.unattached
         border-top: 1px solid #ddd
       li
-        +toggle-menu-item-background($main-menu-child-bg-hover-selected-color, $main-menu-child-selected-font-color)
+        @include default-transition
+
+        &:hover
+          background:      $main-menu-child-bg-hover-selected-color
+          background: var(--main-menu-child-bg-hover-selected-color)
+
+          @if $main-menu-enable-toggle-highlighting != true
+            // simultaneously hover all menu item anchor tags
+            > a
+              color: $main-menu-child-selected-font-color
+
+        > a
+          @include default-transition
+          cursor: pointer
+          text-decoration: none
+
+          &.selected, &.selected + a
+            background:      $main-menu-child-bg-hover-selected-color
+            background: var(--main-menu-child-bg-hover-selected-color)
+
+
+          &:hover, &.selected, &.selected + a
+            color: $main-menu-child-selected-font-color
 
         a
           padding-left: 10px

@@ -44,6 +44,17 @@ See doc/COPYRIGHT.rdoc for more details.
   :root {
   <%  DesignColor.overwritten.each do |design_color| %>
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
+    <% if design_color.variable == "primary-color" %>
+
+    <% end %>
+    <% if design_color.variable == "primary-color-dark" %>
+      --main-menu-child-bg-hover-selected-color:  <%= design_color.hexcode %>;
+      --main-menu-selected-hover-indicator-color: <%= design_color.hexcode %>;
+      --main-menu-bg-hover-selected-background: url() no-repeat <%= design_color.hexcode %>;
+    <% end %>
+    <% if design_color.variable == "alternative-color" %>
+
+    <% end %>
   <% end %>
   }
 
