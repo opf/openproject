@@ -236,19 +236,21 @@ export class WpTimelineHeader {
 
   private renderLabelsDays(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format("MMM");
+      cell.innerHTML = start.format("MMM YYYY");
       cell.style.borderTop = `1px solid ${colorGrey1}`;
+      cell.style.fontWeight = "bold";
+      cell.style.fontSize = "10px";
     });
 
-    this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "week", 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
       cell.style.zIndex = "2";
-      cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
-    this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "day", 23, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.zIndex = "1";
@@ -256,70 +258,75 @@ export class WpTimelineHeader {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
-    this.renderTimeSlices(vp, "day", 30, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "day", 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("dd");
-      // cell.style.borderBottom = `1px solid ${colorGrey1}`;
       cell.style.height = "15px";
-      cell.style.paddingTop = "3px";
+      cell.style.paddingTop = "1px";
     });
   }
 
   private renderLabelsWeeks(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.innerHTML = start.format("MMM");
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
+      cell.innerHTML = start.format("MMM YYYY");
     });
 
     this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey1}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
       cell.style.zIndex = "2";
     });
 
     this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
-      cell.style.borderColor = "#CCCCCC";
+      cell.style.borderColor = `${colorGrey1}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
-      cell.style.borderBottom = "1px solid black";
     });
   }
 
   private renderLabelsMonths(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
     });
 
     this.renderTimeSlices(vp, "month", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey2}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
     this.renderTimeSlices(vp, "week", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
-      cell.style.borderColor = "#CCCCCC";
+      cell.style.borderColor = `${colorGrey1}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
-      cell.style.borderBottom = "1px solid black";
       cell.style.backgroundColor = "white";
     });
   }
 
   private renderLabelsQuarters(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
     });
 
     this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey2}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
     this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
-      cell.style.borderColor = "#000000";
       cell.style.height = "25px";
-      cell.style.borderBottom = "1px solid black";
+      cell.style.borderColor = `${colorGrey2}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.backgroundColor = "white";
     });
   }
@@ -327,20 +334,23 @@ export class WpTimelineHeader {
   private renderLabelsYears(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("YYYY");
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
+      cell.style.borderColor = `${colorGrey1}`;
       cell.style.backgroundColor = "white";
     });
 
     this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey2}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
     this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("M");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey2}`;
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
-      cell.style.borderBottom = "1px solid black";
       cell.style.backgroundColor = "white";
     });
   }
