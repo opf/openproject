@@ -19,7 +19,7 @@ export class States {
     // (page, links, grouping information)
     metadata: new State<WorkPackageTableMetadata>(),
     // Set of work package IDs in strict order of appearance
-    rows: new State<string[]>(),
+    rows: new State<WorkPackageResource[]>(),
     // Set of columns in strict order of appearance
     columns: new State<string[]>(),
     // Table row selection state

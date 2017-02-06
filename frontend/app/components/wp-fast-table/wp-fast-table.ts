@@ -58,18 +58,17 @@ export class WorkPackageTable {
    */
   private buildIndex(rows) {
     this.rowIndex = {};
-    rows.forEach((wpId:string, i:number) => {
-      let wp = this.states.workPackages.get(wpId).getCurrentValue();
+    this.rows = rows.map((wp:WorkPackageResource, i:number) => {
+      let wpId = wp.id;
       this.rowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
+      return wpId;
     });
-
-    this.rows = rows;
   }
   /**
    *
    * @param rows
    */
-  public initialSetup(rows:string[]) {
+  public initialSetup(rows:WorkPackageResource[]) {
     // Build the row representation
     this.buildIndex(rows);
 

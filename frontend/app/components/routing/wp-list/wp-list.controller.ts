@@ -39,6 +39,7 @@ function WorkPackagesListController($scope,
                                     $rootScope,
                                     $state,
                                     $location,
+                                    $q,
                                     states:States,
                                     wpNotificationsService:WorkPackageNotificationService,
                                     wpTableColumns:WorkPackageTableColumnsService,
@@ -148,7 +149,9 @@ function WorkPackagesListController($scope,
     states.table.metadata.put(metadata);
 
     // register data in state
-    states.table.rows.put(json.work_packages.map(wp => wp.id));
+    $q.all(json.work_packages.map(wp => wp.schema.$load())).then(() => {
+      states.table.rows.put(json.work_packages);
+    });
 
     // query data
     // QueryService.setTotalEntries(json.resource.total);

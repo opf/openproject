@@ -12,7 +12,7 @@ export class RowsTransformer {
 
     // Redraw table if the current row state changed
     this.states.table.rows.observe(null)
-      .subscribe((rows:string[]) => {
+      .subscribe((rows:WorkPackageResource[]) => {
       var t0 = performance.now();
 
       table.initialSetup(rows);
