@@ -27,6 +27,9 @@ export class WorkPackageTableMetadata {
   // Groupable columns
   public groupableColumns:api.ex.Column[];
 
+  // Sums
+  public totalSums:{[attribute:string]: any};
+
   // Export formats
   public exportFormats:api.ex.ExportFormat[];
 
@@ -37,6 +40,9 @@ export class WorkPackageTableMetadata {
     this.groupBy = meta.query.groupBy;
     this.groups = json.resource.groups;
     this.groupableColumns = meta.groupable_columns;
+
+    // Sums
+    this.totalSums = json.resource.totalSums;
 
     // Links
     this.links = json._links;

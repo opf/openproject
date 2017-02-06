@@ -20,7 +20,7 @@ export class WorkPackageTable {
   public rows: string[] = [];
   public rowIndex:{[id: string]: WorkPackageTableRow} = {};
 
-
+  // WP rows builder
   private groupedRowsBuilder = new GroupedRowsBuilder();
   private emptyRowsBuilder = new EmptyRowsBuilder();
   private plainRowsBuilder = new PlainRowsBuilder();

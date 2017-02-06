@@ -22,6 +22,10 @@ export class WorkPackageTableMetadataService {
     return !!_.find(this.current.groupableColumns, (column) => column.name === name);
   }
 
+  public showSums():boolean {
+    return !!this.current.totalSums;
+  }
+
   /**
    * Get current selection state.
    * @returns {WPTableRowSelectionState}

@@ -36,10 +36,22 @@
           </th>
         </tr>
       </thead>
-
       <tbody>
       </tbody>
       <tfoot>
+        <tr ng-if="sumsLoaded()"
+            class="sum group all issue work_package">
+          <td ng-repeat="column in columns">
+            <div class="generic-table--footer-outer">
+              <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
+              <wp-display-attr
+                    attribute="column.name"
+                    custom-schema="resource.sumsSchema"
+                    work-package="resource.totalSums">
+              </wp-display-attr>
+            </div>
+          </td>
+        </tr>
       </tfoot>
     </table>
     <div class="generic-table--header-background"></div>
