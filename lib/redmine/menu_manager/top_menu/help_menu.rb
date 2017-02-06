@@ -83,7 +83,7 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
     }
-    if EnterpriseToken.show_banners
+    if EnterpriseToken.show_banners?
       result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
     end
     result << static_link_item(:user_guides)

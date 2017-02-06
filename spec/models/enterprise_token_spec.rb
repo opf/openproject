@@ -6,6 +6,7 @@ RSpec.describe EnterpriseToken, type: :model do
 
   before do
     RequestStore.delete :current_ee_token
+    allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(true)
   end
 
   describe 'existing token' do
@@ -20,7 +21,7 @@ RSpec.describe EnterpriseToken, type: :model do
         expect(EnterpriseToken.count).to eq(1)
         expect(EnterpriseToken.current).to eq(subject)
         expect(EnterpriseToken.current.encoded_token).to eq('foo')
-        expect(EnterpriseToken.show_banners).to eq(false)
+        expect(EnterpriseToken.show_banners?).to eq(false)
 
         # Deleting it updates the current token
         EnterpriseToken.current.destroy!
@@ -74,7 +75,7 @@ RSpec.describe EnterpriseToken, type: :model do
 
       it 'has an expired token' do
         expect(EnterpriseToken.current).to eq(subject)
-        expect(EnterpriseToken.show_banners).to eq(true)
+        expect(EnterpriseToken.show_banners?).to eq(true)
       end
     end
 
@@ -89,14 +90,23 @@ RSpec.describe EnterpriseToken, type: :model do
   describe 'no token' do
     it do
       expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners).to eq(true)
+      expect(EnterpriseToken.show_banners?).to eq(true)
     end
   end
 
   describe 'invalid token' do
     it 'appears as if no token is shown' do
       expect(EnterpriseToken.current).to be_nil
-      expect(EnterpriseToken.show_banners).to eq(true)
+      expect(EnterpriseToken.show_banners?).to eq(true)
     end
   end
+
+  describe "Configuration file has `ee_manager_visible` set to false" do
+
+    it 'does not show banners promoting EE' do
+      expect(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
+      expect(EnterpriseToken.show_banners?).to be_falsey
+    end
+  end
+
 end

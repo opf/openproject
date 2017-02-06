@@ -37,8 +37,8 @@ class EnterpriseToken < ActiveRecord::Base
       Authorization::EnterpriseService.new(current).call(action).result
     end
 
-    def show_banners
-      !current || current.expired?
+    def show_banners?
+      OpenProject::Configuration.ee_manager_visible? && (!current || current.expired?)
     end
 
     def set_current_token
