@@ -31,6 +31,7 @@ export interface GroupObject {
   count:number;
   collapsed?:boolean;
   index?:number;
+  identifier?:string;
   href:string;
   _links?: {
     valueLink: { href:string };

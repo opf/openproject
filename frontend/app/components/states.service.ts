@@ -25,7 +25,7 @@ export class States {
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
     // Current state of collapsed groups (if any)
-    collapsedGroups: new State<{[index:string]: boolean}>(),
+    collapsedGroups: new State<{[identifier:string]: boolean}>(),
     // State to be updated when the table is up to date
     rendered:new State<WorkPackageTable>()
   };

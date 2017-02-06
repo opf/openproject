@@ -32,10 +32,10 @@ export class GroupRowHandler implements TableEventHandler {
 
     console.log('GROUP HEADER CLICK!');
     let groupHeader = jQuery(evt.target).parents(`.${rowGroupClassName}`);
-    let groupIndex = groupHeader.data('groupIndex');
+    let groupIdentifier = groupHeader.data('groupIdentifier');
     let state = this.collapsedState.getCurrentValue() || {};
 
-    state[groupIndex] = !state[groupIndex];
+    state[groupIdentifier] = !state[groupIdentifier];
     this.collapsedState.put(state);
 
     // Refresh groups

@@ -34,8 +34,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * @param table
    */
   public buildRows(table:WorkPackageTable) {
-    let groups = this.getGroupData(table.metaData.groups);
     let groupBy = table.metaData.groupBy;
+    let groups = this.getGroupData(groupBy, table.metaData.groups);
 
     // Remember the colspan for the group rows from the current column count
     // and add one for the details link.
@@ -81,7 +81,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Refresh the group expansion state
    */
   public refreshExpansionState(table) {
-    let groups = this.getGroupData(table.metaData.groups);
+    let groups = this.getGroupData(table.metaData.groupBy, table.metaData.groups);
     let colspan = this.wpTableColumns.columnCount + 1;
 
     jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:HTMLElement) => {
@@ -100,15 +100,16 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Augment the given groups with the current collapsed state data.
    */
-  public getGroupData(groups:GroupObject[]) {
-    let expandedState = this.states.table.collapsedGroups.getCurrentValue() || {};
+  public getGroupData(groupBy:string, groups:GroupObject[]) {
+    let collapsedState = this.states.table.collapsedGroups.getCurrentValue() || {};
 
     return groups.map((group:GroupObject, index:number) => {
-      group.collapsed = expandedState[index.toString()] === true;
       group.index = index;
       if (group._links && group._links.valueLink) {
         group.href = group._links.valueLink.href;
       }
+      group.identifier = this.groupIdentifier(groupBy, group);
+      group.collapsed = collapsedState[group.identifier] === true;
       return group;
     });
   }
@@ -118,6 +119,10 @@ export class GroupedRowsBuilder extends RowsBuilder {
    */
   public buildEmptyRow(row, table):HTMLElement {
     return this.buildSingleRow(row);
+  }
+
+  public groupIdentifier(groupBy, group:GroupObject) {
+    return `${groupBy}-${group.href || group.value || 'nullValue'}`;
   }
 
   /**
@@ -153,6 +158,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     row.classList.add(rowGroupClassName);
     row.id = `wp-table-rowgroup-${group.index}`;
     row.dataset['groupIndex'] = group.index.toString();
+    row.dataset['groupIdentifier'] = group.identifier;
     row.innerHTML = `
       <td colspan="${colspan}">
         <div class="expander icon-context ${togglerIconClass}">
