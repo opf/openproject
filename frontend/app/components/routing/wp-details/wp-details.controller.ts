@@ -1,3 +1,4 @@
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,10 +34,20 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
 
   constructor(public $injector,
               public $scope,
+              public wpTableSelection:WorkPackageTableSelection,
               public $rootScope,
               public $state) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
+
+    let wpId = $state.params['workPackageId'];
+    let focusState = this.states.focusedWorkPackage;
+    let focusedWP = focusState.getCurrentValue();
+
+    if (!focusedWP) {
+      focusState.put(wpId);
+      this.wpTableSelection.setRowState(wpId, true);
+    }
 
     this.states.focusedWorkPackage.observe($scope).subscribe((wpId) => {
       if ($state.includes('work-packages.list.details')) {

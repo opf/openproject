@@ -72,7 +72,7 @@ export class WorkPackageTable {
     this.refreshBody();
 
     // Preselect first work package as focused
-    if (this.rows.length) {
+    if (this.rows.length && this.states.focusedWorkPackage.isPristine()) {
       this.states.focusedWorkPackage.put(this.rows[0]);
     }
   }
