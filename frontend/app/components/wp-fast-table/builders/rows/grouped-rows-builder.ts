@@ -164,7 +164,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
         <div class="expander icon-context ${togglerIconClass}">
           <span class="hidden-for-sighted">${_.escape(text)}</span>
         </div>
-        <div>
+        <div class="group--value">
           ${_.escape(this.groupName(group))}
           <span class="count">
             (${group.count})
