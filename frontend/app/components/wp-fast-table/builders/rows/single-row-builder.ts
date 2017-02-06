@@ -1,3 +1,5 @@
+import {WorkPackageTable} from '../../wp-fast-table';
+import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {States} from '../../../states.service';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {CellBuilder} from '../cell-builder';
@@ -15,9 +17,9 @@ export class SingleRowBuilder {
   public I18n:op.I18n;
 
   // Cell builder instance
-  private cellBuilder = new CellBuilder();
+  protected cellBuilder = new CellBuilder();
   // Details Link builder
-  private detailsLinkBuilder = new DetailsLinkBuilder();
+  protected detailsLinkBuilder = new DetailsLinkBuilder();
 
   constructor() {
     injectorBridge(this);

@@ -1,3 +1,4 @@
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,11 +34,14 @@ import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {locateRow} from '../wp-fast-table/helpers/wp-table-row-helpers';
+import {States} from '../states.service';
 
 export class TableRowEditContext implements WorkPackageEditContext {
   // Injections
   public wpCacheService:WorkPackageCacheService;
   public wpTableColumns:WorkPackageTableColumnsService;
+  public states:States;
+  public $rootScope:ng.IRootScopeService;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
@@ -61,13 +65,21 @@ export class TableRowEditContext implements WorkPackageEditContext {
     element.replaceWith(newCell);
   }
 
-  public requireVisible(name:string) {
+  public requireVisible(name:string):Promise<JQuery> {
     this.wpTableColumns.addColumn(name);
+    let updated = this.states.table.rendered.observe(null).take(1).toPromise();
+    return updated.then(() => {
+      return this.find(name);
+    })
   }
 
   public firstField(names:string[]) {
     return 'subject';
   }
+
+  public onSaved(workPackage:WorkPackageResource) {
+    this.$rootScope.$emit('workPackagesRefreshInBackground');
+  }
 }
 
-TableRowEditContext.$inject = ['wpCacheService', 'wpTableColumns'];
+TableRowEditContext.$inject = ['wpCacheService', 'states', 'wpTableColumns', '$rootScope'];

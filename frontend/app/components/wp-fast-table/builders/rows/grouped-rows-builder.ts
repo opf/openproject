@@ -1,3 +1,4 @@
+import {RowsBuilder} from './rows-builder';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {groupedRowClassName} from '../../helpers/wp-table-row-helpers';
@@ -5,21 +6,21 @@ import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.servi
 import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {GroupObject, RowsBuilderInterface} from '../../wp-table.interfaces';
+import {GroupObject} from '../../wp-table.interfaces';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
 
-export class GroupedRowsBuilder implements RowsBuilderInterface {
+export class GroupedRowsBuilder extends RowsBuilder {
   // Injections
   public states:States;
   public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
 
-  private rowBuilder = new SingleRowBuilder();
   private text:any;
 
   constructor() {
+    super();
     injectorBridge(this);
 
     this.text = {
@@ -115,7 +116,7 @@ export class GroupedRowsBuilder implements RowsBuilderInterface {
   /**
    * Redraw a single row, while maintain its group state.
    */
-  public redrawRow(row, table):HTMLElement {
+  public buildEmptyRow(row, table):HTMLElement {
     return this.buildSingleRow(row);
   }
 

@@ -32,7 +32,7 @@ export interface WorkPackageEditContext {
   /**
    * Show this required field. E.g., add the necessary column
    */
-  requireVisible(fieldName:string);
+  requireVisible(fieldName:string):Promise<JQuery>;
 
   /**
    * Reset the field and re-render the current WPs value.
@@ -48,4 +48,9 @@ export interface WorkPackageEditContext {
    * Return the first relevant field from the given list of attributes.
    */
   firstField(names:string[]):string;
+
+  /**
+   * Callback after a work package is saved through the form
+   */
+  onSaved(workPackage:WorkPackageResource);
 }

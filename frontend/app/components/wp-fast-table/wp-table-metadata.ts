@@ -20,9 +20,6 @@ export class WorkPackageTableMetadata {
   // Total number of results
   public total:number;
 
-  // Pagination object
-  public pagination:TablePaginationOptions;
-
   // Available links returned from collection resource
   public links:{ [name:string]: string };
   public bulkLinks:{ [name:string]: string };
@@ -48,11 +45,6 @@ export class WorkPackageTableMetadata {
 
     // Pagination
     this.total = json.resource.total;
-    this.pagination = {
-      page: meta.page,
-      perPage: meta.per_page,
-      perPageOptions: meta.per_page_options
-    };
   }
 
   /**

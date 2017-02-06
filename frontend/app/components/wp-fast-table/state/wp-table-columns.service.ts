@@ -128,10 +128,10 @@ export class WorkPackageTableColumnsService {
       position = columns.length;
     }
 
-    // TODO check for invalid column
-
-    columns.splice(position, 0, name);
-    this.columnsState.put(columns);
+    if (this.index(name) === -1) {
+      columns.splice(position, 0, name);
+      this.columnsState.put(columns);
+    }
   }
 
   /**

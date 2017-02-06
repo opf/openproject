@@ -1,3 +1,4 @@
+import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
 import {WPTableRowSelectionState, WorkPackageTableRow} from './wp-fast-table/wp-table.interfaces';
 import {MultiState, initStates, State} from "../helpers/reactive-fassade";
 import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resource.service";
@@ -17,14 +18,16 @@ export class States {
     // Metadata of the current table result
     // (page, links, grouping information)
     metadata: new State<WorkPackageTableMetadata>(),
-    // Set of rows in strict order of appearance
-    rows: new State<WorkPackageResource[]>(),
+    // Set of work package IDs in strict order of appearance
+    rows: new State<string[]>(),
     // Set of columns in strict order of appearance
     columns: new State<string[]>(),
     // Table row selection state
     selection: new State<WPTableRowSelectionState>(),
     // Current state of collapsed groups (if any)
     collapsedGroups: new State<{[index:string]: boolean}>(),
+    // State to be updated when the table is up to date
+    rendered:new State<WorkPackageTable>()
   };
 
   // Query states

@@ -44,8 +44,3 @@ export interface WPTableRowSelectionState {
   // required for shift-offsets
   activeRowIndex: number | null;
 }
-
-export interface RowsBuilderInterface {
-  buildRows(table:WorkPackageTable):DocumentFragment;
-  redrawRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement;
-}

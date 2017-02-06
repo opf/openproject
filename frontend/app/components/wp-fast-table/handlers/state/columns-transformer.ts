@@ -11,9 +11,16 @@ export class ColumnsTransformer {
 
     this.states.table.columns.observe(null).subscribe(() => {
       if (table.rows.length > 0) {
+
         var t0 = performance.now();
-        table.refreshBody();
+        // Redraw all visible rows without reloading the table
+        table.rows.forEach((wpId) => {
+          let row = table.rowIndex[wpId];
+          table.refreshRow(row);
+        });
+        table.postRender();
         var t1 = performance.now();
+
         console.log("column redraw took " + (t1 - t0) + " milliseconds.");
       }
     });

@@ -1,10 +1,11 @@
-import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
+import {RowsBuilder} from './builders/rows/rows-builder';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 import {States} from '../states.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 
-import {RowsBuilderInterface, WorkPackageTableRow} from './wp-table.interfaces';
+import {WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
 import {GroupedRowsBuilder} from './builders/rows/grouped-rows-builder';
@@ -21,8 +22,8 @@ export class WorkPackageTable {
 
 
   private groupedRowsBuilder = new GroupedRowsBuilder();
-  private plainRowsBuilder = new PlainRowsBuilder();
   private emptyRowsBuilder = new EmptyRowsBuilder();
+  private plainRowsBuilder = new PlainRowsBuilder();
 
   constructor(public tbody:HTMLElement) {
     injectorBridge(this);
@@ -40,7 +41,7 @@ export class WorkPackageTable {
     return this.states.table.metadata.getCurrentValue();
   }
 
-  public get rowBuilder():RowsBuilderInterface {
+  public get rowBuilder():RowsBuilder {
     if (this.rows.length === 0) {
       return this.emptyRowsBuilder;
     }
@@ -57,17 +58,18 @@ export class WorkPackageTable {
    */
   private buildIndex(rows) {
     this.rowIndex = {};
-    this.rows = rows.map((wp:WorkPackageResource, i:number) => {
-      let id = wp.id;
-      this.rowIndex[id] = <WorkPackageTableRow> { object: wp, workPackageId: id, position: i };
-      return id;
+    rows.forEach((wpId:string, i:number) => {
+      let wp = this.states.workPackages.get(wpId).getCurrentValue();
+      this.rowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
     });
+
+    this.rows = rows;
   }
   /**
    *
    * @param rows
    */
-  public initialSetup(rows:WorkPackageResource[]) {
+  public initialSetup(rows:string[]) {
     // Build the row representation
     this.buildIndex(rows);
 
@@ -92,28 +94,24 @@ export class WorkPackageTable {
   }
 
   /**
-   * Refreshes a single entity.
+   * Redraw a single row after structural changes
    */
-  public refreshWorkPackage(row:WorkPackageTableRow) {
-    // If the work package is dirty, we're working on it
-    if (row.object.dirty) {
-      console.log("Skipping row " + row.workPackageId + " since its dirty");
-      return;
-    }
-
-    // Get the row for the WP if refreshing existing
+  public refreshRow(row:WorkPackageTableRow) {
+    // Find the row we want to replace
     let oldRow = row.element || locateRow(row.workPackageId);
-
-    if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
-      console.log("Skipping row " + row.workPackageId + " since its fresh");
-      return;
-    }
-
-    let newRow = this.rowBuilder.redrawRow(row, this);
+    let newRow = this.rowBuilder.refreshRow(row, this);
     oldRow.parentNode.replaceChild(newRow, oldRow);
+
     row.element = newRow;
+    this.rowIndex[row.workPackageId] = row;
   }
 
+  /**
+   * Update the rendered state that the table is now refreshed.
+   */
+  public postRender() {
+    this.states.table.rendered.put(this);
+  }
 }
 
 WorkPackageTable.$inject = ['wpCacheService', 'states', 'I18n'];

@@ -115,6 +115,8 @@ export class WorkPackageEditForm {
         // TODO do in subform
         // this.successHandler({workPackage: this.workPackage, fields: this.fields});
 
+        this.editContext.onSaved(this.workPackage);
+
         // Destroy this form
         this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
      })
@@ -161,8 +163,9 @@ export class WorkPackageEditForm {
         _.pull(validFields, fieldName);
       } else {
         // Field does not exist, show it (e.g, add column in table)
-        this.editContext.requireVisible(fieldName);
-        this.activate(fieldName);
+        this.editContext.requireVisible(fieldName).then(() => {
+          this.activate(fieldName);
+        });
       }
     });
 

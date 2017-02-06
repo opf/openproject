@@ -1,8 +1,9 @@
-import {RowsBuilderInterface} from '../../wp-table.interfaces';
+import {RowsBuilder} from './rows-builder';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
-export class EmptyRowsBuilder implements RowsBuilderInterface {
+
+export class EmptyRowsBuilder extends RowsBuilder {
   // Injections
   public I18n:op.I18n;
   public wpTableColumns:WorkPackageTableColumnsService;
@@ -10,6 +11,7 @@ export class EmptyRowsBuilder implements RowsBuilderInterface {
   private text;
 
   constructor() {
+    super();
     injectorBridge(this);
 
     this.text = {
@@ -45,7 +47,7 @@ export class EmptyRowsBuilder implements RowsBuilderInterface {
     return tbodyContent;
   }
 
-  public redrawRow() {
+  public buildEmptyRow() {
     return document.createElement('tr');
   }
 }

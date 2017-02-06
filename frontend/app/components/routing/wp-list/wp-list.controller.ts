@@ -148,7 +148,7 @@ function WorkPackagesListController($scope,
     states.table.metadata.put(metadata);
 
     // register data in state
-    states.table.rows.put(json.work_packages);
+    states.table.rows.put(json.work_packages.map(wp => wp.id));
 
     // query data
     // QueryService.setTotalEntries(json.resource.total);

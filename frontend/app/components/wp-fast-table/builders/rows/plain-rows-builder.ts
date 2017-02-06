@@ -1,20 +1,19 @@
+import {RowsBuilder} from './rows-builder';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
-import {RowsBuilderInterface} from '../../wp-table.interfaces';
 
-export class PlainRowsBuilder implements RowsBuilderInterface {
+export class PlainRowsBuilder extends RowsBuilder {
   // Injections
   public states:States;
   public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
 
-  private rowBuilder = new SingleRowBuilder();
-
   // The group expansion state
   constructor() {
+    super();
     injectorBridge(this);
   }
 
@@ -27,7 +26,7 @@ export class PlainRowsBuilder implements RowsBuilderInterface {
 
     table.rows.forEach((wpId:string) => {
       let row = table.rowIndex[wpId];
-      let tr = this.redrawRow(row);
+      let tr = this.buildEmptyRow(row);
       row.element = tr;
       tbodyContent.appendChild(tr);
     });
@@ -35,7 +34,7 @@ export class PlainRowsBuilder implements RowsBuilderInterface {
     return tbodyContent;
   }
 
-  public redrawRow(row, table?:WorkPackageTable) {
+  public buildEmptyRow(row, table?:WorkPackageTable) {
     return this.rowBuilder.buildEmpty(row.object);
   }
 }
