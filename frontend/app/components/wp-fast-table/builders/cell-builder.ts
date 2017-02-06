@@ -42,7 +42,7 @@ export class CellBuilder {
       td.classList.add('-short');
     }
 
-    if (fieldSchema.writable) {
+    if (fieldSchema.writable && !field.hidden) {
       span.classList.add(editableClassName);
     }
 
@@ -50,7 +50,7 @@ export class CellBuilder {
       span.classList.add(requiredClassName);
     }
 
-    if (field.isEmpty()) {
+    if (field.isEmpty() || field.hidden) {
       span.classList.add(placeholderClassName);
       text = cellEmptyPlaceholder;
     } else {
