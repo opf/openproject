@@ -12,7 +12,7 @@ class TableWorkPackageField
 
     @property_name = property_name.to_s
     @context = context
-    @selector = selector || ".inplace-edit.#{property_name}"
+    @selector = selector || ".wp-table--cell-td.#{property_name}"
 
     ensure_page_loaded
   end
@@ -30,13 +30,13 @@ class TableWorkPackageField
   end
 
   def element
-    @context.find(@selector)
+    @context.find("#{@selector} .wp-table--cell-span")
   end
 
   ##
   # Activate the field and check it opened correctly
   def activate!
-    element.click
+    element.click rescue nil
     expect_active!
   end
 
@@ -57,15 +57,15 @@ class TableWorkPackageField
   end
 
   def expect_inactive!
-    expect(element).to have_no_selector(field_type, wait: 10)
+    expect(page).to have_no_selector("#{@selector} #{field_type}", wait: 10)
   end
 
   def expect_invalid
-    expect(element).to have_selector("#{input_selector}:invalid")
+    expect(page).to have_selector("#{@selector} #{field_type}:invalid")
   end
 
   def expect_error
-    expect(page).to have_selector("#{field_selector}.-error")
+    expect(page).to have_selector("#{@selector}.-error")
   end
 
   def save!
@@ -80,7 +80,7 @@ class TableWorkPackageField
   # Set or select the given value.
   # For fields of type select, will check for an option with that value.
   def set_value(content)
-    if input_element.tag_name == 'select'
+    if field_type == 'select'
       input_element.find(:option, content).select_option
     else
       input_element.set(content)
@@ -94,7 +94,7 @@ class TableWorkPackageField
     # Retry to set attributes due to reloading the page after setting
     # an attribute, which may cause an input not to open properly.
     retry_block do
-      activate_edition
+      activate!
       set_value value
 
       # select fields are saved on change
@@ -112,7 +112,7 @@ class TableWorkPackageField
   end
 
   def input_element
-    element.find input_selector
+    @context.find "#{@selector} #{input_selector}"
   end
 
   def submit_by_dashboard
@@ -140,7 +140,7 @@ class TableWorkPackageField
   end
 
   def editing?
-    element.find(input_selector)
+    input_element
     true
   rescue
     false

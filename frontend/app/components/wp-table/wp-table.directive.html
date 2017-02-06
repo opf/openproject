@@ -37,7 +37,23 @@
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
+        <tr id="empty-row-notification">
+          <td colspan="{{ numTableColumns }}">
+            <span ng-if="!query.hasError">
+              <i class="icon-info1 icon-context"></i>
+              <strong ng-bind="text.noResults.title"></strong>
+              <span ng-bind="text.noResults.description"></span>
+            </span>
+            <span ng-if="query.hasError">
+              <i class="wp-table--faulty-query-icon icon-warning icon-context"></i>
+              <strong ng-bind="text.faultyQuery.title"></strong>
+              <span ng-bind="text.faultyQuery.description"></span>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+      <tbody class="work-package--results-tbody">
       </tbody>
       <tfoot>
         <tr ng-if="sumsLoaded()"

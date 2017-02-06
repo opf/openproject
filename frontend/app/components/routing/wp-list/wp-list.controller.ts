@@ -166,6 +166,7 @@ function WorkPackagesListController($scope,
 
     // $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
+    $scope.rowcount = json.resource.count;
     // $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
 
     // Authorisation
@@ -260,19 +261,6 @@ function WorkPackagesListController($scope,
   });
 
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
-
-  $scope.openWorkPackageInFullView = function (id, force) {
-    if (force || $state.current.url !== '') {
-      var params = {
-        workPackageId: id
-      }
-
-      loadingIndicator.table.promise = $state.go(
-        'work-packages.show',
-        angular.extend($state.params, params)
-      );
-    }
-  };
 }
 
 angular

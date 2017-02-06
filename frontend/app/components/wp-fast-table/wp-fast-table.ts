@@ -22,7 +22,6 @@ export class WorkPackageTable {
 
   // WP rows builder
   private groupedRowsBuilder = new GroupedRowsBuilder();
-  private emptyRowsBuilder = new EmptyRowsBuilder();
   private plainRowsBuilder = new PlainRowsBuilder();
 
   constructor(public tbody:HTMLElement) {
@@ -42,10 +41,7 @@ export class WorkPackageTable {
   }
 
   public get rowBuilder():RowsBuilder {
-    if (this.rows.length === 0) {
-      return this.emptyRowsBuilder;
-    }
-    else if (this.metaData.groupBy) {
+    if (this.metaData.groupBy) {
       return this.groupedRowsBuilder;
     } else {
       return this.plainRowsBuilder;

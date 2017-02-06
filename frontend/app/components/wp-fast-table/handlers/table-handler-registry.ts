@@ -1,5 +1,6 @@
 import {WorkPackageTable} from '../wp-fast-table';
 import {RowClickHandler} from './row/click-handler';
+import {RowDoubleClickHandler} from './row/double-click-handler';
 import {EditCellHandler} from './cell/edit-cell-handler';
 import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
 import {SelectionTransformer} from './state/selection-transformer';
@@ -23,6 +24,7 @@ export class TableHandlerRegistry {
     WorkPackageStateLinksHandler,
     // Clicking on the row (not within a cell)
     RowClickHandler,
+    RowDoubleClickHandler,
     // Clicking on group headers
     GroupRowHandler,
     // Right clicking on rows

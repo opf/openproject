@@ -61,7 +61,7 @@ function wpTable(
     scope: {
       projectIdentifier: '=',
       columns: '=',
-      rows: '=',
+      rowcount: '=',
       query: '=',
       groupBy: '=',
       groupHeaders: '=',
@@ -77,7 +77,7 @@ function wpTable(
       var activeSelectionBorderIndex;
 
       var t0 = performance.now();
-      scope.tbody = element.find('.work-package-table tbody');
+      scope.tbody = element.find('.work-package--results-tbody');
       scope.table = new WorkPackageTable(scope.tbody[0]);
 
       console.log("Num rows = " + scope.tbody.find('tr').length);
@@ -161,6 +161,10 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     cancel: I18n.t('js.button_cancel'),
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
+    noResults: {
+      title: I18n.t('js.work_packages.no_results.title'),
+      description: I18n.t('js.work_packages.no_results.description')
+    },
     faultyQuery: {
       title: I18n.t('js.work_packages.faulty_query.title'),
       description: I18n.t('js.work_packages.faulty_query.description')
