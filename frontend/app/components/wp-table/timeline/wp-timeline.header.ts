@@ -25,7 +25,6 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
 import {
   TimelineViewParameters,
   timelineElementCssClass,
@@ -240,6 +239,7 @@ export class WpTimelineHeader {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.fontWeight = "bold";
       cell.style.fontSize = "10px";
+      cell.style.height = "13px";
     });
 
     this.renderTimeSlices(vp, "week", 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -269,9 +269,12 @@ export class WpTimelineHeader {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("MMM YYYY");
+      cell.style.fontWeight = "bold";
+      cell.style.fontSize = "12px";
+      cell.style.height = "15px";
     });
 
-    this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "week", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
@@ -279,11 +282,12 @@ export class WpTimelineHeader {
       cell.style.zIndex = "2";
     });
 
-    this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "day", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = "25px";
+      cell.style.paddingTop = "5px";
+      cell.style.height = "20px";
     });
   }
 
@@ -291,21 +295,26 @@ export class WpTimelineHeader {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
+      cell.style.fontWeight = "bold";
+      cell.style.fontSize = "12px";
+      cell.style.height = "15px";
     });
 
-    this.renderTimeSlices(vp, "month", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "month", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
-    this.renderTimeSlices(vp, "week", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
       cell.style.backgroundColor = "white";
+      cell.style.paddingTop = "5px";
+      cell.style.height = "20px";
     });
   }
 
@@ -313,21 +322,26 @@ export class WpTimelineHeader {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
+      cell.style.fontWeight = "bold";
+      cell.style.fontSize = "12px";
+      cell.style.height = "15px";
     });
 
-    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
-    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
       cell.style.height = "25px";
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.backgroundColor = "white";
+      cell.style.paddingTop = "5px";
+      cell.style.height = "20px";
     });
   }
 
@@ -337,21 +351,26 @@ export class WpTimelineHeader {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.backgroundColor = "white";
+      cell.style.fontWeight = "bold";
+      cell.style.fontSize = "12px";
+      cell.style.height = "15px";
     });
 
-    this.renderTimeSlices(vp, "quarter", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
     });
 
-    this.renderTimeSlices(vp, "month", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("M");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
       cell.style.backgroundColor = "white";
+      cell.style.paddingTop = "5px";
+      cell.style.height = "20px";
     });
   }
 
