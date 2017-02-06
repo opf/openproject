@@ -10,7 +10,6 @@ import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
 import {GroupedRowsBuilder} from './builders/rows/grouped-rows-builder';
 import {PlainRowsBuilder} from './builders/rows/plain-rows-builder';
-import {EmptyRowsBuilder} from './builders/rows/empty-rows-builder';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;

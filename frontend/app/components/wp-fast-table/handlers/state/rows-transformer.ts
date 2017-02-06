@@ -25,7 +25,12 @@ export class RowsTransformer {
 
     // Refresh a single row if it exists
     this.states.workPackages.observe(null)
-      .subscribe(([changedId, wp]: [string, WorkPackageResource]) => {
+      .subscribe((nextVal:[string, WorkPackageResource]) => {
+        if (!nextVal) {
+          return;
+        }
+
+        let [changedId, wp] = nextVal;
         let row = table.rowIndex[changedId];
 
         if (wp && row) {
