@@ -43,6 +43,9 @@ const cssClassHeader = ".wp-timeline-header";
 const cssHeaderContainer = ".wp-timeline-header-container";
 const scrollBarHeight = 16;
 
+const colorGrey1 = "#AAAAAA";
+const colorGrey2 = "#DDDDDD";
+
 export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
 type GlobalElementsRegistry = {[name: string]: GlobalElement};
 
@@ -234,31 +237,30 @@ export class WpTimelineHeader {
   private renderLabelsDays(vp: TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
-      cell.style.borderTop = "1px solid black";
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
     this.renderTimeSlices(vp, "week", 10, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
-      cell.style.borderColor = "#000000";
+      cell.style.borderColor = `${colorGrey1}`;
       cell.style.height = (this.globalHeight - 10) + "px";
       cell.style.zIndex = "2";
-      cell.style.borderTop = "1px solid black";
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
     this.renderTimeSlices(vp, "day", 20, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
-      cell.style.borderColor = "#CCCCCC";
+      cell.style.borderColor = `${colorGrey2}`;
       cell.style.zIndex = "1";
       cell.style.height = (this.globalHeight - 20) + "px";
-      cell.style.borderTop = "1px solid black";
+      cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
     this.renderTimeSlices(vp, "day", 30, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("dd");
-      cell.style.borderColor = "#CCCCCC";
-      cell.style.borderBottom = "1px solid black";
+      // cell.style.borderBottom = `1px solid ${colorGrey1}`;
       cell.style.height = "15px";
-      cell.style.borderTop = "1px solid black";
+      cell.style.paddingTop = "3px";
     });
   }
 
