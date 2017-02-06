@@ -54,7 +54,7 @@ export class Field {
 
   public get hidden():boolean {
     return this.visibility === 'hidden';
-  } 
+  }
 
   public isEmpty():boolean {
     return !this.value;
