@@ -41,11 +41,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
-    <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
-      <% cache(CustomStyle.current) do %>
-        <%= render partial: "custom_styles/inline_css" %>
-      <% end %>
-    <% end %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <!-- user specific tags -->
@@ -54,6 +49,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= call_hook :view_layouts_base_html_head %>
     <!-- page specific tags -->
     <%= content_for(:header_tags) if content_for?(:header_tags) %>
+    <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
+      <% cache(CustomStyle.current) do %>
+        <%= render partial: "custom_styles/inline_css" %>
+      <% end %>
+    <% end %>
   </head>
   <body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
     <noscript>
