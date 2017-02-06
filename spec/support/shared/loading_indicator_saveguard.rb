@@ -35,4 +35,5 @@
 
 def loading_indicator_saveguard
   expect(page).to have_no_selector('.cg-busy')
+  expect(page).to have_no_selector('.loading-indicator')
 end

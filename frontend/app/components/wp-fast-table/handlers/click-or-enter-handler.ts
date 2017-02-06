@@ -1,4 +1,4 @@
-import {keyCodes} from '../../common/keycode.enum';
+import {keyCodes} from '../../common/keyCodes.enum';
 import {WorkPackageTable} from '../wp-fast-table';
 
 export abstract class ClickOrEnterHandler {

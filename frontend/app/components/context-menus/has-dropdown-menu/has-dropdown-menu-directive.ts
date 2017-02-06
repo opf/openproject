@@ -36,6 +36,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
         locals = {},
         afterFocusOn = attrs.afterFocusOn,
         positionRelativeTo = attrs['positionRelativeTo'],
+        collisionContainer = attrs['collisionContainer'],
         triggerOnEvent = (attrs['triggerOnEvent'] || 'click') + '.dropdown.openproject';
 
       function open(event) {
@@ -51,7 +52,8 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
         return contextMenu.activate(menuName, event, locals, {
           my: 'right top',
           at: 'right bottom',
-          of: positionRelativeTo ? element.find(positionRelativeTo) : element
+          of: positionRelativeTo ? element.find(positionRelativeTo) : element,
+          within: collisionContainer ? angular.element(collisionContainer) : window
         });
       }
 
@@ -62,6 +64,10 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
           }
         });
       }
+
+      Mousetrap(element[0]).bind('shift+alt+f10', (evt) => {
+        open(evt);
+      });
 
       element.on(triggerOnEvent, function (event) {
         event.preventDefault();

@@ -16,6 +16,7 @@
           <th sort-header ng-repeat="column in columns"
                           has-dropdown-menu
                           position-relative-to=".generic-table--sort-header-outer"
+                          collision-container=".work-packages--list"
                           target="columnContextMenu"
                           locals="columns, column"
                           locale="column.custom_field && columns.custom_field.name_locale || locale"

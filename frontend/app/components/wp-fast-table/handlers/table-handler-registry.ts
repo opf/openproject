@@ -7,6 +7,7 @@ import {RowsTransformer} from './state/rows-transformer';
 import {ColumnsTransformer} from './state/columns-transformer';
 import {GroupRowHandler} from './row/group-row-handler';
 import {ContextMenuHandler} from './row/context-menu-handler';
+import {ContextMenuKeyboardHandler} from './row/context-menu-keyboard-handler';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -26,6 +27,8 @@ export class TableHandlerRegistry {
     GroupRowHandler,
     // Right clicking on rows
     ContextMenuHandler,
+    // SHIFT+ALT+F10 on rows
+    ContextMenuKeyboardHandler,
   ];
 
   static stateTransformers = [
