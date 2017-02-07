@@ -1,3 +1,4 @@
+import {debug_log} from '../../../../helpers/debug_output';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {cellClassName, editableClassName} from '../../builders/cell-builder';
@@ -27,7 +28,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   protected processEvent(table: WorkPackageTable, evt:JQueryEventObject) {
-    console.log('Start editing row!');
+    debug_log('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
     // Locate the cell from event
@@ -38,6 +39,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     if (!fieldName) {
       console.warn('Click handled by cell not a field?');
       console.warn(target);
+      return;
     }
 
     // Locate the row

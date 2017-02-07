@@ -1,3 +1,4 @@
+import {when_debugging} from '../helpers/debug_output';
 import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
 import {WPTableRowSelectionState, WorkPackageTableRow} from './wp-fast-table/wp-table.interfaces';
 import {MultiState, initStates, State} from "../helpers/reactive-fassade";
@@ -44,9 +45,9 @@ export class States {
 
   constructor() {
     initStates(this, function (msg: any) {
-      if (~location.hostname.indexOf("localhost")) {
-        (console.trace as any)(msg); // RR: stupid hack to avoid compiler error
-      }
+      when_debugging(() => {
+        console.trace(msg);
+      });
     });
   }
 

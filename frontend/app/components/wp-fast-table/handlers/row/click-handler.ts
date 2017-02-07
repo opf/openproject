@@ -1,3 +1,4 @@
+import {debug_log} from '../../../../helpers/debug_output';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
@@ -29,11 +30,9 @@ export class RowClickHandler implements TableEventHandler {
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
     if (target.parents(`.${tdClassName}`).length) {
-      console.log('Skipping click on inner cell');
+      debug_log('Skipping click on inner cell');
       return;
     }
-
-    console.log('ROW CLICK!');
 
     // Locate the row from event
     let element = target.closest(this.SELECTOR);
@@ -56,25 +55,12 @@ export class RowClickHandler implements TableEventHandler {
 
     // Multiple selection if shift present
     if (evt.shiftKey) {
-      this.clearSelection();
       this.wpTableSelection.setMultiSelectionFrom(table.rows, row);
     }
 
     // Single selection expansion if ctrl / cmd(mac)
     if (evt.ctrlKey || evt.metaKey) {
       this.wpTableSelection.toggleRow(row.workPackageId);
-    }
-  }
-
-  // TODO check if this can be replace with css user-select: none?
-  // Thanks to http://stackoverflow.com/a/880518
-  private clearSelection() {
-    var selection = (document as any).selection;
-    if(selection && selection.empty) {
-      selection.empty();
-    } else if(window.getSelection) {
-      var sel = window.getSelection();
-      sel.removeAllRanges();
     }
   }
 }

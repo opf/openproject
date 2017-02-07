@@ -25,8 +25,6 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   protected workPackage:WorkPackageResource;
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
-    console.log('WP STATE LINK CLICK!');
-
     // Locate the row from event
     let target = jQuery(evt.target);
     let element = target.closest(this.SELECTOR);

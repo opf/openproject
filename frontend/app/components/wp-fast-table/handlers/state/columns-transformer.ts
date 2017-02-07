@@ -1,3 +1,4 @@
+import {debug_log} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -21,7 +22,7 @@ export class ColumnsTransformer {
         table.postRender();
         var t1 = performance.now();
 
-        console.log("column redraw took " + (t1 - t0) + " milliseconds.");
+        debug_log("column redraw took " + (t1 - t0) + " milliseconds.");
       }
     });
   }

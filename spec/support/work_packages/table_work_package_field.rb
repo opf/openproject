@@ -36,7 +36,11 @@ class TableWorkPackageField
   ##
   # Activate the field and check it opened correctly
   def activate!
-    element.click rescue nil
+    begin
+      element.click
+    rescue => e
+      $stderr.puts "Failed to click on field, already active?"
+    end
     expect_active!
   end
 

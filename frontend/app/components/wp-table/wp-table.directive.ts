@@ -34,6 +34,8 @@ import { WorkPackageCacheService } from '../work-packages/work-package-cache.ser
 import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
 import {ContextMenuService} from '../context-menus/context-menu.service';
+import {debug_log} from '../../helpers/debug_output';
+
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
@@ -80,9 +82,8 @@ function wpTable(
       scope.tbody = element.find('.work-package--results-tbody');
       scope.table = new WorkPackageTable(scope.tbody[0]);
 
-      console.log("Num rows = " + scope.tbody.find('tr').length);
       var t1 = performance.now();
-      console.log("Render took " + (t1 - t0) + " milliseconds.")
+      debug_log("Render took " + (t1 - t0) + " milliseconds.")
 
       // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;

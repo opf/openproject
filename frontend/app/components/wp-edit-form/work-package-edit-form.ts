@@ -112,9 +112,6 @@ export class WorkPackageEditForm {
         deferred.resolve(this.workPackage);
 
         this.wpNotificationsService.showSave(this.workPackage, isInitial);
-        // TODO do in subform
-        // this.successHandler({workPackage: this.workPackage, fields: this.fields});
-
         this.editContext.onSaved(this.workPackage);
 
         // Destroy this form
@@ -143,13 +140,6 @@ export class WorkPackageEditForm {
     if (attributes.length === 0) {
       return;
     }
-
-    // Allow additional error handling
-    // this.firstActiveField = this.errorHandler({
-    //   workPackage: this.worPackage,
-    //   fields: this.fields,
-    //   attributes: attributes
-    // });
 
     // Iterate all erroneous fields and close these that are valid
     let validFields = _.keys(this.activeFields);

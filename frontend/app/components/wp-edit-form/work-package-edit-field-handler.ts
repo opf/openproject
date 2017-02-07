@@ -91,8 +91,8 @@ export class WorkPackageEditFieldHandler {
     this.form.submit();
   }
 
-  // TODO remove
   public handleUserSubmitOnEnter() {
+    // This does nothing on the table since the form submit event is handled.
   }
 
   /**

@@ -1,3 +1,4 @@
+import {debug_log} from '../../../../helpers/debug_output';
 import {locateRow} from '../../helpers/wp-table-row-helpers';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -19,7 +20,7 @@ export class RowsTransformer {
       table.postRender();
 
       var t1 = performance.now();
-      console.log("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
+      debug_log("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
     });
 
 
@@ -47,7 +48,7 @@ export class RowsTransformer {
   private refreshWorkPackage(table, row) {
     // If the work package is dirty, we're working on it
     if (row.object.dirty) {
-      console.log("Skipping row " + row.workPackageId + " since its dirty");
+      debug_log("Skipping row " + row.workPackageId + " since its dirty");
       return;
     }
 
@@ -55,7 +56,7 @@ export class RowsTransformer {
     let oldRow = row.element || locateRow(row.workPackageId);
 
     if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
-      console.log("Skipping row " + row.workPackageId + " since its fresh");
+      debug_log("Skipping row " + row.workPackageId + " since its fresh");
       return;
     }
 
