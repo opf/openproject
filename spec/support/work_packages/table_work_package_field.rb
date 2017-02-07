@@ -39,7 +39,7 @@ class TableWorkPackageField
     begin
       element.click
     rescue => e
-      $stderr.puts "Failed to click on field, already active?"
+      $stderr.puts "Failed to click on field, already active? #{e}"
     end
     expect_active!
   end
