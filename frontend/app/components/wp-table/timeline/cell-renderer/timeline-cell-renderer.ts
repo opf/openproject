@@ -217,7 +217,7 @@ export class TimelineCellRenderer {
 
     // ensure minimum width
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-      bar.style.minWidth = "20px";
+      bar.style.minWidth = "30px";
     }
 
     return true;
