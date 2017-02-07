@@ -5,8 +5,8 @@ class CreateDesignColors < ActiveRecord::Migration[5.0]
       t.string :hexcode
 
       t.timestamps
-
-      add_index :design_colors, :variable, unique: true
     end
+
+    add_index :design_colors, :variable, unique: true
   end
 end
