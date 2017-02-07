@@ -85,7 +85,11 @@ export class DisplayField extends Field {
       workPackage: this.resource,
       name: this.name,
       displayText: displayText,
-      field: this
+      field: this,
+      vm: {
+        displayText: displayText,
+        field: this
+      }
     });
   }
 

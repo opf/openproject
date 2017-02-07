@@ -81,7 +81,7 @@ export class WorkPackageTableColumnsService {
    */
   public setColumns(columns:string[]) {
     this.columnsState.put(columns);
-    this.QueryService.getQuery().setColumns(columns);
+    this.QueryService.getQuery().setColumns(this.getColumns());
   }
 
   /**

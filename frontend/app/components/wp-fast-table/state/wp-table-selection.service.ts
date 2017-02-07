@@ -76,6 +76,17 @@ export class WorkPackageTableSelection {
   }
 
   /**
+   * Switch the current focused work package to the given id,
+   * setting selection and focus on this WP.
+   */
+  public focusOn(workPackgeId:string) {
+    let newState = this._emptyState;
+    newState.selected[workPackgeId] = true;
+    this.selectionState.put(newState);
+    this.states.focusedWorkPackage.put(workPackgeId);
+  }
+
+  /**
    * Toggle a single row selection state and update the state.
    * @param workPackageId
    */

@@ -1,3 +1,4 @@
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -75,6 +76,7 @@ export class WorkPackageCreateController {
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
+              protected wpTableSelection:WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.newWorkPackageFromParams($state.params)
@@ -111,7 +113,7 @@ export class WorkPackageCreateController {
 
   public refreshAfterSave(wp, successState) {
     this.wpEditModeState.onSaved();
-    this.states.focusedWorkPackage.put(wp.id);
+    this.wpTableSelection.focusOn(wp.id);
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');

@@ -31,7 +31,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     evt.preventDefault();
 
     // Locate the cell from event
-    let target = jQuery(evt.target);
+    let target = jQuery(evt.target).closest(`.${cellClassName}`);
     // Get the target field name
     let fieldName = target.data('fieldName');
 
