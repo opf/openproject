@@ -30,8 +30,6 @@
   float: left
   width: $main-menu-width
   height: $header-height
-  background-color: $header-logo-bg-color
-  background-color: var(--primary-color-dark)
   .home-link
     margin-top: 13px
     display: block
@@ -289,6 +287,9 @@ input.top-menu-search--input
       border-radius: 0 !important
       font-weight: bold !important
       color: $font-color-on-primary
+      &:hover
+        background:      $primary-color-dark !important
+        background: var(--primary-color-dark) !important
 
 #header
   height: $header-height

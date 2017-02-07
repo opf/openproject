@@ -122,6 +122,11 @@ $se2-theme-selectable-color-highlighted: $drop-down-selected-bg-color;
 :root {
   --se2-theme-selectable-color-highlighted: var(--drop-down-selected-bg-color);
 }
+$se2-theme-selectable-color-hover: $drop-down-hover-bg-color;
+:root {
+  --se2-theme-selectable-color-hover: var(--drop-down-hover-bg-color);
+}
+
 $se2-theme-selectable-font-color-highlighted: $drop-down-selected-font-color;
 
 $se2-element-height: 33px;
@@ -236,6 +241,10 @@ $se2-width: 100%;
       background-color:      $se2-theme-selectable-color-highlighted;
       background-color: var(--se2-theme-selectable-color-highlighted);
       color: $se2-theme-selectable-font-color-highlighted;
+      &:hover {
+        background-color:      $se2-theme-selectable-color-hover;
+        background-color: var(--se2-theme-selectable-color-hover);
+      }
     }
   }
 }

@@ -74,12 +74,12 @@ $header-item-font-size:                         14px !default
 $header-item-font-color:                        $font-color-on-primary !default
 $header-item-font-hover-color:                  $font-color-on-primary-dark !default
 $header-item-bg-hover-color:                    $primary-color-dark !default
+\:root
+  --header-item-bg-hover-color:                 <%= DesignColor.defaults["primary-color-dark"] %>
 $header-drop-down-bg-color:                     #FFFFFF !default
 $header-drop-down-border-color:                 #E0E0E0 !default
 $header-drop-down-item-font-color:              $body-font-color !default
 $header-drop-down-item-font-hover-color:        #FFFFFF !default
-
-$header-logo-bg-color:                          $primary-color-dark !default
 
 $header-home-link-bg:                           image-url('logo_openproject_white_big.png') no-repeat 20px 0 !default
 
@@ -109,11 +109,22 @@ $main-menu-item-border-width:                   1px !default
 $main-menu-enable-toggle-highlighting:          false !default
 
 $main-menu-bg-color:                            #F8F8F8 !default
-$main-menu-bg-hover-selected-background:        url() no-repeat $primary-color-dark !default
+$main-menu-bg-selected-background:              url() no-repeat $primary-color !default
+\:root
+  --main-menu-bg-selected-background:           url() no-repeat <%= DesignColor.defaults["primary-color"] %>
+
+$main-menu-bg-hover-background:                 url() no-repeat $primary-color-dark !default
+\:root
+  --main-menu-bg-hover-background:              url() no-repeat <%= DesignColor.defaults["primary-color-dark"] %>
 $main-menu-font-color:                          #333333 !default
 $main-menu-selected-font-color:                 $font-color-on-primary !default
 $main-menu-font-size:                           15px !default
-$main-menu-selected-hover-indicator-color:      $primary-color-dark !default
+$main-menu-selected-indicator-color:            $primary-color !default
+\:root
+  --main-menu-selected-indicator-color:         <%= DesignColor.defaults["primary-color"] %>
+$main-menu-hover-indicator-color:               $primary-color-dark !default
+\:root
+  --main-menu-hover-indicator-color:            <%= DesignColor.defaults["primary-color-dark"] %>
 $main-menu-selected-hover-indicator-width:      4px !default
 $main-menu-selected-hover-border-color:         $main-menu-border-color !default
 
@@ -122,7 +133,12 @@ $main-menu-toggler-separator-color:             #EAEAEA !default
 
 $main-menu-child-item-height:                   38px !default
 $main-menu-child-menu-bg-color:                 #FFFFFF !default
-$main-menu-child-bg-hover-selected-color:       $primary-color-dark !default
+$main-menu-child-bg-selected-color:             $primary-color !default
+\:root
+  --main-menu-child-bg-selected-color:          <%= DesignColor.defaults["primary-color"] %>
+$main-menu-child-bg-hover-color:                $primary-color-dark !default
+\:root
+  --main-menu-child-bg-hover-color:             <%= DesignColor.defaults["primary-color-dark"] %>
 $main-menu-child-menu-border-color:             #E7E7E7 !default
 $main-menu-child-font-color:                    #04232F !default
 $main-menu-child-font-size:                     13px !default
@@ -189,7 +205,11 @@ $my-page-edit-box-border-color:                 $primary-color-dark !default
 $drop-down-unselected-font-color:               $main-menu-font-color !default
 $drop-down-selected-font-color:                 $font-color-on-primary !default
 $drop-down-selected-bg-color:                   $primary-color !default
-
+\:root
+  --drop-down-selected-bg-color:                <%= DesignColor.defaults["primary-color"] %>
+$drop-down-hover-bg-color:                      $primary-color-dark !default
+\:root
+  --drop-down-hover-bg-color:                   <%= DesignColor.defaults["primary-color-dark"] %>
 $action-menu-bg-color:                          #FFFFFF
 
 $wiki-default-font-size:                        1rem
