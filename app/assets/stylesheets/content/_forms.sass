@@ -372,7 +372,8 @@ fieldset.form--fieldset
 
 .form--label-required
   @include default-transition
-  color:   $primary-color-dark
+  color:        $primary-color-dark
+  color:   var(--primary-color-dark)
   padding: 0 0.325rem
 
   .form--label.-error &
@@ -659,10 +660,12 @@ input[readonly].-clickable
       &::after
         @include default-transition
         content:  '*'
-        color:    $primary-color-dark
+        color:      $primary-color-dark
+        color: var(--primary-color-dark)
         padding:  0 0.325rem
       &:hover::after
-        color:    $primary-color
+        color:      $primary-color
+        color: var(--primary-color)
 
     > a
       display: block
