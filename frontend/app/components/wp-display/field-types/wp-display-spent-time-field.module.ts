@@ -33,8 +33,6 @@ export class SpentTimeDisplayField extends DurationDisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';
   public text: any;
   public timeEntriesLink: string;
-  public isManualRenderer = true;
-
   private PathHelper:any;
 
   constructor(public resource: WorkPackageResourceInterface,
@@ -68,6 +66,7 @@ export class SpentTimeDisplayField extends DurationDisplayField {
       });
     }
 
+    element.innerHTML = '';
     element.appendChild(link);
   }
 

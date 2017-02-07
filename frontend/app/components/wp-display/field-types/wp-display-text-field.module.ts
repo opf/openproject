@@ -29,9 +29,6 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class TextDisplayField extends DisplayField {
-
-  isManualRenderer = true;
-
   public get valueString() {
     return this.value;
   }

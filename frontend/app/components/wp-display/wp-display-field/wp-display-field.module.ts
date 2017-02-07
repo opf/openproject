@@ -32,8 +32,6 @@ import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-disp
 import {SimpleTemplateRenderer} from '../../angular/simple-template-renderer';
 
 export class DisplayField extends Field {
-
-  public isManualRenderer: boolean = false;
   public static type: string;
   public static $injector: ng.auto.IInjectorService;
   public template: string = null;

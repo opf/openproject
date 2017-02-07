@@ -28,10 +28,11 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class WorkPackageDisplayField extends DisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-work-package-field.directive.html';
-  public text: Object;
+  public text:any;
+  private uiStateBuilder;
 
 
   constructor(public resource:WorkPackageResource,
@@ -39,9 +40,25 @@ export class WorkPackageDisplayField extends DisplayField {
               public schema) {
     super(resource, name, schema);
 
+    this.uiStateBuilder = new UiStateLinkBuilder();
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };
+  }
+
+  public render(element: HTMLElement, displayText): void {
+    if (!this.value) {
+      return;
+    }
+
+    let link = this.uiStateBuilder.linkToShow(
+      this.wpId,
+      this.text.linkTitle,
+      this.valueString
+    );
+
+    element.innerHTML = '';
+    element.appendChild(link);
   }
 
   public get value() {
@@ -64,4 +81,9 @@ export class WorkPackageDisplayField extends DisplayField {
   public isEmpty(): boolean {
     return !this.value;
   }
+
+  public get unknownAttribute():boolean {
+    return false;
+  }
+
 }

@@ -29,9 +29,6 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class ResourceDisplayField extends DisplayField {
-  
-  isManualRenderer = true;
-  
   public get value() {
     if(this.schema) {
       return this.resource[this.name] && this.resource[this.name].name;
