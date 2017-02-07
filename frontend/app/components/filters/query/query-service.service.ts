@@ -181,7 +181,7 @@ function QueryService($rootScope,
     },
 
     selectUnusedColumns: function(columns) {
-      let identifiers = columns.map(column => column.name);
+      let identifiers = QueryService.getSelectedColumnNames();
 
       return columns.filter(function(column) {
         return identifiers.indexOf(column.name) === -1;
