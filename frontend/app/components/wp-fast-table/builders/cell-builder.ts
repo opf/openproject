@@ -5,6 +5,7 @@ import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 export const tdClassName = 'wp-table--cell-td';
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
+export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
 export const cellEmptyPlaceholder = '-';
@@ -44,6 +45,8 @@ export class CellBuilder {
 
     if (fieldSchema.writable && !field.hidden) {
       span.classList.add(editableClassName);
+    } else {
+      span.classList.add(readOnlyClassName);
     }
 
     if (fieldSchema.required) {
