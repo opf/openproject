@@ -24,12 +24,13 @@
             </div>
         </div>
     </div>
-    <div cg-busy="{promise: $ctrl.loadingPromise, wrapperClass: 'cg-busy-inline', message: ''}">
+    <div class="loading-indicator--location"
+             data-indicator-name="relationAddChild">
       <div class="grid-block v-align wp-relations--child-form" ng-if="$ctrl.showRelationsCreateForm">
           <div class="grid-content medium-10">
               <wp-relations-autocomplete
                       work-package="$ctrl.workPackage"
-                      loading-promise="$ctrl.loadingPromise"
+                      loading-promise-name="relationAddChild"
                       selected-wp-id="$ctrl.selectedWpId"
                       selected-relation-type="$ctrl.selectedRelationType"
                       filter-candidates-for="children"

@@ -34,7 +34,6 @@
     "angular": "~1.5.9",
     "angular-animate": "~1.5.9",
     "angular-aria": "~1.5.9",
-    "angular-busy": "~4.1.1",
     "angular-cache": "~4.6.0",
     "angular-context-menu": "github:opf/angular-context-menu#a908eccaec323cd66973d58af4965694bdff16a1",
     "angular-dragula": "~1.2.8",

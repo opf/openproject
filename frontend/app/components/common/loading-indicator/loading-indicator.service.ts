@@ -57,20 +57,19 @@ export class LoadingIndicatorService {
       <div class="loading-indicator--background">
         <div class="loading-indicator">
           <div class="block-1"></div>
-          <div class="block-2"></div> 
+          <div class="block-2"></div>
           <div class="block-3"></div>
-          <div class="block-4"></div> 
+          <div class="block-4"></div>
           <div class="block-5"></div>
         </div>
       </div>
     `;
   }
 
-  // Provide a shortcut to the primarily used indicator
-  // (aka mainPage)
-  public get table() {
-    return this.indicator('table');
-  }
+  // Provide shortcut to the primarily used indicators
+  public get table() { return this.indicator('table'); }
+  public get wpDetails() { return this.indicator('wpDetails'); }
+  public get modal() { return this.indicator('modal'); }
 
   // Return an indicator by name
   public indicator(name:string):LoadingIndicator {

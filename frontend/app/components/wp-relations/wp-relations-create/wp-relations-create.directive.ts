@@ -18,7 +18,6 @@ export class WorkPackageRelationsCreateController {
 
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
-  public loadingPromise = false;
   public isDisabled = false;
 
   constructor(protected I18n,

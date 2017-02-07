@@ -30,11 +30,11 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 export class WatchersPanelController {
 
   public workPackage: WorkPackageResourceInterface;
-  public loadingPromise: ng.IPromise<any>;
   public autocompleteLoadingPromise: ng.IPromise<any>;
   public autocompleteInput = '';
   public error = false;
@@ -50,6 +50,7 @@ export class WatchersPanelController {
               public I18n,
               public $templateCache:ng.ITemplateCacheService,
               public $compile:ng.ICompileService,
+              public loadingIndicator:LoadingIndicatorService,
               public wpNotificationsService: WorkPackageNotificationService,
               public wpCacheService: WorkPackageCacheService) {
 
@@ -108,6 +109,10 @@ export class WatchersPanelController {
       _renderItem: (ul:JQuery, item) => this.renderWatcherItem(ul, item)
     })
     .autocomplete( "instance" )._renderItem = (ul, item) => this.renderWatcherItem(ul,item);
+  }
+
+  public set loadingPromise(promise) {
+    this.loadingIndicator.wpDetails.promise = promise;
   }
 
   public renderWatcherItem(ul:JQuery, item:{value: string, watcher: any}) {

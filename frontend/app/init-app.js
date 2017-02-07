@@ -38,9 +38,6 @@ require('angular-ui-router');
 
 require('angular-truncate');
 
-require('angular-busy/dist/angular-busy');
-require('angular-busy/dist/angular-busy.css');
-
 require('angular-context-menu');
 require('angular-elastic');
 require('angular-cache');
@@ -154,8 +151,6 @@ require('./work_packages');
 
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
-
-require('!ngtemplate-loader?module=openproject.templates!html-loader!angular-busy/angular-busy.html');
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);
