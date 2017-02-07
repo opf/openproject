@@ -77,7 +77,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <label class="form--label"><%= design_color.variable %>:</label>
           <div class="form--field-container">
             <div class="form--text-container">
-              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: design_color.get_hexcode, style: "border: 2px solid #{design_color.get_hexcode}" %>
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable], style: "border: 2px solid #{design_color.get_hexcode}" %>
             </div>
           </div>
         </div>
