@@ -33,6 +33,7 @@ import {WorkPackageCacheService} from "../work-packages/work-package-cache.servi
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {States} from '../states.service';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource|any;
@@ -70,6 +71,7 @@ export class WorkPackageCreateController {
               protected $q:ng.IQService,
               protected I18n:op.I18n,
               protected wpNotificationsService:WorkPackageNotificationService,
+              protected states:States,
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
@@ -109,6 +111,7 @@ export class WorkPackageCreateController {
 
   public refreshAfterSave(wp, successState) {
     this.wpEditModeState.onSaved();
+    this.states.focusedWorkPackage.put(wp.id);
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');

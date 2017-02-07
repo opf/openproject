@@ -12,7 +12,7 @@ export class WorkPackageTableColumnsService {
   // The selected columns state of the current table instance
   public columnsState:State<string[]>;
 
-  constructor(public states: States) {
+  constructor(public states: States, public QueryService) {
     this.columnsState = states.table.columns;
     this.availableColumnsState = states.query.availableColumns;
   }
@@ -81,6 +81,7 @@ export class WorkPackageTableColumnsService {
    */
   public setColumns(columns:string[]) {
     this.columnsState.put(columns);
+    this.QueryService.getQuery().setColumns(columns);
   }
 
   /**
@@ -103,7 +104,7 @@ export class WorkPackageTableColumnsService {
     columns.splice(fromIndex, 1);
     columns.splice(toIndex, 0, element);
 
-    this.columnsState.put(columns);
+    this.setColumns(columns);
   }
 
   /**
@@ -130,7 +131,7 @@ export class WorkPackageTableColumnsService {
 
     if (this.index(name) === -1) {
       columns.splice(position, 0, name);
-      this.columnsState.put(columns);
+      this.setColumns(columns);
     }
   }
 
@@ -143,7 +144,7 @@ export class WorkPackageTableColumnsService {
     if (index !== -1) {
       let columns = this.currentState;
       columns.splice(index, 1);
-      this.columnsState.put(columns);
+      this.setColumns(columns);
     }
   }
 

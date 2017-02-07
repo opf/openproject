@@ -235,14 +235,6 @@ function WorkPackagesListController($scope,
     }
   });
 
-  states.table.columns.observe($scope).subscribe((selected) => {
-    if ($scope.query) {
-      $scope.query.setColumns(wpTableColumns.getColumns());
-      $scope.maintainUrlQueryState();
-      $scope.maintainBackUrl();
-    }
-  });
-
   $rootScope.$on('queryStateChange', function () {
     $scope.maintainUrlQueryState();
     $scope.maintainBackUrl();

@@ -133,7 +133,7 @@ class TableWorkPackageField
   end
 
   def editable?
-    @context.find("#{selector}.-editable")
+    @context.find("#{@selector} .-editable")
     true
   rescue Capybara::ElementNotFound
     false
