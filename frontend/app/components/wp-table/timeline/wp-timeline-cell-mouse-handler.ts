@@ -62,11 +62,12 @@ export function registerWorkPackageMouseHandler(this: void,
   let placeholderForEmptyCell: HTMLElement;
   const jBody = jQuery("body");
 
-
+  // handles change to existing work packages
   bar.onmousedown = (ev: MouseEvent) => {
     workPackageMouseDownFn(ev);
   };
 
+  // handles initial creation of start/due values
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
   function applyDateValues(dates:{[name:string]: Moment}) {
