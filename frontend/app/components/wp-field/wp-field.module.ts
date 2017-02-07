@@ -60,6 +60,10 @@ export class Field {
     return !this.value;
   }
 
+  public get unknownAttribute():boolean {
+    return this.isEmpty && !this.schema;
+  }
+
   protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof Field).$injector;
   }

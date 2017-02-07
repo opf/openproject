@@ -27,6 +27,7 @@
 //++
 
 module.exports = function($scope, $sce, LABEL_MAX_CHARS, KEY_CODES) {
+
   var scope = $scope;
   scope.$watch('groups', refreshFilteredGroups);
   scope.$watch('selectedId', selectTitle);

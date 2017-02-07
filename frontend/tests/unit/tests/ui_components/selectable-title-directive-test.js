@@ -32,6 +32,7 @@ describe('selectableTitle Directive', function() {
   var MODEL_SELECTOR = 'div.dropdown-scrollable a';
   var compile, element, rootScope, scope, $timeout, I18n, t;
   beforeEach(angular.mock.module(
+    'openproject.services',
     'openproject.workPackages',
     'openproject.workPackages.controllers',
     'openproject.templates',
@@ -60,7 +61,7 @@ describe('selectableTitle Directive', function() {
     compile = function() {
       angular.element(document).find('body').append(element);
       $compile(element)(scope);
-      scope.$digest();
+      scope.$apply();
     };
 
     t = sinon.stub(I18n, 't')
@@ -96,7 +97,7 @@ describe('selectableTitle Directive', function() {
       compile();
 
       element.find('span:first').click();
-      scope.$digest();
+      scope.$apply();
     });
 
     it('should compile to a div', function() {

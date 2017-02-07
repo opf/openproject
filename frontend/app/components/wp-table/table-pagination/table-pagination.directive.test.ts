@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+declare var I18n;
+
 describe('tablePagination Directive', function () {
   var compile, element, rootScope, scope, PaginationService, paginationOptions;
 
@@ -36,11 +38,14 @@ describe('tablePagination Directive', function () {
     PaginationService = _PaginationService_;
   }));
 
-  beforeEach(inject(function ($rootScope, $compile) {
+  beforeEach(inject(function ($rootScope, wpTableMetadata, $compile) {
     var html;
 
-    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults"' +
-      ' update-results="noteUpdateResultsCalled()"></table-pagination>';
+    html = `
+      <table-pagination icon-name="totalResults"
+                        update-results="noteUpdateResultsCalled()">
+      </table-pagination>'
+    `;
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -49,7 +54,12 @@ describe('tablePagination Directive', function () {
     scope.noteUpdateResultsCalled = function() {
       scope.updateResultsCalled = true;
     };
-    scope.tableEntries = 11;
+    scope.setTotalResults = (num) => {
+      wpTableMetadata.metadata.put({
+        total: num
+      });
+      scope.$apply();
+    };
 
     paginationOptions = sinon.stub(PaginationService, 'getPaginationOptions');
     paginationOptions.returns({ perPageOptions: [10, 100, 500, 1000],
@@ -60,7 +70,7 @@ describe('tablePagination Directive', function () {
 
     compile = function () {
       $compile(element)(scope);
-      scope.$digest();
+      scope.$apply();
     };
   }));
 
@@ -73,25 +83,19 @@ describe('tablePagination Directive', function () {
 
       compile();
 
-      scope.tableEntries = 0;
-      scope.$apply();
-
+      scope.setTotalResults(0);
       expect(pageString()).to.equal('');
 
-      scope.tableEntries = 11;
-      scope.$apply();
-
+      scope.setTotalResults(11);
       expect(pageString()).to.equal('(1 - 10/11)');
 
-      scope.tableEntries = 663;
-      scope.$apply();
-
+      scope.setTotalResults(663);
       expect(pageString()).to.equal('(1 - 10/663)');
     });
 
     describe('"next" link', function() {
       beforeEach(function() {
-        scope.tableEntries = 115;
+        scope.setTotalResults(115);
       });
 
       it('hidden on the last page', function() {
@@ -113,21 +117,16 @@ describe('tablePagination Directive', function () {
 
       compile();
 
-      scope.tableEntries = 1;
-      scope.$apply();
-
+      scope.setTotalResults(1);
       expect(numberOfPageNumberLinks()).to.eq(1);
 
-      scope.tableEntries = 11;
-      scope.$apply();
+      scope.setTotalResults(11);
       expect(numberOfPageNumberLinks()).to.eq(2);
 
-      scope.tableEntries = 59;
-      scope.$apply();
+      scope.setTotalResults(59);
       expect(numberOfPageNumberLinks()).to.eq(6);
 
-      scope.tableEntries = 101;
-      scope.$apply();
+      scope.setTotalResults(101);
       expect(numberOfPageNumberLinks()).to.eq(7);
     });
   });
@@ -136,6 +135,7 @@ describe('tablePagination Directive', function () {
     beforeEach(function() {
       scope.updateResultsCalled = false;
       compile();
+      scope.setTotalResults(20);
     });
 
     it('calls the callback when showing a different page', function() {
@@ -166,8 +166,8 @@ describe('tablePagination Directive', function () {
 
     describe('with no entries', function() {
       beforeEach(function() {
-        scope.tableEntries = 0;
         compile();
+        scope.setTotalResults(0);
       });
 
       it('should have no perPage options', function () {
@@ -180,6 +180,7 @@ describe('tablePagination Directive', function () {
     describe('with entries', function() {
       beforeEach(function() {
         compile();
+        scope.setTotalResults(1);
       });
 
       it('should render perPage options', function () {

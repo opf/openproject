@@ -53,6 +53,7 @@ describe('WorkPackagesListController', () => {
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
+    $provide.constant('wpTableColumns', { getColumns: () => [] });
   }));
 
   beforeEach(angular.mock.inject(($rootScope, $controller, $timeout, $q, $cacheFactory) => {
@@ -66,6 +67,7 @@ describe('WorkPackagesListController', () => {
         query: {
           _links: []
         },
+        columns: [],
         sums: [null]
       },
       work_packages: []
@@ -76,6 +78,7 @@ describe('WorkPackagesListController', () => {
           props: {id: 1},
           _links: []
         },
+        columns: [],
         sums: [null]
       },
       work_packages: []
@@ -90,12 +93,14 @@ describe('WorkPackagesListController', () => {
         id: 1,
         columns: ['type'],
         getSortation: () => null,
+        setColumns: () => null,
         isNew: () => false
       },
       '2': {
         id: 2,
         columns: ['type'],
         getSortation: () => null,
+        setColumns: () => null,
         isNew: () => false
       }
     };
@@ -137,7 +142,8 @@ describe('WorkPackagesListController', () => {
       getQuery: () => {
         return {
           getQueryString: () => {
-          }
+          },
+          setColumns: () => [],
         };
       },
       initQuery: (id) => {
@@ -186,7 +192,7 @@ describe('WorkPackagesListController', () => {
         return $q.when({
           meta: {
             query: {},
-            columns: {},
+            columns: [],
             export_formats: {}
           },
           resource: {

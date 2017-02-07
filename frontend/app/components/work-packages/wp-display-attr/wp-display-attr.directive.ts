@@ -90,9 +90,14 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public get displayText(): string {
+    if (this.field && this.field.unknownAttribute) {
+      return '';
+    }
+
     if (this.isEmpty || this.isHidden) {
       return this.placeholder;
     }
+
     return this.field.valueString;
   }
 
@@ -100,15 +105,15 @@ export class WorkPackageDisplayAttributeController {
     this.workPackage = wp;
     this.field = <DisplayField> this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
 
-      if (this.field.isManualRenderer) {
-        this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
-        this.field.render(this.__d__renderer[0], this.displayText);
-      }
+    if (this.field.isManualRenderer) {
+      this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
+      this.field.render(this.__d__renderer[0], this.displayText);
+    }
 
-      this.$element.attr("aria-label", this.label + " " + this.displayText);
+    this.$element.attr("aria-label", this.label + " " + this.displayText);
 
-      this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
-      this.__d__cell.toggleClass("-placeholder", this.isEmpty);
+    this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
+    this.__d__cell.toggleClass("-placeholder", this.isEmpty);
   }
 }
 

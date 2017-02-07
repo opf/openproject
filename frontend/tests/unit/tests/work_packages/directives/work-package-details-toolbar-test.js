@@ -82,8 +82,10 @@ describe('workPackageDetailsToolbar', function() {
     compile = function() {
       element = $compile(element)(scope);
       angular.element(document.body).append(element);
-      scope.$digest();
+      scope.$apply();
+
       element.find('button:eq(1)').click();
+      scope.$apply();
     };
 
   }));

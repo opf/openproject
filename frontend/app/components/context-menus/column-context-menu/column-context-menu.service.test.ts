@@ -27,7 +27,7 @@
 // ++
 
 describe('columnContextMenu', function() {
-  var container, contextMenu, $rootScope, scope, stateParams, ngContextMenu;
+  var container, contextMenu, wpTableColumns, $rootScope, scope, stateParams, ngContextMenu;
   stateParams = {};
 
   beforeEach(angular.mock.module('ng-context-menu',
@@ -40,7 +40,7 @@ describe('columnContextMenu', function() {
                     'openproject.templates'));
 
   beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
+    var configurationService:any = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
     configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
@@ -54,7 +54,8 @@ describe('columnContextMenu', function() {
     container = angular.element(html);
   });
 
-  beforeEach(inject(function(_$rootScope_, _ngContextMenu_, $templateCache) {
+  beforeEach(inject(function(_$rootScope_, _ngContextMenu_, _wpTableColumns_, $templateCache) {
+    wpTableColumns = _wpTableColumns_;
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
@@ -74,15 +75,17 @@ describe('columnContextMenu', function() {
   }));
 
   describe('when the context menu handler of a column is clicked', function() {
-    var QueryService;
+    var QueryService, wpTableMetadata;
     var column        = { name: 'status', title: 'Status' },
         anotherColumn = { name: 'subject', title: 'Subject' },
         columns       = [column, anotherColumn],
         query         = Factory.build('Query', { columns: columns });
 
-    beforeEach(inject(function(_QueryService_) {
+    beforeEach(inject(function(_QueryService_, _wpTableMetadata_) {
       QueryService = _QueryService_;
+      wpTableMetadata = _wpTableMetadata_;
       sinon.stub(QueryService, 'getQuery').returns(query);
+      sinon.stub(wpTableMetadata, 'isGroupable').returns(false);
     }));
     afterEach(inject(function() {
       QueryService.getQuery.restore();
@@ -90,6 +93,7 @@ describe('columnContextMenu', function() {
 
     beforeEach(function() {
       $rootScope.column = column;
+      wpTableColumns.setColumns(columns.map(c => c.name));
       $rootScope.columns = columns;
       $rootScope.$digest();
 
@@ -116,7 +120,7 @@ describe('columnContextMenu', function() {
       });
 
       it('moves the column right', function() {
-        expect(columns[1]).to.equal(column);
+        expect(wpTableColumns.index(column.name)).to.equal(1);
       });
     });
 
@@ -140,7 +144,7 @@ describe('columnContextMenu', function() {
       });
 
       it('removes the column from the query columns', function() {
-        expect(query.columns).to.not.include(column);
+        expect(wpTableColumns.index(column.name)).to.equal(-1);
       });
     });
 
@@ -163,6 +167,5 @@ describe('columnContextMenu', function() {
         expect(activateFn).to.have.been.called;
       });
     });
-
   });
 });

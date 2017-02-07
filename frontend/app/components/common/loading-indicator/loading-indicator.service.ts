@@ -79,7 +79,7 @@ export class LoadingIndicatorService {
   }
 
   private getIndicatorAt(name:string):JQuery {
-    return jQuery(indicatorLocationSelector).filter(`[data-indicator-name="${name}"`);
+    return jQuery(indicatorLocationSelector).filter(`[data-indicator-name="${name}"]`);
   }
 }
 

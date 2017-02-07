@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('WorkPackageContextMenuHelper', function() {
-  var PERMITTED_CONTEXT_MENU_ACTIONS = [
+  var PERMITTED_CONTEXT_MENU_ACTIONS:any = [
     {
       icon: 'edit',
       link: 'update'
@@ -53,23 +53,23 @@ describe('WorkPackageContextMenuHelper', function() {
   var WorkPackageContextMenuHelper;
   var stateParams = {};
 
-  var expectPermitted = function(workPackages, expected) {
+  var expectPermitted = function(workPackages, expected:any) {
     var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
                                        workPackages,
                                        PERMITTED_CONTEXT_MENU_ACTIONS);
 
     expect(_.filter(calculatedPermittedActions,
-                    function(o) { return o.icon === expected.icon; })[0].link)
+                    function(o:any) { return o.icon === expected.icon; })[0].link)
       .to.equal(expected.link);
   };
 
-  var expectNotPermitted = function(workPackages, expected) {
+  var expectNotPermitted = function(workPackages, expected:any) {
     var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
                                        workPackages,
                                        PERMITTED_CONTEXT_MENU_ACTIONS);
 
     expect(_.filter(calculatedPermittedActions,
-                    function(o) { return o.icon === expected.icon; }))
+                    function(o:any) { return o.icon === expected.icon; }))
       .to.be.empty;
   };
 
@@ -80,7 +80,7 @@ describe('WorkPackageContextMenuHelper', function() {
                     'openproject.services'));
 
   beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
+    var configurationService:any = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
     configurationService.warnOnLeavingUnsaved = sinon.stub().returns(false);
@@ -89,12 +89,26 @@ describe('WorkPackageContextMenuHelper', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
+
+  beforeEach(angular.mock.module('openproject.services', function($provide) {
+    let current = {
+      bulkLinks: {
+        update: '/work_packages/bulk/edit',
+        move: '/work_packages/bulk/move',
+        delete: '/work_packages/bulk/delete'
+      }
+    };
+
+    $provide.constant('wpTableMetadata', { current: current });
+  }));
+
   beforeEach(inject(function(_WorkPackageContextMenuHelper_) {
     WorkPackageContextMenuHelper = _WorkPackageContextMenuHelper_;
   }));
 
   describe('getPermittedActions', function() {
     var workPackage = {
+      id: '123',
       update: {
         href: '/work_packages/123/edit'
       },
@@ -123,22 +137,13 @@ describe('WorkPackageContextMenuHelper', function() {
     });
 
     describe('when more than one work package is passed as an argument', function() {
-      var anotherWorkPackage = {
+      var anotherWorkPackage:any = {
         update: {
           href: '/work_packages/234/edit'
         }
       };
       anotherWorkPackage.$links = { update: '/work_packages/234/edit' };
       var workPackages = [anotherWorkPackage, workPackage];
-
-      beforeEach(inject(function(_WorkPackagesTableService_) {
-        var WorkPackagesTableService = _WorkPackagesTableService_;
-        WorkPackagesTableService.setBulkLinks({
-          update: '/work_packages/bulk/edit',
-          move: '/work_packages/bulk/move',
-          delete: '/work_packages/bulk/delete'
-        });
-      }));
 
       it('does not return the action if it is not permitted on all work packages', function() {
         expectNotPermitted(workPackages, { icon: 'update',
