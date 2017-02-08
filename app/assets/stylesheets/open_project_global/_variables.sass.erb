@@ -166,7 +166,11 @@ $content-default-border-color:                  #EAEAEA !default
 $content-default-border-width:                  1px !default
 
 $content-link-color:                            $primary-color-dark !default
+\:root
+  --content-link-color:                         <%= DesignColor.defaults["primary-color-dark"] %>
 $content-link-hover-active-color:               $primary-color-dark !default
+\:root
+  --content-link-hover-active-color:            <%= DesignColor.defaults["primary-color-dark"] %>
 $content-icon-link-color:                       #4b4b4b !default
 $content-icon-link-hover-color:                 $primary-color-dark !default
 $content-icon-link-pressed-color:               $gray-dark !default
