@@ -108,8 +108,12 @@ export class State<T> extends StoreElement {
     return this.observable.take(1).toPromise();
   }
 
-  public observe(scope: IScope): Observable<T> {
+  public observeOnScope(scope: IScope): Observable<T> {
     return this.scopedObservable(scope);
+  }
+
+  public observeUntil(unsubscribeNotifier: Observable<any>): Observable<T> {
+    return this.observable.takeUntil(unsubscribeNotifier);
   }
 
   public observeCleared(scope: IScope): Observable<any> {

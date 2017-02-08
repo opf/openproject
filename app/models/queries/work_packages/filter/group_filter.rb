@@ -29,9 +29,7 @@
 
 class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      ::Group.all.map { |g| [g.name, g.id.to_s] }
-    end
+    all_groups.map { |g| [g.name, g.id.to_s] }
   end
 
   def available?
@@ -52,5 +50,21 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
 
   def self.key
     :member_of_group
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    all_groups.select { |g| value_ints.include?(g.id) }
+  end
+
+  private
+
+  def all_groups
+    @all_groups ||= ::Group.all
   end
 end

@@ -29,9 +29,7 @@
 
 class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      Status.all.map { |s| [s.name, s.id.to_s] }
-    end
+    all_statuses.map { |s| [s.name, s.id.to_s] }
   end
 
   def available?
@@ -48,5 +46,21 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
 
   def self.key
     :status_id
+  end
+
+  def value_objects
+    values_ids = values.map(&:to_i)
+
+    all_statuses.select { |status| values_ids.include?(status.id) }
+  end
+
+  def ar_object_filter?
+    true
+  end
+
+  private
+
+  def all_statuses
+    @all_statuses ||= Status.all
   end
 end

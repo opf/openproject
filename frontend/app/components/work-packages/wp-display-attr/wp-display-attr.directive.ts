@@ -119,7 +119,7 @@ function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
                     controllers) {
 
     if (!scope.$ctrl.customSchema) {
-      wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).observe(scope)
+      wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).observeOnScope(scope)
         .subscribe((wp: WorkPackageResource) => {
           scope.$ctrl.updateAttribute(wp);
         });

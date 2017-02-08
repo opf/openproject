@@ -37,7 +37,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams) {
     var deferred = this.$q.defer();
 
-    this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).observe(this.$scope)
+    this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).observeOnScope(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.createCopyFrom(wp).then(newWorkPackage => {
           deferred.resolve(newWorkPackage);

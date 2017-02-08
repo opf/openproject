@@ -108,5 +108,30 @@ describe Queries::WorkPackages::Filter::TypeFilter, type: :model do
         end
       end
     end
+
+    describe '#ar_object_filter?' do
+      it 'is true' do
+        expect(instance)
+          .to be_ar_object_filter
+      end
+    end
+
+    describe '#value_objects' do
+      let(:type1) { FactoryGirl.build_stubbed(:type) }
+      let(:type2) { FactoryGirl.build_stubbed(:type) }
+
+      before do
+        allow(project)
+          .to receive(:rolled_up_types)
+          .and_return([type1, type2])
+
+        instance.values = [type1.id.to_s, type2.id.to_s]
+      end
+
+      it 'returns an array of types' do
+        expect(instance.value_objects)
+          .to match_array([type1, type2])
+      end
+    end
   end
 end

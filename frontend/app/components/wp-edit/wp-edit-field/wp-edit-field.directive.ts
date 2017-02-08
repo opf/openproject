@@ -350,7 +350,7 @@ function wpEditField(wpCacheService: WorkPackageCacheService) {
     controllers[1].formCtrl = formCtrl;
 
     formCtrl.registerField(scope.vm);
-    wpCacheService.loadWorkPackage(formCtrl.workPackage.id).observe(scope)
+    wpCacheService.loadWorkPackage(formCtrl.workPackage.id).observeOnScope(scope)
       .subscribe((wp: WorkPackageResource) => {
         scope.vm.workPackage = wp;
         scope.vm.initializeField();

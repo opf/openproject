@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 
-
 describe Queries::WorkPackages::Filter::SubjectFilter, type: :model do
   it_behaves_like 'basic query filter' do
     let(:order) { 8 }
@@ -46,5 +45,7 @@ describe Queries::WorkPackages::Filter::SubjectFilter, type: :model do
         expect(instance.allowed_values).to be_nil
       end
     end
+
+    it_behaves_like 'non ar filter'
   end
 end

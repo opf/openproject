@@ -28,6 +28,22 @@
 #++
 
 module Queries::AvailableFilters
+  def self.included(base)
+    base.extend(ClassMethods)
+  end
+
+  module ClassMethods
+    def registered_filters
+      Queries::Register.filters[self]
+    end
+
+    def find_registered_filter(key)
+      registered_filters.detect do |f|
+        f.key === key.to_sym
+      end
+    end
+  end
+
   def available_filters
     uninitialized = registered_filters - already_initialized_filters
 
@@ -71,9 +87,7 @@ module Queries::AvailableFilters
   end
 
   def find_registered_filter(key)
-    registered_filters.detect do |f|
-      f.key === key.to_sym
-    end
+    self.class.find_registered_filter(key)
   end
 
   def find_initialized_filter(key)
@@ -86,15 +100,11 @@ module Queries::AvailableFilters
     @already_initialized_filters ||= []
   end
 
-  def registered_filters
-    @registered_filters ||= filter_register
-  end
-
   def initialized_filters
     @initialized_filters ||= []
   end
 
-  def filter_register
-    Queries::Register.filters[self.class]
+  def registered_filters
+    self.class.registered_filters
   end
 end

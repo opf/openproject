@@ -57,7 +57,7 @@ export class WorkPackageEditFormController {
       wpEditModeState.register(this);
     }
 
-    states.workPackages.get(this.workPackage.id.toString()).observe($scope)
+    states.workPackages.get(this.workPackage.id.toString()).observeOnScope($scope)
       .subscribe((wp: WorkPackageResource) => {
         this.workPackage = wp;
       });

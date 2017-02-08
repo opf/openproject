@@ -54,6 +54,7 @@ module API
           resp_headers = instance_exec &headers
           env['api.format'] = 'hal+json'
 
+          Rails.logger.error "Grape rescuing from error: #{e}"
           error_response status: e.code, message: representer.to_json, headers: resp_headers
         }
 

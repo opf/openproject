@@ -51,6 +51,16 @@ class Queries::WorkPackages::Filter::TypeFilter <
     :type_id
   end
 
+  def ar_object_filter?
+    true
+  end
+
+  def value_objects
+    value_ints = values.map(&:to_i)
+
+    types.select { |t| value_ints.include?(t.id) }
+  end
+
   private
 
   def types

@@ -1639,6 +1639,9 @@ en:
   project_module_timelines: "Timelines"
   project_module_wiki: "Wiki"
 
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+
   # possible query parameters (e.g. issue queries),
   # which are not attributes of an AR-Model.
   query_fields:
