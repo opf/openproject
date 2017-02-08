@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -10,7 +10,9 @@ export class ColumnsTransformer {
   constructor(public table: WorkPackageTable) {
     injectorBridge(this);
 
-    this.states.table.columns.observe(null).subscribe(() => {
+    // observeOnScope
+    // observeUntil
+    this.states.table.columns.observeUntil(this.states.table.stopAllSubscriptions).subscribe(() => {
       if (table.rows.length > 0) {
 
         var t0 = performance.now();
@@ -22,7 +24,7 @@ export class ColumnsTransformer {
         table.postRender();
         var t1 = performance.now();
 
-        debug_log("column redraw took " + (t1 - t0) + " milliseconds.");
+        debugLog("column redraw took " + (t1 - t0) + " milliseconds.");
       }
     });
   }

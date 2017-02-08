@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
@@ -43,7 +43,7 @@ export class GroupRowHandler implements TableEventHandler {
       var t0 = performance.now();
       this.builder.refreshExpansionState(table);
       var t1 = performance.now();
-      debug_log("Group redraw took " + (t1 - t0) + " milliseconds.");
+      debugLog("Group redraw took " + (t1 - t0) + " milliseconds.");
     });
   }
 

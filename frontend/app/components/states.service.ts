@@ -1,4 +1,4 @@
-import {when_debugging} from '../helpers/debug_output';
+import {whenDebugging} from '../helpers/debug_output';
 import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
 import {WPTableRowSelectionState, WorkPackageTableRow} from './wp-fast-table/wp-table.interfaces';
 import {MultiState, initStates, State} from "../helpers/reactive-fassade";
@@ -7,7 +7,7 @@ import {opServicesModule} from "../angular-modules";
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
 import {WorkPackageTableMetadata} from './wp-fast-table/wp-table-metadata';
-
+import {Subject} from 'rxjs';
 
 export class States {
 
@@ -28,7 +28,9 @@ export class States {
     // Current state of collapsed groups (if any)
     collapsedGroups: new State<{[identifier:string]: boolean}>(),
     // State to be updated when the table is up to date
-    rendered:new State<WorkPackageTable>()
+    rendered:new State<WorkPackageTable>(),
+    // Subject used to unregister all listeners of states above.
+    stopAllSubscriptions:new Subject()
   };
 
   // Query states
@@ -45,7 +47,7 @@ export class States {
 
   constructor() {
     initStates(this, function (msg: any) {
-      when_debugging(() => {
+      whenDebugging(() => {
         console.trace(msg);
       });
     });
@@ -54,11 +56,3 @@ export class States {
 }
 
 opServicesModule.service('states', States);
-
-
-
-
-
-
-
-

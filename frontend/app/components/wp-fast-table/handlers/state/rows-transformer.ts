@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {locateRow} from '../../helpers/wp-table-row-helpers';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -12,7 +12,7 @@ export class RowsTransformer {
     injectorBridge(this);
 
     // Redraw table if the current row state changed
-    this.states.table.rows.observe(null)
+    this.states.table.rows.observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((rows:WorkPackageResource[]) => {
       var t0 = performance.now();
 
@@ -20,12 +20,12 @@ export class RowsTransformer {
       table.postRender();
 
       var t1 = performance.now();
-      debug_log("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
+      debugLog("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
     });
 
 
     // Refresh a single row if it exists
-    this.states.workPackages.observe(null)
+    this.states.workPackages.observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((nextVal:[string, WorkPackageResource]) => {
         if (!nextVal) {
           return;
@@ -48,7 +48,7 @@ export class RowsTransformer {
   private refreshWorkPackage(table, row) {
     // If the work package is dirty, we're working on it
     if (row.object.dirty) {
-      debug_log("Skipping row " + row.workPackageId + " since its dirty");
+      debugLog("Skipping row " + row.workPackageId + " since its dirty");
       return;
     }
 
@@ -56,7 +56,7 @@ export class RowsTransformer {
     let oldRow = row.element || locateRow(row.workPackageId);
 
     if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
-      debug_log("Skipping row " + row.workPackageId + " since its fresh");
+      debugLog("Skipping row " + row.workPackageId + " since its fresh");
       return;
     }
 

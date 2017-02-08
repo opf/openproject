@@ -158,8 +158,8 @@ function WorkPackagesListController($scope,
 
     // yield updatable data to scope
     Observable.combineLatest(
-      states.table.columns.observe(null),
-      states.query.availableColumns.observe(null)
+      states.table.columns.observeUntil(states.table.stopAllSubscriptions),
+      states.query.availableColumns.observeUntil(states.table.stopAllSubscriptions)
     ).subscribe(() => {
       $scope.columns = wpTableColumns.getColumns();
     });

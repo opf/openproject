@@ -154,11 +154,3 @@ export class WorkPackageTableSelection {
 }
 
 opServicesModule.service('wpTableSelection', WorkPackageTableSelection);
-
-
-
-
-
-
-
-

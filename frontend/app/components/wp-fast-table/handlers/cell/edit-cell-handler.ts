@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {cellClassName, editableClassName} from '../../builders/cell-builder';
@@ -28,7 +28,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   protected processEvent(table: WorkPackageTable, evt:JQueryEventObject) {
-    debug_log('Starting editing on cell: ', evt.target);
+    debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
     // Locate the cell from event

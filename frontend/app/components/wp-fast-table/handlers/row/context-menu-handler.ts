@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
@@ -31,7 +31,7 @@ export class ContextMenuHandler implements TableEventHandler {
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id
     if (target.closest(`.${uiStateLinkClass}`).length) {
-      debug_log('Allowing original context menu on state link');
+      debugLog('Allowing original context menu on state link');
       return;
     }
     evt.preventDefault();

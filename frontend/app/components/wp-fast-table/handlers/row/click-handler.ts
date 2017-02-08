@@ -1,4 +1,4 @@
-import {debug_log} from '../../../../helpers/debug_output';
+import {debugLog} from '../../../../helpers/debug_output';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
@@ -30,7 +30,7 @@ export class RowClickHandler implements TableEventHandler {
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
     if (target.parents(`.${tdClassName}`).length) {
-      debug_log('Skipping click on inner cell');
+      debugLog('Skipping click on inner cell');
       return;
     }
 

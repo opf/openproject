@@ -77,7 +77,7 @@ describe('WorkPackageCacheService', () => {
   // it('should return a work package once the list gets initialized', () => {
   //   let workPackage: WorkPackageResource = null;
   //
-  //   wpCacheService.loadWorkPackage(1).observe(null).subscribe(wp => {
+  //   wpCacheService.loadWorkPackage(1).observe($rootScope).subscribe(wp => {
   //     workPackage = wp;
   //   });
   //

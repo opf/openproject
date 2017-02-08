@@ -1,4 +1,3 @@
-
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WPTableRowSelectionState} from '../../wp-table.interfaces';
@@ -6,14 +5,17 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {rowId} from '../../helpers/wp-table-row-helpers';
 import {checkedClassName} from '../../builders/ui-state-link-builder';
 import {rowClassName} from '../../builders/rows/single-row-builder';
+import {States} from '../../../states.service';
+
 export class SelectionTransformer {
   public wpTableSelection:WorkPackageTableSelection;
+  public states:States;
 
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
 
     this.wpTableSelection.selectionState
-      .observe(null).subscribe((state:WPTableRowSelectionState) => {
+      .observeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WPTableRowSelectionState) => {
       this.renderSelectionState(state);
     });
 
