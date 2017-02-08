@@ -80,6 +80,15 @@ See doc/COPYRIGHT.rdoc for more details.
               <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable], style: "border: 2px solid #{design_color.get_hexcode}" %>
             </div>
           </div>
+          <div class="form--field-instructions">
+            <% if design_color.variable == "primary-color" %>
+              <%= t("admin.custom_styles.instructions.primary_color") %>
+            <% elsif design_color.variable == "primary-color-dark" %>
+              <%= t("admin.custom_styles.instructions.primary_color_dark") %>
+            <% elsif design_color.variable == "alternative-color" %>
+              <%= t("admin.custom_styles.instructions.alternative_color") %>
+            <% end %>
+          </div>
         </div>
       <% end %>
 

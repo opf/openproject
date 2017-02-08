@@ -44,6 +44,10 @@ en:
       customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edit color select options"
+      instructions:
+        primary_color: "Main color."
+        primary_color_dark: "Typically a darker version of the main color used for hover effects."
+        alternative_color: "Strong accent color, typically used for most the important button on a screen."
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
