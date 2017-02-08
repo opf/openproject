@@ -31,7 +31,7 @@ class DesignColor < ActiveRecord::Base
     "primary-color"       => "#3493B3",
     "primary-color-dark"  => "#06799F",
     "alternative-color"   => "#35C53F"
-  }
+  }.freeze
 
   after_commit -> do
     # CustomStyle.current.updated_at determins the cache key for inline_css
@@ -53,12 +53,12 @@ class DesignColor < ActiveRecord::Base
 
   class << self
     def defaults
-      return DEFAULTS
+      DEFAULTS
     end
 
     def setables
       groups = overwritten.group_by(&:variable)
-      return DEFAULTS.map do |variable, hexcode|
+      DEFAULTS.map do |variable, _hexcode|
         if groups[variable].try(:any?)
           groups[variable].first
         else
@@ -78,7 +78,7 @@ class DesignColor < ActiveRecord::Base
   # shortcut to get the color's value
   def get_hexcode
     if hexcode.present?
-      return hexcode
+      hexcode
     else
       self.class.defaults[variable]
     end

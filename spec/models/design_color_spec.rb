@@ -6,7 +6,9 @@ RSpec.describe DesignColor, type: :model do
   describe "#defaults" do
     it "returns a hash of default color variables with hex color codes" do
       expect(described_class.defaults).to be_a(Hash)
-      expect(described_class.defaults["primary-color"]).to equal(described_class::DEFAULTS["primary-color"])
+      expect(described_class.defaults["primary-color"]).to(
+        equal(described_class::DEFAULTS["primary-color"])
+      )
     end
   end
 
@@ -34,14 +36,14 @@ RSpec.describe DesignColor, type: :model do
     end
 
     it "returns default hexcode if hexcode not present" do
-      expect(described_class.new( variable: "primary-color" ).get_hexcode).to eq("#3493B3")
+      expect(described_class.new(variable: "primary-color").get_hexcode).to eq("#3493B3")
     end
   end
 
   describe "validations" do
     context "a color_variable already exists" do
       let(:design_color) do
-        DesignColor.new( variable: "foo", hexcode: "#AB1234" )
+        DesignColor.new variable: "foo", hexcode: "#AB1234"
       end
 
       before do
@@ -49,9 +51,7 @@ RSpec.describe DesignColor, type: :model do
       end
 
       it 'fails validation for another design_color with same name' do
-        second_color_variable = DesignColor.new(
-          variable: "foo",
-          hexcode: "#888888" )
+        second_color_variable = DesignColor.new variable: "foo", hexcode: "#888888"
         expect(second_color_variable.valid?).to be_falsey
       end
     end

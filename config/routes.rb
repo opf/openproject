@@ -385,7 +385,7 @@ OpenProject::Application.routes.draw do
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
-    post  'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
+    post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: [:update, :show, :create], path: 'design'
 
     resources :groups do

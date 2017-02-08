@@ -89,11 +89,9 @@ class CustomStylesController < ApplicationController
       if design_color = DesignColor.find_by(variable: param_variable)
         if param_hexcode.blank?
           design_color.destroy
-        else
-          if design_color.hexcode != param_hexcode
-            design_color.hexcode = param_hexcode
-            design_color.save
-          end
+        elsif design_color.hexcode != param_hexcode
+          design_color.hexcode = param_hexcode
+          design_color.save
         end
       else
         # craete that design_color

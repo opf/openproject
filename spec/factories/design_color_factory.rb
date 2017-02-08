@@ -28,11 +28,11 @@
 
 FactoryGirl.define do
   factory(:design_color, class: DesignColor) do
-    hexcode do ('#%0.6x' % rand(0xFFFFFF)).upcase end
+    hexcode { ('#%0.6x' % rand(0xFFFFFF)).upcase }
   end
 end
 
-{"primary-color" => "#3493B3"}.each do |name, code|
+{ "primary-color" => "#3493B3" }.each do |name, code|
   FactoryGirl.define do
     factory(:"design_color_#{name}", parent: :design_color) do
       variable name
