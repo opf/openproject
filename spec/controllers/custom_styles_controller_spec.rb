@@ -203,7 +203,45 @@ describe CustomStylesController, type: :controller do
         end
       end
     end
+
+    describe "#update_colors" do
+      let(:params) do
+        {
+          design_colors: [{ "primary-color" => "#990000" }]
+        }
+      end
+
+      before do
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+
+        post :update_colors, params: params
+      end
+
+      it "saves DesignColor instances" do
+        design_colors = DesignColor.all
+        expect(design_colors.size).to eq(1)
+        expect(design_colors.first.hexcode).to eq("#990000")
+        expect(response).to redirect_to action: :show
+      end
+
+      it "updates DesignColor instances" do
+        post :update_colors, params: { design_colors: [{ "primary-color" => "#110000" }] }
+        design_colors = DesignColor.all
+        expect(design_colors.size).to eq(1)
+        expect(design_colors.first.hexcode).to eq("#110000")
+        expect(response).to redirect_to action: :show
+      end
+
+      it "deletes DesignColor instances for each param" do
+        expect(DesignColor.count).to eq(1)
+        post :update_colors, params: { design_colors: [{ "primary-color" => "" }] }
+        expect(DesignColor.count).to eq(0)
+        expect(response).to redirect_to action: :show
+      end
+
+    end
   end
+
 
   context 'regular user' do
     let(:user) { FactoryGirl.build(:user) }
