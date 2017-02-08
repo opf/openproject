@@ -47,4 +47,4 @@ export class SelectionTransformer {
   }
 }
 
-SelectionTransformer.$inject = ['wpTableSelection'];
+SelectionTransformer.$inject = ['wpTableSelection', 'states'];
