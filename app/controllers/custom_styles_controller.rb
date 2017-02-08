@@ -114,5 +114,4 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.require(:custom_style).permit(:logo, :remove_logo)
   end
-
 end

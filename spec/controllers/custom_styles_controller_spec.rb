@@ -238,10 +238,8 @@ describe CustomStylesController, type: :controller do
         expect(DesignColor.count).to eq(0)
         expect(response).to redirect_to action: :show
       end
-
     end
   end
-
 
   context 'regular user' do
     let(:user) { FactoryGirl.build(:user) }

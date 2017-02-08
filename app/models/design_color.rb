@@ -72,7 +72,6 @@ class DesignColor < ActiveRecord::Base
         DEFAULTS.keys.exclude? color_variable.variable
       end
     end
-
   end
 
   # shortcut to get the color's value
@@ -86,7 +85,7 @@ class DesignColor < ActiveRecord::Base
 
   protected
 
-  # TODO: Make it DRY! This method is taken from model PlanningElementTypeColor.
+  # This could be DRY! This method is taken from model PlanningElementTypeColor.
   def normalize_hexcode
     if hexcode.present? and hexcode_changed?
       self.hexcode = hexcode.strip.upcase
@@ -95,10 +94,9 @@ class DesignColor < ActiveRecord::Base
         self.hexcode = '#' + hexcode
       end
 
-      if hexcode.size == 4  # =~ /#.../
+      if hexcode.size == 4 # =~ /#.../
         self.hexcode = hexcode.gsub(/([^#])/, '\1\1')
       end
     end
   end
-
 end
