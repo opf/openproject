@@ -53,7 +53,8 @@ export class WorkPackageTimelineTableController {
 
   public disableViewParamsCalculation = false;
 
-  constructor(private $element: ng.IAugmentedJQuery,
+  constructor(private $scope: IScope,
+              private $element: ng.IAugmentedJQuery,
               private TypeResource,
               private states: States) {
 
@@ -111,7 +112,7 @@ export class WorkPackageTimelineTableController {
   addWorkPackage(wpId: string): Observable<RenderInfo> {
     // console.log("addWorkPackage() = " + wpId);
 
-    const wpObs = this.states.workPackages.get(wpId).observe(null)
+    const wpObs = this.states.workPackages.get(wpId).observeOnScope(this.$scope)
       .map((wp: any) => {
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
