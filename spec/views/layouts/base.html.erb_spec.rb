@@ -180,16 +180,28 @@ describe 'layouts/base', type: :view do
 
     context "EE is active and styles are present" do
       let(:custom_style) { CustomStyle.new }
+      let(:primary_color) { FactoryGirl.create :"design_color_primary-color" }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         allow(CustomStyle).to receive(:current).and_return(custom_style)
-
-        render
       end
 
       it "contains inline CSS block with those styles." do
         expect(response).to render_template partial: 'custom_styles/_inline_css'
+
+        render
+      end
+
+      it "renders CSS4 variables" do
+        custom_style.save
+        primary_color
+        render
+        expect(DesignColor.overwritten.size).to eq(1)
+        expect(response).to render_template partial: 'custom_styles/_inline_css'
+        expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
+        # some random sample of a derived color:
+        expect(rendered).to match /--header-bg-color:\s*#{primary_color.get_hexcode}/
       end
     end
 
