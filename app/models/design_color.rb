@@ -75,7 +75,7 @@ class DesignColor < ActiveRecord::Base
 
   end
 
-  # shortcut to get the colorvalue
+  # shortcut to get the color's value
   def get_hexcode
     if hexcode.present?
       return hexcode
@@ -86,8 +86,7 @@ class DesignColor < ActiveRecord::Base
 
   protected
 
-  # Extract that method to a separate service as it is a duplicat the one in
-  # PlanningElementTypeColor.
+  # TODO: Make it DRY! This method is taken from model PlanningElementTypeColor.
   def normalize_hexcode
     if hexcode.present? and hexcode_changed?
       self.hexcode = hexcode.strip.upcase

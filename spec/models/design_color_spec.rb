@@ -1,19 +1,40 @@
 require 'spec_helper'
 
 RSpec.describe DesignColor, type: :model do
-  let(:color_red) { FactoryGirl.create :design_color_red }
-  let(:color_blue) { FactoryGirl.create :disign_color_blue }
+  let(:primary_color) { FactoryGirl.create :"design_color_primary-color" }
 
   describe "#defaults" do
-    it "returns an array of default vars with hex color codes" do
-
-
+    it "returns a hash of default color variables with hex color codes" do
+      expect(described_class.defaults).to be_a(Hash)
+      expect(described_class.defaults["primary-color"]).to equal(described_class::DEFAULTS["primary-color"])
     end
   end
 
   describe "#setables" do
-    it "returns a list of variable names that can be overwritten" do
+    it "returns an Array of instances" do
+      expect(described_class.setables).to be_a(Array)
+      expect(described_class.setables.first).to be_a(described_class)
+    end
 
+    it 'not overwritten defaults do not have a color set' do
+      expect(described_class.setables.first.hexcode).to be_nil
+    end
+
+    it "instances overwrite defaults" do
+      primary_color
+      expect(described_class.setables.first.hexcode).to eq("#3493B3")
+      expect(described_class.setables.second.hexcode).to be_nil
+    end
+  end
+
+  describe "#get_hexcode" do
+    it "returns hexcode if present" do
+      primary_color
+      expect(primary_color.get_hexcode).to eq("#3493B3")
+    end
+
+    it "returns default hexcode if hexcode not present" do
+      expect(described_class.new( variable: "primary-color" ).get_hexcode).to eq("#3493B3")
     end
   end
 
