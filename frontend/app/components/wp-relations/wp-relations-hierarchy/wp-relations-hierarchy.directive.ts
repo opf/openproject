@@ -47,7 +47,7 @@ export class WorkPackageRelationsHierarchyController {
 
     this.wpCacheService
       .loadWorkPackage(<number> this.workPackage.id)
-      .observe(this.$scope)
+      .observeOnScope(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadParent();
@@ -72,7 +72,7 @@ export class WorkPackageRelationsHierarchyController {
 
     this.wpCacheService
       .loadWorkPackage(this.workPackage.parentId)
-      .observe(this.$scope)
+      .observeOnScope(this.$scope)
       .take(1)
       .subscribe((parent:WorkPackageResourceInterface) => {
         this.workPackage.parent = parent;

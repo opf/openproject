@@ -59,7 +59,7 @@ export class WorkPackageRelationsController {
     // Listen for changes to this WP.
     this.wpCacheService
       .loadWorkPackage(<number> this.workPackage.id)
-      .observe(this.$scope)
+      .observeOnScope(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.workPackage.relations.$load().then(this.loadRelations.bind(this));
@@ -67,7 +67,7 @@ export class WorkPackageRelationsController {
   }
 
   protected getRelatedWorkPackages(workPackageIds:number[]) {
-    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observe(this.$scope));
+    let observablesToGetZipped = workPackageIds.map(wpId => this.wpCacheService.loadWorkPackage(wpId).observeOnScope(this.$scope));
 
     if (observablesToGetZipped.length > 1) {
       return Observable

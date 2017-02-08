@@ -82,7 +82,7 @@ export class WorkPackageCreateController {
         wpCacheService.updateWorkPackage(wp);
 
         if ($state.params.parent_id) {
-          wpCacheService.loadWorkPackage($state.params.parent_id).observe($scope)
+          wpCacheService.loadWorkPackage($state.params.parent_id).observeOnScope($scope)
             .subscribe(parent => {
               this.parentWorkPackage = parent;
               this.newWorkPackage.parent = parent;

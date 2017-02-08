@@ -64,7 +64,7 @@ describe('WorkPackageCacheService', () => {
     wpCacheService.updateWorkPackageList(dummyWorkPackages);
 
     let workPackage: WorkPackageResource;
-    wpCacheService.loadWorkPackage(1).observe(null).subscribe(wp => {
+    wpCacheService.loadWorkPackage(1).observeOnScope(null).subscribe(wp => {
       workPackage = wp;
       expect(workPackage.id).to.eq(1);
       done();
@@ -100,7 +100,7 @@ describe('WorkPackageCacheService', () => {
     wpCacheService.updateWorkPackageList([workPackage]);
     $rootScope.$apply();
 
-    wpCacheService.loadWorkPackage(1).observe(null).subscribe((wp: any) => {
+    wpCacheService.loadWorkPackage(1).observeOnScope(null).subscribe((wp: any) => {
       expect(wp.id).to.eq(1);
       expect(wp.dummy).to.eq(expected);
 
