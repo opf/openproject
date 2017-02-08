@@ -68,7 +68,11 @@ $h4-font-color:           $body-font-color  !default
 
 $header-height:                                 55px !default
 $header-bg-color:                               $primary-color !default
+\:root
+  --header-bg-color:                            <%= DesignColor.defaults["primary-color"] %>
 $header-border-bottom-color:                    $primary-color !default
+\:root
+  --header-border-bottom-color:                 <%= DesignColor.defaults["primary-color"] %>
 $header-border-bottom-width:                    0 !default
 $header-item-font-size:                         14px !default
 $header-item-font-color:                        $font-color-on-primary !default

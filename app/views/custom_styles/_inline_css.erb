@@ -46,6 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
 
     <% if design_color.variable == "primary-color" %>
+      --header-bg-color:                    <%= design_color.hexcode %>;
       --header-border-bottom-color:         <%= design_color.hexcode %>;
       --footer-bg-color:                    <%= design_color.hexcode %>;
       --drop-down-selected-bg-color:        <%= design_color.hexcode %>;
@@ -69,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
 
     <% if design_color.variable == "alternative-color" %>
-        --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
+      --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
     <% end %>
   <% end %>
   }
