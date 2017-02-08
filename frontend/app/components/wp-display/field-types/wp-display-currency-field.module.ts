@@ -30,8 +30,6 @@ import {DisplayField} from 'core-components/wp-display/wp-display-field/wp-displ
 
 export class CurrencyDisplayField extends DisplayField {
 
-  isManualRenderer = true;
-
   public isEmpty(): boolean {
     return !this.value ||
       !parseFloat(this.value.split(" ")[0]);
