@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
+module.exports = function(DEFAULT_PAGINATION_OPTIONS,ConfigurationService) {
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
-    perPage: DEFAULT_PAGINATION_OPTIONS.perPage,
-    perPageOptions: DEFAULT_PAGINATION_OPTIONS.perPageOptions,
+    perPage: ConfigurationService.settings.pagination.per_page_options[0],
+    perPageOptions: ConfigurationService.settings.pagination.per_page_options,
     maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
     optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
   };
-
+  
   var PaginationService = {
     getPaginationOptions: function() {
       return paginationOptions;

@@ -41,7 +41,7 @@ angular.module('openproject.services')
     '$timeout',
     'PathHelper',
     require('./keyboard-shortcut-service')])
-  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
+  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS','ConfigurationService', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])

@@ -149,8 +149,8 @@ angular.module('openproject.workPackages.config')
 
 .constant('DEFAULT_PAGINATION_OPTIONS', {
   page: 1,
-  perPage: 10,
-  perPageOptions: [10, 100, 500, 1000],
+  perPage: 20,
+  perPageOptions: [20, 100, 500, 1000],
   maxVisiblePageOptions: 6,
   optionsTruncationSize: 1
 });
