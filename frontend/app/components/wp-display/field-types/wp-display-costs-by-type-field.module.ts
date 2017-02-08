@@ -45,14 +45,13 @@ interface ICostsByType {
 
 export class CostsByTypeDisplayField extends DisplayField {
 
-  private wpCacheService:WorkPackageCacheService;
+  public wpCacheService:WorkPackageCacheService;
 
   constructor(public resource:HalResource,
               public name:string,
               public schema) {
     super(resource, name, schema);
 
-    this.wpCacheService = <WorkPackageCacheService> this.$injector.get('wpCacheService');
     this.loadIfNecessary();
   }
 
@@ -79,3 +78,5 @@ export class CostsByTypeDisplayField extends DisplayField {
            this.value.elements.length === 0;
   }
 }
+
+CostsByTypeDisplayField.$inject = ['wpCacheService'];
