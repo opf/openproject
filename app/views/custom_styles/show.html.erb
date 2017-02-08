@@ -75,11 +75,12 @@ See doc/COPYRIGHT.rdoc for more details.
       <% DesignColor.setables.each do |design_color|  %>
         <div class="form--field -required">
           <label class="form--label"><%= design_color.variable %>:</label>
-          <div class="form--field-container">
-            <div class="form--text-container">
-              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable], style: "border: 2px solid #{design_color.get_hexcode}" %>
-            </div>
-          </div>
+          <span class="form--field-container">
+            <span class="form--text-field-container">
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable] %>
+            </span>
+          </span>
+          <%= icon_for_color(OpenStruct.new( variable: design_color.variable, hexcode: design_color.get_hexcode ), class: 'timelines-x-update-color timelines-color-properties-preview', data: { target: '#color_hexcode' }) %>
           <div class="form--field-instructions">
             <% if design_color.variable == "primary-color" %>
               <%= t("admin.custom_styles.instructions.primary_color") %>
