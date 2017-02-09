@@ -37,6 +37,7 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::StatusTransitions
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntries
+  include WorkPackage::Ancestors
 
   include OpenProject::Journal::AttachmentHelper
 

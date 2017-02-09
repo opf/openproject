@@ -183,10 +183,19 @@ module API
         def full_work_packages(ids_in_order)
           wps = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
 
+          eager_load_ancestry(wps, ids_in_order)
           eager_load_user_custom_values(wps)
           eager_load_version_custom_values(wps)
 
           wps.sort_by { |wp| ids_in_order.index(wp.id) }
+        end
+
+        def eager_load_ancestry(work_packages, ids_in_order)
+          grouped = WorkPackage.aggregate_ancestors(ids_in_order, current_user)
+
+          work_packages.each do |wp|
+            wp.work_package_ancestors = grouped[wp.id] || []
+          end
         end
 
         def eager_load_user_custom_values(work_packages)

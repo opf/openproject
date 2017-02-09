@@ -722,6 +722,10 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
               let(:href) { api_v3_paths.work_package(visible_parent.id) }
               let(:title) { visible_parent.subject }
             end
+
+            it 'renders it as the ancestors' do
+              expect(subject).to have_json_size(1).at_path('_links/ancestors')
+            end
           end
 
           context 'parent not visible' do
@@ -733,6 +737,42 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
             it_behaves_like 'has no link' do
               let(:link) { 'parent' }
+            end
+
+            it 'renders empty ancestors' do
+              expect(subject).to have_json_size(0).at_path('_links/ancestors')
+            end
+          end
+        end
+
+        context 'ancestors' do
+          let(:root) { FactoryGirl.create(:work_package, project: project) }
+          let(:work_package) do
+            FactoryGirl.create(:work_package, parent: intermediate, project: project)
+          end
+
+          context 'when intermediate is visible' do
+            let(:intermediate) do
+              FactoryGirl.create(:work_package, parent: root, project: project)
+            end
+
+            it 'renders two items in ancestors' do
+              expect(subject).to have_json_size(2).at_path('_links/ancestors')
+              expect(parse_json(subject)['_links']['ancestors'][0]['title'])
+                .to eq(root.subject)
+              expect(parse_json(subject)['_links']['ancestors'][1]['title'])
+                .to eq(intermediate.subject)
+            end
+          end
+
+          context 'when intermdiate is invisible' do
+            let(:intermediate) do
+              FactoryGirl.create(:work_package, parent: root, project: forbidden_project)
+            end
+
+            it 'renders the root node in ancestors' do
+              expect(subject).to have_json_size(1).at_path('_links/ancestors')
+              expect(parse_json(subject)['_links']['ancestors'][0]['title']).to eq(root.subject)
             end
           end
         end
