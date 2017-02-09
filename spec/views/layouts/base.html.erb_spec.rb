@@ -199,8 +199,6 @@ describe 'layouts/base', type: :view do
         expect(DesignColor.overwritten.size).to eq(1)
         expect(response).to render_template partial: 'custom_styles/_inline_css'
         expect(rendered).to match /--primary-color:\s*#{primary_color.get_hexcode}/
-        # some random sample of a derived color:
-        expect(rendered).to match /--header-bg-color:\s*#{primary_color.get_hexcode}/
       end
     end
 
