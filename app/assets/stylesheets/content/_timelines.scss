@@ -86,3 +86,14 @@ table.timelines-dates {
 .contextual.timelines-for_previous_heading {
   margin-top: -2.6em;
 }
+
+a.tl-discreet-link:hover, input.icon:hover {
+  color:      $primary-color-dark;
+  color: var(--primary-color-dark);
+  text-decoration: underline;
+}
+
+a.tl-discreet-link, input.tl-discreet-link {
+  color: $body-font-color;
+  font-weight: normal;
+}
