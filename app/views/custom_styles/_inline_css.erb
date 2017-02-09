@@ -44,31 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
   :root {
   <%  DesignColor.overwritten.each do |design_color| %>
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
-
-    <% if design_color.variable == "primary-color" %>
-      --header-bg-color:                    <%= design_color.hexcode %>;
-      --header-border-bottom-color:         <%= design_color.hexcode %>;
-      --footer-bg-color:                    <%= design_color.hexcode %>;
-      --drop-down-selected-bg-color:        <%= design_color.hexcode %>;
-      --button--highlight-background-color: <%= design_color.hexcode %>;
-      --slider-thumb-color:                 <%= design_color.hexcode %>;
-      --main-menu-selected-indicator-color: <%= design_color.hexcode %>;
-      --main-menu-bg-selected-background: url() no-repeat <%= design_color.hexcode %>;
-      --main-menu-child-bg-selected-color:  <%= design_color.hexcode %>;
-    <% end %>
-
-    <% if design_color.variable == "primary-color-dark" %>
-      --button--highlight-background-hover-color: <%= design_color.hexcode %>;
-      --header-item-bg-hover-color:               <%= design_color.hexcode %>;
-      --main-menu-child-bg-hover-color:           <%= design_color.hexcode %>;
-      --main-menu-hover-indicator-color:          <%= design_color.hexcode %>;
-      --main-menu-bg-hover-background: url() no-repeat <%= design_color.hexcode %>;
-      --drop-down-hover-bg-color:                 <%= design_color.hexcode %>;
-      --content-link-color:                       <%= design_color.hexcode %>;
-      --content-icon-color:                       <%= design_color.hexcode %>;
-      --content-link-hover-active-color:          <%= design_color.hexcode %>;
-    <% end %>
-
+    
     <% if design_color.variable == "alternative-color" %>
       --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
     <% end %>

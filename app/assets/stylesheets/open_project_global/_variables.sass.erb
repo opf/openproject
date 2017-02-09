@@ -48,7 +48,6 @@ $<%= var %>: <%= hexcode %>
   --<%= var %>: <%= hexcode %>
   <% end %>
 
-
 $secondary-color:         #bfbfbf !default
 
 // these colors should ensure a satisfying contrast for text on the given BG color
@@ -69,17 +68,17 @@ $h4-font-color:           $body-font-color  !default
 $header-height:                                 55px !default
 $header-bg-color:                               $primary-color !default
 \:root
-  --header-bg-color:                            <%= DesignColor.defaults["primary-color"] %>
+  --header-bg-color:                            var(--primary-color)
 $header-border-bottom-color:                    $primary-color !default
 \:root
-  --header-border-bottom-color:                 <%= DesignColor.defaults["primary-color"] %>
+  --header-border-bottom-color:                 var(--primary-color)
 $header-border-bottom-width:                    0 !default
 $header-item-font-size:                         14px !default
 $header-item-font-color:                        $font-color-on-primary !default
 $header-item-font-hover-color:                  $font-color-on-primary-dark !default
 $header-item-bg-hover-color:                    $primary-color-dark !default
 \:root
-  --header-item-bg-hover-color:                 <%= DesignColor.defaults["primary-color-dark"] %>
+  --header-item-bg-hover-color:                 var(--primary-color-dark)
 $header-drop-down-bg-color:                     #FFFFFF !default
 $header-drop-down-border-color:                 #E0E0E0 !default
 $header-drop-down-item-font-color:              $body-font-color !default
@@ -115,20 +114,20 @@ $main-menu-enable-toggle-highlighting:          false !default
 $main-menu-bg-color:                            #F8F8F8 !default
 $main-menu-bg-selected-background:              url() no-repeat $primary-color !default
 \:root
-  --main-menu-bg-selected-background:           url() no-repeat <%= DesignColor.defaults["primary-color"] %>
+  --main-menu-bg-selected-background:           url() no-repeat var(--primary-color)
 
 $main-menu-bg-hover-background:                 url() no-repeat $primary-color-dark !default
 \:root
-  --main-menu-bg-hover-background:              url() no-repeat <%= DesignColor.defaults["primary-color-dark"] %>
+  --main-menu-bg-hover-background:              url() no-repeat var(--primary-color-dark)
 $main-menu-font-color:                          #333333 !default
 $main-menu-selected-font-color:                 $font-color-on-primary !default
 $main-menu-font-size:                           15px !default
 $main-menu-selected-indicator-color:            $primary-color !default
 \:root
-  --main-menu-selected-indicator-color:         <%= DesignColor.defaults["primary-color"] %>
+  --main-menu-selected-indicator-color:         var(--primary-color)
 $main-menu-hover-indicator-color:               $primary-color-dark !default
 \:root
-  --main-menu-hover-indicator-color:            <%= DesignColor.defaults["primary-color-dark"] %>
+  --main-menu-hover-indicator-color:            var(--primary-color-dark)
 $main-menu-selected-hover-indicator-width:      4px !default
 $main-menu-selected-hover-border-color:         $main-menu-border-color !default
 
@@ -139,10 +138,10 @@ $main-menu-child-item-height:                   38px !default
 $main-menu-child-menu-bg-color:                 #FFFFFF !default
 $main-menu-child-bg-selected-color:             $primary-color !default
 \:root
-  --main-menu-child-bg-selected-color:          <%= DesignColor.defaults["primary-color"] %>
+  --main-menu-child-bg-selected-color:          var(--primary-color)
 $main-menu-child-bg-hover-color:                $primary-color-dark !default
 \:root
-  --main-menu-child-bg-hover-color:             <%= DesignColor.defaults["primary-color-dark"] %>
+  --main-menu-child-bg-hover-color:             var(--primary-color-dark)
 $main-menu-child-menu-border-color:             #E7E7E7 !default
 $main-menu-child-font-color:                    #04232F !default
 $main-menu-child-font-size:                     13px !default
@@ -171,10 +170,10 @@ $content-default-border-width:                  1px !default
 
 $content-link-color:                            $primary-color-dark !default
 \:root
-  --content-link-color:                         <%= DesignColor.defaults["primary-color-dark"] %>
+  --content-link-color:                         var(--primary-color-dark)
 $content-link-hover-active-color:               $primary-color-dark !default
 \:root
-  --content-link-hover-active-color:            <%= DesignColor.defaults["primary-color-dark"] %>
+  --content-link-hover-active-color:            var(--primary-color-dark)
 $content-icon-link-color:                       #4b4b4b !default
 $content-icon-link-hover-color:                 $primary-color-dark !default
 $content-icon-link-pressed-color:               $gray-dark !default
@@ -214,10 +213,10 @@ $drop-down-unselected-font-color:               $main-menu-font-color !default
 $drop-down-selected-font-color:                 $font-color-on-primary !default
 $drop-down-selected-bg-color:                   $primary-color !default
 \:root
-  --drop-down-selected-bg-color:                <%= DesignColor.defaults["primary-color"] %>
+  --drop-down-selected-bg-color:                var(--primary-color)
 $drop-down-hover-bg-color:                      $primary-color-dark !default
 \:root
-  --drop-down-hover-bg-color:                   <%= DesignColor.defaults["primary-color-dark"] %>
+  --drop-down-hover-bg-color:                   var(--primary-color-dark)
 $action-menu-bg-color:                          #FFFFFF
 
 $wiki-default-font-size:                        1rem
