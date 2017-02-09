@@ -43,8 +43,10 @@ function runKarma(successCallback, errorCallback) {
     exitCode === 0 ? successCallback() : errorCallback();
     process.exit(exitCode);
   };
-  
-  karma.server.start(settings, callback);
+
+
+  var server = new karma.Server(settings, callback);
+  server.start();
 }
 
 module.exports = runKarma;
