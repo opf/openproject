@@ -34,18 +34,9 @@ module API
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
           get do
-            query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
-
-            if query.valid?
-              available_projects = query.results.visible(current_user)
-              self_link = [api_v3_paths.projects, params.to_query].join('?')
-
-              ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
-                                                                    self_link,
-                                                                    current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Project.visible(current_user),
+                                                                    current_user,
+                                                                    params)
           end
 
           params do

@@ -32,22 +32,15 @@ module API
       class PrincipalsAPI < ::API::OpenProjectAPI
         resource :principals do
           get do
-            query = ::API::V3::ParamsToQueryService.new(Principal, current_user).call(params)
+            scope = Principal.includes(:preference, :members)
+                             .where(members: { project_id: Project.visible(current_user) })
 
-            if query.valid?
-              results = query
-                        .results
-                        .includes(:preference, :members)
-                        .where(members: { project_id: Project.visible(current_user) })
+            representer = Users::UserCollectionRepresenter
 
-              self_link = [api_v3_paths.principals, params.to_query].join('?')
-
-              Users::UserCollectionRepresenter.new(results,
-                                                   self_link,
-                                                   current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
+            ::API::V3::Utilities::ParamsToQuery.collection_response(scope,
+                                                                    current_user,
+                                                                    params,
+                                                                    representer: representer)
           end
         end
       end
