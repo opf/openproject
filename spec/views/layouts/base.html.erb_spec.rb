@@ -188,9 +188,8 @@ describe 'layouts/base', type: :view do
       end
 
       it "contains inline CSS block with those styles." do
-        expect(response).to render_template partial: 'custom_styles/_inline_css'
-
         render
+        expect(response).to render_template partial: 'custom_styles/_inline_css'
       end
 
       it "renders CSS4 variables" do
