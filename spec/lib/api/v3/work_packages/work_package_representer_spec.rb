@@ -746,14 +746,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'ancestors' do
-          let(:root) { FactoryGirl.create(:work_package, project: project) }
-          let(:work_package) do
-            FactoryGirl.create(:work_package, parent: intermediate, project: project)
+          let(:root) { FactoryGirl.build_stubbed(:work_package, project: project) }
+          let(:intermediate) do
+            FactoryGirl.build_stubbed(:work_package, parent: root, project: project)
           end
 
-          context 'when intermediate is visible' do
-            let(:intermediate) do
-              FactoryGirl.create(:work_package, parent: root, project: project)
+          context 'when ancestors are visible' do
+            before do
+              expect(work_package).to receive(:visible_ancestors)
+                .and_return([root, intermediate])
             end
 
             it 'renders two items in ancestors' do
@@ -765,14 +766,14 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             end
           end
 
-          context 'when intermdiate is invisible' do
-            let(:intermediate) do
-              FactoryGirl.create(:work_package, parent: root, project: forbidden_project)
+          context 'when ancestors are invisible' do
+            before do
+              expect(work_package).to receive(:visible_ancestors)
+                .and_return([])
             end
 
             it 'renders the root node in ancestors' do
-              expect(subject).to have_json_size(1).at_path('_links/ancestors')
-              expect(parse_json(subject)['_links']['ancestors'][0]['title']).to eq(root.subject)
+              expect(subject).to have_json_size(0).at_path('_links/ancestors')
             end
           end
         end
