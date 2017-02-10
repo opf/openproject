@@ -48,14 +48,16 @@ describe 'hourly rates on a member', type: :feature, js: true do
       fill_in 'Valid from', with: date.strftime('%Y-%m-%d') if date
       fill_in 'Rate', with: rate
     end
-
-    # Close the date picker if still open
-    find('.ui-datepicker-close').click rescue nil
   end
 
   def change_rate_date(from:, to:)
     input = find("table.rates .date[value='#{from.strftime('%Y-%m-%d')}']")
     input.set(to.strftime('%Y-%m-%d'))
+
+    find('.ui-datepicker-close').click rescue nil
+
+    # Without this, the opening Datepicker seems to revert the result???
+    sleep(1)
   end
 
   before do
@@ -85,8 +87,6 @@ describe 'hourly rates on a member', type: :feature, js: true do
     click_link('10.00 EUR')
 
     change_rate_date(from: Date.today, to: 5.days.ago)
-
-    find('.ui-datepicker-close').click rescue nil
 
     click_button 'Save'
 
