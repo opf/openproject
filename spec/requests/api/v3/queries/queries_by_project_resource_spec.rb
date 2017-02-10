@@ -26,30 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      class QueriesByProjectAPI < ::API::OpenProjectAPI
-        namespace :queries do
-          helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+require 'spec_helper'
+require 'rack/test'
 
-          before do
-            authorize(:view_work_packages, context: @project, user: current_user)
-          end
+describe 'API v3 Query resource', type: :request do
+  include Rack::Test::Methods
+  include API::V3::Utilities::PathHelper
 
-          mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
-          mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
+  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [:view_work_packages] }
 
-          namespace :default do
-            get do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
-                                        project: @project)
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
 
-              query_representer_response(query, params)
-            end
-          end
-        end
+  describe '#get projects/:project_id/queries/default' do
+    let(:base_path) { api_v3_paths.query_project_default(project.id) }
+
+    it_behaves_like 'GET individual query' do
+      context 'lacking permissions' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
       end
     end
   end

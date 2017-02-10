@@ -34,7 +34,7 @@ module API
   module V3
     module Queries
       class QueryRepresenter < ::API::Decorators::Single
-        self_link id_attribute: ->(*) { represented.persisted? ? represented.id : 'default' }
+        self_link
 
         attr_accessor :results,
                       :params
@@ -200,6 +200,16 @@ module API
 
         def _type
           'Query'
+        end
+
+        def self_v3_path(*_args)
+          if represented.new_record? && represented.project
+            api_v3_paths.query_project_default(represented.project.id)
+          elsif represented.new_record?
+            api_v3_paths.query_default
+          else
+            super
+          end
         end
       end
     end

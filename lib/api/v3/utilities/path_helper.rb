@@ -143,6 +143,10 @@ module API
             "#{queries}/default"
           end
 
+          def self.query_project_default(id)
+            "#{project(id)}/queries/default"
+          end
+
           def self.query_star(id)
             "#{query(id)}/star"
           end

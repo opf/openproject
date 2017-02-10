@@ -29,24 +29,20 @@
 module API
   module V3
     module Queries
-      class QueriesByProjectAPI < ::API::OpenProjectAPI
-        namespace :queries do
-          helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+      module Helpers
+        module QueryRepresenterResponse
+          def query_representer_response(query, params)
+            representer = ::API::V3::WorkPackageCollectionFromQueryService
+                          .new(query, current_user)
+                          .call(params)
 
-          before do
-            authorize(:view_work_packages, context: @project, user: current_user)
-          end
-
-          mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
-          mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
-
-          namespace :default do
-            get do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
-                                        project: @project)
-
-              query_representer_response(query, params)
+            if representer.success?
+              QueryRepresenter.new(query,
+                                   current_user: current_user,
+                                   results: representer.result,
+                                   params: params)
+            else
+              raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
             end
           end
         end
