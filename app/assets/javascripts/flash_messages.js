@@ -27,9 +27,9 @@
 //++
 
 jQuery(document).ready(function($) {
-  $('body').on('click keydown touchend', '.close-handler', function (e) {
+  $('body').on('click keydown touchend', '.close-handler,.notification-box--close', function (e) {
     if (e.type == 'click' || e.keyCode == 13) {
-      $(this).parent('.flash, .errorExplanation').remove();
+      $(this).parent('.flash, .errorExplanation, .notification-box').remove();
     }
   });
 });
