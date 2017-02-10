@@ -198,6 +198,27 @@ export class WpTimelineHeader {
       this.headerCell = jQuery(cssClassHeader)[0];
       this.outerHeader = jQuery(cssHeaderContainer);
       this.setupScrollbar();
+
+
+
+      // TODO TEST
+
+      // const b = document.createElement("div");
+      // b.style.display = "block";
+      // b.style.position = "absolut";
+      // b.style.left = "50px";
+      // b.style.top = "10px";
+      // b.style.backgroundColor = "red";
+      // b.style.width = "50px";
+      // b.style.height = "50px";
+      // b.style.zIndex = "99999";
+      //
+      // this.headerCell.appendChild(b);
+      // console.log(b);
+
+
+
+      // TODO TEST
     }
 
     this.containerHeight = jQuery(cssClassTableContainer).outerHeight() + this.headerHeight;

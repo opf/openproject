@@ -165,7 +165,8 @@ export function registerWorkPackageMouseHandler(this: void,
         const widthInDays = offsetDayCurrent - offsetDayStart;
         const moved = renderer.onDaysMoved(wp, dayUnderCursor, widthInDays, mouseDownType);
         renderer.assignDateValues(wp, moved);
-        renderer.update(cell, bar, renderInfo);
+        wpCacheService.updateWorkPackage(wp);
+
       };
 
       cell.onmouseleave = () => {
