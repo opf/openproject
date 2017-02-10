@@ -122,7 +122,10 @@ class ApplicationController < ActionController::Base
   helper Redmine::MenuManager::MenuHelper
 
   def default_url_options(_options = {})
-    { layout: params['layout'] }
+    {
+      layout: params['layout'],
+      protocol: Setting.protocol
+    }
   end
 
   # set http headers so that the browser does not store any
