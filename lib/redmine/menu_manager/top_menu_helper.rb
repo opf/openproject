@@ -35,14 +35,14 @@ module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_left
     content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
       [render_main_top_menu_nodes,
-       render_projects_top_menu_node,
-       render_module_top_menu_node].join.html_safe
+       render_projects_top_menu_node].join.html_safe
     end
   end
 
   def render_top_menu_right
     content_tag :ul, id: 'account-nav-right', class: 'menu_root account-nav' do
-      [render_help_top_menu_node,
+      [render_module_top_menu_node,
+       render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
     end
   end
@@ -106,10 +106,10 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
-      label: l(:label_modules),
-      label_options: { class: 'icon3 icon-modules' },
+      label: '',
+      label_options: { class: 'icon-modules' },
       items: items,
-      options: { drop_down_id: 'more-menu' }
+      options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: '-hide-icon' }
     )
   end
 
