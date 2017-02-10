@@ -89,6 +89,19 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         .at_path('_links/schemas/href')
     end
 
+    describe 'ancestors' do
+      before do
+        expect(WorkPackage).to receive(:aggregate_ancestors).and_call_original
+      end
+
+      it 'are being eager loaded' do
+        representer.represented.each do |wp|
+          expect(wp.work_package_ancestors).to be_kind_of(Array)
+          expect(wp.ancestors).to eq(wp.work_package_ancestors)
+        end
+      end
+    end
+
     context 'when the user has the add_work_package permission in any project' do
       before do
         allow(user)

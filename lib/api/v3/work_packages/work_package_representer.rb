@@ -293,6 +293,15 @@ module API
           end unless visible_children.empty?
         end
 
+        links :ancestors do
+          represented.visible_ancestors(current_user).map do |ancestor|
+            {
+              href: api_v3_paths.work_package(ancestor.id),
+              title: ancestor.subject
+            }
+          end
+        end
+
         property :id, render_nil: true
         property :lock_version
         property :subject, render_nil: true
