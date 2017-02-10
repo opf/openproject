@@ -7,7 +7,7 @@
         transition-method="loadQuery">
     </selectable-title>
 
-    <ul class="toolbar-items">
+    <ul class="toolbar-items hide-when-print">
       <li class="toolbar-item">
         <wp-create-button
             allowed="!!resource.$links.createWorkPackage"
@@ -91,7 +91,7 @@
       </wp-table>
     </div>
 
-    <div class="work-packages--list-pagination-area">
+    <div class="work-packages--list-pagination-area hide-when-print">
       <table-pagination>
       </table-pagination>
     </div>

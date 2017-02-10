@@ -5,9 +5,10 @@
   #main-menu,
   #sidebar,
   #footer,
+  #breadcrumb,
   .contextual,
   .other-formats
-    display:none
+    display: none
 
   #main
     background: #fff
@@ -35,29 +36,11 @@
     th, td
       border: 1px solid #aaa
 
-//------------- WP table specific ---------------------
+  // Sizes from user agent stylesheet
+  h1
+    font-size: 2em
+  h2
+    font-size: 1.5em
+  h3
+    font-size: 1.17em
 
-.controller-work_packages.action-index,
-.controller-work_packages.action-show,
-.controller-work_packages.full-create
-  .work-packages--list-pagination-area,
-  .toolbar-items,
-  .icon-pulldown,
-  .wp-table--details-column
-    display: none
-  .wp-timeline--slider-wrapper
-    display: none !important
-  #content
-    margin: 0
-    width: 100%
-    height: 100%
-    padding: 10px
-  #main
-    top: 0
-    padding: 0
-    border: none
-  .work-packages--list-table-area
-    height: 100%
-  .work-package-table--container,
-  .generic-table--results-container
-    overflow: hidden

@@ -6,7 +6,7 @@
             collision-container="#content"
             locals="selectedTitle,groups,transitionMethod">
         <accessible-by-keyboard link-title="{{ I18n.t('js.toolbar.search_query_title') }}" >
-          <i class="icon-pulldown icon-button icon-small">
+          <i class="icon-pulldown icon-button icon-small hide-when-print">
           </i>
           {{ selectedTitle | characters:50 }}
         </accessible-by-keyboard>
