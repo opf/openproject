@@ -34,7 +34,7 @@ module API
   module V3
     module Queries
       class QueryRepresenter < ::API::Decorators::Single
-        self_link
+        self_link id_attribute: ->(*) { represented.persisted? ? represented.id : 'default' }
 
         attr_accessor :results,
                       :params
@@ -140,8 +140,10 @@ module API
                    embed_links
                  }
 
-        property :sums, getter: -> (*) { display_sums }
-        property :starred, getter: -> (*) { starred }
+        property :display_sums,
+                 as: :sums
+
+        property :starred
 
         property :columns,
                  exec_context: :decorator,

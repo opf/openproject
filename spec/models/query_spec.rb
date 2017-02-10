@@ -31,6 +31,22 @@ require 'spec_helper'
 describe Query, type: :model do
   let(:query) { FactoryGirl.build(:query) }
 
+  describe '.new_default' do
+    it 'set the default sortation' do
+      query = Query.new_default
+
+      expect(query.sort_criteria)
+        .to match_array([['parent', 'desc']])
+    end
+
+    it 'does not use the default sortation if an order is provided' do
+      query = Query.new_default(sort_criteria: [['id', 'asc']])
+
+      expect(query.sort_criteria)
+        .to match_array([['id', 'asc']])
+    end
+  end
+
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do

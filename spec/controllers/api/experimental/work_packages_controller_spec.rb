@@ -97,8 +97,8 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
         allow(Query).to receive(:new).and_call_original
         expected_query = Query.new name: '_'
         expect(Query)
-          .to receive(:new)
-          .with(anything, initialize_with_default_filter: true)
+          .to receive(:new_default)
+          .with(anything)
           .and_return(expected_query)
 
         get 'index', params: { format: 'json' }
@@ -111,7 +111,9 @@ describe Api::Experimental::WorkPackagesController, type: :controller do
            "set if the #{filter_param} argument is provided" do
           allow(Query).to receive(:new).and_call_original
           expected_query = Query.new
-          expect(Query).to receive(:new).with(anything, initialize_with_default_filter: false)
+          expect(Query)
+            .to receive(:new)
+            .with(anything)
             .and_return(expected_query)
 
           get 'index', params: { format: 'json', filter_param => ['anything'] }

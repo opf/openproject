@@ -317,6 +317,160 @@ Delete the query identified by the id parameter
                 "message": "The requested resource could not be found."
             }
 
+## Default Query [/api/v3/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+
++ Model
+    + Body
+
+            {
+              "_type": "Query",
+              "name": "default",
+              "filters": [
+                {
+                  "_type": "StatusQueryFilter",
+                  "name": "Status",
+                  "_links": {
+                    "filter": {
+                      "href": "/api/v3/queries/filters/status",
+                      "title": "Status"
+                    },
+                    "operator": {
+                      "href": "/api/v3/queries/operators/o",
+                      "title": "open"
+                    },
+                    "schema": {
+                      "href": "/api/v3/queries/filter_instance_schemas/status"
+                    },
+                    "values": []
+                  }
+                }
+              ],
+              "public": false,
+              "sums": false,
+              "starred": false,
+              "_embedded": {
+                "results": {
+                  "_type": "WorkPackageCollection",
+                  "total": 234,
+                  "count": 30,
+                  "pageSize": 2,
+                  "offset": 1,
+                  "_embedded": {
+                    "elements": [
+                      "<--- shortened for brevity --->"
+                    ]
+                  },
+                  "_links": {
+                    "self": {
+                      "href": "/api/v3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                    },
+                    "jumpTo": {
+                      "href": "/api/v3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=%7Boffset%7D&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D",
+                      "templated": true
+                    },
+                    "changeSize": {
+                      "href": "/api/v3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=%7Bsize%7D&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D",
+                      "templated": true
+                    },
+                    "createWorkPackage": {
+                      "href": "/api/v3/work_packages/form",
+                      "method": "post"
+                    },
+                    "createWorkPackageImmediate": {
+                      "href": "/api/v3/work_packages",
+                      "method": "post"
+                    }
+                  }
+                }
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/queries/default",
+                  "title": "Default"
+                },
+                "results": {
+                  "href": "/api/v3/work_packages?filters=%5B%7B%22status%22%3A%7B%22operator%22%3A%22o%22%2C%22values%22%3A%5B%5D%7D%7D%2C%7B%22dueDate%22%3A%7B%22operator%22%3A%22%3Ct%2B%22%2C%22values%22%3A%5B%221%22%5D%7D%7D%5D&offset=1&pageSize=2&sortBy=%5B%5B%22parent%22%2C%22desc%22%5D%5D"
+                },
+                "columns": [
+                  {
+                    "href": "/api/v3/queries/columns/id",
+                    "title": "ID"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/subject",
+                    "title": "Subject"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/type",
+                    "title": "Type"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/status",
+                    "title": "Status"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/priority",
+                    "title": "Priority"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/assignee",
+                    "title": "Assignee"
+                  },
+                  {
+                    "href": "/api/v3/queries/columns/updated_at",
+                    "title": "Updated on"
+                  }
+                ],
+                "groupBy": {
+                  "href": null,
+                  "title": null
+                },
+                "sortBy": [
+                  {
+                    "href": "/api/v3/queries/sort_bys/parent-desc",
+                    "title": "Parent (Descending)"
+                  }
+                ],
+                "user": {
+                  "href": "/api/v3/users/1",
+                  "title": "OpenProject Admin"
+                },
+                "project": {
+                  "href": null
+                }
+              }
+            }
+
+## View default query [GET]
+
+Same as [viewing an existing, persisted Query](#queries-query-get) in its response, this resource returns an unpersisted query and by that allows to get the default query configuration. The client may also provide additional parameters which will modify the default query.
+
++ Parameters
+    + filters (optional, string, `[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]`) ... JSON specifying filter conditions. The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters. All filters also accepted by the work packages endpoint are accepted.
+    + offset = `1` (optional, integer, `25`) ... Page number inside the queries' result collection of work packages.
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page for the queries' result collection of work packages.
+    + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
+    + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
+    + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+
++ Response 200 (application/hal+json)
+
+    [Default Query][]
+
++ Response 403 (application/hal+json)
+
+    Returned if the client does not have sufficient permissions to see the default query.
+
+    **Required permission:** view work packages in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to access this resource."
+            }
+
 ## Star Query [/api/v3/queries/{id}/star]
 
 + Model

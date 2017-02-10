@@ -139,6 +139,10 @@ module API
             "#{queries}/#{id}"
           end
 
+          def self.query_default
+            "#{queries}/default"
+          end
+
           def self.query_star(id)
             "#{query(id)}/star"
           end

@@ -297,7 +297,7 @@ describe Query, type: :model do
   end
 
   it 'should create query with sort' do
-    q = Query.new({ name: 'Sorted' }, initialize_with_default_filter: true)
+    q = Query.new name: 'Sorted'
     q.sort_criteria = [['priority', 'desc'], 'type']
     assert q.save
     q.reload

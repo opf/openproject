@@ -76,8 +76,8 @@ describe ::API::V3::WorkPackageCollectionFromQueryParamsService,
 
     before do
       allow(Query)
-        .to receive(:new)
-        .with(name: '_', project: project, sort_criteria: [['parent', 'desc']])
+        .to receive(:new_default)
+        .with(name: '_', project: project)
         .and_return(query)
     end
 
