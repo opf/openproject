@@ -378,7 +378,9 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: [:edit, :update]
-    resource :enterprise, only: [:show, :create, :destroy]
+    constraints(Enterprise) do
+      resource :enterprise, only: [:show, :create, :destroy]
+    end
     resources :enumerations
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
