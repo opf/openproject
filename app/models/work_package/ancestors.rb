@@ -85,7 +85,6 @@ module WorkPackage::Ancestors
         .and(nested_set_lft_condition)
         .and(nested_set_rgt_condition)
         .and(in_given_work_packages)
-        .and(not_self_condition)
     end
 
     def in_given_work_packages
@@ -98,20 +97,16 @@ module WorkPackage::Ancestors
       )
     end
 
-    def not_self_condition
-      wp_ancestors[:id].not_eq(wp_table[:id])
-    end
-
     def nested_set_root_condition
       wp_ancestors[:root_id].eq(wp_table[:root_id])
     end
 
     def nested_set_lft_condition
-      wp_ancestors[:lft].lteq(wp_table[:lft])
+      wp_ancestors[:lft].lt(wp_table[:lft])
     end
 
     def nested_set_rgt_condition
-      wp_ancestors[:rgt].gteq(wp_table[:rgt])
+      wp_ancestors[:rgt].gt(wp_table[:rgt])
     end
 
     def wp_table
