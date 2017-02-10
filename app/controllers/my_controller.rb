@@ -72,10 +72,6 @@ class MyController < ApplicationController
   end
   alias :page :index
 
-  current_menu_item :page do
-    :my_page
-  end
-
   # Edit user's account
   def account
     @user = User.current

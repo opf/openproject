@@ -30,11 +30,6 @@
 require 'redmine/menu_manager'
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :my_page,
-            { controller: '/my', action: 'page' },
-            context: :main,
-            html: { class: 'icon3 icon-star' },
-            if: Proc.new { User.current.logged? }
 
   # projects menu will be added by
   # Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
@@ -78,6 +73,10 @@ Redmine::MenuManager.map :account_menu do |menu|
             if: Proc.new { User.current.admin? }
   menu.push :my_account,
             { controller: '/my', action: 'account' },
+            html: { class: 'hidden-for-mobile' },
+            if: Proc.new { User.current.logged? }
+  menu.push :my_page,
+            { controller: '/my', action: 'page' },
             html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :logout, :signout_path,
