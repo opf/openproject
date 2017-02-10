@@ -6,7 +6,6 @@ Color Variables
 ```
 @colors {
 - $body-font-color - -
-- $header-bg-color - -
 - $gray-light $gray $gray-dark
 }
 ```
