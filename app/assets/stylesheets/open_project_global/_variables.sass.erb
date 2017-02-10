@@ -44,8 +44,8 @@ $<%= var %>: <%= hexcode %>
 <% end %>
 
 \:root
-  <%  DesignColor.defaults.each do |var, hexcode| %>
-  --<%= var %>: <%= hexcode %>
+  <%  DesignColor.defaults.each do |var, _hexcode| %>
+  --<%= var %>: #{$<%= var %>}
   <% end %>
 
 $secondary-color:         #bfbfbf !default
