@@ -102,7 +102,7 @@
     },
 
     script_applicable: function() {
-        return $('body.controller-roles.action-new, body.controller-roles.action-create').size() === 1;
+        return $('body.controller-roles.action-new, body.controller-roles.action-create').length === 1;
     }
   }
   $(document).ready(global_roles.init);
