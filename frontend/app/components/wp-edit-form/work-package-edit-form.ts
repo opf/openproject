@@ -98,6 +98,7 @@ export class WorkPackageEditForm {
 
  public submit() {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
+      this.stopEditing();
       return this.$q.when(this.workPackage);
     }
 
@@ -117,8 +118,8 @@ export class WorkPackageEditForm {
         this.wpNotificationsService.showSave(this.workPackage, isInitial);
         this.editContext.onSaved(this.workPackage);
 
-        // Destroy this form
-        this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
+        this.stopEditing();
+
      })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
@@ -128,6 +129,16 @@ export class WorkPackageEditForm {
       });
 
     return deferred.promise;
+  }
+
+  protected stopEditing() {
+    // Close all edit fields
+    _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => {
+      handler.deactivate();
+    });
+
+    // Destroy this form
+    this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
   }
 
   protected handleSubmissionErrors(error: any, deferred: any) {
