@@ -54,6 +54,10 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     all_statuses.select { |status| values_ids.include?(status.id) }
   end
 
+  def allowed_objects
+    all_statuses
+  end
+
   def ar_object_filter?
     true
   end

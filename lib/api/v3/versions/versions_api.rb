@@ -32,6 +32,12 @@ module API
     module Versions
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
+          get do
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Version.visible(current_user),
+                                                                    current_user,
+                                                                    params)
+          end
+
           route_param :id do
             before do
               @version = Version.find(params[:id])

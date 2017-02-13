@@ -113,7 +113,7 @@ module API
                 schema = TypedWorkPackageSchema.new(project: @project, type: @type)
                 self_link = api_v3_paths.work_package_schema(@project.id, @type.id)
                 represented_schema = WorkPackageSchemaRepresenter.create(schema,
-                                                                         self_link: self_link,
+                                                                         self_link,
                                                                          current_user: nil)
 
                 with_etag! represented_schema.cache_key

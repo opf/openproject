@@ -27,6 +27,9 @@ AsciiIdentifiers:
 Attr:
   Enabled: false
 
+BlockLength:
+  Enabled: false
+
 BlockNesting:
   Enabled: false
 

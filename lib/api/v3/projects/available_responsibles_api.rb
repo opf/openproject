@@ -33,6 +33,10 @@ module API
     module Projects
       class AvailableResponsiblesAPI < ::API::OpenProjectAPI
         resource :available_responsibles do
+          before do
+            authorize(:view_work_packages, global: true, user: current_user)
+          end
+
           get do
             available_responsibles = @project.possible_responsibles.includes(:preference)
             self_link = api_v3_paths.available_responsibles(@project.id)

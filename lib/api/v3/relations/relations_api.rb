@@ -40,17 +40,11 @@ module API
 
         resources :relations do
           get do
-            query = ::API::V3::ParamsToQueryService.new(Relation, current_user).call(params)
+            scope = Relation.includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
 
-            if query.valid?
-              RelationCollectionRepresenter.new(
-                query.results.includes(::API::V3::Relations::RelationRepresenter.to_eager_load),
-                api_v3_paths.relations,
-                current_user: current_user
-              )
-            else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
-            end
+            ::API::V3::Utilities::ParamsToQuery.collection_response(scope,
+                                                                    current_user,
+                                                                    params)
           end
 
           params do

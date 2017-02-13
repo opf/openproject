@@ -33,6 +33,10 @@ module API
     module Projects
       class AvailableAssigneesAPI < ::API::OpenProjectAPI
         resource :available_assignees do
+          before do
+            authorize(:view_work_packages, global: true, user: current_user)
+          end
+
           get do
             available_assignees = @project.possible_assignees.includes(:preference)
             self_link = api_v3_paths.available_assignees(@project.id)

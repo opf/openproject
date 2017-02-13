@@ -42,7 +42,7 @@ class JournalsController < ApplicationController
   def index
     retrieve_query
     sort_init 'id', 'desc'
-    sort_update(@query.sortable_columns)
+    sort_update(@query.sortable_key_by_column_name)
 
     if @query.valid?
       @journals = @query.work_package_journals(order: "#{Journal.table_name}.created_at DESC",

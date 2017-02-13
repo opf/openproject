@@ -296,8 +296,13 @@ class Query < ActiveRecord::Base
     available_columns.select(&:groupable)
   end
 
-  # Returns a Hash of columns and the key for sorting
+  # Returns an array of columns that can be used to sort the results
   def sortable_columns
+    available_columns.select(&:sortable)
+  end
+
+  # Returns a Hash of sql columns for sorting by column
+  def sortable_key_by_column_name
     column_sortability = available_columns.inject({}) do |h, column|
       h[column.name.to_s] = column.sortable
       h
@@ -366,7 +371,7 @@ class Query < ActiveRecord::Base
 
   def sort_criteria_sql
     criteria = SortHelper::SortCriteria.new
-    criteria.available_criteria = sortable_columns
+    criteria.available_criteria = sortable_key_by_column_name
     criteria.criteria = sort_criteria
     criteria.to_sql
   end

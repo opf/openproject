@@ -116,6 +116,10 @@ class Queries::BaseFilter
     true
   end
 
+  def available_operators
+    self.class.operators_by_filter_type[type]
+  end
+
   def scope
     scope = model.where(where)
     scope = scope.joins(joins) if joins

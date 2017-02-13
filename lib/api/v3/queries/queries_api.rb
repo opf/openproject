@@ -39,22 +39,29 @@ module API
           mount API::V3::Queries::SortBys::QuerySortBysAPI
           mount API::V3::Queries::Filters::QueryFiltersAPI
           mount API::V3::Queries::Operators::QueryOperatorsAPI
+          mount API::V3::Queries::Schemas::QuerySchemaAPI
+          mount API::V3::Queries::Schemas::QueryFilterInstanceSchemaAPI
 
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
-            query_query = ::API::V3::ParamsToQueryService.new(Query, current_user).call(params)
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Query,
+                                                                    current_user,
+                                                                    params)
+          end
 
-            if query_query.valid?
-              queries = query_query
-                        .results
+          namespace 'available_projects' do
+            before do
+              authorize(:view_work_packages, global: true, user: current_user)
+            end
 
-              self_link = api_v3_paths.queries
-              ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
-                                                                 self_link,
-                                                                 current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query_query.errors.full_messages)
+            get do
+              available_projects = Project.allowed_to(current_user, :view_work_packages)
+              self_link = api_v3_paths.query_available_projects
+
+              ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                                    self_link,
+                                                                    current_user: current_user)
             end
           end
 

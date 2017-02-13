@@ -64,6 +64,11 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         let(:title) { 'is' }
       end
 
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'schema' }
+        let(:href) { api_v3_paths.query_filter_instance_schema 'status' }
+      end
+
       it "has a 'values' collection" do
         expected = {
           href: api_v3_paths.status(status.id.to_s),
