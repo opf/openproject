@@ -35,7 +35,7 @@
     },
 
     activation_and_visibility_based_on_checked: function(element){
-      if($(element).attr("checked")){
+      if($(element).prop("checked")){
         global_roles.show_global_forms();
         global_roles.hide_member_forms();
         global_roles.enable_global_forms();
@@ -82,7 +82,7 @@
     },
 
     enable_element: function(element){
-      element.enable();
+      $(element).prop('disabled', false);
     },
 
     disable_global_forms: function(){
@@ -98,7 +98,7 @@
     },
 
     disable_element: function(element){
-      element.disable();
+      $(element).prop('disabled', true);
     },
 
     script_applicable: function() {
