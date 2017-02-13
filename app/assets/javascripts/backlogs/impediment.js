@@ -51,7 +51,7 @@ RB.Impediment = (function ($) {
       // Associate this object with the element for later retrieval
       j.data('this', this);
 
-      j.find(".editable").live('mouseup', this.handleClick);
+      j.on('mouseup', '.editable', this.handleClick);
     },
 
     // Override saveDirectives of RB.Task

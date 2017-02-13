@@ -44,7 +44,7 @@ RB.Story = (function ($) {
 
       // Associate this object with the element for later retrieval
       this.$.data('this', this);
-      this.$.find(".editable").live('mouseup', this.handleClick);
+      this.$.on('mouseup', '.editable', this.handleClick);
     },
 
     /**

@@ -46,7 +46,7 @@ RB.Sprint = (function ($) {
 
       // Associate this object with the element for later retrieval
       this.$.data('this', this);
-      this.$.find(".editable").mouseup(this.handleClick);
+      this.$.on('mouseup', '.editable', this.handleClick);
     },
 
     beforeSave: function () {
@@ -62,8 +62,7 @@ RB.Sprint = (function ($) {
     },
 
     refreshed: function () {
-      // We have to do this since .live() does not work for some reason
-      this.$.find(".editable").mouseup(this.handleClick);
+      // Do nothing
     },
 
     saveDirectives: function () {

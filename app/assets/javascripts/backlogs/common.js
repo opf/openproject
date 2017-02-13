@@ -87,7 +87,7 @@ if (window.RB === null || window.RB === undefined) {
 
         baseClasses = 'ui-button ui-widget ui-state-default ui-corner-all';
 
-        if ($('#msgBox').size() === 0) {
+        if ($('#msgBox').length === 0) {
           dialog = $('<div id="msgBox"></div>').appendTo('body');
         }
         else {
