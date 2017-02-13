@@ -62,7 +62,7 @@ export class ContextMenuService {
 
   public close(disableFocus:boolean = false):Promise<void> {
     if (!this.active) {
-      return this.$q.when(void 0);
+      return this.$q.when(undefined);
     } else {
       return this.active.close(disableFocus);
     }
