@@ -14,9 +14,9 @@
    *
    * @param injectable The target to inject into
    */
-  export function injectorBridge(injectable) {
+  export function injectorBridge(injectable:any) {
     let $injector = $currentInjector();
-    $injector.annotate(injectable.constructor).forEach(dep => {
+    $injector.annotate(injectable.constructor).forEach((dep:string) => {
       injectable[dep] = $injector.get(dep);
     });
   }

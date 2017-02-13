@@ -58,7 +58,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return jQuery(this.rowElement).find(`.${tdClassName}.${fieldName}`);
   }
 
-  public reset(workPackage, fieldName:string) {
+  public reset(workPackage:WorkPackageResource, fieldName:string) {
     let element = this.find(fieldName);
 
     let newCell = this.cellBuilder.build(workPackage, fieldName);

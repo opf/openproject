@@ -28,7 +28,12 @@
 
 import {opConfigModule} from '../../../angular-modules';
 
-function ConfigurationService($q, $http, $window, PathHelper, I18n) {
+function ConfigurationService(
+  $q:ng.IQService,
+  $http:ng.IHttpService,
+  $window:ng.IWindowService,
+  PathHelper:any,
+  I18n:op.I18n) {
   // fetches configuration from the ApiV3 endpoint
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
@@ -36,7 +41,7 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
   var path = PathHelper.apiConfigurationPath();
   var fetchSettings = function () {
     var data = $q.defer();
-    $http.get(path).success(function (settings) {
+    $http.get(path).success(function (settings:any) {
       data.resolve(settings);
     }).error(function (err) {
       data.reject(err);
@@ -48,7 +53,7 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     if (cache) {
       settings.resolve(cache);
     } else {
-      fetchSettings().then(function (data) {
+      fetchSettings().then(function (data:any) {
         cache = data;
         settings.resolve(data);
       });
@@ -56,8 +61,8 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     return settings.promise;
   };
   var initSettings = function () {
-    var settings = {},
-      defaults = {
+    var settings:any = {},
+      defaults:any = {
         enabled_modules: [],
         display: [],
         user_preferences: {
@@ -71,8 +76,9 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
         }
       };
 
-    if ($window.gon !== undefined) {
-      settings = $window.gon.settings;
+    var gon = ($window as any).gon;
+    if (gon !== undefined) {
+      settings = gon.settings;
     }
 
     return _.merge(defaults, settings);
@@ -81,7 +87,7 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
   return {
     settings: initSettings(),
     api: api,
-    displaySettingPresent: function (setting) {
+    displaySettingPresent: function (setting:any) {
       return this.settings.display.hasOwnProperty(setting) &&
         this.settings.display[setting] !== false;
     },
@@ -117,7 +123,7 @@ function ConfigurationService($q, $http, $window, PathHelper, I18n) {
     timeFormat: function () {
       return this.settings.display.time_format;
     },
-    isModuleEnabled: function (module) {
+    isModuleEnabled: function (module:string) {
       return this.settings.enabled_modules.indexOf(module) >= 0;
     },
     startOfWeekPresent: function () {

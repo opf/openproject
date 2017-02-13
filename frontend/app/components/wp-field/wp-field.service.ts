@@ -28,24 +28,25 @@
 
 import {FieldFactory} from './wp-field.module';
 import {Field} from "./wp-field.module";
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 
 export class WorkPackageFieldService {
   public static get fieldFactory() {
     return FieldFactory;
   }
 
-  public set defaultType(value) {
+  public set defaultType(value:string) {
     (this.constructor as typeof WorkPackageFieldService).fieldFactory.defaultType = value;
   }
 
-  constructor(protected $injector) {
+  constructor(protected $injector:ng.auto.IInjectorService) {
   }
 
-  public getField(resource, fieldName:string, schema) {
+  public getField(resource:HalResource, fieldName:string, schema:op.FieldSchema):Field {
     return (this.constructor as typeof WorkPackageFieldService).fieldFactory.create(resource, fieldName, schema);
   }
 
-  public fieldType(name) {
+  public fieldType(name:string):string {
     return (this.constructor as typeof WorkPackageFieldService).fieldFactory.getType(name);
   }
 

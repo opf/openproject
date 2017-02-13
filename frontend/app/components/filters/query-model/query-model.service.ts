@@ -28,8 +28,13 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITIALLY_SELECTED_COLUMNS) {
-  var Query = function (queryData, options) {
+function QueryModelService(
+  Filter:any,
+  Sortation:any,
+  UrlParamsHelper:any,
+  PathHelper:any,
+  INITIALLY_SELECTED_COLUMNS:any) {
+  var Query = function (queryData:any, options:any) {
     angular.extend(this, queryData, options);
 
     this.filters = [];
@@ -70,7 +75,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
           'name': this.name,
           'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty(),
-        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+        }].concat(this.getActiveConfiguredFilters().map(function(filter:any) {
           return filter.toParams();
         }))
       );
@@ -89,13 +94,13 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
           'name': this.name,
           'isPublic': this.isPublic,
           'accept_empty_query_fields': this.isDirty()
-        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+        }].concat(this.getActiveConfiguredFilters().map(function(filter:any) {
           return filter.toParams();
         }))
       );
     },
 
-    save: function(data){
+    save: function(data:any){
       // Note: query has already been updated, only the id needs to be set
       this.id = data.id;
       this.dirty = false;
@@ -110,7 +115,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
       this.starred = false;
     },
 
-    update: function(queryData) {
+    update: function(queryData:any) {
       angular.extend(this, queryData);
 
       if(queryData.filters){
@@ -131,19 +136,19 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
       return this.sortation;
     },
 
-    setSortation: function(sortCriteria){
+    setSortation: function(sortCriteria:any){
       this.sortation = new Sortation(sortCriteria);
     },
 
-    setGroupBy: function(groupBy) {
+    setGroupBy: function(groupBy:any) {
       this.groupBy = groupBy;
     },
 
-    updateSortElements: function(sortElements){
+    updateSortElements: function(sortElements:any){
       this.sortation.setSortElements(sortElements);
     },
 
-    setName: function(name) {
+    setName: function(name:string) {
       this.name = name;
     },
 
@@ -157,7 +162,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
      *
      * @returns {undefined}
      */
-    setAvailableWorkPackageFilters: function(availableFilters) {
+    setAvailableWorkPackageFilters: function(availableFilters:any) {
       this.availableWorkPackageFilters = availableFilters;
 
       if (this.projectId){
@@ -179,32 +184,32 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
 
      * @returns {undefined}
      */
-    setFilters: function(filters) {
+    setFilters: function(filters:any) {
       if (filters){
         var self = this;
 
-        this.filters = filters.map(function(filterData){
+        this.filters = filters.map(function(filterData:any){
           return new Filter(self.getExtendedFilterData(filterData));
         });
       }
     },
 
-    setRawFilters: function(filters) {
+    setRawFilters: function(filters:any) {
       this.dirty = true;
       if (filters){
         var self = this;
 
-        this.filters = filters.map(function(filterData){
+        this.filters = filters.map(function(filterData:any){
           return new Filter(filterData);
         });
       }
     },
 
-    setColumns: function(columns) {
+    setColumns: function(columns:any) {
       this.columns = columns;
     },
 
-    applyDefaultsFromFilters: function(workPackage) {
+    applyDefaultsFromFilters: function(workPackage:any) {
       angular.forEach(this.filters, function(filter) {
 
         // Ignore any filters except =
@@ -283,15 +288,15 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
 
      * @returns {object} Extended filter data.
      */
-    getExtendedFilterData: function(filterData) {
+    getExtendedFilterData: function(filterData:any) {
       return angular.extend(filterData, {
         type: this.getFilterType(filterData.name),
         modelName: this.getFilterModelName(filterData.name)
       });
     },
 
-    getFilterNames: function(filters) {
-      return (filters || this.filters).map(function(filter){
+    getFilterNames: function(filters:any) {
+      return (filters || this.filters).map(function(filter:any){
         return filter.name;
       });
     },
@@ -301,7 +306,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     },
 
     getParamColumns: function(){
-      var selectedColumns = this.columns.map(function(column) {
+      var selectedColumns = this.columns.map(function(column:any) {
         return column.name;
       });
 
@@ -313,18 +318,18 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     },
 
     getColumnNames: function() {
-      return this.columns.map(function(column) {
+      return this.columns.map(function(column:any) {
         return column.name;
       });
     },
 
-    getFilterByName: function(filterName) {
-      return this.filters.filter(function(filter){
+    getFilterByName: function(filterName:any) {
+      return this.filters.filter(function(filter:any){
         return filter.name === filterName;
       })[0];
     },
 
-    addFilter: function(filterName, options) {
+    addFilter: function(filterName:any, options:any) {
       this.dirty = true;
       var filter = this.getFilterByName(filterName);
 
@@ -338,17 +343,17 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
       }
     },
 
-    removeFilter: function(filterName) {
+    removeFilter: function(filterName:any) {
       this.dirty = true;
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filter) {
+    deactivateFilter: function(filter:any) {
       this.dirty = true;
       filter.deactivated = true;
     },
 
-    getFilterType: function(filterName) {
+    getFilterType: function(filterName:any) {
       if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]){
         return this.availableWorkPackageFilters[filterName].type;
       } else {
@@ -356,12 +361,12 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
       }
     },
 
-    getFilterModelName: function(filterName) {
+    getFilterModelName: function(filterName:any) {
       if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]) return this.availableWorkPackageFilters[filterName].modelName;
     },
 
     getActiveFilters: function() {
-      return this.filters.filter(function(filter){
+      return this.filters.filter(function(filter:any){
         return !filter.deactivated;
       });
     },
@@ -374,7 +379,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     },
 
     getActiveConfiguredFilters: function() {
-      return this.getActiveFilters().filter(function(filter){
+      return this.getActiveFilters().filter(function(filter:any){
         return filter.isConfigured();
       });
     },
@@ -387,7 +392,7 @@ function QueryModelService(Filter, Sortation, UrlParamsHelper, PathHelper, INITI
     },
 
     clearFilters: function(){
-      this.filters.map(function(filter){
+      this.filters.map(function(filter:any){
         filter.deactivated = true;
       });
     },

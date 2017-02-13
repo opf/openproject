@@ -44,10 +44,10 @@ export class WatchersPanelController {
   public watching: any[] = [];
   public text: any;
 
-  constructor(public $scope,
-              public $element,
-              public $q,
-              public I18n,
+  constructor(public $scope:ng.IScope,
+              public $element:ng.IAugmentedJQuery,
+              public $q:ng.IQService,
+              public I18n:op.I18n,
               public $templateCache:ng.ITemplateCacheService,
               public $compile:ng.ICompileService,
               public loadingIndicator:LoadingIndicatorService,
@@ -95,23 +95,22 @@ export class WatchersPanelController {
       delay: 250,
       autoFocus: false, // Accessibility!
       source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWatchers(request.term).then((values) => {
-          response(values.map(watcher => {
+        this.autocompleteWatchers(request.term).then((values:any) => {
+          response(values.map((watcher:any) => {
             return { watcher: watcher, value: watcher.name };
           }));
         });
       },
-      select: (evt, ui:any) => {
+      select: (evt:JQueryEventObject, ui:any) => {
         this.addWatcher(ui.item.watcher);
         input.val('');
         return false; // Avoid setting the value after selection
       },
-      _renderItem: (ul:JQuery, item) => this.renderWatcherItem(ul, item)
-    })
-    .autocomplete( "instance" )._renderItem = (ul, item) => this.renderWatcherItem(ul,item);
+    });
+    (input.autocomplete( "instance" )as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(ul,item);
   }
 
-  public set loadingPromise(promise) {
+  public set loadingPromise(promise:ng.IPromise<any>) {
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
@@ -129,9 +128,9 @@ export class WatchersPanelController {
     return element;
   }
 
-  public autocompleteWatchers(query) {
+  public autocompleteWatchers(query:string):ng.IPromise<any> {
     if (!query) {
-      return [];
+      return this.$q.when([]);
     }
 
     const deferred = this.$q.defer();
@@ -150,14 +149,14 @@ export class WatchersPanelController {
       {
         caching: {enabled: false}
       }).then((collection:CollectionResource) => {
-        this.$scope.noResults = collection.count === 0;
+        this.$scope['noResults'] = collection.count === 0;
       deferred.resolve(collection.elements);
     }).catch(() => deferred.reject());
 
     return deferred.promise;
   }
 
-  public addWatcher(user) {
+  public addWatcher(user:any) {
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({user: {href: user.href}})
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
@@ -165,10 +164,10 @@ export class WatchersPanelController {
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.autocompleteInput = '';
       })
-      .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   };
 
-  public removeWatcher(watcher) {
+  public removeWatcher(watcher:any) {
     this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
       .then(() => {
         _.remove(this.watching, (other) => { return other.href === watcher.href; });
@@ -177,6 +176,6 @@ export class WatchersPanelController {
         // should the current user have been removed
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
-      .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
   };
 }

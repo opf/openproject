@@ -33,12 +33,12 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
-  constructor(public $injector,
-              public $scope,
-              public wpTableSelection:WorkPackageTableSelection,
+  constructor(public $injector:ng.auto.IInjectorService,
+              public $scope:ng.IScope,
+              public $rootScope:ng.IRootScopeService,
               public states:States,
-              public $rootScope,
-              public $state) {
+              public wpTableSelection:WorkPackageTableSelection,
+              public $state:ng.ui.IStateService) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
 

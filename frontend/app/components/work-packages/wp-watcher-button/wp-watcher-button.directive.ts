@@ -40,9 +40,9 @@ export class WorkPackageWatcherButtonController {
   public buttonId:string;
   public watchIconClass:string;
 
-  constructor(public $scope,
-              public $rootScope,
-              public I18n,
+  constructor(public $scope:ng.IScope,
+              public $rootScope:ng.IRootScopeService,
+              public I18n:op.I18n,
               public wpCacheService:WorkPackageCacheService) {
 
     wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)

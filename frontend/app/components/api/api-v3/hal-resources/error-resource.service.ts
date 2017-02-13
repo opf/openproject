@@ -61,7 +61,7 @@ export class ErrorResource extends HalResource {
   }
 
   public getMessagesPerAttribute():{ [attribute:string]: string[] } {
-    let perAttribute = {};
+    let perAttribute:any = {};
 
     if (this.details) {
       perAttribute[this.details.attribute] = [this.message];

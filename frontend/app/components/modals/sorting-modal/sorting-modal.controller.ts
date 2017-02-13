@@ -29,12 +29,12 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
-function SortingModalController(sortingModal,
-                                $scope,
-                                $filter,
+function SortingModalController(sortingModal:any,
+                                $scope:any,
+                                $filter:ng.IFilterService,
                                 loadingIndicator:LoadingIndicatorService,
-                                QueryService,
-                                I18n) {
+                                QueryService:any,
+                                I18n:op.I18n) {
   this.name = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
@@ -45,12 +45,12 @@ function SortingModalController(sortingModal,
   $scope.initSortation = () => {
     var currentSortation = QueryService.getSortation();
 
-    $scope.sortElements = currentSortation.sortElements.map(element => {
+    $scope.sortElements = currentSortation.sortElements.map((element:any) => {
       const columns = $scope.availableColumnsData
-        .filter(column => column.id === element.field);
+        .filter((column:any) => column.id === element.field);
 
       const directions = $scope.availableDirectionsData
-        .filter(direction => direction.id === element.direction);
+        .filter((direction:any) => direction.id === element.direction);
 
       return [columns, directions].map(item => item[0]);
     });
@@ -67,18 +67,18 @@ function SortingModalController(sortingModal,
   // reduction of column options to columns that haven't been selected
   function getIdsOfSelectedSortElements() {
     return $scope.sortElements
-      .map(sortElement => {
+      .map((sortElement:any) => {
         if (sortElement.length && sortElement[0]) {
           return sortElement[0].id;
         }
       })
-      .filter(element => !!element);
+      .filter((element:any) => !!element);
   }
 
-  function getRemainingAvailableColumnsData(selectedElement) {
+  function getRemainingAvailableColumnsData(selectedElement:any) {
     var idsOfSelectedSortElements = getIdsOfSelectedSortElements();
 
-    var availableColumns = $scope.availableColumnsData.filter(availableColumn => {
+    var availableColumns = $scope.availableColumnsData.filter((availableColumn:any) => {
       return idsOfSelectedSortElements.indexOf(availableColumn.id) === -1;
     });
 
@@ -96,8 +96,8 @@ function SortingModalController(sortingModal,
 
   $scope.updateSortation = () => {
     var sortElements = $scope.sortElements
-      .filter(element => element[0].id !== blankOption.id)
-      .map(element => ({field: element[0].id, direction: element[1].id}));
+      .filter((element:any) => element[0].id !== blankOption.id)
+      .map((element:any) => ({field: element[0].id, direction: element[1].id}));
 
     QueryService.updateSortElements(sortElements);
     sortingModal.deactivate();
@@ -110,7 +110,7 @@ function SortingModalController(sortingModal,
 
   let indicator = loadingIndicator.indicator('sorting-modal');
   indicator.promise = QueryService.loadAvailableColumns()
-    .then(availableColumns => {
+    .then((availableColumns:api.ex.Column[]) => {
       $scope.availableColumnsData = availableColumns
         .filter(column => !!column.sortable)
         .map(column => ({id: column.name, label: column.title, other: column.title}));

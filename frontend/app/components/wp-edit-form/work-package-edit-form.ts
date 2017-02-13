@@ -39,6 +39,7 @@ import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 import {States} from '../states.service';
 
 export class WorkPackageEditForm {
@@ -85,7 +86,7 @@ export class WorkPackageEditForm {
       return;
     }
 
-    this.workPackage.loadFormSchema().then(schema => {
+    this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
         fieldName,

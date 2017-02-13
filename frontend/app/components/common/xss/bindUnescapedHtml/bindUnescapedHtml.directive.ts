@@ -28,9 +28,9 @@
 // ++
 
 import ExpressionService from "../expression.service";
-function bindUnescapedHtml(ExpressionService:ExpressionService, $sce) {
-  var foundationModalLink = function (scope) {
-    scope.$watch('value', (value) => {
+function bindUnescapedHtml(ExpressionService:ExpressionService, $sce:ng.ISCEService) {
+  var foundationModalLink = function (scope:any) {
+    scope.$watch('value', (value:any) => {
       scope.escapedValue = '';
 
       if (value) {

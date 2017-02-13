@@ -27,12 +27,12 @@
 //++
 
 describe('bindUnescapedHtml Directive', function() {
-  var compile, element, scope;
+  var compile:any, element:any, scope:any;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(angular.mock.module('openproject.services'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope:any, $compile:any) {
     var html = '<span bind-unescaped-html="text"></span>';
 
     element = angular.element(html);

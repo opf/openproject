@@ -30,6 +30,7 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 export class WorkPackageAttachmentListController {
   public workPackage: WorkPackageResourceInterface;
@@ -40,10 +41,10 @@ export class WorkPackageAttachmentListController {
 
   private focusedAttachment: any = null;
 
-  constructor(protected wpNotificationsService, I18n) {
+  constructor(protected wpNotificationsService:WorkPackageNotificationService, I18n:op.I18n) {
     this.text = {
       destroyConfirmation: I18n.t('js.text_attachment_destroy_confirmation'),
-      removeFile: arg => I18n.t('js.label_remove_file', arg)
+      removeFile: (arg:any) => I18n.t('js.label_remove_file', arg)
     };
 
     if (this.workPackage.attachments) {
@@ -54,7 +55,7 @@ export class WorkPackageAttachmentListController {
   /**
    * Focus an attachment.
    */
-  public focus(attachment) {
+  public focus(attachment:any) {
     this.focusedAttachment = attachment;
   }
 
@@ -68,7 +69,7 @@ export class WorkPackageAttachmentListController {
   /**
    * Return whether an attachment is focused.
    */
-  public isFocused(attachment): boolean {
+  public isFocused(attachment:any): boolean {
     return this.focusedAttachment === attachment;
   }
 }

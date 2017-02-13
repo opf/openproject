@@ -29,9 +29,9 @@
 import {wpControllersModule, opServicesModule, opModelsModule} from '../../../angular-modules';
 
 describe('sortingModal service', () => {
-  var scope;
-  var ctrl;
-  var buildController;
+  var scope:any;
+  var ctrl:any;
+  var buildController:any;
 
   var columns: any[] = [
     {name: 'parent', title: 'Parent', sortable: true},
@@ -45,11 +45,11 @@ describe('sortingModal service', () => {
     opModelsModule.name
   ));
 
-  beforeEach(angular.mock.inject(function ($rootScope,
-                                           $controller,
-                                           $timeout,
-                                           $filter,
-                                           Sortation) {
+  beforeEach(angular.mock.inject(function ($rootScope:any,
+                                           $controller:any,
+                                           $timeout:any,
+                                           $filter:any,
+                                           Sortation:any) {
     scope = $rootScope.$new();
 
     scope.sortElements = [];

@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function CacheService($q, CacheFactory) {
+function CacheService($q:ng.IQService, CacheFactory:any) {
 
   // Temporary storage for currently resolving promises
-  var _promises = {};
+  var _promises:{[key:string]: ng.IPromise<any>} = {};
 
   // Global switch to disable all caches
   var disabled = false;
@@ -55,7 +55,7 @@ function CacheService($q, CacheFactory) {
       });
     },
 
-    customCache: function(identifier, params) {
+    customCache: function(identifier:string, params:any) {
       var _cache = CacheFactory.get(identifier);
 
       if (!_cache) {
@@ -81,13 +81,13 @@ function CacheService($q, CacheFactory) {
       disabled = true;
     },
 
-    clearPromisedKey: function(key, options) {
+    clearPromisedKey: function(key:string, options:any) {
       options = options || {};
       var cache = options.cache || CacheService.memoryStorage();
       cache.remove(key);
     },
 
-    cachedPromise: function(promiseFn, key, options) {
+    cachedPromise: function(promiseFn:() => ng.IPromise<any>, key:string, options:any) {
       options = options || {};
       var cache = options.cache || CacheService.memoryStorage();
       var force = options.force || false;
@@ -124,7 +124,7 @@ function CacheService($q, CacheFactory) {
           deferred.reject(error);
           cache.remove(key);
         })
-        .finally(_ => delete _promises[key]);
+        .finally(() => delete _promises[key]);
 
       _promises[key] = deferred.promise;
       return deferred.promise;

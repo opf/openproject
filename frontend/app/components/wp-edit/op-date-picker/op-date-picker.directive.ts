@@ -31,14 +31,14 @@ interface OpDatePickerScope extends ng.IScope {
   onClose?:Function;
 }
 
-function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs) {
+function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs:any) {
   // we don't want the date picker in the accessibility mode
   if (this.ConfigurationService.accessibilityModeEnabled()) {
     return;
   }
 
   let input = element.find('input');
-  let datePickerInstance;
+  let datePickerInstance:any;
   let DatePicker = this.Datepicker;
 
   let defaultHandler = function () {
@@ -59,7 +59,7 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
 
   function showDatePicker() {
     let options = {
-      onSelect: (date) => {
+      onSelect: (date:any) => {
         datePickerInstance.hide();
 
         let val = date;
@@ -78,7 +78,7 @@ function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, 
   }
 }
 
-function opDatePicker(ConfigurationService, Datepicker) {
+function opDatePicker(ConfigurationService:any, Datepicker:any) {
   var dependencies = {
     ConfigurationService: ConfigurationService,
     Datepicker: Datepicker

@@ -29,39 +29,39 @@
 import {filtersModule} from "../../../angular-modules";
 import {States} from '../../states.service';
 
-function QueryService($rootScope,
-                      $http,
-                      $q,
-                      Query,
-                      PathHelper,
-                      AVAILABLE_WORK_PACKAGE_FILTERS,
-                      StatusService,
-                      TypeService,
-                      PriorityService,
-                      UserService,
-                      VersionService,
-                      CategoryService,
-                      RoleService,
-                      GroupService,
-                      ProjectService,
+function QueryService($rootScope:ng.IRootScopeService,
+                      $http:ng.IHttpService,
+                      $q:ng.IQService,
+                      Query:any,
+                      PathHelper:any,
+                      AVAILABLE_WORK_PACKAGE_FILTERS:any,
+                      StatusService:any,
+                      TypeService:any,
+                      PriorityService:any,
+                      UserService:any,
+                      VersionService:any,
+                      CategoryService:any,
+                      RoleService:any,
+                      GroupService:any,
+                      ProjectService:any,
                       states:States,
-                      I18n,
-                      queryMenuItemFactory,
-                      QUERY_MENU_ITEM_TYPE
+                      I18n:op.I18n,
+                      queryMenuItemFactory:any,
+                      QUERY_MENU_ITEM_TYPE:any
 ) {
 
-  var query;
+  var query:any;
 
-  var availableColumns = [],
+  var availableColumns:any = [],
       availableUnusedColumns = [],
-      availableFilterValues = {},
-      availableFilters = {},
-      availableGroupedQueries;
+      availableFilterValues:any = {},
+      availableFilters:any = {},
+      availableGroupedQueries:any;
 
-  var totalEntries;
+  var totalEntries:any;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
+    initQuery: function(queryId:any, queryData:any, selectedColumns:any, exportFormats:any, afterQuerySetupCallback:any) {
       query = new Query({
         id: queryId,
         name: queryData.name,
@@ -79,7 +79,7 @@ function QueryService($rootScope,
       query.setSortation(queryData.sortCriteria);
 
       QueryService.getAvailableFilters(query.projectId)
-        .then(function(availableFilters) {
+        .then(function(availableFilters:any) {
           query.setAvailableWorkPackageFilters(availableFilters);
           if (query.isDefault()) {
             query.setDefaultFilter();
@@ -95,7 +95,7 @@ function QueryService($rootScope,
       return query;
     },
 
-    updateQuery: function(values:any, afterUpdate) {
+    updateQuery: function(values:any, afterUpdate:any) {
       var queryData = <any> {
       };
       if (!!values.displaySums) {
@@ -113,7 +113,7 @@ function QueryService($rootScope,
       query.update(queryData);
 
       QueryService.getAvailableFilters(query.projectId)
-        .then(function(availableFilters) {
+        .then(function(availableFilters:any) {
           query.setAvailableWorkPackageFilters(availableFilters);
           if(values.filters && values.filters.length) {
             query.setFilters(values.filters);
@@ -140,7 +140,7 @@ function QueryService($rootScope,
       }
     },
 
-    setTotalEntries: function(numberOfEntries) {
+    setTotalEntries: function(numberOfEntries:number) {
       totalEntries = numberOfEntries;
     },
 
@@ -154,7 +154,7 @@ function QueryService($rootScope,
 
     // data loading
 
-    loadAvailableGroupedQueries: function(projectIdentifier) {
+    loadAvailableGroupedQueries: function(projectIdentifier:string) {
       if (availableGroupedQueries) {
         return $q.when(availableGroupedQueries);
       }
@@ -162,19 +162,19 @@ function QueryService($rootScope,
       return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
     },
 
-    fetchAvailableGroupedQueries: function(projectIdentifier) {
+    fetchAvailableGroupedQueries: function(projectIdentifier:string) {
       var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
 
       return QueryService.doQuery(url)
-        .then(function(groupedQueriesResults) {
+        .then(function(groupedQueriesResults:any) {
           availableGroupedQueries = groupedQueriesResults;
           return availableGroupedQueries;
         });
     },
 
-    loadAvailableUnusedColumns: function(projectIdentifier) {
+    loadAvailableUnusedColumns: function(projectIdentifier:string) {
       return QueryService.loadAvailableColumns(projectIdentifier)
-        .then(function(availableColumns) {
+        .then(function(availableColumns:any) {
           availableUnusedColumns = QueryService.selectUnusedColumns(availableColumns);
           return availableUnusedColumns;
         });
@@ -188,7 +188,7 @@ function QueryService($rootScope,
       });
     },
 
-    loadAvailableColumns: function(projectIdentifier) {
+    loadAvailableColumns: function(projectIdentifier:string) {
       // TODO: Once we have a single page app we need to differentiate between different project columns
       if(availableColumns.length) {
         return $q.when(availableColumns);
@@ -196,7 +196,7 @@ function QueryService($rootScope,
 
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doGet(url, (response) => {
+      return QueryService.doGet(url, (response:any) => {
         let columns = response.data.available_columns;
         states.query.availableColumns.put(columns);
         return columns;
@@ -207,7 +207,7 @@ function QueryService($rootScope,
       return query.groupBy;
     },
 
-    setGroupBy: function(groupBy) {
+    setGroupBy: function(groupBy:string) {
       query.setGroupBy(groupBy);
       query.dirty = true;
     },
@@ -217,18 +217,18 @@ function QueryService($rootScope,
     },
 
     getSelectedColumnNames: function() {
-      return this.getSelectedColumns().map(column => column.name);
+      return this.getSelectedColumns().map((column:api.ex.Column) => column.name);
     },
 
-    setSelectedColumns: function(selectedColumnNames) {
+    setSelectedColumns: function(selectedColumnNames:string[]) {
       query.dirty = true;
       var currentColumns = this.getSelectedColumns();
 
-      this.hideColumns(currentColumns.map(function(column) { return column.name; }));
+      this.hideColumns(currentColumns.map(function(column:api.ex.Column) { return column.name; }));
       this.showColumns(selectedColumnNames);
     },
 
-    updateSortElements: function(sortation) {
+    updateSortElements: function(sortation:string) {
       return query.updateSortElements(sortation);
     },
 
@@ -236,7 +236,7 @@ function QueryService($rootScope,
       return query.getSortation();
     },
 
-    getAvailableFilters: function(projectIdentifier){
+    getAvailableFilters: function(projectIdentifier:string){
       // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
       var getFilters = <any> QueryService.getCustomFieldFilters;
@@ -250,14 +250,14 @@ function QueryService($rootScope,
         return $q.when(availableFilters[identifier]);
       } else {
         return getFilters.apply(this, getFiltersArgs)
-          .then(function(data){
+          .then(function(data:any) {
             return QueryService.storeAvailableFilters(identifier, angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
           });
       }
 
     },
 
-    getProjectCustomFieldFilters: function(projectIdentifier) {
+    getProjectCustomFieldFilters: function(projectIdentifier:string) {
       return QueryService.doQuery(PathHelper.apiProjectCustomFieldsPath(projectIdentifier), {}, 'GET', null, null, true);
     },
 
@@ -265,15 +265,15 @@ function QueryService($rootScope,
       return QueryService.doQuery(PathHelper.apiCustomFieldsPath());
     },
 
-    getAvailableFilterValues: function(filterName, projectIdentifier) {
+    getAvailableFilterValues: function(filterName:string, projectIdentifier:string) {
       return QueryService.getAvailableFilters(projectIdentifier)
-        .then(function(filters){
+        .then(function(filters:any) {
           var filter = filters[filterName];
           var modelName = filter.modelName;
 
           if(filter.values) {
             // Note: We have filter values already because it is a custom field and the server gives the possible values.
-            var values = filter.values.map(function(value){
+            var values = filter.values.map(function(value:any) {
               if(Array.isArray(value)){
                 return { id: value[1], name: value[0] };
               } else {
@@ -321,7 +321,7 @@ function QueryService($rootScope,
                 break;
             }
 
-            return retrieveAvailableValues.then(function(values) {
+            return retrieveAvailableValues.then(function(values:any) {
               return QueryService.storeAvailableFilterValues(modelName, values);
             });
           }
@@ -329,12 +329,12 @@ function QueryService($rootScope,
 
     },
 
-    storeAvailableFilterValues: function(modelName, values) {
+    storeAvailableFilterValues: function(modelName:string, values:any) {
       availableFilterValues[modelName] = values;
       return values;
     },
 
-    storeAvailableFilters: function(projectIdentifier, filters){
+    storeAvailableFilters: function(projectIdentifier:string, filters:any){
       availableFilters[projectIdentifier] = filters;
       return availableFilters[projectIdentifier];
     },
@@ -344,7 +344,7 @@ function QueryService($rootScope,
     saveQuery: function() {
       var url = query.projectId ? PathHelper.apiProjectQueryPath(query.projectId, query.id) : PathHelper.apiQueryPath(query.id);
 
-      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response) {
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response:any) {
         query.dirty = false;
         QueryService.fetchAvailableGroupedQueries(query.projectId);
 
@@ -352,11 +352,11 @@ function QueryService($rootScope,
       });
     },
 
-    saveQueryAs: function(name) {
+    saveQueryAs: function(name:string) {
       query.setName(name);
       var url = query.projectId ? PathHelper.apiProjectQueriesPath(query.projectId) : PathHelper.apiQueriesPath();
 
-      return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
+      return QueryService.doQuery(url, query.toParams(), 'POST', function(response:any){
         query.save(response.data.query);
         QueryService.fetchAvailableGroupedQueries(query.projectId);
 
@@ -377,7 +377,7 @@ function QueryService($rootScope,
       } else {
         url = PathHelper.apiProjectQueryPath(query.projectId, query.id);
       }
-      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response:any){
         QueryService.fetchAvailableGroupedQueries(query.projectId);
 
         $rootScope.$broadcast('openproject.layout.removeMenuItem', {
@@ -388,7 +388,7 @@ function QueryService($rootScope,
       });
     },
 
-    getQueryPath: function(query) {
+    getQueryPath: function(query:any) {
       if (query.projectId) {
         return PathHelper.projectWorkPackagesPath(query.projectId) + '?query_id=' + query.id;
       } else {
@@ -396,7 +396,7 @@ function QueryService($rootScope,
       }
     },
 
-    addOrRemoveMenuItem: function(query) {
+    addOrRemoveMenuItem: function(query:any) {
       if (!query) return;
       if(query.starred) {
         queryMenuItemFactory
@@ -416,7 +416,7 @@ function QueryService($rootScope,
       }
     },
 
-    toggleQueryStarred: function(query) {
+    toggleQueryStarred: function(query:any) {
       if(query.starred) {
         return QueryService.unstarQuery();
       } else {
@@ -428,13 +428,13 @@ function QueryService($rootScope,
       var url = PathHelper.apiQueryStarPath(query.id);
       var theQuery = query;
 
-      var success = function(response){
+      var success = function(response:any){
         theQuery.star();
         QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
       };
 
-      var failure = function(response){
+      var failure = function(response:any){
         var msg = undefined;
 
         if(response.data.errors) {
@@ -451,7 +451,7 @@ function QueryService($rootScope,
       var url = PathHelper.apiQueryUnstarPath(query.id);
       var theQuery = query;
 
-      return QueryService.doPatch(url, function(response){
+      return QueryService.doPatch(url, function(response:any){
         theQuery.unstar();
         QueryService.addOrRemoveMenuItem(theQuery);
         return response.data;
@@ -472,7 +472,7 @@ function QueryService($rootScope,
     },
 
     doQuery: function(url:string, params:any = {}, method:string = 'GET', success?:any, failure?:any, cache:boolean = false) {
-      success = success || function(response){
+      success = success || function(response:any){
         return response.data;
       };
       failure = failure || QueryService.failure();
@@ -485,12 +485,12 @@ function QueryService($rootScope,
           'caching': { enabled: cache },
           'Content-Type': 'application/x-www-form-urlencoded'
         }
-      }).then(success, failure);
+      } as any).then(success, failure);
     },
 
     failure: function(msg?:string) {
       msg = msg || I18n.t('js.notice_bad_request');
-      return function(response){
+      return function(response:any){
         return angular.extend(response, { status: { text: msg, isError: true }} );
       };
     }

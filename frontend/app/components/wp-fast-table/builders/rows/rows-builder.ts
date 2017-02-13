@@ -10,7 +10,7 @@ export abstract class RowsBuilder {
   public states:States;
 
   protected rowBuilder:SingleRowBuilder;
-  protected editingRowBuilder;
+  protected editingRowBuilder:EditingRowBuilder;
 
   constructor() {
     this.rowBuilder = new SingleRowBuilder();

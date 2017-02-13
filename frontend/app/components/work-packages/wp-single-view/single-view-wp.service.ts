@@ -29,6 +29,7 @@
 
 import {opServicesModule} from '../../../angular-modules';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
+import {Field} from '../../wp-field/wp-field.module';
 
 var $filter:ng.IFilterService;
 var I18n:op.I18n;
@@ -36,16 +37,16 @@ var wpDisplayField:WorkPackageDisplayFieldService;
 
 export class SingleViewWorkPackage {
 
-  private fields:Object = {};
+  private fields:{[attr:string]: Field} = {};
 
   constructor(protected workPackage:any) {
   }
 
-  public isSingleField(field) {
+  public isSingleField(field:string) {
     return angular.isString(field);
   };
 
-  public canHideField(field) {
+  public canHideField(field:string) {
     var attrVisibility = this.getVisibility(field);
     var notRequired = !this.isRequired(field) || this.hasDefault(field);
     var empty = this.isEmpty(field);
@@ -59,14 +60,14 @@ export class SingleViewWorkPackage {
     return notRequired && !visible && (empty || hidden);
   }
 
-  public getVisibility(field) {
+  public getVisibility(field:string) {
     var schema = this.workPackage.schema;
     var prop = schema && schema[field];
 
     return prop && prop.visibility;
   }
 
-  public isRequired(field) {
+  public isRequired(field:string) {
     var schema = this.workPackage.schema;
 
     if (_.isUndefined(schema[field])) {
@@ -76,7 +77,7 @@ export class SingleViewWorkPackage {
     return schema[field].required;
   }
 
-  public hasDefault(field) {
+  public hasDefault(field:string) {
     var schema = this.workPackage.schema;
 
     if (_.isUndefined(schema[field])) {
@@ -86,7 +87,7 @@ export class SingleViewWorkPackage {
     return schema[field].hasDefault;
   }
 
-  public isEmpty(fieldName) {
+  public isEmpty(fieldName:string) {
     if (this.workPackage.schema[fieldName]) {
       this.fields[fieldName] = this.fields[fieldName] ||
                                wpDisplayField.getField(this.workPackage,
@@ -100,7 +101,7 @@ export class SingleViewWorkPackage {
     }
   }
 
-  public isEditable(field) {
+  public isEditable(field:string) {
     // no form - no _editing
     if (!this.workPackage.form) {
       return false;
@@ -115,15 +116,15 @@ export class SingleViewWorkPackage {
     return isWritable;
   }
 
-  public getLinkedAllowedValues(field) {
+  public getLinkedAllowedValues(field:string) {
     return _.isArray(this.workPackage.schema[field].$links.allowedValues);
   }
 
-  public getEmbeddedAllowedValues(field) {
+  public getEmbeddedAllowedValues(field:string) {
     return this.workPackage.schema[field].$embedded.allowedValues;
   }
 
-  public getLabel(field) {
+  public getLabel(field:string) {
     if (field === 'date') {
       return I18n.t('js.work_packages.properties.date');
     }
@@ -131,41 +132,41 @@ export class SingleViewWorkPackage {
     return this.workPackage.schema[field].name;
   }
 
-  public isSpecified(field) {
+  public isSpecified(field:string) {
     return !_.isUndefined(this.workPackage.schema[field]);
   }
 
-  public hasNiceStar(field) {
+  public hasNiceStar(field:string) {
     return this.isRequired(field) && this.workPackage.schema[field].writable;
   }
 
-  public isGroupHideable(groupedFields, groupName) {
+  public isGroupHideable(groupedFields:any, groupName:string) {
     var group:any = _.find(groupedFields, {groupName: groupName});
 
-    return group.attributes.length === 0 || _.every(group.attributes, (field) => {
+    return group.attributes.length === 0 || _.every(group.attributes, (field:string) => {
         return this.canHideField(field);
       });
   }
 
-  public isGroupEmpty(groupedFields, groupName) {
+  public isGroupEmpty(groupedFields:any, groupName:string) {
     var group:any = _.find(groupedFields, {groupName: groupName});
 
     return group.attributes.length === 0;
   }
 
-  public shouldHideGroup(hideEmptyActive, groupedFields, groupName) {
+  public shouldHideGroup(hideEmptyActive:boolean, groupedFields:any, groupName:string) {
     return hideEmptyActive && this.isGroupHideable(groupedFields, groupName) ||
       !hideEmptyActive && this.isGroupEmpty(groupedFields, groupName);
   }
 
-  public shouldHideField(field, hideEmptyFields) {
+  public shouldHideField(field:string, hideEmptyFields:boolean) {
     var hidden = this.getVisibility(field) === 'hidden';
 
     return this.canHideField(field) && (hideEmptyFields || hidden);
   }
 }
 
-function singleViewWpService(...args) {
+function singleViewWpService(...args:any[]) {
   [$filter, I18n, wpDisplayField] = args;
   return SingleViewWorkPackage;
 }

@@ -33,7 +33,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('tablePagination', tablePagination);
 
-function tablePagination(PaginationService,
+function tablePagination(PaginationService:any,
                          wpTableMetadata:WorkPackageTableMetadataService,
                          I18n:op.I18n) {
   return {
@@ -44,7 +44,7 @@ function tablePagination(PaginationService,
       updateResults: '&'
     },
 
-    link: function(scope) {
+    link: function(scope:any) {
       scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
       scope.text = {
@@ -54,7 +54,7 @@ function tablePagination(PaginationService,
         no_other_page: I18n.t('js.pagination.no_other_page')
       };
 
-      scope.selectPerPage = function(perPage){
+      scope.selectPerPage = function(perPage:any){
         PaginationService.setPerPage(perPage);
 
         updatePageNumbers();
@@ -63,7 +63,7 @@ function tablePagination(PaginationService,
         scope.updateResults();
       };
 
-      scope.showPage = function(pageNumber){
+      scope.showPage = function(pageNumber:any){
         PaginationService.setPage(pageNumber);
 
         updateCurrentRangeLabel();
@@ -114,7 +114,7 @@ function tablePagination(PaginationService,
         scope.pageNumbers = pageNumbers;
       }
 
-      function truncatePageNums(pageNumbers, perform, disectFrom, disectLength, truncateFrom){
+      function truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any){
         if (perform){
           var truncationSize = PaginationService.getOptionsTruncationSize();
           var truncatedNums = pageNumbers.splice(disectFrom, disectLength);

@@ -59,8 +59,7 @@ export class DisplayField extends Field {
   }
 
   public get label() {
-    return (this.schema[this.name] && this.schema[this.name].name) ||
-           this.name;
+    return (this.schema.name || this.name);
   }
 
   protected get $injector(): ng.auto.IInjectorService {
@@ -93,7 +92,7 @@ export class DisplayField extends Field {
 
   constructor(public resource: HalResource,
               public name: string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.I18n = <op.I18n>this.$injector.get('I18n');
@@ -102,8 +101,8 @@ export class DisplayField extends Field {
 
 export class DisplayFieldFactory extends FieldFactory {
 
-  protected static fields = {};
-  protected static classes = {};
+  protected static fields:{[field:string]: string} = {};
+  protected static classes:{[type:string]: typeof DisplayField} = {};
 
   public static create(workPackage: HalResource,
                        fieldName: string,
@@ -113,7 +112,7 @@ export class DisplayFieldFactory extends FieldFactory {
       DisplayFieldFactory.defaultType;
     let fieldClass = DisplayFieldFactory.classes[type];
 
-    return <DisplayField>(new fieldClass(workPackage, fieldName, schema));
+    return (new fieldClass(workPackage, fieldName, schema)) as DisplayField;
   }
 
   protected static getSpecificType(type: string): string {

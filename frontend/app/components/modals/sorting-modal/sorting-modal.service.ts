@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function sortingModalService(btfModal) {
+function sortingModalService(btfModal:any) {
   return btfModal({
     controller: 'SortingModalController',
     controllerAs: '$ctrl',

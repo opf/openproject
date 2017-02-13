@@ -43,7 +43,7 @@ export class WorkPackageViewController {
   protected keepTab:KeepTabService;
   protected wpCacheService:WorkPackageCacheService;
   protected wpEditModeState:WorkPackageEditModeStateService;
-  protected WorkPackageService;
+  protected WorkPackageService:any;
   protected PathHelper:op.PathHelper;
   protected I18n:op.I18n;
 
@@ -61,7 +61,10 @@ export class WorkPackageViewController {
   protected focusAnchorLabel:string;
   public showStaticPagePath:string;
 
-  constructor(public $injector, public $scope, protected workPackageId) {
+  constructor(
+    public $injector:ng.auto.IInjectorService,
+    public $scope:ng.IScope,
+    protected workPackageId:string) {
     this.$inject('$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
                  'states', 'wpEditModeState', 'PathHelper', 'I18n');
 
@@ -84,7 +87,7 @@ export class WorkPackageViewController {
 
   protected $inject(...args:string[]) {
     args.forEach(field => {
-      this[field] = this.$injector.get(field);
+      (this as any)[field] = this.$injector.get(field);
     });
   }
 

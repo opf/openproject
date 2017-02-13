@@ -30,9 +30,9 @@ import {opServicesModule} from '../../angular-modules';
 
 export class SimpleTemplateRenderer {
 
-  constructor(public $compile,
-              public $templateCache,
-              public $rootScope) {
+  constructor(public $compile:ng.ICompileService,
+              public $templateCache:ng.ITemplateCacheService,
+              public $rootScope:ng.IRootScopeService) {
   }
 
   /**
@@ -45,7 +45,7 @@ export class SimpleTemplateRenderer {
     let scope = this.$rootScope.$new();
     _.assign(scope, scopeValues);
 
-    element.innerHTML = this.$templateCache.get(template);
+    element.innerHTML = this.$templateCache.get(template) as any;
     this.$compile(element)(scope);
   }
 }

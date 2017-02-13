@@ -29,13 +29,13 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function SettingsModalController($scope,
-                                 $rootScope,
-                                 QUERY_MENU_ITEM_TYPE,
-                                 settingsModal,
-                                 QueryService,
-                                 AuthorisationService,
-                                 NotificationsService) {
+function SettingsModalController($scope:any,
+                                 $rootScope:ng.IRootScopeService,
+                                 QUERY_MENU_ITEM_TYPE:any,
+                                 settingsModal:any,
+                                 QueryService:any,
+                                 AuthorisationService:any,
+                                 NotificationsService:any) {
 
   var query = QueryService.getQuery();
 
@@ -46,7 +46,7 @@ function SettingsModalController($scope,
   $scope.updateQuery = () => {
     query.name = $scope.queryName;
     QueryService.saveQuery()
-      .then(data => {
+      .then((data:any) => {
         QueryService.updateHighlightName();
         settingsModal.deactivate();
         NotificationsService.addSuccess(data.status.text);

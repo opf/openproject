@@ -34,7 +34,12 @@ export class WorkPackageEditModeStateService {
 
   private _active:boolean = false;
 
-  constructor(protected $rootScope, protected ConfigurationService, protected $window, protected $q, protected I18n) {
+  constructor(
+    protected $rootScope:ng.IRootScopeService,
+    protected ConfigurationService:any,
+    protected $window:ng.IWindowService,
+    protected $q:ng.IQService,
+    protected I18n:op.I18n) {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const cancelEventName = 'beforeunload.confirm_cancel';
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
@@ -52,9 +57,9 @@ export class WorkPackageEditModeStateService {
     });
 
     // Show confirmation message when browsing to a new page
-    angular.element($window).on(cancelEventName, (event) => {
+    angular.element($window).on(cancelEventName, (event:JQueryEventObject) => {
       if (requiresConfirmation && this.active) {
-        event.returnValue = confirmText;
+        (event as any).returnValue = confirmText;
         event.preventDefault();
 
         return confirmText;
@@ -111,7 +116,7 @@ export class WorkPackageEditModeStateService {
     return this._active;
   }
 
-  private allowedStateChange(toState, toParams, fromState, fromParams) {
+  private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
 
     // In new/copy mode, transitions to the same controller are allowed
     if (fromState.name.match(/\.(new|copy)$/)) {

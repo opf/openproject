@@ -30,8 +30,10 @@ import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 import * as MouseTrap from "mousetrap";
 import {States} from './../states.service';
-import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {debugLog} from '../../helpers/debug_output';
@@ -44,17 +46,17 @@ function wpTable(
   states:States,
   wpDisplayField:WorkPackageDisplayFieldService,
   wpCacheService:WorkPackageCacheService,
-  WorkPackageService,
+  WorkPackageService:any,
   keepTab:KeepTabService,
-  I18n,
-  QueryService,
-  $window,
-  $rootScope,
-  PathHelper,
-  columnsModal,
+  I18n:op.I18n,
+  QueryService:any,
+  $window:ng.IWindowService,
+  $rootScope:ng.IRootScopeService,
+  PathHelper:any,
+  columnsModal:any,
   contextMenu:ContextMenuService,
-  apiWorkPackages,
-  $state
+  apiWorkPackages:any,
+  $state:ng.ui.IStateService
 ){
   return {
     restrict: 'E',
@@ -75,7 +77,7 @@ function wpTable(
 
     controller: WorkPackagesTableController,
 
-    link: function(scope, element) {
+    link: function(scope:any, element:ng.IAugmentedJQuery) {
       var activeSelectionBorderIndex;
 
       // Clear any old table subscribers
@@ -94,7 +96,7 @@ function wpTable(
       scope.workPackagePath = PathHelper.workPackagePath;
 
       var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
-      scope.adaptVerticalPosition = function(event) {
+      scope.adaptVerticalPosition = function(event:JQueryEventObject) {
         event.pageY -= topMenuHeight;
       };
 
@@ -111,7 +113,7 @@ function wpTable(
         }
       });
 
-      scope.$watch('displaySums', function(sumsToBeDisplayed) {
+      scope.$watch('displaySums', function(sumsToBeDisplayed:boolean) {
         if (sumsToBeDisplayed) {
           if (!totalSumsFetched()) { fetchTotalSums(); }
           if (!sumsSchemaFetched()) { fetchSumsSchema(); }
@@ -129,7 +131,7 @@ function wpTable(
         apiWorkPackages
           // TODO: use the correct page offset and per page options
           .list(1, 1, scope.query)
-          .then(function(workPackageCollection) {
+          .then(function(workPackageCollection:WorkPackageCollectionResource) {
             angular.extend(scope.resource, workPackageCollection);
             fetchSumsSchema();
           });
@@ -158,7 +160,7 @@ function wpTable(
   };
 }
 
-function WorkPackagesTableController($scope, $rootScope, I18n) {
+function WorkPackagesTableController($scope:any, $rootScope:ng.IRootScopeService, I18n:op.I18n) {
   $scope.locale = I18n.locale;
 
   $scope.text = {
@@ -181,11 +183,11 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
     ].join(' ')
   };
 
-  $scope.cancelInlineWorkPackage = function (index, row) {
+  $scope.cancelInlineWorkPackage = function (index:number, row:any) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
   };
 
-  $scope.getTableColumnName = function(workPackage, name) {
+  $scope.getTableColumnName = function(workPackage:WorkPackageResource, name:string) {
     // poor man's implementation to query for whether this wp is a milestone
     // It would be way cleaner to ask whether this work package has a type
     // that is a milestone but that would require us to make another server request.

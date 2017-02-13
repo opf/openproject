@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function internal2externalFloat($locale) {
-	return function(input) {
+function internal2externalFloat($locale:ng.ILocaleService) {
+	return function(input:any) {
     if (input === null) {
       return '';
     }

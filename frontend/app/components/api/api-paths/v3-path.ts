@@ -34,7 +34,7 @@ import {opApiModule} from '../../../angular-modules';
  * @param apiPaths
  * @return {Array|api.v3}
  */
-function v3PathsService(apiPaths) {
+function v3PathsService(apiPaths:{v3: any }) {
   return apiPaths.v3;
 }
 

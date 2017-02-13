@@ -28,8 +28,11 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function filterModel(OPERATORS_NOT_REQUIRING_VALUES, MULTIPLE_VALUE_FILTER_OPERATORS, SELECTABLE_FILTER_TYPES) {
-  var Filter = function (data) {
+function filterModel(
+  OPERATORS_NOT_REQUIRING_VALUES:any,
+  MULTIPLE_VALUE_FILTER_OPERATORS:any,
+  SELECTABLE_FILTER_TYPES:any) {
+  var Filter = function (data:any) {
     angular.extend(this, data);
 
     // Experimental API controller will always give back strings even for numeric values so need to parse them
@@ -47,7 +50,7 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, MULTIPLE_VALUE_FILTER_OPERA
      * @returns {Object} Request parameters
      */
     toParams: function () {
-      var params = {};
+      var params:any = {};
 
       params['op[' + this.name + ']'] = this.operator;
       params['v[' + this.name + '][]'] = this.getValuesAsArray();
@@ -64,7 +67,7 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, MULTIPLE_VALUE_FILTER_OPERA
       return SELECTABLE_FILTER_TYPES.indexOf(this.type) !== -1;
     },
 
-    parseSingleValue: function (v) {
+    parseSingleValue: function (v:any) {
       if (this.type == 'integer' || this.type == 'date') {
         if (this.operator == '=d') {
           this.dateValue = v;
@@ -127,7 +130,7 @@ function filterModel(OPERATORS_NOT_REQUIRING_VALUES, MULTIPLE_VALUE_FILTER_OPERA
           };
         }
         else {
-          this.values = this.values.filter(function (value) {
+          this.values = this.values.filter(function (value:any) {
             return value !== '';
           });
         }

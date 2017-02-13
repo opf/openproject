@@ -32,12 +32,12 @@ import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-bui
 
 export class IdDisplayField extends DisplayField {
   public text: Object;
-  private uiStateBuilder;
+  private uiStateBuilder:UiStateLinkBuilder;
 
 
   constructor(public resource:WorkPackageResource,
               public name:string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.uiStateBuilder = new UiStateLinkBuilder();

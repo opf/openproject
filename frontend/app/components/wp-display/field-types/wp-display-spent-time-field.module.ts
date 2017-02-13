@@ -37,7 +37,7 @@ export class SpentTimeDisplayField extends DurationDisplayField {
 
   constructor(public resource: WorkPackageResourceInterface,
               public name: string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.PathHelper = this.$injector.get('PathHelper');
@@ -57,7 +57,7 @@ export class SpentTimeDisplayField extends DurationDisplayField {
     link.setAttribute('title', this.text.linkTitle);
 
     if (this.resource.project) {
-      this.resource.project.$load().then(project => {
+      this.resource.project.$load().then((project:any) => {
         const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
           .search({ work_package_id: this.resource.id })
           .toString();

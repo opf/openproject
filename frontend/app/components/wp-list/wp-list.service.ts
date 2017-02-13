@@ -26,17 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+
 export class WorkPackagesListService {
-  constructor(protected apiWorkPackages,
-              protected WorkPackageService,
-              protected QueryService,
-              protected PaginationService,
-              protected NotificationsService,
-              protected UrlParamsHelper,
-              protected $location,
-              protected $q,
-              protected Query,
-              protected I18n) {}
+  constructor(protected apiWorkPackages:any,
+              protected WorkPackageService:any,
+              protected QueryService:any,
+              protected PaginationService:any,
+              protected NotificationsService:any,
+              protected UrlParamsHelper:any,
+              protected $location:ng.ILocationService,
+              protected $q:ng.IQService,
+              protected Query:any,
+              protected I18n:op.I18n) {}
 
   /**
    * Resolve API experimental and APIv3 requests using queryParams.
@@ -99,18 +101,18 @@ export class WorkPackagesListService {
   /**
    * Resolve the query with experimental API and load work packages through APIv3.
    */
-  private resolveList(wpListPromise):ng.IPromise<api.ex.WorkPackagesMeta> {
+  private resolveList(wpListPromise:Promise<api.ex.WorkPackagesMeta>):ng.IPromise<api.ex.WorkPackagesMeta> {
     var deferred = this.$q.defer();
 
     wpListPromise.then((json:api.ex.WorkPackagesMeta) => {
       this.apiWorkPackages
         .list(json.meta.page, json.meta.per_page, json.meta.query)
-        .then((workPackageCollection) => {
+        .then((workPackageCollection:WorkPackageCollectionResource) => {
           this.mergeApiResponses(json, workPackageCollection);
 
           deferred.resolve(json);
         })
-        .catch((error) => {
+        .catch((error:any) => {
           this.mergeApiResponses(json, { elements: [], count: 0, total: 0 });
           deferred.reject({ error: error, json: json });
         });
@@ -125,12 +127,12 @@ export class WorkPackagesListService {
    * @param exJson
    * @param workPackages
    */
-  private mergeApiResponses(exJson, workPackages) {
+  private mergeApiResponses(exJson:any, workPackages:any) {
     exJson.work_packages = workPackages.elements;
     exJson.resource = workPackages;
   }
 
-  private paginationOptions(query) {
+  private paginationOptions(query:any) {
     return {
       perPage: (query.perPage || this.PaginationService.perPage),
       page: (query.page || this.PaginationService.page)

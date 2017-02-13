@@ -33,10 +33,10 @@ import IRootScopeService = angular.IRootScopeService;
 describe('opFileUpload service', () => {
   var $rootScope: IRootScopeService;
   var opFileUpload: OpenProjectFileUploadService;
-  var Upload;
+  var Upload:any;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$rootScope_, _opFileUpload_, _Upload_) {
+  beforeEach(angular.mock.inject(function (_$rootScope_:any, _opFileUpload_:any, _Upload_:any) {
     [$rootScope, opFileUpload, Upload] = _.toArray(arguments);
   }));
 
@@ -45,8 +45,8 @@ describe('opFileUpload service', () => {
   });
 
   describe('when uploading multiple files', () => {
-    var uploadStub;
-    var result;
+    var uploadStub:any;
+    var result:any;
     const file: any = {
       name: 'name',
       description: 'description'

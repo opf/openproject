@@ -30,26 +30,27 @@ import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service"
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from "../states.service";
+import {WorkPackageNotificationService} from './wp-notification.service';
 
 export class WorkPackageEditFormController {
-  public workPackage;
+  public workPackage:WorkPackageResourceInterface;
   public hasEditMode: boolean;
   public errorHandler: Function;
   public successHandler: Function;
-  public fields = {};
+  public fields:{[attribute:string]: WorkPackageEditFieldController} = {};
 
-  private errorsPerAttribute: Object = {};
+  private errorsPerAttribute:{[attribute:string]: any} = {};
   public firstActiveField: string;
 
   constructor(protected states: States,
               protected $scope: ng.IScope,
-              protected $q,
-              protected $rootScope,
-              protected wpNotificationsService,
-              protected QueryService,
-              protected loadingIndicator,
+              protected $q:ng.IQService,
+              protected $rootScope:ng.IRootScopeService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected QueryService:any,
+              protected loadingIndicator:any,
               protected wpEditModeState: WorkPackageEditModeStateService,
               protected wpCacheService: WorkPackageCacheService) {
 
@@ -58,12 +59,12 @@ export class WorkPackageEditFormController {
     }
 
     states.workPackages.get(this.workPackage.id.toString()).observeOnScope($scope)
-      .subscribe((wp: WorkPackageResource) => {
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });
   }
 
-  public registerField(field) {
+  public registerField(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
     field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
   }
@@ -122,7 +123,7 @@ export class WorkPackageEditFormController {
     return this.updateWorkPackage();
   }
 
-  public updateWorkPackage():Promise<WorkPackageResource> {
+  public updateWorkPackage():ng.IPromise<WorkPackageResourceInterface> {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       return this.$q.when(this.workPackage);
     }

@@ -29,11 +29,11 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
 
-function GroupingModalController($scope,
-                                 groupingModal,
-                                 QueryService,
+function GroupingModalController($scope:any,
+                                 groupingModal:any,
+                                 QueryService:any,
                                  wpTableMetadata:WorkPackageTableMetadataService,
-                                 I18n) {
+                                 I18n:op.I18n) {
   this.name = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
   let emptyOption = {title: I18n.t('js.inplace.clear_value_label')};

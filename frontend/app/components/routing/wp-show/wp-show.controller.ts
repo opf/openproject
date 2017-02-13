@@ -1,3 +1,4 @@
+import {IStateService} from 'angular-ui-router';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -50,14 +51,14 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public authorActive:boolean;
   public attachments:any;
 
-  constructor(public $injector,
-              public $scope,
-              public $state,
-              public $window,
-              public HookService,
-              public AuthorisationService,
-              public WorkPackageAuthorization,
-              public PERMITTED_MORE_MENU_ACTIONS) {
+  constructor(public $injector:ng.auto.IInjectorService,
+              public $scope:any,
+              public $state:ng.ui.IStateService,
+              public $window:ng.IWindowService,
+              public HookService:any,
+              public AuthorisationService:any,
+              public WorkPackageAuthorization:any,
+              public PERMITTED_MORE_MENU_ACTIONS:any) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
   }
@@ -78,7 +79,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     });
   }
 
-  public triggerMoreMenuAction(action, link) {
+  public triggerMoreMenuAction(action:string, link:any) {
     switch (action) {
       case 'delete':
         this.deleteSelectedWorkPackage();
@@ -105,7 +106,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     });
   }
 
-  private getPermittedActions(authorization, permittedMoreMenuActions) {
+  private getPermittedActions(authorization:any, permittedMoreMenuActions:any) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
     var augmentedActions = { };
 
@@ -118,8 +119,8 @@ export class WorkPackageShowController extends WorkPackageViewController {
     return augmentedActions;
   }
 
-  private getPermittedPluginActions(authorization) {
-    var pluginActions = [];
+  private getPermittedPluginActions(authorization:any) {
+    var pluginActions:any = [];
     angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
       pluginActions = pluginActions.concat(action);
     });

@@ -73,15 +73,17 @@ const panels = {
   }
 };
 
-const redirectTo = (routeTo) => {
-  return ($match, $state) => {
+const redirectTo = (routeTo:string) => {
+  return ($match:any, $state:any) => {
     $state.go(routeTo, $match, { location: 'replace' });
     return true;
   };
 };
 
 openprojectModule
-  .config(($stateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) => {
+  .config(($stateProvider:ng.ui.IStateProvider,
+           $urlRouterProvider:ng.ui.IUrlRouterProvider,
+           $urlMatcherFactoryProvider:ng.ui.IUrlMatcherFactory) => {
     $urlMatcherFactoryProvider.strictMode(false);
 
     $urlRouterProvider.when('/work_packages/', '/work_packages')
@@ -128,7 +130,10 @@ openprojectModule
 
       .state('work-packages.edit', {
         url: '/{workPackageId:[0-9]+}/edit',
-        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state:ng.ui.IStateService,
+                  $timeout:ng.ITimeoutService,
+                  $stateParams:ng.ui.IStateParamsService,
+                  wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
           // Transitioning to a new state may cause a reported issue
           // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
@@ -148,7 +153,10 @@ openprojectModule
       .state('work-packages.show.edit', {
         url: '/edit',
         reloadOnSearch: false,
-        onEnter: ($state, $timeout, $stateParams, wpEditModeState:WorkPackageEditModeStateService) => {
+        onEnter: ($state:ng.ui.IStateService,
+                  $timeout:ng.ITimeoutService,
+                  $stateParams:ng.ui.IStateParamsService,
+                  wpEditModeState:WorkPackageEditModeStateService) => {
           wpEditModeState.start();
           // Transitioning to a new state may cause a reported issue
           // $timeout is a workaround: https://github.com/angular-ui/ui-router/issues/326#issuecomment-66566642
@@ -203,7 +211,12 @@ openprojectModule
       .state('work-packages.list.details.watchers', panels.watchers);
   })
 
-  .run(($location, $rootElement, $browser, $rootScope, $state, $window) => {
+  .run(($location:ng.ILocationService,
+        $rootElement:ng.IRootElementService,
+        $browser:ng.IBrowserService,
+        $rootScope:ng.IRootScopeService,
+        $state:ng.ui.IStateService,
+        $window:ng.IWindowService) => {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
@@ -218,24 +231,22 @@ openprojectModule
       // NOTE: making use of event delegation, thus jQuery-only.
       var elm = jQuery(event.target);
       var absHref = elm.prop('href');
-      var rewrittenUrl = $location.$$rewrite(absHref);
+      // TODO this doesn't seem right
+      var rewrittenUrl = ($location as any).$$rewrite(absHref);
 
       if (absHref && !elm.attr('target') && rewrittenUrl && !event.isDefaultPrevented()) {
         event.preventDefault();
 
-        if (rewrittenUrl !== $browser.url()) {
+        if (rewrittenUrl !== $location.url()) {
           // update location manually
-          $location.$$parse(rewrittenUrl);
+          ($location as any).$$parse(rewrittenUrl);
           $rootScope.$apply();
-
-          // hack to work around FF6 bug 684208 when scenario runner clicks on links
-          $window.angular['ff-684208-preventDefault'] = true;
         }
       }
     });
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
-      const projectIdentifier = toParams.projectPath || $rootScope.projectIdentifier;
+      const projectIdentifier = toParams.projectPath || $rootScope['projectIdentifier'];
 
       if (!toParams.projects && projectIdentifier) {
         toParams.projectPath = projectIdentifier;

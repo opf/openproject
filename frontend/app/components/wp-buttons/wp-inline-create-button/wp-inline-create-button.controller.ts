@@ -30,20 +30,21 @@ import {wpButtonsModule} from '../../../angular-modules';
 import WorkPackageCreateButtonController from '../wp-create-button/wp-create-button.controller';
 import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonController {
   public query:op.Query;
   public rows:any[];
   public hidden:boolean = false;
 
-  private _wp;
+  private _wp:WorkPackageResourceInterface;
 
-  constructor(protected $state,
-              protected $scope,
-              protected $rootScope,
-              protected $element,
-              protected FocusHelper,
-              protected I18n,
+  constructor(protected $state:ng.ui.IStateService,
+              protected $scope:ng.IScope,
+              protected $rootScope:ng.IRootScopeService,
+              protected $element:ng.IAugmentedJQuery,
+              protected FocusHelper:any,
+              protected I18n:op.I18n,
               protected wpCacheService:WorkPackageCacheService,
               protected wpCreate:WorkPackageCreateService) {
     super($state, I18n);
@@ -71,7 +72,7 @@ class WorkPackageInlineCreateButtonController extends WorkPackageCreateButtonCon
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
       this._wp = wp;
-      this._wp.inlineCreated = true;
+      (this._wp as any).inlineCreated = true;
 
       this.query.applyDefaultsFromFilters(this._wp);
       this.wpCacheService.updateWorkPackage(this._wp);

@@ -40,7 +40,7 @@ export interface GroupObject {
 
 export interface WPTableRowSelectionState {
   // Map of selected rows
-  selected: {[workPackageId: number]: boolean};
+  selected: {[workPackageId: string]: boolean};
   // Index of current selection
   // required for shift-offsets
   activeRowIndex: number | null;

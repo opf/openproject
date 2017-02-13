@@ -43,21 +43,21 @@ export interface HalLinkInterface {
 }
 
 interface CallableHalLink extends HalLinkInterface {
-  (data?):ng.IPromise<HalResource>;
+  data?:ng.IPromise<HalResource>;
 }
 
 export class HalLink implements HalLinkInterface {
   /**
    * Create the HalLink from an object with the HalLinkInterface.
    */
-  public static fromObject(link):HalLink {
+  public static fromObject(link:HalLinkInterface):HalLink {
     return new HalLink(link.href, link.title, link.method, link.templated, link.payload);
   }
 
   /**
    * Return a function that fetches the resource.
    */
-  public static callable(link):CallableHalLink {
+  public static callable(link:HalLinkInterface):CallableHalLink {
     return HalLink.fromObject(link).$callable();
   }
 
@@ -71,7 +71,7 @@ export class HalLink implements HalLinkInterface {
   /**
    * Fetch the resource.
    */
-  public $fetch(...params):ng.IPromise<HalResource> {
+  public $fetch(...params:any[]):ng.IPromise<HalResource> {
     const [data, headers] = params;
     return halRequest.request(this.method, this.href, data, headers);
   }
@@ -107,7 +107,7 @@ export class HalLink implements HalLinkInterface {
    * @returns {CallableHalLink}
    */
   public $callable():CallableHalLink {
-    const linkFunc:any = (...params) => this.$fetch(...params);
+    const linkFunc:any = (...params:any[]) => this.$fetch(...params);
 
     _.extend(linkFunc, {
       $link: this,
@@ -123,7 +123,7 @@ export class HalLink implements HalLinkInterface {
 
 }
 
-function halLinkService(...args) {
+function halLinkService(...args:any[]) {
   [$q, halRequest] = args;
   return HalLink;
 }

@@ -27,17 +27,17 @@
 //++
 
 describe('remote-field-updater directive', function() {
-  var element;
-  var $compile;
-  var $rootScope;
-  var $httpBackend;
+  var element:any;
+  var $compile:any;
+  var $rootScope:any;
+  var $httpBackend:any;
 
   beforeEach(angular.mock.module(
     'openproject',
     'openproject.workPackages.directives'
   ));
 
-  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_, _$httpBackend_) {
+  beforeEach(angular.mock.inject(function(_$compile_:any, _$rootScope_:any, _$httpBackend_:any) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;

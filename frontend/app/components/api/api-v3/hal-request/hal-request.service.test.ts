@@ -39,7 +39,7 @@ describe('halRequest service', () => {
   var halRequest:HalRequestService;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$httpBackend_, _$rootScope_, _halRequest_) {
+  beforeEach(angular.mock.inject(function (_$httpBackend_:any, _$rootScope_:any, _halRequest_:any) {
     [$httpBackend, $rootScope, halRequest] = _.toArray(arguments);
   }));
 
@@ -52,7 +52,7 @@ describe('halRequest service', () => {
   });
 
   describe('when requesting a null href', () => {
-    var promise;
+    var promise:any;
 
     beforeEach(() => {
       promise = halRequest.request('get', null);
@@ -66,11 +66,11 @@ describe('halRequest service', () => {
   describe('when requesting the same GET resource multiple times', () => {
     var headers:any;
 
-    const testRequest = prepare => {
+    const testRequest = (prepare:any) => {
       beforeEach(prepare);
 
       it('should perform requests according to the cache options', () => {
-        $httpBackend.expectGET('something').respond(200, '', (headers) => {
+        $httpBackend.expectGET('something').respond(200, '', (headers:any) => {
           return headers.caching.enabled === true;
         });
 
@@ -119,7 +119,7 @@ describe('halRequest service', () => {
     var headers = {Accept: 'foo', caching: {enabled: false}};
 
     const methods = ['get', 'put', 'post', 'patch', 'delete'];
-    const respond = (status, response) => {
+    const respond = (status:any, response:any) => {
       $httpBackend
         .expect(method.toUpperCase(), 'href', expectedData, (headers:any) => {
           return headers.Accept === 'foo';
@@ -152,7 +152,7 @@ describe('halRequest service', () => {
         });
       });
     };
-    const runRequests = cb => {
+    const runRequests = (cb:any) => {
       const callback = () => {
         if (method === 'get') {
           data = null;
@@ -196,7 +196,7 @@ describe('halRequest service', () => {
 
     describe('when calling the http methods of the service', () => {
       runRequests(() => {
-        promise = halRequest[method]('href', data, headers);
+        promise = (halRequest as any)[method]('href', data, headers);
       });
     });
 

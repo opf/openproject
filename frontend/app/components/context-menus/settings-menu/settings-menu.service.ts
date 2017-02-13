@@ -28,7 +28,7 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 
-function settingsMenuService(ngContextMenu) {
+function settingsMenuService(ngContextMenu:any) {
   return ngContextMenu({
     templateUrl: '/components/context-menus/settings-menu/settings-menu.service.html',
 

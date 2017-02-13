@@ -1,18 +1,19 @@
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 class WpRelationsHierarchyRowDirectiveController {
-  public workPackage;
-  public relatedWorkPackage;
-  public relationType;
+  public workPackage:WorkPackageResourceInterface;
+  public relatedWorkPackage:WorkPackageResourceInterface;
+  public relationType:any;
   public showEditForm: boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
   public canModifyHierarchy: boolean = false;
 
   constructor(protected $scope: ng.IScope,
-              protected $timeout,
+              protected $timeout:ng.ITimeoutService,
               protected wpRelationsHierarchyService: WorkPackageRelationsHierarchyService,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
@@ -76,7 +77,7 @@ class WpRelationsHierarchyRowDirectiveController {
           angular.element('#hierarchy--add-exisiting-child').focus();
         });
       })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
+      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
   }
 
   protected removeParent() {
@@ -88,7 +89,7 @@ class WpRelationsHierarchyRowDirectiveController {
           angular.element('#hierarchy--add-parent').focus();
         });
       })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
+      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
 
   }
 }

@@ -28,16 +28,16 @@
 
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {ContextMenuService} from '../context-menu.service';
-function wpContextMenuController($scope,
-                                 $rootScope,
-                                 $state,
-                                 WorkPackageContextMenuHelper,
-                                 WorkPackageService,
+function wpContextMenuController($scope:any,
+                                 $rootScope:ng.IRootScopeService,
+                                 $state:ng.ui.IStateService,
+                                 WorkPackageContextMenuHelper:any,
+                                 WorkPackageService:any,
                                  contextMenu:ContextMenuService,
-                                 I18n,
-                                 $window,
+                                 I18n:op.I18n,
+                                 $window:ng.IWindowService,
                                  wpTableSelection:WorkPackageTableSelection,
-                                 PERMITTED_CONTEXT_MENU_ACTIONS) {
+                                 PERMITTED_CONTEXT_MENU_ACTIONS:any) {
 
   $scope.I18n = I18n;
 
@@ -51,7 +51,7 @@ function wpContextMenuController($scope,
     return !!angular.element('#work-package-context-menu li.open').length;
   };
 
-  $scope.triggerContextMenuAction = function (action, link) {
+  $scope.triggerContextMenuAction = function (action:any, link:any) {
     switch (action) {
 
       case 'delete':
@@ -68,7 +68,7 @@ function wpContextMenuController($scope,
     }
   };
 
-  $scope.cancelInlineCreate = function (index, row) {
+  $scope.cancelInlineCreate = function (index:number, row:any) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
     emitClosingEvents();
   };
@@ -83,7 +83,7 @@ function wpContextMenuController($scope,
     WorkPackageService.performBulkDelete(ids, true);
   }
 
-  function editSelectedWorkPackages(link) {
+  function editSelectedWorkPackages(link:any) {
     var selected = getSelectedWorkPackages();
 
     if (selected.length > 1) {

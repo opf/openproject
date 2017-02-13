@@ -33,7 +33,12 @@ import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/wo
 import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 
-function wpRelationsAutocompleteDirective($q, PathHelper, loadingIndicator:LoadingIndicatorService, $http, I18n) {
+function wpRelationsAutocompleteDirective(
+  $q:ng.IQService,
+  PathHelper:any,
+  $http:ng.IHttpService,
+  loadingIndicator:LoadingIndicatorService,
+  I18n:op.I18n) {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
@@ -45,7 +50,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, loadingIndicator:Loadi
       filterCandidatesFor: '@',
       workPackage: '='
     },
-    link: function (scope, element, attrs, controllers) {
+    link: function (scope:any, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
       scope.text = {
         placeholder: I18n.t('js.relations_autocomplete.placeholder')
       };
@@ -69,15 +74,15 @@ function wpRelationsAutocompleteDirective($q, PathHelper, loadingIndicator:Loadi
         }
       });
 
-      function getIdentifier(workPackage){
+      function getIdentifier(workPackage:WorkPackageResourceInterface){
         if (workPackage) {
           return _.escape(`#${workPackage.id} - ${workPackage.subject}`);
         }
       };
 
-      function autocompleteWorkPackages(query) {
+      function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
         if (!query) {
-          return [];
+          return $q.when([]);
         }
 
         const deferred = $q.defer();
@@ -98,7 +103,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, loadingIndicator:Loadi
         return deferred.promise;
       };
 
-      scope.$watch('noResults', (noResults) => {
+      scope.$watch('noResults', (noResults:boolean) => {
         if (noResults) {
           scope.selectedWpId = null;
         }

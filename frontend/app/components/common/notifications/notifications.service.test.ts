@@ -27,11 +27,11 @@
 // ++
 
 describe('NotificationsService', function () {
-  var NotificationsService,
-    $rootScope;
+  var NotificationsService:any,
+    $rootScope:any;
 
   beforeEach(angular.mock.module('openproject.services'));
-  beforeEach(angular.mock.inject(function (_$rootScope_, _NotificationsService_) {
+  beforeEach(angular.mock.inject(function (_$rootScope_:any, _NotificationsService_:any) {
     $rootScope = _$rootScope_;
     NotificationsService = _NotificationsService_;
   }));

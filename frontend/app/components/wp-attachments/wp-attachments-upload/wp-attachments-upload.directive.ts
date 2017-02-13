@@ -36,8 +36,8 @@ export class WorkPackageUploadDirectiveController {
   public text: any;
   public maxFileSize: number;
 
-  constructor(ConfigurationService) {
-    ConfigurationService.api().then(settings => {
+  constructor(ConfigurationService:any) {
+    ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
   }
@@ -56,7 +56,7 @@ export class WorkPackageUploadDirectiveController {
 }
 
 function wpUploadDirective(): IDirective {
-  function wpUploadDirectiveLink(scope, element) {
+  function wpUploadDirectiveLink(scope:ng.IScope, element:ng.IAugmentedJQuery) {
     element.click(() => element.children().first().click());
   }
 

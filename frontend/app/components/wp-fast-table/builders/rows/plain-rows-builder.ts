@@ -1,3 +1,4 @@
+import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {RowsBuilder} from './rows-builder';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -34,7 +35,7 @@ export class PlainRowsBuilder extends RowsBuilder {
     return tbodyContent;
   }
 
-  public buildEmptyRow(row, table?:WorkPackageTable) {
+  public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable) {
     return this.rowBuilder.buildEmpty(row.object);
   }
 }

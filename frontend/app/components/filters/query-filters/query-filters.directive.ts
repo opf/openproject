@@ -28,35 +28,35 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function queryFiltersDirective($timeout, I18n, ADD_FILTER_SELECT_INDEX) {
+function queryFiltersDirective($timeout:ng.ITimeoutService, I18n:op.I18n, ADD_FILTER_SELECT_INDEX:any) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/filters/query-filters/query-filters.directive.html',
 
     compile: function () {
-      var localisedFilterName = filter => {
+      var localisedFilterName = (filter:any) => {
         if (filter) {
           if (filter.name) {
             return filter.name;
           }
-          
+
           if (filter.locale_name) {
             return I18n.t('js.filter_labels.' + filter["locale_name"]);
           }
         }
-        
+
         return '';
       };
-      
+
       return {
-        pre: function (scope) {
+        pre: function (scope:any) {
           scope.I18n = I18n;
           scope.localisedFilterName = localisedFilterName;
           scope.focusElementIndex;
           scope.remainingFilterNames = [];
 
-          scope.$watch('filterToBeAdded', function (filter) {
+          scope.$watch('filterToBeAdded', function (filter:any) {
             if (filter) {
               scope.query.addFilter(filter.key);
               scope.filterToBeAdded = undefined;
@@ -66,19 +66,19 @@ function queryFiltersDirective($timeout, I18n, ADD_FILTER_SELECT_INDEX) {
             }
           });
 
-          scope.$watch('query.filters.length', function (len) {
+          scope.$watch('query.filters.length', function (len:number) {
             if (len >= 0) {
               updateRemainingFilters();
             }
           });
 
-          scope.$watch('query.availableWorkPackageFilters', function (newVal, oldVal) {
+          scope.$watch('query.availableWorkPackageFilters', function (newVal:any, oldVal:any) {
             if (newVal !== oldVal) {
               updateRemainingFilters();
             }
           });
 
-          scope.deactivateFilter = function (filter) {
+          scope.deactivateFilter = function (filter:any) {
             var index = scope.query.getActiveFilters().indexOf(filter);
 
             scope.query.deactivateFilter(filter);
@@ -99,7 +99,7 @@ function queryFiltersDirective($timeout, I18n, ADD_FILTER_SELECT_INDEX) {
             scope.remainingFilterNames = _.sortBy(remainingFilters, 'name');
           }
 
-          function updateFilterFocus(index) {
+          function updateFilterFocus(index:number) {
             var activeFilterCount = scope.query.getActiveFilters().length;
 
             if (activeFilterCount == 0) {

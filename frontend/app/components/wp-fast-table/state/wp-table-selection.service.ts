@@ -24,9 +24,9 @@ export class WorkPackageTableSelection {
    * Select all work packages
    */
   public selectAll(rows: string[]) {
-    const state = this._emptyState;
+    const state:WPTableRowSelectionState = this._emptyState;
 
-    rows.forEach((workPackageId) => {
+    rows.forEach((workPackageId:string) => {
       state.selected[workPackageId] = true;
     });
 
@@ -110,7 +110,7 @@ export class WorkPackageTableSelection {
    * Override current selection with the given work package id.
    */
   public setSelection(row:WorkPackageTableRow) {
-    let state = {
+    let state:WPTableRowSelectionState = {
       selected: {},
       activeRowIndex: row.position
     };
@@ -145,7 +145,7 @@ export class WorkPackageTableSelection {
   }
 
 
-  private get _emptyState() {
+  private get _emptyState():WPTableRowSelectionState {
     return {
       selected: {},
       activeRowIndex: null

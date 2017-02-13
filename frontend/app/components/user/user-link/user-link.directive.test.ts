@@ -27,11 +27,11 @@
 //++
 
 describe('userLink Directive', function () {
-  var user, userLoadFn, link, $q, compile, element, scope;
+  var user:any, userLoadFn:any, link:any, $q, compile:any, element, scope;
 
   beforeEach(angular.mock.module('openproject'));
 
-  beforeEach(inject(function ($rootScope, $compile, _$q_) {
+  beforeEach(inject(function ($rootScope:any, $compile:any, _$q_:any) {
     $q = _$q_;
     var html = '<user-link user="user"></user-link>';
 

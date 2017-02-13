@@ -28,7 +28,7 @@ export class WorkPackageTable {
     TableHandlerRegistry.attachTo(this);
   }
 
-  public rowObject(workPackageId):WorkPackageTableRow {
+  public rowObject(workPackageId:string):WorkPackageTableRow {
     return this.rowIndex[workPackageId];
   }
 
@@ -51,7 +51,7 @@ export class WorkPackageTable {
    * Build the row index and positions from the given set of ordered work packages.
    * @param rows
    */
-  private buildIndex(rows) {
+  private buildIndex(rows:WorkPackageResource[]) {
     this.rowIndex = {};
     this.rows = rows.map((wp:WorkPackageResource, i:number) => {
       let wpId = wp.id;

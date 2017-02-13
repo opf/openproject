@@ -34,7 +34,7 @@ describe('appBasePath service', () => {
   var appBasePath:string;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$document_, _appBasePath_) {
+  beforeEach(angular.mock.inject(function (_$document_:any, _appBasePath_:any) {
     [$document, appBasePath] = _.toArray(arguments);
   }));
 

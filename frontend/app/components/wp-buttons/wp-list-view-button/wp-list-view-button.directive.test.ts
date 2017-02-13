@@ -29,14 +29,14 @@
 import {WorkPackageListViewButtonController} from './wp-list-view-button.directive';
 
 describe('wpListViewButton directive', () => {
-  var $state, scope;
+  var $state:any, scope;
   var controller:WorkPackageListViewButtonController;
 
   beforeEach(angular.mock.module(
     'openproject', 'openproject.wpButtons', 'openproject.templates', 'openproject.config'
   ));
 
-  beforeEach(angular.mock.inject(($compile, $rootScope, _$state_) => {
+  beforeEach(angular.mock.inject(($compile:any, $rootScope:any, _$state_:any) => {
     var html = '<wp-list-view-button edit-all="editAll"' +
       ' projectIdentifier="projectIdentifier"></wp-list-view-button>';
 
@@ -53,7 +53,7 @@ describe('wpListViewButton directive', () => {
 
   //TODO: fix
   describe.skip('when using openListView()', () => {
-    var go;
+    var go:any;
     beforeEach(() => {
       go = sinon.stub($state, 'go');
       controller.openListView();

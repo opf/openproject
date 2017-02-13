@@ -28,29 +28,29 @@
 
 import {opServicesModule} from '../../../angular-modules';
 
-function NotificationsService($rootScope, $timeout, ConfigurationService) {
-  var createNotification = function (message) {
+function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITimeoutService, ConfigurationService:any) {
+  var createNotification = function (message:any) {
       if (typeof message === 'string') {
         return {message: message};
       }
       return message;
     },
-    createSuccessNotification = function (message) {
+    createSuccessNotification = function (message:any) {
       return _.extend(createNotification(message), {type: 'success'});
     },
-    createWarningNotification = function (message) {
+    createWarningNotification = function (message:any) {
       return _.extend(createNotification(message), {type: 'warning'});
     },
-    createErrorNotification = function (message, errors : Array<any>) {
+    createErrorNotification = function (message:any, errors : Array<any>) {
       return _.extend(createNotification(message), {
         type: 'error',
         errors: errors
       });
     },
-    createNoticeNotification = function (message) {
+    createNoticeNotification = function (message:any) {
       return _.extend(createNotification(message), {type: ''});
     },
-    createWorkPackageUploadNotification = function (message, uploads : Array<any>) {
+    createWorkPackageUploadNotification = function (message:any, uploads:Array<any>) {
       if (!uploads.length) {
         throw new Error('Cannot create an upload notification without uploads!');
       }
@@ -59,11 +59,11 @@ function NotificationsService($rootScope, $timeout, ConfigurationService) {
         uploads: uploads
       });
     },
-    broadcast = function (event, data) {
+    broadcast = function (event:any, data:any) {
       $rootScope.$broadcast(event, data);
     },
-    currentNotifications = [],
-    notificationAdded = function (newNotification) {
+    currentNotifications:any = [],
+    notificationAdded = function (newNotification:any) {
       var toRemove = currentNotifications.slice(0);
       _.each(toRemove, function (existingNotification) {
         if (newNotification.type === 'success' || newNotification.type === 'error') {
@@ -73,13 +73,13 @@ function NotificationsService($rootScope, $timeout, ConfigurationService) {
 
       currentNotifications.push(newNotification);
     },
-    notificationRemoved = function (removedNotification) {
+    notificationRemoved = function (removedNotification:any) {
       _.remove(currentNotifications, function (element) {
         return element === removedNotification;
       });
     },
     clearNotifications = function () {
-      currentNotifications.forEach(function (notification) {
+      currentNotifications.forEach(function (notification:any) {
         remove(notification);
       });
     };
@@ -93,7 +93,7 @@ function NotificationsService($rootScope, $timeout, ConfigurationService) {
   });
 
   // public
-  var add = function (message, timeoutAfter = 5000) {
+  var add = function (message:any, timeoutAfter = 5000) {
       var notification = createNotification(message);
       broadcast('notification.add', notification);
       notificationAdded(notification);
@@ -102,22 +102,22 @@ function NotificationsService($rootScope, $timeout, ConfigurationService) {
       }
       return notification;
     },
-    addError = function (message, errors : Array<any> = []) {
+    addError = function (message:any, errors : Array<any> = []) {
       return add(createErrorNotification(message, errors));
     },
-    addWarning = function (message) {
+    addWarning = function (message:any) {
       return add(createWarningNotification(message));
     },
-    addSuccess = function (message) {
+    addSuccess = function (message:any) {
       return add(createSuccessNotification(message));
     },
-    addNotice = function (message) {
+    addNotice = function (message:any) {
       return add(createNoticeNotification(message));
     },
-    addWorkPackageUpload = function (message, uploads : Array<any>) {
+    addWorkPackageUpload = function (message:any, uploads : Array<any>) {
       return add(createWorkPackageUploadNotification(message, uploads));
     },
-    remove = function (notification) {
+    remove = function (notification:any) {
       broadcast('notification.remove', notification);
     };
 

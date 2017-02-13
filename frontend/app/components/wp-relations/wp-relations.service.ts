@@ -1,3 +1,4 @@
+
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -30,6 +31,7 @@ import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageRelationsService {
   constructor(protected $rootScope:ng.IRootScopeService,
@@ -37,11 +39,11 @@ export class WorkPackageRelationsService {
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
-              protected PathHelper,
-              protected NotificationsService) {
+              protected PathHelper:any,
+              protected NotificationsService:any) {
   }
 
-  public addCommonRelation(workPackage, relationType, relatedWpId) {
+  public addCommonRelation(workPackage:WorkPackageResourceInterface, relationType:string, relatedWpId:string) {
     const params = {
       _links: {
         from: { href: workPackage.href },

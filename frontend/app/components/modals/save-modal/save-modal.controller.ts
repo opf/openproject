@@ -28,18 +28,18 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function SaveModalController($scope,
-                             $state,
-                             saveModal,
-                             QueryService,
-                             AuthorisationService,
-                             NotificationsService) {
+function SaveModalController($scope:any,
+                             $state:ng.ui.IStateService,
+                             saveModal:any,
+                             QueryService:any,
+                             AuthorisationService:any,
+                             NotificationsService:any) {
   this.name = 'Save';
   this.closeMe = saveModal.deactivate;
 
-  $scope.saveQueryAs = name => {
+  $scope.saveQueryAs = (name:string) => {
     QueryService.saveQueryAs(name)
-      .then(data => {
+      .then((data:any) => {
         if (data.status.isError) {
           NotificationsService.addError(data.status.text);
         }

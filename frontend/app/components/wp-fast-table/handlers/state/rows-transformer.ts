@@ -1,3 +1,4 @@
+import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {debugLog} from '../../../../helpers/debug_output';
 import {locateRow} from '../../helpers/wp-table-row-helpers';
 import {States} from '../../../states.service';
@@ -45,7 +46,7 @@ export class RowsTransformer {
    * Refreshes a single entity from changes in the work package itself.
    * Will skip rendering when dirty or fresh. Does not check for table changes.
    */
-  private refreshWorkPackage(table, row) {
+  private refreshWorkPackage(table:WorkPackageTable, row:WorkPackageTableRow) {
     // If the work package is dirty, we're working on it
     if (row.object.dirty) {
       debugLog("Skipping row " + row.workPackageId + " since its dirty");

@@ -27,13 +27,12 @@
 //++
 
 import {wpDirectivesModule} from '../../../angular-modules';
-import {RelatedWorkPackage} from '../wp-relations.interfaces';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageRelationsController} from '../wp-relations.directive';
 
 
 export class WorkPackageRelationsGroupController {
-  public relatedWorkPackages:Array<RelatedWorkPackage>;
+  public relatedWorkPackages:Array<WorkPackageResourceInterface>;
   public workPackage:WorkPackageResourceInterface;
   public header:string;
   public firstGroup:boolean;
@@ -71,9 +70,9 @@ function wpRelationsGroupDirective() {
       relatedWorkPackages: '='
     },
 
-    link: (scope,
-           element,
-           attrs,
+    link: (scope:any,
+           element:ng.IAugmentedJQuery,
+           attrs:any,
            controllers: [WorkPackageRelationsController]) => {
       scope.$ctrl.relationsCtrl = controllers[0];
     },

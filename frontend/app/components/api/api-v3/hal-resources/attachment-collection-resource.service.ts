@@ -50,7 +50,7 @@ export interface AttachmentCollectionResourceInterface extends AttachmentCollect
   elements: HalResource[];
 }
 
-function attachmentCollectionResourceService(...args) {
+function attachmentCollectionResourceService(...args:any[]) {
   [opFileUpload] = args;
   return AttachmentCollectionResource;
 }

@@ -26,19 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformDuration(TimezoneService) {
+function transformDuration(TimezoneService:any) {
   return {
     restrict:'A',
     require: 'ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(value) {
+    link: function(
+      scope:ng.IScope,
+      element:ng.IAugmentedJQuery,
+      attrs:ng.IAttributes,
+      ngModelController:any) {
+      ngModelController.$parsers.push(function(value:any) {
         if (!isNaN(value)) {
           var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
           return moment.duration(minutes, 'minutes');
         }
       });
 
-      ngModelController.$formatters.push(function(value) {
+      ngModelController.$formatters.push(function(value:any) {
         return TimezoneService.toHours(value);
       });
     }

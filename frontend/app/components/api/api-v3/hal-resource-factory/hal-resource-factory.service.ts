@@ -76,7 +76,7 @@ export class HalResourceFactoryService {
    * @param typeName
    * @param attrTypes
    */
-  public setResourceTypeAttributes(typeName:string, attrTypes) {
+  public setResourceTypeAttributes(typeName:string, attrTypes:any) {
     Object.keys(attrTypes).forEach(attrName => {
       attrTypes[attrName] = this.getResourceClassOfType(attrTypes[attrName]);
     });

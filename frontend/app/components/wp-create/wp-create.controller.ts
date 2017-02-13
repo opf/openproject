@@ -29,7 +29,10 @@ import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selecti
 
 import {wpDirectivesModule} from "../../angular-modules";
 import {WorkPackageCreateService} from "./wp-create.service";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
@@ -66,14 +69,14 @@ export class WorkPackageCreateController {
 
   }
 
-  constructor(protected $state,
-              protected $scope,
+  constructor(protected $state:ng.ui.IStateService,
+              protected $scope:ng.IScope,
               protected $rootScope:IRootScopeService,
               protected $q:ng.IQService,
               protected I18n:op.I18n,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
-              protected loadingIndicator,
+              protected loadingIndicator:any,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpTableSelection:WorkPackageTableSelection,
@@ -85,8 +88,8 @@ export class WorkPackageCreateController {
         this.wpEditModeState.start();
         wpCacheService.updateWorkPackage(wp);
 
-        if ($state.params.parent_id) {
-          wpCacheService.loadWorkPackage($state.params.parent_id).observeOnScope($scope)
+        if ($state.params['parent_id']) {
+          wpCacheService.loadWorkPackage($state.params['parent_id']).observeOnScope($scope)
             .subscribe(parent => {
               this.parentWorkPackage = parent;
               this.newWorkPackage.parent = parent;
@@ -96,7 +99,7 @@ export class WorkPackageCreateController {
       .catch(error => this.wpNotificationsService.handleErrorResponse(error));
   }
 
-  protected newWorkPackageFromParams(stateParams) {
+  protected newWorkPackageFromParams(stateParams:any) {
     const type = parseInt(stateParams.type);
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
@@ -107,11 +110,11 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage():ng.IPromise<WorkPackageResource> {
+  public saveWorkPackage():Promise<any> {
     return this.wpEditModeState.save();
   }
 
-  public refreshAfterSave(wp, successState) {
+  public refreshAfterSave(wp:WorkPackageResourceInterface, successState:string) {
     this.wpEditModeState.onSaved();
     this.wpTableSelection.focusOn(wp.id);
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})

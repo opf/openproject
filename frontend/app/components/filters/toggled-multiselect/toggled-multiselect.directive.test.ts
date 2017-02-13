@@ -29,12 +29,12 @@
 /*jshint expr: true*/
 
 describe('toggledMultiselect Directive', function() {
-    var compile, element, rootScope, scope, I18n;
+    var compile:any, element:any, rootScope:any, scope:any, I18n:any;
 
     beforeEach(angular.mock.module('openproject.uiComponents',
                                    'openproject.workPackages.helpers',
                                    'openproject.services'));
-    beforeEach(angular.mock.module('openproject.templates', function($provide) {
+    beforeEach(angular.mock.module('openproject.templates', function($provide:any) {
       var configurationService = {
         isTimezoneSet: sinon.stub().returns(false)
       };
@@ -42,7 +42,7 @@ describe('toggledMultiselect Directive', function() {
       $provide.constant('ConfigurationService', configurationService);
     }));
 
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope:any, $compile:any) {
       var html = '<toggled-multiselect icon-name="cool-icon.png" filter="filter" available-options="options"></toggled-multiselect>';
 
       element = angular.element(html);
@@ -55,7 +55,7 @@ describe('toggledMultiselect Directive', function() {
       };
     }));
 
-    beforeEach(angular.mock.inject((_I18n_) => {
+    beforeEach(angular.mock.inject((_I18n_:any) => {
       I18n = _I18n_;
       sinon.stub(I18n, 't').withArgs('js.placeholders.selection').returns('PLACEHOLDER');
     }));

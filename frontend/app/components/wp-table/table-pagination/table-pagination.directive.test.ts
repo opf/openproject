@@ -26,19 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-declare var I18n;
+declare var I18n:op.I18n;
 
 describe('tablePagination Directive', function () {
-  var compile, element, rootScope, scope, PaginationService, paginationOptions;
+  var compile:any, element:any, rootScope:any, scope:any, PaginationService:any, paginationOptions:any;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives', 'openproject.services'));
   beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(angular.mock.inject(function (_PaginationService_) {
+  beforeEach(angular.mock.inject(function (_PaginationService_:any) {
     PaginationService = _PaginationService_;
   }));
 
-  beforeEach(inject(function ($rootScope, wpTableMetadata, $compile) {
+  beforeEach(inject(function ($rootScope:any, wpTableMetadata:any, $compile:any) {
     var html;
 
     html = `
@@ -54,7 +54,7 @@ describe('tablePagination Directive', function () {
     scope.noteUpdateResultsCalled = function() {
       scope.updateResultsCalled = true;
     };
-    scope.setTotalResults = (num) => {
+    scope.setTotalResults = (num:string) => {
       wpTableMetadata.metadata.put({
         total: num
       });
@@ -161,7 +161,7 @@ describe('tablePagination Directive', function () {
     });
 
     afterEach(inject(function() {
-      I18n.t.restore();
+      (I18n.t as any).restore();
     }));
 
     describe('with no entries', function() {

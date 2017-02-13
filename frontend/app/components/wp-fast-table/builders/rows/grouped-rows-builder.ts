@@ -6,7 +6,7 @@ import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.servi
 import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {GroupObject} from '../../wp-table.interfaces';
+import {GroupObject, WorkPackageTableRow} from '../../wp-table.interfaces';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
@@ -42,7 +42,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     let colspan = this.wpTableColumns.columnCount + 1;
     let tbodyContent = document.createDocumentFragment();
 
-    let currentGroup = null;
+    let currentGroup:GroupObject|null = null;
     table.rows.forEach((wpId:string) => {
       let row = table.rowIndex[wpId];
       let nextGroup = this.matchingGroup(row.object, groups, groupBy);
@@ -80,7 +80,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Refresh the group expansion state
    */
-  public refreshExpansionState(table) {
+  public refreshExpansionState(table:WorkPackageTable) {
     let groups = this.getGroupData(table.metaData.groupBy, table.metaData.groups);
     let colspan = this.wpTableColumns.columnCount + 1;
 
@@ -117,18 +117,18 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Redraw a single row, while maintain its group state.
    */
-  public buildEmptyRow(row, table):HTMLElement {
+  public buildEmptyRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement {
     return this.buildSingleRow(row);
   }
 
-  public groupIdentifier(groupBy, group:GroupObject) {
+  public groupIdentifier(groupBy:string, group:GroupObject) {
     return `${groupBy}-${group.href || group.value || 'nullValue'}`;
   }
 
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row) {
+  private buildSingleRow(row:WorkPackageTableRow) {
     // Do not re-render rows before their grouping data
     // is completed after the first try
     if (!row.group) {

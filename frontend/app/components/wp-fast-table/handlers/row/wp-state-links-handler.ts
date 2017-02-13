@@ -26,13 +26,13 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     // Locate the row from event
-    let target = jQuery(evt.target);
-    let element = target.closest(this.SELECTOR);
-    let state = element.data('wpState');
-    let workPackageId = element.data('workPackageId');
+    const target = jQuery(evt.target);
+    const element = target.closest(this.SELECTOR);
+    const state = element.data('wpState');
+    const workPackageId = element.data('workPackageId');
 
     this.$state.go(
-      this.keepTab[state],
+      (this.keepTab as any)[state],
       { workPackageId: workPackageId }
     );
 
