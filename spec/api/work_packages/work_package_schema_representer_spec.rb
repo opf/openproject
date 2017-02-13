@@ -37,7 +37,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:schema) {
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
   }
-  let(:representer) { described_class.create(schema, current_user: current_user) }
+  let(:representer) { described_class.create(schema, nil, current_user: current_user) }
 
   before do
     allow(schema.project).to receive(:backlogs_enabled?).and_return(true)
