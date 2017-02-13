@@ -221,6 +221,8 @@ function getWebpackMainConfig() {
         DEBUG: !!debug_output,
         PRODUCTION: !!production
       }),
+
+      // Reference the vendors bundle
       new webpack.DllReferencePlugin({
           context: path.resolve(__dirname),
           manifest: require('./dist/vendors-dll-manifest.json')
