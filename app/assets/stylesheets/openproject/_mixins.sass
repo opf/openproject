@@ -1,0 +1,93 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin default-transition
+  transition: all 200ms ease-in-out 0s
+
+@mixin default-font($color, $font-size: 13px, $font-weight: normal)
+  color:              $color
+  font-family:        $body-font-family
+  font-size:          $font-size
+  font-weight:        $font-weight
+
+@mixin content-box
+  margin-top: 20px
+  padding: 25px
+  border: $content-box-border
+  background-color: $content-box-bg-color
+  min-height: 65px
+  zoom: 1
+  overflow-x: auto
+
+  h3, h2
+    border-bottom: 1px solid #EAEAEA
+    color: #444444
+    font-weight: normal
+    margin: 0 0 20px
+    padding: 5px 0 10px
+
+  table
+    padding: 10px
+    margin-bottom: 15px
+
+    th
+      border: none
+      background: transparent
+      font-weight: bold
+
+  ul
+    margin-bottom: 20px
+
+// Make sure an element doesn't collapse due to floated elements inside
+@mixin prevent-float-collapse
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+
+@mixin text-shortener
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis
+
+@mixin allow-vertical-scrolling
+  overflow-x: hidden
+  overflow-y: auto
+
+@mixin without-link-styling
+  a:link, a:hover, a:active, a:visited
+    color: inherit
+    text-decoration: none
+
+@mixin widget-box--style
+  background: $widget-box-block-bg-color
+  border: 1px solid $widget-box-block-border-color
+  margin: 10px

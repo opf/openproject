@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-//
-// See doc/COPYRIGHT.rdoc for more details.
-//++
-
 $gray:                    #EAEAEA
 $gray-dark:               #878787
 $gray-light:              #F8F8F8
@@ -38,16 +10,13 @@ $body-font-family:        'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif 
 $body-font-color:         #333333 !default
 $base-line-height:        1.5 !default
 
+// Set defaults from custom design
 
 <%  DesignColor.defaults.each do |var, hexcode| %>
 $<%= var %>: <%= hexcode %>
 <% end %>
 
-\:root
-  <%  DesignColor.defaults.each do |var, _hexcode| %>
-  --<%= var %>: #{$<%= var %>}
-  <% end %>
-
+$secondary-color:         #bfbfbf !default
 $secondary-color:         #bfbfbf !default
 
 // these colors should ensure a satisfying contrast for text on the given BG color
@@ -67,18 +36,12 @@ $h4-font-color:           $body-font-color  !default
 
 $header-height:                                 55px !default
 $header-bg-color:                               $primary-color !default
-\:root
-  --header-bg-color:                            var(--primary-color)
 $header-border-bottom-color:                    $primary-color !default
-\:root
-  --header-border-bottom-color:                 var(--primary-color)
 $header-border-bottom-width:                    0 !default
 $header-item-font-size:                         14px !default
 $header-item-font-color:                        $font-color-on-primary !default
 $header-item-font-hover-color:                  $font-color-on-primary-dark !default
 $header-item-bg-hover-color:                    $primary-color-dark !default
-\:root
-  --header-item-bg-hover-color:                 var(--primary-color-dark)
 $header-drop-down-bg-color:                     #FFFFFF !default
 $header-drop-down-border-color:                 #E0E0E0 !default
 $header-drop-down-item-font-color:              $body-font-color !default
@@ -113,21 +76,13 @@ $main-menu-enable-toggle-highlighting:          false !default
 
 $main-menu-bg-color:                            #F8F8F8 !default
 $main-menu-bg-selected-background:              url() no-repeat $primary-color !default
-\:root
-  --main-menu-bg-selected-background:           url() no-repeat var(--primary-color)
 
 $main-menu-bg-hover-background:                 url() no-repeat $primary-color-dark !default
-\:root
-  --main-menu-bg-hover-background:              url() no-repeat var(--primary-color-dark)
 $main-menu-font-color:                          #333333 !default
 $main-menu-selected-font-color:                 $font-color-on-primary !default
 $main-menu-font-size:                           15px !default
 $main-menu-selected-indicator-color:            $primary-color !default
-\:root
-  --main-menu-selected-indicator-color:         var(--primary-color)
 $main-menu-hover-indicator-color:               $primary-color-dark !default
-\:root
-  --main-menu-hover-indicator-color:            var(--primary-color-dark)
 $main-menu-selected-hover-indicator-width:      4px !default
 $main-menu-selected-hover-border-color:         $main-menu-border-color !default
 
@@ -137,11 +92,7 @@ $main-menu-toggler-separator-color:             #EAEAEA !default
 $main-menu-child-item-height:                   38px !default
 $main-menu-child-menu-bg-color:                 #FFFFFF !default
 $main-menu-child-bg-selected-color:             $primary-color !default
-\:root
-  --main-menu-child-bg-selected-color:          var(--primary-color)
 $main-menu-child-bg-hover-color:                $primary-color-dark !default
-\:root
-  --main-menu-child-bg-hover-color:             var(--primary-color-dark)
 $main-menu-child-menu-border-color:             #E7E7E7 !default
 $main-menu-child-font-color:                    #04232F !default
 $main-menu-child-font-size:                     13px !default
@@ -169,18 +120,12 @@ $content-default-border-color:                  #EAEAEA !default
 $content-default-border-width:                  1px !default
 
 $content-link-color:                            $primary-color-dark !default
-\:root
-  --content-link-color:                         var(--primary-color-dark)
 $content-link-hover-active-color:               $primary-color-dark !default
-\:root
-  --content-link-hover-active-color:            var(--primary-color-dark)
 $content-icon-link-color:                       #4b4b4b !default
 $content-icon-link-hover-color:                 $primary-color-dark !default
 $content-icon-link-pressed-color:               $gray-dark !default
 
 $content-icon-color:                            $primary-color-dark !default
-\:root
-  --content-icon-color:                         $primary-color-dark
 
 $content-form-bg-color:                         #F8F8F8 !default
 $content-form-border:                           1px solid $content-default-border-color !default
@@ -210,17 +155,11 @@ $context-menu-font-color:                       $main-menu-font-color !default
 $content-box-border:                            1px solid $content-default-border-color !default
 $content-box-bg-color:                          #FFFFFF !default
 $my-page-edit-box-border-color:                 $primary-color-dark !default
-\:root
-  --my-page-edit-box-border-color:              var(--primary-color-dark)
 
 $drop-down-unselected-font-color:               $main-menu-font-color !default
 $drop-down-selected-font-color:                 $font-color-on-primary !default
 $drop-down-selected-bg-color:                   $primary-color !default
-\:root
-  --drop-down-selected-bg-color:                var(--primary-color)
 $drop-down-hover-bg-color:                      $primary-color-dark !default
-\:root
-  --drop-down-hover-bg-color:                   var(--primary-color-dark)
 $action-menu-bg-color:                          #FFFFFF
 
 $wiki-default-font-size:                        1rem

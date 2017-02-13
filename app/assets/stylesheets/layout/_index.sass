@@ -26,48 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.controller-homescreen,
-.controller-homescreen #content
-  background: $widget-box-content-bg-color
+@import layout/accessibility
+@import layout/base
+@import layout/base_mobile
+@import layout/grid
+@import layout/top_shelf
+@import layout/top_menu
+@import layout/top_menu_mobile
+@import layout/breadcrumb
+@import layout/main_menu
+@import layout/footer
+@import layout/drop_down
+@import layout/drop_down_mobile
+@import layout/toolbar
+@import layout/work_package
+@import layout/work_package_mobile
 
-.controller-homescreen #breadcrumb
-  display: none
 
-
-.homescreen--links
-  @include widget-box--style
-  display: flex
-  padding: 20px 20%
-  align-items: center
-  justify-content: center
-  background: $homescreen-footer-bg-color
-
-  .icon-context:before
-    padding-right: 0
-
-  .homescreen--links--item
-    flex: 1
-    display: block
-    text-align: center
-    color: $content-icon-link-color
-
-    &:hover,
-    &:hover span
-      text-decoration: none
-      color: $content-icon-link-hover-color
-
-    span
-      display: block
-      margin-bottom: 10px
-      font-size: 3rem
-      color: $homescreen-footer-icon-color
-
-@include breakpoint(680px down)
-  .homescreen--links
-    padding: 20px
-    flex-wrap: wrap
-
-    .homescreen--links--item
-      flex: auto
-      margin: 20px 0
-      width: 50%
+// Print layout
+@import layout/print

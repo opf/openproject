@@ -1,0 +1,28 @@
+@import openproject/_sass_variables
+
+// Allow the custom design to override variables with CSS4
+
+\:root
+  <%  DesignColor.defaults.each do |var, _hexcode| %>
+  --<%= var %>: #{$<%= var %>}
+  <% end %>
+
+
+// Define some more CSS4 variables
+
+\:root
+  --header-bg-color:                            #{$header-bg-color}
+  --header-border-bottom-color:                 #{$header-border-bottom-color}
+  --header-item-bg-hover-color:                 #{$header-item-bg-hover-color}
+  --main-menu-bg-selected-background:           #{$main-menu-bg-selected-background}
+  --main-menu-bg-hover-background:              #{$main-menu-bg-hover-background}
+  --main-menu-selected-indicator-color:         #{$main-menu-selected-indicator-color}
+  --main-menu-hover-indicator-color:            #{$main-menu-hover-indicator-color}
+  --main-menu-child-bg-selected-color:          #{$main-menu-child-bg-selected-color}
+  --main-menu-child-bg-hover-color:             #{$main-menu-child-bg-hover-color}
+  --content-link-color:                         #{$content-link-color}
+  --content-link-hover-active-color:            #{$content-link-hover-active-color}
+  --content-icon-color:                         #{$content-icon-color}
+  --my-page-edit-box-border-color:              #{$my-page-edit-box-border-color}
+  --drop-down-selected-bg-color:                #{$drop-down-selected-bg-color}
+  --drop-down-hover-bg-color:                   #{$drop-down-hover-bg-color}
