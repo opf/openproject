@@ -28,22 +28,25 @@
 
 module API
   module V3
-    class WorkPackageCollectionFromQueryParamsService
-      def initialize(user)
-        self.current_user = user
+    module Queries
+      module Helpers
+        module QueryRepresenterResponse
+          def query_representer_response(query, params)
+            representer = ::API::V3::WorkPackageCollectionFromQueryService
+                          .new(query, current_user)
+                          .call(params)
+
+            if representer.success?
+              QueryRepresenter.new(query,
+                                   current_user: current_user,
+                                   results: representer.result,
+                                   params: params)
+            else
+              raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
+            end
+          end
+        end
       end
-
-      def call(params = {})
-        query = Query.new_default(name: '_', project: params[:project])
-
-        WorkPackageCollectionFromQueryService
-          .new(query, current_user)
-          .call(params)
-      end
-
-      private
-
-      attr_accessor :current_user
     end
   end
 end

@@ -155,22 +155,26 @@ describe 'API v3 Query resource', type: :request do
   end
 
   describe '#get queries/:id' do
-    before do
-      work_package
-      get api_v3_paths.query(query.id)
-    end
+    let(:base_path) { api_v3_paths.query(query.id) }
 
-    it 'should succeed' do
-      expect(last_response.status).to eq(200)
-    end
+    it_behaves_like 'GET individual query' do
+      context 'lacking permissions' do
+        let(:permissions) { [] }
 
-    it 'embedds the query results' do
-      expect(last_response.body)
-        .to be_json_eql('WorkPackageCollection'.to_json)
-        .at_path('_embedded/results/_type')
-      expect(last_response.body)
-        .to be_json_eql(api_v3_paths.work_package(work_package.id).to_json)
-        .at_path('_embedded/results/_embedded/elements/0/_links/self/href')
+        it_behaves_like 'not found'
+      end
+    end
+  end
+
+  describe '#get queries/default' do
+    let(:base_path) { api_v3_paths.query_default }
+
+    it_behaves_like 'GET individual query' do
+      context 'lacking permissions' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'unauthorized access'
+      end
     end
   end
 
@@ -356,7 +360,7 @@ describe 'API v3 Query resource', type: :request do
             expect(last_response.status).to eq(200)
           end
 
-          it 'should return the query with "starred" property set to true' do
+          it 'should return the query with "starred" property set to false' do
             expect(last_response.body).to be_json_eql(false).at_path('starred')
           end
         end

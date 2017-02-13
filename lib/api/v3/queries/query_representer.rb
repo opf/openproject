@@ -140,8 +140,10 @@ module API
                    embed_links
                  }
 
-        property :sums, getter: -> (*) { display_sums }
-        property :starred, getter: -> (*) { starred }
+        property :display_sums,
+                 as: :sums
+
+        property :starred
 
         property :columns,
                  exec_context: :decorator,
@@ -198,6 +200,16 @@ module API
 
         def _type
           'Query'
+        end
+
+        def self_v3_path(*_args)
+          if represented.new_record? && represented.project
+            api_v3_paths.query_project_default(represented.project.id)
+          elsif represented.new_record?
+            api_v3_paths.query_default
+          else
+            super
+          end
         end
       end
     end
