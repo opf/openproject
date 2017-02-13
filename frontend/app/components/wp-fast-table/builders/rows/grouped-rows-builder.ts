@@ -129,6 +129,12 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Enhance a row from the rowBuilder with group information.
    */
   private buildSingleRow(row) {
+    // Do not re-render rows before their grouping data
+    // is completed after the first try
+    if (!row.group) {
+      return row.element;
+    }
+
     let tr = this.rowBuilder.buildEmpty(row.object);
     tr.classList.add(groupedRowClassName(row.group.index));
 
