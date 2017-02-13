@@ -37,6 +37,9 @@ describe 'API v3 Role resource' do
   let(:role) { FactoryGirl.create(:role) }
 
   before do
+    # Avoid having a builtin role left over from another spec
+    Role.destroy_all
+
     allow(User).to receive(:current).and_return current_user
   end
 
