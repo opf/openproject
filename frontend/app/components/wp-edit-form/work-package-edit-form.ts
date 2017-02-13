@@ -70,7 +70,7 @@ export class WorkPackageEditForm {
               public editMode = false) {
     injectorBridge(this);
 
-    this.wpCacheService.loadWorkPackage(workPackageId).observe(null)
+    this.wpCacheService.loadWorkPackage(workPackageId).observeOnScope(null)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });

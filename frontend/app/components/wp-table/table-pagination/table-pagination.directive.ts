@@ -125,7 +125,7 @@ function tablePagination(PaginationService,
         }
       }
 
-      wpTableMetadata.metadata.observe(scope).subscribe((metadata:WorkPackageTableMetadata) => {
+      wpTableMetadata.metadata.observeOnScope(scope).subscribe((metadata:WorkPackageTableMetadata) => {
         scope.totalEntries = metadata.total;
         updateCurrentRangeLabel();
         updatePageNumbers();
