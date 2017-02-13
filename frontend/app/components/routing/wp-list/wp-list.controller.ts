@@ -137,8 +137,8 @@ function WorkPackagesListController($scope,
   function setupWorkPackagesTable(json) {
 
     // Set metadata from results
-    let meta = json.meta;
-    let metadata = new WorkPackageTableMetadata(json);
+    const meta = json.meta;
+    const metadata = new WorkPackageTableMetadata(json);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);

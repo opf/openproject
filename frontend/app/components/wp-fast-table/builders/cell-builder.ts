@@ -35,7 +35,7 @@ export class CellBuilder {
       return td;
     }
 
-    const field = <DisplayField> this.wpDisplayField.getField(workPackage, name, fieldSchema);
+    const field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
 
     let text;
 

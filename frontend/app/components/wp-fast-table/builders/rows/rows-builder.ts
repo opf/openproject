@@ -9,7 +9,7 @@ import {WorkPackageTableRow} from '../../wp-table.interfaces';
 export abstract class RowsBuilder {
   public states:States;
 
-  protected rowBuilder;
+  protected rowBuilder:SingleRowBuilder;
   protected editingRowBuilder;
 
   constructor() {

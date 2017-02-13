@@ -28,22 +28,45 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ContextMenuService} from '../context-menu.service';
 
-function SettingsDropdownMenuController($scope,
-                                        $window,
-                                        $state,
-                                        $timeout,
-                                        I18n,
-                                        columnsModal,
-                                        exportModal,
-                                        saveModal,
-                                        settingsModal,
-                                        shareModal,
-                                        sortingModal,
-                                        groupingModal,
+interface IMyScope extends ng.IScope {
+  displaySumsLabel:string;
+  saveQuery:Function;
+  deleteQuery:Function;
+  query:op.Query;
+
+  showSaveAsModal:Function;
+  showShareModal:Function;
+  showSettingsModal:Function;
+  showExportModal:Function;
+  showColumnsModal:Function;
+  showGroupingModal:Function;
+  showSortingModal:Function;
+  toggleDisplaySums:Function;
+  showSettingsModalInvalid:Function;
+  showShareModalInvalid:Function;
+  showExportModalInvalid:Function;
+  deleteQueryInvalid:Function;
+  showSaveModalInvalid:Function;
+  saveQueryInvalid:Function;
+
+}
+
+function SettingsDropdownMenuController($scope:IMyScope,
+                                        $window:ng.IWindowService,
+                                        $state:ng.ui.IStateService,
+                                        $timeout:ng.ITimeoutService,
+                                        I18n:op.I18n,
+                                        columnsModal:any,
+                                        exportModal:any,
+                                        saveModal:any,
+                                        settingsModal:any,
+                                        shareModal:any,
+                                        sortingModal:any,
+                                        groupingModal:any,
                                         contextMenu:ContextMenuService,
-                                        QueryService,
-                                        AuthorisationService,
-                                        NotificationsService) {
+                                        QueryService:any,
+                                        AuthorisationService:any,
+                                        NotificationsService:any) {
   $scope.$watch('query.displaySums', function (newValue) {
     $timeout(function () {
       $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')

@@ -45,7 +45,7 @@ export class LoadingIndicator {
   }
 
   public stop() {
-    this.indicator.find(indicatorBackgroundSelector).remove();
+    this.element.remove();
   }
 }
 

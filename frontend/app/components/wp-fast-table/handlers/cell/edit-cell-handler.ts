@@ -27,7 +27,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     injectorBridge(this);
   }
 
-  protected processEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  protected processEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
     debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
@@ -37,9 +37,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     let fieldName = target.data('fieldName');
 
     if (!fieldName) {
-      console.warn('Click handled by cell not a field?');
-      console.warn(target);
-      return;
+      debugLog('Click handled by cell not a field? ', evt.target);
+      return true;
     }
 
     // Locate the row

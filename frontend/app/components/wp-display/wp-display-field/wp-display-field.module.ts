@@ -67,7 +67,7 @@ export class DisplayField extends Field {
     return (this.constructor as typeof DisplayField).$injector;
   }
 
-  public render(element: HTMLElement, displayText): void {
+  public render(element:HTMLElement, displayText:string): void {
     if (this.template == null || this.isEmpty()) {
       element.setAttribute("title", displayText);
       element.textContent = displayText;
@@ -76,7 +76,7 @@ export class DisplayField extends Field {
     }
   }
 
-  protected renderTemplate(element, displayText) {
+  protected renderTemplate(element:HTMLElement, displayText:string) {
     let renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
 
     renderer.renderIsolated(element, this.template, {

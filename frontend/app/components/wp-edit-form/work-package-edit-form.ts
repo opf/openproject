@@ -27,7 +27,10 @@
 // ++
 
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
@@ -52,7 +55,7 @@ export class WorkPackageEditForm {
   public editContext:WorkPackageEditContext | null;
 
   // Other fields
-  public workPackage;
+  public workPackage:WorkPackageResourceInterface;
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName: string]: WorkPackageEditFieldHandler } = {};
@@ -68,7 +71,7 @@ export class WorkPackageEditForm {
     injectorBridge(this);
 
     this.wpCacheService.loadWorkPackage(workPackageId).observe(null)
-      .subscribe((wp: WorkPackageResource) => {
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });
   }
@@ -83,11 +86,11 @@ export class WorkPackageEditForm {
     }
 
     this.workPackage.loadFormSchema().then(schema => {
-      let field = <EditField> this.wpEditField.getField(
+      const field = this.wpEditField.getField(
         this.workPackage,
         fieldName,
         schema[fieldName]
-      );
+      ) as EditField;
       this.workPackage.storePristine(fieldName);
       this.buildField(fieldName, field);
     });
@@ -98,8 +101,8 @@ export class WorkPackageEditForm {
       return this.$q.when(this.workPackage);
     }
 
-    let deferred = this.$q.defer();
-    let isInitial = this.workPackage.isNew;
+    const deferred = this.$q.defer();
+    const isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
     this.errorsPerAttribute = {};
@@ -134,7 +137,7 @@ export class WorkPackageEditForm {
   }
 
   protected handleErroneousAttributes(error: any) {
-    let attributes = error.getInvolvedAttributes();
+    const attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute()
     if (attributes.length === 0) {
@@ -142,11 +145,11 @@ export class WorkPackageEditForm {
     }
 
     // Iterate all erroneous fields and close these that are valid
-    let validFields = _.keys(this.activeFields);
+    const validFields = _.keys(this.activeFields);
 
     // Accumulate errors for the given response
     _.each(attributes, (fieldName:string) => {
-      let activeField = this.activeFields[fieldName];
+      const activeField = this.activeFields[fieldName];
       if (activeField !== undefined) {
         // currently active, set errors
         activeField.setErrors(this.errorsPerAttribute[fieldName] || []);
@@ -175,10 +178,10 @@ export class WorkPackageEditForm {
   private buildField(fieldName:string, field:EditField) {
 
     // Let the context find the element
-    let cell = this.editContext.find(fieldName);
+    const cell = this.editContext.find(fieldName);
 
     // Create a field handler for the newly active field
-    let fieldHandler = new WorkPackageEditFieldHandler(
+    const fieldHandler = new WorkPackageEditFieldHandler(
       this,
       field,
       cell,

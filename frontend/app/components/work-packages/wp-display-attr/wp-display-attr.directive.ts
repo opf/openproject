@@ -103,7 +103,7 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute(wp) {
     this.workPackage = wp;
-    this.field = <DisplayField> this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]);
+    this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;
 
     this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
     this.field.render(this.__d__renderer[0], this.displayText);

@@ -31,18 +31,18 @@ import {ContextMenuService} from '../context-menu.service';
 function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
-      var menuName = attrs['target'],
-        locals = {},
-        afterFocusOn = attrs.afterFocusOn,
-        positionRelativeTo = attrs['positionRelativeTo'],
-        collisionContainer = attrs['collisionContainer'],
-        triggerOnEvent = (attrs['triggerOnEvent'] || 'click') + '.dropdown.openproject';
+    link: function (scope:ng.IScope, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
+      let menuName = attrs['target'];
+      let locals = {};
+      let afterFocusOn = attrs['afterFocusOn'];
+      let positionRelativeTo = attrs['positionRelativeTo'];
+      let collisionContainer = attrs['collisionContainer'];
+      let triggerOnEvent = (attrs['triggerOnEvent'] || 'click') + '.dropdown.openproject';
 
-      function open(event) {
+      function open(event:Event) {
         var ignoreFocusOpener = true;
         // prepare locals, these define properties to be passed on to the context menu scope
-        var localKeys = (attrs.locals || '').split(',').map(function (local) {
+        var localKeys = (attrs['locals'] || '').split(',').map(function (local) {
           return local.trim();
         });
         angular.forEach(localKeys, function (key) {
@@ -57,7 +57,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
         });
       }
 
-      function close(ignoreFocusOpener) {
+      function close(ignoreFocusOpener:boolean) {
         contextMenu.close(ignoreFocusOpener).then(() => {
           if (!ignoreFocusOpener) {
             FocusHelper.focusElement(afterFocusOn ? element.find(afterFocusOn) : element);
@@ -73,7 +73,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
         event.preventDefault();
         event.stopPropagation();
         scope.$evalAsync(() => {
-          open(event).then((menuElement) => {
+          open(event).then((menuElement:JQuery) => {
             menuElement.find('.menu-item').first().focus();
           });
         });

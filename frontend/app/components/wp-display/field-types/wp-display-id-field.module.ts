@@ -56,7 +56,7 @@ export class IdDisplayField extends DisplayField {
     }
   }
 
-  public render(element: HTMLElement, displayText): void {
+  public render(element: HTMLElement, displayText:string): void {
     if (!this.value) {
       return;
     }

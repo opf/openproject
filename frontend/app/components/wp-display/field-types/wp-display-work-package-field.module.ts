@@ -31,8 +31,8 @@ import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-r
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class WorkPackageDisplayField extends DisplayField {
-  public text:any;
-  private uiStateBuilder;
+  public text:{ linkTitle:string };
+  private uiStateBuilder:UiStateLinkBuilder;
 
 
   constructor(public resource:WorkPackageResource,

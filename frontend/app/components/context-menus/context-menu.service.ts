@@ -27,18 +27,21 @@
 // ++
 
 interface ContextMenu {
-  active();
-  close(disableFocus);
-  open();
+  close(disableFocus?:boolean):Promise<void>;
+  open(nextTo:JQuery,locals:Object):Promise<JQuery>;
 
   target?:JQuery;
   menuElement?:JQuery;
 }
 
 export class ContextMenuService {
-  private _active_menu:ContextMenu|null;
+  private active_menu:ContextMenu|null;
 
-  constructor(public $window, public $injector, public $q, public $timeout, public $rootScope) {
+  constructor(public $window:ng.IWindowService,
+              public $injector:ng.auto.IInjectorService,
+              public $q:ng.IQService,
+              public $timeout:ng.ITimeoutService,
+              public $rootScope:ng.IRootScopeService) {
     "ngInject";
 
     // Close context menus on state change
@@ -54,21 +57,21 @@ export class ContextMenuService {
 
   // Return the active context menu, if any
   public get active():ContextMenu|null {
-    return this._active_menu;
+    return this.active_menu;
   }
 
-  public close(disableFocus:boolean = false) {
+  public close(disableFocus:boolean = false):Promise<void> {
     if (!this.active) {
-      return this.$q.when(true);
+      return this.$q.when(void 0);
     } else {
       return this.active.close(disableFocus);
     }
   }
 
-  public activate(contextMenuName, event:JQueryEventObject, locals, positionArgs?:any) {
+  public activate(contextMenuName:string, event:Event, locals:Object, positionArgs?:any) {
     let deferred = this.$q.defer();
     let target = jQuery(event.target);
-    let contextMenu = this.$injector.get(contextMenuName);
+    let contextMenu:ContextMenu = <ContextMenu> this.$injector.get(contextMenuName);
 
     // Close other context menu
     this.close();
@@ -80,13 +83,13 @@ export class ContextMenuService {
       menuElement.css('visibility', 'hidden');
 
       contextMenu.menuElement = menuElement;
-      this._active_menu = contextMenu;
+      this.active_menu = contextMenu;
       (menuElement as any).trap();
-      menuElement.on('click', function (e) {
+      menuElement.on('click', (evt) => {
         // allow inputs to be clickable
         // without closing the dropdown
-        if (angular.element(e.target).is(':input')) {
-          e.stopPropagation();
+        if (angular.element(evt.target).is(':input')) {
+          evt.stopPropagation();
         }
       });
 
@@ -100,7 +103,7 @@ export class ContextMenuService {
     return deferred.promise;
   }
 
-  public reposition(event:JQueryEventObject, positionArgs?) {
+  public reposition(event:Event, positionArgs?:Object) {
     if (!this.active) {
       return;
     }

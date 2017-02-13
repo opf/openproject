@@ -39,12 +39,10 @@ export class GroupRowHandler implements TableEventHandler {
     this.collapsedState.put(state);
 
     // Refresh groups
-    setTimeout(() => {
-      var t0 = performance.now();
-      this.builder.refreshExpansionState(table);
-      var t1 = performance.now();
-      debugLog("Group redraw took " + (t1 - t0) + " milliseconds.");
-    });
+    var t0 = performance.now();
+    this.builder.refreshExpansionState(table);
+    var t1 = performance.now();
+    debugLog("Group redraw took " + (t1 - t0) + " milliseconds.");
   }
 
   private get collapsedState() {

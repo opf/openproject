@@ -180,7 +180,7 @@ function QueryService($rootScope,
         });
     },
 
-    selectUnusedColumns: function(columns) {
+    selectUnusedColumns: function(columns:api.ex.Column[]) {
       let identifiers = QueryService.getSelectedColumnNames();
 
       return columns.filter(function(column) {

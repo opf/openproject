@@ -130,16 +130,22 @@ function ColumnContextMenuController($scope,
     switch (feature) {
       case 'insert':
         focus = mergeOrReturn(focus, true);
+        break;
       case 'hide':
         focus = mergeOrReturn(focus, $scope.canBeHidden());
+        break;
       case 'moveRight':
         focus = mergeOrReturn(focus, $scope.canMoveRight());
+        break;
       case 'moveLeft':
         focus = mergeOrReturn(focus, $scope.canMoveLeft());
+        break;
       case 'group':
         focus = mergeOrReturn(focus, !!$scope.isGroupable);
+        break;
       default:
         focus = mergeOrReturn(focus, $scope.canSort());
+        break;
     }
 
     return focus;

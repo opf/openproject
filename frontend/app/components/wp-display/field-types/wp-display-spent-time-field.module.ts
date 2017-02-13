@@ -47,18 +47,18 @@ export class SpentTimeDisplayField extends DurationDisplayField {
     };
   }
 
-  public render(element: HTMLElement, displayText): void {
+  public render(element: HTMLElement, displayText:string): void {
     if (!this.value) {
       return;
     }
 
-    let link = document.createElement('a');
+    const link = document.createElement('a');
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
 
     if (this.resource.project) {
       this.resource.project.$load().then(project => {
-        let href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+        const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
           .search({ work_package_id: this.resource.id })
           .toString();
 

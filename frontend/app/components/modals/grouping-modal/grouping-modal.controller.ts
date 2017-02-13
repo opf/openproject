@@ -46,7 +46,7 @@ function GroupingModalController($scope,
     groupingModal.deactivate();
   };
 
-  $scope.vm.groupableColumns = () => {
+  $scope.vm.getGroupableColumns = () => {
     let metadata = wpTableMetadata.current;
     return [emptyOption].concat(metadata.groupableColumns);
   };

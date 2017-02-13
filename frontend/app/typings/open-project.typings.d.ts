@@ -180,6 +180,9 @@ declare namespace op {
     page?:number;
     perPage?:number;
 
+    isDirty():boolean;
+    isNew():boolean;
+
     toUpdateParams?():any;
     applyDefaultsFromFilters(workPackage);
   }
