@@ -199,8 +199,14 @@ describe Meeting, type: :model do
     end
 
     context 'other timezone set' do
+      let!(:old_time_zone) { Time.zone }
+
       before do
         Time.zone = 'EST'
+      end
+
+      after do
+        Time.zone = old_time_zone.name
       end
 
       it_behaves_like 'uses that zone', 'EST'
