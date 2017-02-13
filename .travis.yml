@@ -38,8 +38,6 @@ cache:
   directories:
     - frontend/node_modules
 
-bundler_args: --without development production docker
-
 branches:
   only:
     - master
@@ -90,13 +88,16 @@ before_install:
   # We need npm 4.0 for a bugfix in cross-platform shrinkwrap
   # https://github.com/npm/npm/issues/14042
   - npm install npm@4.0
-  - travis_retry npm install
 
   # We need phantomjs 2.0 to get tests passing
   - mkdir travis-phantomjs
   - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
   - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
   - export PATH=$PWD/travis-phantomjs:$PATH
+
+install:
+  - bundle install --without development production docker
+  - travis_retry npm install
 
 before_script:
   - sh script/ci_setup.sh $DB
