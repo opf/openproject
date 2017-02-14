@@ -18,12 +18,13 @@ export class CellBuilder {
     injectorBridge(this);
   }
 
-  public build(workPackage:WorkPackageResource, name:string) {
-    let fieldSchema = workPackage.schema[name];
+  public build(workPackage:WorkPackageResource, attribute:string) {
+    const name = this.correctDateAttribute(workPackage, attribute);
+    const fieldSchema = workPackage.schema[name];
 
-    let td = document.createElement('td');
+    const td = document.createElement('td');
     td.classList.add(tdClassName, name);
-    let span = document.createElement('span');
+    const span = document.createElement('span');
     span.classList.add(cellClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
 
@@ -36,7 +37,6 @@ export class CellBuilder {
     }
 
     const field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
-
     let text;
 
     if (name === 'id') {
@@ -65,6 +65,17 @@ export class CellBuilder {
     td.appendChild(span);
 
     return td;
+  }
+
+  /**
+   * Milestones should display the 'date' attribute for start and due dates
+   */
+  private correctDateAttribute(workPackage:WorkPackageResource, name:string):string {
+    if (workPackage.isMilestone && (name === 'dueDate' || name === 'startDate')) {
+      return 'date';
+    }
+
+    return name;
   }
 }
 
