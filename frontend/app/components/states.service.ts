@@ -1,3 +1,4 @@
+import {WorkPackageTimelineTableController} from './wp-table/timeline/wp-timeline-container.directive';
 import {whenDebugging} from '../helpers/debug_output';
 import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
 import {WPTableRowSelectionState, WorkPackageTableRow} from './wp-fast-table/wp-table.interfaces';
@@ -36,9 +37,13 @@ export class States {
     collapsedGroups: new State<{[identifier:string]: boolean}>(),
     // State to be updated when the table is up to date
     rendered:new State<WorkPackageTable>(),
+    // State to determine timeline visibility
+    timelineVisible: new State<boolean>(),
     // Subject used to unregister all listeners of states above.
     stopAllSubscriptions:new Subject()
   };
+
+  timeline = new State<WorkPackageTimelineTableController>();
 
   // Query states
   query = {

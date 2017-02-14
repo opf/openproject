@@ -81,6 +81,8 @@ function wpTable(
       var activeSelectionBorderIndex;
 
       scope.wpTimelineContainer = wpTimelineContainer;
+      states.timeline.put(wpTimelineContainer);
+      states.table.timelineVisible.put(wpTimelineContainer.visible);
 
       // Total columns = all available columns + id + action link
       // Clear any old table subscribers

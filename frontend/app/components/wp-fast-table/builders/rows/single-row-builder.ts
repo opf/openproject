@@ -1,3 +1,4 @@
+import {TimelineCellBuilder} from '../timeline-cell-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {States} from '../../../states.service';
@@ -20,6 +21,8 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder();
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
+  // Timeline builder
+  protected timelineCellBuilder = new TimelineCellBuilder();
 
   constructor() {
     injectorBridge(this);
@@ -46,8 +49,11 @@ export class SingleRowBuilder {
       row.appendChild(cell);
     });
 
-    // Last column: details link
+    // Last column of table: details link
     this.detailsLinkBuilder.build(workPackage, row);
+
+    // Timeline column
+    this.timelineCellBuilder.build(workPackage, row);
 
     // Set the row selection state
     if (this.wpTableSelection.isSelected(<string>workPackage.id)) {

@@ -40,14 +40,14 @@ var v3Path;
 
 export class TypeResource extends HalResource {
   public color:string;
-  
+
   public static loadAll() {
     const types = states.types;
     const typeUrl = v3Path.types();
 
     halRequest.get(typeUrl).then((result:CollectionResource) => {
       result.elements.forEach((value:TypeResource) => {
-        types.put(value.href, value);
+        types.get(value.href).put(value);
       });
     });
   }

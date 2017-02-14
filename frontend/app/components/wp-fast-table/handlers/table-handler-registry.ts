@@ -1,3 +1,4 @@
+import {TimelineTransformer} from './state/timeline-transformer';
 import {WorkPackageTable} from '../wp-fast-table';
 import {RowClickHandler} from './row/click-handler';
 import {RowDoubleClickHandler} from './row/double-click-handler';
@@ -37,6 +38,7 @@ export class TableHandlerRegistry {
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
+    TimelineTransformer,
   ];
 
   static attachTo(table: WorkPackageTable) {

@@ -74,6 +74,7 @@ export class WorkPackageTimelineTableController {
    */
   public toggle() {
     this.visible = !this.visible;
+    this.states.table.timelineVisible.put(this.visible);
 
     // If hiding view, resize table afterwards
     if (!this.visible) {

@@ -54,7 +54,6 @@ export class WorkPackageTimelineCell {
 
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
               private wpCacheService: WorkPackageCacheService,
-              private scope: IScope,
               private states: States,
               private workPackageId: string,
               private timelineCell: HTMLElement) {
