@@ -1,3 +1,4 @@
+import {timelineCellClassName} from '../timeline-cell-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {locateRow} from '../../helpers/wp-table-row-helpers';
 import {WorkPackageTable} from '../../wp-fast-table';
@@ -11,26 +12,30 @@ export class EditingRowBuilder extends SingleRowBuilder {
    */
   public refreshEditing(row:WorkPackageTableRow, editForm:WorkPackageEditForm):HTMLElement {
     // Get the row for the WP if refreshing existing
-    let rowElement = row.element || locateRow(row.workPackageId);
+    const rowElement = row.element || locateRow(row.workPackageId);
+    const jRow = jQuery(rowElement);
 
     // Detach all existing columns
-    let tds = jQuery(rowElement).find('td').detach();
+    const tds = jQuery(rowElement).find('td').detach();
 
     // Iterate all columns, reattaching or rendering new columns
     this.columns.forEach((column:string) => {
-      let oldTd = tds.filter(`td.${column}`);
+      const oldTd = tds.filter(`td.${column}`);
 
       // Reattach the column if its currently being edited
       if (editForm.activeFields[column] && oldTd.length) {
         rowElement.appendChild(oldTd[0]);
       } else {
-        let cell = this.cellBuilder.build(row.object, column);
+        const cell = this.cellBuilder.build(row.object, column);
         rowElement.appendChild(cell);
       }
     });
 
-    // Last column: details link
+    // Last table column: details link
     this.detailsLinkBuilder.build(row.object, rowElement);
+
+    // Timeline column
+    jRow.append(tds.filter(`.${timelineCellClassName}`));
 
     return rowElement;
   }
