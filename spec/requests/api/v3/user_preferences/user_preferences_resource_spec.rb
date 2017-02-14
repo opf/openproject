@@ -82,28 +82,6 @@ describe 'API v3 UserPreferences resource', type: :request do
       end
     end
 
-    describe 'theme' do
-      context 'with invalid identifier' do
-        let(:params) do
-          { theme: 'mycoolthemethatisnotavailableyet' }
-        end
-
-        it_behaves_like 'constraint violation' do
-          let(:message) { 'Theme is not set to one of the allowed values.' }
-        end
-      end
-
-      context 'with correct identifier' do
-        let(:params) do
-          { theme: 'default' }
-        end
-        it 'should respond with a UserPreferences representer' do
-          expect(subject.body).to be_json_eql(:default.to_json).at_path('theme')
-          expect(preference.theme).to eq(:default)
-        end
-      end
-    end
-
     describe 'timezone' do
       context 'with invalid timezone' do
         let(:params) do

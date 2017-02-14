@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <meta name="accessibility-mode" content="<%= current_user.impaired? %>" />
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
-    <%= stylesheet_link_tag current_theme.stylesheet_manifest, media: "all" %>
+    <%= stylesheet_link_tag 'openproject', media: "all" %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <!-- user specific tags -->

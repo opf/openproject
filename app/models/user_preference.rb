@@ -33,7 +33,6 @@ class UserPreference < ActiveRecord::Base
 
   validates_presence_of :user
   validate :time_zone_correctness, if: -> { time_zone.present? }
-  validate :theme_correctness, if: -> { theme.present? }
 
   after_initialize :init_other_preferences
 
@@ -91,14 +90,6 @@ class UserPreference < ActiveRecord::Base
     others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
   end
 
-  def theme
-    others[:theme] || OpenProject::Themes.application_theme_identifier
-  end
-
-  def theme=(identifier)
-    others[:theme] = identifier.nil? ? nil : identifier.to_sym
-  end
-
   def canonical_time_zone
     return if time_zone.nil?
 
@@ -137,14 +128,5 @@ class UserPreference < ActiveRecord::Base
 
   def time_zone_correctness
     errors.add(:time_zone, :inclusion) if time_zone.present? && canonical_time_zone.nil?
-  end
-
-  def theme_correctness
-    return true if theme == OpenProject::Themes.application_theme_identifier
-    themes = OpenProject::Themes.all.map(&:identifier)
-
-    unless themes.any? { |identifier| theme.to_sym == identifier }
-      errors.add(:theme, :inclusion)
-    end
   end
 end

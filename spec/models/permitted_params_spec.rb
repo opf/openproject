@@ -113,8 +113,7 @@ describe PermittedParams, type: :model do
   describe '#pref' do
     it 'should permit its withlisted params' do
       acceptable_params = [:hide_mail, :time_zone, :impaired,
-                           :comments_sorting, :warn_on_leaving_unsaved,
-                           :theme]
+                           :comments_sorting, :warn_on_leaving_unsaved]
 
       acceptable_params_with_data = HashWithIndifferentAccess[acceptable_params.map { |x| [x, 'value'] }]
 

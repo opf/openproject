@@ -1,6 +1,6 @@
 @require sass
 
-@sass ../stylesheets/theme/default.sass
+@sass ../stylesheets/openproject.sass
 @title "Living Style Guide for OpenProject"
 
 @style base-font: Lato

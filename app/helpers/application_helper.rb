@@ -457,7 +457,7 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    css = ['theme-' + current_theme.identifier.to_s]
+    css = ['theme-' + OpenProject::Design.identifier.to_s]
 
     if accessibility_css_enabled? && User.current.impaired?
       css << 'accessibility-mode'
