@@ -34,7 +34,7 @@ module API
       end
 
       def call(params = {})
-        query = Query.new(name: '_', project: params[:project], sort_criteria: [['parent', 'desc']])
+        query = Query.new_default(name: '_', project: params[:project])
 
         WorkPackageCollectionFromQueryService
           .new(query, current_user)

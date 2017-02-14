@@ -69,6 +69,8 @@ class WorkPackagesPage
     search_column! name
     select_found_column! name
     click_on 'Apply'
+
+    expect(page).to have_selector('.generic-table--sort-header a', text: name.upcase)
   end
 
   def search_column!(column)

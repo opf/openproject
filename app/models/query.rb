@@ -148,9 +148,11 @@ class Query < ActiveRecord::Base
   ]
   cattr_reader :available_columns
 
-  def initialize(attributes = nil, options = {})
-    super(attributes)
-    add_default_filter if options[:initialize_with_default_filter]
+  def self.new_default(attributes = nil)
+    new(attributes).tap do |query|
+      query.add_default_filter
+      query.set_default_sort
+    end
   end
 
   after_initialize :set_context
@@ -167,6 +169,12 @@ class Query < ActiveRecord::Base
     filters.each do |filter|
       filter.context = project
     end
+  end
+
+  def set_default_sort
+    return if sort_criteria.any?
+
+    self.sort_criteria = [['parent', 'desc']]
   end
 
   alias :context :project
@@ -296,8 +304,13 @@ class Query < ActiveRecord::Base
     available_columns.select(&:groupable)
   end
 
-  # Returns a Hash of columns and the key for sorting
+  # Returns an array of columns that can be used to sort the results
   def sortable_columns
+    available_columns.select(&:sortable)
+  end
+
+  # Returns a Hash of sql columns for sorting by column
+  def sortable_key_by_column_name
     column_sortability = available_columns.inject({}) do |h, column|
       h[column.name.to_s] = column.sortable
       h
@@ -366,7 +379,7 @@ class Query < ActiveRecord::Base
 
   def sort_criteria_sql
     criteria = SortHelper::SortCriteria.new
-    criteria.available_criteria = sortable_columns
+    criteria.available_criteria = sortable_key_by_column_name
     criteria.criteria = sort_criteria
     criteria.to_sql
   end

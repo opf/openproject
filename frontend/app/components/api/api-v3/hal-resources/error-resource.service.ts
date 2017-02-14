@@ -60,8 +60,8 @@ export class ErrorResource extends HalResource {
     return columns.map(field => field.details.attribute);
   }
 
-  public getMessagesPerAttribute():any {
-    var perAttribute = {};
+  public getMessagesPerAttribute():{ [attribute:string]: string[] } {
+    let perAttribute = {};
 
     if (this.details) {
       perAttribute[this.details.attribute] = [this.message];

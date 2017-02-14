@@ -178,7 +178,7 @@ class WorkPackagesController < ApplicationController
 
   def load_work_packages
     sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
+    sort_update(@query.sortable_key_by_column_name)
 
     @results = @query.results(order: sort_clause)
     @work_packages = if @query.valid?

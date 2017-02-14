@@ -5,7 +5,7 @@
        ng-class="[currentSortDirection && 'sort', currentSortDirection]"
        lang-attribute
        lang="{{locale}}"
-       id="{{ headerTitle }}"
+       id="{{ headerName }}"
        onclick="setTimeout(function(){ $(document).getElementsByClassName('menu-item')[0].focus(); }, 100);">{{headerTitle}}</a>
     <a ng-if="!sortable">{{headerTitle}}</a>
     <label class="hidden-for-sighted" aria-hidden="true" for="{{ headerTitle }}"> {{ fullTitle }} </label>

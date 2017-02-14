@@ -49,7 +49,7 @@ export class SelectEditField extends EditField {
     } else if (this.schema.allowedValues) {
       this.schema.allowedValues.$load().then((values) => {
         // The select options of the project shall be sorted
-        if (values.elements[0]._type === 'Project') {
+        if (values.count > 0 && values.elements[0]._type === 'Project') {
           this.setValues(values.elements, true);
         } else {
           this.setValues(values.elements);

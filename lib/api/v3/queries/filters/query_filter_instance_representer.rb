@@ -61,6 +61,12 @@ module API
             end
           end
 
+          link :schema do
+            {
+              href: api_v3_paths.query_filter_instance_schema(converted_name)
+            }
+          end
+
           property :name,
                    exec_context: :decorator
 

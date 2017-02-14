@@ -29,9 +29,6 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class IntegerDisplayField extends DisplayField {
-
-  isManualRenderer = true;
-
   public get value() {
     return parseInt(this.resource[this.name]);
   }

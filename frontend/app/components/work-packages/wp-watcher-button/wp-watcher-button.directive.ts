@@ -45,7 +45,7 @@ export class WorkPackageWatcherButtonController {
               public I18n,
               public wpCacheService:WorkPackageCacheService) {
 
-    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observeOnScope($scope)
+    wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.setWatchStatus();
@@ -64,7 +64,7 @@ export class WorkPackageWatcherButtonController {
     const toggleLink = this.nextStateLink();
 
     toggleLink(toggleLink.$link.payload).then(() => {
-      this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+      this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
     });
   };
 

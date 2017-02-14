@@ -171,7 +171,7 @@ describe 'Inline editing work packages', js: true do
 
       expect(page).to have_selector('th a', text: cf_list_name.upcase)
       expect(page).to have_selector('th a', text: cf_text_name.upcase)
-      expect(wp_table.row(work_package)).to have_selector('.wp-edit-field.-error', count: 2)
+      expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-td.-error', count: 2)
 
       cf_text = wp_table.edit_field(work_package, :customField2)
       cf_text.update('my custom text')

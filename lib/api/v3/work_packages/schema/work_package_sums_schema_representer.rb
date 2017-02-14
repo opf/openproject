@@ -34,7 +34,7 @@ module API
   module V3
     module WorkPackages
       module Schema
-        class WorkPackageSumsSchemaRepresenter < ::API::Decorators::Schema
+        class WorkPackageSumsSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           class << self
             def represented_class
               WorkPackage

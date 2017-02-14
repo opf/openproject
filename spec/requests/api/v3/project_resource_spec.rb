@@ -33,20 +33,25 @@ describe 'API v3 Project resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) do
+    FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+  end
   let(:project) { FactoryGirl.create(:project, is_public: false) }
+  let(:other_project) do
+    FactoryGirl.create(:project, is_public: false)
+  end
   let(:role) { FactoryGirl.create(:role) }
 
-  describe '#get' do
+  before do
+    allow(User).to receive(:current).and_return current_user
+  end
+
+  describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
     subject(:response) { last_response }
 
     context 'logged in user' do
       before do
-        allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: project)
-        member.role_ids = [role.id]
-        member.save!
         get get_path
       end
 
@@ -69,22 +74,69 @@ describe 'API v3 Project resource' do
       end
 
       context 'requesting project without sufficient permissions' do
-        let(:another_project) { FactoryGirl.create(:project, is_public: false) }
-        let(:get_path) { api_v3_paths.project another_project.id }
+        let(:get_path) { api_v3_paths.project other_project.id }
 
         it_behaves_like 'not found' do
-          let(:id) { "#{another_project.id}" }
+          let(:id) { another_project.id.to_s }
           let(:type) { 'Project' }
         end
       end
     end
 
     context 'not logged in user' do
+      let(:current_user) { FactoryGirl.create(:anonymous) }
+
       before do
         get get_path
       end
 
       it_behaves_like 'not found'
+    end
+  end
+
+  describe '#get /projects' do
+    let(:get_path) { api_v3_paths.projects }
+    let(:response) { last_response }
+
+    before do
+      other_project
+
+      get get_path
+    end
+
+    it 'succeeds' do
+      expect(last_response.status)
+        .to eql(200)
+    end
+
+    it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+    context 'filtering for project by ancestor' do
+      let(:parent_project) do
+        parent_project = FactoryGirl.create(:project, is_public: false)
+
+        project.update_attribute(:parent_id, parent_project.id)
+
+        parent_project.add_member! current_user, role
+
+        parent_project
+      end
+
+      let(:filter_query) do
+        [{ ancestor: { operator: '=', values: [parent_project.id.to_s] } }]
+      end
+
+      let(:get_path) do
+        "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+      end
+
+      it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+      it 'returns the child project' do
+        expect(response.body)
+          .to be_json_eql(api_v3_paths.project(project.id).to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
     end
   end
 end

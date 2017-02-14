@@ -31,8 +31,6 @@ import ExpressionService from "../../common/xss/expression.service";
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 
 export class FormattableDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-formattable-field.directive.html'
-
   protected ExpressionService:ExpressionService;
 
   constructor(public resource: HalResource,
@@ -41,6 +39,14 @@ export class FormattableDisplayField extends DisplayField {
     super(resource, name, schema);
 
     this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
+  }
+
+  public render(element: HTMLElement, displayText): void {
+    let span = document.createElement('span');
+    span.innerHTML = displayText;
+
+    element.innerHTML = '';
+    element.appendChild(span);
   }
 
   public get value() {

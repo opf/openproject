@@ -36,7 +36,7 @@ module API
             schema = WorkPackages::Schema::UntypedWorkPackageSchema.new(project: @project)
             self_link = api_v3_paths.work_package_columns(@project.id)
             WorkPackages::Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                                      self_link: self_link,
+                                                                      self_link,
                                                                       current_user: current_user,
                                                                       hide_lock_version: true)
           end

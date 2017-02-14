@@ -39,22 +39,52 @@ module API
           mount API::V3::Queries::SortBys::QuerySortBysAPI
           mount API::V3::Queries::Filters::QueryFiltersAPI
           mount API::V3::Queries::Operators::QueryOperatorsAPI
+          mount API::V3::Queries::Schemas::QuerySchemaAPI
+          mount API::V3::Queries::Schemas::QueryFilterInstanceSchemaAPI
+
+          helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+
+          helpers do
+            def authorize_by_policy(action, &block)
+              authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
+            end
+
+            def allowed_to?(action)
+              QueryPolicy.new(current_user).allowed?(@query, action)
+            end
+          end
 
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
-            query_query = ::API::V3::ParamsToQueryService.new(Query, current_user).call(params)
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Query,
+                                                                    current_user,
+                                                                    params)
+          end
 
-            if query_query.valid?
-              queries = query_query
-                        .results
+          namespace 'available_projects' do
+            before do
+              authorize(:view_work_packages, global: true, user: current_user)
+            end
 
-              self_link = api_v3_paths.queries
-              ::API::V3::Queries::QueryCollectionRepresenter.new(queries,
-                                                                 self_link,
-                                                                 current_user: current_user)
-            else
-              raise ::API::Errors::InvalidQuery.new(query_query.errors.full_messages)
+            get do
+              available_projects = Project.allowed_to(current_user, :view_work_packages)
+              self_link = api_v3_paths.query_available_projects
+
+              ::API::V3::Projects::ProjectCollectionRepresenter.new(available_projects,
+                                                                    self_link,
+                                                                    current_user: current_user)
+            end
+          end
+
+          namespace 'default' do
+            get do
+              @query = Query.new_default(name: 'default',
+                                         user: current_user)
+
+              authorize_by_policy(:show)
+
+              query_representer_response(@query, params)
             end
           end
 
@@ -65,31 +95,13 @@ module API
             before do
               @query = Query.find(params[:id])
 
-              results_representer = ::API::V3::WorkPackageCollectionFromQueryService
-                                    .new(@query, current_user)
-                                    .call(params)
-
-              @representer = QueryRepresenter.new(@query,
-                                                  current_user: current_user,
-                                                  results: results_representer.result,
-                                                  params: params)
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end
             end
 
-            helpers do
-              def authorize_by_policy(action, &block)
-                authorize_by_with_raise(-> () { allowed_to?(action) }, &block)
-              end
-
-              def allowed_to?(action)
-                QueryPolicy.new(current_user).allowed?(@query, action)
-              end
-            end
-
             get do
-              @representer
+              query_representer_response(@query, params)
             end
 
             delete do
@@ -112,17 +124,22 @@ module API
                 item.title = @query.name
               end
               query_menu_item.save!
-              @representer
+
+              query_representer_response(@query, {})
             end
 
             patch :unstar do
               authorize_by_policy(:unstar)
 
+              representer = query_representer_response(@query, {})
+
               query_menu_item = @query.query_menu_item
-              return @representer if @query.query_menu_item.nil?
+              return representer if @query.query_menu_item.nil?
               query_menu_item.destroy
+
               @query.reload
-              @representer
+
+              representer
             end
           end
         end

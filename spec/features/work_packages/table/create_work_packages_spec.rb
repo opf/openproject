@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'inline create work package', js: true do
+describe 'inline create work package', skip: 'SKIPPED UNTIL RE-ADDED AFTER REFACTOR', js: true do
   let(:type) { FactoryGirl.create(:type) }
   let(:types) { [type] }
 

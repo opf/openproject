@@ -33,25 +33,25 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:work_package) { FactoryGirl.build(:work_package) }
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.build(:user, member_in_project: work_package.project)
-  }
-  let(:schema) {
+  end
+  let(:schema) do
     ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package: work_package)
-  }
+  end
   let(:self_link) { '/a/self/link' }
   let(:base_schema_link) { nil }
   let(:hide_self_link) { false }
   let(:embedded) { true }
   let(:action) { :update }
-  let(:representer) {
+  let(:representer) do
     described_class.create(schema,
+                           self_link,
                            form_embedded: embedded,
-                           self_link: self_link,
                            base_schema_link: base_schema_link,
                            current_user: current_user,
                            action: action)
-  }
+  end
 
   before do
     allow(schema).to receive(:writable?).and_call_original
@@ -143,11 +143,12 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context 'lockVersion disabled' do
-        let(:representer) {
+        let(:representer) do
           described_class.create(schema,
+                                 nil,
                                  current_user: current_user,
                                  hide_lock_version: true)
-        }
+        end
 
         it 'is hidden' do
           is_expected.to_not have_json_path('lockVersion')
@@ -166,20 +167,18 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'subject' do
+      let(:path) { 'subject' }
+
       it_behaves_like 'has basic schema properties' do
-        let(:path) { 'subject' }
         let(:type) { 'String' }
         let(:name) { I18n.t('attributes.subject') }
         let(:required) { true }
         let(:writable) { true }
       end
 
-      it 'indicates its minimum length' do
-        is_expected.to be_json_eql(1.to_json).at_path('subject/minLength')
-      end
-
-      it 'indicates its maximum length' do
-        is_expected.to be_json_eql(255.to_json).at_path('subject/maxLength')
+      it_behaves_like 'indicates length requirements' do
+        let(:min_length) { 1 }
+        let(:max_length) { 255 }
       end
     end
 
@@ -531,6 +530,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('attributes.status') }
         let(:required) { true }
         let(:writable) { true }
+        let(:has_default) { true }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -583,6 +583,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
         let(:required) { true }
         let(:writable) { true }
+        let(:has_default) { true }
       end
 
       it_behaves_like 'has a collection of allowed values' do
@@ -602,6 +603,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
           let(:required) { true }
           let(:writable) { false }
+          let(:has_default) { true }
         end
       end
     end

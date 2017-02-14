@@ -3,10 +3,7 @@
 
     <ng-transclude ng-if="!vm.showAbove"></ng-transclude>
     <div class="work-package--details--long-field work-packages--activity--add-comment" ng-if="vm.canAddComment">
-      <div class="wp-edit-field inplace-edit"
-           cg-busy="{promise: vm.loadingPromise}"
-           ng-switch="vm.active">
-
+      <div class="wp-edit-field inplace-edit" ng-switch="vm.active">
         <form ng-switch-when="true"
               name="wp-edit-form-coment"
               ng-submit="vm.handleUserSubmit()"

@@ -183,7 +183,6 @@ export const openprojectModule = angular.module('openproject', [
   'ngDialog',
   'truncate',
   'openproject.layout',
-  'cgBusy',
   'openproject.api',
   'openproject.templates',
   'monospaced.elastic',

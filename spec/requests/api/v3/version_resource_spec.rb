@@ -108,4 +108,53 @@ describe 'API v3 Version resource' do
       it_behaves_like 'unauthorized access'
     end
   end
+
+  describe '#get /versions' do
+    let(:get_path) { api_v3_paths.versions }
+    let(:response) { last_response }
+    let(:versions) { [version_in_project] }
+
+    before do
+      versions.map(&:save!)
+      current_user
+
+      get get_path
+    end
+
+    it 'succeeds' do
+      expect(last_response.status)
+        .to eql(200)
+    end
+
+    it_behaves_like 'API V3 collection response', 1, 1, 'Version'
+
+    it 'is the version the user has permission in' do
+      expect(response.body)
+        .to be_json_eql(api_v3_paths.version(version_in_project.id).to_json)
+        .at_path('_embedded/elements/0/_links/self/href')
+    end
+
+    context 'filtering for project by sharing' do
+      let(:shared_version_in_project) do
+        FactoryGirl.build(:version, project: project, sharing: 'system')
+      end
+      let(:versions) { [version_in_project, shared_version_in_project] }
+
+      let(:filter_query) do
+        [{ sharing: { operator: '=', values: ['system'] } }]
+      end
+
+      let(:get_path) do
+        "#{api_v3_paths.versions}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+      end
+
+      it_behaves_like 'API V3 collection response', 1, 1, 'Version'
+
+      it 'returns the shared version' do
+        expect(response.body)
+          .to be_json_eql(api_v3_paths.version(shared_version_in_project.id).to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+  end
 end

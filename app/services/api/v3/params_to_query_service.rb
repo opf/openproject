@@ -49,10 +49,6 @@ module API
       private
 
       def new_query
-        model_name = model.name
-
-        query_class = "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
-
         query_class.new(user: user)
       end
 
@@ -123,7 +119,13 @@ module API
       end
 
       def conversion_model
-        @conversion_model ||= model.new
+        @conversion_model ||= ::API::Utilities::QueryFiltersNameConverterContext.new(query_class)
+      end
+
+      def query_class
+        model_name = model.name
+
+        "::Queries::#{model_name.pluralize}::#{model_name}Query".constantize
       end
     end
   end

@@ -75,6 +75,12 @@ declare namespace api {
       };
     }
 
+    interface ExportFormat {
+      identifier:string;
+      format:string;
+      label_locale:string;
+    }
+
     interface Column {
       name:string;
       title:string;
@@ -113,7 +119,12 @@ declare namespace api {
 
     interface WorkPackagesMeta {
       meta:Meta;
+      _links;
+      _bulk_links:{ [name:string]: string };
+      resource;
       work_packages;
+      total:number;
+      groups;
     }
   }
 }
@@ -144,6 +155,9 @@ declare namespace op {
     sortCriteria?;
     page?:number;
     perPage?:number;
+
+    isDirty():boolean;
+    isNew():boolean;
 
     toUpdateParams?():any;
     applyDefaultsFromFilters(workPackage);

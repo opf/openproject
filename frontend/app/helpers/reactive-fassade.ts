@@ -120,7 +120,11 @@ export class State<T> extends StoreElement {
     return scope ? scopedObservable(scope, this.cleared.asObservable()) : this.cleared.asObservable();
   }
 
-  private setState(val: T) {
+  private scopedObservable(scope: IScope): Observable<T> {
+    return scope ? scopedObservable(scope, this.observable) : this.observable;
+  }
+
+  protected setState(val: T) {
     this.lastValue = val;
     this.subject.next(val);
 
@@ -133,15 +137,30 @@ export class State<T> extends StoreElement {
     }
   }
 
-  private scopedObservable(scope: IScope): Observable<T> {
-    return scope ? scopedObservable(scope, this.observable) : this.observable;
+
+}
+
+export class MultiStateMember<T> extends State<T> {
+
+  // Behaves as a regular state, but keeps a reference to a multistate
+  // to notify the overall observable.
+  constructor(public id:string, public parentMultiState:MultiState<T>) {
+    super();
   }
 
+  // Change this state and notify the associated MultiState
+  // of the change.
+  protected setState(val: T) {
+    super.setState(val);
+    this.parentMultiState.changed(this.id, val);
+  }
 }
 
 export class MultiState<T> extends StoreElement {
 
-  private states: {[id: string]: State<T>} = {};
+  private states: {[id: string]: MultiStateMember<T>} = {};
+
+  private memberSubject = new BehaviorSubject<[string, T]>(null);
 
   constructor() {
     super();
@@ -151,20 +170,41 @@ export class MultiState<T> extends StoreElement {
     this.states = {};
   }
 
-  put(id: string, value: T): State<T> {
-    this.log("MultiState#put(" + id + ")");
-    const state = this.get(id);
-    state.put(value);
-    return state;
-  }
-
-  get(id: string): State<T> {
+  public get(id: string): MultiStateMember<T> {
     if (this.states[id] === undefined) {
-      this.states[id] = new State<T>();
+      this.states[id] = new MultiStateMember<T>(id, this);
     }
     return this.states[id];
   }
 
+  /**
+   * Observe changes on this multistate.
+   *
+   * @param scope An optional scope
+   * @returns {Observable<string>} Observable on the changed ids
+   */
+  public observe(scope: IScope): Observable<[string, T]> {
+    return scope ? scopedObservable(scope, this.memberSubject) : this.memberSubject;
+  }
+
+  /**
+   * Observe changes on this multistate until another subject is triggered.
+   *
+   * @param scope An optional scope
+   * @returns {Observable<string>} Observable on the changed ids
+   */
+  public observeUntil(subject: Subject<any>): Observable<[string, T]> {
+    return this.memberSubject.takeUntil(subject);
+  }
+
+  /**
+   * Notify MultiState of a change in member {id}.
+   * @param id The id of the changed member
+   * @param value The next value
+   */
+  public changed(id: string, value: T) {
+    this.memberSubject.next([id, value]);
+  }
 }
 
 function traverse(elem: any, path: string, logFn: (msg: any) => any) {

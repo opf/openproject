@@ -27,8 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared_available_principals_examples'
 
 describe "API::V3::Projects::AvailableResponsiblesAPI", type: :request do
-  it_behaves_like 'available principals', :responsibles
+  include API::V3::Utilities::PathHelper
+
+  it_behaves_like 'available principals', :responsibles do
+    let(:href) { api_v3_paths.available_responsibles(project.id) }
+  end
 end

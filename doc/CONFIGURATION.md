@@ -161,6 +161,20 @@ fog:
     region: 'eu-west-1'
 ```
 
+In order to set these values through ENV variables, use:
+
+```
+<pre>
+OPENPROJECT_ATTACHMENTS__STORAGE=fog
+OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID="AKIAJ23HC4KNPWHPG3UA"
+OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY="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"
+OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS
+OPENPROJECT_FOG_CREDENTIALS_REGION="eu-west-1"
+OPENPROJECT_FOG_DIRECTORY=uploads
+</pre>
+
+```
+
 #### backend migration
 
 You can migrate attachments between the available backends. One example would be that you change the configuration from

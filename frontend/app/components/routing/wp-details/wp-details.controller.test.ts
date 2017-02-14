@@ -148,6 +148,8 @@ describe('WorkPackageDetailsController', () => {
     buildController = () => {
       var testState = {
         params: {workPackageId: 99},
+        includes: sinon.stub().returns(true),
+        go: sinon.stub(),
         current: {url: '/activity'}
       };
       scope = $rootScope.$new();

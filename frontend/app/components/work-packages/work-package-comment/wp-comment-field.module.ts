@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
 
   public fieldVal = { raw: '' };
 
-  constructor(workPackage, protected I18n) {
+  constructor(workPackage:WorkPackageResource, protected I18n:op.I18n) {
     super(workPackage, 'comment', {name: I18n.t('js.label_comment')});
 
     this.initializeFieldValue();

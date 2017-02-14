@@ -27,10 +27,12 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 function SortingModalController(sortingModal,
                                 $scope,
                                 $filter,
+                                loadingIndicator:LoadingIndicatorService,
                                 QueryService,
                                 I18n) {
   this.name = 'Sorting';
@@ -106,7 +108,8 @@ function SortingModalController(sortingModal,
     {id: 'asc', label: I18n.t('js.label_ascending')}
   ];
 
-  $scope.promise = QueryService.loadAvailableColumns()
+  let indicator = loadingIndicator.indicator('sorting-modal');
+  indicator.promise = QueryService.loadAvailableColumns()
     .then(availableColumns => {
       $scope.availableColumnsData = availableColumns
         .filter(column => !!column.sortable)

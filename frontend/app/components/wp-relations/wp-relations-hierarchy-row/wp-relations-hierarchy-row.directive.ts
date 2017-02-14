@@ -70,7 +70,7 @@ class WpRelationsHierarchyRowDirectiveController {
     this.wpRelationsHierarchyService
       .removeChild(this.relatedWorkPackage)
       .then(() => {
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--add-exisiting-child').focus();

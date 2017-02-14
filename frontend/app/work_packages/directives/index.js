@@ -28,12 +28,6 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('langAttribute', require('./lang-attribute-directive'))
-  .directive('queryColumns', [
-    'WorkPackagesTableHelper',
-    'WorkPackagesTableService',
-    'WorkPackageService',
-    'QueryService', require('./query-columns-directive')
-  ])
   .directive('queryForm', require('./query-form-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     { key: 'log_time', link: 'logTime', resource: 'workPackage' },

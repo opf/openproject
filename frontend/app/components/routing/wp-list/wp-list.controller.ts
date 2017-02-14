@@ -29,27 +29,33 @@
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
+import {States} from '../../states.service';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import { Observable } from 'rxjs/Observable';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
 
 function WorkPackagesListController($scope,
                                     $rootScope,
                                     $state,
                                     $location,
-                                    wpNotificationsService: WorkPackageNotificationService,
-                                    WorkPackagesTableService,
+                                    $q,
+                                    states:States,
+                                    wpNotificationsService:WorkPackageNotificationService,
+                                    wpTableColumns:WorkPackageTableColumnsService,
                                     WorkPackageService,
                                     wpListService,
-                                    wpCacheService: WorkPackageCacheService,
+                                    wpCacheService:WorkPackageCacheService,
                                     ProjectService,
                                     QueryService,
                                     PaginationService,
                                     AuthorisationService,
                                     UrlParamsHelper,
                                     OPERATORS_AND_LABELS_BY_FILTER_TYPE,
-                                    loadingIndicator,
+                                    loadingIndicator:LoadingIndicatorService,
                                     I18n) {
 
   $scope.projectIdentifier = $state.params.projectPath || null;
-  $scope.loadingIndicator = loadingIndicator;
   $scope.I18n = I18n;
   $scope.text = {
     'jump_to_pagination': I18n.t('js.work_packages.jump_marks.pagination'),
@@ -63,7 +69,7 @@ function WorkPackagesListController($scope,
     $scope.disableNewWorkPackage = true;
     $scope.queryError = false;
 
-    loadingIndicator.mainPage = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
+    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
       .then((json:api.ex.WorkPackagesMeta) => {
 
         // Update work package states
@@ -79,15 +85,17 @@ function WorkPackagesListController($scope,
 
   function setupQuery(json) {
     QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier).then(function(data) {
-      $scope.availableUnusedColumns = data;
-    });
+    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier);
 
     var metaData = json.meta;
     var queryData = metaData.query;
     var columnData = metaData.columns;
     var cachedQuery = QueryService.getQuery();
     var urlQueryId = $state.params.query_id;
+
+
+    // Set current column state
+    states.table.columns.put(metaData.columns.map(column => column.name));
 
     if (cachedQuery && urlQueryId && cachedQuery.id === urlQueryId) {
       // Augment current unsaved query with url param data
@@ -124,49 +132,42 @@ function WorkPackagesListController($scope,
 
     // setup table
     setupWorkPackagesTable(json);
-
-    if (json.work_packages.length) {
-      WorkPackageService.cache().put('preselectedWorkPackageId', json.work_packages[0].id);
-    }
   }
 
   function setupWorkPackagesTable(json) {
-    var meta = json.meta,
-      workPackages = json.work_packages,
-      bulkLinks = json._bulk_links;
 
-    // register data
-
-    // table data
-    WorkPackagesTableService.setColumns($scope.query.columns);
-    WorkPackagesTableService.addColumnMetaData(meta);
-    WorkPackagesTableService.setGroupBy($scope.query.groupBy);
-    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy, $state.params.workPackageId);
-    WorkPackagesTableService.setBulkLinks(bulkLinks);
-
-    // query data
-    QueryService.setTotalEntries(json.resource.total);
+    // Set metadata from results
+    const meta = json.meta;
+    const metadata = new WorkPackageTableMetadata(json);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
 
+    // Update the current metadata state
+    states.table.metadata.put(metadata);
+
+    // register data in state
+    $q.all(json.work_packages.map(wp => wp.schema.$load())).then(() => {
+      states.table.rows.put(json.work_packages);
+    });
+
+    // query data
+    // QueryService.setTotalEntries(json.resource.total);
+
     // yield updatable data to scope
-    $scope.columns = $scope.query.columns;
+    Observable.combineLatest(
+      states.table.columns.observeOnScope($scope),
+      states.query.availableColumns.observeOnScope($scope)
+    ).subscribe(() => {
+      $scope.columns = wpTableColumns.getColumns();
+    });
 
-    // Merge new row if it exists
-    var newRows = WorkPackagesTableService.getRows();
-    var last = <any> _.last($scope.rows);
-
-    if (last && last.object.isNew) {
-      newRows.push(last);
-    }
-    $scope.rows = newRows;
-    $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
-    $scope.totalEntries = QueryService.getTotalEntries();
+    // $scope.totalEntries = QueryService.getTotalEntries();
     $scope.resource = json.resource;
-    $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
+    $scope.rowcount = json.resource.count;
+    // $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
 
     // Authorisation
     AuthorisationService.initModelAuth('work_package', meta._links);
@@ -198,7 +199,7 @@ function WorkPackagesListController($scope,
   };
 
   $scope.loadQuery = function (queryId) {
-    loadingIndicator.mainPage = $state.go('work-packages.list',
+    loadingIndicator.table.promise= $state.go('work-packages.list',
       {'query_id': queryId,
        'query_props': null});
   };
@@ -206,7 +207,7 @@ function WorkPackagesListController($scope,
   function updateResults() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    loadingIndicator.mainPage = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
+    loadingIndicator.table.promise = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
         wpCacheService.updateWorkPackageList(json.work_packages);
         setupWorkPackagesTable(json);
@@ -246,45 +247,12 @@ function WorkPackagesListController($scope,
   $rootScope.$on('workPackagesRefreshInBackground', function () {
     wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
-
-        var rowLookup = _.indexBy($scope.rows, (row:any) => row.object.id);
-
-        // Merge based on id and lockVersion
-        angular.forEach(json.work_packages, (fresh, i) => {
-          var staleRow = rowLookup[fresh.id];
-          if (staleRow && staleRow.object.lockVersion === fresh.lockVersion) {
-            json.work_packages[i] = staleRow.object;
-          } else {
-            wpCacheService.updateWorkPackage(fresh);
-          }
-        });
-
         $scope.$broadcast('openproject.workPackages.updateResults');
         $scope.$evalAsync(_ => setupWorkPackagesTable(json));
       });
   });
 
   $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
-
-  function nextAvailableWorkPackage() {
-    var selected = WorkPackageService.cache().get('preselectedWorkPackageId');
-    return selected || $scope.rows.first().object.id;
-  }
-
-  $scope.nextAvailableWorkPackage = nextAvailableWorkPackage;
-
-  $scope.openWorkPackageInFullView = function (id, force) {
-    if (force || $state.current.url !== '') {
-      var params = {
-        workPackageId: id
-      }
-
-      loadingIndicator.mainPage = $state.go(
-        'work-packages.show',
-        angular.extend($state.params, params)
-      );
-    }
-  };
 }
 
 angular

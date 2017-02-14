@@ -31,15 +31,16 @@ import {WorkPackageRelationsController} from "../../wp-relations.directive";
 import {WorkPackageRelationsHierarchyController} from "../../wp-relations-hierarchy/wp-relations-hierarchy.directive";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {CollectionResource} from '../../../api/api-v3/hal-resources/collection-resource.service';
+import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 
-function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
+function wpRelationsAutocompleteDirective($q, PathHelper, loadingIndicator:LoadingIndicatorService, $http, I18n) {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-create/wp-relations-autocomplete/wp-relations-autocomplete.template.html',
     require: ['^wpRelations', '?^wpRelationsHierarchy'],
     scope: {
       selectedWpId: '=',
-      loadingPromise: '=',
+      loadingPromiseName: '@',
       selectedRelationType: '=',
       filterCandidatesFor: '@',
       workPackage: '='
@@ -80,7 +81,7 @@ function wpRelationsAutocompleteDirective($q, PathHelper, $http, I18n) {
         }
 
         const deferred = $q.defer();
-        scope.loadingPromise = deferred.promise;
+        loadingIndicator.indicator(scope.loadingPromiseName).promise = deferred.promise;
 
         scope.workPackage.available_relation_candidates.$link.$fetch({
             query: query,

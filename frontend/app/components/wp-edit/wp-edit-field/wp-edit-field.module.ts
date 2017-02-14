@@ -30,7 +30,8 @@ import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {Field} from '../../wp-field/wp-field.module';
 import {FieldFactory} from '../../wp-field/wp-field.module';
 
-export class EditField extends Field{
+export class EditField extends Field {
+  public template:string;
 }
 
 export class EditFieldFactory extends FieldFactory{

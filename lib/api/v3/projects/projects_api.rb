@@ -33,6 +33,12 @@ module API
     module Projects
       class ProjectsAPI < ::API::OpenProjectAPI
         resources :projects do
+          get do
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Project.visible(current_user),
+                                                                    current_user,
+                                                                    params)
+          end
+
           params do
             requires :id, desc: 'Project id'
           end
@@ -56,6 +62,7 @@ module API
             mount API::V3::Categories::CategoriesByProjectAPI
             mount API::V3::Versions::VersionsByProjectAPI
             mount API::V3::Types::TypesByProjectAPI
+            mount API::V3::Queries::QueriesByProjectAPI
           end
         end
       end

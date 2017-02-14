@@ -70,7 +70,7 @@ module API
         links :columns do
           represented.columns.map do |column|
             {
-              href: api_v3_paths.query_column(convert_attribute(column.name).underscore),
+              href: api_v3_paths.query_column(convert_attribute(column.name)),
               title: column.caption
             }
           end
@@ -81,7 +81,7 @@ module API
 
           if column
             {
-              href: api_v3_paths.query_group_by(convert_attribute(column.name).underscore),
+              href: api_v3_paths.query_group_by(convert_attribute(column.name)),
               title: column.caption
             }
           else
@@ -99,6 +99,17 @@ module API
               title: sort_by.name
             }
           end
+        end
+
+        link :schema do
+          href = if represented.project
+                   api_v3_paths.query_project_schema(represented.project.id)
+                 else
+                   api_v3_paths.query_schema
+                 end
+          {
+            href: href
+          }
         end
 
         linked_property :user
@@ -129,8 +140,10 @@ module API
                    embed_links
                  }
 
-        property :sums, getter: -> (*) { display_sums }
-        property :starred, getter: -> (*) { starred }
+        property :display_sums,
+                 as: :sums
+
+        property :starred
 
         property :columns,
                  exec_context: :decorator,
@@ -187,6 +200,16 @@ module API
 
         def _type
           'Query'
+        end
+
+        def self_v3_path(*_args)
+          if represented.new_record? && represented.project
+            api_v3_paths.query_project_default(represented.project.id)
+          elsif represented.new_record?
+            api_v3_paths.query_default
+          else
+            super
+          end
         end
       end
     end

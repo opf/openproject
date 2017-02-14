@@ -92,10 +92,6 @@ body.controller-work_packages.action-show {
     // Important for Firefox to let 'flex-shrink' work correctly.
     min-height: 0;
 
-    &[cg-busy] {
-      overflow: visible;
-    }
-
     .tabrow {
       display: table;
       margin: 0;

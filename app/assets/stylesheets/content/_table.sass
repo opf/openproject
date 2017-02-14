@@ -241,9 +241,10 @@ table.generic-table
     text-align: right
     overflow: visible
     min-width: 1em
+    visibility: hidden
 
-.generic-table--cell-controls
-  white-space: nowrap
+  &:hover > .dropdown-indicator
+    visibility: visible
 
 .generic-table--header-background
   position:     absolute

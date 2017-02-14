@@ -32,21 +32,15 @@ module API
     module WorkPackages
       module Schema
         class WorkPackageSchemaCollectionRepresenter <
-          ::API::Decorators::UnpaginatedCollection
+          ::API::V3::Schemas::SchemaCollectionRepresenter
           element_decorator ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
 
-          collection :elements,
-                     getter: ->(*) {
-                       represented.map do |model|
-                         self_link = api_v3_paths.work_package_schema(model.project.id,
-                                                                      model.type.id)
-                         element_decorator.create(model,
-                                                  self_link: self_link,
-                                                  current_user: current_user)
-                       end
-                     },
-                     exec_context: :decorator,
-                     embedded: true
+          private
+
+          def model_self_link(model)
+            api_v3_paths.work_package_schema(model.project.id,
+                                             model.type.id)
+          end
         end
       end
     end
