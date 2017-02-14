@@ -40,6 +40,7 @@ module API
               QueryRepresenter.new(query,
                                    current_user: current_user,
                                    results: representer.result,
+                                   embed_links: true,
                                    params: params)
             else
               raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
