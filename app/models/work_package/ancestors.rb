@@ -37,7 +37,11 @@ module WorkPackage::Ancestors
     # Retrieve stored eager loaded ancestors
     # or use awesome_nested_set#ancestors reduced by visibility
     def visible_ancestors(user)
-      work_package_ancestors.presence || WorkPackage.visible(user).merge(ancestors)
+      if work_package_ancestors.nil?
+        WorkPackage.visible(user).merge(ancestors)
+      else
+        work_package_ancestors
+      end
     end
   end
 
