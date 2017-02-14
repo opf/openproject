@@ -372,8 +372,7 @@ fieldset.form--fieldset
 
 .form--label-required
   @include default-transition
-  color:        $primary-color-dark
-  color:   var(--primary-color-dark)
+  @include varprop(color, primary-color-dark)
   padding: 0 0.325rem
 
   .form--label.-error &
@@ -660,12 +659,10 @@ input[readonly].-clickable
       &::after
         @include default-transition
         content:  '*'
-        color:      $primary-color-dark
-        color: var(--primary-color-dark)
+        @include varprop(color, primary-color-dark)
         padding:  0 0.325rem
       &:hover::after
-        color:      $primary-color
-        color: var(--primary-color)
+        @include varprop(color, primary-color)
 
     > a
       display: block
@@ -751,25 +748,19 @@ textarea
 // Overwriting Foundation color variables.
 // Unfortunatel I do not know how to get it DRY.
 input[type=range]::-moz-range-thumb
-  background: $primary-color
-  background: var(--primary-color)
+  @include varprop(background, primary-color)
 
 input[type=range]::-webkit-slider-thumb
-  background: $primary-color
-  background: var(--primary-color)
+  @include varprop(background, primary-color)
 
 input[type=range]::-ms-thumb
-  background: $primary-color
-  background: var(--primary-color)
+  @include varprop(background, primary-color)
 
 input[type=range]::-moz-range-thumb:hover
-  background: $primary-color-dark
-  background: var(--primary-color-dark)
+  @include varprop(background, primary-color-dark)
 
 input[type=range]::-webkit-slider-thumb:hover
-  background: $primary-color-dark
-  background: var(--primary-color-dark)
+  @include varprop(background, primary-color-dark)
 
 input[type=range]::-ms-thumb:hover
-  background: $primary-color-dark
-  background: var(--primary-color-dark)
+  @include varprop(background, primary-color-dark)

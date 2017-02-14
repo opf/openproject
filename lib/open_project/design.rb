@@ -195,7 +195,7 @@ module OpenProject
       'button--active-font-color'                            => "#bbbbbb",
       'button--active-background-color'                      => "#eeeeee",
       'button--active-border-color'                          => "#cacaca",
-      'button--alt-highlight-background-hover-color'         => "#860045",
+      'button--alt-highlight-background-hover-color'         => "#227d28",
       'button--highlight-font-color'                         => "$font-color-on-primary",
       'button--highlight-background-color'                   => "$primary-color",
       'button--highlight-background-hover-color'             => "$primary-color-dark",

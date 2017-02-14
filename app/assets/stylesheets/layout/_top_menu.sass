@@ -39,15 +39,15 @@
     text-indent: -9999em
 
 #top-menu
-  background-color:      $header-bg-color
-  background-color: var(--header-bg-color)
+  @include varprop(background-color, header-bg-color)
   height: $header-height
   width: 100%
   padding: 0
   z-index: 22
   position: relative
-  border-bottom: $header-border-bottom-width solid      $header-border-bottom-color
-  border-bottom: $header-border-bottom-width solid var(--header-border-bottom-color)
+  border-bottom-style: solid
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
 
   %absolute-layout-mode &
     position: absolute
@@ -79,8 +79,7 @@
       padding: 0 15px 0 15px
 
     > a:hover
-      background:      $header-item-bg-hover-color
-      background: var(--header-item-bg-hover-color)
+      @include varprop(background, header-item-bg-hover-color)
 
       color: $header-item-font-hover-color
     > ul
@@ -121,11 +120,9 @@
         padding: 0 0 0 9px
         @extend .icon-pulldown:before
     &:hover
-      background-color:      $header-item-bg-hover-color
-      background-color: var(--header-item-bg-hover-color)
+      @include varprop(background-color, header-item-bg-hover-color)
     &.open > a
-      background-color:      $header-item-bg-hover-color
-      background-color: var(--header-item-bg-hover-color)
+      @include varprop(background-color, header-item-bg-hover-color)
       color: $header-item-font-hover-color
       &:after
         @include icon-font-common
@@ -138,8 +135,7 @@
         color: $header-drop-down-item-font-color
         padding: 0 15px
         &:hover
-          background:      $header-item-bg-hover-color
-          background: var(--header-item-bg-hover-color)
+          @include varprop(background, header-item-bg-hover-color)
           color: $header-drop-down-item-font-hover-color
 
     > ul
@@ -216,8 +212,7 @@
   .top-menu-search.-collapsed &
     display: block
     &:hover
-      background:      $header-item-bg-hover-color
-      background: var(--header-item-bg-hover-color)
+      @include varprop(background, header-item-bg-hover-color)
       color: $header-item-font-hover-color
 
 input.top-menu-search--input
@@ -315,6 +310,9 @@ input.top-menu-search--input
     border: 2px solid $header-item-font-color
     border-radius: 50%
     padding: 0.25rem
+
+  .icon-help:hover:before
+    border-color: $header-item-font-hover-color 
   .icon-user
     font-size: 18px
 

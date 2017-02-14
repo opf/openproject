@@ -88,8 +88,7 @@ table.timelines-dates {
 }
 
 a.tl-discreet-link:hover, input.icon:hover {
-  color:      $primary-color-dark;
-  color: var(--primary-color-dark);
+  @include varprop(color, --primary-color-dark);
   text-decoration: underline;
 }
 

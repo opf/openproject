@@ -51,29 +51,22 @@ a.button
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
     @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
-    border-color:      $button--highlight-background-color
-    border-color: var(--button--highlight-background-color)
+    @include varprop(border-color, button--highlight-background-color)
 
     &:hover, &:focus
-      border-color:      $button--highlight-background-hover-color
-      border-color: var(--button--highlight-background-hover-color)
-
-
+      @include varprop(border-color, button--highlight-background-hover-color)
 
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
     @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), $button--alt-highlight-font-color, $button-style)
-    border-color:      $button--alt-highlight-background-color
-    border-color: var(--button--alt-highlight-background-color)
+    @include varprop(border-color, button--alt-highlight-background-color)
 
     &:hover, &:focus
-      border-color:      $button--alt-highlight-background-hover-color
-      border-color: var(--button--alt-highlight-background-hover-color)
-
+      @include varprop(border-color, button--alt-highlight-background-hover-color)
 
   &.-active
     @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
-    border-color: $button--active-border-color
+    @include varprop(border-color, button--active-border-color)
     box-shadow: 0 0 3px $button--active-border-color inset
 
 
@@ -82,7 +75,7 @@ a.button
     border-color: transparent
 
     &:hover, &:focus
-      border-color: $button--border-color
+      @include varprop(border-color, button--border-color)
 
     &.-active
       background: $button--active-background-color

@@ -62,9 +62,9 @@ body
     top:      55px
     bottom:   0
     overflow: hidden
-    border:
-      bottom: 5px solid      $footer-bg-color
-      bottom: 5px solid var(--footer-bg-color)
+    border-bottom-width: 5px
+    border-bottom-style: solid
+    @include varprop(border-bottom-color, footer-bg-color)
 
   &.nomenus
     padding-bottom: 0
