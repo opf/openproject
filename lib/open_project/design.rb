@@ -184,7 +184,24 @@ module OpenProject
       'table-row-border-color'                               => "#E7E7E7",
       'table-row-highlighting-color'                         => "#e4f7fb",
       'table-header-border-color'                            => "#D7D7D7",
-      'table-header-shadow-color'                            => "#DDDDDD"
+      'table-header-shadow-color'                            => "#DDDDDD",
+      'loading-indicator-bg-color'                           => "$body-background",
+      'loading-indicator-bg-opacity'                         => "0.8",
+      'loading-indicator-spinner-color'                      => "$primary-color",
+      'button--font-color'                                   => "#222222",
+      'button--background-color'                             => "$gray-light",
+      'button--background-hover-color'                       => "#ededed",
+      'button--border-color'                                 => "#dddddd",
+      'button--active-font-color'                            => "#bbbbbb",
+      'button--active-background-color'                      => "#eeeeee",
+      'button--active-border-color'                          => "#cacaca",
+      'button--alt-highlight-background-hover-color'         => "#860045",
+      'button--highlight-font-color'                         => "$font-color-on-primary",
+      'button--highlight-background-color'                   => "$primary-color",
+      'button--highlight-background-hover-color'             => "$primary-color-dark",
+      'button--alt-highlight-font-color'                     => "$font-color-on-alternative",
+      'button--alt-highlight-background-color'               => "$alternative-color",
+      'button--text-icon-spacing'                            => "0.65em"
     }.freeze
 
     ##

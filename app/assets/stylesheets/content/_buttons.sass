@@ -26,34 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$button--font-color:                        #222222 !default
-$button--background-color:                  $gray-light !default
-$button--background-hover-color:            darken($button--background-color, 4.5%)  !default
-$button--border-color:                      darken($button--background-color, 10.5%) !default
-
-$button--active-font-color:                 darken($button--background-color, 24%) !default
-$button--active-background-color:           darken($button--background-color, 4%)  !default
-$button--active-border-color:               darken($button--background-color, 18%) !default
-
-$button--highlight-font-color:              $font-color-on-primary !default
-$button--highlight-background-color:        $primary-color !default
-\:root
-  --button--highlight-background-color: var(--primary-color)
-$button--highlight-background-hover-color:  $primary-color-dark !default
-\:root
-  --button--highlight-background-hover-color: var(--primary-color-dark)
-
-$button--alt-highlight-font-color:                $font-color-on-alternative !default
-$button--alt-highlight-background-color:          $alternative-color !default
-\:root
-  --button--alt-highlight-background-color: var(--alternative-color)
-$button--alt-highlight-background-hover-color:    darken($alternative-color, 18%) !default
-\:root
-  <% environment.context_class.instance_eval { include ApplicationHelper } %>
-  --button--alt-highlight-background-hover-color: <%= darken_color DesignColor.defaults['alternative-color'], 0.82 %>
-
-$button--text-icon-spacing:                 0.65em !default
-
 .button,
 a.button
   @extend %button
