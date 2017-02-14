@@ -74,7 +74,7 @@ if (window.RB === null || window.RB === undefined) {
         var obj;
 
         obj = object.create(objType);
-        obj.initialize(el);
+        obj.initialSetup(el);
         return obj;
       }
 
