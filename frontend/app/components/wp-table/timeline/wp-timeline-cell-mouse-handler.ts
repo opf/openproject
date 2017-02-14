@@ -211,6 +211,7 @@ export function registerWorkPackageMouseHandler(this: void,
     if (cancelled) {
       // cancelled
       renderer.onCancel(wp);
+      wpCacheService.updateWorkPackage(wp);
       workPackageTimeline.refreshView();
     } else {
       // Persist the changes
