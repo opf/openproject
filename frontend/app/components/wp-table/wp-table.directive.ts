@@ -29,21 +29,30 @@
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 import * as MouseTrap from "mousetrap";
-
+import {States} from './../states.service';
+import { WorkPackageCacheService } from '../work-packages/work-package-cache.service';
+import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
+import {ContextMenuService} from '../context-menus/context-menu.service';
+import {debugLog} from '../../helpers/debug_output';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
 function wpTable(
-  WorkPackagesTableService,
+  states:States,
+  wpDisplayField:WorkPackageDisplayFieldService,
+  wpCacheService:WorkPackageCacheService,
   WorkPackageService,
   keepTab:KeepTabService,
+  I18n,
   QueryService,
   $window,
   $rootScope,
   PathHelper,
   columnsModal,
+  contextMenu:ContextMenuService,
   apiWorkPackages,
   $state
 ){
@@ -54,7 +63,7 @@ function wpTable(
     scope: {
       projectIdentifier: '=',
       columns: '=',
-      rows: '=',
+      rowcount: '=',
       query: '=',
       groupBy: '=',
       groupHeaders: '=',
@@ -69,32 +78,25 @@ function wpTable(
     link: function(scope, element) {
       var activeSelectionBorderIndex;
 
-      // Total columns = all available columns + id + action link
+      // Clear any old table subscribers
+      states.table.stopAllSubscriptions.next();
+
+      var t0 = performance.now();
+      scope.tbody = element.find('.work-package--results-tbody');
+      scope.table = new WorkPackageTable(scope.tbody[0]);
+
+      var t1 = performance.now();
+      debugLog("Render took " + (t1 - t0) + " milliseconds.")
+
+      // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;
 
-      scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
       scope.workPackagePath = PathHelper.workPackagePath;
 
       var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
       scope.adaptVerticalPosition = function(event) {
         event.pageY -= topMenuHeight;
       };
-
-      applyGrouping();
-
-      scope.$watchCollection('columns', function() {
-        // force Browser rerender
-        element.hide().show(0);
-        scope.numTableColumns = scope.columns.length + 2;
-
-        angular.element($window).trigger('resize');
-      });
-      scope.$watchCollection('rows', function() {
-        // force Browser rerender
-        element.hide().show(0);
-
-        angular.element($window).trigger('resize');
-      });
 
       scope.sumsLoaded = function() {
         return scope.displaySums &&
@@ -107,8 +109,6 @@ function wpTable(
         if (scope.displaySums) {
           fetchSumsSchema();
         }
-
-        applyGrouping();
       });
 
       scope.$watch('displaySums', function(sumsToBeDisplayed) {
@@ -118,45 +118,12 @@ function wpTable(
         }
       });
 
-      // Bind CTRL+A to select all work packages
-      Mousetrap.bind(['command+a', 'ctrl+a'], function(e) {
-        scope.$evalAsync(() => {
-          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, true);
-        });
-
-        e.preventDefault();
-        return false;
-      });
-
-      // Bind CTRL+D to deselect all work packages
-      Mousetrap.bind(['command+d', 'ctrl+d'], function(e) {
-        scope.$evalAsync(() => {
-          WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, false);
-        });
-
-        e.preventDefault();
-        return false;
-      });
-
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
       scope.desiredSplitViewState = keepTab.currentDetailsState;
       scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
         scope.desiredSplitViewState = tabs.details;
       });
-
-      function applyGrouping() {
-        if (scope.groupByColumn != scope.workPackagesTableData.groupByColumn) {
-          scope.groupByColumn = scope.workPackagesTableData.groupByColumn;
-          scope.grouped = scope.groupByColumn !== undefined;
-          scope.groupExpanded = {};
-
-          // Open new groups by default
-          Object.keys(scope.groupHeaders).forEach((key) => {
-            scope.groupExpanded[key] = true;
-          });
-        }
-      }
 
       function fetchTotalSums() {
         apiWorkPackages
@@ -182,117 +149,9 @@ function wpTable(
         }
       }
 
-      scope.setCheckedStateForAllRows = function(state) {
-        WorkPackagesTableService.setCheckedStateForAllRows(scope.rows, state);
-      };
-
-      // Thanks to http://stackoverflow.com/a/880518
-      function clearSelection() {
-        var selection = (document as any).selection;
-        if(selection && selection.empty) {
-          selection.empty();
-        } else if(window.getSelection) {
-          var sel = window.getSelection();
-          sel.removeAllRanges();
-        }
-      }
-
-      function setRowSelectionState(row, selected) {
-        activeSelectionBorderIndex = scope.rows.indexOf(row);
-        WorkPackagesTableService.setRowSelection(row, selected);
-      }
-
-      function openWhenInSplitView(workPackage) {
-        if ($state.includes('work-packages.list.details')) {
-          $state.go(
-            $state.$current.name,
-            { workPackageId: workPackage.id }
-          );
-        }
-      }
-
-      function mulipleRowsChecked(){
-        var counter = 0;
-        for (var i = 0, l = scope.rows.length; i<l; i++) {
-          if (scope.rows[i].checked) {
-            if (++counter === 2) {
-              return true;
-            }
-          }
-        }
-        return false;
-      }
-
-      scope.selectWorkPackage = function(row, $event) {
-        // The current row is the last selected work package
-        // not matter what other rows are (de-)selected below.
-        // Thus save that row for the details view button
-        WorkPackageService.cache().put('preselectedWorkPackageId', row.object.id);
-
-        var currentRowCheckState = row.checked;
-        var multipleChecked = mulipleRowsChecked();
-        var isLink = angular.element($event.target).is('a');
-
-        if (!($event.ctrlKey || $event.shiftKey)) {
-          scope.setCheckedStateForAllRows(false);
-        }
-
-        if(isLink) {
-          return;
-        }
-
-        if ($event.shiftKey) {
-          clearSelection();
-          activeSelectionBorderIndex = WorkPackagesTableService.selectRowRange(scope.rows, row, activeSelectionBorderIndex);
-        } else if($event.ctrlKey || $event.metaKey){
-          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-        } else {
-          setRowSelectionState(row, multipleChecked ? true : !currentRowCheckState);
-        }
-
-        // Avoid bubbling of elements within the details link
-        if ($event.target.parentElement.className.indexOf('wp-table--details-link') === -1) {
-          openWhenInSplitView(row.object);
-        }
-      };
-
-      scope.openWorkPackageInFullView = function(row) {
-        clearSelection();
-
-        scope.setCheckedStateForAllRows(false);
-
-        setRowSelectionState(row, true);
-
-        scope.activationCallback({ id: row.object.id, force: true });
-      };
-
-      /** Expand current columns with erroneous columns */
-      scope.handleErroneousColumns = function(workPackage, editFields, errorFieldNames)  {
-        if (errorFieldNames.length === 0) { return; }
-
-        var selected = QueryService.getSelectedColumnNames();
-        var active = _.find(editFields, (f:any) => f.active);
-
-        errorFieldNames.reverse().map(name => {
-          if (selected.indexOf(name) === -1) {
-          selected.splice(selected.indexOf(active.fieldName) + 1, 0, name);
-        }
-      });
-
-        QueryService.setSelectedColumns(selected);
-        return _.find(selected, (column) => errorFieldNames.indexOf(column) !== -1);
-      };
-
-      /** Save callbacks for work package */
-     scope.onWorkPackageSave = function(workPackage, fields) {
-       $rootScope.$emit('workPackageSaved', workPackage);
-       $rootScope.$emit('workPackagesRefreshInBackground');
-     };
-
      /** Open the settings modal */
      scope.openColumnsModal = function() {
-       scope.$emit('hideAllDropdowns');
-       scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+       contextMenu.close();
        columnsModal.activate();
      };
     }
@@ -304,8 +163,6 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
 
   $scope.text = {
     cancel: I18n.t('js.button_cancel'),
-    collapse: I18n.t('js.label_collapse'),
-    expand: I18n.t('js.label_expand'),
     sumFor: I18n.t('js.label_sum_for'),
     allWorkPackages: I18n.t('js.label_all_work_packages'),
     noResults: {
@@ -323,11 +180,6 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
       I18n.t('js.work_packages.table.text_sort_hint')
     ].join(' ')
   };
-
-  $scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
-    $scope.text.toggleRows =
-        checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
-  });
 
   $scope.cancelInlineWorkPackage = function (index, row) {
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);

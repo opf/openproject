@@ -29,17 +29,21 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {States} from '../../states.service';
 
 export class WorkPackageViewButtonController extends WorkPackageNavigationButtonController {
   public workPackageId:number;
-  public nextWpFunc:Function;
 
   public accessKey:number = 9;
   public activeState:string = 'work-packages.show';
   public buttonId:string = 'work-packages-show-view-button';
   public iconClass:string = 'icon-view-fullscreen';
 
-  constructor(public $state, public I18n, public loadingIndicator, public keepTab:KeepTabService) {
+  constructor(public $state,
+              public states:States,
+              public I18n,
+              public loadingIndicator,
+              public keepTab:KeepTabService) {
     'ngInject';
 
     super($state, I18n);
@@ -54,11 +58,12 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   }
 
   public openWorkPackageShowView() {
-    var args = ['work-packages.new', this.$state.params];
+    let args = ['work-packages.new', this.$state.params];
+    let id = this.$state.params.workPackageId || this.workPackageId || this.states.focusedWorkPackage.getCurrentValue();
 
     if (!this.$state.is('work-packages.list.new')) {
-      var params = {
-        workPackageId: this.$state.params.workPackageId || this.workPackageId || this.nextWpFunc()
+      let params = {
+        workPackageId: id
       };
       args = [this.keepTab.currentShowState, params];
 
@@ -73,7 +78,6 @@ function wpViewButton():ng.IDirective {
   return wpButtonDirective({
     scope: {
       workPackageId: '=?',
-      nextWpFunc: '=?'
     },
 
     controller: WorkPackageViewButtonController,

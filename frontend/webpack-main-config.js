@@ -37,7 +37,8 @@ var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
-var uglify = (mode !== 'development');
+var production = (mode !== 'development');
+var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 
@@ -148,6 +149,12 @@ function getWebpackMainConfig() {
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
       TypeScriptDiscruptorPlugin,
 
+      // Define modes for debug output
+      new webpack.DefinePlugin({
+        DEBUG: !!debug_output,
+        PRODUCTION: !!production
+      }),
+
       // Extract CSS into its own bundle
       new ExtractTextPlugin({
         filename: 'openproject-[name].css',
@@ -169,7 +176,7 @@ function getWebpackMainConfig() {
     ]
   };
 
-  if (uglify) {
+  if (production) {
     console.log("Applying webpack.optimize plugins for production.");
     // Add compression and optimization plugins
     // to the webpack build.

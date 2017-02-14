@@ -32,11 +32,13 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
+import {States} from '../../states.service';
 
 export class WorkPackageViewController {
 
   protected $q:ng.IQService;
   protected $state:ng.ui.IStateService;
+  protected states:States;
   protected $rootScope:ng.IRootScopeService;
   protected keepTab:KeepTabService;
   protected wpCacheService:WorkPackageCacheService;
@@ -61,7 +63,7 @@ export class WorkPackageViewController {
 
   constructor(public $injector, public $scope, protected workPackageId) {
     this.$inject('$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
-                 'wpEditModeState', 'PathHelper', 'I18n');
+                 'states', 'wpEditModeState', 'PathHelper', 'I18n');
 
     this.initialized = this.$q.defer();
     this.initializeTexts();
@@ -107,7 +109,7 @@ export class WorkPackageViewController {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
-    this.WorkPackageService.cache().put('preselectedWorkPackageId', this.workPackage.id);
+    this.states.focusedWorkPackage.put(this.workPackage.id);
 
     // Listen to tab changes to update the tab label
     scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {

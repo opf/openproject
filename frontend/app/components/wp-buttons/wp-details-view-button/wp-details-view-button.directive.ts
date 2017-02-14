@@ -32,14 +32,17 @@ import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 export class WorkPackageDetailsViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
-  public nextWpFunc:Function;
 
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
   public buttonId:string = 'work-packages-details-view-button';
   public iconClass:string = 'icon-view-split';
 
-  constructor(public $state, public I18n, public loadingIndicator, public keepTab:KeepTabService) {
+  constructor(public $state,
+              public states,
+              public I18n,
+              public loadingIndicator,
+              public keepTab:KeepTabService) {
     'ngInject';
 
     super($state, I18n);
@@ -55,7 +58,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
 
   public openDetailsView() {
     var params = {
-      workPackageId: this.nextWpFunc && this.nextWpFunc(),
+      workPackageId: this.states.focusedWorkPackage.getCurrentValue(),
       projectPath: this.projectIdentifier,
     };
 
@@ -69,8 +72,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
 function wpDetailsViewButton() {
   return wpButtonDirective({
     scope: {
-      projectIdentifier: '=?',
-      nextWpFunc: '=?'
+      projectIdentifier: '=?'
     },
 
     controller: WorkPackageDetailsViewButtonController,

@@ -69,14 +69,13 @@
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <div class="work-packages--list"
-       cg-busy="{promise: loadingIndicator.mainPage, message: I18n.t('js.label_please_wait')}">
-
-    <div class="work-packages--list-table-area">
-      <wp-table ng-if="rows && columns"
+  <div class="work-packages--list">
+    <div class="work-packages--list-table-area loading-indicator--location"
+         data-indicator-name="table">
+      <wp-table ng-if="columns"
                 project-identifier="projectIdentifier"
                 columns="columns"
-                rows="rows"
+                rowcount="rowcount"
                 query="query"
                 queryError="queryError"
                 group-by="query.groupBy"
@@ -88,7 +87,7 @@
     </div>
 
     <div class="work-packages--list-pagination-area">
-      <table-pagination total-entries="totalEntries">
+      <table-pagination>
       </table-pagination>
     </div>
 

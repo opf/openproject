@@ -26,15 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import { expect } from 'chai';
-declare var Factory:any;
-
 describe('workPackageContextMenu', () => {
   var container;
   var contextMenu;
   var $rootScope;
   var stateParams = {};
+  var setSelection;
   var ngContextMenu;
+  var wpTableSelection;
 
   beforeEach(angular.mock.module('ng-context-menu',
     'openproject',
@@ -46,6 +45,7 @@ describe('workPackageContextMenu', () => {
     'openproject.templates'));
 
   beforeEach(angular.mock.module('openproject.templates', ($provide) => {
+    setSelection = sinon.spy();
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false),
       accessibilityModeEnabled: sinon.stub().returns(false),
@@ -60,9 +60,15 @@ describe('workPackageContextMenu', () => {
     container = angular.element('<div></div>');
   });
 
-  beforeEach(angular.mock.inject((_$rootScope_, _ngContextMenu_, $templateCache) => {
+  beforeEach(angular.mock.inject((_$rootScope_, _ngContextMenu_, _wpTableSelection_, $templateCache) => {
+    wpTableSelection = _wpTableSelection_;
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
+
+
+    sinon.stub(wpTableSelection, 'getSelectedWorkPackages').returns([]);
+    sinon.stub(wpTableSelection, 'isSelected').returns(false);
+    setSelection = sinon.stub(wpTableSelection, 'setSelection');
 
     var template = $templateCache
       .get('/components/context-menus/wp-context-menu/wp-context-menu.service.html');
@@ -119,7 +125,7 @@ describe('workPackageContextMenu', () => {
     });
 
     it('sets the checked property of the row within the context to true', () => {
-      expect($rootScope.row.checked).to.be.true;
+      expect(setSelection).to.have.been.calledWith($rootScope.row);
     });
 
     describe('when delete is permitted on a work package', () => {

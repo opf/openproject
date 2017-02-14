@@ -30,11 +30,11 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 export class WatchersPanelController {
 
   public workPackage: WorkPackageResourceInterface;
-  public loadingPromise: ng.IPromise<any>;
   public autocompleteLoadingPromise: ng.IPromise<any>;
   public autocompleteInput = '';
   public error = false;
@@ -50,6 +50,7 @@ export class WatchersPanelController {
               public I18n,
               public $templateCache:ng.ITemplateCacheService,
               public $compile:ng.ICompileService,
+              public loadingIndicator:LoadingIndicatorService,
               public wpNotificationsService: WorkPackageNotificationService,
               public wpCacheService: WorkPackageCacheService) {
 
@@ -65,7 +66,7 @@ export class WatchersPanelController {
       return;
     }
 
-    wpCacheService.loadWorkPackage(<number> this.workPackage.id).observeOnScope($scope)
+    wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadCurrentWatchers();
@@ -108,6 +109,10 @@ export class WatchersPanelController {
       _renderItem: (ul:JQuery, item) => this.renderWatcherItem(ul, item)
     })
     .autocomplete( "instance" )._renderItem = (ul, item) => this.renderWatcherItem(ul,item);
+  }
+
+  public set loadingPromise(promise) {
+    this.loadingIndicator.wpDetails.promise = promise;
   }
 
   public renderWatcherItem(ul:JQuery, item:{value: string, watcher: any}) {
@@ -157,7 +162,7 @@ export class WatchersPanelController {
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been added
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.autocompleteInput = '';
       })
       .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
@@ -170,7 +175,7 @@ export class WatchersPanelController {
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
-        this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true);
+        this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
       .catch((error) => this.wpNotificationsService.showError(error, this.workPackage));
   };

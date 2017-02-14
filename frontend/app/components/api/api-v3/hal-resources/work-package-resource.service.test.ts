@@ -48,7 +48,7 @@ describe('WorkPackageResource service', () => {
   var workPackage: any;
 
   const createWorkPackage = () => {
-    source = source || {};
+    source = source || { id: 'new' };
     workPackage = new WorkPackageResource(source);
   };
 
@@ -82,8 +82,6 @@ describe('WorkPackageResource service', () => {
       NotificationsService,
       wpNotificationsService
     ] = _.toArray(arguments);
-
-    source = {};
   }));
 
   it('should exist', () => {

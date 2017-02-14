@@ -1,3 +1,4 @@
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,6 +34,7 @@ import {WorkPackageCacheService} from "../work-packages/work-package-cache.servi
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {States} from '../states.service';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource|any;
@@ -70,9 +72,11 @@ export class WorkPackageCreateController {
               protected $q:ng.IQService,
               protected I18n:op.I18n,
               protected wpNotificationsService:WorkPackageNotificationService,
+              protected states:States,
               protected loadingIndicator,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
+              protected wpTableSelection:WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService) {
 
     this.newWorkPackageFromParams($state.params)
@@ -109,6 +113,7 @@ export class WorkPackageCreateController {
 
   public refreshAfterSave(wp, successState) {
     this.wpEditModeState.onSaved();
+    this.wpTableSelection.focusOn(wp.id);
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
         this.$rootScope.$emit('workPackagesRefreshInBackground');

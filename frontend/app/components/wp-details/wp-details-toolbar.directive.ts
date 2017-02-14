@@ -33,6 +33,7 @@ import {openprojectModule} from "../../angular-modules";
 function wpDetailsToolbar(
   PERMITTED_MORE_MENU_ACTIONS,
   $state,
+  states,
   $window,
   I18n,
   HookService,
@@ -114,7 +115,7 @@ function wpDetailsToolbar(
         var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
 
         promise.success(function() {
-          WorkPackageService.cache().remove('preselectedWorkPackageId');
+          states.focusedWorkPackage.clear();
           $state.go('work-packages.list');
         });
       }

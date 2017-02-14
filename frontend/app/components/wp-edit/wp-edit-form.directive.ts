@@ -122,7 +122,7 @@ export class WorkPackageEditFormController {
     return this.updateWorkPackage();
   }
 
-  public updateWorkPackage() {
+  public updateWorkPackage():Promise<WorkPackageResource> {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       return this.$q.when(this.workPackage);
     }

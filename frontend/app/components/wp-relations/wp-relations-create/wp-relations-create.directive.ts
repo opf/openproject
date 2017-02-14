@@ -18,7 +18,6 @@ export class WorkPackageRelationsCreateController {
 
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
-  public loadingPromise = false;
   public isDisabled = false;
 
   constructor(protected I18n,
@@ -76,7 +75,7 @@ export class WorkPackageRelationsCreateController {
 
   protected addExistingChildRelation() {
     return this.wpRelationsHierarchyService.addExistingChildWp(this.workPackage, this.selectedWpId)
-      .then(() => this.wpCacheService.loadWorkPackage(<number> this.workPackage.id, true))
+      .then(() => this.wpCacheService.loadWorkPackage(this.workPackage.id, true))
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
       .finally(() => this.toggleRelationsCreateForm());
   }

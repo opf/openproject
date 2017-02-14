@@ -34,8 +34,6 @@ export class DurationDisplayField extends DisplayField {
   private WorkPackagesHelper:any;
   private TimezoneService:any;
 
-  isManualRenderer = true;
-
   constructor(public resource:WorkPackageResource,
               public name:string,
               public schema) {

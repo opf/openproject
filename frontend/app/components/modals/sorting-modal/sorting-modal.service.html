@@ -6,7 +6,9 @@
     <h3>{{ ::I18n.t('js.label_sorting') }}</h3>
 
     <form name="modalSortingForm">
-      <div id="modal-sorting" class="modal-content-container" cg-busy="{promise: promise, message: I18n.t('js.label_please_wait')}">
+      <div id="modal-sorting"
+           class="modal-content-container loading-indicator--location"
+           data-indicator-name="sorting-modal">
         <div class="form--row" ng-repeat="element in sortElements">
           <div class="form--field -full-width">
             <label

@@ -30,7 +30,7 @@
 describe('loadingIndicator service', () => {
   var loadingIndicator;
 
-  beforeEach(angular.mock.module('openproject.workPackages.services'));
+  beforeEach(angular.mock.module('openproject.services'));
 
   beforeEach(angular.mock.inject((_loadingIndicator_) => {
     loadingIndicator = _loadingIndicator_;

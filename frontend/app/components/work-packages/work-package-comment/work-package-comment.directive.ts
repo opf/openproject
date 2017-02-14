@@ -32,11 +32,11 @@ import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 export class CommentFieldDirectiveController {
   public workPackage:WorkPackageResourceInterface;
   public field:WorkPackageCommentField;
-  public loadingPromise:ng.IPromise<any>;
 
   protected text:Object;
 
@@ -52,6 +52,7 @@ export class CommentFieldDirectiveController {
               protected $element,
               protected ActivityService,
               protected ConfigurationService,
+              protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected NotificationsService,
@@ -104,7 +105,8 @@ export class CommentFieldDirectiveController {
     }
 
     this.field.isBusy = true;
-    this.loadingPromise = this.ActivityService.createComment(this.workPackage, this.field.value)
+    let indicator = this.loadingIndicator.wpDetails;
+    indicator.promise = this.ActivityService.createComment(this.workPackage, this.field.value)
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));

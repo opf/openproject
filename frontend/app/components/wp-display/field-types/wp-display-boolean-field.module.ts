@@ -30,8 +30,6 @@ import {DisplayField} from "../wp-display-field/wp-display-field.module";
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service"
 
 export class BooleanDisplayField extends DisplayField {
-  
-  isManualRenderer = true;
 
   public WorkPackagesHelper:op.WorkPackagesHelper;
 

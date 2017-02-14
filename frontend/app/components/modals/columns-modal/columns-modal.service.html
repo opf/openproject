@@ -1,4 +1,5 @@
-<div class="ng-modal-window columns-modal">
+<div class="ng-modal-window columns-modal loading-indicator--location"
+     data-indicator-name="modal">
   <div class="ng-modal-inner">
     <div class="modal-header">
       <a>
@@ -12,9 +13,7 @@
 
     <h3>{{ ::$ctrl.text.columnsLabel }}</h3>
 
-    <div
-        cg-busy="{promise: $ctrl.promise, message: I18n.t('js.label_please_wait')}"
-        class="columns-modal-content select2-modal-content"
+    <div class="columns-modal-content select2-modal-content"
         ng-if="!$ctrl.impaired">
 
       <label
@@ -52,7 +51,6 @@
     </div>
 
     <div
-        cg-busy="{promise: $ctrl.promise, message: I18n.t('js.label_please_wait')}"
         class="columns-modal-content select2-modal-content"
         ng-if="$ctrl.impaired">
       <label

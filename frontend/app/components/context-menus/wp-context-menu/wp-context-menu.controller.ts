@@ -26,28 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {ContextMenuService} from '../context-menu.service';
 function wpContextMenuController($scope,
                                  $rootScope,
                                  $state,
-                                 WorkPackagesTableHelper,
                                  WorkPackageContextMenuHelper,
                                  WorkPackageService,
-                                 WorkPackagesTableService,
-                                 wpEditModeState,
+                                 contextMenu:ContextMenuService,
                                  I18n,
                                  $window,
+                                 wpTableSelection:WorkPackageTableSelection,
                                  PERMITTED_CONTEXT_MENU_ACTIONS) {
 
   $scope.I18n = I18n;
 
-  $scope.$watch('row', function () {
-    if (!$scope.row.checked) {
-      WorkPackagesTableService.setCheckedStateForAllRows($scope.rows, false);
-    }
+  if (!wpTableSelection.isSelected($scope.row.object.id)) {
+    wpTableSelection.setSelection($scope.row);
+  }
 
-    $scope.row.checked = true;
-    $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
-  });
+  $scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(getSelectedWorkPackages(), PERMITTED_CONTEXT_MENU_ACTIONS);
 
   $scope.isDetailsViewLinkPresent = function () {
     return !!angular.element('#work-package-context-menu li.open').length;
@@ -76,12 +74,11 @@ function wpContextMenuController($scope,
   };
 
   function emitClosingEvents() {
-    $scope.$emit('hideAllDropdowns');
-    $scope.$root.$broadcast('openproject.dropdown.closeDropdowns', true);
+    contextMenu.close();
   }
 
   function deleteSelectedWorkPackages() {
-    var ids = getSelectedWorkPackages().map(wp => wp.id);
+    let ids = wpTableSelection.getSelectedWorkPackageIds();
 
     WorkPackageService.performBulkDelete(ids, true);
   }
@@ -101,25 +98,19 @@ function wpContextMenuController($scope,
     $state.transitionTo('work-packages.show.edit', params);
   }
 
-  function getWorkPackagesFromSelectedRows() {
-    var selectedRows = WorkPackagesTableHelper.getSelectedRows($scope.rows);
-
-    return WorkPackagesTableHelper.getWorkPackagesFromRows(selectedRows);
-  }
-
   function getSelectedWorkPackages() {
-    var workPackagefromContext = $scope.row.object;
-    var workPackagesfromSelectedRows = getWorkPackagesFromSelectedRows();
+    let workPackagefromContext = $scope.row.object;
+    let selectedWorkPackages = wpTableSelection.getSelectedWorkPackages();
 
-    if (workPackagesfromSelectedRows.length === 0) {
+    if (selectedWorkPackages.length === 0) {
       return [workPackagefromContext];
     }
-    else if (workPackagesfromSelectedRows.indexOf(workPackagefromContext) === -1) {
-      return [workPackagefromContext].concat(workPackagesfromSelectedRows);
+
+    if (selectedWorkPackages.indexOf(workPackagefromContext) === -1) {
+      selectedWorkPackages.push(workPackagefromContext);
     }
-    else {
-      return workPackagesfromSelectedRows;
-    }
+
+    return selectedWorkPackages;
   }
 }
 

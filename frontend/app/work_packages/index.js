@@ -29,7 +29,6 @@
 require('./config');
 require('./controllers');
 require('./directives');
-require('./filters');
 require('./helpers');
 require('./models');
 require('./services');

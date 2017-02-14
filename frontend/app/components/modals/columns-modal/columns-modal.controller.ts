@@ -27,11 +27,13 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 
 function ColumnsModalController($scope,
                                 $timeout,
                                 I18n,
                                 columnsModal,
+                                wpTableColumns:WorkPackageTableColumnsService,
                                 QueryService,
                                 ConfigurationService) {
   var vm = this;
@@ -80,7 +82,7 @@ function ColumnsModalController($scope,
   }
 
   vm.updateSelectedColumns = () => {
-    QueryService.setSelectedColumns(getColumnNames(vm.selectedColumns));
+    wpTableColumns.setColumns(vm.selectedColumns.map(c => c.name));
 
     columnsModal.deactivate();
   };

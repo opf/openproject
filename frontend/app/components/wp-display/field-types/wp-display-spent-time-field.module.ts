@@ -33,8 +33,6 @@ export class SpentTimeDisplayField extends DurationDisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-spent-time-field.directive.html';
   public text: any;
   public timeEntriesLink: string;
-  public isManualRenderer = false;
-
   private PathHelper:any;
 
   constructor(public resource: WorkPackageResourceInterface,
@@ -47,13 +45,29 @@ export class SpentTimeDisplayField extends DurationDisplayField {
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_view_spent_time')
     };
+  }
 
-    if (resource.project) {
-      resource.project.$load().then(project => {
-        this.timeEntriesLink = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
-          .search({ work_package_id: resource.id })
+  public render(element: HTMLElement, displayText:string): void {
+    if (!this.value) {
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.textContent = displayText;
+    link.setAttribute('title', this.text.linkTitle);
+
+    if (this.resource.project) {
+      this.resource.project.$load().then(project => {
+        const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+          .search({ work_package_id: this.resource.id })
           .toString();
+
+          link.href = href;
       });
     }
+
+    element.innerHTML = '';
+    element.appendChild(link);
   }
+
 }

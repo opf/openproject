@@ -92,7 +92,7 @@ describe 'Switching types in work package table', js: true do
     )
 
     # Old text field should disappear
-    text_field.expect_state_text '-'
+    text_field.expect_state_text ''
 
     # Required CF requires activation
     req_text_field.activate!
@@ -122,6 +122,6 @@ describe 'Switching types in work package table', js: true do
       message: 'Successful update. Click here to open this work package in fullscreen view.'
     )
 
-    req_text_field.expect_state_text '-'
+    req_text_field.expect_state_text ''
   end
 end

@@ -116,7 +116,7 @@ export class WorkPackageResource extends HalResource {
 
   public $embedded: WorkPackageResourceEmbedded;
   public $links: WorkPackageResourceLinks;
-  public id: number|string;
+  public id: string;
   public schema: SchemaResource;
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
@@ -133,7 +133,7 @@ export class WorkPackageResource extends HalResource {
   private form;
 
   public get isNew(): boolean {
-    return isNaN(Number(this.id));
+    return this.id === 'new';
   }
 
   public get isMilestone(): boolean {
@@ -367,7 +367,7 @@ export class WorkPackageResource extends HalResource {
             this.form = null;
 
             // Ensure the schema is loaded before updating
-            workPackage.schema.$load().then((schema) => {
+            workPackage.schema.$load().then((schema:SchemaResource) => {
               // Initialize any potentially new HAL values
               this.$initialize(workPackage);
               this.schema = schema;

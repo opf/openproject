@@ -76,11 +76,6 @@
       "from": "angular-aria@>=1.5.9 <1.6.0",
       "resolved": "https://registry.npmjs.org/angular-aria/-/angular-aria-1.5.11.tgz"
     },
-    "angular-busy": {
-      "version": "4.1.3",
-      "from": "angular-busy@>=4.1.1 <4.2.0",
-      "resolved": "https://registry.npmjs.org/angular-busy/-/angular-busy-4.1.3.tgz"
-    },
     "angular-cache": {
       "version": "4.6.0",
       "from": "angular-cache@>=4.6.0 <4.7.0",
@@ -3273,9 +3268,9 @@
       }
     },
     "mousetrap": {
-      "version": "1.4.6",
-      "from": "mousetrap@>=1.4.6 <1.5.0",
-      "resolved": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.4.6.tgz"
+      "version": "1.6.0",
+      "from": "mousetrap@>=1.6.0 <1.7.0",
+      "resolved": "https://registry.npmjs.org/mousetrap/-/mousetrap-1.6.0.tgz"
     },
     "ms": {
       "version": "0.7.2",

@@ -28,15 +28,37 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
+import {States} from '../../states.service';
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
   constructor(public $injector,
               public $scope,
+              public wpTableSelection:WorkPackageTableSelection,
+              public states:States,
               public $rootScope,
               public $state) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
+
+    let wpId = $state.params['workPackageId'];
+    let focusState = this.states.focusedWorkPackage;
+    let focusedWP = focusState.getCurrentValue();
+
+    if (!focusedWP) {
+      focusState.put(wpId);
+      this.wpTableSelection.setRowState(wpId, true);
+    }
+
+    this.states.focusedWorkPackage.observeOnScope($scope).subscribe((wpId) => {
+      if ($state.includes('work-packages.list.details')) {
+        $state.go(
+          $state.current.name,
+          { workPackageId: wpId }
+        );
+      }
+    });
   }
 
   public onWorkPackageSave() {

@@ -54,14 +54,22 @@ export class Field {
 
   public get hidden():boolean {
     return this.visibility === 'hidden';
-  } 
+  }
 
   public isEmpty():boolean {
     return !this.value;
   }
 
+  public get unknownAttribute():boolean {
+    return this.isEmpty && !this.schema;
+  }
+
   protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof Field).$injector;
+  }
+
+  protected $inject(name):any {
+    return this.$injector.get(name);
   }
 
   constructor(public resource:HalResource,

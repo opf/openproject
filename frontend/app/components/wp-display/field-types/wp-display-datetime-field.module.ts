@@ -29,9 +29,6 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class DateTimeDisplayField extends DisplayField {
-
-  isManualRenderer = true;
-
   public get valueString() {
     const WorkPackagesHelper:any = this.$injector.get('WorkPackagesHelper');
 

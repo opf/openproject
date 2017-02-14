@@ -43,7 +43,7 @@ describe Authorization::QueryTransformation do
                         block
   end
 
-  context 'initialize' do
+  context 'initialSetup' do
     it 'sets on' do
       expect(instance.on).to eql on
     end

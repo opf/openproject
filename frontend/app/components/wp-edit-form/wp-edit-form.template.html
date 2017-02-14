@@ -1,0 +1,17 @@
+<div class="wp-edit-field inplace-edit">
+  <form ng-click="vm.stopPropagation($event)"
+        ng-dblclick="vm.stopPropagation($event)"
+        ng-submit="vm.handleUserSubmit()"
+        role="form"
+        tabindex="-1">
+
+    <label for="{{::vm.htmlId}}"
+           class="hidden-for-sighted">
+      {{::vm.fieldLabel}}
+
+      {{::vm.errorMessageOnLabel}}
+    </label>
+
+    <ng-include src="vm.field.template"></ng-include>
+  </form>
+</div>

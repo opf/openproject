@@ -1,10 +1,11 @@
-<div cg-busy="{promise: $ctrl.loadingPromise, message: ''}">
+<div class="loading-indicator--location"
+     data-indicator-name="relationAddFixed">
     <div class="grid-block v-align collapse  wp-relations-create"
          ng-if="$ctrl.showRelationsCreateForm || $ctrl.externalFormToggle">
         <div class="grid-content medium-10 collapse">
             <wp-relations-autocomplete
                     selected-wp-id="$ctrl.selectedWpId"
-                    loading-promise="$ctrl.loadingPromise"
+                    loading-promise-name="relationAddFixed"
                     selected-relation-type="$ctrl.selectedRelationType"
                     focus>
             </wp-relations-autocomplete>

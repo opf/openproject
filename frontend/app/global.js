@@ -39,7 +39,7 @@ require('expose-loader?jQuery!jquery');
 require('expose-loader?angular!angular');
 require('expose-loader?dragula!dragula');
 require('expose-loader?moment!moment');
-require('expose-loader?mousetrap!mousetrap');
+require('expose-loader?Mousetrap!mousetrap');
 require('expose-loader?URI!URIjs');
 
 require('jquery-ujs');
@@ -47,6 +47,7 @@ require('jquery-ujs');
 require('angular-dragula');
 
 require('jquery-ui/ui/core.js');
+require('jquery-ui/ui/position.js');
 require('jquery-ui/ui/widgets/datepicker.js');
 require('jquery-ui/ui/widgets/dialog.js');
 require('jquery-ui/ui/widgets/autocomplete.js');

@@ -29,10 +29,9 @@
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {Field, FieldFactory} from "../../wp-field/wp-field.module";
 import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
+import {SimpleTemplateRenderer} from '../../angular/simple-template-renderer';
 
 export class DisplayField extends Field {
-
-  public isManualRenderer: boolean = false;
   public static type: string;
   public static $injector: ng.auto.IInjectorService;
   public template: string = null;
@@ -51,21 +50,45 @@ export class DisplayField extends Field {
     return (this.constructor as typeof DisplayField).type;
   }
 
-  public get placeholder(): string {
-    return this.I18n.t('js.work_packages.placeholders.default');
-  }
-
   public get valueString(): string {
     return this.value;
+  }
+
+  public get placeholder():string {
+    return '-';
+  }
+
+  public get label() {
+    return (this.schema[this.name] && this.schema[this.name].name) ||
+           this.name;
   }
 
   protected get $injector(): ng.auto.IInjectorService {
     return (this.constructor as typeof DisplayField).$injector;
   }
 
-  public render(element: JQuery, fieldDisplay: WorkPackageDisplayAttributeController): void {
-    element.attr("title", fieldDisplay.displayText);
-    element.text(fieldDisplay.displayText);
+  public render(element:HTMLElement, displayText:string): void {
+    if (this.template == null || this.isEmpty()) {
+      element.setAttribute("title", displayText);
+      element.textContent = displayText;
+    } else {
+      this.renderTemplate(element, displayText);
+    }
+  }
+
+  protected renderTemplate(element:HTMLElement, displayText:string) {
+    let renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
+
+    renderer.renderIsolated(element, this.template, {
+      workPackage: this.resource,
+      name: this.name,
+      displayText: displayText,
+      field: this,
+      vm: {
+        displayText: displayText,
+        field: this
+      }
+    });
   }
 
   constructor(public resource: HalResource,
