@@ -29,25 +29,24 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 import WorkPackageFiltersService from "../../filters/wp-filters/wp-filters.service";
-
-interface Filter {
-  modelName:string;
-  name:string;
-  operator:string;
-  type:string;
-  values:Object[];
-}
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 
 export class WorkPackageFilterButtonController extends WorkPackageButtonController {
-  public filters:Filter[];
+  public count:number;
+  public initialized:boolean = false;
 
   public buttonId:string = 'work-packages-filter-toggle-button';
   public iconClass:string = 'icon-filter';
 
-  constructor(public I18n:op.I18n, protected wpFiltersService:WorkPackageFiltersService) {
+  constructor(public I18n:op.I18n,
+              private $scope:ng.IScope,
+              protected wpFiltersService:WorkPackageFiltersService,
+              protected wpTableFilters:WorkPackageTableFiltersService) {
     'ngInject';
 
     super(I18n);
+
+    this.setupObserver();
   }
 
   public get labelKey():string {
@@ -63,7 +62,7 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   }
 
   public get filterCount():number {
-    return _.size(_.filter(this.filters, (filter:any) => !filter.deactivated));
+    return this.count;
   }
 
   public isActive():boolean {
@@ -77,16 +76,18 @@ export class WorkPackageFilterButtonController extends WorkPackageButtonControll
   public toggleVisibility() {
     this.wpFiltersService.toggleVisibility();
   }
+
+  private setupObserver() {
+    this.wpTableFilters.observeOnScope(this.$scope).subscribe(state => {
+      this.count = state.current.length;
+      this.initialized = true;
+    });
+  }
 }
 
 function wpFilterButton():ng.IDirective {
   return wpButtonDirective({
     templateUrl: '/components/wp-buttons/wp-filter-button/wp-filter-button.directive.html',
-
-    scope: {
-      filters: '='
-    },
-
     controller: WorkPackageFilterButtonController
   });
 }

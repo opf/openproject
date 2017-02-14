@@ -49,7 +49,6 @@ export class WorkPackageEditFormController {
               protected $q:ng.IQService,
               protected $rootScope:ng.IRootScopeService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected QueryService:any,
               protected loadingIndicator:any,
               protected wpEditModeState: WorkPackageEditModeStateService,
               protected wpCacheService: WorkPackageCacheService) {

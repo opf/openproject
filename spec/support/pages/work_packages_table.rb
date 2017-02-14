@@ -57,6 +57,12 @@ module Pages
       end
     end
 
+    def expect_title(name)
+      expect(page)
+        .to have_selector('.title-container',
+                          text: name)
+    end
+
     def click_inline_create
       find('.wp-inline-create--add-link').click
       expect(page).to have_selector('.wp-inline-create-row')

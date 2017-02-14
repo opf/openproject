@@ -1,4 +1,3 @@
-import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,24 +26,30 @@ import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
+import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
+import {States} from '../../states.service';
+import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('tablePagination', tablePagination);
 
 function tablePagination(PaginationService:any,
-                         wpTableMetadata:WorkPackageTableMetadataService,
+                         states:States,
+                         wpTablePagination:WorkPackageTablePaginationService,
                          I18n:op.I18n) {
   return {
     restrict: 'EA',
     templateUrl: '/components/wp-table/table-pagination/table-pagination.directive.html',
 
-    scope: {
-      updateResults: '&'
-    },
+    scope: {},
 
     link: function(scope:any) {
+      PaginationService.loadPerPageOptions();
+
       scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
       scope.text = {
@@ -54,24 +59,12 @@ function tablePagination(PaginationService:any,
         no_other_page: I18n.t('js.pagination.no_other_page')
       };
 
-      scope.selectPerPage = function(perPage:any){
-        PaginationService.setPerPage(perPage);
+      scope.selectPerPage = function(perPage:number){
+        wpTablePagination.updateFromObject({page: 1, perPage: perPage});
+     };
 
-        updatePageNumbers();
-        scope.showPage(1);
-        scope.$emit('queryStateChange');
-        scope.updateResults();
-      };
-
-      scope.showPage = function(pageNumber:any){
-        PaginationService.setPage(pageNumber);
-
-        updateCurrentRangeLabel();
-        updatePageNumbers();
-
-        scope.$emit('workPackagesRefreshRequired');
-        scope.$emit('queryStateChange');
-        scope.updateResults();
+      scope.showPage = function(pageNumber:number){
+        wpTablePagination.updateFromObject({page: pageNumber});
       };
 
       /**
@@ -97,8 +90,11 @@ function tablePagination(PaginationService:any,
         var truncSize = PaginationService.getOptionsTruncationSize();
 
         var pageNumbers = [];
-        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
-          pageNumbers.push(i);
+
+        if (scope.paginationOptions.perPage) {
+          for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
+            pageNumbers.push(i);
+          }
         }
 
         // This avoids a truncation when there are not enough elements to truncate for the first elements
@@ -125,8 +121,12 @@ function tablePagination(PaginationService:any,
         }
       }
 
-      wpTableMetadata.metadata.observeOnScope(scope).subscribe((metadata:WorkPackageTableMetadata) => {
-        scope.totalEntries = metadata.total;
+      wpTablePagination.observeOnScope(scope).subscribe((wpPagination:WorkPackageTablePagination) => {
+        scope.totalEntries = wpPagination.total;
+
+        PaginationService.setPerPage(wpPagination.current.perPage);
+        PaginationService.setPage(wpPagination.current.page);
+
         updateCurrentRangeLabel();
         updatePageNumbers();
       });

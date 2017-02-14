@@ -27,105 +27,39 @@
 // ++
 
 import {filtersModule} from '../../../angular-modules';
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {QueryOperatorResource} from '../../api/api-v3/hal-resources/query-operator-resource.service';
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 
-function queryFilterDirective($timeout:ng.ITimeoutService,
-                              $animate:any,
-                              WorkPackageLoadingHelper:any,
-                              QueryService:any,
-                              PaginationService:any,
-                              I18n:op.I18n,
-                              TimezoneService:any,
-                              OPERATORS_NOT_REQUIRING_VALUES:any) {
-  var updateResultsJob:any;
-
+function queryFilterDirective($animate:any,
+                              wpTableFilters:WorkPackageTableFiltersService) {
   return {
     restrict: 'A',
     scope: true,
     link: function (scope:any, element:ng.IAugmentedJQuery) {
-      scope.I18n = I18n;
-      scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
-
-      scope.filterModelOptions = {
-        updateOn: 'default blur',
-        debounce: {'default': 400, 'blur': 0}
-      };
-
-      scope.filterDateModelOptions = {
-        updateOn: 'default change blur',
-        debounce: {'default': 400, 'change': 0, 'blur': 0}
-      };
-
       $animate.enabled(false, element);
-      scope.showValueOptionsAsSelect = scope.filter.isSelectInputField();
 
-      if (scope.showValueOptionsAsSelect) {
-        WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues,
-          [scope.filter.name, scope.projectIdentifier])
-
-          .then(buildOptions)
-          .then(addStandardOptions)
-          .then(function (options:any) {
-            scope.availableFilterValueOptions = options;
-          });
-      }
-
-      preselectOperator();
-
-      scope.$on('openproject.workPackages.updateResults', function () {
-        $timeout.cancel(updateResultsJob);
-      });
-
-      // Filter updates
-
-      scope.$watch('filter.operator', function (operator:any) {
-        if (operator && scope.filter.requiresValues) {
-          scope.showValuesInput = scope.filter.requiresValues();
+      scope.$watchCollection('filter.values', function (values: any, oldValues: any) {
+        if (!_.isEqual(values, oldValues)) {
+          putStateIfComplete();
         }
       });
 
-      scope.$watch('filter', function (filter:any, oldFilter:any) {
-        if (filter !== oldFilter && (filter.hasValues() || filter.isConfigured())
-          && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
+      scope.availableOperators = scope.filter.schema.availableOperators;
 
-          PaginationService.resetPage();
-          scope.$emit('queryStateChange');
-          scope.$emit('workPackagesRefreshRequired');
-          scope.query.dirty = true;
+      scope.$watchCollection('filter.operator', function(operator:QueryOperatorResource, oldOperator:QueryOperatorResource) {
+        scope.showValuesInput = scope.filter.currentSchema.isValueRequired();
+
+        if (!_.isEqual(operator, oldOperator)) {
+          putStateIfComplete();
         }
-      }, true);
+      });
 
-      function buildOptions(values:any) {
-        return values.map(function (value:any) {
-          return [value.name, value.id.toString()];
-        });
-      }
-
-      function addStandardOptions(options:any) {
-        if (scope.filter.modelName === 'user') {
-          options.unshift([I18n.t('js.label_me'), 'me']);
-        }
-
-        return options;
-      }
-
-      function filterChanged(filter:any, oldFilter:any) {
-        return filter.operator !== oldFilter.operator || !angular.equals(filter.getValuesAsArray(), oldFilter.getValuesAsArray()) ||
-          filter.deactivated !== oldFilter.deactivated;
-      }
-
-      function valueReset(filter:any, oldFilter:any) {
-        return oldFilter.hasValues() && !filter.hasValues();
-      }
-
-      function preselectOperator() {
-        if (!scope.filter.operator) {
-          var operator:any = _.find(
-            scope.operatorsAndLabelsByFilterType[scope.filter.type],
-            function (operator:any) {
-              return OPERATORS_NOT_REQUIRING_VALUES.indexOf(operator['symbol']) === -1;
-            }
-          );
-          scope.filter.operator = operator ? operator['symbol'] : undefined;
+      function putStateIfComplete() {
+        if (scope.filter.isCompletelyDefined()) {
+          wpTableFilters.replace(scope.filters);
         }
       }
     }

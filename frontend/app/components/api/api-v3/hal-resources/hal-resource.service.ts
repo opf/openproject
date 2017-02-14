@@ -170,6 +170,10 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
+  public $copy() {
+    return this.constructor(this.$source);
+  }
+
   protected $initialize(source:any) {
     this.$source = source.$source || source;
     initializeResource(this);
@@ -293,7 +297,7 @@ function initializeResource(halResource:HalResource) {
   function setupEmbedded() {
     setupProperty('embedded', element => {
       angular.forEach(element, (child:any, name:string) => {
-        if (child) {
+        if (child && (child._embedded || child._links)) {
           lazy(element, name, () => HalResource.create(child));
         }
       });

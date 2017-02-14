@@ -8,5 +8,5 @@
         aria-label="{{ vm.label }}">
   <i class="{{ ::vm.iconClass }} button--icon"></i>
   <span class="button--text" ng-bind="::vm.buttonText"></span>
-  <span class="badge -secondary">{{ vm.filterCount }}</span>
+  <span class="badge -secondary" ng-if="vm.initialized">{{ vm.filterCount }}</span>
 </button>

@@ -1,3 +1,4 @@
+import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {wpCellTdClassName} from '../cell-builder';
 import {timelineCellClassName} from '../timeline-cell-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
@@ -29,8 +30,8 @@ export class RowRefreshBuilder extends SingleRowBuilder {
     // Remember the order of all new edit cells
     const newCells:HTMLElement[] = [];
 
-    this.columns.forEach((column:string) => {
-      const oldTd = jRow.find(`td.${column}`);
+    this.columns.forEach((column:QueryColumn) => {
+      const oldTd = jRow.find(`td.${column.id}`);
 
       // Skip the replacement of the column if this is being edited.
       if (this.isColumnBeingEdited(editForm, column)) {
@@ -47,7 +48,7 @@ export class RowRefreshBuilder extends SingleRowBuilder {
     return rowElement;
   }
 
-  private isColumnBeingEdited(editForm:WorkPackageEditForm|null, column:string) {
-    return editForm && editForm.activeFields[column];
+  private isColumnBeingEdited(editForm:WorkPackageEditForm|null, column:QueryColumn) {
+    return editForm && editForm.activeFields[column.id];
   }
 }

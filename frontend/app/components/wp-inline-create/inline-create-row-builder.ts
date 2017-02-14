@@ -7,15 +7,17 @@ import {checkedClassName} from '../wp-fast-table/builders/ui-state-link-builder'
 import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {CellBuilder} from '../wp-fast-table/builders/cell-builder';
 import {
-  internalColumnDetails,
+  internalDetailsColumn,
   rowClassName,
   SingleRowBuilder
 } from '../wp-fast-table/builders/rows/single-row-builder';
 import IScope = angular.IScope;
 import {scopeDestroyed$} from "../../helpers/angular-rx-utils";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
+import {QueryColumn} from '../api/api-v3/hal-resources/query-resource.service';
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
@@ -24,6 +26,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
   // Injections
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
 
   protected text:{ cancelButton:string };
@@ -37,14 +40,13 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:string):HTMLElement {
-    switch (column) {
-      case internalColumnDetails:
+  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
+    switch (column.id) {
+      case internalDetailsColumn.id:
         return this.buildCancelButton();
       default:
         return super.buildCell(workPackage, column);
     }
-
   }
 
   public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):HTMLElement {
@@ -86,8 +88,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
     return td;
   }
-
 }
 
 
-SingleRowBuilder.$inject = ['states', 'wpTableSelection', 'I18n'];
+InlineCreateRowBuilder.$inject = ['states', 'wpTableSelection', 'wpTableColumns', 'I18n'];

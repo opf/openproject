@@ -27,6 +27,7 @@
 //++
 
 import {HalResource} from './hal-resource.service';
+import {CollectionResource} from './collection-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageResource} from './work-package-resource.service';
 import {States} from '../../../states.service';
@@ -39,6 +40,38 @@ export class SchemaResource extends HalResource {
 
   public get state() {
     return states.schemas.get(this.href as string);
+  }
+
+  protected $initialize(source:any) {
+    super.$initialize(source);
+
+    initializeSchemaResource(this);
+  }
+}
+
+export class SchemaAttributeObject {
+  public type:string;
+  public name:string;
+  public required:boolean;
+  public hasDefault:boolean;
+  public writable:boolean;
+  public allowedValues:HalResource[]|CollectionResource;
+}
+
+function initializeSchemaResource(halResource:SchemaResource) {
+  proxyProperties();
+
+  function proxyProperties() {
+    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach(property => {
+      Object.defineProperty(halResource, property, {
+        get() {
+          return HalResource.create(halResource.$source[property]);
+        },
+
+        enumerable: true,
+        configurable: true
+      });
+    });
   }
 }
 

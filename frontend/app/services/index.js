@@ -41,7 +41,7 @@ angular.module('openproject.services')
     '$timeout',
     'PathHelper',
     require('./keyboard-shortcut-service')])
-  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', require(
+  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', 'ConfigurationDm', require(
     './pagination-service')])
   .service('PriorityService', ['$http', 'PathHelper', require(
     './priority-service')])
@@ -62,10 +62,6 @@ angular.module('openproject.services')
     './version-service')])
   .service('CategoryService', ['$http', 'PathHelper', require(
     './category-service')])
-  .constant('DEFAULT_FILTER_PARAMS', {
-    'fields[]': 'status_id',
-    'operators[status_id]': 'o'
-  })
   .service('ApiNotificationsService', [
     'NotificationsService',
     'ApiHelper',

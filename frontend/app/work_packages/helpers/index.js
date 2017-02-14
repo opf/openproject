@@ -31,20 +31,24 @@ angular.module('openproject.workPackages.helpers')
   .constant('PERMITTED_BULK_ACTIONS', [
     {
       icon: 'edit',
-      link: 'update'
+      link: 'update',
+      href: '/work_packages/bulk/edit'
     },
     // TODO: reenable watch
     {
       icon: 'move',
-      link: 'move'
+      link: 'move',
+      href: '/work_packages/move/new'
     },
     {
       icon: 'copy',
-      link: 'copy'
+      link: 'copy',
+      href: '/work_packages/move/new?copy=true'
     },
     {
       icon: 'delete',
-      link: 'delete'
+      link: 'delete',
+      href: '/work_packages/bulk?_method=delete'
     }
   ])
   .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',

@@ -99,6 +99,7 @@ en:
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "all work packages"
+    label_and: "and"
     label_ascending: "Ascending"
     label_author: "Author: %{user}"
     label_between: "between"

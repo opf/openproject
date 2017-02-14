@@ -28,96 +28,81 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {
+  QuerySortByResource,
+  QuerySortByDirection,
+  QUERY_SORT_BY_ASC,
+  QUERY_SORT_BY_DESC
+} from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
+import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
+
+class SortModalObject {
+  constructor(public column: QueryColumn|null,
+              public direction: string) {
+  }
+}
 
 function SortingModalController(this:any,
                                 sortingModal:any,
                                 $scope:any,
-                                $filter:ng.IFilterService,
-                                loadingIndicator:LoadingIndicatorService,
-                                QueryService:any,
+                                wpTableSortBy:WorkPackageTableSortByService,
                                 I18n:op.I18n) {
   this.name = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
-  var blankOption = {id: 'null', label: I18n.t('js.placeholders.default'), other: 'null'};
+  $scope.currentSortation = [];
+  $scope.availableColumns = [];
+  $scope.allColumns = [];
+  $scope.sortationObjects = [];
 
-  $scope.availableColumnsData = [];
-  $scope.sortElements = [];
-  $scope.initSortation = () => {
-    var currentSortation = QueryService.getSortation();
+  wpTableSortBy.onReady($scope).then(() => {
+    $scope.currentSortation = wpTableSortBy.currentSortBys;
+    let availableSortation = wpTableSortBy.availableSortBys;
+    let allColumns:QueryColumn[] = _.map(availableSortation, sort => sort.column);
+    $scope.allColumns = _.uniqBy(allColumns, '$href');
 
-    $scope.sortElements = currentSortation.sortElements.map((element:any) => {
-      const columns = $scope.availableColumnsData
-        .filter((column:any) => column.id === element.field);
-
-      const directions = $scope.availableDirectionsData
-        .filter((direction:any) => direction.id === element.direction);
-
-      return [columns, directions].map(item => item[0]);
+    _.each($scope.currentSortation, sort => {
+      $scope.sortationObjects.push(new SortModalObject(sort.column,
+                                                       sort.direction.$href));
     });
 
     fillUpSortElements();
-  };
+  });
 
   function fillUpSortElements() {
-    while ($scope.sortElements.length < 3) {
-      $scope.sortElements.push([blankOption, $scope.availableDirectionsData[1]]);
+    while ($scope.sortationObjects.length < 3) {
+      $scope.sortationObjects.push(new SortModalObject(null, QUERY_SORT_BY_ASC));
     }
   }
 
-  // reduction of column options to columns that haven't been selected
-  function getIdsOfSelectedSortElements() {
-    return $scope.sortElements
-      .map((sortElement:any) => {
-        if (sortElement.length && sortElement[0]) {
-          return sortElement[0].id;
-        }
-      })
-      .filter((element:any) => !!element);
-  }
+  $scope.$watchCollection('sortationObjects', () => {
+    let usedColumns = _.map($scope.sortationObjects, (object:SortModalObject) => object.column);
 
-  function getRemainingAvailableColumnsData(selectedElement:any) {
-    var idsOfSelectedSortElements = getIdsOfSelectedSortElements();
+    $scope.availableColumns = _.differenceBy($scope.allColumns, usedColumns, '$href');
+  });
 
-    var availableColumns = $scope.availableColumnsData.filter((availableColumn:any) => {
-      return idsOfSelectedSortElements.indexOf(availableColumn.id) === -1;
-    });
-
-    if (selectedElement.id !== blankOption.id) {
-      availableColumns.unshift(selectedElement);
-    }
-
-    availableColumns = $filter('orderBy')(availableColumns, 'label');
-    availableColumns.unshift(blankOption);
-
-    return availableColumns;
-  }
-
-  $scope.getRemainingAvailableColumnsData = getRemainingAvailableColumnsData;
+  $scope.availableColumnsAndCurrent = (column:SortModalObject) => {
+    return _.uniqBy(_.concat($scope.availableColumns, _.compact([column])), '$href');
+  };
 
   $scope.updateSortation = () => {
-    var sortElements = $scope.sortElements
-      .filter((element:any) => element[0].id !== blankOption.id)
-      .map((element:any) => ({field: element[0].id, direction: element[1].id}));
+    let sortElements = ($scope.sortationObjects as SortModalObject[])
+      .filter(object => object.column)
+      .map(object => _.find(wpTableSortBy.availableSortBys, availableSort =>
+        availableSort.column.$href === object.column!.$href &&
+          availableSort.direction.$href === object.direction
+      ));
 
-    QueryService.updateSortElements(sortElements);
+    wpTableSortBy.set(_.compact(sortElements) as QuerySortByResource[]);
+
     sortingModal.deactivate();
   };
 
-  $scope.availableDirectionsData = [
-    {id: 'desc', label: I18n.t('js.label_descending')},
-    {id: 'asc', label: I18n.t('js.label_ascending')}
+  $scope.availableDirections = [
+    {$href: QUERY_SORT_BY_ASC, name: I18n.t('js.label_ascending')},
+    {$href: QUERY_SORT_BY_DESC, name: I18n.t('js.label_descending')}
   ];
-
-  let indicator = loadingIndicator.indicator('sorting-modal');
-  indicator.promise = QueryService.loadAvailableColumns()
-    .then((availableColumns:api.ex.Column[]) => {
-      $scope.availableColumnsData = availableColumns
-        .filter(column => !!column.sortable)
-        .map(column => ({id: column.name, label: column.title, other: column.title}));
-
-      $scope.initSortation();
-    });
 }
 
 wpControllersModule.controller('SortingModalController', SortingModalController);

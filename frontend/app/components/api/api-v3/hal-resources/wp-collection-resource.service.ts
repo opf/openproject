@@ -27,18 +27,43 @@
 //++
 
 import {CollectionResource} from './collection-resource.service';
+import {WorkPackageResourceInterface} from './work-package-resource.service';
+import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 
 interface WorkPackageCollectionResourceEmbedded {
   schemas: CollectionResource;
+  elements: WorkPackageResourceInterface[];
+  groups: GroupObject[];
 }
 
 export class WorkPackageCollectionResource extends CollectionResource {
   public schemas: CollectionResource;
   public createWorkPackage:any;
+  public elements: WorkPackageResourceInterface[];
+  public groups: GroupObject[];
+  public totalSums?: Object;
+  public representations: Array<HalResource>;
 }
 
 export interface WorkPackageCollectionResourceInterface extends WorkPackageCollectionResourceEmbedded, WorkPackageCollectionResource {
+}
+
+/**
+ * A reference to a group object as returned from the API.
+ * Augmented with state information such as collapsed state.
+ */
+export interface GroupObject {
+  value:any;
+  count:number;
+  collapsed?:boolean;
+  index:number;
+  identifier:string;
+  href:{ href:string }[];
+  _links: {
+    valueLink: { href:string }[];
+    groupBy: { href:string };
+  }
 }
 
 function workPackageCollectionResource() {

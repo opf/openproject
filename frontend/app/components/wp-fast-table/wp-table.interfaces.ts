@@ -2,6 +2,7 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
+import {GroupObject} from '../api/api-v3/hal-resources/wp-collection-resource.service';
 import {WorkPackageTable} from './wp-fast-table';
 
 /**
@@ -23,22 +24,6 @@ export interface GroupableColumn {
   sortable:boolean;
   groupable:boolean;
   custom_field:boolean;
-}
-
-/**
- * A reference to a group object as returned from the API.
- * Augmented with state information such as collapsed state.
- */
-export interface GroupObject {
-  value:any;
-  count:number;
-  collapsed?:boolean;
-  index:number;
-  identifier:string;
-  href:{ href:string }[];
-  _links?: {
-    valueLink: { href:string }[];
-  }
 }
 
 export interface WPTableRowSelectionState {

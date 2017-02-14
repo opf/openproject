@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
+
 describe('columnContextMenu', function() {
-  var container:any, contextMenu:any, wpTableColumns:any, $rootScope:any, scope:any, stateParams:any, ngContextMenu:any;
-  stateParams = {};
+  var container:any, contextMenu:any, wpTableColumns:any, wpTableGroupBy:any, wpTableSortBy:any, $rootScope:any, scope:any, ngContextMenu:any;
 
   beforeEach(angular.mock.module('ng-context-menu',
                     'openproject.workPackages',
@@ -36,17 +37,27 @@ describe('columnContextMenu', function() {
                     'openproject.models',
                     'openproject.api',
                     'openproject.layout',
-                    'openproject.services',
                     'openproject.templates'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide:any) {
-    var configurationService:any = {};
+  beforeEach(angular.mock.module('openproject.services', function($provide:any) {
+    wpTableGroupBy = {
+      isGroupable: (column: QueryColumn) => true,
+      isCurrentlyGroupedBy: (column: QueryColumn) => false
+    }
 
-    configurationService.isTimezoneSet = sinon.stub().returns(false);
-    configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
+    wpTableSortBy = {
+      isSortable: (column: QueryColumn) => true
+    }
 
-    $provide.constant('$stateParams', stateParams);
-    $provide.constant('ConfigurationService', configurationService);
+    wpTableColumns = {
+      isFirst: (column: QueryColumn) => false,
+      isLast: (column: QueryColumn) => false,
+      previous: (column: QueryColumn) => null
+    }
+
+    $provide.constant('wpTableGroupBy', wpTableGroupBy);
+    $provide.constant('wpTableSortBy', wpTableSortBy);
+    $provide.constant('wpTableColumns', wpTableColumns);
   }));
 
   beforeEach(function() {
@@ -54,8 +65,7 @@ describe('columnContextMenu', function() {
     container = angular.element(html);
   });
 
-  beforeEach(inject(function(_$rootScope_:any, _ngContextMenu_:any, _wpTableColumns_:any, $templateCache:any) {
-    wpTableColumns = _wpTableColumns_;
+  beforeEach(inject(function(_$rootScope_:any, _ngContextMenu_:any, $templateCache:any) {
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
 
@@ -75,26 +85,12 @@ describe('columnContextMenu', function() {
   }));
 
   describe('when the context menu handler of a column is clicked', function() {
-    var QueryService:any, wpTableMetadata;
-    var column        = { name: 'status', title: 'Status' },
-        anotherColumn = { name: 'subject', title: 'Subject' },
-        columns       = [column, anotherColumn],
-        query         = Factory.build('Query', { columns: columns });
-
-    beforeEach(inject(function(_QueryService_:any, _wpTableMetadata_:any) {
-      QueryService = _QueryService_;
-      wpTableMetadata = _wpTableMetadata_;
-      sinon.stub(QueryService, 'getQuery').returns(query);
-      sinon.stub(wpTableMetadata, 'isGroupable').returns(false);
-    }));
-    afterEach(inject(function() {
-      QueryService.getQuery.restore();
-    }));
+    var column        = { name: 'Status' },
+        anotherColumn = { name: 'Subject' },
+        columns       = [column, anotherColumn]
 
     beforeEach(function() {
       $rootScope.column = column;
-      wpTableColumns.setColumns(columns.map(c => c.name));
-      $rootScope.columns = columns;
       $rootScope.$digest();
 
       scope = container.children().scope();
@@ -105,46 +101,93 @@ describe('columnContextMenu', function() {
     });
 
     describe('and the group by option is clicked', function() {
+      var spy:any;
+
       beforeEach(function() {
-        scope.groupBy(column.name);
+        spy = sinon.spy();
+        wpTableGroupBy['setBy'] = spy;
+
+        scope.groupBy();
       });
 
-      it('changes the query group by', function() {
-        expect(query.groupBy).to.equal(column.name);
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column);
       });
     });
 
     describe('and "move column right" is clicked', function() {
+      var spy:any;
+
       beforeEach(function() {
-        scope.moveRight(column.name);
+        spy = sinon.spy();
+        wpTableColumns['shift'] = spy;
+
+        scope.moveRight();
       });
 
-      it('moves the column right', function() {
-        expect(wpTableColumns.index(column.name)).to.equal(1);
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column, 1);
+      });
+    });
+
+    describe('and "move column left" is clicked', function() {
+      var spy:any;
+
+      beforeEach(function() {
+        spy = sinon.spy();
+        wpTableColumns['shift'] = spy;
+
+        scope.moveLeft();
+      });
+
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column, -1);
       });
     });
 
     describe('and "Sort ascending" is clicked', function() {
-      var Sortation;
+      var spy:any;
 
-      beforeEach(inject(function(_Sortation_:any) {
-        Sortation = _Sortation_;
-        query.sortation = new Sortation();
-        scope.sortAscending(column.name);
-      }));
+      beforeEach(function() {
+        spy = sinon.spy();
+        wpTableSortBy['addAscending'] = spy;
 
-      it('updates the query sortation', function() {
-        expect(query.sortation.getPrimarySortationCriterion()).to.deep.equal({ field: column.name, direction: 'asc' });
+        scope.sortAscending();
+      });
+
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column);
+      });
+    });
+
+    describe('and "Sort descending" is clicked', function() {
+      var spy:any;
+
+      beforeEach(function() {
+        spy = sinon.spy();
+        wpTableSortBy['addDescending'] = spy;
+
+        scope.sortDescending();
+      });
+
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column);
       });
     });
 
     describe('and "Hide column" is clicked', function() {
+      var spy:any;
+
       beforeEach(function() {
-        scope.hideColumn(column.name);
+        spy = sinon.spy();
+        wpTableColumns['removeColumn'] = spy;
+        sinon.stub(wpTableColumns, 'previous');
+
+        scope.hideColumn();
       });
 
-      it('removes the column from the query columns', function() {
-        expect(wpTableColumns.index(column.name)).to.equal(-1);
+      it('calls the appropriate state', function() {
+        expect(spy).to.have.been.calledWith(column);
       });
     });
 

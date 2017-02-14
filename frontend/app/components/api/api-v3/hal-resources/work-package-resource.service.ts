@@ -293,22 +293,34 @@ export class WorkPackageResource extends HalResource {
     this.getForm().then((form:any) => {
       const allowedValues = form.$embedded.schema[field].allowedValues;
 
-      if (Array.isArray(allowedValues)) {
-        deferred.resolve(allowedValues);
-      }
-      else {
+      if (allowedValues && allowedValues['$load']) {
         return allowedValues.$load().then((loadedValues:CollectionResource) => {
           deferred.resolve(loadedValues.elements);
         });
+      } else {
+        deferred.resolve(allowedValues);
       }
     });
 
     return deferred.promise;
   }
 
-  public setAllowedValueFor(field:string, href:string) {
-    this.allowedValuesFor(field).then(allowedValues => {
-      (this as any)[field] = _.find(allowedValues, (entry:any) => entry.href === href);
+  public setAllowedValueFor(field:string, value:string|HalResource) {
+    return this.allowedValuesFor(field).then(allowedValues => {
+      let newValue;
+
+      if ((value as HalResource)['$href']) {
+        newValue = _.find(allowedValues, (entry:any) => entry.$href === (value as HalResource).$href);
+      } else if (allowedValues) {
+        newValue = _.find(allowedValues, (entry:any) => entry === value);
+      } else {
+        newValue = value;
+      }
+
+      if (newValue) {
+        (this as any)[field] = newValue;
+      }
+
       wpCacheService.updateWorkPackage(this);
     });
   }

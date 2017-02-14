@@ -22,12 +22,12 @@
         <div class="form--field-container">
           <div class="form--select-container">
             <select
-                ng-model="vm.selectedColumnName"
+                ng-model="vm.current"
                 focus="true"
                 title="{{ fieldController.editTitle }}"
                 id="selected_columns_new"
                 class="form--select"
-                ng-options="column.name as column.title for column in vm.getGroupableColumns() | orderBy: 'title'">
+                ng-options="groupBy.name for groupBy in vm.available | orderBy: 'name' track by groupBy.$href">
             </select>
           </div>
         </div>

@@ -62,69 +62,6 @@ declare namespace api {
       html:string;
     }
   }
-
-  /**
-   * Experimental API
-   */
-  namespace ex {
-    interface ColumnMeta {
-      data_type:string;
-      link:{
-        display:boolean;
-        model_type:string;
-      };
-    }
-
-    interface ExportFormat {
-      identifier:string;
-      format:string;
-      label_locale:string;
-    }
-
-    interface Column {
-      name:string;
-      title:string;
-      custom_field:boolean;
-      sortable:boolean;
-      goupable:boolean;
-      meta_data:ColumnMeta;
-    }
-
-    interface Query {
-      _links:any;
-      id:number;
-      columnNames:any;
-      displaySums:boolean;
-      filters:any;
-      groupBy:string;
-      isPublic:boolean;
-      name:string;
-      projectId:number;
-      sortCriteria:any;
-      starred:boolean;
-      userId:number;
-    }
-
-    interface Meta {
-      _links:any;
-      columns:Column[];
-      export_formats:any;
-      group_sums:any;
-      groupable_columns:Column[];
-      per_page_options:number[];
-      query:Query;
-      page:number;
-      per_page:number;
-    }
-
-    interface WorkPackagesMeta {
-      _links:any;
-      _bulk_links:any;
-      meta:Meta;
-      resource:any;
-      work_packages:any;
-    }
-  }
 }
 
 /**
@@ -143,25 +80,6 @@ declare namespace op {
   /**
    * General components
    */
-  interface Query {
-    id?:number;
-    columns?:any;
-    displaySums?:any;
-    displayHierarchy?:any;
-    projectId?:any;
-    groupBy?:string;
-    filters?:any;
-    sortCriteria?:any;
-    page?:number;
-    perPage?:number;
-
-    isDirty():boolean;
-    isNew():boolean;
-
-    toUpdateParams?():any;
-    applyDefaultsFromFilters(workPackage:any):any;
-  }
-
   interface I18n {
     t(translateId:string, parameters?:any):string;
     lookup(translateId:string):boolean;

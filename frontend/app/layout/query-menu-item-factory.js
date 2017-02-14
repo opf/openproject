@@ -42,12 +42,12 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
       scope.queryId = scope.objectId || attrs.objectId;
 
       function setActiveState() {
-        // Apparently the queryId sometimes is an number, sometimes a string, sometimes
+        // Apparently the queryId sometimes is a number, sometimes a string, sometimes
         // undefined and sometimes null. Use == instead of == to make sure these
         // comparisons work.
         // No idea though, why these sometimes are null and sometimes are undefined.
-        element.toggleClass('selected', $state.includes('work-packages') &&
-                                        (scope.queryId == $stateParams.query_id));
+        element.toggleClass('selected', !!($state.includes('work-packages') &&
+                                        scope.queryId == $stateParams.query_id));
       }
       scope.$on('openproject.layout.activateMenuItem', setActiveState);
 
@@ -70,9 +70,9 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
         }
       });
 
-      scope.$on('openproject.layout.renameQueryMenuItem', function(event, itemData) {
-        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.queryId == scope.queryId) {
-          element.html(itemData.queryName);
+      scope.$on('openproject.layout.renameMenuItem', function(event, itemData) {
+        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId == scope.queryId) {
+          element.html(itemData.objectName);
         }
       });
     }

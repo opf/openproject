@@ -1,0 +1,12 @@
+<div class="dropdown dropdown-relative" id="querySelectDropdown">
+  <div class="search-query-wrapper">
+    <label for="title-filter" class="hidden-for-sighted">{{ ::i18n.label }}</label>
+    <input type="text"
+           focus
+           ng-disabled="!loaded"
+           class="ui-autocomplete--input"
+           id="query-title-filter"
+           placeholder="{{ i18n.loading }}">
+    <i id="magnifier" class="icon-search"></i>
+  </div>
+</div>

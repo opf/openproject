@@ -29,12 +29,11 @@
 /*jshint expr: true*/
 
 describe('UrlParamsHelper', function() {
-  var UrlParamsHelper, Query, PathHelper;
+  var UrlParamsHelper, PathHelper;
 
   beforeEach(angular.mock.module('openproject.helpers', 'openproject.models'));
-  beforeEach(inject(function(_UrlParamsHelper_, _Query_, _PathHelper_) {
+  beforeEach(inject(function(_UrlParamsHelper_, _PathHelper_) {
     UrlParamsHelper = _UrlParamsHelper_;
-    Query = _Query_;
     PathHelper = _PathHelper_;
   }));
 
@@ -60,136 +59,224 @@ describe('UrlParamsHelper', function() {
 
   describe('encodeQueryJsonParams', function(){
     var query;
+    var additional;
 
     beforeEach(function() {
       var filter1 = {
-        modelName: 'soße',
+        id: 'soße',
         name: 'soße_id',
         type: 'list_model',
-        operator: '=',
+        operator: {
+          $href: '/api/operator/='
+        },
+        filter: {
+          $href: '/api/filter/soße'
+        },
         values: ['knoblauch']
       };
       var filter2 = {
-        name: 'created_at',
+        id: 'created_at',
         type: 'datetime_past',
-        operator: '<t-',
-        textValue: '5'
+        operator: {
+          $href: '/api/operator/<t-'
+        },
+        filter: {
+          $href: '/api/filter/created_at'
+        },
+        values: ['5']
       };
-      query = new Query({
+      query = {
         id: 1,
         name: 'knoblauch soße',
-        projectId: 2,
-        displaySums: true,
-        columns: [{ name: 'type' }, { name: 'status' }, { name: 'soße' }],
-        groupBy: 'status',
-        sortCriteria: 'type:desc',
+        sums: true,
+        columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
+        groupBy: {
+          id: 'status'
+        },
+        sortBy: [{
+          id: 'type-desc'
+        }],
         filters: [filter1, filter2]
-      }, { rawFilters: true });
+      };
+
+      additional = {
+        page: 10,
+        perPage: 100
+      }
     });
 
     it('should encode query to params JSON', function() {
-      var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"datetime_past\",\"v\":[\"5\"]}],\"pa\":1,\"pp\":10}";
+      var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
       expect(encodedJSON).to.eq(expectedJSON);
     });
   });
 
-  describe('decodeQueryFromJsonParams', function() {
+  describe('buildV3GetQueryFromJsonParams', function() {
     var params;
-    var queryId;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"p\":2,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße_id\",\"o\":\"%3D\",\"t\":\"list_model\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"t\":\"datetime_past\",\"v\":[\"5\"]}]}";
-      queryId = 2;
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
-      var decodedQueryParams = UrlParamsHelper.decodeQueryFromJsonParams(queryId, params);
+      var decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
 
       var expected = {
-        id: queryId,
-        projectId: 2,
-        displaySums: true,
-        columns: [{ name: 'type' }, { name: 'status' }, { name: 'soße' }],
+        'columns[]': ['type', 'status', 'soße'],
+        showSums: true,
         groupBy: 'status',
-        sortCriteria: 'type:desc',
-        filters: [{
-          name: 'soße_id',
-          type: 'list_model',
-          operator: '=',
-          values: ['knoblauch']
-        },{
-          name: 'created_at',
-          type: 'datetime_past',
-          operator: '<t-',
-          values: ['5']
-        }]
+        filters: JSON.stringify([
+          {
+            soße: {
+              operator: '=',
+              values: ['knoblauch']
+            }
+          },
+          {
+            created_at: {
+              operator: '<t-',
+              values: ['5']
+            }
+          }
+        ]),
+        sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
+        offset: 10,
+        pageSize: 100
       };
 
       expect(angular.equals(decodedQueryParams, expected)).to.be.true;
     });
   });
 
+  describe('buildV3GetQueryFromQueryResource', function() {
+    var query;
+    var additional;
 
-  describe('buildQueryExportOptions', function() {
-    var queryDummy = {
-      exportFormats: [ { identifier: 'atom', format: 'atom' } ],
-      getQueryString: function() { return '' }
-    };
-    var exportOptions;
-    var queryExportSuffix = '\\/work_packages.atom\\?set_filter=1&';
+    it('decodes query params to object', function() {
+      var filter1 = {
+        id: 'soße',
+        name: 'soße_id',
+        type: 'list_model',
+        operator: {
+          $href: '/api/operator/='
+        },
+        filter: {
+          $href: '/api/filter/soße'
+        },
+        values: ['knoblauch']
+      };
+      var filter2 = {
+        id: 'created_at',
+        type: 'datetime_past',
+        operator: {
+          $href: '/api/operator/<t-'
+        },
+        filter: {
+          $href: '/api/filter/created_at'
+        },
+        values: ['5']
+      };
+      query = {
+        id: 1,
+        name: 'knoblauch soße',
+        sums: true,
+        columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
+        groupBy: {
+          id: 'status'
+        },
+        sortBy: [
+          {
+            id: 'type-desc'
+          },
+          {
+            id: 'status-asc'
+          }
+        ],
+        filters: [filter1, filter2]
+      };
 
-    var shouldBehaveLikeExportForProjectWorkPackages = function(relativeUrl) {
-      context('project query', function() {
-        beforeEach(function() {
-          var query = angular.copy(queryDummy);
+      additional = {
+        offset: 10,
+        pageSize: 100
+      }
 
-          query.project_id = 1;
+      var v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-          exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
-        });
+      var expected = {
+        'columns[]': ['type', 'status', 'soße'],
+        showSums: true,
+        groupBy: 'status',
+        filters: JSON.stringify([
+          {
+            soße: {
+              operator: '=',
+              values: ['knoblauch']
+            }
+          },
+          {
+            created_at: {
+              operator: '<t-',
+              values: ['5']
+            }
+          }
+        ]),
+        sortBy: JSON.stringify([['type', 'desc'], ['status', 'asc']]),
+        offset: 10,
+        pageSize: 100
+      };
 
-        it('should have project path', function() {
-          var urlPattern = new RegExp(relativeUrl + queryExportSuffix);
-
-          expect(exportOptions[0].url).to.match(urlPattern)
-          ;
-        });
-      });
-    };
-
-    var shouldBehaveLikeExportForGlobalWorkPackages = function(relativeUrl) {
-      context('global query', function() {
-        beforeEach(function() {
-          exportOptions = UrlParamsHelper.buildQueryExportOptions(queryDummy);
-        });
-
-        it('should have global path', function() {
-          var urlPattern = new RegExp(relativeUrl + queryExportSuffix);
-
-          expect(exportOptions[0].url).to.match(urlPattern);
-        });
-      });
-    };
-
-    context('no relative url', function() {
-      shouldBehaveLikeExportForProjectWorkPackages('');
-
-      shouldBehaveLikeExportForGlobalWorkPackages('');
+      expect(angular.equals(v3Params, expected)).to.be.true;
     });
 
-    context('relative url', function() {
-      beforeEach(function() {
-        PathHelper.staticBase = '/dev';
-      });
+    it('decodes string object filters', function() {
+      var filter1 = {
+        id: 'customField1',
+        operator: {
+          $href: '/api/operator/='
+        },
+        filter: {
+          $href: '/api/filter/customField1'
+        },
+        values: [
+          {
+            _type: "StringObject",
+            value: "val2val",
+            $href: "/api/v3/string_objects/?value=val2val"
+          },
+          {
+            _type: "StringObject",
+            value: "7val7",
+            $href: "/api/v3/string_objects/?value=7val7"
+          }
+        ]
+      };
+      query = {
+        filters: [filter1],
+        sortBy: [],
+        columns: [],
+        sums: false
+      };
 
-      afterEach(function() {
-        PathHelper.staticBase = '';
-      });
+      additional = {}
 
-      shouldBehaveLikeExportForProjectWorkPackages('\\/dev');
+      var v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-      shouldBehaveLikeExportForGlobalWorkPackages('\\/dev');
+      var expected = {
+        'columns[]': [],
+        filters: JSON.stringify([
+          {
+            customField1: {
+              operator: '=',
+              values: ['val2val', '7val7']
+            }
+          }
+        ]),
+        showSums: false,
+        sortBy: '[]'
+      };
+
+      expect(angular.equals(v3Params, expected)).to.be.true;
     });
   });
 });

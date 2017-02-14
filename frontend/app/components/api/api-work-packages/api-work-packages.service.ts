@@ -36,26 +36,10 @@ import IPromise = angular.IPromise;
 import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
 
 export class ApiWorkPackagesService {
-  constructor(protected DEFAULT_PAGINATION_OPTIONS:any,
-              protected $q:ng.IQService,
+  constructor(protected $q:ng.IQService,
               protected halRequest:HalRequestService,
               protected v3Path:any,
               protected states:States) {
-  }
-
-  public list(offset:number, pageSize:number, query:api.ex.Query):ng.IPromise<WorkPackageCollectionResource> {
-    const params = this.queryAsV3Params(offset, pageSize, query);
-    return this.halRequest.get(this.v3Path.wp({project: query.projectId}), params, {
-      caching: {enabled: false}
-    }).then((workPackageCollection:WorkPackageCollectionResource) => {
-      if (workPackageCollection.schemas) {
-        _.each(workPackageCollection.schemas.elements, (schema:SchemaResource) => {
-          this.states.schemas.get(schema.$href as string).put(schema);
-        });
-      }
-
-      return workPackageCollection;
-    });
   }
 
   /**
@@ -115,34 +99,6 @@ export class ApiWorkPackagesService {
    */
   public createWorkPackage(payload:any):ng.IPromise<WorkPackageResource> {
     return this.halRequest.post(this.v3Path.wps(), payload);
-  }
-
-  protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
-    const v3Filters = _.map(query.filters, (filter:any) => {
-      const newFilter:any = {};
-      newFilter[filter.name] = {operator: filter.operator, values: filter.values};
-      return newFilter;
-    });
-
-    const params:op.QueryParams = {
-      offset: offset,
-      pageSize: pageSize,
-      filters: [v3Filters]
-    };
-
-    if (query.groupBy) {
-      params.groupBy = query.groupBy;
-    }
-
-    if (query.displaySums) {
-      params.showSums = query.displaySums;
-    }
-
-    if (query.sortCriteria && query.sortCriteria.length > 0) {
-      params.sortBy = [query.sortCriteria];
-    }
-
-    return params;
   }
 }
 

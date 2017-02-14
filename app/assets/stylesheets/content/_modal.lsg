@@ -18,13 +18,13 @@
       </li>
        <li>
         <a>
-          <i class="icon-export-xls icon-big"></i>
+          <i class="icon-export-vnd-ms-excel icon-big"></i>
           <span class="export-label">XLS</span>
         </a>
       </li>
        <li>
         <a>
-          <i class="icon-export-xls-descr icon-big"></i>
+          <i class="icon-export-vnd-ms-excel-descr icon-big"></i>
           <span class="export-label">XLS with description</span>
         </a>
       </li>

@@ -60,10 +60,30 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
     },
     Schema: 'SchemaResource',
     Type: 'TypeResource',
+    SchemaDependency: 'SchemaDependencyResource',
     Error: 'ErrorResource',
     User: 'UserResource',
     Collection: 'CollectionResource',
-    WorkPackageCollection: 'WorkPackageCollectionResource'
+    WorkPackageCollection: 'WorkPackageCollectionResource',
+    Query: {
+      className: 'QueryResource',
+      attrTypes: {
+        filters: 'QueryFilterInstance'
+      }
+    },
+    Form: 'FormResource',
+    QueryFilterInstance: {
+     className: 'QueryFilterInstanceResource' ,
+     attrTypes: {
+       schema: 'QueryFilterInstanceSchema',
+       filter: 'QueryFilter',
+       operator: 'QueryOperator'
+     }
+    },
+    QueryFilterInstanceSchema: 'QueryFilterInstanceSchemaResource',
+    QueryFilter: 'QueryFilterResource',
+    Root: 'RootResource',
+    QueryOperator: 'QueryOperatorResource'
   });
 }
 

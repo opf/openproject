@@ -1,92 +1,138 @@
-import {WorkPackageTableMetadata} from '../wp-table-metadata';
-import {States} from '../../states.service';
+// -- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+// ++
+
+import {
+  WorkPackageTableBaseService,
+  TableStateStates
+} from './wp-table-base.service';
+import {
+  States
+} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {State} from '../../../helpers/reactive-fassade';
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
+import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service'
+import {Observable} from 'rxjs/Observable';
+import {WorkPackageTableColumns} from '../wp-table-columns'
+import {WorkPackageTableBaseInterface} from '../wp-table-base';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 
-export class WorkPackageTableColumnsService {
+export class WorkPackageTableColumnsService extends WorkPackageTableBaseService {
+  protected stateName = 'columns' as TableStateStates;
 
-  // Available columns state
-  public availableColumnsState:State<any[]>;
+  constructor(protected states: States) {
+    super(states);
+  }
 
-  // The selected columns state of the current table instance
-  public columnsState:State<string[]>;
+  public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+    let state = this.create(query, schema);
 
-  constructor(public states: States, public QueryService:any) {
-    this.columnsState = states.table.columns;
-    this.availableColumnsState = states.query.availableColumns;
+    this.state.put(state);
+  }
+
+  public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
+    let currentState = this.currentState;
+
+    currentState.update(query, schema);
+
+    this.state.put(currentState);
+  }
+
+  protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+    return new WorkPackageTableColumns(query, schema)
   }
 
   /**
    * Retrieve the QueryColumn objects for the selected columns
    */
   public getColumns():any[] {
-    let available = this.availableColumnsState.getCurrentValue();
-
-    if (!available) {
-      return [];
-    }
-
-    return this.currentState.map(name => {
-      return _.find(available as any[], (column:api.ex.Column) => column.name === name);
-    });
+    return (this.currentState && this.currentState.getColumns()) || [];
   }
 
   /**
    * Return the index of the given column or -1 if it is not contained.
    */
-  public index(name:string):number {
-    return this.currentState.indexOf(name);
+  public index(id:string):number {
+    return _.findIndex(this.getColumns(), column => column.id === id);
   }
 
   /**
    * Return the previous column of the given column name
    * @param name
    */
-  public previous(name:string):string|null {
-    let index = this.index(name);
+  public previous(column:QueryColumn):QueryColumn|null {
+    let index = this.index(column.id);
 
     if (index <= 0) {
       return null;
     }
 
-    return this.currentState[index - 1];
+    return this.getColumns()[index - 1];
   }
 
   /**
    * Return the next column of the given column name
    * @param name
    */
-  public next(name:string):string|null {
-    let index = this.index(name);
+  public next(column:QueryColumn):QueryColumn|null {
+    let index = this.index(column.id);
 
     if (index === -1 || this.isLast(name)) {
       return null;
     }
 
-    return this.currentState[index + 1];
+    return this.getColumns()[index + 1];
   }
 
   /**
    * Returns true if the column is the first selected
    */
-  public isFirst(name:string):boolean {
-    return this.index(name) === 0;
+  public isFirst(column:QueryColumn):boolean {
+    return this.index(column.id) === 0;
   }
 
   /**
    * Returns true if the column is the last selected
    */
-  public isLast(name:string):boolean {
-    return this.index(name) === this.columnCount - 1;
+  public isLast(column:QueryColumn):boolean {
+    return this.index(column.id) === this.columnCount - 1;
   }
 
   /**
    * Update the selected columns to a new set of columns.
    */
-  public setColumns(columns:string[]) {
-    this.columnsState.put(columns);
-    this.QueryService.getQuery().setColumns(this.getColumns());
+  public setColumns(columns:QueryColumn[]) {
+    let currentState = this.currentState;
+
+    currentState.current = columns;
+
+    this.state.put(currentState);
   }
 
   /**
@@ -95,7 +141,7 @@ export class WorkPackageTableColumnsService {
    * - If toIndex is less than zero, insert at the start.
    */
   public moveColumn(fromIndex:number, toIndex:number) {
-    let columns = this.currentState;
+    let columns = this.getColumns();
 
     if (toIndex >= columns.length) {
       toIndex = columns.length - 1;
@@ -116,8 +162,8 @@ export class WorkPackageTableColumnsService {
    * Shift the given column name X indices,
    * where X is the offset in indices (-1 = shift one to left)
    */
-  public shift(name:string, offset:number) {
-    let index = this.index(name);
+  public shift(column:QueryColumn, offset:number) {
+    let index = this.index(column.id);
     if (index === -1) {
       return;
     }
@@ -128,14 +174,21 @@ export class WorkPackageTableColumnsService {
   /**
    * Add a new column to the selection at the given position
    */
-  public addColumn(name:string, position?:number) {
-    let columns = this.currentState;
+  public addColumn(id:string, position?:number) {
+    let columns = this.getColumns();
+
     if (position === undefined) {
       position = columns.length;
     }
 
-    if (this.index(name) === -1) {
-      columns.splice(position, 0, name);
+    if (this.index(id) === -1) {
+      let newColumn =  _.find(this.all, (column) => column.id === id);
+
+      if (!newColumn) {
+        throw "Column with provided name is not found";
+      }
+
+      columns.splice(position, 0, newColumn);
       this.setColumns(columns);
     }
   }
@@ -143,30 +196,40 @@ export class WorkPackageTableColumnsService {
   /**
    * Remove a column from the active list
    */
-  public removeColumn(name:string) {
-    let index = this.index(name);
+  public removeColumn(column:QueryColumn) {
+    let index = this.index(column.id);
 
     if (index !== -1) {
-      let columns = this.currentState;
+      let columns = this.getColumns();
       columns.splice(index, 1);
       this.setColumns(columns);
     }
   }
 
-
-  /**
-   * Get current selection state.
-   * @returns {WPTableRowSelectionState}
-   */
-  public get currentState():string[] {
-    return this.columnsState.getCurrentValue() as string[];
+  // only exists to cast the state
+  protected get currentState():WorkPackageTableColumns {
+    return this.state.getCurrentValue() as WorkPackageTableColumns;
   }
 
   /**
    * Return the number of selected rows.
    */
   public get columnCount():number {
-    return this.currentState.length;
+    return this.getColumns().length;
+  }
+
+  /**
+   * Get all available columns (regardless of whether they are selected already)
+   */
+  public get all():QueryColumn[] {
+    return this.currentState.available || [];
+  }
+
+  /**
+   * Get columns not yet selected
+   */
+  public get unused():QueryColumn[] {
+    return _.differenceBy(this.all, this.getColumns(), '$href');
   }
 }
 

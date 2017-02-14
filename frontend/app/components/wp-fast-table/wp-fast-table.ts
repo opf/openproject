@@ -1,4 +1,3 @@
-import {WorkPackageTableMetadata} from './wp-table-metadata';
 import {HierarchyRowsBuilder} from './builders/rows/hierarchy-rows-builder';
 import {RowsBuilder} from './builders/rows/rows-builder';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -42,15 +41,14 @@ export class WorkPackageTable {
   }
 
   /**
-   * Returns the reference to the last table.metadata state value
+   * Returns the reference to the last table.query state value
    */
-  public get metaData() {
-    return this.states.table.metadata.getCurrentValue() as WorkPackageTableMetadata;
+  public get query() {
+    return this.states.table.query.getCurrentValue();
   }
 
   public get rowBuilder():RowsBuilder {
-    const metaData = this.metaData;
-    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this, metaData))!;
+    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this))!;
   }
 
   /**
