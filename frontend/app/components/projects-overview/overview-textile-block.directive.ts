@@ -43,12 +43,12 @@ export class OverviewTextileBlockController {
   // Current state of edit form showing
   public formVisible:boolean = false;
 
-  constructor(public $element,
-              public $timeout,
-              public $window,
-              public $q,
-              public I18n,
-              public NotificationsService) {
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $timeout:ng.ITimeoutService,
+              public $window:ng.IWindowService,
+              public $q:ng.IQService,
+              public I18n:op.I18n,
+              public NotificationsService:any) {
   }
 
   public initialize() {
@@ -61,7 +61,7 @@ export class OverviewTextileBlockController {
     return !!this.layoutCtrl;
   }
 
-  public toggleEditForm(state?) {
+  public toggleEditForm(state?:boolean) {
     if (state === undefined) {
       state = !this.formVisible;
     }
@@ -81,9 +81,9 @@ export class OverviewTextileBlockController {
   /**
    * Save changes from the textile block
    */
-  public submitForm(evt) {
+  public submitForm(evt:JQueryEventObject) {
     var form = this.$element.find('.textile-form');
-    var formData = new FormData(form[0]);
+    var formData = new FormData(form[0] as HTMLFormElement);
 
     // $http fails to serialize the formData correctly,
     // even when forcing the content-type.
@@ -126,11 +126,16 @@ function overviewTextileBlock() {
     },
     transclude: true,
     compile: function() {
-      return function(scope, element, attrs, ctrl, transclude) {
+      return function(
+        scope:any,
+        element:ng.IAugmentedJQuery,
+        attrs:ng.IAttributes,
+        ctrl:any,
+        transclude:any) {
         scope.$ctrl.layoutCtrl = ctrl;
-        transclude(scope, (clone) => {
+        transclude(scope, (clone:any) => {
           element.append(clone);
-          scope.$ctrl.initialize();
+          scope.$ctrl.initialSetup();
         });
       };
     },

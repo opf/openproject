@@ -26,15 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+
 export class ProjectsOverviewController {
 
-  public selectedBlock:string;
+  public selectedBlock:string|null;
 
-  constructor(public $element,
-              public $scope,
-              public $http,
-              public $compile,
-              public wpNotificationsService) {
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $scope:ng.IScope,
+              public $http:ng.IHttpService,
+              public $compile:ng.ICompileService,
+              public wpNotificationsService:WorkPackageNotificationService) {
   }
 
   public initialize() {
@@ -56,12 +58,12 @@ export class ProjectsOverviewController {
   /**
    * Retrieve block identifiers in the given container
    */
-  public activeBlockNames(container?) {
+  public activeBlockNames(container?:JQuery) {
     if (!container) {
       container = this.$element;
     }
 
-    return container.find('.widget-box').map((i, el) => {
+    return container.find('.widget-box').map((i:number, el:HTMLElement) => {
       return this.blockNameFromId(el.id);
     }).toArray();
   }
@@ -69,7 +71,7 @@ export class ProjectsOverviewController {
   /**
    * Remember removed custom blocks, since they need to be removed in backend.
    */
-  public noteRemovedBlock(blockName) {
+  public noteRemovedBlock(blockName:string) {
     angular.element('<input>')
       .attr({ type: 'hidden', name: 'deleted_custom_blocks[]', value: blockName })
       .appendTo(this.saveForm);
@@ -94,14 +96,14 @@ export class ProjectsOverviewController {
   /**
    * Given the block identifier (e.g., block_work_packages_watched), return the block name.
    */
-  public blockNameFromId(id) {
+  public blockNameFromId(id:string):string {
     return id.replace(/^block_/, '');
   }
 
   /**
    * Given the block name (e.g., work_packages_watched), return the selector to the dom block.
    */
-  public idFromBlockName(name) {
+  public idFromBlockName(name:string):string {
     return "#block_" + name;
   }
 
@@ -121,7 +123,7 @@ export class ProjectsOverviewController {
       method: 'POST',
       data: { block: this.selectedBlock },
       headers: { Accept: 'text/html' }
-    }).then(response => {
+    }).then((response:{data: any}) => {
       var blockName = response.data.match(/id="block_(.*?)"/)[1];
       this.addBlock(blockName, response.data);
       this.updateAvailableBlocks();
@@ -151,7 +153,7 @@ export class ProjectsOverviewController {
        url: attachments.data('refreshUrl'),
        method: 'GET',
        headers: { Accept: 'text/html' }
-    }).then(response => {
+    }).then((response:any) => {
       attachments.html(response.data);
     }).catch(error => {
       this.wpNotificationsService.handleErrorResponse(error);
@@ -167,7 +169,8 @@ export class ProjectsOverviewController {
   }
 
   private compileBlock(content:string) {
-    return this.$compile(content)(this.$scope, undefined, {
+    let compileFn:any = this.$compile(content);
+    return compileFn(this.$scope, undefined, {
       transcludeControllers: {
         overviewPageLayout: { instance: this }
       }
@@ -181,10 +184,15 @@ function overviewPageLayout() {
     scope: {},
     transclude: true,
     compile: function() {
-      return function(scope, element, attrs, ctrls, transclude) {
-        transclude(scope, (clone) => {
+      return function(
+        scope:any,
+        element:ng.IAugmentedJQuery,
+        attrs:ng.IAttributes,
+        ctrls:any,
+        transclude:any) {
+        transclude(scope, (clone:any) => {
           element.append(clone);
-          scope.$ctrl.initialize();
+          scope.$ctrl.initialSetup();
         });
       };
     },
