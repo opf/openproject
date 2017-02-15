@@ -201,7 +201,6 @@ group :test do
   gem 'simplecov', '~> 0.12.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
-  gem 'codecov', '~> 0.1.5', require: nil
   gem 'equivalent-xml', '~> 0.6'
 
   gem 'parallel_tests', '~> 2.4.1'
