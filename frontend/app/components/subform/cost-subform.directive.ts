@@ -40,11 +40,11 @@ export class CostSubformController {
   // subform item count as output by rails
   public itemCount: string;
 
-  constructor(public $element) {
+  constructor(public $element:ng.IAugmentedJQuery) {
     this.container = $element.find('.subform-container');
     this.rowIndex = parseInt(this.itemCount);
 
-    $element.on('click', '.delete-row-button', (evt) => {
+    $element.on('click', '.delete-row-button', (evt:JQueryEventObject) => {
       var row = angular.element(evt.target).closest('.subform-row');
       row.remove();
     });
@@ -78,7 +78,10 @@ function costsSubform() {
   return {
     restrict: 'E',
     scope: { itemCount: '@' },
-    link: (scope, element, attr, ctrl) => {
+    link: (scope:ng.IScope,
+           element:ng.IAugmentedJQuery,
+           attr:ng.IAttributes,
+           ctrl:any) => {
       const template = element.find('.subform-row-template');
       ctrl.rowTemplate = template[0].outerHTML;
       template.remove();
