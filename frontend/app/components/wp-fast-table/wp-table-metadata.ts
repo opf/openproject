@@ -20,6 +20,9 @@ export class WorkPackageTableMetadata {
   // Total number of results
   public total:number;
 
+  // Display hierarchy mode
+  public hierarchyMode:boolean = true;
+
   // Available links returned from collection resource
   public links:{ [name:string]: string };
   public bulkLinks:{ [name:string]: string };

@@ -1,0 +1,22 @@
+
+// Style the hierarchy group indicator arrow
+// default: open arrow down
+// collapsed: left arrow
+.wp-table--hierarchy-indicator
+  @include varprop(color, body-font-color)
+
+  &:hover
+    text-decoration: none
+
+  span
+    @include icon-common
+    @extend .icon-arrow-down2
+
+  &.-hierarchy-collapsed span
+    @extend .icon-arrow-right7
+
+.wp-table--row[class*="__collapsed-group-"]
+  display: none
+
+.wp-table--hierarchy-td
+  min-width: 0px !important

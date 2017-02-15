@@ -1,4 +1,7 @@
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTable} from './wp-fast-table';
 
 /**
@@ -7,7 +10,7 @@ import {WorkPackageTable} from './wp-fast-table';
  * or the group it belonged to when initially rendered.
  */
 export interface WorkPackageTableRow {
-  object:WorkPackageResource;
+  object:WorkPackageResourceInterface;
   workPackageId:string;
   position:number;
   element?:HTMLElement;
@@ -44,4 +47,8 @@ export interface WPTableRowSelectionState {
   // Index of current selection
   // required for shift-offsets
   activeRowIndex: number | null;
+}
+
+export interface WPTableHierarchyCollapsedState {
+  [workPackageId: string]: boolean;
 }
