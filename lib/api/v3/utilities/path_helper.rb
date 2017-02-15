@@ -147,6 +147,10 @@ module API
             "#{project(id)}/queries/default"
           end
 
+          def self.query_form
+            "#{queries}/form"
+          end
+
           def self.query_star(id)
             "#{query(id)}/star"
           end
@@ -177,6 +181,10 @@ module API
 
           def self.query_filter_instance_schema(id)
             "#{queries}/filter_instance_schemas/#{id}"
+          end
+
+          def self.query_project_form(id)
+            "#{project(id)}/queries/form"
           end
 
           def self.query_project_filter_instance_schemas(id)

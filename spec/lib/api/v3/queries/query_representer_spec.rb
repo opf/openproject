@@ -72,7 +72,12 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { 'schema' }
-        let(:href) { api_v3_paths.query_project_schema(project.id) }
+        let(:href) { api_v3_paths.query_project_schema(project.identifier) }
+      end
+
+      it_behaves_like 'has an untitled link' do
+        let(:link) { 'update' }
+        let(:href) { api_v3_paths.query_project_form(project.identifier) }
       end
 
       context 'has no project' do
@@ -85,6 +90,11 @@ describe ::API::V3::Queries::QueryRepresenter do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'schema' }
           let(:href) { api_v3_paths.query_schema }
+        end
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { api_v3_paths.query_form }
         end
 
         it_behaves_like 'has an untitled link' do
