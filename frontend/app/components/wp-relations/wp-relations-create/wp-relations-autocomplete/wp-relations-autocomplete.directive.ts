@@ -74,9 +74,11 @@ function wpRelationsAutocompleteDirective(
         }
       });
 
-      function getIdentifier(workPackage:WorkPackageResourceInterface){
+      function getIdentifier(workPackage:WorkPackageResourceInterface):string {
         if (workPackage) {
           return _.escape(`#${workPackage.id} - ${workPackage.subject}`);
+        } else {
+          return '';
         }
       };
 

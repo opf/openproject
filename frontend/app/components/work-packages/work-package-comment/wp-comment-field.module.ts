@@ -49,9 +49,10 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
     return true;
   }
 
-  public initializeFieldValue(withText?:string) {
+  public initializeFieldValue(withText?:string):void {
     if (!withText) {
-      return this.fieldVal.raw = '';
+      this.fieldVal.raw = '';
+      return
     }
 
     if (this.fieldVal.raw.length > 0) {

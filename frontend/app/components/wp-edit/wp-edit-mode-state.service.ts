@@ -57,7 +57,7 @@ export class WorkPackageEditModeStateService {
     });
 
     // Show confirmation message when browsing to a new page
-    angular.element($window).on(cancelEventName, (event:JQueryEventObject) => {
+    angular.element($window).on(cancelEventName, (event:JQueryEventObject):string|void => {
       if (requiresConfirmation && this.active) {
         (event as any).returnValue = confirmText;
         event.preventDefault();

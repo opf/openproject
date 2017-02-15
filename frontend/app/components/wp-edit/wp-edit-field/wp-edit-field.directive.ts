@@ -255,21 +255,19 @@ export class WorkPackageEditFieldController {
     this._hasFocus = true;
   }
 
-  public handleUserBlur(): boolean {
+  public handleUserBlur():void {
     // HACK: Firefox keeps emitting a blur event soon after an edit field has been opened
     if (this._activated_at && (Date.now() - this._activated_at) < 200) {
       console.log("Field received blur soon after opening. Ignoring.");
-      return false;
+      return;
     }
 
     this._hasFocus = false;
 
-    if (!this.isSubmittable()) {
-      return;
+    if (this.isSubmittable()) {
+      this.deactivate();
+      this.handleUserSubmit();
     }
-
-    this.deactivate();
-    this.handleUserSubmit();
   }
 
   public handleUserCancel() {

@@ -36,19 +36,20 @@ export class WorkPackageUploadDirectiveController {
   public text: any;
   public maxFileSize: number;
 
-  constructor(ConfigurationService:any) {
+  constructor(protected $q:ng.IQService, ConfigurationService:any) {
     ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
   }
 
-  public uploadFiles(files: UploadFile[]) {
+  public uploadFiles(files: UploadFile[]):void {
     if (files === undefined || files.length === 0) {
       return;
     }
 
     if (this.workPackage.isNew) {
-      return this.workPackage.pendingAttachments.push(...files);
+      this.workPackage.pendingAttachments.push(...files);
+      return;
     }
 
     this.workPackage.uploadAttachments(files);

@@ -100,7 +100,7 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
     return this.activationPrefix + this.text.label;
   }
 
-  public get activeAccessKey():number {
+  public get activeAccessKey():number|void {
     if (!this.isActive()) return this.accessKey;
   }
 

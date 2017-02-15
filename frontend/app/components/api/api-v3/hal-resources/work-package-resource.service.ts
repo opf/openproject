@@ -239,7 +239,7 @@ export class WorkPackageResource extends HalResource {
    * Upload the pending attachments if the work package exists.
    * Do nothing, if the work package is being created.
    */
-  public uploadPendingAttachments() {
+  public uploadPendingAttachments():ng.IPromise<any>|void {
    if (!this.pendingAttachments.length) {
      return;
    }

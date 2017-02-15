@@ -26,11 +26,11 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
     return `.${rowClassName}`;
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     if (!(evt.keyCode === keyCodes.F10 && evt.shiftKey && evt.altKey)) {
-      return;
+      return true;
     }
 
     evt.preventDefault();

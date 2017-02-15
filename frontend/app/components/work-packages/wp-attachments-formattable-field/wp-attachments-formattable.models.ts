@@ -95,6 +95,8 @@ export class DropModel {
     if (angular.isDefined(this.webLinkUrl)) {
       return (this.config.imageFileTypes.indexOf(this.webLinkUrl.split('.').pop().toLowerCase()) > -1);
     }
+
+    return false;
   };
 
   public isAttachmentOfCurrentWp():boolean {
@@ -115,6 +117,8 @@ export class DropModel {
       });
       return isAttachment;
     }
+
+    return false;
   };
 
   public filesAreValidForUploading():boolean {

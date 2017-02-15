@@ -43,7 +43,7 @@ export class ActivityEntryInfo {
     return this.activityDate(this.activity);
   }
 
-  public get dateOfPrevious() {
+  public get dateOfPrevious():any {
     if (this.index > 0) {
       return this.activityDate(this.activities[this.index - 1]);
     }

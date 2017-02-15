@@ -57,10 +57,8 @@ class WpRelationsHierarchyRowDirectiveController {
     }
   }
 
-  public isCurrentElement() {
-    if (this.relationType !== 'child' && this.relationType !== 'parent') {
-      return true;
-    }
+  public isCurrentElement():boolean {
+    return (this.relationType !== 'child' && this.relationType !== 'parent');
   }
 
   public isParent() {

@@ -96,7 +96,7 @@ export class KeepTabService {
     }
   }
 
-  protected isCurrentState(stateName:string) {
+  protected isCurrentState(stateName:string):boolean {
     if (stateName === 'show') {
       return this.$state.includes('work-packages.show.*');
     }
@@ -104,6 +104,8 @@ export class KeepTabService {
     if (stateName === 'details') {
       return this.$state.includes('work-packages.list.details.*');
     }
+
+    return false;
   }
 
   protected updateTabs(toState?:any) {

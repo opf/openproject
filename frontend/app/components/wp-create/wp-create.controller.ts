@@ -67,6 +67,7 @@ export class WorkPackageCreateController {
       );
     }
 
+    return '';
   }
 
   constructor(protected $state:ng.ui.IStateService,
