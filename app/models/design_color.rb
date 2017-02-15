@@ -27,12 +27,6 @@
 #++
 
 class DesignColor < ActiveRecord::Base
-  DEFAULTS = {
-    "primary-color"       => "#3493B3",
-    "primary-color-dark"  => "#06799F",
-    "alternative-color"   => "#35C53F"
-  }.freeze
-
   after_commit -> do
     # CustomStyle.current.updated_at determins the cache key for inline_css
     # in which the CSS color variables will be overwritten. That is why we need
@@ -53,34 +47,29 @@ class DesignColor < ActiveRecord::Base
 
   class << self
     def defaults
-      DEFAULTS
+      OpenProject::Design.variables
     end
 
     def setables
-      groups = overwritten.group_by(&:variable)
-      DEFAULTS.map do |variable, _hexcode|
-        if groups[variable].try(:any?)
-          groups[variable].first
-        else
-          new variable: variable
-        end
+      overwritten_values = self.overwritten
+      OpenProject::Design.customizable_variables.map do |varname|
+        overwritten_value = overwritten_values.detect { |var| var.variable == varname }
+        overwritten_value || new(variable: varname)
       end
     end
 
     def overwritten
-      all.to_a.delete_if do |color_variable|
-        DEFAULTS.keys.exclude? color_variable.variable
+      overridable = OpenProject::Design.customizable_variables
+
+      all.to_a.select do |color|
+        overridable.include?(color.variable) && self.defaults[color] != color.get_hexcode
       end
     end
   end
 
   # shortcut to get the color's value
   def get_hexcode
-    if hexcode.present?
-      hexcode
-    else
-      self.class.defaults[variable]
-    end
+    hexcode.presence || self.class.defaults[variable]
   end
 
   protected

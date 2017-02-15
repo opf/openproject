@@ -7,7 +7,7 @@ RSpec.describe DesignColor, type: :model do
     it "returns a hash of default color variables with hex color codes" do
       expect(described_class.defaults).to be_a(Hash)
       expect(described_class.defaults["primary-color"]).to(
-        equal(described_class::DEFAULTS["primary-color"])
+        equal(described_class.defaults["primary-color"])
       )
     end
   end
