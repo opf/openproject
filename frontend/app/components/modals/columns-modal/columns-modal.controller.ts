@@ -29,7 +29,8 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 
-function ColumnsModalController($scope:any,
+function ColumnsModalController(this:any,
+                                $scope:any,
                                 $timeout:ng.ITimeoutService,
                                 I18n:op.I18n,
                                 columnsModal:any,

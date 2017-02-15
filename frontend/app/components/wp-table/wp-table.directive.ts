@@ -33,7 +33,10 @@ import {States} from './../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {debugLog} from '../../helpers/debug_output';
@@ -187,12 +190,12 @@ function WorkPackagesTableController($scope:any, $rootScope:ng.IRootScopeService
     $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
   };
 
-  $scope.getTableColumnName = function(workPackage:WorkPackageResource, name:string) {
+  $scope.getTableColumnName = function(workPackage:any, name:string) {
     // poor man's implementation to query for whether this wp is a milestone
     // It would be way cleaner to ask whether this work package has a type
     // that is a milestone but that would require us to make another server request.
-    if ((name === 'startDate' && _.isUndefined(this.workPackage.startDate)) ||
-        (name === 'dueDate' && _.isUndefined(this.workPackage.dueDate))) {
+    if ((name === 'startDate' && _.isUndefined(workPackage.startDate)) ||
+        (name === 'dueDate' && _.isUndefined(workPackage.dueDate))) {
       return 'date';
     }
     else {

@@ -28,7 +28,8 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function SaveModalController($scope:any,
+function SaveModalController(this:any,
+                             $scope:any,
                              $state:ng.ui.IStateService,
                              saveModal:any,
                              QueryService:any,

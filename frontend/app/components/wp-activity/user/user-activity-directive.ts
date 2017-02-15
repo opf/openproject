@@ -97,7 +97,7 @@ function userActivity($uiViewScroll:any,
       }
       scope.details = [];
 
-      angular.forEach(scope.activity.details, function (detail) {
+      angular.forEach(scope.activity.details, function (this:any[], detail) {
         this.push($sce.trustAsHtml(detail.html));
       }, scope.details);
 
@@ -114,7 +114,7 @@ function userActivity($uiViewScroll:any,
 
       scope.cancelEdit = function () {
         scope.inEdit = false;
-        this.focusEditIcon();
+        scope.focusEditIcon();
       };
 
       scope.quoteComment = function () {
@@ -129,7 +129,7 @@ function userActivity($uiViewScroll:any,
           scope.workPackage.updateActivities();
           scope.inEdit = false;
         });
-        this.focusEditIcon();
+        scope.focusEditIcon();
       };
 
       scope.focusEditIcon = function () {

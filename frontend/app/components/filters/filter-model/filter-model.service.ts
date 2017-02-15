@@ -32,7 +32,7 @@ function filterModel(
   OPERATORS_NOT_REQUIRING_VALUES:any,
   MULTIPLE_VALUE_FILTER_OPERATORS:any,
   SELECTABLE_FILTER_TYPES:any) {
-  var Filter = function (data:any) {
+  var Filter = function (this:any, data:any) {
     angular.extend(this, data);
 
     // Experimental API controller will always give back strings even for numeric values so need to parse them
@@ -49,7 +49,7 @@ function filterModel(
      * @description Serializes the filter to parameters required by the backend
      * @returns {Object} Request parameters
      */
-    toParams: function () {
+    toParams: function (this:any) {
       var params:any = {};
 
       params['op[' + this.name + ']'] = this.operator;
@@ -58,16 +58,16 @@ function filterModel(
       return params;
     },
 
-    isSingleInputField: function () {
+    isSingleInputField: function (this:any) {
       return !this.isSelectInputField() &&
              MULTIPLE_VALUE_FILTER_OPERATORS.indexOf(this.operator) === -1;
     },
 
-    isSelectInputField: function () {
+    isSelectInputField: function (this:any) {
       return SELECTABLE_FILTER_TYPES.indexOf(this.type) !== -1;
     },
 
-    parseSingleValue: function (v:any) {
+    parseSingleValue: function (this:any, v:any) {
       if (this.type == 'integer' || this.type == 'date') {
         if (this.operator == '=d') {
           this.dateValue = v;
@@ -81,7 +81,7 @@ function filterModel(
       }
     },
 
-    getValuesAsArray: function () {
+    getValuesAsArray: function (this:any) {
       var result = [];
       if (this.isSingleInputField()) {
         if (this.operator == '=d') {
@@ -113,15 +113,15 @@ function filterModel(
       return result;
     },
 
-    requiresValues: function () {
+    requiresValues: function (this:any) {
       return OPERATORS_NOT_REQUIRING_VALUES.indexOf(this.operator) === -1;
     },
 
-    isConfigured: function () {
+    isConfigured: function (this:any) {
       return this.operator && (this.hasValues() || !this.requiresValues());
     },
 
-    pruneValues: function () {
+    pruneValues: function (this:any) {
       if (this.values) {
         if (this.operator == '<>d') {
           this.values = {
@@ -139,7 +139,7 @@ function filterModel(
       }
     },
 
-    hasValues: function () {
+    hasValues: function (this:any) {
       if (this.isSingleInputField()) {
         if (this.operator == '=d') {
           return !!this.dateValue;

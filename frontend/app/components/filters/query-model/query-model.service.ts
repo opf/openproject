@@ -34,7 +34,7 @@ function QueryModelService(
   UrlParamsHelper:any,
   PathHelper:any,
   INITIALLY_SELECTED_COLUMNS:any) {
-  var Query = function (queryData:any, options:any) {
+  var Query = function (this:any, queryData:any, options:any) {
     angular.extend(this, queryData, options);
 
     this.filters = [];
@@ -64,7 +64,7 @@ function QueryModelService(
      * @description Serializes the query to parameters required by the backend
      * @returns {Object} Request parameters
      */
-    toParams: function() {
+    toParams: function(this:any) {
       return angular.extend.apply(this, [
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
@@ -81,7 +81,7 @@ function QueryModelService(
       );
     },
 
-    toUpdateParams: function() {
+    toUpdateParams: function(this:any) {
       return angular.extend.apply(this, [
         {
           'id': this.id,
@@ -100,22 +100,22 @@ function QueryModelService(
       );
     },
 
-    save: function(data:any){
+    save: function(this:any, data:any){
       // Note: query has already been updated, only the id needs to be set
       this.id = data.id;
       this.dirty = false;
       return this;
     },
 
-    star: function() {
+    star: function(this:any) {
       this.starred = true;
     },
 
-    unstar: function() {
+    unstar: function(this:any) {
       this.starred = false;
     },
 
-    update: function(queryData:any) {
+    update: function(this:any, queryData:any) {
       angular.extend(this, queryData);
 
       if(queryData.filters){
@@ -128,27 +128,27 @@ function QueryModelService(
       return this;
     },
 
-    getQueryString: function(){
+    getQueryString: function(this:any){
       return UrlParamsHelper.buildQueryString(this.toParams());
     },
 
-    getSortation: function(){
+    getSortation: function(this:any){
       return this.sortation;
     },
 
-    setSortation: function(sortCriteria:any){
+    setSortation: function(this:any, sortCriteria:any){
       this.sortation = new Sortation(sortCriteria);
     },
 
-    setGroupBy: function(groupBy:any) {
+    setGroupBy: function(this:any, groupBy:any) {
       this.groupBy = groupBy;
     },
 
-    updateSortElements: function(sortElements:any){
+    updateSortElements: function(this:any, sortElements:any){
       this.sortation.setSortElements(sortElements);
     },
 
-    setName: function(name:string) {
+    setName: function(this:any, name:string) {
       this.name = name;
     },
 
@@ -162,7 +162,7 @@ function QueryModelService(
      *
      * @returns {undefined}
      */
-    setAvailableWorkPackageFilters: function(availableFilters:any) {
+    setAvailableWorkPackageFilters: function(this:any, availableFilters:any) {
       this.availableWorkPackageFilters = availableFilters;
 
       if (this.projectId){
@@ -184,7 +184,7 @@ function QueryModelService(
 
      * @returns {undefined}
      */
-    setFilters: function(filters:any) {
+    setFilters: function(this:any, filters:any) {
       if (filters){
         var self = this;
 
@@ -194,7 +194,7 @@ function QueryModelService(
       }
     },
 
-    setRawFilters: function(filters:any) {
+    setRawFilters: function(this:any, filters:any) {
       this.dirty = true;
       if (filters){
         var self = this;
@@ -205,11 +205,11 @@ function QueryModelService(
       }
     },
 
-    setColumns: function(columns:any) {
+    setColumns: function(this:any, columns:any) {
       this.columns = columns;
     },
 
-    applyDefaultsFromFilters: function(workPackage:any) {
+    applyDefaultsFromFilters: function(this:any, workPackage:any) {
       angular.forEach(this.filters, function(filter) {
 
         // Ignore any filters except =
@@ -248,7 +248,7 @@ function QueryModelService(
      * Returns true if the query is a default query
      * @returns {boolean} default
      */
-    isDefault: function() {
+    isDefault: function(this:any) {
       return this.name === '_';
     },
 
@@ -261,7 +261,7 @@ function QueryModelService(
      * scoped to a project.
      * @returns {boolean} default
      */
-    isGlobal: function() {
+    isGlobal: function(this:any) {
       return !this.projectId;
     },
 
@@ -274,7 +274,7 @@ function QueryModelService(
 
      * @returns {undefined}
      */
-    setDefaultFilter: function() {
+    setDefaultFilter: function(this:any) {
       var statusOpenFilterData = this.getExtendedFilterData({name: 'status', operator: 'o'});
       this.filters = [new Filter(statusOpenFilterData)];
     },
@@ -288,24 +288,24 @@ function QueryModelService(
 
      * @returns {object} Extended filter data.
      */
-    getExtendedFilterData: function(filterData:any) {
+    getExtendedFilterData: function(this:any, filterData:any) {
       return angular.extend(filterData, {
         type: this.getFilterType(filterData.name),
         modelName: this.getFilterModelName(filterData.name)
       });
     },
 
-    getFilterNames: function(filters:any) {
+    getFilterNames: function(this:any, filters:any) {
       return (filters || this.filters).map(function(filter:any){
         return filter.name;
       });
     },
 
-    getSelectedColumns: function(){
+    getSelectedColumns: function(this:any){
       return this.columns;
     },
 
-    getParamColumns: function(){
+    getParamColumns: function(this:any){
       var selectedColumns = this.columns.map(function(column:any) {
         return column.name;
       });
@@ -313,23 +313,23 @@ function QueryModelService(
       return selectedColumns;
     },
 
-    getEncodedSortation: function() {
+    getEncodedSortation: function(this:any) {
       return !!this.sortation ? this.sortation.encode() : null;
     },
 
-    getColumnNames: function() {
+    getColumnNames: function(this:any) {
       return this.columns.map(function(column:any) {
         return column.name;
       });
     },
 
-    getFilterByName: function(filterName:any) {
+    getFilterByName: function(this:any, filterName:any) {
       return this.filters.filter(function(filter:any){
         return filter.name === filterName;
       })[0];
     },
 
-    addFilter: function(filterName:any, options:any) {
+    addFilter: function(this:any, filterName:any, options:any) {
       this.dirty = true;
       var filter = this.getFilterByName(filterName);
 
@@ -343,17 +343,17 @@ function QueryModelService(
       }
     },
 
-    removeFilter: function(filterName:any) {
+    removeFilter: function(this:any, filterName:any) {
       this.dirty = true;
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filter:any) {
+    deactivateFilter: function(this:any, filter:any) {
       this.dirty = true;
       filter.deactivated = true;
     },
 
-    getFilterType: function(filterName:any) {
+    getFilterType: function(this:any, filterName:any) {
       if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]){
         return this.availableWorkPackageFilters[filterName].type;
       } else {
@@ -361,51 +361,51 @@ function QueryModelService(
       }
     },
 
-    getFilterModelName: function(filterName:any) {
+    getFilterModelName: function(this:any, filterName:any) {
       if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]) return this.availableWorkPackageFilters[filterName].modelName;
     },
 
-    getActiveFilters: function() {
+    getActiveFilters: function(this:any) {
       return this.filters.filter(function(filter:any){
         return !filter.deactivated;
       });
     },
 
-    getRemainingFilters: function() {
+    getRemainingFilters: function(this:any) {
       var activeFilters = _.indexBy(this.getActiveFilters(), function(f:any) { return f.name });
       return _.pick(this.availableWorkPackageFilters, function(filter, key) {
         return !activeFilters[key];
       });
     },
 
-    getActiveConfiguredFilters: function() {
+    getActiveConfiguredFilters: function(this:any) {
       return this.getActiveFilters().filter(function(filter:any){
         return filter.isConfigured();
       });
     },
 
-    clearAll: function(){
+    clearAll: function(this:any){
       this.groupBy = '';
       this.displaySums = false;
       this.id = null;
       this.clearFilters();
     },
 
-    clearFilters: function(){
+    clearFilters: function(this:any){
       this.filters.map(function(filter:any){
         filter.deactivated = true;
       });
     },
 
-    isNew: function() {
+    isNew: function(this:any) {
       return !this.id;
     },
 
-    isDirty: function() {
+    isDirty: function(this:any) {
       return this.dirty;
     },
 
-    hasName: function() {
+    hasName: function(this:any) {
       return !!this.name && !this.isDefault();
     }
   };

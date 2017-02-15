@@ -212,15 +212,15 @@ function QueryService($rootScope:ng.IRootScopeService,
       query.dirty = true;
     },
 
-    getSelectedColumns: function() {
+    getSelectedColumns: function(this:any) {
       return this.getQuery().getSelectedColumns();
     },
 
-    getSelectedColumnNames: function() {
+    getSelectedColumnNames: function(this:any) {
       return this.getSelectedColumns().map((column:api.ex.Column) => column.name);
     },
 
-    setSelectedColumns: function(selectedColumnNames:string[]) {
+    setSelectedColumns: function(this:any, selectedColumnNames:string[]) {
       query.dirty = true;
       var currentColumns = this.getSelectedColumns();
 
@@ -236,7 +236,7 @@ function QueryService($rootScope:ng.IRootScopeService,
       return query.getSortation();
     },
 
-    getAvailableFilters: function(projectIdentifier:string){
+    getAvailableFilters: function(this:any, projectIdentifier:string){
       // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
       var getFilters = <any> QueryService.getCustomFieldFilters;
@@ -458,7 +458,7 @@ function QueryService($rootScope:ng.IRootScopeService,
       });
     },
 
-    updateHighlightName: function() {
+    updateHighlightName: function(this:any) {
       // TODO Implement an API endpoint for updating the names or add an appropriate endpoint that returns query names for all highlighted queries
       return this.unstarQuery().then(this.starQuery);
     },

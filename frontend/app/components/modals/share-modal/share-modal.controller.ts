@@ -28,7 +28,8 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function ShareModalController($scope:any,
+function ShareModalController(this:any,
+                              $scope:any,
                               shareModal:any,
                               QueryService:any,
                               AuthorisationService:any,

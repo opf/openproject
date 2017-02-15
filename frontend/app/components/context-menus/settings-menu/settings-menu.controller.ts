@@ -223,12 +223,12 @@ function SettingsDropdownMenuController($scope:IMyScope,
     return true;
   }
 
-  function showModal() {
+  function showModal(this:any) {
     closeAnyContextMenu();
     this.activate();
   }
 
-  function showExistingQueryModal(event:JQueryEventObject) {
+  function showExistingQueryModal(this:any, event:JQueryEventObject) {
     if (preventNewQueryAction(event)) {
       closeAnyContextMenu();
       this.activate();

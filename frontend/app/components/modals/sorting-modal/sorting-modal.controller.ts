@@ -29,7 +29,8 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
-function SortingModalController(sortingModal:any,
+function SortingModalController(this:any,
+                                sortingModal:any,
                                 $scope:any,
                                 $filter:ng.IFilterService,
                                 loadingIndicator:LoadingIndicatorService,

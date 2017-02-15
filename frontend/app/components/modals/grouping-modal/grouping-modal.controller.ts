@@ -29,7 +29,8 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
 
-function GroupingModalController($scope:any,
+function GroupingModalController(this:any,
+                                 $scope:any,
                                  groupingModal:any,
                                  QueryService:any,
                                  wpTableMetadata:WorkPackageTableMetadataService,

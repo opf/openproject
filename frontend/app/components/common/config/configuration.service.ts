@@ -87,50 +87,50 @@ function ConfigurationService(
   return {
     settings: initSettings(),
     api: api,
-    displaySettingPresent: function (setting:any) {
+    displaySettingPresent: function (this:any, setting:any) {
       return this.settings.display.hasOwnProperty(setting) &&
         this.settings.display[setting] !== false;
     },
-    accessibilityModeEnabled: function () {
+    accessibilityModeEnabled: function (this:any) {
       return this.settings.user_preferences.impaired;
     },
-    commentsSortedInDescendingOrder: function () {
+    commentsSortedInDescendingOrder: function (this:any) {
       return this.settings.user_preferences.others.comments_sorting === 'desc';
     },
-    warnOnLeavingUnsaved: function () {
+    warnOnLeavingUnsaved: function (this:any) {
       return this.settings.user_preferences.others.warn_on_leaving_unsaved === true;
     },
-    autoHidePopups: function () {
+    autoHidePopups: function (this:any) {
       return this.settings.user_preferences.others.auto_hide_popups === true;
     },
-    isTimezoneSet: function () {
+    isTimezoneSet: function (this:any) {
       return this.settings.user_preferences.time_zone !== '';
     },
-    timezone: function () {
+    timezone: function (this:any) {
       return this.settings.user_preferences.time_zone;
     },
-    dateFormatPresent: function () {
+    dateFormatPresent: function (this:any) {
       return this.displaySettingPresent('date_format') &&
         this.settings.display.date_format !== '';
     },
-    dateFormat: function () {
+    dateFormat: function (this:any) {
       return this.settings.display.date_format;
     },
-    timeFormatPresent: function () {
+    timeFormatPresent: function (this:any) {
       return this.displaySettingPresent('time_format') &&
         this.settings.display.time_format !== '';
     },
-    timeFormat: function () {
+    timeFormat: function (this:any) {
       return this.settings.display.time_format;
     },
-    isModuleEnabled: function (module:string) {
+    isModuleEnabled: function (this:any, module:string) {
       return this.settings.enabled_modules.indexOf(module) >= 0;
     },
-    startOfWeekPresent: function () {
+    startOfWeekPresent: function (this:any) {
       return this.displaySettingPresent('start_of_week') &&
         this.settings.display.start_of_week !== '';
     },
-    startOfWeek: function () {
+    startOfWeek: function (this:any) {
       if (this.startOfWeekPresent()) {
         return this.settings.display.start_of_week;
       }

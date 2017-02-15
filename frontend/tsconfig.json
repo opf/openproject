@@ -8,8 +8,8 @@
     "sourceMap": true,
     "noEmitOnError": false,
     // Increase strictness
-    "noImplicitAny": true
-    // "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true
     // "noImplicitReturns": true,
     // "noFallthroughCasesInSwitch": true,
     // "strictNullChecks": true

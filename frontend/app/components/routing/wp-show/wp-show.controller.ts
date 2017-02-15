@@ -110,7 +110,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
     var augmentedActions = { };
 
-    angular.forEach(permittedActions, function(permission) {
+    angular.forEach(permittedActions, function(this:any, permission) {
       var css = ['icon-' + permission.key];
 
       this[permission.key] = { link: permission.link, css: css };
@@ -128,7 +128,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     var permittedPluginActions = authorization.permittedActionsWithLinks(pluginActions);
     var augmentedPluginActions = { };
 
-    angular.forEach(permittedPluginActions, function(action) {
+    angular.forEach(permittedPluginActions, function(this:any, action) {
       var css = [].concat(action.css);
 
       if (css.length === 0) {

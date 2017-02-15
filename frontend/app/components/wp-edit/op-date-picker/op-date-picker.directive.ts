@@ -31,7 +31,7 @@ interface OpDatePickerScope extends ng.IScope {
   onClose?:Function;
 }
 
-function opDatePickerLink(scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs:any) {
+function opDatePickerLink(this:any, scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs:any) {
   // we don't want the date picker in the accessibility mode
   if (this.ConfigurationService.accessibilityModeEnabled()) {
     return;

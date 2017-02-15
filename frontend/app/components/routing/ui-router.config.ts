@@ -54,7 +54,7 @@ const panels = {
     };
   },
 
-  get activityDetails() {
+  get activityDetails(this:any) {
     var activity = this.activity;
     activity.url = '#{activity_no:\d+}';
 

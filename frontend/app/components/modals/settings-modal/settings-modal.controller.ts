@@ -29,7 +29,8 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function SettingsModalController($scope:any,
+function SettingsModalController(this:any,
+                                 $scope:any,
                                  $rootScope:ng.IRootScopeService,
                                  QUERY_MENU_ITEM_TYPE:any,
                                  settingsModal:any,
