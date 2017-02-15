@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,38 +30,16 @@
 module API
   module V3
     module Queries
-      class QueriesByProjectAPI < ::API::OpenProjectAPI
-        namespace :queries do
-          helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+      class FormRepresenter < ::API::Decorators::Form
+        def payload_representer
+          # TODO: Flesh out
+          {}
+        end
 
-          before do
-            authorize(:view_work_packages, context: @project, user: current_user)
-          end
-
-          mount API::V3::Queries::Schemas::QueryProjectFilterInstanceSchemaAPI
-          mount API::V3::Queries::Schemas::QueryProjectSchemaAPI
-
-          namespace :default do
-            get do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
-                                        project: @project)
-
-              query_representer_response(query, params)
-            end
-          end
-
-          namespace 'form' do
-            post do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
-                                        project: @project)
-
-              status 200
-              FormRepresenter.new(query,
-                                  current_user: current_user)
-            end
-          end
+        def schema_representer
+          Schemas::QuerySchemaRepresenter.new(represented,
+                                              form_embedded: true,
+                                              current_user: current_user)
         end
       end
     end

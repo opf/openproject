@@ -88,6 +88,17 @@ module API
             end
           end
 
+          namespace 'form' do
+            post do
+              query = Query.new_default(name: 'default',
+                                        user: current_user)
+
+              status 200
+              FormRepresenter.new(query,
+                                  current_user: current_user)
+            end
+          end
+
           params do
             requires :id, desc: 'Query id'
           end

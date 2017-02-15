@@ -425,4 +425,22 @@ describe 'API v3 Query resource', type: :request do
       end
     end
   end
+
+  describe '#post queries/form' do
+    let(:path) { api_v3_paths.query_form }
+
+    before do
+      post path
+    end
+
+    it 'succeeds' do
+      expect(last_response.status).to eq(200)
+    end
+
+    it 'returns the form' do
+      expect(last_response.body)
+        .to be_json_eql('Form'.to_json)
+        .at_path('_type')
+    end
+  end
 end
