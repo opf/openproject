@@ -34,15 +34,20 @@ end
 
 namespace :parallel do
   desc 'Run all suites in parallel (one after another)'
-  task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber', :spec_legacy, :rspec, :cucumber]
+  task all: ['parallel:plugins:specs',
+             'parallel:plugins:features',
+             'parallel:plugins:cucumber',
+             :spec_legacy,
+             :rspec,
+             :cucumber]
 
   namespace :plugins do
-
     desc 'Run all plugin tests in parallel'
-    task all: ['parallel:plugins:spec', 'parallel:plugins:cucumber']
+    task all: ['parallel:plugins:specs',
+               'parallel:plugins:features',
+               'parallel:plugins:cucumber']
 
-    desc 'Run plugin specs in parallel'
-    task spec: [:environment] do
+    def run_specs(pattern)
       check_for_pending_migrations
 
       num_cpus       = ENV['GROUP_SIZE']
@@ -53,7 +58,21 @@ namespace :parallel do
 
       spec_folders = Plugins::LoadPathHelper.spec_load_paths.join(' ')
 
-      sh "bundle exec parallel_test --type rspec #{group_options} #{spec_folders}"
+      sh "bundle exec parallel_test --type rspec #{group_options} #{spec_folders} #{pattern}"
+    end
+
+    desc 'Run plugin specs (non features) in parallel'
+    task specs: [:environment] do
+      pattern = "--pattern '.+/spec/(?!features\/)'"
+
+      run_specs pattern
+    end
+
+    desc 'Run plugin feature specs in parallel'
+    task features: [:environment] do
+      pattern = "--pattern '.+/spec/features/'"
+
+      run_specs pattern
     end
 
     desc 'Run plugin cucumber features in parallel'
