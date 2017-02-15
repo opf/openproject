@@ -42,8 +42,8 @@ var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 
-var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
-  entries[name.replace(/^openproject\-/, '')] = path.resolve(pluginPath, 'frontend', 'app', name + '-app.js');
+var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
+  entries[name.replace(/^openproject\-/, '')] = name;
   return entries;
 }, {});
 
@@ -63,13 +63,7 @@ fs.readdirSync(translations).forEach(function (file) {
 });
 
 var loaders = [
-  { test: /\.tsx?$/,
-    loader: 'ts-loader',
-    options: {
-      logLevel: 'info',
-      configFileName: path.resolve(__dirname, 'tsconfig.json')
-    }
-  },
+  { test: /\.tsx?$/, loader: 'ng-annotate-loader!ts-loader'},
   {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract({
@@ -120,7 +114,7 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      modules: ['node_modules'],
+      modules: ['node_modules'].concat(pathConfig.pluginDirectories),
 
       extensions: ['.ts', '.tsx', '.js'],
 
