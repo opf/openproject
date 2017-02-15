@@ -22,8 +22,13 @@ export class WorkPackageTableColumnsService {
    */
   public getColumns():any[] {
     let available = this.availableColumnsState.getCurrentValue();
+
+    if (!available) {
+      return [];
+    }
+
     return this.currentState.map(name => {
-      return _.find(available, (column) => column.name === name);
+      return _.find(available as any[], (column) => column.name === name);
     });
   }
 
@@ -154,7 +159,7 @@ export class WorkPackageTableColumnsService {
    * @returns {WPTableRowSelectionState}
    */
   public get currentState():string[] {
-    return this.columnsState.getCurrentValue();
+    return this.columnsState.getCurrentValue() as string[];
   }
 
   /**

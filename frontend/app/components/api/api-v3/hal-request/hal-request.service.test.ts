@@ -55,7 +55,7 @@ describe('halRequest service', () => {
     var promise:any;
 
     beforeEach(() => {
-      promise = halRequest.request('get', null);
+      promise = halRequest.request('get', '');
     });
 
     it('should return a rejected promise', () => {

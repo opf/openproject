@@ -64,7 +64,7 @@ function wpDetailsToolbar(
     var augmentedPluginActions = { };
 
     angular.forEach(permittedPluginActions, function(this:any, action) {
-      var css = [].concat(action.css);
+      var css:string[] = [].concat(action.css);
 
       if (css.length === 0) {
         css = ["icon-" + action.key];

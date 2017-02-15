@@ -35,7 +35,7 @@ var $q:ng.IQService;
 var halRequest:HalRequestService;
 
 export interface HalLinkInterface {
-  href:string;
+  href:string|null;
   method:string;
   title?:string;
   templated?:boolean;
@@ -61,7 +61,7 @@ export class HalLink implements HalLinkInterface {
     return HalLink.fromObject(link).$callable();
   }
 
-  constructor(public href:string = null,
+  constructor(public href:string|null = null,
               public title:string = '',
               public method:string = 'get',
               public templated:boolean = false,
@@ -73,7 +73,7 @@ export class HalLink implements HalLinkInterface {
    */
   public $fetch(...params:any[]):ng.IPromise<HalResource> {
     const [data, headers] = params;
-    return halRequest.request(this.method, this.href, data, headers);
+     return halRequest.request(this.method, this.href as string, data, headers);
   }
 
   /**
@@ -86,7 +86,7 @@ export class HalLink implements HalLinkInterface {
       throw 'The link ' + this.href + ' is not templated.';
     }
 
-    let href = _.clone(this.href);
+    let href = _.clone(this.href) || '';
     _.each(templateValues, (value, key) => {
       let regexp = new RegExp('{' + key + '}');
       href = href.replace(regexp, value);

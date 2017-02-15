@@ -99,7 +99,7 @@ export class WorkPackageRelationsController {
       if (this.groupByWorkPackageType) {
         return wp.type.name;
       } else {
-        var normalizedType = wp.relatedBy.normalizedType(this.workPackage);
+        var normalizedType = (wp.relatedBy as RelationResourceInterface).normalizedType(this.workPackage);
         return this.I18n.t('js.relation_labels.' + normalizedType);
       }
     });

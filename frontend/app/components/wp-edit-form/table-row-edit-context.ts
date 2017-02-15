@@ -33,7 +33,7 @@ import {tdClassName, CellBuilder} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {locateRow} from '../wp-fast-table/helpers/wp-table-row-helpers';
+import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
 
 export class TableRowEditContext implements WorkPackageEditContext {
@@ -50,12 +50,8 @@ export class TableRowEditContext implements WorkPackageEditContext {
     injectorBridge(this);
   }
 
-  public get rowElement():HTMLElement {
-    return locateRow(this.row.workPackageId);
-  }
-
   public find(fieldName:string):JQuery {
-    return jQuery(this.rowElement).find(`.${tdClassName}.${fieldName}`);
+    return jQuery(`#${rowId(this.row.workPackageId)}`).find(`.${tdClassName}.${fieldName}`);
   }
 
   public reset(workPackage:WorkPackageResource, fieldName:string) {
@@ -67,7 +63,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   public requireVisible(name:string):Promise<JQuery> {
     this.wpTableColumns.addColumn(name);
-    let updated = this.states.table.rendered.observeOnScope(null).take(1).toPromise();
+    let updated = this.states.table.rendered.get();
     return updated.then(() => {
       return this.find(name);
     })

@@ -329,7 +329,7 @@ export class WorkPackageEditFieldController {
     this.__d__inplaceEditReadValue.toggleClass("-read-only", readOnly);
 
     // Accessibility: Mark editable fields as button role
-    const role = this.isEditable ? 'button' : null;
+    const role = this.isEditable ? 'button' : '';
     this.__d__inplaceEditReadValue.attr("role", role);
 
     // Accessibility: Allow tab on all fields except id

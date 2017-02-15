@@ -34,7 +34,7 @@ import {SimpleTemplateRenderer} from '../../angular/simple-template-renderer';
 export class DisplayField extends Field {
   public static type: string;
   public static $injector: ng.auto.IInjectorService;
-  public template: string = null;
+  public template:string|null = null;
   public I18n: op.I18n;
 
   public get value() {
@@ -76,9 +76,10 @@ export class DisplayField extends Field {
   }
 
   protected renderTemplate(element:HTMLElement, displayText:string) {
-    let renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
+    const renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
+    const template:string = this.template as string;
 
-    renderer.renderIsolated(element, this.template, {
+    renderer.renderIsolated(element, template, {
       workPackage: this.resource,
       name: this.name,
       displayText: displayText,

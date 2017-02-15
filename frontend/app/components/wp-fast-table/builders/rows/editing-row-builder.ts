@@ -9,9 +9,12 @@ export class EditingRowBuilder extends SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshEditing(row:WorkPackageTableRow, editForm:WorkPackageEditForm):HTMLElement {
+  public refreshEditing(row:WorkPackageTableRow, editForm:WorkPackageEditForm):HTMLElement|null {
     // Get the row for the WP if refreshing existing
-    let rowElement = row.element || locateRow(row.workPackageId);
+    const rowElement:HTMLElement|null = row.element || locateRow(row.workPackageId);
+    if (!rowElement) {
+      return null;
+    }
 
     // Detach all existing columns
     let tds = jQuery(rowElement).find('td').detach();

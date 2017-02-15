@@ -94,8 +94,8 @@ export class WorkPackagesListService {
   }
 
   public clearUrlQueryParams() {
-    this.$location.search('query_props', null);
-    this.$location.search('query_id', null);
+    this.$location.search('query_props', '');
+    this.$location.search('query_id', '');
   }
 
   /**

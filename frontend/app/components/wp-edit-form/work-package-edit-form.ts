@@ -53,7 +53,7 @@ export class WorkPackageEditForm {
   public wpNotificationsService:WorkPackageNotificationService;
 
   // The edit context for this current edit
-  public editContext:WorkPackageEditContext | null;
+  public editContext:WorkPackageEditContext;
 
   // Other fields
   public workPackage:WorkPackageResourceInterface;
@@ -71,7 +71,8 @@ export class WorkPackageEditForm {
               public editMode = false) {
     injectorBridge(this);
 
-    this.wpCacheService.loadWorkPackage(workPackageId).observeOnScope(null)
+    this.wpCacheService.loadWorkPackage(workPackageId)
+      .observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });

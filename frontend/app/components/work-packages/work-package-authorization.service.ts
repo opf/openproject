@@ -49,10 +49,11 @@ export class WorkPackageAuthorization {
   }
 
   public copyLink() {
-    if ($state.current.name.indexOf('work-packages.show') === 0) {
+    const stateName = $state.current.name as string;
+    if (stateName.indexOf('work-packages.show') === 0) {
       return PathHelper.workPackageCopyPath(this.workPackage.id);
     }
-    else if ($state.current.name.indexOf('work-packages.list.details') === 0) {
+    else if (stateName.indexOf('work-packages.list.details') === 0) {
       return PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id);
     }
   }

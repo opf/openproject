@@ -54,7 +54,7 @@ export class RowsTransformer {
     }
 
     // Get the row for the WP if refreshing existing
-    let oldRow = row.element || locateRow(row.workPackageId);
+    let oldRow = row.element || locateRow(row.workPackageId) as HTMLElement;
 
     if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
       debugLog("Skipping row " + row.workPackageId + " since its fresh");

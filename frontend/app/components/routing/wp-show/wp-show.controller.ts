@@ -129,7 +129,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     var augmentedPluginActions = { };
 
     angular.forEach(permittedPluginActions, function(this:any, action) {
-      var css = [].concat(action.css);
+      var css:string[] = [].concat(action.css);
 
       if (css.length === 0) {
         css = ["icon-" + action.key];
@@ -155,7 +155,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
 
     // Author
     this.author = wp.author;
-    this.authorPath = this.author.showUserPath;
+    this.authorPath = this.author.showUserPath as string;
     this.authorActive = this.author.isActive;
 
     // Attachments

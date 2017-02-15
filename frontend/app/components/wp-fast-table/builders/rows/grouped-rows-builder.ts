@@ -1,3 +1,4 @@
+import {WorkPackageTableMetadata} from '../../wp-table-metadata';
 import {RowsBuilder} from './rows-builder';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -34,8 +35,9 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * @param table
    */
   public buildRows(table:WorkPackageTable) {
-    let groupBy = table.metaData.groupBy;
-    let groups = this.getGroupData(groupBy, table.metaData.groups);
+    const metaData = table.metaData as WorkPackageTableMetadata;
+    const groupBy = metaData.groupBy as string;
+    const groups = this.getGroupData(groupBy, metaData.groups);
 
     // Remember the colspan for the group rows from the current column count
     // and add one for the details link.
@@ -81,8 +83,9 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Refresh the group expansion state
    */
   public refreshExpansionState(table:WorkPackageTable) {
-    let groups = this.getGroupData(table.metaData.groupBy, table.metaData.groups);
-    let colspan = this.wpTableColumns.columnCount + 1;
+    const metaData = table.metaData as WorkPackageTableMetadata;
+    const groups = this.getGroupData(metaData.groupBy as string, metaData.groups);
+    const colspan = this.wpTableColumns.columnCount + 1;
 
     jQuery(`.${rowGroupClassName}`).each((i:number, oldRow:HTMLElement) => {
       let groupIndex = jQuery(oldRow).data('groupIndex');
@@ -93,7 +96,10 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
       // Refresh the group header
       let newRow = this.buildGroupRow(group, colspan);
-      oldRow.parentNode.replaceChild(newRow, oldRow);
+
+      if (oldRow.parentNode) {
+        oldRow.parentNode.replaceChild(newRow, oldRow);
+      }
     });
   }
 
@@ -128,15 +134,16 @@ export class GroupedRowsBuilder extends RowsBuilder {
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row:WorkPackageTableRow) {
+  private buildSingleRow(row:WorkPackageTableRow):HTMLElement {
     // Do not re-render rows before their grouping data
     // is completed after the first try
     if (!row.group) {
-      return row.element;
+      return row.element as HTMLElement;
     }
 
+    const group = row.group as GroupObject;
     let tr = this.rowBuilder.buildEmpty(row.object);
-    tr.classList.add(groupedRowClassName(row.group.index));
+    tr.classList.add(groupedRowClassName(group.index));
 
     if (row.group.collapsed) {
       tr.classList.add(collapsedRowClass);

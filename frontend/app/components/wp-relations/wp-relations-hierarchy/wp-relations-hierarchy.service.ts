@@ -37,7 +37,7 @@ export class WorkPackageRelationsHierarchyService {
 
   }
 
-  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string) {
+  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string|null) {
     return workPackage
       .changeParent({
         parentId: parentId,

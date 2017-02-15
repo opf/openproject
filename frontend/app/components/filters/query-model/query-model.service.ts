@@ -371,9 +371,14 @@ function QueryModelService(
       });
     },
 
-    getRemainingFilters: function(this:any) {
-      var activeFilters = _.indexBy(this.getActiveFilters(), function(f:any) { return f.name });
-      return _.pick(this.availableWorkPackageFilters, function(filter, key) {
+    getRemainingFilters: function(this:any):any {
+      const activeFilters = _.indexBy(this.getActiveFilters(), function(f:any) { return f.name });
+
+      if (!activeFilters) {
+        return {};
+      }
+
+      return _.pick(this.availableWorkPackageFilters, function(filter:any, key:string) {
         return !activeFilters[key];
       });
     },

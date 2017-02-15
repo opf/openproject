@@ -146,7 +146,8 @@ export class WpAttachmentsFormattableController {
   }
 
   protected openDetailsView(wpId:string):void {
-    if (this.$state.current.name.indexOf('work-packages.list') > -1 &&
+    const stateName = this.$state.current.name as string;
+    if (stateName.indexOf('work-packages.list') > -1 &&
         !this.wpEditModeState.active &&
         this.$state.params['workPackageId'] !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {

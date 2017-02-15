@@ -70,9 +70,8 @@ describe('appBasePath service', () => {
 
     describe('when the path has a trailing slash', () => {
       before(() => {
-        document
-          .querySelector('meta[name="app_base_path"]')
-          .setAttribute('content', '/base/my_path/');
+        jQuery('meta[name="app_base_path"]')
+          .attr('content', '/base/my_path/');
       });
 
       it('should remove trailing slashes from the appBasePath', () => {

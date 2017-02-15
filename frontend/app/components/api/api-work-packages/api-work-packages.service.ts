@@ -50,7 +50,7 @@ export class ApiWorkPackagesService {
     }).then((workPackageCollection:WorkPackageCollectionResource) => {
       if (workPackageCollection.schemas) {
         _.each(workPackageCollection.schemas.elements, (schema:SchemaResource) => {
-          this.states.schemas.get(schema.$href).put(schema);
+          this.states.schemas.get(schema.$href as string).put(schema);
         });
       }
 

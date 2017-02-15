@@ -33,7 +33,7 @@ class WpRelationRowDirectiveController {
     }
   }
 
-  public relation:RelationResourceInterface = this.relatedWorkPackage.relatedBy;
+  public relation:RelationResourceInterface;
   public text: Object;
 
   constructor(protected $scope: ng.IScope,
@@ -46,6 +46,7 @@ class WpRelationRowDirectiveController {
               protected I18n:op.I18n,
               protected PathHelper: op.PathHelper) {
 
+    this.relation = this.relatedWorkPackage.relatedBy as RelationResourceInterface;
     this.text = {
       cancel: I18n.t('js.button_cancel'),
       save: I18n.t('js.button_save'),

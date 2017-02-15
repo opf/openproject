@@ -120,7 +120,7 @@ export class HalResourceFactoryService {
    * @returns {HalResource}
    */
   protected getResourceClassOfType(type:string):typeof HalResource {
-    return this.getTypeConfig(type).cls;
+    return this.getTypeConfig(type).cls as typeof HalResource;
   }
 
   /**
@@ -133,7 +133,7 @@ export class HalResourceFactoryService {
    */
   protected getResourceClassOfAttribute(type:string, attribute:string):typeof HalResource {
     const typeConfig = this.getTypeConfig(type);
-    const resourceClass = typeConfig.attrCls[attribute];
+    const resourceClass = (typeConfig.attrCls as any)[attribute];
 
     if (resourceClass) {
       return resourceClass;

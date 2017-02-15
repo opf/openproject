@@ -11,8 +11,9 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
-    // "strictNullChecks": true
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true
   },
   "compileOnSave": false
 }

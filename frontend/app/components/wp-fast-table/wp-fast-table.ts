@@ -40,7 +40,8 @@ export class WorkPackageTable {
   }
 
   public get rowBuilder():RowsBuilder {
-    if (this.metaData.groupBy) {
+    const metaData = this.metaData;
+    if (metaData && metaData.groupBy) {
       return this.groupedRowsBuilder;
     } else {
       return this.plainRowsBuilder;
@@ -94,10 +95,12 @@ export class WorkPackageTable {
     // Find the row we want to replace
     let oldRow = row.element || locateRow(row.workPackageId);
     let newRow = this.rowBuilder.refreshRow(row, this);
-    oldRow.parentNode.replaceChild(newRow, oldRow);
 
-    row.element = newRow;
-    this.rowIndex[row.workPackageId] = row;
+    if (newRow && oldRow && oldRow.parentNode) {
+      oldRow.parentNode.replaceChild(newRow, oldRow);
+      row.element = newRow;
+      this.rowIndex[row.workPackageId] = row;
+    }
   }
 
   /**

@@ -87,13 +87,12 @@ export class HalResource {
    * Please use $href instead.
    *
    * @deprecated
-   * @returns {string}
    */
-  public get href():string {
+  public get href():string|null {
     return this.$link.href;
   }
 
-  public get $href():string {
+  public get $href():string|null {
     return this.$link.href;
   }
 
@@ -110,10 +109,11 @@ export class HalResource {
   }
 
   public $load(force = false):ng.IPromise<HalResource> {
-    const state = this.state;
     if (!this.state) {
       return this.$loadResource(force);
     }
+
+    const state = this.state;
 
     if (force) {
       state.clear();

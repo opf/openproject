@@ -77,7 +77,8 @@ export class HalResourceTypesService {
       return cls.name;
     }
 
-    return cls.toString().match(/^function\s*([^\s(]+)/)[1];
+    const matches = cls.toString().match(/^function\s*([^\s(]+)/) as any[];
+    return matches[1];
   }
 }
 

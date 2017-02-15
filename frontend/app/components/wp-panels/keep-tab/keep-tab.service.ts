@@ -89,8 +89,8 @@ export class KeepTabService {
 
   protected updateTab(stateName:string) {
     if (this.isCurrentState(stateName)) {
-      const current = this.$state.current.name;
-      this.currentTab = current.split('.').pop();
+      const current = this.$state.current.name as string;
+      this.currentTab = (current.split('.') as any[]).pop();
 
       this.notify();
     }

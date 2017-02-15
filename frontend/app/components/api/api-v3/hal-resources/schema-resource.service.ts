@@ -38,7 +38,7 @@ export class SchemaResource extends HalResource {
   [attribute:string]:any;
 
   public get state() {
-    return states.schemas.get(this.href);
+    return states.schemas.get(this.href as string);
   }
 }
 

@@ -38,7 +38,7 @@ export class WorkPackageTableSelection {
    */
   public getSelectedWorkPackages():WorkPackageResource[] {
     let wpState = this.states.workPackages;
-    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).getCurrentValue());
+    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).getCurrentValue() as WorkPackageResource);
   }
 
   public getSelectedWorkPackageIds():string[] {
@@ -65,7 +65,7 @@ export class WorkPackageTableSelection {
    * @returns {WPTableRowSelectionState}
    */
   public get currentState():WPTableRowSelectionState {
-    return this.selectionState.getCurrentValue();
+    return this.selectionState.getCurrentValue() as WPTableRowSelectionState;
   }
 
   /**
@@ -132,7 +132,7 @@ export class WorkPackageTableSelection {
     if (this.selectionCount === 0) {
       state.selected[selected.workPackageId] = true;
       state.activeRowIndex = selected.position;
-    } else {
+    } else if (state.activeRowIndex !== null) {
       let start = Math.min(selected.position, state.activeRowIndex);
       let end = Math.max(selected.position, state.activeRowIndex);
 

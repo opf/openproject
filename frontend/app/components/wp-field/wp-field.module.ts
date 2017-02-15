@@ -45,11 +45,11 @@ export class Field {
   }
 
   public get required():boolean {
-    return this.schema.required;
+    return !!this.schema.required;
   }
 
   public get visibility():string {
-    return this.schema.visibility;
+    return this.schema.visibility as string;
   }
 
   public get hidden():boolean {
