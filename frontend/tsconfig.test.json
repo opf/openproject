@@ -10,7 +10,7 @@
   },
   "files": [
     "app/components/**/*.test.ts",
-    "app/typings/open-project.typings.ts",
+    "app/typings/*",
     "typings/tsd.d.ts"
   ]
 }

@@ -76,7 +76,6 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '/templates/**/*.html': ['ng-html2js'],
-      '../app/assets/javascripts/*.js': ['coverage']
     },
     ngHtml2JsPreprocessor: {
       module: 'openproject.templates'
@@ -85,7 +84,7 @@ module.exports = function (config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'junit'],
+    reporters: ['progress', 'junit'],
 
 
     // web server port
@@ -118,12 +117,5 @@ module.exports = function (config) {
     junitReporter: {
       outputFile: 'tests/unit/reports/test-results.xml'
     },
-
-    coverageReporter: {
-      reporters: [
-        {type: 'html', dir: 'coverage/'},
-        {type: 'cobertura'}
-      ]
-    }
   });
 };
