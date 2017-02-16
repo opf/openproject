@@ -55,7 +55,7 @@ export class WorkPackageTimelineTableController {
 
   constructor(private $scope: IScope,
               private $element: ng.IAugmentedJQuery,
-              private TypeResource,
+              private TypeResource:any,
               private states: States) {
 
     "ngInject";

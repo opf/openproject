@@ -63,10 +63,10 @@ interface WorkPackageResourceEmbedded {
   version: HalResource|any;
   watchers: CollectionResourceInterface;
   // For regular work packages
-  startDate?: string;
-  dueDate?: string;
+  startDate: string;
+  dueDate: string;
   // Only for milestones
-  date?: string;
+  date: string;
   relatedBy: RelationResourceInterface|null;
 }
 

@@ -48,9 +48,9 @@ export class WorkPackageTimelineCell {
 
   private latestRenderInfo: RenderInfo;
 
-  private wpElement: HTMLDivElement = null;
+  private wpElement: HTMLDivElement|null = null;
 
-  private elementShape: string = null;
+  private elementShape: string;
 
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
               private wpCacheService: WorkPackageCacheService,
@@ -126,7 +126,7 @@ export class WorkPackageTimelineCell {
     //-------------------------------------------------
   }
 
-  private cellRenderer(workPackage): TimelineCellRenderer {
+  private cellRenderer(workPackage:WorkPackageResourceInterface): TimelineCellRenderer {
     if (workPackage.isMilestone) {
       return renderers.milestone;
     }
@@ -142,7 +142,7 @@ export class WorkPackageTimelineCell {
     this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(this.timelineCell, this.wpElement, renderInfo);
+    const shouldBeDisplayed = renderer.update(this.timelineCell, this.wpElement as HTMLDivElement, renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }

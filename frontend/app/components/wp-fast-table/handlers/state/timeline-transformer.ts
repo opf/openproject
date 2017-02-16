@@ -25,7 +25,7 @@ export class TimelineTransformer {
   /**
    * Update all currently visible rows to match the selection state.
    */
-  private renderVisibility(visible) {
+  private renderVisibility(visible:boolean) {
     jQuery(`.${timelineCellClassName}`).toggleClass(timelineCollapsedClassName, !visible);
   }
 }

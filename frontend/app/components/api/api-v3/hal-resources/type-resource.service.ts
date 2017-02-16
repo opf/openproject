@@ -36,7 +36,7 @@ import {State} from './../../../../helpers/reactive-fassade';
 
 var states: States;
 var halRequest: HalRequestService;
-var v3Path;
+var v3Path:any;
 
 export class TypeResource extends HalResource {
   public color:string;
@@ -47,17 +47,17 @@ export class TypeResource extends HalResource {
 
     halRequest.get(typeUrl).then((result:CollectionResource) => {
       result.elements.forEach((value:TypeResource) => {
-        types.get(value.href).put(value);
+        types.get(value.href as string).put(value);
       });
     });
   }
 
   public get state() {
-    return states.types.get(this.href);
+    return states.types.get(this.href as string);
   }
 }
 
-function typeResource(...args) {
+function typeResource(...args:any[]) {
   [
     states,
     halRequest,

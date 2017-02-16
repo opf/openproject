@@ -38,12 +38,13 @@ function ConfigurationService(
   // TODO: this currently saves the request between page reloads,
   // but could easily be stored in localStorage
   var cache = false;
-  var path = PathHelper.apiConfigurationPath();
+  var path:string = PathHelper.apiConfigurationPath();
   var fetchSettings = function () {
     var data = $q.defer();
-    $http.get(path).success(function (settings:any) {
+    let resolve = $http.get(path) as any;
+    resolve.success(function (settings:any) {
       data.resolve(settings);
-    }).error(function (err) {
+    }).error(function (err:any) {
       data.reject(err);
     });
     return data.promise;

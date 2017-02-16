@@ -24,7 +24,7 @@ export class TimelineCellBuilder {
   }
 
   public get timelineInstance():WorkPackageTimelineTableController {
-    return this.states.timeline.getCurrentValue();
+    return this.states.timeline.getCurrentValue() as WorkPackageTimelineTableController;
   }
 
   public build(workPackage:WorkPackageResource, row:HTMLElement):void {

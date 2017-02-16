@@ -29,7 +29,7 @@ export function scopedObservable<T>(scope: IScope, observable: Observable<T>): O
   });
 }
 
-export function asyncTest<T>(done: (error?: any) => void, fn: (value: T) => any): (T) => any {
+export function asyncTest<T>(done: (error?: any) => void, fn: (value: T) => any): (T:any) => any {
   return (value: T) => {
     try {
       fn(value);

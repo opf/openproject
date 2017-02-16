@@ -41,14 +41,14 @@ interface DragScrollData {
 function opDragScroll() {
   return {
     restrict: 'A',
-    link: function(scope, element, attr) {
+    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery, attr:ng.IAttributes) {
       const eventName = 'op:dragscroll';
 
       // Is mouse down?
       var mousedown = false;
 
       // Position of last mousedown
-      var mousedownX, mousedownY;
+      var mousedownX:number, mousedownY:number;
 
       // Mousedown: Potential drag start
       element.on('mousedown', (evt:JQueryEventObject) => {

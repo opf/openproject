@@ -36,7 +36,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
-  constructor(public I18n) {
+  constructor(public I18n:op.I18n) {
     'ngInject';
 
     super(I18n);
@@ -63,7 +63,10 @@ function wpTimelineToggleButton():ng.IDirective {
   return wpButtonDirective({
     require: '^wpTimelineContainer',
     controller: WorkPackageTimelineButtonController,
-    link: (scope, attr, element, wpTimelineContainer:WorkPackageTimelineTableController) => {
+    link: (scope:any,
+           attr:ng.IAttributes,
+           element:ng.IAugmentedJQuery,
+           wpTimelineContainer:WorkPackageTimelineTableController) => {
       scope.vm.wpTimelineContainer = wpTimelineContainer;
     }
   });

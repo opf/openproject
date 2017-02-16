@@ -213,7 +213,6 @@ openprojectModule
 
   .run(($location:ng.ILocationService,
         $rootElement:ng.IRootElementService,
-        $browser:ng.IBrowserService,
         $rootScope:ng.IRootScopeService,
         $state:ng.ui.IStateService,
         $window:ng.IWindowService) => {
