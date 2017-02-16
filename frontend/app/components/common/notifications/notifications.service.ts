@@ -65,7 +65,7 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
     currentNotifications:any = [],
     notificationAdded = function (newNotification:any) {
       var toRemove = currentNotifications.slice(0);
-      _.each(toRemove, function (existingNotification) {
+      _.each(toRemove, function (existingNotification:any) {
         if (newNotification.type === 'success' || newNotification.type === 'error') {
           remove(existingNotification);
         }
@@ -74,7 +74,7 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
       currentNotifications.push(newNotification);
     },
     notificationRemoved = function (removedNotification:any) {
-      _.remove(currentNotifications, function (element) {
+      _.remove(currentNotifications, function (element:any) {
         return element === removedNotification;
       });
     },

@@ -210,7 +210,7 @@ function initializeResource(halResource:HalResource) {
   }
 
   function proxyProperties() {
-    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach(property => {
+    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach((property:any) => {
       Object.defineProperty(halResource, property, {
         get() {
           return halResource.$source[property];
@@ -227,7 +227,7 @@ function initializeResource(halResource:HalResource) {
   }
 
   function setLinksAsProperties() {
-    _.without(Object.keys(halResource.$links), 'self').forEach(linkName => {
+    _.without(Object.keys(halResource.$links), 'self').forEach((linkName:string) => {
       lazy(halResource, linkName,
         () => {
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];

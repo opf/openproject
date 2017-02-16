@@ -67,7 +67,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * The API sadly doesn't provide us with the information which group a WP belongs to.
    */
   private matchingGroup(workPackage:WorkPackageResource, groups:GroupObject[], groupBy:string) {
-    return _.find(groups, (group) => {
+    return _.find(groups, (group:GroupObject) => {
       // If its a linked resource, compare the href.
       if (group.href) {
         return workPackage.$source._links[groupBy].href === group.href;
@@ -76,7 +76,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       // Otherwise, fall back to simple value comparison.
       let value = group.value === '' ? null : group.value;
       return value === workPackage[groupBy];
-    });
+    }) as GroupObject;
   }
 
   /**

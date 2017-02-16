@@ -67,7 +67,7 @@ export class ErrorResource extends HalResource {
       perAttribute[this.details.attribute] = [this.message];
     }
     else {
-      _.forEach(this.errors, error => {
+      _.forEach(this.errors, (error:any) => {
         if (perAttribute[error.details.attribute]) {
           perAttribute[error.details.attribute].push(error.message);
         }

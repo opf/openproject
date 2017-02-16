@@ -28,7 +28,7 @@ export class WorkPackageTableColumnsService {
     }
 
     return this.currentState.map(name => {
-      return _.find(available as any[], (column) => column.name === name);
+      return _.find(available as any[], (column:api.ex.Column) => column.name === name);
     });
   }
 

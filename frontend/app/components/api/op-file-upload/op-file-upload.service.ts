@@ -49,7 +49,7 @@ export class OpenProjectFileUploadService {
    * Ignore directories.
    */
   public upload(url: string, files: UploadFile[]): UploadResult {
-    files = _.filter(files, file => file.type !== 'directory');
+    files = _.filter(files, (file:UploadFile) => file.type !== 'directory');
     const uploads = _.map(files, (file: UploadFile) => {
       const params = {
         fields: {

@@ -11,7 +11,7 @@ export interface WorkPackageTableRow {
   workPackageId:string;
   position:number;
   element?:HTMLElement;
-  group?:GroupObject;
+  group:GroupObject|null;
 }
 
 export interface GroupableColumn {

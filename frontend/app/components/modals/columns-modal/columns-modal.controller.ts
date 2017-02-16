@@ -70,7 +70,7 @@ function ColumnsModalController(this:any,
 
       var availableColumnNames = getColumnNames(availableColumns);
       selectedColumns.forEach((column:api.ex.Column) => {
-        if (_.contains(availableColumnNames, column.name)) {
+        if (_.find(availableColumnNames, column.name)) {
           vm.selectedColumns.push(column);
           vm.selectedColumnMap[column.name] = true;
           vm.oldSelectedColumns.push(column);
@@ -100,7 +100,7 @@ function ColumnsModalController(this:any,
   vm.updateUnusedColumns = (selectedColumns:api.ex.Column[]) => {
     var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = vm.availableColumns.filter((column:api.ex.Column) => !_.contains(used, column.name));
+    vm.unusedColumns = vm.availableColumns.filter((column:api.ex.Column) => !_.find(used, column.name));
   };
 
   vm.setSelectedColumn = (column:api.ex.Column) => {
