@@ -32,14 +32,14 @@ import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 var expect = chai.expect;
 
 describe('wpListViewButton directive', () => {
-  var $state, scope;
+  var $state:any, scope:any;
   var keepTab:KeepTabService;
   var controller:WorkPackageDetailsViewButtonController;
 
   beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates',
     'openproject.config'));
 
-  beforeEach(angular.mock.inject(($compile, $rootScope, _$state_, _keepTab_) => {
+  beforeEach(angular.mock.inject(($compile:any, $rootScope:any, _$state_:any, _keepTab_:any) => {
     var html = '<wp-details-view-button></wp-details-view-button>';
 
     var element = angular.element(html);
@@ -56,7 +56,7 @@ describe('wpListViewButton directive', () => {
   }));
 
   describe('when using openDetailsView()', () => {
-    var go;
+    var go:any;
 
     beforeEach(() => {
       go = sinon.stub($state, 'go');

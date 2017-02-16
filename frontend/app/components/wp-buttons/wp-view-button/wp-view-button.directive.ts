@@ -39,11 +39,11 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
   public buttonId:string = 'work-packages-show-view-button';
   public iconClass:string = 'icon-view-fullscreen';
 
-  constructor(public $state,
+  constructor(
+    public $state:ng.ui.IStateService,
               public states:States,
-              public I18n,
-              public loadingIndicator,
-              public keepTab:KeepTabService) {
+    public I18n:op.I18n,
+    public keepTab:KeepTabService) {
     'ngInject';
 
     super($state, I18n);
@@ -59,7 +59,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
 
   public openWorkPackageShowView() {
     let args = ['work-packages.new', this.$state.params];
-    let id = this.$state.params.workPackageId || this.workPackageId || this.states.focusedWorkPackage.getCurrentValue();
+    let id = this.$state.params['workPackageId'] || this.workPackageId || this.states.focusedWorkPackage.getCurrentValue();
 
     if (!this.$state.is('work-packages.list.new')) {
       let params = {
@@ -70,7 +70,7 @@ export class WorkPackageViewButtonController extends WorkPackageNavigationButton
       angular.extend(params, this.$state.params);
     }
 
-    this.loadingIndicator.mainPage = this.$state.go.apply(this.$state, args);
+    this.$state.go.apply(this.$state, args);
   }
 }
 

@@ -27,15 +27,17 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 export class SelectEditField extends EditField {
   public options:any[];
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
-  public text;
+  public text:{requiredPlaceholder:string, placeholder:string};
 
   public currentValueInvalid:boolean = false;
 
-  constructor(workPackage, fieldName, schema) {
+  constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
     super(workPackage, fieldName, schema);
 
     const I18n:any = this.$injector.get('I18n');
@@ -47,9 +49,9 @@ export class SelectEditField extends EditField {
     if (angular.isArray(this.schema.allowedValues)) {
       this.setValues(this.schema.allowedValues);
     } else if (this.schema.allowedValues) {
-      this.schema.allowedValues.$load().then((values) => {
+      this.schema.allowedValues.$load().then((values:CollectionResource) => {
         // The select options of the project shall be sorted
-        if (values.count > 0 && values.elements[0]._type === 'Project') {
+        if (values.count > 0 && (values.elements[0] as any)._type === 'Project') {
           this.setValues(values.elements, true);
         } else {
           this.setValues(values.elements);
@@ -60,7 +62,7 @@ export class SelectEditField extends EditField {
     }
   }
 
-  private setValues(availableValues, sortValuesByName = false) {
+  private setValues(availableValues:any[], sortValuesByName = false) {
     if (sortValuesByName) {
       availableValues.sort(function(a, b) {
         var nameA = a.name.toLowerCase();
@@ -75,11 +77,11 @@ export class SelectEditField extends EditField {
   }
 
   private checkCurrentValueValidity() {
-    this.currentValueInvalid = (this.value &&
-                                !_.some(this.options, (option) => (option.href === this.value.href))
-                               ) ||
-                               (!this.value &&
-                                this.schema.required);
+    this.currentValueInvalid = !!(
+      (this.value && !_.some(this.options, (option) => (option.href === this.value.href)))
+      ||
+      (!this.value && this.schema.required)
+    );
   }
 
   private addEmptyOption() {

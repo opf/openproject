@@ -28,11 +28,12 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
+import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 
 class TypesContextMenuController {
-  public types = [];
+  public types:CollectionResource[] = [];
 
-  constructor(protected $state, protected $scope, protected wpCreate:WorkPackageCreateService) {
+  constructor(protected $state:ng.ui.IStateService, protected $scope:any, protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
 
@@ -46,7 +47,7 @@ class TypesContextMenuController {
   }
 }
 
-function typesContextMenuService(ngContextMenu) {
+function typesContextMenuService(ngContextMenu:any) {
   return ngContextMenu({
     templateUrl: '/components/context-menus/types-context-menu/types-context-menu.service.html',
     controller: TypesContextMenuController,

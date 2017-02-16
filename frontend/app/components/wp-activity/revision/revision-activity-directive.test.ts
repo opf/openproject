@@ -29,7 +29,7 @@
 
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 describe('revisionActivity Directive', function () {
-  var compile, element, rootScope, scope, I18n, $q;
+  var compile:any, element:any, rootScope:any, scope:any, I18n:any, $q:any;
 
   beforeEach(angular.mock.module('openproject.workPackages.activities'));
   beforeEach(function () {
@@ -44,8 +44,8 @@ describe('revisionActivity Directive', function () {
     );
   });
 
-  beforeEach(inject(function ($rootScope, $compile, _I18n_, _$q_) {
-    var html;
+  beforeEach(inject(function ($rootScope:any, $compile:any, _I18n_:any, _$q_:any) {
+    var html:string;
     html = '<revision-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial"></revision-activity>';
 
     rootScope = $rootScope;

@@ -44,8 +44,8 @@ export class ModalWrapperController {
     className: 'ngdialog-theme-openproject'
   };
 
-  constructor(protected $element,
-              protected $scope,
+  constructor(protected $element:ng.IAugmentedJQuery,
+              protected $scope:ng.IScope,
               protected $attrs: ng.IAttributes,
               protected ngDialog: IDialogService) {
 
@@ -72,7 +72,7 @@ export class ModalWrapperController {
     this.modal = this.ngDialog.open(this.modalOptions);
   }
 
-  private appendIframe(url) {
+  private appendIframe(url:string) {
     let subdom = angular.element(this.modalBody);
     let iframe = angular.element('<iframe frameborder="0" height="282" allowfullscreen>></iframe>');
     iframe.attr('src', url);

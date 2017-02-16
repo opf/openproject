@@ -27,8 +27,9 @@
 //++
 
 describe('queryFilters', () => {
-  var doc, $httpBackend, $timeout, compile, scope, element,
-    OPERATORS_AND_LABELS_BY_FILTER_TYPE, OPERATORS_NOT_REQUIRING_VALUES;
+  var doc:any, $httpBackend:any,
+      $timeout:any, compile:any, scope:any, element:any,
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE:any, OPERATORS_NOT_REQUIRING_VALUES:any;
   var html = "<query-filters></query-filters>";
 
   beforeEach(angular.mock.module(
@@ -40,21 +41,21 @@ describe('queryFilters', () => {
     'openproject.workPackages.config',
     'openproject.workPackages.filters'));
 
-  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function ($provide:any) {
     $provide.constant('ConfigurationService', {
       accessibilityModeEnabled: sinon.stub().returns(false),
       isTimezoneSet: sinon.stub().returns(false)
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope,
-                                  $compile,
-                                  $document,
-                                  _$httpBackend_,
-                                  _$timeout_,
-                                  PathHelper,
-                                  _OPERATORS_AND_LABELS_BY_FILTER_TYPE_,
-                                  _OPERATORS_NOT_REQUIRING_VALUES_) => {
+  beforeEach(angular.mock.inject(($rootScope:any,
+                                  $compile:any,
+                                  $document:any,
+                                  _$httpBackend_:any,
+                                  _$timeout_:any,
+                                  PathHelper:any,
+                                  _OPERATORS_AND_LABELS_BY_FILTER_TYPE_:any,
+                                  _OPERATORS_NOT_REQUIRING_VALUES_:any) => {
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
     OPERATORS_AND_LABELS_BY_FILTER_TYPE = _OPERATORS_AND_LABELS_BY_FILTER_TYPE_;
@@ -92,7 +93,7 @@ describe('queryFilters', () => {
       var filter3 = Factory.build('Filter', {name: 'done_ratio'});
 
       // currently unused
-      var removeFilter = filterName => {
+      var removeFilter = (filterName:string) => {
         var removeLinkElement = angular.element(element).find('#filter_' + filterName +
           ' .advanced-filters--remove-filter a');
         var enterEvent = jQuery.Event('keyup', {which: 13});

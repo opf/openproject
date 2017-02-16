@@ -38,10 +38,10 @@ describe('halResourceFactory', () => {
   }
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.module(opApiModule.name, $provide => {
+  beforeEach(angular.mock.module(opApiModule.name, ($provide:any) => {
     $provide.value('OtherResource', OtherResource);
   }));
-  beforeEach(angular.mock.inject(function (_halResourceFactory_) {
+  beforeEach(angular.mock.inject(function (_halResourceFactory_:any) {
     [halResourceFactory] = _.toArray(arguments);
   }));
 

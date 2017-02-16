@@ -35,13 +35,14 @@ import {State} from './../../../../helpers/reactive-fassade';
 var states: States;
 
 export class SchemaResource extends HalResource {
+  [attribute:string]:any;
 
   public get state() {
-    return states.schemas.get(this.href);
+    return states.schemas.get(this.href as string);
   }
 }
 
-function schemaResource(...args) {
+function schemaResource(...args:any[]) {
   [
     states,
   ] = args;

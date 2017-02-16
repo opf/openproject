@@ -105,7 +105,7 @@ class RowDisplay {
 
   }
 
-  private setWatchState(scope, enableWatchers: boolean) {
+  private setWatchState(scope:any, enableWatchers: boolean) {
     if (!enableWatchers) {
       if (scope.$$watchers && scope.$$watchers.length > 0) {
         scope.__backup_watchers = scope.$$watchers;

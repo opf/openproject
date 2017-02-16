@@ -28,14 +28,14 @@
 
 import {openprojectModule} from "../../../angular-modules";
 
-function hasPreview($compile, $rootScope) {
+function hasPreview($compile:ng.ICompileService, $rootScope:ng.IRootScopeService) {
   return {
     restrict: 'A',
     scope: {},
-    link: function(scope, element, attrs) {
-      var href = attrs.href;
-      var id = attrs.id;
-      var target = attrs.previewArea ||  '#preview';
+    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
+      var href = attrs['href'];
+      var id = attrs['id'];
+      var target = attrs['previewArea'] ||  '#preview';
       element.on('click', function() {
         jQuery.ajax({
           url: href,

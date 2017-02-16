@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function external2internalFloat($locale) {
-	return function(input) {
+function external2internalFloat($locale:ng.ILocaleService) {
+	return function(input:any) {
     var decimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP;
     var groupSep = $locale.NUMBER_FORMATS.GROUP_SEP;
 

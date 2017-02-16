@@ -26,19 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformFloat($filter) {
+function transformFloat($filter:ng.IFilterService) {
   return {
     restrict:'A',
     require: 'ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
+    link: function(
+      scope:ng.IScope,
+      element:ng.IAugmentedJQuery,
+      attrs:ng.IAttributes,
+      ngModelController:any) {
+      ngModelController.$parsers.push(function(data:any) {
         if (data != '') {
-          return $filter('external2internalFloat')(data);
+          return ($filter('external2internalFloat') as any)(data);
         }
       });
 
-      ngModelController.$formatters.push(function(data) {
-        return $filter('internal2externalFloat')(data);
+      ngModelController.$formatters.push(function(data:any) {
+        return ($filter('internal2externalFloat') as any)(data);
       });
     }
   };

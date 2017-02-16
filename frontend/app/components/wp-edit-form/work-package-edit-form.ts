@@ -39,6 +39,7 @@ import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 import {States} from '../states.service';
 
 export class WorkPackageEditForm {
@@ -52,7 +53,7 @@ export class WorkPackageEditForm {
   public wpNotificationsService:WorkPackageNotificationService;
 
   // The edit context for this current edit
-  public editContext:WorkPackageEditContext | null;
+  public editContext:WorkPackageEditContext;
 
   // Other fields
   public workPackage:WorkPackageResourceInterface;
@@ -70,7 +71,8 @@ export class WorkPackageEditForm {
               public editMode = false) {
     injectorBridge(this);
 
-    this.wpCacheService.loadWorkPackage(workPackageId).observeOnScope(null)
+    this.wpCacheService.loadWorkPackage(workPackageId)
+      .observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });
@@ -85,7 +87,7 @@ export class WorkPackageEditForm {
       return;
     }
 
-    this.workPackage.loadFormSchema().then(schema => {
+    this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
         fieldName,

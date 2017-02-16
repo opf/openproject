@@ -31,7 +31,7 @@ import {WorkPackageViewButtonController} from './wp-view-button.directive';
 var expect = chai.expect;
 
 describe('wpViewButton directive', () => {
-  var $state, scope;
+  var $state:any, scope:any;
   var controller:WorkPackageViewButtonController;
 
   beforeEach(angular.mock.module(
@@ -56,7 +56,7 @@ describe('wpViewButton directive', () => {
   }));
 
   describe('openWorkPackageShowView()', () => {
-    var sGo, sIs;
+    var sGo:any, sIs:any;
     beforeEach(() => {
       sGo = sinon.stub($state, 'go');
       sIs = sinon.stub($state, 'is');

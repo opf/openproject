@@ -27,7 +27,7 @@
 // ++
 
 describe('columnContextMenu', function() {
-  var container, contextMenu, wpTableColumns, $rootScope, scope, stateParams, ngContextMenu;
+  var container:any, contextMenu:any, wpTableColumns:any, $rootScope:any, scope:any, stateParams:any, ngContextMenu:any;
   stateParams = {};
 
   beforeEach(angular.mock.module('ng-context-menu',
@@ -39,7 +39,7 @@ describe('columnContextMenu', function() {
                     'openproject.services',
                     'openproject.templates'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide:any) {
     var configurationService:any = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -54,7 +54,7 @@ describe('columnContextMenu', function() {
     container = angular.element(html);
   });
 
-  beforeEach(inject(function(_$rootScope_, _ngContextMenu_, _wpTableColumns_, $templateCache) {
+  beforeEach(inject(function(_$rootScope_:any, _ngContextMenu_:any, _wpTableColumns_:any, $templateCache:any) {
     wpTableColumns = _wpTableColumns_;
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
@@ -75,13 +75,13 @@ describe('columnContextMenu', function() {
   }));
 
   describe('when the context menu handler of a column is clicked', function() {
-    var QueryService, wpTableMetadata;
+    var QueryService:any, wpTableMetadata;
     var column        = { name: 'status', title: 'Status' },
         anotherColumn = { name: 'subject', title: 'Subject' },
         columns       = [column, anotherColumn],
         query         = Factory.build('Query', { columns: columns });
 
-    beforeEach(inject(function(_QueryService_, _wpTableMetadata_) {
+    beforeEach(inject(function(_QueryService_:any, _wpTableMetadata_:any) {
       QueryService = _QueryService_;
       wpTableMetadata = _wpTableMetadata_;
       sinon.stub(QueryService, 'getQuery').returns(query);
@@ -127,7 +127,7 @@ describe('columnContextMenu', function() {
     describe('and "Sort ascending" is clicked', function() {
       var Sortation;
 
-      beforeEach(inject(function(_Sortation_) {
+      beforeEach(inject(function(_Sortation_:any) {
         Sortation = _Sortation_;
         query.sortation = new Sortation();
         scope.sortAscending(column.name);
@@ -149,9 +149,9 @@ describe('columnContextMenu', function() {
     });
 
     describe('and "Insert columns" is clicked', function() {
-      var activateFn, columnsModal;
+      var activateFn:any, columnsModal:any;
 
-      beforeEach(inject(function(_columnsModal_) {
+      beforeEach(inject(function(_columnsModal_:any) {
         columnsModal = _columnsModal_;
         activateFn = sinon.stub(columnsModal, 'activate');
       }));

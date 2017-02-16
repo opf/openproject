@@ -27,11 +27,11 @@
 // ++
 
 describe('workPackageContextMenu', () => {
-  var container;
+  var container:any;
   var contextMenu;
-  var $rootScope;
+  var $rootScope:any;
   var stateParams = {};
-  var setSelection;
+  var setSelection:any;
   var ngContextMenu;
   var wpTableSelection;
 
@@ -44,7 +44,7 @@ describe('workPackageContextMenu', () => {
     'openproject.services',
     'openproject.templates'));
 
-  beforeEach(angular.mock.module('openproject.templates', ($provide) => {
+  beforeEach(angular.mock.module('openproject.templates', ($provide:any) => {
     setSelection = sinon.spy();
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false),
@@ -60,7 +60,7 @@ describe('workPackageContextMenu', () => {
     container = angular.element('<div></div>');
   });
 
-  beforeEach(angular.mock.inject((_$rootScope_, _ngContextMenu_, _wpTableSelection_, $templateCache) => {
+  beforeEach(angular.mock.inject((_$rootScope_:any, _ngContextMenu_:any, _wpTableSelection_:any, $templateCache:any) => {
     wpTableSelection = _wpTableSelection_;
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
@@ -85,17 +85,17 @@ describe('workPackageContextMenu', () => {
   }));
 
   describe('when the context menu context contains one work package', () => {
-    var I18n;
+    var I18n:any;
     var actions = ['edit', 'move'];
-    var workPackage = {
+    var workPackage:any = {
       id: 123,
       update: '/work_packages/123/edit',
       move: '/work_packages/move/new?ids%5B%5D=123',
     }
 
-    var directListElements;
+    var directListElements:any;
 
-    beforeEach(angular.mock.inject((_I18n_) => {
+    beforeEach(angular.mock.inject((_I18n_:any) => {
       I18n = _I18n_;
       sinon.stub(I18n, 't').withArgs('js.button_' + actions[0]).returns('anything');
     }));

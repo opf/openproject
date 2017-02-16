@@ -93,8 +93,11 @@ export class DropModel {
 
   public isWebImage():boolean {
     if (angular.isDefined(this.webLinkUrl)) {
-      return (this.config.imageFileTypes.indexOf(this.webLinkUrl.split('.').pop().toLowerCase()) > -1);
+      const ext = (this.webLinkUrl.split('.') as any[]).pop();
+      return (this.config.imageFileTypes.indexOf(ext.toLowerCase()) > -1);
     }
+
+    return false;
   };
 
   public isAttachmentOfCurrentWp():boolean {
@@ -108,13 +111,15 @@ export class DropModel {
       var isAttachment:boolean = false;
 
       this.workPackage.attachments.elements.forEach(attachment => {
-        if (this.webLinkUrl.indexOf(attachment.href) > -1) {
+        if (this.webLinkUrl.indexOf(attachment.href as string) > -1) {
           isAttachment = true;
           return;
         }
       });
       return isAttachment;
     }
+
+    return false;
   };
 
   public filesAreValidForUploading():boolean {
@@ -149,7 +154,7 @@ export class SingleAttachmentModel {
   constructor(protected attachment:any) {
     if (angular.isDefined(attachment)) {
       this.fileName = attachment.fileName || attachment.name;
-      this.fileExtension = this.fileName.split('.').pop().toLowerCase();
+      this.fileExtension = (this.fileName.split('.') as any[]).pop().toLowerCase();
       this.isAnImage = this.imageFileExtensions.indexOf(this.fileExtension) > -1;
       this.url = angular.isDefined(attachment.downloadLocation) ? attachment.downloadLocation.$link.href : '';
     }

@@ -27,11 +27,11 @@
 // ++
 
 import {animationsModule} from '../../angular-modules';
-function toggleSlideAnimation($window) {
+function toggleSlideAnimation($window:ng.IWindowService) {
 
   // Since the content of the animation may require a reflow,
   // we trigger resize to let, e.g., tables recompute their widths
-  function onSlide(done) {
+  function onSlide(done:() => void) {
     return function() {
       angular.element($window).trigger('resize');
       done();
@@ -39,14 +39,14 @@ function toggleSlideAnimation($window) {
   }
 
   return {
-    beforeAddClass: function (element, className, done) {
+    beforeAddClass: function (element:ng.IAugmentedJQuery, className:string, done:() => void) {
       if (className === 'ng-hide') {
         element.slideUp(150, onSlide(done));
       } else {
         done();
       }
     },
-    beforeRemoveClass: function (element, className, done) {
+    beforeRemoveClass: function (element:ng.IAugmentedJQuery, className:string, done:() => void) {
       if (className === 'ng-hide') {
         element.slideDown(150, onSlide(done));
       } else {

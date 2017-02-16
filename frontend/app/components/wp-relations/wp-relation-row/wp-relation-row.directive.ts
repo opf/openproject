@@ -1,5 +1,4 @@
 import {wpDirectivesModule} from '../../../angular-modules';
-import {RelatedWorkPackage} from '../wp-relations.interfaces';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
@@ -11,7 +10,7 @@ import {
 
 class WpRelationRowDirectiveController {
   public workPackage: WorkPackageResourceInterface;
-  public relatedWorkPackage: RelatedWorkPackage;
+  public relatedWorkPackage: WorkPackageResourceInterface;
   public relationType: string;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
@@ -34,19 +33,20 @@ class WpRelationRowDirectiveController {
     }
   }
 
-  public relation: RelationResourceInterface = this.relatedWorkPackage.relatedBy;
+  public relation:RelationResourceInterface;
   public text: Object;
 
   constructor(protected $scope: ng.IScope,
               protected $element: ng.IAugmentedJQuery,
               protected $timeout:ng.ITimeoutService,
-              protected $http,
+              protected $http:ng.IHttpService,
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelationsService: WorkPackageRelationsService,
-              protected I18n: op.I18n,
+              protected I18n:op.I18n,
               protected PathHelper: op.PathHelper) {
 
+    this.relation = this.relatedWorkPackage.relatedBy as RelationResourceInterface;
     this.text = {
       cancel: I18n.t('js.button_cancel'),
       save: I18n.t('js.button_save'),
@@ -88,7 +88,7 @@ class WpRelationRowDirectiveController {
     });
   }
 
-  public handleDescriptionKey($event) {
+  public handleDescriptionKey($event:JQueryEventObject) {
     if ($event.which === 27) {
       this.cancelDescriptionEdit();
     }
@@ -102,7 +102,7 @@ class WpRelationRowDirectiveController {
   public saveDescription() {
     this.relation.updateImmediately({
       description: this.userInputs.newRelationText
-    }).then((savedRelation) => {
+    }).then((savedRelation:RelationResourceInterface) => {
       this.$scope.$emit('wp-relations.changed', this.relation);
       this.relation = savedRelation;
       this.relatedWorkPackage.relatedBy = savedRelation;
@@ -129,7 +129,7 @@ class WpRelationRowDirectiveController {
   public saveRelationType() {
     this.relation.updateImmediately({
       type: this.selectedRelationType.name
-    }).then((savedRelation) => {
+    }).then((savedRelation:RelationResourceInterface) => {
       this.wpNotificationsService.showSave(this.relatedWorkPackage);
       this.$scope.$emit('wp-relations.changed', this.relation);
       this.relatedWorkPackage.relatedBy = savedRelation;
@@ -152,7 +152,7 @@ class WpRelationRowDirectiveController {
         angular.element('#relation--add-relation').focus();
       });
     })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
+      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
   }
 }
 

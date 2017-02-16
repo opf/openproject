@@ -31,7 +31,7 @@ export class WorkPackageTableMetadataService {
    * @returns {WPTableRowSelectionState}
    */
   public get current():WorkPackageTableMetadata {
-    return this.metadata.getCurrentValue();
+    return this.metadata.getCurrentValue() as WorkPackageTableMetadata;
   }
 }
 

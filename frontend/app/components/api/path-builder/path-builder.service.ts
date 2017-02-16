@@ -42,7 +42,7 @@ class PathTemplate {
    * Parents are only prepended to the path segment, if a parameter of the same name as the parent
    * is provided.
    */
-  public parents = {};
+  public parents:any = {};
 
   /**
    * Create the object while initialising its optional parents and children.
@@ -50,9 +50,9 @@ class PathTemplate {
    * @param config
    * @param parent
    */
-  constructor(public config?, public parent?:PathTemplate) {
-    var children;
-    var parents;
+  constructor(public config?:any, public parent?:PathTemplate) {
+    var children:{[name:string]: PathTemplate};
+    var parents:{[name:string]: PathTemplate};
 
     if (!Array.isArray(config)) {
       this.config = [config];
@@ -64,7 +64,7 @@ class PathTemplate {
       this.children[childName] = new PathTemplate(childConfig, this);
     });
 
-    angular.forEach(parents, (parentConfig, parentName) => {
+    angular.forEach(parents, (parentConfig, parentName:string) => {
       this.parents[parentName] = new PathTemplate(parentConfig, this.parent);
     });
   }
@@ -76,12 +76,12 @@ class PathTemplate {
    * @return {(params?:{})=>string}
    */
   public callable() {
-    const callable = (params = {}) => {
+    const callable = (params:any = {}) => {
       return URI.expand(this.build(params), params).valueOf();
     };
 
-    angular.forEach(this.children, (child, childName) => {
-      callable[childName] = child.callable();
+    angular.forEach(this.children, (child:any, childName:string) => {
+      (callable as any)[childName] = child.callable();
     });
 
     return callable;
@@ -93,8 +93,8 @@ class PathTemplate {
    * @param params
    * @return {string}
    */
-  public build(params) {
-    var parent:PathTemplate = null;
+  public build(params:any):string {
+    var parent:PathTemplate|undefined;
     params = _.pick(params, value => !!value);
 
     Object.keys(params).forEach(name => {
@@ -102,7 +102,7 @@ class PathTemplate {
     });
 
     parent = parent || this.parent;
-    const parentTemplate = parent ? parent.build(params) + '/' : '';
+    const parentTemplate:string = parent ? parent.build(params) + '/' : '';
 
     return parentTemplate + this.template;
   }
@@ -123,10 +123,10 @@ export class PathBuilderService {
    * @param templates
    * @return A collection of callable paths
    */
-  public buildPaths(templates:any) {
-    const pathCollection = {};
+  public buildPaths(templates:{[name:string]: any}) {
+    const pathCollection:{[name:string]: any} = {};
 
-    angular.forEach(templates, (config, name) => {
+    angular.forEach(templates, (config:any, name:string) => {
       pathCollection[name] = new PathTemplate(config).callable();
     });
 

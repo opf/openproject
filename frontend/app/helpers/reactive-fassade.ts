@@ -4,9 +4,9 @@ import {BehaviorSubject, Observable, Subject} from "rxjs";
 
 export abstract class StoreElement {
 
-  public pathInStore: string = null;
+  public pathInStore: string;
 
-  public logFn: (msg: any) => any = null;
+  public logFn: (msg: any) => any;
 
   log(msg: string, reason?: string) {
     reason = reason === undefined ? "" : " // " + reason;
@@ -26,13 +26,13 @@ export class State<T> extends StoreElement {
 
   private timestampOfLastPromise = -1;
 
-  private subject = new BehaviorSubject<T>(null);
+  private subject = new BehaviorSubject<T|null>(null);
 
-  private lastValue: T = null;
+  private lastValue: T|null = null;
 
-  private cleared = new Subject();
+  private cleared = new Subject<null>();
 
-  private observable: Observable<T>;
+  private observable: Observable<T|null>;
 
   constructor() {
     super();
@@ -63,7 +63,7 @@ export class State<T> extends StoreElement {
    *
    * However, it is usually better to use State#get()/State#observe().
    */
-  public getCurrentValue(): T {
+  public getCurrentValue(): T|null {
     return this.lastValue;
   }
 
@@ -124,7 +124,7 @@ export class State<T> extends StoreElement {
     return scope ? scopedObservable(scope, this.observable) : this.observable;
   }
 
-  protected setState(val: T) {
+  protected setState(val: T|null) {
     this.lastValue = val;
     this.subject.next(val);
 
@@ -160,7 +160,7 @@ export class MultiState<T> extends StoreElement {
 
   private states: {[id: string]: MultiStateMember<T>} = {};
 
-  private memberSubject = new BehaviorSubject<[string, T]>(null);
+  private memberSubject = new BehaviorSubject<[string, T|null]>(['', null]);
 
   constructor() {
     super();
@@ -226,6 +226,6 @@ function traverse(elem: any, path: string, logFn: (msg: any) => any) {
 
 }
 
-export function initStates(states: any, logFn?: (msg: any) => any) {
+export function initStates(states: any, logFn: (msg: any) => any) {
   return traverse(states, "", logFn);
 }

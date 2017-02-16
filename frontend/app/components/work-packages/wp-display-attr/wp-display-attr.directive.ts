@@ -33,7 +33,10 @@ import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edi
 import {WorkPackageCacheService} from "../work-package-cache.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageDisplayAttributeController {
 
@@ -101,7 +104,7 @@ export class WorkPackageDisplayAttributeController {
     return this.field.valueString;
   }
 
-  protected updateAttribute(wp) {
+  protected updateAttribute(wp:WorkPackageResourceInterface) {
     this.workPackage = wp;
     this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;
 
@@ -117,10 +120,9 @@ export class WorkPackageDisplayAttributeController {
 
 function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
 
-  function wpTdLink(scope,
-                    element,
-                    attr,
-                    controllers) {
+  function wpTdLink(scope:any,
+                    element:ng.IAugmentedJQuery,
+                    attr:ng.IAttributes) {
 
     if (!scope.$ctrl.customSchema) {
       wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).observeOnScope(scope)

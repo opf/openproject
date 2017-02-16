@@ -37,12 +37,12 @@ export interface WorkPackageEditContext {
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResource, fieldName: string);
+  reset(workPackage:WorkPackageResource, fieldName: string):void;
 
   /**
    * Locate a display field in the current dom
    */
-  find(fieldName:string);
+  find(fieldName:string):JQuery;
 
   /**
    * Return the first relevant field from the given list of attributes.
@@ -52,5 +52,5 @@ export interface WorkPackageEditContext {
   /**
    * Callback after a work package is saved through the form
    */
-  onSaved(workPackage:WorkPackageResource);
+  onSaved(workPackage:WorkPackageResource):void;
 }

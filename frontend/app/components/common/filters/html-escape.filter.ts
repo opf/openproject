@@ -28,7 +28,7 @@
 import {filtersModule} from './../../../angular-modules';
 
 function htmlEscape() {
-  return function(string) {
+  return function(string:string) {
     return _.escape(string);
   };
 }

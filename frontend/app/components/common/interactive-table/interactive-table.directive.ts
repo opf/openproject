@@ -31,16 +31,16 @@ import {opUiComponentsModule} from "../../../angular-modules";
 export class interactiveTableController {
 
   // Width of the table and container last applied by this directive
-  private lastWidthSet;
+  private lastWidthSet:any;
 
   // Width of the scrollbar to account for
   private scrollBarWidth = 16;
 
-  constructor(protected $element,
-              protected $timeout,
-              protected $interval,
-              protected $scope,
-              protected $window) {
+  constructor(protected $element:ng.IAugmentedJQuery,
+              protected $timeout:ng.ITimeoutService,
+              protected $interval:ng.IIntervalService,
+              protected $scope:ng.IScope,
+              protected $window:ng.IWindowService) {
     'ngInject';
 
     // Initialize the interactive table
@@ -223,7 +223,7 @@ function interactiveTable() {
     controller: interactiveTableController,
     bindToController: true,
 
-    link: function(scope, element) {
+    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery) {
       if (element.filter('table').length === 0) {
         throw 'interactive-table needs to be defined on a \'table\' tag';
       }

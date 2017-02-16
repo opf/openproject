@@ -12,7 +12,7 @@ export class WorkPackageTableColumnsService {
   // The selected columns state of the current table instance
   public columnsState:State<string[]>;
 
-  constructor(public states: States, public QueryService) {
+  constructor(public states: States, public QueryService:any) {
     this.columnsState = states.table.columns;
     this.availableColumnsState = states.query.availableColumns;
   }
@@ -22,8 +22,13 @@ export class WorkPackageTableColumnsService {
    */
   public getColumns():any[] {
     let available = this.availableColumnsState.getCurrentValue();
+
+    if (!available) {
+      return [];
+    }
+
     return this.currentState.map(name => {
-      return _.find(available, (column) => column.name === name);
+      return _.find(available as any[], (column) => column.name === name);
     });
   }
 
@@ -45,7 +50,7 @@ export class WorkPackageTableColumnsService {
       return null;
     }
 
-    return this.columnsState[index - 1];
+    return this.currentState[index - 1];
   }
 
   /**
@@ -59,7 +64,7 @@ export class WorkPackageTableColumnsService {
       return null;
     }
 
-    return this.columnsState[index + 1];
+    return this.currentState[index + 1];
   }
 
   /**
@@ -138,7 +143,7 @@ export class WorkPackageTableColumnsService {
   /**
    * Remove a column from the active list
    */
-  public removeColumn(name) {
+  public removeColumn(name:string) {
     let index = this.index(name);
 
     if (index !== -1) {
@@ -154,7 +159,7 @@ export class WorkPackageTableColumnsService {
    * @returns {WPTableRowSelectionState}
    */
   public get currentState():string[] {
-    return this.columnsState.getCurrentValue();
+    return this.columnsState.getCurrentValue() as string[];
   }
 
   /**

@@ -40,7 +40,7 @@ export class ToggledMultiselectController {
 
   public text:{ [key: string]: string; };
 
-  constructor(public $scope, public I18n:op.I18n) {
+  constructor(public $scope:ng.IScope, public I18n:op.I18n) {
     this.isMultiselect = this.isValueMulti();
 
     // We need to extract a value returned from filter query

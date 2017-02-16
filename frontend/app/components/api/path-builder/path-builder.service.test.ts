@@ -33,7 +33,7 @@ describe('pathBuilder service', () => {
   var pathBuilder:PathBuilderService;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_pathBuilder_) {
+  beforeEach(angular.mock.inject(function (_pathBuilder_:any) {
     [pathBuilder] = _.toArray(arguments);
   }));
 
@@ -45,12 +45,12 @@ describe('pathBuilder service', () => {
     var pathCollection:any;
     var pathConfig:any;
     var path:any;
-    var result;
+    var result:any;
     var params:any;
-    var withoutParams;
-    var withParams;
+    var withoutParams:any;
+    var withParams:any;
 
-    const testCallablePath = (prepare) => {
+    const testCallablePath = (prepare:any) => {
       beforeEach(prepare);
 
       it('should exist', () => {

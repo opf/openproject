@@ -30,13 +30,13 @@ import {opApiModule} from '../../../../angular-modules';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 
 export class HalResourceTypesService {
-  constructor(protected $injector,
+  constructor(protected $injector:ng.auto.IInjectorService,
               protected halResourceFactory:HalResourceFactoryService,
-              HalResource) {
+              HalResource:any) {
     halResourceFactory.defaultClass = HalResource;
   }
 
-  public setResourceTypeConfig(config) {
+  public setResourceTypeConfig(config:any) {
     const types = Object.keys(config).map(typeName => {
       const value = config[typeName];
       const result = {
@@ -58,7 +58,7 @@ export class HalResourceTypesService {
 
     types.forEach(typeConfig => {
       this.halResourceFactory
-        .setResourceType(typeConfig.typeName, this.$injector.get(typeConfig.className));
+        .setResourceType(typeConfig.typeName, this.$injector.get(typeConfig.className) as any);
     });
 
     types
@@ -77,7 +77,8 @@ export class HalResourceTypesService {
       return cls.name;
     }
 
-    return cls.toString().match(/^function\s*([^\s(]+)/)[1];
+    const matches = cls.toString().match(/^function\s*([^\s(]+)/) as any[];
+    return matches[1];
   }
 }
 

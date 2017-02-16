@@ -33,7 +33,7 @@ describe('wpFiltersService', () => {
   var wpFiltersService:WorkPackageFiltersService;
 
   beforeEach(angular.mock.module('openproject.filters'));
-  beforeEach(angular.mock.inject((_wpFiltersService_) => {
+  beforeEach(angular.mock.inject((_wpFiltersService_:any) => {
     wpFiltersService = _wpFiltersService_;
   }));
 

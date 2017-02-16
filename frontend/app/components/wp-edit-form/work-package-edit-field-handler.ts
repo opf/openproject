@@ -65,7 +65,7 @@ export class WorkPackageEditFieldHandler {
   /**
    * Stop this event from propagating out of the edit field context.
    */
-  public stopPropagation(evt) {
+  public stopPropagation(evt:JQueryEventObject) {
     evt.stopPropagation();
     return false;
   }

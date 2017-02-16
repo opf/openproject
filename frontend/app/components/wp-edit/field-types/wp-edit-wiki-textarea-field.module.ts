@@ -53,7 +53,7 @@ export class WikiTextareaEditField extends EditField {
   public text: Object;
 
 
-  constructor(workPackage, fieldName, schema) {
+  constructor(workPackage:WorkPackageResource, fieldName:string, schema:op.FieldSchema) {
     super(workPackage, fieldName, schema);
 
     this.fieldVal = workPackage[fieldName];
@@ -68,7 +68,7 @@ export class WikiTextareaEditField extends EditField {
     return !(this.value && this.value.raw);
   }
 
-  public submitUnlessInPreview(form) {
+  public submitUnlessInPreview(form:any) {
     this.$timeout(() => {
       if (!this.isPreview) {
         form.submit();
@@ -86,7 +86,7 @@ export class WikiTextareaEditField extends EditField {
 
     if (this.isPreview) {
       this.isBusy = true;
-      this.workPackage.getForm().then(form => {
+      this.workPackage.getForm().then((form:any) => {
         const link = form.previewMarkup.$link;
         this.$http({
           method: link.method,

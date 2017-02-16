@@ -30,7 +30,7 @@ export class SingleRowBuilder {
    * It is not responsible for subscribing to updates.
    */
   public get columns():string[] {
-    return this.states.table.columns.getCurrentValue();
+    return (this.states.table.columns.getCurrentValue() || []);
   }
 
   /**
@@ -62,7 +62,7 @@ export class SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  private createEmptyRow(workPackage) {
+  private createEmptyRow(workPackage:WorkPackageResource) {
     let tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);
     tr.dataset['workPackageId'] = workPackage.id;

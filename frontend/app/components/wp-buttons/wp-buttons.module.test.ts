@@ -37,7 +37,7 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
   public buttonId:string = 'some-button-id';
   public iconClass:string = 'some-icon-class';
   
-  constructor(public $state, public I18n) {
+  constructor(public $state:ng.ui.IStateService, public I18n:op.I18n) {
     super($state, I18n);
   }
 
@@ -55,7 +55,7 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
 }
 
 describe('WP button directives', () => {
-  var $state, I18n, scope, label, button;
+  var $state:any, I18n:any, scope:any, label:any, button:any;
   var controller:GenericWpButtonController;
 
   before(() => {
@@ -77,7 +77,7 @@ describe('WP button directives', () => {
   beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates'));
 
   beforeEach(angular.mock.inject(($compile:ng.ICompileService, $rootScope:ng.IRootScopeService,
-                                  _$state_:ng.ui.IStateService, _I18n_) => {
+                                  _$state_:ng.ui.IStateService, _I18n_:any) => {
 
     var html = '<generic-wp-button disabled="disabled"></generic-wp-button>';
 
@@ -120,7 +120,7 @@ describe('WP button directives', () => {
   });
 
   describe('when activeState is set', () => {
-    var includes;
+    var includes:any;
 
     beforeEach(() => {
       includes = sinon.stub($state, 'includes');

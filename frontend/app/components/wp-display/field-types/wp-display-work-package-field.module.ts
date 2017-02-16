@@ -37,7 +37,7 @@ export class WorkPackageDisplayField extends DisplayField {
 
   constructor(public resource:WorkPackageResource,
               public name:string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.uiStateBuilder = new UiStateLinkBuilder();
@@ -46,7 +46,7 @@ export class WorkPackageDisplayField extends DisplayField {
     };
   }
 
-  public render(element: HTMLElement, displayText): void {
+  public render(element:HTMLElement, displayText:string): void {
     if (!this.value) {
       return;
     }

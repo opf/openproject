@@ -27,8 +27,8 @@ export class WpAttachmentsFormattableController {
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
-              protected $state,
-              protected loadingIndicator,
+              protected $state:ng.ui.IStateService,
+              protected loadingIndicator:any,
               protected keepTab:KeepTabService) {
 
     $element.on('drop', this.handleDrop);
@@ -95,7 +95,7 @@ export class WpAttachmentsFormattableController {
     else {
       this.insertUrls(dropData, description);
     }
-    this.openDetailsView(workPackage.id);
+    this.openDetailsView(workPackage.id.toString());
     this.removeHighlight();
   };
 
@@ -125,7 +125,7 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(dropData:DropModel, description, workPackage: WorkPackageResourceInterface):void {
+  protected insertDelayedAttachments(dropData:DropModel, description:any, workPackage: WorkPackageResourceInterface):void {
     for (var i = 0; i < dropData.files.length; i++) {
       var currentFile = new SingleAttachmentModel(dropData.files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
@@ -136,7 +136,7 @@ export class WpAttachmentsFormattableController {
     description.save();
   }
 
-  protected insertUrls(dropData: DropModel, description):void {
+  protected insertUrls(dropData: DropModel, description:any):void {
     const insertUrl:string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
     const insertAlternative:InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
     const insertMode:InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
@@ -145,10 +145,11 @@ export class WpAttachmentsFormattableController {
     description.save();
   }
 
-  protected openDetailsView(wpId):void {
-    if (this.$state.current.name.indexOf('work-packages.list') > -1 &&
+  protected openDetailsView(wpId:string):void {
+    const stateName = this.$state.current.name as string;
+    if (stateName.indexOf('work-packages.list') > -1 &&
         !this.wpEditModeState.active &&
-        this.$state.params.workPackageId !== wpId) {
+        this.$state.params['workPackageId'] !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
         workPackageId: wpId
       });

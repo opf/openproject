@@ -42,7 +42,7 @@ describe('keepTab service', () => {
 
   beforeEach(angular.mock.module('openproject.wpButtons'));
 
-  beforeEach(angular.mock.inject((_$state_, _$rootScope_, _keepTab_) => {
+  beforeEach(angular.mock.inject((_$state_:any, _$rootScope_:any, _keepTab_:any) => {
     $state = _$state_;
     $rootScope = _$rootScope_;
     keepTab = _keepTab_;
@@ -61,7 +61,7 @@ describe('keepTab service', () => {
   });
 
   describe('when opening a show route', () => {
-    var includes;
+    var includes:any;
 
     beforeEach(() => {
       includes = sinon.stub($state, 'includes');

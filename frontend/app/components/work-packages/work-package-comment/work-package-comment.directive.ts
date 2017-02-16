@@ -45,18 +45,18 @@ export class CommentFieldDirectiveController {
   protected showAbove:boolean;
   protected _forceFocus: boolean = false;
 
-  constructor(protected $scope,
-              protected $rootScope,
-              protected $timeout,
-              protected $q,
-              protected $element,
-              protected ActivityService,
-              protected ConfigurationService,
+  constructor(protected $scope:ng.IScope,
+              protected $rootScope:ng.IRootScopeService,
+              protected $timeout:ng.ITimeoutService,
+              protected $q:ng.IQService,
+              protected $element:ng.IAugmentedJQuery,
+              protected ActivityService:any,
+              protected ConfigurationService:any,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
-              protected NotificationsService,
-              protected I18n) {
+              protected NotificationsService:any,
+              protected I18n:op.I18n) {
 
     this.text = {
       editTitle: I18n.t('js.label_add_comment_title'),
@@ -116,7 +116,7 @@ export class CommentFieldDirectiveController {
         });
         this._forceFocus = true;
       })
-      .catch(error => {
+      .catch((error:any) => {
         if (error instanceof ErrorResource) {
           this.wpNotificationsService.showError(error, this.workPackage);
         }

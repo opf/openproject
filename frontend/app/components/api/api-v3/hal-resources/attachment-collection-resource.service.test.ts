@@ -32,15 +32,15 @@ import {OpenProjectFileUploadService} from '../../op-file-upload/op-file-upload.
 import SinonStub = Sinon.SinonStub;
 
 describe('AttachmentCollectionResource service', () => {
-  var AttachmentCollectionResource;
+  var AttachmentCollectionResource:any;
   var opFileUpload: OpenProjectFileUploadService;
 
   beforeEach(angular.mock.module(
     opApiModule.name,
     opServicesModule.name
   ));
-  beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_,
-                                           _opFileUpload_) {
+  beforeEach(angular.mock.inject(function (_AttachmentCollectionResource_:any,
+                                           _opFileUpload_:any) {
     [AttachmentCollectionResource, opFileUpload] = _.toArray(arguments);
   }));
 
@@ -59,7 +59,7 @@ describe('AttachmentCollectionResource service', () => {
 
     describe('when using upload()', () => {
       var uploadStub: SinonStub;
-      var params;
+      var params:any;
 
       beforeEach(() => {
         params = [{}, {}];

@@ -28,21 +28,21 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 
-function remoteFieldUpdater($http) {
+function remoteFieldUpdater($http:ng.IHttpService) {
   return {
     restrict: 'E',
     scope: {
       url: '@',
       method: '@'
     },
-    link: (scope, element) => {
+    link: (scope:any, element:ng.IAugmentedJQuery) => {
       const input = element.find('.remote-field--input');
       const target = element.find('.remote-field--target');
       const htmlMode = target.length > 0;
       const method = (scope.method || 'GET').toUpperCase();
 
-      function buildRequest(params) {
-        const request = {
+      function buildRequest(params:any) {
+        const request:any = {
           url: scope.url,
           method: method,
           headers: {},
@@ -67,7 +67,7 @@ function remoteFieldUpdater($http) {
       }
 
       function updater() {
-        var params = {};
+        var params:any = {};
 
         // Gather request keys
         input.each((i, el) => {
@@ -75,7 +75,7 @@ function remoteFieldUpdater($http) {
           params[field.data('remoteFieldKey')] = field.val();
         });
 
-        $http(buildRequest(params)).then(response => {
+        $http(buildRequest(params)).then((response:any) => {
           // Replace the given target
           if (htmlMode) {
             target.html(response.data);

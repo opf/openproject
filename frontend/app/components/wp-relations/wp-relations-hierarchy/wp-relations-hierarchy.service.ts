@@ -37,7 +37,7 @@ export class WorkPackageRelationsHierarchyService {
 
   }
 
-  public changeParent(workPackage, parentId) {
+  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string|null) {
     return workPackage
       .changeParent({
         parentId: parentId,
@@ -49,22 +49,22 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeParent(workPackage) {
+  public removeParent(workPackage:WorkPackageResourceInterface) {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage, childWpId) {
+  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string) {
     var deferred = this.$q.defer();
     this.wpCacheService.loadWorkPackage(childWpId)
       .get()
-      .then(wpToBecomeChild => {
+      .then((wpToBecomeChild:WorkPackageResourceInterface) => {
         deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
       });
 
     return deferred.promise;
   }
 
-  public addNewChildWp(workPackage) {
+  public addNewChildWp(workPackage:WorkPackageResourceInterface) {
     workPackage.project.$load()
       .then(() => {
         const args = [
@@ -83,7 +83,7 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeChild(childWorkPackage) {
+  public removeChild(childWorkPackage:WorkPackageResourceInterface) {
     return childWorkPackage.$load().then(() => {
       return childWorkPackage.changeParent({
         parentId: null,

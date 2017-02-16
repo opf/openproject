@@ -25,14 +25,14 @@ export class ContextMenuHandler implements TableEventHandler {
     return `.${rowClassName}`;
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     // We want to keep the original context menu on hrefs
     // (currently, this is only the id
     if (target.closest(`.${uiStateLinkClass}`).length) {
       debugLog('Allowing original context menu on state link');
-      return;
+      return true;
     }
     evt.preventDefault();
     evt.stopPropagation();

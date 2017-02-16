@@ -26,26 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-
-
+import {States} from '../states.service';
+import {WorkPackageEditModeStateService} from '../wp-edit/wp-edit-mode-state.service';
 
 import {openprojectModule} from "../../angular-modules";
 function wpDetailsToolbar(
-  PERMITTED_MORE_MENU_ACTIONS,
-  $state,
-  states,
-  $window,
-  I18n,
-  HookService,
-  WorkPackageService,
-  WorkPackageAuthorization,
-  wpEditModeState) {
+  PERMITTED_MORE_MENU_ACTIONS:any,
+  $state:ng.ui.IStateService,
+  states:States,
+  $window:ng.IWindowService,
+  I18n:op.I18n,
+  HookService:any,
+  WorkPackageService:any,
+  WorkPackageAuthorization:any,
+  wpEditModeState:WorkPackageEditModeStateService) {
 
-  function getPermittedActions(authorization, permittedMoreMenuActions) {
+  function getPermittedActions(authorization:any, permittedMoreMenuActions:any) {
     var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
     var augmentedActions = { };
 
-    angular.forEach(permittedActions, function(permission) {
+    angular.forEach(permittedActions, function(this:any, permission) {
       var css = ["icon-" + permission.key];
 
       this[permission.key] = { link: permission.link, css: css };
@@ -54,8 +54,8 @@ function wpDetailsToolbar(
     return augmentedActions;
   }
 
-  function getPermittedPluginActions(authorization) {
-    var pluginActions = [];
+  function getPermittedPluginActions(authorization:any) {
+    var pluginActions:any = [];
     angular.forEach(HookService.call('workPackageDetailsMoreMenu'), function(action) {
       pluginActions = pluginActions.concat(action);
     });
@@ -63,8 +63,8 @@ function wpDetailsToolbar(
     var permittedPluginActions = authorization.permittedActionsWithLinks(pluginActions);
     var augmentedPluginActions = { };
 
-    angular.forEach(permittedPluginActions, function(action) {
-      var css = [].concat(action.css);
+    angular.forEach(permittedPluginActions, function(this:any, action) {
+      var css:string[] = [].concat(action.css);
 
       if (css.length === 0) {
         css = ["icon-" + action.key];
@@ -83,7 +83,7 @@ function wpDetailsToolbar(
       workPackage: '='
     },
 
-    link: function(scope, attr, element) {
+    link: function(scope:any, attr:ng.IAttributes, element:ng.IAugmentedJQuery) {
 
       scope.workPackage.project.$load().then(() => {
         var authorization = new WorkPackageAuthorization(scope.workPackage);
@@ -96,7 +96,7 @@ function wpDetailsToolbar(
           getPermittedPluginActions(authorization));
         scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
 
-        scope.triggerMoreMenuAction = function(action, link) {
+        scope.triggerMoreMenuAction = function(action:any, link:any) {
           switch (action) {
             case 'delete':
               deleteSelectedWorkPackage();

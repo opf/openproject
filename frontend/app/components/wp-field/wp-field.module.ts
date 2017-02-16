@@ -45,11 +45,11 @@ export class Field {
   }
 
   public get required():boolean {
-    return this.schema.required;
+    return !!this.schema.required;
   }
 
   public get visibility():string {
-    return this.schema.visibility;
+    return this.schema.visibility as string;
   }
 
   public get hidden():boolean {
@@ -68,24 +68,24 @@ export class Field {
     return (this.constructor as typeof Field).$injector;
   }
 
-  protected $inject(name):any {
+  protected $inject(name:string):any {
     return this.$injector.get(name);
   }
 
   constructor(public resource:HalResource,
               public name:string,
-              public schema) {
+              public schema:op.FieldSchema) {
   }
 }
 
 export class FieldFactory {
   public static defaultType:string;
 
-  protected static fields = {};
-  protected static classes = {};
+  protected static fields:{[field:string]: string} = {};
+  protected static classes:{[type:string]: typeof Field} = {};
 
   public static register(fieldClass:typeof Field, fields:string[] = []) {
-    fields.forEach(field => this.fields[field] = fieldClass.type);
+    fields.forEach((field:string) => this.fields[field] = fieldClass.type);
     this.classes[fieldClass.type] = fieldClass;
   }
 

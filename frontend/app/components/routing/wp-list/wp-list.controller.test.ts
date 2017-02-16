@@ -28,41 +28,45 @@
 
 
 describe('WorkPackagesListController', () => {
-  var scope;
-  var ctrl;
-  var win;
-  var wpListServiceMock;
-  var testProjectService;
-  var testWorkPackageService;
-  var testQueryService;
-  var testPaginationService;
-  var testApiWorkPackages;
-  var testAuthorisationService;
-  var testQueries;
-  var buildController;
-  var stateParams = {};
+  var scope:any;
+  var ctrl:any;
+  var win:any;
+  var wpListServiceMock:any;
+  var testProjectService:any;
+  var testWorkPackageService:any;
+  var testQueryService:any;
+  var testPaginationServicev;
+  var testApiWorkPackages:any;
+  var testAuthorisationService:any;
+  var testQueries:any;
+  var buildController:any;
+  var stateParams:any = {};
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.workPackages.controllers',
     'openproject.workPackages.services', 'ng-context-menu', 'btford.modal', 'openproject.layout',
     'openproject.services', 'openproject.wpButtons'));
 
-  beforeEach(angular.mock.module('openproject.templates', ($provide) => {
+  beforeEach(angular.mock.module('openproject.templates', ($provide:any) => {
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false)
     };
 
     $provide.constant('$stateParams', stateParams);
     $provide.constant('ConfigurationService', configurationService);
-    $provide.constant('wpTableColumns', { getColumns: () => [] });
+    $provide.constant('wpTableColumns', { getColumns: ():any[] => [] });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $controller, $timeout, $q, $cacheFactory) => {
+  beforeEach(angular.mock.inject(($rootScope:any,
+                                  $controller:any,
+                                  $timeout:any,
+                                  $q:any,
+                                  $cacheFactory:any) => {
     scope = $rootScope.$new();
     win = {
       location: {pathname: ''}
     };
 
-    var defaultWorkPackagesData = {
+    var defaultWorkPackagesData:any = {
       meta: {
         query: {
           _links: []
@@ -72,7 +76,7 @@ describe('WorkPackagesListController', () => {
       },
       work_packages: []
     };
-    var workPackagesDataByQueryId = {
+    var workPackagesDataByQueryId:any = {
       meta: {
         query: {
           props: {id: 1},
@@ -86,21 +90,21 @@ describe('WorkPackagesListController', () => {
     var columnData = {};
     var availableQueryiesData = {};
 
-    var projectData = {embedded: {types: []}};
+    var projectData:any = {embedded: {types: []}};
     var projectsData = [projectData];
     testQueries = {
       '1': {
         id: 1,
         columns: ['type'],
-        getSortation: () => null,
-        setColumns: () => null,
+        getSortation: ():any => null,
+        setColumns: ():any => null,
         isNew: () => false
       },
       '2': {
         id: 2,
         columns: ['type'],
-        getSortation: () => null,
-        setColumns: () => null,
+        getSortation: ():any => null,
+        setColumns: ():any => null,
         isNew: () => false
       }
     };
@@ -143,10 +147,10 @@ describe('WorkPackagesListController', () => {
         return {
           getQueryString: () => {
           },
-          setColumns: () => [],
+          setColumns: ():any[] => [],
         };
       },
-      initQuery: (id) => {
+      initQuery: (id:any) => {
         var queryId = id || 1;
         return testQueries[queryId];
       },
@@ -168,7 +172,7 @@ describe('WorkPackagesListController', () => {
 
       setTotalEntries: () => 10,
     };
-    testPaginationService = {
+    var testPaginationService:any = {
       setPerPageOptions: () => {
       },
       setPerPage: () => {
@@ -203,7 +207,7 @@ describe('WorkPackagesListController', () => {
       }
     };
 
-    buildController = (params, state, location) => {
+    buildController = (params:any, state:any, location:any) => {
       scope.projectIdentifier = 'test';
       ctrl = $controller("WorkPackagesListController", {
         $scope: scope,

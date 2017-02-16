@@ -8,5 +8,5 @@ export abstract class ClickOrEnterHandler {
     }
   }
 
-  protected abstract processEvent(table:WorkPackageTable, evt:JQueryEventObject);
+  protected abstract processEvent(table:WorkPackageTable, evt:JQueryEventObject):void;
 }

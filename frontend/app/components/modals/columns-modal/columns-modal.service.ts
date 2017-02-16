@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function columnsModalService(btfModal) {
+function columnsModalService(btfModal:any) {
   return btfModal({
     controller: 'ColumnsModalController',
     controllerAs: '$ctrl',

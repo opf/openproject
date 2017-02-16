@@ -38,7 +38,7 @@ export class SelectionTransformer {
   /**
    * Update all currently visible rows to match the selection state.
    */
-  private renderSelectionState(state) {
+  private renderSelectionState(state:WPTableRowSelectionState) {
     jQuery(`.${rowClassName}.${checkedClassName}`).removeClass(checkedClassName);
 
     _.each(state.selected, (selected: boolean, workPackageId:any) => {

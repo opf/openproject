@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function shareModalService(btfModal) {
+function shareModalService(btfModal:any) {
   return btfModal({
     controller: 'ShareModalController',
     controllerAs: '$ctrl',

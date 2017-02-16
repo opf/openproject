@@ -26,18 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformDate(TimezoneService) {
+function transformDate(TimezoneService:any) {
   return {
     restrict:'A',
     require: '^ngModel',
-    link: function(scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function(data) {
+    link: function(
+      scope:ng.IScope,
+      element:ng.IAugmentedJQuery,
+      attrs:ng.IAttributes,
+      ngModelController:any) {
+      ngModelController.$parsers.push(function(data:any) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
           return undefined;
         }
         return data;
       });
-      ngModelController.$formatters.push(function(data) {
+      ngModelController.$formatters.push(function(data:any) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
           return undefined;
         }

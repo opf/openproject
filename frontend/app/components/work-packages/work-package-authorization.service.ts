@@ -30,8 +30,8 @@
 import {opWorkPackagesModule} from '../../angular-modules';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-var $state;
-var PathHelper;
+var $state:ng.ui.IStateService;
+var PathHelper:any;
 
 export class WorkPackageAuthorization {
 
@@ -41,7 +41,7 @@ export class WorkPackageAuthorization {
     this.project = workPackage.project;
   }
 
-  public get allActions() {
+  public get allActions():any {
     return {
       workPackage: this.workPackage,
       project: this.project
@@ -49,15 +49,16 @@ export class WorkPackageAuthorization {
   }
 
   public copyLink() {
-    if ($state.current.name.indexOf('work-packages.show') === 0) {
+    const stateName = $state.current.name as string;
+    if (stateName.indexOf('work-packages.show') === 0) {
       return PathHelper.workPackageCopyPath(this.workPackage.id);
     }
-    else if ($state.current.name.indexOf('work-packages.list.details') === 0) {
+    else if (stateName.indexOf('work-packages.list.details') === 0) {
       return PathHelper.workPackageDetailsCopyPath(this.project.identifier, this.workPackage.id);
     }
   }
 
-  public linkForAction(action) {
+  public linkForAction(action:any) {
     if (action.key === 'copy') {
       action.link = this.copyLink();
     }
@@ -68,12 +69,12 @@ export class WorkPackageAuthorization {
     return action;
   }
 
-  public isPermitted(action) {
+  public isPermitted(action:any) {
     return this.allActions[action.resource] !== undefined &&
       this.allActions[action.resource][action.link] !== undefined;
   }
 
-  public permittedActionKeys(allowedActions) {
+  public permittedActionKeys(allowedActions:any) {
     var validActions = _.filter(allowedActions, this.isPermitted, this);
 
     return _.map(validActions, function (action) {
@@ -81,7 +82,7 @@ export class WorkPackageAuthorization {
     });
   }
 
-  public permittedActionsWithLinks(allowedActions) {
+  public permittedActionsWithLinks(allowedActions:any) {
     var validActions = _.filter(_.cloneDeep(allowedActions), this.isPermitted, this);
 
     var allowed = _.map(validActions, this.linkForAction, this);
@@ -90,7 +91,7 @@ export class WorkPackageAuthorization {
   }
 }
 
-function wpAuthorizationService(...args) {
+function wpAuthorizationService(...args:any[]) {
   [$state, PathHelper] = args;
   return WorkPackageAuthorization;
 }

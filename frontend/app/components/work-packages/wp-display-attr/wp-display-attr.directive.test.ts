@@ -29,11 +29,11 @@
 import {WorkPackageCacheService} from './../work-package-cache.service';
 
 describe('wpDisplayAttr directive', () => {
-  var compile;
-  var element;
+  var compile:any;
+  var element:any;
   var rootScope;
-  var scope;
-  var I18n;
+  var scope:any;
+  var I18n:any;
   var wpCacheService: WorkPackageCacheService;
 
 
@@ -45,14 +45,14 @@ describe('wpDisplayAttr directive', () => {
     'openproject.services'
   ));
 
-  beforeEach(angular.mock.module('openproject.templates', $provide => {
+  beforeEach(angular.mock.module('openproject.templates', ($provide:any) => {
     $provide.constant('ConfigurationService', {
       isTimezoneSet: sinon.stub().returns(false),
       accessibilityModeEnabled: sinon.stub().returns(false)
     });
   }));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile, _I18n_, _$httpBackend_, _wpCacheService_) => {
+  beforeEach(angular.mock.inject(($rootScope:any, $compile:any, _I18n_:any, _$httpBackend_:any, _wpCacheService_:any) => {
     var html = `
       <wp-display-attr work-package="workPackage" attribute="attribute">
       </wp-display-attr>
@@ -83,10 +83,10 @@ describe('wpDisplayAttr directive', () => {
     I18n.t.restore();
   });
 
-  var getInnermostSpan = start => start.find('span:not(:has(span)):not(.hidden-for-sighted)');
+  var getInnermostSpan = (start:any) => start.find('span:not(:has(span)):not(.hidden-for-sighted)');
 
   describe('element', () => {
-    beforeEach(angular.mock.inject(($q) => {
+    beforeEach(angular.mock.inject(($q:any) => {
       scope.workPackage = {
         subject: 'Subject1',
         mybool: false,

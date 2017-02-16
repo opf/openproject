@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function exportModalService(btfModal) {
+function exportModalService(btfModal:any) {
   return btfModal({
     controller: 'ExportModalController',
     controllerAs: '$ctrl',

@@ -28,16 +28,17 @@
 
 import {opWorkPackagesModule} from "../../../angular-modules";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 export class WorkPackageSubjectController {
 
   public workPackage: WorkPackageResource;
 
-  constructor(protected $scope,
-              protected $stateParams,
-              protected wpCacheService) {
+  constructor(protected $scope:ng.IScope,
+              protected $stateParams:ng.ui.IStateParamsService,
+              protected wpCacheService:WorkPackageCacheService) {
     if (!this.workPackage) {
-      wpCacheService.loadWorkPackage($stateParams.workPackageId).observeOnScope($scope)
+      wpCacheService.loadWorkPackage($stateParams['workPackageId']).observeOnScope($scope)
         .subscribe((wp: WorkPackageResource) => {
           this.workPackage = wp;
         });

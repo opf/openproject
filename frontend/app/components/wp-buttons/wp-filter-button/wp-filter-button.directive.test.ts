@@ -31,7 +31,7 @@ import {WorkPackageFilterButtonController} from './wp-filter-button.directive';
 var expect = chai.expect;
 
 describe('wpFilterButton directive', () => {
-  var scope;
+  var scope:any;
   var element:ng.IAugmentedJQuery;
   var controller:WorkPackageFilterButtonController;
 
@@ -40,7 +40,7 @@ describe('wpFilterButton directive', () => {
     'openproject.templates'
   ));
 
-  beforeEach(angular.mock.inject(($compile, $rootScope) => {
+  beforeEach(angular.mock.inject(($compile:any, $rootScope:any) => {
     var html = '<wp-filter-button filters="filters"></wp-filter-button>';
     element = angular.element(html);
     scope = $rootScope.$new();

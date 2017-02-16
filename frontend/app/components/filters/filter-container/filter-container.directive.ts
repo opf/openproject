@@ -28,13 +28,13 @@
 
 import {filtersModule} from '../../../angular-modules';
 
-function filterContainerDirective(wpFiltersService) {
+function filterContainerDirective(wpFiltersService:any) {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/components/filters/filter-container/filter-container.directive.html',
 
-    link: (scope) => {
+    link: (scope:any) => {
       scope.wpFilters = wpFiltersService;
     }
   };

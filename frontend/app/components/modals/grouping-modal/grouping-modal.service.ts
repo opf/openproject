@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function groupingModalService(btfModal) {
+function groupingModalService(btfModal:any) {
   return btfModal({
     controller: 'GroupingModalController',
     controllerAs: '$ctrl',
