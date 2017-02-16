@@ -31,7 +31,7 @@ export class OverviewBlockController {
 
   public layoutCtrl:ProjectsOverviewController;
 
-  constructor(public $element) {
+  constructor(public $element:ng.IAugmentedJQuery) {
   }
 
   public get editing() {
@@ -53,9 +53,14 @@ function overviewBlock() {
     scope: {},
     transclude: true,
     compile: function() {
-      return function(scope, element, attrs, ctrl, transclude) {
+      return function(
+        scope:any,
+        element:ng.IAugmentedJQuery,
+        attrs:ng.IAttributes,
+        ctrl:any,
+        transclude:any) {
         scope.$ctrl.layoutCtrl = ctrl;
-        transclude(scope, (clone) => {
+        transclude(scope, (clone:any) => {
           element.append(clone);
         });
       };
