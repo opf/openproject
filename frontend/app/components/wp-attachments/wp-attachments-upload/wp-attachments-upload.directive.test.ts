@@ -31,7 +31,6 @@ import {WorkPackageUploadDirectiveController} from './wp-attachments-upload.dire
 import ICompileService = angular.ICompileService;
 import IRootScopeService = angular.IRootScopeService;
 import IAugmentedJQuery = angular.IAugmentedJQuery;
-import SinonStub = Sinon.SinonStub;
 import IQService = angular.IQService;
 import ICompileProvider = angular.ICompileProvider;
 

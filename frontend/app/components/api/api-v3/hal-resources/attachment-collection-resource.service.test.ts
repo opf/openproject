@@ -29,7 +29,6 @@
 import {opApiModule, opServicesModule} from '../../../../angular-modules';
 import {AttachmentCollectionResource} from './attachment-collection-resource.service';
 import {OpenProjectFileUploadService} from '../../op-file-upload/op-file-upload.service';
-import SinonStub = Sinon.SinonStub;
 
 describe('AttachmentCollectionResource service', () => {
   var AttachmentCollectionResource:any;
@@ -58,7 +57,7 @@ describe('AttachmentCollectionResource service', () => {
     });
 
     describe('when using upload()', () => {
-      var uploadStub: SinonStub;
+      var uploadStub: sinon.SinonStub;
       var params:any;
 
       beforeEach(() => {
