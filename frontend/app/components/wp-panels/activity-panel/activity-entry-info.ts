@@ -28,11 +28,11 @@
 
 export class ActivityEntryInfo {
 
-  constructor(public $filter,
+  constructor(public $filter:ng.IFilterService,
               public isReversed:boolean,
               public activities:any[],
-              public activity,
-              public index) {
+              public activity:any,
+              public index:number) {
   }
 
   public number(forceReverse:boolean = false) {
@@ -43,7 +43,7 @@ export class ActivityEntryInfo {
     return this.activityDate(this.activity);
   }
 
-  public get dateOfPrevious() {
+  public get dateOfPrevious():any {
     if (this.index > 0) {
       return this.activityDate(this.activities[this.index - 1]);
     }
@@ -74,7 +74,7 @@ export class ActivityEntryInfo {
     return true;
   }
 
-  protected activityDate(activity) {
+  protected activityDate(activity:any) {
     return this.$filter('date')(activity.createdAt, 'longDate');
   }
 

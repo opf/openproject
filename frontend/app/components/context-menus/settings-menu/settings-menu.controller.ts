@@ -74,7 +74,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     });
   });
 
-  $scope.saveQuery = function (event) {
+  $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (!$scope.query.isDirty()) {
       return;
@@ -87,7 +87,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     } else {
       if (allowQueryAction(event, 'update')) {
         QueryService.saveQuery()
-          .then(function (data) {
+          .then(function (data:any) {
             if (data.status.isError) {
               NotificationsService.addError(data.status.text);
             }
@@ -102,11 +102,11 @@ function SettingsDropdownMenuController($scope:IMyScope,
     }
   };
 
-  $scope.deleteQuery = function (event) {
+  $scope.deleteQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed()) {
       QueryService.deleteQuery()
-        .then(function (data) {
+        .then(function (data:any) {
           if (data.status.isError) {
             NotificationsService.addError(data.status.text);
           }
@@ -121,7 +121,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   // Modals
-  $scope.showSaveAsModal = function (event) {
+  $scope.showSaveAsModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowQueryAction(event, 'create')) {
       showExistingQueryModal.call(saveModal, event);
@@ -129,7 +129,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     }
   };
 
-  $scope.showShareModal = function (event) {
+  $scope.showShareModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
@@ -137,7 +137,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     }
   };
 
-  $scope.showSettingsModal = function (event) {
+  $scope.showSettingsModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowQueryAction(event, 'update')) {
       showExistingQueryModal.call(settingsModal, event);
@@ -145,7 +145,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     }
   };
 
-  $scope.showExportModal = function (event) {
+  $scope.showExportModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowWorkPackageAction(event, 'export')) {
       showModal.call(exportModal);
@@ -155,7 +155,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     }
   };
 
-  $scope.showColumnsModal = function (event) {
+  $scope.showColumnsModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     showModal.call(columnsModal);
     setTimeout(function () {
@@ -163,13 +163,13 @@ function SettingsDropdownMenuController($scope:IMyScope,
     });
   };
 
-  $scope.showGroupingModal = function (event) {
+  $scope.showGroupingModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     showModal.call(groupingModal);
     updateFocusInModal('selected_columns_new');
   };
 
-  $scope.showSortingModal = function (event) {
+  $scope.showSortingModal = function (event:JQueryEventObject) {
     event.stopPropagation();
     showModal.call(sortingModal);
     updateFocusInModal('modal-sorting-attribute-0');
@@ -215,7 +215,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
       ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
   };
 
-  function preventNewQueryAction(event) {
+  function preventNewQueryAction(event:JQueryEventObject) {
     if (event && $scope.query.isNew()) {
       event.stopPropagation();
       return false;
@@ -223,27 +223,27 @@ function SettingsDropdownMenuController($scope:IMyScope,
     return true;
   }
 
-  function showModal() {
+  function showModal(this:any) {
     closeAnyContextMenu();
     this.activate();
   }
 
-  function showExistingQueryModal(event) {
+  function showExistingQueryModal(this:any, event:JQueryEventObject) {
     if (preventNewQueryAction(event)) {
       closeAnyContextMenu();
       this.activate();
     }
   }
 
-  function allowQueryAction(event, action) {
+  function allowQueryAction(event:JQueryEventObject, action:any) {
     return allowAction(event, 'query', action);
   }
 
-  function allowWorkPackageAction(event, action) {
+  function allowWorkPackageAction(event:JQueryEventObject, action:any) {
     return allowAction(event, 'work_package', action);
   }
 
-  function allowAction(event, modelName, action) {
+  function allowAction(event:JQueryEventObject, modelName:string, action:any) {
     if (AuthorisationService.can(modelName, action)) {
       return true;
     } else {
@@ -260,7 +260,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     return $window.confirm(I18n.t('js.text_query_destroy_confirmation'));
   }
 
-  function updateFocusInModal(element_id) {
+  function updateFocusInModal(element_id:string) {
     setTimeout(function () {
       jQuery('#' + element_id).focus();
     }, 100);

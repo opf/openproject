@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function wpContextMenuService(ngContextMenu) {
+function wpContextMenuService(ngContextMenu:any) {
   return ngContextMenu({
     controller: 'WorkPackageContextMenuController',
     controllerAs: 'contextMenu',

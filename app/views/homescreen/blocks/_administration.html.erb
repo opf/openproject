@@ -39,9 +39,13 @@
                title: l('attributes.custom_values') %>
 
   </li>
-	<li>
+  <li>
     <%= link_to l(:label_system_settings), settings_path,
                title: l(:label_system_settings) %>
+  </li>
+  <li>
+    <%= link_to t(:label_custom_style), custom_style_path,
+               title: t(:label_custom_style) %>
   </li>
   <%= call_hook(:homescreen_administration_links) %>
 </ul>

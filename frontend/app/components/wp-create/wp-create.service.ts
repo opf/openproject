@@ -35,12 +35,12 @@ export class WorkPackageCreateService {
   protected form:ng.IPromise<HalResource>;
 
   constructor(protected $q:ng.IQService,
-              protected WorkPackageResource,
+              protected WorkPackageResource:any,
               protected wpCacheService:WorkPackageCacheService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
-  public createNewWorkPackage(projectIdentifier) {
+  public createNewWorkPackage(projectIdentifier:string) {
     return this.getEmptyForm(projectIdentifier).then(form => {
       return this.WorkPackageResource.fromCreateForm(form);
     });
@@ -52,7 +52,7 @@ export class WorkPackageCreateService {
     });
   }
 
-  public copyWorkPackage(copyFromForm, projectIdentifier?) {
+  public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
     var request = copyFromForm.payload.$source;
 
     return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
@@ -60,7 +60,7 @@ export class WorkPackageCreateService {
     });
   }
 
-  public getEmptyForm(projectIdentifier):ng.IPromise<HalResource> {
+  public getEmptyForm(projectIdentifier:string):ng.IPromise<HalResource> {
     if (!this.form) {
       this.form = this.apiWorkPackages.emptyCreateForm({}, projectIdentifier);
     }

@@ -28,12 +28,12 @@
 
 import {ContextMenuService} from '../context-menu.service';
 
-function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
+function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
   return {
     restrict: 'A',
     link: function (scope:ng.IScope, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
       let menuName = attrs['target'];
-      let locals = {};
+      let locals:{[key:string]: any} = {};
       let afterFocusOn = attrs['afterFocusOn'];
       let positionRelativeTo = attrs['positionRelativeTo'];
       let collisionContainer = attrs['collisionContainer'];
@@ -42,7 +42,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper) {
       function open(event:Event) {
         var ignoreFocusOpener = true;
         // prepare locals, these define properties to be passed on to the context menu scope
-        var localKeys = (attrs['locals'] || '').split(',').map(function (local) {
+        var localKeys = (attrs['locals'] || '').split(',').map(function (local:any) {
           return local.trim();
         });
         angular.forEach(localKeys, function (key) {

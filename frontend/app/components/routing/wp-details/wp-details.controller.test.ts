@@ -32,13 +32,14 @@ import {
 } from "../../../angular-modules";
 
 describe('WorkPackageDetailsController', () => {
-  var scope;
-  var promise;
-  var buildController, ctrl;
-  var stateParams = {};
-  var I18n = {t: angular.identity};
+  var scope:any;
+  var promise:any;
+  var buildController:any;
+  var ctrl:any;
+  var stateParams:any = {};
+  var I18n:any = {t: angular.identity};
 
-  var workPackage = {
+  var workPackage:any = {
       props: {},
       embedded: {
         author: {
@@ -122,7 +123,7 @@ describe('WorkPackageDetailsController', () => {
   beforeEach(angular.mock.module(openprojectModule.name, opApiModule.name, 'openproject.layout',
     wpControllersModule.name, opServicesModule.name));
 
-  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function ($provide:any) {
     $provide.constant('ConfigurationService', {
       isTimezoneSet: sinon.stub().returns(false),
       warnOnLeavingUnsaved: sinon.stub().returns(false)
@@ -131,13 +132,13 @@ describe('WorkPackageDetailsController', () => {
     $provide.constant('$stateParams', stateParams);
   }));
 
-  beforeEach(angular.mock.inject(($rootScope,
-                                  $controller,
-                                  $state,
-                                  $timeout,
-                                  $q,
-                                  $httpBackend,
-                                  WorkPackageService) => {
+  beforeEach(angular.mock.inject(($rootScope:any,
+                                  $controller:any,
+                                  $state:any,
+                                  $timeout:any,
+                                  $q:any,
+                                  $httpBackend:any,
+                                  WorkPackageService:any) => {
     $state.params = stateParams;
     $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
 

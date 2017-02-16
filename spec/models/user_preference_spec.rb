@@ -127,34 +127,6 @@ describe UserPreference do
     end
   end
 
-  describe 'theme' do
-    it 'allows to save valid themes' do
-      subject.theme = 'default'
-      expect(subject).to be_valid
-      expect(subject.theme).to eq(:default)
-
-      subject.theme = :default
-      expect(subject).to be_valid
-      expect(subject.theme).to eq(:default)
-    end
-
-    it 'allows empty values' do
-      subject.theme = nil
-      expect(subject).to be_valid
-
-      subject.theme = ''
-      expect(subject).to be_valid
-    end
-
-    it 'rejects invalid themes' do
-      subject.theme = :mycoolthemethatisnotavailableyet
-      expect(subject).not_to be_valid
-
-      subject.theme = 'mycoolthemethatisnotavailableyet'
-      expect(subject).not_to be_valid
-    end
-  end
-
   describe 'self_notified getter/setter' do
     it 'has a getter and a setter for self_notified' do
       subject.self_notified = false

@@ -59,11 +59,11 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
   end
 
   class TestHookHelperController < ActionController::Base
-    include Redmine::Hook::Helper
+    include HookHelper
   end
 
   class TestHookHelperView < ActionView::Base
-    include Redmine::Hook::Helper
+    include HookHelper
   end
 
   Redmine::Hook.clear_listeners
@@ -109,14 +109,14 @@ describe 'Redmine::Hook::Manager' do # FIXME: naming (RSpec-port)
     assert_equal ['Test hook 1 listener.', 'Test hook 2 listener.'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  # Context: Redmine::Hook::Helper.call_hook default_url
+  # Context: HookHelper.call_hook default_url
   it 'should call_hook_default_url_options' do
     @hook_module.add_listener(TestLinkToHook)
 
     assert_equal ['<a href="/issues">Issues</a>'], hook_helper.call_hook(:view_layouts_base_html_head)
   end
 
-  # Context: Redmine::Hook::Helper.call_hook
+  # Context: HookHelper.call_hook
   it 'should call_hook_with_project_added_to_context' do
     @hook_module.add_listener(TestHook3)
     assert_match /project/i, hook_helper.call_hook(:view_layouts_base_html_head)[0]

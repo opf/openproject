@@ -29,15 +29,15 @@
 import {wpControllersModule} from '../../../angular-modules';
 
 describe('SettingsModalController', () => {
-  var scope;
-  var settingsModal;
-  var QueryService;
-  var NotificationsService;
-  var ctrl;
-  var buildController;
+  var scope:any;
+  var settingsModal:any;
+  var QueryService:any;
+  var NotificationsService:any;
+  var ctrl:any;
+  var buildController:any;
 
   beforeEach(angular.mock.module(wpControllersModule.name));
-  beforeEach(angular.mock.inject(function ($rootScope, $controller, $q) {
+  beforeEach(angular.mock.inject(function ($rootScope:any, $controller:any, $q:any) {
     scope = $rootScope.$new();
 
     QueryService = {

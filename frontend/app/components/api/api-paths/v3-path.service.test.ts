@@ -29,11 +29,11 @@
 import {opApiModule} from '../../../angular-modules';
 
 describe('v3Path service', () => {
-  var v3Path;
-  var apiPaths;
+  var v3Path:any;
+  var apiPaths:any;
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_v3Path_, _apiPaths_) {
+  beforeEach(angular.mock.inject(function (_v3Path_:any, _apiPaths_:any) {
     [v3Path, apiPaths] = _.toArray(arguments);
   }));
 

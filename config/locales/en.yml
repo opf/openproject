@@ -40,8 +40,14 @@ en:
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
+      custom_colors: "Custom colors"
       customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      manage_colors: "Edit color select options"
+      instructions:
+        primary_color: "Main color."
+        primary_color_dark: "Typically a darker version of the main color used for hover effects."
+        alternative_color: "Strong accent color, typically used for most the important button on a screen."
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
@@ -1304,7 +1310,6 @@ en:
   label_table_of_contents: "Table of Contents"
   label_tag: "Tag"
   label_text: "Long text"
-  label_theme: "Theme"
   label_this_month: "this month"
   label_this_week: "this week"
   label_this_year: "this year"
@@ -1853,8 +1858,6 @@ en:
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_text_formatting: "Text formatting"
   setting_time_format: "Time format"
-  setting_ui_theme: "Theme"
-  setting_user_may_override_theme: "Users may choose their own themes"
   setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"

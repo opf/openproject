@@ -34,7 +34,7 @@ import {opApiModule} from '../../../angular-modules';
  *
  * @param $document
  */
-function appBasePathService($document) {
+function appBasePathService($document:ng.IDocumentService) {
   const basePathValue =
     $document
       .find('meta[name="app_base_path"]')

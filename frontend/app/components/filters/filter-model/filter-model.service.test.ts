@@ -27,10 +27,10 @@
 //++
 
 describe('Filter', function () {
-  var Filter;
+  var Filter:any;
 
   beforeEach(angular.mock.module('openproject.filters'));
-  beforeEach(angular.mock.inject(function (_Filter_) {
+  beforeEach(angular.mock.inject(function (_Filter_:any) {
     Filter = _Filter_;
   }));
 
@@ -52,7 +52,7 @@ describe('Filter', function () {
   });
 
   describe('when it is a single input filter', function () {
-    var filter, textValue;
+    var filter:any, textValue:any;
 
     describe('with newly created instances', function() {
       beforeEach(function () {
@@ -87,7 +87,7 @@ describe('Filter', function () {
   });
 
   describe('single date filter', function () {
-    var filter, dateValue;
+    var filter:any, dateValue:any;
 
     describe('with newly created instances', function () {
       beforeEach(function () {
@@ -118,7 +118,7 @@ describe('Filter', function () {
   });
 
   describe('date range filter', function () {
-    var filter, dateValues;
+    var filter:any, dateValues:any;
 
     describe('with newly created instances', function () {
       beforeEach(function () {

@@ -29,15 +29,15 @@
 import {opApiModule, opServicesModule, opViewModelsModule} from '../../angular-modules';
 
 describe('ProjectService', () => {
-  var $httpBackend;
-  var ProjectService;
+  var $httpBackend:any;
+  var ProjectService:any;
   beforeEach(angular.mock.module(
     opApiModule.name,
     opServicesModule.name,
     opViewModelsModule.name
   ));
 
-  beforeEach(angular.mock.inject(function (_$httpBackend_, _ProjectService_) {
+  beforeEach(angular.mock.inject(function (_$httpBackend_:any, _ProjectService_:any) {
     [$httpBackend, ProjectService] = _.toArray(arguments);
   }));
 

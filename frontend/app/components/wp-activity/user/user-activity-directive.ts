@@ -27,21 +27,23 @@
 //++
 
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+
 angular
   .module('openproject.workPackages.activities')
   .directive('userActivity', userActivity);
 
-function userActivity($uiViewScroll,
-                      $timeout,
-                      $location,
-                      $sce,
-                      I18n,
-                      PathHelper,
-                      ActivityService,
-                      wpCacheService,
-                      ConfigurationService,
-                      AutoCompleteHelper,
-                      TextileService) {
+function userActivity($uiViewScroll:any,
+                      $timeout:ng.ITimeoutService,
+                      $location:ng.ILocationService,
+                      $sce:ng.ISCEService,
+                      I18n:op.I18n,
+                      PathHelper:any,
+                      ActivityService:any,
+                      wpCacheService:WorkPackageCacheService,
+                      ConfigurationService:any,
+                      AutoCompleteHelper:any,
+                      TextileService:any) {
   return {
     restrict: 'E',
     replace: true,
@@ -53,8 +55,8 @@ function userActivity($uiViewScroll,
       activityLabel: '=',
       isInitial: '='
     },
-    link: function (scope, element) {
-      scope.$watch('inEdit', function (newVal, oldVal) {
+    link: function (scope:any, element:ng.IAugmentedJQuery) {
+      scope.$watch('inEdit', function (newVal:boolean, oldVal:boolean) {
         var textarea = element.find('.edit-comment-text');
         if (newVal) {
           $timeout(function () {
@@ -95,7 +97,7 @@ function userActivity($uiViewScroll,
       }
       scope.details = [];
 
-      angular.forEach(scope.activity.details, function (detail) {
+      angular.forEach(scope.activity.details, function (this:any[], detail) {
         this.push($sce.trustAsHtml(detail.html));
       }, scope.details);
 
@@ -112,7 +114,7 @@ function userActivity($uiViewScroll,
 
       scope.cancelEdit = function () {
         scope.inEdit = false;
-        this.focusEditIcon();
+        scope.focusEditIcon();
       };
 
       scope.quoteComment = function () {
@@ -127,7 +129,7 @@ function userActivity($uiViewScroll,
           scope.workPackage.updateActivities();
           scope.inEdit = false;
         });
-        this.focusEditIcon();
+        scope.focusEditIcon();
       };
 
       scope.focusEditIcon = function () {
@@ -142,7 +144,7 @@ function userActivity($uiViewScroll,
           TextileService.renderWithWorkPackageContext(
             scope.workPackage,
             scope.activity.editedComment
-          ).then(function (r) {
+          ).then(function (r:any) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
           }, function () {
             scope.isPreview = false;
@@ -170,9 +172,9 @@ function userActivity($uiViewScroll,
       element.bind('focusin', scope.focus);
       element.bind('focusout', scope.blur);
 
-      function quotedText(rawComment) {
+      function quotedText(rawComment:string) {
         var quoted = rawComment.split("\n")
-          .map(function (line) {
+          .map(function (line:string) {
             return "\n> " + line;
           })
           .join('');

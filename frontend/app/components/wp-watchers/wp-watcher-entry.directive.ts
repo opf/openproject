@@ -33,7 +33,7 @@ import {wpDirectivesModule} from '../../angular-modules';
 export class WatcherEntryController {
 
   public watcher:UserResource;
-  public text;
+  public text:{ remove:string };
   public panelCtrl:WatchersPanelController;
 
   public state = {
@@ -41,7 +41,10 @@ export class WatcherEntryController {
     focussing: false
   };
 
-  constructor(public $element, public I18n, public $timeout) {
+  constructor(
+    public $element:ng.IAugmentedJQuery,
+    public I18n:op.I18n,
+    public $timeout:ng.ITimeoutService) {
     'ngInject';
 
     this.text = {
@@ -77,7 +80,7 @@ function wpWatcher() {
     scope: {
       watcher: '='
     },
-    link: (scope, element, attr, controller:WatchersPanelController) => {
+    link: (scope:any, element:ng.IAugmentedJQuery, attr:ng.IAttributes, controller:WatchersPanelController) => {
       scope.$ctrl.panelCtrl = controller;
     },
     require: '^watchersPanel',

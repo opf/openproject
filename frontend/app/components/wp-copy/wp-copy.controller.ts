@@ -34,12 +34,12 @@ import {
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
-  protected newWorkPackageFromParams(stateParams) {
+  protected newWorkPackageFromParams(stateParams:any) {
     var deferred = this.$q.defer();
 
     this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).observeOnScope(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
-        this.createCopyFrom(wp).then(newWorkPackage => {
+        this.createCopyFrom(wp).then((newWorkPackage:WorkPackageResourceInterface) => {
           deferred.resolve(newWorkPackage);
         });
       });
@@ -48,7 +48,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResourceInterface) {
-    return wp.getForm().then(form => {
+    return wp.getForm().then((form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
     });
   }

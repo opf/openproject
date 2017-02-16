@@ -31,7 +31,7 @@ interface ContextMenu {
   open(nextTo:JQuery,locals:Object):Promise<JQuery>;
 
   target?:JQuery;
-  menuElement?:JQuery;
+  menuElement:JQuery;
 }
 
 export class ContextMenuService {
@@ -107,7 +107,6 @@ export class ContextMenuService {
     if (!this.active) {
       return;
     }
-
     let position = { my: 'left top', at: 'right bottom', of: event, collision: 'flipfit' };
     _.assign(position, positionArgs);
 

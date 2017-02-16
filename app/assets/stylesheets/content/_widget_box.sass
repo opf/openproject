@@ -26,11 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@mixin widget-box--style
-  background: $widget-box-block-bg-color
-  border: 1px solid $widget-box-block-border-color
-  margin: 10px
-
 $widget-box--enumeration-width: 20px
 
 .widget-boxes--screen-header
@@ -140,6 +135,7 @@ $widget-box--enumeration-width: 20px
         display: inline-block
         font-size: 0.6rem
         color: $alternative-color
+        @include varprop(color, alternative-color)
         width: $widget-box--enumeration-width
 
 

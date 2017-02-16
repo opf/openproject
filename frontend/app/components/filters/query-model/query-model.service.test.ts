@@ -27,11 +27,11 @@
 // ++
 
 describe('Query', () => {
-  var Query;
+  var Query:any;
   var query:any;
 
   beforeEach(angular.mock.module('openproject.filters'));
-  beforeEach(angular.mock.inject(function (_Query_) {
+  beforeEach(angular.mock.inject(function (_Query_:any) {
     Query = _Query_;
   }));
 
@@ -82,7 +82,7 @@ describe('Query', () => {
   });
 
   describe('adding filters', () => {
-    var filter;
+    var filter:any;
 
     beforeEach(() => {
       query = Factory.build('Query', {filters: []});

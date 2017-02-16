@@ -28,13 +28,14 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ActivityEntryInfo} from './activity-entry-info';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 
 export class WorkPackagesActivityService {
 
-  constructor(public ConfigurationService,
-              public $filter,
-              public $q) {
+  constructor(public ConfigurationService:any,
+              public $filter:ng.IFilterService,
+              public $q:ng.IQService) {
   }
 
   public get order() {
@@ -50,10 +51,10 @@ export class WorkPackagesActivityService {
    * Resolves both promises and returns a sorted list of activities
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
-  public aggregateActivities(workPackage):any[] {
-    var aggregated = [], promises = [];
+  public aggregateActivities(workPackage:WorkPackageResourceInterface):ng.IPromise<any> {
+    var aggregated:any[] = [], promises:ng.IPromise<any>[] = [];
 
-    var add = function (data) {
+    var add = function (data:any) {
       aggregated.push(data.elements);
     };
 
@@ -62,13 +63,12 @@ export class WorkPackagesActivityService {
     if (workPackage.revisions) {
       promises.push(workPackage.revisions.$load().then(add));
     }
-
     return this.$q.all(promises).then(() => {
       return this.sortedActivityList(aggregated);
     });
   }
 
-  protected sortedActivityList(activities, attr:string = 'createdAt') {
+  protected sortedActivityList(activities:any, attr:string = 'createdAt') {
     return this.$filter('orderBy')(
       _.flatten(activities),
       attr,
@@ -76,7 +76,7 @@ export class WorkPackagesActivityService {
     );
   }
 
-  public info(activities, activity, index) {
+  public info(activities:any, activity:any, index:any) {
     return new ActivityEntryInfo(this.$filter, this.isReversed, activities, activity, index);
   };
 }

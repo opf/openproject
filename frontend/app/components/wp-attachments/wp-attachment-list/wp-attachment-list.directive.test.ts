@@ -39,15 +39,15 @@ describe('wpAttachmentList directive', () => {
   var element: IAugmentedJQuery;
   var controller: WorkPackageAttachmentListController;
   var workPackage: any;
-  var compile;
+  var compile:any;
 
-  var template;
+  var template:any;
 
   beforeEach(angular.mock.module(
     wpDirectivesModule.name,
     opTemplatesModule.name,
 
-    $compileProvider => {
+    ($compileProvider:any) => {
       // Mock ngClick, because triggerHandler doesn't work on the delete button for some reason.
       $compileProvider.directive('ngClick', (): IDirective => ({
         restrict: 'A',
@@ -63,7 +63,7 @@ describe('wpAttachmentList directive', () => {
   ));
   beforeEach(angular.mock.inject(function ($rootScope: IRootScopeService,
                                            $compile: ICompileService,
-                                           I18n) {
+                                           I18n:op.I18n) {
     const html = '<wp-attachment-list work-package="workPackage"></wp-attachment-list>';
     scope = $rootScope.$new();
     workPackage = {};
@@ -96,7 +96,7 @@ describe('wpAttachmentList directive', () => {
     compile();
   }));
 
-  afterEach(angular.mock.inject(I18n => I18n.t.restore()));
+  afterEach(angular.mock.inject((I18n:any) => I18n.t.restore()));
 
   it('should not be empty', () => {
     expect(element.html()).to.be.ok;
@@ -107,10 +107,10 @@ describe('wpAttachmentList directive', () => {
   });
 
   describe('when the work package has attachments', () => {
-    var attachment;
-    var attachments;
+    var attachment:any;
+    var attachments:any;
 
-    beforeEach(angular.mock.inject($q => {
+    beforeEach(angular.mock.inject(($q:any) => {
       attachment = {
         name: 'name',
         fileName: 'fileName'
@@ -192,9 +192,9 @@ describe('wpAttachmentList directive', () => {
     });
 
     describe('when focusing an element', () => {
-      var focusElement;
+      var focusElement:any;
 
-      const testFocus = prepare => {
+      const testFocus = (prepare:any) => {
         beforeEach(() => {
           prepare();
           focusElement.triggerHandler('focus');

@@ -29,13 +29,14 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 
-function ColumnsModalController($scope,
-                                $timeout,
-                                I18n,
-                                columnsModal,
+function ColumnsModalController(this:any,
+                                $scope:any,
+                                $timeout:ng.ITimeoutService,
+                                I18n:op.I18n,
+                                columnsModal:any,
                                 wpTableColumns:WorkPackageTableColumnsService,
-                                QueryService,
-                                ConfigurationService) {
+                                QueryService:any,
+                                ConfigurationService:any) {
   var vm = this;
 
   vm.name = 'Columns';
@@ -63,12 +64,12 @@ function ColumnsModalController($scope,
 
   // Available selectable Columns
   vm.promise = QueryService.loadAvailableColumns($scope.projectIdentifier)
-    .then(availableColumns => {
+    .then((availableColumns:api.ex.Column[]) => {
       vm.availableColumns = availableColumns; // all existing columns
       vm.unusedColumns = QueryService.selectUnusedColumns(availableColumns); // columns not shown
 
       var availableColumnNames = getColumnNames(availableColumns);
-      selectedColumns.forEach(column => {
+      selectedColumns.forEach((column:api.ex.Column) => {
         if (_.contains(availableColumnNames, column.name)) {
           vm.selectedColumns.push(column);
           vm.selectedColumnMap[column.name] = true;
@@ -77,12 +78,12 @@ function ColumnsModalController($scope,
       });
     });
 
-  function getColumnNames(arr) {
-    return arr.map(column => column.name);
+  function getColumnNames(columns:api.ex.Column[]) {
+    return columns.map(column => column.name);
   }
 
   vm.updateSelectedColumns = () => {
-    wpTableColumns.setColumns(vm.selectedColumns.map(c => c.name));
+    wpTableColumns.setColumns(vm.selectedColumns.map((c:api.ex.Column) => c.name));
 
     columnsModal.deactivate();
   };
@@ -96,13 +97,13 @@ function ColumnsModalController($scope,
    *
    * @param selectedColumns Columns currently selected through the multi select box.
    */
-  vm.updateUnusedColumns = selectedColumns => {
+  vm.updateUnusedColumns = (selectedColumns:api.ex.Column[]) => {
     var used = getColumnNames(selectedColumns);
 
-    vm.unusedColumns = vm.availableColumns.filter(column => !_.contains(used, column.name));
+    vm.unusedColumns = vm.availableColumns.filter((column:api.ex.Column) => !_.contains(used, column.name));
   };
 
-  vm.setSelectedColumn = column => {
+  vm.setSelectedColumn = (column:api.ex.Column) => {
     if (vm.selectedColumnMap[column.name]) {
       vm.selectedColumns.push(column);
     }
@@ -118,7 +119,7 @@ function ColumnsModalController($scope,
     });
   });
 
-  $scope.$on('uiSelectSort:change', (event, args) => {
+  $scope.$on('uiSelectSort:change', (event:any, args:any) => {
     vm.selectedColumns = args.array;
   });
 }

@@ -28,9 +28,9 @@
 
 import {opApiModule} from '../../angular-modules';
 
-function apiV3CacheConfig($provide) {
+function apiV3CacheConfig($provide:ng.auto.IProvideService) {
   $provide.decorator('$http', ($delegate:ng.IHttpService, CacheService:op.CacheService) => {
-    var $http = $delegate;
+    var $http:ng.IHttpService = $delegate;
     var wrapper = function () {
       var args = arguments;
       var request = args[0];
@@ -55,13 +55,13 @@ function apiV3CacheConfig($provide) {
     };
 
     // Decorate all fns with our cached wrapper
-    Object.keys($http).forEach(key => {
-      let prop = $http[key];
+    Object.keys($http).forEach((key:string) => {
+      let prop = ($http as any)[key];
       let fn = function () {
         return prop.apply($http, arguments);
       };
 
-      wrapper[key] = angular.isFunction(prop) ? fn : prop;
+      (wrapper as any)[key] = angular.isFunction(prop) ? fn : prop;
     });
 
     return wrapper;

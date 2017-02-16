@@ -27,7 +27,7 @@
 //++
 
 describe('refresh-on-form-changes directive', function() {
-  var element;
+  var element:any;
   var $compile;
   var $rootScope;
   var windowObj = {
@@ -45,11 +45,11 @@ describe('refresh-on-form-changes directive', function() {
     'openproject.workPackages.directives'
   ));
 
-  beforeEach(angular.mock.module(function($provide) {
+  beforeEach(angular.mock.module(function($provide:any) {
      $provide.value('$window', windowObj);
   }));
 
-  beforeEach(angular.mock.inject(function(_$compile_, _$rootScope_) {
+  beforeEach(angular.mock.inject(function(_$compile_:any, _$rootScope_:any) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
 

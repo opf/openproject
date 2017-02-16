@@ -31,8 +31,8 @@ declare const I18n: op.I18n;
 // global
 export const opUiComponentsModule = angular.module('openproject.uiComponents',
   ['ui.select', 'ui.router', 'openproject.workPackages.services'])
-  .run(['$rootScope', function ($rootScope) {
-    $rootScope.I18n = I18n;
+  .run(['$rootScope', function ($rootScope:ng.IRootScopeService) {
+    $rootScope['I18n'] = I18n;
   }]);
 export const animationsModule = angular.module('openproject.animations', [
   'ngAnimate'

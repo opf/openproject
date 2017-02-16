@@ -31,15 +31,15 @@ import IQService = angular.IQService;
 import IRootScopeService = angular.IRootScopeService;
 
 describe('CollectionResource service', () => {
-  var $q;
-  var $rootScope;
-  var CollectionResource;
+  var $q:any;
+  var $rootScope:any;
+  var CollectionResource:any;
 
-  var source;
-  var collection;
+  var source:any;
+  var collection:any;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject(function (_$q_, _$rootScope_, _CollectionResource_) {
+  beforeEach(angular.mock.inject(function (_$q_:any, _$rootScope_:any, _CollectionResource_:any) {
     [$q, $rootScope, CollectionResource] = _.toArray(arguments);
   }));
 
@@ -53,8 +53,8 @@ describe('CollectionResource service', () => {
   });
 
   describe('when using updateElements', () => {
-    var elements;
-    var result;
+    var elements:any;
+    var result:any;
 
     beforeEach(() => {
       createCollection();

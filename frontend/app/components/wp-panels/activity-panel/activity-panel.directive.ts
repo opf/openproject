@@ -36,22 +36,22 @@ export class ActivityPanelController {
   public activities:any[] = [];
   public reverse:boolean;
 
-  constructor(public $scope,
+  constructor(public $scope:ng.IScope,
               public wpCacheService:WorkPackageCacheService,
-              public wpActivity) {
+              public wpActivity:any) {
 
     this.reverse = wpActivity.order === 'asc';
 
     wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.wpActivity.aggregateActivities(this.workPackage).then(activities => {
+        this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {
           this.activities = activities;
         });
       });
   }
 
-  public info(activity, index) {
+  public info(activity:any, index:any) {
     return this.wpActivity.info(this.activities, activity, index);
   }
 }
@@ -60,9 +60,9 @@ export class ActivityPanelController {
 function activityPanelDirective() {
   return {
     restrict: 'E',
-    templateUrl: (element, attrs) => {
+    templateUrl: (element:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
       var path = '/components/wp-panels/activity-panel/',
-        type = attrs.template || 'default';
+        type = attrs['template'] || 'default';
 
       return path + 'activity-panel-' + type + '.directive.html';
     },

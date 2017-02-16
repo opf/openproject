@@ -34,11 +34,12 @@ import {
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
   public workPackage: WorkPackageResourceInterface;
-  public singleViewWp;
+  public singleViewWp:any;
   public groupedFields: any[] = [];
   public hideEmptyFields: boolean = true;
   public text: any;
@@ -46,16 +47,16 @@ export class WorkPackageSingleViewController {
 
   protected firstTimeFocused: boolean = false;
 
-  constructor(protected $scope,
-              protected $stateParams,
-              protected I18n,
-              protected wpCacheService,
+  constructor(protected $scope:ng.IScope,
+              protected $stateParams:ng.ui.IStateParamsService,
+              protected I18n:op.I18n,
+              protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
-              protected TimezoneService,
-              protected WorkPackagesOverviewService,
-              protected SingleViewWorkPackage) {
+              protected TimezoneService:any,
+              protected WorkPackagesOverviewService:any,
+              protected SingleViewWorkPackage:any) {
 
-    var wpId = this.workPackage ? this.workPackage.id : $stateParams.workPackageId;
+    var wpId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
 
     this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
     this.text = {
@@ -78,17 +79,18 @@ export class WorkPackageSingleViewController {
       this.init(this.workPackage);
     }
 
-    wpCacheService.loadWorkPackage(wpId).observeOnScope($scope).subscribe(wp => this.init(wp));
+    wpCacheService.loadWorkPackage(wpId).observeOnScope($scope)
+      .subscribe((wp:WorkPackageResourceInterface) => this.init(wp));
     $scope.$on('workPackageUpdatedInEditor', () => {
       this.wpNotificationsService.showSave(this.workPackage);
     });
   }
 
-  public shouldHideGroup(group) {
+  public shouldHideGroup(group:any) {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
   }
 
-  public shouldHideField(field) {
+  public shouldHideField(field:any) {
     let hideEmpty = this.hideEmptyFields;
 
     if (this.formCtrl.fields[field]) {
@@ -120,7 +122,7 @@ export class WorkPackageSingleViewController {
     return text;
   }
 
-  private init(wp) {
+  private init(wp:WorkPackageResourceInterface) {
     this.workPackage = wp;
     this.singleViewWp = new this.SingleViewWorkPackage(wp);
 
@@ -139,8 +141,8 @@ export class WorkPackageSingleViewController {
       }
     });
 
-    otherGroup.attributes.sort((leftField, rightField) => {
-      var getLabel = field => this.singleViewWp.getLabel(field);
+    otherGroup.attributes.sort((leftField:any, rightField:any) => {
+      var getLabel = (field:any) => this.singleViewWp.getLabel(field);
       var left = getLabel(leftField).toLowerCase();
       var right = getLabel(rightField).toLowerCase();
 
@@ -151,9 +153,9 @@ export class WorkPackageSingleViewController {
 
 function wpSingleViewDirective() {
 
-  function wpSingleViewLink(scope,
-                            element,
-                            attrs,
+  function wpSingleViewLink(scope:ng.IScope,
+                            element:ng.IAugmentedJQuery,
+                            attrs:ng.IAttributes,
                             controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];

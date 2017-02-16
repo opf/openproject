@@ -27,8 +27,8 @@
 //++
 
 import {wpDirectivesModule} from '../../angular-modules';
-import {RelatedWorkPackage, RelatedWorkPackagesGroup} from './wp-relations.interfaces';
-
+import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
+import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
 import {
   WorkPackageResourceInterface,
   WorkPackageResource
@@ -43,7 +43,7 @@ export class WorkPackageRelationsController {
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
-  public currentRelations: RelatedWorkPackage[] = [];
+  public currentRelations: RelationResourceInterface[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
@@ -80,9 +80,9 @@ export class WorkPackageRelationsController {
     return observablesToGetZipped[0];
   }
 
-  protected getRelatedWorkPackageId(relation) {
+  protected getRelatedWorkPackageId(relation:any):string {
     let direction = (relation.to.href === this.workPackage.href) ? 'from' : 'to';
-    return parseInt(relation[direction].href.split('/').pop());
+    return relation[direction].href.split('/').pop();
   }
 
   public toggleGroupBy() {
@@ -95,19 +95,19 @@ export class WorkPackageRelationsController {
       return;
     }
 
-    this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp) => {
+    this.relationGroups = <RelatedWorkPackagesGroup> _.groupBy(this.currentRelations, (wp:WorkPackageResourceInterface) => {
       if (this.groupByWorkPackageType) {
         return wp.type.name;
       } else {
-        var normalizedType = wp.relatedBy.normalizedType(this.workPackage);
+        var normalizedType = (wp.relatedBy as RelationResourceInterface).normalizedType(this.workPackage);
         return this.I18n.t('js.relation_labels.' + normalizedType);
       }
     });
   }
 
   protected loadRelations():void {
-    var relatedWpIds = [];
-    var relations = [];
+    var relatedWpIds:string[] = [];
+    var relations:{[wpId:string]: any} = [];
 
     if (this.workPackage.relations.elements.length === 0) {
       this.currentRelations = [];
@@ -122,12 +122,12 @@ export class WorkPackageRelationsController {
 
     this.getRelatedWorkPackages(relatedWpIds)
       .take(1)
-      .subscribe(relatedWorkPackages => {
+      .subscribe((relatedWorkPackages:any) => {
         if (!angular.isArray(relatedWorkPackages)) {
           relatedWorkPackages = [relatedWorkPackages];
         }
 
-        this.currentRelations = relatedWorkPackages.map((wp) => {
+        this.currentRelations = relatedWorkPackages.map((wp:WorkPackageResourceInterface) => {
           wp.relatedBy = relations[wp.id];
           return wp;
         });

@@ -28,31 +28,6 @@
 
 $toggler-width: 40px
 
-@mixin highlight-left-item-border
-  border-left: $main-menu-selected-hover-indicator-width solid $main-menu-selected-hover-indicator-color
-
-@mixin toggle-menu-item-background($bg-color: $main-menu-bg-hover-selected-background, $color: $main-menu-selected-font-color)
-  @include default-transition
-
-  &:hover
-    background: $bg-color
-
-    @if $main-menu-enable-toggle-highlighting != true
-      // simultaneously hover all menu item anchor tags
-      > a
-        color: $color
-
-  > a
-    @include default-transition
-    cursor: pointer
-    text-decoration: none
-
-    &.selected, &.selected + a
-      background: $bg-color
-
-    &:hover, &.selected, &.selected + a
-      color: $color
-
 #main-menu
   bottom: auto
   width: $main-menu-width
@@ -81,12 +56,42 @@ $toggler-width: 40px
 
         .main-item-wrapper
           display: flex
-          +toggle-menu-item-background
+
+          @include default-transition
+
+          &:hover
+            @include varprop(background, main-menu-bg-hover-background)
+
+            @if $main-menu-enable-toggle-highlighting != true
+              // simultaneously hover all menu item anchor tags
+              > a
+                color: $main-menu-selected-font-color
+
+          > a
+            @include default-transition
+            cursor: pointer
+            text-decoration: none
+
+            &.selected, &.selected + a
+              @include varprop(background, main-menu-bg-selected-background)
+
+              &:hover
+                @include varprop(background, main-menu-bg-hover-background)
+
+            &:hover, &.selected, &.selected + a
+              color: $main-menu-selected-font-color
+
+            &:hover
+              @include varprop(background, main-menu-bg-hover-background)
+
+
 
           // left item border hover / selected effect
           &:hover
             &> a:not(.toggler)
-              +highlight-left-item-border
+              border-left-style: solid
+              @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
+              @include varprop(border-left-color, main-menu-hover-indicator-color)
 
             a:not(:only-child):first-of-type
               border-right: 1px solid $main-menu-selected-font-color
@@ -97,7 +102,13 @@ $toggler-width: 40px
             @extend .small-12
 
             &.selected
-              +highlight-left-item-border
+              border-left-style: solid
+              @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
+              @include varprop(border-left-color, main-menu-selected-indicator-color)
+
+              &:hover
+                @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
+                @include varprop(border-left-color, main-menu-hover-indicator-color)
 
           a:not(:only-child):first-of-type.selected
             border-right: 1px solid $main-menu-selected-font-color
@@ -147,7 +158,27 @@ $toggler-width: 40px
       &.unattached
         border-top: 1px solid #ddd
       li
-        +toggle-menu-item-background($main-menu-child-bg-hover-selected-color, $main-menu-child-selected-font-color)
+        @include default-transition
+
+        &:hover
+          @include varprop(background, main-menu-child-bg-hover-color)
+
+          @if $main-menu-enable-toggle-highlighting != true
+            // simultaneously hover all menu item anchor tags
+            > a
+              color: $main-menu-child-selected-font-color
+
+        > a
+          @include default-transition
+          cursor: pointer
+          text-decoration: none
+
+          &.selected, &.selected + a
+            @include varprop(background, main-menu-child-bg-selected-color)
+
+
+          &:hover, &.selected, &.selected + a
+            color: $main-menu-child-selected-font-color
 
         a
           padding-left: 10px
@@ -194,7 +225,7 @@ $toggler-width: 40px
     background-color: $main-menu-bg-color
     @include default-transition
     &:hover
-      background: $main-menu-bg-hover-selected-background
+      @include varprop(background, main-menu-bg-hover-background)
     &.show
       width: $main-menu-folded-width
       a.navigation-toggler

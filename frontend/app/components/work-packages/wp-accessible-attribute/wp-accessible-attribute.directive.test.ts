@@ -28,12 +28,12 @@
 
 describe('wpAccessibleAttributeDirective', function() {
   var html = '<div wp-accessible-attribute="field"></div>';
-  var scope, element, $compile;
+  var scope:any, element:ng.IAugmentedJQuery, $compile:ng.ICompileService;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
 
-  beforeEach(inject(function(_$compile_,
-                             $rootScope){
+  beforeEach(inject(function(_$compile_:ng.ICompileService,
+                             $rootScope:ng.IRootScopeService){
     scope = $rootScope.$new();
 
     $compile = _$compile_;

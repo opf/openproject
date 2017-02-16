@@ -33,7 +33,7 @@ class ExportModalController {
   public closeMe: Function;
   public exportOptions: any;
 
-  constructor(exportModal, QueryService, UrlParamsHelper) {
+  constructor(exportModal:any, QueryService:any, UrlParamsHelper:any) {
     var query = QueryService.getQuery();
 
     this.name = 'Export';

@@ -67,7 +67,7 @@ export class HalRequestService {
       headers: headers,
       cache: headers.caching.enabled
     };
-    const createResource = response => {
+    const createResource = (response:any) => {
       if (!response.data) {
         return null;
       }

@@ -36,7 +36,7 @@ export class DurationDisplayField extends DisplayField {
 
   constructor(public resource:WorkPackageResource,
               public name:string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.WorkPackagesHelper = this.$injector.get('WorkPackagesHelper');

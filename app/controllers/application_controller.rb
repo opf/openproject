@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
 
   include I18n
   include Redmine::I18n
+  include HookHelper
 
   layout 'base'
 

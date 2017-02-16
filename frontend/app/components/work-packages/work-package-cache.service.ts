@@ -67,8 +67,9 @@ export class WorkPackageCacheService {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
       const wpState = this.states.workPackages.get(workPackageId);
-      const wpForPublish = wpState.hasValue() && wpState.getCurrentValue().dirty
-        ? wpState.getCurrentValue() // dirty, use current wp
+      const lastValue = wpState.getCurrentValue()
+      const wpForPublish = lastValue && lastValue.dirty
+        ? lastValue // dirty, use current wp
         : wp; // not dirty or unknown, use new wp
 
       // Ensure the schema is loaded

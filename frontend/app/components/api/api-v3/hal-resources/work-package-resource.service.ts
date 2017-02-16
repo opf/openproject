@@ -30,7 +30,7 @@ import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
-import {CollectionResourceInterface} from './collection-resource.service';
+import {CollectionResource, CollectionResourceInterface} from './collection-resource.service';
 import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
 import {UploadFile} from '../../op-file-upload/op-file-upload.service';
 import IQService = angular.IQService;
@@ -40,6 +40,7 @@ import {States} from '../../../states.service';
 import {State} from './../../../../helpers/reactive-fassade';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
+import {RelationResourceInterface} from './relation-resource.service';
 
 interface WorkPackageResourceEmbedded {
   activities: CollectionResourceInterface;
@@ -54,6 +55,7 @@ interface WorkPackageResourceEmbedded {
   project: HalResource|any;
   relations: CollectionResourceInterface;
   responsible: HalResource|any;
+  revisions: CollectionResourceInterface|any;
   schema: SchemaResource;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
@@ -65,6 +67,7 @@ interface WorkPackageResourceEmbedded {
   dueDate?: string;
   // Only for milestones
   date?: string;
+  relatedBy: RelationResourceInterface|null;
 }
 
 interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
@@ -94,10 +97,13 @@ var apiWorkPackages: ApiWorkPackagesService;
 var wpCacheService: WorkPackageCacheService;
 var NotificationsService: any;
 var wpNotificationsService: any;
-var AttachmentCollectionResource;
+var AttachmentCollectionResource:any;
 
 export class WorkPackageResource extends HalResource {
-  public static fromCreateForm(form) {
+  // Add index signature for getter this[attr]
+  [attribute:string]:any;
+
+  public static fromCreateForm(form:any) {
     var wp = new WorkPackageResource(form.payload.$plain(), true);
 
     wp.initializeNewResource(form);
@@ -109,7 +115,7 @@ export class WorkPackageResource extends HalResource {
    * @param otherForm The work package form of another work package
    * @param form Work Package create form
    */
-  public static copyFrom(otherForm, form) {
+  public static copyFrom(otherForm:any, form:any) {
     var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
 
     // Override values from form payload
@@ -136,7 +142,7 @@ export class WorkPackageResource extends HalResource {
 
   public pendingAttachments: UploadFile[] = [];
 
-  private form;
+  private form:any;
 
   public get isNew(): boolean {
     return this.id === 'new';
@@ -157,12 +163,12 @@ export class WorkPackageResource extends HalResource {
    * Returns all modified fields by comparing open $pristine fields.
    */
   public get modifiedFields(): string[] {
-    var modified = [];
+    var modified:string[] = [];
 
     angular.forEach(this.$pristine, (value, key) => {
       var args = [this[key], value];
 
-      if (this[key] instanceof HalResource) {
+      if ((this as any)[key] instanceof HalResource) {
         args = args.map(arg => (arg ? arg.$source : arg));
       }
 
@@ -199,10 +205,10 @@ export class WorkPackageResource extends HalResource {
    * Make the attachments an `AttachmentCollectionResource`. This should actually
    * be done automatically, but the backend does not provide typed collections yet.
    */
-  protected $initialize(source) {
+  protected $initialize(source:any) {
     super.$initialize(source);
 
-    var attachments = this.attachments || {$source: void 0, $loaded: void 0};
+    var attachments:{$source:any, $loaded:boolean} = this.attachments || {$source: void 0, $loaded: false};
     this.attachments = new AttachmentCollectionResource(
       attachments.$source,
       attachments.$loaded
@@ -216,13 +222,13 @@ export class WorkPackageResource extends HalResource {
    * Removing it from the elements array assures that the view gets updated immediately.
    * If an error occurs, the user gets notified and the attachment is pushed to the elements.
    */
-  public removeAttachment(attachment) {
+  public removeAttachment(attachment:any) {
     if (attachment.$isHal) {
       attachment.delete()
         .then(() => {
           this.updateAttachments();
         })
-        .catch(error => {
+        .catch((error:any) => {
           wpNotificationsService.handleErrorResponse(error, this);
           this.attachments.elements.push(attachment);
         });
@@ -236,7 +242,7 @@ export class WorkPackageResource extends HalResource {
    * Upload the pending attachments if the work package exists.
    * Do nothing, if the work package is being created.
    */
-  public uploadPendingAttachments() {
+  public uploadPendingAttachments():ng.IPromise<any>|void {
    if (!this.pendingAttachments.length) {
      return;
    }
@@ -265,17 +271,17 @@ export class WorkPackageResource extends HalResource {
       });
   }
 
-  public allowedValuesFor(field): ng.IPromise<HalResource[]> {
+  public allowedValuesFor(field:string): ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
-    this.getForm().then(form => {
+    this.getForm().then((form:any) => {
       const allowedValues = form.$embedded.schema[field].allowedValues;
 
       if (Array.isArray(allowedValues)) {
         deferred.resolve(allowedValues);
       }
       else {
-        return allowedValues.$load().then(loadedValues => {
+        return allowedValues.$load().then((loadedValues:CollectionResource) => {
           deferred.resolve(loadedValues.elements);
         });
       }
@@ -284,9 +290,9 @@ export class WorkPackageResource extends HalResource {
     return deferred.promise;
   }
 
-  public setAllowedValueFor(field, href) {
+  public setAllowedValueFor(field:string, href:string) {
     this.allowedValuesFor(field).then(allowedValues => {
-      this[field] = _.find(allowedValues, entry => entry.href === href);
+      (this as any)[field] = _.find(allowedValues, entry => entry.href === href);
       wpCacheService.updateWorkPackage(this);
     });
   }
@@ -301,7 +307,7 @@ export class WorkPackageResource extends HalResource {
     return this.form;
   }
 
-  public updateForm(payload) {
+  public updateForm(payload:{[attribute:string]: any}) {
     // Always resolve form to the latest form
     // This way, we won't have to actively reset it.
     // But store the existing form in case of an error.
@@ -312,7 +318,7 @@ export class WorkPackageResource extends HalResource {
     var deferred = $q.defer();
 
     this.form
-      .then(form => {
+      .then((form:any) => {
         // Override the current schema with
         // the changes from API
         this.schema = form.$embedded.schema;
@@ -323,7 +329,7 @@ export class WorkPackageResource extends HalResource {
 
         deferred.resolve(form);
       })
-      .catch(error => {
+      .catch((error:any) => {
         this.form = oldForm;
         deferred.reject(error);
       });
@@ -332,7 +338,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   public loadFormSchema() {
-    return this.getForm().then(form => {
+    return this.getForm().then((form:any) => {
       this.schema = form.$embedded.schema;
 
       angular.forEach(this.schema, (field, name) => {
@@ -420,11 +426,11 @@ export class WorkPackageResource extends HalResource {
     }
   }
 
-  public isParentOf(otherWorkPackage) {
+  public isParentOf(otherWorkPackage:WorkPackageResourceInterface) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  private mergeWithForm(form) {
+  private mergeWithForm(form:any) {
     var plainPayload = form.payload.$plain();
     var schema = form.$embedded.schema;
 
@@ -448,7 +454,7 @@ export class WorkPackageResource extends HalResource {
     return plainPayload;
   }
 
-  private assignNewValues(formPayload) {
+  private assignNewValues(formPayload:{[attr:string]: any, $source:any}) {
     Object.keys(formPayload.$source).forEach(key => {
       if (angular.isUndefined(this[key])) {
         this[key] = formPayload[key];
@@ -463,7 +469,7 @@ export class WorkPackageResource extends HalResource {
    * Return a promise that returns the linked resources as properties.
    * Return a rejected promise, if the resource is not a property of the work package.
    */
-  public updateLinkedResources(...resourceNames): ng.IPromise<any> {
+  public updateLinkedResources(...resourceNames:string[]): ng.IPromise<any> {
     const resources: {[id: string]: IPromise<HalResource>} = {};
 
     resourceNames.forEach(name => {
@@ -509,7 +515,7 @@ export class WorkPackageResource extends HalResource {
    * Assign values from the form for a newly created work package resource.
    * @param form
    */
-  public initializeNewResource(form) {
+  public initializeNewResource(form:any) {
     this.schema = form.schema;
     this.form = $q.when(form);
     this.id = 'new';
@@ -528,7 +534,7 @@ export class WorkPackageResource extends HalResource {
 export interface WorkPackageResourceInterface extends WorkPackageResourceLinks, WorkPackageResourceEmbedded, WorkPackageResource {
 }
 
-function wpResource(...args) {
+function wpResource(...args:any[]) {
   [
     $q,
     $stateParams,

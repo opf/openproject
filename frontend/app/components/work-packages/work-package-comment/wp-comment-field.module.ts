@@ -28,13 +28,14 @@
 
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-textarea-field.module';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
 
   public fieldVal = { raw: '' };
 
-  constructor(workPackage:WorkPackageResource, protected I18n:op.I18n) {
-    super(workPackage, 'comment', {name: I18n.t('js.label_comment')});
+  constructor(workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
+    super(workPackage, 'comment', {name: I18n.t('js.label_comment')} as any);
 
     this.initializeFieldValue();
     this.workPackage = workPackage;
@@ -48,9 +49,10 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
     return true;
   }
 
-  public initializeFieldValue(withText?:string) {
+  public initializeFieldValue(withText?:string):void {
     if (!withText) {
-      return this.fieldVal.raw = '';
+      this.fieldVal.raw = '';
+      return
     }
 
     if (this.fieldVal.raw.length > 0) {

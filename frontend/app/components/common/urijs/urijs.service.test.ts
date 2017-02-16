@@ -29,10 +29,10 @@
 import {openprojectModule} from '../../../angular-modules';
 
 describe('URI service', () => {
-  var URI;
+  var URI:any;
 
   beforeEach(angular.mock.module(openprojectModule.name));
-  beforeEach(angular.mock.inject(function (_URI_) {
+  beforeEach(angular.mock.inject(function (_URI_:any) {
     URI = _URI_;
   }));
 

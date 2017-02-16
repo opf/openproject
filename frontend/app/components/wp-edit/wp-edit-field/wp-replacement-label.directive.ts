@@ -33,8 +33,8 @@ export class WorkPackageReplacementLabelController {
   public fieldName:string;
 
   constructor(
-    protected $scope,
-    protected $element) {
+    protected $scope:ng.IScope,
+    protected $element:ng.IAugmentedJQuery) {
   }
 
   public activate() {
@@ -43,9 +43,9 @@ export class WorkPackageReplacementLabelController {
 }
 
 function wpReplacementLabelLink(
-  scope,
-  element,
-  attrs,
+  scope:ng.IScope,
+  element:ng.IAugmentedJQuery,
+  attrs:ng.IAttributes,
   controllers: [WorkPackageEditFormController, WorkPackageReplacementLabelController]) {
 
   controllers[1].formCtrl = controllers[0];

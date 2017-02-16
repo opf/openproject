@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function saveModalService(btfModal) {
+function saveModalService(btfModal:any) {
   return btfModal({
     controller: 'SaveModalController',
     controllerAs: '$ctrl',

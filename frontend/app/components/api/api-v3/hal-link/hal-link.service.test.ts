@@ -32,14 +32,14 @@ import {HalRequestService} from '../hal-request/hal-request.service';
 
 describe('HalLink service', () => {
   var $httpBackend:ng.IHttpBackendService;
-  var $rootScope;
-  var HalLink;
+  var $rootScope:any;
+  var HalLink:any;
   var link:HalLink;
 
   beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name));
-  beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _$rootScope_,
-                                           _HalLink_,
+  beforeEach(angular.mock.inject(function (_$httpBackend_:any,
+                                           _$rootScope_:any,
+                                           _HalLink_:any,
                                            halRequest:HalRequestService) {
     [$httpBackend, $rootScope, HalLink] = _.toArray(arguments);
     halRequest.defaultHeaders.caching.enabled = false;
@@ -103,14 +103,14 @@ describe('HalLink service', () => {
     });
 
     it('should send the headers', () => {
-      $httpBackend.expectGET('foobar?param=foo', headers => headers.foo === 'bar').respond(200, {});
+      $httpBackend.expectGET('foobar?param=foo', (headers:any) => headers.foo === 'bar').respond(200, {});
       $httpBackend.flush();
     });
   });
 
   describe('when using the link', () => {
-    var response;
-    var result;
+    var response:any;
+    var result:any;
 
     beforeEach(() => {
       link = HalLink.fromObject({
@@ -174,7 +174,7 @@ describe('HalLink service', () => {
     });
 
     describe('when making the link callable', () => {
-      var func;
+      var func:any;
       const runChecks = () => {
         it('should return a function that fetches the data', () => {
           func();
@@ -231,7 +231,7 @@ describe('HalLink service', () => {
     });
 
     describe('when $preparing the link', () => {
-      var func;
+      var func:any;
 
       beforeEach(() => {
         link.href = '/foo/bar/{user_id}';

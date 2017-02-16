@@ -64,9 +64,9 @@ describe('wpAttachmentsUpload directive', () => {
       }));
     }));
   beforeEach(angular.mock.inject(function (_$rootScope_: IRootScopeService,
-                                           _$q_,
+                                           _$q_:any,
                                            $compile: ICompileService,
-                                           ConfigurationService) {
+                                           ConfigurationService:any) {
     [$rootScope, $q] = _.toArray(arguments);
 
     html = `<wp-attachments-upload attachments="attachments" work-package="workPackage">
@@ -119,7 +119,7 @@ describe('wpAttachmentsUpload directive', () => {
     });
 
     describe('when clicking the parent element', () => {
-      var clicked;
+      var clicked:any;
 
       beforeEach(() => {
         clicked = false;

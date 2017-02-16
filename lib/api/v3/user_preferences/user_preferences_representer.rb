@@ -59,7 +59,6 @@ module API
                  getter: -> (*) { canonical_time_zone },
                  render_nil: true
 
-        property :theme
         property :warn_on_leaving_unsaved
         property :comments_in_reverse_order,
                  as: :commentSortDescending

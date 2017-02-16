@@ -50,7 +50,6 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - COVERAGE=true
 
   matrix:
     - "TEST_SUITE=npm"

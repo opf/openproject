@@ -27,22 +27,23 @@
 //++
 
 import {opApiModule} from '../../../../angular-modules';
-import {HalLinkInterface} from '../hal-link/hal-link.service';
+import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 import {State} from './../../../../helpers/reactive-fassade';
 
 const ObservableArray:any = require('observable-array');
 
 var $q:ng.IQService;
-var lazy;
-var HalLink;
+var lazy:Function;
+var halLink:typeof HalLink;
 var halResourceFactory:HalResourceFactoryService;
-var CacheService;
+var CacheService:any;
 
 export class HalResource {
+  [attribute:string]:any;
   public static _type:string;
 
-  public static create(element, force:boolean = false) {
+  public static create(element:any, force:boolean = false) {
     if (!force && !(element._embedded || element._links)) {
       return element;
     }
@@ -51,11 +52,11 @@ export class HalResource {
   }
 
   public static fromLink(link:HalLinkInterface) {
-    const resource = HalResource.getEmptyResource(HalLink.fromObject(link));
+    const resource = HalResource.getEmptyResource(halLink.fromObject(link));
     return new HalResource(resource, false);
   }
 
-  public static getEmptyResource(self = {href: null}):any {
+  public static getEmptyResource(self:{href:string|null} = {href: null}):any {
     return {_links: {self: self}};
   }
 
@@ -86,13 +87,12 @@ export class HalResource {
    * Please use $href instead.
    *
    * @deprecated
-   * @returns {string}
    */
-  public get href():string {
+  public get href():string|null {
     return this.$link.href;
   }
 
-  public get $href():string {
+  public get $href():string|null {
     return this.$link.href;
   }
 
@@ -109,10 +109,11 @@ export class HalResource {
   }
 
   public $load(force = false):ng.IPromise<HalResource> {
-    const state = this.state;
     if (!this.state) {
       return this.$loadResource(force);
     }
+
+    const state = this.state;
 
     if (force) {
       state.clear();
@@ -149,7 +150,7 @@ export class HalResource {
     }
     // Reset and load this resource
     this.$loaded = false;
-    this.$self = this.$links.self({}, this.$loadHeaders(force)).then(source => {
+    this.$self = this.$links.self({}, this.$loadHeaders(force)).then((source:any) => {
       this.$loaded = true;
       this.$initialize(source);
       return this;
@@ -169,7 +170,7 @@ export class HalResource {
     return angular.copy(this.$source);
   }
 
-  protected $initialize(source) {
+  protected $initialize(source:any) {
     this.$source = source.$source || source;
     initializeResource(this);
   }
@@ -257,7 +258,7 @@ function initializeResource(halResource:HalResource) {
           return null;
         },
 
-        val => setter(val, linkName)
+        (val:any) => setter(val, linkName)
       );
     });
   }
@@ -268,7 +269,7 @@ function initializeResource(halResource:HalResource) {
     }
 
     Object.keys(halResource.$source._embedded).forEach(name => {
-      lazy(halResource, name, () => halResource.$embedded[name], val => setter(val, name));
+      lazy(halResource, name, () => halResource.$embedded[name], (val:any) => setter(val, name));
     });
   }
 
@@ -279,7 +280,7 @@ function initializeResource(halResource:HalResource) {
 
     if (angular.isObject(sourceObj)) {
       Object.keys(sourceObj).forEach(propName => {
-        lazy(halResource[instanceName], propName, () => callback(sourceObj[propName]));
+        lazy((halResource as any)[instanceName], propName, () => callback(sourceObj[propName]));
       });
     }
   }
@@ -305,7 +306,7 @@ function initializeResource(halResource:HalResource) {
     });
   }
 
-  function createLinkedResource(linkName, link) {
+  function createLinkedResource(linkName:string, link:any) {
     const resource = HalResource.getEmptyResource();
     const type = halResource.constructor._type;
     resource._links.self = link;
@@ -329,8 +330,8 @@ function initializeResource(halResource:HalResource) {
   }
 }
 
-function halResourceService(...args) {
-  [$q, lazy, HalLink, halResourceFactory, CacheService] = args;
+function halResourceService(...args:any[]) {
+  [$q, lazy, halLink, halResourceFactory, CacheService] = args;
   return HalResource;
 }
 

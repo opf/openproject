@@ -20,11 +20,11 @@ export class WorkPackageRelationsCreateController {
   public canLinkChildren = !!this.workPackage.changeParent;
   public isDisabled = false;
 
-  constructor(protected I18n,
+  constructor(protected I18n:op.I18n,
               protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
-              protected $element,
-              protected $timeout,
+              protected $element:ng.IAugmentedJQuery,
+              protected $timeout:ng.ITimeoutService,
               protected wpRelationsService:WorkPackageRelationsService,
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -87,13 +87,13 @@ export class WorkPackageRelationsCreateController {
   protected changeParent() {
     this.toggleRelationsCreateForm();
     return this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
-      .then(updatedWp => {
+      .then((updatedWp:WorkPackageResourceInterface) => {
         this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--parent').focus();
         });
       })
-      .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage));
+      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.workPackage));
   }
 
   protected createCommonRelation() {
@@ -124,8 +124,8 @@ function wpRelationsCreate() {
   return {
     restrict: 'E',
 
-    templateUrl: (el, attrs) => {
-      return '/components/wp-relations/wp-relations-create/' + attrs.template + '.template.html';
+    templateUrl: (el:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {
+      return '/components/wp-relations/wp-relations-create/' + attrs['template'] + '.template.html';
     },
 
     scope: {

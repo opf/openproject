@@ -28,7 +28,7 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 
-function showMoreMenuService(ngContextMenu) {
+function showMoreMenuService(ngContextMenu:any) {
   return ngContextMenu({
     template: `
       <div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar">

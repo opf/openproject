@@ -33,13 +33,13 @@ angular
   .module('openproject.workPackages')
   .controller('ColumnContextMenuController', ColumnContextMenuController);
 
-function ColumnContextMenuController($scope,
-                                     columnContextMenu,
-                                     QueryService,
+function ColumnContextMenuController($scope:any,
+                                     columnContextMenu:any,
+                                     QueryService:any,
                                      wpTableColumns:WorkPackageTableColumnsService,
                                      wpTableMetadata:WorkPackageTableMetadataService,
-                                     I18n,
-                                     columnsModal) {
+                                     I18n:op.I18n,
+                                     columnsModal:any) {
 
   $scope.I18n = I18n;
 
@@ -51,12 +51,12 @@ function ColumnContextMenuController($scope,
 
   // context menu actions
 
-  $scope.groupBy = function (columnName) {
+  $scope.groupBy = function (columnName:string) {
     QueryService.getQuery().groupBy = columnName;
     QueryService.getQuery().dirty = true;
   };
 
-  $scope.sortAscending = function (columnName) {
+  $scope.sortAscending = function (columnName:string) {
     QueryService.getQuery().sortation.addSortElement({
         field: columnName || 'id',
         direction: 'asc'
@@ -64,7 +64,7 @@ function ColumnContextMenuController($scope,
     QueryService.getQuery().dirty = true;
   };
 
-  $scope.sortDescending = function (columnName) {
+  $scope.sortDescending = function (columnName:string) {
     QueryService.getQuery().sortation.addSortElement({
         field: columnName || 'id',
         direction: 'desc'
@@ -72,17 +72,17 @@ function ColumnContextMenuController($scope,
     QueryService.getQuery().dirty = true;
   };
 
-  $scope.moveLeft = function (columnName) {
+  $scope.moveLeft = function (columnName:string) {
     wpTableColumns.shift(columnName, -1);
     QueryService.getQuery().dirty = true;
   };
 
-  $scope.moveRight = function (columnName) {
+  $scope.moveRight = function (columnName:string) {
     wpTableColumns.shift(columnName, 1);
     QueryService.getQuery().dirty = true;
   };
 
-  $scope.hideColumn = function (columnName) {
+  $scope.hideColumn = function (columnName:string) {
     columnContextMenu.close();
     let previousColumn = wpTableColumns.previous(columnName);
     wpTableColumns.removeColumn(columnName);
@@ -105,7 +105,7 @@ function ColumnContextMenuController($scope,
     return $scope.column && !!$scope.column.sortable;
   };
 
-  function isValidColumn(column) {
+  function isValidColumn(column:api.ex.Column) {
     return column;
   }
 
@@ -121,9 +121,9 @@ function ColumnContextMenuController($scope,
     return isValidColumn($scope.column);
   };
 
-  $scope.focusFeature = function (feature) {
+  $scope.focusFeature = function (feature:string) {
     var focus;
-    var mergeOrReturn = function (currentState, state) {
+    var mergeOrReturn = function (currentState:any, state:any) {
       return ((currentState === undefined) ? state : currentState && !state);
     };
 

@@ -45,7 +45,7 @@ export abstract class WorkPackageButtonController {
 
   protected text:ButtonControllerText;
 
-  constructor(public I18n) {
+  constructor(public I18n:op.I18n) {
     this.text = {
       activate: this.I18n.t('js.label_activate'),
       deactivate: this.I18n.t('js.label_deactivate'),
@@ -88,7 +88,7 @@ export abstract class WorkPackageButtonController {
 
   public abstract isActive():boolean;
 
-  public abstract performAction();
+  public abstract performAction():void;
 }
 
 
@@ -96,7 +96,7 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
   public activeState:string;
   public accessKey:number;
 
-  constructor(public $state:ng.ui.IStateService, public I18n) {
+  constructor(public $state:ng.ui.IStateService, public I18n:op.I18n) {
     super(I18n);
   }
 
@@ -104,7 +104,7 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
     return this.activationPrefix + this.text.label;
   }
 
-  public get activeAccessKey():number {
+  public get activeAccessKey():number|void {
     if (!this.isActive()) return this.accessKey;
   }
 

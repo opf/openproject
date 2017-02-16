@@ -33,15 +33,15 @@ import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 export class FormattableDisplayField extends DisplayField {
   protected ExpressionService:ExpressionService;
 
-  constructor(public resource: HalResource,
-              public name: string,
-              public schema) {
+  constructor(public resource:HalResource,
+              public name:string,
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
   }
 
-  public render(element: HTMLElement, displayText): void {
+  public render(element:HTMLElement, displayText:string): void {
     let span = document.createElement('span');
     span.innerHTML = displayText;
 

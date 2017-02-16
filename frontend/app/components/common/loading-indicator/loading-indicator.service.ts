@@ -51,20 +51,17 @@ export class LoadingIndicator {
 
 export class LoadingIndicatorService {
 
-  private indicatorTemplate;
-  constructor() {
-    this.indicatorTemplate = `
-      <div class="loading-indicator--background">
-        <div class="loading-indicator">
-          <div class="block-1"></div>
-          <div class="block-2"></div>
-          <div class="block-3"></div>
-          <div class="block-4"></div>
-          <div class="block-5"></div>
-        </div>
+  private indicatorTemplate:string =
+  `<div class="loading-indicator--background">
+      <div class="loading-indicator">
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+        <div class="block-4"></div>
+        <div class="block-5"></div>
       </div>
-    `;
-  }
+    </div>
+   `;
 
   // Provide shortcut to the primarily used indicators
   public get table() { return this.indicator('table'); }

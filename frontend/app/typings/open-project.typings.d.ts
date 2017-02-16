@@ -39,8 +39,8 @@ declare namespace api {
    */
   namespace v3 {
     interface Result {
-      _links;
-      _embedded;
+      _links:any;
+      _embedded:any;
       _type:string;
     }
 
@@ -93,23 +93,23 @@ declare namespace api {
     interface Query {
       _links:any;
       id:number;
-      columnNames;
+      columnNames:any;
       displaySums:boolean;
-      filters;
+      filters:any;
       groupBy:string;
       isPublic:boolean;
       name:string;
       projectId:number;
-      sortCriteria;
+      sortCriteria:any;
       starred:boolean;
       userId:number;
     }
 
     interface Meta {
-      _links;
+      _links:any;
       columns:Column[];
-      export_formats;
-      group_sums;
+      export_formats:any;
+      group_sums:any;
       groupable_columns:Column[];
       per_page_options:number[];
       query:Query;
@@ -118,13 +118,11 @@ declare namespace api {
     }
 
     interface WorkPackagesMeta {
+      _links:any;
+      _bulk_links:any;
       meta:Meta;
-      _links;
-      _bulk_links:{ [name:string]: string };
-      resource;
-      work_packages;
-      total:number;
-      groups;
+      resource:any;
+      work_packages:any;
     }
   }
 }
@@ -148,11 +146,11 @@ declare namespace op {
   interface Query {
     id?:number;
     columns?:any;
-    displaySums?;
-    projectId?;
+    displaySums?:any;
+    projectId?:any;
     groupBy?:string;
-    filters?;
-    sortCriteria?;
+    filters?:any;
+    sortCriteria?:any;
     page?:number;
     perPage?:number;
 
@@ -160,28 +158,33 @@ declare namespace op {
     isNew():boolean;
 
     toUpdateParams?():any;
-    applyDefaultsFromFilters(workPackage);
+    applyDefaultsFromFilters(workPackage:any):any;
   }
 
   interface I18n {
     t(translateId:string, parameters?:any):string;
+    lookup(translateId:string):boolean;
+    locale:string;
   }
 
   interface CacheService {
-    temporaryCache();
-    localStorage();
-    memoryStorage();
-    customCache(identifier, params);
-    isCacheDisabled();
-    enableCaching();
-    disableCaching();
-    cachedPromise(promiseFn, key, options?);
+    temporaryCache():any;
+    localStorage():any;
+    memoryStorage():any;
+    customCache(identifier:any, params:any):any;
+    isCacheDisabled():any;
+    enableCaching():any;
+    disableCaching():any;
+    cachedPromise(promiseFn:any, key:any, options?:any):any;
   }
 
   interface FieldSchema {
     type:string;
     writable:boolean;
-    allowedValues;
+    allowedValues:any;
+    required?:boolean;
+    visibility?:string;
+    name?:string;
   }
 
   interface QueryParams {
@@ -194,10 +197,10 @@ declare namespace op {
   }
 
   interface PathHelper {
-    workPackagePath(id):string;
+    workPackagePath(id:any):string;
   }
 
   interface WorkPackagesHelper {
-    formatValue(value, type):string;
+    formatValue(value:any, type:any):string;
   }
 }

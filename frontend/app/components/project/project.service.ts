@@ -27,9 +27,11 @@
 //++
 
 import {opServicesModule} from '../../angular-modules';
+import {HalRequestService} from '../api/api-v3/hal-request/hal-request.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 
-function projectService($http, apiPaths, halRequest) {
-  var indentedName = function (name, level) {
+function projectService($http:ng.IHttpService, apiPaths:any, halRequest:HalRequestService) {
+  var indentedName = function (name:string, level:any) {
     var indentation = '';
 
     for (var i = 0; i < level; i++) {
@@ -38,8 +40,8 @@ function projectService($http, apiPaths, halRequest) {
 
     return indentation + ' ' + name;
   };
-  var assignAncestorLevels = function (projects) {
-    var ancestors = [];
+  var assignAncestorLevels = function (projects:any) {
+    var ancestors:any[] = [];
 
     angular.forEach(projects, function (project) {
       while (ancestors.length > 0 && project.parent_id !== _.last(ancestors).id) {
@@ -59,10 +61,10 @@ function projectService($http, apiPaths, halRequest) {
   };
 
   var ProjectService = {
-    getProject: function (projectIdentifier) {
+    getProject: function (projectIdentifier:string) {
       const url = apiPaths.ex.project({project: projectIdentifier});
 
-      return $http.get(url).then(function (response) {
+      return $http.get(url).then(function (response:any) {
         return response.data.project;
       });
     },
@@ -76,23 +78,23 @@ function projectService($http, apiPaths, halRequest) {
         });
     },
 
-    getSubProjects: function (projectIdentifier) {
+    getSubProjects: function (projectIdentifier:string) {
       const url = apiPaths.ex.project.subProjects({project: projectIdentifier});
       return ProjectService.doQuery(url);
     },
 
-    getWorkPackageProject: function (workPackage) {
+    getWorkPackageProject: function (workPackage:WorkPackageResourceInterface) {
       return ProjectService.doQuery(workPackage.project.$link.href);
     },
 
-    doQuery: function (url, params?) {
+    doQuery: function (url:string, params?:any) {
       return $http.get(url, {params: params})
-        .then(function (response) {
+        .then(function (response:any) {
           return response.data.projects;
         });
     },
 
-    fetchProjectResource: function (projectIdentifier) {
+    fetchProjectResource: function (projectIdentifier:string) {
       var url = apiPaths.v3.project({project: projectIdentifier});
       return halRequest.get(url);
     }

@@ -31,15 +31,16 @@ import {opApiModule} from '../../../angular-modules';
 import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
 import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCollectionResource, } from '../api-v3/hal-resources/wp-collection-resource.service';
+import {States} from '../../states.service';
 import IPromise = angular.IPromise;
 import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
 
 export class ApiWorkPackagesService {
-  constructor(protected DEFAULT_PAGINATION_OPTIONS,
+  constructor(protected DEFAULT_PAGINATION_OPTIONS:any,
               protected $q:ng.IQService,
               protected halRequest:HalRequestService,
-              protected v3Path,
-              protected states) {
+              protected v3Path:any,
+              protected states:States) {
   }
 
   public list(offset:number, pageSize:number, query:api.ex.Query):ng.IPromise<WorkPackageCollectionResource> {
@@ -49,7 +50,7 @@ export class ApiWorkPackagesService {
     }).then((workPackageCollection:WorkPackageCollectionResource) => {
       if (workPackageCollection.schemas) {
         _.each(workPackageCollection.schemas.elements, (schema:SchemaResource) => {
-          this.states.schemas.get(schema.$href).put(schema);
+          this.states.schemas.get(schema.$href as string).put(schema);
         });
       }
 
@@ -112,13 +113,13 @@ export class ApiWorkPackagesService {
    * @param payload
    * @return {ng.IPromise<WorkPackageResource>}
    */
-  public createWorkPackage(payload):ng.IPromise<WorkPackageResource> {
+  public createWorkPackage(payload:any):ng.IPromise<WorkPackageResource> {
     return this.halRequest.post(this.v3Path.wps(), payload);
   }
 
   protected queryAsV3Params(offset:number, pageSize:number, query:api.ex.Query) {
     const v3Filters = _.map(query.filters, (filter:any) => {
-      const newFilter = {};
+      const newFilter:any = {};
       newFilter[filter.name] = {operator: filter.operator, values: filter.values};
       return newFilter;
     });

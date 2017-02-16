@@ -29,10 +29,10 @@
 var expect = chai.expect;
 
 describe('requestForConfirmation directive', () => {
-  var scope, element, controller, body;
+  var scope:any, element:any, controller:any, body:any;
   beforeEach(angular.mock.module('openproject', 'openproject.uiComponents'));
 
-  beforeEach(angular.mock.inject(($compile, $rootScope) => {
+  beforeEach(angular.mock.inject(($compile:any, $rootScope:any) => {
     var html = `
       <form class="request-for-confirmation">
         <input type="text" id="somevalue" />

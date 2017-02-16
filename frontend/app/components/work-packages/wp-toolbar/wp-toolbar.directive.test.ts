@@ -28,12 +28,12 @@
 
 
 describe('toolbar Directive', () => {
-  var compile, element, rootScope, scope;
+  var compile:() => void, element:ng.IAugmentedJQuery, rootScope, scope:any;
 
   beforeEach(angular.mock.module('openproject.uiComponents'));
   beforeEach(angular.mock.module('openproject.templates'));
 
-  beforeEach(angular.mock.inject(($rootScope, $compile) => {
+  beforeEach(angular.mock.inject(($rootScope:ng.IRootScopeService, $compile:ng.ICompileService) => {
     var html;
     html = '<div wp-toolbar></div>';
 

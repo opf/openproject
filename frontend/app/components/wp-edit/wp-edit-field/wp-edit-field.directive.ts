@@ -32,7 +32,7 @@ import {EditField} from "./wp-edit-field.module";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {ContextMenuService} from '../../context-menus/context-menu.service';
-
+import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
@@ -47,7 +47,7 @@ export class WorkPackageEditFieldController {
   public workPackage: WorkPackageResource;
 
   protected _active: boolean = false;
-  protected _activated_at;
+  protected _activated_at:any;
   protected _hasFocus: boolean = false;
   protected _forceFocus: boolean = false;
 
@@ -58,17 +58,17 @@ export class WorkPackageEditFieldController {
   private __d__inplaceEditReadValue: JQuery;
 
   constructor(protected wpEditField: WorkPackageEditFieldService,
-              protected $scope,
-              protected $element,
-              protected $timeout,
-              protected $q,
-              protected FocusHelper,
-              protected NotificationsService,
-              protected ConfigurationService,
+              protected $scope:ng.IScope,
+              protected $element:ng.IAugmentedJQuery,
+              protected $timeout:ng.ITimeoutService,
+              protected $q:ng.IQService,
+              protected FocusHelper:any,
+              protected NotificationsService:any,
+              protected ConfigurationService:any,
               protected contextMenu:ContextMenuService,
               protected wpCacheService: WorkPackageCacheService,
-              protected ENTER_KEY,
-              protected I18n) {
+              protected ENTER_KEY:any,
+              protected I18n:op.I18n) {
 
   }
 
@@ -151,7 +151,7 @@ export class WorkPackageEditFieldController {
     }
   }
 
-  public activateIfEditable(event) {
+  public activateIfEditable(event:JQueryEventObject) {
     if (this.isEditable) {
       this.handleUserActivate();
     }
@@ -245,7 +245,7 @@ export class WorkPackageEditFieldController {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserSubmitOnEnter(event) {
+  public handleUserSubmitOnEnter(event:JQueryEventObject) {
     if (this.inEditMode && event.which === this.ENTER_KEY) {
       return this.submit();
     }
@@ -255,21 +255,19 @@ export class WorkPackageEditFieldController {
     this._hasFocus = true;
   }
 
-  public handleUserBlur(): boolean {
+  public handleUserBlur():void {
     // HACK: Firefox keeps emitting a blur event soon after an edit field has been opened
     if (this._activated_at && (Date.now() - this._activated_at) < 200) {
       console.log("Field received blur soon after opening. Ignoring.");
-      return false;
+      return;
     }
 
     this._hasFocus = false;
 
-    if (!this.isSubmittable()) {
-      return;
+    if (this.isSubmittable()) {
+      this.deactivate();
+      this.handleUserSubmit();
     }
-
-    this.deactivate();
-    this.handleUserSubmit();
   }
 
   public handleUserCancel() {
@@ -289,12 +287,12 @@ export class WorkPackageEditFieldController {
    *  Avoid clicks within the form to bubble up to the row handler.
    *  Otherwise, clicks within wp-edit-fields may cause the split / full view to open.
    */
-  public haltUserFormClick(event) {
+  public haltUserFormClick(event:JQueryEventObject) {
     event.stopPropagation();
     return false;
   }
 
-  public setErrors(errors) {
+  public setErrors(errors:any) {
     this.errorenous = !_.isEmpty(errors);
     this.errors = errors;
   }
@@ -306,14 +304,14 @@ export class WorkPackageEditFieldController {
     this.deactivate();
   }
 
-  public onlyInAccessibilityMode(callback) {
+  public onlyInAccessibilityMode(callback:Function) {
     if (this.ConfigurationService.accessibilityModeEnabled()) {
       callback.apply(this);
     }
   }
 
   protected buildEditField(): ng.IPromise<any> {
-    return this.workPackage.loadFormSchema().then(schema => {
+    return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       this.field = <EditField>this.wpEditField.getField(this.workPackage, this.fieldName, schema[this.fieldName]);
       this.workPackage.storePristine(this.fieldName);
     });
@@ -331,7 +329,7 @@ export class WorkPackageEditFieldController {
     this.__d__inplaceEditReadValue.toggleClass("-read-only", readOnly);
 
     // Accessibility: Mark editable fields as button role
-    const role = this.isEditable ? 'button' : null;
+    const role = this.isEditable ? 'button' : '';
     this.__d__inplaceEditReadValue.attr("role", role);
 
     // Accessibility: Allow tab on all fields except id
@@ -342,9 +340,9 @@ export class WorkPackageEditFieldController {
 
 function wpEditField(wpCacheService: WorkPackageCacheService) {
 
-  function wpEditFieldLink(scope,
-                           element,
-                           attrs,
+  function wpEditFieldLink(scope:any,
+                           element:ng.IAugmentedJQuery,
+                           attrs:ng.IAttributes,
                            controllers: [WorkPackageEditFormController, WorkPackageEditFieldController]) {
 
     var formCtrl = controllers[0];

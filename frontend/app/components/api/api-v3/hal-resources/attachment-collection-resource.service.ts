@@ -42,7 +42,7 @@ export class AttachmentCollectionResource extends CollectionResource {
    * Upload the given files to the $href property of this resource.
    */
   public upload(files: UploadFile[]): UploadResult {
-    return opFileUpload.upload(this.$href, files);
+    return opFileUpload.upload(this.$href as string, files);
   }
 }
 
@@ -50,7 +50,7 @@ export interface AttachmentCollectionResourceInterface extends AttachmentCollect
   elements: HalResource[];
 }
 
-function attachmentCollectionResourceService(...args) {
+function attachmentCollectionResourceService(...args:any[]) {
   [opFileUpload] = args;
   return AttachmentCollectionResource;
 }

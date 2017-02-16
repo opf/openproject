@@ -28,19 +28,19 @@
 
 import {wpDirectivesModule} from "../../../angular-modules";
 
-function refreshOnFormChanges($http, $window) {
+function refreshOnFormChanges($http:ng.IHttpService, $window:ng.IWindowService) {
   return {
     restrict: 'EA',
     scope: {
       url: '@',
       inputSelector: '@',
     },
-    link: (scope, element, attr) => {
+    link: (scope:any, element:ng.IAugmentedJQuery, attr:ng.IAttributes) => {
       const form = element.closest('form');
       const input = element.find(scope.inputSelector);
 
       input.on('change', function() {
-        $window.location = scope.url + '?' + form.serialize();
+        ($window as any).location = scope.url + '?' + form.serialize();
       });
     }
   };

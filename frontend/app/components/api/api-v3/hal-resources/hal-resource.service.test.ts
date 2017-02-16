@@ -35,17 +35,17 @@ import {HalLinkInterface} from './../hal-link/hal-link.service';
 describe('HalResource service', () => {
   var $httpBackend:ng.IHttpBackendService;
   var halResourceFactory:HalResourceFactoryService;
-  var resource;
-  var source;
+  var resource:any;
+  var source:any;
 
   class OtherResource extends HalResource {
   }
 
-  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, $provide => {
+  beforeEach(angular.mock.module(opApiModule.name, opServicesModule.name, ($provide:ng.auto.IProvideService) => {
     $provide.value('OtherResource', OtherResource);
   }));
-  beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _halResourceFactory_,
+  beforeEach(angular.mock.inject(function (_$httpBackend_:any,
+                                           _halResourceFactory_:any,
                                            halRequest:HalRequestService) {
     [$httpBackend, halResourceFactory] = _.toArray(arguments);
     halRequest.defaultHeaders.caching.enabled = false;
@@ -73,7 +73,7 @@ describe('HalResource service', () => {
     });
 
     it('should perform a no-cache request', () => {
-      const expectHeaders = headers => headers.caching.enabled === false;
+      const expectHeaders = (headers:any) => headers.caching.enabled === false;
       $httpBackend.expectGET('hello', expectHeaders).respond(200, {});
       $httpBackend.flush();
     });
@@ -288,7 +288,7 @@ describe('HalResource service', () => {
   });
 
   describe('when using $plain', () => {
-    var plain;
+    var plain:any;
 
     beforeEach(() => {
       source = {
@@ -420,8 +420,8 @@ describe('HalResource service', () => {
     });
 
     describe('when the embedded resources are nested', () => {
-      var first;
-      var deep;
+      var first:any;
+      var deep:any;
 
       beforeEach(() => {
         source._embedded.resource._embedded = {
@@ -452,7 +452,7 @@ describe('HalResource service', () => {
   });
 
   describe('when creating a resource from a source with a linked array property', () => {
-    var expectLengthsToBe = (length, update = 'update') => {
+    var expectLengthsToBe = (length:any, update = 'update') => {
       it(`should ${update} the values of the resource`, () => {
         expect(resource.values).to.have.lengthOf(length);
       });

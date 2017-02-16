@@ -80,7 +80,9 @@ div.box-actions
     margin: 0
 
 .block-receiver
-  border: 1px dashed $my-page-edit-box-border-color
+  border-width: 1px
+  border-style: dashed
+  @include varprop(border-color , my-page-edit-box-border-color)
   margin-bottom: 20px
   padding: 8px
 

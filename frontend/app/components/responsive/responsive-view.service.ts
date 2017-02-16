@@ -36,7 +36,7 @@ export class ResponsiveView {
     return this.$window.innerWidth <= this.small;
   }
 
-  public onResize(callback) {
+  public onResize(callback:any) {
     angular.element(this.$window).on('resize', callback);
   }
 }

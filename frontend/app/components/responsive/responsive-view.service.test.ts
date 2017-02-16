@@ -32,13 +32,13 @@ var expect = chai.expect;
 
 describe('responsiveView service', () => {
   describe('isSmall method', () => {
-    var responsiveView;
+    var responsiveView:any;
     var $window = {
       innerWidth: 0
     };
 
     beforeEach(() => {
-      angular.mock.module('openproject.responsive', ($provide) => {
+      angular.mock.module('openproject.responsive', ($provide:any) => {
         $provide.value('$window', $window);
       });
 
@@ -60,7 +60,7 @@ describe('responsiveView service', () => {
   });
 
   describe('onResize method', () => {
-    var responsiveView, $window;
+    var responsiveView:any, $window:any;
 
     beforeEach(() => {
       angular.mock.module('openproject.responsive');

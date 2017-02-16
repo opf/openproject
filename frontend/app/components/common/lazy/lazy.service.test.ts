@@ -27,10 +27,10 @@
 // ++
 
 describe('lazy service', () => {
-  var lazy;
+  var lazy:any;
 
   beforeEach(angular.mock.module('openproject.services'));
-  beforeEach(angular.mock.inject(_lazy_ => {
+  beforeEach(angular.mock.inject((_lazy_:any) => {
     lazy = _lazy_;
   }));
 
@@ -39,7 +39,7 @@ describe('lazy service', () => {
   });
 
   it('should add a property with the given name to the object', () => {
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
@@ -47,7 +47,7 @@ describe('lazy service', () => {
   });
 
   it('should add an enumerable property', () => {
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
@@ -55,7 +55,7 @@ describe('lazy service', () => {
   });
 
   it('should add a configurable property', () => {
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
@@ -63,16 +63,16 @@ describe('lazy service', () => {
   });
 
   it('should set the value of the property provided by the setter', () => {
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
-    lazy(obj, 'prop', () => '', val => val);
+    lazy(obj, 'prop', () => '', (val:any) => val);
     obj.prop = 'hello';
     expect(obj.prop).to.eq('hello');
   });
 
   it('should not be settable, if no setter is provided', () => {
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
     lazy(obj, 'prop', () => '');
@@ -91,7 +91,7 @@ describe('lazy service', () => {
 
   it('should call the getter only once', () => {
     let callback = sinon.spy();
-    let obj = {
+    let obj:any = {
       prop: void 0
     };
     lazy(obj, 'prop', callback);

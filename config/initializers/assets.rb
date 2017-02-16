@@ -3,7 +3,7 @@ OpenProject::Application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   config.assets.precompile += %w(
     favicon.ico
-    default.css
+    openproject.css
     accessibility.css
     accessibility.js
     admin_users.js

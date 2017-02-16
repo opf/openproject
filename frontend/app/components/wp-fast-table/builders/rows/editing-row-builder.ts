@@ -10,13 +10,16 @@ export class EditingRowBuilder extends SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshEditing(row:WorkPackageTableRow, editForm:WorkPackageEditForm):HTMLElement {
+  public refreshEditing(row:WorkPackageTableRow, editForm:WorkPackageEditForm):HTMLElement|null {
     // Get the row for the WP if refreshing existing
     const rowElement = row.element || locateRow(row.workPackageId);
-    const jRow = jQuery(rowElement);
+    if (!rowElement) {
+      return null;
+    }
 
     // Detach all existing columns
-    const tds = jQuery(rowElement).find('td').detach();
+    const jRow = jQuery(rowElement);
+    const tds = jRow.find('td').detach();
 
     // Iterate all columns, reattaching or rendering new columns
     this.columns.forEach((column:string) => {

@@ -38,8 +38,8 @@ describe('WorkPackageResource service', () => {
   var $httpBackend: IHttpBackendService;
   var $rootScope: IRootScopeService;
   var $q: IQService;
-  var WorkPackageResource;
-  var AttachmentCollectionResource;
+  var WorkPackageResource:any;
+  var AttachmentCollectionResource:any;
   var wpCacheService: WorkPackageCacheService;
   var NotificationsService: any;
   var wpNotificationsService: any;
@@ -52,26 +52,26 @@ describe('WorkPackageResource service', () => {
     workPackage = new WorkPackageResource(source);
   };
 
-  const expectUncachedRequest = href => {
+  const expectUncachedRequest = (href:string) => {
     $httpBackend
-      .expectGET(href, headers => headers.caching.enabled === false)
+      .expectGET(href, (headers:any) => headers.caching.enabled === false)
       .respond(200, {_links: {self: {href}}});
   };
 
-  const expectUncachedRequests = (...urls) => {
+  const expectUncachedRequests = (...urls:string[]) => {
     urls.forEach(expectUncachedRequest);
     $httpBackend.flush();
   };
 
   beforeEach(angular.mock.module(opApiModule.name));
-  beforeEach(angular.mock.inject(function (_$httpBackend_,
-                                           _$rootScope_,
-                                           _$q_,
-                                           _WorkPackageResource_,
-                                           _AttachmentCollectionResource_,
-                                           _wpCacheService_,
-                                           _NotificationsService_,
-                                           _wpNotificationsService_) {
+  beforeEach(angular.mock.inject(function (_$httpBackend_:any,
+                                           _$rootScope_:any,
+                                           _$q_:any,
+                                           _WorkPackageResource_:any,
+                                           _AttachmentCollectionResource_:any,
+                                           _wpCacheService_:any,
+                                           _NotificationsService_:any,
+                                           _wpNotificationsService_:any) {
     [
       $httpBackend,
       $rootScope,
@@ -103,12 +103,12 @@ describe('WorkPackageResource service', () => {
   describe('when retrieving `canAddAttachment`', () => {
     beforeEach(createWorkPackage);
 
-    const expectValue = (value, prepare = angular.noop) => {
+    const expectValue = (value:any, prepare = angular.noop) => {
       value = value.toString();
 
       beforeEach(prepare);
       it('should be ' + value, () => {
-        expect(workPackage.canAddAttachments).to.be[value];
+        (expect(workPackage.canAddAttachments).to.be as any)[value];
       });
     };
 
@@ -138,7 +138,7 @@ describe('WorkPackageResource service', () => {
 
   describe('when updating multiple linked resources', () => {
     var updateWorkPackageStub: SinonStub;
-    var result;
+    var result:Promise<any>;
 
     const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
@@ -158,7 +158,7 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when the resources are properties of the work package', () => {
-      const testResultIsResource = (href, prepare) => {
+      const testResultIsResource = (href:string, prepare:any) => {
         beforeEach(prepare);
         expectCacheUpdate();
 
@@ -179,7 +179,7 @@ describe('WorkPackageResource service', () => {
       });
 
       describe('when updating the properties using updateLinkedResources()', () => {
-        var results;
+        var results:any;
 
         beforeEach(() => {
           results = workPackage.updateLinkedResources('attachments', 'activities');
@@ -193,11 +193,11 @@ describe('WorkPackageResource service', () => {
         });
 
         testResultIsResource('attachmentsHref', () => {
-          results.then(results => result = $q.when(results.attachments));
+          results.then((results:any) => result = $q.when(results.attachments));
         });
 
         testResultIsResource('activitiesHref', () => {
-          results.then(results => result = $q.when(results.activities));
+          results.then((results:any) => result = $q.when(results.activities));
         });
       });
 
@@ -217,7 +217,7 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when the linked resource are not properties of the work package', () => {
-      const expectRejectedWithCacheUpdate = prepare => {
+      const expectRejectedWithCacheUpdate = (prepare:any) => {
         beforeEach(prepare);
 
         it('should return a rejected promise', () => {
@@ -268,10 +268,10 @@ describe('WorkPackageResource service', () => {
     describe('when adding multiple attachments to the work package', () => {
       var file: any = {};
       var files: any[] = [file, file];
-      var uploadFilesDeferred;
-      var uploadAttachmentsPromise;
-      var attachmentsUploadStub;
-      var uploadNotificationStub;
+      var uploadFilesDeferred:any;
+      var uploadAttachmentsPromise:any;
+      var attachmentsUploadStub:any;
+      var uploadNotificationStub:any;
 
       beforeEach(() => {
         uploadFilesDeferred = $q.defer();
@@ -294,7 +294,7 @@ describe('WorkPackageResource service', () => {
       });
 
       describe('when the upload fails', () => {
-        var notificationStub;
+        var notificationStub:any;
         var error = 'err';
 
         beforeEach(() => {
@@ -309,8 +309,8 @@ describe('WorkPackageResource service', () => {
       });
 
       describe('when the upload succeeds', () => {
-        var removeStub;
-        var updateWorkPackageStub;
+        var removeStub:any;
+        var updateWorkPackageStub:any;
 
         beforeEach(() => {
           updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
@@ -326,7 +326,7 @@ describe('WorkPackageResource service', () => {
           $rootScope.$apply();
         });
 
-        it('should remove the upload notification', angular.mock.inject($timeout => {
+        it('should remove the upload notification', angular.mock.inject(($timeout:ng.ITimeoutService) => {
           $timeout.flush();
           expect(removeStub.calledOnce).to.be.true;
         }));
@@ -375,8 +375,8 @@ describe('WorkPackageResource service', () => {
   });
 
   describe('when using removeAttachment', () => {
-    var file;
-    var attachment;
+    var file:any;
+    var attachment:any;
 
     beforeEach(() => {
       file = {};
@@ -401,7 +401,7 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when the attachment is an attachment resource', () => {
-      var deletion;
+      var deletion:any;
 
       beforeEach(() => {
         deletion = $q.defer();
@@ -427,7 +427,7 @@ describe('WorkPackageResource service', () => {
       });
 
       describe('when an error occurs', () => {
-        var error;
+        var error:any;
 
         beforeEach(() => {
           error = {foo: 'bar'};

@@ -27,7 +27,7 @@
 //++
 
 import {HalResource} from './hal-resource.service';
-import {HalLink} from '../hal-link/hal-link.service.ts';
+import {HalLink} from '../hal-link/hal-link.service';
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageResource} from './work-package-resource.service';
 
@@ -64,7 +64,7 @@ export class RelationResource extends HalResource {
   public id:number;
   public description:string|null;
   public name:string;
-  public type:string;
+  public type:any;
   public reverseType:string;
 
   // Links
@@ -80,11 +80,11 @@ export class RelationResource extends HalResource {
     return this.type;
   }
 
-  public updateDescription(description) {
+  public updateDescription(description:string) {
     return this.$links.updateImmediately({ description: description });
   }
 
-  public updateType(type) {
+  public updateType(type:any) {
     return this.$links.updateImmediately({ type: type });
   }
 }

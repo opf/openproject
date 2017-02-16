@@ -3,11 +3,17 @@
     "target": "ES5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noEmitOnError": false,
-    "noImplicitAny": false,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "noEmitOnError": false,
+    // Increase strictness
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true
   },
   "compileOnSave": false
 }

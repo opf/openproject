@@ -50,10 +50,10 @@ describe('WorkPackageContextMenuHelper', function() {
       icon: 'delete',
       link: 'delete'
     }];
-  var WorkPackageContextMenuHelper;
+  var WorkPackageContextMenuHelper:any;
   var stateParams = {};
 
-  var expectPermitted = function(workPackages, expected:any) {
+  var expectPermitted = function(workPackages:any, expected:any) {
     var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
                                        workPackages,
                                        PERMITTED_CONTEXT_MENU_ACTIONS);
@@ -63,7 +63,7 @@ describe('WorkPackageContextMenuHelper', function() {
       .to.equal(expected.link);
   };
 
-  var expectNotPermitted = function(workPackages, expected:any) {
+  var expectNotPermitted = function(workPackages:any, expected:any) {
     var calculatedPermittedActions = WorkPackageContextMenuHelper.getPermittedActions(
                                        workPackages,
                                        PERMITTED_CONTEXT_MENU_ACTIONS);
@@ -79,7 +79,7 @@ describe('WorkPackageContextMenuHelper', function() {
                     'openproject.layout',
                     'openproject.services'));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function($provide:any) {
     var configurationService:any = {};
 
     configurationService.isTimezoneSet = sinon.stub().returns(false);
@@ -90,7 +90,7 @@ describe('WorkPackageContextMenuHelper', function() {
   }));
 
 
-  beforeEach(angular.mock.module('openproject.services', function($provide) {
+  beforeEach(angular.mock.module('openproject.services', function($provide:any) {
     let current = {
       bulkLinks: {
         update: '/work_packages/bulk/edit',
@@ -102,7 +102,7 @@ describe('WorkPackageContextMenuHelper', function() {
     $provide.constant('wpTableMetadata', { current: current });
   }));
 
-  beforeEach(inject(function(_WorkPackageContextMenuHelper_) {
+  beforeEach(inject(function(_WorkPackageContextMenuHelper_:any) {
     WorkPackageContextMenuHelper = _WorkPackageContextMenuHelper_;
   }));
 

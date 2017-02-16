@@ -34,12 +34,12 @@ describe('WorkPackageCacheService', () => {
   let wpCacheService: WorkPackageCacheService;
   let $q: ng.IQService;
   let $rootScope: ng.IRootScopeService;
-  let WorkPackageResource;
+  let WorkPackageResource:any;
   let dummyWorkPackages: WorkPackageResource[] = [];
 
   beforeEach(angular.mock.module('openproject'));
 
-  beforeEach(angular.mock.inject((_$q_, _$rootScope_, _wpCacheService_, _WorkPackageResource_) => {
+  beforeEach(angular.mock.inject((_$q_:any, _$rootScope_:any, _wpCacheService_:any, _WorkPackageResource_:any) => {
     $rootScope = _$rootScope_;
     $q = _$q_;
     wpCacheService = _wpCacheService_;
@@ -60,11 +60,11 @@ describe('WorkPackageCacheService', () => {
     dummyWorkPackages = [workPackage1];
   }));
 
-  it('should return a work package after the list has been initialized', function(done) {
+  it('should return a work package after the list has been initialized', function(done:any) {
     wpCacheService.updateWorkPackageList(dummyWorkPackages);
 
     let workPackage: WorkPackageResource;
-    wpCacheService.loadWorkPackage('1').observeOnScope(null).subscribe(wp => {
+    wpCacheService.loadWorkPackage('1').observeOnScope($rootScope).subscribe((wp:any) => {
       workPackage = wp;
       expect(workPackage.id).to.eq('1');
       done();
@@ -88,7 +88,7 @@ describe('WorkPackageCacheService', () => {
   //   expect(workPackage.id).to.eq(1);
   // });
 
-  it('should return/stream a work package every time it gets updated', (done) => {
+  it('should return/stream a work package every time it gets updated', (done:any) => {
     let expected = 0;
     let workPackage: any = new WorkPackageResource({_links: {self: ""}});
     workPackage.id = '1';
@@ -100,7 +100,7 @@ describe('WorkPackageCacheService', () => {
     wpCacheService.updateWorkPackageList([workPackage]);
     $rootScope.$apply();
 
-    wpCacheService.loadWorkPackage('1').observeOnScope(null).subscribe((wp: any) => {
+    wpCacheService.loadWorkPackage('1').observeOnScope($rootScope).subscribe((wp:any) => {
       expect(wp.id).to.eq('1');
       expect(wp.dummy).to.eq(expected);
 

@@ -36,8 +36,8 @@ export default class WorkPackageCreateButtonController {
 
   public allowed:boolean;
 
-  constructor(protected $state,
-              protected I18n) {
+  constructor(protected $state:ng.ui.IStateService,
+              protected I18n:op.I18n) {
     this.text = {
       createWithDropdown: I18n.t('js.work_packages.create.button'),
       createButton: I18n.t('js.label_work_package'),

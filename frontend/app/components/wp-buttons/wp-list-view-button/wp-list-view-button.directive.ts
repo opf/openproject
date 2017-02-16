@@ -40,9 +40,9 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   public buttonId: string = 'work-packages-list-view-button';
   public iconClass: string = 'icon-view-list';
 
-  constructor(public $state: ng.ui.IStateService,
+  constructor(public $state:ng.ui.IStateService,
               public wpEditModeState: WorkPackageEditModeStateService,
-              public I18n) {
+              public I18n:op.I18n) {
     'ngInject';
 
     super($state, I18n);

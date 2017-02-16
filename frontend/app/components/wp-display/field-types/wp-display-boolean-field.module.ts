@@ -35,7 +35,7 @@ export class BooleanDisplayField extends DisplayField {
 
   constructor(public resource:HalResource,
               public name:string,
-              public schema) {
+              public schema:op.FieldSchema) {
     super(resource, name, schema);
 
     this.WorkPackagesHelper = <op.WorkPackagesHelper>this.$injector.get('WorkPackagesHelper');

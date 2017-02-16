@@ -27,8 +27,8 @@
 // ++
 
 describe('QueryService', function () {
-  var QueryService, PathHelper, query, queryData, stateParams = {}, $rootScope,
-    $httpBackend;
+  var QueryService:any, PathHelper:any, query:any,
+      queryData:any, stateParams = {}, $rootScope:any, $httpBackend:any;
 
   beforeEach(angular.mock.module(
     'openproject.filters',
@@ -36,7 +36,7 @@ describe('QueryService', function () {
     'openproject.api',
     'openproject.services'));
 
-  beforeEach(angular.mock.module('openproject.templates', function ($provide) {
+  beforeEach(angular.mock.module('openproject.templates', function ($provide:any) {
     var configurationService = {
       isTimezoneSet: sinon.stub().returns(false)
     };
@@ -45,7 +45,7 @@ describe('QueryService', function () {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(angular.mock.inject(function (_QueryService_, _$rootScope_, _$httpBackend_, _PathHelper_) {
+  beforeEach(angular.mock.inject(function (_QueryService_:any, _$rootScope_:any, _$httpBackend_:any, _PathHelper_:any) {
     QueryService = _QueryService_;
     $rootScope = _$rootScope_;
     PathHelper = _PathHelper_;
@@ -88,7 +88,7 @@ describe('QueryService', function () {
   });
 
   describe('deleteQuery', function () {
-    var spy;
+    var spy:any;
     beforeEach(function () {
       spy = sinon.spy($rootScope, '$broadcast');
       queryData = {name: '_', 'projectId': 1};
@@ -152,16 +152,16 @@ describe('QueryService', function () {
 
   describe('loadAvailableGroupedQueries', function () {
     var projectIdentifier = 'test_project',
-      $httpBackend,
-      path,
-      groupedQueries;
+      $httpBackend:any,
+      path:any,
+      groupedQueries:any;
 
     function loadAvailableGroupedQueries() {
       QueryService.loadAvailableGroupedQueries(projectIdentifier);
       $httpBackend.flush();
     }
 
-    beforeEach(inject(function (_$httpBackend_, _PathHelper_) {
+    beforeEach(inject(function (_$httpBackend_:any, _PathHelper_:any) {
       $httpBackend = _$httpBackend_;
       PathHelper = _PathHelper_;
 

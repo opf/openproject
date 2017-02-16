@@ -58,7 +58,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return false;
   }
 
-  private startEditing(state, workPackageId:string):WorkPackageEditForm {
+  private startEditing(state:State<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
     let form = new WorkPackageEditForm(workPackageId);
     state.put(form);
     return form;

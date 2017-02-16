@@ -28,11 +28,12 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function ShareModalController($scope,
-                              shareModal,
-                              QueryService,
-                              AuthorisationService,
-                              NotificationsService) {
+function ShareModalController(this:any,
+                              $scope:any,
+                              shareModal:any,
+                              QueryService:any,
+                              AuthorisationService:any,
+                              NotificationsService:any) {
   this.name = 'Share';
   this.closeMe = shareModal.deactivate;
   $scope.query = QueryService.getQuery();
@@ -41,7 +42,7 @@ function ShareModalController($scope,
     starred: $scope.query.starred
   };
 
-  function closeAndReport(message) {
+  function closeAndReport(message:any) {
     shareModal.deactivate();
     NotificationsService.addSuccess(message.text);
   }
@@ -49,10 +50,10 @@ function ShareModalController($scope,
   $scope.cannot = AuthorisationService.cannot;
 
   $scope.saveQuery = () => {
-    var messageObject;
+    var messageObject:any;
 
     QueryService.saveQuery()
-      .then(data => {
+      .then((data:any) => {
         messageObject = data.status;
         if (data.query) {
           AuthorisationService.initModelAuth('query', data.query._links);
@@ -60,7 +61,7 @@ function ShareModalController($scope,
 
         if ($scope.query.starred !== $scope.shareSettings.starred) {
           QueryService.toggleQueryStarred($scope.query)
-            .then(data => {
+            .then((data:any) => {
               closeAndReport(data.status || messageObject);
               return $scope.query;
             });

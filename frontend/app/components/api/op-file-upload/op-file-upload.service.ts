@@ -41,7 +41,7 @@ export interface UploadResult {
 
 export class OpenProjectFileUploadService {
   constructor(protected $q: IQService,
-              protected Upload) {
+              protected Upload:any) {
   }
 
   /**

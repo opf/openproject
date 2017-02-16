@@ -29,7 +29,7 @@
 import {wpDirectivesModule} from '../../../angular-modules';
 
 export class WorkPackageGroupHeaderController {
-  constructor(public $scope, public I18n) {
+  constructor(public $scope:any, public I18n:op.I18n) {
     this.pushGroup(this.currentGroup);
   }
 
@@ -63,7 +63,7 @@ export class WorkPackageGroupHeaderController {
     this.$scope.groupExpanded[this.currentGroup] = !this.$scope.groupExpanded[this.currentGroup];
   }
 
-  public pushGroup(group) {
+  public pushGroup(group:any) {
     if (this.$scope.groupExpanded[group] === undefined) {
       this.$scope.groupExpanded[group] = true;
     }

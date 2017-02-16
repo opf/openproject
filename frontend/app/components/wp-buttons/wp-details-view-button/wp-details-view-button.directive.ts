@@ -29,6 +29,7 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {States} from '../../states.service';
 
 export class WorkPackageDetailsViewButtonController extends WorkPackageNavigationButtonController {
   public projectIdentifier:number;
@@ -38,11 +39,12 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
   public buttonId:string = 'work-packages-details-view-button';
   public iconClass:string = 'icon-view-split';
 
-  constructor(public $state,
-              public states,
-              public I18n,
-              public loadingIndicator,
-              public keepTab:KeepTabService) {
+  constructor(
+    public $state:ng.ui.IStateService,
+    public states:States,
+    public I18n:op.I18n,
+    public loadingIndicator:any,
+    public keepTab:KeepTabService) {
     'ngInject';
 
     super($state, I18n);

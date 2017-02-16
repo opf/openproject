@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-function lazy (obj:any, property:string, getter:{():any}, setter?:{(value:any)}) {
+function lazy (obj:any, property:string, getter:{():any}, setter?:{(value:any):void}):void {
   if (angular.isObject(obj)) {
     let done = false;
-    let value;
-    let config = {
+    let value:any;
+    let config:any = {
       get() {
         if (!done) {
           value = getter();
@@ -38,14 +38,14 @@ function lazy (obj:any, property:string, getter:{():any}, setter?:{(value:any)})
         }
         return value;
       },
-      set: void 0,
+      set: ():void => undefined,
 
       configurable: true,
       enumerable: true
     };
 
     if (setter) {
-      config.set = val => {
+      config.set = (val:any) => {
         value = setter(val);
         done = true;
       };

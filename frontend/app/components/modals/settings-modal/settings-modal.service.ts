@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-function settingsModalService(btfModal) {
+function settingsModalService(btfModal:any) {
   return btfModal({
     controller: 'SettingsModalController',
     controllerAs: '$ctrl',

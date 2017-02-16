@@ -33,8 +33,8 @@ function wpAccessibleAttribute() {
       field: '=wpAccessibleAttribute'
     },
 
-    link: function(scope, element) {
-      scope.$watch('field', function(field) {
+    link: function(scope:any, element:ng.IAugmentedJQuery) {
+      scope.$watch('field', function(field:any) {
         if (!field.isEditable()) {
           angular.element(element).attr('aria-label', field.getKeyValue())
                                   .attr('tabindex', 0);
