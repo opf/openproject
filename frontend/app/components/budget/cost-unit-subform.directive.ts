@@ -31,32 +31,32 @@ export class CostUnitSubformController {
   public objId: string;
   public objName: string;
 
-  constructor(public $element) {
+  constructor(public $element:ng.IAugmentedJQuery) {
     // Add new row handler
     $element.find('#'+this.objId).click(() => {
       this.makeEditable('#'+this.objId, this.objName);
     });
   }
 
-  private getCurrencyValue(str) {
+  private getCurrencyValue(str:string) {
     var result = str.match(/^\s*(([0-9]+[.,])+[0-9]+) (.+)\s*/);
     return result ? new Array(result[1], result[3]) : new Array(str, "");
   }
 
-  public makeEditable(id, name){
+  public makeEditable(id:string, name:string){
     var obj = jQuery(id);
 
     jQuery(id).click(this.edit_and_focus(obj, name));
   }
 
-  private edit_and_focus(obj, name) {
+  private edit_and_focus(obj:any, name:string) {
     this.edit(obj, name);
 
     jQuery('#'+obj[0].id+'_edit').focus();
     jQuery('#'+obj[0].id+'_edit').select();
   }
 
-  private edit(obj, name, obj_value?:any) {
+  private edit(obj:any, name:string, obj_value?:any) {
     obj.hide();
 
     var obj_value = typeof(obj_value) != 'undefined' ? obj_value : obj[0].innerHTML;
@@ -85,7 +85,7 @@ export class CostUnitSubformController {
     });
   }
 
-  private cleanUp(obj){
+  private cleanUp(obj:any){
     jQuery('#'+obj[0].id+'_section').remove();
     obj.show();
   }

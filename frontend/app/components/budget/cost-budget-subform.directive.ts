@@ -25,6 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 
 /*eslint no-eval: "error"*/
 export class CostBudgetSubformController {
@@ -44,7 +45,9 @@ export class CostBudgetSubformController {
   // Updater URL for the rows contained here
   public updateUrl: string;
 
-  constructor(public $element, public $http, public wpNotificationsService) {
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $http:ng.IHttpService,
+              public wpNotificationsService:WorkPackageNotificationService) {
     this.container = $element.find('.budget-item-container');
     this.rowIndex = parseInt(this.itemCount);
 
@@ -68,7 +71,7 @@ export class CostBudgetSubformController {
   /**
    * Refreshes the given row after updating values
    */
-  public refreshRow(row_identifier) {
+  public refreshRow(row_identifier:string) {
     var row = this.$element.find('#' + row_identifier);
     var request = this.buildRefreshRequest(row, row_identifier);
 
@@ -77,7 +80,7 @@ export class CostBudgetSubformController {
       method: 'POST',
       data: request,
       headers: { 'Accept': 'application/javascript' }
-    }).then(response => {
+    }).then((response:any) => {
       eval(response.data);
     }).catch(response => {
       this.wpNotificationsService.handleErrorResponse(response);
@@ -103,14 +106,14 @@ export class CostBudgetSubformController {
   /**
    * Returns the params for the update request
    */
-  private buildRefreshRequest(row, row_identifier) {
-    var request = {
+  private buildRefreshRequest(row:JQuery, row_identifier:string) {
+    var request:any = {
       element_id: row_identifier,
       fixed_date: angular.element('#cost_object_fixed_date').val()
     };
 
     // Augment common values with specific values for this type
-    row.find('.budget-item-value').each((_i, el) => {
+    row.find('.budget-item-value').each((_i:number, el:HTMLElement) => {
       var field = angular.element(el);
       request[field.data('requestKey')] = field.val();
     });
@@ -126,7 +129,10 @@ function costsBudgetSubform() {
       updateUrl: '@',
       itemCount: '@'
     },
-    link: (scope, element, attr, ctrl) => {
+    link: (scope:ng.IScope,
+           element:ng.IAugmentedJQuery,
+           attr:ng.IAttributes,
+           ctrl:any) => {
       const template = element.find('.budget-row-template');
       ctrl.rowTemplate = template[0].outerHTML;
       template.remove();
