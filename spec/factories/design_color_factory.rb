@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,31 +25,18 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe 'Themes' do
-  include MiniTest::Assertions
-
-  fixtures :all
-
-  def document_root_element
-    html_document.root
+FactoryGirl.define do
+  factory(:design_color, class: DesignColor) do
+    hexcode { ('#%0.6x' % rand(0xFFFFFF)).upcase }
   end
+end
 
-  before do
-    @theme = OpenProject::Themes.default_theme
-    Setting.ui_theme = @theme.identifier
+{ "primary-color" => "#3493B3" }.each do |name, code|
+  FactoryGirl.define do
+    factory(:"design_color_#{name}", parent: :design_color) do
+      variable name
+      hexcode code
+    end
   end
-
-  after do
-    Setting.ui_theme = nil
-  end
-
-  it 'application css' do
-    get '/'
-
-    assert_response :success
-    assert_select 'link', attributes: { href: '/assets/default.css' }
-  end
-
 end

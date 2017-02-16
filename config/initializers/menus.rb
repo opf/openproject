@@ -192,7 +192,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :custom_style,
             { controller: '/custom_styles', action: 'show' },
             caption:    :label_custom_style,
-            html: { class: 'icon2 icon-status' }
+            html: { class: 'icon2 icon-design' }
 
   menu.push :colors,
             { controller: '/planning_element_type_colors', action: 'index' },
@@ -207,7 +207,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
   menu.push :enterprise,
             { controller: '/enterprises', action: 'show' },
             caption:    :label_enterprise_edition,
-            html: { class: 'enterprise icon2 icon-key' },
+            html: { class: 'icon2 icon-headset' },
             if: proc { OpenProject::Configuration.ee_manager_visible? }
 end
 

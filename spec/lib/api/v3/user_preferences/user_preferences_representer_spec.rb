@@ -45,7 +45,6 @@ describe ::API::V3::UserPreferences::UserPreferencesRepresenter do
     it { is_expected.to include_json('UserPreferences'.to_json).at_path('_type') }
     it { is_expected.to have_json_path('hideMail') }
     it { is_expected.to have_json_path('timeZone') }
-    it { is_expected.to have_json_path('theme') }
     it { is_expected.to have_json_path('commentSortDescending') }
     it { is_expected.to have_json_path('warnOnLeavingUnsaved') }
     it { is_expected.to have_json_path('autoHidePopups') }

@@ -78,7 +78,7 @@
           margin: 0.75rem 0 2.5rem 0
 
           a
-            color: $content-link-color
+            @include varprop(color, content-link-color)
 
           li
             border-top: 2px solid $gray
@@ -88,7 +88,9 @@
             width: 33.33%
 
             &.selected
-              border-bottom: 2px solid $content-link-color
+              border-bottom-width: 2px
+              border-bottom-style: solid
+              @include varprop(border-bottom-color, content-link-color)
 
       .work-packages--left-panel,
       .work-packages--right-panel

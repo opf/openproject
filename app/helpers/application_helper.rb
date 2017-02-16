@@ -35,6 +35,7 @@ module ApplicationHelper
   include OpenProject::ObjectLinking
   include I18n
   include Redmine::I18n
+  include HookHelper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -457,7 +458,7 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    css = ['theme-' + current_theme.identifier.to_s]
+    css = ['theme-' + OpenProject::Design.identifier.to_s]
 
     if accessibility_css_enabled? && User.current.impaired?
       css << 'accessibility-mode'
@@ -693,6 +694,15 @@ module ApplicationHelper
     end
     elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
     elements.join(', ').html_safe
+  end
+
+  def darken_color(hex_color, amount = 0.4)
+    hex_color = hex_color.delete('#')
+    rgb = hex_color.scan(/../).map(&:hex)
+    rgb[0] = (rgb[0].to_i * amount).round
+    rgb[1] = (rgb[1].to_i * amount).round
+    rgb[2] = (rgb[2].to_i * amount).round
+    "#%02x%02x%02x" % rgb
   end
 
   private

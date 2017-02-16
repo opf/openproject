@@ -35,9 +35,11 @@
 .onboarding--top-menu
   display: flex
   align-items: center
-  background-color: $header-bg-color
+  @include varprop(background-color, header-bg-color)
   height: $header-height
-  border-bottom: $header-border-bottom-width solid $header-border-bottom-color
+  border-bottom-style: solid
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
 
   .avatar,
   .icon-context

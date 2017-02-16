@@ -26,25 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$button--font-color:                        #222222 !default
-$button--background-color:                  $gray-light !default
-$button--background-hover-color:            darken($button--background-color, 4.5%)  !default
-$button--border-color:                      darken($button--background-color, 10.5%) !default
-
-$button--active-font-color:                 darken($button--background-color, 24%) !default
-$button--active-background-color:           darken($button--background-color, 4%)  !default
-$button--active-border-color:               darken($button--background-color, 18%) !default
-
-$button--highlight-font-color:              $font-color-on-primary !default
-$button--highlight-background-color:        $primary-color !default
-$button--highlight-background-hover-color:  $primary-color-dark !default
-
-$button--alt-highlight-font-color:                $font-color-on-alternative !default
-$button--alt-highlight-background-color:          $alternative-color !default
-$button--alt-highlight-background-hover-color:    darken($alternative-color, 18%) !default
-
-$button--text-icon-spacing:                 0.65em !default
-
 .button,
 a.button
   @extend %button
@@ -69,23 +50,23 @@ a.button
 
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
-    border-color: $button--highlight-background-color
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
+    @include varprop(border-color, button--highlight-background-color)
 
     &:hover, &:focus
-      border-color: $button--highlight-background-hover-color
-
+      @include varprop(border-color, button--highlight-background-hover-color)
 
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
-    border-color: $button--alt-highlight-background-color
+    @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), $button--alt-highlight-font-color, $button-style)
+    @include varprop(border-color, button--alt-highlight-background-color)
 
     &:hover, &:focus
-      border-color: $button--alt-highlight-background-hover-color
-
+      @include varprop(border-color, s)
 
   &.-active
     @include button-style($button--active-background-color, $button--active-background-color, $button--active-font-color, $button-style)
-    border-color: $button--active-border-color
+    @include varprop(border-color, button--active-border-color)
     box-shadow: 0 0 3px $button--active-border-color inset
 
 
@@ -94,7 +75,7 @@ a.button
     border-color: transparent
 
     &:hover, &:focus
-      border-color: $button--border-color
+      @include varprop(border-color, button--border-color)
 
     &.-active
       background: $button--active-background-color

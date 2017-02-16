@@ -40,14 +40,6 @@ See doc/COPYRIGHT.rdoc for more details.
                             [l(:label_reverse_chronological_order), 'desc']],
                            container_class: (defined? input_size) ? "-#{input_size}" : '' %>
   </div>
-    <% if Setting.user_may_override_theme? %>
-        <div class="form--field">
-          <%= pref_fields.select :theme,
-                                 OpenProject::Themes.all.map {|t| [t.name, t.identifier]},
-                                 label: :label_theme,
-                                 container_class: (defined? input_size) ? "-#{input_size}" : '' %>
-        </div>
-    <% end %>
   <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
   <div class="form--field"><%= pref_fields.check_box :impaired %></div>
   <div class="form--field"><%= pref_fields.check_box :auto_hide_popups %></div>
