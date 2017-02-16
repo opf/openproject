@@ -1,0 +1,92 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<dt class="macro">
+  <span class="name"><%= descriptor.legacy? ? descriptor.id : descriptor.qname %></span>
+</dt>
+<dd class="macro">
+  <dl class="documentation">
+    <dt class="description">
+      <span class="title"><%= l('wiki.macros.description') %></span>
+    </dt>
+    <dd class="description">
+      <%= descriptor.desc ? format_text(descriptor.desc) : l('wiki.macros.missing_description') %>
+    </dd>
+    <%#
+    <% unless descriptor.meta % >
+      <dt class="meta">
+        <span class="title"><%= l('wiki.macros.macro_list.meta') % ></span>
+      </dt>
+      <dd class="meta">
+        <%#
+        < %# TODO:coy:move to helper macro_list_helper.render_meta #% >
+        < %= render partial: 'wiki/macros/macro_list/meta_list' % >
+        <dl class="information">
+          <dt class="version"></dt>
+          <dd class="version"></dd>
+          <dt class="provider"></dt>
+          <dd class="provider">
+            < %# TODO:coy:move to helper macro_list_helper.render_provider #% >
+            < % if meta.provider_url % >
+              <a href='' target="_blank">
+            < % end % >
+            <span class="provider">< %= meta.provider % ></span>
+            < % if meta.provider_url % >
+              </a>
+            < % end % >
+          </dd>
+          <dt class="license"></dt>
+          <dd class="license">
+            < %# TODO:coy:move to helper macro_list_helper.render_license similar to render_provider #% >
+          </dd>
+          <dt class="issues"></dt>
+          <dd class="issues">
+            < %# TODO:coy:move to helper macro_list_helper.render_issues similar to render_provider #% >
+          </dd>
+        </dl>
+        #% >
+      </dd>
+    <% end % >
+    #%>
+    <dt class="usage">
+      <span class="title"><%= l('wiki.macros.macro_list.usage') %></span>
+    </dt>
+    <% unless descriptor.legacy? %>
+      <dd class="usage"><%= macro_list_render_usage descriptor %></dd>
+    <% end %>
+    <% unless descriptor.params.nil? %>
+      <dt class="parameters">
+        <span class="title"><%= l('wiki.macros.macro_list.parameters') %></span>
+      </dt>
+      <dd class="parameters">
+        <%= render partial: 'wiki/macros/macro_list/plain/param_list', locals: {params: descriptor.params} %>
+      </dd>
+    <% end %>
+  </dl>
+</dd>

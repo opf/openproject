@@ -28,6 +28,23 @@
 #++
 
 module WikiHelper
+  def render_page_hierarchy(pages, node = nil, options = {})
+    return '' unless pages[node]
+
+    content_tag :ul, class: 'pages-hierarchy' do
+      pages[node].map { |page|
+        content_tag :li do
+          title = if options[:timestamp] && page.updated_on
+                    l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
+                  end
+          concat link_to(page.title, project_wiki_path(page.project, page),
+                         title: title)
+          concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
+        end
+      }.join.html_safe
+    end
+  end
+
   def wiki_page_options_for_select(pages, parent = nil, level = 0)
     pages = pages.group_by(&:parent) unless pages.is_a?(Hash)
     s = []

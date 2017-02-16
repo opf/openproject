@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+@import macros/macro_list
+
 div.wiki
   font-size: $wiki-default-font-size
   $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
@@ -72,31 +74,6 @@ div.wiki
     width: auto
     overflow-x: auto
     overflow-y: hidden
-
-  ul.toc
-    margin-bottom: 12px
-    margin-right: 12px
-    margin-left: 0
-    display: table
-    font-size: $wiki-toc-ul-font-size
-    &.right
-      float: right
-      margin-left: 12px
-      margin-right: 0
-      width: auto
-    &.left
-      float: left
-      margin-right: 12px
-      margin-left: 0
-      width: auto
-    a
-      font-weight: normal
-      background-repeat: no-repeat
-      background-position: 0% 60%
-      &.icon-context:before
-        padding: 3px 3px 0 0
-    li
-      list-style-type: none
 
   ol, ul
     padding: 0 0 0 2em

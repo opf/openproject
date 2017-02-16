@@ -1191,7 +1191,8 @@ class RedCloth3 < String
         end
     end
 
-    ALLOWED_TAGS = %w(redpre pre code notextile)
+    # TODO:coy add opf:macro to the list of allowed tags so they will not be replaced
+    ALLOWED_TAGS = %w(redpre pre code notextile opf:macro)
 
     def escape_html_tags(text)
       text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|_m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }

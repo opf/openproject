@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%#-- doc
+@param [MacroErrorDescriptor] descriptor
+++#%>
+
+<div class="macro-error" role="alert">
+  <% unknown_macro = descriptor.instance_of?(OpenProject::TextFormatting::Macros::UnknownMacroErrorDescriptor) %>
+  <div class="title">
+    <% if unknown_macro %>
+      <%= l('wiki.macros.error_unknown_macro', { name: descriptor.qname }) %>
+    <% else %>
+      <%= l('wiki.macros.error_executing_macro', { name: descriptor.qname }) %>
+    <% end %>
+  </div>
+  <p class="info">
+    <% if unknown_macro %>
+      <%= l('wiki.macros.unknown_info') %>
+    <% else %>
+      <%= l('wiki.macros.error_info') %>
+    <% end %>
+  </p>
+  <% unless unknown_macro %>
+    <dl class="meta">
+      <dt class="issues"><span class="title"><%= l('wiki.macros.file_your_report') %></dt>
+      <dd class="issues">
+        <% unless descriptor.descriptor.nil? or descriptor.descriptor.meta[:issues].nil? %>
+          <a target="_blank" href="<%= descriptor.descriptor.meta[:issues] %>">
+            <%= descriptor.descriptor.meta[:issues] %>
+          </a>
+        <% else %>
+          <a target="_blank" href="https://community.openproject.org">https://community.openproject.org</a>
+        <% end %>
+        <br/>
+        <%= l('wiki.macros.file_report_info') %>
+      </dd>
+    </dl>
+    <%#
+        below static text must not be translated in order for the user to be able to
+        provide a standardized issue report
+      #%>
+    <div class="title">Error Details</div>
+    <dl class="error">
+      <dt class="origin"><span class="title">Origin</span></dt>
+      <dd class="origin">Error when executing macro <%= descriptor.qname %></dd>
+      <dt class="params"><span class="title">Parameters</span></dt>
+      <dd class="params">TBD:params</dd>
+      <dt class="description"><span class="title">Description</span></dt>
+      <dd class="description"><span class="message"><%= descriptor.error.to_s %></span></dd>
+      <dt class="cause"><span class="title">Cause</span></dt>
+      <dd class="cause"><span class="message"><%= descriptor.error.cause.to_s %></span></dd>
+      <dt class="trace"><span class="title">Trace</span></dt>
+      <dd class="trace">
+        <%# TODO:coy:refactor to helper %>
+        <ul class="trace">
+          <% macro_error_filter_backtrace(descriptor.error).each do |line| %>
+            <li class="trace-line"><%= line %></li>
+          <% end %>
+        </ul>
+      </dd>
+    <% end %>
+  </dl>
+</div>
