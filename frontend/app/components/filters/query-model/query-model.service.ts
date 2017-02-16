@@ -378,7 +378,7 @@ function QueryModelService(
         return {};
       }
 
-      return _.pick(this.availableWorkPackageFilters, function(filter:any, key:string) {
+      return _.pickBy(this.availableWorkPackageFilters, function(filter:any, key:string) {
         return !activeFilters[key];
       });
     },
