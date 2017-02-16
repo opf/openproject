@@ -67,7 +67,7 @@ var loaders = [
     test: /\.tsx?$/,
     include: [
       path.resolve(__dirname, 'app'),
-      path.resolve(__dirname, 'tests'),
+      path.resolve(__dirname, 'tests')
     ],
     use: [
       {
