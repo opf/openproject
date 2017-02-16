@@ -89,10 +89,13 @@
     "webpack": "^2.2.0"
   },
   "scripts": {
-    "pretest": "npm run webpack",
+    "postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
+    "pretest": "npm run webpack-with-test",
     "test": "npm run karma",
     "karma": "./scripts/karma-runner.js",
     "webpack": "./node_modules/.bin/webpack --colors --progress",
-    "webpack-watch": "npm run webpack -- --watch --cache"
+    "webpack-with-test": "./node_modules/.bin/webpack --colors --progress --env.testconfig 1",
+    "webpack-watch": "npm run webpack -- --watch --cache",
+    "webpack-watch-with-test": "npm run webpack -- --watch --cache --env.testconfig 1"
   }
 }

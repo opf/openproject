@@ -42,8 +42,8 @@ var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 
-var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
-  entries[name.replace(/^openproject\-/, '')] = name;
+var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
+  entries[name.replace(/^openproject\-/, '')] = path.resolve(pluginPath, 'frontend', 'app', name + '-app.js');
   return entries;
 }, {});
 
@@ -63,7 +63,13 @@ fs.readdirSync(translations).forEach(function (file) {
 });
 
 var loaders = [
-  { test: /\.tsx?$/, loader: 'ng-annotate-loader!ts-loader'},
+  { test: /\.tsx?$/,
+    loader: 'ts-loader',
+    options: {
+      logLevel: 'info',
+      configFileName: path.resolve(__dirname, 'tsconfig.json')
+    }
+  },
   {
     test: /\.css$/,
     loader: ExtractTextPlugin.extract({
@@ -99,7 +105,6 @@ function getWebpackMainConfig() {
     context: path.resolve(__dirname, 'app'),
 
     entry: _.merge({
-      'global': './global',
       'core-app': './openproject-app'
     }, pluginEntries),
 
@@ -114,7 +119,7 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      modules: ['node_modules'].concat(pathConfig.pluginDirectories),
+      modules: ['node_modules'],
 
       extensions: ['.ts', '.tsx', '.js'],
 
@@ -127,10 +132,6 @@ function getWebpackMainConfig() {
 
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
         'select2': path.resolve(__dirname, 'vendor', 'select2'),
-        'angular-truncate': 'angular-truncate/src/truncate',
-        'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
-        'mousetrap': 'mousetrap/mousetrap.js',
-        'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
         'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
@@ -153,6 +154,12 @@ function getWebpackMainConfig() {
       new webpack.DefinePlugin({
         DEBUG: !!debug_output,
         PRODUCTION: !!production
+      }),
+
+      // Reference the vendors bundle
+      new webpack.DllReferencePlugin({
+          context: path.resolve(__dirname),
+          manifest: require('./dist/vendors-dll-manifest.json')
       }),
 
       // Extract CSS into its own bundle

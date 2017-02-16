@@ -87,4 +87,5 @@ npm-debug.log*
 /.sass-cache/
 # Frontend debug log
 /frontend/npm-debug.log*
+/frontend/dist/
 node_modules/
