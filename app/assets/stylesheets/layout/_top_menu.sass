@@ -312,7 +312,7 @@ input.top-menu-search--input
     border-radius: 50%
 
   .icon-help:hover:before
-    border-color: $header-item-font-hover-color
+    @include varprop(border-color, header-item-font-hover-color)
   .icon-user
     font-size: 18px
   [class*="icon-"]:before
