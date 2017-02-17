@@ -40,9 +40,9 @@ describe 'hourly rates on a member', type: :feature, js: true do
   end
 
   def add_rate(date: nil, rate:)
-    if page.has_no_selector?("tr[id^='user_new_rate_attributes_']", wait: 1)
-      click_link_or_button 'Add rate'
-    end
+    expect(page).to have_selector(".add-row-button")
+    all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
+    click_link_or_button 'Add rate'
 
     within "tr[id^='user_new_rate_attributes_']" do
       fill_in 'Valid from', with: date.strftime('%Y-%m-%d') if date
@@ -70,7 +70,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
 
     click_link('0.00 EUR')
 
-    add_rate(rate: 10)
+    add_rate(date: Date.today, rate: 10)
 
     click_button 'Save'
 
