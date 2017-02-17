@@ -135,7 +135,7 @@ function overviewTextileBlock() {
         scope.$ctrl.layoutCtrl = ctrl;
         transclude(scope, (clone:any) => {
           element.append(clone);
-          scope.$ctrl.initialSetup();
+          scope.$ctrl.initialize();
         });
       };
     },

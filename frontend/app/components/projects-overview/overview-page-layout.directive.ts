@@ -192,7 +192,7 @@ function overviewPageLayout() {
         transclude:any) {
         transclude(scope, (clone:any) => {
           element.append(clone);
-          scope.$ctrl.initialSetup();
+          scope.$ctrl.initialize();
         });
       };
     },
