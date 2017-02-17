@@ -88,7 +88,7 @@ function queryFiltersDirective($timeout:ng.ITimeoutService, I18n:op.I18n, ADD_FI
           };
 
           function updateRemainingFilters() {
-            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter:any, key) {
+            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter:any, key:any) {
               return {
                 key: key,
                 value: filter.modelName,

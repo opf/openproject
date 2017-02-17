@@ -87,7 +87,7 @@ export class HalLink implements HalLinkInterface {
     }
 
     let href = _.clone(this.href) || '';
-    _.each(templateValues, (value, key) => {
+    _.each(templateValues, (value:string, key:string) => {
       let regexp = new RegExp('{' + key + '}');
       href = href.replace(regexp, value);
     });

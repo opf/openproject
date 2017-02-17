@@ -59,7 +59,7 @@ function WorkPackageContextMenuHelper(
   function getIntersectOfPermittedActions(workPackages:any) {
     var bulkPermittedActions:any = [];
 
-    var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action) {
+    var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action:any) {
       return _.every(workPackages, function(workPackage:WorkPackageResource) {
         return getAllowedActions(workPackage, [action]).length >= 1;
       });

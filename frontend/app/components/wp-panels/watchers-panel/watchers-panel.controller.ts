@@ -31,6 +31,7 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 export class WatchersPanelController {
 
@@ -170,7 +171,7 @@ export class WatchersPanelController {
   public removeWatcher(watcher:any) {
     this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
       .then(() => {
-        _.remove(this.watching, (other) => { return other.href === watcher.href; });
+        _.remove(this.watching, (other:HalResource) => { return other.href === watcher.href; });
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed

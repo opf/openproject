@@ -105,7 +105,8 @@
     top: 0
     z-index: 21
   li.last-child > ul,
-  ul.drop-down--help
+  ul.drop-down--help,
+  ul.drop-down--modules
     left: auto
     right: 0
 
@@ -309,12 +310,13 @@ input.top-menu-search--input
   .icon-help:before
     border: 2px solid $header-item-font-color
     border-radius: 50%
-    padding: 0.25rem
 
   .icon-help:hover:before
-    border-color: $header-item-font-hover-color 
+    @include varprop(border-color, header-item-font-hover-color)
   .icon-user
     font-size: 18px
+  [class*="icon-"]:before
+    padding: 0.25rem
 
 // Temporary overwrite searchfield styles for mobile view
 // until we have a full responsive layout

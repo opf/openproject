@@ -42,8 +42,8 @@ var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 
-var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, path, name) {
-  entries[name.replace(/^openproject\-/, '')] = name;
+var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
+  entries[name.replace(/^openproject\-/, '')] = path.resolve(pluginPath, 'frontend', 'app', name + '-app.js');
   return entries;
 }, {});
 
@@ -63,35 +63,107 @@ fs.readdirSync(translations).forEach(function (file) {
 });
 
 var loaders = [
-  { test: /\.tsx?$/, loader: 'ng-annotate-loader!ts-loader'},
+  {
+    test: /\.tsx?$/,
+    include: [
+      path.resolve(__dirname, 'app'),
+      path.resolve(__dirname, 'tests')
+    ],
+    use: [
+      {
+        loader: 'ng-annotate-loader'
+      },
+      {
+        loader: 'ts-loader',
+        options: {
+          logLevel: 'info',
+          configFileName: path.resolve(__dirname, 'tsconfig.json')
+        }
+      }
+    ]
+  },
   {
     test: /\.css$/,
-    loader: ExtractTextPlugin.extract({
+    use: ExtractTextPlugin.extract({
       fallbackLoader: 'style-loader',
-      loader: 'css-loader!postcss-loader',
+      loader: [
+        'css-loader',
+        'postcss-loader'
+      ],
       publicPath: '/assets/bundles/'
     })
   },
-  {test: /\.png$/, loader: 'url-loader?limit=100000&mimetype=image/png'},
-  {test: /\.gif$/, loader: 'file-loader'},
-  {test: /\.jpg$/, loader: 'file-loader'},
-  {test: /[\/].*\.js$/, loader: 'ng-annotate-loader?map=true'}
+  {
+    test: /\.png$/,
+    use: [
+      {
+        loader: 'url-loader',
+        options: {
+          limit: '100000',
+          mimetype: 'image/png'
+        }
+      }
+    ]
+  },
+  {
+    test: /\.gif$/,
+    use: ['file-loader']
+  },
+  {
+    test: /\.jpg$/,
+    use: ['file-loader']
+  },
+  {
+    test: /[\/].*\.js$/,
+    use: [
+      {
+        loader: 'ng-annotate-loader',
+        options: { map: true }
+      }
+    ]
+  }
 ];
 
 for (var k in pathConfig.pluginNamesPaths) {
   if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
     loaders.push({
       test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
-      loader: 'ngtemplate-loader?module=openproject.templates&relativeTo=' +
-      path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app') + '!html-loader?-minimize'
+      use: [
+        {
+          loader: 'ngtemplate-loader',
+          options: {
+            module: 'openproject.templates',
+            relativeTo: path.join(pathConfig.pluginNamesPaths[k], 'frontend', 'app')
+          }
+        },
+        {
+          loader: 'html-loader',
+          options: {
+            minimize: false
+          }
+        }
+      ]
     });
   }
 }
 
 loaders.push({
   test: /^((?!templates\/plugin).)*\.html$/,
-  loader: 'ngtemplate-loader?module=openproject.templates&relativeTo=' +
-  path.resolve(__dirname, './app') + '!html-loader?-minimize'
+  use: [
+    {
+      loader: 'ngtemplate-loader',
+      options: {
+        module: 'openproject.templates',
+        relativeTo: path.resolve(__dirname, './app')
+      }
+    },
+    {
+      loader: 'html-loader',
+      options: {
+        minimize: false
+      }
+    }
+  ]
 });
 
 function getWebpackMainConfig() {
@@ -110,11 +182,11 @@ function getWebpackMainConfig() {
     },
 
     module: {
-      loaders: loaders
+      rules: loaders
     },
 
     resolve: {
-      modules: ['node_modules'].concat(pathConfig.pluginDirectories),
+      modules: ['node_modules'],
 
       extensions: ['.ts', '.tsx', '.js'],
 
@@ -131,7 +203,7 @@ function getWebpackMainConfig() {
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'mousetrap': 'mousetrap/mousetrap.js',
         'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
-        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
+        'lodash': path.resolve(node_root, 'lodash', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868

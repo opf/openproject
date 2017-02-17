@@ -48,8 +48,7 @@ describe Redmine do
   include RedmineMenuTestHelper
 
   it 'should top_menu' do
-    assert_number_of_items_in_menu :top_menu, 6
-    assert_menu_contains_item_named :top_menu, :my_page
+    assert_number_of_items_in_menu :top_menu, 5
     assert_menu_contains_item_named :top_menu, :work_packages
     assert_menu_contains_item_named :top_menu, :news
     assert_menu_contains_item_named :top_menu, :time_sheet
@@ -58,9 +57,10 @@ describe Redmine do
   end
 
   it 'should account_menu' do
-    assert_number_of_items_in_menu :account_menu, 3
+    assert_number_of_items_in_menu :account_menu, 4
     assert_menu_contains_item_named :account_menu, :administration
     assert_menu_contains_item_named :account_menu, :my_account
+    assert_menu_contains_item_named :account_menu, :my_page
     assert_menu_contains_item_named :account_menu, :logout
   end
 

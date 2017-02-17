@@ -292,7 +292,7 @@ export class WorkPackageResource extends HalResource {
 
   public setAllowedValueFor(field:string, href:string) {
     this.allowedValuesFor(field).then(allowedValues => {
-      (this as any)[field] = _.find(allowedValues, entry => entry.href === href);
+      (this as any)[field] = _.find(allowedValues, (entry:any) => entry.href === href);
       wpCacheService.updateWorkPackage(this);
     });
   }

@@ -59,7 +59,7 @@ class WpRelationRowDirectiveController {
 
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = wpRelationsService.getRelationTypes(true);
-    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type});
+    this.selectedRelationType = _.find(this.availableRelationTypes, {'name': this.relation.type}) as RelationResourceInterface;
   };
 
   /**

@@ -30,7 +30,6 @@ import {wpDirectivesModule} from "../../angular-modules";
 import {scopedObservable, runInScopeDigest} from "../../helpers/angular-rx-utils";
 import IScope = angular.IScope;
 import IRootElementService = angular.IRootElementService;
-import IAnimateProvider = angular.animate.IAnimateProvider;
 import ITranscludeFunction = angular.ITranscludeFunction;
 import {ReplaySubject, Subject} from "rxjs";
 

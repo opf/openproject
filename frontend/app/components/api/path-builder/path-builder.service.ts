@@ -95,7 +95,7 @@ class PathTemplate {
    */
   public build(params:any):string {
     var parent:PathTemplate|undefined;
-    params = _.pick(params, value => !!value);
+    params = _.pickBy(params, (value:any) => !!value);
 
     Object.keys(params).forEach(name => {
       parent = this.parents[name];
