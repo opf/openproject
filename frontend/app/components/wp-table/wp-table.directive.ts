@@ -84,6 +84,7 @@ function wpTable(
 
     link: function(scope:any,
                    element:ng.IAugmentedJQuery,
+                   attributes:ng.IAttributes,
                    wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
 

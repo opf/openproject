@@ -1,6 +1,8 @@
 import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 import {UiStateLinkBuilder} from './ui-state-link-builder';
+
+export const detailsLinkTdClass = 'wp-table--details-column';
 export const detailsLinkClassName = 'wp-table--details-link';
 
 export class DetailsLinkBuilder {
@@ -21,7 +23,7 @@ export class DetailsLinkBuilder {
   public build(workPackage:WorkPackageResource, row:HTMLElement) {
     // Append details button
     let td = document.createElement('td');
-    td.classList.add('wp-table--details-column', 'hide-when-print', '-short');
+    td.classList.add(detailsLinkTdClass, 'hide-when-print', '-short');
 
     let detailsLink = this.uiStatebuilder.linkToDetails(
       workPackage.id,
