@@ -70,7 +70,7 @@ function ColumnsModalController(this:any,
 
       var availableColumnNames = getColumnNames(availableColumns);
       selectedColumns.forEach((column:api.ex.Column) => {
-        if (_.find(availableColumnNames, column.name)) {
+        if (_.find(availableColumnNames, (available:string) => (available === column.name))) {
           vm.selectedColumns.push(column);
           vm.selectedColumnMap[column.name] = true;
           vm.oldSelectedColumns.push(column);

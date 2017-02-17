@@ -25,17 +25,22 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
-import {WorkPackageTimelineTableController} from "./timeline/wp-timeline-container.directive";
-import {States} from "./../states.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageDisplayFieldService} from "./../wp-display/wp-display-field/wp-display-field.service";
-import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
-import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
-import {ContextMenuService} from "../context-menus/context-menu.service";
-import {debugLog} from "../../helpers/debug_output";
-import IAttributes = angular.IAttributes;
+import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
+import * as MouseTrap from "mousetrap";
+import {States} from './../states.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
+import {ContextMenuService} from '../context-menus/context-menu.service';
+import {debugLog} from '../../helpers/debug_output';
 
 angular
   .module('openproject.workPackages.directives')
@@ -79,7 +84,7 @@ function wpTable(
 
     link: function(scope:any,
                    element:ng.IAugmentedJQuery,
-                   attr: IAttributes,
+                   attributes:ng.IAttributes,
                    wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
 

@@ -1,4 +1,4 @@
-import {EditingRowBuilder} from './editing-row-builder';
+import {RowRefreshBuilder} from './row-refresh-builder';
 import {States} from '../../../states.service';
 import {SingleRowBuilder} from './single-row-builder';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
@@ -10,11 +10,11 @@ export abstract class RowsBuilder {
   public states:States;
 
   protected rowBuilder:SingleRowBuilder;
-  protected editingRowBuilder:EditingRowBuilder;
+  protected refreshBuilder:RowRefreshBuilder;
 
   constructor() {
     this.rowBuilder = new SingleRowBuilder();
-    this.editingRowBuilder = new EditingRowBuilder();
+    this.refreshBuilder = new RowRefreshBuilder();
   }
 
   /**
@@ -28,11 +28,7 @@ export abstract class RowsBuilder {
    */
   public refreshRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement|null {
     let editing = this.states.editing.get(row.workPackageId).getCurrentValue();
-    if (editing) {
-      return this.editingRowBuilder.refreshEditing(row, editing);
-    }
-
-    return this.buildEmptyRow(row, table);
+    return this.refreshBuilder.refreshRow(row, editing);
   }
 
   /**
