@@ -202,7 +202,6 @@ module OpenProject
       'button--highlight-background-color'                   => "$primary-color",
       'button--highlight-background-hover-color'             => "$primary-color-dark",
       'button--alt-highlight-font-color'                     => "$font-color-on-alternative",
-      'button--alt-highlight-background-color'               => "$alternative-color",
       'button--text-icon-spacing'                            => "0.65em"
     }.freeze
 
