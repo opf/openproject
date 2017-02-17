@@ -60,7 +60,7 @@ export class States {
   constructor() {
     initStates(this, function (msg: any) {
       whenDebugging(() => {
-        console.trace(msg);
+        console.debug(msg);
       });
     });
   }

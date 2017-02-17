@@ -132,7 +132,7 @@ export class WorkPackageTimelineTableController {
     return Observable.combineLatest(
         wpObs,
         this.updateAllWorkPackagesSubject,
-        (renderInfo, forceUpdate) => {
+        (renderInfo: RenderInfo, forceUpdate: boolean) => {
           return renderInfo;
         }
       );

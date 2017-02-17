@@ -189,9 +189,9 @@ export function registerWorkPackageMouseHandler(this: void,
     workPackageTimeline.disableViewParamsCalculation = false;
 
     cell.onmousemove = handleMouseMoveOnEmptyCell;
-    cell.onmousedown = null;
-    cell.onmouseleave = null;
-    cell.onmouseup = null;
+    cell.onmousedown = _.noop;
+    cell.onmouseleave = _.noop;
+    cell.onmouseup = _.noop;
 
     bar.style.pointerEvents = "auto";
     jBody.off("mouseup");
