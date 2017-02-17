@@ -382,9 +382,13 @@ div.issue hr
   ol, ul
     margin-bottom: 6px
 
-#content
+// The min-height takes care that menus within the toolbar can be seen.
+// On the full screen view the min-height crashes the complete view
+// when anchors in the url were used on small sreens, because there the body is not scrollable.
+body:not(.action-show) #content
   min-height: 300px
 
+#content
   h3
     margin: 12px 0 6px
   h2 + h3
