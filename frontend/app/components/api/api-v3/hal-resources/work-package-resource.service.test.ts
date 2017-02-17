@@ -29,7 +29,6 @@
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import IHttpBackendService = angular.IHttpBackendService;
-import SinonStub = Sinon.SinonStub;
 import IQService = angular.IQService;
 import IRootScopeService = angular.IRootScopeService;
 import IPromise = angular.IPromise;
@@ -137,7 +136,7 @@ describe('WorkPackageResource service', () => {
   });
 
   describe('when updating multiple linked resources', () => {
-    var updateWorkPackageStub: SinonStub;
+    var updateWorkPackageStub: sinon.SinonStub;
     var result:Promise<any>;
 
     const expectCacheUpdate = () => {
@@ -344,7 +343,7 @@ describe('WorkPackageResource service', () => {
     });
 
     describe('when using uploadPendingAttachments', () => {
-      var uploadAttachmentsStub: SinonStub;
+      var uploadAttachmentsStub: sinon.SinonStub;
 
       beforeEach(() => {
         workPackage.pendingAttachments.push({}, {});

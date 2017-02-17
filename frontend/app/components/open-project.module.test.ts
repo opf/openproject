@@ -41,7 +41,7 @@ describe('OpenProject module', () => {
           someOtherValue: '='
         }
       };
-      var merged = opDirective(directive, config);
+      var merged:any = opDirective(directive, config);
 
       expect(merged.scope.someValue).to.eq(merged.scope.someOtherValue);
     });

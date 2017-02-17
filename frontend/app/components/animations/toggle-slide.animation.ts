@@ -56,4 +56,4 @@ function toggleSlideAnimation($window:ng.IWindowService) {
   };
 }
 
-animationsModule.animation('.toggle-slide-animation', toggleSlideAnimation);
+(animationsModule as any).animation('.toggle-slide-animation', toggleSlideAnimation);

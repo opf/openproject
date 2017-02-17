@@ -40,10 +40,11 @@ function ConfigurationService(
   var cache = false;
   var path = PathHelper.apiConfigurationPath();
   var fetchSettings = function () {
-    var data = $q.defer();
-    $http.get(path).success(function (settings:any) {
+    let data = $q.defer();
+    let request = $http.get(path) as any;
+    request.success(function (settings:any) {
       data.resolve(settings);
-    }).error(function (err) {
+    }).error(function (err:any) {
       data.reject(err);
     });
     return data.promise;

@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Duration} from 'moment';
+
 function transformDuration(TimezoneService:any) {
   return {
     restrict:'A',
@@ -35,7 +37,7 @@ function transformDuration(TimezoneService:any) {
       element:ng.IAugmentedJQuery,
       attrs:ng.IAttributes,
       ngModelController:any) {
-      ngModelController.$parsers.push(function(value:any):moment.Duration|void {
+      ngModelController.$parsers.push(function(value:any):Duration|void {
         if (!isNaN(value)) {
           var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
           return moment.duration(minutes, 'minutes');
