@@ -49,6 +49,7 @@ custom_fields_002:
   field_format: string
   searchable: true
   editable: true
+  default_value: "Default string"
 custom_fields_003:
   min_length: 0
   regexp: ""

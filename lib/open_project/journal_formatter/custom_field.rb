@@ -36,14 +36,52 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
 
     if custom_field
       label = custom_field.name
-      old_value = format_value(values.first, custom_field.field_format) if values.first
-      value = format_value(values.last, custom_field.field_format) if values.last
+      old_value, value = get_old_and_new_value custom_field, values
     else
-      label = l(:label_deleted_custom_field)
+      label = I18n.t(:label_deleted_custom_field)
       old_value = values.first
       value = values.last
     end
 
     [label, old_value, value]
+  end
+
+  def format_list(custom_field, values)
+    old_value, new_value = values
+    old_option = find_list_value custom_field, old_value if old_value
+    new_option = find_list_value custom_field, new_value if new_value
+
+    [old_option || old_value, new_option || new_value]
+  end
+
+  def find_list_value(custom_field, id)
+    if custom_field.multi_value?
+      custom_field_values(custom_field, id).join(", ")
+    else
+      custom_field.custom_options.find_by(id: id).try(:value)
+    end
+  end
+
+  def custom_field_values(custom_field, id)
+    custom_field
+      .custom_options
+      .where(id: id.split(","))
+      .pluck(:value)
+      .select(&:present?)
+  end
+
+  def get_old_and_new_value(custom_field, values)
+    if custom_field.list?
+      format_list custom_field, values
+    else
+      format_single custom_field, values
+    end
+  end
+
+  def format_single(custom_field, values)
+    old_value = format_value(values.first, custom_field.field_format) if values.first
+    value = format_value(values.last, custom_field.field_format) if values.last
+
+    [old_value, value]
   end
 end

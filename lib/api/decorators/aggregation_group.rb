@@ -30,19 +30,26 @@
 module API
   module Decorators
     class AggregationGroup < Single
-      def initialize(group_key, count, sums: nil)
+      def initialize(group_key, count, query:, sums: nil)
         @count = count
         @sums = sums
+        @query = query
+
+        group_key = set_links!(query, group_key) || group_key
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
         super(group_key, current_user: nil)
       end
 
-      link :valueLink do
-        {
-          href: @link
-        } if @link
+      links :valueLink do
+        if @links
+          @links
+        elsif @link
+          [{ href: @link }]
+        else
+          []
+        end
       end
 
       property :value,
@@ -74,6 +81,38 @@ module API
 
       attr_reader :sums,
                   :count
+
+      ##
+      # Initializes the links collection for this group if the query is being grouped by
+      # a multi value custom field. In that case an updated group_key is returned too.
+      #
+      # @return [String] A new group key for the multi value custom field.
+      def set_links!(query, group_key)
+        if multi_value_custom_field? query
+          options = link_options query, group_key
+
+          if options
+            @links = options.map do |opt|
+              {
+                href: ::API::V3::Utilities::ResourceLinkGenerator.make_link(opt.id.to_s),
+                title: opt.value
+              }
+            end
+
+            options.map(&:value).join(", ")
+          end
+        end
+      end
+
+      def multi_value_custom_field?(query)
+        column = query.group_by_column
+
+        column.is_a?(QueryCustomFieldColumn) && column.custom_field.multi_value?
+      end
+
+      def link_options(query, group_key)
+        query.group_by_column.custom_field.custom_options.where(id: group_key.to_s.split("."))
+      end
     end
   end
 end

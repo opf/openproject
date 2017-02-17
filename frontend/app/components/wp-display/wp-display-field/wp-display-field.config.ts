@@ -30,6 +30,7 @@ import {WorkPackageDisplayFieldService} from './wp-display-field.service';
 import {TextDisplayField} from '../field-types/wp-display-text-field.module';
 import {ResourceDisplayField} from '../field-types/wp-display-resource-field.module';
 import {StringObjectDisplayField} from '../field-types/wp-display-string-object-field.module';
+import {StringObjectsDisplayField} from '../field-types/wp-display-string-objects-field.module';
 import {FormattableDisplayField} from '../field-types/wp-display-formattable-field.module';
 import {DurationDisplayField} from '../field-types/wp-display-duration-field.module';
 import {DateDisplayField} from '../field-types/wp-display-date-field.module';
@@ -56,6 +57,7 @@ openprojectModule
                                                        'Version',
                                                        'Category'])
       .addFieldType(StringObjectDisplayField, 'string_object', ['StringObject'])
+      .addFieldType(StringObjectsDisplayField, 'string_objects', ['[]StringObject'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DurationDisplayField, 'duration', ['Duration'])
       .addFieldType(DateDisplayField, 'date', ['Date'])

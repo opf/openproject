@@ -129,29 +129,6 @@ RSpec.describe 'Custom field accessibility', type: :feature, selenium: true do
             it_behaves_like 'Element has lang tag'
           end
         end
-
-        describe 'Default value locale change' do
-          let(:element) { custom_fields_page.default_value_attributes }
-          let(:element_selector) { "#custom_field_default_value_attributes select.locale_selector option[value='#{element_locale}']" }
-
-          context 'en' do
-            let(:locale) { 'en' }
-            let(:element_locale) { 'de' }
-
-            include_context 'custom field new page with changed name locale'
-
-            it_behaves_like 'Element has lang tag'
-          end
-
-          context 'de' do
-            let(:locale) { 'de' }
-            let(:element_locale) { 'en' }
-
-            include_context 'custom field new page with changed name locale'
-
-            it_behaves_like 'Element has lang tag'
-          end
-        end
       end
     end
 

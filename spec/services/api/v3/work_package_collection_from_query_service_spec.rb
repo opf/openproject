@@ -66,6 +66,10 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       .with(2)
       .and_return(OpenStruct.new(name: :status_id) => 100)
 
+    allow(results)
+      .to receive(:query)
+      .and_return(double('query'))
+
     results
   end
 
@@ -110,13 +114,16 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   let(:mock_aggregation_representer) do
     Struct.new(:group,
                :count,
+               :query,
                :sums) do
 
       def initialize(group,
                      count,
+                     query:,
                      sums:)
         super(group,
               count,
+              query,
               sums)
       end
     end

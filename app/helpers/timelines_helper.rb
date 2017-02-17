@@ -130,13 +130,14 @@ module TimelinesHelper
 
   def list_to_select_object_with_none(collection)
     collection = collection.map { |t|
-      {
-        name: t,
-        id: t
-      }
+      if t.is_a? CustomOption
+        { name: t.value, id: t.id }
+      else
+        { name: t, id: t }
+      end
     }
     collection.unshift(
-      name: l('timelines.filter.noneElement'),
+      name: t('timelines.filter.noneElement'),
       id: -1
     )
   end

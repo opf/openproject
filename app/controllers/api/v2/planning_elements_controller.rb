@@ -196,7 +196,7 @@ module Api
       end
 
       Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
-      Struct.new('CustomValue', *CustomValue.column_names.map(&:to_sym))
+      Struct.new('CustomValue', :typed_value, *CustomValue.column_names.map(&:to_sym))
 
       def convert_wp_to_struct(work_package)
         struct = Struct::WorkPackage.new
@@ -215,15 +215,39 @@ module Api
           struct.send(:"#{attribute}=", value)
         end
 
+        if model.is_a? CustomValue
+          struct.value = value_for_frontend model
+        end
+
         struct
+      end
+
+      ##
+      # Returns the value of this custom field as needed by the APIv2.
+      # For instance it expects the raw value for user custom fields to
+      # use it (the ID) to lookup the user.
+      #
+      # On the other hand for list custom fields it can't do the lookup
+      # (there is no custom options API) and besides it shouldn't.
+      def value_for_frontend(custom_value)
+        if custom_value.custom_field.list?
+          custom_value.typed_value
+        else
+          custom_value.value
+        end
       end
 
       def convert_wp_object_to_struct(model)
         result = convert_wp_to_struct(model)
-        result.custom_values = model.custom_values.select { |cv| cv.value != '' }.map do |model|
-          convert_custom_value_to_struct(model)
-        end
+        result.custom_values = custom_values_for(model)
+
         result
+      end
+
+      def custom_values_for(model)
+        model
+          .custom_values.select { |cv| cv.value != '' }
+          .map { |custom_value| convert_custom_value_to_struct(custom_value) }
       end
 
       def convert_to_struct(collection)

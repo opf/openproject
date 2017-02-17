@@ -837,10 +837,14 @@ describe 'API v3 Work package resource', type: :request do
           FactoryGirl.create(:work_package_custom_field,
                              field_format: 'list',
                              is_required: false,
-                             possible_values: target_value)
+                             possible_values: [target_value])
         }
         let(:target_value) { 'Low No. of specialc#aracters!' }
-        let(:value_link) { api_v3_paths.string_object target_value }
+
+        let(:value_link) do
+          api_v3_paths.string_object [target_value, custom_field.custom_options.first.id]
+        end
+
         let(:value_parameter) {
           { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
         }

@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe CustomValue::ListStrategy do
-  let(:custom_value) {
-    double('CustomValue',
-           value: value,
-           custom_field: custom_field,
-           customized: customized)
-  }
+  let(:custom_field) { FactoryGirl.create :list_wp_custom_field, possible_values: ["foo", "bar"] }
+  let(:custom_value) do
+    double("CustomField", value: value, custom_field: custom_field, customized: customized)
+  end
+
   let(:customized) { double('customized') }
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
+
+  let(:foo_value) { custom_field.custom_options.first.id.to_s }
 
   describe '#typed_value' do
     subject { described_class.new(custom_value).typed_value }
 
     context 'value is some string' do
-      let(:value) { 'foo bar' }
-      it { is_expected.to eql(value) }
+      let(:value) { foo_value }
+      it { is_expected.to eql("foo") }
     end
 
     context 'value is blank' do
@@ -59,16 +59,9 @@ describe CustomValue::ListStrategy do
 
   describe '#validate_type_of_value' do
     subject { described_class.new(custom_value).validate_type_of_value }
-    let(:allowed_values) { %w(foo bar) }
-
-    before do
-      # not passing arguments to :possible_values is important, because this method is weird
-      # see its doc for more details on its weirdness. tl; dr: do NOT pass args for list CFs
-      allow(custom_field).to receive(:possible_values).with(no_args).and_return(allowed_values)
-    end
 
     context 'value is included' do
-      let(:value) { 'bar' }
+      let(:value) { foo_value }
       it 'accepts' do
         is_expected.to be_nil
       end

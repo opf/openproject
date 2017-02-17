@@ -1,0 +1,100 @@
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="custom-options-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th style="width: 70%;">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  Value
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>Default</span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= t(:button_sort) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th style="max-width:200px;"></th>
+        </tr>
+      </thead>
+      <% custom_options = [OpenStruct.new(id: 0, value: "", default_value: false)] if custom_options.empty? %>
+      <% custom_options.each_with_index do |custom_option, i| %>
+        <tr
+          id="custom-option-row-<%= i + 1 %>"
+          draggable="true"
+          class="custom-option-row"
+          ondrop="CustomFields.drop(event)"
+          ondragstart="CustomFields.drag(event)"
+          ondragover="CustomFields.allowDrop(event)"
+        >
+          <td>
+            <table border="0">
+              <td style="min-width: 25px; cursor: pointer; padding-right: 0px;">
+                <span class="icon icon-toggle"></span>
+              </td>
+              <td style="width: 100%;">
+                <input style="float: left;"
+                  class="form--text-field custom-option-value" type="text"
+                  name="custom_field[custom_options][<%= custom_option.id %>][value]"
+                  value="<%= custom_option.value %>"
+                >
+              </td>
+            </table>
+          </td>
+          <td>
+            <input
+              class="form--check-box custom-option-default-value"
+              type="checkbox"
+              <%= custom_option.default_value ? 'checked="checked"' : '' %>
+              name="custom_field[custom_options][<%= custom_option.id %>][default_value]"
+            >
+          </td>
+          <td>
+            <span class="reorder-icons">
+              <a title="Move to the top" rel="nofollow" href="#" class="sort-up-custom-option">
+                <span class="icon-context icon-sort-up icon-small"></span>
+              </a>
+              <a title="Move up" rel="nofollow" href="#" class="move-up-custom-option">
+                <span class="icon-context icon-arrow-up2 icon-small"></span>
+              </a>
+              <a title="Move down" rel="nofollow" href="#" class="move-down-custom-option">
+                <span class="icon-context icon-arrow-down2 icon-small"></span>
+              </a>
+              <a title="Move to the bottom" rel="nofollow" href="#" class="sort-down-custom-option">
+                <span class="icon-context icon-sort-down icon-small"></span>
+              </a>
+            </span>
+          </td>
+          <td>
+            <%= link_to t(:button_delete),
+                delete_option_of_custom_field_path(id: @custom_field.id || 0, option_id: custom_option.id),
+                method: :delete,
+                data: { confirm: "Deleting an option will delete oll of its occurrences (e.g. in work packages). Are you sure you want to delete it? " },
+                class: 'icon icon-delete delete-custom-option' %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <div class="generic-table--header-background"></div>
+  </div>
+</div>

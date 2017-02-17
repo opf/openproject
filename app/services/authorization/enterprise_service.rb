@@ -52,6 +52,8 @@ class Authorization::EnterpriseService
     case action
     when :define_custom_style
       true # Every non-expired token
+    when :multiselect_custom_fields
+      true
     else
       false
     end

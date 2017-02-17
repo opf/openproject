@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'projects_controller'
 
 describe ProjectsController, type: :controller do
@@ -144,7 +144,7 @@ describe ProjectsController, type: :controller do
                description: 'weblog',
                identifier: 'blog',
                is_public: 1,
-               custom_field_values: { :'3' => 'Beta' },
+               custom_field_values: { :'3' => '5' },
                type_ids: ['1', '3'],
                # an issue custom field that is not for all project
                work_package_custom_field_ids: ['9'],
@@ -158,7 +158,7 @@ describe ProjectsController, type: :controller do
         assert_equal 'weblog', project.description
         assert_equal true, project.is_public?
         assert_nil project.parent
-        assert_equal 'Beta', project.custom_value_for(3).value
+        assert_equal 'Beta', project.custom_value_for(3).typed_value
         assert_equal [1, 3], project.types.map(&:id).sort
         assert_equal ['news', 'repository', 'work_package_tracking'], project.enabled_module_names.sort
         assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
@@ -169,7 +169,7 @@ describe ProjectsController, type: :controller do
                                  description: 'weblog',
                                  identifier: 'blog',
                                  is_public: 1,
-                                 custom_field_values: { '3' => 'Beta' },
+                                 custom_field_values: { '3' => '5' },
                                  parent_id: 1
                                 }
         assert_redirected_to '/projects/blog/work_packages'
@@ -191,7 +191,7 @@ describe ProjectsController, type: :controller do
                                  description: 'weblog',
                                  identifier: 'blog',
                                  is_public: 1,
-                                 custom_field_values: { '3' => 'Beta' },
+                                 custom_field_values: { '3' => '5' },
                                  type_ids: ['1', '3'],
                                  enabled_module_names: ['work_package_tracking', 'news', 'repository']
                                 }
@@ -216,7 +216,7 @@ describe ProjectsController, type: :controller do
                                    description: 'weblog',
                                    identifier: 'blog',
                                    is_public: 1,
-                                   custom_field_values: { '3' => 'Beta' },
+                                   custom_field_values: { '3' => '5' },
                                    parent_id: 1
                                   }
         end
@@ -239,7 +239,7 @@ describe ProjectsController, type: :controller do
                                  description: 'weblog',
                                  identifier: 'blog',
                                  is_public: 1,
-                                 custom_field_values: { '3' => 'Beta' },
+                                 custom_field_values: { '3' => '5' },
                                  parent_id: 1
                                 }
         assert_redirected_to '/projects/blog/work_packages'
@@ -252,7 +252,7 @@ describe ProjectsController, type: :controller do
                                    description: 'weblog',
                                    identifier: 'blog',
                                    is_public: 1,
-                                   custom_field_values: { '3' => 'Beta' }
+                                   custom_field_values: { '3' => '5' }
                                   }
         end
         assert_response :success
@@ -268,7 +268,7 @@ describe ProjectsController, type: :controller do
                                    description: 'weblog',
                                    identifier: 'blog',
                                    is_public: 1,
-                                   custom_field_values: { '3' => 'Beta' },
+                                   custom_field_values: { '3' => '5' },
                                    parent_id: 6
                                   }
         end

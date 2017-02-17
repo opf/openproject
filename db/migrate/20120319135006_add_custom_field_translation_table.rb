@@ -29,6 +29,12 @@
 
 class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
   def self.up
+    # Added this retroactively to the migration. In the new code (Feb 2017)
+    # custom fields' default value and possible values are not translated anymore.
+    # Consequently this old migration fails without the following `translates` call
+    # which restores the old code for the purposes of this migration.
+    CustomField.send :translates, :name, :default_value, :possible_values
+
     CustomField.create_translation_table! name: :string,
                                           default_value: :text,
                                           possible_values: :text

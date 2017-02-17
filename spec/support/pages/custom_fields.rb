@@ -26,20 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Date custom fields can be created
+require 'support/pages/page'
 
-  Background:
-    Given I am already admin
-    And the following languages are active:
-      | en |
-      | de |
-    When I go to the custom fields page
-    When I follow "Create a new custom field" within "#tab-content-WorkPackageCustomField"
+module Pages
+  class CustomFields < Page
+    def path
+      '/custom_fields'
+    end
 
-  @javascript
-  Scenario: Creating a date custom field
-    When I select "Date" from "custom_field_field_format"
-    And I set the english localization of the "name" attribute to "New Field"
-    And I set the english localization of the "default_value" attribute to "2012-01-01"
-    And I press "Save"
-    Then I should be on the custom fields page
+    def select_format(label)
+      select label, from: "custom_field_field_format"
+    end
+
+    def set_name(name)
+      find("#custom_field_name_attributes input.form--text-field").set name
+    end
+
+    def set_default_value(value)
+      find("#custom_field_default_value").set value
+    end
+
+    def has_type?(name)
+      expect(page).to have_css("label.form--label-with-check-box", text: name)
+    end
+
+    def has_form_element?(name)
+      page.has_css? "label.form--label", text: name
+    end
+  end
+end

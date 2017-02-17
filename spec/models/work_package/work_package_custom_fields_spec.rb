@@ -56,7 +56,9 @@ describe WorkPackage, type: :model do
 
     before do
       def self.change_custom_field_value(work_package, value)
-        work_package.custom_field_values = { custom_field.id => value }
+        val = custom_field.custom_options.find { |co| co.value == value }.try(:id)
+
+        work_package.custom_field_values = { custom_field.id => (val || value) }
         work_package.save
       end
     end
@@ -160,7 +162,7 @@ describe WorkPackage, type: :model do
             work_package.reload
           end
 
-          subject { work_package.custom_value_for(custom_field.id).value }
+          subject { work_package.custom_value_for(custom_field.id).typed_value }
 
           it { is_expected.to eq('PostgreSQL') }
         end
@@ -208,7 +210,7 @@ describe WorkPackage, type: :model do
             work_package.type = type_feature
           end
 
-          subject { WorkPackage.find(work_package.id).custom_value_for(custom_field).value }
+          subject { WorkPackage.find(work_package.id).custom_value_for(custom_field).typed_value }
 
           it { is_expected.to eq('PostgreSQL') }
         end

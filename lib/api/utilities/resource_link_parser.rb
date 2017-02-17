@@ -32,9 +32,10 @@ module API
     module ResourceLinkParser
       # N.B. valid characters for URL path segments as of
       # http://tools.ietf.org/html/rfc3986#section-3.3
-      SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'
-      RESOURCE_REGEX = "/api/v(?<version>\\d)/(?<namespace>\\w+)/(?<id>#{SEGMENT_CHARACTER}+)\\z"
-      SO_REGEX = "/api/v(?<version>\\d)/string_objects/?\\?value=(?<id>#{SEGMENT_CHARACTER}*)\\z"
+      SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'.freeze
+      RESOURCE_REGEX =
+        "/api/v(?<version>\\d)/(?<namespace>\\w+)/(?<id>#{SEGMENT_CHARACTER}+)\\z".freeze
+      SO_REGEX = "/api/v(?<version>\\d)/string_objects/?\\?value=(?<id>\\w*).*\\z".freeze
 
       class << self
         def parse(resource_link)

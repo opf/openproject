@@ -68,9 +68,23 @@ export class GroupedRowsBuilder extends RowsBuilder {
    */
   private matchingGroup(workPackage:WorkPackageResource, groups:GroupObject[], groupBy:string) {
     return _.find(groups, (group:GroupObject) => {
-      // If its a linked resource, compare the href.
-      if (group.href) {
-        return workPackage.$source._links[groupBy].href === group.href;
+      // If its a linked resource, compare the href,
+      // which is an array of links the resource offers
+      if (group.href && group.href.length) {
+        // Compare array of hrefs with the given group
+        let attr:any = workPackage.$source._links[groupBy];
+        if (!_.isArray(attr)) {
+          attr = [{ href: attr.href }];
+        }
+
+        let equal = true;
+        group.href.forEach((l:any):any => {
+          if(!_.find(attr, (el:any) => el.href === l.href)) {
+            return equal = false;
+          }
+        });
+
+        return equal;
       }
 
       // Otherwise, fall back to simple value comparison.
@@ -112,7 +126,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     return groups.map((group:GroupObject, index:number) => {
       group.index = index;
       if (group._links && group._links.valueLink) {
-        group.href = group._links.valueLink.href;
+        group.href = group._links.valueLink;
       }
       group.identifier = this.groupIdentifier(groupBy, group);
       group.collapsed = collapsedState[group.identifier] === true;
@@ -128,7 +142,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   public groupIdentifier(groupBy:string, group:GroupObject) {
-    return `${groupBy}-${group.href || group.value || 'nullValue'}`;
+    return `${groupBy}-${group.value || 'nullValue'}`;
   }
 
   /**

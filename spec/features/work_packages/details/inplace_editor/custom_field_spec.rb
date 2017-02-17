@@ -76,6 +76,10 @@ describe 'custom field inplace editor', js: true do
     }
     let(:initial_custom_values) { {} }
 
+    def custom_value(value)
+      CustomOption.find_by(value: value).try(:id)
+    end
+
     it 'properly updates both values' do
       field1.activate!
       expect_update 'bar',
@@ -92,11 +96,11 @@ describe 'custom field inplace editor', js: true do
                                 customField2: 'Y'
 
       field1.activate!
-      field1.expect_value('/api/v3/string_objects?value=bar')
+      field1.expect_value("/api/v3/string_objects?value=#{custom_value('bar')}&title=bar")
       field1.cancel_by_escape
 
       field2.activate!
-      field2.expect_value('/api/v3/string_objects?value=Y')
+      field2.expect_value("/api/v3/string_objects?value=#{custom_value('Y')}&title=Y")
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2

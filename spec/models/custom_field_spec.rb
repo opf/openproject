@@ -116,15 +116,11 @@ describe CustomField, type: :model do
     describe 'WHEN providing a hash with locale and values' do
       before do
         field.translations_attributes = [{ 'name' => 'Feld',
-                                           'default_value' => 'zwei',
-                                           'possible_values' => ['eins', 'zwei', 'drei'],
                                            'locale' => 'de' }]
       end
 
       it { expect(field.translations.size).to eq(1) }
       it { expect(field.name(:de)).to eq('Feld') }
-      it { expect(field.default_value(:de)).to eq('zwei') }
-      it { expect(field.possible_values(locale: :de)).to eq(['eins', 'zwei', 'drei']) }
     end
 
     describe 'WHEN providing a hash with only a locale' do
@@ -138,8 +134,6 @@ describe CustomField, type: :model do
     describe 'WHEN providing a hash with a locale and blank values' do
       before do
         field.translations_attributes = [{ 'name' => '',
-                                           'default_value' => '',
-                                           'possible_values' => '',
                                            'locale' => 'de' }]
       end
 
@@ -159,8 +153,6 @@ describe CustomField, type: :model do
     describe 'WHEN providing a hash without a locale but with values' do
       before do
         field.translations_attributes = [{ 'name' => 'Feld',
-                                           'default_value' => 'zwei',
-                                           'possible_values' => ['eins', 'zwei', 'drei'],
                                            'locale' => '' }]
       end
 
@@ -188,48 +180,13 @@ describe CustomField, type: :model do
     end
   end
 
-  describe '#default_value' do
-    describe 'localization' do
-      before do
-        I18n.locale = :de
-        field.default_value = 'Standard'
-
-        I18n.locale = :en
-        field.default_value = 'default'
-      end
-
-      it { expect(field.default_value(:en)).to eq('default') }
-      it { expect(field.default_value(:de)).to eq('Standard') }
-    end
-  end
-
-  describe '#possible_values' do
-    describe 'localization' do
-      before do
-        I18n.locale = :de
-        field.possible_values = ['eins', 'zwei', 'drei']
-
-        I18n.locale = :en
-        field.possible_values = ['one', 'two', 'three']
-
-        I18n.locale = :de
-        field.save!
-        field.reload
-      end
-
-      after do
-        I18n.locale = :en
-      end
-
-      it { expect(field.possible_values(locale: :en)).to eq(['one', 'two', 'three']) }
-      it { expect(field.possible_values(locale: :de)).to eq(['eins', 'zwei', 'drei']) }
-    end
-  end
-
   describe '#valid?' do
     describe "WITH a list field
               WITH two translations
               WITH default_value not included in possible_values in the non current locale translation" do
+
+      before { skip("skip until replaced") }
+
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -248,6 +205,9 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH default_value included in possible_values" do
+
+      before { skip("skip until replaced") }
+
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -266,6 +226,9 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH default_value not included in possible_values in the current locale translation" do
+
+      before { skip("skip until replaced") }
+
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -284,6 +247,9 @@ describe CustomField, type: :model do
     describe "WITH a list field
               WITH two translations
               WITH possible_values being empty in a fallbacked translation" do
+
+      before { skip("skip until replaced") }
+
       before do
         field.field_format = 'list'
         field.translations_attributes = [{ 'name' => 'Feld',
@@ -301,6 +267,9 @@ describe CustomField, type: :model do
               WITH the field being required
               WITH two translations
               WITH neither translation defining a default_value" do
+
+      before { skip("skip until replaced") }
+
       before do
         field.field_format = 'list'
         field.is_required = true
@@ -309,23 +278,6 @@ describe CustomField, type: :model do
                                          { 'name' => 'Field',
                                            'possible_values' => "one\ntwo\nthree\n",
                                            'locale' => 'en' }]
-      end
-
-      it { expect(field).to be_valid }
-    end
-
-    describe "WITH a boolean field
-              WITH the field being required
-              WITH two translations being provided
-              WITH only one translation specifying a default value" do
-      before do
-        field.field_format = 'bool'
-        field.translations_attributes = { '0' => { 'name' => 'name_en',
-                                                   'default_value' => '1',
-                                                   'locale' => 'en' },
-                                          '1' => { 'name' => 'name_de',
-                                                   'locale' => 'de' } }
-        field.is_required = true
       end
 
       it { expect(field).to be_valid }
