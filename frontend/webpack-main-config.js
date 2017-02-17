@@ -65,6 +65,10 @@ fs.readdirSync(translations).forEach(function (file) {
 var loaders = [
   {
     test: /\.tsx?$/,
+    include: [
+      path.resolve(__dirname, 'app'),
+      path.resolve(__dirname, 'tests')
+    ],
     use: [
       {
         loader: 'ng-annotate-loader'
@@ -199,7 +203,7 @@ function getWebpackMainConfig() {
         'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
         'mousetrap': 'mousetrap/mousetrap.js',
         'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
-        'lodash': path.resolve(node_root, 'lodash', 'dist', 'lodash.min.js'),
+        'lodash': path.resolve(node_root, 'lodash', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
         // https://github.com/bevacqua/dragula/issues/102#issuecomment-123296868

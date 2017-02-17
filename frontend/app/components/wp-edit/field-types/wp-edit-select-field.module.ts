@@ -29,6 +29,7 @@
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 export class SelectEditField extends EditField {
   public options:any[];
@@ -78,7 +79,7 @@ export class SelectEditField extends EditField {
 
   private checkCurrentValueValidity() {
     this.currentValueInvalid = !!(
-      (this.value && !_.some(this.options, (option) => (option.href === this.value.href)))
+      (this.value && !_.some(this.options, (option:HalResource) => (option.href === this.value.href)))
       ||
       (!this.value && this.schema.required)
     );

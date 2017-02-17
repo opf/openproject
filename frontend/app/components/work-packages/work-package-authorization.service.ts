@@ -75,17 +75,17 @@ export class WorkPackageAuthorization {
   }
 
   public permittedActionKeys(allowedActions:any) {
-    var validActions = _.filter(allowedActions, this.isPermitted, this);
+    var validActions = _.filter(allowedActions, (action:any) => this.isPermitted(action));
 
-    return _.map(validActions, function (action) {
+    return _.map(validActions, function (action:any) {
       return action.key;
     });
   }
 
   public permittedActionsWithLinks(allowedActions:any) {
-    var validActions = _.filter(_.cloneDeep(allowedActions), this.isPermitted, this);
+    var validActions = _.filter(_.cloneDeep(allowedActions), (action:any) => this.isPermitted(action));
 
-    var allowed = _.map(validActions, this.linkForAction, this);
+    var allowed = _.map(validActions, (action:any) => this.linkForAction(action));
 
     return allowed;
   }

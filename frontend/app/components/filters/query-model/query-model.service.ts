@@ -372,13 +372,13 @@ function QueryModelService(
     },
 
     getRemainingFilters: function(this:any):any {
-      const activeFilters = _.indexBy(this.getActiveFilters(), function(f:any) { return f.name });
+      const activeFilters = _.keyBy(this.getActiveFilters(), function(f:any) { return f.name });
 
       if (!activeFilters) {
         return {};
       }
 
-      return _.pick(this.availableWorkPackageFilters, function(filter:any, key:string) {
+      return _.pickBy(this.availableWorkPackageFilters, function(filter:any, key:string) {
         return !activeFilters[key];
       });
     },

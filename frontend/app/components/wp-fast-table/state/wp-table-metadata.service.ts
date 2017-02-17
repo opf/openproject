@@ -19,7 +19,7 @@ export class WorkPackageTableMetadataService {
    * of groupable columns.
    */
   public isGroupable(name:string):boolean {
-    return !!_.find(this.current.groupableColumns, (column) => column.name === name);
+    return !!_.find(this.current.groupableColumns, (column:api.ex.Column) => column.name === name);
   }
 
   public showSums():boolean {
