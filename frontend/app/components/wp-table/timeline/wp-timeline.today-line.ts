@@ -27,7 +27,7 @@
 // ++
 
 import {calculatePositionValueForDayCount, TimelineViewParameters} from "./wp-timeline";
-import Moment = moment.Moment;
+import * as moment from 'moment';
 
 
 // Today Line

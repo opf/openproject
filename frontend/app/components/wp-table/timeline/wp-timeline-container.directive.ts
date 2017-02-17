@@ -33,6 +33,7 @@ import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
 
+import * as moment from 'moment';
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;

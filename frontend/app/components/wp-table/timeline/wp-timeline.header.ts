@@ -34,6 +34,7 @@ import {
 import {todayLine} from "./wp-timeline.today-line";
 import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import * as noUiSlider from "nouislider";
+import * as moment from 'moment';
 import Moment = moment.Moment;
 
 const cssClassTableBody = ".work-package-table tbody";
@@ -396,7 +397,7 @@ export class WpTimelineHeader {
   }
 
   renderTimeSlices(vp: TimelineViewParameters,
-                   unit: string,
+                   unit: moment.unitOfTime.DurationConstructor,
                    marginTop: number,
                    startView: Moment,
                    endView: Moment,

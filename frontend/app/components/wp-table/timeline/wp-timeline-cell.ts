@@ -35,6 +35,7 @@ import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import {Subscription} from "rxjs";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IScope = angular.IScope;
+import * as moment from 'moment';
 import Moment = moment.Moment;
 
 const renderers = {

@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
-import MomentStatic = moment.MomentStatic;
+import * as moment from 'moment';
 import Moment = moment.Moment;
 
 interface CellDateMovement {
@@ -49,10 +49,10 @@ export class TimelineCellRenderer {
    *
    */
   public assignDateValues(wp: WorkPackageResourceInterface, dates: CellDateMovement) {
-    this.assignDate(wp, 'startDate', dates.startDate);
-    this.assignDate(wp, 'dueDate', dates.dueDate);
+    this.assignDate(wp, 'startDate', dates.startDate!);
+    this.assignDate(wp, 'dueDate', dates.dueDate!);
 
-    this.updateLeftRightMovedLabel(dates.startDate, dates.dueDate);
+    this.updateLeftRightMovedLabel(dates.startDate!, dates.dueDate!);
   }
 
   /**

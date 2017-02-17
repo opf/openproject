@@ -1,6 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {TimelineCellRenderer} from "./timeline-cell-renderer";
 import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
+import * as moment from 'moment';
 import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
@@ -51,9 +52,9 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    *
    */
   public assignDateValues(wp: WorkPackageResourceInterface, dates: CellMilestoneMovement) {
-    this.assignDate(wp, 'date', dates.date);
+    this.assignDate(wp, 'date', dates.date!);
 
-    this.updateMilestoneMovedLabel(dates.date);
+    this.updateMilestoneMovedLabel(dates.date!);
   }
 
   /**
@@ -149,7 +150,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   private updateMilestoneMovedLabel(date: Moment) {
-    this.dateDisplaysOnMouseMove.right.innerText = date.format("L");
+    this.dateDisplaysOnMouseMove.right!.innerText = date.format("L");
   }
 
 }
