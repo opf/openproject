@@ -68,7 +68,7 @@ var loaders = [
     include: [
       path.resolve(__dirname, 'app'),
       path.resolve(__dirname, 'tests')
-    ],
+    ].concat(_.values(pathConfig.pluginNamesPaths)),
     use: [
       {
         loader: 'ng-annotate-loader'
