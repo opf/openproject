@@ -40,9 +40,14 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     table.rows.forEach((wpId:string) => {
       let row:WorkPackageTableRow = table.rowIndex[wpId];
 
+      // If this row was already rendered in a hierarchy, ignore it here
+      if (additional[row.workPackageId]) {
+        return;
+     }
+
       // If we have ancestors
       if (row.object.ancestors.length) {
-        this.buildWithHierarchy(tbodyContent, row, additional);
+        this.buildWithHierarchy(table, tbodyContent, row, additional);
       } else {
         let tr = this.buildEmptyRow(row);
         row.element = tr;
@@ -59,9 +64,9 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     return this.wpTableColumns.columnCount + 1;
   }
 
-  public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable) {
+  public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable, level?:number) {
     let element = this.rowBuilder.buildEmpty(row.object);
-    let level = row.object.ancestors.length;
+    level = level || row.object.ancestors.length;
     let hierarchyIndicator = this.buildHierarchyIndicator(row.object, level);
 
     if (level > 0) {
@@ -98,6 +103,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   }
 
   private buildWithHierarchy(
+    table:WorkPackageTable,
     tbody:DocumentFragment,
     row:WorkPackageTableRow,
     additional:{[workPackageId:string]: WorkPackageResourceInterface}) {
@@ -107,7 +113,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     const ancestorGroups:string[] = [];
     ancestors.forEach((ancestor:WorkPackageResourceInterface, index:number) => {
       if (!additional[ancestor.id]) {
-        let ancestorRow = this.buildAncestorRow(ancestor, ancestorGroups, index);
+        let ancestorRow = this.buildAncestorRow(table, ancestor, ancestorGroups, index);
         // special case, root without parent
         if (index === 0) {
           // Simply append the root here
@@ -145,11 +151,24 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   /**
    * Append an additional ancestor row that is not yet loaded
    */
-  private buildAncestorRow(ancestor:WorkPackageResourceInterface, ancestorGroups:string[], index:number) {
+  private buildAncestorRow(
+    table:WorkPackageTable,
+    ancestor:WorkPackageResourceInterface,
+    ancestorGroups:string[],
+    index:number):HTMLElement {
+
+    const loadedRow = table.rowIndex[ancestor.id];
+
+    if (loadedRow) {
+      const tr =  this.buildEmptyRow(loadedRow, table, index);
+      tr.classList.add('wp-table--hierarchy-aditional-row');
+      return tr;
+    }
+
     const tr = this.rowBuilder.createEmptyRow(ancestor);
     const columns = this.wpTableColumns.currentState;
 
-    tr.classList.add(`__hierarchy-root-${ancestor.id}`, ...ancestorGroups);
+    tr.classList.add(`wp-table--hierarchy-aditional-row`, `__hierarchy-root-${ancestor.id}`, ...ancestorGroups);
 
     // Set available information for ID and subject column
     // and print hierarchy indicator at subject field.
