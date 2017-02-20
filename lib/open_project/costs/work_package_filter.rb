@@ -47,6 +47,10 @@ module OpenProject::Costs
       :list_optional
     end
 
+    def dependency_class
+      '::API::V3::Queries::Schemas::CostObjectDependencyRepresenter'
+    end
+
     def human_name
       WorkPackage.human_attribute_name(:cost_object)
     end
