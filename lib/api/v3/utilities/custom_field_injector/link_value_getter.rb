@@ -42,7 +42,7 @@ module API
               if custom_field.multi_value?
                 values
               else
-                values.first
+                values.first || Methods.single_empty_value
               end
             end
           end
@@ -56,17 +56,17 @@ module API
             module_function
 
             def link_value_getter_values(represented, custom_field, path_method)
-              Array(represented.custom_value_for(custom_field)).map do |custom_value|
+              Array(represented.custom_value_for(custom_field)).flat_map do |custom_value|
                 if custom_value && custom_value.value.present?
                   title = link_value_title(custom_value)
                   params = link_value_params(title, custom_field, custom_value)
 
-                  {
+                  [{
                     title: title,
                     href: api_v3_paths.send(path_method, params)
-                  }
+                  }]
                 else
-                  { href: nil, title: nil }
+                  []
                 end
               end
             end
@@ -86,6 +86,14 @@ module API
               else
                 custom_value.value
               end
+            end
+
+            ##
+            # While multi value custom fields are expected to simpl return an empty array
+            # if they have no value a normal single value custom field is expected by
+            # the frontend to return a single element with a null href and title.
+            def single_empty_value
+              { href: nil, title: nil }
             end
           end
         end
