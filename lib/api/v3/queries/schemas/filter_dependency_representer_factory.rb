@@ -93,7 +93,15 @@ module API
           end
 
           def custom_representer_class(filter)
+            if filter.respond_to? :dependency_class
+              return filter.dependency_class
+            end
+
             name = @specific_conversion[filter.class.to_s.demodulize.to_sym]
+            if name.nil?
+              raise ArgumentError,
+                    "Filter #{filter.class} does not map to a dependency representer."
+            end
 
             "API::V3::Queries::Schemas::#{name}DependencyRepresenter"
           end
