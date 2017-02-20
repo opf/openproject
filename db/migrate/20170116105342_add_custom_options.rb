@@ -76,7 +76,7 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
     list_custom_fields.each do |custom_field|
       translations = custom_field_translations[custom_field.id] = get_translations custom_field
 
-      create_custom_options_for_translations! translations
+      create_custom_options_for_translations! translations, custom_field
     end
   end
 
@@ -86,7 +86,7 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
       .order(id: :asc)
   end
 
-  def create_custom_options_for_translations!(translations)
+  def create_custom_options_for_translations!(translations, custom_field)
     return if translations.empty?
 
     translations.first.possible_values.each_with_index.map do |value, i|
