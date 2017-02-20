@@ -143,7 +143,11 @@ export class WorkPackageResource extends HalResource {
   }
 
   public get idFromLink():string {
-    return this.href.split('/').pop();
+    if (this.href) {
+      return this.href.split('/').pop()!;
+    }
+
+    return '';
   }
 
   public get isNew(): boolean {

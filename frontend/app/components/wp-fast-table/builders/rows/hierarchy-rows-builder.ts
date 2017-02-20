@@ -1,3 +1,4 @@
+import {UiStateLinkBuilder} from '../ui-state-link-builder';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {HalResource} from '../../../api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageTableRow} from '../../wp-table.interfaces';
@@ -10,13 +11,15 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {SingleRowBuilder} from './single-row-builder';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
-export const hierarchyCellClassName = 'wp-table--hierarchy-td';
+export const hierarchyCellClassName = 'wp-table--hierarchy-span';
 
 export class HierarchyRowsBuilder extends PlainRowsBuilder {
   // Injections
   public states:States;
   public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
+
+  public uiStateBuilder = new UiStateLinkBuilder();
 
   // The group expansion state
   constructor() {
@@ -62,12 +65,11 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     let hierarchyIndicator = this.buildHierarchyIndicator(row.object, level);
 
     if (level > 0) {
-      // hierarchyIndicator.textContent = '-';
       element.classList.add(...row.object.ancestors.map((ancestor) => `__hierarchy-group-${ancestor.id}`));
     }
 
     element.classList.add(`__hierarchy-root-${row.object.id}`);
-    jQuery(element).prepend(hierarchyIndicator);
+    jQuery(element).find('td.subject').prepend(hierarchyIndicator);
     return element;
   }
 
@@ -75,14 +77,14 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * Build the hierarchy indicator at the given indentation level.
    */
   private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, level:number, collapsed:boolean = false):HTMLElement {
-      const hierarchyIndicator = document.createElement('td');
+      const hierarchyIndicator = document.createElement('span');
       hierarchyIndicator.classList.add(hierarchyCellClassName);
       hierarchyIndicator.style.width = 10 + (10 * level) + 'px';
-      hierarchyIndicator.style.paddingLeft = (10 * level) + 'px';
+      hierarchyIndicator.style.paddingLeft = (20 * level) + 'px';
 
       if (workPackage.$loaded && workPackage.isLeaf) {
         hierarchyIndicator.innerHTML = `
-            <span class="wp-table--leaf-indicator">─</span>
+            <span class="wp-table--leaf-indicator"></span>
         `;
       } else {
         const className = collapsed ? indicatorCollapsedClass : '';
@@ -144,10 +146,34 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * Append an additional ancestor row that is not yet loaded
    */
   private buildAncestorRow(ancestor:WorkPackageResourceInterface, ancestorGroups:string[], index:number) {
-    let tr = this.rowBuilder.createEmptyRow(ancestor);
+    const tr = this.rowBuilder.createEmptyRow(ancestor);
+    const columns = this.wpTableColumns.currentState;
+
     tr.classList.add(`__hierarchy-root-${ancestor.id}`, ...ancestorGroups);
-    jQuery(tr).append(this.buildHierarchyIndicator(ancestor, index));
-    jQuery(tr).append(`<td colspan="${this.colspan - 1}">#${ancestor.id}: ${ancestor.name}</td>`);
+
+    // Set available information for ID and subject column
+    // and print hierarchy indicator at subject field.
+    columns.forEach((column:string, i:number) => {
+      const td = document.createElement('td');
+
+      if (column === 'subject') {
+        const textNode = document.createTextNode(ancestor.name);
+        td.appendChild(this.buildHierarchyIndicator(ancestor, index));
+        td.appendChild(textNode);
+      }
+
+      if (column === 'id') {
+        const link = this.uiStateBuilder.linkToShow(
+          ancestor.id,
+          ancestor.subject,
+          ancestor.id
+        );
+
+        td.appendChild(link);
+      }
+
+      tr.appendChild(td);
+    });
 
     return tr;
   }
