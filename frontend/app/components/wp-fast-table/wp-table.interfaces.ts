@@ -49,6 +49,7 @@ export interface WPTableRowSelectionState {
   activeRowIndex: number | null;
 }
 
-export interface WPTableHierarchyCollapsedState {
-  [workPackageId: string]: boolean;
+export interface WPTableHierarchyState {
+  enabled:boolean;
+  collapsed:{[workPackageId: string]: boolean};
 }

@@ -22,9 +22,12 @@ export class WorkPackageTable {
   public rowIndex:{[id: string]: WorkPackageTableRow} = {};
 
   // WP rows builder
-  private groupedRowsBuilder = new GroupedRowsBuilder();
-  private plainRowsBuilder = new PlainRowsBuilder();
-  private hierarchyRowsBuilder = new HierarchyRowsBuilder();
+  // Ordered by priority
+  private builders = [
+    new HierarchyRowsBuilder(),
+    new GroupedRowsBuilder(),
+    new PlainRowsBuilder()
+  ];
 
   constructor(public tbody:HTMLElement) {
     injectorBridge(this);
@@ -44,16 +47,7 @@ export class WorkPackageTable {
 
   public get rowBuilder():RowsBuilder {
     const metaData = this.metaData;
-
-    if (this.metaData.hierarchyMode) {
-      return this.hierarchyRowsBuilder;
-    }
-
-    if (this.metaData.groupBy) {
-      return this.groupedRowsBuilder;
-    }
-
-    return this.plainRowsBuilder;
+    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this, metaData))!;
   }
 
   /**

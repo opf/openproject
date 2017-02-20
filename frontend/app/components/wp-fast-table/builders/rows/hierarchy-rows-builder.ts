@@ -1,3 +1,5 @@
+import {WorkPackageTableHierarchyService} from '../../state/wp-table-hierarchy.service';
+import {WorkPackageTableMetadata} from '../../wp-table-metadata';
 import {UiStateLinkBuilder} from '../ui-state-link-builder';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {HalResource} from '../../../api/api-v3/hal-resources/hal-resource.service';
@@ -17,6 +19,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   // Injections
   public states:States;
   public wpTableColumns:WorkPackageTableColumnsService;
+  public wpTableHierarchy:WorkPackageTableHierarchyService;
   public I18n:op.I18n;
 
   public uiStateBuilder = new UiStateLinkBuilder();
@@ -36,6 +39,13 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
       expanded: (level:number) => I18n.t('js.work_packages.hierarchy.children_expanded', { level: level }),
       collapsed: (level:number) => I18n.t('js.work_packages.hierarchy.children_collapsed', { level: level }),
     };
+  }
+
+  /**
+   * The hierarchy builder is only applicable if the hierachy mode is active
+   */
+  public isApplicable(table:WorkPackageTable, metaData:WorkPackageTableMetadata) {
+    return this.wpTableHierarchy.isEnabled;
   }
 
   /**
@@ -214,4 +224,4 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
 }
 
 
-HierarchyRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];
+HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchy', 'states', 'I18n'];

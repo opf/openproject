@@ -15,6 +15,15 @@
         </accessible-element>
       </a>
     </li>
+    <li>
+      <a ng-if="displayHierarchies" class="menu-item" href ng-click="toggleHierarchies($event)">
+        <i ng-if="displayHierarchies" class="icon-action-menu icon-checkmark"></i>
+        <span ng-bind="::I18n.t('js.toolbar.settings.hide_hierarchy')"></span>
+      </a>
+      <a ng-if="!displayHierarchies" class="menu-item" href ng-click="toggleHierarchies($event)">
+        <i ng-if="!displayHierarchies" class="icon-action-menu no-icon"></i>
+        <span ng-bind="::I18n.t('js.toolbar.settings.display_hierarchy')"></span>
+    </li>
     <li class="dropdown-divider"></li>
     <li><a class="menu-item" href="" ng-click="saveQuery($event)"
            inaccessible-by-tab="saveQueryInvalid()"

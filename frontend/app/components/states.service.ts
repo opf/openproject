@@ -2,7 +2,7 @@ import {whenDebugging} from '../helpers/debug_output';
 import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
 import {
   WorkPackageTableRow,
-  WPTableHierarchyCollapsedState,
+  WPTableHierarchyState,
   WPTableRowSelectionState
 } from './wp-fast-table/wp-table.interfaces';
 import {MultiState, initStates, State} from "../helpers/reactive-fassade";
@@ -32,7 +32,7 @@ export class States {
     // Current state of collapsed groups (if any)
     collapsedGroups: new State<{[identifier:string]: boolean}>(),
     // Hierarchies of table
-    collapsedHierarchies: new State<WPTableHierarchyCollapsedState>(),
+    hierarchies: new State<WPTableHierarchyState>(),
     // State to be updated when the table is up to date
     rendered:new State<WorkPackageTable>(),
     // Subject used to unregister all listeners of states above.

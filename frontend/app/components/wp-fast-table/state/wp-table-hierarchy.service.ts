@@ -2,22 +2,36 @@ import {WorkPackageTableMetadata} from '../wp-table-metadata';
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
 import {State} from '../../../helpers/reactive-fassade';
-import {WPTableHierarchyCollapsedState} from '../wp-table.interfaces';
+import {WPTableHierarchyState} from '../wp-table.interfaces';
 
 export class WorkPackageTableHierarchyService {
 
   // The selected columns state of the current table instance
-  public hierarchyState:State<WPTableHierarchyCollapsedState>;
+  public hierarchyState:State<WPTableHierarchyState>;
 
   constructor(public states: States, public QueryService:any) {
-    this.hierarchyState = states.table.collapsedHierarchies;
+    this.hierarchyState = states.table.hierarchies;
   }
+
+  /**
+   * Return whether the current hierarchy mode is active
+   */
+   public get isEnabled():boolean {
+    return this.currentState.enabled;
+   }
+
+   public setEnabled(active:boolean = true) {
+     const state = this.currentState;
+     state.enabled = active;
+
+     this.hierarchyState.put(state);
+   }
 
   /**
    * Return whether the given wp ID is collapsed.
    */
   public collapsed(wpId:string):boolean {
-    return this.currentState[wpId] === true;
+    return this.currentState.collapsed[wpId] === true;
   }
 
   /**
@@ -46,14 +60,14 @@ export class WorkPackageTableHierarchyService {
    */
   private setState(wpId:string, isCollapsed:boolean):void {
     const state = this.currentState;
-    state[wpId] = isCollapsed;
+    state.collapsed[wpId] = isCollapsed;
     this.hierarchyState.put(state);
   }
 
   /**
    * Get current selection state.
    */
-  public get currentState():WPTableHierarchyCollapsedState {
+  public get currentState():WPTableHierarchyState {
     const state = this.hierarchyState.getCurrentValue();
 
     if (state == null) {
@@ -63,8 +77,11 @@ export class WorkPackageTableHierarchyService {
     return state;
   }
 
-  private get initialState():WPTableHierarchyCollapsedState {
-    return {} as WPTableHierarchyCollapsedState;
+  private get initialState():WPTableHierarchyState {
+    return {
+      enabled: false,
+      collapsed: {}
+    } as WPTableHierarchyState;
   }
 
 }
