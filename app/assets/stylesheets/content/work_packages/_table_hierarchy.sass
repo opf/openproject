@@ -8,12 +8,24 @@
   &:hover
     text-decoration: none
 
-  span
-    @include icon-common
-    @extend .icon-arrow-down2
-    font-size: 0.75rem
+// Toggle the indicator accessibility texts
+// accordingly
+.wp-table--hierarchy-indicator-collapsed
+  display: none
 
-  &.-hierarchy-collapsed span
+.-hierarchy-collapsed
+  .wp-table--hierarchy-indicator-expanded
+    display: none
+  .wp-table--hierarchy-indicator-collapsed
+    display: inline
+
+
+.wp-table--hierarchy-indicator-icon
+  @include icon-common
+  @extend .icon-arrow-down2
+  font-size: 0.75rem
+
+  .-hierarchy-collapsed &
     @extend .icon-arrow-right7
 
 .wp-table--row[class*="__collapsed-group-"]

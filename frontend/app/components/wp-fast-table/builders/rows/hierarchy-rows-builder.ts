@@ -20,11 +20,22 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   public I18n:op.I18n;
 
   public uiStateBuilder = new UiStateLinkBuilder();
+  public text:{
+    leaf:(level:number) => string;
+    expanded:(level:number) => string;
+    collapsed:(level:number) => string;
+  };
 
   // The group expansion state
   constructor() {
     super();
     injectorBridge(this);
+
+    this.text = {
+      leaf: (level:number) => I18n.t('js.work_packages.hierarchy.leaf', { level: level }),
+      expanded: (level:number) => I18n.t('js.work_packages.hierarchy.children_expanded', { level: level }),
+      collapsed: (level:number) => I18n.t('js.work_packages.hierarchy.children_collapsed', { level: level }),
+    };
   }
 
   /**
@@ -89,13 +100,17 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
 
       if (workPackage.$loaded && workPackage.isLeaf) {
         hierarchyIndicator.innerHTML = `
-            <span class="wp-table--leaf-indicator"></span>
+            <span tabindex="0" class="wp-table--leaf-indicator">
+              <span class="hidden-for-sighted">${this.text.leaf(level)}</span>
+            </span>
         `;
       } else {
         const className = collapsed ? indicatorCollapsedClass : '';
         hierarchyIndicator.innerHTML = `
-            <a class="wp-table--hierarchy-indicator ${className}">
-              <span></span>
+            <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
+              <span class="wp-table--hierarchy-indicator-icon"></span>
+              <span class="wp-table--hierarchy-indicator-expanded hidden-for-sighted">${this.text.expanded(level)}</span>
+              <span class="wp-table--hierarchy-indicator-collapsed hidden-for-sighted">${this.text.collapsed(level)}</span>
             </a>
         `;
       }
