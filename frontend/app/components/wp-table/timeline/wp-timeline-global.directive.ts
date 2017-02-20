@@ -25,38 +25,104 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {RenderInfo, TimelineViewParameters, timelineElementCssClass} from "./wp-timeline";
+import {WorkPackageTimelineCell} from "./wp-timeline-cell";
 
 
-class WpTimelineGlobalController {
+export const timelineGlobalElementCssClassname = "timeline-global-element";
 
-  wpTimelineContainer: WorkPackageTimelineTableController;
 
-  init() {
-    console.log("init");
-    console.log(this.wpTimelineContainer);
+export class TimelineGlobalElement {
+  from: string;
+  to: string;
+}
+
+export class WpTimelineGlobalService {
+
+  private workPackageIdOrder: string[] = ["56", "55", "54"];
+
+  private cells: {[id: string]: WorkPackageTimelineCell} = {};
+
+  private elements: TimelineGlobalElement[] = [];
+
+  constructor() {
+    setTimeout(() => {
+      console.log("displayRelation");
+      this.displayRelation("55", "54");
+    }, 3000);
   }
 
+  updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
+    this.cells[cell.latestRenderInfo.workPackage.id] = cell;
 
+    // TODO called to often
+
+    this.update();
+  }
+
+  removeWorkPackageInfo(id: string) {
+    delete this.cells[id];
+    this.update()
+  }
+
+  displayRelation(from: string, to: string) {
+    const elem = new TimelineGlobalElement();
+    elem.from = from;
+    elem.to = to;
+    this.elements.push(elem);
+    this.update();
+  }
+
+  private update() {
+    this.removeAllElements();
+    this.renderElements();
+  }
+
+  private removeAllElements() {
+    // console.log("removeAllElements()");
+    jQuery("." + timelineGlobalElementCssClassname).children().remove();
+  }
+
+  private renderElements() {
+    console.debug("renderElements()");
+
+    for (let e of this.elements) {
+
+      const idxFrom = this.workPackageIdOrder.indexOf(e.from);
+      const idxTo = this.workPackageIdOrder.indexOf(e.to);
+      const start = Math.min(idxFrom, idxTo);
+      const end = Math.max(idxFrom, idxTo);
+
+      // start
+      const startCell = this.cells[e.from];
+      let lastX = startCell.getRightmostPosition();
+
+      const line = document.createElement("div");
+      line.className = timelineElementCssClass;
+      line.style.position = "absolute";
+      line.style.zIndex = "100";
+      line.style.cssFloat = "left";
+      line.style.backgroundColor = "green";
+      line.style.top = "19px";
+      line.style.left = lastX + "px";
+      line.style.width = "20px";
+      lastX += 20;
+      line.style.height = "2px";
+      startCell.timelineCell.appendChild(line);
+
+      // vert line
+      for (let index = start; index <= end; index++) {
+        const id = this.workPackageIdOrder[index];
+        const cell = this.cells[id];
+
+        // console.log("i", index, id, cell);
+      }
+    }
+
+  }
 
 }
 
-function directive(): IDirective {
-  return {
-    require: ["^^wpTimelineContainer", "^wpTimelineGlobal"],
-    link: (scope,
-           element,
-           attrs,
-           [a, b]: [WorkPackageTimelineTableController, WpTimelineGlobalController]) => {
-      b.wpTimelineContainer = a;
-      b.init();
-    },
-    controller: WpTimelineGlobalController
-  };
-}
-
-wpDirectivesModule
-  .directive('wpTimelineGlobal', directive);

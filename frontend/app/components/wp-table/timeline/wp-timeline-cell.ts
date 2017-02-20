@@ -47,7 +47,7 @@ export class WorkPackageTimelineCell {
 
   private subscription: Subscription;
 
-  private latestRenderInfo: RenderInfo;
+  public latestRenderInfo: RenderInfo;
 
   private wpElement: HTMLDivElement|null = null;
 
@@ -57,19 +57,26 @@ export class WorkPackageTimelineCell {
               private wpCacheService: WorkPackageCacheService,
               private states: States,
               private workPackageId: string,
-              private timelineCell: HTMLElement) {
+              public timelineCell: HTMLElement) {
   }
 
   activate() {
     this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
+        this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
       });
   }
 
   deactivate() {
     this.clear();
+    this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
     this.subscription && this.subscription.unsubscribe();
+  }
+
+  getRightmostPosition(): number {
+    const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
+    return renderer.getRightmostPosition(this.latestRenderInfo);
   }
 
   private clear() {
@@ -136,6 +143,8 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
+    // console.log("updateView()", "wpID=" + renderInfo.workPackage.id);
+
     this.latestRenderInfo = renderInfo;
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
@@ -148,4 +157,5 @@ export class WorkPackageTimelineCell {
       this.clear();
     }
   }
+
 }

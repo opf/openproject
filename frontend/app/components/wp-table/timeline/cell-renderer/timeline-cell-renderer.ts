@@ -1,5 +1,8 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
+import {
+  RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass,
+  calculatePositionValueForDayCountinPx
+} from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import * as moment from 'moment';
 import Moment = moment.Moment;
@@ -221,6 +224,17 @@ export class TimelineCellRenderer {
     }
 
     return true;
+  }
+
+  getRightmostPosition(renderInfo: RenderInfo): number {
+    const wp = renderInfo.workPackage;
+
+    let start = moment(wp.startDate as any);
+    let due = moment(wp.dueDate as any);
+    const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
+    const duration = due.diff(start, "days") + 1;
+
+    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart + duration);
   }
 
   /**

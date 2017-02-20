@@ -25,12 +25,11 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
-import * as moment from 'moment';
+import * as moment from "moment";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WpTimelineHeader} from "./wp-timeline.header";
 import Moment = moment.Moment;
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WpTimelineHeader} from "./wp-timeline.header";
 export const timelineElementCssClass = "timeline-element";
 
 /**
@@ -38,7 +37,7 @@ export const timelineElementCssClass = "timeline-element";
  */
 export class TimelineViewParametersSettings {
 
-  showDurationInPx = true;
+  // showDurationInPx = true;
 
   scrollOffsetInDays = 0;
 
@@ -105,17 +104,22 @@ export interface RenderInfo {
 
 /**
  *
- * @param viewParams
- * @param days
- * @returns {string}
+ */
+export function calculatePositionValueForDayCountinPx(viewParams: TimelineViewParameters, days: number): number {
+  const daysInPx = days * viewParams.pixelPerDay;
+  return daysInPx;
+}
+
+/**
+ *
  */
 export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
-  const daysInPx = days * viewParams.pixelPerDay;
-  if (viewParams.settings.showDurationInPx) {
-    return daysInPx + "px";
-  } else {
-    return (daysInPx / viewParams.maxWidthInPx * 100) + "%";
-  }
+  const value = calculatePositionValueForDayCountinPx(viewParams, days);
+  // if (viewParams.settings.showDurationInPx) {
+    return value + "px";
+  // } else {
+  // return (value / viewParams.maxWidthInPx * 100) + "%";
+  // }
 }
 
 
