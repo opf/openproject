@@ -155,6 +155,7 @@ module OpenProject
       'my-page-edit-box-border-color'                        => "$primary-color-dark",
       'drop-down-unselected-font-color'                      => "$main-menu-font-color",
       'drop-down-selected-font-color'                        => "$font-color-on-primary",
+      'drop-down-hover-font-color'                           => "$font-color-on-primary-dark",
       'drop-down-selected-bg-color'                          => "$primary-color",
       'drop-down-hover-bg-color'                             => "$primary-color-dark",
       'action-menu-bg-color'                                 => "#FFFFFF",
@@ -195,12 +196,12 @@ module OpenProject
       'button--active-font-color'                            => "#bbbbbb",
       'button--active-background-color'                      => "#eeeeee",
       'button--active-border-color'                          => "#cacaca",
+      'button--alt-highlight-background-color'               => "$alternative-color",
       'button--alt-highlight-background-hover-color'         => "#227d28",
       'button--highlight-font-color'                         => "$font-color-on-primary",
       'button--highlight-background-color'                   => "$primary-color",
       'button--highlight-background-hover-color'             => "$primary-color-dark",
       'button--alt-highlight-font-color'                     => "$font-color-on-alternative",
-      'button--alt-highlight-background-color'               => "$alternative-color",
       'button--text-icon-spacing'                            => "0.65em"
     }.freeze
 
