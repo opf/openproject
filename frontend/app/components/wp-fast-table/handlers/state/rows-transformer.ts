@@ -4,7 +4,7 @@ import {locateRow} from '../../helpers/wp-table-row-helpers';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class RowsTransformer {
   public states:States;
@@ -14,7 +14,7 @@ export class RowsTransformer {
 
     // Redraw table if the current row state changed
     this.states.table.rows.observeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((rows:WorkPackageResource[]) => {
+      .subscribe((rows:WorkPackageResourceInterface[]) => {
       var t0 = performance.now();
 
       table.initialSetup(rows);
@@ -27,7 +27,7 @@ export class RowsTransformer {
 
     // Refresh a single row if it exists
     this.states.workPackages.observeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((nextVal:[string, WorkPackageResource]) => {
+      .subscribe((nextVal:[string, WorkPackageResourceInterface]) => {
         if (!nextVal) {
           return;
         }

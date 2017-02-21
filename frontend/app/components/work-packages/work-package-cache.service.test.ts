@@ -47,11 +47,11 @@ describe('WorkPackageCacheService', () => {
 
     // dummy 1
     const workPackage1 = new _WorkPackageResource_({
+      id: '1',
       _links: {
         self: ""
       }
     });
-    workPackage1.id = '1';
     workPackage1.schema = {
       '$load': () => { return $q.when(true) }
     };
@@ -90,8 +90,7 @@ describe('WorkPackageCacheService', () => {
 
   it('should return/stream a work package every time it gets updated', (done:any) => {
     let expected = 0;
-    let workPackage: any = new WorkPackageResource({_links: {self: ""}});
-    workPackage.id = '1';
+    let workPackage: any = new WorkPackageResource({id: '1', _links: {self: ""}});
     workPackage.dummy = 0;
     workPackage.schema = {
       '$load': () => { return $q.when(true) }

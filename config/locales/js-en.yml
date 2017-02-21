@@ -433,6 +433,10 @@ en:
         header_no_type: 'New work package (Type not yet set)'
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
+      hierarchy:
+        leaf: 'Work package leaf at level %{level}.'
+        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
+        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
       faulty_query:
         title: Work packages could not be loaded.
         description: Your query is erroneous and could not be processed.
@@ -508,6 +512,8 @@ en:
         sort_by: "Sort by ..."
         group_by: "Group by ..."
         display_sums: "Display sums"
+        display_hierarchy: "Display hierarchy"
+        hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Save"
         save_as: "Save as ..."

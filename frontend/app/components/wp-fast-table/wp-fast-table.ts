@@ -1,3 +1,5 @@
+import {WorkPackageTableMetadata} from './wp-table-metadata';
+import {HierarchyRowsBuilder} from './builders/rows/hierarchy-rows-builder';
 import {RowsBuilder} from './builders/rows/rows-builder';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
@@ -20,8 +22,12 @@ export class WorkPackageTable {
   public rowIndex:{[id: string]: WorkPackageTableRow} = {};
 
   // WP rows builder
-  private groupedRowsBuilder = new GroupedRowsBuilder();
-  private plainRowsBuilder = new PlainRowsBuilder();
+  // Ordered by priority
+  private builders = [
+    new HierarchyRowsBuilder(),
+    new GroupedRowsBuilder(),
+    new PlainRowsBuilder()
+  ];
 
   constructor(public tbody:HTMLElement) {
     injectorBridge(this);
@@ -36,16 +42,12 @@ export class WorkPackageTable {
    * Returns the reference to the last table.metadata state value
    */
   public get metaData() {
-    return this.states.table.metadata.getCurrentValue();
+    return this.states.table.metadata.getCurrentValue() as WorkPackageTableMetadata;
   }
 
   public get rowBuilder():RowsBuilder {
     const metaData = this.metaData;
-    if (metaData && metaData.groupBy) {
-      return this.groupedRowsBuilder;
-    } else {
-      return this.plainRowsBuilder;
-    }
+    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this, metaData))!;
   }
 
   /**

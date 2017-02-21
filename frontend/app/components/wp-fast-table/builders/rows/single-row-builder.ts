@@ -38,8 +38,6 @@ export class SingleRowBuilder {
    */
   public buildEmpty(workPackage:WorkPackageResource):HTMLElement {
     let row = this.createEmptyRow(workPackage);
-    row.id = `wp-row-${workPackage.id}`;
-    row.classList.add(rowClassName, 'wp--row', 'issue');
 
     this.columns.forEach((column:string) => {
       let cell = this.cellBuilder.build(workPackage, column);
@@ -62,10 +60,11 @@ export class SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  private createEmptyRow(workPackage:WorkPackageResource) {
+  public createEmptyRow(workPackage:WorkPackageResource) {
     let tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);
     tr.dataset['workPackageId'] = workPackage.id;
+    tr.classList.add(rowClassName, 'wp--row', 'issue');
 
     return tr;
   }

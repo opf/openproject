@@ -27,9 +27,11 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ContextMenuService} from '../context-menu.service';
+import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 
 interface IMyScope extends ng.IScope {
   displaySumsLabel:string;
+  displayHierarchies:boolean;
   saveQuery:Function;
   deleteQuery:Function;
   query:op.Query;
@@ -42,6 +44,7 @@ interface IMyScope extends ng.IScope {
   showGroupingModal:Function;
   showSortingModal:Function;
   toggleDisplaySums:Function;
+  toggleHierarchies:Function;
   showSettingsModalInvalid:Function;
   showShareModalInvalid:Function;
   showExportModalInvalid:Function;
@@ -64,14 +67,15 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         sortingModal:any,
                                         groupingModal:any,
                                         contextMenu:ContextMenuService,
+                                        wpTableHierarchy:WorkPackageTableHierarchyService,
                                         QueryService:any,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
+
+  $scope.displayHierarchies = wpTableHierarchy.isEnabled;
   $scope.$watch('query.displaySums', function (newValue) {
-    $timeout(function () {
-      $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
-        : I18n.t('js.toolbar.settings.display_sums');
-    });
+    $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
+      : I18n.t('js.toolbar.settings.display_sums');
   });
 
   $scope.saveQuery = function (event:JQueryEventObject) {
@@ -164,6 +168,10 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showGroupingModal = function (event:JQueryEventObject) {
+    if ($scope.displayHierarchies) {
+      return;
+    }
+
     event.stopPropagation();
     showModal.call(groupingModal);
     updateFocusInModal('selected_columns_new');
@@ -173,6 +181,15 @@ function SettingsDropdownMenuController($scope:IMyScope,
     event.stopPropagation();
     showModal.call(sortingModal);
     updateFocusInModal('modal-sorting-attribute-0');
+  };
+
+  $scope.toggleHierarchies = function () {
+    if (!!$scope.query.groupBy) {
+      return;
+    }
+
+    const isEnabled = wpTableHierarchy.isEnabled;
+    wpTableHierarchy.setEnabled(!isEnabled);
   };
 
   $scope.toggleDisplaySums = function () {

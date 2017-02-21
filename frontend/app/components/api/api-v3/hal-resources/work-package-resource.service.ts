@@ -43,6 +43,7 @@ import {RelationResourceInterface} from './relation-resource.service';
 
 interface WorkPackageResourceEmbedded {
   activities: CollectionResourceInterface;
+  ancestors: WorkPackageResourceInterface[];
   assignee: HalResource|any;
   attachments: AttachmentCollectionResourceInterface;
   author: HalResource|any;
@@ -122,7 +123,6 @@ export class WorkPackageResource extends HalResource {
 
   public $embedded: WorkPackageResourceEmbedded;
   public $links: WorkPackageResourceLinks;
-  public id: string;
   public schema: SchemaResource;
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
@@ -137,6 +137,18 @@ export class WorkPackageResource extends HalResource {
   public pendingAttachments: UploadFile[] = [];
 
   private form:any;
+
+  public get id():string {
+    return this.$source.id || this.idFromLink;
+  }
+
+  public get idFromLink():string {
+    if (this.href) {
+      return this.href.split('/').pop()!;
+    }
+
+    return '';
+  }
 
   public get isNew(): boolean {
     return this.id === 'new';
@@ -529,7 +541,7 @@ export class WorkPackageResource extends HalResource {
   public initializeNewResource(form:any) {
     this.schema = form.schema;
     this.form = $q.when(form);
-    this.id = 'new';
+    this.$source.id = 'new';
 
     // Set update link to form
     this['update'] = this.$links.update = form.$links.self;
