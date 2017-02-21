@@ -174,6 +174,21 @@ describe 'activity comments', js: true, selenium: true do
           edit.submit_by_click
           expect(page).to have_selector('.user-comment .message em', text: 'italic text')
           expect(page).to have_selector('.user-comment .message', text: 'Comment with italic text')
+
+          # Clear the comment
+          activity = page.find('#activity-2')
+          page.driver.browser.action.move_to(activity.native).perform
+
+          # Check the edit textarea
+          activity.find('.icon-edit').click
+          edit = WorkPackageTextAreaField.new wp_page,
+                                              'comment',
+                                              selector: '.user-comment--form'
+
+          edit.set_value ''
+          edit.submit_by_click
+
+          expect(page).to have_no_selector('#activity-2 .user-comment .message em', text: 'italic text')
         end
       end
     end

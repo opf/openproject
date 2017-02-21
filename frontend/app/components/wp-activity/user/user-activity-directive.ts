@@ -125,7 +125,7 @@ function userActivity($uiViewScroll:any,
       };
 
       scope.updateComment = function () {
-        ActivityService.updateComment(scope.activity, scope.activity.editedComment).then(function () {
+        ActivityService.updateComment(scope.activity, scope.activity.editedComment || '').then(function () {
           scope.workPackage.updateActivities();
           scope.inEdit = false;
         });
