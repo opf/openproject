@@ -38,7 +38,7 @@ describe 'API v3 Role resource' do
 
   before do
     # Avoid having a builtin role left over from another spec
-    Role.destroy_all
+    Role.delete_all
 
     allow(User).to receive(:current).and_return current_user
   end
