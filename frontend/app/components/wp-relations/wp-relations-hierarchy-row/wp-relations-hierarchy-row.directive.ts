@@ -20,10 +20,6 @@ class WpRelationsHierarchyRowDirectiveController {
               protected PathHelper: op.PathHelper,
               protected I18n: op.I18n) {
 
-    if (!this.relatedWorkPackage && this.relationType !== 'parent') {
-      this.relatedWorkPackage = angular.copy(this.workPackage);
-    }
-
     this.canModifyHierarchy = !!this.workPackage.changeParent;
   };
 
