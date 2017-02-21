@@ -190,7 +190,7 @@ describe TypesController, type: :controller do
       end
     end
 
-    describe 'GET edit' do
+    describe 'GET edit settings' do
       render_views
       let(:type) do
         FactoryGirl.create(:type, name: 'My type',
@@ -199,14 +199,32 @@ describe TypesController, type: :controller do
       end
 
       before do
-        get 'edit', params: { id: type.id }
+        get 'edit', params: { id: type.id, tab: :settings }
       end
 
       it { expect(response).to be_success }
       it { expect(response).to render_template 'edit' }
+      it { expect(response).to render_template 'types/form/_settings' }
       it { expect(response.body).to have_selector "input[@name='type[name]'][@value='My type']" }
-      it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
       it { expect(response.body).to have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
+    end
+
+    describe 'GET edit projects' do
+      render_views
+      let(:type) do
+        FactoryGirl.create(:type, name: 'My type',
+                                  is_milestone: true,
+                                  projects: [project])
+      end
+
+      before do
+        get 'edit', params: { id: type.id, tab: :projects }
+      end
+
+      it { expect(response).to be_success }
+      it { expect(response).to render_template 'edit' }
+      it { expect(response).to render_template 'types/form/_projects' }
+      it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
     end
 
     describe 'POST update' do
@@ -219,7 +237,9 @@ describe TypesController, type: :controller do
 
       describe 'WITH type rename' do
         let(:params) do
-          { 'id' => type.id, 'type' => { name: 'My type renamed' } }
+          { 'id' => type.id,
+            'type' => { name: 'My type renamed' },
+            'tab' => "settings" }
         end
 
         before do
@@ -227,21 +247,33 @@ describe TypesController, type: :controller do
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
+        it do
+          expect(response).to(
+            redirect_to(edit_type_tab_path(id: type.id, tab: "settings"))
+          )
+        end
         it 'should be renamed' do
           expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
       end
 
       describe 'WITH projects removed' do
-        let(:params) { { 'id' => type.id, 'type' => { project_ids: [''] } } }
+        let(:params) do
+          { 'id' => type.id,
+            'type' => { project_ids: [''] },
+            'tab' => "projects" }
+        end
 
         before do
           put :update, params: params
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
+        it do
+          expect(response).to(
+            redirect_to(edit_type_tab_path(id: type.id, tab: :projects))
+          )
+        end
         it 'should have no projects assigned' do
           expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
         end
