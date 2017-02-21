@@ -1,3 +1,8 @@
+import {
+  collapsedGroupClass,
+  hierarchyGroupClass,
+  hierarchyRootClass
+} from '../../helpers/wp-table-hierarchy-helpers';
 import {indicatorCollapsedClass} from '../../builders/rows/hierarchy-rows-builder';
 import {WorkPackageTableHierarchyService} from '../../state/wp-table-hierarchy.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -41,9 +46,9 @@ export class HierarchyTransformer {
    // Hide all collapsed hierarchies
    _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
      // Hide/Show the descendants.
-     jQuery(`.__hierarchy-group-${wpId}`).toggleClass(`__collapsed-group-${wpId}`, isCollapsed);
+     jQuery(`.${hierarchyGroupClass(wpId)}`).toggleClass(collapsedGroupClass(wpId), isCollapsed);
      // Toggle the root style
-     jQuery(`.__hierarchy-root-${wpId} .wp-table--hierarchy-indicator`).toggleClass(indicatorCollapsedClass, isCollapsed);
+     jQuery(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`).toggleClass(indicatorCollapsedClass, isCollapsed);
    });
   }
 }
