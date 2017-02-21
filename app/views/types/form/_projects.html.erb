@@ -31,24 +31,19 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="grid-block wrap">
     <div class="grid-content small-12 large-6">
       <% if @projects.any? %>
-        <fieldset class="form--fieldset -collapsible" id="type_project_ids">
-          <legend class="form--fieldset-legend" onclick="toggleFieldset(this);">
-            <%= t(:label_project_plural) %>
-          </legend>
-          <div>
-            <div class="form--fieldset-control">
-              <span class="form--fieldset-control-container">
-                (<%= check_all_links 'type_project_ids' %>)
-              </span>
-            </div>
-            <%= project_nested_ul(@projects) do |p|
-              content_tag('label',
-                check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
-                  ' ' + h(p), class: 'form--label-with-check-box')
-            end %>
-            <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+        <div>
+          <div class="form--fieldset-control">
+            <span class="form--fieldset-control-container">
+              (<%= check_all_links 'type_project_ids' %>)
+            </span>
           </div>
-        </fieldset>
+          <%= project_nested_ul(@projects) do |p|
+            content_tag('label',
+              check_box_tag('type[project_ids][]', p.id, @type.projects.include?(p), id: nil) +
+                ' ' + h(p), class: 'form--label-with-check-box')
+          end %>
+          <%= hidden_field_tag('type[project_ids][]', '', id: nil) %>
+        </div>
       <% end %>
     </div>
   </div>
