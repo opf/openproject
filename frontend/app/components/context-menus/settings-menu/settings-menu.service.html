@@ -6,7 +6,16 @@
       <a class="menu-item" href="" ng-click="showColumnsModal($event)"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a>
     </li>
     <li><a class="menu-item" href="" ng-click="showSortingModal($event)"><i class="icon-action-menu icon-sort-by"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
-    <li><a class="menu-item" href="" ng-click="showGroupingModal($event)"><i class="icon-action-menu icon-group-by"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
+    <li>
+       <a class="menu-item"
+          href
+          ng-disabled="displayHierarchies"
+          ng-class="{'inactive': displayHierarchies}"
+          ng-click="showGroupingModal($event)">
+          <i class="icon-action-menu icon-group-by"></i>
+          {{ I18n.t('js.toolbar.settings.group_by') }}
+       </a>
+    </li>
     <li>
       <a class="menu-item" href="" ng-click="toggleDisplaySums($event)">
         <i ng-if="query.displaySums" class="icon-action-menu icon-checkmark"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>
@@ -20,7 +29,12 @@
         <i ng-if="displayHierarchies" class="icon-action-menu icon-checkmark"></i>
         <span ng-bind="::I18n.t('js.toolbar.settings.hide_hierarchy')"></span>
       </a>
-      <a ng-if="!displayHierarchies" class="menu-item" href ng-click="toggleHierarchies($event)">
+      <a ng-disabled="query.groupBy"
+         ng-class="{'inactive': !!query.groupBy}"
+         ng-if="!displayHierarchies"
+         class="menu-item"
+         href
+         ng-click="toggleHierarchies($event)">
         <i ng-if="!displayHierarchies" class="icon-action-menu no-icon"></i>
         <span ng-bind="::I18n.t('js.toolbar.settings.display_hierarchy')"></span>
     </li>
