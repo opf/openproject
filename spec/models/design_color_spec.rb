@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe DesignColor, type: :model do
+  let(:default_primary) { ::OpenProject::Design.variables['primary-color'] }
   let(:primary_color) { FactoryGirl.create :"design_color_primary-color" }
 
   describe "#defaults" do
     it "returns a hash of default color variables with hex color codes" do
       expect(described_class.defaults).to be_a(Hash)
-      expect(described_class.defaults["primary-color"]).to(
-        equal(described_class.defaults["primary-color"])
-      )
+      expect(described_class.defaults["primary-color"]).to eq(default_primary)
     end
   end
 
@@ -36,7 +35,8 @@ RSpec.describe DesignColor, type: :model do
     end
 
     it "returns default hexcode if hexcode not present" do
-      expect(described_class.new(variable: "primary-color").get_hexcode).to eq("#3493B3")
+      expect(described_class.new(variable: "primary-color").get_hexcode)
+        .to eq(default_primary)
     end
   end
 
