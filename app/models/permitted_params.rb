@@ -467,13 +467,15 @@ class PermittedParams
           :regexp,
           :searchable,
           :visible,
+          :default_value,
+          :possible_values,
+          :multi_value,
           translations_attributes: [
             :_destroy,
-            :default_value,
             :id,
             :locale,
-            :name,
-            :possible_values],
+            :name
+          ],
           type_ids: []],
         enumeration: [
           :active,

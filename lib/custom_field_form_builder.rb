@@ -73,20 +73,33 @@ class CustomFieldFormBuilder < TabularFormBuilder
   end
 
   def custom_field_input_list(field, input_options)
-    select_options = { no_label: true }
+    possible_options = possible_options_for_object
+    select_options = custom_field_select_options_for_object
+    selectable_options = template.options_for_select(possible_options, object.value)
+
+    select(field, selectable_options, select_options, input_options).html_safe
+  end
+
+  def possible_options_for_object
+    object
+      .custom_field
+      .possible_values_options(object.customized)
+      .map { |option| [option.value, option.id] }
+  end
+
+  def custom_field_select_options_for_object
     is_required = object.custom_field.is_required?
     default_value = object.custom_field.default_value
-    possible_options = object.custom_field.possible_values_options(object.customized)
+
+    select_options = { no_label: true }
 
     if is_required && default_value.blank?
-      select_options[:prompt] = "--- #{l(:actionview_instancetag_blank_option)} ---"
+      select_options[:prompt] = "--- #{I18n.t(:actionview_instancetag_blank_option)} ---"
     elsif !is_required
       select_options[:include_blank] = true
     end
 
-    selectable_options = template.options_for_select(possible_options, object.value)
-
-    select(field, selectable_options, select_options, input_options).html_safe
+    select_options
   end
 
   def custom_field_field_name

@@ -147,6 +147,7 @@ declare namespace op {
     id?:number;
     columns?:any;
     displaySums?:any;
+    displayHierarchy?:any;
     projectId?:any;
     groupBy?:string;
     filters?:any;

@@ -171,11 +171,3 @@ export class WorkPackageTableColumnsService {
 }
 
 opServicesModule.service('wpTableColumns', WorkPackageTableColumnsService);
-
-
-
-
-
-
-
-

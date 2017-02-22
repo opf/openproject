@@ -65,7 +65,7 @@ class CustomStylesController < ApplicationController
     @custom_style = CustomStyle.current
     if @custom_style && @custom_style.logo
       expires_in 1.years, public: true, must_revalidate: false
-      send_file(@custom_style.logo_url)
+      send_file(@custom_style.logo.local_file.path)
     else
       head :not_found
     end

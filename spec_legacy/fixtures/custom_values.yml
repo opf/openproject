@@ -38,7 +38,7 @@ custom_values_007:
   custom_field_id: 3
   customized_id: 1
   id: 7
-  value: Stable
+  value: "4"
 custom_values_001:
   customized_type: Principal
   custom_field_id: 4
@@ -74,7 +74,7 @@ custom_values_008:
   custom_field_id: 1
   customized_id: 3
   id: 8
-  value: "MySQL"
+  value: "1"
 custom_values_009:
   customized_type: WorkPackage
   custom_field_id: 2
@@ -134,7 +134,7 @@ custom_values_018:
   custom_field_id: 1
   customized_id: 1
   id: 18
-  value: "Oracle"
+  value: "3"
 custom_values_019:
   customized_type: WorkPackage
   custom_field_id: 8

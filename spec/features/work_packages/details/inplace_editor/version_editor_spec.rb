@@ -39,6 +39,8 @@ describe 'subject inplace editor', js: true, selenium: true do
 
   it 'renders hierarchical versions' do
     work_package_page.visit!
+    work_package_page.ensure_page_loaded
+
     work_package_page.view_all_attributes
     work_package_page.ensure_page_loaded
 

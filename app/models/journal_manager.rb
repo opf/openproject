@@ -282,15 +282,31 @@ class JournalManager
   end
 
   def self.create_custom_field_data(journable, journal)
-    # Consider only custom values with non-blank values. Otherwise,
-    # non-existing custom values are different to custom values with an empty
-    # value.
-    # Mind that false.present? == false, but we don't consider false this being "blank"...
-    # This does not matter when we use stringly typed values (as in the database),
-    # but it matters when we use real types
-    journable.custom_values.select { |c| c.value.present? || c.value == false }.each do |cv|
-      journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
+    journable.custom_values.group_by(&:custom_field).each do |custom_field, custom_values|
+      # Consider only custom values with non-blank values. Otherwise,
+      # non-existing custom values are different to custom values with an empty
+      # value.
+      # Mind that false.present? == false, but we don't consider false this being "blank"...
+      # This does not matter when we use stringly typed values (as in the database),
+      # but it matters when we use real types
+      valid_values = custom_values.select { |cv| cv.value.present? || cv.value == false }
+
+      if custom_field.multi_value? && valid_values.any?
+        build_multi_value_custom_field_journal! journal, custom_field, valid_values
+      elsif valid_values.any?
+        build_custom_field_journal! journal, custom_field, valid_values.first
+      end
     end
+  end
+
+  def self.build_multi_value_custom_field_journal!(journal, custom_field, custom_values)
+    value = custom_values.map(&:value).join(",") # comma separated custom option IDs
+
+    journal.customizable_journals.build custom_field_id: custom_field.id, value: value
+  end
+
+  def self.build_custom_field_journal!(journal, custom_field, custom_value)
+    journal.customizable_journals.build custom_field_id: custom_field.id, value: custom_value.value
   end
 
   def self.reset_notification

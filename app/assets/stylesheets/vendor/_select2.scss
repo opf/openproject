@@ -229,7 +229,8 @@ $se2-width: 100%;
       @include varprop(background-color, drop-down-selected-bg-color);
       @include varprop(color, drop-down-selected-font-color);
       &:hover {
-        @include varprop(background-color, drop-down-selected-bg-color);
+        @include varprop(background-color, drop-down-hover-bg-color);
+        @include varprop(color, drop-down-hover-font-color);
       }
     }
   }

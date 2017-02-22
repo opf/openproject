@@ -26,20 +26,46 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Int custom fields can be created
-
-  Background:
-    Given I am already admin
-    And the following languages are active:
-      | en |
-      | de |
-    When I go to the custom fields page
-    When I follow "Create a new custom field" within "#tab-content-WorkPackageCustomField"
-
-  @javascript
-  Scenario: Creating an int custom field
-    When I select "Integer" from "custom_field_field_format"
-    And I set the english localization of the "name" attribute to "New Field"
-    And I set the english localization of the "default_value" attribute to "342"
-    And I press "Save"
-    Then I should be on the custom fields page
+---
+custom_option_001:
+  id: 1
+  custom_field_id: 1
+  position: 1
+  value: MySQL
+  default_value: false
+custom_option_002:
+  id: 2
+  custom_field_id: 1
+  position: 2
+  value: PostgreSQL
+  default_value: false
+custom_option_003:
+  id: 3
+  custom_field_id: 1
+  position: 3
+  value: Oracle
+  default_value: false
+custom_option_004:
+  id: 4
+  custom_field_id: 3
+  position: 1
+  value: Stable
+  default_value: false
+custom_option_005:
+  id: 5
+  custom_field_id: 3
+  position: 2
+  value: Beta
+  default_value: false
+custom_option_006:
+  id: 6
+  custom_field_id: 3
+  position: 3
+  value: Alpha
+  default_value: false
+custom_option_007:
+  id: 7
+  custom_field_id: 3
+  position: 4
+  value: Planning
+  default_value: false

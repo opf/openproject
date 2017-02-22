@@ -75,7 +75,7 @@ describe Query, type: :model do
   it 'should query with multiple custom fields' do
     query = Query.find(1)
     assert query.valid?
-    assert query.statement.include?("#{CustomValue.table_name}.value IN ('MySQL')")
+    assert query.statement.include?("#{CustomValue.table_name}.value IN ('1')")
     issues = find_issues_with_query(query)
     assert_equal 1, issues.length
     assert_equal WorkPackage.find(3), issues.first
@@ -368,7 +368,7 @@ describe Query, type: :model do
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass String), count_by_group.keys.map { |k| k.class.name }.uniq.sort
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
-    assert count_by_group.has_key?('MySQL')
+    assert count_by_group.has_key?('1')
   end
 
   it 'should issue count by date custom field group' do

@@ -1,4 +1,5 @@
 import {RowRefreshBuilder} from './row-refresh-builder';
+import {WorkPackageTableMetadata} from '../../wp-table-metadata';
 import {States} from '../../../states.service';
 import {SingleRowBuilder} from './single-row-builder';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
@@ -21,6 +22,14 @@ export abstract class RowsBuilder {
    * Build all rows of the table.
    */
   public abstract buildRows(table:WorkPackageTable):DocumentFragment;
+
+
+  /**
+   * Determine if this builder applies to the current view mode.
+   */
+  public isApplicable(table:WorkPackageTable, metaData:WorkPackageTableMetadata) {
+    return true;
+  }
 
   /**
    * Refresh a single row after structural changes.

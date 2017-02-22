@@ -35,6 +35,7 @@ function halResourceTypesConfig(halResourceTypes:HalResourceTypesService) {
       className: 'WorkPackageResource',
       attrTypes: {
         parent: 'WorkPackage',
+        ancestors: 'WorkPackage',
         children: 'WorkPackage',
         relations: 'Relation',
         schema: 'Schema',

@@ -166,14 +166,16 @@ describe CustomFieldsController, type: :controller do
 
     describe 'WITH different language and default_value params' do
       let(:en_name) { 'Issue Field' }
-      let(:en_default) { 'EN Default Value' }
       let(:de_name) { '' }
-      let(:de_default) { 'DE Default Value' }
+
+      let(:default_value) { 'Default Value' }
+
       let(:params) {
         { 'type' => 'WorkPackageCustomField',
           'custom_field' => { 'translations_attributes' =>
-                                           { '0' => { 'name' => de_name, 'locale' => 'de', 'default_value' => de_default },
-                                             '1' => { 'name' => en_name, 'locale' => 'en', 'default_value' => '' } },
+                                           { '0' => { 'name' => de_name, 'locale' => 'de' },
+                                             '1' => { 'name' => en_name, 'locale' => 'en' } },
+                              'default_value' => default_value,
                               'field_format' => 'string' } }
       }
       before do
@@ -192,14 +194,14 @@ describe CustomFieldsController, type: :controller do
       it 'sets correct values for EN' do
         I18n.with_locale(:en) do
           expect(assigns(:custom_field).name).to eq(en_name)
-          expect(assigns(:custom_field).default_value).to be_nil
+          expect(assigns(:custom_field).default_value).to eq default_value
         end
       end
 
       it 'sets correct values for DE' do
         I18n.with_locale(:de) do
           expect(assigns(:custom_field).name).to eq(en_name)
-          expect(assigns(:custom_field).default_value).to eq 'DE Default Value'
+          expect(assigns(:custom_field).default_value).to eq default_value
         end
       end
     end

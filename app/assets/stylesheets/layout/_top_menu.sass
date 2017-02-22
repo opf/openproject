@@ -136,8 +136,8 @@
         color: $header-drop-down-item-font-color
         padding: 0 15px
         &:hover
-          @include varprop(background, header-item-bg-hover-color)
-          color: $header-drop-down-item-font-hover-color
+          @include varprop(background, drop-down-hover-bg-color)
+          @include varprop(color, drop-down-hover-font-color)
 
     > ul
       padding: 6px 0
@@ -278,14 +278,13 @@ input.top-menu-search--input
     padding: 0
 
     .select2-highlighted
-      background:      $primary-color !important
-      background: var(--primary-color) !important
+      @include varprop(background, drop-down-selected-bg-color, !important)
       border-radius: 0 !important
       font-weight: bold !important
-      color: $font-color-on-primary
+      @include varprop(color, drop-down-selected-font-color)
       &:hover
-        background:      $primary-color-dark !important
-        background: var(--primary-color-dark) !important
+        @include varprop(background, drop-down-hover-bg-color, !important)
+        @include varprop(color, drop-down-hover-font-color, !important)
 
 #header
   height: $header-height

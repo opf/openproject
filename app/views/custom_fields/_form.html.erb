@@ -63,33 +63,44 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
+  <div class="form--field" id="custom_field_multi_select">
+    <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
+      <%= f.check_box :multi_value %>
+    <% else %>
+      <label class="form--label" for="custom_field_multi_value_disabled"><%= CustomField.human_attribute_name('multi_value') %></label>
+      <span class="form--field-container">
+        <span class="form--check-box-container">
+          <input disabled="disabled" class="-cf-ignore-disabled form--check-box" type="checkbox" name="custom_field_multi_value_disabled">
+          <%= render partial: 'enterprise/locked_note' %>
+        </span>
+      </span>
+    <% end %>
+  </div>
+
   <div class="form--field" id="custom_field_possible_values_attributes">
     <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
-      <% possible_values = @custom_field.translations.inject({}) do |h, t|
-        h[t.locale] = t.possible_values.to_a.join("\n")
-        h
-      end %>
-      <%= f.text_area :possible_values,
-                      value: possible_values,
-                      rows: 15,
-                      multi_locale: true %><br>
+      <label
+        class="form--label"
+        title="<%= I18n.t("activerecord.attributes.custom_field.possible_values") %>"
+        for="custom_field_possible_values"
+      >
+        <%= I18n.t("activerecord.attributes.custom_field.possible_values") %>
+      </label>
+      <span class="form--field-container">
+        <%= render partial: "custom_fields/custom_options", locals: { custom_options: @custom_field.custom_options, f: f } %>
+      </span>
+      <a id="add-custom-option" href="#" class="form--field-extra-actions icon icon-add">Add</a>
     <% end %>
-    <span class="form--field-instructions"><%= l(:text_custom_field_possible_values_info) %></span>
   </div>
   <div id="custom_field_default_value_attributes">
-    <div class="form--field" id="default_value_text_multi">
-      <% unless @custom_field.field_format == 'bool' %>
-        <%= f.text_field(:default_value, multi_locale: true) %>
-      <% end %>
-    </div>
-    <div class="form--field" id="default_value_text_single">
-      <% if @custom_field.new_record? || ['date', 'float', 'int'].include?(@custom_field.field_format) %>
-        <%= f.text_field(:default_value, single_locale: true) %>
+    <div class="form--field" id="default_value_text">
+      <% if @custom_field.new_record? || @custom_field.field_format != 'bool' %>
+        <%= f.text_field(:default_value) %>
       <% end %>
     </div>
     <div class="form--field" style="display:none" id="default_value_bool">
       <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
-        <%= f.check_box(:default_value, single_locale: true) %>
+        <%= f.check_box(:default_value) %>
       <% end %>
     </div>
   </div>

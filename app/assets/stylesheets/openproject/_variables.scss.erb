@@ -32,8 +32,7 @@ $variable-map: (
 
 // use CSS4 + Sass variable fallback for the given property
 // e.g., @include varprop(background-color, primary-color)
-@mixin varprop($prop, $name) {
-  #{$prop}: map-get($variable-map, $name);
-  #{$prop}: var(--#{$name});
+@mixin varprop($prop, $name, $suffix:"") {
+  #{$prop}: map-get($variable-map, $name) unquote($suffix);
+  #{$prop}: var(--#{$name}) unquote($suffix);
 }
-

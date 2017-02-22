@@ -111,7 +111,7 @@ describe ::API::Utilities::ResourceLinkParser do
           let(:result) { subject.parse '/api/v3/string_objects?value=foo-2_~!$&\'()*+.,:;=@%40' }
           let(:version) { '3' }
           let(:namespace) { 'string_objects' }
-          let(:id) { 'foo-2_~!$&\'()*+.,:;=@@' }
+          let(:id) { 'foo' }
         end
       end
 

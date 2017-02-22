@@ -36,7 +36,7 @@ queries_001:
     ---
     cf_1:
       :values:
-      - MySQL
+      - "1"
       :operator: "="
     status_id:
       :values:

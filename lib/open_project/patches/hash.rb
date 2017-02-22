@@ -43,7 +43,7 @@ module OpenProject
       ##
       # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
       def dig(*keys)
-        keys.inject(self) { |hash, key| hash && hash.is_a?(Hash) && hash[key] }
+        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
       end
     end
   end

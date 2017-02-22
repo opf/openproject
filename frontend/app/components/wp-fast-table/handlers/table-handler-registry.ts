@@ -1,4 +1,6 @@
 import {TimelineTransformer} from './state/timeline-transformer';
+import {HierarchyTransformer} from './state/hierarchy-transformer';
+import {HierarchyClickHandler} from './row/hierarchy-click-handler';
 import {WorkPackageTable} from '../wp-fast-table';
 import {RowClickHandler} from './row/click-handler';
 import {RowDoubleClickHandler} from './row/double-click-handler';
@@ -19,6 +21,8 @@ export interface TableEventHandler {
 
 export class TableHandlerRegistry {
   static eventHandlers = [
+    // Hierarchy expansion/collapsing
+    HierarchyClickHandler,
     // Clicking or pressing Enter on a single cell, editable or not
     EditCellHandler,
     // Clicking on the details view
@@ -39,6 +43,7 @@ export class TableHandlerRegistry {
     RowsTransformer,
     ColumnsTransformer,
     TimelineTransformer,
+    HierarchyTransformer
   ];
 
   static attachTo(table: WorkPackageTable) {

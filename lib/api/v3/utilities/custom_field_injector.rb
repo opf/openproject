@@ -204,7 +204,7 @@ module API
           @class.schema_with_allowed_link property_name(custom_field.id),
                                           type: 'User',
                                           writable: true,
-                                          name_source: -> (*) { custom_field.name },
+                                          name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
                                           href_callback: -> (*) {
                                             # for now we ASSUME that every customized that has a
@@ -215,28 +215,34 @@ module API
 
         def inject_list_schema(custom_field, customized)
           representer = StringObjects::StringObjectRepresenter
-          @class.schema_with_allowed_collection property_name(custom_field.id),
-                                                type: 'StringObject',
-                                                name_source: -> (*) { custom_field.name },
-                                                values_callback: -> (*) {
-                                                  customized
-                                                    .assignable_custom_field_values(custom_field)
-                                                },
-                                                value_representer: representer,
-                                                writable: true,
-                                                link_factory: -> (value) {
-                                                  {
-                                                    href: api_v3_paths.string_object(value),
-                                                    title: value
-                                                  }
-                                                },
-                                                required: custom_field.is_required
+          type = custom_field.multi_value ? "[]StringObject" : "StringObject"
+          name_source = ->(*) { custom_field.name }
+          values_callback = ->(*) { customized.assignable_custom_field_values(custom_field) }
+          link_factory = ->(value) do
+            # allow both single values and tuples for
+            # custom titles
+            {
+              href: api_v3_paths.string_object(value),
+              title: Array(value).first
+            }
+          end
+
+          @class.schema_with_allowed_collection(
+            property_name(custom_field.id),
+            type: type,
+            name_source: name_source,
+            values_callback: values_callback,
+            value_representer: representer,
+            writable: true,
+            link_factory: link_factory,
+            required: custom_field.is_required
+          )
         end
 
         def inject_basic_schema(custom_field)
           @class.schema property_name(custom_field.id),
                         type: TYPE_MAP[custom_field.field_format],
-                        name_source: -> (*) { custom_field.name },
+                        name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
                         has_default: (not custom_field.default_value.nil?),
                         writable: true,
@@ -251,60 +257,64 @@ module API
 
         def inject_link_value(custom_field)
           getter = link_value_getter_for(custom_field, path_method_for(custom_field))
-          @class.link property_name(custom_field.id) do
-            instance_exec(&getter)
+
+          if custom_field.multi_value?
+            @class.links property_name(custom_field.id) do
+              instance_exec(&getter)
+            end
+          else
+            @class.link property_name(custom_field.id) do
+              instance_exec(&getter)
+            end
           end
         end
 
         def link_value_getter_for(custom_field, path_method)
-          -> (*) do
-            # we can't use the generated accessor (e.g. represented.send :custom_field_1) here,
-            # because we need to generate a link even if the id does not belong to an existing
-            # object (that behaviour is only required for form payloads)
-            custom_value = represented.custom_value_for(custom_field)
-
-            unless custom_value && custom_value.value.present?
-              return { href: nil, title: nil }
-            end
-
-            hash = { href: api_v3_paths.send(path_method, custom_value.value) }
-            hash[:title] = if custom_value.typed_value.respond_to?(:name)
-                             custom_value.typed_value.name
-                           else
-                             custom_value.typed_value
-                           end
-            hash
-          end
+          LinkValueGetter.new custom_field, path_method
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
-          -> (link_object, *) {
-            href = link_object['href']
+          ->(link_object, *) {
+            values = Array([link_object].flatten).flat_map do |link|
+              href = link['href']
+              value =
+                if href
+                  ::API::Utilities::ResourceLinkParser.parse_id(
+                    href,
+                    property: property,
+                    expected_version: '3',
+                    expected_namespace: expected_namespace
+                  )
+                end
 
-            if href
-              value = ::API::Utilities::ResourceLinkParser.parse_id(
-                href,
-                property: property,
-                expected_version: '3',
-                expected_namespace: expected_namespace)
-            else
-              value = nil
+              [value].compact
             end
 
-            represented.custom_field_values = { custom_field.id => value }
+            represented.custom_field_values = { custom_field.id => values }
           }
         end
 
         def inject_embedded_link_value(custom_field)
-          @class.property property_name(custom_field.id),
-                          embedded: true,
-                          exec_context: :decorator,
-                          getter: -> (*) {
-                            value = represented.send custom_field.accessor_name
-                            representer_class = REPRESENTER_MAP[custom_field.field_format]
+          getter = proc do
+            value = represented.send custom_field.accessor_name
 
-                            representer_class.new(value, current_user: current_user) if value
-                          }
+            if value
+              if custom_field.field_format == "list"
+                nil # do not embed multi select values
+              else
+                representer_class = REPRESENTER_MAP[custom_field.field_format]
+
+                representer_class.new(value, current_user: current_user)
+              end
+            end
+          end
+
+          @class.property(
+            property_name(custom_field.id),
+            embedded: true,
+            exec_context: :decorator,
+            getter: getter
+          )
         end
 
         def inject_property_value(custom_field)
@@ -315,7 +325,7 @@ module API
         end
 
         def property_value_getter_for(custom_field)
-          -> (*) {
+          ->(*) {
             value = send custom_field.accessor_name
 
             if custom_field.field_format == 'text'
@@ -327,7 +337,7 @@ module API
         end
 
         def property_value_setter_for(custom_field)
-          -> (value, *) {
+          ->(value, *) {
             value = value['raw'] if custom_field.field_format == 'text'
             self.custom_field_values = { custom_field.id => value }
           }

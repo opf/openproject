@@ -30,12 +30,14 @@
 class CustomValue::ListStrategy < CustomValue::FormatStrategy
   def typed_value
     unless value.blank?
-      value
+      @option ||= CustomOption.where(id: value.to_s).limit(1).map(&:value).first
+
+      @option || "#{value} not found"
     end
   end
 
   def validate_type_of_value
-    unless custom_field.possible_values.include?(value)
+    unless custom_field.custom_options.pluck(:id).include?(value.to_i)
       :inclusion
     end
   end

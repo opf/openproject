@@ -34,12 +34,16 @@ module CustomField::OrderStatements
   def order_statements
     case field_format
     when 'string', 'text', 'list', 'date', 'bool'
-      # COALESCE is here to make sure that blank and NULL values are sorted equally
-      [
-        <<-SQL
-        COALESCE(#{select_custom_value_as_string}, '')
-        SQL
-      ]
+      if multi_value?
+        [select_custom_values_as_group]
+      else
+        # COALESCE is here to make sure that blank and NULL values are sorted equally
+        [
+          <<-SQL
+          COALESCE(#{select_custom_value_as_string}, '')
+          SQL
+        ]
+      end
     when 'int', 'float'
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!
@@ -64,6 +68,16 @@ module CustomField::OrderStatements
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
         AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
         AND cv_sort.custom_field_id=#{id} LIMIT 1)
+    SQL
+  end
+
+  def select_custom_values_as_group
+    <<-SQL
+      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
+        WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
+          AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
+          AND cv_sort.custom_field_id=#{id}
+          AND cv_sort.value IS NOT NULL), '')
     SQL
   end
 

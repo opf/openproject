@@ -32,6 +32,7 @@ import {TextEditField} from "../field-types/wp-edit-text-field.module";
 import {IntegerEditField} from "../field-types/wp-edit-integer-field.module";
 import {DurationEditField} from "../field-types/wp-edit-duration-field.module";
 import {SelectEditField} from "../field-types/wp-edit-select-field.module";
+import {MultiSelectEditField} from "../field-types/wp-edit-multi-select-field.module";
 import {FloatEditField} from "../field-types/wp-edit-float-field.module";
 import {BooleanEditField} from "../field-types/wp-edit-boolean-field.module";
 import {DateEditField} from "../field-types/wp-edit-date-field.module";
@@ -60,6 +61,9 @@ openprojectModule
         'Category',
         'StringObject',
         'Project'])
+      .addFieldType(MultiSelectEditField, 'multi-select', [
+        '[]StringObject'
+      ])
       .addFieldType(FloatEditField, 'float', ['Float'])
       .addFieldType(IntegerEditField, 'integer', ['Integer'])
       .addFieldType(BooleanEditField, 'boolean', ['Boolean'])
