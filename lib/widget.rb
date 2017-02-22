@@ -25,7 +25,9 @@ class Widget < ActionView::Base
   include ActionView::Helpers::FormTagHelper
   include ActionView::Helpers::JavaScriptHelper
   include Rails.application.routes.url_helpers
+  include ApplicationHelper
   include ReportingHelper
+  include Redmine::I18n
 
   attr_accessor :output_buffer, :controller, :config, :_content_for, :_routes, :subject
 
