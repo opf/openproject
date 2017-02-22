@@ -98,8 +98,12 @@ export class WpTimelineGlobalService {
 
       // start
       const startCell = this.cells[e.from];
-      let lastX = startCell.getRightmostPosition();
 
+      if (!startCell) {
+        continue;
+      }
+
+      let lastX = startCell.getRightmostPosition();
       const line = document.createElement("div");
       line.className = timelineElementCssClass;
       line.style.position = "absolute";
