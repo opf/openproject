@@ -22,6 +22,7 @@ worker: &ruby
     - "SECRET_KEY_BASE=d4e74f017910ac56c6ebad01165b7e1b37f4c9c02e9716836f8670cdc8d65a231e64e4f6416b19c8"
     - "RAILS_ENV=production"
     - "HEROKU=true"
+    - "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE=off"
   command: "./docker/wait-for-it.sh -t 60 -h db -p 5432 --strict -- bundle exec rake db:migrate db:seed jobs:work"
   memory: 384
 

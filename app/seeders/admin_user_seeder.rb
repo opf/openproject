@@ -56,7 +56,21 @@ class AdminUserSeeder < Seeder
       user.mail_notification = User::USER_MAIL_OPTION_ONLY_MY_EVENTS.first
       user.language = I18n.locale.to_s
       user.status = User::STATUSES[:active]
-      user.force_password_change = Rails.env != 'development'
+      user.force_password_change = force_password_change?
     end
+  end
+
+  def force_password_change?
+    Rails.env != 'development' && !force_password_change_disabled?
+  end
+
+  def force_password_change_disabled?
+    off_values = ["off", "false", "no", "0"]
+
+    off_values.include? ENV[force_password_change_env_switch_name]
+  end
+
+  def force_password_change_env_switch_name
+    "OP_ADMIN_USER_SEEDER_FORCE_PASSWORD_CHANGE"
   end
 end
