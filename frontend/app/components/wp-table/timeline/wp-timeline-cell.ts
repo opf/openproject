@@ -74,6 +74,11 @@ export class WorkPackageTimelineCell {
     this.subscription && this.subscription.unsubscribe();
   }
 
+  getLeftmostPosition(): number {
+    const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
+    return renderer.getLeftmostPosition(this.latestRenderInfo);
+  }
+
   getRightmostPosition(): number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getRightmostPosition(this.latestRenderInfo);

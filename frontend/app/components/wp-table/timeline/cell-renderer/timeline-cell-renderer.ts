@@ -226,6 +226,15 @@ export class TimelineCellRenderer {
     return true;
   }
 
+  getLeftmostPosition(renderInfo: RenderInfo): number {
+    const wp = renderInfo.workPackage;
+
+    let start = moment(wp.startDate as any);
+    const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
+
+    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart);
+  }
+
   getRightmostPosition(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
 

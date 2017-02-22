@@ -27,22 +27,52 @@
 // ++
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {RenderInfo, TimelineViewParameters, timelineElementCssClass} from "./wp-timeline";
+import {timelineElementCssClass} from "./wp-timeline";
 import {WorkPackageTimelineCell} from "./wp-timeline-cell";
 
 
-export const timelineGlobalElementCssClassname = "timeline-global-element";
+// export const timelineGlobalElementCssClassname = "timeline-global-element";
 
+function newSegment(classId: string,
+                    color: string,
+                    top: number,
+                    left: number,
+                    width: number,
+                    height: number): HTMLElement {
+
+  const segment = document.createElement("div");
+  segment.classList.add(timelineElementCssClass, classId);
+  segment.style.position = "absolute";
+  segment.style.cssFloat = "left";
+  segment.style.backgroundColor = color;
+  segment.style.top = top + "px";
+  segment.style.left = left + "px";
+  segment.style.width = width + "px";
+  segment.style.height = height + "px";
+  return segment;
+}
 
 export class TimelineGlobalElement {
+  private static nextId = 0;
+  classId = "timeline-global-element-id-" + TimelineGlobalElement.nextId++;
   from: string;
   to: string;
 }
 
 export class WpTimelineGlobalService {
 
-  private workPackageIdOrder: string[] = ["56", "55", "54"];
+  private workPackageIdOrder: string[] = [
+    "63",
+    "62",
+    "61",
+    "60",
+    "59",
+    "58",
+    "57",
+    "56",
+    "55",
+    "54"
+  ];
 
   private cells: {[id: string]: WorkPackageTimelineCell} = {};
 
@@ -51,8 +81,12 @@ export class WpTimelineGlobalService {
   constructor() {
     setTimeout(() => {
       console.log("displayRelation");
-      this.displayRelation("55", "54");
-    }, 3000);
+      jQuery("#work-packages-timeline-toggle-button").click();
+      this.displayRelation("63", "62");
+      this.displayRelation("61", "60");
+      this.displayRelation("58", "59");
+      this.displayRelation("56", "57");
+    }, 2000);
   }
 
   updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
@@ -83,46 +117,68 @@ export class WpTimelineGlobalService {
 
   private removeAllElements() {
     // console.log("removeAllElements()");
-    jQuery("." + timelineGlobalElementCssClassname).children().remove();
+    // jQuery("." + timelineGlobalElementCssClassname).remove();
   }
 
   private renderElements() {
     console.debug("renderElements()");
 
     for (let e of this.elements) {
+      jQuery("." + e.classId).remove();
 
       const idxFrom = this.workPackageIdOrder.indexOf(e.from);
       const idxTo = this.workPackageIdOrder.indexOf(e.to);
-      const start = Math.min(idxFrom, idxTo);
-      const end = Math.max(idxFrom, idxTo);
+
+      const startCell = this.cells[e.from];
+      const endCell = this.cells[e.to];
+
+      const directionY = idxFrom < idxTo ? 1 : -1;
+      let lastX = startCell.getRightmostPosition();
+      let targetX = endCell.getLeftmostPosition();
+      const directionX = targetX > lastX ? 1 : -1;
 
       // start
-      const startCell = this.cells[e.from];
-
       if (!startCell) {
         continue;
       }
 
-      let lastX = startCell.getRightmostPosition();
-      const line = document.createElement("div");
-      line.className = timelineElementCssClass;
-      line.style.position = "absolute";
-      line.style.zIndex = "100";
-      line.style.cssFloat = "left";
-      line.style.backgroundColor = "green";
-      line.style.top = "19px";
-      line.style.left = lastX + "px";
-      line.style.width = "20px";
-      lastX += 20;
-      line.style.height = "2px";
-      startCell.timelineCell.appendChild(line);
+      startCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, lastX, 10, 1));
+      lastX += 10;
 
-      // vert line
-      for (let index = start; index <= end; index++) {
+      if (directionY === 1) {
+        startCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, lastX, 1, 21));
+      } else {
+        startCell.timelineCell.appendChild(newSegment(e.classId, "red", -1, lastX, 1, 21));
+      }
+
+      // vert segment
+      for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
         const id = this.workPackageIdOrder[index];
         const cell = this.cells[id];
+        cell.timelineCell.appendChild(newSegment(e.classId, "blue", 0, lastX, 1, 40));
+      }
 
-        // console.log("i", index, id, cell);
+      // end
+      if (directionX === 1) {
+        if (directionY === 1) {
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 0, lastX, 1, 19));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 19, lastX, targetX - lastX, 1));
+        } else {
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, lastX, 1, 21));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 19, lastX, targetX - lastX, 1));
+        }
+      } else {
+        if (directionY === 1) {
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 0, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 8, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 8, targetX - 10, 1, 11));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, targetX - 10, 10, 1));
+        } else {
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 32, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 32, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, targetX - 10, 1, 13));
+          endCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, targetX - 10, 10, 1));
+        }
       }
     }
 
