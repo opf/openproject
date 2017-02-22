@@ -330,7 +330,7 @@ en:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to this role"
+        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
       time_entry:
         activity: "Activity"
         hours: "Hours"
