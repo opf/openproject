@@ -60,12 +60,24 @@ module API
               end
             end
 
+            def attribute_group(property)
+              lambda do
+                if type = represented.type
+                  key = property.to_s.gsub /^customField/, "custom_field_"
+                  group = type.attribute_groups.find { |name, values| values.include?(key) }.try(:first)
+
+                  group || type.attribute_groups.keys.first
+                end
+              end
+            end
+
             # override the various schema methods to include
             # the same visibility lambda for all properties by default
 
             def schema(property, *args)
               opts, _ = args
               opts[:visibility] = visibility property
+              opts[:attribute_group] = attribute_group property
 
               super property, **opts
             end
@@ -73,6 +85,7 @@ module API
             def schema_with_allowed_link(property, *args)
               opts, _ = args
               opts[:visibility] = visibility property
+              opts[:attribute_group] = attribute_group property
 
               super property, **opts
             end
@@ -80,6 +93,7 @@ module API
             def schema_with_allowed_collection(property, *args)
               opts, _ = args
               opts[:visibility] = visibility property
+              opts[:attribute_group] = attribute_group property
 
               super property, **opts
             end
@@ -106,6 +120,10 @@ module API
           link :baseSchema do
             { href: @base_schema_link } if @base_schema_link
           end
+
+          property :attribute_groups,
+                   type: "[]String",
+                   as: "_attributeGroups"
 
           schema :lock_version,
                  type: 'Integer',

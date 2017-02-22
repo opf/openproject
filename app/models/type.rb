@@ -58,6 +58,8 @@ class ::Type < ActiveRecord::Base
     end
   end
 
+  serialize :attribute_groups, Hash
+
   acts_as_list
 
   validates_presence_of :name
@@ -131,6 +133,41 @@ class ::Type < ActiveRecord::Base
 
   def valid_transition?(status_id_a, status_id_b, roles)
     transition_exists?(status_id_a, status_id_b, roles.map(&:id))
+  end
+
+  def attribute_groups
+    groups = read_attribute :attribute_groups
+
+    if groups.empty?
+      default_attribute_groups
+    else
+      groups
+    end
+  end
+
+  def default_attribute_groups
+    values = attribute_visibility.keys.group_by { |key| map_attribute_to_group key }
+
+    ordered = {}
+
+    ordered["details"] = values["details"]
+    ordered["people"] = values["people"]
+    ordered["estimates_and_time"] = values["estimates_and_time"]
+    ordered["other"] = values["other"]
+
+    ordered
+  end
+
+  def map_attribute_to_group(name)
+    if ["author", "assignee", "reponsible"].include?(name)
+      "people"
+    elsif ["estimated_time", "spent_time"].include?(name)
+      "estimates_and_time"
+    elsif name =~ /custom/
+      "other"
+    else
+      "details"
+    end
   end
 
   private
