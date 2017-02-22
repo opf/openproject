@@ -88,7 +88,7 @@ class VersionsController < ApplicationController
         flash[:notice] = l(:notice_successful_create)
         redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
       else
-        format.html do render action: 'new' end
+        render action: 'new'
       end
     end
   end
