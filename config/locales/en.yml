@@ -156,6 +156,10 @@ en:
     index:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
+    edit:
+      settings: "Settings"
+      form_configuration: "Form configuration"
+      projects: "Projects"
 
   versions:
     overview:
