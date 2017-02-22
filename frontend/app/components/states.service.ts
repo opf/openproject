@@ -1,6 +1,10 @@
 import {whenDebugging} from '../helpers/debug_output';
 import {WorkPackageTable} from './wp-fast-table/wp-fast-table';
-import {WPTableRowSelectionState, WorkPackageTableRow} from './wp-fast-table/wp-table.interfaces';
+import {
+  WorkPackageTableRow,
+  WPTableHierarchyState,
+  WPTableRowSelectionState
+} from './wp-fast-table/wp-table.interfaces';
 import {MultiState, initStates, State} from "../helpers/reactive-fassade";
 import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resource.service";
 import {opServicesModule} from "../angular-modules";
@@ -27,6 +31,8 @@ export class States {
     selection: new State<WPTableRowSelectionState>(),
     // Current state of collapsed groups (if any)
     collapsedGroups: new State<{[identifier:string]: boolean}>(),
+    // Hierarchies of table
+    hierarchies: new State<WPTableHierarchyState>(),
     // State to be updated when the table is up to date
     rendered:new State<WorkPackageTable>(),
     // Subject used to unregister all listeners of states above.

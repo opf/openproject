@@ -39,7 +39,7 @@ export class RowClickHandler implements TableEventHandler {
     let row = table.rowObject(element.data('workPackageId'));
 
     // Ignore links
-    if (target.is('a')) {
+    if (target.is('a') || target.parent().is('a')) {
       return;
     }
 

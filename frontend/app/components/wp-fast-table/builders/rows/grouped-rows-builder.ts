@@ -31,6 +31,13 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 
   /**
+   * The hierarchy builder is only applicable if the hierachy mode is active
+   */
+  public isApplicable(table:WorkPackageTable, metaData:WorkPackageTableMetadata) {
+    return !!metaData.groupBy;
+  }
+
+  /**
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */

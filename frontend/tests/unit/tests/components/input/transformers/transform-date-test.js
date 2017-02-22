@@ -70,10 +70,11 @@ describe('transformDateValue Directive', function() {
   });
 
   describe('when given invalid date values', function () {
-    shouldBehaveLikeAParser('', undefined);
-    shouldBehaveLikeAParser('invalid', undefined);
-    shouldBehaveLikeAParser('2016-12', undefined);
+    shouldBehaveLikeAParser('', null);
+    shouldBehaveLikeAParser('invalid', null);
+    shouldBehaveLikeAParser('2016-12', null);
     shouldBehaveLikeAFormatter(undefined, '');
+    shouldBehaveLikeAFormatter(null, '');
     shouldBehaveLikeAFormatter('2016-12', '');
   });
 });
