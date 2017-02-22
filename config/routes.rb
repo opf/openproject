@@ -168,7 +168,15 @@ OpenProject::Application.routes.draw do
       as: 'custom_style_logo',
       constraints: { filename: /[^\/]*/ }
 
-  resources :custom_fields, except: :show
+  resources :custom_fields, except: :show do
+    member do
+      match "options/:option_id",
+            to: "custom_fields#delete_option",
+            via: :delete,
+            as: :delete_option_of
+    end
+  end
+
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
 
   # only providing routes for journals when there are multiple subclasses of journals
