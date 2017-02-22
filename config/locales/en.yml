@@ -160,6 +160,7 @@ en:
       settings: "Settings"
       form_configuration: "Form configuration"
       projects: "Projects"
+      enabled_projects: "Enabled projects"
 
   versions:
     overview:
