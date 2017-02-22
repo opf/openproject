@@ -94,6 +94,14 @@ module API
             false
           end
 
+          def attribute_groups
+            groups = type.attribute_groups.presence || type.default_attribute_groups
+
+            groups.each_with_index.map do |(name, values), i|
+              { name: name, position: i, values: values }
+            end
+          end
+
           private
 
           def percentage_done_writable?

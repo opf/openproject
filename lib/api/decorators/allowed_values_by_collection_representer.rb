@@ -44,6 +44,7 @@ module API
                      has_default: false,
                      writable: true,
                      visibility: nil,
+                     attribute_group: nil,
                      current_user: nil)
         @value_representer = value_representer
         @link_factory = link_factory
@@ -54,6 +55,7 @@ module API
               has_default: has_default,
               writable: writable,
               visibility: visibility,
+              attribute_group: attribute_group,
               current_user: current_user)
       end
 

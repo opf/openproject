@@ -35,7 +35,7 @@ module API
     class PropertySchemaRepresenter < ::API::Decorators::Single
       def initialize(
         type:, name:, required: true, has_default: false, writable: true,
-        visibility: nil, current_user: nil
+        visibility: nil, attribute_group: nil, current_user: nil
       )
         @type = type
         @name = name
@@ -47,6 +47,7 @@ module API
                       else
                         visibility || 'default'
                       end
+        @attribute_group = attribute_group || 'other'
 
         super(nil, current_user: current_user)
       end
@@ -57,6 +58,7 @@ module API
                     :has_default,
                     :writable,
                     :visibility,
+                    :attribute_group,
                     :min_length,
                     :max_length,
                     :regular_expression
@@ -67,6 +69,7 @@ module API
       property :has_default, exec_context: :decorator
       property :writable, exec_context: :decorator
       property :visibility, exec_context: :decorator
+      property :attribute_group, exec_context: :decorator
       property :min_length, exec_context: :decorator
       property :max_length, exec_context: :decorator
       property :regular_expression, exec_context: :decorator
