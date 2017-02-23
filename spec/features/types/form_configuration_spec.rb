@@ -49,7 +49,7 @@ describe 'form configuration', type: :feature, js: true do
   before do
     allow(User).to receive(:current).and_return current_user
 
-    visit edit_type_path(id: type.id)
+    visit edit_type_tab_path(id: type.id, tab: "form_configuration")
   end
 
   shared_examples 'attribute visibility' do

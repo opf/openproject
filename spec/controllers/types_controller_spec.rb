@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe TypesController, type: :controller do
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project,
                        work_package_custom_fields: [custom_field_2])
-  }
-  let(:custom_field_1) {
+  end
+  let(:custom_field_1) do
     FactoryGirl.create(:work_package_custom_field,
                        field_format: 'string',
                        is_for_all: true)
-  }
+  end
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
@@ -51,7 +51,7 @@ describe TypesController, type: :controller do
 
     describe 'GET index' do
       describe 'the access should be restricted' do
-        before do get 'index' end
+        before { get 'index' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -59,7 +59,7 @@ describe TypesController, type: :controller do
 
     describe 'GET new' do
       describe 'the access should be restricted' do
-        before do get 'new' end
+        before { get 'new' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -67,7 +67,7 @@ describe TypesController, type: :controller do
 
     describe 'GET edit' do
       describe 'the access should be restricted' do
-        before do get 'edit' end
+        before { get 'edit' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -75,7 +75,7 @@ describe TypesController, type: :controller do
 
     describe 'POST create' do
       describe 'the access should be restricted' do
-        before do post 'create' end
+        before { post 'create' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -83,7 +83,7 @@ describe TypesController, type: :controller do
 
     describe 'DELETE destroy' do
       describe 'the access should be restricted' do
-        before do delete 'destroy' end
+        before { delete 'destroy' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -91,7 +91,7 @@ describe TypesController, type: :controller do
 
     describe 'POST update' do
       describe 'the access should be restricted' do
-        before do post 'update' end
+        before { post 'update' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -99,7 +99,7 @@ describe TypesController, type: :controller do
 
     describe 'POST move' do
       describe 'the access should be restricted' do
-        before do post 'move' end
+        before { post 'move' }
 
         it { expect(response.status).to eq(403) }
       end
@@ -114,24 +114,25 @@ describe TypesController, type: :controller do
     end
 
     describe 'GET index' do
-      before do get 'index' end
+      before { get 'index' }
       it { expect(response).to be_success }
       it { expect(response).to render_template 'index' }
     end
 
     describe 'GET new' do
-      before do get 'new' end
+      before { get 'new' }
       it { expect(response).to be_success }
       it { expect(response).to render_template 'new' }
     end
 
     describe 'POST create' do
       describe 'WITH valid params' do
-        let(:params) {
+        let(:params) do
           { 'type' => { name: 'New type',
                         project_ids: { '1' => project.id },
-                        custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id }
-                                    } } }
+                        custom_field_ids: { '1' => custom_field_1.id,
+                                            '2' => custom_field_2.id } } }
+        end
 
         before do
           post :create, params: params
@@ -143,11 +144,12 @@ describe TypesController, type: :controller do
 
       describe 'WITH an empty name' do
         render_views
-        let(:params) {
+        let(:params) do
           { 'type' => { name: '',
                         project_ids: { '1' => project.id },
-                        custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id }
-                                   } } }
+                        custom_field_ids: { '1' => custom_field_1.id,
+                                            '2' => custom_field_2.id } } }
+        end
 
         before do
           post :create, params: params
@@ -161,18 +163,19 @@ describe TypesController, type: :controller do
 
       describe 'WITH workflow copy' do
         let!(:existing_type) { FactoryGirl.create(:type, name: 'Existing type') }
-        let!(:workflow) {
+        let!(:workflow) do
           FactoryGirl.create(:workflow,
                              old_status: status_0,
                              new_status: status_1,
                              type_id: existing_type.id)
-        }
-        let(:params) {
+        end
+
+        let(:params) do
           { 'type' => { name: 'New type',
                         project_ids: { '1' => project.id },
                         custom_field_ids: { '1' => custom_field_1.id, '2' => custom_field_2.id } },
-            'copy_workflow_from' => existing_type.id
-        } }
+            'copy_workflow_from' => existing_type.id }
+        end
 
         before do
           post :create, params: params
@@ -181,53 +184,96 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should have the copied workflows' do
-          expect(::Type.find_by(name: 'New type').workflows.count).to eq(existing_type.workflows.count)
+          expect(::Type.find_by(name: 'New type')
+                        .workflows.count).to eq(existing_type.workflows.count)
         end
       end
     end
 
-    describe 'GET edit' do
+    describe 'GET edit settings' do
       render_views
-      let(:type) { FactoryGirl.create(:type, name: 'My type', is_milestone: true, projects: [project]) }
+      let(:type) do
+        FactoryGirl.create(:type, name: 'My type',
+                                  is_milestone: true,
+                                  projects: [project])
+      end
 
       before do
-        get 'edit', params: { id: type.id }
+        get 'edit', params: { id: type.id, tab: :settings }
       end
 
       it { expect(response).to be_success }
       it { expect(response).to render_template 'edit' }
+      it { expect(response).to render_template 'types/form/_settings' }
       it { expect(response.body).to have_selector "input[@name='type[name]'][@value='My type']" }
-      it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
       it { expect(response.body).to have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
+    end
+
+    describe 'GET edit projects' do
+      render_views
+      let(:type) do
+        FactoryGirl.create(:type, name: 'My type',
+                                  is_milestone: true,
+                                  projects: [project])
+      end
+
+      before do
+        get 'edit', params: { id: type.id, tab: :projects }
+      end
+
+      it { expect(response).to be_success }
+      it { expect(response).to render_template 'edit' }
+      it { expect(response).to render_template 'types/form/_projects' }
+      it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
     end
 
     describe 'POST update' do
       let(:project2) { FactoryGirl.create(:project) }
-      let(:type) { FactoryGirl.create(:type, name: 'My type', is_milestone: true, projects: [project, project2]) }
+      let(:type) do
+        FactoryGirl.create(:type, name: 'My type',
+                                  is_milestone: true,
+                                  projects: [project, project2])
+      end
 
       describe 'WITH type rename' do
-        let(:params) { { 'id' => type.id, 'type' => { name: 'My type renamed' } } }
+        let(:params) do
+          { 'id' => type.id,
+            'type' => { name: 'My type renamed' },
+            'tab' => "settings" }
+        end
 
         before do
           put :update, params: params
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
+        it do
+          expect(response).to(
+            redirect_to(edit_type_tab_path(id: type.id, tab: "settings"))
+          )
+        end
         it 'should be renamed' do
           expect(::Type.find_by(name: 'My type renamed').id).to eq(type.id)
         end
       end
 
       describe 'WITH projects removed' do
-        let(:params) { { 'id' => type.id, 'type' => { project_ids: [''] } } }
+        let(:params) do
+          { 'id' => type.id,
+            'type' => { project_ids: [''] },
+            'tab' => "projects" }
+        end
 
         before do
           put :update, params: params
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(edit_type_path(id: type.id)) }
+        it do
+          expect(response).to(
+            redirect_to(edit_type_tab_path(id: type.id, tab: :projects))
+          )
+        end
         it 'should have no projects assigned' do
           expect(::Type.find_by(name: 'My type').projects.count).to eq(0)
         end
@@ -273,17 +319,17 @@ describe TypesController, type: :controller do
       end
 
       describe 'detroy type in use should fail' do
-        let(:project2) {
+        let(:project2) do
           FactoryGirl.create(:project,
                              work_package_custom_fields: [custom_field_2],
                              types: [type2])
-        }
-        let!(:work_package) {
+        end
+        let!(:work_package) do
           FactoryGirl.create(:work_package,
                              author: current_user,
                              type: type2,
                              project: project2)
-        }
+        end
         let(:params) { { 'id' => type2.id } }
 
         before do
@@ -303,9 +349,7 @@ describe TypesController, type: :controller do
       describe 'destroy standard type should fail' do
         let(:params) { { 'id' => type3.id } }
 
-        before do
-          delete :destroy, params: params
-        end
+        before { delete :destroy, params: params }
 
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }

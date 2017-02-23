@@ -69,13 +69,19 @@ class TypesController < ApplicationController
   end
 
   def edit
-    @projects = Project.all
-    @type = ::Type.includes(:projects,
-                            :custom_fields)
-                  .find(params[:id])
+    if params[:tab].blank?
+      redirect_to tab: :settings
+    else
+      @tab = params[:tab]
+      @projects = Project.all
+      @type = ::Type.includes(:projects,
+                              :custom_fields)
+                    .find(params[:id])
+    end
   end
 
   def update
+    @tab = params["tab"] || "settings"
     @type = ::Type.find(params[:id])
 
     # forbid renaming if it is a standard type
@@ -85,7 +91,8 @@ class TypesController < ApplicationController
     result = service.call(attributes: permitted_params.type)
 
     if result.success?
-      redirect_to edit_type_path(id: @type.id), notice: t(:notice_successful_update)
+      redirect_to(edit_type_tab_path(id: @type.id, tab: @tab),
+                  notice: t(:notice_successful_update))
     else
       @projects = Project.all
       render action: 'edit'
