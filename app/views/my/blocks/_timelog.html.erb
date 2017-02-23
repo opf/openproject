@@ -51,7 +51,7 @@ entries_by_day = entries.group_by(&:spent_on)
 <% if entries.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table interactive-table class="generic-table time-entries">
+      <table class="generic-table time-entries">
         <colgroup>
           <col highlight-col>
           <col highlight-col>
@@ -97,7 +97,7 @@ entries_by_day = entries.group_by(&:spent_on)
                 </div>
               </div>
             </th>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
         <tbody>
@@ -136,7 +136,7 @@ entries_by_day = entries.group_by(&:spent_on)
           <% end -%>
         </tbody>
       </table>
-      <div class="generic-table--header-background"></div>
+      
     </div>
   </div>
 <% end %>

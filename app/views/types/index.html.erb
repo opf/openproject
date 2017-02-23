@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @types.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table interactive-table class="generic-table">
+      <table class="generic-table">
         <colgroup>
           <col highlight-col>
           <col>
@@ -65,7 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </div>
             </th>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
              <!-- Missing workflow warning -->
             <th>
               <div class="generic-table--sort-header-outer">
@@ -112,7 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </div>
             </th>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
         <tbody>
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      <div class="generic-table--header-background"></div>
+      
     </div>
   </div>
   <%= pagination_links_full @types %>
