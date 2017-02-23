@@ -1,23 +1,37 @@
 #types-form-configuration
-  .attribute-group
+  .attribute-group,
+  .inactive-group
     border-radius: 2px
     padding: 0px 4px 2px 4px
     margin-bottom: 20px
+
+    .group-head
+      color: $font-color-on-primary-dark
+      padding: 4px 4px 4px 4px
+      text-transform: uppercase
+      .group-handle
+        cursor: move
+      .attribute-visibility
+        float: right
+    .attributes
+      .attribute
+        padding: 3px 4px 3px 4px
+        margin-bottom: 2px
+
+        background: $gray-light
+
+        border-top-left-radius: 2px
+        border-bottom-left-radius: 2px
+        border-top-right-radius: 2px
+        border-bottom-right-radius: 2px
+        .attribute-handle
+          cursor: move
+        .attribute-visibility
+          float: right
+
+  .attribute-group
+    background: $primary-color
+  .inactive-group
     background: $gray-dark
-    cursor: move
-    table
-      border-collapse: separate
-      border-spacing: 0 2px
-      thead
-        color: $font-color-on-primary-dark
-      tbody
-        tr
-          background: $gray-light
-          td:first-child
-            padding-left: 10px
-            border-top-left-radius: 2px
-            border-bottom-left-radius: 2px
-          td:last-child
-            padding-right: 10px
-            border-top-right-radius: 2px
-            border-bottom-right-radius: 2px
+    .attributes
+      min-height: 40px
