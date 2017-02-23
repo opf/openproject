@@ -141,19 +141,23 @@ class ::Type < ActiveRecord::Base
     if groups.empty?
       default_attribute_groups
     else
-      groups
+      groups['ordered']
     end
+  end
+
+  def attribute_groups=(ordered)
+    write_attribute :attribute_groups, ordered: ordered
   end
 
   def default_attribute_groups
     values = work_package_attributes.group_by { |key| map_attribute_to_group key }
 
-    ordered = {}
+    ordered = []
 
-    ordered["details"] = values["details"]
-    ordered["people"] = values["people"]
-    ordered["estimates_and_time"] = values["estimates_and_time"]
-    ordered["other"] = values["other"]
+    ordered.push ["details", values["details"]]
+    ordered.push ["people", values["people"]]
+    ordered.push ["estimates_and_time", values["estimates_and_time"]]
+    ordered.push ["other", values["other"]]
 
     ordered
   end
