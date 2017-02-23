@@ -146,7 +146,7 @@ class ::Type < ActiveRecord::Base
   end
 
   def default_attribute_groups
-    values = attribute_visibility.keys.group_by { |key| map_attribute_to_group key }
+    values = work_package_attributes.group_by { |key| map_attribute_to_group key }
 
     ordered = {}
 
@@ -168,6 +168,10 @@ class ::Type < ActiveRecord::Base
     else
       "details"
     end
+  end
+
+  def work_package_attributes
+    ::TypesHelper.work_package_form_attributes(merge_date: true).keys
   end
 
   private
