@@ -27,13 +27,14 @@
 // ++
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
-import {timelineElementCssClass} from "./wp-timeline";
+import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
 import {WorkPackageTimelineCell} from "./wp-timeline-cell";
 
 
 // export const timelineGlobalElementCssClassname = "timeline-global-element";
 
-function newSegment(classId: string,
+function newSegment(vp: TimelineViewParameters,
+                    classId: string,
                     color: string,
                     top: number,
                     left: number,
@@ -45,6 +46,7 @@ function newSegment(classId: string,
   segment.style.position = "absolute";
   segment.style.cssFloat = "left";
   segment.style.backgroundColor = color;
+  segment.style.marginLeft = vp.scrollOffsetInPx + "px";
   segment.style.top = top + "px";
   segment.style.left = left + "px";
   segment.style.width = width + "px";
@@ -74,6 +76,8 @@ export class WpTimelineGlobalService {
     "54"
   ];
 
+  private viewParameters: TimelineViewParameters;
+
   private cells: {[id: string]: WorkPackageTimelineCell} = {};
 
   private elements: TimelineGlobalElement[] = [];
@@ -87,6 +91,11 @@ export class WpTimelineGlobalService {
       this.displayRelation("58", "59");
       this.displayRelation("56", "57");
     }, 2000);
+  }
+
+  updateViewParameter(viewParams: TimelineViewParameters) {
+    this.viewParameters = viewParams;
+    this.update();
   }
 
   updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
@@ -121,7 +130,13 @@ export class WpTimelineGlobalService {
   }
 
   private renderElements() {
+    if (this.viewParameters === undefined) {
+      console.log("renderElements() aborted - no viewParameters");
+      return;
+    }
+
     console.debug("renderElements()");
+    const vp = this.viewParameters;
 
     for (let e of this.elements) {
       jQuery("." + e.classId).remove();
@@ -142,42 +157,42 @@ export class WpTimelineGlobalService {
         continue;
       }
 
-      startCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, lastX, 10, 1));
+      startCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, lastX, 10, 1));
       lastX += 10;
 
       if (directionY === 1) {
-        startCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, lastX, 1, 21));
       } else {
-        startCell.timelineCell.appendChild(newSegment(e.classId, "red", -1, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", -1, lastX, 1, 21));
       }
 
       // vert segment
       for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
         const id = this.workPackageIdOrder[index];
         const cell = this.cells[id];
-        cell.timelineCell.appendChild(newSegment(e.classId, "blue", 0, lastX, 1, 40));
+        cell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 0, lastX, 1, 40));
       }
 
       // end
       if (directionX === 1) {
         if (directionY === 1) {
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 0, lastX, 1, 19));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 19, lastX, targetX - lastX, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 0, lastX, 1, 19));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 19, lastX, targetX - lastX, 1));
         } else {
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, lastX, 1, 21));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 19, lastX, targetX - lastX, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, lastX, 1, 21));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 19, lastX, targetX - lastX, 1));
         }
       } else {
         if (directionY === 1) {
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 0, lastX, 1, 8));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 8, targetX - 10, lastX - targetX + 11, 1));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 8, targetX - 10, 1, 11));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, targetX - 10, 10, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 0, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 8, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 8, targetX - 10, 1, 11));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, targetX - 10, 10, 1));
         } else {
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 32, lastX, 1, 8));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "blue", 32, targetX - 10, lastX - targetX + 11, 1));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "green", 19, targetX - 10, 1, 13));
-          endCell.timelineCell.appendChild(newSegment(e.classId, "red", 19, targetX - 10, 10, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 32, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 32, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, targetX - 10, 1, 13));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, targetX - 10, 10, 1));
         }
       }
     }
