@@ -70,6 +70,10 @@ module OpenProject::Backlogs
       WorkPackage.human_attribute_name(:backlogs_work_package_type)
     end
 
+    def dependency_class
+      '::API::V3::Queries::Schemas::BacklogsTypeDependencyRepresenter'
+    end
+
     private
 
     def backlogs_configured?
