@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <h3><%= t :caption_rate_history %></h3>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table interactive-table class="generic-table">
+      <table class="generic-table">
         <colgroup>
           <col highlight-col>
           <col highlight-col>
@@ -78,7 +78,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                 </div>
               </div>
             </th>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
         <tbody id="rates_body" class="subform-container">
@@ -99,7 +99,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           <%- end -%>
         </tbody>
       </table>
-      <div class="generic-table--header-background"></div>
+
     </div>
   </div>
   <div class="wp-inline-create-button">
