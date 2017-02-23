@@ -34,121 +34,55 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><%= I18n.t('text_form_configuration') %></p>
 
         <types-form-configuration id="types-form-configuration" dragula="'groups'">
+          <% @type.attribute_groups.each do |group_name, group_attributes| %>
+            <div class="attribute-group">
+              <div class="group-head">
+                <span class="group-handle">::</span>
+                <span class="group-name"><%= group_name %></span>
 
-          <div class="attribute-group">
+                <div class="attribute-visibility"><%= I18n.t('label_always_visible') %></div>
+              </div>
+              <div class="attributes" dragula="'attributes'">
+                  <%
+                    attributes = ::TypesHelper
+                      .work_package_form_attributes(merge_date: true)
+                      .reject { |name, attr|
+                        # display all custom fields     don't display required fields without a default
+                        not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
+                      }
+                    # keys = attributes.keys.sort_by do |name|
+                    #   translated_attribute_name(name, attributes[name])
+                    # end
+                  %>
+                  <% group_attributes.each do |name| %>
+                  <%   attr = attributes[name] %>
+                    <div class="attribute">
+                      <span class="attribute-handle">::</span>
+                      <span class="attribute-name">
+                        <%= name %>
+                      </span>
 
-            <table class="attributes-table -two-options">
-              <thead>
-                <tr>
-                  <th><span class="group-handle">::</span></th>
-                  <th> 1 <%= I18n.t('label_attribute') %></th>
-                  <th class="attributes-table--option"><%= I18n.t('label_active') %></th>
-                  <th class="attributes-table--option"><%= I18n.t('label_always_visible') %></th>
-                </tr>
-              </thead>
-              <tbody dragula="'attributes'">
-                <%
-                  attributes = ::TypesHelper
-                    .work_package_form_attributes(merge_date: true)
-                    .reject { |name, attr|
-                      # display all custom fields     don't display required fields without a default
-                      not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
-                    }
-                  keys = attributes.keys.sort_by do |name|
-                    translated_attribute_name(name, attributes[name])
-                  end
-                %>
-                <% keys.each do |name| %>
-                <%   attr = attributes[name] %>
-                  <tr>
-                    <td><span class="attribute-handle">::</span></td>
-                    <td>
-                      <%= label_tag "type_attribute_visibility_#{name}",
-                                    translated_attribute_name(name, attr),
-                                    value: "type_attribute_visibility[#{name}]",
-                                    class: 'ellipsis' %>
-                    </td>
-                    <td>
-                      <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                      <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name, @type)) %>
-                      <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                        'default',
-                                        active_checked,
-                                        id: "type_attribute_visibility_default_#{name}",
-                                        title: I18n.t('tooltip.attribute_visibility.default') %>
-                    </td>
-                    <td>
-                      <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                        'visible',
-                                        attr_visibility(name, @type) == 'visible',
-                                        id: "type_attribute_visibility_visible_#{name}",
-                                        title: I18n.t('tooltip.attribute_visibility.visible'),
-                                        disabled: !active_checked %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div> <!-- END attribute group -->
+                      <div class="attribute-visibility">
+                        <%= check_box_tag "type[attribute_visibility][#{name}]",
+                                          'visible',
+                                          attr_visibility(name, @type) == 'visible',
+                                          id: "type_attribute_visibility_visible_#{name}",
+                                          title: I18n.t('tooltip.attribute_visibility.visible') %>
+                      </div>
+                    </div>
+                  <% end %>
+              </div>
+            </div> <!-- END attribute group -->
+          <% end %>
 
-
-          <div class="attribute-group">
-
-            <table class="attributes-table -two-options">
-              <thead>
-                <tr>
-                  <th><span class="group-handle">::</span></th>
-                  <th><span class="group-handle">::</span> 2 <%= I18n.t('label_attribute') %></th>
-                  <th class="attributes-table--option"><%= I18n.t('label_active') %></th>
-                  <th class="attributes-table--option"><%= I18n.t('label_always_visible') %></th>
-                </tr>
-              </thead>
-              <tbody dragula="'attributes'">
-                <%
-                  attributes = ::TypesHelper
-                    .work_package_form_attributes(merge_date: true)
-                    .reject { |name, attr|
-                      # display all custom fields     don't display required fields without a default
-                      not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
-                    }
-                  keys = attributes.keys.sort_by do |name|
-                    translated_attribute_name(name, attributes[name])
-                  end
-                %>
-                <% keys.each do |name| %>
-                <%   attr = attributes[name] %>
-                  <tr>
-                    <td><span class="attribute-handle">::</span></td>
-                    <td>
-                      <%= label_tag "type_attribute_visibility_#{name}",
-                                    translated_attribute_name(name, attr),
-                                    value: "type_attribute_visibility[#{name}]",
-                                    class: 'ellipsis' %>
-                    </td>
-                    <td>
-                      <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                      <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name, @type)) %>
-                      <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                        'default',
-                                        active_checked,
-                                        id: "type_attribute_visibility_default_#{name}",
-                                        title: I18n.t('tooltip.attribute_visibility.default') %>
-                    </td>
-                    <td>
-                      <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                        'visible',
-                                        attr_visibility(name, @type) == 'visible',
-                                        id: "type_attribute_visibility_visible_#{name}",
-                                        title: I18n.t('tooltip.attribute_visibility.visible'),
-                                        disabled: !active_checked %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div> <!-- END attribute group -->
-
-
+          <div class="inactive-group">
+            <div class="group-head">
+              <span class="group-handle">::</span>
+              <span class="group-name">Inactive attributes</span>
+            </div>
+            <div class="attributes" dragula="'attributes'">
+            </div>
+          </div>
 
         </types-form-configuration> <!-- END type form configurator -->
       </div>
