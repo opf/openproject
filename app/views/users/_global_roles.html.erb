@@ -27,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <% else %>
     <div class="generic-table--container">
       <div class="generic-table--results-container">
-        <table interactive-table class="generic-table principal_roles" id="table_principal_roles">
+        <table class="generic-table principal_roles" id="table_principal_roles">
           <colgroup>
             <col highlight-col>
             <col>
@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                   </div>
                 </th>
                 <%= call_hook(:view_users_global_roles_table_header, :user => @user )%>
-                <th></th>
+                <th><div class="generic-table--empty-header"></div></th>
                 </tr>
           </thead>
           <tbody id="table_principal_roles_body">
@@ -53,7 +53,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           <%end%>
           </tbody>
         </table>
-        <div class="generic-table--header-background"></div>
+
       </div>
     </div>
   <% end %>
