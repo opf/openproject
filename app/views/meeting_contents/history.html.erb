@@ -29,7 +29,7 @@ See doc/COPYRIGHT.md for more details.
 <%= form_tag({:action => "diff"}, :method => :get) do %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
-    <table interactive-table class="generic-table">
+    <table class="generic-table">
       <colgroup>
         <col highlight-col>
         <col>
@@ -107,7 +107,7 @@ See doc/COPYRIGHT.md for more details.
         <% end %>
       </tbody>
     </table>
-  <div class="generic-table--header-background"></div>
+  
   </div>
 </div>
 <%= styled_button_tag l(:label_view_diff), class: '-small -highlight' if show_diff %>
