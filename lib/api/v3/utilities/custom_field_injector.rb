@@ -201,8 +201,10 @@ module API
         def inject_user_schema(custom_field, customized)
           raise ArgumentError unless customized
 
+          type = custom_field.multi_value? ? "[]User" : "User"
+
           @class.schema_with_allowed_link property_name(custom_field.id),
-                                          type: 'User',
+                                          type: type,
                                           writable: true,
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
@@ -299,8 +301,10 @@ module API
             value = represented.send custom_field.accessor_name
 
             if value
-              if custom_field.field_format == "list"
-                nil # do not embed multi select values
+              if custom_field.list? || custom_field.multi_value?
+                # Do not embed list or multi values as their links contain all the
+                # information needed (title and href) already.
+                nil
               else
                 representer_class = REPRESENTER_MAP[custom_field.field_format]
 

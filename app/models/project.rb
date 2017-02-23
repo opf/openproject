@@ -49,7 +49,12 @@ class Project < ActiveRecord::Base
   has_many :time_entry_activities
   has_many :members, -> {
     includes(:user, :roles)
-      .where("#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}")
+      .where(
+        "#{Principal.table_name}.type='User' AND (
+          #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
+          #{User.table_name}.status=#{Principal::STATUSES[:invited]}
+        )"
+      )
       .references(:users, :roles)
   }
 
