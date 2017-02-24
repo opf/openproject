@@ -34,13 +34,18 @@ See doc/COPYRIGHT.rdoc for more details.
         <p><%= I18n.t('text_form_configuration') %></p>
 
         <types-form-configuration id="types-form-configuration" dragula="'groups'">
+          <button class="button"><i class="button--icon icon-add"></i> Add Group</button>
+          <button class="button"><i class="button--icon icon-undo"></i> Reset to defaults</button>
           <% @type.attribute_groups.each do |group_name, group_attributes| %>
             <div class="attribute-group">
               <div class="group-head">
-                <span class="group-handle">::</span>
+                <span class="group-handle">&#xe0b5;</span>
                 <span class="group-name"><%= group_name %></span>
 
-                <div class="attribute-visibility"><%= I18n.t('label_always_visible') %></div>
+                <div class="attribute-visibility">
+                  <%= I18n.t('label_always_visible') %>
+                  <span class="delete-group icon icon-close"></span>
+                </div>
               </div>
               <div class="attributes" dragula="'attributes'">
                   <%
@@ -57,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <% group_attributes.each do |name| %>
                   <%   attr = attributes[name] %>
                     <div class="attribute">
-                      <span class="attribute-handle">::</span>
+                      <span class="attribute-handle">&#xe0b5;</span>
                       <span class="attribute-name">
                         <%= name %>
                       </span>
@@ -68,6 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                           attr_visibility(name, @type) == 'visible',
                                           id: "type_attribute_visibility_visible_#{name}",
                                           title: I18n.t('tooltip.attribute_visibility.visible') %>
+                        <span class="delete-group icon icon-close"></span>
                       </div>
                     </div>
                   <% end %>
@@ -77,8 +83,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
           <div class="inactive-group">
             <div class="group-head">
-              <span class="group-handle">::</span>
               <span class="group-name">Inactive attributes</span>
+              <span class="advice">(Drag attributes from here to activate them)</span>
             </div>
             <div class="attributes" dragula="'attributes'">
             </div>
