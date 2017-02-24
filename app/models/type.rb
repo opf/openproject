@@ -58,7 +58,7 @@ class ::Type < ActiveRecord::Base
     end
   end
 
-  serialize :attribute_groups, Hash
+  serialize :attribute_groups, Array
 
   acts_as_list
 
@@ -141,12 +141,8 @@ class ::Type < ActiveRecord::Base
     if groups.empty?
       default_attribute_groups
     else
-      groups['ordered']
+      groups
     end
-  end
-
-  def attribute_groups=(ordered)
-    write_attribute :attribute_groups, ordered: ordered
   end
 
   def default_attribute_groups
