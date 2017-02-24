@@ -7,15 +7,28 @@
 
     .group-head
       color: $font-color-on-primary-dark
-      padding: 4px 4px 4px 4px
-      text-transform: uppercase
+      padding: 7px 4px 7px 0px
       .group-handle
-        cursor: move
+        cursor: -webkit-grab
+        cursor: grab
+        font-family: "openproject-icon-font" !important
+        @include varprop(color, primary-color-dark)
+      .group-name
+        text-transform: uppercase
+        @include varprop(border-color, primary-color)
+        border-width: 1px
+        border-style: solid
+        &:hover
+          cursor: text
+          @include varprop(border-color, inplace-edit--border-color)
+          background: white
+          color: #222222
       .attribute-visibility
+        text-transform: uppercase
         float: right
     .attributes
       .attribute
-        padding: 3px 4px 3px 4px
+        padding: 5px 4px 5px 0px
         margin-bottom: 2px
 
         background: $gray-light
@@ -25,12 +38,17 @@
         border-top-right-radius: 2px
         border-bottom-right-radius: 2px
         .attribute-handle
-          cursor: move
+          cursor: -webkit-grab
+          cursor: grab
+          font-family: "openproject-icon-font" !important
+          color: $light-gray
         .attribute-visibility
           float: right
+          .delete-group:before
+            color: $light-gray
 
   .attribute-group
-    background: $primary-color
+    @include varprop(background, primary-color)
   .inactive-group
     background: $gray-dark
     .attributes
