@@ -110,4 +110,14 @@ class ExportCardConfigurationsController < ApplicationController
   def load_configs
     @configs = ExportCardConfiguration.all
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t('label_export_card_configuration')
+    else
+      ActionController::Base.helpers.link_to(t('label_export_card_configuration'), pdf_export_export_card_configurations_path)
+    end
+  end
 end
