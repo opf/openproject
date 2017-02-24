@@ -1,3 +1,4 @@
+import {wpCellTdClassName} from '../cell-builder';
 import {timelineCellClassName} from '../timeline-cell-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {locateRow} from '../../helpers/wp-table-row-helpers';
@@ -21,16 +22,28 @@ export class RowRefreshBuilder extends SingleRowBuilder {
 
     // Iterate all columns, reattaching or rendering new columns
     const jRow = jQuery(rowElement);
+
+    // Detach all current edit cells
+    const cells = jRow.find(`.${wpCellTdClassName}`).detach();
+
+    // Remember the order of all new edit cells
+    const newCells:HTMLElement[] = [];
+
     this.columns.forEach((column:string) => {
       const oldTd = jRow.find(`td.${column}`);
 
-      // Reattach the column if its currently being edited
-      if (!this.isColumnBeingEdited(editForm, column)) {
-        const cell = this.cellBuilder.build(row.object, column);
-        oldTd.replaceWith(cell);
+      // Skip the replacement of the column if this is being edited.
+      if (this.isColumnBeingEdited(editForm, column)) {
+        newCells.push(oldTd[0]);
+        return;
       }
+
+      // Otherwise, refresh that cell and append it
+      const cell = this.cellBuilder.build(row.object, column);
+      newCells.push(cell);
     });
 
+    jRow.prepend(newCells);
     return rowElement;
   }
 
