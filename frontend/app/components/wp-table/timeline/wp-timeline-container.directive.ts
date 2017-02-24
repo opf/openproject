@@ -102,7 +102,6 @@ export class WorkPackageTimelineTableController {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
         this.wpTimelineHeader.refreshView(this._viewParameters);
-        this.globalService.updateViewParameter(this._viewParameters);
         this.refreshScrollOnly();
         this.refreshViewRequested = false;
       }, 30);
@@ -124,6 +123,7 @@ export class WorkPackageTimelineTableController {
         if (viewParamsChanged) {
           // view params have changed, notify all cells
           // console.log("addWorkPackage()", wp.id, "viewParamsChanged==true");
+          this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
         }
 

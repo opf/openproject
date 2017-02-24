@@ -45,7 +45,8 @@ function newSegment(vp: TimelineViewParameters,
   segment.classList.add(timelineElementCssClass, classId);
   segment.style.position = "absolute";
   segment.style.cssFloat = "left";
-  segment.style.backgroundColor = color;
+  segment.style.backgroundColor = "blue";
+  // segment.style.backgroundColor = color;
   segment.style.marginLeft = vp.scrollOffsetInPx + "px";
   segment.style.top = top + "px";
   segment.style.left = left + "px";
@@ -100,15 +101,12 @@ export class WpTimelineGlobalService {
 
   updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
     this.cells[cell.latestRenderInfo.workPackage.id] = cell;
-
-    // TODO called to often
-
     this.update();
   }
 
   removeWorkPackageInfo(id: string) {
     delete this.cells[id];
-    this.update()
+    this.update();
   }
 
   displayRelation(from: string, to: string) {
@@ -146,6 +144,10 @@ export class WpTimelineGlobalService {
 
       const startCell = this.cells[e.from];
       const endCell = this.cells[e.to];
+
+      if (_.isNil(startCell) || _.isNil(endCell)) {
+        continue;
+      }
 
       const directionY = idxFrom < idxTo ? 1 : -1;
       let lastX = startCell.getRightmostPosition();
