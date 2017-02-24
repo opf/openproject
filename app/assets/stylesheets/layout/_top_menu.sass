@@ -27,9 +27,11 @@
 //++
 
 #logo
-  float: left
-  width: $main-menu-width
-  height: $header-height
+  @include varprop(width, main-menu-width)
+  @include varprop(height, header-height)
+  position: absolute
+  left: calc(50% - #{$main-menu-width} / 2)
+
   .home-link
     margin-top: 13px
     display: block
@@ -104,11 +106,6 @@
     position: relative
     top: 0
     z-index: 21
-  li.last-child > ul,
-  ul.drop-down--help,
-  ul.drop-down--modules
-    left: auto
-    right: 0
 
   li.drop-down
     select
@@ -126,9 +123,6 @@
       @include varprop(background-color, header-item-bg-hover-color)
       color: $header-item-font-hover-color
       &:after
-        @include icon-font-common
-        font-size: 10px
-        padding: 0 0 0 9px
         @extend .icon-pulldown-up:before
 
     li
@@ -145,6 +139,12 @@
     &.-hide-icon
       > a:after
         display: none
+
+  li.last-child > ul,
+  .drop-down--help,
+  .drop-down--modules
+    left: auto
+    right: 0
 
   .drop-down--projects
     > li
@@ -300,6 +300,20 @@ input.top-menu-search--input
       padding: 0 9px 0
     > ul > li
       max-width: 350px
+
+#account-nav-left
+  .drop-down
+    max-width: 230px
+
+  #projects-menu
+    overflow: hidden
+    text-overflow: ellipsis
+    padding-right: 34px
+
+    &:after
+      position: absolute
+      right: 15px
+      top: calc(50% - 10px / 2)
 
 #account-nav-right
   .drop-down.last-child
