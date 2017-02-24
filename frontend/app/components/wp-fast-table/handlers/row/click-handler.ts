@@ -24,6 +24,10 @@ export class RowClickHandler implements TableEventHandler {
     return `.${rowClassName}`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.tbody);
+  }
+
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     let target = jQuery(evt.target);
 

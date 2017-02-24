@@ -1,12 +1,26 @@
 import {keyCodes} from '../../common/keyCodes.enum';
 import {WorkPackageTable} from '../wp-fast-table';
 
-export abstract class ClickOrEnterHandler {
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
-    if (evt.type === 'click' || (evt.type === 'keydown' && evt.which === keyCodes.ENTER)) {
-      this.processEvent(table, evt);
-    }
+
+/**
+ * Execute the callback if the given JQuery Event is either an ENTER key or a click
+ */
+export function onClickOrEnter(evt:JQueryEventObject, callback:() => void) {
+  console.log("click or enter?");
+  if (evt.type === 'click' || (evt.type === 'keydown' && evt.which === keyCodes.ENTER)) {
+    callback();
+    return false;
   }
 
-  protected abstract processEvent(table:WorkPackageTable, evt:JQueryEventObject):void;
+  console.log("NOPE!");
+  return true;
+}
+
+
+export abstract class ClickOrEnterHandler {
+  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+    onClickOrEnter(evt, () => this.processEvent(table, evt));
+  }
+
+  protected abstract processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean;
 }

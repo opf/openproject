@@ -22,6 +22,10 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     return `.${uiStateLinkClass}`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.container);
+  }
+
   protected workPackage:WorkPackageResource;
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {

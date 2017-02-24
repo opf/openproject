@@ -59,7 +59,7 @@ module Pages
 
     def click_inline_create
       find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp--row.-new')
+      expect(page).to have_selector('.wp-inline-create-row')
     end
 
     def open_split_view(work_package)
@@ -124,7 +124,7 @@ module Pages
     def edit_field(work_package, attribute)
       context =
         if work_package.nil?
-          table_container.find('.wp--row.-new')
+          table_container.find('.wp-inline-create-row')
         else
           row(work_package)
         end

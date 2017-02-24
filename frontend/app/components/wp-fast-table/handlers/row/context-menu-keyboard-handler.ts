@@ -26,6 +26,10 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
     return `.${rowClassName}`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.tbody);
+  }
+
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 

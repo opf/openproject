@@ -35,6 +35,7 @@ interface WorkPackageCollectionResourceEmbedded {
 
 export class WorkPackageCollectionResource extends CollectionResource {
   public schemas: CollectionResource;
+  public createWorkPackage:any;
 }
 
 export interface WorkPackageCollectionResourceInterface extends WorkPackageCollectionResourceEmbedded, WorkPackageCollectionResource {
