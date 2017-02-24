@@ -30,9 +30,11 @@
 class TypesController < ApplicationController
   include PaginationHelper
 
+
   layout 'admin'
 
   before_action :require_admin
+
 
   def index
     @types = ::Type.page(params[:page]).per_page(per_page_param)
@@ -120,5 +122,15 @@ class TypesController < ApplicationController
       end
     end
     redirect_to action: 'index'
+  end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_type_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_type_plural), types_path)
+    end
   end
 end

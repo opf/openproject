@@ -120,7 +120,11 @@ class PlanningElementTypeColorsController < ApplicationController
   protected
 
   def default_breadcrumb
-    l('timelines.admin_menu.colors')
+    if action_name == 'index'
+      t('timelines.admin_menu.colors')
+    else
+      ActionController::Base.helpers.link_to(t('timelines.admin_menu.colors'), colors_path)
+    end
   end
 
   def require_admin_unless_readonly_api_request

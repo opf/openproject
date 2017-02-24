@@ -117,4 +117,14 @@ class CustomFieldsController < ApplicationController
   def find_types
     @types = ::Type.order('position')
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t('label_custom_field_plural')
+    else
+      ActionController::Base.helpers.link_to(t('label_custom_field_plural'), custom_fields_path)
+    end
+  end
 end
