@@ -230,6 +230,8 @@ export class TimelineCellRenderer {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);
+    start = _.isNaN(start.valueOf()) ? moment(wp.dueDate).clone() : start;
+
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
 
     return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart);
@@ -240,6 +242,8 @@ export class TimelineCellRenderer {
 
     let start = moment(wp.startDate as any);
     let due = moment(wp.dueDate as any);
+    due = _.isNaN(due.valueOf()) ? start.clone() : due;
+
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
     const duration = due.diff(start, "days") + 1;
 
