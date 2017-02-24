@@ -46,7 +46,7 @@ export class WorkPackageTimelineTableController {
 
   public wpTimelineHeader: WpTimelineHeader;
 
-  public readonly globalService = new WpTimelineGlobalService();
+  public readonly globalService = new WpTimelineGlobalService(this.$scope, this.states);
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 

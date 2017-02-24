@@ -29,6 +29,8 @@ import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
 import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
 import {WorkPackageTimelineCell} from "./wp-timeline-cell";
+import {States} from "../../states.service";
+import IScope = angular.IScope;
 
 
 // export const timelineGlobalElementCssClassname = "timeline-global-element";
@@ -64,18 +66,7 @@ export class TimelineGlobalElement {
 
 export class WpTimelineGlobalService {
 
-  private workPackageIdOrder: string[] = [
-    "63",
-    "62",
-    "61",
-    "60",
-    "59",
-    "58",
-    "57",
-    "56",
-    "55",
-    "54"
-  ];
+  private workPackageIdOrder: string[] = [];
 
   private viewParameters: TimelineViewParameters;
 
@@ -83,7 +74,14 @@ export class WpTimelineGlobalService {
 
   private elements: TimelineGlobalElement[] = [];
 
-  constructor() {
+  constructor(scope: IScope, states: States) {
+    states.table.rows.observeOnScope(scope)
+      .subscribe(rows => {
+        this.workPackageIdOrder = rows.map(wp => wp.id.toString());
+        this.renderElements();
+      });
+
+
     setTimeout(() => {
       console.log("displayRelation");
       jQuery("#work-packages-timeline-toggle-button").click();
@@ -145,7 +143,7 @@ export class WpTimelineGlobalService {
       const startCell = this.cells[e.from];
       const endCell = this.cells[e.to];
 
-      if (_.isNil(startCell) || _.isNil(endCell)) {
+      if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
         continue;
       }
 
@@ -172,6 +170,9 @@ export class WpTimelineGlobalService {
       for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
         const id = this.workPackageIdOrder[index];
         const cell = this.cells[id];
+        if (_.isNil(cell)) {
+          continue;
+        }
         cell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 0, lastX, 1, 40));
       }
 
