@@ -214,6 +214,7 @@ describe 'new work package', js: true do
 
       wp_page.subject_field.set('new work package')
       save_work_package!
+      wp_page.dismiss_notification!
 
       expect(page).to have_selector('.wp--row.-checked')
 
@@ -226,6 +227,10 @@ describe 'new work package', js: true do
       table_subject.set_value new_subject
       table_subject.submit_by_enter
       table_subject.expect_state_text new_subject
+
+      wp_page.expect_notification(
+        message: 'Successful update. Click here to open this work package in fullscreen view.'
+      )
 
       new_wp.reload
       expect(new_wp.subject).to eq(new_subject)

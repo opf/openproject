@@ -27,13 +27,9 @@ export class EditingRowBuilder extends SingleRowBuilder {
       if (editForm.activeFields[column] && oldTd.length) {
         rowElement.appendChild(oldTd[0]);
       } else {
-        let cell = this.cellBuilder.build(row.object, column);
-        rowElement.appendChild(cell);
+        this.buildCell(row.object, column, rowElement);
       }
     });
-
-    // Last column: details link
-    this.detailsLinkBuilder.build(row.object, rowElement);
 
     return rowElement;
   }

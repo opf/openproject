@@ -174,24 +174,31 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       FactoryGirl.create(:work_package,
                          project: project)
     }
-    before do visit_index_page end
+    before do
+      visit_index_page
+    end
 
     context 'focus' do
       let(:first_link_selector) do
-        'table.keyboard-accessible-list tbody tr:first-child a'
+        "#wp-row-#{yet_another_work_package.id} td.id a"
       end
       let(:second_link_selector) do
-        'table.keyboard-accessible-list tbody tr:nth-child(2) a'
+        "#wp-row-#{another_work_package.id} td.id a"
       end
 
-      it 'navigates with J' do
+      it 'navigates with J and K' do
+        expect(page).to have_selector("#wp-row-#{yet_another_work_package.id}")
+        expect(page).to have_selector("#wp-row-#{another_work_package.id}")
+
         find('body').native.send_keys('j')
         expect(page).to have_focus_on(first_link_selector)
-      end
 
-      it 'navigates with K' do
-        find('body').native.send_keys('k')
+        # Avoid sending keys on body since that resets focus
+        page.driver.browser.switch_to.active_element.send_keys('j')
         expect(page).to have_focus_on(second_link_selector)
+
+        page.driver.browser.switch_to.active_element.send_keys('k')
+        expect(page).to have_focus_on(first_link_selector)
       end
     end
 

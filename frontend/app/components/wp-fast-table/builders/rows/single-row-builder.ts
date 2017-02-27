@@ -11,7 +11,7 @@ import {rowId} from '../../helpers/wp-table-row-helpers';
 
 export const rowClassName = 'wp-table--row';
 
-export const internalColumnDetails = 'internal:detailsLink';
+export const internalColumnDetails = '__internal-detailsLink';
 
 export class SingleRowBuilder {
   // Injections
