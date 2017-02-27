@@ -855,8 +855,9 @@ class Project < ActiveRecord::Base
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
 
-    condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
+    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
     condition << Principal::STATUSES[:active]
+    condition << Principal::STATUSES[:invited]
     condition << true
 
     sanitize_sql_array condition
