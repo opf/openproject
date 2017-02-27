@@ -75,6 +75,14 @@ export class WorkPackageEditFieldHandler {
     return true;
   }
 
+  public get inEditMode() {
+    return false;
+  }
+
+  public get active() {
+    return true;
+  }
+
   public focus() {
     this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field '), true);
   }

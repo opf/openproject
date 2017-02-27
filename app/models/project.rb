@@ -49,7 +49,12 @@ class Project < ActiveRecord::Base
   has_many :time_entry_activities
   has_many :members, -> {
     includes(:user, :roles)
-      .where("#{Principal.table_name}.type='User' AND #{User.table_name}.status=#{Principal::STATUSES[:active]}")
+      .where(
+        "#{Principal.table_name}.type='User' AND (
+          #{User.table_name}.status=#{Principal::STATUSES[:active]} OR
+          #{User.table_name}.status=#{Principal::STATUSES[:invited]}
+        )"
+      )
       .references(:users, :roles)
   }
 
@@ -850,8 +855,9 @@ class Project < ActiveRecord::Base
                   ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
                   ["(#{Principal.table_name}.type=?)", 'User']
 
-    condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
+    condition[0] += " AND (#{User.table_name}.status=? OR #{User.table_name}.status=?) AND roles.assignable = ?"
     condition << Principal::STATUSES[:active]
+    condition << Principal::STATUSES[:invited]
     condition << true
 
     sanitize_sql_array condition

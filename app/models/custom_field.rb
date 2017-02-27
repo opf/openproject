@@ -242,6 +242,15 @@ class CustomField < ActiveRecord::Base
     multi_value
   end
 
+  ##
+  # Overrides cache key so that a custom field's representation
+  # is updated correctly when it's mutli_value attribute changes.
+  def cache_key
+    tag = multi_value? ? "mv" : "sv"
+
+    ["work_package_custom_fields", id, tag, translation.cache_key].join("/")
+  end
+
   private
 
   def possible_values_from_arg(arg)

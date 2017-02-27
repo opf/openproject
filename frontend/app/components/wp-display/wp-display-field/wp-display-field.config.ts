@@ -58,6 +58,7 @@ openprojectModule
                                                        'Category'])
       .addFieldType(StringObjectDisplayField, 'string_object', ['StringObject'])
       .addFieldType(StringObjectsDisplayField, 'string_objects', ['[]StringObject'])
+      .addFieldType(StringObjectsDisplayField, 'users', ['[]User'])
       .addFieldType(FormattableDisplayField, 'formattable', ['Formattable'])
       .addFieldType(DurationDisplayField, 'duration', ['Duration'])
       .addFieldType(DateDisplayField, 'date', ['Date'])
