@@ -46,12 +46,35 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
     [label, old_value, value]
   end
 
+  def get_old_and_new_value(custom_field, values)
+    if custom_field.list?
+      format_list custom_field, values
+    elsif custom_field.multi_value?
+      format_multi custom_field, values
+    else
+      format_single custom_field, values
+    end
+  end
+
   def format_list(custom_field, values)
     old_value, new_value = values
     old_option = find_list_value custom_field, old_value if old_value
     new_option = find_list_value custom_field, new_value if new_value
 
     [old_option || old_value, new_option || new_value]
+  end
+
+  def format_multi(custom_field, values)
+    old_value, new_value = values.map { |vs| formatted_values custom_field, vs }
+
+    [old_value, new_value]
+  end
+
+  def format_single(custom_field, values)
+    old_value = format_value(values.first, custom_field.field_format) if values.first
+    value = format_value(values.last, custom_field.field_format) if values.last
+
+    [old_value, value]
   end
 
   def find_list_value(custom_field, id)
@@ -62,26 +85,20 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
     end
   end
 
+  def formatted_values(custom_field, values)
+    String(values)
+      .split(",")
+      .map(&:strip)
+      .map { |value| format_value value, custom_field.field_format }
+      .join(", ")
+      .presence
+  end
+
   def custom_field_values(custom_field, id)
     custom_field
       .custom_options
       .where(id: id.split(","))
       .pluck(:value)
       .select(&:present?)
-  end
-
-  def get_old_and_new_value(custom_field, values)
-    if custom_field.list?
-      format_list custom_field, values
-    else
-      format_single custom_field, values
-    end
-  end
-
-  def format_single(custom_field, values)
-    old_value = format_value(values.first, custom_field.field_format) if values.first
-    value = format_value(values.last, custom_field.field_format) if values.last
-
-    [old_value, value]
   end
 end
