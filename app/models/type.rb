@@ -155,7 +155,7 @@ class ::Type < ActiveRecord::Base
     ordered.push ["estimates_and_time", values["estimates_and_time"]]
     ordered.push ["other", values["other"]]
 
-    ordered
+    ordered.map { |key, values| [key, Array(values)] }
   end
 
   def map_attribute_to_group(name)
