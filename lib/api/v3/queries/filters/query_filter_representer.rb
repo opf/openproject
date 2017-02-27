@@ -36,7 +36,7 @@ module API
                     title_getter: ->(*) { represented.human_name },
                     path: :query_filter
 
-          def initialize(model)
+          def initialize(model, *_)
             super(model, current_user: nil, embed_links: true)
           end
 

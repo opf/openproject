@@ -35,7 +35,7 @@ module API
           self_link id_attribute: ->(*) { represented },
                     title_getter: ->(*) { name }
 
-          def initialize(model)
+          def initialize(model, *_)
             super(model.to_sym, current_user: nil, embed_links: true)
           end
 

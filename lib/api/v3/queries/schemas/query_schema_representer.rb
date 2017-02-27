@@ -193,6 +193,7 @@ module API
 
             QueryFilterInstanceSchemaCollectionRepresenter.new(filters,
                                                                filter_instance_schemas_href,
+                                                               form_embedded: form_embedded,
                                                                current_user: current_user)
           end
 

@@ -78,34 +78,6 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
           let(:href) { self_link }
         end
       end
-
-      describe 'filter' do
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'filter' }
-          let(:href) { api_v3_paths.query_filter 'status' }
-          let(:title) { 'Status' }
-        end
-      end
-
-      context 'for an assigned_to filter' do
-        let(:filter) { assigned_to_filter }
-
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'filter' }
-          let(:href) { api_v3_paths.query_filter 'assignee' }
-          let(:title) { 'Assignee' }
-        end
-      end
-
-      context 'for a custom field filter' do
-        let(:filter) { custom_field_filter }
-
-        it_behaves_like 'has a titled link' do
-          let(:link) { 'filter' }
-          let(:href) { api_v3_paths.query_filter "customField#{custom_field.id}" }
-          let(:title) { custom_field.name }
-        end
-      end
     end
 
     context 'properties' do
@@ -148,15 +120,44 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
         context 'when embedding' do
           let(:form_embedded) { true }
 
-          it_behaves_like 'links to allowed values via collection link' do
-            let(:href) { api_v3_paths.query_filter('status') }
+          it_behaves_like 'links to and embeds allowed values directly' do
+            let(:hrefs) { [api_v3_paths.query_filter('status')] }
           end
 
           context 'with a custom field filter' do
             let(:filter) { custom_field_filter }
 
-            it_behaves_like 'links to allowed values via collection link' do
-              let(:href) { api_v3_paths.query_filter("customField#{custom_field.id}") }
+            it_behaves_like 'links to and embeds allowed values directly' do
+              let(:hrefs) { [api_v3_paths.query_filter("customField#{custom_field.id}")] }
+            end
+          end
+        end
+      end
+
+      describe 'operator' do
+        let(:path) { 'operator' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'QueryOperator' }
+          let(:name) { Query.human_attribute_name('operator') }
+          let(:required) { true }
+          let(:writable) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+
+        it_behaves_like 'does not link to allowed values'
+
+        context 'when embedding' do
+          let(:form_embedded) { true }
+
+          it_behaves_like 'links to and embeds allowed values directly' do
+            let(:hrefs) do
+              [api_v3_paths.query_operator('o'),
+               api_v3_paths.query_operator('='),
+               api_v3_paths.query_operator('!'),
+               api_v3_paths.query_operator('c'),
+               api_v3_paths.query_operator('*')]
             end
           end
         end
