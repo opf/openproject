@@ -226,6 +226,10 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
       tr.appendChild(td);
     });
 
+    // Append details icon
+    const td = document.createElement('td');
+    tr.appendChild(td);
+
     return tr;
   }
 }

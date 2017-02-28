@@ -156,6 +156,11 @@ en:
     index:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
+    edit:
+      settings: "Settings"
+      form_configuration: "Form configuration"
+      projects: "Projects"
+      enabled_projects: "Enabled projects"
 
   versions:
     overview:
@@ -330,7 +335,7 @@ en:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to this role"
+        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
       time_entry:
         activity: "Activity"
         hours: "Hours"

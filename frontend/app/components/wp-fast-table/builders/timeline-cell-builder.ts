@@ -27,7 +27,7 @@ export class TimelineCellBuilder {
     return this.states.timeline.getCurrentValue()!;
   }
 
-  public build(workPackage:WorkPackageResource, row:HTMLElement):void {
+  public build(workPackage:WorkPackageResource):HTMLElement {
     const td = document.createElement('td');
     td.classList.add(timelineCellClassName, '-max');
 
@@ -36,7 +36,8 @@ export class TimelineCellBuilder {
     }
 
     this.buildTimelineCell(td, workPackage);
-    row.appendChild(td);
+
+    return td;
   }
 
   public buildTimelineCell(cell:HTMLElement, workPackage:WorkPackageResource):void {

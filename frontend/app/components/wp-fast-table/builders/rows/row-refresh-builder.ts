@@ -39,7 +39,7 @@ export class RowRefreshBuilder extends SingleRowBuilder {
       }
 
       // Otherwise, refresh that cell and append it
-      const cell = this.cellBuilder.build(row.object, column);
+      const cell = this.buildCell(row.object, column);
       newCells.push(cell);
     });
 

@@ -31,13 +31,23 @@ import {wpDirectivesModule} from "../../../angular-modules";
 export class EditActionsBarController {
   public text:any;
   public onSave:Function;
+  public throttledSave:Function;
   public onCancel:Function;
 
-  constructor(I18n:op.I18n) {
+  constructor($timeout:ng.ITimeoutService, I18n:op.I18n) {
     this.text = {
       save: I18n.t('js.button_save'),
       cancel: I18n.t('js.button_cancel')
     }
+    this.throttledSave = _.throttle(this.onSave, 500);
+  }
+
+  public save():void {
+    this.throttledSave();
+  }
+
+  public cancel():void {
+    this.onCancel();
   }
 }
 

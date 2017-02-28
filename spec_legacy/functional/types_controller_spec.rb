@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'types_controller'
 
 describe TypesController, type: :controller do
@@ -78,33 +78,38 @@ describe TypesController, type: :controller do
   it 'should get edit' do
     ::Type.find(1).project_ids = [1, 3]
 
-    get :edit, id: 1
+    get :edit, id: 1, tab: 'settings'
     assert_response :success
     assert_template 'edit'
+    assert_template 'types/form/_settings'
 
     assert_select 'input', attributes: { name: 'type[project_ids][]',
-                                     value: '1',
-                                     checked: 'checked' }
+                                         value: '1',
+                                         checked: 'checked' }
 
     assert_select 'input', attributes: { name: 'type[project_ids][]',
-                                     value: '2',
-                                     checked: nil }
+                                         value: '2',
+                                         checked: nil }
 
     assert_select 'input', attributes: { name: 'type[project_ids][]',
-                                     value: '',
-                                     type: 'hidden' }
+                                         value: '',
+                                         type: 'hidden' }
   end
 
-  it 'should post update' do
-    post :update, id: 1, type: { name: 'Renamed',
-                                 project_ids: ['1', '2', ''] }
+  it 'should post update name' do
+    post :update, id: 1, tab: "settings", type: { name: 'Renamed' }
+    assert_equal "Renamed", ::Type.find(1).name
+    assert_redirected_to action: 'edit'
+  end
+
+  it 'should post update projects' do
+    post :update, id: 1, tab: "projects", type: { project_ids: ['1', '2', ''] }
     assert_redirected_to action: 'edit'
     assert_equal [1, 2], ::Type.find(1).project_ids.sort
   end
 
   it 'should post update without projects' do
-    post :update, id: 1, type: { name: 'Renamed',
-                                 project_ids: [''] }
+    post :update, id: 1, tab: "projects", type: { project_ids: [''] }
     assert_redirected_to action: 'edit'
     assert ::Type.find(1).project_ids.empty?
   end

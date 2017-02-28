@@ -120,15 +120,15 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
   }
 
   // this could be extracted into a separate component if it grows
-  var accessibleListSelector = 'table.list, table.keyboard-accessible-list';
-  var accessibleRowSelector = 'table.list tr, table.keyboard-accessible-list tr';
+  var accessibleListSelector = 'table.keyboard-accessible-list';
+  var accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
 
   function findListInPage() {
     var domLists, focusElements;
     focusElements = [];
     domLists = angular.element(accessibleListSelector);
     domLists.find('tbody tr').each(function(index, tr){
-      var firstLink = angular.element(tr).find(':visible:tabbable:not(.toggle-all, input)')[0];
+      var firstLink = angular.element(tr).find(':visible:tabbable')[0];
       if ( firstLink !== undefined ) { focusElements.push(firstLink); }
     });
     return focusElements;
@@ -137,14 +137,19 @@ module.exports = function($window, $rootScope, $timeout, PathHelper) {
   function focusItemOffset(offset) {
     var list, index;
     list = findListInPage();
+
     if (list === null) { return; }
     index = list.indexOf(
       angular
         .element(document.activeElement)
-        .parents(accessibleRowSelector)
-        .find(':visible:tabbable:not(input)')[0]
+        .closest(accessibleRowSelector)
+        .find(':visible:tabbable')[0]
     );
+
+    var target = angular.element(list[(index+offset+list.length) % list.length])
+
     angular.element(list[(index+offset+list.length) % list.length]).focus();
+
   }
 
   function focusNextItem() {

@@ -149,6 +149,11 @@ OpenProject::Application.routes.draw do
   get '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   get '/help/:ctrl/:page' => 'help#index'
 
+  get   '/types/:id/edit/:tab' => "types#edit",
+        as: "edit_type_tab"
+  match '/types/:id/update/:tab' => "types#update",
+        as: "update_type_tab",
+        via: [:post, :patch]
   resources :types do
     post 'move/:id', action: 'move', on: :collection
   end
@@ -171,6 +176,7 @@ OpenProject::Application.routes.draw do
             as: :delete_option_of
     end
   end
+
   get '(projects/:project_id)/search' => 'search#index', as: 'search'
 
   # only providing routes for journals when there are multiple subclasses of journals

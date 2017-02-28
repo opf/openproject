@@ -98,7 +98,7 @@ function wpTable(
 
       var t0 = performance.now();
       scope.tbody = element.find('.work-package--results-tbody');
-      scope.table = new WorkPackageTable(scope.tbody[0]);
+      scope.table = new WorkPackageTable(element[0], scope.tbody[0]);
 
       var t1 = performance.now();
       debugLog("Render took " + (t1 - t0) + " milliseconds.")

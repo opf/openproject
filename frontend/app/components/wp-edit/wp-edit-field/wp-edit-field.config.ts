@@ -62,7 +62,8 @@ openprojectModule
         'StringObject',
         'Project'])
       .addFieldType(MultiSelectEditField, 'multi-select', [
-        '[]StringObject'
+        '[]StringObject',
+        '[]User'
       ])
       .addFieldType(FloatEditField, 'float', ['Float'])
       .addFieldType(IntegerEditField, 'integer', ['Integer'])

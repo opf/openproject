@@ -110,8 +110,6 @@ notifications:
     on_failure: always
     on_pull_requests: false
     rooms:
-      # core
-      - secure: "jTMREkFmtNRxgHYN7PQpCpqbJ4icGPfTKAUuY/UvjAgn7Lv0VRqkhikBPSJs+zzwTBcHIY+xMLLF5fRCU+gcq/1mNbl8jNpXIO9JSxqRkxUlKYGP5q1hYrPKrhRGquzGQSR/q1XiTmIDkZ17yl8PQa+5c9NH9GrMx6xMzD5GWOQ="
       # CE
       - secure: "mQqyZRjOix72MAAcjIanPOCfzMlQOqMhYOEd+6SNCcK7nb9ku0rPtFYWtifvp3+ajA5YKVJZ/W2qRn+Flw99zg8SfhPBV89SALXapUnjuZW0rcPexP0vrQW/AR6176DG3+WQOM8BFOYmN1yuGsz7YZK3xZo7yPp8XHKwzWoEYS6BOEUyfyE5T8dGJGqIKwpGEnnpBJf+CVsXeX56xg6wL+9CPVIEDb7IcrPoYQ5K6Kh9gq+7Ube7I7lbsSpdm1TAS4si7G9A6IaJ4WD1QvnUDrajGz2IM/bkP0zs50kGSrbagm707QMC8P4aLzJ64aUOfziyeYA1BSiDl5dZCUc3/dJtjMkUoRlmErwe6x8N5mwn6iVQ5LtWQeJIiy+wrBvjnghkl2/B7z3iZvEsDl6Uip6Dtv7ccmSskkh0ulsEykxWdAsRddpSaEYHv5pqex9aVgIMljM8o3DFTQclhVyGM0nrryDiMjhkCR5spighp/uR7nHEULlmJMGilyjqy6iB3/S6O1CXY110jpgYEAqhxkY9VA1hYYVLsoKV90uUGlnJcQRqQPoP3q1OqUGlRT5Y2ydM2FTBvsBGB+bhMQgZhZORqlkfIYzWDoUs4v6vM9v16XsP6TeXzNd0BPCZ+WamtOZBpwvSXZl85lqIEFONZ12uIr1R/sPsv6bQndN6gLk="
       # EE

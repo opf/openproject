@@ -9,7 +9,11 @@ import {injectorBridge} from '../../../angular/angular-injector-bridge.functions
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {checkedClassName} from '../ui-state-link-builder';
 import {rowId} from '../../helpers/wp-table-row-helpers';
+
 export const rowClassName = 'wp-table--row';
+
+export const internalColumnDetails = '__internal-detailsLink';
+export const internalColumnTimelines = '__internal-timelines';
 
 export class SingleRowBuilder {
   // Injections
@@ -37,21 +41,39 @@ export class SingleRowBuilder {
   }
 
   /**
+   * Returns the current set of columns, augmented by the internal columns
+   * we add for buttons and timeline.
+   */
+   public get augmentedColumns():string[] {
+    const editColums = (this.states.table.columns.getCurrentValue() || []);
+
+    // Add details and timelines column as last table column
+    return editColums.concat(internalColumnDetails, internalColumnTimelines);
+  }
+
+  public buildCell(workPackage:WorkPackageResource, column:string):HTMLElement {
+    switch (column) {
+      case internalColumnTimelines:
+        return this.timelineCellBuilder.build(workPackage);
+      case internalColumnDetails:
+        return this.detailsLinkBuilder.build(workPackage);
+      default:
+        return this.cellBuilder.build(workPackage, column);
+    }
+
+  }
+
+  /**
    * Build the columns on the given empty row
    */
   public buildEmpty(workPackage:WorkPackageResource):HTMLElement {
     let row = this.createEmptyRow(workPackage);
+    let cell = null;
 
-    this.columns.forEach((column:string) => {
-      let cell = this.cellBuilder.build(workPackage, column);
+    this.augmentedColumns.forEach((column:string) => {
+      cell = this.buildCell(workPackage, column);
       row.appendChild(cell);
     });
-
-    // Last column of table: details link
-    this.detailsLinkBuilder.build(workPackage, row);
-
-    // Timeline column
-    this.timelineCellBuilder.build(workPackage, row);
 
     // Set the row selection state
     if (this.wpTableSelection.isSelected(<string>workPackage.id)) {

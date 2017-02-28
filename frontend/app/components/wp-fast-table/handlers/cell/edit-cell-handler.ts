@@ -22,6 +22,10 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return `.${cellClassName}.${editableClassName}`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.container);
+  }
+
   constructor() {
     super();
     injectorBridge(this);
@@ -42,15 +46,15 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     }
 
     // Locate the row
-    let rowElement = target.closest(`.${rowClassName}`);
-    let row = table.rowObject(rowElement.data('workPackageId'));
+    const rowElement = target.closest(`.${rowClassName}`);
+    const workPackageId = rowElement.data('workPackageId');
 
     // Get any existing edit state for this work package
-    let state = this.editState(row.workPackageId);
-    let form = state.getCurrentValue() || this.startEditing(state, row.workPackageId);
+    let state = this.editState(workPackageId);
+    let form = state.getCurrentValue() || this.startEditing(state, workPackageId);
 
     // Set editing context to table
-    form.editContext = new TableRowEditContext(row);
+    form.editContext = new TableRowEditContext(workPackageId);
 
     // Activate the field
     form.activate(fieldName);

@@ -75,9 +75,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if show_decoration %>
         <div id="top-menu">
           <div id="header">
-            <div id="logo">
-              <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
-            </div>
             <div id="top-menu-items">
               <h1 class="hidden-for-sighted">
                 <%= l(:label_top_menu) %>
@@ -87,6 +84,9 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= render partial: 'search/mini_form' %>
                 <%= render_top_menu_right %>
               </div>
+            </div>
+            <div id="logo">
+              <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
             </div>
           </div>
         </div>

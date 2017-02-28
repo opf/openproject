@@ -30,6 +30,7 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {cellClassName} from '../wp-fast-table/builders/cell-builder';
 
 export class WorkPackageEditFieldHandler {
   // Injections
@@ -75,8 +76,16 @@ export class WorkPackageEditFieldHandler {
     return true;
   }
 
+  public get inEditMode() {
+    return false;
+  }
+
+  public get active() {
+    return true;
+  }
+
   public focus() {
-    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field '), true);
+    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field'), true);
   }
 
   public setErrors(newErrors:string[]) {
@@ -101,15 +110,15 @@ export class WorkPackageEditFieldHandler {
   public reset() {
     this.workPackage.restoreFromPristine(this.fieldName);
     delete this.workPackage.$pristine[this.fieldName];
-    this.deactivate();
+    this.deactivate(true);
   }
 
   /**
    * Close the field, resetting it with its display value.
    */
-  public deactivate() {
+  public deactivate(focus:boolean = false) {
     delete this.form.activeFields[this.fieldName];
-    this.editContext.reset(this.workPackage, this.fieldName);
+    this.editContext.reset(this.workPackage, this.fieldName, focus);
   }
 
   /**

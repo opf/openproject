@@ -92,6 +92,10 @@ describe 'Inline editing work packages', js: true do
       subject_field.expect_text('Other subject!')
       status_field.expect_text(status2.name)
 
+      wp_table.expect_notification(message: 'Successful update')
+      wp_table.dismiss_notification!
+      wp_table.expect_no_notification(message: 'Successful update')
+
       work_package.reload
       expect(work_package.subject).to eq('Other subject!')
       expect(work_package.status.id).to eq(status2.id)

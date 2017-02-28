@@ -20,7 +20,7 @@ export class DetailsLinkBuilder {
     this.uiStatebuilder = new UiStateLinkBuilder();
   }
 
-  public build(workPackage:WorkPackageResource, row:HTMLElement) {
+  public build(workPackage:WorkPackageResource):HTMLElement {
     // Append details button
     let td = document.createElement('td');
     td.classList.add(detailsLinkTdClass, 'hide-when-print', '-short');
@@ -37,7 +37,8 @@ export class DetailsLinkBuilder {
     detailsLink.appendChild(icon);
 
     td.appendChild(detailsLink);
-    row.appendChild(td);
+
+    return td;
   }
 }
 

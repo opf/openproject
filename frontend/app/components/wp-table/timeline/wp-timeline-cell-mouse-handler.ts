@@ -72,6 +72,8 @@ export function registerWorkPackageMouseHandler(this: void,
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
   function applyDateValues(dates:{[name:string]: Moment}) {
+    console.log("APPLY DATE VALUES");
+
     const wp = renderInfo.workPackage;
 
     // Let the renderer decide which fields we change

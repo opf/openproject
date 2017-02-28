@@ -50,10 +50,13 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 </div>
 
-<script>
-  jQuery(function() { displayTabsButtons(); });
-  jQuery(window).resize(function() { displayTabsButtons(); });
-</script>
+
+<% content_for :header_tags do %>
+  <script>
+    jQuery(function() { displayTabsButtons(); });
+    jQuery(window).resize(function() { displayTabsButtons(); });
+  </script>
+<% end %>
 
 <% tabs.each do |tab| %>
   <%= content_tag('div',

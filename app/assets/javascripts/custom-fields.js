@@ -99,6 +99,8 @@
           unsearchable();
           break;
         case 'user':
+          show(multiSelect);
+          activate(multiSelect);
         case 'version':
           deactivate(defaultValueFields);
           deactivate(possibleValues);

@@ -24,6 +24,10 @@ export class HierarchyClickHandler extends ClickOrEnterHandler {
     return `.${rowClassName} .wp-table--hierarchy-indicator `;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.tbody);
+  }
+
   public processEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
