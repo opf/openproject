@@ -26,5 +26,5 @@ tr:
   validation_failure_integer: "geçerli bir tamsayı değil"
   reporting:
     group_by:
-      selected_columns: "Selected columns"
-      selected_rows: "Selected rows"
+      selected_columns: "Seçili sütunlar"
+      selected_rows: "Seçili satırlar"
