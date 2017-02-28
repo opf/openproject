@@ -85,9 +85,9 @@ export class WpTimelineGlobalService {
             this.elements = [];
             this.removeAllElements();
             this.displayRelation("" + rows[0].id, "" + rows[1].id);
-            // this.displayRelation("" + rows[2].id, "" + rows[3].id);
-            // this.displayRelation("" + rows[4].id, "" + rows[5].id);
-            // this.displayRelation("" + rows[6].id, "" + rows[7].id);
+            this.displayRelation("" + rows[2].id, "" + rows[3].id);
+            this.displayRelation("" + rows[4].id, "" + rows[5].id);
+            this.displayRelation("" + rows[6].id, "" + rows[7].id);
           }, 100);
         }
         this.renderElements();
