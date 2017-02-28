@@ -26,11 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
+
 angular
   .module('openproject.workPackages.directives')
   .directive('sortHeader', sortHeader);
 
-function sortHeader(){
+function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService){
   return {
     restrict: 'A',
     templateUrl: '/components/wp-table/sort-header/sort-header.directive.html',
@@ -43,8 +45,8 @@ function sortHeader(){
       locale: '='
     },
 
-    link: function(scope, element) {
-      scope.$watch('query.sortation.sortElements', function(sortElements){
+    link: function(scope: any, element: ng.IAugmentedJQuery) {
+      scope.$watch('query.sortation.sortElements', function(sortElements:any){
         var latestSortElement = sortElements[0];
 
         if (scope.headerName !== latestSortElement.field) {
@@ -57,6 +59,14 @@ function sortHeader(){
       }, true);
 
       scope.$watch('currentSortDirection', setActiveColumnClass);
+
+      // Place the hierarchy icon left to the subject column
+      scope.isHierarchyColumn = scope.headerName === 'subject';
+      scope.toggleHierarchy = function(evt:JQueryEventObject) {
+        wpTableHierarchy.toggleState();
+        evt.stopPropagation();
+        return false;
+      }
 
       function setFullTitleAndSummary() {
         scope.fullTitle = scope.headerTitle;
