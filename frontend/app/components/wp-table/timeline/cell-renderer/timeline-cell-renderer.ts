@@ -241,6 +241,8 @@ export class TimelineCellRenderer {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);
+    start = _.isNaN(start.valueOf()) ? moment(wp.dueDate).clone() : start;
+
     let due = moment(wp.dueDate as any);
     due = _.isNaN(due.valueOf()) ? start.clone() : due;
 

@@ -33,7 +33,7 @@ import {States} from "../../states.service";
 import IScope = angular.IScope;
 
 
-// export const timelineGlobalElementCssClassname = "timeline-global-element";
+export const timelineGlobalElementCssClassname = "timeline-global-element";
 
 function newSegment(vp: TimelineViewParameters,
                     classId: string,
@@ -44,7 +44,7 @@ function newSegment(vp: TimelineViewParameters,
                     height: number): HTMLElement {
 
   const segment = document.createElement("div");
-  segment.classList.add(timelineElementCssClass, classId);
+  segment.classList.add(timelineElementCssClass, timelineGlobalElementCssClassname, classId);
   segment.style.position = "absolute";
   segment.style.cssFloat = "left";
   segment.style.backgroundColor = "blue";
@@ -78,17 +78,23 @@ export class WpTimelineGlobalService {
     states.table.rows.observeOnScope(scope)
       .subscribe(rows => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
+
+        if (rows.length >= 8) {
+          setTimeout(() => {
+            console.log("displayRelation");
+            this.elements = [];
+            this.removeAllElements();
+            this.displayRelation("" + rows[0].id, "" + rows[1].id);
+            this.displayRelation("" + rows[2].id, "" + rows[3].id);
+            this.displayRelation("" + rows[4].id, "" + rows[5].id);
+            this.displayRelation("" + rows[6].id, "" + rows[7].id);
+          }, 100);
+        }
         this.renderElements();
       });
 
-
     setTimeout(() => {
-      console.log("displayRelation");
       jQuery("#work-packages-timeline-toggle-button").click();
-      this.displayRelation("63", "62");
-      this.displayRelation("61", "60");
-      this.displayRelation("58", "59");
-      this.displayRelation("56", "57");
     }, 2000);
   }
 
@@ -122,7 +128,7 @@ export class WpTimelineGlobalService {
 
   private removeAllElements() {
     // console.log("removeAllElements()");
-    // jQuery("." + timelineGlobalElementCssClassname).remove();
+    jQuery("." + timelineGlobalElementCssClassname).remove();
   }
 
   private renderElements() {
