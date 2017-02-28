@@ -135,7 +135,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
       let(:column_header_selector) { '.work-package-table--container th:nth-of-type(2)' }
-      let(:column_header_link_selector) { column_header_selector + ' a' }
+      let(:column_header_link_selector) { column_header_selector + ' #subject' }
 
       it_behaves_like 'sortable column'
     end
@@ -252,7 +252,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     describe 'column header drop down menu', js: true do
       it_behaves_like 'context menu' do
-        let(:source_link) { '.work-package-table--container th:nth-of-type(2) a' }
+        let(:source_link) { '.work-package-table--container th #subject' }
         let(:target_link) { '#column-context-menu .dropdown-menu li:first-of-type a' }
         let(:keys) { :enter }
         let(:sets_focus) { true }

@@ -27,6 +27,13 @@ export class WorkPackageTableHierarchyService {
      this.hierarchyState.put(state);
    }
 
+   /**
+    * Toggle the hierarchy state
+    */
+   public toggleState() {
+    this.setEnabled(!this.isEnabled);
+   }
+
   /**
    * Return whether the given wp ID is collapsed.
    */

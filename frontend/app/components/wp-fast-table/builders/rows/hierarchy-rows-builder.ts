@@ -101,7 +101,9 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     });
 
     element.classList.add(`__hierarchy-root-${row.object.id}`);
-    jQuery(element).find('td.subject').prepend(hierarchyIndicator);
+    jQuery(element).find('td.subject')
+                   .prepend(hierarchyIndicator)
+                   .addClass('-with-hierarchy');
     return element;
   }
 
@@ -112,8 +114,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
       const hierarchyIndicator = document.createElement('span');
       const collapsed = this.wpTableHierarchy.collapsed(workPackage.id);
       hierarchyIndicator.classList.add(hierarchyCellClassName);
-      hierarchyIndicator.style.width = 10 + (10 * level) + 'px';
-      hierarchyIndicator.style.paddingLeft = (20 * level) + 'px';
+      hierarchyIndicator.style.width = 25 + (15 * level) + 'px';
 
       if (workPackage.$loaded && workPackage.isLeaf) {
         hierarchyIndicator.innerHTML = `

@@ -19,14 +19,17 @@
   .wp-table--hierarchy-indicator-collapsed
     display: inline
 
+.wp-table--hierarchy-span
+  text-align: center
+  display: inline-block
 
 .wp-table--hierarchy-indicator-icon
   @include icon-common
-  @extend .icon-arrow-down2
-  font-size: 0.75rem
+  @extend .icon-arrow-down1
+  font-size: 0.6rem
 
   .-hierarchy-collapsed &
-    @extend .icon-arrow-right7
+    @extend .icon-arrow-right2
 
 .wp-table--row[class*="__collapsed-group-"]
   display: none
@@ -38,3 +41,19 @@
 // so it becomes clear they're not part of the sort
 .wp-table--hierarchy-aditional-row
   @include varprop(background, gray-light)
+
+// Style hierarchy column differently
+.generic-table--hierarchy-header > a
+  width: calc(100% - 48px)
+
+// Padding for the hierarchy mode
+.wp-table--cell-td.subject:not(.-with-hierarchy)
+  padding-left: 25px !important
+
+.hierarchy-header--icon
+  display: inline-block
+  width: 20px
+
+  span:before
+    padding: 0 !important
+    @include varprop(color, body-font-color)
