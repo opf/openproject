@@ -435,6 +435,7 @@ en:
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
       hierarchy:
+        toggle_button: 'Click to toggle hierarchy mode.'
         leaf: 'Work package leaf at level %{level}.'
         children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
         children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'

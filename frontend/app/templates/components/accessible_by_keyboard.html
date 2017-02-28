@@ -1,4 +1,4 @@
-<a data-ng-click='isDisabled || execute()'
+<a data-ng-click='isDisabled || execute({ "$event": $event })'
    role="link"
    class='{{ linkClass }}'
    ng-disabled="isDisabled"
