@@ -27,6 +27,10 @@ export class GroupRowHandler implements TableEventHandler {
     return `.${rowGroupClassName} .expander`;
   }
 
+  public eventScope(table:WorkPackageTable) {
+    return jQuery(table.tbody);
+  }
+
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     evt.preventDefault();
     evt.stopPropagation();

@@ -40,7 +40,8 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {States} from '../states.service';
+import { States } from '../states.service';
+import { Subscription } from "rxjs/Subscription";
 
 export class WorkPackageEditForm {
   // Injections
@@ -67,11 +68,14 @@ export class WorkPackageEditForm {
   // The last field that got activated
   public lastActiveField:string;
 
+  // The work package cache service subscription
+  protected subscription:Subscription;
+
   constructor(public workPackageId:string,
               public editMode = false) {
     injectorBridge(this);
 
-    this.wpCacheService.loadWorkPackage(workPackageId)
+    this.subscription = this.wpCacheService.loadWorkPackage(workPackageId)
       .observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
@@ -98,7 +102,18 @@ export class WorkPackageEditForm {
     });
   }
 
- public submit() {
+  /**
+   * Activate all fields that are returned in validation errors
+   */
+  public activateMissingFields() {
+    this.workPackage.getForm().then((form:any) => {
+      _.each(form.validationErrors, (val:any, key:string) => {
+        this.activate(key);
+      });
+    });
+  }
+
+  public submit() {
     if (!(this.workPackage.dirty || this.workPackage.isNew)) {
       this.stopEditing();
       return this.$q.when(this.workPackage);
@@ -109,6 +124,9 @@ export class WorkPackageEditForm {
 
     // Reset old error notifcations
     this.errorsPerAttribute = {};
+
+    // Close all current fields
+    this.closeAllEditFields();
 
     this.workPackage.save()
       .then(() => {
@@ -135,12 +153,19 @@ export class WorkPackageEditForm {
 
   protected stopEditing() {
     // Close all edit fields
-    _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => {
-      handler.deactivate();
-    });
+    this.closeAllEditFields();
+
+    // Unsubscribe changes
+    this.subscription.unsubscribe();
 
     // Destroy this form
     this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
+  }
+
+  protected closeAllEditFields() {
+    _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => {
+      handler.deactivate();
+    });
   }
 
   protected handleSubmissionErrors(error: any, deferred: any) {
@@ -162,17 +187,10 @@ export class WorkPackageEditForm {
 
     // Accumulate errors for the given response
     _.each(attributes, (fieldName:string) => {
-      const activeField = this.activeFields[fieldName];
-      if (activeField !== undefined) {
-        // currently active, set errors
-        activeField.setErrors(this.errorsPerAttribute[fieldName] || []);
-        _.pull(validFields, fieldName);
-      } else {
-        // Field does not exist, show it (e.g, add column in table)
-        this.editContext.requireVisible(fieldName).then(() => {
-          this.activate(fieldName);
-        });
-      }
+      // if the field does not exist, show it (e.g, add column in table)
+      this.editContext.requireVisible(fieldName).then(() => {
+        this.activate(fieldName);
+      });
     });
 
     // Now close remaining fields (valid)

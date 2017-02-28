@@ -37,7 +37,7 @@ export interface WorkPackageEditContext {
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResource, fieldName: string):void;
+  reset(workPackage:WorkPackageResource, fieldName: string, focus?:boolean):void;
 
   /**
    * Locate a display field in the current dom

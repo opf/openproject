@@ -8,7 +8,10 @@ import {injectorBridge} from '../../../angular/angular-injector-bridge.functions
 import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {checkedClassName} from '../ui-state-link-builder';
 import {rowId} from '../../helpers/wp-table-row-helpers';
+
 export const rowClassName = 'wp-table--row';
+
+export const internalColumnDetails = '__internal-detailsLink';
 
 export class SingleRowBuilder {
   // Injections
@@ -30,7 +33,21 @@ export class SingleRowBuilder {
    * It is not responsible for subscribing to updates.
    */
   public get columns():string[] {
-    return (this.states.table.columns.getCurrentValue() || []);
+    const editColums = (this.states.table.columns.getCurrentValue() || []);
+
+    return editColums.concat(internalColumnDetails);
+  }
+
+  public buildCell(workPackage:WorkPackageResource, column:string, row:HTMLElement):void {
+    switch (column) {
+      case internalColumnDetails:
+        this.detailsLinkBuilder.build(workPackage, row);
+        break;
+      default:
+        const cell = this.cellBuilder.build(workPackage, column);
+        row.appendChild(cell);
+    }
+
   }
 
   /**
@@ -40,12 +57,8 @@ export class SingleRowBuilder {
     let row = this.createEmptyRow(workPackage);
 
     this.columns.forEach((column:string) => {
-      let cell = this.cellBuilder.build(workPackage, column);
-      row.appendChild(cell);
+      this.buildCell(workPackage, column, row);
     });
-
-    // Last column: details link
-    this.detailsLinkBuilder.build(workPackage, row);
 
     // Set the row selection state
     if (this.wpTableSelection.isSelected(<string>workPackage.id)) {

@@ -29,7 +29,7 @@ export class WorkPackageTable {
     new PlainRowsBuilder()
   ];
 
-  constructor(public tbody:HTMLElement) {
+  constructor(public container:HTMLElement, public tbody:HTMLElement) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }

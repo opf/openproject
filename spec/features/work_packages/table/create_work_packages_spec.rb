@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'inline create work package', skip: 'SKIPPED UNTIL RE-ADDED AFTER REFACTOR', js: true do
+describe 'inline create work package', js: true do
   let(:type) { FactoryGirl.create(:type) }
   let(:types) { [type] }
 
@@ -36,10 +36,10 @@ describe 'inline create work package', skip: 'SKIPPED UNTIL RE-ADDED AFTER REFAC
 
         wp_table.click_inline_create
         expect(page).to have_selector('.wp--row', count: 2)
-        expect(page).to have_selector('.wp--row.-new')
+        expect(page).to have_selector('.wp-inline-create-row')
 
         # Expect subject to be activated
-        subject_field = InlineEditField.new(nil, :subject)
+        subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value 'Some subject'
         subject_field.save!
@@ -53,9 +53,9 @@ describe 'inline create work package', skip: 'SKIPPED UNTIL RE-ADDED AFTER REFAC
 
         # Expect new create row to exist
         expect(page).to have_selector('.wp--row', count: 3)
-        expect(page).to have_selector('.wp--row.-new')
+        expect(page).to have_selector('.wp-inline-create-row')
 
-        subject_field = InlineEditField.new(nil, :subject)
+        subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value 'Another subject'
         subject_field.save!
@@ -73,9 +73,9 @@ describe 'inline create work package', skip: 'SKIPPED UNTIL RE-ADDED AFTER REFAC
         )
 
         # Cancel creation
-        expect(page).to have_selector('.wp--row.-new')
+        expect(page).to have_selector('.wp-inline-create-row')
         page.find('.wp-table--cancel-create-link').click
-        expect(page).to have_no_selector('.wp--row.-new')
+        expect(page).to have_no_selector('.wp-inline-create-row')
         expect(page).to have_selector('.wp-inline-create--add-link')
       end
     end

@@ -29,7 +29,7 @@ import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-reso
 
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
-import {tdClassName, CellBuilder} from '../wp-fast-table/builders/cell-builder';
+import {CellBuilder, cellClassName, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
@@ -42,23 +42,28 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public wpTableColumns:WorkPackageTableColumnsService;
   public states:States;
   public $rootScope:ng.IRootScopeService;
+  public FocusHelper:any;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
 
-  constructor(public row:WorkPackageTableRow) {
+  constructor(public workPackageId:string) {
     injectorBridge(this);
   }
 
   public find(fieldName:string):JQuery {
-    return jQuery(`#${rowId(this.row.workPackageId)}`).find(`.${tdClassName}.${fieldName}`);
+    return jQuery(`#${rowId(this.workPackageId)}`).find(`.${tdClassName}.${fieldName}`);
   }
 
-  public reset(workPackage:WorkPackageResource, fieldName:string) {
-    let element = this.find(fieldName);
-
-    let newCell = this.cellBuilder.build(workPackage, fieldName);
+  public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
+    const element = this.find(fieldName);
+    const newCell = this.cellBuilder.build(workPackage, fieldName);
     element.replaceWith(newCell);
+
+    if (focus) {
+      const target = jQuery(newCell).find(`.${cellClassName}`);
+      this.FocusHelper.focusElement(target);
+    }
   }
 
   public requireVisible(name:string):Promise<JQuery> {
@@ -78,4 +83,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 }
 
-TableRowEditContext.$inject = ['wpCacheService', 'states', 'wpTableColumns', '$rootScope'];
+TableRowEditContext.$inject = [
+  'wpCacheService', 'states', 'wpTableColumns', '$rootScope', 'FocusHelper'
+];
