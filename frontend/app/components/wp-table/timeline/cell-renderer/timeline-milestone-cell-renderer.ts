@@ -1,7 +1,12 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {TimelineCellRenderer} from "./timeline-cell-renderer";
-import {RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass} from "../wp-timeline";
-import * as moment from 'moment';
+import {
+  RenderInfo,
+  calculatePositionValueForDayCount,
+  timelineElementCssClass,
+  calculatePositionValueForDayCountinPx
+} from "../wp-timeline";
+import * as moment from "moment";
 import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
@@ -132,6 +137,17 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     element.style.left = 'calc(0.5em + ' + calculatePositionValueForDayCount(viewParams, offsetStart) + ')';
 
     return true;
+  }
+
+  getLeftmostPosition(renderInfo: RenderInfo): number {
+    const wp = renderInfo.workPackage;
+    let start = moment(wp.date as any);
+    const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
+    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart) + (renderInfo.viewParams.pixelPerDay / 4);
+  }
+
+  getRightmostPosition(renderInfo: RenderInfo): number {
+    return this.getLeftmostPosition(renderInfo);
   }
 
   /**
