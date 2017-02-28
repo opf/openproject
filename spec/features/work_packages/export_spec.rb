@@ -87,8 +87,8 @@ describe 'work package export', type: :feature do
     expect(subject).to have_text(wp_3.description)
     expect(subject).to have_text(wp_4.description)
 
-    # results are ordered by ID (desc) and not grouped by type
-    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A B A A)
+    # results are ordered by ID (asc) and not grouped by type
+    expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
   end
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
