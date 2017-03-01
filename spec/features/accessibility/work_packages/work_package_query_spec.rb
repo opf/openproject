@@ -170,24 +170,20 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       FactoryGirl.create(:work_package,
                          project: project)
     }
-    let!(:yet_another_work_package) {
-      FactoryGirl.create(:work_package,
-                         project: project)
-    }
     before do
       visit_index_page
     end
 
     context 'focus' do
       let(:first_link_selector) do
-        "#wp-row-#{yet_another_work_package.id} td.id a"
+        "#wp-row-#{work_package.id} td.id a"
       end
       let(:second_link_selector) do
         "#wp-row-#{another_work_package.id} td.id a"
       end
 
       it 'navigates with J and K' do
-        expect(page).to have_selector("#wp-row-#{yet_another_work_package.id}")
+        expect(page).to have_selector("#wp-row-#{work_package.id}")
         expect(page).to have_selector("#wp-row-#{another_work_package.id}")
 
         find('body').native.send_keys('j')
