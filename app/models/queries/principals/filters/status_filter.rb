@@ -27,27 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class UserFilterDependencyRepresenter <
-          PrincipalFilterDependencyRepresenter
-
-          private
-
-          def filter_query
-            params = [{ type: { operator: '=', values: ['User'] } },
-                      { status: { operator: '=', values: [Principal::STATUSES[:active].to_s] } }]
-
-            if filter.context
-              params << { member: { operator: '=', values: [filter.context.id.to_s] } }
-            end
-
-            params
-          end
-        end
-      end
+class Queries::Principals::Filters::StatusFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    ::Principal::STATUSES.map do |key, value|
+      [key, value]
     end
+  end
+
+  def type
+    :list
+  end
+
+  def self.key
+    :status
   end
 end

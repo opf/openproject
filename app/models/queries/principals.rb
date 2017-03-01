@@ -34,4 +34,5 @@ module Queries::Principals
 
   register.filter query, filters::TypeFilter
   register.filter query, filters::MemberFilter
+  register.filter query, filters::StatusFilter
 end
