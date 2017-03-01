@@ -148,9 +148,13 @@ export class WorkPackageResource extends HalResource {
     return this.$source.id || this.idFromLink;
   }
 
-  public get idFromLink():string {
+  public static idFromLink(href: string): string {
+    return href.split('/').pop()!;
+  }
+
+  public get idFromLink(): string {
     if (this.href) {
-      return this.href.split('/').pop()!;
+      return WorkPackageResource.idFromLink(this.href);
     }
 
     return '';

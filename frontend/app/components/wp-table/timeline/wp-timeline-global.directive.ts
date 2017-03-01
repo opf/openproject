@@ -1,3 +1,4 @@
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,6 +31,9 @@ import IComponentOptions = angular.IComponentOptions;
 import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
 import {WorkPackageTimelineCell} from "./wp-timeline-cell";
 import {States} from "../../states.service";
+import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
+import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import IScope = angular.IScope;
 
 
@@ -74,23 +78,26 @@ export class WpTimelineGlobalService {
 
   private elements: TimelineGlobalElement[] = [];
 
-  constructor(scope: IScope, states: States) {
+  constructor(scope: IScope, states: States, halRequest:HalRequestService) {
     states.table.rows.observeOnScope(scope)
       .subscribe(rows => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
 
-        if (rows.length >= 8) {
-          setTimeout(() => {
+        halRequest.get(
+          '/api/v3/relations',
+          {
+            filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
+          }).then((collection:CollectionResource) => {
             console.log("displayRelation");
             this.elements = [];
             this.removeAllElements();
-            this.displayRelation("" + rows[0].id, "" + rows[1].id);
-            this.displayRelation("" + rows[2].id, "" + rows[3].id);
-            this.displayRelation("" + rows[4].id, "" + rows[5].id);
-            this.displayRelation("" + rows[6].id, "" + rows[7].id);
-          }, 100);
-        }
-        this.renderElements();
+            collection.elements.forEach((relation:RelationResource) => {
+              const fromId = WorkPackageResource.idFromLink(relation.from.href!);
+              const toId = WorkPackageResource.idFromLink(relation.to.href!);
+              this.displayRelation(fromId, toId);
+            });
+            this.renderElements();
+          });
       });
 
     setTimeout(() => {

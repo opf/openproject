@@ -45,11 +45,13 @@ module Queries
         end
 
         def where
+          integer_values = values.map(&:to_i)
+
           case operator
           when "="
-            ["from_id IN (?) OR to_id IN (?)", values.join(", "), values.join(", ")]
+            ["from_id IN (?) OR to_id IN (?)", integer_values, integer_values]
           when "!"
-            ["from_id NOT IN (?) AND to_id NOT IN (?)", values.join(", "), values.join(", ")]
+            ["from_id NOT IN (?) AND to_id NOT IN (?)", integer_values, integer_values]
           end
         end
       end
