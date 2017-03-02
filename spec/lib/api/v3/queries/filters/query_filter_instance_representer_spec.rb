@@ -112,5 +112,44 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
           .at_path('values')
       end
     end
+
+    context 'with a bool custom field filter' do
+      let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+      let(:filter) do
+        filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(operator: operator, values: values)
+        filter.custom_field = bool_cf
+        filter
+      end
+
+      context "with 't' as filter value" do
+        let(:values) { [CustomValue::BoolStrategy::DB_VALUE_TRUE] }
+
+        it "has `true` for 'values'" do
+          is_expected
+            .to be_json_eql([true].to_json)
+            .at_path('values')
+        end
+      end
+
+      context "with 'f' as filter value" do
+        let(:values) { [CustomValue::BoolStrategy::DB_VALUE_FALSE] }
+
+        it "has `true` for 'values'" do
+          is_expected
+            .to be_json_eql([false].to_json)
+            .at_path('values')
+        end
+      end
+
+      context "with something as filter value" do
+        let(:values) { ['blubs'] }
+
+        it "has `true` for 'values'" do
+          is_expected
+            .to be_json_eql([false].to_json)
+            .at_path('values')
+        end
+      end
+    end
   end
 end
