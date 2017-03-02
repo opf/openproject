@@ -46,4 +46,33 @@ describe ::Type, type: :model do
       expect(Type.enabled_in(project)).to match_array([type])
     end
   end
+
+  describe '#default_attribute_groups' do
+    subject { type.default_attribute_groups }
+
+    it 'returns an array' do
+      expect(subject.any?).to be_truthy
+    end
+
+    it 'each attribute group is an array' do
+      expect(subject.detect { |g| g.class != Array }).to be_falsey
+    end
+
+    it "each attribute group's 1st element is a String (the group name)" do
+      expect(subject.detect { |g| g.first.class != String }).to be_falsey
+    end
+
+    it "each attribute group's 2nd element is a String (the group members)" do
+      expect(subject.detect { |g| g.second.class != Array }).to be_falsey
+    end
+
+    it 'does not return empty groups' do
+      # For instance, the `type` factory instance does not have custom fields.
+      # Thus the `other` group shall not be returned.
+      expect(subject.detect do |attribute_group|
+        group_members = attribute_group[1]
+        group_members.nil? || group_members.size.zero?
+      end).to be_falsey
+    end
+  end
 end
