@@ -228,8 +228,11 @@ export function registerWorkPackageMouseHandler(this: void,
   function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
     wpCacheService.saveIfChanged(workPackage)
       .catch(() => {
-        // Reset the changes on error
-        renderer.onCancel(workPackage);
+
+        if (!workPackage.isNew) {
+          // Reset the changes on error
+          renderer.onCancel(workPackage);
+        }
       })
       .finally(() => {
         workPackageTimeline.refreshView();
