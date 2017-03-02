@@ -11,7 +11,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
 
   describe "should respond with the xls if requested in the index" do
     before do
-      get('index', :format => 'xls', :project_id => work_package.project_id)
+      get('index', params: { format: 'xls', project_id: work_package.project_id })
     end
 
     it 'should respond with 200 OK' do
@@ -67,10 +67,12 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       allow(Setting).to receive(:plugin_openproject_costs).and_return({ 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' })
 
       get 'index',
-        :format => 'xls',
-        :project_id => work_packages.first.project_id,
-        :set_filter => '1',
-        :c => ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"]
+          params: {
+            format: 'xls',
+            project_id: work_packages.first.project_id,
+            set_filter: '1',
+            c: ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"]
+          }
 
       expect(response.response_code).to eq(200)
 
@@ -100,16 +102,20 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     it 'should include estimated hours' do
       expect(@sheet.rows.size).to eq(4 + 1)
 
-      hours = @sheet.rows.last.values_at(2)
+      # Check row after header row
+      hours = @sheet.rows[1].values_at(2)
       expect(hours).to include(27.5)
     end
   end
 
   context 'with descriptions' do
     before do
-      get('index', :format => 'xls',
-                   :project_id => work_package.project_id,
-                   :show_descriptions => 'true')
+      get 'index',
+          params: {
+            format: 'xls',
+            project_id: work_package.project_id,
+            show_descriptions: 'true'
+          }
     end
 
     it 'should respond with 200 OK' do
@@ -137,7 +143,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     before do
       work_package.delete
 
-      get 'index', :format => 'xls', :project_id => work_package.project_id
+      get 'index', params: { format: 'xls', project_id: work_package.project_id }
     end
 
     it 'should yield an empty XLS file' do
@@ -169,10 +175,12 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       end
 
       get 'index',
-          :format => 'xls',
-          :project_id => work_package.project_id,
-          :set_filter => '1',
-          :c => ['subject', 'status', 'updated_at']
+          params: {
+            format: 'xls',
+            project_id: work_package.project_id,
+            set_filter: '1',
+            c: ['subject', 'status', 'updated_at']
+          }
 
       expect(response.response_code).to eq(200)
 
