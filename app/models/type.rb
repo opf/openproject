@@ -150,12 +150,13 @@ class ::Type < ActiveRecord::Base
 
     ordered = []
 
-    ordered.push ["details", values["details"]]
-    ordered.push ["people", values["people"]]
-    ordered.push ["estimates_and_time", values["estimates_and_time"]]
-    ordered.push ["other", values["other"]]
+    ordered.push ["details", values["details"]] if values["details"].try(:any?)
+    ordered.push ["people", values["people"]] if values["people"].try(:any?)
+    ordered.push ["estimates_and_time", values["estimates_and_time"]] if
+      values["estimates_and_time"].try(:any?)
+    ordered.push ["other", values["other"]] if values["other"].try(:any?)
 
-    ordered.map { |key, values| [key, Array(values)] }
+    ordered
   end
 
   def map_attribute_to_group(name)
