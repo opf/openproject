@@ -28,23 +28,20 @@
 
 import {openprojectModule} from '../../../angular-modules';
 
-function typesFormConfiguration(I18n:op.I18n) {
-  return {
-    restrict: 'E',
-    controller: function($scope:any, dragulaService:any) {
-      dragulaService.options($scope, 'groups', {
-        moves: function (el:any, container:any, handle:any) {
-          return handle.className === 'group-handle';
-        }
-      });
-
-      dragulaService.options($scope, 'attributes', {
-        moves: function (el:any, container:any, handle:any) {
-          return handle.className === 'attribute-handle';
-        }
-      });
+function typesFormConfigurationCtrl(I18n:op.I18n, dragulaService:any, $scope:any) {
+  dragulaService.options($scope, 'groups', {
+    moves: function (el:any, container:any, handle:any) {
+      return handle.className === 'group-handle';
     }
-  };
+    // containment: element[0]
+  });
+
+  dragulaService.options($scope, 'attributes', {
+    moves: function (el:any, container:any, handle:any) {
+      return handle.className === 'attribute-handle';
+    }
+    // containment: element
+  });
 };
 
-openprojectModule.directive('typesFormConfiguration', typesFormConfiguration);
+openprojectModule.controller('TypesFormConfigurationCtrl', typesFormConfigurationCtrl);
