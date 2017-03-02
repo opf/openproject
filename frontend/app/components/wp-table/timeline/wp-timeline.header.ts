@@ -37,7 +37,7 @@ import * as noUiSlider from "nouislider";
 import * as moment from 'moment';
 import Moment = moment.Moment;
 
-const cssClassTableBody = ".work-package-table tbody";
+const cssClassTableBody = ".work-package-table";
 const cssClassTableContainer = ".generic-table--results-container";
 const cssClassHeader = ".wp-timeline-header";
 const cssHeaderContainer = ".wp-timeline-header-container";
