@@ -203,7 +203,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     it do
       expect(page).to have_selector('.work-packages--details--subject',
-                                    text: work_package_3.subject)
+                                    text: work_package_1.subject)
     end
   end
 
@@ -216,11 +216,11 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
 
     it do
-      wp_page = Pages::FullWorkPackage.new(work_package_3)
+      wp_page = Pages::FullWorkPackage.new(work_package_1)
       subject_field = wp_page.edit_field :subject
 
       subject_field.expect_active!
-      expect(subject_field.input_element.value).to eq(work_package_3.subject)
+      expect(subject_field.input_element.value).to eq(work_package_1.subject)
 
       # Cancel edit
       find('#work-packages--edit-actions-cancel').click

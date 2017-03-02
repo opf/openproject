@@ -51,8 +51,8 @@ RSpec.feature 'Work package pagination', js: true do
       expect(page).to have_content('Work packages')
 
       within('#work-packages-index') do
-        expect(page).to_not have_content(work_package_1.subject)
-        expect(page).to     have_content(work_package_2.subject)
+        expect(page).to     have_content(work_package_1.subject)
+        expect(page).to_not have_content(work_package_2.subject)
       end
 
       within('.pagination--pages') do
@@ -60,8 +60,8 @@ RSpec.feature 'Work package pagination', js: true do
       end
 
       within('#work-packages-index') do
-        expect(page).to     have_content(work_package_1.subject)
-        expect(page).to_not have_content(work_package_2.subject)
+        expect(page).to     have_content(work_package_2.subject)
+        expect(page).to_not have_content(work_package_1.subject)
       end
 
       within('.pagination--options') do
