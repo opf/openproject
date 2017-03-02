@@ -28,16 +28,16 @@ import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-r
 // ++
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
-import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
-import {WorkPackageTimelineCell} from "./wp-timeline-cell";
-import {States} from "../../states.service";
+import {timelineElementCssClass, TimelineViewParameters} from './wp-timeline';
+import {WorkPackageTimelineCell} from './wp-timeline-cell';
+import {States} from '../../states.service';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import IScope = angular.IScope;
 
 
-export const timelineGlobalElementCssClassname = "timeline-global-element";
+export const timelineGlobalElementCssClassname = 'timeline-global-element';
 
 function newSegment(vp: TimelineViewParameters,
                     classId: string,
@@ -47,23 +47,23 @@ function newSegment(vp: TimelineViewParameters,
                     width: number,
                     height: number): HTMLElement {
 
-  const segment = document.createElement("div");
+  const segment = document.createElement('div');
   segment.classList.add(timelineElementCssClass, timelineGlobalElementCssClassname, classId);
-  segment.style.position = "absolute";
-  segment.style.cssFloat = "left";
-  segment.style.backgroundColor = "blue";
+  segment.style.position = 'absolute';
+  segment.style.cssFloat = 'left';
+  segment.style.backgroundColor = 'blue';
   // segment.style.backgroundColor = color;
-  segment.style.marginLeft = vp.scrollOffsetInPx + "px";
-  segment.style.top = top + "px";
-  segment.style.left = left + "px";
-  segment.style.width = width + "px";
-  segment.style.height = height + "px";
+  segment.style.marginLeft = vp.scrollOffsetInPx + 'px';
+  segment.style.top = top + 'px';
+  segment.style.left = left + 'px';
+  segment.style.width = width + 'px';
+  segment.style.height = height + 'px';
   return segment;
 }
 
 export class TimelineGlobalElement {
   private static nextId = 0;
-  classId = "timeline-global-element-id-" + TimelineGlobalElement.nextId++;
+  classId = 'timeline-global-element-id-' + TimelineGlobalElement.nextId++;
   from: string;
   to: string;
 }
@@ -78,7 +78,7 @@ export class WpTimelineGlobalService {
 
   private elements: TimelineGlobalElement[] = [];
 
-  constructor(scope: IScope, states: States, halRequest:HalRequestService) {
+  constructor(scope: IScope, states: States, halRequest: HalRequestService) {
     states.table.rows.observeOnScope(scope)
       .subscribe(rows => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
@@ -87,11 +87,11 @@ export class WpTimelineGlobalService {
           '/api/v3/relations',
           {
             filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
-          }).then((collection:CollectionResource) => {
-            console.log("displayRelation");
+          }).then((collection: CollectionResource) => {
+            console.log('displayRelation');
             this.elements = [];
             this.removeAllElements();
-            collection.elements.forEach((relation:RelationResource) => {
+            collection.elements.forEach((relation: RelationResource) => {
               const fromId = WorkPackageResource.idFromLink(relation.from.href!);
               const toId = WorkPackageResource.idFromLink(relation.to.href!);
               this.displayRelation(fromId, toId);
@@ -101,7 +101,7 @@ export class WpTimelineGlobalService {
       });
 
     setTimeout(() => {
-      jQuery("#work-packages-timeline-toggle-button").click();
+      jQuery('#work-packages-timeline-toggle-button').click();
     }, 2000);
   }
 
@@ -135,20 +135,20 @@ export class WpTimelineGlobalService {
 
   private removeAllElements() {
     // console.log("removeAllElements()");
-    jQuery("." + timelineGlobalElementCssClassname).remove();
+    jQuery('.' + timelineGlobalElementCssClassname).remove();
   }
 
   private renderElements() {
     if (this.viewParameters === undefined) {
-      console.log("renderElements() aborted - no viewParameters");
+      console.log('renderElements() aborted - no viewParameters');
       return;
     }
 
-    console.debug("renderElements()");
+    console.debug('renderElements()');
     const vp = this.viewParameters;
 
     for (let e of this.elements) {
-      jQuery("." + e.classId).remove();
+      jQuery('.' + e.classId).remove();
 
       const idxFrom = this.workPackageIdOrder.indexOf(e.from);
       const idxTo = this.workPackageIdOrder.indexOf(e.to);
@@ -170,13 +170,13 @@ export class WpTimelineGlobalService {
         continue;
       }
 
-      startCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, lastX, 10, 1));
+      startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, 10, 1));
       lastX += 10;
 
       if (directionY === 1) {
-        startCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, lastX, 1, 21));
       } else {
-        startCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", -1, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', -1, lastX, 1, 21));
       }
 
       // vert segment
@@ -186,29 +186,29 @@ export class WpTimelineGlobalService {
         if (_.isNil(cell)) {
           continue;
         }
-        cell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 0, lastX, 1, 40));
+        cell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 0, lastX, 1, 40));
       }
 
       // end
       if (directionX === 1) {
         if (directionY === 1) {
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 0, lastX, 1, 19));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 19, lastX, targetX - lastX, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 0, lastX, 1, 19));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 19, lastX, targetX - lastX, 1));
         } else {
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, lastX, 1, 21));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 19, lastX, targetX - lastX, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, 1, 21));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 19, lastX, targetX - lastX, 1));
         }
       } else {
         if (directionY === 1) {
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 0, lastX, 1, 8));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 8, targetX - 10, lastX - targetX + 11, 1));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 8, targetX - 10, 1, 11));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, targetX - 10, 10, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 0, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 8, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 8, targetX - 10, 1, 11));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, targetX - 10, 10, 1));
         } else {
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 32, lastX, 1, 8));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "blue", 32, targetX - 10, lastX - targetX + 11, 1));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "green", 19, targetX - 10, 1, 13));
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, "red", 19, targetX - 10, 10, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 32, lastX, 1, 8));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 32, targetX - 10, lastX - targetX + 11, 1));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, targetX - 10, 1, 13));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, targetX - 10, 10, 1));
         }
       }
     }

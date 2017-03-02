@@ -27,6 +27,7 @@
 //++
 
 import {opUiComponentsModule} from '../../../angular-modules';
+import {States} from '../../states.service';
 
 export class InteractiveTableController {
   static eventName = 'op:tableChanged';
@@ -41,6 +42,7 @@ export class InteractiveTableController {
               protected $timeout:ng.ITimeoutService,
               protected $interval:ng.IIntervalService,
               protected $scope:ng.IScope,
+              protected states:States,
               protected $window:ng.IWindowService) {
     'ngInject';
 
@@ -57,6 +59,12 @@ export class InteractiveTableController {
     // Watch for changes in state
     // (e.g., detail view opening)
     $scope.$on('$stateChangeSuccess', () => {
+      $timeout(() => this.setTableWidths(), 200);
+    });
+
+    // Watch for changes in state
+    // (e.g., detail view opening)
+    states.table.rendered.observeOnScope($scope).subscribe(() => {
       $timeout(() => this.setTableWidths(), 200);
     });
 
