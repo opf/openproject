@@ -64,9 +64,11 @@ module API
               lambda do
                 if type = represented.type
                   key = property.to_s.gsub /^customField/, "custom_field_"
-                  group = type.attribute_groups.find { |name, values| values.include?(key) }.try(:first)
+                  group_name = type.attribute_groups.find do |attribute_group|
+                    attribute_group.second.include?(key)
+                  end.try(:first)
 
-                  group || type.attribute_groups.keys.first
+                  group_name
                 end
               end
             end
