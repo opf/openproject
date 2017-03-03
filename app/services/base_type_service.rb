@@ -37,7 +37,7 @@ class BaseTypeService
   private
 
   def update(attributes)
-    success = Type.transaction {
+    success = Type.transaction do
       type.attributes = attributes
 
       set_date_attribute_visibility
@@ -48,7 +48,7 @@ class BaseTypeService
       else
         raise ActiveRecord::Rollback
       end
-    }
+    end
 
     ServiceResult.new(success: success,
                       errors: type.errors)
