@@ -174,9 +174,9 @@ export class WpTimelineGlobalService {
       lastX += 10;
 
       if (directionY === 1) {
-        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, lastX, 1, 22));
       } else {
-        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', -1, lastX, 1, 21));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', -1, lastX, 1, 22));
       }
 
       // vert segment
@@ -186,7 +186,7 @@ export class WpTimelineGlobalService {
         if (_.isNil(cell)) {
           continue;
         }
-        cell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 0, lastX, 1, 40));
+        cell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 0, lastX, 1, 42));
       }
 
       // end
@@ -195,7 +195,7 @@ export class WpTimelineGlobalService {
           endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 0, lastX, 1, 19));
           endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 19, lastX, targetX - lastX, 1));
         } else {
-          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, 1, 21));
+          endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, 1, 22));
           endCell.timelineCell.appendChild(newSegment(vp, e.classId, 'blue', 19, lastX, targetX - lastX, 1));
         }
       } else {
