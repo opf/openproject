@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({action: "diff"}, method: :get) do %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table interactive-table class="generic-table wiki-page-versions">
+      <table class="generic-table wiki-page-versions">
         <colgroup>
           <col highlight-col>
           <col>
@@ -107,7 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </div>
             </th>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
         <tbody>
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      <div class="generic-table--header-background"></div>
+      
     </div>
   </div>
   <div class="generic-table--action-buttons">

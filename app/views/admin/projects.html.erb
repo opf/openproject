@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @projects.any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table interactive-table class="generic-table">
+      <table class="generic-table">
         <colgroup>
           <col highlight-col>
           <col highlight-col>
@@ -84,7 +84,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %>
             <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %>
             <%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %>
-            <th></th>
+            <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
         <tbody>
@@ -120,7 +120,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      <div class="generic-table--header-background"></div>
+      
       <%= pagination_links_full @projects %>
     </div>
   </div>

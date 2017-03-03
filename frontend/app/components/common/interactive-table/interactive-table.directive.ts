@@ -225,7 +225,7 @@ function interactiveTable() {
 
     link: function(scope:ng.IScope, element:ng.IAugmentedJQuery) {
       if (element.filter('table').length === 0) {
-        throw 'interactive-table needs to be defined on a \'table\' tag';
+        throw 'needs to be defined on a \'table\' tag';
       }
     }
   };
