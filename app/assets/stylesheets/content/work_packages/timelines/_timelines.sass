@@ -2,9 +2,6 @@
 @import 'elements/_bar'
 @import 'elements/_milestone'
 
-.wp-timeline-header-controls
-  z-index: 101 !important
-
 .wp-timeline--th
   min-width: 600px !important
 
@@ -15,6 +12,8 @@
   top: calc(#{$generic-table--header-height} + 10px)
   border: 1px solid #D7D7D7
   box-shadow: 0 5px 3px -4px #DDDDDD
+  // Should match the thead z-index
+  z-index: 200
 
   // Ensure even padding around buttons
   padding: 5px

@@ -80,7 +80,9 @@ table.generic-table
     &.-sticky
       position: sticky
       top: 0
-
+      background: white
+      // z-index needs be higher than row z-index
+      z-index: 200
     tr
       &:hover
         background: none
@@ -208,12 +210,8 @@ table.generic-table
 .generic-table--header-outer,
 .generic-table--sort-header-outer,
 .generic-table--empty-header
-  width:        100%
-  background:   $body-background
-  border-bottom: 1px solid $table-header-border-color
   padding:      0 6px
   line-height:  $generic-table--header-height
-  height: $generic-table--header-height
   z-index:      1
 
   &:hover,
@@ -227,14 +225,18 @@ table.generic-table
   height:       0px
   line-height:  0px
 
-.generic-table--sort-header,
+.generic-table--sort-header
   white-space: nowrap
   width:   100%
   clear:   both
   display: block
-  font-weight: bold
-  overflow: hidden
-  text-overflow: ellipsis
+
+  & > a,
+  & > span
+    display: block
+    font-weight: bold
+    overflow: hidden
+    text-overflow: ellipsis
 
   & > a
     float: left
@@ -249,10 +251,6 @@ table.generic-table
 
   &:hover > .dropdown-indicator
     visibility: visible
-
-  &.-no-border
-    border: none
-    box-shadow: none
 
 .generic-table--footer-background
   position:     absolute
