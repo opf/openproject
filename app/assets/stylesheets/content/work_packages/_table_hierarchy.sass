@@ -42,9 +42,21 @@
 .wp-table--hierarchy-aditional-row
   @include varprop(background, gray-light)
 
+.hierarchy-header--outer-span
+  & > .dropdown-indicator
+    width: 1em
+    text-align: right
+    overflow: visible
+    min-width: 1em
+    visibility: hidden
+
+  &:hover > .dropdown-indicator
+    visibility: visible  
+
 // Style hierarchy column differently
-.generic-table--hierarchy-header > a
+.hierarchy-header--sort-title
   width: calc(100% - 48px)
+  display: inline-block
 
 // Padding for the hierarchy mode
 .wp-table--cell-td.subject:not(.-with-hierarchy)
