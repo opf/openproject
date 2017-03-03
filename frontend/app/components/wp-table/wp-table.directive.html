@@ -1,8 +1,7 @@
 <div class="generic-table--container work-package-table--container"
      ng-class="{ '-with-footer': displaySums }">
   <div class="generic-table--results-container">
-
-    <table interactive-table class="keyboard-accessible-list generic-table work-package-table">
+    <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
         <col highlight-col/>
         <col highlight-col ng-repeat="column in columns"/>
@@ -12,7 +11,7 @@
         <span id="wp-table-sort-summary"></span>
         <span ng-bind="::text.tableSummaryHints"></span>
       </caption>
-      <thead>
+      <thead class="sticky">
       <tr>
         <th sort-header
             ng-repeat="column in columns"
@@ -92,7 +91,6 @@
       </tr>
       </tfoot>
     </table>
-    <div class="generic-table--header-background"></div>
     <div class="generic-table--footer-background" ng-if="sumsLoaded()"></div>
   </div>
 </div>

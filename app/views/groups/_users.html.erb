@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if @group.users.any? %>
       <div class="generic-table--container">
         <div class="generic-table--results-container">
-          <table interactive-table class="generic-table users">
+          <table class="generic-table users">
             <colgroup>
               <col highlight-col>
               <col>
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       </span>
                     </div>
                   </div></th>
-                <th></th>
+                <th><div class="generic-table--empty-header"></div></th>
               </tr>
             </thead>
             <tbody>
@@ -64,7 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <% end %>
             </tbody>
           </table>
-          <div class="generic-table--header-background"></div>
+          
         </div>
       </div>
     <% else %>

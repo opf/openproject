@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <div id="workflow_form_<%= name %>" class="generic-table--container">
   <div class="generic-table--results-container">
-    <table interactive-table class="generic-table workflow-table transitions-<%= name %>">
+    <table class="generic-table workflow-table transitions-<%= name %>">
       <colgroup>
         <col>
         <col>
@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <thead>
         <tr>
           <th class="-short"></th>
-          <th></th>
+          <th><div class="generic-table--empty-header"></div></th>
           <th colspan="<%= @statuses.length%>">
             <div class="generic-table--sort-header-outer -border">
               <div class="generic-table--sort-header workflow-table--header">

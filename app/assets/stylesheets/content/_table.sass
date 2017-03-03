@@ -37,7 +37,6 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 .generic-table--container
   position:     relative
   height:       100%
-  padding-top:    $generic-table--header-height
   overflow:
     x: auto
     y: hidden
@@ -48,7 +47,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 .generic-table--results-container
   height:       100%
   overflow:
-    x: hidden
+    x: auto
     y: auto
 
 .generic-table--action-buttons
@@ -76,6 +75,12 @@ table.generic-table
       background:   #f8f8f8
 
   thead
+    height: $generic-table--header-height
+
+    &.-sticky
+      position: sticky
+      top: 0
+
     tr
       &:hover
         background: none
@@ -201,11 +206,14 @@ table.generic-table
   z-index:      1
 
 .generic-table--header-outer,
-.generic-table--sort-header-outer
-  position:     absolute
-  top:          0
+.generic-table--sort-header-outer,
+.generic-table--empty-header
+  width:        100%
+  background:   $body-background
+  border-bottom: 1px solid $table-header-border-color
   padding:      0 6px
   line-height:  $generic-table--header-height
+  height: $generic-table--header-height
   z-index:      1
 
   &:hover,
@@ -219,18 +227,14 @@ table.generic-table
   height:       0px
   line-height:  0px
 
-.generic-table--sort-header
+.generic-table--sort-header,
   white-space: nowrap
   width:   100%
   clear:   both
   display: block
-
-  & > a,
-  & > span
-    display: block
-    font-weight: bold
-    overflow: hidden
-    text-overflow: ellipsis
+  font-weight: bold
+  overflow: hidden
+  text-overflow: ellipsis
 
   & > a
     float: left
@@ -245,16 +249,6 @@ table.generic-table
 
   &:hover > .dropdown-indicator
     visibility: visible
-
-.generic-table--header-background
-  position:     absolute
-  top:          0
-  width:        100%
-  height:       $generic-table--header-height
-  background:   $body-background
-  border-bottom: 1px solid $table-header-border-color
-  box-shadow:   0 5px 3px -4px $table-header-shadow-color
-  z-index:      0
 
   &.-no-border
     border: none
