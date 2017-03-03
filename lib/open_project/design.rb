@@ -82,7 +82,7 @@ module OpenProject
       'footer-content-line-height'                           => "55px",
       'footer-content-link-color'                            => "$font-color-on-primary",
       'main-menu-width'                                      => "230px",
-      'main-menu-folded-width'                               => "50px",
+      'main-menu-folded-width'                               => "0px",
       'main-menu-border-color'                               => "#E7E7E7",
       'main-menu-border-width'                               => "1px",
       'main-menu-item-height'                                => "40px",

@@ -27,9 +27,6 @@
 //++
 
 @include breakpoint(680px down)
-  #logo
-    background-color: transparent
-
   #top-menu
     position: relative !important
 
@@ -63,28 +60,17 @@
         display: block
 
       &.last-child
-        > a
-          display: block
-          padding: 0
-          position: relative
-          text-indent: -10000px
-          width: 68px
+        > a + ul
+          width: 100vw
+          box-shadow: 1px 1px 4px #cccccc
+          border: solid 1px rgba(0, 0, 0, 0.2)
 
-          &:before
-            content: "\e0d0" !important
-            display: block
-            font-size: 1.5rem !important
-            position: absolute
-            right: 20px
-            text-indent: 0
-            top: 16px
-            z-index: 1000
-            @include icon-common
+          li
+            max-width: none
 
-          + ul
-            width: 100vw
-            box-shadow: 1px 1px 4px #cccccc
-            border: solid 1px rgba(0, 0, 0, 0.2)
-
-            li
-              max-width: none
+  #account-nav-left,
+  #account-nav-right
+    > li a[class*="icon-"]
+      padding-top: 4px
+      &:before
+        font-size: 1.5rem

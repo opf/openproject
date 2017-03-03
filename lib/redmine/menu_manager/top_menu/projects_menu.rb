@@ -53,6 +53,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       label_options: { id: 'projects-menu' },
       items: project_items,
       options: {
+        menu_item_class: 'hidden-for-mobile',
         drop_down_class: 'drop-down--projects'
       }
     ) do

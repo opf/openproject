@@ -33,8 +33,9 @@ module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::ProjectsMenu
 
   def render_top_menu_left
-    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav hidden-for-mobile' do
+    content_tag :ul, id: 'account-nav-left', class: 'menu_root account-nav' do
       [render_main_top_menu_nodes,
+       render_sidebar_top_menu_node,
        render_projects_top_menu_node].join.html_safe
     end
   end
@@ -109,8 +110,23 @@ module Redmine::MenuManager::TopMenuHelper
       label: '',
       label_options: { class: 'icon-menu', title: I18n.t('label_modules') },
       items: items,
-      options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: '-hide-icon' }
+      options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules', menu_item_class: '-hide-icon' }
     )
+  end
+
+  def render_sidebar_top_menu_node()
+    show_decoration = params["layout"].nil?
+    main_menu = render_main_menu(@project)
+    side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank?
+
+    if (side_displayed && show_decoration)
+      content_tag(:li,
+                  id: 'toggle-project-menu',
+                  "ng-class" => "{ 'show': !showNavigation }",
+                  "ng-controller" => 'MainMenuController as mainMenu') do
+        link_to '', '', title: l(:show_hide_project_menu), class: 'navigation-toggler icon-hamburger', "ng-click" => 'mainMenu.toggleNavigation()'
+      end
+    end
   end
 
   def render_main_top_menu_nodes(items = main_top_menu_items)
