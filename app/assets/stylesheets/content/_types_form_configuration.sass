@@ -1,5 +1,5 @@
 .type-form-conf-group,
-.type-form-conf-inactive-group
+#type-form-conf-inactive-group
   border-radius: 2px
   padding: 0px 4px 2px 4px
   margin-bottom: 20px
@@ -26,13 +26,15 @@
       text-transform: uppercase
       float: right
   .attributes
+    min-height: 29px
 
 .type-form-conf-group
   @include varprop(background, primary-color)
-.type-form-conf-inactive-group
+
+#type-form-conf-inactive-group
   background: $gray-dark
-  .attributes
-    min-height: 40px
+  .attribute-visibility
+    visibility: hidden
 
 .type-form-conf-attribute
   padding: 5px 4px 5px 0px
@@ -53,3 +55,6 @@
     float: right
     .delete-group:before
       color: $light-gray
+
+#type-form-conf-group-template
+  display: none

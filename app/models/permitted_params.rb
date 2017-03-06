@@ -621,6 +621,8 @@ class PermittedParams
           :is_default,
           :move_to],
         type: [
+          :attribute_groups,
+          :attribute_visibility,
           :name,
           :is_in_roadmap,
           :in_aggregation,
