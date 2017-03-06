@@ -46,8 +46,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="types-form-configuration" ng-controller="TypesFormConfigurationCtrl">
         <p><%= I18n.t('text_form_configuration') %></p>
 
-        <button class="button"><i class="button--icon icon-add"></i> Add Group</button>
-        <button class="button"><i class="button--icon icon-undo"></i> Reset to defaults</button>
+        <button type="button" class="button" ng-click="addGroup($event)"><i class="button--icon icon-add"></i> Add Group</button>
+        <button type="button" class="button" ng-click="resetToDefault($event)"><i class="button--icon icon-undo"></i> Reset to defaults</button>
 
         <div id="type-form-conf-group-template" class="type-form-conf-group" data-key="">
           <div class="group-head">
@@ -56,14 +56,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
             <div class="attribute-visibility">
               <%= I18n.t('label_always_visible') %>
-              <span class="delete-group icon icon-close"></span>
+              <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
             </div>
           </div>
           <div class="attributes" dragula='"attributes"'>
           </div>
         </div>
 
-        <div dragula='"groups"'>
+        <div id="draggable-groups" dragula='"groups"'>
           <% @type.attribute_groups.each do |group_name, group_attributes| %>
             <div class="type-form-conf-group" data-key="<%= group_name %>">
               <div class="group-head">
@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
                 <div class="attribute-visibility">
                   <%= I18n.t('label_always_visible') %>
-                  <span class="delete-group icon icon-close"></span>
+                  <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
                 </div>
               </div>
               <div class="attributes" dragula='"attributes"'>
@@ -96,7 +96,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         id: "type_attribute_visibility_visible_#{name}",
                         title: I18n.t('tooltip.attribute_visibility.visible'),
                         'ng-click': "updateHiddenFields()" %>
-                      <span class="delete-group icon icon-close"></span>
+                      <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                     </div>
                   </div>
                 <% end %>
@@ -126,7 +126,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                     id: "type_attribute_visibility_visible_#{name}",
                                     title: I18n.t('tooltip.attribute_visibility.visible'),
                                     'ng-click': "updateHiddenFields()" %>
-                  <span class="delete-group icon icon-close"></span>
+                  <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                 </div>
               </div>
             <% end %>
