@@ -63,7 +63,6 @@ module API
 
       property :value,
                exec_context: :decorator,
-               getter: -> (*) { represented ? represented.to_s : nil },
                render_nil: true
 
       property :count,
@@ -122,6 +121,14 @@ module API
 
       def link_options(query, group_key)
         query.group_by_column.custom_field.custom_options.where(id: group_key.to_s.split("."))
+      end
+
+      def value
+        if represented == true || represented == false
+          represented
+        else
+          represented ? represented.to_s : nil
+        end
       end
 
       def convert_attribute(attribute)
