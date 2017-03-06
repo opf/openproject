@@ -197,6 +197,11 @@
         margin: 0
         padding: 0
 
+    // Workaround to assure that safari has the correct height
+    &.action-index #content .work-packages--split-view,
+    &.action-details #content .work-packages--split-view
+      height: 100vh
+
   .toolbar-items
     background: #fff
     display: flex
