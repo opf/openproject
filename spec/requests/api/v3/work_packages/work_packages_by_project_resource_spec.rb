@@ -33,9 +33,9 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
@@ -98,7 +98,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
       end
 
       describe 'filtering' do
-        let(:query) {
+        let(:query) do
           {
             filters: [
               {
@@ -109,15 +109,15 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
               }
             ].to_json
           }
-        }
+        end
         let(:priority1) { FactoryGirl.create(:priority, name: 'Prio A') }
         let(:priority2) { FactoryGirl.create(:priority, name: 'Prio B') }
-        let(:work_packages) {
+        let(:work_packages) do
           [
             FactoryGirl.create(:work_package, project: project, priority: priority1),
             FactoryGirl.create(:work_package, project: project, priority: priority2)
           ]
-        }
+        end
 
         it 'returns only one element' do
           expect(subject.body).to be_json_eql(1).at_path('count')
@@ -134,7 +134,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         let(:query) { { groupBy: 'priority' } }
         let(:priority1) { FactoryGirl.build(:priority, name: 'Prio A', position: 2) }
         let(:priority2) { FactoryGirl.build(:priority, name: 'Prio B', position: 1) }
-        let(:work_packages) {
+        let(:work_packages) do
           [
             FactoryGirl.create(:work_package,
                                project: project,
@@ -149,7 +149,37 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
                                priority: priority1,
                                estimated_hours: 3)
           ]
-        }
+        end
+        let(:expected_group1) do
+          {
+            _links: {
+              valueLink: [{
+                href: api_v3_paths.priority(priority1.id)
+              }],
+              groupBy: {
+                href: api_v3_paths.query_group_by('priority'),
+                title: 'Priority'
+              }
+            },
+            value: priority1.name,
+            count: 2
+          }
+        end
+        let(:expected_group2) do
+          {
+            _links: {
+              valueLink: [{
+                href: api_v3_paths.priority(priority2.id)
+              }],
+              groupBy: {
+                href: api_v3_paths.query_group_by('priority'),
+                title: 'Priority'
+              }
+            },
+            value: priority2.name,
+            count: 1
+          }
+        end
 
         it 'returns all elements' do
           expect(subject.body).to be_json_eql(3).at_path('count')
@@ -169,42 +199,50 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
         end
 
         it 'contains group elements' do
-          expected_group1 = {
-            _links: { valueLink: [{ href: api_v3_paths.priority(priority1.id) }] },
-            value: priority1.name,
-            count: 2
-          }
-          expected_group2 = {
-            _links: { valueLink: [{ href: api_v3_paths.priority(priority2.id) }] },
-            value: priority2.name,
-            count: 1
-          }
-
           expect(subject.body).to include_json(expected_group1.to_json).at_path('groups')
           expect(subject.body).to include_json(expected_group2.to_json).at_path('groups')
         end
 
         context 'displaying sums' do
           let(:query) { { groupBy: 'priority', showSums: 'true' } }
-
-          it 'contains extended group elements' do
-            expected_group1 = {
-              _links: { valueLink: [{ href: api_v3_paths.priority(priority1.id) }] },
+          let(:expected_group1) do
+            {
+              _links: {
+                valueLink: [{
+                  href: api_v3_paths.priority(priority1.id)
+                }],
+                groupBy: {
+                  href: api_v3_paths.query_group_by('priority'),
+                  title: 'Priority'
+                }
+              },
               value: priority1.name,
               count: 2,
               sums: {
                 estimatedTime: 'PT4H'
               }
             }
-            expected_group2 = {
-              _links: { valueLink: [{ href: api_v3_paths.priority(priority2.id) }] },
+          end
+          let(:expected_group2) do
+            {
+              _links: {
+                valueLink: [{
+                  href: api_v3_paths.priority(priority2.id)
+                }],
+                groupBy: {
+                  href: api_v3_paths.query_group_by('priority'),
+                  title: 'Priority'
+                }
+              },
               value: priority2.name,
               count: 1,
               sums: {
                 estimatedTime: 'PT2H'
               }
             }
+          end
 
+          it 'contains extended group elements' do
             expect(subject.body).to include_json(expected_group1.to_json).at_path('groups')
             expect(subject.body).to include_json(expected_group2.to_json).at_path('groups')
           end
@@ -213,12 +251,12 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
 
       describe 'displaying sums' do
         let(:query) { { showSums: 'true' } }
-        let(:work_packages) {
+        let(:work_packages) do
           [
             FactoryGirl.create(:work_package, project: project, estimated_hours: 1),
             FactoryGirl.create(:work_package, project: project, estimated_hours: 2)
           ]
-        }
+        end
 
         it 'returns both elements' do
           expect(subject.body).to be_json_eql(2).at_path('count')

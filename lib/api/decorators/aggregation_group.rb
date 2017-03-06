@@ -52,6 +52,15 @@ module API
         end
       end
 
+      link :groupBy do
+        converted_name = convert_attribute(query.group_by_column.name)
+
+        {
+          href: api_v3_paths.query_group_by(converted_name),
+          title: query.group_by_column.caption
+        }
+      end
+
       property :value,
                exec_context: :decorator,
                getter: -> (*) { represented ? represented.to_s : nil },
@@ -80,7 +89,8 @@ module API
       private
 
       attr_reader :sums,
-                  :count
+                  :count,
+                  :query
 
       ##
       # Initializes the links collection for this group if the query is being grouped by
@@ -112,6 +122,10 @@ module API
 
       def link_options(query, group_key)
         query.group_by_column.custom_field.custom_options.where(id: group_key.to_s.split("."))
+      end
+
+      def convert_attribute(attribute)
+        ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
       end
     end
   end
