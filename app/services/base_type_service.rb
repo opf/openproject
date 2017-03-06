@@ -38,8 +38,16 @@ class BaseTypeService
 
   def update(attributes)
     success = Type.transaction do
+      if attributes[:attribute_groups].present?
+        attributes[:attribute_groups] = JSON.parse(attributes[:attribute_groups])
+      end
+      if attributes[:attribute_visibility].present?
+        attributes[:attribute_visibility] = JSON.parse(attributes[:attribute_visibility])
+      end
+
       type.attributes = attributes
 
+      # TODO: What is this?
       set_date_attribute_visibility
       set_active_custom_fields
 
