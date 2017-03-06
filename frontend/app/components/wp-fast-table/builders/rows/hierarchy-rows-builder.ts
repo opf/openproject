@@ -114,7 +114,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
       const hierarchyIndicator = document.createElement('span');
       const collapsed = this.wpTableHierarchy.collapsed(workPackage.id);
       hierarchyIndicator.classList.add(hierarchyCellClassName);
-      hierarchyIndicator.style.width = 25 + (15 * level) + 'px';
+      hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
 
       if (workPackage.$loaded && workPackage.isLeaf) {
         hierarchyIndicator.innerHTML = `

@@ -87,7 +87,7 @@ Feature: Copying a work package
     When I click "Copy and follow"
     Then I should see "Successful creation."
     Then I should see "issue1" within ".wp-edit-field.subject"
-     And I should see "project_2" within ".breadcrumb"
+     And I should see "project_2" within "#projects-menu"
 
   @javascript @selenium
   Scenario: Issue children are moved
@@ -97,7 +97,7 @@ Feature: Copying a work package
     When I click "Move and follow"
     #Then I should see "Successful update."
     Then I should see "issue1" within ".wp-edit-field.subject"
-     And I should see "project_2" within ".breadcrumb"
+     And I should see "project_2" within "#projects-menu"
 
 
   Scenario: Move an issue to project with missing type
