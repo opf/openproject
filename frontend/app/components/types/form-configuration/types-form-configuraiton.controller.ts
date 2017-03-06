@@ -28,7 +28,7 @@
 
 import {openprojectModule} from '../../../angular-modules';
 
-function typesFormConfigurationCtrl(dragulaService:any, $scope:any) {
+function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: any) {
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
       return handle.className === 'group-handle';
@@ -40,6 +40,33 @@ function typesFormConfigurationCtrl(dragulaService:any, $scope:any) {
       return handle.className === 'attribute-handle';
     }
   });
+
+  $scope.resetToDefault = ($event: any): void => {
+    let form: JQuery = angular.element($event.target).parents('form');
+    angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
+    form.submit();
+  };
+
+  $scope.deactivateAttribute = ($event: any) => {
+    angular.element($event.target)
+            .parents('.type-form-conf-attribute')
+            .appendTo('#type-form-conf-inactive-group .attributes');
+  };
+
+  $scope.deleteGroup = ($event: any): void => {
+    angular.element($event.target).parents('.type-form-conf-group').remove();
+    $scope.updateHiddenFields();
+  }
+
+  $scope.addGroup = (event: any) => {
+    let newGroup: JQuery = angular.element("#type-form-conf-group-template").clone();
+    let draggableGroups: JQuery = angular.element("#draggable-groups");
+
+    newGroup.attr('id', null);
+
+    draggableGroups.prepend(newGroup);
+    $compile(newGroup)($scope);
+  }
 
   $scope.updateHiddenFields = (): void => {
     let groups: HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
@@ -63,7 +90,6 @@ function typesFormConfigurationCtrl(dragulaService:any, $scope:any) {
         if (angular.element('input[type=checkbox]', attr)) {
           let checkbox: any = angular.element('input[type=checkbox]', attr)[0];
           if (checkbox.checked) {
-            console.log(key, "is visible");
             newAttrVisibility[key] = 'visible';
           }
         }
