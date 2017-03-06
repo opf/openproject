@@ -27,6 +27,8 @@
 //++
 
 @include breakpoint(680px down)
+  #logo
+    background-color: transparent
   #top-menu
     position: relative !important
 
@@ -70,7 +72,7 @@
 
   #account-nav-left,
   #account-nav-right
-    > li a[class*="icon-"]
+    > li > a[class*="icon-"]
       padding-top: 4px
       &:before
         font-size: 1.5rem

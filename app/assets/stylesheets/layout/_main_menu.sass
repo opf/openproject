@@ -117,7 +117,6 @@ $toggler-width: 40px
             @extend .small-10
             border-right: 1px solid $main-menu-toggler-separator-color
 
-
         .open .toggler
           .icon-toggler:before
             @extend .icon-arrow-up1:before
@@ -132,6 +131,8 @@ $toggler-width: 40px
           // explicitly reset to zero to avoid selector precedence problems
           padding-left: 0
 
+      &:first-of-type
+        border-top: 1px solid $main-menu-item-border-color
 
       // all menu items
       li
@@ -282,3 +283,8 @@ $toggler-width: 40px
       border: none
     li a
       padding: 0
+
+@include breakpoint(680px down)
+  #main-menu
+    position: absolute !important
+    z-index: 11

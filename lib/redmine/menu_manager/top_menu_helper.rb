@@ -114,17 +114,21 @@ module Redmine::MenuManager::TopMenuHelper
     )
   end
 
-  def render_sidebar_top_menu_node()
+  def render_sidebar_top_menu_node
     show_decoration = params["layout"].nil?
     main_menu = render_main_menu(@project)
     side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank?
 
-    if (side_displayed && show_decoration)
+    if side_displayed && show_decoration
       content_tag(:li,
                   id: 'toggle-project-menu',
                   "ng-class" => "{ 'show': !showNavigation }",
                   "ng-controller" => 'MainMenuController as mainMenu') do
-        link_to '', '', title: l(:show_hide_project_menu), class: 'navigation-toggler icon-hamburger', "ng-click" => 'mainMenu.toggleNavigation()'
+        link_to '',
+                '',
+                title: l(:show_hide_project_menu),
+                class: 'navigation-toggler icon-hamburger',
+                "ng-click" => 'mainMenu.toggleNavigation()'
       end
     end
   end
