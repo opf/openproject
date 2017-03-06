@@ -213,6 +213,17 @@ describe ::API::V3::ParseQueryParamsService,
               .to end_with(message)
           end
         end
+
+        context 'with an empty array (in JSON)' do
+          it_behaves_like 'transforms' do
+            let(:params) do
+              { filters: JSON::dump([]) }
+            end
+            let(:expected) do
+              { filters: [] }
+            end
+          end
+        end
       end
     end
 

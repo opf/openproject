@@ -46,7 +46,7 @@ module API
         parsed_params[:display_sums] = sums_from_params(params)
 
         ServiceResult.new(success: true,
-                          result: without_empty(parsed_params))
+                          result: without_empty(parsed_params, params.keys))
       end
 
       def group_by_from_params(params)
@@ -159,8 +159,9 @@ module API
         return result
       end
 
-      def without_empty(hash)
-        hash.select { |_, v| v.present? || v == false }
+      def without_empty(hash, exceptions)
+        exceptions = exceptions.map(&:to_sym)
+        hash.select { |k, v| v.present? || v == false || exceptions.include?(k) }
       end
     end
   end
