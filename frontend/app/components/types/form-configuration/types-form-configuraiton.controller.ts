@@ -28,19 +28,72 @@
 
 import {openprojectModule} from '../../../angular-modules';
 
-function typesFormConfigurationCtrl(I18n:op.I18n, dragulaService:any, $scope:any) {
+function typesFormConfigurationCtrl(dragulaService:any, $scope:any) {
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
       return handle.className === 'group-handle';
     }
-    // containment: element[0]
   });
 
   dragulaService.options($scope, 'attributes', {
     moves: function (el:any, container:any, handle:any) {
       return handle.className === 'attribute-handle';
     }
-    // containment: element
+  });
+
+  $scope.updateHiddenFields = (): void => {
+    let groups: HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
+    let newAttrGroups: Array<Array<(string | Array<string>)>> = [];
+    let newAttrVisibility: any = {};
+    let inputAttributeGroups: JQuery;
+    let inputAttributeVisibility: JQuery;
+
+    // Extract new grouping and visibility setup from DOM structure, starting
+    // with the active groups.
+    groups.forEach((group:HTMLElement) => {
+      let groupKey: string = angular.element(group).data('key');
+      let attributes: HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
+      let attrKeys: string[] = [];
+
+      attributes.forEach((attribute:HTMLElement) => {
+        let attr: JQuery = angular.element(attribute)
+        let key: string = attr.data('key')
+        attrKeys.push(key);
+        newAttrVisibility[key] = 'default';
+        if (angular.element('input[type=checkbox]', attr)) {
+          let checkbox: any = angular.element('input[type=checkbox]', attr)[0];
+          if (checkbox.checked) {
+            console.log(key, "is visible");
+            newAttrVisibility[key] = 'visible';
+          }
+        }
+      });
+
+      if (attrKeys.length > 0) {
+        newAttrGroups.push([groupKey, attrKeys]);
+      }
+    });
+
+    // Then get visibility states for inactive attributes.
+    let inactiveAttributes: HTMLElement[] = angular.element('#type-form-conf-inactive-group .type-form-conf-attribute').toArray();
+    inactiveAttributes.forEach((attr: HTMLElement) => {
+      let key: string = angular.element(attr).data('key');
+      newAttrVisibility[key] = 'hidden';
+    });
+
+    // Finally update hidden input fields
+    inputAttributeGroups = angular.element('input#type_attribute_groups').first();
+    inputAttributeVisibility = angular.element('input#type_attribute_visibility').first();
+
+    inputAttributeGroups.val(JSON.stringify(newAttrGroups));
+    inputAttributeVisibility.val(JSON.stringify(newAttrVisibility));
+  };
+
+  $scope.$on('groups.drop', function (e:any, el:any) {
+    $scope.updateHiddenFields();
+  });
+  $scope.$on('attributes.drop', function (e:any, el:any) {
+    $scope.updateHiddenFields();
   });
 };
 
