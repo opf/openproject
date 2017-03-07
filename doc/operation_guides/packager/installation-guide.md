@@ -25,7 +25,7 @@ server machine.
 
 The installation procedure assumes the following prerequisites:
 
-* A server running one of the Linux distributions listed in the [system requirements]: https://www.openproject.org/systemrequirements  
+* A server running one of the Linux distributions listed in the [system requirements](https://www.openproject.org/systemrequirements).
 * A mail server that is accessible via SMTP that can be used for sending
   notification emails. OpenProject supports authentication, yet does not
 provide support for SMTP via SSL/TLS.
