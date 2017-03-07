@@ -12,45 +12,48 @@
         <span ng-bind="::text.tableSummaryHints"></span>
       </caption>
       <thead class="-sticky">
-      <tr>
-        <th sort-header
-            ng-repeat="column in columns"
-            has-dropdown-menu
-            position-relative-to=".generic-table--sort-header-outer"
-            collision-container=".work-packages--list"
-            target="columnContextMenu"
-            locals="columns, column"
-            locale="column.custom_field && columns.custom_field.name_locale || locale"
-            header-name="column.name"
-            header-title="column.title"
-            sortable="column.sortable"
-            query="query"
-            ng-class="column.name == 'id' && '-short' ">
-        </th>
-        <th class="wp-table--details-column -short hide-when-print">
-          <div class="generic-table--sort-header-outer">
-            <accessible-by-keyboard
-                execute="openColumnsModal()"
-                link-class="wp-table--columns-selection">
-              <span class="icon-button icon-columns"></span>
-            </accessible-by-keyboard>
-          </div>
-        </th>
-        <th class="wp-timeline--th" ng-show="wpTimelineContainer.visible">
-          <div class="wp-timeline--slider-wrapper">
-            <div class="wp-timeline--slider"></div>
-          </div>
-          <div class="wp-timeline-header-controls generic-table--sort-header-outer">
-            <timeline-control></timeline-control>
-          </div>
-          <div class="wp-timeline-header-container generic-table--sort-header-outer">
-            <div class="wp-timeline--scroll-wrapper">
-              <span class="generic-table--sort-header wp-timeline-header">
-              </span>
+        <tr>
+          <th sort-header ng-repeat="column in columns"
+                          has-dropdown-menu
+                          position-relative-to=".generic-table--sort-header-outer"
+                          collision-container=".work-packages--list"
+                          target="columnContextMenu"
+                          locals="columns, column"
+                          locale="column.custom_field && columns.custom_field.name_locale || locale"
+                          header-name="column.name"
+                          header-title="column.title"
+                          sortable="column.sortable"
+                          query="query"
+                          ng-class="column.name == 'id' && '-short' ">
+          </th>
+          <th class="wp-table--details-column -short hide-when-print">
+            <div class="generic-table--sort-header-outer">
+              <accessible-by-keyboard
+                          execute="openColumnsModal()"
+                          link-class="wp-table--columns-selection">
+                <span class="icon-button icon-small icon-add"></span>
+              </accessible-by-keyboard>
             </div>
-          </div>
-        </th>
-      </tr>
+          </th>
+
+         <th class="wp-timeline--th" ng-show="wpTimelineContainer.visible">
+            <div class="wp-timeline--slider-wrapper">
+              <div class="wp-timeline--slider"></div>
+            </div>
+            <div class="wp-timeline-header-controls generic-table--sort-header-outer">
+              <timeline-control></timeline-control>
+            </div>
+            <div class="wp-timeline-header-container generic-table--sort-header-outer">
+              <div class="wp-timeline--scroll-wrapper">
+                <span class="generic-table--sort-header wp-timeline-header">
+                </span>
+              </div>
+            </div>
+          </th>
+
+
+
+        </tr>
       </thead>
       <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
       <tr id="empty-row-notification">

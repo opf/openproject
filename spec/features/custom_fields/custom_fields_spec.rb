@@ -82,6 +82,32 @@ describe 'custom fields', js: true do
       click_on custom_field.name
     end
 
+    it "adds new options" do
+      click_on "add-custom-option"
+
+      expect(page).to have_selector('.custom-option-row', count: 5)
+      within all(".custom-option-row").last do
+        find("input.custom-option-value").set "Sega"
+      end
+
+      click_on "add-custom-option"
+
+      expect(page).to have_selector('.custom-option-row', count: 6)
+      within all(".custom-option-row").last do
+        find("input.custom-option-value").set "Atari"
+      end
+
+      click_on "Save"
+
+      expect(page).to have_text("Successful update")
+      expect(page).to have_text("Platform")
+      expect(page).to have_selector('.custom-option-row', count: 6)
+
+      values = all(".custom-option-value").map(&:value)
+
+      expect(values).to eq ["Playstation", "Xbox", "Nintendo", "PC", "Sega", "Atari"]
+    end
+
     it "updates the values and orders of the custom options" do
       expect(page).to have_text("Platform")
 
