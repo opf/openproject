@@ -51,3 +51,11 @@ Using `configure` will take your previous decisions in the installer and simply
 re-apply them, which is an idempotent operation. It will detect the Gemfile
 config option being set and re-bundle the application with the additional plugins.
 
+# Frequently asked questions (FAQ)
+
+## Which plugins are available for OpenProject?
+To get an overview of the available OpenProject plugins take a look at the [list of supported plugins](https://www.openproject.org/open-source/plugins/).
+
+## How do I get an OpenProject version which already includes the main plugins?
+The [OpenProject Community Edition](https://www.openproject.org/open-source/download/packaged-installation-guide/) includes the main OpenProject plugins, such as backlogs, meetings and more.
+Take a look at the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) for even more plugins.
