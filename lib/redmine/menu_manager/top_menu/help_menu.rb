@@ -84,7 +84,6 @@ module Redmine::MenuManager::TopMenu::HelpMenu
                   title: l('top_menu.help_and_support')
     }
     result << static_link_item(:user_guides)
-    result << static_link_item(:faq)
     result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',

@@ -57,11 +57,6 @@ OpenProject::Static::Homescreen.manage :links do |links|
       url: static_links[:user_guides][:href]
     },
     {
-      label: :faq,
-      icon: 'icon-context icon-faq',
-      url: static_links[:faq][:href]
-    },
-    {
       label: :glossary,
       icon: 'icon-context icon-glossar',
       url: static_links[:glossary][:href]
