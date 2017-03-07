@@ -337,3 +337,10 @@ openproject configure
 
 Using `configure` will take your previous decisions in the installer and simply re-apply them, which is an idempotent operation. It will detect the Gemfile config option being set and re-bundle the application.
 
+# Frequently asked questions (FAQ)
+
+## How can I install OpenProject?
+Follow the installation guide for the [packaged installation](https://www.openproject.org/open-source/download/packaged-installation-guide/). For more plugins and support take a look at the [Enterprise Edition](https://www.openproject.org/enterprise-edition/).
+
+## I encountered a problem while trying to install OpenProject. What can I do?
+Take a look at the [OpenProject installation forum](https://community.openproject.com/projects/openproject/boards/9). Other users may have had the same problem. If you don't find an answer feel free to ask a new question / open a new thread.
