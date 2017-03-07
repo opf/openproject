@@ -490,8 +490,15 @@ If you need to restart the server (for example after a configuration change), do
   git config --global url."https://".insteadOf git://
   ```
 
+# Frequently asked questions (FAQ)
 
-## Questions, Comments, and Feedback
+## I am new to OpenProject. Should I use the installation with packager or the manual installation?
+We highly recommend to use the [packaged installation](https://www.openproject.org/open-source/download/packaged-installation-guide/) for OpenProject since it is a lot easier to install and update. The manual installation is mainly intended for users who either want to [set up a development environment](https://www.openproject.org/open-source/development-free-project-management-software/setting-development-environment/) in order to [contribute to OpenProject](https://www.openproject.org/open-source/code-contributions/) or who are very familiar with Linux and the OpenProject technology stack. 
+
+## Where can I ask questions or get support with my installation?
+Feel free to ask questions in the [OpenProject installation forum](https://community.openproject.com/projects/openproject/boards/9).
+
+# Questions, Comments, and Feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
