@@ -36,7 +36,7 @@ module.exports = function() {
       linkClass: '@',
       linkTitle: '@',
       spanClass: '@',
-      ariaLabel: '@'
+      linkAriaLabel: '@'
     },
     templateUrl: '/templates/components/accessible_by_keyboard.html'
   };

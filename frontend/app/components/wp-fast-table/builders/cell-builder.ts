@@ -59,7 +59,6 @@ export class CellBuilder {
       text = cellEmptyPlaceholder;
     } else {
       text = field.valueString;
-      span.setAttribute('aria-label', `${field.label} ${text}`);
     }
 
     field.render(span, text);
