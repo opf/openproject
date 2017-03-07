@@ -8,13 +8,13 @@
   </span></h3>
 
   <div class="login-auth-provider-list">
-    <a href="/auth/developer" class="auth-provider auth-provider-developer">
+    <a href="/auth/developer" class="auth-provider auth-provider-developer button">
       <span class="auth-provider-name">Omniauth Developer</span>
     </a>
-    <a href="/auth/developer" class="auth-provider auth-provider-developer">
+    <a href="/auth/developer" class="auth-provider auth-provider-developer button">
       <span class="auth-provider-name">Omniauth Developer</span>
     </a>
-    <a href="/auth/developer" class="auth-provider auth-provider-developer">
+    <a href="/auth/developer" class="auth-provider auth-provider-developer button">
       <span class="auth-provider-name">Omniauth Developer</span>
     </a>
   </div>

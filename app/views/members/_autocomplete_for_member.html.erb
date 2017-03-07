@@ -38,3 +38,16 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   <% end %>
 </fieldset>
+<div class="hidden-for-sighted" aria-live="polite">
+  <% if principals.empty? %>
+    <label aria-role="alert"><%= l('notice_no_principals_found') %></label>
+  <% else %>
+    <% if principals.size > 20 %>
+      <label><%= l('notice_to_many_principals_to_display') %></label>
+    <% elsif principals.size == 1 %>
+      <label><%= l('notice_principals_found_single') %></label>
+    <% else %>
+      <label><%= l('notice_principals_found_multiple', number: principals.size) %></label>
+    <% end %>
+  <% end %>
+</div>

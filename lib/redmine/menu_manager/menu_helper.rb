@@ -29,6 +29,7 @@
 
 module Redmine::MenuManager::MenuHelper
   include ::Redmine::MenuManager::TopMenuHelper
+  include ::Redmine::MenuManager::WikiMenuHelper
   include AccessibilityHelper
 
   # Returns the current menu item name
@@ -43,31 +44,6 @@ module Redmine::MenuManager::MenuHelper
       build_work_packages_menu(project)
     end
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
-  end
-
-  def build_wiki_menus(project)
-    return unless project.enabled_module_names.include? 'wiki'
-    project_wiki = project.wiki
-
-    MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
-      Redmine::MenuManager.loose :project_menu do |menu|
-        menu.push "#{main_item.item_class}".to_sym,
-                  { controller: '/wiki', action: 'show', id: main_item.slug },
-                  param: :project_id,
-                  caption: main_item.title,
-                  after: :repository,
-                  html: { class: 'icon2 icon-wiki' }
-
-        main_item.children.each do |child|
-          menu.push "#{child.item_class}".to_sym,
-                    { controller: '/wiki', action: 'show', id: child.slug },
-                    param: :project_id,
-                    caption: child.title,
-                    html:    { class: 'icon2 icon-wiki2' },
-                    parent: "#{main_item.item_class}".to_sym
-        end
-      end
-    end
   end
 
   def build_work_packages_menu(_project)

@@ -44,6 +44,10 @@ class MenuItems::WikiMenuItem < MenuItem
     slug
   end
 
+  def menu_identifier
+    "wiki-#{slug}".to_sym
+  end
+
   def index_page
     !!options[:index_page]
   end

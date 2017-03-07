@@ -27,7 +27,7 @@ class BoolearlizeBoolCustomValues < ActiveRecord::Migration[4.2]
       query.filters.each do |filter|
         update_filter(filter, old_true, new_true, old_false, new_false)
       end
-      query.save
+      query.save(validate: false) # if we validate new code is run depending on role_permissions which do not exist yet
     end
   end
 
