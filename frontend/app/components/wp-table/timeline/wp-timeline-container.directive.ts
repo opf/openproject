@@ -37,7 +37,8 @@ import * as moment from 'moment';
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+import { WpTimelineGlobalService } from "./wp-timeline-global.directive";
+import { opDimensionEventName } from "../../common/ui/detect-dimension-changes.directive";
 
 export class WorkPackageTimelineTableController {
 
@@ -66,7 +67,7 @@ export class WorkPackageTimelineTableController {
     "ngInject";
 
     this.wpTimelineHeader = new WpTimelineHeader(this);
-    $element.on(InteractiveTableController.eventName, () => {
+    $element.on(opDimensionEventName, () => {
       this.refreshView();
     });
 
