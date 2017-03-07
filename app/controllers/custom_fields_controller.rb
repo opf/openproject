@@ -61,9 +61,14 @@ class CustomFieldsController < ApplicationController
   def edit; end
 
   def update
-    if @custom_field.update_attributes(@custom_field_params)
-      set_custom_options!
+    ok = @custom_field.update_attributes(@custom_field_params)
 
+    if ok
+      set_custom_options!
+      ok = @custom_field.save
+    end
+
+    if ok
       if @custom_field.is_a? WorkPackageCustomField
         @custom_field.types.each do |type|
           TypesHelper.update_type_attribute_visibility! type

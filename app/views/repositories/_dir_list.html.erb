@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <table class="generic-table entries" id="browser">
       <colgroup>
         <col highlight-col>
+        <col>
         <col highlight-col>
         <col highlight-col>
         <col highlight-col>
@@ -48,6 +49,15 @@ See doc/COPYRIGHT.rdoc for more details.
               </div>
             </div>
           </th>
+          <th class="hidden-for-sighted">
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= I18n.t('js.tl_toolbar.outlines') %>
+                </span>
+              </div>
+            </div>
+          </th>
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
@@ -61,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= l(:label_revision) %>
+                  <%= t(:label_revision) %>
                 </span>
               </div>
             </div>
@@ -70,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= l(:label_age) %>
+                  <%= t(:label_age) %>
                 </span>
               </div>
             </div>
@@ -99,6 +109,5 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= render partial: 'dir_list_content' %>
       </tbody>
     </table>
-    
   </div>
 </div>
