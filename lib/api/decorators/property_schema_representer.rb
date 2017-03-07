@@ -47,7 +47,7 @@ module API
                       else
                         visibility || 'default'
                       end
-        @attribute_group = attribute_group || 'other'
+        @attribute_group = attribute_group
 
         super(nil, current_user: current_user)
       end
