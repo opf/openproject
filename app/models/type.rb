@@ -146,7 +146,13 @@ class ::Type < ActiveRecord::Base
   end
 
   def default_attribute_groups
-    values = work_package_attributes.group_by { |key| map_attribute_to_group key }
+    values =  work_package_attributes
+              .select do |key|
+                [ nil,
+                  'default',
+                  'visible' ].include?(::TypesHelper::attr_visibility(key, self))
+              end
+              .group_by { |key| map_attribute_to_group key }
 
     ordered = []
 
