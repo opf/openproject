@@ -45,16 +45,17 @@ while day <= calendar.enddt %>
             <% if i.is_a? WorkPackage %>
               <div class="<%= work_package_css_classes(i) %> tooltip">
                 <%= h("#{i.project} -") unless @project && @project == i.project %>
-                <%# date_img = '' %>
                 <% if day == i.start_date and day == i.due_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-milestone diamond") %>
+                  <% classes = " icon icon-milestone diamond" %>
                 <% elsif day == i.start_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right4 starting") %>
+                  <% classes = " icon icon-arrow-right4 starting" %>
+                  <% title = t('timelines.start') + ' ' + i.subject %>
                 <% elsif day == i.due_date %>
-                  <% date_img = content_tag(:span, '', class: "icon icon-arrow-right4 ending") %>
+                  <% classes = " icon icon-arrow-right4 ending" %>
+                  <% title = t('timelines.end') + ' ' + i.subject %>
                 <% end %>
-                <%= date_img %>
-                <%= link_to_work_package i, truncate: 30%>
+                <span class="hidden-for-sighted"><%= title %></span>
+                <%= link_to_work_package i, { truncate: 30, class: classes.to_s, title: title } %>
                 <span class="tip"><%= render_issue_tooltip i %></span>
               </div>
             <% else %>

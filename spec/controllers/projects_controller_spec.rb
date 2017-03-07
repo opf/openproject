@@ -65,7 +65,7 @@ describe ProjectsController, type: :controller do
       it 'renders main menu without wiki menu item' do
         get 'show', params: @params
 
-        assert_select '#main-menu a.Wiki-menu-item', false # assert_no_select
+        assert_select '#main-menu a.wiki-Wiki-menu-item', false # assert_no_select
       end
     end
 
@@ -86,7 +86,7 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', params: @params
 
-          assert_select '#main-menu a.wiki-menu-item', 'Wiki'
+          assert_select '#main-menu a.wiki-wiki-menu-item', 'Wiki'
         end
       end
 
@@ -105,13 +105,13 @@ describe ProjectsController, type: :controller do
         it 'renders main menu with wiki menu item' do
           get 'show', params: @params
 
-          assert_select '#main-menu a.example-menu-item', 'Example Title'
+          assert_select '#main-menu a.wiki-example-menu-item', 'Example Title'
         end
 
         it 'renders main menu with sub wiki menu item' do
           get 'show', params: @params
 
-          assert_select '#main-menu a.sub-menu-item', 'Sub Title'
+          assert_select '#main-menu a.wiki-sub-menu-item', 'Sub Title'
         end
       end
     end

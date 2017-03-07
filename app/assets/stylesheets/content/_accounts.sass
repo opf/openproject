@@ -48,7 +48,8 @@
     display: inline-block
 
 // use id selectors to be specific enough to override general content and top-menu definitions
-#content .login-auth-providers, #top-menu #nav-login-content .login-auth-providers
+#content .login-auth-providers, #top-menu #nav-login-content .login-auth-providers,
+.modal-wrapper .login-auth-providers
   width: 471px
   margin-top: 25px
 
@@ -92,14 +93,14 @@
 
   a.auth-provider
     float: left
-    width: 147px
-    height: 40px
-    padding-left: 50px
+    padding: 0.5rem 0.5rem 0.5rem 2rem
     margin-left: 10px
-    margin-top: 20px
+    margin-bottom: 10px
     background-image: image-url('auth_provider-developer.png')
-    background-size: 40px 40px
+    background-size: 20px 20px
     background-repeat: no-repeat
+    background-position: 5px center
+    background-color: light-grey
     font-weight: normal
     color: $body-font-color
 
@@ -107,10 +108,11 @@
       text-decoration: none
 
     .auth-provider-name
-      vertical-align: middle
-      height: 40px
-      display: table-cell
+      line-height: normal
       white-space: normal
+
+.modal-wrapper .login-auth-providers h3 span
+  background: $header-drop-down-bg-color
 
 #top-menu #nav-login-content .login-auth-providers
   h3

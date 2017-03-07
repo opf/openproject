@@ -149,7 +149,7 @@ describe 'layouts/base', type: :view do
 
     it 'renders apple icons' do
       expect(rendered).to have_selector(
-        "link[type='image/png'][href='/assets/apple-touch-icon-120x120-precomposed.png']",
+        "link[type='image/png'][href='/assets/apple-touch-icon-120x120.png']",
         visible: false
       )
     end
@@ -165,7 +165,7 @@ describe 'layouts/base', type: :view do
       visit 'assets/favicon.ico'
       expect(page.status_code).to eq(200)
 
-      visit 'apple-touch-icon-120x120-precomposed.png'
+      visit 'apple-touch-icon-120x120.png'
       expect(page.status_code).to eq(200)
     end
   end
