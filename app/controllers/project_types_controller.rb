@@ -114,7 +114,11 @@ class ProjectTypesController < ApplicationController
   protected
 
   def default_breadcrumb
-    l('timelines.admin_menu.project_types')
+    if action_name == 'index'
+      t('timelines.admin_menu.project_types')
+    else
+      ActionController::Base.helpers.link_to(t('timelines.admin_menu.project_types'), project_types_path)
+    end
   end
 
   def check_permissions

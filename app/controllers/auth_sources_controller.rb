@@ -104,7 +104,11 @@ class AuthSourcesController < ApplicationController
   end
 
   def default_breadcrumb
-    l(:label_auth_source_plural)
+    if action_name == 'index'
+      t(:label_auth_source_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_auth_source_plural), ldap_auth_sources_path)
+    end
   end
 
   def block_if_password_login_disabled

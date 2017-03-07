@@ -94,7 +94,11 @@ class EnumerationsController < ApplicationController
   protected
 
   def default_breadcrumb
-    l(:label_enumerations)
+    if action_name == 'index'
+      t(:label_enumerations)
+    else
+      ActionController::Base.helpers.link_to(t(:label_enumerations), enumerations_path)
+    end
   end
 
   def find_enumeration
