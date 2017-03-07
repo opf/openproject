@@ -87,7 +87,6 @@ module Redmine::MenuManager::TopMenu::HelpMenu
       result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
     end
     result << static_link_item(:user_guides)
-    result << static_link_item(:faq)
     result << content_tag(:li) {
       link_to l('homescreen.links.shortcuts'),
               '',
