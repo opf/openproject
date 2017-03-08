@@ -28,7 +28,6 @@
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
 import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/work-package-resource.service";
-import {InteractiveTableController} from '../../common/interactive-table/interactive-table.directive';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
@@ -117,7 +116,6 @@ export class WorkPackageTimelineTableController {
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
-    // console.log("addWorkPackage() = " + wpId);
 
     const wpObs = this.states.workPackages.get(wpId).observeOnScope(this.$scope)
       .map((wp: any) => {
@@ -125,7 +123,6 @@ export class WorkPackageTimelineTableController {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
           // view params have changed, notify all cells
-          // console.log("addWorkPackage()", wp.id, "viewParamsChanged==true");
           this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
         }
@@ -150,14 +147,11 @@ export class WorkPackageTimelineTableController {
       return false;
     }
 
-    // console.log("calculateViewParams()");
-
     const newParams = new TimelineViewParameters();
     let changed = false;
 
     // Calculate view parameters
     for (const wpId in this.workPackagesInView) {
-      // console.log("    check", wpId);
       const workPackage = this.workPackagesInView[wpId];
 
       const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
@@ -193,18 +187,15 @@ export class WorkPackageTimelineTableController {
     // start date
     if (!newParams.dateDisplayStart.isSame(this._viewParameters.dateDisplayStart)) {
       changed = true;
-      // console.log("    start changed");
       this._viewParameters.dateDisplayStart = newParams.dateDisplayStart;
     }
 
     // end date
     if (!newParams.dateDisplayEnd.isSame(this._viewParameters.dateDisplayEnd)) {
       changed = true;
-      // console.log("    end changed");
       this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
 
-    // console.log("        changed=" + changed);
 
     this._viewParameters.timelineHeader = this.wpTimelineHeader;
 

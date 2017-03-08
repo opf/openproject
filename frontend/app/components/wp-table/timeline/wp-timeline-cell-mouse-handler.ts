@@ -72,8 +72,6 @@ export function registerWorkPackageMouseHandler(this: void,
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
   function applyDateValues(dates:{[name:string]: Moment}) {
-    console.log("APPLY DATE VALUES");
-
     const wp = renderInfo.workPackage;
 
     // Let the renderer decide which fields we change
@@ -84,7 +82,6 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function workPackageMouseDownFn(ev: MouseEvent) {
-    // console.log("on bar workPackageMouseDownFn()");
     ev.preventDefault();
 
     workPackageTimeline.disableViewParamsCalculation = true;
@@ -124,14 +121,8 @@ export function registerWorkPackageMouseHandler(this: void,
 
 
     if (!renderer.isEmpty(wp)) {
-      // console.log("handleMouseMoveOnEmptyCell()    not empty -> return");
       return;
-    } else {
-      // console.log("handleMouseMoveOnEmptyCell()    empty -> continue");
     }
-
-    // console.log("    startDate", wp.startDate);
-    // console.log("    dueDate", wp.dueDate);
 
     // placeholder logic
     placeholderForEmptyCell && placeholderForEmptyCell.remove();
@@ -145,7 +136,6 @@ export function registerWorkPackageMouseHandler(this: void,
 
     // create logic
     cell.onmousedown = (ev) => {
-      // console.log("    cell.onmousedown");
       placeholderForEmptyCell.remove();
       bar.style.pointerEvents = "none";
       ev.preventDefault();
@@ -177,9 +167,6 @@ export function registerWorkPackageMouseHandler(this: void,
       };
 
       cell.onmouseup = () => {
-        // console.log("    cell.onmouseup");
-        // console.log("        startDate", wp.startDate);
-        // console.log("        dueDate", wp.dueDate);
         deactivate(false);
       };
 
@@ -218,9 +205,6 @@ export function registerWorkPackageMouseHandler(this: void,
       workPackageTimeline.refreshView();
     } else {
       // Persist the changes
-      // console.log("    -> saveWorkPackage");
-      // console.log("        startDate", wp.startDate);
-      // console.log("        dueDate", wp.dueDate);
       saveWorkPackage(wp);
     }
   }

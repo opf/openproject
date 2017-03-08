@@ -85,16 +85,13 @@ export class WorkPackageCacheService {
   }
 
   saveIfChanged(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface> {
-    // console.log("saveIfChanged()");
     if (!(workPackage.dirty || workPackage.isNew)) {
       return this.$q.when(workPackage);
     }
 
     const deferred = this.$q.defer<WorkPackageResourceInterface>();
-    // console.log("    calling save");
     workPackage.save()
       .then(() => {
-        // console.log("    saved!");
         this.wpNotificationsService.showSave(workPackage);
         this.$rootScope.$emit('workPackagesRefreshInBackground');
         deferred.resolve(workPackage);

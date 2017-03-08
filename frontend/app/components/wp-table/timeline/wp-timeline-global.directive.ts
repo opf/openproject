@@ -131,7 +131,6 @@ export class WpTimelineGlobalService {
   }
 
   private removeAllElements() {
-    // console.log("removeAllElements()");
     jQuery('.' + timelineGlobalElementCssClassname).remove();
   }
 
