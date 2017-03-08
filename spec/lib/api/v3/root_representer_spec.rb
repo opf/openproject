@@ -46,6 +46,11 @@ describe ::API::V3::RootRepresenter do
 
     describe '_links' do
       it_behaves_like 'has an untitled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.root }
+      end
+
+      it_behaves_like 'has an untitled link' do
         let(:link) { 'configuration' }
         let(:href) { api_v3_paths.configuration }
       end
@@ -94,12 +99,30 @@ describe ::API::V3::RootRepresenter do
       end
     end
 
-    it 'shows the name of the instance' do
-      is_expected.to be_json_eql(app_title.to_json).at_path('instanceName')
-    end
+    context 'attributes' do
+      describe '_type' do
+        it 'is "Root"' do
+          is_expected
+            .to be_json_eql('Root'.to_json)
+            .at_path('_type')
+        end
+      end
 
-    it 'indicates the OpenProject version number' do
-      is_expected.to be_json_eql(version.to_json).at_path('coreVersion')
+      describe 'coreVersion' do
+        it 'indicates the OpenProject version number' do
+          is_expected
+            .to be_json_eql(version.to_json)
+            .at_path('coreVersion')
+        end
+      end
+
+      describe 'instanceName' do
+        it 'shows the name of the instance' do
+          is_expected
+            .to be_json_eql(app_title.to_json)
+            .at_path('instanceName')
+        end
+      end
     end
   end
 end
