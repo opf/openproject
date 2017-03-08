@@ -42,7 +42,7 @@ class BaseTypeService
       permitted.delete(:attribute_groups)
       permitted.delete(:attribute_visibility)
 
-      # type.attributes = permitted
+      type.attributes = permitted
 
       if unsafe_params[:attribute_groups].present?
         type.attribute_groups = JSON.parse(unsafe_params[:attribute_groups])
@@ -51,7 +51,6 @@ class BaseTypeService
         type.attribute_visibility = JSON.parse(unsafe_params[:attribute_visibility])
       end
 
-binding.pry
       set_date_attribute_visibility
       set_active_custom_fields
 
