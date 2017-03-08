@@ -28,6 +28,7 @@
 
 import {opUiComponentsModule} from '../../../angular-modules';
 import {opApiModule} from './../../../angular-modules';
+import {debugLog} from '../../../helpers/debug_output';
 
 function requestInterval(fn:Function, delay:number) {
 	let start:number = new Date().getTime();
@@ -55,7 +56,6 @@ function detectDimensionChanges($window:ng.IWindowService) {
 
       let height = 0, width = 0;
       requestInterval(() => {
-        console.log("HEIGHT CHECK");
 
         let newHeight = el.offsetHeight;
         let newWidth = el.offsetWidth;
@@ -63,7 +63,7 @@ function detectDimensionChanges($window:ng.IWindowService) {
         if (newHeight !== height ||
             newWidth !== width) {
 
-          console.log("HEIGHT TRIGGER");
+          debugLog('Dimension change detected on ', element);
           element.trigger(opDimensionEventName);
 
           height = newHeight;

@@ -1,4 +1,4 @@
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,6 +34,8 @@ import {States} from '../../states.service';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {debugLog} from '../../../helpers/debug_output';
+import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import IScope = angular.IScope;
 
 
@@ -88,7 +90,6 @@ export class WpTimelineGlobalService {
           {
             filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
           }).then((collection: CollectionResource) => {
-            console.log('displayRelation');
             this.elements = [];
             this.removeAllElements();
             collection.elements.forEach((relation: RelationResource) => {
@@ -99,10 +100,6 @@ export class WpTimelineGlobalService {
             this.renderElements();
           });
       });
-
-    setTimeout(() => {
-      jQuery('#work-packages-timeline-toggle-button').click();
-    }, 2000);
   }
 
   updateViewParameter(viewParams: TimelineViewParameters) {
@@ -140,11 +137,10 @@ export class WpTimelineGlobalService {
 
   private renderElements() {
     if (this.viewParameters === undefined) {
-      console.log('renderElements() aborted - no viewParameters');
+      debugLog('renderElements() aborted - no viewParameters');
       return;
     }
 
-    console.debug('renderElements()');
     const vp = this.viewParameters;
 
     for (let e of this.elements) {
