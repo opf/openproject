@@ -30,24 +30,28 @@
 class BaseTypeService
   attr_accessor :type
 
-  def call(attributes: {})
-    update(attributes)
+  def call(permitted_params: {}, unsafe_params: {})
+    update(permitted_params, unsafe_params)
   end
 
   private
 
-  def update(attributes)
+  def update(permitted_params, unsafe_params)
     success = Type.transaction do
-      if attributes[:attribute_groups].present?
-        attributes[:attribute_groups] = JSON.parse(attributes[:attribute_groups])
+      permitted = permitted_params
+      permitted.delete(:attribute_groups)
+      permitted.delete(:attribute_visibility)
+
+      # type.attributes = permitted
+
+      if unsafe_params[:attribute_groups].present?
+        type.attribute_groups = JSON.parse(unsafe_params[:attribute_groups])
       end
-      if attributes[:attribute_visibility].present?
-        attributes[:attribute_visibility] = JSON.parse(attributes[:attribute_visibility])
+      if unsafe_params[:attribute_visibility].present?
+        type.attribute_visibility = JSON.parse(unsafe_params[:attribute_visibility])
       end
 
-      type.attributes = attributes
-
-      # TODO: What is this?
+binding.pry
       set_date_attribute_visibility
       set_active_custom_fields
 
