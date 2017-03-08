@@ -225,3 +225,15 @@ on a machine with 8 parallel instances.
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
 * Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+
+
+## Legacy LDAP tests
+
+OpenProject supports using LDAP for user authentications.  To test LDAP
+with OpenProject, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
+into a testing LDAP server.  Test that the ldap server can be accessed
+at 127.0.0.1 on port 389.
+
+Setting up the test ldap server is beyond the scope of this documentation.
+The OpenLDAP project provides a simple LDAP implementation that should work
+good as a test server.
