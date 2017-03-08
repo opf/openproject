@@ -99,7 +99,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   border-color: $nm-color-border
 
 @mixin messages-icon($top:rem-calc(11), $left:rem-calc(10), $size:rem-calc(18))
-  @include icon-common
+  @include icon-font-common
   position: absolute
   top: $top
   left: $left
@@ -160,9 +160,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
   &.-info::before
     @extend %info-placeholder
-    &::before
-      @include messages-icon
-      @extend %nm-icon-info
+    @include messages-icon
+    @extend %nm-icon-info
 
   &.-upload
     padding: $nm-upload-box-padding
