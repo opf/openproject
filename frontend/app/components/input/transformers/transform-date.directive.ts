@@ -50,7 +50,7 @@ function transformDate(TimezoneService:any) {
       });
     }
   };
-};
+}
 
 // TODO:deprecate and replace by transformDate
 angular

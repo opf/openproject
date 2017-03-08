@@ -110,7 +110,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= render(partial: "wiki/content", locals: {content: @content}) %>
 <%= link_to_attachments @page %>
 <% if @editable && authorize_for('wiki', 'add_attachment') %>
-  <div id="wiki_add_attachment">
+  <div id="wiki_add_attachment" class="hide-when-print">
     <p>
       <%= link_to_function l(:label_attachment_new),
                            %{

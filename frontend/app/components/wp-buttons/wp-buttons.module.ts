@@ -82,6 +82,10 @@ export abstract class WorkPackageButtonController {
     return this.activationPrefix || this.deactivationPrefix;
   }
 
+  public isToggle():boolean {
+    return false;
+  }
+
   public abstract isActive():boolean;
 
   public abstract performAction():void;

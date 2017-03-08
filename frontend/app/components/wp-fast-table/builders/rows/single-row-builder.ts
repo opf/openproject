@@ -1,3 +1,4 @@
+import {TimelineCellBuilder} from '../timeline-cell-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {States} from '../../../states.service';
@@ -12,6 +13,7 @@ import {rowId} from '../../helpers/wp-table-row-helpers';
 export const rowClassName = 'wp-table--row';
 
 export const internalColumnDetails = '__internal-detailsLink';
+export const internalColumnTimelines = '__internal-timelines';
 
 export class SingleRowBuilder {
   // Injections
@@ -23,6 +25,8 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder();
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
+  // Timeline builder
+  protected timelineCellBuilder = new TimelineCellBuilder();
 
   constructor() {
     injectorBridge(this);
@@ -33,19 +37,28 @@ export class SingleRowBuilder {
    * It is not responsible for subscribing to updates.
    */
   public get columns():string[] {
-    const editColums = (this.states.table.columns.getCurrentValue() || []);
-
-    return editColums.concat(internalColumnDetails);
+    return (this.states.table.columns.getCurrentValue() || []);
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:string, row:HTMLElement):void {
+  /**
+   * Returns the current set of columns, augmented by the internal columns
+   * we add for buttons and timeline.
+   */
+   public get augmentedColumns():string[] {
+    const editColums = (this.states.table.columns.getCurrentValue() || []);
+
+    // Add details and timelines column as last table column
+    return editColums.concat(internalColumnDetails, internalColumnTimelines);
+  }
+
+  public buildCell(workPackage:WorkPackageResource, column:string):HTMLElement {
     switch (column) {
+      case internalColumnTimelines:
+        return this.timelineCellBuilder.build(workPackage);
       case internalColumnDetails:
-        this.detailsLinkBuilder.build(workPackage, row);
-        break;
+        return this.detailsLinkBuilder.build(workPackage);
       default:
-        const cell = this.cellBuilder.build(workPackage, column);
-        row.appendChild(cell);
+        return this.cellBuilder.build(workPackage, column);
     }
 
   }
@@ -55,9 +68,11 @@ export class SingleRowBuilder {
    */
   public buildEmpty(workPackage:WorkPackageResource):HTMLElement {
     let row = this.createEmptyRow(workPackage);
+    let cell = null;
 
-    this.columns.forEach((column:string) => {
-      this.buildCell(workPackage, column, row);
+    this.augmentedColumns.forEach((column:string) => {
+      cell = this.buildCell(workPackage, column);
+      row.appendChild(cell);
     });
 
     // Set the row selection state

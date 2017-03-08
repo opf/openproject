@@ -1,3 +1,4 @@
+import {TimelineTransformer} from './state/timeline-transformer';
 import {HierarchyTransformer} from './state/hierarchy-transformer';
 import {HierarchyClickHandler} from './row/hierarchy-click-handler';
 import {WorkPackageTable} from '../wp-fast-table';
@@ -42,6 +43,7 @@ export class TableHandlerRegistry {
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
+    TimelineTransformer,
     HierarchyTransformer
   ];
 

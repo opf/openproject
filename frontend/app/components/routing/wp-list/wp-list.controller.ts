@@ -249,7 +249,10 @@ function WorkPackagesListController($scope:any,
     wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
       .then(function (json:api.ex.WorkPackagesMeta) {
         $scope.$broadcast('openproject.workPackages.updateResults');
-        $scope.$evalAsync(() => setupWorkPackagesTable(json));
+        $scope.$evalAsync(() => {
+          wpCacheService.updateWorkPackageList(json.work_packages);
+          setupWorkPackagesTable(json);
+        });
       });
   });
 

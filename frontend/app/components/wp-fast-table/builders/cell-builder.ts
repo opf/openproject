@@ -8,6 +8,7 @@ export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
+export const wpCellTdClassName = 'wp-table--wp-cell-span';
 export const cellEmptyPlaceholder = '-';
 
 export class CellBuilder {
@@ -23,7 +24,7 @@ export class CellBuilder {
     const fieldSchema = workPackage.schema[name];
 
     const td = document.createElement('td');
-    td.classList.add(tdClassName, name);
+    td.classList.add(tdClassName, wpCellTdClassName, name);
     const span = document.createElement('span');
     span.classList.add(cellClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;

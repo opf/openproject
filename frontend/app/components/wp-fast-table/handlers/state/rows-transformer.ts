@@ -47,20 +47,6 @@ export class RowsTransformer {
    * Will skip rendering when dirty or fresh. Does not check for table changes.
    */
   private refreshWorkPackage(table:WorkPackageTable, row:WorkPackageTableRow) {
-    // If the work package is dirty, we're working on it
-    if (row.object.dirty) {
-      debugLog("Skipping row " + row.workPackageId + " since its dirty");
-      return;
-    }
-
-    // Get the row for the WP if refreshing existing
-    let oldRow = row.element || locateRow(row.workPackageId) as HTMLElement;
-
-    if (oldRow.dataset['lockVersion'] === row.object.lockVersion.toString()) {
-      debugLog("Skipping row " + row.workPackageId + " since its fresh");
-      return;
-    }
-
     table.refreshRow(row);
   }
 }

@@ -105,25 +105,3 @@ Feature: Copying a work package
      And I select "project_1" from "Project"
     When I click "Move and follow"
     Then I should see "Failed to save 1 work package(s) on 1 selected:"
-
-
-  @javascript @selenium
-  Scenario: Going to the Copy Page of 2 Work Packages via bulk edit
-    When I go to the work package index page of the project called "project_1"
-     And I open the context menu on the work packages:
-       | issue1 |
-       | issue2 |
-     And I follow "Copy" within "#work-package-context-menu"
-    Then I should see "Copy" within "#content"
-     And I should not see "Move" within "#content"
-
-
-#  FIXME: Please check this: is this the same issue as reported in #1868
-#  Scenario: Move an planning element to project with missing type
-#    When I go to the move page of the work package "pe3"
-#     And I select "project_1" from "Project"
-#
-#    When I click "Move and follow"
-#
-#    Then I should see "Successful update."
-#     And I should see "project_1" within ".breadcrumb"

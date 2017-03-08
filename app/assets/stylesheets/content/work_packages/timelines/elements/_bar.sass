@@ -1,0 +1,49 @@
+.timeline-element.bar
+  position: relative
+  height: 1em
+  border-radius: 2px
+  float: left
+  z-index: 50
+  cursor: ew-resize
+
+  .leftHandle
+    position: absolute
+    left: 0
+    top: 0
+    width: 20px
+    max-width: 20%
+    height: 100%
+    cursor: w-resize
+    //&:hover
+    //  background-image: linear-gradient(90deg, #6c6c6c 0%, rgba(255,255,255,0) 80%)
+
+  .rightHandle
+    position: absolute
+    right: 0
+    top: 0
+    width: 20px
+    max-width: 20%
+    height: 100%
+    cursor: e-resize
+    //&:hover
+    //  background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #6c6c6c 80%)
+
+  .leftDateDisplay
+    position: absolute
+    background-color: #f4f4f4
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+    top: -5px
+    left: -85px
+    padding: 0 5px 0 5px
+    font-size: 10px
+
+  .rightDateDisplay
+    position: absolute
+    background-color: #f4f4f4
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+    top: -5px
+    right: -85px
+    padding: 0 5px 0 5px
+    font-size: 10px

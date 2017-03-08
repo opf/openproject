@@ -32,12 +32,6 @@
   to
     opacity: 0
 
-$generic-table--font-size: 0.875rem
-$generic-table--header-font-size: 0.875rem
-
-$generic-table--header-height: 40px
-$generic-table--footer-height: 34px
-
 $input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
 
 .generic-table--container
@@ -86,7 +80,9 @@ table.generic-table
     &.-sticky
       position: sticky
       top: 0
-
+      background: white
+      // z-index needs be higher than row z-index
+      z-index: 200
     tr
       &:hover
         background: none
@@ -145,11 +141,11 @@ table.generic-table
 
   tbody
     tr
-      border-bottom: 1px solid $table-row-border-color
       &:hover
         background: $table-row-highlighting-color
 
     td
+      border-bottom: 1px solid $table-row-border-color
       max-width: 300px
       min-width: 150px
       overflow:  hidden
@@ -175,6 +171,22 @@ table.generic-table
         min-width: 50px
         width: 50px
 
+      // In the interactive table the behaviour is like this:
+      // * if there is more space available than is required to render
+      //   all columns, the container width is set to 100%.
+      //   Then, td.-max will take up all space available and it will cause all other
+      //   elements to shrink to their minimum value. td-max will grow even beyond
+      //   what is specified as max-width.
+      // * if the contents requires more space than the container width permits,
+      //   then the container width is set to the width calculated by summing up
+      //   all the column widths. For td.-max, the max-width will be taken to be
+      //   the column width because of the combination of max-width and width: 100%.
+      // as a result, td.-max will aways have at least a width of max-width, but it can
+      // become even wider.
+      &.-max
+        width: 100%
+        max-width: 600px
+
       &.info
         a
           text-decoration: none
@@ -188,68 +200,57 @@ table.generic-table
       padding: 0 8px
       margin: 0
 
-  .generic-table--footer-outer
-    position:     absolute
-    bottom:       0
-    padding:      0 6px
-    line-height:  $generic-table--footer-height
-    z-index:      1
+.generic-table--footer-outer
+  position:     absolute
+  bottom:       0
+  padding:      0 6px
+  line-height:  $generic-table--footer-height
+  z-index:      1
 
-  .generic-table--header-outer,
-  .generic-table--sort-header-outer,
-  .generic-table--empty-header
-    width:        100%
-    background:   $body-background
-    border-bottom: 1px solid $table-header-border-color
-    padding:      0 6px
-    line-height:  $generic-table--header-height
-    height: $generic-table--header-height
-    z-index:      1
+.generic-table--header-outer,
+.generic-table--sort-header-outer,
+.generic-table--empty-header
+  padding:      0 6px
+  line-height:  $generic-table--header-height
+  z-index:      1
 
-    &:hover,
-    &.hover
-      background:   #f8f8f8
+  &:hover,
+  &.hover
+    background:   #f8f8f8
 
-  .generic-table--column-spacer
-    white-space:  nowrap
-    padding:      0 6px
-    visibility:   hidden
-    height:       0px
-    line-height:  0px
+.generic-table--column-spacer
+  white-space:  nowrap
+  padding:      0 6px
+  visibility:   hidden
+  height:       0px
+  line-height:  0px
 
-  .generic-table--sort-header,
-    white-space: nowrap
-    width:   100%
-    clear:   both
+.generic-table--sort-header
+  white-space: nowrap
+  width:   100%
+  clear:   both
+  display: block
+
+  & > a,
+  & > span
     display: block
+    font-weight: bold
+    overflow: hidden
+    text-overflow: ellipsis
 
-    & > a,
-    & > span
-      display: block
-      font-weight: bold
-      overflow: hidden
-      text-overflow: ellipsis
+  & > a
+    float: left
+    width: calc(100% - 18px)
 
-    & > a
-      float: left
-      width: calc(100% - 18px)
+  & > .dropdown-indicator
+    width: 1em
+    text-align: right
+    overflow: visible
+    min-width: 1em
+    visibility: hidden
 
-    & > .dropdown-indicator
-      width: 1em
-      text-align: right
-      overflow: visible
-      min-width: 1em
-      visibility: hidden
-    
-    &:hover > .dropdown-indicator
-      visibility: visible
-
-  .generic-table--cell-controls
-    white-space: nowrap
-
-  &.-no-border
-    border: none
-    box-shadow: none
+  &:hover > .dropdown-indicator
+    visibility: visible
 
 .generic-table--footer-background
   position:     absolute

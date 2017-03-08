@@ -1,4 +1,3 @@
-import {WorkPackagesListService} from './../wp-list/wp-list.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,16 +25,18 @@ import {WorkPackagesListService} from './../wp-list/wp-list.service';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-
-
 import {opWorkPackagesModule} from "../../angular-modules";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {SchemaResource} from './../api/api-v3/hal-resources/schema-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
+import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
 import {State} from "../../helpers/reactive-fassade";
-import IScope = angular.IScope;
 import {States} from "../states.service";
 import {Observable, Subject} from "rxjs";
+import IScope = angular.IScope;
+import IPromise = angular.IPromise;
 
 
 function getWorkPackageId(id: number|string): string {
@@ -48,7 +49,9 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
+              private $rootScope: ng.IRootScopeService,
               private $q: ng.IQService,
+              private wpNotificationsService:WorkPackageNotificationService,
               private apiWorkPackages: ApiWorkPackagesService) {
   }
 
@@ -79,6 +82,26 @@ export class WorkPackageCacheService {
         }));
       }
     }
+  }
+
+  saveIfChanged(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface> {
+    if (!(workPackage.dirty || workPackage.isNew)) {
+      return this.$q.when(workPackage);
+    }
+
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
+    workPackage.save()
+      .then(() => {
+        this.wpNotificationsService.showSave(workPackage);
+        this.$rootScope.$emit('workPackagesRefreshInBackground');
+        deferred.resolve(workPackage);
+      })
+      .catch((error) => {
+        this.wpNotificationsService.handleErrorResponse(error, workPackage);
+        deferred.reject(error);
+      });
+
+    return deferred.promise;
   }
 
   loadWorkPackage(workPackageId: string, forceUpdate = false): State<WorkPackageResource> {

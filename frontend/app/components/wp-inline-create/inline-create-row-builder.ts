@@ -8,7 +8,6 @@ import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {CellBuilder} from '../wp-fast-table/builders/cell-builder';
-import {DetailsLinkBuilder} from '../wp-fast-table/builders/details-link-builder';
 import {
   internalColumnDetails,
   rowClassName,
@@ -35,14 +34,12 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     };
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:string, row:HTMLElement):void {
+  public buildCell(workPackage:WorkPackageResource, column:string):HTMLElement {
     switch (column) {
       case internalColumnDetails:
-        this.buildCancelButton(row);
-        break;
+        return this.buildCancelButton();
       default:
-        const cell = this.cellBuilder.build(workPackage, column);
-        row.appendChild(cell);
+        return super.buildCell(workPackage, column);
     }
 
   }
@@ -72,9 +69,9 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  protected buildCancelButton(row:HTMLElement) {
+  protected buildCancelButton() {
     const td = document.createElement('td');
-    td.classList.add('wp-table--cancel-create-td');
+    td.classList.add('wp-table--cancel-create-td', '-short');
 
    td.innerHTML = `
     <a
@@ -84,7 +81,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     </a>
    `;
 
-    row.appendChild(td);
+    return td;
   }
 
 }

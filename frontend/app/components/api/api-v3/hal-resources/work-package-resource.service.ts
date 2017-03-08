@@ -39,6 +39,7 @@ import ITimeoutService = angular.ITimeoutService;
 import {States} from '../../../states.service';
 import {State} from './../../../../helpers/reactive-fassade';
 import {SchemaResource} from './schema-resource.service';
+import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
 
 interface WorkPackageResourceEmbedded {
@@ -59,9 +60,14 @@ interface WorkPackageResourceEmbedded {
   schema: SchemaResource;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
-  type: HalResource|any;
+  type: TypeResource;
   version: HalResource|any;
   watchers: CollectionResourceInterface;
+  // For regular work packages
+  startDate: string;
+  dueDate: string;
+  // Only for milestones
+  date: string;
   relatedBy: RelationResourceInterface|null;
 }
 
@@ -142,9 +148,13 @@ export class WorkPackageResource extends HalResource {
     return this.$source.id || this.idFromLink;
   }
 
-  public get idFromLink():string {
+  public static idFromLink(href: string): string {
+    return href.split('/').pop()!;
+  }
+
+  public get idFromLink(): string {
     if (this.href) {
-      return this.href.split('/').pop()!;
+      return WorkPackageResource.idFromLink(this.href);
     }
 
     return '';
@@ -155,10 +165,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   public get isMilestone(): boolean {
-    /**
-     * it would be better if this was not deduced but rather taken from the type
-     */
-    return this.hasOwnProperty('date');
+    return this.schema.hasOwnProperty('date');
   }
 
   /**
@@ -429,8 +436,9 @@ export class WorkPackageResource extends HalResource {
   }
 
   public restoreFromPristine(attribute: string) {
-    if (this.$pristine[attribute]) {
+    if (this.$pristine.hasOwnProperty(attribute)) {
       this[attribute] = this.$pristine[attribute];
+      delete this.$pristine[attribute];
     }
   }
 

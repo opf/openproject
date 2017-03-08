@@ -1,0 +1,55 @@
+@import '_slider'
+@import 'elements/_bar'
+@import 'elements/_milestone'
+
+.wp-timeline--th
+  min-width: 600px !important
+
+.wp-timeline--dummy-controls
+  position: absolute
+  right: 20px
+  background: white
+  top: calc(#{$generic-table--header-height} + 10px)
+  border: 1px solid #D7D7D7
+  box-shadow: 0 5px 3px -4px #DDDDDD
+  // Should match the thead z-index
+  z-index: 200
+
+  // Ensure even padding around buttons
+  padding: 5px
+  line-height: 1
+
+  button
+    margin: 0
+
+.wp-timeline-header-container.generic-table--sort-header-outer
+  padding: 0
+  z-index: 100
+  margin-left: -5px
+  height: $generic-table--header-height
+
+  &:hover
+    // Show scroll buttons on hover
+    .wp-timeline--scroll-btn
+      display: block
+
+.wp-timeline--scroll-wrapper
+  border-left: 5px solid $gray
+
+  // The scroll wrapper is resized to span the entire table.
+  // Without this, scroll is caught by the header.
+  pointer-events: none
+  position: relative
+
+  // Overflow must be hidden since the width of the column is fixed.
+  // Since height is explicitly set, this is effectively
+  // overflow-x: hidden / overflow-y: visible
+  overflow: hidden
+
+.wp-timeline-cell
+  border-bottom: none !important
+  position: relative
+  z-index: 100
+
+  &.-collapsed
+    display: none

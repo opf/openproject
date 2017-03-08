@@ -1,0 +1,14 @@
+<div class="wp-timeline--dummy-controls hide-when-print" ng-if="$ctrl.wpTimeline.visible">
+  <div class="timeline-controls--zoom-buttons">
+    <button class="button -transparent"
+            ng-disabled="$ctrl.currentZoom == $ctrl.maxZoomLevel"
+            ng-click="$ctrl.updateZoom(1)">
+      <i class="button--icon icon-zoom-out"></i>
+    </button>
+    <button class="button -transparent"
+            ng-disabled="$ctrl.currentZoom == $ctrl.minZoomLevel"
+            ng-click="$ctrl.updateZoom(-1)">
+      <i class="button--icon icon-zoom-in"></i>
+    </button>
+   </div>
+</div

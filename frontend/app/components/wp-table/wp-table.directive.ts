@@ -28,6 +28,7 @@
 
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
 import * as MouseTrap from "mousetrap";
 import {States} from './../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -64,6 +65,7 @@ function wpTable(
   return {
     restrict: 'E',
     replace: true,
+    require: '^wpTimelineContainer',
     templateUrl: '/components/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '=',
@@ -80,9 +82,17 @@ function wpTable(
 
     controller: WorkPackagesTableController,
 
-    link: function(scope:any, element:ng.IAugmentedJQuery) {
+    link: function(scope:any,
+                   element:ng.IAugmentedJQuery,
+                   attributes:ng.IAttributes,
+                   wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
 
+      scope.wpTimelineContainer = wpTimelineContainer;
+      states.timeline.put(wpTimelineContainer);
+      states.table.timelineVisible.put(wpTimelineContainer.visible);
+
+      // Total columns = all available columns + id + action link
       // Clear any old table subscribers
       states.table.stopAllSubscriptions.next();
 

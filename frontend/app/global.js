@@ -83,4 +83,6 @@ require('ui-select/dist/select.min.css');
 require('ng-dialog/js/ngDialog.min.js');
 require('ng-dialog/css/ngDialog.min.css');
 
+require('nouislider/distribute/nouislider.min.css');
+
 require('URIjs/src/URITemplate');

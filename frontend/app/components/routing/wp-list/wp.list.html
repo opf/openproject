@@ -7,7 +7,7 @@
         transition-method="loadQuery">
     </selectable-title>
 
-    <ul class="toolbar-items">
+    <ul class="toolbar-items hide-when-print">
       <li class="toolbar-item">
         <wp-create-button
             allowed="!!resource.$links.createWorkPackage"
@@ -40,6 +40,10 @@
           </li>
         </ul>
       </li>
+       <li class="toolbar-item">
+         <wp-timeline-toggle-button>
+         </wp-timeline-toggle-button>
+       </li>
       <li class="toolbar-item hidden-for-mobile">
         <button id="work-packages-settings-button"
                 ng-disabled="wpEditModeState.active"
@@ -69,7 +73,8 @@
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <div class="work-packages--list">
+  <div table-timeline
+       class="work-packages--list">
     <div class="work-packages--list-table-area loading-indicator--location"
          data-indicator-name="table">
       <wp-table ng-if="columns"
@@ -86,7 +91,7 @@
       </wp-table>
     </div>
 
-    <div class="work-packages--list-pagination-area">
+    <div class="work-packages--list-pagination-area hide-when-print">
       <table-pagination>
       </table-pagination>
     </div>

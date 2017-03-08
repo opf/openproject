@@ -1,10 +1,10 @@
 <div class="generic-table--container work-package-table--container"
-  ng-class="{ '-with-footer': displaySums }">
-  <div class="generic-table--results-container">
+     ng-class="{ '-with-footer': displaySums }">
+  <div class="generic-table--results-container" detect-dimension-changes>
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
-        <col highlight-col />
-        <col highlight-col ng-repeat="column in columns" />
+        <col highlight-col/>
+        <col highlight-col ng-repeat="column in columns"/>
       </colgroup>
       <caption class="hidden-for-sighted">
         <span ng-bind="::text.tableSummary"></span>
@@ -26,7 +26,7 @@
                           query="query"
                           ng-class="column.name == 'id' && '-short' ">
           </th>
-          <th class="wp-table--details-column -short">
+          <th class="wp-table--details-column -short hide-when-print">
             <div class="generic-table--sort-header-outer">
               <accessible-by-keyboard
                           execute="openColumnsModal()"
@@ -35,23 +35,41 @@
               </accessible-by-keyboard>
             </div>
           </th>
+
+         <th class="wp-timeline--th" ng-show="wpTimelineContainer.visible">
+            <div class="wp-timeline--slider-wrapper">
+              <div class="wp-timeline--slider"></div>
+            </div>
+            <div class="wp-timeline-header-controls generic-table--sort-header-outer">
+              <timeline-control></timeline-control>
+            </div>
+            <div class="wp-timeline-header-container generic-table--sort-header-outer">
+              <div class="wp-timeline--scroll-wrapper">
+                <span class="generic-table--sort-header wp-timeline-header">
+                </span>
+              </div>
+            </div>
+          </th>
+
+
+
         </tr>
       </thead>
       <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
-        <tr id="empty-row-notification">
-          <td colspan="{{ columns.length + 1 }}">
-            <span ng-if="!query.hasError">
-              <i class="icon-info1 icon-context"></i>
-              <strong ng-bind="text.noResults.title"></strong>
-              <span ng-bind="text.noResults.description"></span>
-            </span>
-            <span ng-if="query.hasError">
-              <i class="wp-table--faulty-query-icon icon-warning icon-context"></i>
-              <strong ng-bind="text.faultyQuery.title"></strong>
-              <span ng-bind="text.faultyQuery.description"></span>
-            </span>
-          </td>
-        </tr>
+      <tr id="empty-row-notification">
+        <td colspan="{{ columns.length + 1 }}">
+          <span ng-if="!query.hasError">
+            <i class="icon-info1 icon-context"></i>
+            <strong ng-bind="text.noResults.title"></strong>
+            <span ng-bind="text.noResults.description"></span>
+          </span>
+          <span ng-if="query.hasError">
+            <i class="wp-table--faulty-query-icon icon-warning icon-context"></i>
+            <strong ng-bind="text.faultyQuery.title"></strong>
+            <span ng-bind="text.faultyQuery.description"></span>
+          </span>
+        </td>
+      </tr>
       </tbody>
       <tbody class="results-tbody work-package--results-tbody">
       </tbody>
@@ -61,19 +79,19 @@
              query="query">
       <tbody>
       <tfoot>
-        <tr ng-if="sumsLoaded()"
-            class="sum group all issue work_package">
-          <td ng-repeat="column in columns">
-            <div class="generic-table--footer-outer">
-              <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
-              <wp-display-attr
-                    attribute="column.name"
-                    custom-schema="resource.sumsSchema"
-                    work-package="resource.totalSums">
-              </wp-display-attr>
-            </div>
-          </td>
-        </tr>
+      <tr ng-if="sumsLoaded()"
+          class="sum group all issue work_package">
+        <td ng-repeat="column in columns">
+          <div class="generic-table--footer-outer">
+            <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
+            <wp-display-attr
+                attribute="column.name"
+                custom-schema="resource.sumsSchema"
+                work-package="resource.totalSums">
+            </wp-display-attr>
+          </div>
+        </td>
+      </tr>
       </tfoot>
     </table>
     <div class="generic-table--footer-background" ng-if="sumsLoaded()"></div>

@@ -58,6 +58,7 @@ en:
     button_move: "Move"
     button_open_details: "Open details view"
     button_open_fullscreen: "Open fullscreen view"
+    button_timeline: "Toggle timeline view"
     button_quote: "Quote"
     button_save: "Save"
     button_settings: "Settings"

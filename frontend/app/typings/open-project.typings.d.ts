@@ -61,29 +61,6 @@ declare namespace api {
       raw:string;
       html:string;
     }
-
-    interface WorkPackage {
-      id:number|string;
-      lockVersion:number;
-      subject:string;
-      description:Formattable;
-      parentId:number;
-      startDate:Date;
-      dueDate:Date;
-      estimatedTime:Duration;
-      spentTime:Duration;
-      percentageDone:number;
-      createdAt:Date;
-      updatedAt:Date;
-    }
-
-    interface Project {
-
-    }
-
-    interface Query {
-
-    }
   }
 
   /**
@@ -209,16 +186,6 @@ declare namespace op {
     required?:boolean;
     visibility?:string;
     name?:string;
-  }
-
-  interface WorkPackageLinks {
-    schema:FieldSchema;
-  }
-
-  interface WorkPackage extends api.v3.WorkPackage, WorkPackageLinks {
-    [attribute:string]:any;
-    getForm():any;
-    save():any;
   }
 
   interface QueryParams {
