@@ -160,7 +160,7 @@ class ::Type < ActiveRecord::Base
   end
 
   def map_attribute_to_group(name)
-    if ["author", "assignee", "reponsible"].include?(name)
+    if ["author", "assignee", "responsible"].include?(name)
       "people"
     elsif ["estimated_time", "spent_time"].include?(name)
       "estimates_and_time"
