@@ -70,6 +70,15 @@ export class WorkPackageTimelineTableController {
       this.refreshView();
     });
 
+    states.table.timelineVisible
+      .observeOnScope($scope)
+      .subscribe((visible) => {
+
+        if (visible) {
+          this.refreshView();
+        }
+    });
+
     // TODO: Load only necessary types from API
     TypeResource.loadAll();
   }
@@ -80,11 +89,6 @@ export class WorkPackageTimelineTableController {
   public toggle() {
     this.visible = !this.visible;
     this.states.table.timelineVisible.put(this.visible);
-
-    // If hiding view, resize table afterwards
-    if (!this.visible) {
-      jQuery(window).trigger('resize');
-    }
   }
 
   /**
