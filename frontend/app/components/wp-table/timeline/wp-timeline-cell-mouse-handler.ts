@@ -99,7 +99,7 @@ export function registerWorkPackageMouseHandler(this: void,
     return (ev: JQueryEventObject) => {
       const mev: MouseEvent = ev as any;
 
-      const days = getCursorOffsetInDaysFromLeft(renderInfo, mev) - mouseDownStartDay;
+      const days = getCursorOffsetInDaysFromLeft(renderInfo, mev) - mouseDownStartDay!;
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, "days");
 
