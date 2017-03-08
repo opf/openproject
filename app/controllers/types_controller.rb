@@ -88,8 +88,8 @@ class TypesController < ApplicationController
     params[:type].delete :name if @type.is_standard?
 
     service = UpdateTypeService.new(type: @type)
-    result = service.call(attributes: permitted_params.type)
 
+    result = service.call(permitted_params: permitted_params.type, unsafe_params: params[:type])
     if result.success?
       redirect_to(edit_type_tab_path(id: @type.id, tab: @tab),
                   notice: t(:notice_successful_update))

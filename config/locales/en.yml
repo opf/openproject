@@ -1107,6 +1107,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: 'includes'
   label_index_by_date: "Index by date"
@@ -1199,6 +1200,7 @@ en:
   label_open_work_packages_plural: "open"
   label_optional_description: "Description"
   label_options: "Options"
+  label_other: "Other"
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
@@ -1211,6 +1213,7 @@ en:
   label_path_encoding: "Path encoding"
   label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
+  label_people: "People"
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
