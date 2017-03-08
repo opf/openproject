@@ -64,7 +64,7 @@ module ::TypesHelper
     definitions = rattrs[:definitions]
     skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
     attributes = definitions.keys
-      .reject { |key| skip.include? key }
+      .reject { |key| skip.include?(key) || definitions[key][:required] }
       .map { |key| [key, definitions[key]] }.to_h
 
     # within the form date is shown as a single entry including start and due
@@ -85,6 +85,47 @@ module ::TypesHelper
     attributes
   end
 
+  def form_configuration_groups(type)
+    attributes = work_package_form_attributes(merge_date: true)
+    # First we create a complete list of all attributes.
+    # Later we will remove those that are members of an attribute group.
+    # This way attributes that were created after the las group definitions
+    # will fall back into the inactives group.
+    inactive_attributes = attributes.clone
+
+    actives = type.attribute_groups.map do |group|
+      extended_attributes = group.second.select do |key|
+        # The group's attribute keys could be out of date. Check presence.
+        if inactive_attributes[key].present?
+          inactive_attributes.delete(key)
+          true
+        else
+          false
+        end
+      end
+      extended_attributes.map! do |key|
+        is_always_visible = attr_visibility(key, type) == 'visible' ? true : false
+        { key: key,
+          always_visible: is_always_visible,
+          translation: translated_attribute_name(key, attributes[key]) }
+      end
+
+      extended_group = { key: group[0], translation: group_translate(group[0]) }
+
+      [extended_group, extended_attributes]
+    end
+
+    inactives = inactive_attributes.map do |key, attribute|
+      { key: key,
+        attribute: attribute,
+        translation: translated_attribute_name(key, attribute) }
+    end.sort_by do |_key, _attribute, translation|
+      translation
+    end
+
+    { actives: actives, inactives: inactives }
+  end
+
   def attr_i18n_key(name)
     if name == 'percentage_done'
       'done_ratio'
@@ -100,6 +141,14 @@ module ::TypesHelper
       key = attr_i18n_key(name)
       I18n.t("activerecord.attributes.work_package.#{key}", default: '')
         .presence || I18n.t("attributes.#{key}")
+    end
+  end
+
+  def group_translate(name)
+    if ['details', 'date_and_time', 'other', 'people'].include? name
+      I18n.t("label_#{name}")
+    else
+      name
     end
   end
 
