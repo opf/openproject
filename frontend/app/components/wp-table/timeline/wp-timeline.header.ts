@@ -202,7 +202,7 @@ export class WpTimelineHeader {
     }
 
     this.containerHeight = jQuery(cssClassTableContainer).outerHeight() + this.headerHeight;
-    this.globalHeight = jQuery(cssClassTableBody).outerHeight() + this.headerHeight;
+    this.globalHeight = jQuery(cssClassTableBody).outerHeight();
     this.marginTop = this.headerHeight;
 
     this.headerCell.style.height = this.globalHeight + 'px';
