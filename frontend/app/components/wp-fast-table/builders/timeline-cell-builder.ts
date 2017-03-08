@@ -52,11 +52,6 @@ export class TimelineCellBuilder {
 
     // show timeline cell
     timelineCell.activate();
-
-    // remove timeline cell on scope destroy
-    this.states.table.stopAllSubscriptions.take(1).subscribe(() => {
-      timelineCell.deactivate();
-    });
   }
 }
 

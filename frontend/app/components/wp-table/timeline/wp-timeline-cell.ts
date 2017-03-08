@@ -37,6 +37,7 @@ import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-
 import IScope = angular.IScope;
 import * as moment from 'moment';
 import Moment = moment.Moment;
+import {Observable} from 'rxjs';
 
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),
@@ -61,11 +62,17 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
-      .subscribe(renderInfo => {
+
+    Observable.combineLatest(
+      this.workPackageTimeline.addWorkPackage(this.workPackageId),
+      this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions)
+    ).subscribe((state:[any, boolean]) => {
+      const renderInfo = state[0];
+      if (state[1]) {
         this.updateView(renderInfo);
         this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
-      });
+      }
+    });
   }
 
   deactivate() {
@@ -148,8 +155,6 @@ export class WorkPackageTimelineCell {
   }
 
   private updateView(renderInfo: RenderInfo) {
-    // console.log("updateView()", "wpID=" + renderInfo.workPackage.id);
-
     this.latestRenderInfo = renderInfo;
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
