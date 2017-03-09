@@ -67,15 +67,22 @@ table
 
   &.workflow-table
     margin-bottom: 16px
-    border-collapse: separate
     overflow-x: hidden
     tbody
-      tr:nth-of-type(2)
-        td
-          border-top: 1px solid $light-gray
-
       td
         border-bottom: 1px solid $light-gray
+
+        &.-no-border
+          border-bottom: none
+          border-right: none
+
+        &.-border-right
+          border-right: 1px solid $light-gray
+
+      tr
+        border-bottom: none
+        &:hover
+          background: none
 
       td.workflow-table--current-status
         font-weight: bold
@@ -86,28 +93,17 @@ table
         .icon
           color: $body-font-color
 
-      .workflow-table--turned-header
-        &:hover
-          background: none
-        th
-          overflow: visible
-          border-right: 1px solid $light-gray
-          vertical-align: middle
-          font-size: 0.875rem
-          text-transform: uppercase
-          font-weight: bold
-          max-width: 50px
-          min-width: 50px
-          position: relative
-
-          span
-            white-space: nowrap
-            transform: rotate(270deg)
-            position: absolute
-            top: -40px
-            right: 50%
-            transform-origin: right center
-            margin-top: 8px
+      span.workflow-table--turned-header
+        white-space: nowrap
+        transform: rotate(270deg)
+        position: absolute
+        top: 130px
+        left: -40px
+        transform-origin: center center
+        margin-top: 8px
+        font-size: 0.875rem
+        text-transform: uppercase
+        font-weight: bold
 
     thead
       .workflow-table--header
@@ -125,9 +121,14 @@ table
             color: $content-link-color
             text-decoration: underline
 
-      tr
-        th:nth-of-type(1)
-          width: 20px
+      .-border
+        border-bottom: 1px solid $light-gray
+
+    col.hover
+      background: none
+
+    .generic-table--sort-header-outer:hover
+      background: none
 
 tr
   &.project
