@@ -52,8 +52,9 @@ module.exports = function (config) {
       // which is unavailable for unit tests.
       // For testing, shim its functionality
       'tests/unit/lib/i18n-js.shim.js',
-      '../app/assets/javascripts/bundles/openproject-global.css',
-      '../app/assets/javascripts/bundles/openproject-global.js',
+      '../app/assets/javascripts/bundles/openproject-vendors.js',
+      '../app/assets/javascripts/bundles/openproject-core-app.css',
+      '../app/assets/javascripts/bundles/openproject-core-app.js',
 
       '../app/assets/javascripts/lib/jquery.trap.js',
       '../app/assets/javascripts/openproject.js',

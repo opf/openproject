@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//= require ./bundles/openproject-global
-
 //= require i18n
 
-//# require jquery_noconflict
+//= require ./bundles/openproject-vendors
+//= require ./bundles/openproject-core-app
+//= require_tree ./bundles
 
 //= require lib/jquery.colorcontrast
 //= require lib/jquery.trap
@@ -52,9 +52,6 @@
 //= require openproject_plugins
 //= require versions
 //= require_tree ./specific
-
-//= require ./bundles/openproject-core-app
-//= require_tree ./bundles
 
 //= require custom-fields
 //= require date-range

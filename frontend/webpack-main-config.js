@@ -32,15 +32,19 @@ var path = require('path');
 var _ = require('lodash');
 var pathConfig = require('./rails-plugins.conf');
 var autoprefixer = require('autoprefixer');
+var dllManifest = require('./dist/vendors-dll-manifest.json')
 
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var production = (mode !== 'development');
 var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
+var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
+var bundle_output = path.resolve(output_root, 'bundles');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
   entries[name.replace(/^openproject\-/, '')] = path.resolve(pluginPath, 'frontend', 'app', name + '-app.js');
@@ -171,13 +175,12 @@ function getWebpackMainConfig() {
     context: path.resolve(__dirname, 'app'),
 
     entry: _.merge({
-      'global': './global',
       'core-app': './openproject-app'
     }, pluginEntries),
 
     output: {
       filename: 'openproject-[name].js',
-      path: path.join(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles'),
+      path: bundle_output,
       publicPath: '/assets/bundles/'
     },
 
@@ -199,10 +202,6 @@ function getWebpackMainConfig() {
 
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
         'select2': path.resolve(__dirname, 'vendor', 'select2'),
-        'angular-truncate': 'angular-truncate/src/truncate',
-        'angular-context-menu': 'angular-context-menu/dist/angular-context-menu.js',
-        'mousetrap': 'mousetrap/mousetrap.js',
-        'ngFileUpload': 'ng-file-upload/dist/ng-file-upload.min.js',
         'lodash': path.resolve(node_root, 'lodash', 'lodash.min.js'),
         // prevents using crossvent from dist and by that
         // reenables debugging in the browser console.
@@ -225,6 +224,19 @@ function getWebpackMainConfig() {
       new webpack.DefinePlugin({
         DEBUG: !!debug_output,
         PRODUCTION: !!production
+      }),
+
+      // Clean the output directory
+      new CleanWebpackPlugin(['bundles'], {
+        root: output_root,
+        verbose: true,
+        exclude: ['openproject-vendors.js']
+      }),
+
+      // Reference the vendors bundle
+      new webpack.DllReferencePlugin({
+          context: path.resolve(__dirname),
+          manifest: dllManifest
       }),
 
       // Extract CSS into its own bundle
