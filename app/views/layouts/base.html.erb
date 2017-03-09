@@ -80,13 +80,13 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= l(:label_top_menu) %>
               </h1>
               <%= render_top_menu_left %>
+              <div id="logo" class="hidden-for-mobile">
+                <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
+              </div>
               <div class="top-menu-items-right">
                 <%= render partial: 'search/mini_form' %>
                 <%= render_top_menu_right %>
               </div>
-            </div>
-            <div id="logo">
-              <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
             </div>
           </div>
         </div>
