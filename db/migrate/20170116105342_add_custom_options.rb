@@ -30,12 +30,17 @@
 ##
 # Adds a table for storing possible values (options) for custom fields.
 # If a custom field has no possible values then arbitrary values
-# are allowed which may be further restriced by other means other
+# are allowed which may be further restriced by other means other than
 # specific values.
 class AddCustomOptions < ActiveRecord::Migration[5.0]
-  class OldTranslationModel < ActiveRecord::Base
-    self.table_name = :custom_field_translations
+  class OldCustomField < ActiveRecord::Base
+    self.table_name = :custom_fields
+    self.inheritance_column = nil
 
+    translates :name, :default_value, :possible_values
+  end
+
+  class OldCustomField::Translation
     serialize :possible_values, Array
   end
 
@@ -60,8 +65,23 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
     remove_column :custom_field_translations, :possible_values # replaced by custom options
   end
 
+  ##
+  # Dropping the translations for custom field default values and possible values is irreversible.
+  # We can just create one default translation.
   def down
-    drop_table table_name
+    CustomOption.transaction do
+      add_column :custom_field_translations, :default_value, :text
+      add_column :custom_field_translations, :possible_values, :text
+
+      rollback_custom_fields!
+      rollback_values!
+      rollback_journals!
+
+      remove_column :custom_fields, :multi_value
+      remove_column :custom_fields, :default_value
+
+      drop_table table_name
+    end
   end
 
   def migrate_data!
@@ -81,7 +101,7 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
   end
 
   def get_translations(custom_field)
-    OldTranslationModel
+    OldCustomField::Translation
       .where(custom_field_id: custom_field.id)
       .order(id: :asc)
   end
@@ -89,8 +109,15 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
   def create_custom_options_for_translations!(translations, custom_field)
     return if translations.empty?
 
-    translations.first.possible_values.each_with_index.map do |value, i|
-      custom_field.custom_options.create! value: value, position: i + 1
+    # we don't support translations anymore, assume first as canonical
+    translation = translations.first
+
+    translation.possible_values.each_with_index.map do |value, i|
+      custom_field.custom_options.create!(
+        value: value,
+        position: i + 1,
+        default_value: (value == translation.default_value)
+      )
     end
   end
 
@@ -114,6 +141,59 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
         option_id = lookup_custom_option_id journal.value, custom_field.id
 
         journal.update! value: option_id.to_s if option_id
+      end
+    end
+  end
+
+  def rollback_custom_fields!
+    Globalize.with_locale(Setting.default_language.to_sym) do
+      rollback_list_custom_fields!
+      rollback_other_custom_fields!
+    end
+  end
+
+  def rollback_list_custom_fields!
+    OldCustomField.where(field_format: "list").each do |old_custom_field|
+      new_custom_field = CustomField.find old_custom_field.id
+
+      old_custom_field.default_value =
+        new_custom_field.custom_options.select(&:default_value?).map(&:value).first
+      old_custom_field.possible_values =
+        new_custom_field.custom_options.map(&:value)
+
+      old_custom_field.save
+    end
+  end
+
+  def rollback_other_custom_fields!
+    OldCustomField.where.not(field_format: "list").each do |old_custom_field|
+      new_custom_field = CustomField.find old_custom_field.id
+
+      old_custom_field.default_value = new_custom_field.default_value
+
+      old_custom_field.save
+    end
+  end
+
+  def rollback_values!
+    list_custom_fields.each do |custom_field|
+      CustomValue.where(custom_field: custom_field).each do |custom_value|
+        option_value = CustomOption.find_by(id: custom_value.value, custom_field_id: custom_field.id).try(:value)
+
+        if option_value
+          custom_value.value = option_value
+          custom_value.save(validate: false) # with the new code the validation will fail as an ID is expected
+        end
+      end
+    end
+  end
+
+  def rollback_journals!
+    list_custom_fields.each do |custom_field|
+      CustomizableJournal.where(custom_field: custom_field).each do |journal|
+        option_value = CustomOption.find_by(id: journal.value, custom_field_id: custom_field.id).try(:value)
+
+        journal.update! value: option_value if option_value
       end
     end
   end
