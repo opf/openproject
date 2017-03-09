@@ -73,7 +73,7 @@ module BasicData
 
     def type_table
       { # position is_default color_id is_in_roadmap in_aggregation is_milestone
-        task:       [1, true, :default_color_grey,        true,  false, false],
+        task:       [1, true, :default_color_blue,        true,  false, false],
         milestone:  [2, true, :default_color_green_light, false, true,  true],
         phase:      [3, true, :default_color_blue_dark,   false, true,  false],
         feature:    [4, true, :default_color_blue,        true,  false, false],
