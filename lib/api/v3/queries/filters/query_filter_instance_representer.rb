@@ -71,13 +71,29 @@ module API
                    exec_context: :decorator
 
           property :values,
-                   if: ->(*) { !ar_object_filter? },
+                   if: ->(*) { !represented.ar_object_filter? },
+                   exec_context: :decorator,
                    show_nil: true
 
           private
 
           def name
             represented.human_name
+          end
+
+          def values
+            if represented.respond_to?(:custom_field) &&
+               represented.custom_field.field_format == 'bool'
+              represented.values.map do |value|
+                if value == CustomValue::BoolStrategy::DB_VALUE_TRUE
+                  true
+                else
+                  false
+                end
+              end
+            else
+              represented.values
+            end
           end
 
           def _type

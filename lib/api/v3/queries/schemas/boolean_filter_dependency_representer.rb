@@ -30,31 +30,16 @@
 module API
   module V3
     module Queries
-      module Operators
-        class QueryOperatorRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { represented },
-                    title_getter: ->(*) { name }
+      module Schemas
+        class BooleanFilterDependencyRepresenter <
+          FilterDependencyRepresenter
 
-          def initialize(model, *_)
-            super(model.to_sym, current_user: nil, embed_links: true)
-          end
-
-          property :id,
-                   exec_context: :decorator
-
-          property :name,
-                   exec_context: :decorator
+          def href_callback; end
 
           private
 
-          def name
-            I18n.t(::Queries::BaseFilter.operators[represented])
-          end
-
-          alias :id :represented
-
-          def _type
-            'QueryOperator'
+          def type
+            '[1]Boolean'
           end
         end
       end

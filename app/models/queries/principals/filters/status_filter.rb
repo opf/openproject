@@ -27,37 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Operators
-        class QueryOperatorRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { represented },
-                    title_getter: ->(*) { name }
-
-          def initialize(model, *_)
-            super(model.to_sym, current_user: nil, embed_links: true)
-          end
-
-          property :id,
-                   exec_context: :decorator
-
-          property :name,
-                   exec_context: :decorator
-
-          private
-
-          def name
-            I18n.t(::Queries::BaseFilter.operators[represented])
-          end
-
-          alias :id :represented
-
-          def _type
-            'QueryOperator'
-          end
-        end
-      end
+class Queries::Principals::Filters::StatusFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    ::Principal::STATUSES.map do |key, value|
+      [key, value]
     end
+  end
+
+  def type
+    :list
+  end
+
+  def self.key
+    :status
   end
 end

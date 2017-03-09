@@ -50,6 +50,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         let(:type) { '[]User' }
         let(:filter_query) do
           [{ type: { operator: '=', values: ['User'] } },
+           { status: { operator: '=', values: ['1'] } },
            { member: { operator: '=', values: [project.id.to_s] } }]
         end
         let(:href) do
@@ -71,7 +72,8 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
         context 'global' do
           let(:project) { nil }
           let(:filter_query) do
-            [{ type: { operator: '=', values: ['User'] } }]
+            [{ type: { operator: '=', values: ['User'] } },
+             { status: { operator: '=', values: ['1'] } }]
           end
 
           context "for operator '='" do

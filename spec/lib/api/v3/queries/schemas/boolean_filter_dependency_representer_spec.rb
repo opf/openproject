@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,35 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Operators
-        class QueryOperatorRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { represented },
-                    title_getter: ->(*) { name }
+require 'spec_helper'
 
-          def initialize(model, *_)
-            super(model.to_sym, current_user: nil, embed_links: true)
-          end
+describe ::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter do
+  include ::API::V3::Utilities::PathHelper
 
-          property :id,
-                   exec_context: :decorator
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+  let(:filter) do
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(context: project)
 
-          property :name,
-                   exec_context: :decorator
+    filter.custom_field = bool_cf
 
-          private
+    filter
+  end
 
-          def name
-            I18n.t(::Queries::BaseFilter.operators[represented])
-          end
+  let(:form_embedded) { false }
 
-          alias :id :represented
+  let(:instance) do
+    described_class.new(filter,
+                        operator,
+                        form_embedded: form_embedded)
+  end
 
-          def _type
-            'QueryOperator'
-          end
+  subject(:generated) { instance.to_json }
+
+  context 'generation' do
+    context 'properties' do
+      describe 'values' do
+        let(:path) { 'values' }
+        let(:type) { '[1]Boolean' }
+
+        context "for operator '='" do
+          let(:operator) { "=" }
+
+          it_behaves_like 'filter dependency'
+        end
+
+        context "for operator '!'" do
+          let(:operator) { '!' }
+
+          it_behaves_like 'filter dependency'
         end
       end
     end

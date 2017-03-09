@@ -37,7 +37,7 @@ module API
           private
 
           def filter_query
-            params = []
+            params = [{ status: { operator: '=', values: [Principal::STATUSES[:active].to_s] } }]
 
             unless Setting.work_package_group_assignment?
               params << { type: { operator: '=', values: ['User'] } }

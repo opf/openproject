@@ -37,7 +37,8 @@ module API
           private
 
           def filter_query
-            params = [{ type: { operator: '=', values: ['User'] } }]
+            params = [{ type: { operator: '=', values: ['User'] } },
+                      { status: { operator: '=', values: [Principal::STATUSES[:active].to_s] } }]
 
             if filter.context
               params << { member: { operator: '=', values: [filter.context.id.to_s] } }

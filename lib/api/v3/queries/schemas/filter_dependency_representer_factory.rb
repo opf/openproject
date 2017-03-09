@@ -83,8 +83,10 @@ module API
             format = filter.custom_field.field_format
 
             case format
-            when 'list', 'bool'
+            when 'list'
               'API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter'
+            when 'bool'
+              'API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
             when 'user', 'version', 'float'
               "API::V3::Queries::Schemas::#{format.camelize}FilterDependencyRepresenter"
             when 'string'
