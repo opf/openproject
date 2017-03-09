@@ -34,12 +34,14 @@ var pathConfig = require('./rails-plugins.conf');
 var autoprefixer = require('autoprefixer');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 var mode = (process.env['RAILS_ENV'] || 'production').toLowerCase();
 var uglify = (mode !== 'development');
 
 var node_root = path.resolve(__dirname, 'node_modules');
-
+var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
+var bundle_output = path.resolve(output_root, 'bundles')
 
 /** Extract available locales from openproject-translations plugin */
 var translations = path.resolve(pathConfig.allPluginNamesPaths['openproject-translations'], 'config', 'locales');
@@ -58,7 +60,7 @@ function getWebpackVendorsConfig() {
     },
 
     output: {
-      path: path.resolve(__dirname, '..', 'app', 'assets', 'javascripts', 'bundles'),
+      path: bundle_output,
       filename: 'openproject-[name].js',
       library: '[name]'
     },
@@ -67,7 +69,7 @@ function getWebpackVendorsConfig() {
       modules: ['node_modules'],
       alias: {
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
-        'select2': path.resolve(__dirname, 'vendor', 'select2'),
+        'select2': path.resolve(__dirname, 'vendor', 'select2')
       }
     },
 
@@ -76,6 +78,12 @@ function getWebpackVendorsConfig() {
         path: path.join(__dirname, "dist", "[name]-dll-manifest.json"),
         name: "[name]",
         context: '.'
+      }),
+
+      // Clean the output directory
+      new CleanWebpackPlugin(['bundles'], {
+        root: output_root,
+        verbose: true
       }),
 
       // Restrict loaded ngLocale locales to the ones we load from translations
