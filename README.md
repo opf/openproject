@@ -25,9 +25,9 @@ If you want to run an instance of OpenProject in production (or for evaluation),
 in-depth [installation guides](https://www.openproject.org/download/).
 
 If you're a developer wanting to set-up a local environment for contributing to OpenProject or
-developing plugins, you should refer instead to our [Quick Start for Developers](doc/QUICK_START.md).
+developing plugins, you should refer instead to our [Quick Start for Developers](./guides/development/quick-start.md).
 
-Our [developer documentation](doc/README.md) also includes a [reference of configuration options](doc/CONFIGURATION.md).
+For a complete reference to all community guides, [please see this document](./guides/README.md).
 
 ## Contact
 
@@ -44,8 +44,10 @@ The [OpenProject Foundation (OPF)](https://community.openproject.org/projects/op
 
 This repository contains several main branches:
 
+* `stable/<major version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/6`.
 * `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
-* `stable/<version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/4.1`.
+* `release/<major version>.<minor version>` the release branch for the immediate next patch release within the given major and minor version. Example `release/6.1` targets the unrelease next patch release `6.1.x`.
+
 
 ## Security / Responsible Disclosure
 
