@@ -120,7 +120,7 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
 
   def lookup_custom_option_id(value, custom_field_id)
     CustomOption
-      .where(value: value, id: custom_field_id)
+      .where(value: value, custom_field_id: custom_field_id)
       .order(id: :asc)
       .limit(1)
       .pluck(:id)
