@@ -188,6 +188,7 @@ function WorkPackagesTableController($scope:any, $rootScope:ng.IRootScopeService
       title: I18n.t('js.work_packages.faulty_query.title'),
       description: I18n.t('js.work_packages.faulty_query.description')
     },
+    addColumns: I18n.t('js.label_add_columns'),
     tableSummary: I18n.t('js.work_packages.table.summary'),
     tableSummaryHints: [
       I18n.t('js.work_packages.table.text_inline_edit'),

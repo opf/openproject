@@ -14,12 +14,12 @@
         </select>
       </td>
       <td class="table-buttons" align="center" valign="middle">
-        <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_add_columns') }}</label>
+        <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_add_selected_columns') }}</label>
         <input id="add_selected_columns"
                type="button"
                value="→"
                ng-click="showColumns(markedAvailableColumns)"
-               title="{{ I18n.t('js.label_add_columns') }}"
+               title="{{ I18n.t('js.label_add_selected_columns') }}"
                ng-disabled="loading"><br>
         <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_remove_columns') }}</label>
         <input type="button"

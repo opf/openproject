@@ -68,6 +68,11 @@ function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService){
         return false;
       }
 
+      scope.text = {
+        toggleHierarchy: I18n.t('js.work_packages.hierarchy.toggle_button'),
+        openMenu: I18n.t('js.label_open_menu')
+      };
+
       function setFullTitleAndSummary() {
         scope.fullTitle = scope.headerTitle;
 

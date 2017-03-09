@@ -40,7 +40,7 @@
         <div class="grid-content medium-2 collapse wp-relations-controls-section"
              ng-class="{ '-visible': $ctrl.userInputs.showRelationControls, '-expanded': $ctrl.userInputs.showRelationInfo }">
             <accessible-by-keyboard ng-show="$ctrl.showDescriptionInfo"
-                                    aria-label="{{ ::$ctrl.text.description_label }}"
+                                    link-aria-label="{{ ::$ctrl.text.description_label }}"
                                     link-title="{{ ::$ctrl.text.description_label }}"
                                     link-class="wp-relations--description-btn"
                                     execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
@@ -52,7 +52,7 @@
             <accessible-by-keyboard ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
                                     aria-hidden="false"
-                                    aria-label="{{ ::$ctrl.text.remove }}"
+                                    link-aria-label="{{ ::$ctrl.text.remove }}"
                                     link-title="{{ ::$ctrl.text.remove }}"
                                     link-class="relation-row--remove-btn"
                                     class="-shown-in-accessibility-mode">

@@ -27,10 +27,11 @@
                           ng-class="column.name == 'id' && '-short' ">
           </th>
           <th class="wp-table--details-column -short hide-when-print">
-            <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header-outer" aria-hidden="true">
               <accessible-by-keyboard
                           execute="openColumnsModal()"
-                          link-class="wp-table--columns-selection">
+                          link-class="wp-table--columns-selection"
+                          link-aria-label="{{ text.addColumns }}">
                 <span class="icon-button icon-small icon-add"></span>
               </accessible-by-keyboard>
             </div>
@@ -50,8 +51,6 @@
               </div>
             </div>
           </th>
-
-
 
         </tr>
       </thead>
