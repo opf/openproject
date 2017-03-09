@@ -55,7 +55,7 @@ module API
 
             represented.value_objects.map do |value_object|
               {
-                href: api_v3_paths.send(value_object.class.name.downcase, value_object.id),
+                href: api_v3_paths.send(value_object.class.name.underscore, value_object.id),
                 title: value_object.name
               }
             end

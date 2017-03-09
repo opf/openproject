@@ -123,6 +123,11 @@ module API
             "#{priorities}/#{id}"
           end
 
+          class << self
+            alias :issue_priorities :priorities
+            alias :issue_priority :priority
+          end
+
           def self.projects
             "#{root}/projects"
           end
