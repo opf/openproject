@@ -56,7 +56,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'the projects menu should not be displayed' do
-        expect(rendered).not_to have_text('Projects')
+        expect(rendered).not_to have_text('Select a project')
       end
     end
 
@@ -68,7 +68,7 @@ describe 'layouts/base', type: :view do
       end
 
       it 'the projects menu should be displayed' do
-        expect(rendered).to have_text('Projects')
+        expect(rendered).to have_text('Select a project')
       end
     end
   end
