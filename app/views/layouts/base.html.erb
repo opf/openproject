@@ -113,6 +113,8 @@ See doc/COPYRIGHT.rdoc for more details.
         ng-class="{ 'hidden-navigation': !showNavigation }">
             <%= you_are_here_info %>
             <%= full_breadcrumb %>
+
+            <%= call_hook :view_layouts_base_breadcrumb %>
           </div>
         <% end %>
         <%= render_flash_messages %>
