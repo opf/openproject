@@ -69,6 +69,18 @@ module API
           }
         end
 
+        link :star do
+          {
+            href: api_v3_paths.query_star(represented.id)
+          } if allowed_to?(:star)
+        end
+
+        link :unstar do
+          {
+            href: api_v3_paths.query_unstar(represented.id)
+          } if allowed_to?(:unstar)
+        end
+
         links :columns do
           represented.columns.map do |column|
             {
@@ -178,6 +190,12 @@ module API
 
         def _type
           'Query'
+        end
+
+        def allowed_to?(action)
+          @policy ||= QueryPolicy.new(current_user)
+
+          @policy.allowed?(represented, action)
         end
 
         def self_v3_path(*_args)

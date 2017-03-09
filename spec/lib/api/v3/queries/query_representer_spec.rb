@@ -33,8 +33,35 @@ describe ::API::V3::Queries::QueryRepresenter do
 
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:user) { double('current_user') }
   let(:representer) do
-    described_class.new(query, current_user: double('current_user'), embed_links: true)
+    described_class.new(query, current_user: user, embed_links: true)
+  end
+
+  let(:permissions) { [] }
+
+  let(:policy) do
+    policy_stub = double('policy stub')
+
+    allow(QueryPolicy)
+      .to receive(:new)
+      .with(user)
+      .and_return(policy_stub)
+
+    allow(policy_stub)
+      .to receive(:allowed?)
+      .and_return(false)
+
+    permissions.each do |permission|
+      allow(policy_stub)
+        .to receive(:allowed?)
+        .with(query, permission)
+        .and_return(true)
+    end
+  end
+
+  before do
+    policy
   end
 
   subject { representer.to_json }
@@ -136,7 +163,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       context 'with filter, sort, group by and pageSize' do
         let(:representer) do
           described_class.new(query,
-                              current_user: double('current_user'))
+                              current_user: user)
         end
 
         let(:query) do
@@ -169,7 +196,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       context 'with offset and page size' do
         let(:representer) do
           described_class.new(query,
-                              current_user: double('current_user'),
+                              current_user: user,
                               params: { offset: 2, pageSize: 25 })
         end
 
@@ -290,6 +317,52 @@ describe ::API::V3::Queries::QueryRepresenter do
           is_expected
             .to be_json_eql(expected.to_json)
             .at_path('_links/sortBy')
+        end
+      end
+
+      context 'when not starred' do
+        let(:permissions) { [:star] }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'star' }
+          let(:href) { api_v3_paths.query_star query.id }
+        end
+
+        it 'has no unstar link' do
+          is_expected
+            .to_not have_json_path('_links/unstar')
+        end
+
+        context 'lacking permission' do
+          let(:permissions) { [] }
+
+          it 'has no star link' do
+            is_expected
+              .to_not have_json_path('_links/star')
+          end
+        end
+      end
+
+      context 'when starred' do
+        let(:permissions) { [:unstar] }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'unstar' }
+          let(:href) { api_v3_paths.query_unstar query.id }
+        end
+
+        it 'has no star link' do
+          is_expected
+            .to_not have_json_path('_links/star')
+        end
+
+        context 'lacking permission' do
+          let(:permissions) { [] }
+
+          it 'has no unstar link' do
+            is_expected
+              .to_not have_json_path('_links/unstar')
+          end
         end
       end
     end
@@ -415,7 +488,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'when not embedding' do
         let(:representer) do
-          described_class.new(query, current_user: double('current_user'), embed_links: false)
+          described_class.new(query, current_user: user, embed_links: false)
         end
 
         it 'has no columns embedded' do
@@ -442,7 +515,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       context 'when not embedding' do
         let(:representer) do
-          described_class.new(query, current_user: double('current_user'), embed_links: false)
+          described_class.new(query, current_user: user, embed_links: false)
         end
 
         it 'has no group bys embedded' do
@@ -456,7 +529,7 @@ describe ::API::V3::Queries::QueryRepresenter do
       let(:query) { FactoryGirl.build_stubbed(:query) }
       let(:representer) do
         described_class.new(query,
-                            current_user: double('current_user'),
+                            current_user: user,
                             results: results_representer)
       end
 
