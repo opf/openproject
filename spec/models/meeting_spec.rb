@@ -187,23 +187,25 @@ describe Meeting, type: :model do
   end
 
   describe 'Timezones' do
-    shared_examples 'uses that zone' do |zone|
-      it do
-        @m.start_date = '2016-07-01'
-        expect(@m.start_time.zone).to eq(zone)
-      end
-    end
-
     context 'default zone' do
-      it_behaves_like 'uses that zone', 'UTC'
+      before do
+        allow(Time).to receive(:zone).and_return ActiveSupport::TimeZone.new('UTC')
+      end
+      it 'uses UTC' do
+        @m.start_date = '2016-07-01'
+        expect(@m.start_time).to be_utc
+      end
     end
 
     context 'other timezone set' do
       before do
-        Time.zone = 'EST'
+        allow(Time).to receive(:zone).and_return ActiveSupport::TimeZone.new('Berlin')
       end
 
-      it_behaves_like 'uses that zone', 'EST'
+      it 'uses UTC' do
+        @m.start_date = '2016-07-01'
+        expect(@m.start_time).not_to be_utc
+      end
     end
   end
 
