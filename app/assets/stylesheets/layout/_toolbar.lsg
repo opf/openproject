@@ -62,8 +62,9 @@ A toolbar that can and should be used for actions on the current view. Initially
         </select>
       </li>
       <li class="toolbar-item -icon-only">
-        <a href="#" class="button -highlight">
+        <a href="#" class="button -highlight" aria-label="Add" title="Add">
           <i class="button--icon icon-add"></i>
+          <span class="button--text">Add</span>
         </a>
       </li>
     </ul>

@@ -59,6 +59,14 @@ en:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
 
+  deprecations:
+    old_timeline: |-
+      This timelines module will be replaced by an interactive timelines view embedded into
+      the work packages module. This module is being removed from OpenProject 7.0.
+      <br/>
+      Please note that all data within this module will NOT be migrated to the new view,
+      please make all necessary preparations to recreate the information in the new view.
+
   groups:
     index:
       no_results_title_text: There are currently no groups.
@@ -1455,6 +1463,8 @@ en:
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
   notice_password_confirmation_failed: "Your password is not correct. The changes were not saved."
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
   notice_project_not_deleted: "The project wasn't deleted."
   notice_successful_connection: "Successful connection."
   notice_successful_create: "Successful creation."

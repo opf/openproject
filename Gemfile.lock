@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: da52ff92cdcd62197b400bec93a1715cd685f092
-  branch: stable/6
+  revision: 3490866ec6a7ab50a8dacb07e014984c6fecda14
+  branch: release/6.1
   specs:
-    openproject-translations (6.1.4)
+    openproject-translations (6.1.5)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -251,7 +251,7 @@ GEM
       representable (~> 2.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20161129)
+    domain_name (0.5.20170223)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.1)
     equalizer (0.0.11)
@@ -714,4 +714,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.13.6
+   1.14.4

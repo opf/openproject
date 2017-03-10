@@ -444,7 +444,8 @@ class PermittedParams
           :attr_login,
           :attr_firstname,
           :attr_lastname,
-          :attr_mail],
+          :attr_mail,
+          :attr_admin],
         board: [
           :name,
           :description],

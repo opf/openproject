@@ -29,12 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="modal-wrapper--content">
   <div class="onboarding--start-modal">
-    <div class="onboarding--top-menu">
+    <div class="onboarding--top-menu modal--header">
       <%= homescreen_user_avatar %>
       <h2><%= I18n.t('onboarding.welcome') %></h2>
     </div>
 
-    <div class="onboarding--main">
+    <div class="onboarding--main modal--main">
       <h2><%= I18n.t('top_menu.getting_started') %></h2>
       <div class="onboarding--video-block">
         <div class="onboarding--video-text">
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
 
-    <div class="onboarding--footer">
+    <div class="onboarding--footer modal--footer">
       <em><label><%= I18n.t('onboarding.text_show_again') %></label></em>
       <button class="button -highlight -large"
               ng-click="closeThisDialog()"

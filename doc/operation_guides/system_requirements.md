@@ -26,7 +26,7 @@ provide any official support for them.
 
 ### Dependencies
 
-* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version 2.1.6
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version >= 2.2.5, < 2.4.0
 * __Webserver:__ [Apache](http://httpd.apache.org/)
   or [nginx](http://nginx.org/en/docs/)
 * __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)

@@ -109,7 +109,7 @@ module WorkPackagesHelper
 
     # title part
 
-    parts[:title] << package.subject
+    parts[:title] << (options[:title].nil? ? package.subject : options[:title])
 
     # combining
 
@@ -119,6 +119,7 @@ module WorkPackagesHelper
     hidden_link = parts[:hidden_link].join('')
     title = parts[:title].join(' ')
     css_class = parts[:css_class].join(' ')
+    css_class << options[:class].to_s
 
     # Determine path or url
     work_package_link =

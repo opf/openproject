@@ -306,6 +306,16 @@
     width: rem-calc(354)
     display: inline-block
 
+// Workaround to make the toolbar menu accessible even on very small screens
+@media screen and (max-height: 25em)
+  .controller-work_packages.action-show,
+  .controller-work_packages.action-details,
+  .controller-work_packages.action-index
+    #main
+      overflow: overlay
+    #content
+      overflow-y: auto
+
 // Implement two column layout for WP full screen view
 @media screen and (min-width: 90rem)
   .action-show .attributes-group,

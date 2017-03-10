@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 
+
   <% if timeline_action_authorized?(:edit) %>
     <li class="toolbar-item">
       <%= edit_timeline_link @project, @timeline do %>
@@ -65,6 +66,14 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </li>
 <% end %>
+
+<div class="notification-box -warning">
+  <a title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <p><%=raw t('deprecations.old_timeline') %></p>
+  </div>
+</div>
+
 
 <div id="timeline">
   <%= form_tag '', {id: "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>

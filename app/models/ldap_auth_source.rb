@@ -97,7 +97,7 @@ class LdapAuthSource < AuthSource
   # include the user attributes if on-the-fly registration is enabled
   def search_attributes
     if onthefly_register?
-      ['dn', attr_firstname, attr_lastname, attr_mail]
+      ['dn', attr_firstname, attr_lastname, attr_mail, attr_admin]
     else
       ['dn']
     end

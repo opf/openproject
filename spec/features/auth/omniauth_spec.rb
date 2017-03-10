@@ -65,7 +65,7 @@ describe 'Omniauth authentication', type: :feature do
   context 'sign in existing user' do
     it 'should redirect to back url' do
       visit account_lost_password_path
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
       fill_in('first_name', with: user.firstname)
       fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
@@ -134,7 +134,7 @@ describe 'Omniauth authentication', type: :feature do
   shared_examples 'omniauth user registration' do
     it 'should register new user' do
       visit '/'
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
 
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
@@ -143,8 +143,10 @@ describe 'Omniauth authentication', type: :feature do
       click_link_or_button 'Sign In'
 
       # on register form, we are prompted for a last name
-      fill_in('user_lastname', with: user.lastname)
-      click_link_or_button 'Submit'
+      within('#content') do
+        fill_in('user_lastname', with: user.lastname)
+        click_link_or_button 'Create'
+      end
 
       expect(page).to have_content(I18n.t(:notice_account_registered_and_logged_in))
       expect(page).to have_link('Sign out')
@@ -171,7 +173,7 @@ describe 'Omniauth authentication', type: :feature do
 
     it 'should redirect to homesceen' do
       visit account_lost_password_path
-      find_link('Omniauth Developer').click
+      click_link("Omniauth Developer", :match => :first)
 
       # login form developer strategy
       fill_in('first_name', with: user.firstname)
@@ -180,8 +182,10 @@ describe 'Omniauth authentication', type: :feature do
       click_link_or_button 'Sign In'
 
       # on register form, we are prompted for a last name
-      fill_in('user_lastname', with: user.lastname)
-      click_link_or_button 'Submit'
+      within('#content') do
+        fill_in('user_lastname', with: user.lastname)
+        click_link_or_button 'Create'
+      end
 
       expect(current_url).to eql home_url(first_time_user: true)
     end

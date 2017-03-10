@@ -151,3 +151,38 @@ ul.export-options
 // remove iframe border explicitly because Firefox does add it for some reason
 #modalIframe
   border: 0
+
+
+//
+// Styles for the new modal used for example for onboarding or the registration form
+//
+
+// Align ngDialog's close button
+.modal-wrapper .ngdialog-close
+  line-height: $header-height
+
+.modal--header
+  display: flex
+  align-items: center
+  background-color: $header-bg-color
+  border-bottom: $header-border-bottom-width solid $header-border-bottom-color
+  height: $header-height
+  padding-left: 1.5rem
+
+  h2
+    color: $header-item-font-color
+    padding: 0
+    font-size: 1.25rem
+    line-height: $header-height
+
+  .avatar,
+  .icon-context
+    margin-right: 0.5rem
+
+.modal--main
+  margin: 1em 0
+  padding: 0 1.5rem
+
+.modal--footer
+  margin: 1em 0
+  padding: 0 1.5rem

@@ -31,7 +31,7 @@ class WikiMenuItemsController < ApplicationController
   attr_reader :wiki_menu_item
 
   current_menu_item do |controller|
-    controller.wiki_menu_item.item_class.to_sym if controller.wiki_menu_item
+    controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item
   end
 
   before_action :find_project_by_project_id
