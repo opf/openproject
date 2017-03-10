@@ -28,14 +28,14 @@
 // ++
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
-import {timelineElementCssClass, TimelineViewParameters} from './wp-timeline';
-import {WorkPackageTimelineCell} from './wp-timeline-cell';
-import {States} from '../../states.service';
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {debugLog} from '../../../helpers/debug_output';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
+import {WorkPackageTimelineCell} from "./wp-timeline-cell";
+import {States} from "../../states.service";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
+import {RelationResource} from "../../api/api-v3/hal-resources/relation-resource.service";
+import {CollectionResource} from "../../api/api-v3/hal-resources/collection-resource.service";
+import {debugLog} from "../../../helpers/debug_output";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import IScope = angular.IScope;
 
 
@@ -64,10 +64,19 @@ function newSegment(vp: TimelineViewParameters,
 }
 
 export class TimelineGlobalElement {
+
+  static readonly timelineGlobalElementIdCssClass = "timeline-global-element-id-";
+
   private static nextId = 0;
-  classId = 'timeline-global-element-id-' + TimelineGlobalElement.nextId++;
+
+  readonly id = TimelineGlobalElement.nextId++;
+
+  readonly classId = TimelineGlobalElement.timelineGlobalElementIdCssClass + this.id;
+
   from: string;
+
   to: string;
+
 }
 
 export class WpTimelineGlobalService {
@@ -90,7 +99,6 @@ export class WpTimelineGlobalService {
           {
             filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
           }).then((collection: CollectionResource) => {
-            this.elements = [];
             this.removeAllElements();
             collection.elements.forEach((relation: RelationResource) => {
               const fromId = WorkPackageResource.idFromLink(relation.from.href!);
@@ -117,20 +125,31 @@ export class WpTimelineGlobalService {
     this.update();
   }
 
-  displayRelation(from: string, to: string) {
+  displayRelation(from: string, to: string): number {
     const elem = new TimelineGlobalElement();
     elem.from = from;
     elem.to = to;
     this.elements.push(elem);
     this.update();
+    return elem.id;
+  }
+
+  removeElement(id: number) {
+    jQuery("." + TimelineGlobalElement.timelineGlobalElementIdCssClass + id).remove();
+    _.remove(this.elements, elem => elem.id == id);
   }
 
   private update() {
-    this.removeAllElements();
+    this.removeAllVisibleElements();
     this.renderElements();
   }
 
   private removeAllElements() {
+    this.removeAllVisibleElements();
+    this.elements = [];
+  }
+
+  private removeAllVisibleElements() {
     jQuery('.' + timelineGlobalElementCssClassname).remove();
   }
 
@@ -152,6 +171,10 @@ export class WpTimelineGlobalService {
       const endCell = this.cells[e.to];
 
       if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
+        continue;
+      }
+
+      if (!startCell.canConnectRelations() || !endCell.canConnectRelations()) {
         continue;
       }
 
