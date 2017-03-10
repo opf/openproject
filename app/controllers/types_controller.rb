@@ -50,7 +50,7 @@ class TypesController < ApplicationController
 
   def create
     service = CreateTypeService.new
-    result = service.call(attributes: permitted_params.type)
+    result = service.call(permitted_params: permitted_params.type)
     @type = service.type
 
     if result.success?
