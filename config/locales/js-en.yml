@@ -322,6 +322,14 @@ en:
         one: "You can only select one item"
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no : 'No sort applied, '
+      sorting_disabled: 'sorting is disabled'
+      activate_asc: 'activate to apply an ascending sort'
+      activate_dsc: 'activate to apply a descending sort'
+      activate_no: 'activate to remove the sort'
 
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
