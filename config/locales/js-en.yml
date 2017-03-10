@@ -58,7 +58,6 @@ en:
     button_move: "Move"
     button_open_details: "Open details view"
     button_open_fullscreen: "Open fullscreen view"
-    button_timeline: "Toggle timeline view"
     button_quote: "Quote"
     button_save: "Save"
     button_settings: "Settings"
@@ -436,6 +435,8 @@ en:
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
       hierarchy:
+        show: "Show hierarchy mode"
+        hide: "Hide hierarchy mode"
         toggle_button: 'Click to toggle hierarchy mode.'
         leaf: 'Work package leaf at level %{level}.'
         children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'

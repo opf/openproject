@@ -60,18 +60,26 @@ function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService){
 
       scope.$watch('currentSortDirection', setActiveColumnClass);
 
+      scope.text = {
+        toggleHierarchy: I18n.t('js.work_packages.hierarchy.show'),
+        openMenu: I18n.t('js.label_open_menu')
+      };
+
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.headerName === 'subject';
       scope.toggleHierarchy = function(evt:JQueryEventObject) {
         wpTableHierarchy.toggleState();
+
+        if(wpTableHierarchy.isEnabled) {
+          scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
+        }
+        else {
+          scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');;
+        }
+
         evt.stopPropagation();
         return false;
       }
-
-      scope.text = {
-        toggleHierarchy: I18n.t('js.work_packages.hierarchy.toggle_button'),
-        openMenu: I18n.t('js.label_open_menu')
-      };
 
       function setFullTitleAndSummary() {
         scope.fullTitle = scope.headerTitle;

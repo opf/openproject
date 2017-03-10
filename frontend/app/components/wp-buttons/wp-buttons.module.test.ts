@@ -36,7 +36,7 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
   public activeState:string = 'some-state.show';
   public buttonId:string = 'some-button-id';
   public iconClass:string = 'some-icon-class';
-  
+
   constructor(public $state:ng.ui.IStateService, public I18n:op.I18n) {
     super($state, I18n);
   }
@@ -154,7 +154,6 @@ describe('WP button directives', () => {
     });
 
     it('should have equal text values', () => {
-      expect(label.text().trim()).to.eq(controller.label);
       expect(button.attr('title').trim()).to.eq(controller.label);
     });
   });
@@ -165,7 +164,7 @@ describe('WP button directives', () => {
     });
 
     it("should have the 'activate' prefix in the text values", () => {
-      expect(button.text()).to.contain(controller.label);
+      expect(button.attr('title').trim()).to.contain(controller.label);
     });
   });
 });

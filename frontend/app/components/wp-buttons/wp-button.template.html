@@ -6,5 +6,4 @@
         ng-disabled="vm.disabled || (!vm.isToggle() && vm.isActive())"
         ng-class="{ '-active': vm.isActive() }">
   <i class="{{ ::vm.iconClass }} button--icon"></i>
-  <span class="hidden-for-sighted">{{ vm.label }}</span>
 </button>
