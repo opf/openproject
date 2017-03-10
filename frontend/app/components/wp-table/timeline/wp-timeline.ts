@@ -105,7 +105,7 @@ export interface RenderInfo {
 /**
  *
  */
-export function calculatePositionValueForDayCountinPx(viewParams: TimelineViewParameters, days: number): number {
+export function calculatePositionValueForDayCountingPx(viewParams: TimelineViewParameters, days: number): number {
   const daysInPx = days * viewParams.pixelPerDay;
   return daysInPx;
 }
@@ -114,12 +114,8 @@ export function calculatePositionValueForDayCountinPx(viewParams: TimelineViewPa
  *
  */
 export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
-  const value = calculatePositionValueForDayCountinPx(viewParams, days);
-  // if (viewParams.settings.showDurationInPx) {
+  const value = calculatePositionValueForDayCountingPx(viewParams, days);
     return value + "px";
-  // } else {
-  // return (value / viewParams.maxWidthInPx * 100) + "%";
-  // }
 }
 
 

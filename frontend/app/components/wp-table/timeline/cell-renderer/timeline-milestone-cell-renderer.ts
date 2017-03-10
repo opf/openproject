@@ -4,7 +4,7 @@ import {
   RenderInfo,
   calculatePositionValueForDayCount,
   timelineElementCssClass,
-  calculatePositionValueForDayCountinPx
+  calculatePositionValueForDayCountingPx
 } from "../wp-timeline";
 import * as moment from "moment";
 import Moment = moment.Moment;
@@ -143,7 +143,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     const wp = renderInfo.workPackage;
     let start = moment(wp.date as any);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
-    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart) + (renderInfo.viewParams.pixelPerDay / 4);
+    return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart) + (renderInfo.viewParams.pixelPerDay / 4);
   }
 
   getRightmostPosition(renderInfo: RenderInfo): number {

@@ -165,8 +165,9 @@ export class WpTimelineGlobalService {
         continue;
       }
 
-      startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, 10, 1));
-      lastX += 10;
+      const startLength = 13;
+      startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'green', 19, lastX, startLength, 1));
+      lastX += startLength;
 
       if (directionY === 1) {
         startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, lastX, 1, 22));

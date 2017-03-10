@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {
   RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass,
-  calculatePositionValueForDayCountinPx
+  calculatePositionValueForDayCountingPx
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import * as moment from 'moment';
@@ -234,7 +234,7 @@ export class TimelineCellRenderer {
 
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
 
-    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart);
+    return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
 
   getRightmostPosition(renderInfo: RenderInfo): number {
@@ -249,7 +249,7 @@ export class TimelineCellRenderer {
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
     const duration = due.diff(start, "days") + 1;
 
-    return calculatePositionValueForDayCountinPx(renderInfo.viewParams, offsetStart + duration);
+    return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart + duration);
   }
 
   /**
