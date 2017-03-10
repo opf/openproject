@@ -47,6 +47,14 @@ describe ::Type, type: :model do
     end
   end
 
+  describe "#attribute_groups" do
+    it 'returns #default_attribute_groups if not yet set' do
+      expect(type.read_attribute(:attribute_groups)).to be_empty
+      expect(type.attribute_groups).to_not be_empty
+      expect(type.attribute_groups).to eq type.default_attribute_groups
+    end
+  end
+
   describe '#default_attribute_groups' do
     subject { type.default_attribute_groups }
 
@@ -73,6 +81,41 @@ describe ::Type, type: :model do
         group_members = attribute_group[1]
         group_members.nil? || group_members.size.zero?
       end).to be_falsey
+    end
+  end
+
+  describe "#validate_attribute_groups" do
+    it 'raises an exception for invalid structure' do
+      # Exampel for invalid structure:
+      type.attribute_groups = ['foo']
+      expect { type.save }.to raise_exception
+      # Exampel for invalid structure:
+      type.attribute_groups = [[]]
+      expect { type.save }.to raise_exception
+      # Exampel for invalid group name:
+      type.attribute_groups = [['', ['date']]]
+      expect { type.save }.to raise_exception
+    end
+
+    it 'fails validations for unknown attributes' do
+      type.attribute_groups = [['foo', ['bar']]]
+      expect(type.save).to be_falsey
+    end
+
+    it 'passes validations for known attributes' do
+      type.attribute_groups = [['foo', ['date']]]
+      expect(type.save).to be_truthy
+    end
+
+    it 'passes validation for defaults' do
+      expect(type.save).to be_truthy
+    end
+
+    it 'passes validation for reset' do
+      # A reset is to save an empty Array
+      type.attribute_groups = []
+      expect(type.save).to be_truthy
+      expect(type.attribute_groups).to eq type.default_attribute_groups
     end
   end
 end
