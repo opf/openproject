@@ -62,12 +62,102 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   end
 
   before do
+    allow(user)
+      .to receive(:allowed_to?)
+      .and_return(true)
+
     FactoryGirl.create_list(:work_package, total)
   end
 
   context 'generation' do
     subject(:collection) { representer.to_json }
     let(:collection_inner_type) { 'WorkPackage' }
+
+    context '_links' do
+      context 'representations' do
+        context 'when the user has the export_work_packages permission' do
+          let(:query) { { foo: 'bar' } }
+
+          it 'has a collection of export formats' do
+            expected_query = query.merge(pageSize: 30, offset: 1)
+            expected = [
+              {
+                href: work_packages_path({ format: 'pdf' }.merge(expected_query)),
+                type: 'application/pdf',
+                title: I18n.t('export.format.pdf')
+              },
+              {
+                href: work_packages_path({ format: 'pdf', show_descriptions: true }.merge(expected_query)),
+                type: 'application/pdf',
+                title: I18n.t('export.format.pdf_with_descriptions')
+              },
+              {
+                href: work_packages_path({ format: 'csv' }.merge(expected_query)),
+                type: 'text/csv',
+                title: I18n.t('export.format.csv')
+              },
+              {
+                href: work_packages_path({ format: 'atom' }.merge(expected_query)),
+                type: 'application/atom+xml',
+                title: I18n.t('export.format.atom')
+              }
+            ]
+
+            is_expected
+              .to be_json_eql(expected.to_json)
+              .at_path('_links/representations')
+          end
+
+          context 'with project scope' do
+            let(:project) { FactoryGirl.build_stubbed(:project) }
+
+            it 'has a project scoped collection of export formats if inside a project' do
+              expected_query = query.merge(pageSize: 30, offset: 1)
+              expected = [
+                {
+                  href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query)),
+                  type: 'application/pdf',
+                  title: I18n.t('export.format.pdf')
+                },
+                {
+                  href: project_work_packages_path(project, { format: 'pdf', show_descriptions: true }.merge(expected_query)),
+                  type: 'application/pdf',
+                  title: I18n.t('export.format.pdf_with_descriptions')
+                },
+                {
+                  href: project_work_packages_path(project, { format: 'csv' }.merge(expected_query)),
+                  type: 'text/csv',
+                  title: I18n.t('export.format.csv')
+                },
+                {
+                  href: project_work_packages_path(project, { format: 'atom' }.merge(expected_query)),
+                  type: 'application/atom+xml',
+                  title: I18n.t('export.format.atom')
+                }
+              ]
+
+              is_expected
+                .to be_json_eql(expected.to_json)
+                .at_path('_links/representations')
+            end
+          end
+        end
+
+        context 'when the user lacks the export_work_packages permission' do
+          before do
+            allow(user)
+              .to receive(:allowed_to?)
+              .with(:export_work_packages, project, global: project.nil?)
+              .and_return(false)
+          end
+
+          it 'has no export links' do
+            is_expected
+              .to_not have_json_path('_links/representations')
+          end
+        end
+      end
+    end
 
     it 'does not render groups' do
       is_expected.not_to have_json_path('groups')
@@ -217,11 +307,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing groups' do
-      let(:groups) {
+      let(:groups) do
         group = { 'custom': 'object' }
         allow(group).to receive(:has_sums?).and_return false
         [group]
-      }
+      end
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(groups.to_json).at_path('groups')
@@ -229,11 +319,11 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'passing groups with sums' do
-      let(:groups) {
+      let(:groups) do
         group = { 'sums': {} }
         allow(group).to receive(:has_sums?).and_return true
         [group]
-      }
+      end
 
       it 'renders the groups object as json' do
         is_expected.to be_json_eql(groups.to_json).at_path('groups')

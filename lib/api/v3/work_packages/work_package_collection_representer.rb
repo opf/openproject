@@ -102,6 +102,10 @@ module API
           } if represented.any?
         end
 
+        links :representations do
+          representation_formats if current_user.allowed_to?(:export_work_packages, project, global: project.nil?)
+        end
+
         collection :elements,
                    getter: -> (*) {
                      generated_classes = ::Hash.new do |hash, work_package|
@@ -232,6 +236,52 @@ module API
 
         def _type
           'WorkPackageCollection'
+        end
+
+        def representation_formats
+          formats = [
+            representation_format_pdf,
+            representation_format_pdf_description,
+            representation_format_csv
+          ]
+
+          if Setting.feeds_enabled?
+            formats << representation_format_atom
+          end
+
+          formats
+        end
+
+        def representation_format(format, type, i18n_key = format, url_query_extras = nil)
+          path_params = { controller: :work_packages, action: :index, project_id: project }
+
+          href = "#{url_for(path_params.merge(format: format))}?#{href_query(@page, @per_page)}"
+
+          if url_query_extras
+            href += "&#{url_query_extras}"
+          end
+
+          {
+            href: href,
+            type: type,
+            title: I18n.t("export.format.#{i18n_key}")
+          }
+        end
+
+        def representation_format_pdf
+          representation_format('pdf', 'application/pdf')
+        end
+
+        def representation_format_pdf_description
+          representation_format('pdf', 'application/pdf', 'pdf_with_descriptions', 'show_descriptions=true')
+        end
+
+        def representation_format_csv
+          representation_format('csv', 'text/csv')
+        end
+
+        def representation_format_atom
+          representation_format('atom', 'application/atom+xml')
         end
 
         attr_reader :project,
