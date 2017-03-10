@@ -83,6 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <div id="logo" class="hidden-for-mobile">
                 <%= link_to(I18n.t('label_home'), home_url, class: 'home-link') %>
               </div>
+              <%= call_hook :view_layouts_base_top_menu %>
               <div class="top-menu-items-right">
                 <%= render partial: 'search/mini_form' %>
                 <%= render_top_menu_right %>
