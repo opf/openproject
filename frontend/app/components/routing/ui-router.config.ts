@@ -225,22 +225,18 @@ openprojectModule
         || event.which === 2) {
 
         return;
+
       }
 
       // NOTE: making use of event delegation, thus jQuery-only.
       var elm = jQuery(event.target);
       var absHref = elm.prop('href');
-      // TODO this doesn't seem right
-      var rewrittenUrl = ($location as any).$$rewrite(absHref);
 
-      if (absHref && !elm.attr('target') && rewrittenUrl && !event.isDefaultPrevented()) {
+      if (absHref && !elm.attr('target') && !event.isDefaultPrevented()) {
         event.preventDefault();
-
-        if (rewrittenUrl !== $location.url()) {
-          // update location manually
-          ($location as any).$$parse(rewrittenUrl);
-          $rootScope.$apply();
-        }
+        var targetUrl = URI(absHref);
+        $location.url(targetUrl.path() + targetUrl.search());
+        $rootScope.$apply();
       }
     });
 

@@ -51,6 +51,13 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
       }
       scope.$on('openproject.layout.activateMenuItem', setActiveState);
 
+      scope.$watchCollection(function(){
+        return {
+          query_id: $stateParams['query_id'],
+        };
+      }, setActiveState);
+
+
       function removeItem() {
         $animate.leave(element.parent(), function () {
           scope.$destroy();

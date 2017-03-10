@@ -108,9 +108,9 @@ describe('queryMenuItemFactory', function() {
     });
 
     describe('when the query id matches the query id of the state params', function() {
-      beforeEach(inject(function($timeout) {
+      beforeEach(inject(function() {
         stateParams['query_id'] = objectId;
-        $timeout.flush();
+        $rootScope.$apply();
       }));
 
       it('marks the new item as selected', function() {
@@ -127,9 +127,9 @@ describe('queryMenuItemFactory', function() {
     });
 
     describe('when the query id is undefined', function(){
-      beforeEach(inject(function($timeout) {
-        stateParams['query_id'] = objectId;
-        $timeout.flush();
+      beforeEach(inject(function() {
+        stateParams['query_id'] = undefined;
+        $rootScope.$apply();
       }));
 
       it('marks the new item as unselected', function() {
@@ -163,9 +163,9 @@ describe('queryMenuItemFactory', function() {
     describe('on a work_package page', function() {
 
       describe('for an undefined query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = undefined;
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('marks the item as selected', function() {
@@ -175,9 +175,9 @@ describe('queryMenuItemFactory', function() {
       });
 
       describe('for a null query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = null;
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('marks the item as selected', function() {
@@ -187,9 +187,9 @@ describe('queryMenuItemFactory', function() {
       });
 
       describe('for an integer query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = 1;
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('does not mark the item as selected', function() {
@@ -198,9 +198,9 @@ describe('queryMenuItemFactory', function() {
       });
 
       describe('for a string query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = "1";
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('does not mark the item as selected', function() {
@@ -216,9 +216,9 @@ describe('queryMenuItemFactory', function() {
       });
 
       describe('for an undefined query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = undefined;
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('marks the item as selected', function() {
@@ -227,9 +227,9 @@ describe('queryMenuItemFactory', function() {
       });
 
       describe('for a null query_id', function() {
-        beforeEach(inject(function($timeout) {
+        beforeEach(inject(function() {
           stateParams['query_id'] = null;
-          $timeout.flush();
+          $rootScope.$apply();
         }));
 
         it('marks the item as selected', function() {
