@@ -181,7 +181,7 @@ export class WpTimelineGlobalService {
       const directionY = idxFrom < idxTo ? 1 : -1;
       let lastX = startCell.getRightmostPosition();
       let targetX = endCell.getLeftmostPosition();
-      const directionX = targetX > lastX ? 1 : -1;
+      const directionX = targetX >= lastX ? 1 : -1;
 
       // start
       if (!startCell) {
