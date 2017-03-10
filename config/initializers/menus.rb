@@ -213,7 +213,7 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview,
             { controller: '/projects', action: 'show' },
-            html: { class: 'icon2 icon-show-all-projects' }
+            html: { class: 'icon2 icon-info1' }
 
   menu.push :activity,
             { controller: '/activities', action: 'index' },

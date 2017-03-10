@@ -991,6 +991,7 @@ en:
   label_category: "Category"
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
+  label_select_project: "Select a project"
   label_required_disk_storage: "Required disk storage"
   label_resend_invitation: Resend invitation
   label_change_plural: "Changes"

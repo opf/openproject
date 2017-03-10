@@ -47,7 +47,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   end
 
   def render_projects_dropdown
-    label = @project ? @project.name : t(:label_project_plural)
+    label = @project ? @project.name : t(:label_select_project)
     render_menu_dropdown_with_items(
       label: label,
       label_options: { id: 'projects-menu' },
