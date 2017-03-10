@@ -57,6 +57,7 @@ class ::Type < ActiveRecord::Base
       end
     end
   end
+  validate :validate_attribute_groups
 
   serialize :attribute_groups, Array
 
@@ -186,5 +187,21 @@ class ::Type < ActiveRecord::Base
                     new_status_id: status_id_b,
                     role_id: role_ids)
       .any?
+  end
+
+  def validate_attribute_groups
+    unless read_attribute(:attribute_groups).empty?
+      valid_attributes = work_package_attributes
+      attribute_groups.each do |group_key, attributes|
+        unless group_key.present?
+          raise "Name of attribute group is invalid"
+        end
+        attributes.each do |key|
+          if valid_attributes.exclude? key
+            errors.add(:attribute_groups, :attribute_unknown)
+          end
+        end
+      end
+    end
   end
 end

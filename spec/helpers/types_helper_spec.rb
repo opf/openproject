@@ -33,8 +33,8 @@ describe TypesHelper, type: :helper do
 
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
-      expect(form_configuration_groups(type)[:actives]).to be Array
-      expect(form_configuration_groups(type)[:inactives]).to be Array
+      expect(form_configuration_groups(type)[:actives]).to be_an Array
+      expect(form_configuration_groups(type)[:inactives]).to be_an Array
     end
 
     describe ":inactives" do
