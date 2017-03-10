@@ -36,14 +36,23 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
+  private activateLabel:string;
+  private deactivateLabel:string;
+
   constructor(public I18n:op.I18n) {
     'ngInject';
-
     super(I18n);
+
+    this.activateLabel = I18n.t('js.timelines.button_activate');
+    this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
   }
 
-  public get labelKey():string {
-    return 'js.button_timeline';
+  public get label():string {
+    if (this.isActive()) {
+      return this.deactivateLabel;
+    } else {
+      return this.activateLabel;
+    }
   }
 
   public isToggle():boolean {
