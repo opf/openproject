@@ -1079,6 +1079,7 @@ en:
   label_enterprise: "Enterprise"
   label_enterprise_edition: "Enterprise Edition"
   label_environment: "Environment"
+  label_estimates_and_time: "Estimates and time"
   label_equals: "is"
   label_example: "Example"
   label_export_to: "Also available in:"

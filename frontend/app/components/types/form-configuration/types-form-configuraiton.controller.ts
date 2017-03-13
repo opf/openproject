@@ -78,13 +78,13 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
     // Extract new grouping and visibility setup from DOM structure, starting
     // with the active groups.
     groups.forEach((group:HTMLElement) => {
-      let groupKey: string = angular.element(group).data('key');
+      let groupKey: string = angular.element(group).attr('data-key');
       let attributes: HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
       let attrKeys: string[] = [];
 
       attributes.forEach((attribute:HTMLElement) => {
         let attr: JQuery = angular.element(attribute)
-        let key: string = attr.data('key')
+        let key: string = attr.attr('data-key')
         attrKeys.push(key);
         newAttrVisibility[key] = 'default';
         if (angular.element('input[type=checkbox]', attr)) {
@@ -100,10 +100,11 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
       }
     });
 
+
     // Then get visibility states for inactive attributes.
     let inactiveAttributes: HTMLElement[] = angular.element('#type-form-conf-inactive-group .type-form-conf-attribute').toArray();
     inactiveAttributes.forEach((attr: HTMLElement) => {
-      let key: string = angular.element(attr).data('key');
+      let key: string = angular.element(attr).attr('data-key');
       newAttrVisibility[key] = 'hidden';
     });
 
@@ -113,6 +114,11 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
 
     inputAttributeGroups.val(JSON.stringify(newAttrGroups));
     inputAttributeVisibility.val(JSON.stringify(newAttrVisibility));
+  };
+
+  $scope.groupNameChange = function(key:string, newValue:string): void {
+    angular.element(`.type-form-conf-group[data-original-key=${key}]`).attr('data-key', newValue);
+    $scope.updateHiddenFields();
   };
 
   $scope.$on('groups.drop', function (e:any, el:any) {
