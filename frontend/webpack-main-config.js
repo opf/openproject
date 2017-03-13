@@ -256,7 +256,10 @@ function getWebpackMainConfig() {
       new webpack.ContextReplacementPlugin(
         /(angular-i18n)/,
         new RegExp('angular-locale_(' + localeIds.join('|') + ')\.js$', 'i')
-      )
+      ),
+
+      // Restrict loaded moment locales to the ones we load from translations
+      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp('(' + localeIds.join('|') + ')\.js$', 'i'))
     ]
   };
 

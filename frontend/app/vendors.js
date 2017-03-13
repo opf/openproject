@@ -55,10 +55,6 @@ require('angular-truncate/src/truncate.js');
 require('angular-ui-router/release/angular-ui-router.min.js');
 require('ng-file-upload/dist/ng-file-upload.min.js');
 
-// depends on the html element having a 'lang' attribute
-var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
-require('angular-i18n/angular-locale_' + documentLang + '.js');
-
 // Jquery UI
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position.js');
