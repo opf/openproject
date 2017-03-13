@@ -59,7 +59,9 @@ describe('remote-field-updater directive', function() {
   it('should request the given url on input', function() {
     $httpBackend.expectGET('/foo/bar?q=foobar').respond(200, '<span>response!</span>');
     var input = element.find('.remote-field--input');
-    input.val('foobar').trigger('keyup');
+    var e = jQuery.Event('keyup');
+    e.keyCode = 65;
+    input.val('foobar').trigger(e);
 
     $httpBackend.flush();
 

@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 
-<% any_members = Member.any? %>
+<% any_members = @members.any? %>
 
 <%= toolbar title: t(:label_member_plural) do %>
   <% if any_members %>
