@@ -35,9 +35,11 @@ body.accessibility-mode
   *:focus
     outline: 3px solid darkblue
 
-  .form--field-container input:out-of-range,
-  .form--field-container input:invalid
-    border: 2px solid #9E2A1C
+  .form--field-container,
+  .wp-edit-field
+    input:out-of-range,
+    input:invalid
+      border: 2px solid #9E2A1C
 
   h1:hover a.wiki-anchor,
   h2:hover a.wiki-anchor,
