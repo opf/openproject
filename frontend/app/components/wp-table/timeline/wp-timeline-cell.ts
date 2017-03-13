@@ -32,12 +32,11 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
-import {Subscription} from "rxjs";
+import {Subscription, Observable} from "rxjs";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import * as moment from "moment";
 import IScope = angular.IScope;
-import * as moment from 'moment';
 import Moment = moment.Moment;
-import {Observable} from 'rxjs';
 
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),
@@ -89,6 +88,15 @@ export class WorkPackageTimelineCell {
   getRightmostPosition(): number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getRightmostPosition(this.latestRenderInfo);
+  }
+
+  canConnectRelations(): boolean {
+    const wp = this.latestRenderInfo.workPackage;
+    if (wp.isMilestone) {
+      return !_.isNil(wp.date);
+    }
+
+    return !_.isNil(wp.startDate) || !_.isNil(wp.dueDate);
   }
 
   private clear() {
