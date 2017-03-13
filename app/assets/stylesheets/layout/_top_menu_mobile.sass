@@ -32,6 +32,7 @@
 
   #top-menu
     position: relative !important
+    height: $header-height-mobile
 
     #nav-login-content
       float: none
@@ -53,6 +54,13 @@
 
       .button
         margin-right: 0
+    ul,
+    li > a
+      height: $header-height-mobile
+      line-height: $header-height-mobile
+    li > a:before
+      font-size: 1.25rem !important
+      vertical-align: text-bottom
 
   #account-nav-right
     > li
@@ -65,26 +73,24 @@
       &.last-child
         > a
           display: block
-          padding: 0
-          position: relative
-          text-indent: -10000px
-          width: 68px
+          text-align: center
 
           &:before
             content: "\e0d0" !important
-            display: block
-            font-size: 1.5rem !important
-            position: absolute
-            right: 20px
-            text-indent: 0
-            top: 16px
-            z-index: 1000
-            @include icon-common
+            padding: 0.25rem
+            @include icon-font-common
 
           + ul
+            top: $header-height-mobile
             width: 100vw
             box-shadow: 1px 1px 4px #cccccc
             border: solid 1px rgba(0, 0, 0, 0.2)
 
             li
               max-width: none
+          > img
+            display: none
+
+  #account-nav-left
+    #projects-menu
+      font-size: 15px

@@ -42,7 +42,8 @@
     top: 0 !important
 
   #main
-    overflow: visible
+    height: initial !important
+    overflow: auto !important
 
   #header
     min-width: 0 !important
@@ -55,16 +56,17 @@
     margin: 0 !important
     padding: 20px !important
     width: 100% !important
+  #main-menu ~ #content
+    padding: 2rem 20px 0 20px !important
+    margin-bottom: 20px !important
 
-  #main-menu,
-  #breadcrumb
+  #breadcrumb,
+  #sidebar,
+  .hidden-for-mobile
     display: none !important
 
   h2
     font-size: 1.4rem
-
-  .hidden-for-mobile
-    display: none !important
 
   .jstElements
     display: none
