@@ -53,13 +53,36 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     let state = this.editState(workPackageId);
     let form = state.getCurrentValue() || this.startEditing(state, workPackageId);
 
+    // Get the position where the user clicked.
+    const positionOffset = this.getClickPosition(evt);
+
     // Set editing context to table
     form.editContext = new TableRowEditContext(workPackageId);
 
     // Activate the field
-    form.activate(fieldName);
+    form.activate(fieldName).then((fieldElement:ng.IAugmentedJQuery) => {
+      this.setClickPosition(fieldElement.find('input'), positionOffset);
+    });
 
     return false;
+  }
+
+  private setClickPosition(element:ng.IAugmentedJQuery, offset:number) {
+    if (element.length) {
+      (element[0] as HTMLInputElement).setSelectionRange(offset, offset);
+    } else {
+      debugLog('Unable to set position on Element.', element);
+    }
+  }
+
+  private getClickPosition(evt:JQueryEventObject):number {
+    try {
+      const range = document.caretRangeFromPoint(evt.clientX, evt.clientY);
+      return range.startOffset;
+    } catch(e) {
+      debugLog('Failed to get click position for edit field.', e);
+      return 0;
+    }
   }
 
   private startEditing(state:State<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {

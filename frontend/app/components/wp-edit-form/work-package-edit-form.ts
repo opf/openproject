@@ -86,19 +86,20 @@ export class WorkPackageEditForm {
    * Active the edit field upon user's request.
    * @param fieldName
    */
-  public activate(fieldName:string) {
-    if (this.activeFields[fieldName]) {
-      return;
+  public activate(fieldName:string):ng.IPromise<ng.IAugmentedJQuery> {
+    const activeField = this.activeFields[fieldName];
+    if (activeField) {
+      return this.$q.when(activeField.element);
     }
 
-    this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
+    return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
         fieldName,
         schema[fieldName]
       ) as EditField;
       this.workPackage.storePristine(fieldName);
-      this.buildField(fieldName, field);
+      return this.buildField(fieldName, field);
     });
   }
 
@@ -206,7 +207,7 @@ export class WorkPackageEditForm {
     }
   }
 
-  private buildField(fieldName:string, field:EditField) {
+  private buildField(fieldName:string, field:EditField):ng.IPromise<ng.IAugmentedJQuery> {
 
     // Let the context find the element
     const cell = this.editContext.find(fieldName);
@@ -219,7 +220,7 @@ export class WorkPackageEditForm {
       this.errorsPerAttribute[fieldName] || []
     );
 
-    this.templateRenderer.renderIsolated(
+    const promise = this.templateRenderer.renderIsolated(
       // Replace the current cell
       cell[0],
       '/components/wp-edit-form/wp-edit-form.template.html',
@@ -230,6 +231,7 @@ export class WorkPackageEditForm {
 
     this.activeFields[fieldName] = fieldHandler;
     this.lastActiveField = fieldName;
+    return promise;
   }
 }
 
