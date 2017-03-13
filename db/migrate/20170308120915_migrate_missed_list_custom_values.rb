@@ -9,8 +9,7 @@ class MigrateMissedListCustomValues < ActiveRecord::Migration[5.0]
   def up
     migration = AddCustomOptions.new
 
-    migration.migrate_values!
-    migration.migrate_journals!
+    migration.migrate_all_values!
   end
 
   def down
