@@ -30,7 +30,6 @@ var webpack = require('webpack');
 var fs = require('fs');
 var path = require('path');
 var _ = require('lodash');
-var pathConfig = require('./rails-plugins.conf');
 var autoprefixer = require('autoprefixer');
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -42,16 +41,6 @@ var uglify = (mode !== 'development');
 var node_root = path.resolve(__dirname, 'node_modules');
 var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
 var bundle_output = path.resolve(output_root, 'bundles')
-
-/** Extract available locales from openproject-translations plugin */
-var translations = path.resolve(pathConfig.allPluginNamesPaths['openproject-translations'], 'config', 'locales');
-var localeIds = ['en'];
-fs.readdirSync(translations).forEach(function (file) {
-  var matches = file.match( /^js-(.+)\.yml$/);
-  if (matches && matches.length > 1) {
-    localeIds.push(matches[1]);
-  }
-});
 
 function getWebpackVendorsConfig() {
   config = {
@@ -84,16 +73,7 @@ function getWebpackVendorsConfig() {
       new CleanWebpackPlugin(['bundles'], {
         root: output_root,
         verbose: true
-      }),
-
-      // Restrict loaded ngLocale locales to the ones we load from translations
-      new webpack.ContextReplacementPlugin(
-        /angular\-i18n/,
-        new RegExp('angular\-locale\_(' + localeIds.join('|') + ')\.js$', 'i')
-      ),
-
-      // Restrict loaded moment locales to the ones we load from translations
-      new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, new RegExp('(' + localeIds.join('|') + ')\.js$', 'i'))
+      })
     ]
   };
 
