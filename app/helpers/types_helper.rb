@@ -145,7 +145,7 @@ module ::TypesHelper
   end
 
   def group_translate(name)
-    if ['details', 'date_and_time', 'other', 'people'].include? name
+    if ['details', 'estimates_and_time', 'other', 'people'].include? name
       I18n.t("label_#{name}")
     else
       name

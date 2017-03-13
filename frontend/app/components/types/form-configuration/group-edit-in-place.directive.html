@@ -1,0 +1,9 @@
+<span ng-if="!editing" ng-click="enterEditingMode()" class="group-name">
+  {{ name }}
+</span>
+<input
+  ng-if="editing"
+  type="text"
+  ng-model="name"
+  ng-blur="saveEdition()"
+  ng-keydown="keyDown($event)">
