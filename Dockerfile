@@ -1,6 +1,6 @@
 FROM ruby:2.2
 
-ENV NODE_VERSION="6.9.1"
+ENV NODE_VERSION="7.7.2"
 ENV BUNDLER_VERSION="1.11.2"
 
 # install node + npm
@@ -34,8 +34,7 @@ COPY frontend/*.json /tmp/npm/frontend/
 RUN chown -R app:app /tmp/npm
 
 USER app
-RUN cd /tmp/npm && npm install npm@4.0
-RUN cd /tmp/npm && RAILS_ENV=production npm install
+RUN cd /tmp/npm/frontend/ && RAILS_ENV=production npm install --ignore-scripts
 RUN mv /tmp/npm/frontend /usr/src/app/
 
 # Finally, copy over the whole thing
@@ -46,6 +45,8 @@ RUN sed -i "s|Rails.groups(:opf_plugins)|Rails.groups(:opf_plugins, :docker)|" c
 RUN chown -R app:app /usr/src/app
 
 USER app
+# Run the npm postinstall manually after it was copied
+RUN cd frontend && npm run postinstall
 RUN DATABASE_URL=sqlite3:///tmp/db.sqlite3 SECRET_TOKEN=foobar RAILS_ENV=production bundle exec rake assets:precompile
 
 CMD ["./docker/web"]
