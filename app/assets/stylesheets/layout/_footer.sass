@@ -49,3 +49,8 @@
     a
       text-decoration: underline
       @include default-font($footer-content-link-color)
+
+@include breakpoint(680px down)
+  #footer
+    // Below #main so that the main menu can overlap the footer
+    z-index: 19
