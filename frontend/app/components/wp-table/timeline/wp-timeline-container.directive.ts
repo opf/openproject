@@ -70,6 +70,12 @@ export class WorkPackageTimelineTableController {
       this.refreshView();
     });
 
+    // Refresh timeline view after table rendered
+    states.table.rendered
+      .observeOnScope($scope)
+      .subscribe(() => this.refreshView());
+
+    // Refresh timeline view when becoming visible
     states.table.timelineVisible
       .observeOnScope($scope)
       .subscribe((visible) => {
