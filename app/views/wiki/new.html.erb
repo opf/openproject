@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field -required">
       <%= f.fields_for :page, @page do |page_fields| %>
         <%= page_fields.hidden_field :parent_id %>
-        <%= page_fields.text_field :title, size: 120 %>
+        <%= page_fields.text_field :title, required: true, size: 120 %>
       <% end %>
     </div>
     <% if @page.parent %>
@@ -53,7 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= page_fields.select :parent_id,
                                  wiki_page_options_for_select(@wiki.pages),
                                  { label: WikiPage.human_attribute_name(:parent_title),
-                                   include_blank: t('placeholders.default') },
+                                   include_blank: t('placeholders.default'),
+                                   required: true },
                                  { class: "parent-select form--select" } %>
         <% end%>
       </div>
