@@ -85,11 +85,11 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
   end
 
   def migrate_data!
+    say "Migrating #{list_custom_fields.length} custom fields of type list. This will take a while, please be patient."
     CustomOption.transaction do
       initialize_custom_options!
-      migrate_values!
-      migrate_journals!
     end
+    migrate_all_values!
   end
 
   def initialize_custom_options!
@@ -125,23 +125,33 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
     @custom_field_translations ||= {}
   end
 
-  def migrate_values!
+  def migrate_all_values!
     list_custom_fields.each do |custom_field|
-      CustomValue.where(custom_field: custom_field).each do |custom_value|
-        option_id = lookup_custom_option_id custom_value.value, custom_field.id
+      name = custom_field.translations.first.name rescue custom_field.id
+      id_map = custom_values_id_map(custom_field.id)
 
-        custom_value.update! value: option_id.to_s if option_id
+      say_with_time "Migrating CF '#{name}'" do
+        CustomField.transaction do
+          migrate_values!(custom_field, id_map)
+          migrate_journals!(custom_field, id_map)
+        end
       end
     end
   end
 
-  def migrate_journals!
-    list_custom_fields.each do |custom_field|
-      CustomizableJournal.where(custom_field: custom_field).each do |journal|
-        option_id = lookup_custom_option_id journal.value, custom_field.id
+  def migrate_values!(custom_field, id_map)
+    CustomValue.where(custom_field: custom_field).each do |custom_value|
+      option_id = id_map[custom_value.value]
 
-        journal.update! value: option_id.to_s if option_id
-      end
+      custom_value.update_columns(value: option_id.to_s) if option_id
+    end
+  end
+
+  def migrate_journals!(custom_field, id_map)
+    CustomizableJournal.where(custom_field: custom_field).each do |journal|
+      option_id = id_map[journal.value]
+
+      journal.update_columns(value: option_id.to_s) if option_id
     end
   end
 
@@ -198,16 +208,15 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
     end
   end
 
-  def lookup_custom_option_id(value, custom_field_id)
-    CustomOption
-      .where(value: value, custom_field_id: custom_field_id)
-      .order(id: :asc)
-      .limit(1)
-      .pluck(:id)
-      .first
+  def custom_values_id_map(custom_field_id)
+    values = CustomOption
+              .where(custom_field_id: custom_field_id)
+              .pluck(:value, :id)
+
+    Hash[values]
   end
 
   def list_custom_fields
-    CustomField.where(field_format: "list")
+    @list_custom_fields ||= CustomField.includes(:translations).where(field_format: "list")
   end
 end
