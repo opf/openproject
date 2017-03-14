@@ -41,8 +41,10 @@ module API
           mount API::V3::Queries::Operators::QueryOperatorsAPI
           mount API::V3::Queries::Schemas::QuerySchemaAPI
           mount API::V3::Queries::Schemas::QueryFilterInstanceSchemaAPI
+          mount API::V3::Queries::CreateFormAPI
 
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+          helpers ::API::V3::Queries::CreateQuery
 
           helpers do
             def authorize_by_policy(action, &block)
@@ -97,6 +99,10 @@ module API
               FormRepresenter.new(query,
                                   current_user: current_user)
             end
+          end
+
+          post do
+            create_query request_body, current_user
           end
 
           params do

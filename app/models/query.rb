@@ -46,6 +46,9 @@ class Query < ActiveRecord::Base
   validates_length_of :name, maximum: 255
 
   validate :validate_work_package_filters
+  validate :validate_columns
+  validate :validate_sort_criteria
+  validate :validate_group_by
 
   scope :visible, ->(to:) do
     # User can see public queries and his own queries
@@ -190,9 +193,7 @@ class Query < ActiveRecord::Base
       unless filter.valid?
         messages = filter
                    .errors
-                   .messages
-                   .values
-                   .flatten
+                   .full_messages
                    .join(" #{I18n.t('support.array.sentence_connector')} ")
 
         attribute_name = filter.human_name
@@ -205,6 +206,32 @@ class Query < ActiveRecord::Base
           errors.add :base, errors.full_message(attribute_name, messages)
         end
       end
+    end
+  end
+
+  def validate_columns
+    available_names = available_columns.map(&:name).map(&:to_s)
+
+    column_names.each do |name|
+      unless available_names.include? name.to_s
+        errors.add :column_names, I18n.t(:error_invalid_query_column, value: name)
+      end
+    end
+  end
+
+  def validate_sort_criteria
+    available_criteria = sortable_columns.map(&:name).map(&:to_s)
+
+    sort_criteria.each do |name, _dir|
+      unless available_criteria.include? name.to_s
+        errors.add :sort_criteria, I18n.t(:error_invalid_sort_criterion, value: name)
+      end
+    end
+  end
+
+  def validate_group_by
+    unless group_by.nil? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
+      errors.add :group_by, I18n.t(:error_invalid_group_by, value: group_by)
     end
   end
 

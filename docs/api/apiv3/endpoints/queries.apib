@@ -1231,6 +1231,53 @@ Returns a collection of queries. The collection can be filtered via query parame
                 "message": "You are not allowed to see the queries."
             }
 
+## Create query [POST]
+
+When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+The required fields of a Query can be found in its schema, which is embedded in the respective form.
+Note that it is only allowed to provide properties or links supporting the write operation.
+
++ Response 201 (application/hal+json)
+
+    [Query][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 404 (application/hal+json)
+
+    Returned when the client tries to use (link) unknown users, projects or operators in the query to be created.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "User 42 not found"
+            }
+
+## Query Create Form [/api/v3/queries/form]
+
+This endpoint returns a form to allow a guided creation of a new query.
+The returned form will be pre-filled with default values for every property, if available.
+
+For more details and all possible responses see the general specification of [Forms](#forms).
+
+## Query Create Form [POST]
+
++ Response 200 (application/hal+json)
+
+    [Example Form][]
+
 ## Schema For Global Queries [/api/v3/queries/schema]
 
 + Model

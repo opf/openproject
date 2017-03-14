@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,35 +27,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch adds a convenience method to models that are including acts_as_list.
-# After including it is possible to e.g. call
-#
-# including_instance.move_to = "highest"
-#
-# and the instance will be sorted to to the top of the list.
-#
-# This enables having the view send string that will be used for sorting.
+module API
+  module V3
+    module Queries
+      class CreateFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.query_form,
+            method: :post
+          }
+        end
 
-# Needs to be applied before any of the models using acts_as_list get loaded.
+        link :validate do
+          {
+            href: api_v3_paths.query_form,
+            method: :post
+          }
+        end
 
-module OpenProject
-  module Patches
-    module Hash
-      ##
-      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
-      def dig(*keys)
-        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
-      end
+        link :commit do
+          if allow_commit?
+            {
+              href: api_v3_paths.queries,
+              method: :post
+            }
+          end
+        end
 
-      def map_values(&_block)
-        entries = map { |key, value| [key, (yield value)] }
+        private
 
-        ::Hash[entries]
+        def allow_commit?
+          represented.name.present? && (
+              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project)) ||
+              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project))
+            ) && @errors.empty?
+        end
       end
     end
   end
-end
-
-if !Hash.instance_methods.include? :dig
-  Hash.prepend OpenProject::Patches::Hash
 end

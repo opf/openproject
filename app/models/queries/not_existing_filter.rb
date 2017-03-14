@@ -52,4 +52,13 @@ class Queries::NotExistingFilter < Queries::BaseFilter
 
   # deactivating superclass validation
   def validate_inclusion_of_operator; end
+
+  def to_hash
+    {
+      non_existent_filter: {
+        operator: operator,
+        values: values
+      }
+    }
+  end
 end
