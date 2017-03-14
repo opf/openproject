@@ -59,8 +59,8 @@ class TypesController < ApplicationController
         @type = service.type
         @type.workflows.copy(copy_from)
       end
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'edit', tab: 'settings'
+      flash[:notice] = t(:notice_successful_create)
+      redirect_to edit_type_tab_path(id: @type.id, tab: 'settings')
     else
       @types = ::Type.order('position')
       @projects = Project.all

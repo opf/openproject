@@ -55,15 +55,15 @@ describe TypesController, type: :controller do
     post :create, tab: "settings", type: {
       name: 'New type',
     }
-    assert_redirected_to action: 'edit', tab: 'settings'
     type = ::Type.find_by(name: 'New type')
+    assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.workflows.count
   end
 
   it 'should post create with workflow copy' do
     post :create, type: { name: 'New type' }, copy_workflow_from: 1
-    assert_redirected_to action: 'edit', tab: 'settings'
     type = ::Type.find_by(name: 'New type')
+    assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.projects.count
     assert_equal ::Type.find(1).workflows.count, type.workflows.count
   end
