@@ -32,8 +32,7 @@ module API
     module Queries
       class FormRepresenter < ::API::Decorators::Form
         def payload_representer
-          # TODO: Flesh out
-          {}
+          QueryPayloadRepresenter.new(represented, current_user: current_user)
         end
 
         def schema_representer

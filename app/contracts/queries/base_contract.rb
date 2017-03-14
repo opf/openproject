@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,35 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch adds a convenience method to models that are including acts_as_list.
-# After including it is possible to e.g. call
-#
-# including_instance.move_to = "highest"
-#
-# and the instance will be sorted to to the top of the list.
-#
-# This enables having the view send string that will be used for sorting.
+require 'model_contract'
 
-# Needs to be applied before any of the models using acts_as_list get loaded.
+module Queries
+  class BaseContract < ::ModelContract
+    attribute :name
 
-module OpenProject
-  module Patches
-    module Hash
-      ##
-      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
-      def dig(*keys)
-        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
-      end
+    attribute :project_id
+    attribute :is_public # => public
+    attribute :display_sums # => sums
 
-      def map_values(&_block)
-        entries = map { |key, value| [key, (yield value)] }
+    attribute :column_names # => columns
+    attribute :filters
 
-        ::Hash[entries]
-      end
+    attribute :sort_criteria # => sortBy
+    attribute :group_by # => groupBy
+
+    attr_reader :user
+
+    def initialize(query, user)
+      super query
+
+      @user = user
     end
   end
-end
-
-if !Hash.instance_methods.include? :dig
-  Hash.prepend OpenProject::Patches::Hash
 end
