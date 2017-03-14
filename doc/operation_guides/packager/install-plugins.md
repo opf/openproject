@@ -1,4 +1,4 @@
-# Install Plugins (Packages)
+# Install plugins (RPM/deb-packages)
 
 Note: this guide only applies if you've installed OpenProject using our DEB/RPM
 packages.
