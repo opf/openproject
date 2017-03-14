@@ -1,4 +1,4 @@
-# Install Plugins (Manual)
+# Install plugins (manual)
 
 OpenProject plugins come under the form of Ruby gems. The packaged and docker
 based installation come with default plugins installed (the ones found in the
