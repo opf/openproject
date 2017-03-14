@@ -256,6 +256,18 @@
 
 }(jQuery));
 
+function skipMenu() {
+  // Skip to the breadcrumb or the first link in the toolbar or the first link in the content (homescreen)
+  const selectors = '.first-breadcrumb-element a, .toolbar-container a:first-of-type, #content a:first-of-type';
+  const visibleLink = jQuery(selectors)
+                        .not(':hidden')
+                        .first();
+
+ if (visibleLink.length) {
+   visibleLink.focus();
+ }
+}
+
 jQuery(document).ready(function($) {
   $("#top-menu-items").top_menu();
 });

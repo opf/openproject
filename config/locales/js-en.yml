@@ -487,6 +487,8 @@ en:
       jump_marks:
         pagination: "Jump to table pagination"
         label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Jump to content"
+        label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
         description: "Click to enter description..."
