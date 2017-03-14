@@ -137,3 +137,9 @@ which are not labelled as `work in progress` by us.
 Contributors have to sign a CLA before contributing to OpenProject.
 The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2015/08/Contributor-License-Agreement.pdf)
 and has to be filled out and sent to info@openproject.org.
+
+## Security
+
+If you notice a security issue in OpenProject, please send us a gpg encrypted email to security@openproject.org and describe the issue you found. Download our public gpg key [here](https://pgp.mit.edu/pks/lookup?op=get&search=0x7D669C6D47533958).
+
+Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
