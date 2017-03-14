@@ -44,7 +44,7 @@ export class MultiSelectEditField extends EditField {
   constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
     super(workPackage, fieldName, schema);
 
-    this.isMultiselect = false;
+    this.isMultiselect = this.isValueMulti();
 
     const I18n:any = this.$injector.get('I18n');
     this.text = {
@@ -70,10 +70,16 @@ export class MultiSelectEditField extends EditField {
     }
   }
 
+  public get isArray() {
+    return Array.isArray(this.value);
+  }
+
+  public isValueMulti() {
+    return this.isArray && this.value.length > 1;
+  }
+
   public toggleMultiselect() {
-    console.log(this.isMultiselect);
     this.isMultiselect = !this.isMultiselect;
-    console.log(this.isMultiselect);
   };
 
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
