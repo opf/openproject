@@ -27,10 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Configures a Query on the Query model.  This allows to
-# e.g get all queries that belong to a specific project or
-# all projects that are global
-module Queries::Queries
-  Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectFilter
-  Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectIdentifierFilter
+class Queries::Queries::Filters::ProjectIdentifierFilter < Queries::Queries::Filters::QueryFilter
+  def type
+    :list
+  end
+
+  def self.key
+    :project_identifier
+  end
+
+  def joins
+    :project
+  end
+
+  def where
+    sql_for_field(:identifier, operator, values, :projects, :identifier)
+  end
+
+  def allowed_values
+    Project.visible.pluck('name', 'identifier')
+  end
 end
