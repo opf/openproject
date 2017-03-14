@@ -34,6 +34,7 @@ export class MultiSelectEditField extends EditField {
   public options:any[];
   public template:string = '/components/wp-edit/field-types/wp-edit-multi-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string, save:string, cancel:string};
+  public isMultiselect: boolean;
 
   // Dependencies
   protected I18n:op.I18n = <op.I18n> MultiSelectEditField.$injector.get('I18n');
@@ -42,6 +43,8 @@ export class MultiSelectEditField extends EditField {
 
   constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
     super(workPackage, fieldName, schema);
+
+    this.isMultiselect = false;
 
     const I18n:any = this.$injector.get('I18n');
     this.text = {
@@ -66,6 +69,12 @@ export class MultiSelectEditField extends EditField {
       this.setValues([]);
     }
   }
+
+  public toggleMultiselect() {
+    console.log(this.isMultiselect);
+    this.isMultiselect = !this.isMultiselect;
+    console.log(this.isMultiselect);
+  };
 
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {

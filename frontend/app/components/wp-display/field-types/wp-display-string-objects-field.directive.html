@@ -1,7 +1,8 @@
 <div ng-repeat="value in vm.field.value" title="{{ value }}" class="custom-option">
-  {{ value }}
+  <span ng-if="$first && vm.field.value.length > 1"> {{ value }} and {{ vm.field.value.length - 1}} others </span>
+  <span ng-if="$first && vm.field.value.length == 1"> {{ value }} </span>
 </div>
 
 <div title="no value" ng-if="vm.field.value.length == 0" class="custom-option -empty">
   -
-</divn>
+</div>
