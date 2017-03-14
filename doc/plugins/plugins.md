@@ -24,71 +24,91 @@ Supported plugins are compatible with the current OpenProject version. When a pl
 * Dependency: PDF Export
 * Please refer also to the [agile and scrum overview](https://www.openproject.org/collaboration-software-features/) page
 
-```gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => 'stable/5'``` 
-```gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => 'stable/5'```
+```
+gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => 'stable/5' 
+gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => 'stable/5'
+```
 
 ### Cost
 * Description: Features for planning and tracking project costs
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-costs)
 
-```gem 'openproject-costs', git: 'https://github.com/finnlabs/openproject-costs.git', :branch => 'stable/5'```
+```
+gem 'openproject-costs', git: 'https://github.com/finnlabs/openproject-costs.git', :branch => 'stable/5'
+```
 
 ### Dark-Theme
 * Description: Allows users to switch to the dark theme instead of the OpenProject theme
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-themes-dark)
 
-```gem 'openproject-themes-dark', git: 'https://github.com/finnlabs/openproject-themes-dark.git', :branch => 'stable/5'```
+```
+gem 'openproject-themes-dark', git: 'https://github.com/finnlabs/openproject-themes-dark.git', :branch => 'stable/5'
+```
 
 ### Documents
 * Description: Allows adding documents to projects
 * Author: [OpenProject Foundation](http://openprojectpr.staging.wpengine.com/open-source/openproject-foundation/)
 * Link: [Source](https://github.com/opf/openproject-documents)
 
-```gem 'openproject-documents', git: 'https://github.com/opf/openproject-documents.git', :branch => 'stable/5'```
+```
+gem 'openproject-documents', git: 'https://github.com/opf/openproject-documents.git', :branch => 'stable/5'
+```
 
 ### Global Roles
 * Description: Allows users to create top-level projects
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-global_roles)
 
-```gem 'openproject-global_roles', git: 'https://github.com/finnlabs/openproject-global_roles.git', :branch => 'stable/5'```
+```
+gem 'openproject-global_roles', git: 'https://github.com/finnlabs/openproject-global_roles.git', :branch => 'stable/5'
+```
 
 ### Local Avatars
 * Description: Allows to upload profile images (avatars)
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-local_avatars)
 
-```gem 'openproject-local_avatars', git: 'https://github.com/finnlabs/openproject-local_avatars', :branch => 'stable/5'```
+```
+gem 'openproject-local_avatars', git: 'https://github.com/finnlabs/openproject-local_avatars', :branch => 'stable/5'
+```
 
 ### Meeting
 * Description: Features to schedule, prepare, and hold meetings
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-meeting)
 
-```gem 'openproject-meeting', git: 'https://github.com/finnlabs/openproject-meeting.git', :branch => 'stable/5'```
+```
+gem 'openproject-meeting', git: 'https://github.com/finnlabs/openproject-meeting.git', :branch => 'stable/5'
+```
 
 ### My Project Page
 * Description: Enables customization of a project's overview page
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-my_project_page)
 
-```gem 'openproject-my_project_page', git: 'https://github.com/finnlabs/openproject-my_project_page.git', :branch => 'stable/5'```
+```
+gem 'openproject-my_project_page', git: 'https://github.com/finnlabs/openproject-my_project_page.git', :branch => 'stable/5'
+```
 
 ### OmniAuth OpenID-Connect-Providers
 * Description: Offers a convenient way to configure different OmniAuth OpenIDConnect providers (preconfigured for Google and Heroku).
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/omniauth-openid_connect-providers)
 
-```gem 'omniauth-openid_connect-providers', git: 'https://github.com/finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'```
+```
+gem 'omniauth-openid_connect-providers', git: 'https://github.com/finnlabs/omniauth-openid_connect-providers.git', :branch => 'dev'
+```
 
 ### OpenID-Connect
 * Description: Adds support for OmniAuth OpenID Connect strategy providers, most importantly Google.
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-openid_connect)
 
-```gem 'omniauth-openid-connect', git: 'https://github.com/finnlabs/omniauth-openid-connect.git', :branch => 'dev'```
+```
+gem 'omniauth-openid-connect', git: 'https://github.com/finnlabs/omniauth-openid-connect.git', :branch => 'dev'
+```
 
 ### PDF Export
 * Description: Enables story card export for OpenProject Backlogs
@@ -96,8 +116,10 @@ Supported plugins are compatible with the current OpenProject version. When a pl
 * Link: [Source](https://github.com/finnlabs/openproject-pdf_export)
 * Dependency: Backlogs
 
-```gem 'openproject-pdf_export', git: 'https://github.com/finnlabs/openproject-pdf_export.git', :branch => 'stable/5'```
-```gem 'openproject-backlogs', git: 'https://github.com/finnlabs/openproject-backlogs.git', :branch => 'stable/5'```
+```
+gem 'openproject-pdf_export', git: 'https://github.com/finnlabs/openproject-pdf_export.git', :branch => 'stable/5'
+gem 'openproject-backlogs', git: 'https://github.com/finnlabs/openproject-backlogs.git', :branch => 'stable/5'
+```
 
 ### Reporting
 * Description: Customized cost reporting features
@@ -105,16 +127,20 @@ Supported plugins are compatible with the current OpenProject version. When a pl
 * Link: [Source](https://github.com/finnlabs/openproject-reporting)
 * Dependency: Costs, Reporting Engine
 
-```gem 'reporting_engine', git: 'https://github.com/finnlabs/reporting_engine.git', :branch => 'dev'```
-```gem 'openproject-costs', git: 'https://github.com/finnlabs/openproject-costs.git', :branch => 'stable/5'```
-```gem 'openproject-reporting', git: 'https://github.com/finnlabs/openproject-reporting.git', :branch => 'stable/5'```
+```
+gem 'reporting_engine', git: 'https://github.com/finnlabs/reporting_engine.git', :branch => 'dev'
+gem 'openproject-costs', git: 'https://github.com/finnlabs/openproject-costs.git', :branch => 'stable/5'
+gem 'openproject-reporting', git: 'https://github.com/finnlabs/openproject-reporting.git', :branch => 'stable/5'
+```
 
 ### XLS-Export
 * Description: Enables work package exports as Excel document
 * Author: [OpenProject GmbH](https://www.openproject.org/about-us/)
 * Link: [Source](https://github.com/finnlabs/openproject-xls_export)
 
-```gem 'openproject-xls_export', git: 'https://github.com/finnlabs/openproject-xls_export.git', :branch => 'stable/5'```
+```
+gem 'openproject-xls_export', git: 'https://github.com/finnlabs/openproject-xls_export.git', :branch => 'stable/5'
+```
 
 ## Community Plugins
 
@@ -127,14 +153,18 @@ Please keep in mind that it can not always be guaranteed that they are compatibl
 * Author: [Oliver Günther](https://github.com/oliverguenther)
 * Link: [Source](https://github.com/oliverguenther/openproject-auto_project)
 
-```gem "openproject-auto_project", git: "https://github.com/oliverguenther/openproject-auto_project.git", :branch => 'stable'```
+```
+gem "openproject-auto_project", git: "https://github.com/oliverguenther/openproject-auto_project.git", :branch => 'stable'
+```
 
 ### Ensure Project Hierarchy
 * Description: Ensures subproject identifiers are prefixed with their parent project's identifier
 * Author: [Oliver Günther](https://github.com/oliverguenther)
 * Link: [Source](https://github.com/oliverguenther/openproject-ensure_project_hierarchy)
 
-```gem "openproject-ensure_project_hierarchy", git: "https://github.com/oliverguenther/openproject-ensure_project_hierarchy.git", :branch => 'stable'```
+```
+gem "openproject-ensure_project_hierarchy", git: "https://github.com/oliverguenther/openproject-ensure_project_hierarchy.git", :branch => 'stable'
+```
 
 ## Plugins in development (potentially unstable)
 
@@ -143,4 +173,6 @@ Please keep in mind that it can not always be guaranteed that they are compatibl
 * Author: [Oliver Günther](https://github.com/oliverguenther)
 * Link: [Source](https://github.com/oliverguenther/openproject-revisions_git)
 
-```gem "openproject-git_hosting", git: "https://github.com/oliverguenther/openproject-git_hosting.git", :branch => "dev"```
+```
+gem "openproject-git_hosting", git: "https://github.com/oliverguenther/openproject-git_hosting.git", :branch => "dev"
+```
