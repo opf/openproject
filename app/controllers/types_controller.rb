@@ -60,7 +60,7 @@ class TypesController < ApplicationController
         @type.workflows.copy(copy_from)
       end
       flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to action: 'edit', tab: 'settings'
     else
       @types = ::Type.order('position')
       @projects = Project.all
