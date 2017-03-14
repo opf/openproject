@@ -102,3 +102,16 @@ body.accessibility-mode
     width: calc(100% - 6px)
     padding: 0
     margin: 3px
+
+  // Necessary for correct contrast ratio
+  button:disabled,
+  a.button:disabled
+    color: $body-font-color
+    opacity: 0.80
+  button.-active,
+  a.button.-active
+    color: $body-font-color
+    &:hover,
+    &:focus
+      color: $body-font-color
+
