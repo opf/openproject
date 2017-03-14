@@ -27,17 +27,21 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {States} from '../../states.service';
 
-export class WorkPackageDetailsViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier:number;
 
+export class WorkPackageDetailsViewButtonController extends WorkPackageButtonController {
+  public projectIdentifier:string;
   public accessKey:number = 8;
   public activeState:string = 'work-packages.list.details';
+  public listState: string = 'work-packages.list';
   public buttonId:string = 'work-packages-details-view-button';
-  public iconClass:string = 'icon-view-split';
+  public iconClass:string = 'icon-info2';
+
+  public activateLabel:string;
+  public deactivateLabel:string;
 
   constructor(
     public $state:ng.ui.IStateService,
@@ -46,16 +50,43 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageNavigatio
     public loadingIndicator:any,
     public keepTab:KeepTabService) {
     'ngInject';
+    super(I18n);
 
-    super($state, I18n);
+    this.activateLabel = I18n.t('js.button_open_details');
+    this.deactivateLabel = I18n.t('js.button_close_details');
   }
 
-  public get labelKey():string {
-    return 'js.button_details_view';
+  public get label():string {
+    if (this.isActive()) {
+      return this.deactivateLabel;
+    } else {
+      return this.activateLabel;
+    }
+  }
+
+  public isToggle():boolean {
+    return true;
+  }
+
+  public isActive():boolean {
+    return this.$state.includes(this.activeState);
   }
 
   public performAction() {
-    this.openDetailsView();
+    if (this.isActive()) {
+      this.openListView();
+    } else {
+      this.openDetailsView();
+    }
+  }
+
+  public openListView() {
+    var params = {
+      projectPath: this.projectIdentifier
+    };
+
+    angular.extend(params, this.$state.params);
+    this.$state.go(this.listState, params);
   }
 
   public openDetailsView() {

@@ -33,7 +33,7 @@ export class DetailsLinkBuilder {
 
     detailsLink.classList.add(detailsLinkClassName, 'hidden-for-sighted');
     let icon = document.createElement('i');
-    icon.classList.add('icon', 'icon-view-split');
+    icon.classList.add('icon', 'icon-info2');
     detailsLink.appendChild(icon);
 
     td.appendChild(detailsLink);
