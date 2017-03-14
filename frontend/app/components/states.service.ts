@@ -24,8 +24,9 @@ import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
 import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
 import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
 import {Subject} from 'rxjs';
+import {createNewContext} from "reactivestates";
 
-export class States {
+export class States extends Component {
 
   /* /api/v3/work_packages */
   workPackages = new MultiState<WorkPackageResource>();
@@ -45,13 +46,6 @@ export class States {
   // Open editing forms
   editing = new MultiState<WorkPackageEditForm>();
 
-  constructor() {
-    initStates(this, function (msg: any) {
-      whenDebugging(() => {
-        console.debug(msg);
-      });
-    });
-  }
 }
 
 export class TableState {
@@ -91,4 +85,14 @@ export class TableState {
   stopAllSubscriptions = new Subject();
 }
 
-opServicesModule.service('states', States);
+
+const ctx = createNewContext();
+const states = ctx.create(States);
+
+whenDebugging(() => {
+  states.loggingFn = (msg: string) => {
+    console.debug(msg);
+  }
+});
+
+opServicesModule.value('states', states);
