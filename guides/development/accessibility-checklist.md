@@ -76,4 +76,4 @@ Web sites should be:
 
 Screen reader used for accessibility tests (DTAG):
 
-* JAWS 15 (with Internet Explorer 11, German language settings, activated accessibility mode)
+* JAWS 18 (with Chrome (latest version), German language settings, activated accessibility mode)
