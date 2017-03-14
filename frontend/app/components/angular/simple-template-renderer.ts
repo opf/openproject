@@ -32,6 +32,8 @@ export class SimpleTemplateRenderer {
 
   constructor(public $compile:ng.ICompileService,
               public $templateCache:ng.ITemplateCacheService,
+              public $q:ng.IQService,
+              public $timeout:ng.ITimeoutService,
               public $rootScope:ng.IRootScopeService) {
   }
 
@@ -41,14 +43,24 @@ export class SimpleTemplateRenderer {
    *
    * All content of the element is replaced.
    */
-  public renderIsolated(element:HTMLElement, template:string, scopeValues:Object) {
-    let scope = this.$rootScope.$new();
+  public renderIsolated(element:HTMLElement,
+                        template:string,
+                        scopeValues:Object):ng.IPromise<ng.IAugmentedJQuery> {
+    const scope = this.$rootScope.$new();
+    const deferred = this.$q.defer();
     _.assign(scope, scopeValues);
 
-    element.innerHTML = this.$templateCache.get(template) as any;
-    this.$compile(element)(scope);
+    const templateEl = angular.element(this.$templateCache.get(template) as string);
+    this.$compile(templateEl)(scope, (clonedElement:ng.IAugmentedJQuery, scope) => {
+      element.innerHTML = '';
+      element.appendChild(clonedElement[0]);
+
+      this.$timeout(() => deferred.resolve(clonedElement));
+    });
+
+    return deferred.promise;
   }
 }
 
-SimpleTemplateRenderer.$inject = ['$compile', '$templateCache', '$rootScope'];
+SimpleTemplateRenderer.$inject = ['$compile', '$templateCache', '$q', '$timeout', '$rootScope'];
 opServicesModule.service('templateRenderer', SimpleTemplateRenderer);
