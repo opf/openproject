@@ -233,6 +233,12 @@ export class TimelineCellRenderer {
     // check for active selection mode
     if (renderInfo.viewParams.activeSelectionMode) {
       bar.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
+
+      if (renderInfo.viewParams.selectionModeStart === "" + renderInfo.workPackage.id) {
+        jQuery(bar).addClass("selection-start");
+        // bar.style.cursor = "not-allowed !important";
+        bar.style.background = null;
+      }
     }
 
     return true;
