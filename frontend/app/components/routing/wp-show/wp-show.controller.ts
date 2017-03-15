@@ -71,8 +71,8 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
-  public backButton() {
-    this.$window.history.back();
+  public goToList() {
+    this.$state.go('work-packages.list', this.$state.params);
   }
 
   public deleteSelectedWorkPackage() {
