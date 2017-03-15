@@ -4,7 +4,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/boards/7) or send us an email to info@openproject.org.
 
-### Contributor Code of Conduct
+### Contributor code of conduct
 
 As contributors and maintainers of this project, we pledge to respect all people
 who contribute through reporting issues, posting feature requests,
@@ -25,7 +25,7 @@ Project maintainers who do not follow the Code of Conduct may be removed from th
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported
 by opening an issue or contacting one or more of the project maintainers.
 
-This Code of Conduct is adapted from the
+This code of conduct is adapted from the
 [Contributor Covenant](http:contributor-covenant.org),
 version 1.0.0, available at
 [http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
