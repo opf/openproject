@@ -139,7 +139,10 @@ describe TypesController, type: :controller do
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it do
+          type = ::Type.find_by(name: 'New type')
+          expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
+        end
       end
 
       describe 'WITH an empty name' do
@@ -182,7 +185,10 @@ describe TypesController, type: :controller do
         end
 
         it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it do
+          type = ::Type.find_by(name: 'New type')
+          expect(response).to redirect_to(action: 'edit', tab: 'settings', id: type.id)
+        end
         it 'should have the copied workflows' do
           expect(::Type.find_by(name: 'New type')
                         .workflows.count).to eq(existing_type.workflows.count)
