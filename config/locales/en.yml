@@ -161,6 +161,8 @@ en:
       form_configuration: "Form configuration"
       projects: "Projects"
       enabled_projects: "Enabled projects"
+      add_group: "Add group"
+      reset: "Reset to defaults"
 
   versions:
     overview:

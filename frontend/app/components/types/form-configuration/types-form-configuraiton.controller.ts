@@ -54,15 +54,35 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
   };
 
   $scope.deleteGroup = ($event: any): void => {
-    angular.element($event.target).parents('.type-form-conf-group').remove();
+    let group: JQuery = angular.element($event.target).parents('.type-form-conf-group')
+    let attributes: JQuery = angular.element('.attributes', group).children();
+    let inactiveAttributes: JQuery = angular.element('#type-form-conf-inactive-group .attributes');
+
+    if (attributes.length > 0) {
+      angular.forEach(attributes, function(attribute: HTMLElement) {
+        // reset visibility
+        let checkbox: HTMLInputElement = angular.element('input[type=checkbox]', attribute)[0] as HTMLInputElement;
+        checkbox.checked = false;
+      });
+    }
+
+    inactiveAttributes.prepend(attributes);
+
+    group.remove();
     $scope.updateHiddenFields();
   }
 
   $scope.addGroup = (event: any) => {
     let newGroup: JQuery = angular.element("#type-form-conf-group-template").clone();
     let draggableGroups: JQuery = angular.element("#draggable-groups");
+    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
 
+    // Remove the id of the template:
     newGroup.attr('id', null);
+    // Every group needs a key and an original-key:
+    newGroup.attr('data-key', randomId);
+    newGroup.attr('data-original-key', randomId);
+    angular.element('group-edit-in-place', newGroup).attr('key', randomId);
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
@@ -82,13 +102,18 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
       let attributes: HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
       let attrKeys: string[] = [];
 
+      if (groupKey == null || groupKey.length === 0) {
+        // Do not save groups without a name.
+        return;
+      }
+
       attributes.forEach((attribute:HTMLElement) => {
         let attr: JQuery = angular.element(attribute)
         let key: string = attr.attr('data-key')
         attrKeys.push(key);
         newAttrVisibility[key] = 'default';
         if (angular.element('input[type=checkbox]', attr)) {
-          let checkbox: any = angular.element('input[type=checkbox]', attr)[0];
+          let checkbox: HTMLInputElement = angular.element('input[type=checkbox]', attr)[0] as HTMLInputElement;
           if (checkbox.checked) {
             newAttrVisibility[key] = 'visible';
           }
