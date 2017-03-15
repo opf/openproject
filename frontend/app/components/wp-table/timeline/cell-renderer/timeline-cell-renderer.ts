@@ -112,6 +112,13 @@ export class TimelineCellRenderer {
                      renderInfo: RenderInfo,
                      elem: HTMLElement): "left" | "right" | "both" | "dragright" | "create" {
 
+    // check for active selection mode
+    if (renderInfo.viewParams.activeSelectionMode) {
+      renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
+      ev.preventDefault();
+      return "both"; // irrelevant
+    }
+
     renderInfo.workPackage.storePristine('startDate');
     renderInfo.workPackage.storePristine('dueDate');
     let direction: "left" | "right" | "both" | "create" | "dragright";
@@ -221,6 +228,11 @@ export class TimelineCellRenderer {
     // ensure minimum width
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
       bar.style.minWidth = "30px";
+    }
+
+    // check for active selection mode
+    if (renderInfo.viewParams.activeSelectionMode) {
+      bar.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
     }
 
     return true;

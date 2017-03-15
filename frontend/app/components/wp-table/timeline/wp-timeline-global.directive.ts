@@ -1,4 +1,3 @@
-
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,7 +38,7 @@ import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-r
 import IScope = angular.IScope;
 
 
-export const timelineGlobalElementCssClassname = 'timeline-global-element';
+export const timelineGlobalElementCssClassname = "relation-line";
 
 function newSegment(vp: TimelineViewParameters,
                     classId: string,
@@ -50,11 +49,11 @@ function newSegment(vp: TimelineViewParameters,
                     height: number): HTMLElement {
 
   const segment = document.createElement('div');
-  segment.classList.add(timelineElementCssClass, timelineGlobalElementCssClassname, classId);
-  segment.style.position = 'absolute';
-  segment.style.cssFloat = 'left';
-  segment.style.backgroundColor = 'blue';
-  // segment.style.backgroundColor = color;
+  segment.classList.add(
+    timelineElementCssClass,
+    timelineGlobalElementCssClassname,
+    classId);
+
   segment.style.marginLeft = vp.scrollOffsetInPx + 'px';
   segment.style.top = top + 'px';
   segment.style.left = left + 'px';
@@ -97,16 +96,16 @@ export class WpTimelineGlobalService {
         halRequest.get(
           '/api/v3/relations',
           {
-            filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
+            filter: [{involved: {operator: '=', values: this.workPackageIdOrder}}]
           }).then((collection: CollectionResource) => {
-            this.removeAllElements();
-            collection.elements.forEach((relation: RelationResource) => {
-              const fromId = WorkPackageResource.idFromLink(relation.from.href!);
-              const toId = WorkPackageResource.idFromLink(relation.to.href!);
-              this.displayRelation(fromId, toId);
-            });
-            this.renderElements();
+          this.removeAllElements();
+          collection.elements.forEach((relation: RelationResource) => {
+            const fromId = WorkPackageResource.idFromLink(relation.from.href!);
+            const toId = WorkPackageResource.idFromLink(relation.to.href!);
+            this.displayRelation(fromId, toId);
           });
+          this.renderElements();
+        });
       });
   }
 
