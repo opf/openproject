@@ -35,10 +35,10 @@ version 1.0.0, available at
 
 We use OpenProject for development coordination and roadmap planning. Please have a look at the following lists:
 
-- [development timeline](https://community.openproject.com/projects/openproject/timelines/36)
-- [product roadmap and release planning](https://community.openproject.com/projects/openproject/roadmap)
-- [wish list](https://community.openproject.com/versions/26)
-- [bug backlog](https://community.openproject.com/versions/136)
+- [Development timeline](https://community.openproject.com/projects/openproject/timelines/36)
+- [Product roadmap and release planning](https://community.openproject.com/projects/openproject/roadmap)
+- [Wish list](https://community.openproject.com/versions/26)
+- [Bug backlog](https://community.openproject.com/versions/136)
 
 ### Branching model
 
@@ -132,7 +132,7 @@ We want to keep the Pull request list as cleaned up as possible - we will aim cl
 after an **inactivity period of 30 days** (no comments, no further pushes)
 which are not labelled as `work in progress` by us.
 
-## Contributors License Agreement
+## Contributors license agreement
 
 Contributors have to sign a CLA before contributing to OpenProject.
 The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2015/08/Contributor-License-Agreement.pdf)
