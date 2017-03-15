@@ -95,7 +95,7 @@ module API
           end
 
           def attribute_groups
-            type.attribute_groups
+            type.attribute_groups unless type.nil?
           end
 
           private
