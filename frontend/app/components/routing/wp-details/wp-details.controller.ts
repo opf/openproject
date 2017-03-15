@@ -61,9 +61,22 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     });
   }
 
+  public close() {
+    this.$state.go('work-packages.list', this.$state.params);
+  }
+
+  public switchToFullscreen() {
+    this.$state.go('work-packages.show', this.$state.params);
+  }
+
   public onWorkPackageSave() {
     this.$rootScope.$emit('workPackagesRefreshInBackground');
-  };
+  }
+
+  protected initializeTexts() {
+    super.initializeTexts();
+    this.text.closeDetailsView = this.I18n.t('js.button_close_details');
+  }
 }
 
 wpControllersModule.controller('WorkPackageDetailsController', WorkPackageDetailsController);

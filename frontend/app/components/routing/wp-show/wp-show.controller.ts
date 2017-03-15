@@ -71,6 +71,10 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
+  public backButton() {
+    this.$window.history.back();
+  }
+
   public deleteSelectedWorkPackage() {
     var promise = this.WorkPackageService.performBulkDelete([this.workPackage.id], true);
 

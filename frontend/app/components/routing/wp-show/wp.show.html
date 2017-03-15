@@ -5,6 +5,13 @@
      ng-if="$ctrl.workPackage">
   <div class="toolbar-container">
     <div wp-toolbar id="toolbar">
+      <div class="wp-show--back-button">
+          <accessible-by-keyboard execute="$ctrl.backButton()"
+                          link-class="button -small"
+                          link-aria-label="{{ ::$ctrl.sectionTitle }}"
+                          span-class="button--icon icon-arrow-left1">
+        </accessible-by-keyboard>
+      </div>
       <ul id="toolbar-items" class="toolbar-items">
         <li class="toolbar-item">
           <wp-create-button project-identifier="$ctrl.projectIdentifier"
@@ -23,20 +30,6 @@
         </li>
         <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
           <wp-watcher-button work-package="$ctrl.workPackage" disabled="$ctrl.wpEditModeState.active"></wp-watcher-button>
-        </li>
-        <li class="toolbar-item hidden-for-mobile">
-          <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
-            <li>
-            <wp-list-view-button edit-all="editAll"
-                                 project-identifier="$ctrl.projectIdentifier"></wp-list-view-button>
-            </li>
-            <li>
-              <wp-details-view-button project-identifier="$ctrl.projectIdentifier"></wp-details-view-button>
-            </li>
-            <li>
-              <wp-view-button work-package-id="$ctrl.workPackage.id"></wp-view-button>
-            </li>
-          </ul>
         </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
