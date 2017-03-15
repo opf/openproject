@@ -296,6 +296,11 @@ module API
             "#{users}/#{id}"
           end
 
+          class << self
+            alias :groups :users
+            alias :group :user
+          end
+
           def self.user_lock(id)
             "#{user(id)}/lock"
           end
