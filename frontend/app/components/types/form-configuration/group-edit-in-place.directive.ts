@@ -57,6 +57,7 @@ function groupEditInPlace($timeout:any, $parse:any) {
       scope.name         = attributes.name || '';
       // The name before last change;
       scope.nameOriginal = attributes.name || '';
+
       scope.enterEditingMode = function() {
         scope.editing = true;
         scope.nameBefore = scope.name;
@@ -66,7 +67,10 @@ function groupEditInPlace($timeout:any, $parse:any) {
       };
 
       scope.leaveEditingMode = function() {
-        scope.editing = false;
+        // Only leave Editing mode if name not empty.
+        if (scope.name != null && scope.name.trim().length > 0) {
+          scope.editing = false;
+        }
       };
 
       scope.cancelEdition = function() {
@@ -75,9 +79,9 @@ function groupEditInPlace($timeout:any, $parse:any) {
       };
 
       scope.saveEdition = function() {
-        let newValue:string = angular.element("input", element[0]).first().val();
+        let newValue: string = angular.element("input", element[0]).first().val();
         scope.nameOriginal = scope.name;
-        scope.name = newValue;
+        scope.name = newValue.trim();
         scope.leaveEditingMode();
         if (attributes.onvaluechange) {
           scope.onvaluechange(attributes.key, newValue);
@@ -100,6 +104,11 @@ function groupEditInPlace($timeout:any, $parse:any) {
         // Prevent submitting the form
         return false;
       };
+
+      if (attributes.name == null || attributes.name.length === 0) {
+        // Group name is empty so open in editing mode straight away.
+        scope.enterEditingMode();
+      }
     }
   };
 };
