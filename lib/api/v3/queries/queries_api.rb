@@ -59,7 +59,7 @@ module API
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Query,
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Query.all.includes(project: [:categories, :enabled_modules]),
                                                                     current_user,
                                                                     params)
           end
