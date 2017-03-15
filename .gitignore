@@ -88,3 +88,4 @@ npm-debug.log*
 # Frontend debug log
 /frontend/npm-debug.log*
 node_modules/
+*.bak

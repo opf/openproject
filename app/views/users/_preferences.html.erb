@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
+  <% if User.current.admin %>
   <div class="form--field">
     <%= pref_fields.select :time_zone,
                            ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]},
@@ -48,6 +49,9 @@ See doc/COPYRIGHT.rdoc for more details.
                                  container_class: (defined? input_size) ? "-#{input_size}" : '' %>
         </div>
     <% end %>
+  <% end %>
   <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>
+  <% if User.current.admin %>
   <div class="form--field"><%= pref_fields.check_box :impaired %></div>
+  <% end %>
 <% end %>
