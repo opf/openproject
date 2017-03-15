@@ -27,17 +27,20 @@
 // ++
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
-import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/work-package-resource.service";
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
+import {
+  WorkPackageResourceInterface,
+  WorkPackageResource
+} from "./../../api/api-v3/hal-resources/work-package-resource.service";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import * as moment from 'moment';
+import * as moment from "moment";
+import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-import { WpTimelineGlobalService } from "./wp-timeline-global.directive";
-import { opDimensionEventName } from "../../common/ui/detect-dimension-changes.directive";
 
 export class WorkPackageTimelineTableController {
 
@@ -87,6 +90,16 @@ export class WorkPackageTimelineTableController {
 
     // TODO: Load only necessary types from API
     TypeResource.loadAll();
+
+    // TODO //////////////////////////////////////
+    (window as any).tt = () => {
+      this.activateSelectionMode(endWorkPackage => {
+        console.log("done", endWorkPackage.id);
+      });
+    };
+    setTimeout(() => {
+      (window as any).tt();
+    }, 3000);
   }
 
   /**
@@ -150,6 +163,18 @@ export class WorkPackageTimelineTableController {
           return renderInfo;
         }
       );
+  }
+
+  activateSelectionMode(callback: (wp: WorkPackageResource) => any) {
+    this._viewParameters.activeSelectionMode = (wp: WorkPackageResource) => {
+      callback(wp);
+      this._viewParameters.activeSelectionMode = null;
+      this.$element.removeClass("active-selection-mode");
+      this.refreshView();
+    };
+    this.$element.addClass("active-selection-mode");
+    console.log(this.$element);
+    this.refreshView();
   }
 
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
