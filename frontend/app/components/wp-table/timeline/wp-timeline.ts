@@ -70,6 +70,8 @@ export class TimelineViewParameters {
 
   activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
 
+  selectionModeStart: null|string = null;
+
   get pixelPerDay() {
     switch (this.settings.zoomLevel) {
       case ZoomLevel.DAYS:

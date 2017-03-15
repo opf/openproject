@@ -93,7 +93,7 @@ export class WorkPackageTimelineTableController {
 
     // TODO //////////////////////////////////////
     (window as any).tt = () => {
-      this.activateSelectionMode(endWorkPackage => {
+      this.activateSelectionMode("61", endWorkPackage => {
         console.log("done", endWorkPackage.id);
       });
     };
@@ -165,13 +165,18 @@ export class WorkPackageTimelineTableController {
       );
   }
 
-  activateSelectionMode(callback: (wp: WorkPackageResource) => any) {
+  activateSelectionMode(start: string, callback: (wp: WorkPackageResource) => any) {
     this._viewParameters.activeSelectionMode = (wp: WorkPackageResource) => {
       callback(wp);
+
       this._viewParameters.activeSelectionMode = null;
+      this._viewParameters.selectionModeStart = null;
+
       this.$element.removeClass("active-selection-mode");
       this.refreshView();
     };
+    this._viewParameters.selectionModeStart = start;
+
     this.$element.addClass("active-selection-mode");
     console.log(this.$element);
     this.refreshView();

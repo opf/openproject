@@ -49,6 +49,13 @@
     font-size: 10px
 
 .active-selection-mode
+  .timeline-element.bar.selection-start
+    background: orange !important
+    cursor: not-allowed !important
+
+  .timeline-element.bar:hover
+    background: #ffd975 !important
+
   .timeline-element.bar
     border: 1px solid orange !important
     outline: 1px solid orange !important
@@ -56,9 +63,9 @@
     background: linear-gradient(270deg, #eeeeee, #bbbbbb)
     background-size: 400% 400%
 
-    -webkit-animation: AnimationName 2s ease infinite
-    -moz-animation: AnimationName 2s ease infinite
-    animation: AnimationName 2s ease infinite
+    -webkit-animation: AnimationName 4s ease infinite
+    -moz-animation: AnimationName 4s ease infinite
+    animation: AnimationName 4s ease infinite
 
     .leftHandle
       cursor: pointer !important
