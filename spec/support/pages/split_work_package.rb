@@ -42,6 +42,11 @@ module Pages
       super(attribute, container)
     end
 
+    def switch_to_fullscreen
+      find('.work-packages-show-view-button').click
+      FullWorkPackage.new(work_package, project)
+    end
+
     def closed?
       expect(page).not_to have_selector(@selector)
     end

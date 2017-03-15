@@ -239,7 +239,8 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 
-      find('#work-packages-list-view-button').click
+      find('#work-packages-details-view-button').click
+      expect(page).to have_no_selector('.work-packages--details')
     end
   end
 end

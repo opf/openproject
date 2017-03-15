@@ -1,4 +1,3 @@
-import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -37,6 +36,7 @@ import {WorkPackageCacheService} from "../work-packages/work-package-cache.servi
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {States} from '../states.service';
 
 export class WorkPackageCreateController {
@@ -98,6 +98,10 @@ export class WorkPackageCreateController {
         }
       })
       .catch(error => this.wpNotificationsService.handleErrorResponse(error));
+  }
+
+  public switchToFullscreen() {
+    this.$state.go('work-packages.new', this.$state.params);
   }
 
   protected newWorkPackageFromParams(stateParams:any) {

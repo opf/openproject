@@ -30,6 +30,7 @@ import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {States} from '../../states.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
@@ -37,6 +38,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
               public $scope:ng.IScope,
               public $rootScope:ng.IRootScopeService,
               public states:States,
+              public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public $state:ng.ui.IStateService) {
     super($injector, $scope, $state.params['workPackageId']);
@@ -66,7 +68,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
   }
 
   public switchToFullscreen() {
-    this.$state.go('work-packages.show', this.$state.params);
+    this.$state.go(this.keepTab.currentShowState, this.$state.params);
   }
 
   public onWorkPackageSave() {
