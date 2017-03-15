@@ -36,7 +36,7 @@ class BaseTypeService
 
   private
 
-  def update(permitted_params, unsafe_params)
+  def update(permitted_params = {}, unsafe_params = {})
     success = Type.transaction do
       permitted = permitted_params
       permitted.delete(:attribute_groups)
