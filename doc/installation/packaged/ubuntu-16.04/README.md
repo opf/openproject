@@ -1,4 +1,5 @@
-Steps to install the OpenProject package for Ubuntu 16.04 Xenial.
+### Steps to install OpenProject package on Ubuntu 16.04 Xenial
+
 All steps are prepended with `sudo` to ensure execution as the root user.
 
 **1. Import the packager.io repository signing key**
