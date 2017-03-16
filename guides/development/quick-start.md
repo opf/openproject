@@ -1,4 +1,4 @@
-# Quick Start for Developers
+# Quick start for developers
 
 
 Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/download/).
@@ -51,7 +51,7 @@ These are generic (and condensed) installation instructions for the **current de
 * Node.js (tested on LTS v6.9.1, lower versions may work)
 * Bundler (version 1.5.1 or higher required)
 
-### Install Dependencies
+### Install dependencies
 
 1. Install Ruby dependencies with Bundler:
 
@@ -114,7 +114,7 @@ These are generic (and condensed) installation instructions for the **current de
         Username: admin
         Password: admin
 
-## Full Guide
+## Full guide
 
 Please see [here](./development/setting-up-development-environment.md)
 
