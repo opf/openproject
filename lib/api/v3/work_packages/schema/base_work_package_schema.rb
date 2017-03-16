@@ -95,10 +95,20 @@ module API
           end
 
           def attribute_groups
-            type.attribute_groups unless type.nil?
+            unless type.nil?
+              type.attribute_groups.map do |group|
+                group[1].map! { |prop| convert_property(prop) }
+                group
+              end
+            end
           end
 
           private
+
+          def convert_property(prop)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
+          end
+
 
           def percentage_done_writable?
             Setting.work_package_done_ratio == 'field'
