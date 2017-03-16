@@ -185,6 +185,7 @@ declare namespace op {
     allowedValues:any;
     required?:boolean;
     visibility?:string;
+    hasDefault:boolean;
     name?:string;
   }
 
