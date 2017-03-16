@@ -1,10 +1,10 @@
-# Code Review Guidelines
+# Code review guidelines
 
 ## Correctness
 
 *As a reviewer, your job is not to make sure that the code is what you would have written – because it will not be. Your job as a reviewer of a piece of code is to make sure that the code as written by its author is correct.*
 
-## Coding Style
+## Coding style
 
 We try to adhere to the [Ruby community styleguide](https://github.com/bbatsov/ruby-style-guide). At some point we will have to make decisions about some rules that are not clear or defined within that styleguide. In that case, we should either fork it or note all decisions here.
 
@@ -14,7 +14,7 @@ Before committing, please run your new code through [Rubocop](https://github.com
 
 When reviewing code and you think the author has not run the code throug Rubocop, please ask them to.
 
-## Commit Messages
+## Commit messages
 
 - First line: less than 72 characters, this is when GitHub shows ‘…’
 - Blank line
@@ -36,24 +36,21 @@ See the [Git Book](http://git-scm.com/book/en/Distributed-Git-Contributing-to-a-
 
 Every developer and reviewer should read the Rails Security Guide.
 
-[Rails 3.x Security Guide](http://guides.rubyonrails.org/security.html)
+[Rails Security Guide](http://guides.rubyonrails.org/security.html)
 
 ## Changelog
 
-- As of OpenProject Stable Release 3.0.8 all changes made to the OpenProject software are documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
+- All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
 - The [Roadmap view](https://www.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
-- To prevent inconsistencies and avoid redundant work there is there is +no+ additional change log in the source code.
-See [History of Changes](https://www.openproject.org/projects/openproject/wiki/Release_Process#25-History-of-Changes) section of the Release Process.
+- To prevent inconsistencies and avoid redundant work there is no additional change log in the source code.
 
 ## Other
 
 - For external contributions: Check whether the author has signed a Contributor License Agreement and kindly ask for it if not
 - Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject)
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock
-- No Trailing Whitespace
+- No trailing whitespace
 - [Single newline at the end of a file](http://stackoverflow.com/questions/729692/why-should-files-end-with-a-newline).
-
-## Accessibility
 
 ## Readability
 
