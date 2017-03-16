@@ -1,5 +1,5 @@
 
-# Package configuration
+### Package configuration
 
 The last step to your OpenProject installation is the configuration wizard. It will set up the connection to a database and configure the application according to your environment.
 
@@ -13,7 +13,7 @@ For instance if you wanted to change the session store you would do:
 
 This is handy to configure options that are not available in the installer (yet). In most cases though, you should always try to `configure` the application first.
 
-## Configuring for an existing a PostgreSQL database
+#### Configuring for an existing a PostgreSQL database
 
 The MySQL wizard of the OpenProject installer internally sets the `DATABASE_URL`  (See [DATABASE_URL](http://edgeguides.rubyonrails.org/configuring.html) in the Rails Guides for more information).
 
@@ -25,7 +25,7 @@ You can set this `DATABASE_URL` parameter yourself to either a MySQL or PostgreS
 
 You can use these ENV parameters to customize OpenProject. See [OpenProject Configuration](https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md).
 
-# Package Configuration
+### Package Configuration
 
 After the installation of the OpenProject package the system has to be
 configured to use this package and operate the OpenProject application.
@@ -44,7 +44,7 @@ will be started automatically. You can log into the instance initially with the
 user/password combination _admin/admin_. You will be asked to change this
 password immediately after the first login.
 
-# Managing your OpenProject installation
+### Managing your OpenProject installation
 
 The openproject package comes with a command line tool to help manage the
 application. To see all possible command options of this tool you can run:
@@ -60,7 +60,7 @@ application. To see all possible command options of this tool you can run:
 
 In the rest of this section we'll go over some of the most important commands.
 
-## Run commands like rake tasks or rails console
+#### Run commands like rake tasks or rails console
 
 The openproject command line tool supports running rake tasks and known scripts
 like the rails console:
@@ -71,7 +71,7 @@ like the rails console:
     # or check the version of ruby used by openproject
     sudo openproject run ruby -v
 
-## Show logs
+#### Show logs
 
 The command line tool can also be used to see the log information. The most
 typically use case is to show/follow all current log entries. This can be
@@ -81,7 +81,7 @@ accomplished using the the `–tail` flag. See example below:
 
 You can also find all the logs in `/var/log/openproject/`.
 
-## Reconfigure the application
+#### Reconfigure the application
 
 At any point in time, you can reconfigure the whole application by re-running
 the installer with the following command:
@@ -100,7 +100,7 @@ Note that if you've just updated your OpenProject version, you should run
 your previous configuration, and only asks for your input if new configuration
 options are available.
 
-## Inspect the existing configuration
+#### Inspect the existing configuration
 
 You can list all of the environment variables accessible to the application by running:
 
