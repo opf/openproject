@@ -1,4 +1,4 @@
-# Manual Installation of OpenProject 6.1 with Apache on Ubuntu 14.04. LTS
+# Manual installation of OpenProject 6.1 with Apache on Ubuntu 14.04. LTS
 
 This tutorial helps you to deploy OpenProject 6.1. Please, aware that:
 
@@ -25,7 +25,7 @@ In our case it will be `root` for most of the time or `openproject`.
 If you find any bugs or you have any recommendations for improving this
 tutorial, please, feel free to create a pull request against this guide.
 
-# Prepare Your Environment
+# Prepare your environment
 
 Create a dedicated user for OpenProject:
 
@@ -35,7 +35,7 @@ sudo useradd --create-home --gid openproject openproject
 sudo passwd openproject #(enter desired password)
 ```
 
-## Installation of Essentials
+## Installation of essentials
 
 ```bash
 [root@host] apt-get update -y
@@ -48,7 +48,7 @@ sudo passwd openproject #(enter desired password)
                     libxml2 libxml2-dev libxslt1-dev # nokogiri
 ```
 
-## Installation of Memcached
+## Installation of memcached
 
 ```bash
 [root@host] apt-get install -y memcached
@@ -220,7 +220,7 @@ invalid `yml` files without seeing the error. Validating those files
 prevents you from such errors.
 
 
-## Finish the Installation of OpenProject
+## Finish the installation of OpenProject
 
 ```bash
 [openproject@host] cd ~/openproject-ce
@@ -236,7 +236,7 @@ prevents you from such errors.
 ```
 will seed the database in the french language.
 
-### Secret Token
+### Secret token
 
 You need to generate a secret key base for the production environment with `./bin/rake secret` and make that available through the environment variable `SECRET_KEY_BASE`.
 In this installation guide, we will use the local `.profile` of the OpenProject user. You may alternatively set the environment variable in `/etc/environment` or pass it to the server upon start manually in `/etc/apache2/envvars`.
@@ -355,7 +355,7 @@ Password: `admin`
 
 Please, change the password on the first login. Also, we highly recommend to configure the SSL module in Apache for https communication.
 
-## Activate Background Jobs
+## Activate background jobs
 
 OpenProject sends (some) mails asynchronously by using background jobs. All such jobs are collected in a queue, so that a separate process can work on them. This means that we have to start the background worker. To automate this, we put the background worker into a cronjob.
 
@@ -372,7 +372,7 @@ Now, the crontab file opens in the standard editor. Add the following entry to t
 
 This will start the worker job every minute.
 
-## Repository Integration
+## Repository integration
 
 OpenProject can (by default) browse Subversion and Git repositories, but it does not serve them to git/svn clients.
 
@@ -391,7 +391,7 @@ Your OpenProject installation is ready to run. However, there are some things to
 * Watch for OpenProject updates. We advise to always run the latest stable version of OpenProject (especially for security updates). Information on how to perform an update can been found in the [upgrade guide](upgrade-guide.md). You can find out about new OpenProject releases in our [news](https://community.openproject.org/projects/openproject/news), or on [twitter](https://twitter.com/openproject).
 
 
-## Plug-In Installation (Optional)
+## Plug-In installation (Optional)
 
 This step is optional.
 
@@ -442,7 +442,7 @@ If you need to restart the server (for example after a configuration change), do
 [openproject@all] touch ~/openproject-ce/tmp/restart.txt
 ```
 
-## Frequently Asked Questions (FAQ)
+## Frequently asked questions (FAQ)
 
 * **I followed the installation guide faithfully and OpenProject is running. Now, how do I log in?**
 
@@ -470,7 +470,7 @@ If you need to restart the server (for example after a configuration change), do
   With each new OpenProject core version, the plug-ins might need to be updated. Please make sure that the plug-in versions of all you plug-ins works with the OpenProject version you use.
   Many plug-ins follow the OpenProject version with their version number (So, if you have installed OpenProject version 4.1.0, the plug-in should also have the version 4.1.0).
 
-## Questions, Comments, and Feedback
+## Questions, comments, and feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
 [Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
