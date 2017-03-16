@@ -1,6 +1,6 @@
 # Packaged installation Backup Guide
 
-The detailed backup instructions for our packages are located on the [official website](https://www.openproject.org/open-source/upgrade-backup/).
+The detailed backup instructions for our packages [can be found here](./packaged/README.md).
 
 
 # Manual installation
