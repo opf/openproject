@@ -1,4 +1,5 @@
-Steps to install the OpenProject package for Ubuntu 14.04 Trusty.
+### Steps to install OpenProject on Ubuntu 14.04 Trusty
+
 All steps are prepended with `sudo` to ensure execution as the root user.
 
 **1. Import the packager.io repository signing key**
