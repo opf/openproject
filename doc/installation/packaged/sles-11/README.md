@@ -1,4 +1,4 @@
-### Steps to install the OpenProject package for Suse Linux Enterprise Server 11
+### Steps to install OpenProject package on Suse Linux Enterprise Server 11
 
 All steps need to be run as `root`.
 
