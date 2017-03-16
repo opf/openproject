@@ -48,8 +48,16 @@ export class Field {
     return !!this.schema.required;
   }
 
+  public get writable():boolean {
+    return !!this.schema.writable;
+  }
+
   public get visibility():string {
     return this.schema.visibility as string;
+  }
+
+  public get hasDefault():boolean {
+    return this.schema.hasDefault;
   }
 
   public get hidden():boolean {
