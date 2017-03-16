@@ -28,16 +28,17 @@
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
 import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/work-package-resource.service";
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "./../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
-import * as moment from 'moment';
+import * as moment from "moment";
+import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-import { WpTimelineGlobalService } from "./wp-timeline-global.directive";
-import { opDimensionEventName } from "../../common/ui/detect-dimension-changes.directive";
+import {scopedObservable, scopeDestroyed$} from "../../../helpers/angular-rx-utils";
 
 export class WorkPackageTimelineTableController {
 
@@ -127,7 +128,8 @@ export class WorkPackageTimelineTableController {
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
 
-    const wpObs = this.states.workPackages.get(wpId).observeOnScope(this.$scope)
+    const wpObs = this.states.workPackages.get(wpId)
+      .observeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
