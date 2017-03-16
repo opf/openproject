@@ -1,4 +1,5 @@
-Steps to install the OpenProject package for Debian 8 (Jessie).
+### Steps to install the OpenProject package for Debian 8 (Jessie)
+
 All steps need to be run as `root`.
 
 **1. Import the packager.io repository signing key**
