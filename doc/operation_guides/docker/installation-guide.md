@@ -1,4 +1,4 @@
-# Install OpenProject (Docker)
+### Install OpenProject with Docker
 
 [Docker][docker] is a way to distribute self-contained applications easily. We
 provide a Docker image for the Community Edition that you can very easily
@@ -14,7 +14,7 @@ the options that the package-based or manual installation provides.
 [docker]: https://www.docker.com/
 [docker-install]: https://docs.docker.com/engine/installation/
 
-## Quick Start
+### Quick Start
 
 The fastest way to get an OpenProject instance up and running is to run the
 following command:
@@ -37,7 +37,7 @@ achieved with the `-d` flag:
 
     docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:5.0
 
-## Recommended usage
+### Recommended usage
 
 The one-liner above is great to get started quickly, but if you want to run
 OpenProject in production you will likely want to ensure that your data is not
@@ -72,7 +72,7 @@ If you want to destroy the container, run the following commands
 
     docker stop openproject && docker rm openproject
 
-## Configuration
+### Configuration
 
 OpenProject is usually configured through a YAML file, but with the Docker
 image you need to pass all configuration through environment variables. You can
@@ -122,7 +122,7 @@ You can adjust those settings for other SMTP providers, such as GMail,
 Mandrill, etc. Please refer to the documentation of the corresponding provider
 to see what values should be used.
 
-## FAQ
+### FAQ
 
 * Can I use SSL?
 
