@@ -1,3 +1,7 @@
+<div class="work-packages-show-view-button wp--details--switch-fullscreen hidden-for-accessibility"
+     ng-click="$ctrl.switchToFullscreen()">
+  <span class="icon-context icon-double-arrow-left"></span>
+</div>
 <div class="work-packages--details loading-indicator--location"
       data-indicator-name="wpDetails">
   <div wp-edit-form="$ctrl.workPackage"
@@ -25,6 +29,13 @@
             ui-sref-active="selected">
           <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
         </li>
+        <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.close()"
+                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-class="work-packages--details-close-icon"
+                                  span-class="icon-context icon-close">
+          </accessible-by-keyboard>
+        </li>
       </ul>
     </div>
     <div class="work-packages--details-content">
@@ -45,4 +56,4 @@
       ></edit-actions-bar>
     </div>
   </div>
-</div>
+</div

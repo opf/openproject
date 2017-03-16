@@ -30,6 +30,7 @@ import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
 import {States} from '../../states.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
@@ -37,6 +38,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
               public $scope:ng.IScope,
               public $rootScope:ng.IRootScopeService,
               public states:States,
+              public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public $state:ng.ui.IStateService) {
     super($injector, $scope, $state.params['workPackageId']);
@@ -61,9 +63,22 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     });
   }
 
+  public close() {
+    this.$state.go('work-packages.list', this.$state.params);
+  }
+
+  public switchToFullscreen() {
+    this.$state.go(this.keepTab.currentShowState, this.$state.params);
+  }
+
   public onWorkPackageSave() {
     this.$rootScope.$emit('workPackagesRefreshInBackground');
-  };
+  }
+
+  protected initializeTexts() {
+    super.initializeTexts();
+    this.text.closeDetailsView = this.I18n.t('js.button_close_details');
+  }
 }
 
 wpControllersModule.controller('WorkPackageDetailsController', WorkPackageDetailsController);

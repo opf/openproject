@@ -76,10 +76,6 @@ module Pages
       find('#work-packages-details-view-button').click
     end
 
-    def open_in_full_view
-      find('#work-packages-show-view-button').click
-    end
-
     def ensure_page_loaded
       expect(page).to have_selector('.work-package-details-activities-activity-contents .user',
                                     text: work_package.journals.last.user.name,

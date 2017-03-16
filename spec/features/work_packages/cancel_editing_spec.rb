@@ -106,7 +106,7 @@ describe 'Cancel editing work package', js: true do
     find('#wp-new-inline-edit--field-subject').set 'foobar'
 
     # Expect editing works when moving to full screen
-    find('#work-packages-show-view-button').click
+    find('.work-packages-show-view-button').click
 
     expect(wp_page).not_to have_alert_dialog
     expect(page).to have_selector('.wp-edit-field.subject.-active')

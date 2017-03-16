@@ -162,10 +162,10 @@ class TableWorkPackageField
     if Capybara.current_driver == Capybara.javascript_driver
       extend ::Angular::DSL unless singleton_class.included_modules.include?(::Angular::DSL)
 
-      expect(page).to have_selector('#work-packages-list-view-button.-active,
+      expect(page).to have_selector(".wp-table--row,
         .work-packages--details--title,
         .work-package-details-activities-activity-contents,
-        #work-packages--edit-actions-save'.squish)
+        #work-packages--edit-actions-save".squish)
     end
   end
 

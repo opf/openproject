@@ -120,7 +120,7 @@ i
   height:      $work-package-details--tab-height
   overflow: hidden
   position: relative
-  width: 97.5%
+  width: 100%
   font-weight: bold
   text-transform: uppercase
 
@@ -131,15 +131,27 @@ i
     margin: 0
     padding: 0
     text-align: center
-    width: 23.25%
+    width: 22%
     cursor: pointer
   a
     color: #333
     text-decoration: none
     &:hover
       text-decoration: none
+  li.tab-icon
+    width: 8%
+    .icon-context:before
+      padding-top: 10px
   li.selected
     color: #999
     border-bottom: 2px solid $content-link-color
     a
       color: $content-link-color
+
+.work-packages--details-close-icon span
+  display: inline-block
+  padding-top: 2px
+  font-size: 0.9rem
+
+  &:before
+    @include varprop(color, $body-font-color)

@@ -71,6 +71,10 @@ export class WorkPackageShowController extends WorkPackageViewController {
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
+  public goToList() {
+    this.$state.go('work-packages.list', this.$state.params);
+  }
+
   public deleteSelectedWorkPackage() {
     var promise = this.WorkPackageService.performBulkDelete([this.workPackage.id], true);
 

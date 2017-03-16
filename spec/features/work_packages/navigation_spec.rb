@@ -86,13 +86,13 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     split_project_work_package.expect_current_path
 
     # open work package full screen by button
-    full_work_package = project_work_packages.open_full_screen_by_button(work_package)
+    full_work_package = split_project_work_package.switch_to_fullscreen
 
     full_work_package.expect_subject
     expect(current_path).to eq project_work_package_path(project, work_package, 'activity')
 
     # Back to table using the button
-    find('#work-packages-list-view-button').click
+    find('.work-packages-list-view-button').click
     global_work_packages.expect_work_package_listed(work_package)
     expect(current_path).to eq project_work_packages_path(project)
 

@@ -22,28 +22,13 @@
         </wp-filter-button>
       </li>
       <li class="toolbar-item hidden-for-mobile">
-        <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
-          <li>
-            <wp-list-view-button
-                project-identifier="projectIdentifier">
-            </wp-list-view-button>
-          </li>
-          <li>
-            <wp-details-view-button
-                next-wp-func="nextAvailableWorkPackage">
-            </wp-details-view-button>
-          </li>
-          <li>
-            <wp-view-button
-                next-wp-func="nextAvailableWorkPackage">
-            </wp-view-button>
-          </li>
-        </ul>
+        <wp-details-view-button>
+        </wp-details-view-button>
       </li>
-       <li class="toolbar-item">
-         <wp-timeline-toggle-button>
-         </wp-timeline-toggle-button>
-       </li>
+      <li class="toolbar-item hidden-for-mobile">
+        <wp-timeline-toggle-button>
+        </wp-timeline-toggle-button>
+      </li>
       <li class="toolbar-item hidden-for-mobile">
         <button id="work-packages-settings-button"
                 ng-disabled="wpEditModeState.active"
