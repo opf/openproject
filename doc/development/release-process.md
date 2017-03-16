@@ -1,4 +1,4 @@
-# Release Process
+# Release process
 
 The OpenProject world distinguishes in its release process three kinds of releases: stable, hotfix and and a sprint release. This page summarizes all relevant information about the release process.
 
@@ -11,24 +11,24 @@ The OpenProject world distinguishes in its release process three kinds of releas
 
 Due to the fact that the OpenProject Foundation provides releases in the form of the source code itself all release types are fully self-contained. This means that a hotfix release for example does not only include parts of the software which are going to be fixed by the hotfix release itself. Instead it includes the latest stable release and the fixes it was built for (i.e. we don't release patches separately).
 
-## Release Notes
+## Release notes
 
-You can find the release notes for major stable releases [here](https://www.openproject.org/open-source/release-notes/).
+You can find the release notes for major stable releases [here](https://www.openproject.org/release-notes/).
 
 ## Release cycles
 
-### Stable Release
+### Stable release
 
 * The OpenProject Foundation releases four Stable Releases per year.
 * The Release plan is tracked via the [project timeline](https://community.openproject.com/projects/openproject/timelines/36).
 
-### Hotfix Release
+### Hotfix release
 
 * Hotfix releases follow no predefined release plan in the release process.
 * News article will be used to inform the community about hotfix releases.
 * As soon as a bug is declared to be critical and there has to be an emergency update to currently supported stable releases a hotfix release will be prepared. However, the criteria which define a bug to be critical depend on several conditions which make it almost impossible to give a clear definition of what constitutes a critical bug.
  
-## Versioning and Tags
+## Versioning and tags
 
 ### General considerations
 
@@ -39,7 +39,7 @@ You can find the release notes for major stable releases [here](https://www.open
 * The version of plugins indicate the compatibility with the core.
 * The OpenProject Foundation will ensure this via continuous integration testing.
 
-### Versioning in Detail
+### Versioning in detail
 
 * OpenProject follows the idea of [Semantic Versioning](http://semver.org/).
 * Therefore the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarised as followed:
@@ -49,7 +49,7 @@ You can find the release notes for major stable releases [here](https://www.open
 
 Since the Stable Release 3.0.8 this idea only applies by considering the OpenProject core and all plugins maintained by the OpenProject Foundation as one piece of software.
 
-### Side Note: Keeping Core and Plugin Versions in lockstep
+### Side Note: Keeping core and plugin versions in lockstep
 
 * Due to the fact that plugins inherit their version from the core of the OpenProject software and vice versa there are some implications to mention.
 * Since this only applies to the versions starting at version 3.0.8 (core) there are plugins which have surpassed this version in the past. The most noticeable is the costs plugin which version was set back from version 5.0.4 to 3.0.8.
@@ -64,20 +64,20 @@ Since the Stable Release 3.0.8 this idea only applies by considering the OpenPro
 * This method seems to be the most clear and most straight forward approach for now and the near future. It also has the advantage that plugin development and core development have to be more aligned than ever before.
 * The OpenProject Foundation is aware that this solution should only be temporary and therefore should be replaced as soon as the described architectural restrictions of handling plugins are resolved.
 
-### Branches and Tags on Github
+### Branches and tags on Github
 
 * There are two important branches in regard to the release process:
   * dev: development of future stable releases
   * release/X.Y: currently supported stable release
 * Tags on these two branches refer either to sprint releases (dev) or stable respectively hotfix releases (release/X.Y).
 
-## History of Changes
+## History of changes
 
 * As of OpenProject Stable Release 3.0.8 all changes made to the OpenProject software are documented via work packages in the [OpenProject project](https://community.openproject.com/projects/openproject).
 * The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
 * To prevent inconsistencies and avoid redundant work there is there is no additional change log in the source code.
 
-## Support of Releases
+## Support of releases
 
 * The last two stable releases are maintained.
 * That is why it is strongly recommended to update to a new stable release as soon as possible to have a supported version installed. Time available for doing the update is defined by the release cycle (see above).
