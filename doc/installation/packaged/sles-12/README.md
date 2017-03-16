@@ -1,4 +1,6 @@
-Steps to install the OpenProject package for Suse Linux Enterprise Server 12. All steps need to be run as `root`.
+### Steps to install OpenProject package on Suse Linux Enterprise Server 12
+
+All steps need to be run as `root`.
 
 
 **1. Import the packager.io repository signing key**
