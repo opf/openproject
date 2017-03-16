@@ -1,4 +1,4 @@
-### Steps to install the OpenProject package for Debian 7 (Wheezy)
+### Steps to install OpenProject on Debian 7 (Wheezy)
 
 All steps need to be run as `root`.
 
