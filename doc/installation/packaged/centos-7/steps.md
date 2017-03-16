@@ -1,3 +1,5 @@
+### Steps to install OpenProject on Centos 7
+
 Steps to install the OpenProject package for Debian 7 (Wheezy).
 All steps are run with `sudo` to execute as the root user.
 
