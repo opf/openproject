@@ -35,12 +35,26 @@ import {
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import { WorkPackageDisplayFieldService } from "../../wp-display/wp-display-field/wp-display-field.service";
+import { DisplayField } from "../../wp-display/wp-display-field/wp-display-field.module";
+
+interface FieldDescriptor {
+  name:string;
+  label:string;
+  field?:DisplayField;
+  fields?:DisplayField[];
+  multiple:boolean;
+}
+
+interface GroupDescriptor {
+  name:string;
+  members:FieldDescriptor[];
+}
 
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
   public workPackage: WorkPackageResourceInterface;
-  public singleViewWp:any;
-  public groupedFields: any[] = [];
+  public groupedFields: GroupDescriptor[] = [];
   public hideEmptyFields: boolean = true;
   public text: any;
   public scope: any;
@@ -50,54 +64,67 @@ export class WorkPackageSingleViewController {
   constructor(protected $scope:ng.IScope,
               protected $stateParams:ng.ui.IStateParamsService,
               protected I18n:op.I18n,
-              protected wpCacheService:WorkPackageCacheService,
-              protected wpNotificationsService: WorkPackageNotificationService,
-              protected TimezoneService:any,
-              protected WorkPackagesOverviewService:any,
-              protected SingleViewWorkPackage:any) {
+              protected wpDisplayField:WorkPackageDisplayFieldService,
+              protected wpCacheService:WorkPackageCacheService) {
 
-    var wpId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
+    // Create I18n texts
+    this.setupI18nTexts();
 
-    this.groupedFields = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes();
-    this.text = {
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint'),
-      fields: {
-        description: I18n.t('js.work_packages.properties.description'),
-        date: {
-          startDate: I18n.t('js.label_no_start_date'),
-          dueDate: I18n.t('js.label_no_due_date')
-        }
-      },
-      infoRow: {
-        createdBy: I18n.t('js.label_created_by'),
-        lastUpdatedOn: I18n.t('js.label_last_updated_on')
-      },
-    };
-
-    if (this.workPackage) {
-      this.init(this.workPackage);
-    }
-
-    wpCacheService.loadWorkPackage(wpId).observeOnScope($scope)
-      .subscribe((wp:WorkPackageResourceInterface) => this.init(wp));
-    $scope.$on('workPackageUpdatedInEditor', () => {
-      this.wpNotificationsService.showSave(this.workPackage);
+    // Subscribe to work package
+    wpCacheService.loadWorkPackage($stateParams['workPackageId'])
+      .observeOnScope($scope)
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.init(wp);
     });
   }
 
-  public shouldHideGroup(group:any) {
-    return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
-  }
+  /**
+   * Determines whether the given field can be hidden
+   * according to its type configuration and current work package.
+   */
+  public canHideField(field:DisplayField) {
+    var attrVisibility = field.visibility;
+    var notRequired = !field.required || field.hasDefault;
+    var empty = field.isEmpty();
+    var visible = attrVisibility === 'visible';
+    var hidden = attrVisibility === 'hidden';
 
-  public shouldHideField(field:any) {
-    let hideEmpty = this.hideEmptyFields;
-
-    if (this.formCtrl.fields[field]) {
-      hideEmpty = !this.formCtrl.fields[field].hasFocus() && this.hideEmptyFields;
+    if (this.workPackage.isNew) {
+      return !visible && (field.name === 'author' || notRequired || hidden);
     }
 
-    return this.singleViewWp.shouldHideField(field, hideEmpty);
+    return notRequired && !visible && (empty || hidden);
+  }
+
+  /**
+   * Determines whether we should hide the given group
+   */
+  public shouldHideGroup(group:GroupDescriptor) {
+    // Hide if the group is empty
+    if (group.members.length === 0) {
+      return true;
+    }
+
+    // Hide group if all fields are hidden
+    if (this.hideEmptyFields) {
+      return _.every(group.members, (d:FieldDescriptor) => this.canHideField(d.field || d.fields![0]));
+    }
+
+    return false;
+  }
+
+  /**
+   * Determines whether we should hide the given field.
+   */
+  public shouldHideField(field:DisplayField) {
+    let hideEmpty = this.hideEmptyFields;
+
+    if (this.formCtrl.fields[field.name]) {
+      hideEmpty = !this.formCtrl.fields[field.name].hasFocus() && this.hideEmptyFields;
+    }
+
+    const hidden = field.visibility === 'hidden';
+    return this.canHideField(field) && (hideEmpty || hidden);
   };
 
   public setFocus() {
@@ -107,6 +134,10 @@ export class WorkPackageSingleViewController {
     }
   }
 
+  /*
+  * Returns the work package label composed of type and its id
+  * e.g., 'Task #2'
+  */
   public get idLabel() {
     var text;
 
@@ -124,31 +155,89 @@ export class WorkPackageSingleViewController {
 
   private init(wp:WorkPackageResourceInterface) {
     this.workPackage = wp;
-    this.singleViewWp = new this.SingleViewWorkPackage(wp);
 
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
 
     this.setFocus();
-
-    var otherGroup: any = _.find(this.groupedFields, {groupName: 'other'});
-    otherGroup.attributes = [];
-
-    angular.forEach(this.workPackage.schema, (prop, propName) => {
-      if (propName.match(/^customField/)) {
-        otherGroup.attributes.push(propName);
-      }
-    });
-
-    otherGroup.attributes.sort((leftField:any, rightField:any) => {
-      var getLabel = (field:any) => this.singleViewWp.getLabel(field);
-      var left = getLabel(leftField).toLowerCase();
-      var right = getLabel(rightField).toLowerCase();
-
-      return left.localeCompare(right);
+    this.groupedFields = this.workPackage.schema._attributeGroups.map((groups:any[]) => {
+      return {
+        name: groups[0],
+        members: this.getFields(groups[1])
+      };
     });
   }
+
+  private setupI18nTexts() {
+    this.text = {
+      dropFiles: I18n.t('js.label_drop_files'),
+      dropFilesHint: I18n.t('js.label_drop_files_hint'),
+      fields: {
+        description: I18n.t('js.work_packages.properties.description'),
+      },
+      date: {
+        startDate: I18n.t('js.label_no_start_date'),
+        dueDate: I18n.t('js.label_no_due_date')
+      },
+      infoRow: {
+        createdBy: I18n.t('js.label_created_by'),
+        lastUpdatedOn: I18n.t('js.label_last_updated_on')
+      },
+    };
+  }
+
+  /**
+   * Maps the grouped fields into their display fields.
+   * May return multiple fields (for the date virtual field).
+   */
+  private getFields(fieldNames:string[]):FieldDescriptor[] {
+    return fieldNames.map((fieldName:string) => {
+      if (fieldName === 'date') {
+        return this.getDateField();
+      }
+
+      const field:DisplayField = this.displayField(fieldName);
+      return {
+        name: fieldName,
+        label: field.label,
+        multiple: false,
+        field: field
+      }
+    });
+  }
+
+  /**
+   * We need to discern between milestones, which have a single
+   * 'date' field vs. all other types which should display a
+   * combined 'start' and 'due' date field.
+   */
+  private getDateField():FieldDescriptor {
+    let object:any = {
+      name: 'date',
+      label: this.I18n.t('js.work_packages.properties.date'),
+      multiple: false
+    };
+
+    if (this.workPackage.isMilestone) {
+      object.field = this.displayField('date');
+    } else {
+      object.fields = [this.displayField('startDate'), this.displayField('dueDate')];
+      object.multiple = true;
+    }
+
+    return object;
+  }
+
+
+  private displayField(name:string):DisplayField {
+    return this.wpDisplayField.getField(
+      this.workPackage,
+      name,
+      this.workPackage.schema[name]
+    ) as DisplayField;
+  }
+
 }
 
 function wpSingleViewDirective() {
@@ -166,7 +255,6 @@ function wpSingleViewDirective() {
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
 
     scope: {
-      workPackage: '=?'
     },
 
     require: ['^wpEditForm', 'wpSingleView'],
