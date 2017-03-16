@@ -25,7 +25,7 @@ You can set this `DATABASE_URL` parameter yourself to either a MySQL or PostgreS
 
 You can use these ENV parameters to customize OpenProject. See [OpenProject Configuration](https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md).
 
-### Package Configuration
+### Package configuration
 
 After the installation of the OpenProject package the system has to be
 configured to use this package and operate the OpenProject application.
