@@ -59,7 +59,7 @@ env:
     - COVERAGE=true
 
   matrix:
-    - "TEST_SUITE=plugins:spec      DB=mysql    GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=plugins:specs      DB=mysql    GROUP_SIZE=1 GROUP=1"
 
     - "TEST_SUITE=npm"
 

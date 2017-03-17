@@ -59,7 +59,9 @@ class MyProjectsOverview < ActiveRecord::Base
 
   def save_custom_element(name, title, new_content)
     el = custom_elements.detect {|x| x.first == name}
-    return unless el
+    return false unless el
+    return false unless title && new_content
+
     el[1] = title
     el[2] = new_content
     save

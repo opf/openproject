@@ -53,12 +53,15 @@ class MyProjectsOverviewsController < ApplicationController
       end
     end
 
-    overview.save_custom_element(block_name, block_title, textile)
-    render(partial: "block_textilizable",
-           locals: { project: project,
-                     block_title: block_title,
-                     block_name: block_name,
-                     textile: textile })
+    if overview.save_custom_element(block_name, block_title, textile)
+      render(partial: "block_textilizable",
+            locals: { project: project,
+                      block_title: block_title,
+                      block_name: block_name,
+                      textile: textile })
+   else
+     render text: t(:error_textile_not_saved), status: 400
+   end
   end
 
   # Add a block to user's page
