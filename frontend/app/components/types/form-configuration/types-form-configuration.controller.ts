@@ -142,7 +142,7 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
   };
 
   $scope.groupNameChange = function(key:string, newValue:string): void {
-    angular.element(`.type-form-conf-group[data-original-key=${key}]`).attr('data-key', newValue);
+    angular.element(`.type-form-conf-group[data-original-key="${key}"]`).attr('data-key', newValue);
     $scope.updateHiddenFields();
   };
 
