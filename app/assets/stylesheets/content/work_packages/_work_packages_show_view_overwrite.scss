@@ -242,6 +242,7 @@ body.controller-work_packages.action-show {
     }
 
     .work-packages--details--subject,
+    .work-packages--type-selector,
     .work-packages--details--subject .wp-inline-edit--field {
       font-size: 1.5rem;
       font-weight: bold;
@@ -257,12 +258,14 @@ body.controller-work_packages.action-show {
 
 .work-packages--split-view {
   .work-packages--details--subject,
+  .work-packages--type-selector,
   .work-packages--details--subject .wp-inline-edit--field {
     font-size: 1.125rem;
     font-weight: bold;
   }
 
-  .work-packages--details--subject {
+  .work-packages--details--subject,
+  .work-packages--type-selector {
     line-height: 24px;
 
     .wp-inline-edit--field {
@@ -270,6 +273,20 @@ body.controller-work_packages.action-show {
       line-height: 36px;
       padding: 0 0.375rem;
     }
+  }
+}
+
+.work-packages--subject-type-row {
+  display: flex;
+}
+
+.work-packages--type-selector {
+  .wp-table--cell-span {
+    padding-right: 5px !important;
+  }
+
+  .wp-edit-field.-active {
+    margin-right: 5px !important;
   }
 }
 

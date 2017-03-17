@@ -141,22 +141,11 @@ export class WorkPackageSingleViewController {
   }
 
   /*
-  * Returns the work package label composed of type and its id
-  * e.g., 'Task #2'
+  * Returns the work package label
   */
   public get idLabel() {
-    var text;
-
-    if (!(this.workPackage && this.workPackage.type)) {
-      return;
-    }
-
-    text = this.workPackage.type.name;
-    if (!this.workPackage.isNew) {
-      text += ' #' + this.workPackage.id;
-    }
-
-    return text;
+    const label = this.I18n.t('js.label_work_package');
+    return `${label} #${this.workPackage.id}`;
   }
 
   private init(wp:WorkPackageResourceInterface) {
