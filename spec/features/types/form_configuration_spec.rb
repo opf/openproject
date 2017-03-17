@@ -30,20 +30,14 @@ require 'spec_helper'
 
 describe 'form configuration', type: :feature, js: true do
   let(:current_user) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create :type, attribute_visibility: attribute_visibility }
+  let(:type) { FactoryGirl.create :type}
 
-  let(:attribute_visibility) do
-    {
-      'version' => 'hidden',
-      'status' => 'default',
-      'priority' => 'visible'
-      # assignee => 'default'
-      # not defined attributes shall get default visibility
-    }
+  def checkbox_selector(attribute)
+    ".type-form-conf-attribute[data-key=#{attribute}] .attribute-visibility input"
   end
 
-  def selector(attribute, visibility)
-    "input#type_attribute_visibility_#{visibility}_#{attribute}"
+  def attribute_handle_selector(attribute)
+    "//*[@class='type-form-conf-attribute' and @data-key='#{attribute}']//*[@class='attribute-handle']"
   end
 
   before do
@@ -52,83 +46,64 @@ describe 'form configuration', type: :feature, js: true do
     visit edit_type_tab_path(id: type.id, tab: "form_configuration")
   end
 
-  shared_examples 'attribute visibility' do
-    let(:attribute) { 'status' }
-    let(:visibility) { 'default' }
-
-    it 'is displayed correctly' do
-      if visibility == 'hidden'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).not_to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).not_to be_checked }
-      elsif visibility == 'default'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).not_to be_checked }
-      elsif visibility == 'visible'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).to be_checked }
-      end
-    end
-  end
-
   describe 'before update' do
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'version' }
-      let(:visibility) { 'hidden' }
-    end
+    it 'attributes are in active group' do
+      # the `version` attribute should initially be in a default group and thus
+      # have 'default' visibility.
+      expect(page).to have_selector(:xpath, "//*[@class='type-form-conf-attribute'][@data-key='version']/ancestor::*[@class='type-form-conf-group']")
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'status' }
-      let(:visibility) { 'default' }
-    end
-
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'priority' }
-      let(:visibility) { 'visible' }
+      # per default the attribute `assignee` is active and not always visisble
+      expect(page).to have_selector(:xpath, "//*[@class='type-form-conf-attribute'][@data-key='assignee']/ancestor::*[@class='type-form-conf-group']")
+      expect(find(:css, checkbox_selector('assignee'))).not_to be_checked
     end
   end
 
   describe 'after update' do
     before do
-      # change to visible by checking both checkboxes
-      find(:css, selector('version', 'default')).set(true)
-      find(:css, selector('version', 'visible')).set(true)
+      # change attribute groups and visibility
 
-      # change to hidden by unchecking both checkboxes
-      find(:css, selector('status', 'default')).set(false)
-      find(:css, selector('status', 'visible')).set(false)
+      # deactivate `version`:
+      find(:xpath, attribute_handle_selector('version')).drag_to find("#type-form-conf-inactive-group .attributes")
 
-      # change to default by unchecking last checkbox
-      find(:css, selector('priority', 'visible')).set(false)
+      # change `assignee` to be always visible:
+      find(:css, checkbox_selector('assignee')).set true
 
+      # rename a group
+      group_edit_selector = ".type-form-conf-group[data-original-key='people'] group-edit-in-place"
+      find(group_edit_selector).click
+      find(group_edit_selector + " input").set("persons")
+      execute_script("angular.element('.type-form-conf-group input').blur()")
+      # repition of the same command is a hack to blur the input
+      execute_script("angular.element('.type-form-conf-group input').blur()")
+
+      # create a new group and add an attribute
+      # TODO
+      # click_on 'Add group'
+      # first("group-edit-in-place input").set("Populated group")
+      # execute_script("angular.element('.type-form-conf-group input').blur()")
+      # # repition of the same command is a hack to blur the input
+      # execute_script("angular.element('.type-form-conf-group input').blur()")
+      # drop_zone = first(".type-form-conf-group[data-key='people']")
+      # find(:xpath, attribute_handle_selector('date')).drag_to drop_zone
+
+      # first(".type-form-conf-group .attribute-visibility").click
+      # create a group and keep it empty
+      # TODO
+
+      # delete a group
+      # TODO
       click_on 'Save'
     end
 
-    it 'the type visibilities are set correctly' do
-      type.reload
+    it 'attributes are in their new groups and with correct visibility' do
+      # `version` is now in inactives group
+      expect(page).to have_selector(:xpath, "//*[@class='type-form-conf-attribute'][@data-key='version']/ancestor::*[@id='type-form-conf-inactive-group']")
 
-      expect(type.attribute_visibility['version']).to eq 'visible'
-      expect(type.attribute_visibility['status']).to eq 'hidden'
-      expect(type.attribute_visibility['priority']).to eq 'default'
-    end
+      # `assignee` shall have the checkbox set to true
+      expect(find(:css, checkbox_selector('assignee'))).to be_checked
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'version' }
-      let(:visibility) { 'visible' }
-    end
-
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'status' }
-      let(:visibility) { 'hidden' }
-    end
-
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'priority' }
-      let(:visibility) { 'default' }
-    end
-
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'assignee' }
-      let(:visibility) { 'default' }
+      # the former "people" group shall be "persons" now
+      expect(page).to have_selector(".type-form-conf-group[data-original-key='persons']")
     end
   end
 end
