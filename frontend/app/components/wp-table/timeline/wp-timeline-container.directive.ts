@@ -35,10 +35,11 @@ import {BehaviorSubject, Observable} from "rxjs";
 import * as moment from "moment";
 import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
+import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
+import {TimelineDrawingPufferService} from "./wp-timeline-drawing-puffer.service";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-import {scopedObservable, scopeDestroyed$} from "../../../helpers/angular-rx-utils";
 
 export class WorkPackageTimelineTableController {
 
@@ -48,7 +49,9 @@ export class WorkPackageTimelineTableController {
 
   public wpTimelineHeader: WpTimelineHeader;
 
-  public readonly globalService = new WpTimelineGlobalService(this.$scope, this.states, this.halRequest);
+  public readonly globalService = new WpTimelineGlobalService(this, this.$scope, this.states, this.halRequest);
+
+  public readonly drawingPuffer = new TimelineDrawingPufferService();
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
@@ -73,12 +76,13 @@ export class WorkPackageTimelineTableController {
 
     // Refresh timeline view after table rendered
     states.table.rendered
-      .observeOnScope($scope)
+      .observeUntil(scopeDestroyed$(this.$scope)) // TODO can be removed, if take(1) remains
+      .take(1)
       .subscribe(() => this.refreshView());
 
     // Refresh timeline view when becoming visible
     states.table.timelineVisible
-      .observeOnScope($scope)
+      .observeUntil(scopeDestroyed$(this.$scope))
       .subscribe((visible) => {
 
         if (visible) {
@@ -111,6 +115,7 @@ export class WorkPackageTimelineTableController {
 
   refreshView() {
     if (!this.refreshViewRequested) {
+      console.error("refreshView()");
       setTimeout(() => {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
@@ -131,11 +136,14 @@ export class WorkPackageTimelineTableController {
     const wpObs = this.states.workPackages.get(wpId)
       .observeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
+        console.error("map() " + wp.id);
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
+          // this.globalService.updateViewParameter(this._viewParameters); // TODO remove comment
+
+          console.error("view params changed after wp " + wpId);
           // view params have changed, notify all cells
-          this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
         }
 
@@ -158,6 +166,8 @@ export class WorkPackageTimelineTableController {
     if (this.disableViewParamsCalculation) {
       return false;
     }
+
+    console.error("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;

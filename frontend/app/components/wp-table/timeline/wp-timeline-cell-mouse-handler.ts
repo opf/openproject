@@ -219,7 +219,7 @@ export function registerWorkPackageMouseHandler(this: void,
         }
       })
       .finally(() => {
-        workPackageTimeline.refreshView();
+        // workPackageTimeline.refreshView();
       });
   }
 }

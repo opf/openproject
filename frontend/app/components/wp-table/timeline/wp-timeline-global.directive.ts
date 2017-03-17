@@ -36,6 +36,7 @@ import {RelationResource} from "../../api/api-v3/hal-resources/relation-resource
 import {CollectionResource} from "../../api/api-v3/hal-resources/collection-resource.service";
 import {debugLog} from "../../../helpers/debug_output";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import IScope = angular.IScope;
 
 
@@ -89,7 +90,11 @@ export class WpTimelineGlobalService {
 
   private elements: TimelineGlobalElement[] = [];
 
-  constructor(scope: IScope, states: States, halRequest: HalRequestService) {
+  constructor(private timelineController: WorkPackageTimelineTableController,
+              scope: IScope,
+              states: States,
+              halRequest: HalRequestService) {
+
     states.table.rows.observeOnScope(scope)
       .subscribe(rows => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
@@ -103,7 +108,8 @@ export class WpTimelineGlobalService {
             collection.elements.forEach((relation: RelationResource) => {
               const fromId = WorkPackageResource.idFromLink(relation.from.href!);
               const toId = WorkPackageResource.idFromLink(relation.to.href!);
-              this.displayRelation(fromId, toId);
+
+              // this.displayRelation(fromId, toId);  // TODO remove comment
             });
             this.renderElements();
           });
@@ -140,8 +146,11 @@ export class WpTimelineGlobalService {
   }
 
   private update() {
+    // this.timelineController.drawingPuffer.requestFrame("global", () => {
+    console.error("global update()");
     this.removeAllVisibleElements();
     this.renderElements();
+    // });
   }
 
   private removeAllElements() {
