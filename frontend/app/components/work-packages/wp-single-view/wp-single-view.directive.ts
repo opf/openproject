@@ -54,7 +54,11 @@ interface GroupDescriptor {
 export class WorkPackageSingleViewController {
   public formCtrl: WorkPackageEditFormController;
   public workPackage: WorkPackageResourceInterface;
-  public groupedFields: GroupDescriptor[] = [];
+
+  // Grouped fields returned from API
+  public groupedFields:GroupDescriptor[] = [];
+  // Special fields (project, type)
+  public specialFields:FieldDescriptor[];
   public hideEmptyFields: boolean = true;
   public text: any;
   public scope: any;
@@ -62,6 +66,7 @@ export class WorkPackageSingleViewController {
   protected firstTimeFocused: boolean = false;
 
   constructor(protected $scope:ng.IScope,
+              protected $rootScope:ng.IRootScopeService,
               protected $stateParams:ng.ui.IStateParamsService,
               protected I18n:op.I18n,
               protected wpDisplayField:WorkPackageDisplayFieldService,
@@ -71,7 +76,8 @@ export class WorkPackageSingleViewController {
     this.setupI18nTexts();
 
     // Subscribe to work package
-    wpCacheService.loadWorkPackage($stateParams['workPackageId'])
+    const workPackageId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
+    wpCacheService.loadWorkPackage(workPackageId)
       .observeOnScope($scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.init(wp);
@@ -167,6 +173,8 @@ export class WorkPackageSingleViewController {
         members: this.getFields(groups[1])
       };
     });
+
+    this.specialFields = this.getFields(['project', 'status', 'priority']);
   }
 
   private setupI18nTexts() {
@@ -255,6 +263,7 @@ function wpSingleViewDirective() {
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
 
     scope: {
+      workPackage: '=?'
     },
 
     require: ['^wpEditForm', 'wpSingleView'],
