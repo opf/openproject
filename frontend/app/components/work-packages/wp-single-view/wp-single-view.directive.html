@@ -8,6 +8,25 @@
   </div>
 
   <div class="attributes-group">
+    <div class="-columns-2">
+      <div class="attributes-key-value" ng-repeat="descriptor in $ctrl.specialFields">
+        <div class="attributes-key-value--key"
+             wp-replacement-label="descriptor.name">
+          {{ descriptor.label }}
+          <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+        </div>
+        <div
+            ng-hide="$ctrl.shouldHideField(descriptor.field)"
+            wp-edit-field="descriptor.name"
+            wp-edit-field-label="descriptor.label"
+            wp-edit-field-wrapper-classes="'-small'"
+            class="attributes-key-value--value-container">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attributes-group">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
         <h3 class="attributes-group--header-text"
@@ -31,13 +50,12 @@
         <h3 class="attributes-group--header-text"
             ng-bind="group.name"></h3>
       </div>
-      <div class="attributes-group--header-toggle">
-        <panel-expander tabindex="-1" ng-if="$first"
+        <panel-expander tabindex="-1"
+                        ng-if="$first"
                         collapsed="$ctrl.hideEmptyFields"
                         expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
                         collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
         </panel-expander>
-      </div>
     </div>
 
     <div class="-columns-2">
