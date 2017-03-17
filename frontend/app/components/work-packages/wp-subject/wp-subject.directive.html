@@ -1,5 +1,8 @@
-<div ng-if="$ctrl.workPackage">
-
+<div ng-if="$ctrl.workPackage" class="work-packages--subject-type-row">
+  <div class="work-packages--type-selector"
+       wp-edit-field="'type'"
+       wp-edit-field-wrapper-classes="'-no-label'">
+  </div>
   <div
       wp-edit-field="'subject'"
       wp-edit-field-wrapper-classes="'-no-label'"
