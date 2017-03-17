@@ -114,7 +114,7 @@
     "karma": "./scripts/karma-runner.js",
     "webpack": "./node_modules/.bin/webpack --colors --progress",
     "webpack-with-test": "./node_modules/.bin/webpack --colors --progress --env.testconfig 1",
-    "webpack-watch": "npm run webpack -- --watch --cache",
-    "webpack-watch-with-test": "npm run webpack -- --watch --cache --env.testconfig 1"
+    "webpack-watch": "RAILS_ENV=development npm run webpack -- --watch --cache",
+    "webpack-watch-with-test": "RAILS_ENV=development npm run webpack -- --watch --cache --env.testconfig 1"
   }
 }
