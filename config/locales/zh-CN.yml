@@ -1,6 +1,7 @@
 zh-CN:
   button_edit_this_page: "编辑此页面"
   error_saving_changes: 无法保存所做更改：%{errors}
+  error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "隐藏元素"
   label_visible_elements: "可见元素"
   label_project_description: "项目描述"

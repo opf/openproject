@@ -1,6 +1,7 @@
 ru:
   button_edit_this_page: "Редактировать эту страницу"
   error_saving_changes: 'Не удалось сохранить изменения: %{errors}'
+  error_textile_not_saved: "The textile block could not be saved."
   label_hidden_elements: "Скрытые элементы"
   label_visible_elements: "Видимые элементы"
   label_project_description: "Описание проекта"
