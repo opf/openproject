@@ -40,6 +40,7 @@ import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selecti
 import {States} from '../states.service';
 
 export class WorkPackageCreateController {
+
   public newWorkPackage:WorkPackageResource|any;
   public parentWorkPackage:WorkPackageResource|any;
   public successState:string;
@@ -74,6 +75,7 @@ export class WorkPackageCreateController {
               protected $scope:ng.IScope,
               protected $rootScope:IRootScopeService,
               protected $q:ng.IQService,
+              protected $location:ng.ILocationService,
               protected I18n:op.I18n,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
@@ -97,7 +99,15 @@ export class WorkPackageCreateController {
             });
         }
       })
-      .catch(error => this.wpNotificationsService.handleErrorResponse(error));
+      .catch(error => {
+        if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
+          let url: string = $location.absUrl();
+          $location.path('/login').search({back_url: url});
+          let loginUrl: string = $location.absUrl();
+          window.location.href = loginUrl;
+        };
+        this.wpNotificationsService.handleErrorResponse(error);
+      });
   }
 
   public switchToFullscreen() {
