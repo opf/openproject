@@ -48,26 +48,32 @@ module Type::AttributeGroups
 
     # All known default
     mattr_accessor :default_groups do
-      %i(people estimates_and_time details other)
+      {
+        people: :label_people,
+        estimates_and_time: :label_estimates_and_time,
+        details: :label_details,
+        other: :label_other,
+      }
     end
   end
 
   class_methods do
     ##
     # Add a new default group name
-    def add_default_group(name)
-      key = name.to_sym
-      default_groups << key unless default_groups.include?(key)
+    def add_default_group(name, label_key)
+      default_groups[name.to_sym] = label_key
     end
 
     ##
     # Add a mapping from attribute key to an existing default group
-    def add_default_mapping(key, group)
+    def add_default_mapping(group, *keys)
       unless default_groups.include? group
-        raise ArgumentError, "Can't add mapping for '#{key}'. Unknown default group '#{group}'."
+        raise ArgumentError, "Can't add mapping for '#{keys.inspect}'. Unknown default group '#{group}'."
       end
 
-      default_group_map[key.to_sym] = group
+      keys.each do |key|
+        default_group_map[key.to_sym] = group
+      end
     end
   end
 
@@ -86,10 +92,9 @@ module Type::AttributeGroups
     values =  work_package_attributes.keys.group_by { |key| map_attribute_to_group key }
 
     ordered = []
-    default_groups.map do |groupkey|
+    default_groups.map do |groupkey, label_key|
       members = values[groupkey]
-      translation = I18n.t("label_#{groupkey}", default: groupkey.to_s.humanize)
-      ordered << [translation, members] if members.present?
+      ordered << [I18n.t(label_key), members.sort] if members.present?
     end
 
     ordered
