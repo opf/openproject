@@ -95,11 +95,17 @@ module API
           end
 
           def attribute_groups
-            unless type.nil?
-              type.attribute_groups.map do |group|
-                group[1].map! { |prop| convert_property(prop) }
-                group
+            return nil if type.nil?
+
+            type.attribute_groups.map do |group|
+              group[1].map! do |prop|
+                if type.has_attribute?(prop, project: project)
+                  convert_property(prop)
+                end
               end
+
+              group[1].compact!
+              group
             end
           end
 
