@@ -30,6 +30,11 @@
 class ::Type < ActiveRecord::Base
   extend Pagination::Model
 
+  # Work Package attributes for this type
+  # and constraints to specifc attributes (by plugins).
+  include ::Type::Attributes
+  include ::Type::AttributeGroups
+
   before_destroy :check_integrity
 
   has_many :work_packages
@@ -57,9 +62,6 @@ class ::Type < ActiveRecord::Base
       end
     end
   end
-  validate :validate_attribute_groups
-
-  serialize :attribute_groups, Array
 
   acts_as_list
 
@@ -136,46 +138,6 @@ class ::Type < ActiveRecord::Base
     transition_exists?(status_id_a, status_id_b, roles.map(&:id))
   end
 
-  def attribute_groups
-    groups = read_attribute :attribute_groups
-
-    if groups.empty?
-      default_attribute_groups
-    else
-      groups
-    end
-  end
-
-  def default_attribute_groups
-    values =  work_package_attributes.group_by { |key| map_attribute_to_group key }
-
-    ordered = []
-
-    ordered.push ["details", values["details"]] if values["details"].try(:any?)
-    ordered.push ["people", values["people"]] if values["people"].try(:any?)
-    ordered.push ["estimates_and_time", values["estimates_and_time"]] if
-      values["estimates_and_time"].try(:any?)
-    ordered.push ["other", values["other"]] if values["other"].try(:any?)
-
-    ordered
-  end
-
-  def map_attribute_to_group(name)
-    if ["author", "assignee", "responsible"].include?(name)
-      "people"
-    elsif ["estimated_time", "spent_time"].include?(name)
-      "estimates_and_time"
-    elsif name =~ /custom/
-      "other"
-    else
-      "details"
-    end
-  end
-
-  def work_package_attributes
-    ::TypesHelper.work_package_form_attributes(merge_date: true).keys
-  end
-
   private
 
   def check_integrity
@@ -187,21 +149,5 @@ class ::Type < ActiveRecord::Base
                     new_status_id: status_id_b,
                     role_id: role_ids)
       .any?
-  end
-
-  def validate_attribute_groups
-    unless read_attribute(:attribute_groups).empty?
-      valid_attributes = work_package_attributes
-      attribute_groups.each do |group_key, attributes|
-        unless group_key.present?
-          raise "Name of attribute group is invalid"
-        end
-        attributes.each do |key|
-          if valid_attributes.exclude? key
-            errors.add(:attribute_groups, :attribute_unknown)
-          end
-        end
-      end
-    end
   end
 end
