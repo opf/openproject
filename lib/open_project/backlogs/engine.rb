@@ -140,7 +140,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type && type.story? }
+               if: ->(*) { backlogs_enabled? && type && type.has_attribute?(:story_points) }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -149,28 +149,28 @@ module OpenProject::Backlogs
                                                                allow_nil: true)
                },
                render_nil: true,
-               if: -> (*) { represented.backlogs_enabled? }
+               if: ->(*) { represented.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :work_package_payload) do
       property :story_points,
                render_nil: true,
-               if: -> (*) { backlogs_enabled? && type && type.story? }
+               if: ->(*) { backlogs_enabled? && type && type.has_attribute?(:story_points) }
 
       property :remaining_time,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
-               setter: -> (value, *) {
+               setter: ->(value, *) {
                  remaining = datetime_formatter.parse_duration_to_hours(value,
                                                                         'remainingTime',
                                                                         allow_nil: true)
                  represented.remaining_hours = remaining
                },
                render_nil: true,
-               if: -> (*) { represented.backlogs_enabled? }
+               if: ->(*) { represented.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -179,7 +179,7 @@ module OpenProject::Backlogs
              required: false,
              show_if: -> (*) {
                represented.project && represented.project.backlogs_enabled? &&
-                 (!represented.type || represented.type.story?)
+                 (!represented.type || represented.type.has_attribute?(:story_points))
              }
 
       schema :remaining_time,
@@ -249,6 +249,25 @@ module OpenProject::Backlogs
 
     initializer 'backlogs.register_query_filter' do
       Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
+    end
+
+    config.to_prepare do
+      ::Type.add_constraint :story_points, ->(type, project: nil) do
+
+        if project.present?
+          project.backlogs_enabled? && type.story?
+        else
+          # Allow globally configuring the attribute if story
+          type.story?
+        end
+      end
+
+      ::Type.add_constraint :remaining_time, ->(_type, project: nil) do
+        project.nil? || project.backlogs_enabled?
+      end
+
+      ::Type.add_default_mapping(:story_points, :estimates_and_time)
+      ::Type.add_default_mapping(:remaining_time, :estimates_and_time)
     end
   end
 end
