@@ -8,6 +8,15 @@
   </div>
 
   <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+      </div>
+      <panel-expander tabindex="-1"
+                      collapsed="$ctrl.hideEmptyFields"
+                      expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
+                      collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
+      </panel-expander>
+    </div>
     <div class="-columns-2">
       <div class="attributes-key-value" ng-repeat="descriptor in $ctrl.specialFields">
         <div class="attributes-key-value--key"
@@ -51,12 +60,6 @@
         <h3 class="attributes-group--header-text"
             ng-bind="group.name"></h3>
       </div>
-        <panel-expander tabindex="-1"
-                        ng-if="$first"
-                        collapsed="$ctrl.hideEmptyFields"
-                        expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
-                        collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
-        </panel-expander>
     </div>
 
     <div class="-columns-2">
