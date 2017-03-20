@@ -48,35 +48,7 @@ angular
 // main app
 var openprojectCostsApp = angular.module('openproject');
 
-openprojectCostsApp.run(['HookService',
-                         'ConfigurationService',
-                         'WorkPackagesOverviewService',
-                         function(HookService, ConfigurationService, WorkPackagesOverviewService) {
-  var addAttributesToGroup = function(group, attributes) {
-    angular.forEach(attributes, function(id, attribute) {
-      WorkPackagesOverviewService.addAttributeToGroup(group, id || attribute);
-    });
-  };
-
-  var setupCostsAttributes = function() {
-    var position = WorkPackagesOverviewService.getGroupedWorkPackageOverviewAttributes().length - 1;
-    var costsAttributes = {
-      costObject: null,
-      laborCosts: null,
-      materialCosts: null,
-      overallCosts: null,
-      costsByType: null
-    };
-
-    WorkPackagesOverviewService.addGroup('costs', position);
-
-    addAttributesToGroup('costs', costsAttributes);
-  };
-
-  if (ConfigurationService.isModuleEnabled('costs_module')) {
-    setupCostsAttributes();
-  }
-
+openprojectCostsApp.run(['HookService', function(HookService) {
   HookService.register('workPackageAttributeEditableType', function(params) {
     switch (params.type) {
       case 'Budget':
