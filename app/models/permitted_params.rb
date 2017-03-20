@@ -628,7 +628,7 @@ class PermittedParams
           :is_default,
           :color_id,
           Proc.new do
-            { attribute_visibility: ::TypesHelper.work_package_form_attributes.keys }
+            { attribute_visibility: ::Type.all_work_package_form_attributess.keys }
           end,
           project_ids: [],
           custom_field_ids: []
