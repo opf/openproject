@@ -290,4 +290,25 @@ describe 'new work package', js: true do
       end
     end
   end
+
+  context 'a anonymous user is prompted to login' do
+    let(:user) { FactoryGirl.create(:anonymous) }
+    let(:wp_page) { ::Pages::Page.new }
+
+    let(:paths) {
+      [
+        new_work_packages_path,
+        new_split_work_packages_path,
+        new_project_work_packages_path(project),
+        new_split_project_work_packages_path(project)
+      ]
+    }
+
+    it 'shows a 403 error on creation paths' do
+      paths.each do |path|
+        visit path
+        expect(wp_page.current_url).to match /#{signin_path}\?back_url=/
+      end
+    end
+  end
 end
