@@ -99,7 +99,7 @@ module API
 
             type.attribute_groups.map do |group|
               group[1].map! do |prop|
-                if type.has_attribute?(prop, project: project)
+                if type.passes_attribute_constraint?(prop, project: project)
                   convert_property(prop)
                 end
               end

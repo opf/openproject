@@ -92,7 +92,7 @@ module Type::Attributes
     all_attributes = self.class.all_work_package_form_attributes(merge_date: merge_date)
 
     # Reject those attributes that are not available for this type.
-    all_attributes.select { |key, _| has_attribute? key }
+    all_attributes.select { |key, _| passes_attribute_constraint? key }
   end
 
   ##
@@ -100,7 +100,7 @@ module Type::Attributes
   # in this type instance.
   # If a project context is given, that context is passed
   # to the constraint validator.
-  def has_attribute?(attribute, project: nil)
+  def passes_attribute_constraint?(attribute, project: nil)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project: project)
   end
