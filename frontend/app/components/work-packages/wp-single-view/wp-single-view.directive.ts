@@ -114,7 +114,7 @@ export class WorkPackageSingleViewController {
 
     // Hide group if all fields are hidden
     if (this.hideEmptyFields) {
-      return _.every(group.members, (d:FieldDescriptor) => this.canHideField(d.field || d.fields![0]));
+      return _.every(group.members, (d:FieldDescriptor) => this.shouldHideField(d.field || d.fields![0]));
     }
 
     return false;
@@ -125,9 +125,10 @@ export class WorkPackageSingleViewController {
    */
   public shouldHideField(field:DisplayField) {
     let hideEmpty = this.hideEmptyFields;
+    const editField = this.formCtrl.fields[field.name];
 
-    if (this.formCtrl.fields[field.name]) {
-      hideEmpty = !this.formCtrl.fields[field.name].hasFocus() && this.hideEmptyFields;
+    if (editField) {
+      hideEmpty = !(editField.active || editField.hasFocus()) && this.hideEmptyFields;
     }
 
     const hidden = field.visibility === 'hidden';
