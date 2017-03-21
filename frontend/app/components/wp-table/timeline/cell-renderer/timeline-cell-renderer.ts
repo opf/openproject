@@ -230,18 +230,20 @@ export class TimelineCellRenderer {
       bar.style.minWidth = "30px";
     }
 
-    // check for active selection mode
-    if (renderInfo.viewParams.activeSelectionMode) {
-      bar.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
-
-      if (renderInfo.viewParams.selectionModeStart === "" + renderInfo.workPackage.id) {
-        jQuery(bar).addClass(timelineMarkerSelectionStartClass);
-        // bar.style.cursor = "not-allowed !important";
-        bar.style.background = null;
-      }
-    }
+    this.checkForActiveSelectionMode(renderInfo, bar);
 
     return true;
+  }
+
+  protected checkForActiveSelectionMode(renderInfo: RenderInfo, element: HTMLElement) {
+    if (renderInfo.viewParams.activeSelectionMode) {
+      element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
+
+      if (renderInfo.viewParams.selectionModeStart === "" + renderInfo.workPackage.id) {
+        jQuery(element).addClass(timelineMarkerSelectionStartClass);
+        element.style.background = null;
+      }
+    }
   }
 
   getLeftmostPosition(renderInfo: RenderInfo): number {

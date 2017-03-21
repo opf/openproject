@@ -4,7 +4,7 @@ import {
   RenderInfo,
   calculatePositionValueForDayCount,
   timelineElementCssClass,
-  calculatePositionValueForDayCountingPx
+  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import * as moment from "moment";
 import Moment = moment.Moment;
@@ -135,6 +135,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
     element.style.left = 'calc(0.5em + ' + calculatePositionValueForDayCount(viewParams, offsetStart) + ')';
+
+    this.checkForActiveSelectionMode(renderInfo, diamond);
 
     return true;
   }
