@@ -53,6 +53,7 @@
   </div>
 
   <div ng-repeat="group in $ctrl.groupedFields track by group.name" ng-hide="$ctrl.shouldHideGroup(group)"
+       data-group-name="{{ group.name }}"
        class="attributes-group">
 
     <div class="attributes-group--header">
