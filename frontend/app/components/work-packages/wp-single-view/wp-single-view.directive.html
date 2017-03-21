@@ -18,7 +18,7 @@
       </panel-expander>
     </div>
     <div class="-columns-2">
-      <div class="attributes-key-value" ng-repeat="descriptor in $ctrl.specialFields">
+      <div class="attributes-key-value" ng-repeat="descriptor in $ctrl.specialFields track by descriptor.name">
         <div class="attributes-key-value--key"
              ng-hide="$ctrl.shouldHideField(descriptor.field)"
              wp-replacement-label="descriptor.name">
@@ -52,7 +52,7 @@
     </div>
   </div>
 
-  <div ng-repeat="group in $ctrl.groupedFields" ng-hide="$ctrl.shouldHideGroup(group)"
+  <div ng-repeat="group in $ctrl.groupedFields track by group.name" ng-hide="$ctrl.shouldHideGroup(group)"
        class="attributes-group">
 
     <div class="attributes-group--header">
@@ -65,7 +65,7 @@
     <div class="-columns-2">
       <div
           class="attributes-key-value"
-          ng-repeat="descriptor in group.members">
+          ng-repeat="descriptor in group.members track by descriptor.name">
         <div
             class="attributes-key-value--key"
             ng-hide="$ctrl.shouldHideField(descriptor.field)"

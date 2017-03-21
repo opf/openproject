@@ -21,9 +21,8 @@ describe 'new work package', js: true do
 
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }
-  let(:project_field) { WorkPackageField.new page.find('wp-single-view'), :project }
-  let(:type_field) { WorkPackageField.new page.find('wp-single-view'), :type }
-
+  let(:project_field) { wp_page.edit_field :project }
+  let(:type_field) { wp_page.edit_field :type }
   let(:notification) { PageObjects::Notifications.new(page) }
 
   def disable_leaving_unsaved_warning
@@ -61,8 +60,8 @@ describe 'new work package', js: true do
     wp_page.subject_field.set(subject)
 
     project_field.set_value project
-    sleep 1
 
+    expect(page).to have_selector("#wp-new-inline-edit--field-type option[label=#{type}", wait: 10)
     type_field.set_value type
     sleep 1
   end
