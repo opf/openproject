@@ -49,11 +49,4 @@ angular.module('openproject.workPackages.helpers')
   ])
   .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
     'CustomFieldHelper', require('./work-packages-helper')
-  ])
-  .factory('WorkPackagesDisplayHelper', [
-    'WorkPackageFieldService',
-    '$window',
-    '$timeout',
-    require(
-    './work-package-display-helper')
   ]);
