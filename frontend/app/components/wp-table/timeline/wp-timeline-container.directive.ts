@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {openprojectModule} from "../../../angular-modules";
-import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
+import {
+  TimelineViewParameters, RenderInfo, timelineElementCssClass,
+  timelineMarkerSelectionStartClass
+} from "./wp-timeline";
 import {
   WorkPackageResourceInterface,
   WorkPackageResource
@@ -92,14 +95,14 @@ export class WorkPackageTimelineTableController {
     TypeResource.loadAll();
 
     // TODO //////////////////////////////////////
-    (window as any).tt = () => {
-      this.activateSelectionMode("61", endWorkPackage => {
+    (window as any).interactiveSelection = (start: number) => {
+      this.activateSelectionMode(start.toString(), endWorkPackage => {
         console.log("done", endWorkPackage.id);
       });
     };
-    setTimeout(() => {
-      (window as any).tt();
-    }, 3000);
+    // setTimeout(() => {
+    //   (window as any).interactiveSelection(55);
+    // }, 3000);
   }
 
   /**
@@ -173,6 +176,7 @@ export class WorkPackageTimelineTableController {
       this._viewParameters.selectionModeStart = null;
 
       this.$element.removeClass("active-selection-mode");
+      jQuery("." + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
       this.refreshView();
     };
     this._viewParameters.selectionModeStart = start;

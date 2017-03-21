@@ -34,6 +34,7 @@ import {WpTimelineHeader} from "./wp-timeline.header";
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
+export const timelineMarkerSelectionStartClass = "selection-start";
 
 /**
  *

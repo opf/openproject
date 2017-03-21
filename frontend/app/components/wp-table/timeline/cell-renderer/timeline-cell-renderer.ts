@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {
   RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass,
-  calculatePositionValueForDayCountingPx
+  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import * as moment from 'moment';
@@ -235,7 +235,7 @@ export class TimelineCellRenderer {
       bar.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
 
       if (renderInfo.viewParams.selectionModeStart === "" + renderInfo.workPackage.id) {
-        jQuery(bar).addClass("selection-start");
+        jQuery(bar).addClass(timelineMarkerSelectionStartClass);
         // bar.style.cursor = "not-allowed !important";
         bar.style.background = null;
       }
