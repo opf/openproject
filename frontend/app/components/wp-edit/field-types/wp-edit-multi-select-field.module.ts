@@ -29,6 +29,7 @@
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
@@ -70,15 +71,33 @@ export class MultiSelectEditField extends EditField {
     }
   }
 
-  public get isArray() {
-    return Array.isArray(this.value);
+  public get value() {
+    if (this.isMultiselect) {
+      return this.resource[this.name];
+    } else {
+      return this.resource[this.name][0];
+    }
+  }
+
+  public set value(val) {
+    if (Array.isArray(val)) {
+      this.resource[this.name] = val;
+    } else {
+      this.resource[this.name] = [val];
+    }
   }
 
   public isValueMulti() {
-    return this.isArray && this.value.length > 1;
+    return this.resource[this.name].length > 1;
   }
 
   public toggleMultiselect() {
+    if (this.isMultiselect) {
+      this.switchToSingleSelect();
+    } else {
+      this.switchToMultiSelect();
+    }
+
     this.isMultiselect = !this.isMultiselect;
   };
 
@@ -97,11 +116,19 @@ export class MultiSelectEditField extends EditField {
   }
 
   private checkCurrentValueValidity() {
-    this.currentValueInvalid = !!(
-      (this.value && !_.some(this.options, (option) => (option.href === this.value.href)))
-      ||
-      (!this.value && this.schema.required)
-    );
+    if(this.value) {
+      this.currentValueInvalid = !!(
+        // (If value AND)
+        // MultiSelect AND there is no value which href is not in the options hrefs OR
+        // SingleSelect AND the given values href is not within the options hrefs
+        (this.isMultiselect && !_.some(this.value, (value:HalResource) => { return _.some(this.options, (option) => (option.href === value.href)) })) ||
+        (!this.isMultiselect && !_.some(this.options, (option) => (option.href === this.value.href)))
+      );
+    }
+    else {
+      // If no value but required
+      this.currentValueInvalid == this.schema.required;
+    }
   }
 
   private addEmptyOption() {
@@ -120,4 +147,22 @@ export class MultiSelectEditField extends EditField {
       });
     }
   }
+
+  public get isArray() {
+    return Array.isArray(this.value);
+  }
+
+  private switchToMultiSelect() {
+    if (!this.isArray) {
+      this.value = [this.value];
+    }
+  }
+
+  private switchToSingleSelect() {
+    if (this.isArray) {
+      this.value = this.value[0];
+    }
+  }
+
+
 }
