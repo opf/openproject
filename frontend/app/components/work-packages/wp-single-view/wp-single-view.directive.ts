@@ -37,6 +37,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import { WorkPackageDisplayFieldService } from "../../wp-display/wp-display-field/wp-display-field.service";
 import { DisplayField } from "../../wp-display/wp-display-field/wp-display-field.module";
+import { debugLog } from "../../../helpers/debug_output";
 
 interface FieldDescriptor {
   name:string;
@@ -156,14 +157,25 @@ export class WorkPackageSingleViewController {
     }
 
     this.setFocus();
-    this.groupedFields = this.workPackage.schema._attributeGroups.map((groups:any[]) => {
+
+    // Accept the fields you always need to show.
+    this.specialFields = this.getFields(['project', 'status', 'priority']);
+
+    // Get attribute groups if they are available (in project context)
+    const attributeGroups = this.workPackage.schema._attributeGroups;
+
+    if (!attributeGroups) {
+      this.groupedFields = [];
+      return;
+    }
+
+    this.groupedFields = attributeGroups.map((groups:any[]) => {
       return {
         name: groups[0],
         members: this.getFields(groups[1])
       };
     });
 
-    this.specialFields = this.getFields(['project', 'status', 'priority']);
   }
 
   private setupI18nTexts() {
@@ -189,19 +201,28 @@ export class WorkPackageSingleViewController {
    * May return multiple fields (for the date virtual field).
    */
   private getFields(fieldNames:string[]):FieldDescriptor[] {
-    return fieldNames.map((fieldName:string) => {
+    const descriptors:FieldDescriptor[] = [];
+
+    fieldNames.forEach((fieldName:string) => {
       if (fieldName === 'date') {
-        return this.getDateField();
+        descriptors.push(this.getDateField());
+      }
+
+      if (!this.workPackage.schema[fieldName]) {
+        debugLog('Unknown field for current schema', fieldName);
+        return;
       }
 
       const field:DisplayField = this.displayField(fieldName);
-      return {
+      descriptors.push({
         name: fieldName,
         label: field.label,
         multiple: false,
         field: field
-      }
+      });
     });
+
+    return descriptors;
   }
 
   /**
