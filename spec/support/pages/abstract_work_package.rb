@@ -56,7 +56,7 @@ module Pages
 
     def expect_hidden_field(attribute)
       within(container) do
-        expect(page).to have_no_selectro(".inplace-edit.#{attribute}")
+        expect(page).to have_no_selector(".inplace-edit.#{attribute}")
       end
     end
 
@@ -81,6 +81,13 @@ module Pages
                                     text: work_package.journals.last.user.name,
                                     minimum: 1,
                                     wait: 10)
+    end
+
+    def expect_group(name, &block)
+      expect(page).to have_selector('.attributes-group--header-text', text: name.upcase)
+      if block_given?
+        within(".attributes-group[data-group-name='#{name}']", &block)
+      end
     end
 
     def expect_attributes(attribute_expectations)
