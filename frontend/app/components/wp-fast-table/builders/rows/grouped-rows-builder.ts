@@ -41,7 +41,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public buildRows(table:WorkPackageTable) {
+  public internalBuildRows(table:WorkPackageTable) {
     const metaData = table.metaData as WorkPackageTableMetadata;
     const groupBy = metaData.groupBy as string;
     const groups = this.getGroupData(groupBy, metaData.groups);

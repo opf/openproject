@@ -212,14 +212,12 @@ export function registerWorkPackageMouseHandler(this: void,
   function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
     wpCacheService.saveIfChanged(workPackage)
       .catch(() => {
-
         if (!workPackage.isNew) {
           // Reset the changes on error
           renderer.onCancel(workPackage);
         }
-      })
-      .finally(() => {
-        // workPackageTimeline.refreshView();
+
+        workPackageTimeline.refreshView();
       });
   }
 }

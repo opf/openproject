@@ -109,7 +109,7 @@ export class WpTimelineGlobalService {
               const fromId = WorkPackageResource.idFromLink(relation.from.href!);
               const toId = WorkPackageResource.idFromLink(relation.to.href!);
 
-              // this.displayRelation(fromId, toId);  // TODO remove comment
+              this.displayRelation(fromId, toId);
             });
             this.renderElements();
           });
@@ -146,11 +146,9 @@ export class WpTimelineGlobalService {
   }
 
   private update() {
-    // this.timelineController.drawingPuffer.requestFrame("global", () => {
     console.error("global update()");
     this.removeAllVisibleElements();
     this.renderElements();
-    // });
   }
 
   private removeAllElements() {

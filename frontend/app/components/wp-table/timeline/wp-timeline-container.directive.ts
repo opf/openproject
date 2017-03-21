@@ -27,16 +27,15 @@
 // ++
 import {openprojectModule} from "../../../angular-modules";
 import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
-import {WorkPackageResourceInterface} from "./../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
-import {States} from "./../../states.service";
+import {States} from "../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import * as moment from "moment";
 import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
 import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
-import {TimelineDrawingPufferService} from "./wp-timeline-drawing-puffer.service";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
@@ -50,8 +49,6 @@ export class WorkPackageTimelineTableController {
   public wpTimelineHeader: WpTimelineHeader;
 
   public readonly globalService = new WpTimelineGlobalService(this, this.$scope, this.states, this.halRequest);
-
-  public readonly drawingPuffer = new TimelineDrawingPufferService();
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
@@ -84,7 +81,6 @@ export class WorkPackageTimelineTableController {
     states.table.timelineVisible
       .observeUntil(scopeDestroyed$(this.$scope))
       .subscribe((visible) => {
-
         if (visible) {
           this.refreshView();
         }
@@ -132,18 +128,19 @@ export class WorkPackageTimelineTableController {
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
+    // console.error("addWorkPackage()", wpId);
 
     const wpObs = this.states.workPackages.get(wpId)
       .observeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
-        console.error("map() " + wp.id);
+        // console.error("Timeline work package stream: WorkPackage", wpId, "incoming...");
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          // this.globalService.updateViewParameter(this._viewParameters); // TODO remove comment
+          // console.log("    view params changed");
 
-          console.error("view params changed after wp " + wpId);
           // view params have changed, notify all cells
+          this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
         }
 
@@ -151,12 +148,29 @@ export class WorkPackageTimelineTableController {
           viewParams: this._viewParameters,
           workPackage: wp
         };
+      })
+      .distinctUntilChanged((v1, v2) => {
+        if (v1 === v2) {
+          // console.log("    work package NOT changed");
+          return true;
+        } else {
+          // console.log("    work package CHANGED");
+          return false;
+        }
+        // return v1 === v2;
+      }, renderInfo => {
+        return ""
+          + renderInfo.viewParams.dateDisplayStart
+          + renderInfo.viewParams.dateDisplayEnd
+          + renderInfo.workPackage.date
+          + renderInfo.workPackage.startDate
+          + renderInfo.workPackage.dueDate;
       });
 
     return Observable.combineLatest(
         wpObs,
         this.updateAllWorkPackagesSubject,
-        (renderInfo: RenderInfo, forceUpdate: boolean) => {
+        (renderInfo: RenderInfo) => {
           return renderInfo;
         }
       );
@@ -167,7 +181,7 @@ export class WorkPackageTimelineTableController {
       return false;
     }
 
-    console.error("calculateViewParams()");
+    // console.error("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;

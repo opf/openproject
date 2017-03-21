@@ -61,38 +61,20 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    this.workPackageTimeline.addWorkPackage(this.workPackageId)
+    this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
       .withLatestFrom(
         this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions))
       .filter(([renderInfo, visible]) => visible)
       .map(([renderInfo, visible]) => renderInfo)
-      .distinctUntilChanged((v1, v2) => {
-        // console.log("v1", v1);
-        // console.log("v2", v2);
-        return v1 === v2;
-      }, renderInfo => {
-        return ""
-          + renderInfo.viewParams.dateDisplayStart
-          + renderInfo.viewParams.dateDisplayEnd
-          + renderInfo.workPackage.date
-          + renderInfo.workPackage.startDate
-          + renderInfo.workPackage.dueDate;
-      })
       .subscribe(renderInfo => {
-        // const renderInfo = state[0];
-        // if (state[1]) {
-
-        // this.workPackageTimeline.drawingPuffer.requestFrame("wp-" + this.workPackageId, () => {
-        console.error("draw wp-" + this.workPackageId);
+        // console.error("Timeline Cell drawing", this.workPackageId);
         this.updateView(renderInfo);
-        // this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
-        // });
-
-        // }
-    });
+        this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
+      });
   }
 
   deactivate() {
+    console.log("deactivate()");
     this.clear();
     this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
     this.subscription && this.subscription.unsubscribe();
