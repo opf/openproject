@@ -111,7 +111,7 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   end
 
   def ar_object_filter?
-    %w{user version}.include? custom_field.field_format
+    %w{user version list}.include? custom_field.field_format
   end
 
   def value_objects
@@ -120,6 +120,8 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
       User.find(values)
     when 'version'
       Version.find(values)
+    when 'list'
+      value_objects_for_list
     else
       super
     end
@@ -152,5 +154,29 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   def invalid_custom_field_for_project?
     !self.class.custom_fields(context)
          .map(&:id).include? custom_field.id
+  end
+
+  def value_objects_for_list
+    objects = allowed_values.select do |value|
+      values.include? value.last.to_s
+    end
+
+    objects.map do |value|
+      Queries::StringObject.new(value.last, value.first)
+    end
+  end
+end
+
+#
+# This object is only used to transport the values tothe query filter instance
+# representer which expects a class and deduces the path from the classes' name.
+#
+class Queries::StringObject
+  attr_accessor :id,
+                :name
+
+  def initialize(id, name)
+    self.id = [name, id]
+    self.name = name
   end
 end
