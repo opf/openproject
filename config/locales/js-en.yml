@@ -229,6 +229,10 @@ en:
 
     text_are_you_sure: "Are you sure?"
 
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
+
     watchers:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers

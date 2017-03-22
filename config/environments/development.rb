@@ -55,7 +55,7 @@ OpenProject::Application.configure do
   config.active_record.migration_error = :page_load
 
   # Disable compression and asset digests, but disable debug
-  config.assets.debug = true
+  config.assets.debug = false
   config.assets.digest = false
 
   # Suppress asset output

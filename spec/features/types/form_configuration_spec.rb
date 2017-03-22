@@ -95,13 +95,13 @@ describe 'form configuration', type: :feature, js: true do
     expect_group(group_label, key: attribute)
   end
 
-  def add_group(name)
+  def add_group(name, expect: true)
     add_button.click
     input = find('.group-edit-in-place--input')
     input.set(name)
     input.send_keys(:return)
 
-    expect_group(name)
+    expect_group(name) if expect
   end
 
   def rename_group(from, to)
@@ -140,6 +140,13 @@ describe 'form configuration', type: :feature, js: true do
 
     expect(page).to have_no_selector(group_selector('Whatever'))
     expect_group('Details')
+  end
+
+  it 'detects errors for duplicate group names' do
+    add_group('New Group')
+    add_group('New Group', expect: false) # would fail since two selectors exist now
+
+    expect(page).to have_selector("#{group_selector('New Group')}.-error", count: 1)
   end
 
   it 'allows modification of the form configuration' do
@@ -218,7 +225,6 @@ describe 'form configuration', type: :feature, js: true do
 
     # Category should be hidden
     wp_page.expect_hidden_field(:category)
-
 
     wp_page.expect_group('New Group') do
       wp_page.expect_attributes category: category.name
