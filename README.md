@@ -13,7 +13,7 @@ OpenProject is a web-based project management software. Its key features are:
 * [Bug tracking](https://www.openproject.org/collaboration-software-features/#bug-tracking)
 * [Wikis](https://www.openproject.org/help/wiki/)
 * [Forums](https://www.openproject.org/help/user-guides/forum/)
-* [Meeting Management](https://www.openproject.org/help/meetings/)
+* [Meeting agendas and meeting minutes](https://www.openproject.org/help/meetings/)
 
 More information and screenshots can be found on our [website](https://www.openproject.org).
 
@@ -31,21 +31,13 @@ OpenProject is supported by its community members, both companies and individual
 
 Here you can find our [contact information](https://www.openproject.org/contact-us).
 
-## Repository
-
-This repository contains several main branches:
-
-* `stable/<major version>`: Contains the latest stable release for a specific version. We recommend to use this for production use. Example: `stable/6`.
-* `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
-* `release/<major version>.<minor version>` the release branch for the immediate next patch release within the given major and minor version. Example `release/6.1` targets the unrelease next patch release `6.1.x`.
-
 
 ## Security / responsible disclosure
 
 We take security very seriously at OpenProject. We value any kind of feedback that
 will keep our community secure. If you happen to come across a security issue we urge
 you to disclose it to us privately to allow our users and community enough time to
-upgrade. Security issues will always take precedence over anything else in the pipeline. 
+upgrade. Security issues will always take precedence over anything else in the pipeline.
 
 ## License
 
