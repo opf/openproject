@@ -1,43 +1,52 @@
-# Install plugins - manual/not packaged
+# Install plugins - packaged installation
 
-OpenProject plugins come under the form of Ruby gems. The packaged and docker
-based installation come with default plugins installed (the ones found in the
-[Community Edition of OpenProject](https://github.com/opf/openproject-ce)).
+Note: this guide only applies if you've installed OpenProject using our DEB/RPM
+packages.
 
-For a manual installation, you can choose to install a different set of plugins
-by following the instructions below.
+[A number of plugins](https://www.openproject.org/plugins/) exist
+for use with OpenProject. Most plugins that are maintained by us are shipping
+with OpenProject, however there are several plugins contributed by the
+community.
 
-## How to install a plugin
+Previously, using them in a packaged installation was not possible without
+losing your changes on every upgrade. With the following steps, you can now use
+third party plugins.
 
-You can install plugins by listing them in a file called `Gemfile.plugins`. An
-example `Gemfile.plugins` file looks like this:
+**Note**: We cannot guarantee upgrade compatibility for third party plugins nor
+do we provide support for them. Please carefully check whether the plugins you
+use are available in newer versions before upgrading your installation.
+
+## 1. Add a custom Gemfile
+
+If you have a plugin you wish to add to your packaged OpenProject installation,
+create a separate Gemfile with the Gem dependencies, such as the following:
 
 ```
-# Required by backlogs
-gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable/5"
-
-gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable/5"
+gem 'openproject-emoji', git: 'https://github.com/tessi/openproject-emoji.git', :branch => 'op-5-stable'
 ```
 
-If you have modified the `Gemfile.plugins` file, always repeat the following
-steps of the OpenProject installation:
+We suggest to store the Gemfile under `/etc/openproject/Gemfile.custom`, but
+the choice is up to you, just make sure the `openproject` user is able to read
+it.
 
-```bash
-[openproject@debian]# cd ~/openproject-ce
-[openproject@debian]# bundle install
-[openproject@debian]# npm install
-[openproject@debian]# RAILS_ENV="production" bundle exec rake db:migrate db:seed assets:precompile
+## 2. Propagate the Gemfile to the package
+
+You have to tell your installation to use the custom gemfile via a config setting:
+
+```
+openproject config:set CUSTOM_PLUGIN_GEMFILE=/etc/openproject/Gemfile.custom
 ```
 
-Restart the OpenProject server afterwards (no need to restart Apache(:
+## 3. Re-run the installer
 
-```bash
-[openproject@debian]# touch ~/openproject-ce/tmp/restart.txt
+To re-bundle the application including the new plugins, as well as running
+migrations and precompiling their assets, simply re-run the installer while
+using the same configuration as before.
+
+```
+openproject configure
 ```
 
-The next request to the server will take longer (as the application is
-restarted). All subsequent request should be as fast as always.
-
-Always make sure that the plugin version is compatible with your OpenProject
-version (e.g. use the ‘stable’ branch of both software -- OpenProject, and the
-plugin).
+Using `configure` will take your previous decisions in the installer and simply
+re-apply them, which is an idempotent operation. It will detect the Gemfile
+config option being set and re-bundle the application with the additional plugins.
