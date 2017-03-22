@@ -207,6 +207,7 @@ export class WorkPackageSingleViewController {
     fieldNames.forEach((fieldName:string) => {
       if (fieldName === 'date') {
         descriptors.push(this.getDateField());
+        return;
       }
 
       if (!this.workPackage.schema[fieldName]) {

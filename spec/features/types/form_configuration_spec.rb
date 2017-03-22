@@ -239,19 +239,32 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     # Empty attributes should be shown on toggle
-    wp_page.expect_hidden_field(:responsible)
-    wp_page.expect_hidden_field(:estimated_time)
-    wp_page.expect_hidden_field(:spent_time)
-    wp_page.view_all_attributes
+    expected_attributes = ->() do
+      wp_page.expect_hidden_field(:responsible)
+      wp_page.expect_hidden_field(:estimated_time)
+      wp_page.expect_hidden_field(:spent_time)
+      wp_page.view_all_attributes
 
-    wp_page.expect_group('Cool Stuff') do
-      wp_page.expect_attributes responsible: '-'
+      wp_page.expect_group('Cool Stuff') do
+        wp_page.expect_attributes responsible: '-'
+      end
+
+      wp_page.expect_group('Estimates and time') do
+        wp_page.expect_attributes estimated_time: '-'
+        wp_page.expect_attributes spent_time: '-'
+      end
     end
 
-    wp_page.expect_group('Estimates and time') do
-      wp_page.expect_attributes estimated_time: '-'
-      wp_page.expect_attributes spent_time: '-'
-    end
+    # Should match on edit view
+    expected_attributes.call
+
+    # New work package has the same configuration
+    wp_page.click_create_wp_button(type)
+    expected_attributes.call
+
+    find('#work-packages--edit-actions-cancel').click
+    expect(wp_page).not_to have_alert_dialog
+    loading_indicator_saveguard
   end
 end
 
