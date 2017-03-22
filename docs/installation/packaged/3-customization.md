@@ -1,8 +1,8 @@
-### Customization: Installing plugins
+### Installing plugins
 
 Note: this guide only applies if you've installed OpenProject using our DEB/RPM packages.
 
-[A number of plugins](https://www.openproject.org/open-source/openproject-plugins/) exist
+[A number of plugins](https://www.openproject.org/plugins/) exist
 for use with OpenProject. Most plugins that are maintained by us are shipping
 with OpenProject, however there are several plugins contributed by the
 community.
@@ -49,4 +49,3 @@ openproject configure
 Using `configure` will take your previous decisions in the installer and simply
 re-apply them, which is an idempotent operation. It will detect the Gemfile
 config option being set and re-bundle the application with the additional plugins.
-
