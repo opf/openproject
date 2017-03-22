@@ -3,8 +3,8 @@
 ## Install Plugins
 You can install plugins for the following installation methods:
 
-* [Install Plugins (Packages)](https://www.openproject.org/help/plugins/install-plugins-packages/)
-* [Install Plugins (Manual)](https://www.openproject.org/help/plugins/install-plugins-manual/)
+* [Install Plugins (Packages)](https://www.openproject.org/plugins/install-plugins-packages/)
+* [Install Plugins (Manual)](https://www.openproject.org/plugins/install-plugins-manual/)
 
 ## Contribute Plugins
 
@@ -25,7 +25,7 @@ Supported plugins are compatible with the current OpenProject version. When a pl
 * Please refer also to the [agile and scrum overview](https://www.openproject.org/collaboration-software-features/) page
 
 ```
-gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => 'stable/5' 
+gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => 'stable/5'
 gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => 'stable/5'
 ```
 
