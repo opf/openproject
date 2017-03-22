@@ -5,16 +5,16 @@ module OpenProject::XlsExport
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-xls_export',
-             :author_url => 'http://finn.de/',
-             :requires_openproject => '>= 4.0.0'
+             author_url: 'http://openproject.com/',
+             requires_openproject: '>= 4.0.0'
 
     patches [:WorkPackagesController, :QueryColumn]
     # disabled since not yet migrated: :CostReportsController
 
-    initializer 'xls_export.mixins' do
-      require_relative 'patches/api/experimental/export_formats'
+    extend_api_response(:v3, :work_packages, :work_package_collection) do
+      require_relative 'patches/api/v3/export_formats'
 
-      Api::Experimental::WorkPackagesController.prepend OpenProject::XlsExport::ExportFormats
+      prepend Patches::Api::V3::ExportFormats
     end
 
     initializer 'xls_export.register_hooks' do

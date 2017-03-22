@@ -34,7 +34,7 @@ module OpenProject::XlsExport
         end
 
         def xls_export_results(query)
-          query.results include: xls_export_associations, order: sort_clause
+          query.results include: xls_export_associations
         end
 
         def xls_export_filename
@@ -45,7 +45,7 @@ module OpenProject::XlsExport
 
         def define_xls_format!(format)
           format.xls do
-            @issues = xls_export_results(@query).work_packages
+            @work_packages = xls_export_results(@query).sorted_work_packages
             data = issues_to_xls params.slice(:show_descriptions, :show_relations)
 
             send_data data, type: "application/vnd.ms-excel", filename: xls_export_filename
@@ -55,7 +55,7 @@ module OpenProject::XlsExport
         # Return an xls file from a spreadsheet builder
         def issues_to_xls(options)
           export = OpenProject::XlsExport::WorkPackageXlsExport.new(
-            project: @project, work_packages: @issues, query: @query,
+            project: @project, work_packages: @work_packages, query: @query,
             current_user: current_user,
             with_descriptions: options[:show_descriptions],
             with_relations: options[:show_relations]
