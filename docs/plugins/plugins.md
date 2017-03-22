@@ -1,14 +1,14 @@
 # Plugins
 
-## Install Plugins
+## Install plugins
 You can install plugins for the following installation methods:
 
-* [Install Plugins (Packages)](https://www.openproject.org/plugins/install-plugins-packages/)
-* [Install Plugins (Manual)](https://www.openproject.org/plugins/install-plugins-manual/)
+* [Install Plugins - packaged installation](https://www.openproject.org/plugins/install-plugins-packaged/)
+* [Install Plugins - manual installation](https://www.openproject.org/plugins/install-plugins-manual/)
 
-## Contribute Plugins
+## Develop plugins
 
-We encourage you to extend OpenProject yourself by writing a plugin. Please, read the [plugin-contributions](https://www.openproject.org/help/develope-openproject/create-openproject-plugin/) guide for more information.
+We encourage you to extend OpenProject yourself by writing a plugin. Please, read the [plugin-contributions](https://www.openproject.org/develope-openproject/create-openproject-plugin/) guide for more information.
 
 If you are a plugin author and want your plugins to be listed here, leave us a note in our [forums](https://community.openproject.org/projects/openproject/boards), via [twitter](https://twitter.com/openproject) or any other communication channel. We're looking forward to your contribution.
 
