@@ -135,4 +135,14 @@ class RolesController < ApplicationController
   def notify_changed_roles(action, changed_role)
     OpenProject::Notifications.send(:roles_changed, action: action, role: changed_role)
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t('label_role_plural')
+    else
+      ActionController::Base.helpers.link_to(t('label_role_plural'), roles_path)
+    end
+  end
 end

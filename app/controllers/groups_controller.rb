@@ -168,4 +168,12 @@ class GroupsController < ApplicationController
   def find_group
     @group = Group.find(params[:id])
   end
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t('label_group_plural')
+    else
+      ActionController::Base.helpers.link_to(t('label_group_plural'), groups_path)
+    end
+  end
 end

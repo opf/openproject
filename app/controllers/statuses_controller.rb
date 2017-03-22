@@ -99,4 +99,14 @@ class StatusesController < ApplicationController
     end
     redirect_to action: 'index'
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t(:label_work_package_status_plural)
+    else
+      ActionController::Base.helpers.link_to(t(:label_work_package_status_plural), statuses_path)
+    end
+  end
 end
