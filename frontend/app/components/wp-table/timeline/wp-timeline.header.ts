@@ -89,7 +89,8 @@ export class WpTimelineHeader {
   }
 
   getHeaderWidth() {
-    return this.outerHeader ? this.outerHeader.width() : 1;
+    // Consider the left margin of the header due to the border.
+    return this.outerHeader ? (this.outerHeader.width() - 5) : 1;
   }
 
   getAbsoluteLeftCoordinates(): number {
