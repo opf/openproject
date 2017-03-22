@@ -244,6 +244,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
         );
 
         td.appendChild(link);
+        td.classList.add('-short', 'hierarchy-row--id-cell');
       }
 
       tr.appendChild(td);
