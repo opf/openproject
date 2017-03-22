@@ -1,46 +1,24 @@
+# Develop OpenProject
+
 We are pleased that you are thinking about contributing to OpenProject! This guide details how to contribute to OpenProject in a way that is efficient and fun for everyone.
 
-### Get in touch
+## Get in touch
 
 Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/boards/7) or send us an email to info@openproject.org.
 
-### Contributor code of conduct
+## Issue tracking and coordination
 
-As contributors and maintainers of this project, we pledge to respect all people
-who contribute through reporting issues, posting feature requests,
-updating documentation, submitting pull requests or patches, and other activities.
-
-We are committed to making participation in this project a harassment-free experience for everyone,
-regardless of level of experience, gender, gender identity and expression, sexual orientation,
-disability, personal appearance, body size, race, age, or religion.
-
-Examples of unacceptable behavior by participants include the use of sexual language
-or imagery, derogatory comments or personal attacks, trolling, public or private harassment,
-insults, or other unprofessional conduct.
-
-Project maintainers have the right and responsibility to remove, edit, or reject comments, commits,
-code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct.
-Project maintainers who do not follow the Code of Conduct may be removed from the project team.
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported
-by opening an issue or contacting one or more of the project maintainers.
-
-This code of conduct is adapted from the
-[Contributor Covenant](http:contributor-covenant.org),
-version 1.0.0, available at
-[http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
-
-
-### Issue tracking and coordination
-
-We use OpenProject for development coordination and roadmap planning. Please have a look at the following lists:
+We eat our own ice cream so we use OpenProject for roadmap planning and team collaboration. Please have a look at the following pages:
 
 - [Development timeline](https://community.openproject.com/projects/openproject/timelines/36)
 - [Product roadmap and release planning](https://community.openproject.com/projects/openproject/roadmap)
 - [Wish list](https://community.openproject.com/versions/26)
 - [Bug backlog](https://community.openproject.com/versions/136)
+- [Report a bug](https://www.openproject.org/development/report-a-bug/)
+- [Submit a feature idea](https://www.openproject.org/development/submit-feature-idea/)
 
-### Branching model
+
+## Branching model
 
 The main development branch for upcoming releases is `dev`.
 If in doubt, create your pull request against `dev`.
@@ -102,7 +80,7 @@ Once a day we fetch those locales and upload them to GitHub.
 More on this topic can be found in our [blog post](https://www.openproject.org/help-translate-openproject-into-your-language/).
 
 
-### Testing
+## Testing
 
 Please add tests to your code to verify functionality, especially if it is a new feature.
 
@@ -116,27 +94,20 @@ Please also use `[ci skip]` in your commit message to suppress builds which are 
 (e.g. after fixing a typo in the `README`).
 
 
-#### Bugs and hotfixes
+## Bugs and hotfixes
 
 Bugfixes for one of the actively supported versions of OpenProject should be issued against the respective branch.
-A fix for the current version (called "Hotfix" and the branch ideally being named `hotfix/XYZ`) 
+A fix for the current version (called "Hotfix" and the branch ideally being named `hotfix/XYZ`)
 should target `release/*` and a fix for the former version
 (called "Backport" and the branch ideally being named `backport/XYZ`)
 should target `backport/*`. We will try to merge hotfixes into dev branch
 but if that is no trivial task, we might ask you to create another PR for that.
 
-
-### Inactive pull requests
+## Inactive pull requests
 
 We want to keep the Pull request list as cleaned up as possible - we will aim close pull requests
 after an **inactivity period of 30 days** (no comments, no further pushes)
 which are not labelled as `work in progress` by us.
-
-## Contributors license agreement
-
-Contributors have to sign a CLA before contributing to OpenProject.
-The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2015/08/Contributor-License-Agreement.pdf)
-and has to be filled out and sent to info@openproject.org.
 
 ## Security
 
@@ -147,3 +118,35 @@ Please include a description on how to reproduce the issue if possible. Our secu
 ## Accessibility
 
 For our impaired users please have a look at our [accessibility-checklist](https://www.openproject.org/help/develope-openproject/accessibility-checklist).
+
+## Contributor code of conduct
+
+As contributors and maintainers of this project, we pledge to respect all people
+who contribute through reporting issues, posting feature requests,
+updating documentation, submitting pull requests or patches, and other activities.
+
+We are committed to making participation in this project a harassment-free experience for everyone,
+regardless of level of experience, gender, gender identity and expression, sexual orientation,
+disability, personal appearance, body size, race, age, or religion.
+
+Examples of unacceptable behavior by participants include the use of sexual language
+or imagery, derogatory comments or personal attacks, trolling, public or private harassment,
+insults, or other unprofessional conduct.
+
+Project maintainers have the right and responsibility to remove, edit, or reject comments, commits,
+code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct.
+Project maintainers who do not follow the Code of Conduct may be removed from the project team.
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported
+by opening an issue or contacting one or more of the project maintainers.
+
+This code of conduct is adapted from the
+[Contributor Covenant](http:contributor-covenant.org),
+version 1.0.0, available at
+[http://contributor-covenant.org/version/1/0/0/](http://contributor-covenant.org/version/1/0/0/)
+
+## Contributors license agreement
+
+Contributors have to sign a CLA before contributing to OpenProject.
+The [CLA can be found here](https://www.openproject.org/wp-content/uploads/2015/08/Contributor-License-Agreement.pdf)
+and has to be filled out and sent to info@openproject.org.
