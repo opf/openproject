@@ -32,6 +32,7 @@ import {wpDirectivesModule} from "../../../angular-modules";
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 import {WorkPackageCacheService} from "../work-package-cache.service";
 import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
+import {MultipleLinesStringObjectsDisplayField} from '../../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
 import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
 import {
   WorkPackageResource,
@@ -106,7 +107,12 @@ export class WorkPackageDisplayAttributeController {
 
   protected updateAttribute(wp:WorkPackageResourceInterface) {
     this.workPackage = wp;
-    this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;
+
+    if (this.schema[this.attribute].type === '[]StringObject') {
+      this.field = new MultipleLinesStringObjectsDisplayField(this.workPackage, this.attribute, this.schema[this.attribute])
+    } else {
+      this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;
+    }
 
     this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
     this.field.render(this.__d__renderer[0], this.displayText);

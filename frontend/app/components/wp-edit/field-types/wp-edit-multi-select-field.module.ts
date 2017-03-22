@@ -92,12 +92,6 @@ export class MultiSelectEditField extends EditField {
   }
 
   public toggleMultiselect() {
-    if (this.isMultiselect) {
-      this.switchToSingleSelect();
-    } else {
-      this.switchToMultiSelect();
-    }
-
     this.isMultiselect = !this.isMultiselect;
   };
 
@@ -147,22 +141,4 @@ export class MultiSelectEditField extends EditField {
       });
     }
   }
-
-  public get isArray() {
-    return Array.isArray(this.value);
-  }
-
-  private switchToMultiSelect() {
-    if (!this.isArray) {
-      this.value = [this.value];
-    }
-  }
-
-  private switchToSingleSelect() {
-    if (this.isArray) {
-      this.value = this.value[0];
-    }
-  }
-
-
 }

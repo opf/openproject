@@ -1,8 +1,10 @@
-<div ng-repeat="value in vm.field.value" title="{{ value }}" class="custom-option">
-  <span ng-if="$first && vm.field.value.length > 1"> {{ value }} and {{ vm.field.value.length - 1}} others </span>
-  <span ng-if="$first && vm.field.value.length == 1"> {{ value }} </span>
-</div>
+<span>
+  <div ng-repeat="value in vm.field.value" title="{{ value }}" class="custom-option">
+    <span ng-if="$first && vm.field.value.length > 1"> {{ value }} and {{ vm.field.value.length - 1}} others </span>
+    <span ng-if="$first && vm.field.value.length == 1"> {{ value }} </span>
+  </div>
 
-<div title="no value" ng-if="vm.field.value.length == 0" class="custom-option -empty">
-  -
-</div>
+  <div title="I18n.t('js.work_packages.no_value')" ng-if="vm.field.value.length == 0" class="custom-option -empty">
+    -
+  </div>
+</span>
