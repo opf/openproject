@@ -43,19 +43,15 @@ module OpenProject
         def links
           {
             user_guides: {
-              href: 'https://www.openproject.org/help/user-guides',
+              href: 'https://www.openproject.org/help/',
               label: 'homescreen.links.user_guides'
-            },
-            faq: {
-              href: 'https://www.openproject.org/help/faq',
-              label: 'homescreen.links.faq'
             },
             glossary: {
               href: 'https://www.openproject.org/help/user-guides/glossary/',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
-              href: 'https://www.openproject.org/help/user-guides/keyboard-shortcuts-access-keys/',
+              href: 'https://www.openproject.org/help/keyboard-shortcuts-access-keys/',
               label: 'homescreen.links.shortcuts'
             },
             boards: {
@@ -63,7 +59,7 @@ module OpenProject
               label: 'homescreen.links.boards'
             },
             professional_support: {
-              href: 'https://www.openproject.org/professional-services/',
+              href: 'https://www.openproject.org/enterprise-edition/',
               label: :label_professional_support
             },
             blog: {
@@ -71,11 +67,11 @@ module OpenProject
               label: 'homescreen.links.blog'
             },
             release_notes: {
-              href: 'https://www.openproject.org/open-source/release-notes/',
+              href: 'https://www.openproject.org/release-notes/',
               label: :label_release_notes
             },
             report_bug: {
-              href: 'https://www.openproject.org/open-source/report-bug/',
+              href: 'https://www.openproject.org/development/report-a-bug/',
               label: :label_report_bug
             },
             roadmap: {
