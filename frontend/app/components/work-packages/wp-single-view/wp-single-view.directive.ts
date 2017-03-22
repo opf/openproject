@@ -128,7 +128,7 @@ export class WorkPackageSingleViewController {
     const editField = this.formCtrl.fields[field.name];
 
     if (editField) {
-      hideEmpty = !(editField.active || editField.hasFocus()) && this.hideEmptyFields;
+      hideEmpty = !editField.hasFocus() && this.hideEmptyFields;
     }
 
     const hidden = field.visibility === 'hidden';
