@@ -95,7 +95,7 @@ module Type::AttributeGroups
     ordered = []
     default_groups.map do |groupkey, label_key|
       members = values[groupkey]
-      ordered << [I18n.t(label_key), members.sort] if members.present?
+      ordered << [I18n.t(label_key, locale: Setting.default_language), members.sort] if members.present?
     end
 
     ordered
