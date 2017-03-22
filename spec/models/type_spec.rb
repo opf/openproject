@@ -94,12 +94,17 @@ describe ::Type, type: :model do
       expect { type.save }.to raise_exception
       # Exampel for invalid group name:
       type.attribute_groups = [['', ['date']]]
-      expect { type.save }.to raise_exception
+      expect(type).not_to be_valid
     end
 
     it 'fails validations for unknown attributes' do
       type.attribute_groups = [['foo', ['bar']]]
       expect(type.save).to be_falsey
+    end
+
+    it 'fails for duplicate group names' do
+      type.attribute_groups = [['foo', ['bar']], ['foo', ['bar']]]
+      expect(type).not_to be_valid
     end
 
     it 'passes validations for known attributes' do
