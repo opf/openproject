@@ -46,10 +46,6 @@ module OpenProject
               href: 'https://www.openproject.org/help/',
               label: 'homescreen.links.user_guides'
             },
-            faq: {
-              href: 'https://www.openproject.org/help/',
-              label: 'homescreen.links.faq'
-            },
             glossary: {
               href: 'https://www.openproject.org/help/user-guides/glossary/',
               label: 'homescreen.links.glossary'
@@ -75,7 +71,7 @@ module OpenProject
               label: :label_release_notes
             },
             report_bug: {
-              href: 'https://www.openproject.org/develop-openproject/report-a-bug/',
+              href: 'https://www.openproject.org/development/report-a-bug/',
               label: :label_report_bug
             },
             roadmap: {
