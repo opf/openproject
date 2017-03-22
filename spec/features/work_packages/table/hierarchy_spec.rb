@@ -69,6 +69,23 @@ describe 'Work Package table hierarchy', js: true do
     hierarchy.disable_hierarchy
     hierarchy.expect_no_hierarchies
 
+    # Editing is possible while retaining hierachy
+    hierarchy.enable_hierarchy
+    subject = wp_table.edit_field wp_inter, :subject
+    subject.update 'New subject'
+
+    wp_table.expect_notification message: 'Successful update.'
+    wp_table.dismiss_notification!
+
+    hierarchy.expect_hierarchy_at(wp_root)
+    hierarchy.expect_hierarchy_at(wp_inter)
+    hierarchy.expect_leaf_at(wp_leaf)
+    hierarchy.expect_leaf_at(wp_other)
+
+    # Disable hierarchy again
+    hierarchy.disable_hierarchy
+    hierarchy.expect_no_hierarchies
+
     # Now visiting the query for category
     wp_table.visit_query(query)
 

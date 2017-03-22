@@ -11,7 +11,8 @@ import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {SingleRowBuilder} from './single-row-builder';
+import { SingleRowBuilder } from './single-row-builder';
+import { wpCellTdClassName } from "../cell-builder";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -86,10 +87,24 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     return this.wpTableColumns.columnCount + 1;
   }
 
+  /**
+   * Refresh a single row after structural changes.
+   * Remembers and re-adds the hierarchy indicator if neccessary.
+   */
+  public refreshRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement|null {
+    // Remove any old hierarchy
+    const newRow = super.refreshRow(row, table);
+
+    if (newRow) {
+      jQuery(newRow).find(`.wp-table--hierarchy-span`).remove();
+      this.appendHierarchyIndicator(row.object, newRow);
+    }
+
+    return newRow;
+  }
+
   public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable, level?:number) {
-    level = level || row.object.ancestors.length;
     const element = this.rowBuilder.buildEmpty(row.object);
-    const hierarchyIndicator = this.buildHierarchyIndicator(row.object, level);
     const state = this.wpTableHierarchy.currentState;
 
     row.object.ancestors.forEach((ancestor:WorkPackageResourceInterface) => {
@@ -101,16 +116,23 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
     });
 
     element.classList.add(`__hierarchy-root-${row.object.id}`);
-    jQuery(element).find('td.subject')
-                   .prepend(hierarchyIndicator)
-                   .addClass('-with-hierarchy');
+    this.appendHierarchyIndicator(row.object, element);
     return element;
+  }
+
+  private appendHierarchyIndicator(workPackage:WorkPackageResourceInterface, row:HTMLElement, level?:number):void {
+      const jRow = jQuery(row);
+      const hierarchyElement = this.buildHierarchyIndicator(workPackage, level);
+      jRow.find('td.subject')
+          .addClass('-with-hierarchy')
+          .prepend(hierarchyElement);
   }
 
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, level:number):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, index:number|null = null):HTMLElement {
+      const level = index === null ? workPackage.ancestors.length : index;
       const hierarchyIndicator = document.createElement('span');
       const collapsed = this.wpTableHierarchy.collapsed(workPackage.id);
       hierarchyIndicator.classList.add(hierarchyCellClassName);
