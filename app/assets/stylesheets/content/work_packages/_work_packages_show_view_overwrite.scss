@@ -227,6 +227,8 @@ body.controller-work_packages.action-show {
     width: initial;
     align-self: center;
     flex-grow: 1;
+    /* Leave space for the back button */
+    max-width: calc(100% - 100px);
 
 
     .wp-table--cell-span {
@@ -287,7 +289,14 @@ body.controller-work_packages.action-show {
   }
 
   .wp-edit-field.-active {
-    margin-right: 5px !important;
+    margin-right: 80px !important;
+    width: 95%
+  }
+  .inplace-edit--read-value--value-span {
+    white-space: nowrap;
+  }
+  .inplace-edit--read-value--value-span:after {
+    content: ':';
   }
 }
 
