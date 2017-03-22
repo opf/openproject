@@ -1,4 +1,4 @@
-# OpenProject Configuration
+# OpenProject configuration
 
 This file describes a part of the OpenProject configuration. You can find general installation instructions [here](INSTALL.md). OpenProject also allows configuring many aspects via its admin interface. The config/settings.yml file should *not* be used for changing these settings.
 
@@ -23,7 +23,7 @@ SMTP_ENABLE_STARTTLS_AUTO="true"
 
 In case you want to use environment variables, but you have no easy way to set them on a specific systme, you can use the [dotenv](https://github.com/bkeepers/dotenv) gem. It automatically sets environment variables written to a .env file for a Rails application.
 
-### Nested Values
+### Nested values
 
 You can override nested configuration values as well by joining the respective hash keys with underscores.
 Underscores within keys have to be escaped by doubling them.
@@ -275,17 +275,17 @@ default:
 * `smtp_enable_starttls_auto`: You can disable STARTTLS here in case it doesn't work. Make sure you don't login to a SMTP server over a public network when using this. This setting can't currently be used via environment variables, since setting options to `false` is only possible via a YAML file. (default: true, optional)
 * `smtp_openssl_verify_mode`: Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`
 
-## Cache Options:
+## Cache options:
 
 * `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
 
-## Asset Options:
+## Asset options:
 
 * `rails_asset_host`: A custom host to use to serve static assets such as javascript, CSS, images, etc. (default: `nil`)
 
-## Onboarding Variables:
+## Onboarding variables:
 
 * 'onboarding_video_url': An URL for the video displayed on the onboarding modal. This is only shown when the user logs in for the first time.

@@ -1,2 +1,0 @@
-- [Configuration](./configuration.md)
-- [Incoming Mails](./incoming-mails.md)
