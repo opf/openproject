@@ -97,7 +97,7 @@ export class WpTimelineGlobalService {
         halRequest.get(
           '/api/v3/relations',
           {
-            filter: [{ involved: {operator: '=', values: this.workPackageIdOrder } }]
+            filters: JSON.stringify([{ involved: {operator: '=', values: this.workPackageIdOrder } }])
           }).then((collection: CollectionResource) => {
             this.removeAllElements();
             collection.elements.forEach((relation: RelationResource) => {
