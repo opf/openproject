@@ -28,7 +28,12 @@
 
 import {openprojectModule} from '../../../angular-modules';
 
-function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: any) {
+function typesFormConfigurationCtrl(
+  dragulaService:any,
+  NotificationsService:any,
+  I18n:op.I18n,
+  $scope:any,
+  $compile:any) {
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
       return handle.className === 'group-handle';
@@ -54,7 +59,7 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
   };
 
   $scope.deleteGroup = ($event: any): void => {
-    let group: JQuery = angular.element($event.target).parents('.type-form-conf-group')
+    let group: JQuery = angular.element($event.target).parents('.type-form-conf-group');
     let attributes: JQuery = angular.element('.attributes', group).children();
     let inactiveAttributes: JQuery = angular.element('#type-form-conf-inactive-group .attributes');
 
@@ -70,11 +75,11 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
 
     group.remove();
     $scope.updateHiddenFields();
-  }
+  };
 
   $scope.addGroup = (event: any) => {
-    let newGroup: JQuery = angular.element("#type-form-conf-group-template").clone();
-    let draggableGroups: JQuery = angular.element("#draggable-groups");
+    let newGroup: JQuery = angular.element('#type-form-conf-group-template').clone();
+    let draggableGroups: JQuery = angular.element('#draggable-groups');
     let randomId: string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
@@ -86,14 +91,18 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
 
     draggableGroups.prepend(newGroup);
     $compile(newGroup)($scope);
-  }
+  };
 
   $scope.updateHiddenFields = (): void => {
     let groups: HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
+    let seenGroupNames: {[name:string]: boolean} = {};
     let newAttrGroups: Array<Array<(string | Array<string>)>> = [];
     let newAttrVisibility: any = {};
     let inputAttributeGroups: JQuery;
     let inputAttributeVisibility: JQuery;
+
+    // Clean up previous error states
+    NotificationsService.clear();
 
     // Extract new grouping and visibility setup from DOM structure, starting
     // with the active groups.
@@ -102,14 +111,24 @@ function typesFormConfigurationCtrl(dragulaService: any, $scope: any, $compile: 
       let attributes: HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
       let attrKeys: string[] = [];
 
+      angular.element(group).removeClass('-error');
       if (groupKey == null || groupKey.length === 0) {
         // Do not save groups without a name.
         return;
       }
 
+      if (seenGroupNames[groupKey]) {
+        NotificationsService.addError(
+          I18n.t('js.types.attribute_groups.error_duplicate_group_name', { group: groupKey })
+        );
+        angular.element(group).addClass('-error');
+        return;
+      }
+
+      seenGroupNames[groupKey] = true;
       attributes.forEach((attribute:HTMLElement) => {
-        let attr: JQuery = angular.element(attribute)
-        let key: string = attr.attr('data-key')
+        let attr: JQuery = angular.element(attribute);
+        let key: string = attr.attr('data-key');
         attrKeys.push(key);
         newAttrVisibility[key] = 'default';
         if (angular.element('input[type=checkbox]', attr)) {

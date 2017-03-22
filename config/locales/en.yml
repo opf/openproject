@@ -487,6 +487,12 @@ en:
               does_not_exist: "The specified category does not exist."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: "Unnamed groups are not allowed."
+              duplicate_group: "The group name %{group} is used more than once. Group names must be unique."
+              attribute_unknown: "Invalid work package attribute used."
         user:
           attributes:
             password:

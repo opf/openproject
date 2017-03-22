@@ -31,6 +31,7 @@ module Type::AttributeGroups
   extend ActiveSupport::Concern
 
   included do
+    validate :validate_attribute_group_names
     validate :validate_attribute_groups
     serialize :attribute_groups, Array
 
@@ -111,17 +112,20 @@ module Type::AttributeGroups
     end
   end
 
+  def validate_attribute_group_names
+    seen = Set.new
+    attribute_groups.each do |group_key,_|
+      errors.add(:attribute_groups, :group_without_name) unless group_key.present?
+      errors.add(:attribute_groups, :duplicate_group, group: group_key) if seen.add?(group_key).nil?
+    end
+  end
+
   def validate_attribute_groups
-    unless read_attribute(:attribute_groups).empty?
-      valid_attributes = work_package_attributes.keys
-      attribute_groups.each do |group_key, attributes|
-        unless group_key.present?
-          raise "Name of attribute group is invalid"
-        end
-        attributes.each do |key|
-          if valid_attributes.exclude? key
-            errors.add(:attribute_groups, :attribute_unknown)
-          end
+    valid_attributes = work_package_attributes.keys
+    attribute_groups.each do |_, attributes|
+      attributes.each do |key|
+        if valid_attributes.exclude? key
+          errors.add(:attribute_groups, :attribute_unknown)
         end
       end
     end

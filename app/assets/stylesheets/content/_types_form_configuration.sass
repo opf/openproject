@@ -32,6 +32,15 @@
       background: white
       color: #222222
 
+  &.-error
+    @include varprop(background, content-form-error-color)
+    .group-name
+      @include varprop(border-color, content-form-error-color)
+    .group-handle,
+    .delete-group:before
+      @include varprop(color, font-color-on-primary)
+
+
 #type-form-conf-inactive-group
   background: $gray-dark
   .attribute-visibility
