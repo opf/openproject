@@ -51,7 +51,7 @@ module OpenProject
               label: 'homescreen.links.user_guides'
             },
             glossary: {
-              href: 'https://www.openproject.org/help/user-guides/glossary/',
+              href: 'https://www.openproject.org/help/glossary/',
               label: 'homescreen.links.glossary'
             },
             shortcuts: {
