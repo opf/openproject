@@ -247,6 +247,8 @@ en:
       models:
         "queries/create_contract":
           attributes:
+            project:
+              error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public queries."
         "relations/base_contract":

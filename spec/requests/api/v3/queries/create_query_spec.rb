@@ -134,22 +134,13 @@ describe "POST /api/v3/queries", type: :request do
       JSON.parse response.body
     end
 
-    it "yields a 404 error given an unknown user" do
-      params[:_links][:user][:href] = "/api/v3/users/#{user.id}352"
-
-      post!
-
-      expect(response.status).to eq 404
-      expect(json["message"]).to eq "User #{user.id}352 not found"
-    end
-
-    it "yields a 404 error given an unknown project" do
+    it "yields a 422 error given an unknown project" do
       params[:_links][:project][:href] = "/api/v3/projects/#{project.id}42"
 
       post!
 
-      expect(response.status).to eq 404
-      expect(json["message"]).to eq "Project #{project.id}42 not found"
+      expect(response.status).to eq 422
+      expect(json["message"]).to eq "Project not found"
     end
 
     it "yields a 422 error given an unknown operator" do
