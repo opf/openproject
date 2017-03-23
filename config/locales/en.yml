@@ -1921,11 +1921,14 @@ en:
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
     You can customize which attributes will be displayed
-    in forms for work packages of this type. 'Active' fields will be shown in
-    the collapsed work package view if they have a value,
-    fields that are 'Always displayed' even if they don't. Inactive fields
-    will never be shown, even if they have a value.
-    Only fields that are not required or have a default value can be customized.
+    in forms for work packages of this type. You can freely group the
+    attributes to reflect the needs for your domain.
+
+    By default fields will only be shown in
+    the collapsed work package view if they have a value.
+    Fields that are 'Always displayed' will be visibile even
+    if they don't have a value.
+
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
