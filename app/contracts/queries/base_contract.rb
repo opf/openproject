@@ -45,10 +45,16 @@ module Queries
 
     attr_reader :user
 
+    validate :validate_project
+
     def initialize(query, user)
       super query
 
       @user = user
+    end
+
+    def validate_project
+      errors.add :project, :error_not_found if project_id && !Project.exists?(project_id)
     end
   end
 end
