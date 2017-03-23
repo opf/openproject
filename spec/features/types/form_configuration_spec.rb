@@ -136,10 +136,14 @@ describe 'form configuration', type: :feature, js: true do
 
   it 'resets the form properly after changes' do
     rename_group('Details', 'Whatever')
+    set_visibility(:assignee, checked: true)
+    expect_attribute(key: :assignee, checked: true)
+
     reset_button.click
 
     expect(page).to have_no_selector(group_selector('Whatever'))
     expect_group('Details')
+    expect_attribute(key: :assignee, checked: false)
   end
 
   it 'detects errors for duplicate group names' do
@@ -267,4 +271,3 @@ describe 'form configuration', type: :feature, js: true do
     loading_indicator_saveguard
   end
 end
-
