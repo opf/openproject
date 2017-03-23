@@ -70,15 +70,19 @@ module API
         end
 
         link :star do
+          next if represented.starred || !allowed_to?(:star)
+
           {
             href: api_v3_paths.query_star(represented.id)
-          } if allowed_to?(:star)
+          }
         end
 
         link :unstar do
+          next unless represented.starred && allowed_to?(:unstar)
+
           {
             href: api_v3_paths.query_unstar(represented.id)
-          } if allowed_to?(:unstar)
+          }
         end
 
         links :columns do

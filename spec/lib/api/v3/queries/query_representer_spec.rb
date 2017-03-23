@@ -321,7 +321,12 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       context 'when not starred' do
-        let(:permissions) { [:star] }
+        let(:permissions) { [:star, :unstar] }
+        before do
+          allow(query)
+            .to receive(:starred)
+            .and_return(false)
+        end
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'star' }
@@ -344,7 +349,12 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
 
       context 'when starred' do
-        let(:permissions) { [:unstar] }
+        let(:permissions) { [:star, :unstar] }
+        before do
+          allow(query)
+            .to receive(:starred)
+            .and_return(true)
+        end
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'unstar' }
