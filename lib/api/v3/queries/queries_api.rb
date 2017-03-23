@@ -59,7 +59,9 @@ module API
           get do
             authorize_any [:view_work_packages, :manage_public_queries], global: true
 
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Query.all.includes(project: [:categories, :enabled_modules]),
+            queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
+
+            ::API::V3::Utilities::ParamsToQuery.collection_response(queries_scope,
                                                                     current_user,
                                                                     params)
           end
