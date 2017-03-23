@@ -67,7 +67,6 @@ export class WorkPackageTimelineCell {
       .filter(([renderInfo, visible]) => visible)
       .map(([renderInfo, visible]) => renderInfo)
       .subscribe(renderInfo => {
-        // console.error("Timeline Cell drawing", this.workPackageId);
         this.updateView(renderInfo);
         this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
       });

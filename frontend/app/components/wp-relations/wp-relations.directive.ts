@@ -34,7 +34,8 @@ import {
   WorkPackageResource
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
+import { WorkPackageRelationsService, RelationsStateValue } from "./wp-relations.service";
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -49,12 +50,15 @@ export class WorkPackageRelationsController {
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
               protected I18n:op.I18n,
+              protected wpRelations:WorkPackageRelationsService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    // Reload the current relations after a change, causing loadRelations to re-run
-    this.$scope.$on('wp-relations.changed', () => {
-      this.workPackage.updateLinkedResources('relations');
-    });
+    this.wpRelations
+      .relationState(this.workPackage.id)
+      .observeOnScope(this.$scope)
+      .subscribe((relations:RelationsStateValue) => {
+        this.loadedRelations(relations);
+      });
 
     // Listen for changes to this WP.
     this.wpCacheService
@@ -62,7 +66,7 @@ export class WorkPackageRelationsController {
       .observeOnScope(this.$scope)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.workPackage.relations.$load().then(this.loadRelations.bind(this));
+        this.wpRelations.require(wp);
       });
   }
 
@@ -80,9 +84,9 @@ export class WorkPackageRelationsController {
     return observablesToGetZipped[0];
   }
 
-  protected getRelatedWorkPackageId(relation:any):string {
-    let direction = (relation.to.href === this.workPackage.href) ? 'from' : 'to';
-    return relation[direction].href.split('/').pop();
+  protected getRelatedWorkPackageId(relation:RelationResourceInterface):string {
+    const involved = relation.ids;
+    return (relation.to.href === this.workPackage.href) ? involved.from : involved.to;
   }
 
   public toggleGroupBy() {
@@ -105,16 +109,16 @@ export class WorkPackageRelationsController {
     });
   }
 
-  protected loadRelations():void {
+  protected loadedRelations(stateValues:RelationsStateValue):void {
     var relatedWpIds:string[] = [];
     var relations:{[wpId:string]: any} = [];
 
-    if (this.workPackage.relations.elements.length === 0) {
+    if (_.size(stateValues) === 0) {
       this.currentRelations = [];
       return this.buildRelationGroups();
     }
 
-    this.workPackage.relations.elements.forEach(relation => {
+    _.each(stateValues, (relation:RelationResourceInterface) => {
       const relatedWpId = this.getRelatedWorkPackageId(relation);
       relatedWpIds.push(relatedWpId);
       relations[relatedWpId] = relation;
