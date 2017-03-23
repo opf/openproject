@@ -140,7 +140,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package) do
       property :story_points,
                render_nil: true,
-               if: ->(*) { backlogs_enabled? && type && type.has_attribute?(:story_points) }
+               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -155,7 +155,7 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package_payload) do
       property :story_points,
                render_nil: true,
-               if: ->(*) { backlogs_enabled? && type && type.has_attribute?(:story_points) }
+               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
 
       property :remaining_time,
                exec_context: :decorator,
@@ -179,7 +179,7 @@ module OpenProject::Backlogs
              required: false,
              show_if: -> (*) {
                represented.project && represented.project.backlogs_enabled? &&
-                 (!represented.type || represented.type.has_attribute?(:story_points))
+                 (!represented.type || represented.type.passes_attribute_constraint?(:story_points))
              }
 
       schema :remaining_time,
@@ -266,8 +266,7 @@ module OpenProject::Backlogs
         project.nil? || project.backlogs_enabled?
       end
 
-      ::Type.add_default_mapping(:story_points, :estimates_and_time)
-      ::Type.add_default_mapping(:remaining_time, :estimates_and_time)
+      ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
     end
   end
 end
