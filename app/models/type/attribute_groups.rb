@@ -83,6 +83,17 @@ module Type::AttributeGroups
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
     groups = read_attribute :attribute_groups
+    # The attributes might not be present anymore, for instance when you remove
+    # a plugin leaving an empty group behind. If we did not delete such a
+    # group, the admin saving such a form configuration would encounter an
+    # unexpected/unexplicable validation error.
+    valid_keys = work_package_attributes.keys
+    groups.map do |_,attributes|
+      attributes.select! { |attribute| valid_keys.include? attribute }
+      [_, attributes]
+    end
+    groups.select! { |_,attributes| attributes.any? }
+
     groups.presence || default_attribute_groups
   end
 
@@ -90,7 +101,7 @@ module Type::AttributeGroups
   # Returns the default +attribute_groups+ put together by
   # the default group map.
   def default_attribute_groups
-    values =  work_package_attributes.keys.group_by { |key| map_attribute_to_group key }
+    values = work_package_attributes.keys.group_by { |key| map_attribute_to_group key }
 
     ordered = []
     default_groups.map do |groupkey, label_key|
