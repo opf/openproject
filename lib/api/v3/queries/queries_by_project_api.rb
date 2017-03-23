@@ -49,18 +49,6 @@ module API
               query_representer_response(query, params)
             end
           end
-
-          namespace 'form' do
-            post do
-              query = Query.new_default(name: 'default',
-                                        user: current_user,
-                                        project: @project)
-
-              status 200
-              FormRepresenter.new(query,
-                                  current_user: current_user)
-            end
-          end
         end
       end
     end
