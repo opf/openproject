@@ -1,17 +1,14 @@
-import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from '../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTableHierarchyService} from '../../state/wp-table-hierarchy.service';
-import {WorkPackageTableMetadata} from '../../wp-table-metadata';
-import {UiStateLinkBuilder} from '../ui-state-link-builder';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {HalResource} from '../../../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
-import {PlainRowsBuilder} from './plain-rows-builder';
-import {RowsBuilder} from './rows-builder';
-import {States} from '../../../states.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {SingleRowBuilder} from './single-row-builder';
+import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from "../../helpers/wp-table-hierarchy-helpers";
+import {WorkPackageTableHierarchyService} from "../../state/wp-table-hierarchy.service";
+import {WorkPackageTableMetadata} from "../../wp-table-metadata";
+import {UiStateLinkBuilder} from "../ui-state-link-builder";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageTableRow} from "../../wp-table.interfaces";
+import {PlainRowsBuilder} from "./plain-rows-builder";
+import {States} from "../../../states.service";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
+import {WorkPackageTable} from "../../wp-fast-table";
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -31,8 +28,8 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   };
 
   // The group expansion state
-  constructor() {
-    super();
+  constructor(workPackageTable: WorkPackageTable) {
+    super(workPackageTable);
     injectorBridge(this);
 
     this.text = {

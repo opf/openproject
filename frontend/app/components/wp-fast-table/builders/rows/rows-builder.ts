@@ -1,11 +1,9 @@
-import {RowRefreshBuilder} from './row-refresh-builder';
-import {WorkPackageTableMetadata} from '../../wp-table-metadata';
-import {States} from '../../../states.service';
-import {SingleRowBuilder} from './single-row-builder';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
+import {RowRefreshBuilder} from "./row-refresh-builder";
+import {WorkPackageTableMetadata} from "../../wp-table-metadata";
+import {States} from "../../../states.service";
+import {SingleRowBuilder} from "./single-row-builder";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {WorkPackageTableRow} from "../../wp-table.interfaces";
 
 export abstract class RowsBuilder {
   public states:States;
@@ -13,9 +11,9 @@ export abstract class RowsBuilder {
   protected rowBuilder:SingleRowBuilder;
   protected refreshBuilder:RowRefreshBuilder;
 
-  constructor() {
-    this.rowBuilder = new SingleRowBuilder();
-    this.refreshBuilder = new RowRefreshBuilder();
+  constructor(public workPackageTable: WorkPackageTable) {
+    this.rowBuilder = new SingleRowBuilder(workPackageTable);
+    this.refreshBuilder = new RowRefreshBuilder(workPackageTable);
   }
 
   /**

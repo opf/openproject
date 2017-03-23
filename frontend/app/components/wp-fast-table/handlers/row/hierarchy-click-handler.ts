@@ -6,12 +6,12 @@ import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {rowClassName} from '../../builders/rows/single-row-builder';
 
-export class HierarchyClickHandler extends ClickOrEnterHandler {
+export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
   public states:States;
   public wpTableHierarchy:WorkPackageTableHierarchyService;
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     super();
     injectorBridge(this);
   }

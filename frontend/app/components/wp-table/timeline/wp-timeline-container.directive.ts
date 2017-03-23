@@ -27,7 +27,9 @@
 // ++
 import {openprojectModule} from "../../../angular-modules";
 import {
-  TimelineViewParameters, RenderInfo, timelineElementCssClass,
+  TimelineViewParameters,
+  RenderInfo,
+  timelineElementCssClass,
   timelineMarkerSelectionStartClass
 } from "./wp-timeline";
 import {
@@ -41,6 +43,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import * as moment from "moment";
 import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
+import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
@@ -67,7 +70,8 @@ export class WorkPackageTimelineTableController {
               private $element: ng.IAugmentedJQuery,
               private TypeResource:any,
               private states: States,
-              private halRequest: HalRequestService) {
+              private halRequest: HalRequestService,
+              private wpRelationsService: WorkPackageRelationsService) {
 
     "ngInject";
 
@@ -168,7 +172,21 @@ export class WorkPackageTimelineTableController {
       );
   }
 
-  activateSelectionMode(start: string, callback: (wp: WorkPackageResource) => any) {
+  startAddRelationPredecessor(start: WorkPackageResource) {
+    this.activateSelectionMode(start.id, end => {
+      this.wpRelationsService.addCommonRelation(start as any, "precedes", end.id);
+    });
+  }
+
+  startAddRelationFollower(start: WorkPackageResource) {
+    this.activateSelectionMode(start.id, end => {
+      this.wpRelationsService.addCommonRelation(start as any, "follows", end.id);
+    });
+  }
+
+  private activateSelectionMode(start: string, callback: (wp: WorkPackageResource) => any) {
+    start = start.toString(); // old system bug: ID can be a 'number'
+
     this._viewParameters.activeSelectionMode = (wp: WorkPackageResource) => {
       callback(wp);
 

@@ -43,7 +43,10 @@ export class WorkPackageRelationsService {
               protected NotificationsService:any) {
   }
 
-  public addCommonRelation(workPackage:WorkPackageResourceInterface, relationType:string, relatedWpId:string) {
+  public addCommonRelation(workPackage:WorkPackageResourceInterface,
+                           relationType: string,
+                           relatedWpId:string) {
+
     const params = {
       _links: {
         from: { href: workPackage.href },

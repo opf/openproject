@@ -25,9 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-import {HalResource} from './hal-resource.service';
-import {HalLink} from '../hal-link/hal-link.service';
+import {HalResource} from "./hal-resource.service";
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageResource} from './work-package-resource.service';
 

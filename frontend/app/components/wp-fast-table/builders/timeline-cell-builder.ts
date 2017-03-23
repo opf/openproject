@@ -1,12 +1,9 @@
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageTimelineCell} from '../../wp-table/timeline/wp-timeline-cell';
-import {State} from '../../../helpers/reactive-fassade';
-import {UiStateLinkBuilder} from './ui-state-link-builder';
-import {WorkPackageTimelineTableController} from '../../wp-table/timeline/wp-timeline-container.directive';
-import {States} from '../../states.service';
-import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {DisplayField} from './../../wp-display/wp-display-field/wp-display-field.module';
-import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageTimelineCell} from "../../wp-table/timeline/wp-timeline-cell";
+import {States} from "../../states.service";
+import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service";
+import {injectorBridge} from "../../angular/angular-injector-bridge.functions";
+import {WorkPackageTable} from "../wp-fast-table";
 export const timelineCellClassName = 'wp-timeline-cell';
 export const timelineCollapsedClassName = '-collapsed';
 
@@ -15,16 +12,12 @@ export class TimelineCellBuilder {
   public states:States;
   public wpCacheService:WorkPackageCacheService;
 
-  constructor() {
+  constructor(private workPackageTable: WorkPackageTable) {
     injectorBridge(this);
   }
 
   public get isVisible():boolean {
     return this.states.table.timelineVisible.getCurrentValue() || false;
-  }
-
-  public get timelineInstance():WorkPackageTimelineTableController {
-    return this.states.timeline.getCurrentValue()!;
   }
 
   public build(workPackage:WorkPackageResource):HTMLElement {
@@ -43,7 +36,7 @@ export class TimelineCellBuilder {
   public buildTimelineCell(cell:HTMLElement, workPackage:WorkPackageResource):void {
     // required data for timeline cell
     const timelineCell = new WorkPackageTimelineCell(
-      this.timelineInstance,
+      this.workPackageTable.timelineController,
       this.wpCacheService,
       this.states,
       workPackage.id,

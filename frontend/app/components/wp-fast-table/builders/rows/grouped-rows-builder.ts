@@ -1,13 +1,12 @@
-import {WorkPackageTableMetadata} from '../../wp-table-metadata';
-import {RowsBuilder} from './rows-builder';
-import {States} from '../../../states.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {groupedRowClassName} from '../../helpers/wp-table-row-helpers';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {SingleRowBuilder} from './single-row-builder';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {GroupObject, WorkPackageTableRow} from '../../wp-table.interfaces';
+import {WorkPackageTableMetadata} from "../../wp-table-metadata";
+import {RowsBuilder} from "./rows-builder";
+import {States} from "../../../states.service";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {groupedRowClassName} from "../../helpers/wp-table-row-helpers";
+import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {GroupObject, WorkPackageTableRow} from "../../wp-table.interfaces";
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
@@ -20,8 +19,8 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
   private text:any;
 
-  constructor() {
-    super();
+  constructor(workPackageTable: WorkPackageTable) {
+    super(workPackageTable);
     injectorBridge(this);
 
     this.text = {

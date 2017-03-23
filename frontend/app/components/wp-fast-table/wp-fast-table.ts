@@ -12,6 +12,7 @@ import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
 import {GroupedRowsBuilder} from './builders/rows/grouped-rows-builder';
 import {PlainRowsBuilder} from './builders/rows/plain-rows-builder';
+import {WorkPackageTimelineTableController} from "../wp-table/timeline/wp-timeline-container.directive";
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -24,12 +25,14 @@ export class WorkPackageTable {
   // WP rows builder
   // Ordered by priority
   private builders = [
-    new HierarchyRowsBuilder(),
-    new GroupedRowsBuilder(),
-    new PlainRowsBuilder()
+    new HierarchyRowsBuilder(this),
+    new GroupedRowsBuilder(this),
+    new PlainRowsBuilder(this)
   ];
 
-  constructor(public container:HTMLElement, public tbody:HTMLElement) {
+  constructor(public container:HTMLElement,
+              public tbody:HTMLElement,
+              public timelineController: WorkPackageTimelineTableController) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }

@@ -90,7 +90,6 @@ function wpTable(
       var activeSelectionBorderIndex;
 
       scope.wpTimelineContainer = wpTimelineContainer;
-      states.timeline.put(wpTimelineContainer);
       states.table.timelineVisible.put(wpTimelineContainer.visible);
 
       // Total columns = all available columns + id + action link
@@ -99,10 +98,11 @@ function wpTable(
 
       var t0 = performance.now();
       scope.tbody = element.find('.work-package--results-tbody');
-      scope.table = new WorkPackageTable(element[0], scope.tbody[0]);
+      scope.table = new WorkPackageTable(element[0], scope.tbody[0], wpTimelineContainer);
+
 
       var t1 = performance.now();
-      debugLog("Render took " + (t1 - t0) + " milliseconds.")
+      debugLog("Render took " + (t1 - t0) + " milliseconds.");
 
       // Total columns = all available columns + id + checkbox
       scope.numTableColumns = scope.columns.length + 2;

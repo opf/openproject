@@ -1,14 +1,13 @@
-import {TimelineCellBuilder} from '../timeline-cell-builder';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
-import {States} from '../../../states.service';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {CellBuilder} from '../cell-builder';
-import {DetailsLinkBuilder} from '../details-link-builder';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {checkedClassName} from '../ui-state-link-builder';
-import {rowId} from '../../helpers/wp-table-row-helpers';
+import {TimelineCellBuilder} from "../timeline-cell-builder";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {States} from "../../../states.service";
+import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
+import {CellBuilder} from "../cell-builder";
+import {DetailsLinkBuilder} from "../details-link-builder";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {checkedClassName} from "../ui-state-link-builder";
+import {rowId} from "../../helpers/wp-table-row-helpers";
 
 export const rowClassName = 'wp-table--row';
 
@@ -26,9 +25,9 @@ export class SingleRowBuilder {
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
   // Timeline builder
-  protected timelineCellBuilder = new TimelineCellBuilder();
+  protected timelineCellBuilder = new TimelineCellBuilder(this.workPackageTable);
 
-  constructor() {
+  constructor(private workPackageTable: WorkPackageTable) {
     injectorBridge(this);
   }
 

@@ -25,9 +25,9 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableMetadataService} from "../../wp-fast-table/state/wp-table-metadata.service";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../../states.service";
 
 angular
   .module('openproject.workPackages.helpers')
@@ -38,7 +38,8 @@ function WorkPackageContextMenuHelper(
   wpTableMetadata:WorkPackageTableMetadataService,
   HookService:any,
   UrlParamsHelper:any,
-  I18n:op.I18n) {
+  I18n: op.I18n,
+  states: States) {
 
   function getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any) {
     var singularPermittedActions:any[] = [];
@@ -109,6 +110,19 @@ function WorkPackageContextMenuHelper(
         allowedActions.splice(index, 0, action)
       }
     });
+
+    if (states.table.timelineVisible.getCurrentValue()) {
+      allowedActions.push({
+        icon: "timeline-relation-add-predecessor",
+        text: "add-predecessor",
+        link: "addRelation"
+      });
+      allowedActions.push({
+        icon: "timeline-relation-add-follower",
+        text: "add-follower",
+        link: "addRelation"
+      });
+    }
 
     return allowedActions;
   }

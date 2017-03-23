@@ -1,5 +1,5 @@
-import {keyCodes} from '../../common/keyCodes.enum';
-import {WorkPackageTable} from '../wp-fast-table';
+import {keyCodes} from "../../common/keyCodes.enum";
+import {WorkPackageTable} from "../wp-fast-table";
 
 
 /**
@@ -16,6 +16,7 @@ export function onClickOrEnter(evt:JQueryEventObject, callback:() => void) {
 
 
 export abstract class ClickOrEnterHandler {
+
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
     onClickOrEnter(evt, () => this.processEvent(table, evt));
   }

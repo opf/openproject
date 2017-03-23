@@ -12,7 +12,7 @@ export class RowClickHandler implements TableEventHandler {
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     injectorBridge(this);
   }
 

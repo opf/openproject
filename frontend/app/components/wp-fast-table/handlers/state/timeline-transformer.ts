@@ -1,17 +1,10 @@
-import {States} from '../../../states.service';
-import {
-  TimelineCellBuilder,
-  timelineCellClassName,
-  timelineCollapsedClassName
-} from '../../builders/timeline-cell-builder';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WPTableRowSelectionState} from '../../wp-table.interfaces';
-import {WorkPackageTable} from '../../wp-fast-table';
+import {States} from "../../../states.service";
+import {timelineCellClassName, timelineCollapsedClassName} from "../../builders/timeline-cell-builder";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTable} from "../../wp-fast-table";
 
 export class TimelineTransformer {
   public states:States;
-  public timelineCellBuilder = new TimelineCellBuilder();
 
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
