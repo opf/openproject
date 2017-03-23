@@ -67,14 +67,17 @@ function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService){
 
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.headerName === 'subject';
+      scope.hierarchyIcon = 'icon-hierarchy';
       scope.toggleHierarchy = function(evt:JQueryEventObject) {
         wpTableHierarchy.toggleState();
 
         if(wpTableHierarchy.isEnabled) {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
+          scope.hierarchyIcon = 'icon-no-hierarchy';
         }
         else {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');;
+          scope.hierarchyIcon = 'icon-hierarchy';
         }
 
         evt.stopPropagation();
