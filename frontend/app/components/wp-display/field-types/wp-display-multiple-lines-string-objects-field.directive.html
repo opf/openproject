@@ -1,0 +1,9 @@
+<span>
+  <div ng-repeat="value in vm.field.value" title="{{ value }}" class="custom-option -multiple-lines">
+    {{  value }}
+  </div>
+
+  <div title="I18n.t('js.work_packages.no_value')" ng-if="vm.field.value.length == 0" class="custom-option -empty">
+    -
+  </div>
+</span>

@@ -82,6 +82,9 @@
     .wp-table--cell-span
       vertical-align: middle
 
+  &.inplace-edit .custom-option:not(.-multiple-lines)
+    display: inline
+
 // Editable fields cursor
 .-editable .wp-table--cell-span,
 .wp-table--cell-span.-editable
@@ -101,6 +104,7 @@
 
   .inplace-edit--read-value--value-span
     width: 100%
+    white-space: nowrap
     .error.macro-unavailable
       display: inline-block
 

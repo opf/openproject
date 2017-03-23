@@ -41,6 +41,19 @@ shared_context 'work package table helpers' do
     click_button('Apply')
   end
 
+  def add_wp_table_column(column_name)
+    click_button('Settings')
+    click_link('Columns ...')
+
+    input = find '.select2-search-field input'
+    input.set column_name
+
+    result = find '.select2-result-label'
+    result.click
+
+    click_button('Apply')
+  end
+
   def sort_wp_table_by(column_name, order: :desc)
     click_button('Settings')
     click_link('Sort by ...')

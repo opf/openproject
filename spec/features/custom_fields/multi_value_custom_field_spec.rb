@@ -21,6 +21,7 @@ describe "multi select custom values", js: true do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
@@ -41,6 +42,8 @@ describe "multi select custom values", js: true do
       wp_page.visit!
       wp_page.ensure_page_loaded
     end
+
+    include_context 'work package table helpers'
 
     it "should be shown and allowed to be updated" do
       expect(page).to have_text custom_field.name
@@ -63,6 +66,14 @@ describe "multi select custom values", js: true do
       expect(page).to have_text "ham"
       expect(page).not_to have_text "pineapple"
       expect(page).to have_text "mushrooms"
+    end
+
+    it 'should have a different representation in the WP table' do
+      wp_table.visit!
+      wp_table.expect_work_package_listed(wp_page)
+      add_wp_table_column(custom_field.name)
+
+      expect(page).to have_text "ham and 1 other"
     end
   end
 end
