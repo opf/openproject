@@ -29,7 +29,7 @@ describe "multi select custom values", js: true do
       wp = FactoryGirl.create :work_package, project: project, type: type
 
       wp.custom_field_values = {
-        custom_field.id => ["ham", "pineapple"].map { |s| custom_value_for(s) }
+        custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
       }
 
       wp.save
@@ -49,6 +49,7 @@ describe "multi select custom values", js: true do
       expect(page).to have_text custom_field.name
       expect(page).to have_text "ham"
       expect(page).to have_text "pineapple"
+      expect(page).to have_text "onions"
 
       page.find("div.custom-option", text: "ham").click
 
@@ -59,21 +60,23 @@ describe "multi select custom values", js: true do
 
       click_on "Ingredients: Save"
 
-      expect(page).to have_selector('.custom-option', count: 2)
+      expect(page).to have_selector('.custom-option.-multiple-lines', count: 3)
       expect(page).to have_text "Successful update"
 
       expect(page).to have_text custom_field.name
       expect(page).to have_text "ham"
       expect(page).not_to have_text "pineapple"
+      expect(page).to have_text "onions"
       expect(page).to have_text "mushrooms"
     end
 
-    it 'should have a different representation in the WP table' do
+    it 'should truncate the field in the WP table' do
       wp_table.visit!
       wp_table.expect_work_package_listed(wp_page)
       add_wp_table_column(custom_field.name)
 
-      expect(page).to have_text "ham and 1 other"
+      expect(page).to have_text "ham , pineapple , ... 3"
+      expect(page).not_to have_text "onions"
     end
   end
 end
