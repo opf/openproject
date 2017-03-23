@@ -49,6 +49,7 @@ function typesFormConfigurationCtrl(
   $scope.resetToDefault = ($event: any): void => {
     let form: JQuery = angular.element($event.target).parents('form');
     angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
+    angular.element('input#type_attribute_visibility').first().val(JSON.stringify({}));
     form.submit();
   };
 
