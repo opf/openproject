@@ -28,6 +28,7 @@
 import {HalResource} from "./hal-resource.service";
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageResource} from './work-package-resource.service';
+import {State} from '../../../../helpers/reactive-fassade';
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
@@ -77,6 +78,7 @@ export class RelationResource extends HalResource {
 
     return this.type;
   }
+
 
   /**
    * Get the involved IDs, returning an object to the ids.

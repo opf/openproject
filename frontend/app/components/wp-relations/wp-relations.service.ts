@@ -100,7 +100,7 @@ export class WorkPackageRelationsService {
     };
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
-      this.merge(workPackage.id, [relation]);
+      this.mergeIntoStates([relation]);
       return relation;
     });
   }
@@ -123,7 +123,7 @@ export class WorkPackageRelationsService {
   public updateRelation(workPackageId:string, relation:RelationResourceInterface, params:any) {
     return relation.updateImmediately(params)
     .then((savedRelation:RelationResourceInterface) => {
-      this.merge(workPackageId, [savedRelation]);
+      this.mergeIntoStates([savedRelation]);
       return savedRelation;
     });
   }
