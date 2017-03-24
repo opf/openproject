@@ -66,7 +66,7 @@ module DemoData
                     type_id: { operator: "=", values: [bug_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :create_at] },
+          column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :created_at] },
         { name: "Milestones",
           filters: [status_id: { operator: "o" },
                     type_id: { operator: "=", values: [milestone_type.id.to_s] }],
