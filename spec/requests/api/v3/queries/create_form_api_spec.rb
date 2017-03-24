@@ -211,7 +211,7 @@ describe "POST /api/v3/queries/form", type: :request do
         links = parameters[:_links]
 
         links[:project] = {
-          href: "/api/v3/projects/#{project.id}"
+          href: "/api/v3/projects/#{project.identifier}"
         }
 
         { _links: links }
