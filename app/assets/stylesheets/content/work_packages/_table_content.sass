@@ -47,6 +47,11 @@
   &:hover .wp-edit-field.-error:hover
     border-color: $nm-color-error-border
 
+// Allow inner scrolling in the WP table which is necessary because of the timeline
+.work-package-table--container .generic-table--results-container
+  overflow:
+    x: auto
+
 //
 .wp-table--faulty-query-icon
   color: $nm-color-error-icon
