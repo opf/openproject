@@ -60,7 +60,7 @@ module API
           end
         end
 
-        linked_property :project
+        linked_property :project, title_getter: ->(*) { nil }
 
         property :name
         property :filters,
