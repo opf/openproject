@@ -202,7 +202,7 @@ export class WpTimelineGlobalService {
       if (directionY === 1) {
         startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', 19, lastX, 1, 22));
       } else {
-        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', -1, lastX, 1, 22));
+        startCell.timelineCell.appendChild(newSegment(vp, e.classId, 'red', -1, lastX, 1, 21));
       }
 
       // vert segment
