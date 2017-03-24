@@ -193,7 +193,7 @@ export class MultiState<T> extends StoreElement {
    * @param scope An optional scope
    * @returns {Observable<string>} Observable on the changed ids
    */
-  public observeUntil(subject: Subject<any>): Observable<[string, T]> {
+  public observeUntil(subject: Observable<any>): Observable<[string, T]> {
     return this.memberSubject.takeUntil(subject);
   }
 
