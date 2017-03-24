@@ -230,7 +230,7 @@ class Query < ActiveRecord::Base
   end
 
   def validate_group_by
-    unless group_by.nil? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
+    unless group_by.blank? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
       errors.add :group_by, I18n.t(:error_invalid_group_by, value: group_by)
     end
   end
