@@ -71,7 +71,7 @@ export class WorkPackageTimelineTableController {
               private TypeResource:any,
               private states: States,
               private halRequest: HalRequestService,
-              private wpRelationsService: WorkPackageRelationsService) {
+              private wpRelations: WorkPackageRelationsService) {
 
     "ngInject";
 
@@ -182,13 +182,13 @@ export class WorkPackageTimelineTableController {
 
   startAddRelationPredecessor(start: WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelationsService.addCommonRelation(start as any, "precedes", end.id);
+      this.wpRelations.addCommonRelation(start as any, "follows", end.id);
     });
   }
 
   startAddRelationFollower(start: WorkPackageResource) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelationsService.addCommonRelation(start as any, "follows", end.id);
+      this.wpRelations.addCommonRelation(start as any, "precedes", end.id);
     });
   }
 
