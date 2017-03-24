@@ -103,7 +103,7 @@ describe ::Type, type: :model do
     end
 
     it 'fails for duplicate group names' do
-      type.attribute_groups = [['foo', ['bar']], ['foo', ['bar']]]
+      type.attribute_groups = [['foo', ['date']], ['foo', ['date']]]
       expect(type).not_to be_valid
     end
 
