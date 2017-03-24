@@ -37,9 +37,9 @@ module API
           helpers ::API::V3::Queries::CreateQuery
 
           post do
-            representer = ::API::V3::Queries::QueryRepresenter.create Query.new_default, current_user: current_user
+            query = query_from_params request, current_user: current_user
+            representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
             query = representer.from_hash Hash(request_body)
-
             contract = ::Queries::CreateContract.new query, current_user
             contract.validate
 

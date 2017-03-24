@@ -111,13 +111,10 @@ module API
         end
 
         def initialize_links!(query, attributes)
-          query.project_id = get_project_id attributes
-          query.group_by = get_group_by attributes
-          query.column_names = get_columns attributes
-
-          if sort_criteria = get_sort_criteria(attributes)
-            query.sort_criteria = sort_criteria
-          end
+          query.project_id = get_project_id(attributes) || query.project_id
+          query.group_by = get_group_by(attributes) || query.group_by
+          query.column_names = get_columns(attributes) || query.columns
+          query.sort_criteria = get_sort_criteria(attributes) || query.sort_criteria
         end
 
         def get_user_id(query_attributes)

@@ -224,6 +224,22 @@ describe "POST /api/v3/queries/form", type: :request do
       end
     end
 
+    context "with groupBy specified as a GET parameter" do
+      let(:path) { api_v3_paths.query_form + "?groupBy=author"}
+      let(:override_params) do
+        links = parameters[:_links]
+
+        links.delete :groupBy
+
+        { _links: links }
+      end
+
+      it "initializes the form with the given groupBy" do
+        expect(form.dig("_embedded", "payload", "_links", "groupBy", "href"))
+          .to eq "/api/v3/queries/group_bys/author"
+      end
+    end
+
     context "with an unknown filter" do
       let(:override_params) do
         filter = parameters[:filters][0]
