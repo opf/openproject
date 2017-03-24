@@ -218,6 +218,11 @@ table.generic-table
   &.hover
     background:   #f8f8f8
 
+  &.-hidden-content
+    .generic-table--header,
+    .generic-table--sort-header
+      visibility: hidden
+
 .generic-table--empty-header
   padding:       0 6px
   height:        calc(#{$generic-table--header-height} + 1px)
@@ -231,6 +236,7 @@ table.generic-table
   height:       0px
   line-height:  0px
 
+.generic-table--header,
 .generic-table--sort-header
   white-space: nowrap
   width:   100%
