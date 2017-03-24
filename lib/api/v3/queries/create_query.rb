@@ -48,6 +48,17 @@ module API
         def representer
           ::API::V3::Queries::QueryRepresenter
         end
+
+        ##
+        # @param request [Grape::Request] Request from which to use the query params.
+        def query_from_params(request, current_user:)
+          params = ActionDispatch::Request.new(request.env).query_parameters
+          query = Query.new_default
+
+          UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
+          # the service mutates the given query in place so we just return it
+          query
+        end
       end
     end
   end
