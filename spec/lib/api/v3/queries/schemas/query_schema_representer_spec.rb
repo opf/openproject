@@ -199,7 +199,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:type) { 'Boolean' }
           let(:name) { Query.human_attribute_name('starred') }
           let(:required) { false }
-          let(:writable) { true }
+          let(:writable) { false }
           let(:has_default) { true }
         end
 
