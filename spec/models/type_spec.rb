@@ -53,6 +53,17 @@ describe ::Type, type: :model do
       expect(type.attribute_groups).to_not be_empty
       expect(type.attribute_groups).to eq type.default_attribute_groups
     end
+
+    it 'removes unknown attributes from a group' do
+      type.attribute_groups = [['foo', ['bar', 'date']]]
+      expect(type.attribute_groups).to eq [['foo', ['date']]]
+    end
+
+    it 'removes groups without attributes' do
+      type.attribute_groups = [['foo', []], ['bar', ['date']]]
+      expect(type.attribute_groups).to eq [['bar', ['date']]]
+    end
+
   end
 
   describe '#default_attribute_groups' do
@@ -95,11 +106,6 @@ describe ::Type, type: :model do
       # Exampel for invalid group name:
       type.attribute_groups = [['', ['date']]]
       expect(type).not_to be_valid
-    end
-
-    it 'fails validations for unknown attributes' do
-      type.attribute_groups = [['foo', ['bar']]]
-      expect(type.save).to be_falsey
     end
 
     it 'fails for duplicate group names' do
