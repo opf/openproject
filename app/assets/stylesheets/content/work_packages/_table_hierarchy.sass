@@ -44,6 +44,12 @@
 .wp-table--hierarchy-aditional-row
   @include varprop(background, gray-light)
 
+  // Fix padding on additional row/id field
+  // since we don't have the edit-span's padding here
+  .hierarchy-row--id-cell
+    padding-left: 5px !important
+
+
 .hierarchy-header--outer-span
   & > .dropdown-indicator
     width: 1em
@@ -53,7 +59,7 @@
     visibility: hidden
 
   &:hover > .dropdown-indicator
-    visibility: visible  
+    visibility: visible
 
 // Style hierarchy column differently
 .hierarchy-header--sort-title
@@ -71,6 +77,12 @@
   display: inline-block
   width: 20px
 
+  span
+
+
   span:before
-    padding: 0 !important
+    padding: 10px 0 0 0
+    // Align the botched verticality of the hierarchy icons.
+    vertical-align: text-top
+    font-size: 1.1rem
     @include varprop(color, body-font-color)

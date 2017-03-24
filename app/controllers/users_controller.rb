@@ -296,4 +296,14 @@ class UsersController < ApplicationController
   def set_password?(params)
     params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
   end
+
+  protected
+
+  def default_breadcrumb
+    if action_name == 'index'
+      t('label_user_plural')
+    else
+      ActionController::Base.helpers.link_to(t('label_user_plural'), users_path)
+    end
+  end
 end

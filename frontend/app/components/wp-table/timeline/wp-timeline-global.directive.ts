@@ -1,3 +1,4 @@
+
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,6 +36,7 @@ import {RelationResource} from "../../api/api-v3/hal-resources/relation-resource
 import {CollectionResource} from "../../api/api-v3/hal-resources/collection-resource.service";
 import {debugLog} from "../../../helpers/debug_output";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
 import IScope = angular.IScope;
 
 
@@ -54,6 +56,7 @@ function newSegment(vp: TimelineViewParameters,
     timelineGlobalElementCssClassname,
     classId);
 
+  // segment.style.backgroundColor = color;
   segment.style.marginLeft = vp.scrollOffsetInPx + 'px';
   segment.style.top = top + 'px';
   segment.style.left = left + 'px';
@@ -88,7 +91,11 @@ export class WpTimelineGlobalService {
 
   private elements: TimelineGlobalElement[] = [];
 
-  constructor(scope: IScope, states: States, halRequest: HalRequestService) {
+  constructor(private timelineController: WorkPackageTimelineTableController,
+              scope: IScope,
+              states: States,
+              halRequest: HalRequestService) {
+
     states.table.rows.observeOnScope(scope)
       .subscribe(rows => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
@@ -96,16 +103,17 @@ export class WpTimelineGlobalService {
         halRequest.get(
           '/api/v3/relations',
           {
-            filter: [{involved: {operator: '=', values: this.workPackageIdOrder}}]
+            filters: JSON.stringify([{ involved: {operator: '=', values: this.workPackageIdOrder } }])
           }).then((collection: CollectionResource) => {
-          this.removeAllElements();
-          collection.elements.forEach((relation: RelationResource) => {
-            const fromId = WorkPackageResource.idFromLink(relation.from.href!);
-            const toId = WorkPackageResource.idFromLink(relation.to.href!);
-            this.displayRelation(fromId, toId);
+            this.removeAllElements();
+            collection.elements.forEach((relation: RelationResource) => {
+              const fromId = WorkPackageResource.idFromLink(relation.from.href!);
+              const toId = WorkPackageResource.idFromLink(relation.to.href!);
+
+              this.displayRelation(fromId, toId);
+            });
+            this.renderElements();
           });
-          this.renderElements();
-        });
       });
   }
 
@@ -139,6 +147,7 @@ export class WpTimelineGlobalService {
   }
 
   private update() {
+    console.error("global update()");
     this.removeAllVisibleElements();
     this.renderElements();
   }

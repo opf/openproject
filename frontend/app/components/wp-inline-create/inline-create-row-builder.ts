@@ -1,11 +1,20 @@
-import {TableRowEditContext} from "../wp-edit-form/table-row-edit-context";
-import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
-import {injectorBridge} from "../angular/angular-injector-bridge.functions";
-import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {rowId} from "../wp-fast-table/helpers/wp-table-row-helpers";
-import {States} from "../states.service";
-import {WorkPackageTableSelection} from "../wp-fast-table/state/wp-table-selection.service";
-import {internalColumnDetails, rowClassName, SingleRowBuilder} from "../wp-fast-table/builders/rows/single-row-builder";
+import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
+import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {checkedClassName} from '../wp-fast-table/builders/ui-state-link-builder';
+import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
+import {States} from '../states.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
+import {CellBuilder} from '../wp-fast-table/builders/cell-builder';
+import {
+  internalColumnDetails,
+  rowClassName,
+  SingleRowBuilder
+} from '../wp-fast-table/builders/rows/single-row-builder';
+import IScope = angular.IScope;
+import {scopeDestroyed$} from "../../helpers/angular-rx-utils";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
@@ -19,8 +28,8 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected text:{ cancelButton:string };
 
-  constructor(workPackageTable: WorkPackageTable) {
-    super(workPackageTable);
+  constructor(scope: IScope, workPackageTable: WorkPackageTable) {
+    super(scopeDestroyed$(scope), workPackageTable);
     injectorBridge(this);
 
     this.text = {

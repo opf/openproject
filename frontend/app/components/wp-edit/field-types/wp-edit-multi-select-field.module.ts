@@ -29,11 +29,13 @@
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
   public template:string = '/components/wp-edit/field-types/wp-edit-multi-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string, save:string, cancel:string};
+  public isMultiselect: boolean;
 
   // Dependencies
   protected I18n:op.I18n = <op.I18n> MultiSelectEditField.$injector.get('I18n');
@@ -42,6 +44,8 @@ export class MultiSelectEditField extends EditField {
 
   constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
     super(workPackage, fieldName, schema);
+
+    this.isMultiselect = this.isValueMulti();
 
     const I18n:any = this.$injector.get('I18n');
     this.text = {
@@ -67,6 +71,30 @@ export class MultiSelectEditField extends EditField {
     }
   }
 
+  public get value() {
+    if (this.isMultiselect) {
+      return this.resource[this.name];
+    } else {
+      return this.resource[this.name][0];
+    }
+  }
+
+  public set value(val) {
+    if (Array.isArray(val)) {
+      this.resource[this.name] = val;
+    } else {
+      this.resource[this.name] = [val];
+    }
+  }
+
+  public isValueMulti() {
+    return this.resource[this.name].length > 1;
+  }
+
+  public toggleMultiselect() {
+    this.isMultiselect = !this.isMultiselect;
+  };
+
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {
       availableValues.sort(function(a:any, b:any) {
@@ -82,11 +110,19 @@ export class MultiSelectEditField extends EditField {
   }
 
   private checkCurrentValueValidity() {
-    this.currentValueInvalid = !!(
-      (this.value && !_.some(this.options, (option) => (option.href === this.value.href)))
-      ||
-      (!this.value && this.schema.required)
-    );
+    if(this.value) {
+      this.currentValueInvalid = !!(
+        // (If value AND)
+        // MultiSelect AND there is no value which href is not in the options hrefs OR
+        // SingleSelect AND the given values href is not within the options hrefs
+        (this.isMultiselect && !_.some(this.value, (value:HalResource) => { return _.some(this.options, (option) => (option.href === value.href)) })) ||
+        (!this.isMultiselect && !_.some(this.options, (option) => (option.href === this.value.href)))
+      );
+    }
+    else {
+      // If no value but required
+      this.currentValueInvalid == this.schema.required;
+    }
   }
 
   private addEmptyOption() {

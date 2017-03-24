@@ -4,6 +4,7 @@ import {States} from "../../../states.service";
 import {SingleRowBuilder} from "./single-row-builder";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableRow} from "../../wp-table.interfaces";
+import {Subject} from "rxjs";
 
 export abstract class RowsBuilder {
   public states:States;
@@ -11,15 +12,22 @@ export abstract class RowsBuilder {
   protected rowBuilder:SingleRowBuilder;
   protected refreshBuilder:RowRefreshBuilder;
 
+  private stopExisting$ = new Subject();
+
   constructor(public workPackageTable: WorkPackageTable) {
-    this.rowBuilder = new SingleRowBuilder(workPackageTable);
-    this.refreshBuilder = new RowRefreshBuilder(workPackageTable);
+    this.rowBuilder = new SingleRowBuilder(this.stopExisting$, workPackageTable);
+    this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$, workPackageTable);
   }
 
   /**
    * Build all rows of the table.
    */
-  public abstract buildRows(table:WorkPackageTable):DocumentFragment;
+  public buildRows(table: WorkPackageTable): DocumentFragment {
+    this.stopExisting$.next();
+    return this.internalBuildRows(table);
+  }
+
+  public abstract internalBuildRows(table: WorkPackageTable): DocumentFragment;
 
 
   /**

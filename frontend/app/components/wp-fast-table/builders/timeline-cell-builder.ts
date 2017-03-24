@@ -1,8 +1,10 @@
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {WorkPackageTimelineCell} from "../../wp-table/timeline/wp-timeline-cell";
+import {WorkPackageTimelineTableController} from "../../wp-table/timeline/wp-timeline-container.directive";
 import {States} from "../../states.service";
 import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {injectorBridge} from "../../angular/angular-injector-bridge.functions";
+import {Observable} from "rxjs";
 import {WorkPackageTable} from "../wp-fast-table";
 export const timelineCellClassName = 'wp-timeline-cell';
 export const timelineCollapsedClassName = '-collapsed';
@@ -12,7 +14,7 @@ export class TimelineCellBuilder {
   public states:States;
   public wpCacheService:WorkPackageCacheService;
 
-  constructor(private workPackageTable: WorkPackageTable) {
+  constructor(private stopExisting$: Observable<any>, private workPackageTable: WorkPackageTable) {
     injectorBridge(this);
   }
 
@@ -45,6 +47,10 @@ export class TimelineCellBuilder {
 
     // show timeline cell
     timelineCell.activate();
+    this.stopExisting$.take(1)
+      .subscribe(() => {
+        timelineCell.deactivate();
+      });
   }
 }
 

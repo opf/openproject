@@ -105,6 +105,13 @@ export class WorkPackageEditFieldHandler {
   }
 
   /**
+   * Cancel edit
+   */
+  public handleUserCancel() {
+    this.reset();
+  }
+
+  /**
    * Cancel any pending changes
    */
   public reset() {

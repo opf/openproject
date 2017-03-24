@@ -1,4 +1,3 @@
-import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,6 +25,9 @@ import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
+import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
+import {SingleRowBuilder} from '../wp-fast-table/builders/rows/single-row-builder';
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
@@ -63,7 +65,7 @@ export class WorkPackageInlineCreateController {
     public wpCreate:WorkPackageCreateService,
     public wpTableColumns:WorkPackageTableColumnsService
   ) {
-    this.rowBuilder = new InlineCreateRowBuilder(this.table);
+    this.rowBuilder = new InlineCreateRowBuilder($scope, this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };

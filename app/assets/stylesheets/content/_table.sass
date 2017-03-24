@@ -47,7 +47,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 .generic-table--results-container
   height:       100%
   overflow:
-    x: auto
+    x: hidden
     y: auto
 
 .generic-table--action-buttons
@@ -138,6 +138,7 @@ table.generic-table
       padding:
         top:    0
         bottom: 0
+      font-weight: bold
 
   tbody
     tr
@@ -218,6 +219,11 @@ table.generic-table
   &.hover
     background:   #f8f8f8
 
+  &.-hidden-content
+    .generic-table--header,
+    .generic-table--sort-header
+      visibility: hidden
+
 .generic-table--empty-header
   padding:       0 6px
   height:        calc(#{$generic-table--header-height} + 1px)
@@ -231,6 +237,7 @@ table.generic-table
   height:       0px
   line-height:  0px
 
+.generic-table--header,
 .generic-table--sort-header
   white-space: nowrap
   width:   100%
