@@ -75,11 +75,8 @@ module ::TypesHelper
         }
       end
 
-      extended_group = { key: group[0], translation: group_translate(group[0]) }
-
-      [extended_group, extended_attributes]
+      [group[0], extended_attributes]
     end
-
     inactives = inactive_attributes.map do |key, attribute|
       {
         key: key,
@@ -106,14 +103,6 @@ module ::TypesHelper
       key = attr_i18n_key(name)
       I18n.t("activerecord.attributes.work_package.#{key}", default: '')
         .presence || I18n.t("attributes.#{key}")
-    end
-  end
-
-  def group_translate(name)
-    if ['details', 'estimates_and_time', 'other', 'people'].include? name
-      I18n.t("label_#{name}")
-    else
-      name
     end
   end
 
