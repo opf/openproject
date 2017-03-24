@@ -61,6 +61,7 @@ storage config above like this:
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
+* [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
 
 ## Setting session options
 
@@ -257,6 +258,16 @@ The option to use a string is mostly relevant for when you want to override the 
 
 ```
 OPENPROJECT_DISABLED__MODULES='backlogs meetings'
+```
+
+### APIv3 basic auth control
+
+**default: true**
+
+You can enable basic auth access to the APIv3 with the following configuration option:
+
+```
+apiv3_enable_basic_auth: true
 ```
 
 ### global basic auth
