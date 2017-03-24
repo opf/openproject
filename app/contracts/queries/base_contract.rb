@@ -54,7 +54,13 @@ module Queries
     end
 
     def validate_project
-      errors.add :project, :error_not_found if project_id && !Project.exists?(project_id)
+      errors.add :project, :error_not_found if project_id.present? && !project_visible?
+    end
+
+    def project_visible?
+      project = Project.find_by_id project_id
+
+      project && project.visible?(user)
     end
   end
 end
