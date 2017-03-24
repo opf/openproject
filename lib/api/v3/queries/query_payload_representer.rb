@@ -88,10 +88,6 @@ module API
             value
           end
         end
-
-        def convert_attribute(attribute)
-          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-        end
       end
     end
   end

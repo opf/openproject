@@ -172,10 +172,6 @@ module API
 
         private
 
-        def convert_attribute(attribute)
-          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-        end
-
         def _type
           'Query'
         end

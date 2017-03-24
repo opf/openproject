@@ -86,6 +86,10 @@ module API
 
         module_function
 
+        def convert_attribute(attribute)
+          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+        end
+
         def get_filter_name(filter_attributes)
           href = filter_attributes.dig("_links", "filter", "href")
           id = id_from_href "queries/filters", href
