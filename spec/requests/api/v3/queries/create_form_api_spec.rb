@@ -157,10 +157,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     it 'has the project set' do
-      project_link = {
-        "href" => "/api/v3/projects/#{project.id}",
-        "title" => project.name
-      }
+      project_link = { "href" => "/api/v3/projects/#{project.id}" }
 
       expect(form.dig("_embedded", "payload", "_links", "project")).to eq project_link
     end
@@ -207,6 +204,24 @@ describe "POST /api/v3/queries/form", type: :request do
       ]
 
       expect(form.dig("_embedded", "payload", "_links", "sortBy")).to eq sort_by
+    end
+
+    context "with the project referred to by its identifier" do
+      let(:override_params) do
+        links = parameters[:_links]
+
+        links[:project] = {
+          href: "/api/v3/projects/#{project.id}"
+        }
+
+        { _links: links }
+      end
+
+      it "still finds the project" do
+        project_link = { "href" => "/api/v3/projects/#{project.id}" }
+
+        expect(form.dig("_embedded", "payload", "_links", "project")).to eq project_link
+      end
     end
 
     context "with an unknown filter" do

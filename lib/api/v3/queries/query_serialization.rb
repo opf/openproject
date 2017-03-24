@@ -128,8 +128,13 @@ module API
 
         def get_project_id(query_attributes)
           href = query_attributes.dig("_links", "project", "href")
+          id = id_from_href "projects", href
 
-          id_from_href "projects", href
+          if id.to_i != 0
+            id # return numerical ID
+          else
+            Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+          end
         end
 
         def get_sort_criteria(query_attributes)
