@@ -49,31 +49,6 @@ module API
           ::API::V3::Queries::QueryRepresenter
         end
       end
-
-      def create_query_form(
-        query,
-        current_user:,
-        contract_class: ::Queries::CreateContract,
-        form_class: ::API::V3::Queries::CreateFormRepresenter,
-        action: :update
-      )
-        write_work_package_attributes(work_package, request_body, reset_lock_version: true)
-        contract = contract_class.new(query, current_user)
-        contract.validate
-
-        api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
-
-        # errors for invalid data (e.g. validation errors) are handled inside the form
-        if only_validation_errors(api_errors)
-          status 200
-          form_class.new(query,
-                          current_user: current_user,
-                          errors: api_errors,
-                          action: action)
-        else
-          fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-        end
-      end
     end
   end
 end
