@@ -41,7 +41,7 @@ describe TypesHelper, type: :helper do
       subject { form_configuration_groups(type)[:inactives] }
 
       before do
-        type.attribute_groups = [["group_one", ["attribute_one"]]]
+        type.attribute_groups = [["group one", ["assignee"]]]
       end
 
       it 'contains Hashes ordered by key :translation' do
@@ -51,10 +51,9 @@ describe TypesHelper, type: :helper do
         expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
       end
 
-      # The "attribute_one" in "group_one" does not exist in a standard
-      # OpenProject installation. It should not appear in :inactives.
+      # The "assignee" is in "group one". It should not appear in :inactives.
       it 'does not contain attributes that do not exist anymore' do
-        expect(subject.map { |inactive| inactive[:key] }).to_not include "attribute_one"
+        expect(subject.map { |inactive| inactive[:key] }).to_not include "assignee"
       end
     end
 
@@ -62,15 +61,12 @@ describe TypesHelper, type: :helper do
       subject { form_configuration_groups(type)[:actives] }
 
       before do
-        allow(type).to receive(:attribute_groups).and_return [["group_one", ["date"]]]
+        allow(type).to receive(:attribute_groups).and_return [["group one", ["date"]]]
       end
 
       it 'has a proper structure' do
-        expect(subject.first.first).to be_a Hash
-        # The group's key
-        expect(subject.first.first[:key]).to eq "group_one"
-        # As the key is custom, the group's translated name is the key
-        expect(subject.first.first[:translation]).to eq "group_one"
+        # The group's name/key
+        expect(subject.first.first).to eq "group one"
 
         # The groups attributes
         expect(subject.first.second).to be_an Array
