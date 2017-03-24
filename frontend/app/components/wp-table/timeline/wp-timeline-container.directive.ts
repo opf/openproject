@@ -33,19 +33,20 @@ import {
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
+} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import * as moment from "moment";
 import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
-import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
+import { scopeDestroyed$ } from "../../../helpers/angular-rx-utils";
+import { debugLog } from "../../../helpers/debug_output";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 
 export class WorkPackageTimelineTableController {
 
@@ -55,7 +56,7 @@ export class WorkPackageTimelineTableController {
 
   public wpTimelineHeader: WpTimelineHeader;
 
-  public readonly globalService = new WpTimelineGlobalService(this, this.$scope, this.states, this.halRequest);
+  public readonly globalService = new WpTimelineGlobalService(this.$scope);
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
@@ -119,7 +120,7 @@ export class WorkPackageTimelineTableController {
 
   refreshView() {
     if (!this.refreshViewRequested) {
-      console.error("refreshView()");
+      debugLog('refreshView() in timeline container');
       setTimeout(() => {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
@@ -136,17 +137,12 @@ export class WorkPackageTimelineTableController {
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
-    // console.error("addWorkPackage()", wpId);
-
     const wpObs = this.states.workPackages.get(wpId)
       .observeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
-        // console.error("Timeline work package stream: WorkPackage", wpId, "incoming...");
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          // console.log("    view params changed");
-
           // view params have changed, notify all cells
           this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
@@ -220,8 +216,6 @@ export class WorkPackageTimelineTableController {
     if (this.disableViewParamsCalculation) {
       return false;
     }
-
-    // console.error("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;

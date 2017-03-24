@@ -14,7 +14,7 @@ export class WorkPackageRelationsCreateController {
   public selectedWpId:string;
   public externalFormToggle: boolean;
   public fixedRelationType:string;
-  public relationTypes = this.wpRelationsService.getRelationTypes(true);
+  public relationTypes = this.wpRelations.getRelationTypes(true);
 
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
@@ -25,7 +25,7 @@ export class WorkPackageRelationsCreateController {
               protected $rootScope:ng.IRootScopeService,
               protected $element:ng.IAugmentedJQuery,
               protected $timeout:ng.ITimeoutService,
-              protected wpRelationsService:WorkPackageRelationsService,
+              protected wpRelations:WorkPackageRelationsService,
               protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService) {
@@ -97,9 +97,8 @@ export class WorkPackageRelationsCreateController {
   }
 
   protected createCommonRelation() {
-    return this.wpRelationsService.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
+    return this.wpRelations.addCommonRelation(this.workPackage, this.selectedRelationType, this.selectedWpId)
       .then(relation => {
-        this.$scope.$emit('wp-relations.changed', relation);
         this.wpNotificationsService.showSave(this.workPackage);
       })
       .catch(err => this.wpNotificationsService.handleErrorResponse(err, this.workPackage))
