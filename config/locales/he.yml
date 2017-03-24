@@ -8,10 +8,10 @@ he:
         participants_attended: "נוכחים"
         participants_invited: "מוזמנים"
         start_time: "זמן"
-        start_time_hour: "Starting time"
+        start_time_hour: "זמן התחלה"
     errors:
       messages:
-        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+        invalid_time_format: 'תבנית הזמן אינה תקינה. התבנית הנדרשת היא: HH:MM'
     models:
       meeting_agenda: "סדר היום"
       meeting_minutes: "דקות"
@@ -35,12 +35,12 @@ he:
   label_meeting_open: "פתח"
   label_meeting_agenda_close: "סגור את סדר היום כדי להתחיל את הדקות"
   label_meeting_date_time: "תאריך/שעה"
-  label_meeting_diff: "Diff"
+  label_meeting_diff: "הבדלים"
   label_notify: "שלח לבדיקה"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "שלח iCalendar"
   label_version: "גירסה"
-  label_time_zone: "Time zone"
-  label_start_date: "Start date"
+  label_time_zone: "איזור זמן"
+  label_start_date: "תאריך התחלה"
   notice_successful_notification: "הודעה נשלחה בהצלחה"
   notice_timezone_missing: אין איזור זמן מוגדר, ההערכה היא %{zone}. כדי לבחור את איזור הזמן שלך, אנא לחץ כאן.
   permission_create_meetings: "צור פגישות"
@@ -53,11 +53,11 @@ he:
   permission_create_meeting_minutes: "נהל דקות"
   permission_send_meeting_minutes_notification: "שלח הודעה סקירה עבור דקות"
   project_module_meetings: "פגישות"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "משך הזמן בשעות"
   text_in_hours: "בשעות"
   text_meeting_agenda_for_meeting: 'סדר היום לפגישה "%{meeting}"'
   text_meeting_agenda_open_are_you_sure: "תוכן שלא נשמר בדקות יאבד! האם להמשיך?"
   text_meeting_minutes_for_meeting: 'דקות לפגישה "%{meeting}"'
   text_review_meeting_agenda: "על %{author} לשים את %{link} לבדיקה."
   text_review_meeting_minutes: "על %{author} לשים את %{link} לבדיקה."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "דואר זה מכיל קובץ ics לפגישה שלהלן:"
