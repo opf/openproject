@@ -58,9 +58,7 @@ module Queries
     end
 
     def project_visible?
-      project = Project.find_by_id project_id
-
-      project && project.visible?(user)
+      Project.visible(user).where(id: project_id).exists?
     end
   end
 end
