@@ -71,14 +71,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <div id="draggable-groups" dragula='"groups"'>
           <% form_configuration_groups(@type)[:actives].each do |group, attributes| %>
-            <div class="type-form-conf-group" data-original-key="<%= group[:key] %>" data-key="<%= group[:key] %>">
+            <div class="type-form-conf-group" data-original-key="<%= group %>" data-key="<%= group %>">
               <div class="group-head">
                 <span class="group-handle">&#xe0b5;</span>
                 <group-edit-in-place
-                  name="<%= group[:translation] %>"
-                  key="<%= group[:key] %>"
+                  name="<%= group %>"
+                  key="<%= group %>"
                   onvaluechange="groupNameChange">
-                  <%= group[:translation] %>
+                  <%= group %>
                 </group-edit-in-place>
                 <div class="attribute-visibility">
                   <%= I18n.t('label_always_visible') %>
