@@ -160,6 +160,31 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
       end
 
+      describe 'delete action link' do
+        let(:permissions) { [:destroy] }
+
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'delete' }
+          let(:href) { api_v3_paths.query query.id }
+        end
+
+        context 'when not persisted' do
+          let(:query) { FactoryGirl.build(:query, project: project) }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
+          end
+        end
+
+        context 'when not allowed to delete' do
+          let(:permissions) { [] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'delete' }
+          end
+        end
+      end
+
       context 'with filter, sort, group by and pageSize' do
         let(:representer) do
           described_class.new(query,

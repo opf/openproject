@@ -145,6 +145,16 @@ module API
           }
         end
 
+        link :delete do
+          next if represented.new_record? ||
+                  !allowed_to?(:destroy)
+
+          {
+            href: api_v3_paths.query(represented.id),
+            method: :delete
+          }
+        end
+
         linked_property :user
         linked_property :project
 
