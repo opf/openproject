@@ -22,7 +22,7 @@ export class PlainRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public buildRows(table:WorkPackageTable):DocumentFragment {
+  public internalBuildRows(table:WorkPackageTable):DocumentFragment {
     let tbodyContent = document.createDocumentFragment();
 
     table.rows.forEach((wpId:string) => {

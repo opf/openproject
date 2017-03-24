@@ -32,7 +32,7 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
-import {Subscription, Observable} from "rxjs";
+import {Subscription} from "rxjs";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import * as moment from "moment";
 import IScope = angular.IScope;
@@ -61,20 +61,20 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-
-    Observable.combineLatest(
-      this.workPackageTimeline.addWorkPackage(this.workPackageId),
-      this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions)
-    ).subscribe((state:[any, boolean]) => {
-      const renderInfo = state[0];
-      if (state[1]) {
+    this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
+      .withLatestFrom(
+        this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions))
+      .filter(([renderInfo, visible]) => visible)
+      .map(([renderInfo, visible]) => renderInfo)
+      .subscribe(renderInfo => {
+        // console.error("Timeline Cell drawing", this.workPackageId);
         this.updateView(renderInfo);
         this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
-      }
-    });
+      });
   }
 
   deactivate() {
+    console.log("deactivate()");
     this.clear();
     this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
     this.subscription && this.subscription.unsubscribe();
@@ -154,7 +154,7 @@ export class WorkPackageTimelineCell {
     //-------------------------------------------------
   }
 
-  private cellRenderer(workPackage:WorkPackageResourceInterface): TimelineCellRenderer {
+  private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {
     if (workPackage.isMilestone) {
       return renderers.milestone;
     }

@@ -54,7 +54,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public buildRows(table:WorkPackageTable):DocumentFragment {
+  public internalBuildRows(table:WorkPackageTable):DocumentFragment {
     // Remember all additional rows drawn for hierarchy
     const additional:{[workPackageId:string]: WorkPackageResourceInterface} = {};
 

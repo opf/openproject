@@ -62,7 +62,7 @@ export class WorkPackageInlineCreateController {
     public wpCreate:WorkPackageCreateService,
     public wpTableColumns:WorkPackageTableColumnsService
   ) {
-    this.rowBuilder = new InlineCreateRowBuilder();
+    this.rowBuilder = new InlineCreateRowBuilder($scope);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
