@@ -102,8 +102,8 @@ module Type::AttributeGroups
   def default_attribute_groups
     values = work_package_attributes
              .keys
-             .reject { |key| key.start_with? 'custom_field_' }
-             .group_by { |key| default_group_map.fetch(key.to_sym, :details) }
+             .reject { |key| custom_field?(key) && !has_custom_field?(key) }
+             .group_by { |key| default_group_key(key.to_sym) }
 
     ordered = []
     default_groups.map do |groupkey, label_key|
@@ -133,6 +133,16 @@ module Type::AttributeGroups
       actives: active_form,
       inactives: inactive_form
     }
+  end
+
+  private
+
+  def default_group_key(key)
+    if custom_field?(key)
+      :other
+    else
+      default_group_map.fetch(key.to_sym, :details)
+    end
   end
 
   ##

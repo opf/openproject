@@ -27,13 +27,28 @@
 //++
 
 import {openprojectModule} from '../../../angular-modules';
+const autoScroll:any = require('dom-autoscroller');
 
 function typesFormConfigurationCtrl(
   dragulaService:any,
   NotificationsService:any,
   I18n:op.I18n,
   $scope:any,
+  $element:any,
   $compile:any) {
+
+  // Setup autoscroll
+  var scroll = autoScroll(window, {
+    margin: 20,
+    maxSpeed: 5,
+    scrollWhenOutside: true,
+    autoScroll: function(this:any) {
+      const groups = dragulaService.find($scope, 'groups').drake;
+      const attributes = dragulaService.find($scope, 'attributes').drake;
+      return this.down && (groups.dragging || attributes.dragging);
+    }
+  });
+
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
       return handle.className === 'group-handle';

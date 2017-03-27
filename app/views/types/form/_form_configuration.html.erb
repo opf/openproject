@@ -30,30 +30,31 @@ See doc/COPYRIGHT.rdoc for more details.
 <% form_attributes = @type.form_configuration_groups %>
 
 <section class="form--section">
-  <div class="grid-block wrap">
-    <div class="grid-content small-12 large-6">
-
       <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.to_json %>
       <%= f.hidden_field :attribute_visibility, value: @type.attribute_visibility.to_json %>
+  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl">
+    <div class="grid-block wrap">
+      <div class="grid-content small-12 large-10">
+      <p><%= t('text_form_configuration') %></p>
 
-      <div id="types-form-configuration" ng-controller="TypesFormConfigurationCtrl">
-        <p><%= I18n.t('text_form_configuration') %></p>
-
-        <%= toolbar title: '' do %>
-          <li class="toolbar-item">
-            <button type="button" class="form-configuration--reset button" ng-click="resetToDefault($event)">
-              <i class="button--icon icon-undo"></i>
-              <span class="button--text"><%= t('types.edit.reset') %></span>
-            </button>
-          </li>
-          <li class="toolbar-item">
-            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
-              <i class="button--icon icon-add"></i>
-              <span class="button--text"><%= t('types.edit.add_group') %></span>
-            </button>
-          </li>
-        <% end %>
-
+      <%= toolbar title: '' do %>
+        <li class="toolbar-item">
+          <button type="button" class="form-configuration--reset button" ng-click="resettodefault($event)">
+            <i class="button--icon icon-undo"></i>
+            <span class="button--text"><%= t('types.edit.reset') %></span>
+          </button>
+        </li>
+        <li class="toolbar-item">
+          <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addgroup($event)">
+            <i class="button--icon icon-add"></i>
+            <span class="button--text"><%= t('types.edit.add_group') %></span>
+          </button>
+        </li>
+      <% end %>
+      </div>
+    </div>
+    <div class="grid-block wrap">
+      <div class="grid-content small-12 medium-6 large-5">
         <div id="type-form-conf-group-template" class="type-form-conf-group" data-original-key="" data-key="">
           <div class="group-head">
             <span class="group-handle">&#xe0b5;</span>
@@ -63,14 +64,13 @@ See doc/COPYRIGHT.rdoc for more details.
               onvaluechange="groupNameChange">
             </group-edit-in-place>
             <div class="attribute-visibility">
-              <%= I18n.t('label_always_visible') %>
+              <%= t('label_always_visible') %>
               <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
             </div>
           </div>
           <div class="attributes" dragula='"attributes"'>
           </div>
         </div>
-
         <div id="draggable-groups" dragula='"groups"'>
           <% form_attributes[:actives].each do |group, attributes| %>
             <div class="type-form-conf-group" data-original-key="<%= group %>" data-key="<%= group %>">
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= group %>
                 </group-edit-in-place>
                 <div class="attribute-visibility">
-                  <%= I18n.t('label_always_visible') %>
+                  <%= t('label_always_visible') %>
                   <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
                 </div>
               </div>
@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       <%= check_box_tag "",
                         'visible',
                         attribute[:always_visible],
-                        title: I18n.t('tooltip.attribute_visibility.visible'),
+                        title: t('tooltip.attribute_visibility.visible'),
                         'ng-click': "updateHiddenFields()" %>
                       <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                     </div>
@@ -112,6 +112,8 @@ See doc/COPYRIGHT.rdoc for more details.
             </div> <!-- END attribute group -->
           <% end %>
         </div>
+      </div>
+      <div class="grid-content small-12 medium-6 large-5">
         <div id="type-form-conf-inactive-group">
           <div class="group-head">
             <span class="group-name"><%= t(:label_inactive) %></span>
@@ -132,7 +134,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= check_box_tag "",
                                     'hidden',
                                     false,
-                                    title: I18n.t('tooltip.attribute_visibility.visible'),
+                                    title: t('tooltip.attribute_visibility.visible'),
                                     'ng-click': "updateHiddenFields()" %>
                   <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                 </div>

@@ -219,6 +219,11 @@
       "from": "angular-ui-router@>=0.3.1 <0.4.0",
       "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-0.3.2.tgz"
     },
+    "animation-frame-polyfill": {
+      "version": "1.0.1",
+      "from": "animation-frame-polyfill@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/animation-frame-polyfill/-/animation-frame-polyfill-1.0.1.tgz"
+    },
     "ansi-regex": {
       "version": "2.1.1",
       "from": "ansi-regex@>=2.0.0 <3.0.0",
@@ -248,6 +253,11 @@
       "version": "1.0.1",
       "from": "arr-flatten@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/arr-flatten/-/arr-flatten-1.0.1.tgz"
+    },
+    "array-from": {
+      "version": "2.1.1",
+      "from": "array-from@>=2.1.1 <3.0.0",
+      "resolved": "https://registry.npmjs.org/array-from/-/array-from-2.1.1.tgz"
     },
     "array-slice": {
       "version": "0.2.3",
@@ -651,6 +661,11 @@
       "from": "create-hmac@>=1.1.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/create-hmac/-/create-hmac-1.1.4.tgz"
     },
+    "create-point-cb": {
+      "version": "1.2.0",
+      "from": "create-point-cb@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/create-point-cb/-/create-point-cb-1.2.0.tgz"
+    },
     "crossvent": {
       "version": "1.5.5",
       "from": "crossvent@>=1.5.4 <2.0.0",
@@ -723,10 +738,30 @@
       "from": "diffie-hellman@>=5.0.0 <6.0.0",
       "resolved": "https://registry.npmjs.org/diffie-hellman/-/diffie-hellman-5.0.2.tgz"
     },
+    "dom-autoscroller": {
+      "version": "2.2.8",
+      "from": "dom-autoscroller@latest",
+      "resolved": "https://registry.npmjs.org/dom-autoscroller/-/dom-autoscroller-2.2.8.tgz"
+    },
+    "dom-mousemove-dispatcher": {
+      "version": "1.0.1",
+      "from": "dom-mousemove-dispatcher@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/dom-mousemove-dispatcher/-/dom-mousemove-dispatcher-1.0.1.tgz"
+    },
+    "dom-plane": {
+      "version": "1.0.2",
+      "from": "dom-plane@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/dom-plane/-/dom-plane-1.0.2.tgz"
+    },
     "dom-serialize": {
       "version": "2.2.1",
       "from": "dom-serialize@>=2.2.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/dom-serialize/-/dom-serialize-2.2.1.tgz"
+    },
+    "dom-set": {
+      "version": "1.1.0",
+      "from": "dom-set@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/dom-set/-/dom-set-1.1.0.tgz"
     },
     "domain-browser": {
       "version": "1.1.7",
@@ -1875,6 +1910,11 @@
       "from": "invert-kv@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/invert-kv/-/invert-kv-1.0.0.tgz"
     },
+    "is-array": {
+      "version": "1.0.1",
+      "from": "is-array@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/is-array/-/is-array-1.0.1.tgz"
+    },
     "is-arrayish": {
       "version": "0.2.1",
       "from": "is-arrayish@>=0.2.1 <0.3.0",
@@ -1954,6 +1994,11 @@
       "version": "3.0.2",
       "from": "isbinaryfile@>=3.0.0 <4.0.0",
       "resolved": "https://registry.npmjs.org/isbinaryfile/-/isbinaryfile-3.0.2.tgz"
+    },
+    "iselement": {
+      "version": "1.1.4",
+      "from": "iselement@>=1.1.4 <2.0.0",
+      "resolved": "https://registry.npmjs.org/iselement/-/iselement-1.1.4.tgz"
     },
     "isobject": {
       "version": "2.1.0",
@@ -2910,6 +2955,11 @@
       "version": "0.0.0",
       "from": "tty-browserify@0.0.0",
       "resolved": "https://registry.npmjs.org/tty-browserify/-/tty-browserify-0.0.0.tgz"
+    },
+    "type-func": {
+      "version": "1.0.3",
+      "from": "type-func@>=1.0.1 <2.0.0",
+      "resolved": "https://registry.npmjs.org/type-func/-/type-func-1.0.3.tgz"
     },
     "type-is": {
       "version": "1.6.14",
