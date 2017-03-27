@@ -142,4 +142,8 @@ class CostTypesController < ApplicationController
   def default_breadcrumb
     CostType.model_name.human(count: 2)
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end
