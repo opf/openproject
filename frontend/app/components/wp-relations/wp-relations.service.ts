@@ -40,6 +40,9 @@ import { WorkPackageStates } from "../work-package-states.service";
 export type RelationsStateValue = {[id:number]:RelationResource};
 
 export class WorkPackageRelationsService {
+
+  private throttledUpdaterFn:Function;
+
   constructor(protected $rootScope:ng.IRootScopeService,
               protected $q:ng.IQService,
               protected wpStates:WorkPackageStates,
@@ -49,6 +52,10 @@ export class WorkPackageRelationsService {
               protected I18n:op.I18n,
               protected PathHelper:any,
               protected NotificationsService:any) {
+
+    this.throttledUpdaterFn = _.throttle(() => {
+      this.$rootScope.$emit('workPackagesRefreshInBackground');
+    }, 2000);
   }
 
   /**
@@ -101,6 +108,7 @@ export class WorkPackageRelationsService {
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
       this.mergeIntoStates([relation]);
+      this.throttledUpdaterFn();
       return relation;
     });
   }
@@ -124,6 +132,7 @@ export class WorkPackageRelationsService {
     return relation.updateImmediately(params)
     .then((savedRelation:RelationResourceInterface) => {
       this.mergeIntoStates([savedRelation]);
+      this.throttledUpdaterFn();
       return savedRelation;
     });
   }
@@ -143,6 +152,7 @@ export class WorkPackageRelationsService {
             state.put(currentValue);
           }
       });
+      this.throttledUpdaterFn();
     });
   }
 
