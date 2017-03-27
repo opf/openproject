@@ -105,7 +105,7 @@ module Type::Attributes
   end
 
   def custom_field?(attribute_name)
-    attribute_name.start_with? 'custom_field_'
+    attribute_name.to_s.start_with? 'custom_field_'
   end
 
   def attr_translate(name)
@@ -152,6 +152,15 @@ module Type::Attributes
     constraint.nil? || constraint.call(self, project: project)
   end
 
+  ##
+  # Returns whether this type has the custom field currently
+  # (e.g. because it was checked in the removed CF view).
+  def has_custom_field?(attribute)
+    custom_field_ids.map { |id| "custom_field_#{id}" }.include? attribute
+  end
+
+  ##
+  # Returns whether the custom field is active in the given project.
   def custom_field_in_project?(attribute, project)
     project
       .work_package_custom_field_ids
