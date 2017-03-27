@@ -145,6 +145,15 @@ module API
           }
         end
 
+        link :updateImmediately do
+          next unless represented.new_record? && allowed_to?(:create) ||
+                      represented.persisted? && allowed_to?(:update)
+          {
+            href: api_v3_paths.query(represented.id),
+            method: :patch
+          }
+        end
+
         link :delete do
           next if represented.new_record? ||
                   !allowed_to?(:destroy)

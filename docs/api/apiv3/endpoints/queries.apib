@@ -8,8 +8,8 @@ A query defines how work packages can be filtered and displayed. Clients can def
 |:-------------------:|----------------------------------------------------------------------| ---------------------------------------                                                                                          |
 | star                | Elevates the query to the status of 'starred'                        | **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is not yet starred |
 | unstar              | Removes the 'starred' status                                         | **Permission**: save queries for own queries, manage public queries for public queries; Only present if query is starred         |
-
-As of now, no actions are defined.
+| update              | Use the Form based process to verify the query before persisting     | **Permission**: view work packages                                                                                               |
+| updateImmediately   | Persist the query without using a Form based process for guidance    | **Permission**: save queries for own queries, manage public queries for public queries;                                          |
 
 ## Linked Properties
 
