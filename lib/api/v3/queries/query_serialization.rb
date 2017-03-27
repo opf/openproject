@@ -113,7 +113,7 @@ module API
         def initialize_links!(query, attributes)
           query.project_id = get_project_id(attributes) || query.project_id
           query.group_by = get_group_by(attributes) || query.group_by
-          query.column_names = get_columns(attributes) || query.columns
+          query.column_names = get_columns(attributes) || query.column_names
           query.sort_criteria = get_sort_criteria(attributes) || query.sort_criteria
         end
 
