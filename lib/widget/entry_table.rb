@@ -83,7 +83,7 @@ class Widget::Table::EntryTable < Widget::Table
           next if hit
           if entry_for(result).editable_by? User.current
             concat content_tag(:th, class: 'unsortable') {
-              content_tag(:div, class: 'generic-table--empty-header')
+              content_tag(:div, '', class: 'generic-table--empty-header')
             }
             hit = true
           end
