@@ -28,14 +28,17 @@
 
 require 'spec_helper'
 
-describe "POST /api/v3/queries", type: :request do
+describe "PATCH /api/v3/queries/:id", type: :request do
   let(:user) { FactoryGirl.create :admin }
   let(:status) { FactoryGirl.create :status }
   let(:project) { FactoryGirl.create :project }
 
+  let!(:query) { FactoryGirl.create :global_query, name: "A Query", is_public: false, display_sums: false }
+
   let(:params) do
     {
       name: "Dummy Query",
+      public: true,
       filters: [
         {
           name: "Status",
@@ -94,15 +97,15 @@ describe "POST /api/v3/queries", type: :request do
     login_as user
   end
 
-  describe "creating a query" do
+  describe "updating a query" do
     before do
-      post "/api/v3/queries",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      patch "/api/v3/queries/#{query.id}",
+            params: params.to_json,
+            headers: { "Content-Type": "application/json" }
     end
 
-    it 'should return 201 (created)' do
-      expect(response.status).to eq(201)
+    it 'should return 200 (ok)' do
+      expect(response.status).to eq(200)
     end
 
     it 'should render the created query' do
@@ -112,14 +115,15 @@ describe "POST /api/v3/queries", type: :request do
       expect(json["name"]).to eq "Dummy Query"
     end
 
-    it 'should create the query correctly' do
+    it 'should update the query correctly' do
       query = Query.first
 
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
       expect(query.columns.map(&:name)).to eq [:id, :subject, :status, :assigned_to]
-      expect(query.user).to eq user
       expect(query.project).to eq project
+      expect(query.is_public).to eq true
+      expect(query.display_sums).to eq false
 
       expect(query.filters.size).to eq 1
       filter = query.filters.first
@@ -128,13 +132,24 @@ describe "POST /api/v3/queries", type: :request do
       expect(filter.operator).to eq "="
       expect(filter.values).to eq [status.id.to_s]
     end
+
+    describe "with empty params" do
+      let(:params) { {} }
+
+      it "should not change anything" do
+        json = JSON.parse(response.body)
+
+        expect(json["_type"]).to eq "Query"
+        expect(json["name"]).to eq "A Query"
+      end
+    end
   end
 
   context "with invalid parameters" do
     def post!
-      post "/api/v3/queries",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      patch "/api/v3/queries/#{query.id}",
+            params: params.to_json,
+            headers: { "Content-Type": "application/json" }
     end
 
     def json

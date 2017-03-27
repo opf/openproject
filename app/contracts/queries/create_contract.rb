@@ -31,12 +31,5 @@ require 'queries/base_contract'
 
 module Queries
   class CreateContract < BaseContract
-    validate :user_allowed_to_make_public
-
-    def user_allowed_to_make_public
-      if is_public && !user.allowed_to?(:manage_public_queries, model.project)
-        errors.add :public, :error_unauthorized
-      end
-    end
   end
 end

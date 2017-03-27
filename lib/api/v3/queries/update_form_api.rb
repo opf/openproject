@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,44 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+require 'api/v3/queries/query_representer'
+require 'queries/create_query_service'
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
+module API
+  module V3
+    module Queries
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          helpers ::API::V3::Queries::CreateQuery
 
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
+          post do
+            query = @query
+            representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
+            query = representer.from_hash Hash(request_body)
+            contract = ::Queries::UpdateContract.new query, current_user
+            contract.validate
 
-    attribute :column_names # => columns
-    attribute :filters
+            query.user = current_user
 
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
+            api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
 
-    attr_reader :user
-
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
-    def initialize(query, user)
-      super query
-
-      @user = user
-    end
-
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      if is_public && !user.allowed_to?(:manage_public_queries, model.project)
-        errors.add :public, :error_unauthorized
+            # errors for invalid data (e.g. validation errors) are handled inside the form
+            if api_errors.all? { |error| error.code == 422 }
+              status 200
+              UpdateFormRepresenter.new query, current_user: current_user, errors: api_errors
+            else
+              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+            end
+          end
+        end
       end
     end
   end

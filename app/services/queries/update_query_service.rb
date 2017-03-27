@@ -27,45 +27,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+class UpdateQueryService
+  include Concerns::Contracted
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
+  attr_reader :user
 
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
+  self.contract = Queries::UpdateContract
 
-    attribute :column_names # => columns
-    attribute :filters
+  def initialize(user:)
+    @user = user
+  end
 
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
+  def call(query)
+    update query
+  end
 
-    attr_reader :user
+  private
 
-    validate :validate_project
-    validate :user_allowed_to_make_public
+  def update(query)
+    initialize_contract! query
 
-    def initialize(query, user)
-      super query
+    result, errors = validate_and_save query
 
-      @user = user
-    end
+    ServiceResult.new success: result, errors: errors, result: query
+  end
 
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      if is_public && !user.allowed_to?(:manage_public_queries, model.project)
-        errors.add :public, :error_unauthorized
-      end
-    end
+  def initialize_contract!(query)
+    self.contract = self.class.contract.new query, user
   end
 end

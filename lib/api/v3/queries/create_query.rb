@@ -28,6 +28,7 @@
 
 require 'api/v3/queries/query_representer'
 require 'queries/create_query_service'
+require 'queries/update_query_service'
 
 module API
   module V3
@@ -37,6 +38,18 @@ module API
           rep = representer.new Query.new, current_user: current_user
           query = rep.from_hash request_body
           call = ::CreateQueryService.new(user: current_user).call query
+
+          if call.success?
+            representer.new call.result, current_user: current_user, embed_links: true
+          else
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+          end
+        end
+
+        def update_query(query, request_body, current_user)
+          rep = representer.new query, current_user: current_user
+          query = rep.from_hash request_body
+          call = ::UpdateQueryService.new(user: current_user).call query
 
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true
@@ -58,6 +71,22 @@ module API
           UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
           # the service mutates the given query in place so we just return it
           query
+        end
+
+        def foo
+          rep = representer.new Relation.new, current_user: current_user
+          relation = rep.from_json request.body.read
+          attributes = filter_attributes relation
+          service = ::UpdateRelationService.new relation: Relation.find_by_id!(params[:id]),
+                                                user: current_user
+          call = service.call attributes: attributes,
+                              send_notifications: !(params[:notify] == 'false')
+
+          if call.success?
+            representer.new call.result, current_user: current_user, embed_links: true
+          else
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+          end
         end
       end
     end

@@ -27,44 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+module API
+  module V3
+    module Queries
+      class CreateFormRepresenter < FormRepresenter
+        link :self do
+          {
+            href: api_v3_paths.query_form(represented.id),
+            method: :post
+          }
+        end
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
+        link :validate do
+          {
+            href: api_v3_paths.query_form(represented.id),
+            method: :post
+          }
+        end
 
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
+        link :commit do
+          if allow_commit?
+            {
+              href: api_v3_paths.queries(represented.id),
+              method: :post
+            }
+          end
+        end
 
-    attribute :column_names # => columns
-    attribute :filters
+        private
 
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
-
-    attr_reader :user
-
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
-    def initialize(query, user)
-      super query
-
-      @user = user
-    end
-
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      if is_public && !user.allowed_to?(:manage_public_queries, model.project)
-        errors.add :public, :error_unauthorized
+        def allow_commit?
+          represented.name.present? && (
+              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project)) ||
+              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project))
+            ) && @errors.empty?
+        end
       end
     end
   end
