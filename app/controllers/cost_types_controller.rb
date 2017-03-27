@@ -140,6 +140,10 @@ class CostTypesController < ApplicationController
   end
 
   def default_breadcrumb
-    CostType.model_name.human(count: 2)
+    if action_name == 'index'
+      CostType.model_name.human(count: 2)
+    else
+      ActionController::Base.helpers.link_to(CostType.model_name.human(count: 2), cost_types_path)
+    end
   end
 end
