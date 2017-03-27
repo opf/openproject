@@ -73,7 +73,8 @@ module API
           next if represented.starred || !allowed_to?(:star)
 
           {
-            href: api_v3_paths.query_star(represented.id)
+            href: api_v3_paths.query_star(represented.id),
+            method: :patch
           }
         end
 
@@ -81,7 +82,8 @@ module API
           next unless represented.starred && allowed_to?(:unstar)
 
           {
-            href: api_v3_paths.query_unstar(represented.id)
+            href: api_v3_paths.query_unstar(represented.id),
+            method: :patch
           }
         end
 
