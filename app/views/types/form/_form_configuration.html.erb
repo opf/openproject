@@ -92,6 +92,9 @@ See doc/COPYRIGHT.rdoc for more details.
                   <div class="type-form-conf-attribute" data-key="<%= attribute[:key] %>">
                     <span class="attribute-handle">&#xe0b5;</span>
                     <span class="attribute-name">
+                      <% if attribute[:is_cf] %>
+                        (<%= t('models.custom_field') %>)
+                      <% end %>
                       <%= attribute[:translation] %>
                     </span>
 
@@ -119,6 +122,9 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="type-form-conf-attribute" data-key="<%= inactive_attribute[:key] %>">
                 <span class="attribute-handle">&#xe0b5;</span>
                 <span class="attribute-name">
+                  <% if inactive_attribute[:is_cf] %>
+                    (<%= t('models.custom_field') %>)
+                  <% end %>
                   <%= inactive_attribute[:translation] %>
                 </span>
 

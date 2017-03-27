@@ -62,14 +62,8 @@ module API
 
             def attribute_group(property)
               lambda do
-                if type = represented.type
-                  key = property.to_s.gsub /^customField/, "custom_field_"
-                  group_name = type.attribute_groups.find do |attribute_group|
-                    attribute_group.second.include?(key)
-                  end.try(:first)
-
-                  group_name
-                end
+                key = property.to_s.gsub /^customField/, "custom_field_"
+                represented.attribute_group_map key
               end
             end
 

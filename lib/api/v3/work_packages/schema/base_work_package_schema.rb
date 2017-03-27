@@ -94,19 +94,39 @@ module API
             false
           end
 
+          ##
+          # Return of a map of attribute => group name
+          def attribute_group_map(key)
+            return nil if type.nil?
+            @attribute_group_map ||= begin
+              mapping = {}
+              attribute_groups.each do |group, attributes|
+                attributes.each { |prop| mapping[prop] = group }
+              end
+
+              mapping
+            end
+
+            @attribute_group_map[key]
+          end
+
           def attribute_groups
             return nil if type.nil?
 
-            type.attribute_groups.map do |group|
-              group[1].map! do |prop|
-                if type.passes_attribute_constraint?(prop, project: project)
-                  convert_property(prop)
+            @attribute_groups ||= begin
+              type.attribute_groups.map do |group|
+                group[1].map! do |prop|
+                  if type.passes_attribute_constraint?(prop, project: project)
+                    convert_property(prop)
+                  end
                 end
-              end
 
-              group[1].compact!
-              group
+                group[1].compact!
+                group
+              end
             end
+
+            @attribute_groups
           end
 
           private

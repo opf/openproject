@@ -47,6 +47,8 @@ module ::TypesHelper
                 style: "background-color: #{color}")
   end
 
+  module_function
+
   ##
   # Updates the given type's attribute visibility map.
   #
