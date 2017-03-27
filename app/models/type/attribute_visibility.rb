@@ -57,4 +57,64 @@ module Type::AttributeVisibility
       'visible'
     end
   end
+
+  ##
+  # Calculates the visibility for all attributes of the given type.
+  #
+  # @param type [Type] Type for which to get the attribute visibilities.
+  # @return [Hash{String => String}] A map from each attribute name to the attribute's visibility.
+  def type_attribute_visibility
+    enabled_cfs = custom_field_ids.join("|")
+    visibility = ::Type.all_work_package_form_attributes
+      .keys
+      .select { |name| name !~ /^custom_field/ || name =~ /^custom_field_(#{enabled_cfs})$/ }
+      .map { |name| [name, attr_visibility(name) || "default"] }
+      .to_h
+  end
+
+  ##
+  # Checks visibility of a work package type's attribute.
+  #
+  # @param name [String] Name of the field of which to check the visibility.
+  # @param type [Type] Work package type whose field visibility is checked.
+  # @return [String] Either 'hidden', 'default' or 'visible'.
+  def attr_visibility(name)
+    if name =~ /^custom_field_/
+      custom_field_visibility name
+    elsif name == 'date' && !is_milestone
+      non_milestone_date_field_visibility
+    else
+      attribute_visibility[name]
+    end
+  end
+
+  #
+  # Bases visibility of custom fields on `type.custom_field_ids`
+  # if no visibility is defined yet. After the first update
+  # attribute_visibility and custom_field_ids will be kept in sync
+  # by the type service.
+  def custom_field_visibility(name)
+    id = name.split('_').last.to_i
+    value = attribute_visibility[name]
+
+    if value.nil? || value == 'hidden'
+      if custom_field_ids.include?(id)
+        'default'
+      else
+        'hidden'
+      end
+    else
+      value
+    end
+  end
+
+  def non_milestone_date_field_visibility
+    values = [
+      attribute_visibility['start_date'],
+      attribute_visibility['due_date']
+    ]
+
+    BaseTypeService::Functions.max_visibility values
+  end
+
 end

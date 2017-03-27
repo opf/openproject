@@ -78,11 +78,46 @@ module Type::Attributes
         attributes["custom_field_#{field.id}"] = {
           required: field.is_required,
           has_default: field.default_value.present?,
+          is_cf: true,
           display_name: field.name
         }
       end
 
       attributes
+    end
+  end
+
+  def attr_form_map(key, represented)
+    {
+      key: key,
+      always_visible: attr_visibility(key) == 'visible',
+      translation: translated_attribute_name(key, represented)
+    }
+  end
+
+  def attr_i18n_key(name)
+    if name == 'percentage_done'
+      'done_ratio'
+    else
+      name
+    end
+  end
+
+  def attr_translate(name)
+    if name == 'date'
+      I18n.t('label_date')
+    else
+      key = attr_i18n_key(name)
+      I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+          .presence || I18n.t("attributes.#{key}")
+    end
+  end
+
+  def translated_attribute_name(name, attr)
+    if attr[:name_source]
+      attr[:name_source].call
+    else
+      attr[:display_name] || attr_translate(name)
     end
   end
 

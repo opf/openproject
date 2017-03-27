@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% form_attributes = @type.form_configuration_groups %>
+
 <section class="form--section">
   <div class="grid-block wrap">
     <div class="grid-content small-12 large-6">
@@ -70,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
 
         <div id="draggable-groups" dragula='"groups"'>
-          <% form_configuration_groups(@type)[:actives].each do |group, attributes| %>
+          <% form_attributes[:actives].each do |group, attributes| %>
             <div class="type-form-conf-group" data-original-key="<%= group %>" data-key="<%= group %>">
               <div class="group-head">
                 <span class="group-handle">&#xe0b5;</span>
@@ -113,7 +115,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <span class="advice">(Drag attributes from here to activate them)</span>
           </div>
           <div class="attributes" dragula='"attributes"'>
-            <% form_configuration_groups(@type)[:inactives].each do |inactive_attribute| %>
+            <% form_attributes[:inactives].each do |inactive_attribute| %>
               <div class="type-form-conf-attribute" data-key="<%= inactive_attribute[:key] %>">
                 <span class="attribute-handle">&#xe0b5;</span>
                 <span class="attribute-name">

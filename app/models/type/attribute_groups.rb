@@ -88,9 +88,8 @@ module Type::AttributeGroups
     # group, the admin saving such a form configuration would encounter an
     # unexpected/unexplicable validation error.
     valid_keys = work_package_attributes.keys
-    groups.map do |_,attributes|
+    groups.each do |_, attributes|
       attributes.select! { |attribute| valid_keys.include? attribute }
-      [_, attributes]
     end
     groups.select! { |_,attributes| attributes.any? }
 
@@ -101,7 +100,10 @@ module Type::AttributeGroups
   # Returns the default +attribute_groups+ put together by
   # the default group map.
   def default_attribute_groups
-    values = work_package_attributes.keys.group_by { |key| map_attribute_to_group key }
+    values = work_package_attributes
+             .keys
+             .reject { |key| key.start_with? 'custom_field_' }
+             .group_by { |key| default_group_map.fetch(key.to_sym, :details) }
 
     ordered = []
     default_groups.map do |groupkey, label_key|
@@ -113,13 +115,38 @@ module Type::AttributeGroups
   end
 
   ##
-  # Map an AR attribute name to a group symbol,
-  # using the +default_group_map+ as fallback.
-  def map_attribute_to_group(name)
-    if name =~ /custom/
-      :other
-    else
-      default_group_map.fetch(name.to_sym, :details)
+  # Collect active and inactive form configuration groups for editing.
+  def form_configuration_groups
+    available = work_package_attributes
+    # First we create a complete list of all attributes.
+    # Later we will remove those that are members of an attribute group.
+    # This way attributes that were created after the las group definitions
+    # will fall back into the inactives group.
+    inactive = available.clone
+
+    active_form = get_active_groups(available, inactive)
+    inactive_form = inactive
+                    .map { |key, attribute| attr_form_map(key, attribute) }
+                    .sort_by { |_key, _attribute, translation| translation }
+
+    {
+      actives: active_form,
+      inactives: inactive_form
+    }
+  end
+
+  ##
+  # Collect active attributes from the current form configuration.
+  # Using the available attributes from +work_package_attributes+,
+  # determines which attributes are not used
+  def get_active_groups(available, inactive)
+    attribute_groups.map do |group|
+      extended_attributes =
+        group.second
+             .select { |key| inactive.delete(key) }
+             .map! { |key| attr_form_map(key, available[key]) }
+
+      [group[0], extended_attributes]
     end
   end
 
