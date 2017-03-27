@@ -92,6 +92,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                      renderInfo: RenderInfo,
                      elem: HTMLElement): "left" | "right" | "both" | "create" | "dragright" {
 
+    // check for active selection mode
+    if (renderInfo.viewParams.activeSelectionMode) {
+      renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
+      ev.preventDefault();
+      return "both"; // irrelevant
+    }
+
     let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
     renderInfo.workPackage.storePristine('date');
     this.forceCursor('ew-resize');
