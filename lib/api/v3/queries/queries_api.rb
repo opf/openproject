@@ -98,12 +98,18 @@ module API
             requires :id, desc: 'Query id'
           end
           route_param :id do
+            mount API::V3::Queries::UpdateFormAPI
+
             before do
               @query = Query.find(params[:id])
 
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end
+            end
+
+            patch do
+              update_query @query, request_body, current_user
             end
 
             get do

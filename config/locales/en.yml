@@ -245,7 +245,7 @@ en:
   activemodel:
     errors:
       models:
-        "queries/create_contract":
+        "queries/base_contract":
           attributes:
             project:
               error_not_found: "not found"
