@@ -163,7 +163,7 @@ module Type::Attributes
   # Returns whether the custom field is active in the given project.
   def custom_field_in_project?(attribute, project)
     project
-      .work_package_custom_field_ids
+      .all_work_package_custom_fields.pluck(:id)
       .map { |id| "custom_field_#{id}" }
       .include? attribute
   end
