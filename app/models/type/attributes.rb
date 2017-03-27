@@ -56,7 +56,7 @@ module Type::Attributes
     #
     # E.g.
     #
-    #   ::TypesHelper.work_package_form_attributes['author'][:required] # => true
+    #   ::Type.work_package_form_attributes['author'][:required] # => true
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
@@ -90,6 +90,7 @@ module Type::Attributes
   def attr_form_map(key, represented)
     {
       key: key,
+      is_cf: custom_field?(key),
       always_visible: attr_visibility(key) == 'visible',
       translation: translated_attribute_name(key, represented)
     }
@@ -101,6 +102,10 @@ module Type::Attributes
     else
       name
     end
+  end
+
+  def custom_field?(attribute_name)
+    attribute_name.start_with? 'custom_field_'
   end
 
   def attr_translate(name)
@@ -136,7 +141,21 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
+
+    # Check custom field constraints
+    if custom_field?(attribute) && !project.nil?
+      return custom_field_in_project?(attribute, project)
+    end
+
+    # Check other constraints (none in the core, but costs/backlogs adds constraints)
     constraint = attribute_constraints[attribute.to_sym]
     constraint.nil? || constraint.call(self, project: project)
+  end
+
+  def custom_field_in_project?(attribute, project)
+    project
+      .work_package_custom_field_ids
+      .map { |id| "custom_field_#{id}" }
+      .include? attribute
   end
 end

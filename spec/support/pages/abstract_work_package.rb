@@ -90,6 +90,10 @@ module Pages
       end
     end
 
+    def expect_no_group(name)
+      expect(page).to have_no_selector('.attributes-group--header-text', text: name.upcase)
+    end
+
     def expect_attributes(attribute_expectations)
       attribute_expectations.each do |label_name, value|
         label = label_name.to_s
