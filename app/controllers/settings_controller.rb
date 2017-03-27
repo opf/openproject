@@ -87,6 +87,10 @@ class SettingsController < ApplicationController
     l(:label_system_settings)
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   ##

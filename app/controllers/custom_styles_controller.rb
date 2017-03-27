@@ -103,6 +103,10 @@ class CustomStylesController < ApplicationController
     redirect_to action: :show
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   def require_ee_token

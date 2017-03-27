@@ -176,4 +176,8 @@ class GroupsController < ApplicationController
       ActionController::Base.helpers.link_to(t('label_group_plural'), groups_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

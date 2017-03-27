@@ -101,6 +101,10 @@ class EnumerationsController < ApplicationController
     end
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   def find_enumeration
     @enumeration = Enumeration.find(params[:id])
   end

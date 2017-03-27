@@ -114,7 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         <% end %>
         <% if show_decoration %>
-          <div id="breadcrumb" class="<%= initial_classes %>"
+          <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>"
                ng-class="{ 'hidden-navigation': !showNavigation }">
             <%= you_are_here_info %>
             <%= full_breadcrumb %>

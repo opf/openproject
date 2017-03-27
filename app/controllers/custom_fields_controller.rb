@@ -200,4 +200,8 @@ class CustomFieldsController < ApplicationController
       ActionController::Base.helpers.link_to(t('label_custom_field_plural'), custom_fields_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

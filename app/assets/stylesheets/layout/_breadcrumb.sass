@@ -30,6 +30,7 @@
   @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
 
 #breadcrumb
+  display: none
   @include default-transition
   height: $breadcrumb-height
   overflow: hidden
@@ -60,6 +61,9 @@
     &.cutme
       max-width: $breadcrumb-height
 
+  &.-show
+    display: block
+
 ul.breadcrumb
   margin: 0 0 0 13px
   padding: 0
@@ -83,3 +87,7 @@ ul.breadcrumb
   float: left
   margin: 0 0 0 10px
   padding: 0
+
+// Hide projects in normal mode
+body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element
+  display: none

@@ -118,4 +118,8 @@ class AdminController < ApplicationController
       l(:label_information)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

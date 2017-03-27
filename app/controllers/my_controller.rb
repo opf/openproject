@@ -255,6 +255,10 @@ class MyController < ApplicationController
     l(:label_my_account)
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   def redirect_if_password_change_not_allowed_for(user)
