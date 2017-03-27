@@ -77,7 +77,7 @@ describe ::API::V3::Queries::QueryRepresenter do
 
       it_behaves_like 'has an untitled link' do
         let(:link) { 'update' }
-        let(:href) { api_v3_paths.query_form(project.identifier) }
+        let(:href) { api_v3_paths.query_form }
       end
 
       context 'has no project' do
