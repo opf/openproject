@@ -28,6 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= render partial: 'action_menu', locals: { title: l(:label_workflow_plural) } %>
 <% html_title l(:label_administration), l(:label_workflow_plural) -%>
+<% local_assigns[:additional_breadcrumb] = t(:label_workflow_summary) %>
+
 <% if @workflow_counts.any? %>
   <div class="autoscroll">
     <div class="generic-table--container">
@@ -69,7 +71,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <% end -%>
           </tbody>
         </table>
-        
+
       </div>
     </div>
   </div>

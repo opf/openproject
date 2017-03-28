@@ -101,6 +101,14 @@ class WorkflowsController < ApplicationController
     end
   end
 
+  def default_breadcrumb
+    if action_name == 'edit'
+      t('label_workflow')
+    else
+      ActionController::Base.helpers.link_to(t('label_workflow'), url_for(controller: '/workflows', action: 'edit'))
+    end
+  end
+
   private
 
   def find_roles
