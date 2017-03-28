@@ -155,13 +155,10 @@ export class WorkPackageTimelineTableController {
       })
       .distinctUntilChanged((v1, v2) => {
         if (v1 === v2) {
-          // console.log("    work package NOT changed");
           return true;
         } else {
-          // console.log("    work package CHANGED");
           return false;
         }
-        // return v1 === v2;
       }, renderInfo => {
         return ""
           + renderInfo.viewParams.dateDisplayStart
@@ -208,7 +205,6 @@ export class WorkPackageTimelineTableController {
     this._viewParameters.selectionModeStart = start;
 
     this.$element.addClass("active-selection-mode");
-    console.log(this.$element);
     this.refreshView();
   }
 
