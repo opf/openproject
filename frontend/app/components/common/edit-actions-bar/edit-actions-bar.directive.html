@@ -3,6 +3,7 @@
       id="work-packages--edit-actions-save"
       class="button -alt-highlight"
       accesskey="3"
+      ng-disabled="$ctrl.saving"
       ng-click="$ctrl.save()">
     <i class="button--icon icon-checkmark"></i>
     <span class="button--text" ng-bind="::$ctrl.text.save"></span>
