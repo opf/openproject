@@ -98,8 +98,6 @@ module API
             requires :id, desc: 'Query id'
           end
           route_param :id do
-            mount API::V3::Queries::UpdateFormAPI
-
             before do
               @query = Query.find(params[:id])
 
@@ -107,6 +105,8 @@ module API
                 raise API::Errors::NotFound
               end
             end
+
+            mount API::V3::Queries::UpdateFormAPI
 
             patch do
               update_query @query, request_body, current_user

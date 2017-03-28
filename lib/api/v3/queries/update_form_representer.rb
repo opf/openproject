@@ -30,7 +30,7 @@
 module API
   module V3
     module Queries
-      class CreateFormRepresenter < FormRepresenter
+      class UpdateFormRepresenter < FormRepresenter
         link :self do
           {
             href: api_v3_paths.query_form(represented.id),
@@ -48,7 +48,7 @@ module API
         link :commit do
           if allow_commit?
             {
-              href: api_v3_paths.queries(represented.id),
+              href: api_v3_paths.query(represented.id),
               method: :post
             }
           end

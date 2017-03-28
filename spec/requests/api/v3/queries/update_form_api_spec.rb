@@ -32,7 +32,7 @@ require 'rack/test'
 describe "POST /api/v3/queries/form", type: :request do
   include API::V3::Utilities::PathHelper
 
-  let(:path) { api_v3_paths.query_form }
+  let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { FactoryGirl.create(:admin) }
   let!(:project) { FactoryGirl.create(:project_with_types) }
   let!(:query) { FactoryGirl.create :query, name: "Existing Query", is_public: true }
@@ -64,8 +64,6 @@ describe "POST /api/v3/queries/form", type: :request do
 
   describe 'with empty parameters' do
     it 'has 0 validation errors' do
-      require 'pry'; binding.pry
-
       expect(form.dig("_embedded", "validationErrors").size).to eq 0
     end
   end
@@ -216,22 +214,6 @@ describe "POST /api/v3/queries/form", type: :request do
         project_link = { "href" => "/api/v3/projects/#{project.id}" }
 
         expect(form.dig("_embedded", "payload", "_links", "project")).to eq project_link
-      end
-    end
-
-    context "with groupBy specified as a GET parameter" do
-      let(:path) { api_v3_paths.query_form + "?groupBy=author"}
-      let(:override_params) do
-        links = parameters[:_links]
-
-        links.delete :groupBy
-
-        { _links: links }
-      end
-
-      it "initializes the form with the given groupBy" do
-        expect(form.dig("_embedded", "payload", "_links", "groupBy", "href"))
-          .to eq "/api/v3/queries/group_bys/author"
       end
     end
 
