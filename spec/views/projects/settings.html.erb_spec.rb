@@ -59,4 +59,37 @@ describe 'projects/settings', type: :view do
       end
     end
   end
+
+  context 'User.current is admin' do
+    let(:admin) { FactoryGirl.build :admin }
+
+    before do
+      assign(:project, project)
+      allow(project).to receive(:copy_allowed?).and_return(true)
+      allow(User).to receive(:current).and_return(admin)
+      allow(view).to receive(:render_tabs).and_return('')
+      render
+    end
+
+    it 'show delete and archive buttons' do
+      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Archive project')
+      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Delete project')
+    end
+  end
+
+  context 'User.current is non-admin' do
+    let(:non_admin) { FactoryGirl.create :user }
+
+    before do
+      assign(:project, project)
+      allow(project).to receive(:copy_allowed?).and_return(true)
+      allow(User).to receive(:current).and_return(non_admin)
+      render
+    end
+
+    it 'hide delete and archive buttons' do
+      expect(rendered).not_to have_selector('li.toolbar-item span.button--text', text: 'Archive project')
+      expect(rendered).not_to have_selector('li.toolbar-item span.button--text', text: 'Delete project')
+    end
+  end
 end
