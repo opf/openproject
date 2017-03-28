@@ -50,7 +50,8 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= styled_text_field_tag :principal_search,
                                       nil,
                                       data: { :'remote-field-key' => 'q' },
-                                      class: 'remote-field--input' %>
+                                      class: 'remote-field--input',
+                                      onkeypress: "return event.keyCode != 13;" %>
           </div>
         </div>
       </div>
