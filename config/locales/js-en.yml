@@ -232,6 +232,7 @@ en:
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
+        confirm_reset: "Replace these groups with default groups?"
 
     watchers:
       label_loading: loading watchers...

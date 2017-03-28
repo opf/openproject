@@ -35,6 +35,7 @@ function typesFormConfigurationCtrl(
   I18n:op.I18n,
   $scope:any,
   $element:any,
+  $window:ng.IWindowService,
   $compile:any) {
 
   // Setup autoscroll
@@ -62,10 +63,13 @@ function typesFormConfigurationCtrl(
   });
 
   $scope.resetToDefault = ($event: any): void => {
-    let form: JQuery = angular.element($event.target).parents('form');
-    angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
-    angular.element('input#type_attribute_visibility').first().val(JSON.stringify({}));
-    form.submit();
+    let confirmed = $window.confirm(I18n.t('js.types.attribute_groups.confirm_reset'));
+    if (confirmed) {
+      let form: JQuery = angular.element($event.target).parents('form');
+      angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
+      angular.element('input#type_attribute_visibility').first().val(JSON.stringify({}));
+      form.submit();
+    };
   };
 
   $scope.deactivateAttribute = ($event: any) => {

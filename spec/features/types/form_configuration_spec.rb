@@ -141,7 +141,9 @@ describe 'form configuration', type: :feature, js: true do
       set_visibility(:assignee, checked: true)
       expect_attribute(key: :assignee, checked: true)
 
-      reset_button.click
+      accept_confirm do
+        reset_button.click
+      end
 
       expect(page).to have_no_selector(group_selector('Whatever'))
       expect_group('Details')
