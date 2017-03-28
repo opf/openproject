@@ -295,6 +295,13 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         # Save description
         created_row.find('.inplace-edit--control--save a').click
+
+        ## Toggle description again
+        sleep 2
+        created_row.hover
+        toggle_btn = created_row.find('.wp-relations--description-btn')
+        toggle_btn.click
+
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 
