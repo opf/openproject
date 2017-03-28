@@ -177,10 +177,23 @@ describe('tablePagination Directive', function () {
       });
     });
 
-    describe('with entries', function() {
+    describe('with few entries', function() {
       beforeEach(function() {
         compile();
-        scope.setTotalResults(1);
+        scope.setTotalResults(5);
+      });
+
+      it('should have no perPage options', function () {
+        var perPageOptions = element.find('.pagination--options');
+
+        expect(perPageOptions.text()).to.not.include('Per page:');
+      });
+    });
+
+    describe('with multiple entries', function() {
+      beforeEach(function() {
+        compile();
+        scope.setTotalResults(20);
       });
 
       it('should render perPage options', function () {
