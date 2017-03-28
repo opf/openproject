@@ -56,6 +56,7 @@ Feature: Type Administration
       And I fill in "New Phase" for "Name"
       And I press "Create"
      Then I should see a notice flash stating "Successful creation."
+     When I go to the global index page of types
       And I should see that "New Phase" is not a milestone and shown in aggregation
       And "New Phase" should be the last element in the list
 

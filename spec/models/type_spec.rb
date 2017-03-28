@@ -46,4 +46,81 @@ describe ::Type, type: :model do
       expect(Type.enabled_in(project)).to match_array([type])
     end
   end
+
+  describe "#attribute_groups" do
+    it 'returns #default_attribute_groups if not yet set' do
+      expect(type.read_attribute(:attribute_groups)).to be_empty
+      expect(type.attribute_groups).to_not be_empty
+      expect(type.attribute_groups).to eq type.default_attribute_groups
+    end
+  end
+
+  describe '#default_attribute_groups' do
+    subject { type.default_attribute_groups }
+
+    it 'returns an array' do
+      expect(subject.any?).to be_truthy
+    end
+
+    it 'each attribute group is an array' do
+      expect(subject.detect { |g| g.class != Array }).to be_falsey
+    end
+
+    it "each attribute group's 1st element is a String (the group name)" do
+      expect(subject.detect { |g| g.first.class != String }).to be_falsey
+    end
+
+    it "each attribute group's 2nd element is a String (the group members)" do
+      expect(subject.detect { |g| g.second.class != Array }).to be_falsey
+    end
+
+    it 'does not return empty groups' do
+      # For instance, the `type` factory instance does not have custom fields.
+      # Thus the `other` group shall not be returned.
+      expect(subject.detect do |attribute_group|
+        group_members = attribute_group[1]
+        group_members.nil? || group_members.size.zero?
+      end).to be_falsey
+    end
+  end
+
+  describe "#validate_attribute_groups" do
+    it 'raises an exception for invalid structure' do
+      # Exampel for invalid structure:
+      type.attribute_groups = ['foo']
+      expect { type.save }.to raise_exception
+      # Exampel for invalid structure:
+      type.attribute_groups = [[]]
+      expect { type.save }.to raise_exception
+      # Exampel for invalid group name:
+      type.attribute_groups = [['', ['date']]]
+      expect(type).not_to be_valid
+    end
+
+    it 'fails validations for unknown attributes' do
+      type.attribute_groups = [['foo', ['bar']]]
+      expect(type.save).to be_falsey
+    end
+
+    it 'fails for duplicate group names' do
+      type.attribute_groups = [['foo', ['bar']], ['foo', ['bar']]]
+      expect(type).not_to be_valid
+    end
+
+    it 'passes validations for known attributes' do
+      type.attribute_groups = [['foo', ['date']]]
+      expect(type.save).to be_truthy
+    end
+
+    it 'passes validation for defaults' do
+      expect(type.save).to be_truthy
+    end
+
+    it 'passes validation for reset' do
+      # A reset is to save an empty Array
+      type.attribute_groups = []
+      expect(type.save).to be_truthy
+      expect(type.attribute_groups).to eq type.default_attribute_groups
+    end
+  end
 end

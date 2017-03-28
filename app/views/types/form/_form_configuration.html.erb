@@ -30,58 +30,108 @@ See doc/COPYRIGHT.rdoc for more details.
 <section class="form--section">
   <div class="grid-block wrap">
     <div class="grid-content small-12 large-6">
-      <div>
+
+      <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.to_json %>
+      <%= f.hidden_field :attribute_visibility, value: @type.attribute_visibility.to_json %>
+
+      <div id="types-form-configuration" ng-controller="TypesFormConfigurationCtrl">
         <p><%= I18n.t('text_form_configuration') %></p>
-        <table class="attributes-table -two-options">
-          <thead>
-            <tr>
-              <th><%= I18n.t('label_attribute') %></th>
-              <th class="attributes-table--option"><%= I18n.t('label_active') %></th>
-              <th class="attributes-table--option"><%= I18n.t('label_always_visible') %></th>
-            </tr>
-          </thead>
-          <tbody>
-            <%
-              attributes = ::TypesHelper
-                .work_package_form_attributes(merge_date: true)
-                .reject { |name, attr|
-                  # display all custom fields     don't display required fields without a default
-                  not name =~ /custom_field_/ and (attr[:required] and not attr[:has_default])
-                }
-              keys = attributes.keys.sort_by do |name|
-                translated_attribute_name(name, attributes[name])
-              end
-            %>
-            <% keys.each do |name| %>
-            <%   attr = attributes[name] %>
-              <tr>
-                <td>
-                  <%= label_tag "type_attribute_visibility_#{name}",
-                                translated_attribute_name(name, attr),
-                                value: "type_attribute_visibility[#{name}]",
-                                class: 'ellipsis' %>
-                </td>
-                <td>
-                  <input name="<%= "type[attribute_visibility][#{name}]" %>" type="hidden" value="hidden" />
-                  <% active_checked = [nil, 'default', 'visible'].include?(attr_visibility(name, @type)) %>
-                  <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                    'default',
-                                    active_checked,
-                                    id: "type_attribute_visibility_default_#{name}",
-                                    title: I18n.t('tooltip.attribute_visibility.default') %>
-                </td>
-                <td>
-                  <%= check_box_tag "type[attribute_visibility][#{name}]",
-                                    'visible',
-                                    attr_visibility(name, @type) == 'visible',
-                                    id: "type_attribute_visibility_visible_#{name}",
+
+        <%= toolbar title: '' do %>
+          <li class="toolbar-item">
+            <button type="button" class="form-configuration--reset button" ng-click="resetToDefault($event)">
+              <i class="button--icon icon-undo"></i>
+              <span class="button--text"><%= t('types.edit.reset') %></span>
+            </button>
+          </li>
+          <li class="toolbar-item">
+            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
+              <i class="button--icon icon-add"></i>
+              <span class="button--text"><%= t('types.edit.add_group') %></span>
+            </button>
+          </li>
+        <% end %>
+
+        <div id="type-form-conf-group-template" class="type-form-conf-group" data-original-key="" data-key="">
+          <div class="group-head">
+            <span class="group-handle">&#xe0b5;</span>
+            <group-edit-in-place
+              name=""
+              key=""
+              onvaluechange="groupNameChange">
+            </group-edit-in-place>
+            <div class="attribute-visibility">
+              <%= I18n.t('label_always_visible') %>
+              <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+            </div>
+          </div>
+          <div class="attributes" dragula='"attributes"'>
+          </div>
+        </div>
+
+        <div id="draggable-groups" dragula='"groups"'>
+          <% form_configuration_groups(@type)[:actives].each do |group, attributes| %>
+            <div class="type-form-conf-group" data-original-key="<%= group[:key] %>" data-key="<%= group[:key] %>">
+              <div class="group-head">
+                <span class="group-handle">&#xe0b5;</span>
+                <group-edit-in-place
+                  name="<%= group[:translation] %>"
+                  key="<%= group[:key] %>"
+                  onvaluechange="groupNameChange">
+                  <%= group[:translation] %>
+                </group-edit-in-place>
+                <div class="attribute-visibility">
+                  <%= I18n.t('label_always_visible') %>
+                  <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+                </div>
+              </div>
+              <div class="attributes" dragula='"attributes"'>
+                <% attributes.each do |attribute| %>
+                  <div class="type-form-conf-attribute" data-key="<%= attribute[:key] %>">
+                    <span class="attribute-handle">&#xe0b5;</span>
+                    <span class="attribute-name">
+                      <%= attribute[:translation] %>
+                    </span>
+
+                    <div class="attribute-visibility">
+                      <%= check_box_tag "",
+                        'visible',
+                        attribute[:always_visible],
+                        title: I18n.t('tooltip.attribute_visibility.visible'),
+                        'ng-click': "updateHiddenFields()" %>
+                      <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div> <!-- END attribute group -->
+          <% end %>
+        </div>
+        <div id="type-form-conf-inactive-group">
+          <div class="group-head">
+            <span class="group-name"><%= t(:label_inactive) %></span>
+            <span class="advice">(Drag attributes from here to activate them)</span>
+          </div>
+          <div class="attributes" dragula='"attributes"'>
+            <% form_configuration_groups(@type)[:inactives].each do |inactive_attribute| %>
+              <div class="type-form-conf-attribute" data-key="<%= inactive_attribute[:key] %>">
+                <span class="attribute-handle">&#xe0b5;</span>
+                <span class="attribute-name">
+                  <%= inactive_attribute[:translation] %>
+                </span>
+
+                <div class="attribute-visibility">
+                  <%= check_box_tag "",
+                                    'hidden',
+                                    false,
                                     title: I18n.t('tooltip.attribute_visibility.visible'),
-                                    disabled: !active_checked %>
-                </td>
-              </tr>
+                                    'ng-click': "updateHiddenFields()" %>
+                  <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
+                </div>
+              </div>
             <% end %>
-          </tbody>
-        </table>
+          </div>
+        </div><!-- END type form configurator -->
       </div>
     </div>
   </div>
@@ -90,6 +140,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="grid-block">
   <div class="generic-table--action-buttons">
   <%= styled_button_tag t(@type.new_record? ? :button_create : :button_save),
-      class: '-highlight -with-icon icon-checkmark' %>
+      class: 'form-configuration--save -highlight -with-icon icon-checkmark' %>
   </div>
 </div>

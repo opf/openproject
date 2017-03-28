@@ -49,40 +49,46 @@ module ::TypesHelper
 
   module_function
 
-  ##
-  # Provides a map of all work package form attributes as seen when creating
-  # or updating a work package. Through this map it can be checked whether or
-  # not an attribute is required.
-  #
-  # E.g.
-  #
-  #   ::TypesHelper.work_package_form_attributes['author'][:required] # => true
-  #
-  # @return [Hash{String => Hash}] Map from attribute names to options.
-  def work_package_form_attributes(merge_date: false)
-    rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
-    definitions = rattrs[:definitions]
-    skip = ['_type', 'links', 'parent_id', 'parent', 'description']
-    attributes = definitions.keys
-      .reject { |key| skip.include? key }
-      .map { |key| [key, definitions[key]] }.to_h
+  def form_configuration_groups(type)
+    attributes = type.work_package_attributes
+    # First we create a complete list of all attributes.
+    # Later we will remove those that are members of an attribute group.
+    # This way attributes that were created after the las group definitions
+    # will fall back into the inactives group.
+    inactive_attributes = attributes.clone
 
-    # within the form date is shown as a single entry including start and due
-    if merge_date
-      attributes['date'] = { required: false, has_default: false }
-      attributes.delete 'due_date'
-      attributes.delete 'start_date'
+    actives = type.attribute_groups.map do |group|
+      extended_attributes = group.second.select do |key|
+        # The group's attribute keys could be out of date. Check presence.
+        if inactive_attributes.key?(key)
+          inactive_attributes.delete(key)
+          true
+        else
+          false
+        end
+      end
+      extended_attributes.map! do |key|
+        {
+          key: key,
+          always_visible: attr_visibility(key, type) == 'visible',
+          translation: translated_attribute_name(key, attributes[key])
+        }
+      end
+
+      extended_group = { key: group[0], translation: group_translate(group[0]) }
+
+      [extended_group, extended_attributes]
     end
 
-    WorkPackageCustomField.includes(:translations).all.each do |field|
-      attributes["custom_field_#{field.id}"] = {
-        required: field.is_required,
-        has_default: field.default_value.present?,
-        display_name: field.name
+    inactives = inactive_attributes.map do |key, attribute|
+      {
+        key: key,
+        attribute: attribute,
+        translation: translated_attribute_name(key, attribute)
       }
-    end
+    end.sort_by { |_key, _attribute, translation| translation }
 
-    attributes
+    { actives: actives, inactives: inactives }
   end
 
   def attr_i18n_key(name)
@@ -103,6 +109,14 @@ module ::TypesHelper
     end
   end
 
+  def group_translate(name)
+    if ['details', 'estimates_and_time', 'other', 'people'].include? name
+      I18n.t("label_#{name}")
+    else
+      name
+    end
+  end
+
   def translated_attribute_name(name, attr)
     if attr[:name_source]
       attr[:name_source].call
@@ -118,7 +132,7 @@ module ::TypesHelper
   # @return [Hash{String => String}] A map from each attribute name to the attribute's visibility.
   def type_attribute_visibility(type)
     enabled_cfs = type.custom_field_ids.join("|")
-    visibility = work_package_form_attributes
+    visibility = ::Type.all_work_package_form_attributes
       .keys
       .select { |name| name !~ /^custom_field/ || name =~ /^custom_field_(#{enabled_cfs})$/ }
       .map { |name| [name, attr_visibility(name, type) || "default"] }

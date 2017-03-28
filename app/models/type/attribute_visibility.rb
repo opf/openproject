@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,32 +27,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module Type::AttributeVisibility
+  extend ActiveSupport::Concern
 
-RSpec.feature 'Work package show page', selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) {
-    FactoryGirl.build(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      responsible: user)
-  }
-
-  before do
-    login_as(user)
-    work_package.save!
+  included do
+    serialize :attribute_visibility, Hash
+    validates_each :attribute_visibility do |record, _attr, visibility|
+      visibility.each do |attr_name, value|
+        unless attribute_visibilities.include? value.to_s
+          record.errors.add(:attribute_visibility, "for '#{attr_name}' cannot be '#{value}'")
+        end
+      end
+    end
   end
 
-  scenario 'all different angular based work package views', js: true do
-    wp_page = Pages::FullWorkPackage.new(work_package)
+  class_methods do
+    ##
+    # The possible visibility values for a work package attribute
+    # as defined by a type are:
+    #
+    #   - default The attribute is displayed in forms if it has a value.
+    #   - visible The attribute is displayed in forms even if empty.
+    #   - hidden  The attribute is hidden in forms even if it has a value.
+    def attribute_visibilities
+      ['visible', 'hidden', 'default']
+    end
 
-    wp_page.visit!
-
-    wp_page.expect_attributes Type: work_package.type.name,
-                              Status: work_package.status.name,
-                              Priority: work_package.priority.name,
-                              Assignee: work_package.assigned_to.name,
-                              Responsible: work_package.responsible.name
+    def default_attribute_visibility
+      'visible'
+    end
   end
 end

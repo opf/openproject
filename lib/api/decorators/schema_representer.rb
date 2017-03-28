@@ -58,6 +58,7 @@ module API
                    has_default: false,
                    writable: default_writable_property(property),
                    visibility: nil,
+                   attribute_group: nil,
                    min_length: nil,
                    max_length: nil,
                    regular_expression: nil,
@@ -69,6 +70,7 @@ module API
                                    has_default,
                                    writable,
                                    visibility,
+                                   attribute_group,
                                    min_length,
                                    max_length,
                                    regular_expression)
@@ -90,6 +92,7 @@ module API
                                      has_default: false,
                                      writable: default_writable_property(property),
                                      visibility: nil,
+                                     attribute_group: nil,
                                      show_if: true)
           getter = ->(*) do
             schema_with_allowed_link_property_getter(type,
@@ -98,6 +101,7 @@ module API
                                                      has_default,
                                                      writable,
                                                      visibility,
+                                                     attribute_group,
                                                      href_callback)
           end
 
@@ -121,6 +125,7 @@ module API
                                            has_default: false,
                                            writable: default_writable_property(property),
                                            visibility: nil,
+                                           attribute_group: nil,
                                            show_if: true)
 
           getter = ->(*) do
@@ -133,6 +138,7 @@ module API
                                                   has_default,
                                                   writable,
                                                   visibility,
+                                                  attribute_group,
                                                   values_callback)
           end
 
@@ -229,6 +235,7 @@ module API
                                  has_default,
                                  writable,
                                  visibility,
+                                 attribute_group,
                                  min_length,
                                  max_length,
                                  regular_expression)
@@ -239,7 +246,8 @@ module API
                       required: call_or_use(required),
                       has_default: call_or_use(has_default),
                       writable: call_or_use(writable),
-                      visibility: call_or_use(visibility))
+                      visibility: call_or_use(visibility),
+                      attribute_group: call_or_use(attribute_group))
         schema.min_length = min_length
         schema.max_length = max_length
         schema.regular_expression = regular_expression
@@ -253,6 +261,7 @@ module API
                                                    has_default,
                                                    writable,
                                                    visibility,
+                                                   attribute_group,
                                                    href_callback)
         representer = ::API::Decorators::AllowedValuesByLinkRepresenter
                       .new(type: call_or_use(type),
@@ -260,7 +269,8 @@ module API
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),
-                           visibility: call_or_use(visibility))
+                           visibility: call_or_use(visibility),
+                           attribute_group: call_or_use(attribute_group))
 
         if form_embedded
           representer.allowed_values_href = instance_eval(&href_callback)
@@ -278,6 +288,7 @@ module API
                                                 has_default,
                                                 writable,
                                                 visibility,
+                                                attribute_group,
                                                 values_callback)
         representer = ::API::Decorators::AllowedValuesByCollectionRepresenter
                       .new(type: call_or_use(type),
@@ -288,7 +299,8 @@ module API
                            required: call_or_use(required),
                            has_default: call_or_use(has_default),
                            writable: call_or_use(writable),
-                           visibility: call_or_use(visibility))
+                           visibility: call_or_use(visibility),
+                           attribute_group: call_or_use(attribute_group))
 
         if form_embedded
           representer.allowed_values = instance_exec(&values_callback)
