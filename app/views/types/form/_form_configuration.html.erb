@@ -61,12 +61,11 @@ See doc/COPYRIGHT.rdoc for more details.
             <group-edit-in-place
               name=""
               key=""
-              onvaluechange="groupNameChange">
+              onvaluechange="groupNameChange"
+              class="group-name">
             </group-edit-in-place>
-            <div class="attribute-visibility">
-              <%= t('label_always_visible') %>
-              <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
-            </div>
+            <span class="visibility-check"><%= t('label_always_visible') %></span>
+            <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
           </div>
           <div class="attributes" dragula='"attributes"'>
           </div>
@@ -75,37 +74,35 @@ See doc/COPYRIGHT.rdoc for more details.
           <% form_attributes[:actives].each do |group, attributes| %>
             <div class="type-form-conf-group" data-original-key="<%= group %>" data-key="<%= group %>">
               <div class="group-head">
-                <span class="group-handle">&#xe0b5;</span>
+                <span class="group-handle icon-toggle"></span>
                 <group-edit-in-place
                   name="<%= group %>"
                   key="<%= group %>"
-                  onvaluechange="groupNameChange">
+                  onvaluechange="groupNameChange"
+                  class="group-name">
                   <%= group %>
                 </group-edit-in-place>
-                <div class="attribute-visibility">
-                  <%= t('label_always_visible') %>
-                  <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
-                </div>
+                <span class="visibility-check"><%= t('label_always_visible') %></span>
+                <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
               </div>
               <div class="attributes" dragula='"attributes"'>
                 <% attributes.each do |attribute| %>
                   <div class="type-form-conf-attribute" data-key="<%= attribute[:key] %>">
-                    <span class="attribute-handle">&#xe0b5;</span>
+                    <span class="attribute-handle icon-toggle"></span>
                     <span class="attribute-name">
                       <% if attribute[:is_cf] %>
                         (<%= t('models.custom_field') %>)
                       <% end %>
                       <%= attribute[:translation] %>
                     </span>
-
-                    <div class="attribute-visibility">
+                    <div class="visibility-check">
                       <%= check_box_tag "",
                         'visible',
                         attribute[:always_visible],
                         title: t('tooltip.attribute_visibility.visible'),
                         'ng-click': "updateHiddenFields()" %>
-                      <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                     </div>
+                    <span class="delete-group icon icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
                   </div>
                 <% end %>
               </div>
@@ -122,7 +119,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="attributes" dragula='"attributes"'>
             <% form_attributes[:inactives].each do |inactive_attribute| %>
               <div class="type-form-conf-attribute" data-key="<%= inactive_attribute[:key] %>">
-                <span class="attribute-handle">&#xe0b5;</span>
+                <span class="attribute-handle icon-toggle"></span>
                 <span class="attribute-name">
                   <% if inactive_attribute[:is_cf] %>
                     (<%= t('models.custom_field') %>)
@@ -130,14 +127,14 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= inactive_attribute[:translation] %>
                 </span>
 
-                <div class="attribute-visibility">
+                <div class="visibility-check">
                   <%= check_box_tag "",
                                     'hidden',
                                     false,
                                     title: t('tooltip.attribute_visibility.visible'),
                                     'ng-click': "updateHiddenFields()" %>
-                  <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
                 </div>
+                <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
               </div>
             <% end %>
           </div>
