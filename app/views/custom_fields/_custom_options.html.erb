@@ -9,11 +9,11 @@
       </colgroup>
       <thead>
         <tr>
-          <th style="width: 70%;">
+          <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  Value
+                  <%= t('activerecord.attributes.custom_value.value') %>
                 </span>
               </div>
             </div>
@@ -21,7 +21,9 @@
           <th>
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
-                <span>Default</span>
+                <span>
+                  <%= t(:label_default) %>
+                </span>
               </div>
             </div>
           </th>
@@ -45,24 +47,18 @@
         <tr
           id="custom-option-row-<%= i + 1 %>"
           draggable="true"
-          class="custom-option-row"
+          class="custom-option-row -draggable"
           ondrop="CustomFields.drop(event)"
           ondragstart="CustomFields.drag(event)"
           ondragover="CustomFields.allowDrop(event)"
         >
           <td>
-            <table border="0">
-              <td style="min-width: 25px; cursor: pointer; padding-right: 0px;">
-                <span class="icon icon-toggle"></span>
-              </td>
-              <td style="width: 100%;">
-                <input style="float: left;"
-                  class="form--text-field custom-option-value" type="text"
-                  name="custom_field[custom_options][<%= custom_option.id %>][value]"
-                  value="<%= custom_option.value %>"
-                >
-              </td>
-            </table>
+            <span class="icon icon-table icon-toggle"></span>
+            <input class="form--text-field custom-option-value"
+              type="text"
+              name="custom_field[custom_options][<%= custom_option.id %>][value]"
+              value="<%= custom_option.value %>"
+            >
           </td>
           <td>
             <input
@@ -98,6 +94,6 @@
         </tr>
       <% end %>
     </table>
-    
+
   </div>
 </div>
