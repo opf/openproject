@@ -202,6 +202,12 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     text = get_localized_field(field, options[:label])
     label_options = { class: 'form--label', title: text }
 
+    if options[:class].is_a?(Array)
+      label_options[:class] << " #{options[:class].join(' ')}"
+    elsif options[:class].is_a?(String)
+      label_options[:class] << " #{options[:class]}"
+    end
+
     content = h(text)
     label_for_field_errors(content, label_options, field)
     label_for_field_required(content, label_options, options[:required])
@@ -349,8 +355,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def extract_from(options)
-    label_options = options.dup
+    label_options = options.dup.except(:class)
     input_options = options.dup.except(:for, :label, :no_label, :prefix, :suffix)
+
+    label_options.merge!(options.delete(:label_options) || {})
 
     if options[:suffix]
       options[:suffix_id] ||= SecureRandom.uuid

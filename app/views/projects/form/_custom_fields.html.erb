@@ -35,18 +35,83 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-    <% work_package_custom_fields.each do |custom_field| %>
-      <%
-        css_classes = custom_field.is_for_all? ? { disabled:  "disabled" } : {}
-        css_classes[:lang] = custom_field.name_locale
-      %>
 
-    <div class="form--field -wide-label ellipsis">
-      <%= form.collection_check_box :work_package_custom_field_ids,
-                                    custom_field.id,
-                                    @project.all_work_package_custom_fields.include?(custom_field),
-                                    custom_field.name,
-                                    css_classes %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= CustomField.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t('custom_fields.enabled_in_project') %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t('custom_fields.contained_in_type') %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% all_custom_fields = @project.all_work_package_custom_fields.pluck(:id) %>
+            <% work_package_custom_fields.includes(:types).each do |custom_field| %>
+            <%
+              options = {
+                lang: custom_field.name_locale,
+                label_options: { class: 'hidden-for-sighted' }
+              }
+            %>
+              <tr>
+                <td>
+                  <%= custom_field.name %>
+                </td>
+                <td>
+                  <% if custom_field.is_for_all? %>
+                    <%= t('custom_fields.is_enabled_globally') %>
+                  <% else %>
+                  <%= form.collection_check_box :work_package_custom_field_ids,
+                                                custom_field.id,
+                                                all_custom_fields.include?(custom_field.id),
+                                                custom_field.name,
+                                                options %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if current_user.admin? %>
+                    <% custom_field.types.each do |type| %>
+                      <%= link_to type.name, edit_type_tab_path(id: type.id, tab: 'form_configuration') %>
+                    <% end %>
+                  <% else %>
+                    <%= custom_field.types.map(&:name).join(', ') %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
     </div>
-  <% end %>
+  </div>
 </fieldset>
