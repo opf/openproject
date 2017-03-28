@@ -155,8 +155,8 @@ describe Queries::WorkPackages::Filter::WatcherFilter, type: :model do
 
       before do
         allow(Principal)
-          .to receive(:find)
-          .with([user1.id.to_s])
+          .to receive(:where)
+          .with(id: [user1.id.to_s])
           .and_return([user1])
 
         instance.values = [user1.id.to_s]

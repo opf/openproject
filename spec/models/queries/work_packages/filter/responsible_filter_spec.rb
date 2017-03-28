@@ -146,14 +146,14 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter, type: :model do
 
       before do
         allow(Principal)
-          .to receive(:find)
-          .with([user.id.to_s, user2.id.to_s])
+          .to receive(:where)
+          .with(id: [user.id.to_s, user2.id.to_s])
           .and_return([user, user2])
 
         instance.values = [user.id.to_s, user2.id.to_s]
       end
 
-      it 'returns an array of projects' do
+      it 'returns an array of objects' do
         expect(instance.value_objects)
           .to match_array([user, user2])
       end
