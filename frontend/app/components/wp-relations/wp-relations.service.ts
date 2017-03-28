@@ -212,6 +212,9 @@ export class WorkPackageRelationsService {
       '/api/v3/relations',
       {
         filters: JSON.stringify([{ involved: {operator: '=', values: workPackageIds } }])
+      },
+      {
+        caching: { enabled: false }
       }).then((collection:CollectionResource) => {
         return collection.elements;
     });
