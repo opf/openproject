@@ -33,7 +33,15 @@ describe "PATCH /api/v3/queries/:id", type: :request do
   let(:status) { FactoryGirl.create :status }
   let(:project) { FactoryGirl.create :project }
 
-  let!(:query) { FactoryGirl.create :global_query, name: "A Query", is_public: false, display_sums: false }
+  let!(:query) do
+    FactoryGirl.create(
+      :global_query,
+      name: "A Query",
+      user: user,
+      is_public: false,
+      display_sums: false
+    )
+  end
 
   let(:params) do
     {
@@ -108,7 +116,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       expect(response.status).to eq(200)
     end
 
-    it 'should render the created query' do
+    it 'should render the updated query' do
       json = JSON.parse(response.body)
 
       expect(json["_type"]).to eq "Query"
