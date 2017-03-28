@@ -61,4 +61,8 @@ class Queries::NotExistingFilter < Queries::BaseFilter
       }
     }
   end
+
+  def attributes_hash
+    nil
+  end
 end

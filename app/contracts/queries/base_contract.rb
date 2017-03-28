@@ -63,6 +63,8 @@ module Queries
     end
 
     def user_allowed_to_make_public
+      return if model.project_id.present? && model.project.nil?
+
       if is_public && !user.allowed_to?(:manage_public_queries, model.project)
         errors.add :public, :error_unauthorized
       end
