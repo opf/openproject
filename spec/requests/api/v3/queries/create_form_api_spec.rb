@@ -32,7 +32,7 @@ require 'rack/test'
 describe "POST /api/v3/queries/form", type: :request do
   include API::V3::Utilities::PathHelper
 
-  let(:path) { api_v3_paths.query_form }
+  let(:path) { api_v3_paths.create_query_form }
   let(:user) { FactoryGirl.create(:admin) }
   let!(:project) { FactoryGirl.create(:project_with_types) }
 

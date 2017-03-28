@@ -147,8 +147,12 @@ module API
             "#{project(id)}/queries/default"
           end
 
-          def self.query_form
+          def self.create_query_form
             "#{queries}/form"
+          end
+
+          def self.query_form(id)
+            "#{query(id)}/form"
           end
 
           def self.query_star(id)
