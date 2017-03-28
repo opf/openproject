@@ -8,7 +8,8 @@ export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
-export const wpCellTdClassName = 'wp-table--wp-cell-span';
+export const editCellContainer = 'wp-table--cell-container';
+export const wpCellTdClassName = 'wp-table--cell-td';
 export const cellEmptyPlaceholder = '-';
 
 export class CellBuilder {
@@ -21,10 +22,32 @@ export class CellBuilder {
 
   public build(workPackage:WorkPackageResource, attribute:string) {
     const name = this.correctDateAttribute(workPackage, attribute);
-    const fieldSchema = workPackage.schema[name];
-
     const td = document.createElement('td');
     td.classList.add(tdClassName, wpCellTdClassName, name);
+    const container = document.createElement('span');
+    container.classList.add(editCellContainer);
+    const displayElement = this.buildDisplayElement(workPackage, name);
+
+    if (name === 'id') {
+      td.classList.add('-short');
+    }
+
+    container.appendChild(displayElement);
+    td.appendChild(container);
+
+    return td;
+  }
+
+  public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
+    const name = this.correctDateAttribute(workPackage, attribute);
+    const span = this.buildDisplayElement(workPackage, name);
+
+    container.innerHTML = '';
+    container.appendChild(span);
+  }
+
+  private buildDisplayElement(workPackage:WorkPackageResource, name:string):HTMLElement {
+    const fieldSchema = workPackage.schema[name];
     const span = document.createElement('span');
     span.classList.add(cellClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
@@ -33,16 +56,11 @@ export class CellBuilder {
     span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
 
     if (!fieldSchema) {
-      // startDate / dueDate
-      return td;
+      return span;
     }
 
     const field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
     let text;
-
-    if (name === 'id') {
-      td.classList.add('-short');
-    }
 
     if (fieldSchema.writable && !field.hidden && workPackage.isEditable) {
       span.classList.add(editableClassName);
@@ -62,9 +80,7 @@ export class CellBuilder {
     }
 
     field.render(span, text);
-    td.appendChild(span);
-
-    return td;
+    return span;
   }
 
   /**

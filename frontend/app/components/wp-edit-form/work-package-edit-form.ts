@@ -210,7 +210,7 @@ export class WorkPackageEditForm {
   private buildField(fieldName:string, field:EditField):ng.IPromise<ng.IAugmentedJQuery> {
 
     // Let the context find the element
-    const cell = this.editContext.find(fieldName);
+    const cell = this.editContext.findContainer(fieldName);
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
