@@ -1,4 +1,3 @@
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,8 +28,9 @@ import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-reso
 
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
-import {CellBuilder, cellClassName, tdClassName} from '../wp-fast-table/builders/cell-builder';
+import { CellBuilder, tdClassName, editCellContainer } from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
@@ -51,18 +51,16 @@ export class TableRowEditContext implements WorkPackageEditContext {
     injectorBridge(this);
   }
 
-  public find(fieldName:string):JQuery {
-    return jQuery(`#${rowId(this.workPackageId)}`).find(`.${tdClassName}.${fieldName}`);
+  public findContainer(fieldName:string):JQuery {
+    return jQuery(`#${rowId(this.workPackageId)} .${tdClassName}.${fieldName} .${editCellContainer}`);
   }
 
   public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
-    const element = this.find(fieldName);
-    const newCell = this.cellBuilder.build(workPackage, fieldName);
-    element.replaceWith(newCell);
+    const cell = this.findContainer(fieldName);
+    this.cellBuilder.refresh(cell[0], workPackage, fieldName);
 
     if (focus) {
-      const target = jQuery(newCell).find(`.${cellClassName}`);
-      this.FocusHelper.focusElement(target);
+      this.FocusHelper.focusElement(cell);
     }
   }
 
@@ -70,8 +68,8 @@ export class TableRowEditContext implements WorkPackageEditContext {
     this.wpTableColumns.addColumn(name);
     let updated = this.states.table.rendered.get();
     return updated.then(() => {
-      return this.find(name);
-    })
+      return this.findContainer(name);
+    });
   }
 
   public firstField(names:string[]) {

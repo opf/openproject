@@ -42,7 +42,7 @@ export interface WorkPackageEditContext {
   /**
    * Locate a display field in the current dom
    */
-  find(fieldName:string):JQuery;
+  findContainer(fieldName:string):JQuery;
 
   /**
    * Return the first relevant field from the given list of attributes.
