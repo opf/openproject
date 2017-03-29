@@ -27,6 +27,7 @@
 // ++
 
 import {wpDirectivesModule} from "../../../angular-modules";
+import {keyCodes} from '../../common/keyCodes.enum';
 
 function remoteFieldUpdater($http:ng.IHttpService) {
   return {
@@ -88,10 +89,12 @@ function remoteFieldUpdater($http:ng.IHttpService) {
       input.on('keyup change', _.throttle(function(event:any) {
         // This prevents an update of the result list when
         // tabbing to the result list (9),
+        // pressing enter (13)
         // tabbing back with shift (16) and
         // special cases where the tab code is not correctly recognized (undefined).
         // Thus the focus is kept on the first element of the result list.
-        if (event.keyCode != 9 && event.keyCode != 16 && event.keyCode != undefined) {
+        let keyCodesArray = [keyCodes.TAB, keyCodes.ENTER, keyCodes.SHIFT]
+        if (keyCodesArray.indexOf(event.keyCode) == -1 && event.keyCode != undefined) {
           updater();
         }
         }, 1000, { leading: true })
