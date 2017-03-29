@@ -146,4 +146,8 @@ class CostTypesController < ApplicationController
       ActionController::Base.helpers.link_to(CostType.model_name.human(count: 2), cost_types_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end
