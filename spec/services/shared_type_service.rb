@@ -42,15 +42,15 @@ shared_examples_for 'type service' do
     end
 
     it 'set the values provided on the call' do
-      attributes = { name: 'blubs blubs' }
+      permitted_params = { name: 'blubs blubs' }
 
-      instance.call(attributes: attributes)
+      instance.call(permitted_params: permitted_params)
 
-      expect(type.name).to eql attributes[:name]
+      expect(type.name).to eql permitted_params[:name]
     end
 
     it 'enables the custom fields that are passed via attribute_visibility' do
-      attributes = { 'attribute_visibility' => { 'custom_field_3' => 'visible',
+      permitted_params = { 'attribute_visibility' => { 'custom_field_3' => 'visible',
                                                  'custom_field_54' => 'default',
                                                  'custom_field_86' => 'hidden' } }
 
@@ -58,7 +58,7 @@ shared_examples_for 'type service' do
         .to receive(:custom_field_ids=)
         .with([3, 54])
 
-      instance.call(attributes: attributes)
+      instance.call(permitted_params: permitted_params)
     end
 
     context 'for a milestone' do
@@ -67,10 +67,10 @@ shared_examples_for 'type service' do
       end
 
       it 'takes the values from the start and due_date if no value is set for date' do
-        attributes = { 'attribute_visibility' => { 'start_date' => 'visible',
+        permitted_params = { 'attribute_visibility' => { 'start_date' => 'visible',
                                                    'due_date' => 'visible' } }
 
-        instance.call(attributes: attributes)
+        instance.call(permitted_params: permitted_params)
 
         expect(type.attribute_visibility).not_to include('start_date')
         expect(type.attribute_visibility).not_to include('due_date')
@@ -85,9 +85,9 @@ shared_examples_for 'type service' do
       end
 
       it 'takes the values from the date for start and due_date if no value is set' do
-        attributes = { 'attribute_visibility' => { 'date' => 'visible' } }
+        permitted_params = { 'attribute_visibility' => { 'date' => 'visible' } }
 
-        instance.call(attributes: attributes)
+        instance.call(permitted_params: permitted_params)
 
         expect(type.attribute_visibility).not_to include('date')
 

@@ -119,11 +119,15 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
     },
     remove = function (notification:any) {
       broadcast('notification.remove', notification);
+    },
+    clear = function () {
+      broadcast('notification.clearAll', null);
     };
 
   return {
     add: add,
     remove: remove,
+    clear: clear,
     addError: addError,
     addWarning: addWarning,
     addSuccess: addSuccess,

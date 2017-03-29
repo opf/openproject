@@ -46,10 +46,6 @@ module Pages
       find("#custom_field_default_value").set value
     end
 
-    def has_type?(name)
-      expect(page).to have_css("label.form--label-with-check-box", text: name)
-    end
-
     def has_form_element?(name)
       page.has_css? "label.form--label", text: name
     end
