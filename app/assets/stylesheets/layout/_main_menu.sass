@@ -50,10 +50,33 @@ $toggler-width: 40px
     &.menu_root
       border-right: $main-menu-border-width solid $main-menu-border-color
 
-      // main menu items
-      > li
-        border-bottom: $main-menu-item-border-width solid $main-menu-item-border-color
+      // -------------- ALL menu items --------------------------------
+      li
+        float: none
+        list-style-type: none
+        margin: 0
+        padding: 0
+        white-space: nowrap
+        position: relative
+        min-height: 23px
 
+        &.ng-leave
+          @include animation(0.5s fade-out)
+
+        > a,
+        .main-item-wrapper > a
+          @include default-transition
+          cursor: pointer
+          text-decoration: none
+
+          &:hover, &.selected, &.selected + a
+            @include varprop(background-color, main-menu-bg-selected-background)
+            @include varprop(color, main-menu-selected-font-color)
+            font-weight: bold
+
+
+      // -------------- MAIN menu items --------------------------------
+      > li
         .main-item-wrapper
           display: flex
 
@@ -67,54 +90,14 @@ $toggler-width: 40px
               > a
                 @include varprop(color, main-menu-selected-font-color)
 
-          > a
-            @include default-transition
-            cursor: pointer
-            text-decoration: none
+          > a:before
+            padding-right: 25px
 
-            &.selected, &.selected + a
-              @include varprop(background, main-menu-bg-selected-background)
-
-              &:hover
-                @include varprop(background, main-menu-bg-hover-background)
-
-            &:hover, &.selected, &.selected + a
-              @include varprop(color, main-menu-selected-font-color)
-
-            &:hover
-              @include varprop(background, main-menu-bg-hover-background)
-
-
-          // left item border hover / selected effect
-          &:hover
-            &> a:not(.toggler)
-              border-left-style: solid
-              @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
-              @include varprop(border-left-color, main-menu-hover-indicator-color)
-
-            a:not(:only-child):first-of-type
-              border-right: 1px solid $main-menu-selected-font-color
-
-          // placeholder for highlighted left-item-border
           a:not(.toggler)
-            border-left: $main-menu-selected-hover-indicator-width solid $main-menu-bg-color
             @extend .small-12
-
-            &.selected
-              border-left-style: solid
-              @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
-              @include varprop(border-left-color, main-menu-selected-indicator-color)
-
-              &:hover
-                @include varprop(border-left-width, main-menu-selected-hover-indicator-width)
-                @include varprop(border-left-color, main-menu-hover-indicator-color)
-
-          a:not(:only-child):first-of-type.selected
-            border-right: 1px solid $main-menu-selected-font-color
 
           a:not(:only-child):first-of-type
             @extend .small-10
-            border-right: 1px solid $main-menu-toggler-separator-color
 
 
         .open .toggler
@@ -133,27 +116,12 @@ $toggler-width: 40px
       &:first-of-type
         border-top: 1px solid $main-menu-item-border-color
 
-      // all menu items
-      li
-        float: none
-        list-style-type: none
-        margin: 0
-        padding: 0
-        white-space: nowrap
-        position: relative
-        min-height: 23px
 
-        &.ng-leave
-          @include animation(0.5s fade-out)
-
-        a
-          background: none
-
+    // -------------- CHILD menu items --------------------------------
     ul.menu-children
       display: none
-      padding-top: 1px
-      padding-bottom: 1px
-      background-color: $main-menu-child-menu-bg-color
+      margin-top: 10px
+      margin-bottom: 10px
       padding: 0
       &.unattached
         border-top: 1px solid #ddd
@@ -168,35 +136,15 @@ $toggler-width: 40px
             > a
               color: $main-menu-child-selected-font-color
 
-        > a
-          @include default-transition
-          cursor: pointer
-          text-decoration: none
-
-          &.selected, &.selected + a
-            @include varprop(background, main-menu-child-bg-selected-color)
-
-
-          &:hover, &.selected, &.selected + a
-            color: $main-menu-child-selected-font-color
-
         a
-          padding-left: 10px
+          padding-left: 54px
           font-size: $main-menu-child-font-size
           line-height: $main-menu-child-item-height
           height: $main-menu-child-item-height
-          border: none
-          color: $main-menu-child-font-color
-          margin-top: 1px
 
           &:hover
-            border: none
             text-decoration: none
-            color: $main-menu-child-selected-font-color
-          &.selected
-            border: none !important
-            color: $main-menu-child-selected-font-color
-            font-weight: bold
+
 
   a
     text-decoration: none
