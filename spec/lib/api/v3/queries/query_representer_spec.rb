@@ -75,11 +75,6 @@ describe ::API::V3::Queries::QueryRepresenter do
         let(:href) { api_v3_paths.query_project_schema(project.identifier) }
       end
 
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'update' }
-        let(:href) { api_v3_paths.query_form }
-      end
-
       context 'has no project' do
         let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
 
@@ -93,11 +88,6 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
 
         it_behaves_like 'has an untitled link' do
-          let(:link) { 'update' }
-          let(:href) { api_v3_paths.query_form }
-        end
-
-        it_behaves_like 'has an untitled link' do
           let(:link) { 'results' }
           let(:href) do
             params = {
@@ -105,6 +95,40 @@ describe ::API::V3::Queries::QueryRepresenter do
               pageSize: Setting.per_page_options_array.first
             }
             "#{api_v3_paths.work_packages}?#{params.to_query}"
+          end
+        end
+      end
+
+      describe 'update action link' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'update' }
+          let(:href) { api_v3_paths.query_form(query.id) }
+        end
+
+        context 'without a project' do
+          let(:query) { FactoryGirl.build_stubbed(:query, project: nil) }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'schema' }
+            let(:href) { api_v3_paths.query_schema }
+          end
+        end
+
+        context 'when unpersisted' do
+          let(:query) { FactoryGirl.build(:query, project: project) }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'update' }
+            let(:href) { api_v3_paths.create_query_form }
+          end
+        end
+
+        context 'when unpersisted outside a project' do
+          let(:query) { FactoryGirl.build(:query) }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'update' }
+            let(:href) { api_v3_paths.create_query_form }
           end
         end
       end

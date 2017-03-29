@@ -115,7 +115,11 @@ module API
         end
 
         link :update do
-          href = api_v3_paths.query_form
+          href = if represented.new_record?
+                   api_v3_paths.create_query_form
+                 else
+                   api_v3_paths.query_form(represented.id)
+                 end
 
           {
             href: href,
