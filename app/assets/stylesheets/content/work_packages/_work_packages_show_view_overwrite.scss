@@ -91,18 +91,6 @@ body.controller-work_packages.action-show {
     height: 100%;
     // Important for Firefox to let 'flex-shrink' work correctly.
     min-height: 0;
-
-    .tabrow {
-      display: table;
-      margin: 0;
-      width: 100%;
-      height: 32px;
-
-      li {
-        display: table-cell;
-        margin-right: 15px;
-      }
-    }
   }
 
   .work-packages--left-panel {
