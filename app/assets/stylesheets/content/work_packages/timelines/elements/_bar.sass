@@ -4,7 +4,6 @@
   border-radius: 2px
   float: left
   z-index: 50
-  cursor: ew-resize
 
   .leftHandle
     position: absolute
@@ -13,9 +12,6 @@
     width: 20px
     max-width: 20%
     height: 100%
-    cursor: w-resize
-    //&:hover
-    //  background-image: linear-gradient(90deg, #6c6c6c 0%, rgba(255,255,255,0) 80%)
 
   .rightHandle
     position: absolute
@@ -24,9 +20,6 @@
     width: 20px
     max-width: 20%
     height: 100%
-    cursor: e-resize
-    //&:hover
-    //  background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, #6c6c6c 80%)
 
   .leftDateDisplay
     position: absolute
@@ -47,6 +40,15 @@
     right: -85px
     padding: 0 5px 0 5px
     font-size: 10px
+
+  &.-editable
+    cursor: ew-resize
+
+    .leftHandle
+      cursor: w-resize
+
+    .rightHandle
+      cursor: e-resize
 
 .active-selection-mode
 
