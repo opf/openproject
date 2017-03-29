@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {WorkPackageTableMetadataService} from "../../wp-fast-table/state/wp-table-metadata.service";
+import { WorkPackageResourceInterface } from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {States} from "../../states.service";
 
@@ -41,7 +42,7 @@ function WorkPackageContextMenuHelper(
   I18n: op.I18n,
   states: States) {
 
-  function getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any) {
+  function getPermittedActionLinks(workPackage:WorkPackageResourceInterface, permittedActionConstants:any) {
     var singularPermittedActions:any[] = [];
 
     var allowedActions = getAllowedActions(workPackage, permittedActionConstants);
@@ -61,7 +62,7 @@ function WorkPackageContextMenuHelper(
     var bulkPermittedActions:any = [];
 
     var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action:any) {
-      return _.every(workPackages, function(workPackage:WorkPackageResource) {
+      return _.every(workPackages, function(workPackage:WorkPackageResourceInterface) {
         return getAllowedActions(workPackage, [action]).length >= 1;
       });
     });
@@ -94,7 +95,7 @@ function WorkPackageContextMenuHelper(
     return link + '?' + queryParts.join('&');
   }
 
-  function getAllowedActions(workPackage:WorkPackageResource, actions:any) {
+  function getAllowedActions(workPackage:WorkPackageResourceInterface, actions:any) {
     var allowedActions:any[] = [];
 
     angular.forEach(actions, function(action) {
@@ -111,7 +112,7 @@ function WorkPackageContextMenuHelper(
       }
     });
 
-    if (states.table.timelineVisible.getCurrentValue()) {
+    if (workPackage.addRelation && states.table.timelineVisible.getCurrentValue()) {
       allowedActions.push({
         icon: "timeline-relation-add-predecessor",
         text: I18n.t("js.relation_buttons.add_predecessor"),
@@ -128,7 +129,7 @@ function WorkPackageContextMenuHelper(
   }
 
   var WorkPackageContextMenuHelper = {
-    getPermittedActions: function (workPackages:WorkPackageResource[], permittedActionConstants:any) {
+    getPermittedActions: function (workPackages:WorkPackageResourceInterface[], permittedActionConstants:any) {
       if (workPackages.length === 1) {
         return getPermittedActionLinks(workPackages[0], permittedActionConstants);
       } else if (workPackages.length > 1) {

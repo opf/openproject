@@ -122,14 +122,20 @@ export class WorkPackageTimelineCell {
 
     // Register the element
     this.timelineCell.appendChild(this.wpElement);
-    registerWorkPackageMouseHandler(
-      () => this.latestRenderInfo,
-      this.workPackageTimeline,
-      this.wpCacheService,
-      this.timelineCell,
-      this.wpElement,
-      renderer,
-      renderInfo);
+
+    // Allow editing if editable
+    if (renderInfo.workPackage.isEditable) {
+      this.wpElement.classList.add('-editable');
+
+      registerWorkPackageMouseHandler(
+        () => this.latestRenderInfo,
+        this.workPackageTimeline,
+        this.wpCacheService,
+        this.timelineCell,
+        this.wpElement,
+        renderer,
+        renderInfo);
+    }
 
     //-------------------------------------------------
     // TODO Naive horizontal scroll logic, for testing purpose only
