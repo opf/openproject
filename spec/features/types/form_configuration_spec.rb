@@ -327,7 +327,8 @@ describe 'form configuration', type: :feature, js: true do
 
         # Enable in project, should then be visible
         project_settings_page.visit_settings_tab('custom_fields')
-        expect(page).to have_selector('.form--label', text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
 
         id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
         expect(id_checkbox).to_not be_checked
@@ -365,7 +366,8 @@ describe 'form configuration', type: :feature, js: true do
 
         # Ensure CF is checked
         project_settings_page.visit_settings_tab('custom_fields')
-        expect(page).to have_selector('.form--label', text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
         expect(page).to have_selector("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
       end
     end
