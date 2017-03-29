@@ -28,31 +28,22 @@
 
 import IAugmentedJQuery = angular.IAugmentedJQuery;
 import { IDialogOpenResult, IDialogService } from 'ng-dialog';
+import { ConfirmDialogService } from './../confirm-dialog/confirm-dialog.service';
 import {IDialogScope} from 'ng-dialog';
 
 export class ConfirmFormSubmitController {
 
   // Allow original form submission after dialog was closed
   private confirmed = false;
-  private dialog: IDialogOpenResult;
+  private text:any;
 
   constructor(protected $element:IAugmentedJQuery,
-              protected $scope:angular.IScope,
-              protected $http:angular.IHttpService,
-              protected $q:angular.IQService,
-              protected ngDialog:IDialogService,
+              protected confirmDialog:ConfirmDialogService,
               protected I18n:op.I18n) {
 
-    this.$scope['text'] = {
+    this.text = {
       title: I18n.t('js.modals.form_submit.title'),
-      text: I18n.t('js.modals.form_submit.text'),
-      button_continue: I18n.t('js.button_continue'),
-      button_cancel: I18n.t('js.button_cancel')
-    };
-
-    this.$scope['confirmAndClose'] = () => {
-      this.confirmed = true;
-      this.dialog.close();
+      text: I18n.t('js.modals.form_submit.text')
     };
 
     $element.on('submit', (evt) => {
@@ -67,20 +58,16 @@ export class ConfirmFormSubmitController {
   }
 
   public openConfirmationDialog() {
-    this.dialog = this.ngDialog.open({
+    this.confirmDialog.confirm({
+      text: this.text,
       closeByEscape: true,
       showClose: true,
       closeByDocument: true,
-      scope: <IDialogScope> this.$scope,
-      template: '/components/modals/confirm-form-submit/confirm-form-submit.modal.html',
-      className: 'ngdialog-theme-openproject',
-      preCloseCallback: () => {
-        if (this.confirmed) {
-          this.$element.submit();
-        }
-        return true;
-      }
-    });
+    }).then(() => {
+        this.confirmed = true;
+        this.$element.trigger('submit');
+      })
+      .catch(() => this.confirmed = false);
   }
 }
 

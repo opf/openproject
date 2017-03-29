@@ -27,108 +27,349 @@
 #++
 
 require 'spec_helper'
+require 'features/projects/project_settings_page'
 
 describe 'form configuration', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create :admin }
-  let(:type) { FactoryGirl.create :type, attribute_visibility: attribute_visibility }
+  let(:admin) { FactoryGirl.create :admin }
+  let(:type) { FactoryGirl.create :type }
 
-  let(:attribute_visibility) do
-    {
-      'version' => 'hidden',
-      'status' => 'default',
-      'priority' => 'visible'
-      # assignee => 'default'
-      # not defined attributes shall get default visibility
-    }
+  let(:project) { FactoryGirl.create :project, types: [type] }
+  let(:category) { FactoryGirl.create :category, project: project }
+  let(:work_package) {
+    FactoryGirl.create :work_package,
+                       project: project,
+                       type: type,
+                       done_ratio: 10,
+                       category: category
+  }
+
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+
+  let(:add_button) { page.find '.form-configuration--add-group' }
+  let(:reset_button) { page.find '.form-configuration--reset' }
+  let(:inactive_drop) { page.find '#type-form-conf-inactive-group .attributes' }
+
+  def group_selector(name)
+    ".type-form-conf-group[data-key='#{name}']"
   end
 
-  def selector(attribute, visibility)
-    "input#type_attribute_visibility_#{visibility}_#{attribute}"
+  def checkbox_selector(attribute)
+    ".type-form-conf-attribute[data-key='#{attribute}'] .attribute-visibility input"
   end
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-
-    visit edit_type_tab_path(id: type.id, tab: "form_configuration")
+  def attribute_selector(attribute)
+    ".type-form-conf-attribute[data-key='#{attribute}']"
   end
 
-  shared_examples 'attribute visibility' do
-    let(:attribute) { 'status' }
-    let(:visibility) { 'default' }
+  def find_group_handle(label)
+    page.find("#{group_selector(label)} .group-handle")
+  end
 
-    it 'is displayed correctly' do
-      if visibility == 'hidden'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).not_to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).not_to be_checked }
-      elsif visibility == 'default'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).not_to be_checked }
-      elsif visibility == 'visible'
-        all(selector(attribute, 'default')).each { |cb| expect(cb).to be_checked }
-        all(selector(attribute, 'visible')).each { |cb| expect(cb).to be_checked }
+  def find_attribute_handle(attribute)
+    page.find("#{attribute_selector(attribute)} .attribute-handle")
+  end
+
+  def set_visibility(attribute, checked:)
+    attribute = page.find(attribute_selector(attribute))
+    checkbox = attribute.find('input[type=checkbox]')
+    checkbox.set checked
+  end
+
+  def expect_attribute(key:, checked: nil, translation: nil)
+    attribute = page.find(attribute_selector(key))
+
+    unless translation.nil?
+      expect(attribute).to have_selector('.attribute-name', text: translation)
+    end
+
+    unless checked.nil?
+      checkbox = attribute.find('input[type=checkbox]')
+      expect(checkbox.checked?).to eq(checked)
+    end
+  end
+
+  def move_to(attribute, group_label)
+    handle = find_attribute_handle(attribute)
+    group = find("#{group_selector(group_label)} .attributes")
+
+    handle.drag_to group
+    expect_group(group_label, key: attribute)
+  end
+
+  def add_group(name, expect: true)
+    add_button.click
+    input = find('.group-edit-in-place--input')
+    input.set(name)
+    input.send_keys(:return)
+
+    expect_group(name) if expect
+  end
+
+  def rename_group(from, to)
+    find('.group-edit-handler', text: from.upcase).click
+
+    input = find('.group-edit-in-place--input')
+    input.click
+    input.set(to)
+    input.send_keys(:return)
+
+    expect(page).to have_selector('.group-edit-handler', text: to.upcase)
+  end
+
+  def expect_group(label, *attributes)
+    expect(page).to have_selector("#{group_selector(label)} .group-edit-handler", text: label.upcase)
+
+    within group_selector(label) do
+      attributes.each do |attribute|
+        expect_attribute(attribute)
       end
     end
   end
 
-  describe 'before update' do
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'version' }
-      let(:visibility) { 'hidden' }
+  def expect_inactive(attribute)
+    expect(inactive_drop).to have_selector(".type-form-conf-attribute[data-key='#{attribute}']")
+  end
+
+  describe 'default configuration' do
+    let(:dialog) { ::NgConfirmationDialog.new }
+    before do
+      login_as(admin)
+      visit edit_type_tab_path(id: type.id, tab: "form_configuration")
     end
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'status' }
-      let(:visibility) { 'default' }
+    it 'resets the form properly after changes' do
+      rename_group('Details', 'Whatever')
+      set_visibility(:assignee, checked: true)
+      expect_attribute(key: :assignee, checked: true)
+
+      # Reset and cancel
+      reset_button.click
+      dialog.expect_open
+      dialog.cancel
+      expect(page).to have_selector(group_selector('Whatever'))
+
+      # Reset and confirm
+      reset_button.click
+      dialog.expect_open
+      dialog.confirm
+
+      expect(page).to have_no_selector(group_selector('Whatever'))
+      expect_group('Details')
+      expect_attribute(key: :assignee, checked: false)
     end
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'priority' }
-      let(:visibility) { 'visible' }
+    it 'detects errors for duplicate group names' do
+      add_group('New Group')
+      add_group('New Group', expect: false) # would fail since two selectors exist now
+
+      expect(page).to have_selector("#{group_selector('New Group')}.-error", count: 1)
+    end
+
+    it 'allows modification of the form configuration' do
+      #
+      # Test default set of groups
+      #
+      expect_group 'People',
+                   { key: :assignee, checked: false, translation: 'Assignee' },
+                   { key: :responsible, checked: false, translation: 'Responsible' }
+
+      expect_group 'Estimates and time',
+                   { key: :estimated_time, checked: false, translation: 'Estimated time' },
+                   { key: :spent_time, checked: false, translation: 'Spent time' }
+
+      expect_group 'Details',
+                   { key: :category, checked: false, translation: 'Category' },
+                   { key: :date, checked: false, translation: 'Date' },
+                   { key: :percentage_done, checked: false, translation: 'Progress (%)' },
+                   { key: :version, checked: false, translation: 'Version' }
+
+
+      #
+      # Modify configuration
+      #
+
+      # Disable version
+      find_attribute_handle(:version).drag_to inactive_drop
+      expect_inactive(:version)
+
+      # Toggle assignee to be always visible
+      set_visibility(:assignee, checked: true)
+      expect_attribute(key: :assignee, checked: true)
+
+      # Rename group
+      rename_group('Details', 'Whatever')
+      rename_group('People', 'Cool Stuff')
+
+      # Start renaming, but cancel
+      find('.group-edit-handler', text: 'COOL STUFF').click
+      input = find('.group-edit-in-place--input')
+      input.set('FOOBAR')
+      input.send_keys(:escape)
+      expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
+      expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
+
+      # Create new group
+      add_group('New Group')
+      move_to(:category, 'New Group')
+
+      # Save configuration
+      # click_button doesn't seem to work when the button is out of view!?
+      page.execute_script('jQuery(".form-configuration--save").click()')
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+      # Expect configuration to be correct now
+      expect_group 'Cool Stuff',
+                  { key: :assignee, checked: true, translation: 'Assignee' },
+                  { key: :responsible, checked: false, translation: 'Responsible' }
+
+      expect_group 'Estimates and time',
+                  { key: :estimated_time, checked: false, translation: 'Estimated time' },
+                  { key: :spent_time, checked: false, translation: 'Spent time' }
+
+      expect_group 'Whatever',
+                  { key: :date, checked: false, translation: 'Date' },
+                  { key: :percentage_done, checked: false, translation: 'Progress (%)' }
+
+      expect_group 'New Group',
+                  { key: :category, checked: false, translation: 'Category' }
+
+      expect_inactive(:version)
+
+      # Visit work package with that type
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+
+      # Category should be hidden
+      wp_page.expect_hidden_field(:category)
+
+      wp_page.expect_group('New Group') do
+        wp_page.expect_attributes category: category.name
+      end
+
+      wp_page.expect_group('Whatever') do
+        wp_page.expect_attributes percentageDone: '30'
+      end
+
+      wp_page.expect_group('Cool Stuff') do
+        wp_page.expect_attributes assignee: '-'
+      end
+
+      # Empty attributes should be shown on toggle
+      expected_attributes = ->() do
+        wp_page.expect_hidden_field(:responsible)
+        wp_page.expect_hidden_field(:estimated_time)
+        wp_page.expect_hidden_field(:spent_time)
+        wp_page.view_all_attributes
+
+        wp_page.expect_group('Cool Stuff') do
+          wp_page.expect_attributes responsible: '-'
+        end
+
+        wp_page.expect_group('Estimates and time') do
+          wp_page.expect_attributes estimated_time: '-'
+          wp_page.expect_attributes spent_time: '-'
+        end
+      end
+
+      # Should match on edit view
+      expected_attributes.call
+
+      # New work package has the same configuration
+      wp_page.click_create_wp_button(type)
+      expected_attributes.call
+
+      find('#work-packages--edit-actions-cancel').click
+      expect(wp_page).not_to have_alert_dialog
+      loading_indicator_saveguard
     end
   end
 
-  describe 'after update' do
+  describe 'custom fields' do
+    let(:project_settings_page) { ProjectSettingsPage.new(project) }
+
+    let(:custom_fields) { [custom_field] }
+    let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, name: 'MyNumber') }
+    let(:cf_identifier) { "custom_field_#{custom_field.id}" }
+    let(:cf_identifier_api) { "customField#{custom_field.id}" }
+
     before do
-      # change to visible by checking both checkboxes
-      find(:css, selector('version', 'default')).set(true)
-      find(:css, selector('version', 'visible')).set(true)
+      project
+      custom_field
 
-      # change to hidden by unchecking both checkboxes
-      find(:css, selector('status', 'default')).set(false)
-      find(:css, selector('status', 'visible')).set(false)
+      login_as(admin)
+      visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 
-      # change to default by unchecking last checkbox
-      find(:css, selector('priority', 'visible')).set(false)
+      # Should be initially disabled
+      expect_inactive(cf_identifier)
 
-      click_on 'Save'
+      # Add into new group
+      add_group('New Group')
+      move_to(cf_identifier, 'New Group')
+
+      # Make visible
+      set_visibility(cf_identifier, checked: true)
+      expect_attribute(key: cf_identifier, checked: true)
+
+      page.execute_script('jQuery(".form-configuration--save").click()')
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
     end
 
-    it 'the type visibilities are set correctly' do
-      type.reload
+    context 'inactive in project' do
+      it 'can be added to the type, but is not shown' do
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
 
-      expect(type.attribute_visibility['version']).to eq 'visible'
-      expect(type.attribute_visibility['status']).to eq 'hidden'
-      expect(type.attribute_visibility['priority']).to eq 'default'
+        # CF should be hidden
+        wp_page.view_all_attributes
+        wp_page.expect_no_group('New Group')
+        wp_page.expect_attribute_hidden(cf_identifier_api)
+
+        # Enable in project, should then be visible
+        project_settings_page.visit_settings_tab('custom_fields')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+
+        id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
+        expect(id_checkbox).to_not be_checked
+        id_checkbox.set(true)
+
+        click_button 'Save'
+
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+
+        # Category should be hidden
+        wp_page.expect_group('New Group') do
+          wp_page.expect_attribute(cf_identifier_api)
+        end
+      end
     end
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'version' }
-      let(:visibility) { 'visible' }
-    end
+    context 'active in project' do
+      let(:project) {
+        FactoryGirl.create :project,
+                           types: [type],
+                           work_package_custom_fields: custom_fields
+      }
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'status' }
-      let(:visibility) { 'hidden' }
-    end
+      it 'can be added to type and is visible' do
+        # Visit work package with that type
+        wp_page.visit!
+        wp_page.ensure_page_loaded
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'priority' }
-      let(:visibility) { 'default' }
-    end
+        # Category should be hidden
+        wp_page.expect_group('New Group') do
+          wp_page.expect_attribute(cf_identifier_api)
+        end
 
-    it_behaves_like 'attribute visibility' do
-      let(:attribute) { 'assignee' }
-      let(:visibility) { 'default' }
+        # Ensure CF is checked
+        project_settings_page.visit_settings_tab('custom_fields')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+        expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+        expect(page).to have_selector("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
+      end
     end
   end
 end

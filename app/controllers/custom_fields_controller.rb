@@ -31,7 +31,6 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_types, except: [:index, :destroy]
   before_action :find_custom_field, only: [:edit, :update, :destroy, :move, :delete_option]
   before_action :blank_translation_attributes_as_nil, only: [:create, :update]
 
@@ -69,12 +68,6 @@ class CustomFieldsController < ApplicationController
     end
 
     if ok
-      if @custom_field.is_a? WorkPackageCustomField
-        @custom_field.types.each do |type|
-          TypesHelper.update_type_attribute_visibility! type
-        end
-      end
-
       flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_to edit_custom_field_path(id: @custom_field.id)
@@ -185,10 +178,6 @@ class CustomFieldsController < ApplicationController
     @custom_field = CustomField.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def find_types
-    @types = ::Type.order('position')
   end
 
   protected

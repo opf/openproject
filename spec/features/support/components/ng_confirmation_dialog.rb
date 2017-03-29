@@ -26,32 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class NgConfirmationDialog
+  include Capybara::DSL
+  include RSpec::Matchers
 
-RSpec.feature 'Work package show page', selenium: true do
-  let(:user) { FactoryGirl.create(:admin) }
-  let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) {
-    FactoryGirl.build(:work_package,
-                      project: project,
-                      assigned_to: user,
-                      responsible: user)
-  }
-
-  before do
-    login_as(user)
-    work_package.save!
+  def container
+    '.ngdialog-content'
   end
 
-  scenario 'all different angular based work package views', js: true do
-    wp_page = Pages::FullWorkPackage.new(work_package)
+  def expect_open
+    expect(page).to have_selector(container)
+  end
 
-    wp_page.visit!
+  def confirm
+    page.find('.confirm-form-submit--continue').click
+  end
 
-    wp_page.expect_attributes Type: work_package.type.name,
-                              Status: work_package.status.name,
-                              Priority: work_package.priority.name,
-                              Assignee: work_package.assigned_to.name,
-                              Responsible: work_package.responsible.name
+  def cancel
+    page.find('.ngdialog-close').click
   end
 end

@@ -52,7 +52,7 @@ class TypesController < ApplicationController
 
   def create
     service = CreateTypeService.new
-    result = service.call(attributes: permitted_params.type)
+    result = service.call(permitted_params: permitted_params.type)
     @type = service.type
 
     if result.success?
@@ -61,8 +61,8 @@ class TypesController < ApplicationController
         @type = service.type
         @type.workflows.copy(copy_from)
       end
-      flash[:notice] = l(:notice_successful_create)
-      redirect_to action: 'index'
+      flash[:notice] = t(:notice_successful_create)
+      redirect_to edit_type_tab_path(id: @type.id, tab: 'settings')
     else
       @types = ::Type.order('position')
       @projects = Project.all
@@ -90,8 +90,8 @@ class TypesController < ApplicationController
     params[:type].delete :name if @type.is_standard?
 
     service = UpdateTypeService.new(type: @type)
-    result = service.call(attributes: permitted_params.type)
 
+    result = service.call(permitted_params: permitted_params.type, unsafe_params: params[:type])
     if result.success?
       redirect_to(edit_type_tab_path(id: @type.id, tab: @tab),
                   notice: t(:notice_successful_update))

@@ -52,25 +52,18 @@ describe TypesController, type: :controller do
   end
 
   it 'should post create' do
-    post :create, type: {
+    post :create, tab: "settings", type: {
       name: 'New type',
-      project_ids: ['1', '', ''],
-      attribute_visibility: {
-        custom_field_1: 'default',
-        custom_field_6: 'visible'
-      }
     }
-    assert_redirected_to action: 'index'
     type = ::Type.find_by(name: 'New type')
-    assert_equal [1], type.project_ids.sort
-    assert_equal [1, 6], type.custom_field_ids
+    assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.workflows.count
   end
 
   it 'should post create with workflow copy' do
     post :create, type: { name: 'New type' }, copy_workflow_from: 1
-    assert_redirected_to action: 'index'
     type = ::Type.find_by(name: 'New type')
+    assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.projects.count
     assert_equal ::Type.find(1).workflows.count, type.workflows.count
   end

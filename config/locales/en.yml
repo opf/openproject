@@ -164,6 +164,8 @@ en:
       form_configuration: "Form configuration"
       projects: "Projects"
       enabled_projects: "Enabled projects"
+      add_group: "Add group"
+      reset: "Reset to defaults"
 
   versions:
     overview:
@@ -488,6 +490,12 @@ en:
               does_not_exist: "The specified category does not exist."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: "Unnamed groups are not allowed."
+              duplicate_group: "The group name %{group} is used more than once. Group names must be unique."
+              attribute_unknown: "Invalid work package attribute used."
         user:
           attributes:
             password:
@@ -1079,6 +1087,7 @@ en:
   label_enterprise: "Enterprise"
   label_enterprise_edition: "Enterprise Edition"
   label_environment: "Environment"
+  label_estimates_and_time: "Estimates and time"
   label_equals: "is"
   label_example: "Example"
   label_export_to: "Also available in:"
@@ -1112,6 +1121,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_inactive: "Inactive"
   label_incoming_emails: "Incoming emails"
   label_includes: 'includes'
   label_index_by_date: "Index by date"
@@ -1204,6 +1214,7 @@ en:
   label_open_work_packages_plural: "open"
   label_optional_description: "Description"
   label_options: "Options"
+  label_other: "Other"
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
@@ -1216,6 +1227,7 @@ en:
   label_path_encoding: "Path encoding"
   label_pdf_with_descriptions: "PDF with Descriptions"
   label_per_page: "Per page"
+  label_people: "People"
   label_permissions: "Permissions"
   label_permissions_report: "Permissions report"
   label_personalize_page: "Personalize this page"
@@ -1914,11 +1926,14 @@ en:
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
     You can customize which attributes will be displayed
-    in forms for work packages of this type. 'Active' fields will be shown in
-    the collapsed work package view if they have a value,
-    fields that are 'Always displayed' even if they don't. Inactive fields
-    will never be shown, even if they have a value.
-    Only fields that are not required or have a default value can be customized.
+    in forms for work packages of this type. You can freely group the
+    attributes to reflect the needs for your domain.
+
+    By default fields will only be shown in
+    the collapsed work package view if they have a value.
+    Fields that are 'Always displayed' will be visibile even
+    if they don't have a value.
+
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."

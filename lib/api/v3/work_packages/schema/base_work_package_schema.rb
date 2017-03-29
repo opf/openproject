@@ -94,7 +94,47 @@ module API
             false
           end
 
+          ##
+          # Return of a map of attribute => group name
+          def attribute_group_map(key)
+            return nil if type.nil?
+            @attribute_group_map ||= begin
+              mapping = {}
+              attribute_groups.each do |group, attributes|
+                attributes.each { |prop| mapping[prop] = group }
+              end
+
+              mapping
+            end
+
+            @attribute_group_map[key]
+          end
+
+          def attribute_groups
+            return nil if type.nil?
+
+            @attribute_groups ||= begin
+              type.attribute_groups.map do |group|
+                group[1].map! do |prop|
+                  if type.passes_attribute_constraint?(prop, project: project)
+                    convert_property(prop)
+                  end
+                end
+
+                group[1].compact!
+                group
+              end
+            end
+
+            @attribute_groups
+          end
+
           private
+
+          def convert_property(prop)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
+          end
+
 
           def percentage_done_writable?
             Setting.work_package_done_ratio == 'field'

@@ -10,22 +10,12 @@ describe 'custom fields', js: true do
   end
 
   describe "available fields" do
-    let!(:types) do
-      ["Bug", "Feature", "Support"].each_with_index.map do |name, i|
-        FactoryGirl.create :type, name: name, position: i + 1
-      end
-    end
-
     before do
       cf_page.visit!
       click_on "Create a new custom field"
     end
 
     it "shows all form elements" do
-      expect(cf_page).to have_type("Bug")
-      expect(cf_page).to have_type("Feature")
-      expect(cf_page).to have_type("Support")
-
       expect(cf_page).to have_form_element("Name")
       expect(cf_page).to have_form_element("Required")
       expect(cf_page).to have_form_element("For all projects")

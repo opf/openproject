@@ -30,15 +30,26 @@
 class BaseTypeService
   attr_accessor :type
 
-  def call(attributes: {})
-    update(attributes)
+  def call(permitted_params: {}, unsafe_params: {})
+    update(permitted_params, unsafe_params)
   end
 
   private
 
-  def update(attributes)
-    success = Type.transaction {
-      type.attributes = attributes
+  def update(permitted_params = {}, unsafe_params = {})
+    success = Type.transaction do
+      permitted = permitted_params
+      permitted.delete(:attribute_groups)
+      permitted.delete(:attribute_visibility)
+
+      type.attributes = permitted
+
+      if unsafe_params[:attribute_groups].present?
+        type.attribute_groups = JSON.parse(unsafe_params[:attribute_groups])
+      end
+      if unsafe_params[:attribute_visibility].present?
+        type.attribute_visibility = JSON.parse(unsafe_params[:attribute_visibility])
+      end
 
       set_date_attribute_visibility
       set_active_custom_fields
@@ -48,7 +59,7 @@ class BaseTypeService
       else
         raise ActiveRecord::Rollback
       end
-    }
+    end
 
     ServiceResult.new(success: success,
                       errors: type.errors)
