@@ -72,6 +72,7 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   custom_fields:
+    text_add_new_custom_field: 'New custom fields can be created on the global administration before they can be added to this project. Please use the following button to create a new custom field.'
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
