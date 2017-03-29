@@ -58,8 +58,8 @@ module API
 
         def allow_commit?
           represented.name.present? && (
-              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project)) ||
-              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project))
+              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project, global: represented.project.nil?)) ||
+              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project, global: represented.project.nil?))
             ) && @errors.empty?
         end
       end
