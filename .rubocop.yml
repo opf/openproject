@@ -1,6 +1,7 @@
 AllCops:
+  TargetRubyVersion: 2.2
   Exclude:
-    - "*.gemspec"
+    - db/schema.rb
 
 AccessorMethodName:
   Enabled: false
@@ -26,19 +27,10 @@ AsciiIdentifiers:
 Attr:
   Enabled: false
 
-BlockNesting:
+BlockLength:
   Enabled: false
 
-BlockDelimiters:
-  Enabled: true
-  EnforcedStyle: semantic
-  IgnoredMethods:
-    - default_scope
-    - lambda
-    - proc
-    - it
-
-Blocks:
+BlockNesting:
   Enabled: false
 
 CaseEquality:
@@ -75,7 +67,7 @@ CyclomaticComplexity:
 Delegate:
   Enabled: false
 
-DeprecatedHashMethods:
+PreferredHashMethods:
   Enabled: false
 
 Documentation:
@@ -133,7 +125,7 @@ LineEndConcatenation:
   Enabled: false
 
 LineLength:
-  Max: 100
+  Max: 130
 
 MethodLength:
   Enabled: false
@@ -202,13 +194,20 @@ SignalException:
 SpecialGlobalVars:
   Enabled: false
 
+# Forcing single quotes doesn't give any reasonable advantages. To the contrary:
+# it forces you to change the quotes every time you want to add interpolation,
+# newlines or other escape sequences (\n), or quotes (') to a string. Rubbish.
+# Don't even think about performance. That never was a valid argument to begin with.
+#
+#   For the record: using single quotes does NOT have any performance advantages.
+#   Even if it did, this would be a silly argument.
+#
+# Ideally we would just use double quotes everywhere but since that would result
+# in innumerable rubocop offenses we will just disable this. Quote away.
 StringLiterals:
-  EnforcedStyle: single_quotes
-
-VariableInterpolation:
   Enabled: false
 
-TrailingComma:
+VariableInterpolation:
   Enabled: false
 
 TrivialAccessors:

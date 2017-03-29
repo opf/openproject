@@ -424,6 +424,20 @@ module OpenProject::Costs
       API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load += [:cost_object]
 
       API::V3::WorkPackages::WorkPackageCollectionRepresenter.prepend EagerLoadedCosts
+
+      ##
+      # Add a new group
+      cost_attributes = %i(cost_object costs_by_type labor_costs material_costs overall_costs)
+      ::Type.add_default_group(:costs, :label_cost_plural)
+      ::Type.add_default_mapping(:costs, *cost_attributes)
+
+      constraint = ->(_type, project: nil) {
+        project.nil? || project.costs_enabled?
+      }
+
+      cost_attributes.each do |attribute|
+        ::Type.add_constraint attribute, constraint
+      end
     end
   end
 end
