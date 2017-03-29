@@ -93,6 +93,10 @@ class ExportCardConfigurationsController < ApplicationController
     redirect_to :action => 'index'
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   def cannot_update_default
