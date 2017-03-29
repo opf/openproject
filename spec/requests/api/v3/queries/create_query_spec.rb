@@ -51,7 +51,7 @@ describe "POST /api/v3/queries", type: :request do
             },
             values: [
               {
-                href: "/api/v3/statuses/#{status.id}",
+                href: "/api/v3/statuses/#{status.id}"
               }
             ]
           }

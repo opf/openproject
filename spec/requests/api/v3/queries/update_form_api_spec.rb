@@ -34,14 +34,28 @@ describe "POST /api/v3/queries/form", type: :request do
 
   let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { FactoryGirl.create(:admin) }
+  let(:role) { FactoryGirl.create :existing_role, permissions: permissions }
+  let(:permissions) { [:view_work_packages, :manage_public_queries] }
+
   let!(:project) { FactoryGirl.create(:project_with_types) }
-  let!(:query) { FactoryGirl.create :query, name: "Existing Query", is_public: true }
+
+  let(:query) do
+    FactoryGirl.create(
+      :query,
+      name: "Existing Query",
+      is_public: false,
+      project: project,
+      user: user
+    )
+  end
 
   let(:parameters) { {} }
   let(:override_params) { {} }
   let(:form) { JSON.parse response.body }
 
   before do
+    project.add_member! user, role
+
     login_as(user)
 
     post path,
@@ -104,7 +118,7 @@ describe "POST /api/v3/queries/form", type: :request do
               },
               values: [
                 {
-                  href: "/api/v3/statuses/#{status.id}",
+                  href: "/api/v3/statuses/#{status.id}"
                 }
               ]
             }
@@ -280,7 +294,8 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { FactoryGirl.create :user }
+      let(:user) { FactoryGirl.create(:user) }
+      let(:permissions) { [:view_work_packages] }
 
       it "should reject the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
