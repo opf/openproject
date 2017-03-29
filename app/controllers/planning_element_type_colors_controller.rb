@@ -127,6 +127,10 @@ class PlanningElementTypeColorsController < ApplicationController
     end
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   def require_admin_unless_readonly_api_request
     require_admin unless %w[index show].include? params[:action] and
                          api_request?

@@ -109,4 +109,8 @@ class StatusesController < ApplicationController
       ActionController::Base.helpers.link_to(t(:label_work_package_status_plural), statuses_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

@@ -45,7 +45,14 @@ module BreadcrumbHelper
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
     breadcrumb_elements += elements.map { |element|
-      content_tag(:li, h(element.to_s), class: 'icon-context icon-small icon-arrow-right5') if element
+      if element
+        css_class = if element.include? 'breadcrumb-project-title'
+                      'breadcrumb-project-element '
+                    end
+        content_tag(:li,
+                    h(element.to_s),
+                    class: "#{css_class} icon-context icon-small icon-arrow-right5")
+      end
     }
 
     content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
@@ -62,6 +69,14 @@ module BreadcrumbHelper
     end
   end
 
+  def show_breadcrumb
+    if !!(defined? show_local_breadcrumb)
+      show_local_breadcrumb
+    else
+      false
+    end
+  end
+
   private
 
   def link_to_project_ancestors(project)
@@ -72,7 +87,7 @@ module BreadcrumbHelper
         if p == project
           link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
         else
-          link_to_project(p, { jump: current_menu_item }, title: p).html_safe
+          link_to_project(p, { jump: current_menu_item }, title: p, class: 'breadcrumb-project-title').html_safe
         end
       end
     end

@@ -111,6 +111,10 @@ class AuthSourcesController < ApplicationController
     end
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   def block_if_password_login_disabled
     render_404 if OpenProject::Configuration.disable_password_login?
   end

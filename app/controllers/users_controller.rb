@@ -306,4 +306,8 @@ class UsersController < ApplicationController
       ActionController::Base.helpers.link_to(t('label_user_plural'), users_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

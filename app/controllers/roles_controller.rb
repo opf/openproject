@@ -145,4 +145,8 @@ class RolesController < ApplicationController
       ActionController::Base.helpers.link_to(t('label_role_plural'), roles_path)
     end
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end

@@ -624,6 +624,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :default_breadcrumb
 
+  def show_local_breadcrumb
+    false
+  end
+  helper_method :show_local_breadcrumb
+
   def disable_everything_except_api
     unless api_request?
       head 410

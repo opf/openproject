@@ -442,6 +442,10 @@ class WikiController < ApplicationController
     Wiki.name.humanize
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   def redirect_to_show
     redirect_to action: :show, project_id: @project, id: @page
   end

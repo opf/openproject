@@ -109,6 +109,10 @@ class WorkflowsController < ApplicationController
     end
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   private
 
   def find_roles

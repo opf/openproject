@@ -121,6 +121,10 @@ class ProjectTypesController < ApplicationController
     end
   end
 
+  def show_local_breadcrumb
+    true
+  end
+
   def check_permissions
     render_403 unless readonly_api_request or User.current.allowed_to_globally?(:edit_timelines)
   end

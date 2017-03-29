@@ -64,4 +64,8 @@ class EnterprisesController < ApplicationController
   def default_breadcrumb
     t(:label_enterprise)
   end
+
+  def show_local_breadcrumb
+    true
+  end
 end
