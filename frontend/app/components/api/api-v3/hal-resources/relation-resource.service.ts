@@ -25,11 +25,10 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-import {HalResource} from './hal-resource.service';
-import {HalLink} from '../hal-link/hal-link.service';
+import {HalResource} from "./hal-resource.service";
 import {opApiModule} from "../../../../angular-modules";
 import {WorkPackageResource} from './work-package-resource.service';
+import {State} from '../../../../helpers/reactive-fassade';
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
@@ -78,6 +77,17 @@ export class RelationResource extends HalResource {
     }
 
     return this.type;
+  }
+
+
+  /**
+   * Get the involved IDs, returning an object to the ids.
+   */
+  public get ids() {
+    return {
+      from: WorkPackageResource.idFromLink(this.from.href!),
+      to: WorkPackageResource.idFromLink(this.to.href!)
+    };
   }
 
   public updateDescription(description:string) {

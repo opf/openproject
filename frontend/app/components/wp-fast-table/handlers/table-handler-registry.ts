@@ -1,17 +1,17 @@
-import {TimelineTransformer} from './state/timeline-transformer';
-import {HierarchyTransformer} from './state/hierarchy-transformer';
-import {HierarchyClickHandler} from './row/hierarchy-click-handler';
-import {WorkPackageTable} from '../wp-fast-table';
-import {RowClickHandler} from './row/click-handler';
-import {RowDoubleClickHandler} from './row/double-click-handler';
-import {EditCellHandler} from './cell/edit-cell-handler';
-import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
-import {SelectionTransformer} from './state/selection-transformer';
-import {RowsTransformer} from './state/rows-transformer';
-import {ColumnsTransformer} from './state/columns-transformer';
-import {GroupRowHandler} from './row/group-row-handler';
-import {ContextMenuHandler} from './row/context-menu-handler';
-import {ContextMenuKeyboardHandler} from './row/context-menu-keyboard-handler';
+import {TimelineTransformer} from "./state/timeline-transformer";
+import {HierarchyTransformer} from "./state/hierarchy-transformer";
+import {WorkPackageTable} from "../wp-fast-table";
+import {SelectionTransformer} from "./state/selection-transformer";
+import {RowsTransformer} from "./state/rows-transformer";
+import {ColumnsTransformer} from "./state/columns-transformer";
+import {ContextMenuKeyboardHandler} from "./row/context-menu-keyboard-handler";
+import {ContextMenuHandler} from "./row/context-menu-handler";
+import {GroupRowHandler} from "./row/group-row-handler";
+import {RowDoubleClickHandler} from "./row/double-click-handler";
+import {RowClickHandler} from "./row/click-handler";
+import {WorkPackageStateLinksHandler} from "./row/wp-state-links-handler";
+import {EditCellHandler} from "./cell/edit-cell-handler";
+import {HierarchyClickHandler} from "./row/hierarchy-click-handler";
 
 export interface TableEventHandler {
   EVENT:string;
@@ -21,22 +21,22 @@ export interface TableEventHandler {
 }
 
 export class TableHandlerRegistry {
-  static eventHandlers = [
+  static eventHandlers: ((t: WorkPackageTable) => TableEventHandler)[] = [
     // Hierarchy expansion/collapsing
-    HierarchyClickHandler,
+    t => new HierarchyClickHandler(t),
     // Clicking or pressing Enter on a single cell, editable or not
-    EditCellHandler,
+    t => new EditCellHandler(t),
     // Clicking on the details view
-    WorkPackageStateLinksHandler,
+    t => new WorkPackageStateLinksHandler(t),
     // Clicking on the row (not within a cell)
-    RowClickHandler,
-    RowDoubleClickHandler,
+    t => new RowClickHandler(t),
+    t => new RowDoubleClickHandler(t),
     // Clicking on group headers
-    GroupRowHandler,
+    t => new GroupRowHandler(t),
     // Right clicking on rows
-    ContextMenuHandler,
+    t => new ContextMenuHandler(t),
     // SHIFT+ALT+F10 on rows
-    ContextMenuKeyboardHandler,
+    t => new ContextMenuKeyboardHandler(t),
   ];
 
   static stateTransformers = [
@@ -54,8 +54,8 @@ export class TableHandlerRegistry {
       return new cls(table);
     });
 
-    this.eventHandlers.map((cls) => {
-      let handler = <TableEventHandler> new cls();
+    this.eventHandlers.map(factory => {
+      let handler = factory(table);
       let target = handler.eventScope(table);
 
       target.on(handler.EVENT, handler.SELECTOR, (evt:JQueryEventObject) => {

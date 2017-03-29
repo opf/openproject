@@ -297,6 +297,8 @@ en:
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
       update_description: "Set or update description of this relation"
+      add_follower: "Add follower"
+      add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "Save relation"
       abort: "Abort"

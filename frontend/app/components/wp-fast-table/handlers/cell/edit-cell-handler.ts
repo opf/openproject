@@ -26,7 +26,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return jQuery(table.container);
   }
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     super();
     injectorBridge(this);
   }

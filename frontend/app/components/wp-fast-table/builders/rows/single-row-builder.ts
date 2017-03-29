@@ -8,6 +8,7 @@ import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-packag
 import {checkedClassName} from "../ui-state-link-builder";
 import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
+import {WorkPackageTable} from "../../wp-fast-table";
 
 export const rowClassName = 'wp-table--row';
 
@@ -25,9 +26,9 @@ export class SingleRowBuilder {
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
   // Timeline builder
-  protected timelineCellBuilder = new TimelineCellBuilder(this.stopExisting$);
+  protected timelineCellBuilder = new TimelineCellBuilder(this.stopExisting$, this.workPackageTable);
 
-  constructor(private stopExisting$: Observable<any>) {
+  constructor(private stopExisting$: Observable<any>, private workPackageTable: WorkPackageTable) {
     injectorBridge(this);
   }
 

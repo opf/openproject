@@ -15,6 +15,7 @@ import {
 } from '../wp-fast-table/builders/rows/single-row-builder';
 import IScope = angular.IScope;
 import {scopeDestroyed$} from "../../helpers/angular-rx-utils";
+import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
@@ -27,8 +28,8 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected text:{ cancelButton:string };
 
-  constructor(scope: IScope) {
-    super(scopeDestroyed$(scope));
+  constructor(scope: IScope, workPackageTable: WorkPackageTable) {
+    super(scopeDestroyed$(scope), workPackageTable);
     injectorBridge(this);
 
     this.text = {

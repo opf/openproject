@@ -5,6 +5,7 @@ import {States} from "../../states.service";
 import {WorkPackageResource} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {injectorBridge} from "../../angular/angular-injector-bridge.functions";
 import {Observable} from "rxjs";
+import {WorkPackageTable} from "../wp-fast-table";
 export const timelineCellClassName = 'wp-timeline-cell';
 export const timelineCollapsedClassName = '-collapsed';
 
@@ -13,16 +14,12 @@ export class TimelineCellBuilder {
   public states:States;
   public wpCacheService:WorkPackageCacheService;
 
-  constructor(private stopExisting$: Observable<any>) {
+  constructor(private stopExisting$: Observable<any>, private workPackageTable: WorkPackageTable) {
     injectorBridge(this);
   }
 
   public get isVisible():boolean {
     return this.states.table.timelineVisible.getCurrentValue() || false;
-  }
-
-  public get timelineInstance():WorkPackageTimelineTableController {
-    return this.states.timeline.getCurrentValue()!;
   }
 
   public build(workPackage:WorkPackageResource):HTMLElement {
@@ -41,7 +38,7 @@ export class TimelineCellBuilder {
   public buildTimelineCell(cell:HTMLElement, workPackage:WorkPackageResource):void {
     // required data for timeline cell
     const timelineCell = new WorkPackageTimelineCell(
-      this.timelineInstance,
+      this.workPackageTable.timelineController,
       this.wpCacheService,
       this.states,
       workPackage.id,

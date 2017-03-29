@@ -1,4 +1,3 @@
-import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,23 +26,27 @@ import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
 import {SingleRowBuilder} from '../wp-fast-table/builders/rows/single-row-builder';
 import {opWorkPackagesModule} from "../../angular-modules";
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCreateService} from '../wp-create/wp-create.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import { InlineCreateRowBuilder, inlineCreateCancelClassName } from './inline-create-row-builder';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
-import {States} from '../states.service';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCreateService} from "../wp-create/wp-create.service";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {InlineCreateRowBuilder, inlineCreateCancelClassName} from "./inline-create-row-builder";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {States} from "../states.service";
+import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
+import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 
 export class WorkPackageInlineCreateController {
 
   public resource:WorkPackageCollectionResource;
   public query:any;
   public projectIdentifier:string;
+  public table: WorkPackageTable;
+
   public isHidden:boolean = false;
   public focus:boolean = false;
 
@@ -62,7 +65,7 @@ export class WorkPackageInlineCreateController {
     public wpCreate:WorkPackageCreateService,
     public wpTableColumns:WorkPackageTableColumnsService
   ) {
-    this.rowBuilder = new InlineCreateRowBuilder($scope);
+    this.rowBuilder = new InlineCreateRowBuilder($scope, this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
@@ -158,7 +161,8 @@ function wpInlineCreate() {
     scope: {
       projectIdentifier: '=',
       resource: '=',
-      query: '='
+      query: '=',
+      table: "="
     },
 
     bindToController: true,

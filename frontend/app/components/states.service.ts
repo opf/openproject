@@ -49,8 +49,6 @@ export class States {
     stopAllSubscriptions:new Subject()
   };
 
-  timeline = new State<WorkPackageTimelineTableController>();
-
   // Query states
   query = {
     // All available columns for selection

@@ -1,20 +1,15 @@
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {States} from '../../../states.service';
-import {TableEventHandler} from '../table-handler-registry';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {rowClassName} from '../../builders/rows/single-row-builder';
-import {cellClassName} from '../../builders/cell-builder';
-import {tdClassName} from '../../builders/cell-builder';
-import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
-import {ContextMenuService} from '../../../context-menus/context-menu.service';
-import {keyCodes} from '../../../common/keyCodes.enum';
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {TableEventHandler} from "../table-handler-registry";
+import {rowClassName} from "../../builders/rows/single-row-builder";
+import {ContextMenuService} from "../../../context-menus/context-menu.service";
+import {keyCodes} from "../../../common/keyCodes.enum";
 
 export class ContextMenuKeyboardHandler implements TableEventHandler {
   // Injections
   public contextMenu:ContextMenuService;
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     injectorBridge(this);
   }
 

@@ -26,11 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import * as moment from "moment";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResourceInterface,
+  WorkPackageResource
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
+export const timelineMarkerSelectionStartClass = "selection-start";
 
 /**
  *
@@ -64,6 +68,10 @@ export class TimelineViewParameters {
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
   timelineHeader: WpTimelineHeader;
+
+  activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
+
+  selectionModeStart: null|string = null;
 
   get pixelPerDay() {
     switch (this.settings.zoomLevel) {

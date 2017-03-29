@@ -10,7 +10,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   public $state:ng.ui.IStateService;
   public keepTab:KeepTabService;
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     injectorBridge(this);
   }
 

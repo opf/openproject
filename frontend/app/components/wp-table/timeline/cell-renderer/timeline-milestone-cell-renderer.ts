@@ -4,7 +4,7 @@ import {
   RenderInfo,
   calculatePositionValueForDayCount,
   timelineElementCssClass,
-  calculatePositionValueForDayCountingPx
+  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import * as moment from "moment";
 import Moment = moment.Moment;
@@ -92,6 +92,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                      renderInfo: RenderInfo,
                      elem: HTMLElement): "left" | "right" | "both" | "create" | "dragright" {
 
+    // check for active selection mode
+    if (renderInfo.viewParams.activeSelectionMode) {
+      renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
+      ev.preventDefault();
+      return "both"; // irrelevant
+    }
+
     let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
     renderInfo.workPackage.storePristine('date');
     this.forceCursor('ew-resize');
@@ -135,6 +142,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
     element.style.left = 'calc(0.5em + ' + calculatePositionValueForDayCount(viewParams, offsetStart) + ')';
+
+    this.checkForActiveSelectionMode(renderInfo, diamond);
 
     return true;
   }

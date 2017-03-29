@@ -26,19 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {openprojectModule} from "../../../angular-modules";
-import {TimelineViewParameters, RenderInfo, timelineElementCssClass} from "./wp-timeline";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
+import {
+  TimelineViewParameters, RenderInfo, timelineElementCssClass,
+  timelineMarkerSelectionStartClass
+} from "./wp-timeline";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
 import {States} from "../../states.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import * as moment from "moment";
 import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
-import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
+import { scopeDestroyed$ } from "../../../helpers/angular-rx-utils";
+import { debugLog } from "../../../helpers/debug_output";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
+import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 
 export class WorkPackageTimelineTableController {
 
@@ -48,7 +56,7 @@ export class WorkPackageTimelineTableController {
 
   public wpTimelineHeader: WpTimelineHeader;
 
-  public readonly globalService = new WpTimelineGlobalService(this, this.$scope, this.states, this.halRequest);
+  public readonly globalService = new WpTimelineGlobalService(this.$scope);
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
@@ -62,7 +70,8 @@ export class WorkPackageTimelineTableController {
               private $element: ng.IAugmentedJQuery,
               private TypeResource:any,
               private states: States,
-              private halRequest: HalRequestService) {
+              private halRequest: HalRequestService,
+              private wpRelations: WorkPackageRelationsService) {
 
     "ngInject";
 
@@ -111,7 +120,7 @@ export class WorkPackageTimelineTableController {
 
   refreshView() {
     if (!this.refreshViewRequested) {
-      console.error("refreshView()");
+      debugLog('refreshView() in timeline container');
       setTimeout(() => {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
@@ -128,17 +137,12 @@ export class WorkPackageTimelineTableController {
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
-    // console.error("addWorkPackage()", wpId);
-
     const wpObs = this.states.workPackages.get(wpId)
       .observeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
-        // console.error("Timeline work package stream: WorkPackage", wpId, "incoming...");
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          // console.log("    view params changed");
-
           // view params have changed, notify all cells
           this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
@@ -151,13 +155,10 @@ export class WorkPackageTimelineTableController {
       })
       .distinctUntilChanged((v1, v2) => {
         if (v1 === v2) {
-          // console.log("    work package NOT changed");
           return true;
         } else {
-          // console.log("    work package CHANGED");
           return false;
         }
-        // return v1 === v2;
       }, renderInfo => {
         return ""
           + renderInfo.viewParams.dateDisplayStart
@@ -176,12 +177,41 @@ export class WorkPackageTimelineTableController {
       );
   }
 
+  startAddRelationPredecessor(start: WorkPackageResource) {
+    this.activateSelectionMode(start.id, end => {
+      this.wpRelations.addCommonRelation(start as any, "follows", end.id);
+    });
+  }
+
+  startAddRelationFollower(start: WorkPackageResource) {
+    this.activateSelectionMode(start.id, end => {
+      this.wpRelations.addCommonRelation(start as any, "precedes", end.id);
+    });
+  }
+
+  private activateSelectionMode(start: string, callback: (wp: WorkPackageResource) => any) {
+    start = start.toString(); // old system bug: ID can be a 'number'
+
+    this._viewParameters.activeSelectionMode = (wp: WorkPackageResource) => {
+      callback(wp);
+
+      this._viewParameters.activeSelectionMode = null;
+      this._viewParameters.selectionModeStart = null;
+
+      this.$element.removeClass("active-selection-mode");
+      jQuery("." + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
+      this.refreshView();
+    };
+    this._viewParameters.selectionModeStart = start;
+
+    this.$element.addClass("active-selection-mode");
+    this.refreshView();
+  }
+
   private calculateViewParams(currentParams: TimelineViewParameters): boolean {
     if (this.disableViewParamsCalculation) {
       return false;
     }
-
-    // console.error("calculateViewParams()");
 
     const newParams = new TimelineViewParameters();
     let changed = false;

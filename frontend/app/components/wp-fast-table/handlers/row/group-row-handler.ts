@@ -1,12 +1,9 @@
-import {debugLog} from '../../../../helpers/debug_output';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {States} from '../../../states.service';
-import {TableEventHandler} from '../table-handler-registry';
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {rowClassName} from '../../builders/rows/single-row-builder';
-import {tdClassName} from '../../builders/cell-builder';
-import {GroupedRowsBuilder, rowGroupClassName} from '../../builders/rows/grouped-rows-builder';
+import {debugLog} from "../../../../helpers/debug_output";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {States} from "../../../states.service";
+import {TableEventHandler} from "../table-handler-registry";
+import {GroupedRowsBuilder, rowGroupClassName} from "../../builders/rows/grouped-rows-builder";
 
 export class GroupRowHandler implements TableEventHandler {
   // Injections
@@ -14,9 +11,9 @@ export class GroupRowHandler implements TableEventHandler {
 
   private builder:GroupedRowsBuilder;
 
-  constructor() {
+  constructor(table: WorkPackageTable) {
     injectorBridge(this);
-    this.builder = new GroupedRowsBuilder();
+    this.builder = new GroupedRowsBuilder(table);
   }
 
   public get EVENT() {

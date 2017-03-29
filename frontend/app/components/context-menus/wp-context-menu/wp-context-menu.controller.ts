@@ -28,6 +28,9 @@
 
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {ContextMenuService} from '../context-menu.service';
+import {WorkPackageTable} from "../../wp-fast-table/wp-fast-table";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,
                                  $state:ng.ui.IStateService,
@@ -52,14 +55,28 @@ function wpContextMenuController($scope:any,
   };
 
   $scope.triggerContextMenuAction = function (action:any, link:any) {
-    switch (action) {
+    let table: WorkPackageTable;
+    let wp: WorkPackageResource;
 
+    switch (action) {
       case 'delete':
         deleteSelectedWorkPackages();
         break;
 
       case 'edit':
         editSelectedWorkPackages(link);
+        break;
+
+      case "timeline-relation-add-predecessor":
+        table = $scope.table;
+        wp = $scope.row.object;
+        table.timelineController.startAddRelationPredecessor(wp);
+        break;
+
+      case "timeline-relation-add-follower":
+        table = $scope.table;
+        wp = $scope.row.object;
+        table.timelineController.startAddRelationFollower(wp);
         break;
 
       default:

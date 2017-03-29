@@ -1,7 +1,7 @@
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {
   RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass,
-  calculatePositionValueForDayCountingPx
+  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import * as moment from 'moment';
@@ -111,6 +111,13 @@ export class TimelineCellRenderer {
                      dateForCreate: string|null,
                      renderInfo: RenderInfo,
                      elem: HTMLElement): "left" | "right" | "both" | "dragright" | "create" {
+
+    // check for active selection mode
+    if (renderInfo.viewParams.activeSelectionMode) {
+      renderInfo.viewParams.activeSelectionMode(renderInfo.workPackage);
+      ev.preventDefault();
+      return "both"; // irrelevant
+    }
 
     renderInfo.workPackage.storePristine('startDate');
     renderInfo.workPackage.storePristine('dueDate');
@@ -223,7 +230,20 @@ export class TimelineCellRenderer {
       bar.style.minWidth = "30px";
     }
 
+    this.checkForActiveSelectionMode(renderInfo, bar);
+
     return true;
+  }
+
+  protected checkForActiveSelectionMode(renderInfo: RenderInfo, element: HTMLElement) {
+    if (renderInfo.viewParams.activeSelectionMode) {
+      element.style.backgroundImage = null; // required! unable to disable "fade out bar" with css
+
+      if (renderInfo.viewParams.selectionModeStart === "" + renderInfo.workPackage.id) {
+        jQuery(element).addClass(timelineMarkerSelectionStartClass);
+        element.style.background = null;
+      }
+    }
   }
 
   getLeftmostPosition(renderInfo: RenderInfo): number {

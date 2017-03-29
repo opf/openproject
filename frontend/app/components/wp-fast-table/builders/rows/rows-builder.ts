@@ -14,9 +14,9 @@ export abstract class RowsBuilder {
 
   private stopExisting$ = new Subject();
 
-  constructor() {
-    this.rowBuilder = new SingleRowBuilder(this.stopExisting$);
-    this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$);
+  constructor(public workPackageTable: WorkPackageTable) {
+    this.rowBuilder = new SingleRowBuilder(this.stopExisting$, workPackageTable);
+    this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$, workPackageTable);
   }
 
   /**

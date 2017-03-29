@@ -30,20 +30,74 @@
 import {wpDirectivesModule} from '../../angular-modules';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import { RelationResource, RelationResourceInterface } from '../api/api-v3/hal-resources/relation-resource.service';
+import { WorkPackageResourceInterface } from '../api/api-v3/hal-resources/work-package-resource.service';
+import { HalRequestService } from "../api/api-v3/hal-request/hal-request.service";
+import { CollectionResource } from "../api/api-v3/hal-resources/collection-resource.service";
+import { State } from "../../helpers/reactive-fassade";
+import { WorkPackageStates } from "../work-package-states.service";
+
+export type RelationsStateValue = {[id:number]:RelationResource};
 
 export class WorkPackageRelationsService {
+
+  private throttledUpdaterFn:Function;
+
   constructor(protected $rootScope:ng.IRootScopeService,
               protected $q:ng.IQService,
+              protected wpStates:WorkPackageStates,
+              protected halRequest:HalRequestService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
               protected PathHelper:any,
               protected NotificationsService:any) {
+
+    this.throttledUpdaterFn = _.throttle(() => {
+      this.$rootScope.$emit('workPackagesRefreshInBackground');
+    }, 2000);
   }
 
-  public addCommonRelation(workPackage:WorkPackageResourceInterface, relationType:string, relatedWpId:string) {
+  /**
+   * Return the relation state for the given work package ID.
+   */
+  public relationState(workPackageId:string):State<RelationsStateValue> {
+    return this.wpStates.relations.get(workPackageId);
+  }
+
+  /**
+   * Require the relations of the given singular work package to be loaded into its state.
+   */
+  public require(workPackage:WorkPackageResourceInterface, force:boolean = false) {
+    const state = this.relationState(workPackage.id);
+
+    if (force) {
+      state.clear();
+    }
+
+    if (state.isPristine()) {
+      workPackage.relations.$load(true).then((collection:CollectionResource) => {
+        if (collection.elements.length > 0) {
+          this.mergeIntoStates(collection.elements as RelationResource[]);
+        } else {
+          this.relationState(workPackage.id).put({}, 'Received empty response from singular relations');
+        }
+      });
+    }
+  }
+
+  /**
+   * Require the relations of a set of involved work packages loaded into the states.
+   */
+  public requireInvolved(workPackageIds:string[]) {
+    this.relationsRequest(workPackageIds).then((elements:RelationResource[]) => {
+      this.mergeIntoStates(elements);
+    });
+  }
+
+  public addCommonRelation(workPackage:WorkPackageResourceInterface,
+                           relationType:string,
+                           relatedWpId:string) {
     const params = {
       _links: {
         from: { href: workPackage.href },
@@ -52,7 +106,11 @@ export class WorkPackageRelationsService {
       type: relationType
     };
 
-    return workPackage.addRelation(params);
+    return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
+      this.mergeIntoStates([relation]);
+      this.throttledUpdaterFn();
+      return relation;
+    });
   }
 
   public getRelationTypes(rejectParentChild?:boolean):any[] {
@@ -66,6 +124,101 @@ export class WorkPackageRelationsService {
       return { name: key, label: this.I18n.t('js.relation_labels.' + key) };
     });
   }
+
+  /**
+   * Update the given relation
+   */
+  public updateRelation(workPackageId:string, relation:RelationResourceInterface, params:any) {
+    return relation.updateImmediately(params)
+    .then((savedRelation:RelationResourceInterface) => {
+      this.mergeIntoStates([savedRelation]);
+      this.throttledUpdaterFn();
+      return savedRelation;
+    });
+  }
+
+
+  /**
+   * Remove the given relation.
+   */
+  public removeRelation(relation:RelationResourceInterface) {
+    return relation.delete().then(() => {
+      _.each(relation.ids, (member:string) => {
+        const state = this.relationState(member);
+        const currentValue = state.getCurrentValue();
+
+          if (currentValue !== null) {
+            delete currentValue[relation.id];
+            state.put(currentValue);
+          }
+      });
+      this.throttledUpdaterFn();
+    });
+  }
+
+  /**
+   * Merge a set of relations into the associated states
+   */
+  private mergeIntoStates(elements:RelationResource[]) {
+    const stateValues = this.accumulateRelationsFromCollection(elements);
+    _.each(stateValues, (relations:RelationResource[], workPackageId:string) => {
+      this.merge(workPackageId, relations);
+    });
+  }
+
+  /**
+   *
+   * We don't know how many values we're getting for a single work package
+   * So accumlate the state values before pushing them once.
+   */
+  private accumulateRelationsFromCollection(relations:RelationResource[]) {
+    const stateValues:{[workPackageId:string]:RelationResource[]} = {};
+
+    relations.forEach((relation:RelationResource) => {
+      const involved = relation.ids;
+
+      if (!stateValues[involved.from]) {
+        stateValues[involved.from] = [];
+      }
+      if (!stateValues[involved.to]) {
+        stateValues[involved.to] = [];
+      }
+
+      stateValues[involved.from].push(relation);
+      stateValues[involved.to].push(relation);
+    });
+
+    return stateValues;
+  }
+
+  /**
+   * Merge an object of relations into the associated state or create it, if empty.
+   */
+  private merge(workPackageId:string, newRelations:RelationResource[]) {
+    const state = this.relationState(workPackageId);
+    let relationsToInsert = _.keyBy(newRelations, r => r.id);
+    let current = state.getCurrentValue()!;
+
+    if (current !== null) {
+      relationsToInsert = _.assign(current, relationsToInsert);
+    }
+
+    state.put(relationsToInsert, 'Initializing relations state.');
+  }
+
+
+  private relationsRequest(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
+    return this.halRequest.get(
+      '/api/v3/relations',
+      {
+        filters: JSON.stringify([{ involved: {operator: '=', values: workPackageIds } }])
+      },
+      {
+        caching: { enabled: false }
+      }).then((collection:CollectionResource) => {
+        return collection.elements;
+    });
+  }
 }
 
-wpDirectivesModule.service('wpRelationsService', WorkPackageRelationsService);
+wpDirectivesModule.service('wpRelations', WorkPackageRelationsService);

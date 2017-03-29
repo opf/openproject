@@ -262,8 +262,9 @@ export class WpTimelineHeader {
 
     this.renderTimeSlices(vp, "day", 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("dd");
-      cell.style.height = "15px";
+      cell.style.height = "12px";
       cell.style.paddingTop = "1px";
+      cell.style.borderBottom = `1px solid ${colorGrey1}`;
     });
   }
 
@@ -290,6 +291,7 @@ export class WpTimelineHeader {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
+      cell.style.borderBottom = `1px solid ${colorGrey1}`;
     });
   }
 
@@ -314,9 +316,9 @@ export class WpTimelineHeader {
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
-      cell.style.backgroundColor = "white";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
+      cell.style.borderBottom = `1px solid ${colorGrey1}`;
     });
   }
 
@@ -341,9 +343,9 @@ export class WpTimelineHeader {
       cell.style.height = "25px";
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.backgroundColor = "white";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
+      cell.style.borderBottom = `1px solid ${colorGrey1}`;
     });
   }
 
@@ -370,9 +372,9 @@ export class WpTimelineHeader {
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.height = "25px";
-      cell.style.backgroundColor = "white";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
+      cell.style.borderBottom = `1px solid ${colorGrey1}`;
     });
   }
 
@@ -397,7 +399,7 @@ export class WpTimelineHeader {
 
     for (let [start, end] of slices) {
       const cell = this.addLabelCell();
-      cell.style.borderRight = "1px solid black";
+      cell.style.borderRight = `1px solid ${colorGrey1}`;
       cell.style.top = marginTop + "px";
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
       cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
