@@ -48,7 +48,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 .generic-table--results-container
   height:       100%
   overflow:
-    x: hidden
+    x: auto
     y: auto
 
 .generic-table--action-buttons
@@ -130,6 +130,7 @@ table.generic-table
 
   tfoot
     tr
+      background: #f6f7f8
       border:
         top:    0
         bottom: 0
@@ -203,11 +204,10 @@ table.generic-table
       margin: 0
 
 .generic-table--footer-outer
-  position:     absolute
-  bottom:       0
   padding:      0 6px
   line-height:  $generic-table--footer-height
-  z-index:      1
+  width:        100%
+  height:       $generic-table--footer-height
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer,
@@ -265,14 +265,6 @@ table.generic-table
 
   &:hover > .dropdown-indicator
     visibility: visible
-
-.generic-table--footer-background
-  position:     absolute
-  bottom:       0
-  width:        100%
-  height:       $generic-table--footer-height
-  background:   #f6f7f8
-  z-index:      0
 
 .generic-table--no-results-container
   background:   $gray-light
