@@ -44,7 +44,7 @@ export class CellBuilder {
       td.classList.add('-short');
     }
 
-    if (fieldSchema.writable && !field.hidden) {
+    if (fieldSchema.writable && !field.hidden && workPackage.isEditable) {
       span.classList.add(editableClassName);
     } else {
       span.classList.add(readOnlyClassName);
