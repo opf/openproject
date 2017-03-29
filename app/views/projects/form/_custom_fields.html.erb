@@ -27,8 +27,22 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% if current_user.admin? %>
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= t(:label_custom_field_new) %></legend>
+  <p><%= t('custom_fields.text_add_new_custom_field') %></p>
+  <%= link_to new_custom_field_path(type: 'WorkPackageCustomField'),
+        { class: 'button -alt-highlight',
+          aria: {label: t(:label_custom_field_new)},
+          title: t(:label_custom_field_new)} do %>
+    <i class="button--icon icon-add"></i>
+    <span class="button--text"><%= CustomField.model_name.human %></span>
+  <% end %>
+</fieldset>
+<% end %>
+
 <fieldset class="form--fieldset -with-control" id="project_issue_custom_fields">
-  <legend class="form--fieldset-legend"><%=l(:label_enabled_project_custom_fields)%></legend>
+  <legend class="form--fieldset-legend"><%=t(:label_enabled_project_custom_fields)%></legend>
   <div class="form--fieldset-control">
     <span class="form--fieldset-control-container">
       (<%= check_all_links 'project_issue_custom_fields' %>)
@@ -86,7 +100,11 @@ See doc/COPYRIGHT.rdoc for more details.
             %>
               <tr>
                 <td>
+                  <% if current_user.admin? %>
+                  <%= link_to custom_field.name, edit_custom_field_path(custom_field.id) %>
+                  <% else %>
                   <%= custom_field.name %>
+                  <% end %>
                 </td>
                 <td>
                   <% if custom_field.is_for_all? %>
