@@ -26,10 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$icon-font-file-formats: eot woff ttf
-
-+font-face('openproject-icon-font', 'openproject_icon/openproject-icon-font', $file-formats: $icon-font-file-formats)
-
 @mixin icon-font-common
   font-family: "openproject-icon-font" !important
   font-style: normal !important
@@ -41,10 +37,9 @@ $icon-font-file-formats: eot woff ttf
   line-height: 1
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  
+
 @mixin icon-common
   @include icon-font-common
-  content: attr(data-icon)
 
 @mixin icon-rules
   padding: 10px 5px 0 10px
