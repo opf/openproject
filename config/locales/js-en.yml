@@ -164,6 +164,7 @@ en:
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
     label_quote_comment: "Quote this comment"
+    label_reset: "Reset"
     label_remove_columns: "Remove selected columns"
     label_save_as: "Save as"
     label_select_watcher: "Select a watcher..."
@@ -232,7 +233,10 @@ en:
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        confirm_reset: "Replace these groups with default groups?"
+        reset_title: "Reset form configuration"
+        confirm_reset: >
+          Are you sure you want to reset the form configuration?
+          This will remove all customizations you made in this tab and also disable ALL custom fields.
 
     watchers:
       label_loading: loading watchers...

@@ -1,3 +1,4 @@
+import { ConfirmDialogService } from './../../modals/confirm-dialog/confirm-dialog.service';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -35,6 +36,7 @@ function typesFormConfigurationCtrl(
   I18n:op.I18n,
   $scope:any,
   $element:any,
+  confirmDialog:ConfirmDialogService,
   $window:ng.IWindowService,
   $compile:any) {
 
@@ -62,31 +64,36 @@ function typesFormConfigurationCtrl(
     }
   });
 
-  $scope.resetToDefault = ($event: any): void => {
-    let confirmed = $window.confirm(I18n.t('js.types.attribute_groups.confirm_reset'));
-    if (confirmed) {
-      let form: JQuery = angular.element($event.target).parents('form');
+  $scope.resetToDefault = ($event:any):void => {
+    confirmDialog.confirm({
+      text: {
+        title: I18n.t('js.types.attribute_groups.reset_title'),
+        text: I18n.t('js.types.attribute_groups.confirm_reset'),
+        button_continue: I18n.t('js.label_reset')
+      }
+    }).then(() => {
+      let form:JQuery = angular.element($event.target).parents('form');
       angular.element('input#type_attribute_groups').first().val(JSON.stringify([]));
       angular.element('input#type_attribute_visibility').first().val(JSON.stringify({}));
       form.submit();
-    };
+    });
   };
 
-  $scope.deactivateAttribute = ($event: any) => {
+  $scope.deactivateAttribute = ($event:any) => {
     angular.element($event.target)
             .parents('.type-form-conf-attribute')
             .appendTo('#type-form-conf-inactive-group .attributes');
   };
 
-  $scope.deleteGroup = ($event: any): void => {
-    let group: JQuery = angular.element($event.target).parents('.type-form-conf-group');
-    let attributes: JQuery = angular.element('.attributes', group).children();
-    let inactiveAttributes: JQuery = angular.element('#type-form-conf-inactive-group .attributes');
+  $scope.deleteGroup = ($event:any):void => {
+    let group:JQuery = angular.element($event.target).parents('.type-form-conf-group');
+    let attributes:JQuery = angular.element('.attributes', group).children();
+    let inactiveAttributes:JQuery = angular.element('#type-form-conf-inactive-group .attributes');
 
     if (attributes.length > 0) {
-      angular.forEach(attributes, function(attribute: HTMLElement) {
+      angular.forEach(attributes, function(attribute:HTMLElement) {
         // reset visibility
-        let checkbox: HTMLInputElement = angular.element('input[type=checkbox]', attribute)[0] as HTMLInputElement;
+        let checkbox:HTMLInputElement = angular.element('input[type=checkbox]', attribute)[0] as HTMLInputElement;
         checkbox.checked = false;
       });
     }
@@ -97,10 +104,10 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
-  $scope.addGroup = (event: any) => {
-    let newGroup: JQuery = angular.element('#type-form-conf-group-template').clone();
-    let draggableGroups: JQuery = angular.element('#draggable-groups');
-    let randomId: string = Math.ceil(Math.random() * 10000000).toString();
+  $scope.addGroup = (event:any) => {
+    let newGroup:JQuery = angular.element('#type-form-conf-group-template').clone();
+    let draggableGroups:JQuery = angular.element('#draggable-groups');
+    let randomId:string = Math.ceil(Math.random() * 10000000).toString();
 
     // Remove the id of the template:
     newGroup.attr('id', null);
@@ -113,13 +120,13 @@ function typesFormConfigurationCtrl(
     $compile(newGroup)($scope);
   };
 
-  $scope.updateHiddenFields = (): void => {
-    let groups: HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
-    let seenGroupNames: {[name:string]: boolean} = {};
-    let newAttrGroups: Array<Array<(string | Array<string>)>> = [];
-    let newAttrVisibility: any = {};
-    let inputAttributeGroups: JQuery;
-    let inputAttributeVisibility: JQuery;
+  $scope.updateHiddenFields = ():void => {
+    let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
+    let seenGroupNames:{[name:string]:boolean} = {};
+    let newAttrGroups:Array<Array<(string | Array<string>)>> = [];
+    let newAttrVisibility:any = {};
+    let inputAttributeGroups:JQuery;
+    let inputAttributeVisibility:JQuery;
 
     // Clean up previous error states
     NotificationsService.clear();
@@ -127,9 +134,9 @@ function typesFormConfigurationCtrl(
     // Extract new grouping and visibility setup from DOM structure, starting
     // with the active groups.
     groups.forEach((group:HTMLElement) => {
-      let groupKey: string = angular.element(group).attr('data-key');
-      let attributes: HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
-      let attrKeys: string[] = [];
+      let groupKey:string = angular.element(group).attr('data-key');
+      let attributes:HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
+      let attrKeys:string[] = [];
 
       angular.element(group).removeClass('-error');
       if (groupKey == null || groupKey.length === 0) {
@@ -147,12 +154,12 @@ function typesFormConfigurationCtrl(
 
       seenGroupNames[groupKey] = true;
       attributes.forEach((attribute:HTMLElement) => {
-        let attr: JQuery = angular.element(attribute);
-        let key: string = attr.attr('data-key');
+        let attr:JQuery = angular.element(attribute);
+        let key:string = attr.attr('data-key');
         attrKeys.push(key);
         newAttrVisibility[key] = 'default';
         if (angular.element('input[type=checkbox]', attr)) {
-          let checkbox: HTMLInputElement = angular.element('input[type=checkbox]', attr)[0] as HTMLInputElement;
+          let checkbox:HTMLInputElement = angular.element('input[type=checkbox]', attr)[0] as HTMLInputElement;
           if (checkbox.checked) {
             newAttrVisibility[key] = 'visible';
           }
@@ -166,9 +173,9 @@ function typesFormConfigurationCtrl(
 
 
     // Then get visibility states for inactive attributes.
-    let inactiveAttributes: HTMLElement[] = angular.element('#type-form-conf-inactive-group .type-form-conf-attribute').toArray();
-    inactiveAttributes.forEach((attr: HTMLElement) => {
-      let key: string = angular.element(attr).attr('data-key');
+    let inactiveAttributes:HTMLElement[] = angular.element('#type-form-conf-inactive-group .type-form-conf-attribute').toArray();
+    inactiveAttributes.forEach((attr:HTMLElement) => {
+      let key:string = angular.element(attr).attr('data-key');
       newAttrVisibility[key] = 'hidden';
     });
 
@@ -180,7 +187,7 @@ function typesFormConfigurationCtrl(
     inputAttributeVisibility.val(JSON.stringify(newAttrVisibility));
   };
 
-  $scope.groupNameChange = function(key:string, newValue:string): void {
+  $scope.groupNameChange = function(key:string, newValue:string):void {
     angular.element(`.type-form-conf-group[data-original-key="${key}"]`).attr('data-key', newValue);
     $scope.updateHiddenFields();
   };
