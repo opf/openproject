@@ -44,7 +44,27 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
         <i class="button--icon icon-copy"></i>
-        <span class="button--text"><%= l(:label_copy_project) %></span>
+        <span class="button--text"><%= t(:label_copy_project) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% if User.current.admin? %>
+    <li class="toolbar-item">
+      <%= link_to(archive_project_path(@project, status: '', name: @project.name),
+                    data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
+                    method: :put,
+                    title: t(:label_archive_project),
+                    class: 'button') do %>
+        <i class="button--icon icon-locked"></i>
+        <span class="button--text"><%= t(:label_archive_project) %></span>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to confirm_destroy_project_path(@project),
+                  class: 'button delete',
+                  title: t(:label_delete_project) do %>
+        <i class="button--icon icon-delete"></i>
+        <span class="button--text"><%= t(:label_delete_project) %></span>
       <% end %>
     </li>
   <% end %>
