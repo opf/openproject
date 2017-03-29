@@ -106,18 +106,18 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   def rename_group(from, to)
-    find('.group-name', text: from).click
+    find('.group-edit-handler', text: from.upcase).click
 
     input = find('.group-edit-in-place--input')
     input.click
     input.set(to)
     input.send_keys(:return)
 
-    expect(page).to have_selector('.group-name', text: to)
+    expect(page).to have_selector('.group-edit-handler', text: to.upcase)
   end
 
   def expect_group(label, *attributes)
-    expect(page).to have_selector("#{group_selector(label)} .group-name", text: label)
+    expect(page).to have_selector("#{group_selector(label)} .group-edit-handler", text: label.upcase)
 
     within group_selector(label) do
       attributes.each do |attribute|
@@ -131,6 +131,7 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   describe 'default configuration' do
+    let(:dialog) { ::NgConfirmationDialog.new }
     before do
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
@@ -141,9 +142,16 @@ describe 'form configuration', type: :feature, js: true do
       set_visibility(:assignee, checked: true)
       expect_attribute(key: :assignee, checked: true)
 
-      accept_confirm do
-        reset_button.click
-      end
+      # Reset and cancel
+      reset_button.click
+      dialog.expect_open
+      dialog.cancel
+      expect(page).to have_selector(group_selector('Whatever'))
+
+      # Reset and confirm
+      reset_button.click
+      dialog.expect_open
+      dialog.confirm
 
       expect(page).to have_no_selector(group_selector('Whatever'))
       expect_group('Details')
@@ -162,18 +170,18 @@ describe 'form configuration', type: :feature, js: true do
       # Test default set of groups
       #
       expect_group 'People',
-                  { key: :assignee, checked: false, translation: 'Assignee' },
-                  { key: :responsible, checked: false, translation: 'Responsible' }
+                   { key: :assignee, checked: false, translation: 'Assignee' },
+                   { key: :responsible, checked: false, translation: 'Responsible' }
 
       expect_group 'Estimates and time',
-                  { key: :estimated_time, checked: false, translation: 'Estimated time' },
-                  { key: :spent_time, checked: false, translation: 'Spent time' }
+                   { key: :estimated_time, checked: false, translation: 'Estimated time' },
+                   { key: :spent_time, checked: false, translation: 'Spent time' }
 
       expect_group 'Details',
-                  { key: :category, checked: false, translation: 'Category' },
-                  { key: :date, checked: false, translation: 'Date' },
-                  { key: :percentage_done, checked: false, translation: 'Progress (%)' },
-                  { key: :version, checked: false, translation: 'Version' }
+                   { key: :category, checked: false, translation: 'Category' },
+                   { key: :date, checked: false, translation: 'Date' },
+                   { key: :percentage_done, checked: false, translation: 'Progress (%)' },
+                   { key: :version, checked: false, translation: 'Version' }
 
 
       #
@@ -193,12 +201,12 @@ describe 'form configuration', type: :feature, js: true do
       rename_group('People', 'Cool Stuff')
 
       # Start renaming, but cancel
-      find('.group-name', text: 'Cool Stuff').click
+      find('.group-edit-handler', text: 'COOL STUFF').click
       input = find('.group-edit-in-place--input')
       input.set('FOOBAR')
       input.send_keys(:escape)
-      expect(page).to have_selector('.group-name', text: 'Cool Stuff')
-      expect(page).to have_no_selector('.group-name', text: 'FOOBAR')
+      expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
+      expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
 
       # Create new group
       add_group('New Group')

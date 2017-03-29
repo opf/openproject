@@ -54,13 +54,13 @@ function typesFormConfigurationCtrl(
 
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
-      return handle.className === 'group-handle';
+      return handle.classList.contains('group-handle');
     }
   });
 
   dragulaService.options($scope, 'attributes', {
     moves: function (el:any, container:any, handle:any) {
-      return handle.className === 'attribute-handle';
+      return handle.classList.contains('attribute-handle');
     }
   });
 
