@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title(l(:label_settings)) -%>
-<% breadcrumb_paths(l(:label_settings)) %>
-<%= toolbar title: l(:label_settings) do %>
+<% html_title(l(:label_project_settings)) -%>
+<% breadcrumb_paths(l(:label_project_settings)) %>
+<%= toolbar title: l(:label_project_settings) do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <li class="toolbar-item">
       <%= link_to new_project_path(parent_id: @project),
