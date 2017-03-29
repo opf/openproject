@@ -427,7 +427,7 @@ describe 'API v3 Query resource', type: :request do
   end
 
   describe '#post queries/form' do
-    let(:path) { api_v3_paths.query_form }
+    let(:path) { api_v3_paths.create_query_form }
 
     before do
       post path

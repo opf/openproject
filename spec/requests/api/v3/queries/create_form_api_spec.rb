@@ -111,7 +111,7 @@ describe "POST /api/v3/queries/form", type: :request do
               },
               values: [
                 {
-                  href: "/api/v3/statuses/#{status.id}",
+                  href: "/api/v3/statuses/#{status.id}"
                 }
               ]
             }
@@ -225,7 +225,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with groupBy specified as a GET parameter" do
-      let(:path) { api_v3_paths.query_form + "?groupBy=author"}
+      let(:path) { api_v3_paths.create_query_form + "?groupBy=author" }
       let(:override_params) do
         links = parameters[:_links]
 

@@ -33,14 +33,14 @@ module API
       class CreateFormRepresenter < FormRepresenter
         link :self do
           {
-            href: api_v3_paths.query_form,
+            href: api_v3_paths.create_query_form,
             method: :post
           }
         end
 
         link :validate do
           {
-            href: api_v3_paths.query_form,
+            href: api_v3_paths.create_query_form,
             method: :post
           }
         end
