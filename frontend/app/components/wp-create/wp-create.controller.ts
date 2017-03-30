@@ -32,6 +32,9 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  HalResource
+} from '../api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
@@ -83,7 +86,9 @@ export class WorkPackageCreateController {
               protected wpCreate:WorkPackageCreateService,
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpTableSelection:WorkPackageTableSelection,
-              protected wpCacheService:WorkPackageCacheService) {
+              protected wpCacheService:WorkPackageCacheService,
+              protected halRequest:any,
+              protected v3Path:any) {
 
     this.newWorkPackageFromParams($state.params)
       .then(wp => {
@@ -101,12 +106,17 @@ export class WorkPackageCreateController {
       })
       .catch(error => {
         if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
-          let url: string = $location.absUrl();
-          $location.path('/login').search({back_url: url});
-          let loginUrl: string = $location.absUrl();
-          window.location.href = loginUrl;
+          this.halRequest.get(this.v3Path.root()).then((root:HalResource) => {
+            if (!root.user) {
+              // Not logged in
+              let url: string = $location.absUrl();
+              $location.path('/login').search({back_url: url});
+              let loginUrl: string = $location.absUrl();
+              window.location.href = loginUrl;
+            };
+          });
+          this.wpNotificationsService.handleErrorResponse(error);
         };
-        this.wpNotificationsService.handleErrorResponse(error);
       });
   }
 
