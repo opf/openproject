@@ -44,7 +44,7 @@ class CustomField < ActiveRecord::Base
   def uniqueness_of_name_with_scope
     taken_names = CustomField.where(type: type)
     taken_names = taken_names.where('id != ?', id) if id
-    taken_names = taken_names.map { |cf| cf.read_attribute(:name, locale: I18n.locale) }
+    taken_names = taken_names.pluck(:name)
 
     errors.add(:name, :taken) if name.in?(taken_names)
   end

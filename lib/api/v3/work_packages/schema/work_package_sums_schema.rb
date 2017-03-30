@@ -33,7 +33,7 @@ module API
       module Schema
         class WorkPackageSumsSchema < BaseWorkPackageSchema
           def available_custom_fields
-            WorkPackageCustomField.summable.includes(:translations)
+            WorkPackageCustomField.summable
           end
         end
       end

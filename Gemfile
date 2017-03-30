@@ -40,7 +40,7 @@ gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
 gem 'rdoc', '>= 2.4.2'
 
-gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd'
+gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '8385bc0'
 gem 'request_store', '~> 1.3.1'
 gem 'gravatar_image_tag', '~> 1.2.0'

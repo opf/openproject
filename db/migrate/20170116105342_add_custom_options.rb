@@ -219,6 +219,6 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
   end
 
   def list_custom_fields
-    @list_custom_fields ||= CustomField.includes(:translations).where(field_format: "list")
+    @list_custom_fields ||= CustomField.where(field_format: "list")
   end
 end

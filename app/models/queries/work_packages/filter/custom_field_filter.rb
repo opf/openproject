@@ -99,11 +99,9 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
 
   def self.custom_fields(context)
     if context
-      context
-        .all_work_package_custom_fields(include: :translations)
+      context.all_work_package_custom_fields
     else
       WorkPackageCustomField
-        .includes(:translations)
         .filter
         .for_all
         .where.not(field_format: ['user', 'version'])

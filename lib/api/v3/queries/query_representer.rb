@@ -208,11 +208,8 @@ module API
                    results
                  }
 
-        self.to_eager_load = [
-          :query_menu_item,
-          project: [:enabled_modules,
-                    { work_package_custom_fields: :translations }]
-        ]
+        self.to_eager_load = [:query_menu_item,
+                              project: :work_package_custom_fields]
 
         private
 

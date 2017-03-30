@@ -73,7 +73,7 @@ module Api
       end
 
       def planning_element_custom_fields
-        @custom_fields = @project.all_work_package_custom_fields include: [:projects, :types, :translations]
+        @custom_fields = @project.all_work_package_custom_fields include: [:projects, :types]
 
         respond_to do |format|
           format.api
@@ -84,7 +84,7 @@ module Api
 
       def find_project
         @project = Project
-                   .includes([{ custom_values: [{ custom_field: :translations }] }])
+                   .includes(custom_values: :custom_field)
                    .find params[:id]
       end
 

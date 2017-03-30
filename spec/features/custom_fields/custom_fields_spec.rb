@@ -17,7 +17,7 @@ describe 'custom fields', js: true do
     end
 
     it "creates a new list custom field with its options in the right order" do
-      find("#custom_field_translations_attributes_0_name").set "Operating System"
+      cf_page.set_name "Operating System"
 
       select "List", from: "custom_field_field_format"
       expect(page).to have_text("Allow multi-select")

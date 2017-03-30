@@ -418,8 +418,7 @@ def add_custom_value_to_issue(object, key, value)
     cv ||= CustomValue.new
     cv.customized_type = 'WorkPackage'
     cv.customized_id = object.id
-    cv.custom_field_id = WorkPackageCustomField.joins(:translations)
-      .where(['custom_field_translations.name = ?', key]).id
+    cv.custom_field_id = WorkPackageCustomField.find_by(name: key).id
     cv.value = value
     cv.save!
   end
