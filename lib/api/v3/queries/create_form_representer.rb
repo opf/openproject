@@ -31,36 +31,20 @@ module API
   module V3
     module Queries
       class CreateFormRepresenter < FormRepresenter
-        link :self do
-          {
-            href: api_v3_paths.create_query_form,
-            method: :post
-          }
+        def form_url
+          api_v3_paths.create_query_form
         end
 
-        link :validate do
-          {
-            href: api_v3_paths.create_query_form,
-            method: :post
-          }
+        def resource_url
+          api_v3_paths.queries
         end
 
-        link :commit do
-          if allow_commit?
-            {
-              href: api_v3_paths.queries,
-              method: :post
-            }
-          end
+        def commit_action
+          :create
         end
 
-        private
-
-        def allow_commit?
-          represented.name.present? && (
-              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project, global: represented.project.nil?)) ||
-              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project, global: represented.project.nil?))
-            ) && @errors.empty?
+        def commit_method
+          :post
         end
       end
     end

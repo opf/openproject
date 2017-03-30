@@ -31,6 +31,45 @@ module API
   module V3
     module Queries
       class FormRepresenter < ::API::Decorators::Form
+        link :self do
+          {
+            href: form_url,
+            method: :post
+          }
+        end
+
+        link :validate do
+          {
+            href: form_url,
+            method: :post
+          }
+        end
+
+        link :commit do
+          if allow_commit?
+            {
+              href: resource_url,
+              method: commit_method
+            }
+          end
+        end
+
+        def commit_action
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def commit_method
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def form_url
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def resource_url
+          raise NotImplementedError, "subclass responsibility"
+        end
+
         def payload_representer
           QueryPayloadRepresenter.new(represented, current_user: current_user)
         end
@@ -39,6 +78,14 @@ module API
           Schemas::QuerySchemaRepresenter.new(represented,
                                               form_embedded: true,
                                               current_user: current_user)
+        end
+
+        def allow_commit?
+          @errors.empty? && represented.name.present? && allow_save?
+        end
+
+        def allow_save?
+          QueryPolicy.new(current_user).allowed? represented, commit_action
         end
       end
     end

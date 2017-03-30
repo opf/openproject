@@ -96,6 +96,16 @@ describe "POST /api/v3/queries/form", type: :request do
     it 'has the given name set' do
       expect(form.dig("_embedded", "payload", "name")).to eq parameters[:name]
     end
+
+    describe 'the commit link' do
+      it "has the correct URL" do
+        expect(form.dig("_links", "commit", "href")).to eq "/api/v3/queries/#{query.id}"
+      end
+
+      it "has the correct method" do
+        expect(form.dig("_links", "commit", "method")).to eq "patch"
+      end
+    end
   end
 
   describe 'with all parameters given' do
@@ -242,6 +252,10 @@ describe "POST /api/v3/queries/form", type: :request do
 
       it "returns a validation error" do
         expect(form.dig("_embedded", "validationErrors", "base", "message")).to eq "Statuz does not exist."
+      end
+
+      it "has no commit link" do
+        expect(form.dig("_links", "commit")).not_to be_present
       end
     end
 

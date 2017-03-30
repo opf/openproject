@@ -31,36 +31,20 @@ module API
   module V3
     module Queries
       class UpdateFormRepresenter < FormRepresenter
-        link :self do
-          {
-            href: api_v3_paths.query_form(represented.id),
-            method: :post
-          }
+        def form_url
+          api_v3_paths.query_form(represented.id)
         end
 
-        link :validate do
-          {
-            href: api_v3_paths.query_form(represented.id),
-            method: :post
-          }
+        def resource_url
+          api_v3_paths.query(represented.id)
         end
 
-        link :commit do
-          if allow_commit?
-            {
-              href: api_v3_paths.query(represented.id),
-              method: :post
-            }
-          end
+        def commit_action
+          :update
         end
 
-        private
-
-        def allow_commit?
-          represented.name.present? && (
-              (!represented.is_public && current_user.allowed_to?(:save_queries, represented.project, global: represented.project.nil?)) ||
-              (represented.is_public && current_user.allowed_to?(:manage_public_queries, represented.project, global: represented.project.nil?))
-            ) && @errors.empty?
+        def commit_method
+          :patch
         end
       end
     end
