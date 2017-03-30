@@ -33,9 +33,7 @@ class Widget::Table::EntryTable < Widget::Table
           concat foot
           concat body
         end
-        table +
-        content_tag(:div, class: 'generic-table--header-background') {} +
-        content_tag(:div, class: 'generic-table--footer-background') {}
+        table
       end
     end
     write content
