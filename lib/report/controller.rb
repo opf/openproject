@@ -34,7 +34,6 @@ module Report::Controller
       before_action :prepare_query, only: [:index, :create]
       before_action :find_optional_report, only: [:index, :show, :update, :destroy, :rename]
       before_action :possibly_only_narrow_values
-      before_action { @no_progress = no_progress? }
     end
   end
 
@@ -46,21 +45,8 @@ module Report::Controller
   # Render the report. Renders either the complete index or the table only
   def table
     if set_filter? && request.xhr?
-      if no_progress?
-        table_without_progress_info
-      else
-        table_with_progress_info
-      end
+      self.response_body = render_widget(Widget::Table, @query)
     end
-  end
-
-  def table_without_progress_info
-    # stream result to client
-    self.response_body = render_widget(Widget::Table, @query)
-  end
-
-  def table_with_progress_info
-    render plain: render_widget(Widget::Table::Progressbar, @query), layout: !request.xhr? and return
   end
 
   ##
@@ -185,12 +171,6 @@ module Report::Controller
   # Determines if the request contains filters to set
   def set_filter? # FIXME: rename to set_query?
     params[:set_filter].to_i == 1
-  end
-
-  ##
-  # Determines if the requested table should be rendered with a progressbar
-  def no_progress?
-    !!params[:immediately]
   end
 
   ##
