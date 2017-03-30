@@ -126,6 +126,7 @@ module Redmine::MenuManager::TopMenuHelper
                   "ng-controller" => 'MainMenuController as mainMenu') do
         link_to '',
                 '',
+                "ng-attr-title" => "{{ showNavigation ? '#{l(:hide_project_menu)}' : '#{l(:show_project_menu)}' }}".html_safe,
                 "ng-class" => "{ 'show icon-hamburger': !showNavigation, 'icon-arrow-left2' : showNavigation }",
                 class: 'navigation-toggler',
                 "ng-click" => 'mainMenu.toggleNavigation()'
