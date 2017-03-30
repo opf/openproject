@@ -27,33 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateQueryService
-  include Concerns::Contracted
+require_relative 'query_service'
 
-  attr_reader :user
-
+class CreateQueryService < QueryService
   self.contract = Queries::CreateContract
-
-  def initialize(user:)
-    @user = user
-  end
-
-  def call(query)
-    create query
-  end
 
   private
 
-  def create(query)
-    initialize_contract! query
-
-    result, errors = validate_and_save query
+  def service_result(result, errors, query)
     query.update user: user
 
-    ServiceResult.new success: result, errors: errors, result: query
-  end
-
-  def initialize_contract!(query)
-    self.contract = self.class.contract.new query, user
+    super
   end
 end
