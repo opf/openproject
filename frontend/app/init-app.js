@@ -109,8 +109,8 @@ opApp
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
         $rootScope.showNavigation =
-            $window.sessionStorage.getItem('openproject:navigation-toggle') !==
-            'collapsed';
+            !($window.sessionStorage.getItem('openproject:navigation-toggle') !==
+            'expanded');
 
         TimezoneService.setupLocale();
         KeyboardShortcutService.activate();
