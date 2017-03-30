@@ -309,7 +309,7 @@ class Query < ActiveRecord::Base
 
   def self.all_columns
     WorkPackageCustomField
-      .includes(:translations)
+      .all
       .map { |cf| ::QueryCustomFieldColumn.new(cf) }
       .concat(available_columns)
   end

@@ -33,6 +33,8 @@
 # are allowed which may be further restriced by other means other than
 # specific values.
 class AddCustomOptions < ActiveRecord::Migration[5.0]
+  require 'globalize'
+
   class OldCustomField < ActiveRecord::Base
     self.table_name = :custom_fields
     self.inheritance_column = nil

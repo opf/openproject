@@ -32,32 +32,6 @@
 #
 
 class SystemUser < User
-  module DisableCustomizable
-    def self.included(base)
-      # Prevent save_custom_field_values method from running.
-      # I am not sure why this is necessary so this can be considered a hack.
-      #
-      # The symptoms are, that saving User.system, which will happen when calling
-      # User.system.run_given, from inside a migration fails.
-      #
-      # The callback sends self.custom_values which leads to an error
-      # stating that no column "name", "default_value" or "possible_values"
-      # exists in the db. It is correct that such a field does not exist, as those are
-      # translated attributes so that they are to be found in custom_field_translations.
-      #
-      # It seems to me that CustomField is not correctly instrumented by globalize3 which
-      # should delegate attribute assignment to any such column to the translation table.
-
-      base.skip_callback :save, :after, :save_custom_field_values
-    end
-
-    def available_custom_fields
-      []
-    end
-  end
-
-  include DisableCustomizable
-
   validate :validate_unique_system_user, on: :create
 
   # There should be only one SystemUser in the database

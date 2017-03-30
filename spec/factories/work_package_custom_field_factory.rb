@@ -29,7 +29,6 @@
 FactoryGirl.define do
   factory :work_package_custom_field do
     transient do
-      name_locales nil
       default_locales nil
     end
 
@@ -44,22 +43,5 @@ FactoryGirl.define do
     visible true
     field_format 'bool'
     type 'WorkPackageCustomField'
-
-    callback(:after_build) do |custom_field, evaluator|
-      name_locales = evaluator.name_locales || {}
-      default_locales = evaluator.default_locales || {}
-
-      name_locales.each_pair do |locale, name|
-        Globalize.with_locale(locale) do
-          custom_field.name = name
-        end
-      end
-
-      default_locales.each_pair do |locale, default_value|
-        Globalize.with_locale(locale) do
-          custom_field.default_value = default_value
-        end
-      end
-    end
   end
 end
