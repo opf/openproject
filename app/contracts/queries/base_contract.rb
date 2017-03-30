@@ -65,9 +65,13 @@ module Queries
     def user_allowed_to_make_public
       return if model.project_id.present? && model.project.nil?
 
-      if is_public && !user.allowed_to?(:manage_public_queries, model.project)
+      if is_public && may_not_manage_queries?
         errors.add :public, :error_unauthorized
       end
+    end
+
+    def may_not_manage_queries?
+      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
     end
   end
 end
