@@ -49,4 +49,8 @@ class QueryService
   def service_result(result, errors, query)
     ServiceResult.new success: result, errors: errors, result: query
   end
+
+  def initialize_contract!(query)
+    self.contract = self.class.contract.new query, user
+  end
 end
