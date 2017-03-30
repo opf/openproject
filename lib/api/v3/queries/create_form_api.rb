@@ -39,7 +39,7 @@ module API
           post do
             query = query_from_params request, current_user: current_user
 
-            create_or_update_query query, ::Queries::CreateContract, CreateFormRepresenter
+            create_or_update_query_form query, ::Queries::CreateContract, CreateFormRepresenter
           end
         end
       end

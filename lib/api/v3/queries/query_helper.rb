@@ -38,7 +38,7 @@ module API
         # @param query [Query]
         # @param contract [Class]
         # @param form_representer [Class]
-        def create_or_update_query(query, contract, form_representer)
+        def create_or_update_query_form(query, contract, form_representer)
           representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
           query = representer.from_hash Hash(request_body)
           contract = contract.new query, current_user
@@ -46,8 +46,10 @@ module API
 
           query.user = current_user
 
-          api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
+          form_result query, form_representer, ::API::Errors::ErrorBase.create_errors(contract.errors)
+        end
 
+        def form_result(query, form_representer, api_errors)
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if api_errors.all? { |error| error.code == 422 }
             status 200
