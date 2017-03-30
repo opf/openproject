@@ -466,13 +466,17 @@ export class WorkPackageResource extends HalResource {
 
         if (isArray) {
           var links:{href:string}[] = [];
-          var elements = (this[key].forEach && this[key]) || this[key].elements;
+          var val = this[key];
 
-          elements.forEach((link:{href:string}) => {
-            if (link.href) {
-              links.push({ href: link.href });
-            }
-          });
+          if (val) {
+            var elements = (val.forEach && val) || val.elements;
+
+            elements.forEach((link:{href:string}) => {
+              if (link.href) {
+                links.push({ href: link.href });
+              }
+            });
+          }
 
           plainPayload._links[key] = links;
         } else {
