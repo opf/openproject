@@ -34,26 +34,12 @@ module API
     module Queries
       class CreateFormAPI < ::API::OpenProjectAPI
         resource :form do
-          helpers ::API::V3::Queries::CreateQuery
+          helpers ::API::V3::Queries::QueryHelper
 
           post do
             query = query_from_params request, current_user: current_user
-            representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
-            query = representer.from_hash Hash(request_body)
-            contract = ::Queries::CreateContract.new query, current_user
-            contract.validate
 
-            query.user = current_user
-
-            api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
-
-            # errors for invalid data (e.g. validation errors) are handled inside the form
-            if api_errors.all? { |error| error.code == 422 }
-              status 200
-              CreateFormRepresenter.new query, current_user: current_user, errors: api_errors
-            else
-              fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-            end
+            create_or_update_query query, ::Queries::CreateContract, CreateFormRepresenter
           end
         end
       end

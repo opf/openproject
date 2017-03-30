@@ -33,7 +33,30 @@ require 'queries/update_query_service'
 module API
   module V3
     module Queries
-      module CreateQuery
+      module QueryHelper
+        ##
+        # @param query [Query]
+        # @param contract [Class]
+        # @param form_representer [Class]
+        def create_or_update_query(query, contract, form_representer)
+          representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
+          query = representer.from_hash Hash(request_body)
+          contract = contract.new query, current_user
+          contract.validate
+
+          query.user = current_user
+
+          api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
+
+          # errors for invalid data (e.g. validation errors) are handled inside the form
+          if api_errors.all? { |error| error.code == 422 }
+            status 200
+            form_representer.new query, current_user: current_user, errors: api_errors
+          else
+            fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
+          end
+        end
+
         def create_query(request_body, current_user)
           rep = representer.new Query.new, current_user: current_user
           query = rep.from_hash request_body

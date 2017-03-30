@@ -44,7 +44,7 @@ module API
           mount API::V3::Queries::CreateFormAPI
 
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
-          helpers ::API::V3::Queries::CreateQuery
+          helpers ::API::V3::Queries::QueryHelper
 
           helpers do
             def authorize_by_policy(action, &block)
