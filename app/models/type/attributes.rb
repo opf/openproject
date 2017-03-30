@@ -60,30 +60,34 @@ module Type::Attributes
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
-      rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
-      definitions = rattrs[:definitions]
-      skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
-      attributes = definitions.keys
-        .reject { |key| skip.include?(key) || definitions[key][:required] }
-        .map { |key| [key, definitions[key]] }.to_h
+      all_attributes = RequestStore.fetch(:all_work_package_form_attributes) do
+        rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
+        definitions = rattrs[:definitions]
+        skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
+        attributes = definitions.keys
+                                .reject { |key| skip.include?(key) || definitions[key][:required] }
+                                .map { |key| [key, definitions[key]] }.to_h
 
-      # within the form date is shown as a single entry including start and due
-      if merge_date
-        attributes['date'] = { required: false, has_default: false }
-        attributes.delete 'due_date'
-        attributes.delete 'start_date'
+        # within the form date is shown as a single entry including start and due
+        if merge_date
+          attributes['date'] = { required: false, has_default: false }
+          attributes.delete 'due_date'
+          attributes.delete 'start_date'
+        end
+
+        WorkPackageCustomField.includes(:translations, :custom_options).all.each do |field|
+          attributes["custom_field_#{field.id}"] = {
+            required: field.is_required,
+            has_default: field.default_value.present?,
+            is_cf: true,
+            display_name: field.name
+          }
+        end
+
+        attributes
       end
 
-      WorkPackageCustomField.includes(:translations).all.each do |field|
-        attributes["custom_field_#{field.id}"] = {
-          required: field.is_required,
-          has_default: field.default_value.present?,
-          is_cf: true,
-          display_name: field.name
-        }
-      end
-
-      attributes
+      all_attributes
     end
   end
 
