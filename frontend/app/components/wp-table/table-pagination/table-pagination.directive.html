@@ -70,7 +70,7 @@
     </ul>
   </nav>
 
-  <div class="pagination--options">
+  <div class="pagination--options" ng-if="totalEntries > paginationOptions.perPageOptions[0]">
     <ul class="pagination--items">
       <li class="pagination--label" ng-bind="::text.per_page" title="{{ ::text.per_page }}"></li>
 
