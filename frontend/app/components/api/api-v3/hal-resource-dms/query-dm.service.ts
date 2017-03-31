@@ -73,11 +73,13 @@ export class QueryDmService {
   }
 
   public loadResults(query:QueryResource, pagination:PaginationObject):ng.IPromise<WorkPackageCollectionResource> {
+    if (!query.results) {
+      throw "No results embedded when expected";
+    }
 
     var queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-    var url = query.results.href || '';
-    url = url.substring(0, url.indexOf('?'))
+    var url = URI(query.results.href!).path()
 
     return this.halRequest.get(url, queryData, {caching: {enabled: false} });
   }

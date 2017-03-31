@@ -33,8 +33,7 @@ import {HalRequestService} from '../hal-request/hal-request.service';
 
 export class QueryFormDmService {
   constructor(protected halRequest:HalRequestService,
-              protected v3Path:any,
-              protected UrlParamsHelper:any) {
+              protected v3Path:any) {
   }
 
   public load(query:QueryResource):ng.IPromise<QueryFormResource> {
@@ -74,8 +73,6 @@ export class QueryFormDmService {
       }
     }
 
-    let urlParams = this.UrlParamsHelper.buildQueryString(params);
-
     let href:string;
 
     if (queryId) {
@@ -84,7 +81,9 @@ export class QueryFormDmService {
       href = this.v3Path.queries.form();
     }
 
-    return this.halRequest.post(href + "?" + urlParams, payload);
+    href = URI(href).search(params).toString();
+
+    return this.halRequest.post(href, payload);
   }
 }
 
