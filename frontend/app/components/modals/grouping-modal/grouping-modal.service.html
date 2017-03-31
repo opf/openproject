@@ -28,6 +28,7 @@
                 id="selected_columns_new"
                 class="form--select"
                 ng-options="groupBy.name for groupBy in vm.available | orderBy: 'name' track by groupBy.$href">
+                <option value="">{{::I18n.t('js.placeholders.default')}}</option>
             </select>
           </div>
         </div>
