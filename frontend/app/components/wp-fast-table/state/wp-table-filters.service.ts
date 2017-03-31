@@ -91,13 +91,8 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
     let deferred = this.$q.defer();
 
     filter.schema.$load().then(() => {
-      if (filter.values.length &&
-          filter.currentSchema &&
-          filter.currentSchema.values &&
-          filter.currentSchema.values.allowedValues &&
-          (filter.currentSchema.values.allowedValues as CollectionResource)['$load']) {
-
-          (filter.currentSchema.values.allowedValues as CollectionResource).$load()
+      if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
+          (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
             .then((options:CollectionResource) => {
               this.setLoadedValues(filter, options);
 
