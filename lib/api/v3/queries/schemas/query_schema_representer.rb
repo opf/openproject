@@ -100,7 +100,7 @@ module API
           schema :starred,
                  type: 'Boolean',
                  required: false,
-                 writable: true,
+                 writable: false,
                  has_default: true,
                  visibility: false
 

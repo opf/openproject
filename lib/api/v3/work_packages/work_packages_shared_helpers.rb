@@ -37,7 +37,7 @@ module API
 
         def merge_hash_into_work_package!(hash, work_package)
           payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package)
-          payload.from_hash(hash)
+          payload.from_hash(Hash(hash))
         end
 
         def write_work_package_attributes(work_package, request_body, reset_lock_version: false)

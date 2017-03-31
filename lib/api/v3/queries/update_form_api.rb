@@ -26,35 +26,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch adds a convenience method to models that are including acts_as_list.
-# After including it is possible to e.g. call
-#
-# including_instance.move_to = "highest"
-#
-# and the instance will be sorted to to the top of the list.
-#
-# This enables having the view send string that will be used for sorting.
+require 'api/v3/queries/query_representer'
+require 'queries/create_query_service'
 
-# Needs to be applied before any of the models using acts_as_list get loaded.
+module API
+  module V3
+    module Queries
+      class UpdateFormAPI < ::API::OpenProjectAPI
+        resource :form do
+          helpers ::API::V3::Queries::QueryHelper
 
-module OpenProject
-  module Patches
-    module Hash
-      ##
-      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
-      def dig(*keys)
-        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
-      end
-
-      def map_values(&_block)
-        entries = map { |key, value| [key, (yield value)] }
-
-        ::Hash[entries]
+          post do
+            create_or_update_query_form @query, ::Queries::UpdateContract, UpdateFormRepresenter
+          end
+        end
       end
     end
   end
-end
-
-if !Hash.instance_methods.include? :dig
-  Hash.prepend OpenProject::Patches::Hash
 end

@@ -41,8 +41,10 @@ module API
           mount API::V3::Queries::Operators::QueryOperatorsAPI
           mount API::V3::Queries::Schemas::QuerySchemaAPI
           mount API::V3::Queries::Schemas::QueryFilterInstanceSchemaAPI
+          mount API::V3::Queries::CreateFormAPI
 
           helpers ::API::V3::Queries::Helpers::QueryRepresenterResponse
+          helpers ::API::V3::Queries::QueryHelper
 
           helpers do
             def authorize_by_policy(action, &block)
@@ -88,6 +90,10 @@ module API
             end
           end
 
+          post do
+            create_query request_body, current_user
+          end
+
           params do
             requires :id, desc: 'Query id'
           end
@@ -98,6 +104,12 @@ module API
               authorize_by_policy(:show) do
                 raise API::Errors::NotFound
               end
+            end
+
+            mount API::V3::Queries::UpdateFormAPI
+
+            patch do
+              update_query @query, request_body, current_user
             end
 
             get do

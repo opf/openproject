@@ -29,30 +29,63 @@
 
 module API
   module V3
-    module WorkPackages
+    module Queries
       class FormRepresenter < ::API::Decorators::Form
-        def initialize(model, current_user: nil, errors: [], action: :update)
-          self.action = action
-
-          super(model, current_user: current_user, errors: errors)
+        link :self do
+          {
+            href: form_url,
+            method: :post
+          }
         end
 
-        attr_accessor :action
+        link :validate do
+          {
+            href: form_url,
+            method: :post
+          }
+        end
+
+        link :commit do
+          if allow_commit?
+            {
+              href: resource_url,
+              method: commit_method
+            }
+          end
+        end
+
+        def commit_action
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def commit_method
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def form_url
+          raise NotImplementedError, "subclass responsibility"
+        end
+
+        def resource_url
+          raise NotImplementedError, "subclass responsibility"
+        end
 
         def payload_representer
-          WorkPackagePayloadRepresenter.create_class(represented).new(represented)
+          QueryPayloadRepresenter.new(represented, current_user: current_user)
         end
 
         def schema_representer
-          schema = Schema::SpecificWorkPackageSchema.new(work_package: represented)
-          schema_link = api_v3_paths.work_package_schema(represented.project_id,
-                                                         represented.type_id)
-          Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                      nil,
-                                                      form_embedded: true,
-                                                      base_schema_link: schema_link,
-                                                      current_user: current_user,
-                                                      action: action)
+          Schemas::QuerySchemaRepresenter.new(represented,
+                                              form_embedded: true,
+                                              current_user: current_user)
+        end
+
+        def allow_commit?
+          @errors.empty? && represented.name.present? && allow_save?
+        end
+
+        def allow_save?
+          QueryPolicy.new(current_user).allowed? represented, commit_action
         end
       end
     end

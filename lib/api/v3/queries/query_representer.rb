@@ -36,6 +36,8 @@ module API
       class QueryRepresenter < ::API::Decorators::Single
         self_link
 
+        prepend QuerySerialization
+
         attr_accessor :results,
                       :params
 
@@ -93,7 +95,7 @@ module API
         end
 
         links :sortBy do
-          map_with_sort_by_as_decorated do |sort_by|
+          map_with_sort_by_as_decorated(represented.sort_criteria) do |sort_by|
             {
               href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
               title: sort_by.name
@@ -103,7 +105,7 @@ module API
 
         link :schema do
           href = if represented.project
-                   api_v3_paths.query_project_schema(represented.project.id)
+                   api_v3_paths.query_project_schema(represented.project.identifier)
                  else
                    api_v3_paths.query_schema
                  end
@@ -112,29 +114,30 @@ module API
           }
         end
 
+        link :update do
+          href = if represented.new_record?
+                   api_v3_paths.create_query_form
+                 else
+                   api_v3_paths.query_form(represented.id)
+                 end
+
+          {
+            href: href,
+            method: :post
+          }
+        end
+
         linked_property :user
         linked_property :project
 
         property :id
         property :name
-        property :filters,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   represented.filters.map do |filter|
-                     ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
-                   end
-                 }
-        property :public, getter: -> (*) { is_public }
+        property :filters, exec_context: :decorator
+
+        property :is_public, as: :public
 
         property :sort_by,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   return unless represented.sort_criteria
-
-                   map_with_sort_by_as_decorated do |sort_by|
-                     ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
-                   end
-                 },
                  embedded: true,
                  if: ->(*) {
                    embed_links
@@ -147,11 +150,6 @@ module API
 
         property :columns,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   represented.columns.map do |column|
-                     ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
-                   end
-                 },
                  embedded: true,
                  if: ->(*) {
                    embed_links
@@ -159,13 +157,6 @@ module API
 
         property :group_by,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   return unless represented.grouped?
-
-                   column = represented.group_by_column
-
-                   ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
-                 },
                  embedded: true,
                  if: ->(*) {
                    embed_links
@@ -184,19 +175,6 @@ module API
                               project: { work_package_custom_fields: :translations }]
 
         private
-
-        def convert_attribute(attribute)
-          ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-        end
-
-        def map_with_sort_by_as_decorated
-          represented.sort_criteria.map do |attribute, order|
-            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(attribute,
-                                                                         order)
-
-            yield decorated
-          end
-        end
 
         def _type
           'Query'

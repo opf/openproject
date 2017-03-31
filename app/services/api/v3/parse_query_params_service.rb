@@ -72,7 +72,9 @@ module API
       def filters_from_params(params)
         return unless params[:filters]
 
-        filters = JSON.parse(params[:filters])
+        filters = params[:filters]
+        filters = JSON.parse filters if filters.is_a? String
+
         filters.each_with_object([]) do |filter, array|
           attribute = filter.keys.first # there should only be one attribute per filter
           operator =  filter[attribute]['operator']

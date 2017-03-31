@@ -1,12 +1,13 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,35 +27,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch adds a convenience method to models that are including acts_as_list.
-# After including it is possible to e.g. call
-#
-# including_instance.move_to = "highest"
-#
-# and the instance will be sorted to to the top of the list.
-#
-# This enables having the view send string that will be used for sorting.
+module API
+  module Decorators
+    class Form < ::API::Decorators::Single
+      def initialize(model, current_user: nil, errors: [])
+        @errors = errors
 
-# Needs to be applied before any of the models using acts_as_list get loaded.
-
-module OpenProject
-  module Patches
-    module Hash
-      ##
-      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
-      def dig(*keys)
-        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
+        super(model, current_user: current_user)
       end
 
-      def map_values(&_block)
-        entries = map { |key, value| [key, (yield value)] }
+      property :payload,
+               embedded: true,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 payload_representer
+               }
+      property :schema,
+               embedded: true,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 schema_representer
+               }
+      property :validation_errors, embedded: true, exec_context: :decorator
 
-        ::Hash[entries]
+      def _type
+        'Form'
+      end
+
+      def validation_errors
+        @errors.group_by(&:property).inject({}) do |hash, (property, errors)|
+          error = ::API::Errors::MultipleErrors.create_if_many(errors)
+          hash[property] = ::API::V3::Errors::ErrorRepresenter.new(error)
+          hash
+        end
       end
     end
   end
-end
-
-if !Hash.instance_methods.include? :dig
-  Hash.prepend OpenProject::Patches::Hash
 end

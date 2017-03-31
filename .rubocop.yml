@@ -130,6 +130,9 @@ LineLength:
 MethodLength:
   Enabled: false
 
+Metrics/ModuleLength:
+  Enabled: false
+
 ModuleFunction:
   Enabled: false
 

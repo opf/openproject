@@ -248,6 +248,18 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/projects/42/queries/default'
   end
 
+  describe '#create_query_form' do
+    subject { helper.create_query_form }
+
+    it_behaves_like 'api v3 path', '/queries/form'
+  end
+
+  describe '#query_form' do
+    subject { helper.query_form(42) }
+
+    it_behaves_like 'api v3 path', '/queries/42/form'
+  end
+
   describe '#query_star' do
     subject { helper.query_star 1 }
 
@@ -294,6 +306,12 @@ describe ::API::V3::Utilities::PathHelper do
     subject { helper.query_filter_instance_schema('bogus') }
 
     it_behaves_like 'api v3 path', '/queries/filter_instance_schemas/bogus'
+  end
+
+  describe '#query_project_form' do
+    subject { helper.query_project_form(42) }
+
+    it_behaves_like 'api v3 path', '/projects/42/queries/form'
   end
 
   describe '#query_project_filter_instance_schemas' do
