@@ -99,12 +99,9 @@ module API
           def attribute_group_map(key)
             return nil if type.nil?
             @attribute_group_map ||= begin
-              mapping = {}
-              attribute_groups.each do |group, attributes|
-                attributes.each { |prop| mapping[prop] = group }
+              attribute_groups.each_with_object({}) do |(group, attributes), hash|
+                attributes.each { |prop| hash[prop] = group }
               end
-
-              mapping
             end
 
             @attribute_group_map[key]
@@ -134,7 +131,6 @@ module API
           def convert_property(prop)
             ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
           end
-
 
           def percentage_done_writable?
             Setting.work_package_done_ratio == 'field'

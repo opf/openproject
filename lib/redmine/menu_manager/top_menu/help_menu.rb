@@ -64,11 +64,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   private
 
   def render_onboarding(result)
-    result << content_tag(:li) {
+    result << content_tag(:li) do
       content_tag(:span, l('top_menu.getting_started'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.getting_started'))
-    }
+    end
     result << render_onboarding_menu_item
     result << content_tag(:hr, '', class: 'form--separator')
   end
@@ -78,11 +78,11 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_and_support(result)
-    result << content_tag(:li) {
+    result << content_tag(:li) do
       content_tag :span, l('top_menu.help_and_support'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.help_and_support')
-    }
+    end
     if EnterpriseToken.show_banners?
       result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
     end
@@ -99,12 +99,12 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_additional_resources(result)
-    result << content_tag(:li) {
+    result << content_tag(:li) do
       content_tag :span,
                   l('top_menu.additional_resources'),
                   class: 'drop-down--help-headline',
                   title: l('top_menu.additional_resources')
-    }
+    end
     result << static_link_item(:blog)
     result << static_link_item(:release_notes)
     result << static_link_item(:report_bug)

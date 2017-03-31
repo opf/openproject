@@ -71,7 +71,7 @@ module API
             # the same visibility lambda for all properties by default
 
             def schema(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
@@ -79,7 +79,7 @@ module API
             end
 
             def schema_with_allowed_link(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
@@ -87,7 +87,7 @@ module API
             end
 
             def schema_with_allowed_collection(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
