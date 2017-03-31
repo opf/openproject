@@ -105,12 +105,11 @@ module API
           def cache_key
             custom_fields = represented.project.all_work_package_custom_fields
 
-            custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
-
-            ["api/v3/work_packages/schema/#{represented.project.id}-#{represented.type.id}",
-             I18n.locale,
-             represented.type.updated_at,
-             Digest::SHA2.hexdigest(custom_fields_key)]
+            OpenProject::Cache::CacheKey.key('api/v3/work_packages/schemas',
+                                             "#{represented.project.id}-#{represented.type.id}",
+                                             I18n.locale,
+                                             represented.type.updated_at,
+                                             OpenProject::Cache::CacheKey.expand(custom_fields))
           end
 
           link :baseSchema do
