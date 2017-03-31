@@ -31,7 +31,9 @@ See doc/COPYRIGHT.md for more details.
 <%
    entries = TimeEntry
              .includes([:activity, :project, {:work_package => [:type, :status]}])
-             .where(["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", user.id, Date.today - 6, Date.today]).references(:projects)
+             .visible(User.current)
+             .where(project_id: @project.id)
+             .where(["#{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", Date.today - 6, Date.today]).references(:projects)
              .order("#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Type.table_name}.position ASC, #{WorkPackage.table_name}.id ASC")
    entries_by_day = entries.group_by(&:spent_on)
 %>
@@ -128,7 +130,7 @@ See doc/COPYRIGHT.md for more details.
         <% end -%>
         </tbody>
       </table>
-      
+
     </div>
   </div>
 <% end %>
