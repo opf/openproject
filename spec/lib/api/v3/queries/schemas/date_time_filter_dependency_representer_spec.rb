@@ -78,6 +78,21 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
 
           it_behaves_like 'filter dependency empty'
         end
+
+        context "for operator '=d'" do
+          let(:operator) { "=d" }
+
+          let(:type) { '[1]DateTime' }
+
+          it_behaves_like 'filter dependency'
+        end
+
+        context "for operator '<>d'" do
+          let(:operator) { "<>d" }
+          let(:type) { '[2]DateTime' }
+
+          it_behaves_like 'filter dependency'
+        end
       end
     end
   end
