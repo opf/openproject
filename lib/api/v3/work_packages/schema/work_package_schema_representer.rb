@@ -71,7 +71,7 @@ module API
             # the same visibility lambda for all properties by default
 
             def schema(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
@@ -79,7 +79,7 @@ module API
             end
 
             def schema_with_allowed_link(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
@@ -87,7 +87,7 @@ module API
             end
 
             def schema_with_allowed_collection(property, *args)
-              opts, _ = args
+              opts, = args
               opts[:visibility] = visibility property
               opts[:attribute_group] = attribute_group property
 
@@ -105,12 +105,11 @@ module API
           def cache_key
             custom_fields = represented.project.all_work_package_custom_fields
 
-            custom_fields_key = ActiveSupport::Cache.expand_cache_key custom_fields
-
-            ["api/v3/work_packages/schema/#{represented.project.id}-#{represented.type.id}",
-             I18n.locale,
-             represented.type.updated_at,
-             Digest::SHA2.hexdigest(custom_fields_key)]
+            OpenProject::Cache::CacheKey.key('api/v3/work_packages/schemas',
+                                             "#{represented.project.id}-#{represented.type.id}",
+                                             I18n.locale,
+                                             represented.type.updated_at,
+                                             OpenProject::Cache::CacheKey.expand(custom_fields))
           end
 
           link :baseSchema do
