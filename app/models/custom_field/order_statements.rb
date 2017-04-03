@@ -72,8 +72,15 @@ module CustomField::OrderStatements
   end
 
   def select_custom_values_as_group
+    aggr_sql =
+      if OpenProject::Database.mysql?
+        "GROUP_CONCAT(cv_sort.value SEPARATOR '.')"
+      else
+        "string_agg(cv_sort.value, '.')"
+      end
+
     <<-SQL
-      COALESCE((SELECT string_agg(cv_sort.value, '.') FROM #{CustomValue.table_name} cv_sort
+      COALESCE((SELECT #{aggr_sql} FROM #{CustomValue.table_name} cv_sort
         WHERE cv_sort.customized_type='#{self.class.customized_class.name}'
           AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id
           AND cv_sort.custom_field_id=#{id}
