@@ -28,13 +28,17 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ContextMenuService} from '../context-menu.service';
 import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {States} from '../../states.service';
 
 interface IMyScope extends ng.IScope {
   displaySumsLabel:string;
   displayHierarchies:boolean;
+  displaySums:boolean;
   saveQuery:Function;
   deleteQuery:Function;
-  query:op.Query;
 
   showSaveAsModal:Function;
   showShareModal:Function;
@@ -51,7 +55,6 @@ interface IMyScope extends ng.IScope {
   deleteQueryInvalid:Function;
   showSaveModalInvalid:Function;
   saveQueryInvalid:Function;
-
 }
 
 function SettingsDropdownMenuController($scope:IMyScope,
@@ -68,66 +71,45 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         groupingModal:any,
                                         contextMenu:ContextMenuService,
                                         wpTableHierarchy:WorkPackageTableHierarchyService,
-                                        QueryService:any,
+                                        wpTableSum:WorkPackageTableSumService,
+                                        wpTableGroupBy:WorkPackageTableGroupByService,
+                                        wpListService:WorkPackagesListService,
+                                        states:States,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
 
   $scope.displayHierarchies = wpTableHierarchy.isEnabled;
-  $scope.$watch('query.displaySums', function (newValue) {
-    $scope.displaySumsLabel = (newValue) ? I18n.t('js.toolbar.settings.hide_sums')
-      : I18n.t('js.toolbar.settings.display_sums');
-  });
+  $scope.displaySums = wpTableSum.isEnabled;
+  $scope.isGrouped = wpTableGroupBy.isEnabled;
+
+  $scope.displaySumsLabel = $scope.displaySums ? I18n.t('js.toolbar.settings.hide_sums')
+                                               : I18n.t('js.toolbar.settings.display_sums');
+
+  let form = states.table.form.getCurrentValue()!;
+  let query = states.table.query.getCurrentValue()!;
 
   $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (!$scope.query.isDirty()) {
-      return;
-    }
-    if ($scope.query.isNew()) {
-      if (allowQueryAction(event, 'create')) {
-        closeAnyContextMenu();
-        saveModal.activate();
-      }
-    } else {
-      if (allowQueryAction(event, 'update')) {
-        QueryService.saveQuery()
-          .then(function (data:any) {
-            if (data.status.isError) {
-              NotificationsService.addError(data.status.text);
-            }
-            else {
-              NotificationsService.addSuccess(data.status.text);
-              $state.go('work-packages.list',
-                {'query_id': $scope.query.id, 'query_props': null},
-                {notify: false});
-            }
-          });
-      }
+    if (!query.id && allowQueryAction(event, 'updateImmediately')) {
+      closeAnyContextMenu();
+      saveModal.activate();
+    } else if (query.id && allowQueryAction(event, 'updateImmediately')) {
+      closeAnyContextMenu();
+      wpListService.save();
     }
   };
 
   $scope.deleteQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed()) {
-      QueryService.deleteQuery()
-        .then(function (data:any) {
-          if (data.status.isError) {
-            NotificationsService.addError(data.status.text);
-          }
-          else {
-            NotificationsService.addSuccess(data.status.text);
-            $state.go('work-packages.list',
-              {'query_id': null, 'query_props': null},
-              {reload: true});
-          }
-        });
+    if (allowQueryAction(event, 'delete') && deleteConfirmed()) {
+      wpListService.delete();
     }
   };
 
   // Modals
   $scope.showSaveAsModal = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (allowQueryAction(event, 'create')) {
+    if (allowFormAction(event, 'commit')) {
       showExistingQueryModal.call(saveModal, event);
       updateFocusInModal('save-query-name');
     }
@@ -135,7 +117,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
   $scope.showShareModal = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (allowQueryAction(event, 'publicize') || allowQueryAction(event, 'star')) {
+    if (allowQueryAction(event, 'unstar') || allowQueryAction(event, 'star')) {
       showExistingQueryModal.call(shareModal, event);
       updateFocusInModal('show-public');
     }
@@ -151,7 +133,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
   $scope.showExportModal = function (event:JQueryEventObject) {
     event.stopPropagation();
-    if (allowWorkPackageAction(event, 'export')) {
+    if (allowWorkPackageAction(event, 'representations')) {
       showModal.call(exportModal);
       setTimeout(function () {
         updateFocusInModal(jQuery("[id^='export-']").first().attr('id'));
@@ -184,7 +166,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.toggleHierarchies = function () {
-    if (!!$scope.query.groupBy) {
+    if (!!$scope.isGrouped) {
       return;
     }
 
@@ -194,25 +176,20 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
   $scope.toggleDisplaySums = function () {
     closeAnyContextMenu();
-    $scope.query.displaySums = !$scope.query.displaySums;
-
-    // This eventually calls the resize event handler defined in the
-    // WorkPackagesTable directive and ensures that the sum row at the
-    // table footer is properly displayed.
-    angular.element($window).trigger('resize');
+    wpTableSum.toggle();
   };
 
   $scope.showSettingsModalInvalid = function () {
-    return AuthorisationService.cannot('query', 'update');
+    return !query.id || AuthorisationService.cannot('query', 'update');
   };
 
   $scope.showShareModalInvalid = function () {
-    return (AuthorisationService.cannot('query', 'publicize') &&
+    return (AuthorisationService.cannot('query', 'unstar') &&
     AuthorisationService.cannot('query', 'star'));
   };
 
   $scope.showExportModalInvalid = function () {
-    return AuthorisationService.cannot('work_package', 'export');
+    return AuthorisationService.cannot('work_package', 'representations');
   };
 
   $scope.deleteQueryInvalid = function () {
@@ -220,25 +197,12 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showSaveModalInvalid = function () {
-    return $scope.query.isNew() || AuthorisationService.cannot('query', 'create');
+    return AuthorisationService.cannot('query', 'updateImmediately');
   };
 
   $scope.saveQueryInvalid = function () {
-    return (!$scope.query.isDirty()) ||
-      (
-        $scope.query.isDirty() && !$scope.query.isNew() &&
-        AuthorisationService.cannot('query', 'update')
-      ) ||
-      ($scope.query.isNew() && AuthorisationService.cannot('query', 'create'));
+    return AuthorisationService.cannot('query', 'updateImmediately');
   };
-
-  function preventNewQueryAction(event:JQueryEventObject) {
-    if (event && $scope.query.isNew()) {
-      event.stopPropagation();
-      return false;
-    }
-    return true;
-  }
 
   function showModal(this:any) {
     closeAnyContextMenu();
@@ -246,10 +210,8 @@ function SettingsDropdownMenuController($scope:IMyScope,
   }
 
   function showExistingQueryModal(this:any, event:JQueryEventObject) {
-    if (preventNewQueryAction(event)) {
-      closeAnyContextMenu();
-      this.activate();
-    }
+    closeAnyContextMenu();
+    this.activate();
   }
 
   function allowQueryAction(event:JQueryEventObject, action:any) {
@@ -258,6 +220,15 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
   function allowWorkPackageAction(event:JQueryEventObject, action:any) {
     return allowAction(event, 'work_package', action);
+  }
+
+  function allowFormAction(event:JQueryEventObject, action:string) {
+    if (form.$links[action]) {
+      return true;
+    } else {
+      event.stopPropagation();
+      return false;
+    }
   }
 
   function allowAction(event:JQueryEventObject, modelName:string, action:any) {

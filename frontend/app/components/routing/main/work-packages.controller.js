@@ -30,21 +30,12 @@ angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
-function WorkPackagesController($scope, $state, $stateParams, QueryService, $rootScope) {
+function WorkPackagesController($scope, $state, $stateParams, $rootScope) {
 
   // Setup
   $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.label_work_package_plural');
   $scope.query_id = $stateParams.query_id;
-
-  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
-    if (availableQueries) {
-      $scope.groups = [
-        { name: I18n.t('js.label_global_queries'), models: availableQueries['queries']},
-        { name: I18n.t('js.label_custom_queries'), models: availableQueries['user_queries']}
-      ];
-    }
-  });
 
   $scope.getToggleActionLabel = function(active) {
     return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');

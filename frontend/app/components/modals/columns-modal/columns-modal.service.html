@@ -31,12 +31,12 @@
           multiple
           aria-labelledby="column_multiselect_description"
           title="{{ ::$ctrl.text.columnsLabel }}">
-        <ui-select-match>{{ $item.title }}</ui-select-match>
+        <ui-select-match>{{ $item.name }}</ui-select-match>
         <ui-select-choices
-            repeat="column in $ctrl.unusedColumns | filter: { title: $select.search } | orderBy:'title'"
+            repeat="column in $ctrl.unusedColumns | filter: { name: $select.search } | orderBy:'name'"
             refresh="$ctrl.updateUnusedColumns($select.selected)"
             refresh-delay="0">
-          <div ng-bind-html="column.title | highlight: $select.search"></div>
+          <div ng-bind-html="column.name | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
 
@@ -59,17 +59,17 @@
         {{ ::$ctrl.text.selectedColumns }}
       </label>
 
-      <div ng-repeat="column in $ctrl.availableColumns | orderBy:'title'">
-        <label class="form--label-with-check-box" for="column-{{column.title}}">
+      <div ng-repeat="column in $ctrl.availableColumns | orderBy:'name'">
+        <label class="form--label-with-check-box" for="column-{{column.id}}">
           <div class="form--check-box-container">
-            <input id="column-{{column.title}}"
+            <input id="column-{{column.id}}"
                    type="checkbox"
-                   title="{{ column.title }}"
-                   ng-model="$ctrl.selectedColumnMap[column.name]"
+                   title="{{ column.name }}"
+                   ng-model="$ctrl.selectedColumnMap[column.id]"
                    ng-change="$ctrl.setSelectedColumn(column)"
                    focus="$first" />
           </div>
-          {{column.title}}
+          {{column.name}}
         </label>
       </div>
     </div>

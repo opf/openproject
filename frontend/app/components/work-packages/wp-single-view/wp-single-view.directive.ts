@@ -181,18 +181,18 @@ export class WorkPackageSingleViewController {
 
   private setupI18nTexts() {
     this.text = {
-      dropFiles: I18n.t('js.label_drop_files'),
-      dropFilesHint: I18n.t('js.label_drop_files_hint'),
+      dropFiles: this.I18n.t('js.label_drop_files'),
+      dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
       fields: {
-        description: I18n.t('js.work_packages.properties.description'),
+        description: this.I18n.t('js.work_packages.properties.description'),
       },
       date: {
-        startDate: I18n.t('js.label_no_start_date'),
-        dueDate: I18n.t('js.label_no_due_date')
+        startDate: this.I18n.t('js.label_no_start_date'),
+        dueDate: this.I18n.t('js.label_no_due_date')
       },
       infoRow: {
-        createdBy: I18n.t('js.label_created_by'),
-        lastUpdatedOn: I18n.t('js.label_last_updated_on')
+        createdBy: this.I18n.t('js.label_created_by'),
+        lastUpdatedOn: this.I18n.t('js.label_last_updated_on')
       },
     };
   }

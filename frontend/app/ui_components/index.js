@@ -33,7 +33,6 @@ angular.module('openproject.uiComponents')
   .directive('accessibleElement', [require('./accessible-element-directive')])
   .directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', require(
     './authoring-directive')])
-  .directive('backUrl', [require('./back-url-directive')])
   .directive('copyToClipboard', [
     'I18n',
     '$timeout',

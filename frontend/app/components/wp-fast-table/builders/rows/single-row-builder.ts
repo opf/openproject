@@ -5,6 +5,8 @@ import {CellBuilder} from "../cell-builder";
 import {DetailsLinkBuilder} from "../details-link-builder";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {checkedClassName} from "../ui-state-link-builder";
 import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
@@ -15,10 +17,18 @@ export const rowClassName = 'wp-table--row';
 export const internalColumnDetails = '__internal-detailsLink';
 export const internalColumnTimelines = '__internal-timelines';
 
+export const internalDetailsColumn = {
+  id: '__internal-detailsLink'
+} as QueryColumn;
+
+export const internalTimelinesColumn = {
+  id: '__internal-timelines'
+} as QueryColumn;
+
 export class SingleRowBuilder {
   // Injections
-  public states:States;
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
 
   // Cell builder instance
@@ -33,34 +43,29 @@ export class SingleRowBuilder {
   }
 
   /**
-   * Returns a shortcut to the current column state.
-   * It is not responsible for subscribing to updates.
+   * Returns the current set of columns
    */
-  public get columns():string[] {
-    return (this.states.table.columns.getCurrentValue() || []);
+  public get columns():QueryColumn[] {
+    return this.wpTableColumns.getColumns();
   }
 
   /**
    * Returns the current set of columns, augmented by the internal columns
    * we add for buttons and timeline.
    */
-   public get augmentedColumns():string[] {
-    const editColums = (this.states.table.columns.getCurrentValue() || []);
-
-    // Add details and timelines column as last table column
-    return editColums.concat(internalColumnDetails, internalColumnTimelines);
+  public get augmentedColumns():QueryColumn[] {
+    return this.columns.concat(internalDetailsColumn, internalTimelinesColumn);
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:string):HTMLElement {
-    switch (column) {
-      case internalColumnTimelines:
+  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
+    switch (column.id) {
+      case internalTimelinesColumn.id:
         return this.timelineCellBuilder.build(workPackage);
-      case internalColumnDetails:
+      case internalDetailsColumn.id:
         return this.detailsLinkBuilder.build(workPackage);
       default:
-        return this.cellBuilder.build(workPackage, column);
+        return this.cellBuilder.build(workPackage, column.id);
     }
-
   }
 
   /**
@@ -70,7 +75,7 @@ export class SingleRowBuilder {
     let row = this.createEmptyRow(workPackage);
     let cell = null;
 
-    this.augmentedColumns.forEach((column:string) => {
+    this.augmentedColumns.forEach((column:QueryColumn) => {
       cell = this.buildCell(workPackage, column);
       row.appendChild(cell);
     });
@@ -96,8 +101,7 @@ export class SingleRowBuilder {
 
     return tr;
   }
-
 }
 
 
-SingleRowBuilder.$inject = ['states', 'wpTableSelection', 'I18n'];
+SingleRowBuilder.$inject = ['wpTableSelection', 'wpTableColumns', 'I18n'];

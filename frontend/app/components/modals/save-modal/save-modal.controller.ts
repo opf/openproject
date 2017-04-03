@@ -27,35 +27,21 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
+import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 
 function SaveModalController(this:any,
                              $scope:any,
-                             $state:ng.ui.IStateService,
                              saveModal:any,
-                             QueryService:any,
-                             AuthorisationService:any,
+                             wpListService:WorkPackagesListService,
                              NotificationsService:any) {
   this.name = 'Save';
   this.closeMe = saveModal.deactivate;
 
   $scope.saveQueryAs = (name:string) => {
-    QueryService.saveQueryAs(name)
-      .then((data:any) => {
-        if (data.status.isError) {
-          NotificationsService.addError(data.status.text);
-        }
-        else {
-          // push query id to URL without reinitializing work-packages-list-controller
-          if (data.query) {
-            $state.go('work-packages.list',
-              {query_id: data.query.id, query: null},
-              {notify: false});
-            AuthorisationService.initModelAuth('query', data.query._links);
-          }
-
-          saveModal.deactivate();
-          NotificationsService.addSuccess(data.status.text);
-        }
+    wpListService
+      .create(name)
+      .then(() => {
+        saveModal.deactivate();
       });
   };
 }

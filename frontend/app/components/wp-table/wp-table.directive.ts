@@ -35,6 +35,11 @@ import {States} from './../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
@@ -42,26 +47,20 @@ import {
 import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {debugLog} from '../../helpers/debug_output';
+import {Observable} from 'rxjs/Observable';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
 function wpTable(
-  states:States,
-  wpDisplayField:WorkPackageDisplayFieldService,
-  wpCacheService:WorkPackageCacheService,
-  WorkPackageService:any,
   keepTab:KeepTabService,
   I18n:op.I18n,
-  QueryService:any,
   $window:ng.IWindowService,
-  $rootScope:ng.IRootScopeService,
   PathHelper:any,
   columnsModal:any,
-  contextMenu:ContextMenuService,
-  apiWorkPackages:any,
-  $state:ng.ui.IStateService
+  states:States,
+  contextMenu:ContextMenuService
 ){
   return {
     restrict: 'E',
@@ -69,16 +68,7 @@ function wpTable(
     require: '^wpTimelineContainer',
     templateUrl: '/components/wp-table/wp-table.directive.html',
     scope: {
-      projectIdentifier: '=',
-      columns: '=',
-      rowcount: '=',
-      query: '=',
-      groupBy: '=',
-      groupHeaders: '=',
-      displaySums: '=',
-      isSmaller: '=',
-      resource: '=',
-      activationCallback: '&'
+      projectIdentifier: '='
     },
 
     controller: WorkPackagesTableController,
@@ -92,20 +82,14 @@ function wpTable(
       scope.wpTimelineContainer = wpTimelineContainer;
       states.table.timelineVisible.put(wpTimelineContainer.visible);
 
-      // Total columns = all available columns + id + action link
-      // Clear any old table subscribers
-      states.table.stopAllSubscriptions.next();
-
       var t0 = performance.now();
+
       scope.tbody = element.find('.work-package--results-tbody');
       scope.table = new WorkPackageTable(element[0], scope.tbody[0], wpTimelineContainer);
 
 
       var t1 = performance.now();
       debugLog("Render took " + (t1 - t0) + " milliseconds.");
-
-      // Total columns = all available columns + id + checkbox
-      scope.numTableColumns = scope.columns.length + 2;
 
       scope.workPackagePath = PathHelper.workPackagePath;
 
@@ -121,19 +105,6 @@ function wpTable(
           scope.resource.totalSums;
       };
 
-      scope.$watch('resource', function() {
-        if (scope.displaySums) {
-          fetchSumsSchema();
-        }
-      });
-
-      scope.$watch('displaySums', function(sumsToBeDisplayed:boolean) {
-        if (sumsToBeDisplayed) {
-          if (!totalSumsFetched()) { fetchTotalSums(); }
-          if (!sumsSchemaFetched()) { fetchSumsSchema(); }
-        }
-      });
-
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
       scope.desiredSplitViewState = keepTab.currentDetailsState;
@@ -141,29 +112,6 @@ function wpTable(
         scope.desiredSplitViewState = tabs.details;
       });
 
-      function fetchTotalSums() {
-        apiWorkPackages
-          // TODO: use the correct page offset and per page options
-          .list(1, 1, scope.query)
-          .then(function(workPackageCollection:WorkPackageCollectionResource) {
-            angular.extend(scope.resource, workPackageCollection);
-            fetchSumsSchema();
-          });
-      }
-
-      function totalSumsFetched() {
-        return !!scope.resource.totalSums;
-      }
-
-      function sumsSchemaFetched() {
-        return scope.resource.sumsSchema && scope.resource.sumsSchema.$loaded;
-      }
-
-      function fetchSumsSchema() {
-        if (scope.resource.sumsSchema && !scope.resource.sumsSchema.$loaded) {
-          scope.resource.sumsSchema.$load();
-        }
-      }
 
      /** Open the settings modal */
      scope.openColumnsModal = function() {
@@ -174,44 +122,76 @@ function wpTable(
   };
 }
 
-function WorkPackagesTableController($scope:any, $rootScope:ng.IRootScopeService, I18n:op.I18n) {
-  $scope.locale = I18n.locale;
+class WorkPackagesTableController {
+  constructor(private $scope:any,
+              $rootScope:ng.IRootScopeService,
+              states:States,
+              I18n:op.I18n,
+              wpTableGroupBy:WorkPackageTableGroupByService,
+              wpTableSum:WorkPackageTableSumService,
+              wpTableColumns:WorkPackageTableColumnsService,
+             ) {
+    // Clear any old table subscribers
+    states.table.stopAllSubscriptions.next();
 
-  $scope.text = {
-    cancel: I18n.t('js.button_cancel'),
-    sumFor: I18n.t('js.label_sum_for'),
-    allWorkPackages: I18n.t('js.label_all_work_packages'),
-    noResults: {
-      title: I18n.t('js.work_packages.no_results.title'),
-      description: I18n.t('js.work_packages.no_results.description')
-    },
-    faultyQuery: {
-      title: I18n.t('js.work_packages.faulty_query.title'),
-      description: I18n.t('js.work_packages.faulty_query.description')
-    },
-    addColumns: I18n.t('js.label_add_columns'),
-    tableSummary: I18n.t('js.work_packages.table.summary'),
-    tableSummaryHints: [
-      I18n.t('js.work_packages.table.text_inline_edit'),
-      I18n.t('js.work_packages.table.text_select_hint'),
-      I18n.t('js.work_packages.table.text_sort_hint')
-    ].join(' ')
-  };
+    $scope.locale = I18n.locale;
 
-  $scope.cancelInlineWorkPackage = function (index:number, row:any) {
-    $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-  };
+    $scope.text = {
+      cancel: I18n.t('js.button_cancel'),
+      sumFor: I18n.t('js.label_sum_for'),
+      allWorkPackages: I18n.t('js.label_all_work_packages'),
+      noResults: {
+        title: I18n.t('js.work_packages.no_results.title'),
+        description: I18n.t('js.work_packages.no_results.description')
+      },
+      faultyQuery: {
+        title: I18n.t('js.work_packages.faulty_query.title'),
+        description: I18n.t('js.work_packages.faulty_query.description')
+      },
+      addColumns: I18n.t('js.label_add_columns'),
+      tableSummary: I18n.t('js.work_packages.table.summary'),
+      tableSummaryHints: [
+        I18n.t('js.work_packages.table.text_inline_edit'),
+        I18n.t('js.work_packages.table.text_select_hint'),
+        I18n.t('js.work_packages.table.text_sort_hint')
+      ].join(' ')
+    };
 
-  $scope.getTableColumnName = function(workPackage:any, name:string) {
-    // poor man's implementation to query for whether this wp is a milestone
-    // It would be way cleaner to ask whether this work package has a type
-    // that is a milestone but that would require us to make another server request.
-    if ((name === 'startDate' && _.isUndefined(workPackage.startDate)) ||
-        (name === 'dueDate' && _.isUndefined(workPackage.dueDate))) {
-      return 'date';
-    }
-    else {
-      return name;
+    $scope.cancelInlineWorkPackage = function (index:number, row:any) {
+      $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+    };
+
+    Observable.combineLatest(
+      states.table.query.observeOnScope($scope),
+      states.table.results.observeOnScope($scope),
+      wpTableSum.observeOnScope($scope),
+      wpTableGroupBy.observeOnScope($scope),
+      wpTableColumns.observeOnScope($scope)
+    ).subscribe(([query, results, sum, groupBy, columns]) => {
+
+      $scope.query = query;
+      $scope.resource = results;
+      $scope.rowcount = results.count;
+
+      $scope.displaySums = sum.current;
+      $scope.groupBy = groupBy.current;
+      $scope.columns = columns.current;
+      // Total columns = all available columns + id + checkbox
+      $scope.numTableColumns = $scope.columns.length + 2;
+
+      if (sum.current) {
+        if (!this.sumsSchemaFetched()) { this.fetchSumsSchema(); }
+      }
+    });
+  }
+
+  private sumsSchemaFetched() {
+    return this.$scope.resource.sumsSchema && this.$scope.resource.sumsSchema.$loaded;
+  }
+
+  private fetchSumsSchema() {
+    if (this.$scope.resource.sumsSchema && !this.$scope.resource.sumsSchema.$loaded) {
+      this.$scope.resource.sumsSchema.$load();
     }
   }
 }

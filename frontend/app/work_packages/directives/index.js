@@ -28,7 +28,6 @@
 
 angular.module('openproject.workPackages.directives')
   .directive('langAttribute', require('./lang-attribute-directive'))
-  .directive('queryForm', require('./query-form-directive'))
   .constant('PERMITTED_MORE_MENU_ACTIONS', [
     { key: 'log_time', link: 'logTime', resource: 'workPackage' },
     { key: 'move', link: 'move', resource: 'workPackage' },

@@ -41,7 +41,7 @@ export class GroupRowHandler implements TableEventHandler {
 
     // Refresh groups
     var t0 = performance.now();
-    this.builder.refreshExpansionState(table);
+    this.builder.refreshExpansionState();
     var t1 = performance.now();
     debugLog("Group redraw took " + (t1 - t0) + " milliseconds.");
   }

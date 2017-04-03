@@ -211,30 +211,6 @@
     clear: both
     width: 100%
     display: block
-  ul.query-menu
-    width: 100%
-    margin: 0 0 10px 0
-    float: left
-    li
-      color: $main-menu-font-color
-      display: block
-      @include query-selection-link($drop-down-unselected-font-color)
-      &.selected
-        background: $drop-down-selected-bg-color
-        @include query-selection-link($drop-down-selected-font-color)
-        &:hover
-          @include query-selection-link($drop-down-unselected-font-color)
-          span.filter-selection
-            @include query-select-dropdown-filter-select($drop-down-unselected-font-color)
-        span.filter-selection
-          @include query-select-dropdown-filter-select($drop-down-selected-font-color)
-      &:hover
-        background: #f0f0f0
-      a
-        display: block
-        width: 100%
-        height: 100%
-        padding: 4px 25px
   .search-query-wrapper
     padding: 15px
   input

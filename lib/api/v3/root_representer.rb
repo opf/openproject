@@ -32,6 +32,12 @@ require 'api/decorators/single'
 module API
   module V3
     class RootRepresenter < ::API::Decorators::Single
+      link :self do
+        {
+          href: api_v3_paths.root
+        }
+      end
+
       link :configuration do
         {
           href: api_v3_paths.configuration
@@ -86,6 +92,10 @@ module API
 
       property :core_version,
                getter: ->(*) { OpenProject::VERSION.to_semver }
+
+      def _type
+        'Root'
+      end
     end
   end
 end

@@ -31,45 +31,86 @@ import {WorkPackageFilterButtonController} from './wp-filter-button.directive';
 var expect = chai.expect;
 
 describe('wpFilterButton directive', () => {
-  var scope:any;
+  var scope:ng.IScope;
   var element:ng.IAugmentedJQuery;
   var controller:WorkPackageFilterButtonController;
+  var state:any;
+  var subscribe:Function;
+  var compile:any;
 
   beforeEach(angular.mock.module(
     'openproject.wpButtons',
     'openproject.templates'
   ));
 
-  beforeEach(angular.mock.inject(($compile:any, $rootScope:any) => {
-    var html = '<wp-filter-button filters="filters"></wp-filter-button>';
-    element = angular.element(html);
-    scope = $rootScope.$new();
-
-    $compile(element)(scope);
+  let doCompile = () => {
+    compile(element)(scope);
     scope.$apply();
 
     controller = element.controller('wpFilterButton');
+  }
+
+  beforeEach(angular.mock.module('openproject.services', function($provide:any) {
+    var wpTableFilters = {
+      observeOnScope: function(scope:ng.IScope) {
+        return {
+          subscribe: subscribe
+        }
+      }
+    };
+
+    $provide.constant('wpTableFilters', wpTableFilters);
+  }));
+
+
+  beforeEach(angular.mock.inject(($compile:any, $rootScope:ng.IScope) => {
+    var html = '<wp-filter-button></wp-filter-button>';
+    element = angular.element(html);
+    scope = $rootScope.$new();
+    compile = $compile;
+
+    state = {
+      current: ['mock', 'mock', 'mock']
+    }
+
+    subscribe = function(callback:Function) {
+      callback(state);
+    }
   }));
 
   describe('when getting the filterCount', () => {
-    it('should return 0 if no filters are present', () => {
-      expect(controller.filterCount).to.eq(0);
+    it('returns the length of the current array', () => {
+      doCompile();
+
+      expect(controller.filterCount).to.eq(state.current.length);
+    });
+  });
+
+  describe('initialized', () => {
+    it('is true', () => {
+      doCompile();
+
+      expect(controller.initialized).to.eq(true);
     });
 
-    it('should return the length of the given filters array', () => {
-      let filters = [1, 2, 3];
+    describe('when not having received a message yet', () => {
+      it('is false', () => {
+        subscribe = function(callback:Function) {
+          //do nothing
+        }
 
-      scope.filters = filters;
-      scope.$apply();
+        doCompile();
 
-      expect(controller.filterCount).to.eq(filters.length);
+        expect(controller.initialized).to.eq(false);
+      });
     });
+  });
 
-    it('should return the filter count with deactivated filters', function() {
-      scope.filters = [{}, { deactivated: true }, { deactivated: true }];
-      scope.$apply();
+  describe('badge element', () => {
+    it ('is the length of the current array', () => {
+      doCompile();
 
-      expect(controller.filterCount).to.eq(1);
+      expect(element.find('.badge').text()).to.eq(state.current.length.toString());
     });
   });
 });

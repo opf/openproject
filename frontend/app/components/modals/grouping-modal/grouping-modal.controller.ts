@@ -27,13 +27,12 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 
 function GroupingModalController(this:any,
                                  $scope:any,
                                  groupingModal:any,
-                                 QueryService:any,
-                                 wpTableMetadata:WorkPackageTableMetadataService,
+                                 wpTableGroupBy:WorkPackageTableGroupByService,
                                  I18n:op.I18n) {
   this.name = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
@@ -41,15 +40,14 @@ function GroupingModalController(this:any,
 
   $scope.vm = {};
 
-  $scope.vm.selectedColumnName = QueryService.getGroupBy();
-  $scope.updateGroupBy = () => {
-    QueryService.setGroupBy($scope.vm.selectedColumnName);
-    groupingModal.deactivate();
-  };
+  wpTableGroupBy.onReady($scope).then(() => {
+    $scope.vm.available = wpTableGroupBy.available;
+    $scope.vm.current = wpTableGroupBy.current;
+  });
 
-  $scope.vm.getGroupableColumns = () => {
-    let metadata = wpTableMetadata.current;
-    return [emptyOption].concat(metadata.groupableColumns);
+  $scope.updateGroupBy = () => {
+    wpTableGroupBy.set($scope.vm.current);
+    groupingModal.deactivate();
   };
 }
 

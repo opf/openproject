@@ -57,6 +57,12 @@ module Pages
       end
     end
 
+    def expect_title(name)
+      expect(page)
+        .to have_selector('.title-container',
+                          text: name)
+    end
+
     def click_inline_create
       find('.wp-inline-create--add-link').click
       expect(page).to have_selector('.wp-inline-create-row')
@@ -101,7 +107,9 @@ module Pages
 
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
-      page.driver.browser.mouse.double_click(row(work_package).native)
+      # The 'id' column should have enough space to be clicked
+      click_target = row(work_package).find('.wp-table--cell-span.id')
+      page.driver.browser.mouse.double_click(click_target.native)
 
       FullWorkPackage.new(work_package, project)
     end

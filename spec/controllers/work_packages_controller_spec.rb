@@ -123,6 +123,7 @@ describe WorkPackagesController, type: :controller do
   describe 'index' do
     let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
     let(:work_packages) { double('work packages').as_null_object }
+    let(:results) { double('results').as_null_object }
 
     before do
       allow(User.current).to receive(:allowed_to?).and_return(false)
@@ -136,15 +137,12 @@ describe WorkPackagesController, type: :controller do
 
     describe 'with valid query' do
       before do
-        allow(controller).to receive(:retrieve_query).and_return(query)
+        allow(controller).to receive(:retrieve_query_v3).and_return(query)
 
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
-        allow(query).to receive_message_chain(:results, :work_packages, :page, :per_page).and_return(work_packages)
-        allow(query).to receive_message_chain(:results, :work_package_count_by_group).and_return([])
-        allow(query).to receive_message_chain(:results, :column_total_sums).and_return([])
-        allow(query).to receive_message_chain(:results, :column_group_sums).and_return([])
-        allow(query).to receive(:as_json).and_return('')
+        allow(query).to receive(:results).and_return(results)
+        allow(results).to receive_message_chain(:work_packages, :page, :per_page).and_return(work_packages)
       end
 
       describe 'html' do
@@ -230,7 +228,7 @@ describe WorkPackagesController, type: :controller do
             context 'when a non-existant query has been previously selected' do
               before do
                 allow(controller)
-                  .to receive(:retrieve_query)
+                  .to receive(:retrieve_query_v3)
                   .and_raise(ActiveRecord::RecordNotFound)
 
                 call_action

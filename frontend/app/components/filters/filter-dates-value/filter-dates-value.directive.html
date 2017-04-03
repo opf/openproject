@@ -1,0 +1,32 @@
+<div id="div-values-{{$ctrl.filter.name}}"
+     class="advanced-filters--value-container inline-label">
+  <op-date-picker>
+    <input ng-model="$ctrl.begin"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           ng-disabled="isLoading"
+           id="values-{{$ctrl.filter.name}}-begin"
+           name="v[{{$ctrl.filter.name}}]-begin"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-value
+           type="text"/>
+  </op-date-picker>
+
+  <span class="form-label -transparent">
+    {{ ::$ctrl.I18n.t('js.label_and') }}
+  </span>
+
+  <op-date-picker>
+    <input ng-model="$ctrl.end"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           ng-disabled="isLoading"
+           id="values-{{$ctrl.filter.name}}-end"
+           name="v[{{$ctrl.filter.name}}]-end"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-value
+           type="text"/>
+  </op-date-picker>
+</div>

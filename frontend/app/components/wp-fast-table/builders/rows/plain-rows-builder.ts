@@ -7,8 +7,6 @@ import {WorkPackageTable} from "../../wp-fast-table";
 
 export class PlainRowsBuilder extends RowsBuilder {
   // Injections
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
   public I18n:op.I18n;
 
   // The group expansion state
@@ -39,5 +37,4 @@ export class PlainRowsBuilder extends RowsBuilder {
   }
 }
 
-
-PlainRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];
+PlainRowsBuilder.$inject = ['states', 'I18n'];

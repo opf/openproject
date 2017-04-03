@@ -32,21 +32,18 @@ require 'features/work_packages/work_packages_page'
 describe 'Query selection', type: :feature do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
   let(:role) { FactoryGirl.create :role, permissions: [:view_work_packages] }
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create :user, member_in_project: project,
                               member_through_role: role
-  }
+  end
 
   let(:filter_1_name) { 'assignee' }
   let(:filter_2_name) { 'percentageDone' }
   let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to_id) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
+  let(:default_status) { FactoryGirl.create(:default_status) }
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
-
-  let!(:query) do
+  let(:query) do
     FactoryGirl.build(:query, project: project, is_public: true).tap do |query|
       query.filters.clear
       query.add_filter('assigned_to_id', '=', ['me'])
@@ -56,6 +53,12 @@ describe 'Query selection', type: :feature do
   end
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+
+  before do
+    default_status
+
+    allow(User).to receive(:current).and_return current_user
+  end
 
   context 'default view, without a query selected' do
     before do
@@ -79,6 +82,8 @@ describe 'Query selection', type: :feature do
 
   context 'when a query is selected' do
     before do
+      query
+
       work_packages_page.select_query query
     end
 
@@ -94,11 +99,14 @@ describe 'Query selection', type: :feature do
   end
 
   context 'when the selected query is changed' do
-    let!(:query2) do
+    let(:query2) do
       FactoryGirl.create(:query, project: project, is_public: true)
     end
 
     before do
+      query
+      query2
+
       work_packages_page.select_query query
     end
 

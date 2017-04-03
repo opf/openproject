@@ -38,42 +38,11 @@ function WorkPackageService($http,
                             $state,
                             PathHelper,
                             UrlParamsHelper,
-                            DEFAULT_FILTER_PARAMS,
-                            DEFAULT_PAGINATION_OPTIONS,
                             NotificationsService) {
 
   var workPackageCache = $cacheFactory('workPackageCache');
 
   var WorkPackageService = {
-
-    getWorkPackagesByQueryId: function (projectIdentifier, queryId) {
-      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = queryId ? {queryId: queryId} : DEFAULT_FILTER_PARAMS;
-      return WorkPackageService.doQuery(url, params);
-    },
-
-    getWorkPackages: function (projectIdentifier, query, paginationOptions) {
-      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = {};
-
-      if (query) {
-        angular.extend(params, query.toUpdateParams());
-      }
-
-      if (paginationOptions) {
-        angular.extend(params, {
-          page: paginationOptions.page,
-          per_page: paginationOptions.perPage
-        });
-      } else {
-        angular.extend(params, {
-          page: DEFAULT_PAGINATION_OPTIONS.page,
-          per_page: DEFAULT_PAGINATION_OPTIONS.perPage,
-        });
-      }
-
-      return WorkPackageService.doQuery(url, params);
-    },
 
     doQuery: function (url, params) {
       return $http({

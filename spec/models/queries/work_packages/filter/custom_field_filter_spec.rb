@@ -398,7 +398,36 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     context 'list cf' do
       let(:custom_field) { list_wp_custom_field }
 
-      it_behaves_like 'non ar filter'
+      describe '#ar_object_filter?' do
+        it 'is true' do
+          expect(instance)
+            .to be_ar_object_filter
+        end
+      end
+
+      describe '#value_objects' do
+        before do
+          instance.values = [custom_field.custom_options.last.id,
+                             custom_field.custom_options.first.id]
+        end
+
+        it 'returns an array with custom classes' do
+          expect(instance.value_objects.length)
+            .to eql(2)
+
+          expect(instance.value_objects[0].id)
+            .to match_array([custom_field.custom_options.first.value,
+                             custom_field.custom_options.first.id])
+          expect(instance.value_objects[0].name)
+            .to eql(custom_field.custom_options.first.value)
+
+          expect(instance.value_objects[1].id)
+            .to match_array([custom_field.custom_options.last.value,
+                             custom_field.custom_options.last.id])
+          expect(instance.value_objects[1].name)
+            .to eql(custom_field.custom_options.last.value)
+        end
+      end
     end
 
     context 'bool cf' do

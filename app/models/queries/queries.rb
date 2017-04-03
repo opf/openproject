@@ -32,4 +32,5 @@
 # all projects that are global
 module Queries::Queries
   Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectFilter
+  Queries::Register.filter Queries::Queries::QueryQuery, Queries::Queries::Filters::ProjectIdentifierFilter
 end

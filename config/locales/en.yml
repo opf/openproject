@@ -896,6 +896,13 @@ en:
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
 
+  export:
+    format:
+      atom: "Atom"
+      csv: "CSV"
+      pdf: "PDF"
+      pdf_with_descriptions: "PDF with descriptions"
+
   general_csv_decimal_separator: "."
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","

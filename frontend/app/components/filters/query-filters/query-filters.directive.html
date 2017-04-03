@@ -3,159 +3,67 @@
 
   <ul class="advanced-filters--filters">
     <li query-filter
-        ng-repeat="filter in query.filters"
-        ng-show="!filter.deactivated"
-        id="filter_{{filter.name}}"
+        ng-repeat="filter in filters.current"
+        id="filter_{{filter.id}}"
         class="advanced-filters--filter">
 
-      <!-- Hidden for form -->
-      <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
-
       <!-- Name -->
-      <label for="operators-{{filter.name}}"
+      <label for="operators-{{filter.id}}"
              class="advanced-filters--filter-name"
-             title="{{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}">
-        {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
+             title="{{::filter.name}}">
+        {{ ::filter.name }}
       </label>
 
       <div class="advanced-filters--operator-value-container">
 
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
-         <label for="operators-{{filter.name}}" class="hidden-for-sighted">
-          {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
-          {{ I18n.t('js.filter.description.text_open_filter') }}
+
+         <label for="operators-{{filter.id}}" class="hidden-for-sighted">
+          {{ ::filter.name }}
+          {{ ::I18n.t('js.filter.description.text_open_filter') }}
         </label>
+
         <select require
                 focus="{{$index == focusElementIndex}}"
                 class="advanced-filters--select"
-                id="operators-{{filter.name}}"
-                name="op[{{filter.name}}]"
+                id="operators-{{filter.id}}"
+                name="op[{{filter.id}}]"
                 ng-model="filter.operator"
                 style="vertical-align: top;"
-                ng-disabled="isLoading">
-          <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option['symbol'] }}" ng-selected="option['symbol'] == filter.operator" label="{{ I18n.t('js.' + option['label']) }}">{{ I18n.t('js.' + option['label']) }}</option>
+                ng-disabled="isLoading"
+                ng-options="operator.name for operator in availableOperators track by operator.href">
         </select>
       </div>
 
       <!-- Values -->
-      <div class="advanced-filters--filter-value">
-        <div id="div-values-{{filter.name}}"
-             ng-if="!showValueOptionsAsSelect"
-             ng-show="showValuesInput"
-             ng-switch="filter.type.startsWith('date') ? 'date' : filter.type">
+      <div class="advanced-filters--filter-value"
+           ng-if="showValuesInput"
+           ng-switch="filter.currentSchema.values.type">
 
-          <input ng-switch-when="string"
-                 ng-model="filter.textValue"
-                 ng-model-options="::filterModelOptions"
-                 ng-required="true"
-                 class="advanced-filters--text-field"
-                 id="values-{{filter.name}}"
-                 name="v[{{filter.name}}]"
-                 size="30"
-                 type="text"
-                 value=""
-                 ng-disabled="isLoading"/>
-          <label ng-switch-when="string"
-                 for="values_{{name}}"
-                 class="hidden-for-sighted">
-            {{ I18n.t('js.work_packages.description_enter_text') }}
-          </label>
+          <filter-integer-value ng-switch-when="[1]Integer"
+                                filter="filter">
+          </filter-integer-value>
 
-          <input ng-switch-when="text"
-                 ng-model="filter.textValue"
-                 ng-model-options="::filterModelOptions"
-                 ng-required="true"
-                 class="advanced-filters--text-field"
-                 id="values-{{filter.name}}"
-                 name="v[{{filter.name}}]"
-                 size="30"
-                 type="text"
-                 value=""
-                 ng-disabled="isLoading"/>
-          <label ng-switch-when="text" for="values_{{name}}" class="hidden-for-sighted">
-            {{ I18n.t('js.work_packages.description_enter_text') }}
-          </label>
+          <filter-date-value ng-switch-when="[1]Date"
+                             filter="filter">
+          </filter-date-value>
 
-          <input ng-switch-when="integer"
-                 ng-model="filter.textValue"
-                 ng-model-options="::filterModelOptions"
-                 ng-required="true"
-                 class="advanced-filters--number-field"
-                 id="values-{{filter.name}}"
-                 name="v[{{filter.name}}]"
-                 min="0"
-                 type="number"
-                 value=""
-                 ng-disabled="isLoading"/>
-          <label ng-switch-when="integer" for="values_{{name}}" class="hidden-for-sighted">
-            {{ I18n.t('js.work_packages.description_enter_text') }}
-          </label>
+          <filter-dates-value ng-switch-when="[2]Date"
+                              filter="filter">
+          </filter-dates-value>
 
-          <ng-switch ng-switch-when="date" on="filter.operator">
-            <div ng-switch-when="=d">
-              <op-date-picker>
-                <input ng-model="filter.dateValue"
-                     ng-model-options="::filterDateModelOptions"
-                     ng-required="true"
-                     ng-disabled="isLoading"
-                     id="values-{{filter.name}}"
-                     name="v[{{filter.name}}]"
-                     class="advanced-filters--date-field"
-                     size="3"
-                     transform-date-value
-                     type="text"/>
-              </op-date-picker>
-            </div>
-            <div class="advanced-filters--value-container" ng-switch-when="<>d">
-              <op-date-picker>
-                <input ng-model="filter.values[0]"
-                     ng-model-options="::filterDateModelOptions"
-                     ng-required="true"
-                     ng-disabled="isLoading"
-                     id="values-{{filter.name}}-begin"
-                     name="v[{{filter.name}}]"
-                     class="advanced-filters--date-field"
-                     size="10"
-                     transform-date-value
-                     type="text"/>
-              </op-date-picker>
-              <op-date-picker>
-                <input ng-model="filter.values[1]"
-                     ng-model-options="::filterDateModelOptions"
-                     ng-required="true"
-                     ng-disabled="isLoading"
-                     id="values-{{filter.name}}-end"
-                     name="v[{{filter.name}}]"
-                     class="advanced-filters--date-field"
-                     size="10"
-                     transform-date-value
-                     type="text"/>
-              </op-date-picker>
-            </div>
-            <div ng-switch-default class="inline-label">
-              <input ng-model="filter.textValue"
-                   ng-model-options="::filterModelOptions"
-                   ng-required="true"
-                   class="advanced-filters--text-field"
-                   id="values-{{filter.name}}"
-                   name="v[{{filter.name}}]"
-                   size="3"
-                   type="text"
-                   ng-disabled="isLoading"/>
-              <label for="values-{{filter.name}}" class="form-label -transparent">
-                {{ I18n.t('js.work_packages.time_relative.days') }}
-              </label>
-            </div>
-          </ng-switch>
-        </div>
+          <filter-string-value ng-switch-when="[1]String"
+                               filter="filter">
+          </filter-string-value>
 
-        <div ng-if="showValueOptionsAsSelect"
-             ng-show="showValuesInput">
-          <toggled-multiselect available-options="availableFilterValueOptions"
-                               filter="filter"
-                               is-multiselect="false"
-                               isDisabled="isLoading"/>
+          <filter-boolean-value ng-switch-when="[1]Boolean"
+                                filter="filter">
+          </filter-boolean-value>
+
+          <filter-toggled-multiselect-value ng-switch-default
+                                            filter="filter">
+          </filter-toggled-multiselect-value>
         </div>
       </div>
 
@@ -165,12 +73,11 @@
                         icon-title="{{I18n.t('js.button_delete')}}"
                         css-class="advanced-filters--remove-filter-icon"/>
         </accessible-by-keyboard>
-        <!-- TODO I18n -->
       </div>
 
     </li>
 
-    <li class="advanced-filters--spacer" ng-if="query.getActiveFilters().length > 0"></li>
+    <li class="advanced-filters--spacer" ng-if="filters.current.length > 0"></li>
 
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->
@@ -183,17 +90,15 @@
         {{ I18n.t('js.filter.description.text_open_filter') }}
         {{ I18n.t('js.filter.description.text_close_filter') }}
       </label>
+
       <div class="advanced-filters--add-filter-value">
         <select class="advanced-filters--select"
           id="add_filter_select"
           focus="{{focusElementIndex == -1}}"
           ng-model="filterToBeAdded"
-          ng-options="filter.name for filter in remainingFilterNames" />
+          ng-options="filter.name for filter in remainingFilters | orderBy: 'name'" />
         </select>
-        <!-- TODO options | orderObjectBy: 'order' -->
       </div>
     </li>
   </ul>
-
-  <input id="f_" name="f[]" type="hidden" value=""/>
 </fieldset>

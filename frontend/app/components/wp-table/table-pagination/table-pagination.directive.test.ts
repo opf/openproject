@@ -26,49 +26,73 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-declare var I18n:op.I18n;
+import {BehaviorSubject} from "rxjs";
 
 describe('tablePagination Directive', function () {
   var compile:any, element:any, rootScope:any, scope:any, PaginationService:any, paginationOptions:any;
+  let state:any;
+  let subject:any;
+  var wpTablePagination:any;
+  var I18n:op.I18n;
 
-  beforeEach(angular.mock.module('openproject.workPackages.directives', 'openproject.services'));
+  beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(angular.mock.module('openproject.templates'));
+  beforeEach(angular.mock.module('openproject.services', function($provide:any) {
+    wpTablePagination = {
+      observeOnScope: function(scope:ng.IScope) {
+        return subject;
+      }
+    };
 
-  beforeEach(angular.mock.inject(function (_PaginationService_:any) {
-    PaginationService = _PaginationService_;
+    $provide.constant('wpTablePagination', wpTablePagination);
   }));
 
-  beforeEach(inject(function ($rootScope:any, wpTableMetadata:any, $compile:any) {
+  beforeEach(angular.mock.inject(function (_PaginationService_:any, _I18n_:op.I18n) {
+    PaginationService = _PaginationService_;
+    I18n = _I18n_;
+  }));
+
+  let setTotalResults = (total:number) => {
+    let current = subject.getValue();
+
+    pushState(total, current.current.perPage, current.current.page)
+  }
+
+  let pushState = (total:number, perPage:number, page:number) => {
+    subject.next({
+      total: total,
+      current: {
+        perPage: perPage,
+        page: page
+      }
+    });
+    scope.$apply();
+  }
+
+  beforeEach(inject(function ($rootScope:any, $compile:any) {
     var html;
 
     html = `
-      <table-pagination icon-name="totalResults"
-                        update-results="noteUpdateResultsCalled()">
-      </table-pagination>'
+      <table-pagination> </table-pagination>'
     `;
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
 
-    scope.noteUpdateResultsCalled = function() {
-      scope.updateResultsCalled = true;
+    state = {
+      total: 100,
+      current: {
+        perPage: 10,
+        page: 1
+      }
     };
-    scope.setTotalResults = (num:string) => {
-      wpTableMetadata.metadata.put({
-        total: num
-      });
-      scope.$apply();
-    };
+    subject = new BehaviorSubject(state);
 
-    paginationOptions = sinon.stub(PaginationService, 'getPaginationOptions');
-    paginationOptions.returns({ perPageOptions: [10, 100, 500, 1000],
-                                perPage: 10,
-                                page: 1,
-                                maxVisiblePageOptions: 6,
-                                optionsTruncationSize: 2 });
+    sinon.stub(PaginationService, 'loadPerPageOptions');
 
     compile = function () {
+      subject = new BehaviorSubject(state);
       $compile(element)(scope);
       scope.$apply();
     };
@@ -83,28 +107,27 @@ describe('tablePagination Directive', function () {
 
       compile();
 
-      scope.setTotalResults(0);
+      setTotalResults(0);
       expect(pageString()).to.equal('');
 
-      scope.setTotalResults(11);
+      setTotalResults(11);
       expect(pageString()).to.equal('(1 - 10/11)');
 
-      scope.setTotalResults(663);
+      setTotalResults(663);
       expect(pageString()).to.equal('(1 - 10/663)');
     });
 
     describe('"next" link', function() {
-      beforeEach(function() {
-        scope.setTotalResults(115);
-      });
-
       it('hidden on the last page', function() {
-        paginationOptions.returns({ perPageOptions: [10, 100, 500, 1000],
-                                    perPage: 10,
-                                    page: 12,
-                                    maxVisiblePageOptions: 6,
-                                    optionsTruncationSize: 2 });
+        state = {
+          total: 11,
+          current: {
+            perPage: 10,
+            page: 2
+          }
+        };
         compile();
+
 
         expect(element.find('.pagination--next-link').parent().hasClass('ng-hide')).to.be.true;
       });
@@ -117,38 +140,43 @@ describe('tablePagination Directive', function () {
 
       compile();
 
-      scope.setTotalResults(1);
+      setTotalResults(1);
       expect(numberOfPageNumberLinks()).to.eq(1);
 
-      scope.setTotalResults(11);
+      setTotalResults(11);
       expect(numberOfPageNumberLinks()).to.eq(2);
 
-      scope.setTotalResults(59);
+      setTotalResults(59);
       expect(numberOfPageNumberLinks()).to.eq(6);
 
-      scope.setTotalResults(101);
+      setTotalResults(101);
       expect(numberOfPageNumberLinks()).to.eq(7);
     });
   });
 
-  describe('updateResults callback', function () {
+  describe('updating the state', function () {
+    let updateFromObject:any;
+
     beforeEach(function() {
-      scope.updateResultsCalled = false;
       compile();
-      scope.setTotalResults(20);
+      setTotalResults(20);
+
+      updateFromObject = sinon.spy();
+      wpTablePagination['updateFromObject'] = updateFromObject;
     });
 
-    it('calls the callback when showing a different page', function() {
+    it('when showing a different page', function() {
+
       element.find('a[rel="next"]:first').click();
 
-      expect(scope.updateResultsCalled).to.eq(true);
+      expect(updateFromObject).to.have.been.calledWith({page: 2});
     });
 
-    it('calls the callback when selecting a different per page option', function() {
+    it('when selecting a different per page option', function() {
       // click on first per-page anchor (current is not an anchor)
       element.find('.pagination--options a:eq(0)').click();
 
-      expect(scope.updateResultsCalled).to.eq(true);
+      expect(updateFromObject).to.have.been.calledWith({page: 1, perPage: 100});
     });
   });
 
@@ -167,7 +195,7 @@ describe('tablePagination Directive', function () {
     describe('with no entries', function() {
       beforeEach(function() {
         compile();
-        scope.setTotalResults(0);
+        setTotalResults(0);
       });
 
       it('should have no perPage options', function () {
@@ -180,7 +208,7 @@ describe('tablePagination Directive', function () {
     describe('with few entries', function() {
       beforeEach(function() {
         compile();
-        scope.setTotalResults(5);
+        setTotalResults(1);
       });
 
       it('should have no perPage options', function () {
@@ -193,7 +221,7 @@ describe('tablePagination Directive', function () {
     describe('with multiple entries', function() {
       beforeEach(function() {
         compile();
-        scope.setTotalResults(20);
+        setTotalResults(20);
       });
 
       it('should render perPage options', function () {

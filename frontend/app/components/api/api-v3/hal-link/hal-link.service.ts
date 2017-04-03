@@ -40,6 +40,7 @@ export interface HalLinkInterface {
   title?:string;
   templated?:boolean;
   payload?:any;
+  type?:string;
 }
 
 interface CallableHalLink extends HalLinkInterface {
@@ -51,7 +52,7 @@ export class HalLink implements HalLinkInterface {
    * Create the HalLink from an object with the HalLinkInterface.
    */
   public static fromObject(link:HalLinkInterface):HalLink {
-    return new HalLink(link.href, link.title, link.method, link.templated, link.payload);
+    return new HalLink(link.href, link.title, link.method, link.templated, link.payload, link.type);
   }
 
   /**
@@ -65,7 +66,8 @@ export class HalLink implements HalLinkInterface {
               public title:string = '',
               public method:string = 'get',
               public templated:boolean = false,
-              public payload?:any) {
+              public payload?:any,
+              public type:string = 'application/json') {
   }
 
   /**
@@ -97,7 +99,8 @@ export class HalLink implements HalLinkInterface {
       title: this.title,
       method: this.method,
       templated: false,
-      payload: this.payload
+      payload: this.payload,
+      type: this.type
     });
   }
 
@@ -115,7 +118,8 @@ export class HalLink implements HalLinkInterface {
       title: this.title,
       method: this.method,
       templated: this.templated,
-      payload: this.payload
+      payload: this.payload,
+      type: this.type
     });
 
     return linkFunc;

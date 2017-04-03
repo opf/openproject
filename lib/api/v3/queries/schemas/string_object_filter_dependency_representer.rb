@@ -41,7 +41,7 @@ module API
                                          required: true,
                                          visibility: false,
                                          values_callback: ->(*) {
-                                           represented.allowed_values.map(&:last)
+                                           represented.allowed_values
                                          },
                                          value_representer: StringObjects::StringObjectRepresenter,
                                          link_factory: ->(value) {

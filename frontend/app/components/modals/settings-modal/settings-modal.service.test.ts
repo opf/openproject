@@ -28,60 +28,79 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-describe('SettingsModalController', () => {
+describe.only('SettingsModalController', () => {
   var scope:any;
   var settingsModal:any;
-  var QueryService:any;
-  var NotificationsService:any;
   var ctrl:any;
   var buildController:any;
+  var wpListService:any;
+  var states:any;
+  var query:any;
 
-  beforeEach(angular.mock.module(wpControllersModule.name));
-  beforeEach(angular.mock.inject(function ($rootScope:any, $controller:any, $q:any) {
-    scope = $rootScope.$new();
-
-    QueryService = {
-      getQuery: () => ({name: 'Hey'}),
-      saveQuery: () => $q.when({status: {text: 'Query updated!'}}),
-      updateHighlightName: angular.noop
+  beforeEach(angular.mock.module(wpControllersModule.name, ($provide:ng.auto.IProvideService) => {
+    wpListService = {
+      save: (q:any) => {
+        return {
+          then: (callback:Function) => callback()
+        }
+      }
+    };
+    states = {
+      table: {
+        query: {
+          getCurrentValue: () => query
+        }
+      }
+    };
+    settingsModal = {
+      deactivate: () => {}
     };
 
-    settingsModal = {deactivate: angular.noop};
-    NotificationsService = {addSuccess: angular.noop};
+    $provide.constant('wpListService', wpListService);
+    $provide.constant('states', states);
+    $provide.constant('settingsModal', settingsModal);
+  }));
+
+  beforeEach(angular.mock.inject(function ($rootScope:any, $controller:any) {
+    scope = $rootScope.$new();
+
+
+    query = {
+      name: 'bogus'
+    };
 
     buildController = () => {
       ctrl = $controller('SettingsModalController', {
         $scope: scope,
+        states,
         settingsModal,
-        QueryService,
-        NotificationsService
+        wpListService
       });
     };
   }));
 
-  describe('when using updateQuery', () => {
+  describe('scope variables', () => {
     beforeEach(() => {
       buildController();
+    });
 
-      sinon.spy(scope, '$emit');
+    it("sets queryName to the query's name", () => {
+      expect(scope.queryName).to.eq(query.name);
+    })
+  });
+
+  describe('when using updateQuery', () => {
+    beforeEach(() => {
+      scope.queryName = 'bogus2';
+      buildController();
+
       sinon.spy(settingsModal, 'deactivate');
-      sinon.spy(QueryService, 'updateHighlightName');
-      sinon.spy(NotificationsService, 'addSuccess');
-
       scope.updateQuery();
       scope.$digest();
     });
 
     it('should deactivate the open modal', () => {
       expect(settingsModal.deactivate).to.have.been.called;
-    });
-
-    it('should notfify success', () => {
-      expect(NotificationsService.addSuccess).to.have.been.calledWith('Query updated!');
-    });
-
-    it('should update the query menu name', () => {
-      expect(QueryService.updateHighlightName).to.have.been.called;
     });
   });
 });

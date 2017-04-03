@@ -9,11 +9,11 @@
     <a href="javascript://"
        class="hierarchy-header--sort-title"
        ng-if="sortable"
-       ng-class="[currentSortDirection && 'sort', currentSortDirection]"
+       ng-class="[directionClass && 'sort', directionClass]"
        lang-attribute
        lang="{{locale}}"
-       id="{{ headerName }}">{{headerTitle}}</a>
-    <a ng-if="!sortable">{{headerTitle}}</a>
+       id="{{ column.id }}">{{column.name}}</a>
+    <a ng-if="!sortable">{{column.name}}</a>
     <icon-wrapper css-class="dropdown-indicator icon-small"
                   icon-name="pulldown"
                   title="{{ text.openMenu }}"></icon-wrapper>
@@ -21,11 +21,11 @@
   <span class="generic-table--sort-header" ng-if="!isHierarchyColumn">
     <a href="javascript://"
        ng-if="sortable"
-       ng-class="[currentSortDirection && 'sort', currentSortDirection]"
+       ng-class="[directionClass && 'sort', directionClass]"
        lang-attribute
        lang="{{locale}}"
-       id="{{ headerName }}">{{headerTitle}}</a>
-    <a ng-if="!sortable">{{headerTitle}}</a>
+       id="{{ column.id }}">{{column.name}}</a>
+    <a ng-if="!sortable">{{column.name}}</a>
     <icon-wrapper css-class="dropdown-indicator icon-small"
                   icon-name="pulldown"
                   title="{{ text.openMenu }}"></icon-wrapper>

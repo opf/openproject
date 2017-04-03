@@ -7,7 +7,17 @@ describe 'Invalid query spec', js: true do
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
-  let(:query) {
+  let(:member) do
+    FactoryGirl.create(:member,
+                       user: user,
+                       project: project,
+                       roles: [FactoryGirl.create(:role)])
+  end
+  let(:status) do
+    FactoryGirl.create(:status)
+  end
+
+  let(:query) do
     query = FactoryGirl.create(:query,
                                project: project,
                                user: user)
@@ -16,17 +26,19 @@ describe 'Invalid query spec', js: true do
     query.save!(validate: false)
 
     query
-  }
+  end
 
   before do
     login_as(user)
+    status
+    member
+
     wp_table.visit_query(query)
   end
 
   # Regression test for bug #24114 (broken watcher filter)
   it 'should load the faulty query' do
-    expect(page).to have_selector(".notification-box.-error", wait: 10)
-    expect(page).to have_selector('#empty-row-notification .wp-table--faulty-query-icon')
+    expect(page).to have_selector(".notification-box.-error", text: I18n.t('js.work_packages.faulty_query.description'), wait: 10)
 
     filters.open
     filters.expect_filter_count 2

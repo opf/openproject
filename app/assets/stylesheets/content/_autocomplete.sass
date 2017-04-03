@@ -85,11 +85,26 @@ div.autocomplete
       background: $primary-color-dark
       color: $font-color-on-primary-dark
 
+  &.-inplace
+    position: relative
+    border: none
+    padding-top: 15px
+    line-height: 1.6
+    font-size: 1rem
+
+    .ui-menu-item
+      border-bottom: none
+
+    .ui-menu-item-wrapper
+      padding: 4px 10px
+
 .ui-autocomplete--input
   // Error highlighting
   &.-error, &.-error:hover, &.-error:focus
     background: $nm-color-error-background
     border-color: $nm-color-error-border
 
-
-
+.ui-autocomplete--category
+  padding: 0
+  font-weight: bold
+  text-transform: uppercase

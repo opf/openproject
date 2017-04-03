@@ -27,93 +27,96 @@
 //++
 
 import {filtersModule} from '../../../angular-modules';
+import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service'
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service'
+import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service'
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service'
+import {FormResource} from '../../api/api-v3/hal-resources/form-resource.service'
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
 
-function queryFiltersDirective($timeout:ng.ITimeoutService, I18n:op.I18n, ADD_FILTER_SELECT_INDEX:any) {
+function queryFiltersDirective($timeout:ng.ITimeoutService,
+                               I18n:op.I18n,
+                               wpTableFilters:WorkPackageTableFiltersService,
+                               ADD_FILTER_SELECT_INDEX:any) {
+
   return {
     restrict: 'E',
     replace: true,
+    scope: {},
     templateUrl: '/components/filters/query-filters/query-filters.directive.html',
 
     compile: function () {
-      var localisedFilterName = (filter:any) => {
-        if (filter) {
-          if (filter.name) {
-            return filter.name;
-          }
-
-          if (filter.locale_name) {
-            return I18n.t('js.filter_labels.' + filter["locale_name"]);
-          }
-        }
-
-        return '';
-      };
-
       return {
         pre: function (scope:any) {
           scope.I18n = I18n;
-          scope.localisedFilterName = localisedFilterName;
           scope.focusElementIndex;
-          scope.remainingFilterNames = [];
+          scope.remainingFilters = [];
+
+          scope.filters;
+
+          wpTableFilters.observeOnScope(scope).subscribe(initialize);
 
           scope.$watch('filterToBeAdded', function (filter:any) {
             if (filter) {
-              scope.query.addFilter(filter.key);
               scope.filterToBeAdded = undefined;
-              var index = scope.query.getActiveFilters().length;
+              let newFilter = scope.filters.add(filter);
+              var index = currentFilterLength();
               updateFilterFocus(index);
-              updateRemainingFilters();
+
+              if (newFilter.isCompletelyDefined()) {
+                wpTableFilters.replace(scope.filters);
+              }
             }
           });
 
-          scope.$watch('query.filters.length', function (len:number) {
-            if (len >= 0) {
-              updateRemainingFilters();
-            }
-          });
+          scope.deactivateFilter = function (removedFilter:QueryFilterInstanceResource) {
+            let index = scope.filters.current.indexOf(removedFilter);
 
-          scope.$watch('query.availableWorkPackageFilters', function (newVal:any, oldVal:any) {
-            if (newVal !== oldVal) {
-              updateRemainingFilters();
-            }
-          });
-
-          scope.deactivateFilter = function (filter:any) {
-            var index = scope.query.getActiveFilters().indexOf(filter);
-
-            scope.query.deactivateFilter(filter);
+            wpTableFilters.remove(removedFilter);
 
             updateFilterFocus(index);
+
             updateRemainingFilters();
           };
 
-          function updateRemainingFilters() {
-            var remainingFilters = _.map(scope.query.getRemainingFilters(), function(filter:any, key:any) {
-              return {
-                key: key,
-                value: filter.modelName,
-                name: localisedFilterName(filter)
-              };
-            });
+          function initialize() {
+            let newState = wpTableFilters.currentState;
+            // prevent circular updates
+            if (scope.filters === newState) {
+              return;
+            }
 
-            scope.remainingFilterNames = _.sortBy(remainingFilters, 'name');
+            scope.filters = _.cloneDeep(wpTableFilters.currentState);
+
+            updateRemainingFilters();
+          }
+
+          function updateRemainingFilters() {
+            scope.remainingFilters = scope.filters.remainingFilters;
           }
 
           function updateFilterFocus(index:number) {
-            var activeFilterCount = scope.query.getActiveFilters().length;
+            var activeFilterCount = currentFilterLength();
 
             if (activeFilterCount == 0) {
               scope.focusElementIndex = ADD_FILTER_SELECT_INDEX;
             } else {
               var filterIndex = (index < activeFilterCount) ? index : activeFilterCount - 1;
-              var filter = scope.query.getActiveFilters()[filterIndex];
-
-              scope.focusElementIndex = scope.query.filters.indexOf(filter);
+              var filter = currentFilterAt(filterIndex);
+              scope.focusElementIndex = scope.filters.current.indexOf(filter);
             }
 
             $timeout(function () {
               scope.$broadcast('updateFocus');
             }, 300);
+          }
+
+          function currentFilterLength() {
+            return scope.filters.current.length;
+          }
+
+          function currentFilterAt(index:number) {
+            return scope.filters.current[index];
           }
         }
       };

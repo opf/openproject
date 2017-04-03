@@ -25,9 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-import {WorkPackageTableMetadataService} from "../../wp-fast-table/state/wp-table-metadata.service";
-import { WorkPackageResourceInterface } from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from "../../states.service";
 
 angular
@@ -36,7 +34,6 @@ angular
 
 function WorkPackageContextMenuHelper(
   PERMITTED_BULK_ACTIONS:any,
-  wpTableMetadata:WorkPackageTableMetadataService,
   HookService:any,
   UrlParamsHelper:any,
   I18n: op.I18n,
@@ -79,8 +76,6 @@ function WorkPackageContextMenuHelper(
   }
 
   function getBulkActionLink(action:any, workPackages:any) {
-    var bulkLinks = wpTableMetadata.current.bulkLinks;
-
     var workPackageIdParams = {
       'ids[]': workPackages.map(function(wp:any){
         return wp.id;
@@ -88,7 +83,7 @@ function WorkPackageContextMenuHelper(
     };
     var serializedIdParams = UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    var linkAndQueryString = bulkLinks[action.link].split('?');
+    var linkAndQueryString = action.href.split('?');
     var link = linkAndQueryString.shift();
     var queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 

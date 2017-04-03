@@ -18,7 +18,8 @@
     </li>
     <li>
       <a class="menu-item" href="" ng-click="toggleDisplaySums($event)">
-        <i ng-if="query.displaySums" class="icon-action-menu icon-checkmark"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>
+        <i ng-if="displaySums" class="icon-action-menu icon-checkmark"></i>
+        <i ng-if="!displaySums" class="icon-action-menu no-icon"></i>
         <accessible-element visible-text="I18n.t('js.toolbar.settings.display_sums')"
                             readable-text="displaySumsLabel">
         </accessible-element>
@@ -29,8 +30,8 @@
         <i ng-if="displayHierarchies" class="icon-action-menu icon-checkmark"></i>
         <span ng-bind="::I18n.t('js.toolbar.settings.hide_hierarchy')"></span>
       </a>
-      <a ng-disabled="query.groupBy"
-         ng-class="{'inactive': !!query.groupBy}"
+      <a ng-disabled="isGrouped"
+         ng-class="{'inactive': !!isGrouped}"
          ng-if="!displayHierarchies"
          class="menu-item"
          href

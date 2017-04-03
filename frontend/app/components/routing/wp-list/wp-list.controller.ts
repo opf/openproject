@@ -32,27 +32,36 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
 import {States} from '../../states.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import { Observable } from 'rxjs/Observable';
+import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
-import {WorkPackageTableMetadata} from '../../wp-fast-table/wp-table-metadata';
+import {QueryResource, QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
+import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
+import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
+import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {WorkPackagesListService} from '../../wp-list/wp-list.service.ts'
+import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service.ts'
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
                                     $state:ng.ui.IStateService,
-                                    $location:ng.ILocationService,
                                     $q:ng.IQService,
-                                    states:States,
-                                    wpNotificationsService:WorkPackageNotificationService,
-                                    wpTableColumns:WorkPackageTableColumnsService,
-                                    WorkPackageService:any,
-                                    wpListService:any,
-                                    wpCacheService:WorkPackageCacheService,
-                                    ProjectService:any,
-                                    QueryService:any,
-                                    PaginationService:any,
                                     AuthorisationService:any,
-                                    UrlParamsHelper:any,
-                                    OPERATORS_AND_LABELS_BY_FILTER_TYPE:any,
+                                    states:States,
+                                    wpTableColumns:WorkPackageTableColumnsService,
+                                    wpTableSortBy:WorkPackageTableSortByService,
+                                    wpTableGroupBy:WorkPackageTableGroupByService,
+                                    wpTableFilters:WorkPackageTableFiltersService,
+                                    wpTableSum:WorkPackageTableSumService,
+                                    wpTablePagination:WorkPackageTablePaginationService,
+                                    wpListService:WorkPackagesListService,
+                                    wpListChecksumService:WorkPackagesListChecksumService,
                                     loadingIndicator:LoadingIndicatorService,
                                     I18n:op.I18n) {
 
@@ -65,114 +74,80 @@ function WorkPackagesListController($scope:any,
 
   // Setup
   function initialSetup() {
-    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
-    $scope.disableFilters = false;
-    $scope.disableNewWorkPackage = true;
-    $scope.queryError = false;
+    setupObservers();
 
-    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params, $scope.projectIdentifier)
-      .then((json:api.ex.WorkPackagesMeta) => {
-
-        // Update work package states
-        wpCacheService.updateWorkPackageList(json.work_packages);
-        setupPage(json);
-      })
-      .catch((result:{ error: ErrorResource|any , json: api.ex.WorkPackagesMeta }) => {
-        wpNotificationsService.handleErrorResponse(result.error);
-        setupPage(result.json);
-        $scope.query.hasError = true;
-      });
+    loadQuery();
   }
 
-  function setupQuery(json:any) {
-    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-    QueryService.loadAvailableUnusedColumns($scope.projectIdentifier);
+  function setupObservers() {
 
-    var metaData = json.meta;
-    var queryData = metaData.query;
-    var columnData = metaData.columns;
-    var cachedQuery = QueryService.getQuery();
-    var urlQueryId = $state.params['query_id'];
+    states.table.query.observeOnScope($scope).withLatestFrom(
+      wpTablePagination.observeOnScope($scope)
+    ).subscribe(([query, pagination]) => {
+      $scope.tableInformationLoaded = true;
 
+      updateTitle(query);
 
-    // Set current column state
-    states.table.columns.put(metaData.columns.map((column:api.ex.Column) => column.name));
+      wpListChecksumService.updateIfDifferent(query,
+                                              pagination as WorkPackageTablePagination);
+    });
 
-    if (cachedQuery && urlQueryId && cachedQuery.id === urlQueryId) {
-      // Augment current unsaved query with url param data
-      var updateData = angular.extend(queryData, {columns: columnData});
-      $scope.query = QueryService.updateQuery(updateData);
-    } else {
-      // Set up fresh query from retrieved query meta data
-      $scope.query = QueryService.initQuery(
-        $state.params['query_id'], queryData, columnData, metaData.export_formats);
+    wpTablePagination.observeOnScope($scope).withLatestFrom(
+      states.table.query.observeOnScope($scope)
+    ).subscribe(([pagination, query]) => {
+      if (wpListChecksumService.isQueryOutdated(query, pagination as WorkPackageTablePagination)) {
+        wpListChecksumService.update(query, pagination as WorkPackageTablePagination);
 
-      if (!!$state.params['query_props']) {
-        $scope.query.dirty = true;
+        updateResultsVisibly();
       }
+    });
+
+    wpTableFilters.observeOnScope($scope).subscribe(filters => {
+      updateAndExecuteIfAltered(filters.current, 'filters', true);
+    });
+
+    wpTableGroupBy.observeOnScope($scope).subscribe(groupBy => {
+      updateAndExecuteIfAltered(groupBy.current, 'groupBy', true);
+    });
+
+    wpTableSortBy.observeOnScope($scope).subscribe(sortBy => {
+      updateAndExecuteIfAltered(sortBy.current, 'sortBy', true);
+    });
+
+    wpTableSum.observeOnScope($scope).subscribe(sums => {
+      updateAndExecuteIfAltered(sums.current, 'sums', true);
+    });
+
+    wpTableColumns.observeOnScope($scope).subscribe(columns => {
+      updateAndExecuteIfAltered(columns.current, 'columns')
+    });
+  }
+
+  function updateAndExecuteIfAltered(updateData:any, name:string, triggerUpdate:boolean = false) {
+    if (isAnyDependentStateClear()) {
+      return;
+    }
+
+    let query = states.table.query.getCurrentValue();
+
+    if (!query || _.isEqual(query[name], updateData)) {
+      return;
+    }
+
+    let pagination = wpTablePagination.current;
+
+    query[name] = _.cloneDeep(updateData);
+
+    states.table.query.put(query);
+
+    if (triggerUpdate) {
+      updateResultsVisibly(true);
     }
   }
 
-  function loadProject() {
-    if ($scope.projectIdentifier) {
-      ProjectService.getProject($scope.projectIdentifier).then(function (project:any) {
-        $scope.project = project;
-        $scope.projects = [project];
-      });
-    }
-  }
-
-  function setupPage(json:any) {
-    // Init query
-    setupQuery(json);
-
-    // Load project
-    loadProject();
-
-    $scope.maintainBackUrl();
-
-    // setup table
-    setupWorkPackagesTable(json);
-  }
-
-  function setupWorkPackagesTable(json:any) {
-
-    // Set metadata from results
-    const meta = json.meta;
-    const metadata = new WorkPackageTableMetadata(json);
-
-    // pagination data
-    PaginationService.setPerPageOptions(meta.per_page_options);
-    PaginationService.setPerPage(meta.per_page);
-    PaginationService.setPage(meta.page);
-
-    // Update the current metadata state
-    states.table.metadata.put(metadata);
-
-    // register data in state
-    $q.all(json.work_packages.map((wp:WorkPackageResourceInterface) => wp.schema.$load())).then(() => {
-      states.table.rows.put(json.work_packages);
-    });
-
-    // query data
-    // QueryService.setTotalEntries(json.resource.total);
-
-    // yield updatable data to scope
-    Observable.combineLatest(
-      states.table.columns.observeOnScope($scope),
-      states.query.availableColumns.observeOnScope($scope)
-    ).subscribe(() => {
-      $scope.columns = wpTableColumns.getColumns();
-    });
-
-    // $scope.totalEntries = QueryService.getTotalEntries();
-    $scope.resource = json.resource;
-    $scope.rowcount = json.resource.count;
-    // $scope.groupHeaders = WorkPackagesTableService.buildGroupHeaders(json.resource);
-
-    // Authorisation
-    AuthorisationService.initModelAuth('work_package', meta._links);
-    AuthorisationService.initModelAuth('query', meta.query._links);
+  function loadQuery() {
+    wpListChecksumService.clear();
+    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params, $scope.projectIdentifier);
   }
 
   $scope.setAnchorToNextElement = function () {
@@ -187,76 +162,73 @@ function WorkPackagesListController($scope:any,
    }
   }
 
-  $scope.maintainBackUrl = function () {
-    $scope.backUrl = $location.url();
-  };
-
-  // Updates
-
-  $scope.maintainUrlQueryState = function () {
-    if ($scope.query) {
-      $location.search('query_props', UrlParamsHelper.encodeQueryJsonParams($scope.query));
-    }
-  };
-
-  $scope.loadQuery = function (queryId:string) {
-    loadingIndicator.table.promise= $state.go('work-packages.list',
-      {'query_id': queryId,
-       'query_props': null});
-  };
-
   function updateResults() {
-    $scope.$broadcast('openproject.workPackages.updateResults');
-
-    loadingIndicator.table.promise = wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
-      .then(function (json:api.ex.WorkPackagesMeta) {
-        wpCacheService.updateWorkPackageList(json.work_packages);
-        setupWorkPackagesTable(json);
-      });
+    return wpListService.reloadCurrentResultsList()
   }
 
-  // Go
+  function updateToFirstResultsPage() {
+    return wpListService.loadCurrentResultsListFirstPage();
+  }
+
+  function updateResultsVisibly(firstPage:boolean = false) {
+    if (firstPage) {
+      loadingIndicator.table.promise = updateToFirstResultsPage();
+    } else {
+      loadingIndicator.table.promise = updateResults();
+    }
+  }
+
+  $scope.allowed = function(model:string, permission: string) {
+    return AuthorisationService.can(model, permission);
+  }
 
   initialSetup();
 
-  $scope.$watch(QueryService.getQueryName, function (queryName:string) {
-    $scope.selectedTitle = queryName || I18n.t('js.label_work_package_plural');
-  });
-
-  $scope.$watchCollection(function(){
-    return {
-      query_id: $state.params['query_id'],
-      query_props: $state.params['query_props']
-    };
-  }, function(params:any) {
-    if ($scope.query &&
-        (params.query_id !== $scope.query.id ||
-         UrlParamsHelper.encodeQueryJsonParams($scope.query) !== params.query_props)) {
-      initialSetup();
+  function updateTitle(query:QueryResource) {
+    if (query.id) {
+      $scope.selectedTitle = query.name;
+    } else {
+      $scope.selectedTitle = I18n.t('js.label_work_package_plural');
     }
-  });
+  }
 
-  $rootScope.$on('queryStateChange', function () {
-    $scope.maintainUrlQueryState();
-    $scope.maintainBackUrl();
-  });
+  $scope.$watchCollection(
+    () => {
+      return {
+        query_id: $state.params['query_id'],
+        query_props: $state.params['query_props']
+      };
+    },
+    (params:any) => {
+      let newChecksum = params.query_props;
+      let newId = params.query_id && parseInt(params.query_id);
+
+      wpListChecksumService.executeIfOutdated(newId,
+                                              newChecksum,
+                                              loadQuery)
+    });
+
+  // The combineLatest retains the last value of each observable regardless of
+  // whether it has become null|undefined in the meantime.
+  // As we alter the query's property from it's dependent states, we have to ensure
+  // that we do not set them if he dependent state does depend on another query with
+  // the value only being available because it is still retained.
+  function isAnyDependentStateClear() {
+    return !states.table.pagination.getCurrentValue() ||
+           !states.table.filters.getCurrentValue() ||
+           !states.table.columns.getCurrentValue() ||
+           !states.table.sortBy.getCurrentValue() ||
+           !states.table.groupBy.getCurrentValue() ||
+           !states.table.sum.getCurrentValue()
+  }
 
   $rootScope.$on('workPackagesRefreshRequired', function () {
-    updateResults();
+    updateResultsVisibly();
   });
 
   $rootScope.$on('workPackagesRefreshInBackground', function () {
-    wpListService.fromQueryInstance($scope.query, $scope.projectIdentifier)
-      .then(function (json:api.ex.WorkPackagesMeta) {
-        $scope.$broadcast('openproject.workPackages.updateResults');
-        $scope.$evalAsync(() => {
-          wpCacheService.updateWorkPackageList(json.work_packages);
-          setupWorkPackagesTable(json);
-        });
-      });
+    updateResults();
   });
-
-  $rootScope.$on('queryClearRequired', _ => wpListService.clearUrlQueryParams);
 }
 
 angular

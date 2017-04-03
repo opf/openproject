@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
+module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm) {
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
     perPage: DEFAULT_PAGINATION_OPTIONS.perPage,
@@ -77,6 +77,11 @@ module.exports = function(DEFAULT_PAGINATION_OPTIONS) {
     },
     previousPage: function() {
       paginationOptions.page = paginationOptions.page - 1;
+    },
+    loadPerPageOptions: function() {
+      ConfigurationDm.load().then(function(configuration) {
+        PaginationService.setPerPageOptions(configuration.perPageOptions);
+      });
     }
   };
 

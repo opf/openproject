@@ -134,10 +134,10 @@ describe('queryMenuItem Directive', function() {
 
       beforeEach(function() {
         compile();
-        rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
+        rootScope.$broadcast('openproject.layout.renameMenuItem', {
           itemType: 'query-menu-item',
-          queryId: queryId,
-          queryName: queryName
+          objectId: queryId,
+          objectName: queryName
         });
       });
 

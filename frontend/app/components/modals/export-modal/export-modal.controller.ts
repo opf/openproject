@@ -27,18 +27,62 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
+import {States} from '../../states.service';
+import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {HalLink} from '../../api/api-v3/hal-link/hal-link.service';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 
 class ExportModalController {
   public name: string;
   public closeMe: Function;
   public exportOptions: any;
 
-  constructor(exportModal:any, QueryService:any, UrlParamsHelper:any) {
-    var query = QueryService.getQuery();
+  constructor(exportModal:any,
+              private UrlParamsHelper:any,
+              private states:States,
+              private wpTableColumns:WorkPackageTableColumnsService) {
+    var results = this.states.table.results.getCurrentValue()!;
 
     this.name = 'Export';
     this.closeMe = exportModal.deactivate;
-    this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
+    this.exportOptions = this.buildExportOptions(results);
+  }
+
+  private buildExportOptions(results:WorkPackageCollectionResource) {
+    return results.representations.map(format => {
+      let label = format.$link.title;
+
+      return {
+        identifier: this.exportIdentifier(format),
+        label: label,
+        url: this.addColumnsToHref(format.href!)
+      };
+    });
+  }
+
+  private addColumnsToHref(href:string) {
+    let columns = this.wpTableColumns.getColumns();
+
+    let columnIds = columns.map(function(column) { return column.id; });
+
+    return href + "&" + this.UrlParamsHelper.buildQueryString({'columns[]': columnIds});
+  }
+
+  private exportIdentifier(format:HalResource) {
+    let identifier = (format.$link as HalLink).type.split('/').pop()!;
+
+    if (format.$href!.indexOf('show_descriptions') !== -1) {
+      identifier += '-descr'
+    }
+
+    if (identifier.endsWith('+xml')) {
+      identifier = identifier.replace('+xml', '');
+    }
+
+    identifier = identifier.replace('.', '-');
+
+    return identifier;
   }
 }
 

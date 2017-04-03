@@ -101,6 +101,21 @@ module QueriesHelper
     @query
   end
 
+  def retrieve_query_v3
+    @query = if params[:query_id].present?
+               Query.where(project: @project).find(params[:query_id])
+             else
+               Query.new_default(name: '_',
+                                 project: @project)
+             end
+
+    ::API::V3::UpdateQueryFromV3ParamsService
+      .new(@query, current_user)
+      .call(params)
+
+    @query
+  end
+
   ##
   # Reads column names from the request parameters and converts them
   # from the frontend names to names recognized by the backend.

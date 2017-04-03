@@ -27,7 +27,9 @@
 // ++
 
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableMetadataService} from '../../wp-fast-table/state/wp-table-metadata.service';
+import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
+import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
 
 angular
   .module('openproject.workPackages')
@@ -35,9 +37,9 @@ angular
 
 function ColumnContextMenuController($scope:any,
                                      columnContextMenu:any,
-                                     QueryService:any,
                                      wpTableColumns:WorkPackageTableColumnsService,
-                                     wpTableMetadata:WorkPackageTableMetadataService,
+                                     wpTableSortBy:WorkPackageTableSortByService,
+                                     wpTableGroupBy:WorkPackageTableGroupByService,
                                      I18n:op.I18n,
                                      columnsModal:any) {
 
@@ -46,51 +48,40 @@ function ColumnContextMenuController($scope:any,
   $scope.$watch('column', function () {
     // fall back to 'id' column as the default
     $scope.column = $scope.column || {name: 'id', sortable: true};
-    $scope.isGroupable = wpTableMetadata.isGroupable($scope.column.name);
+    $scope.isGroupable = wpTableGroupBy.isGroupable($scope.column) && !wpTableGroupBy.isCurrentlyGroupedBy($scope.column);
+    $scope.isSortable = wpTableSortBy.isSortable($scope.column)
   });
 
   // context menu actions
 
-  $scope.groupBy = function (columnName:string) {
-    QueryService.getQuery().groupBy = columnName;
-    QueryService.getQuery().dirty = true;
+  $scope.groupBy = function () {
+    wpTableGroupBy.setBy($scope.column);
   };
 
-  $scope.sortAscending = function (columnName:string) {
-    QueryService.getQuery().sortation.addSortElement({
-        field: columnName || 'id',
-        direction: 'asc'
-      });
-    QueryService.getQuery().dirty = true;
+  $scope.sortAscending = function () {
+    wpTableSortBy.addAscending($scope.column);
   };
 
-  $scope.sortDescending = function (columnName:string) {
-    QueryService.getQuery().sortation.addSortElement({
-        field: columnName || 'id',
-        direction: 'desc'
-      });
-    QueryService.getQuery().dirty = true;
+  $scope.sortDescending = function () {
+    wpTableSortBy.addDescending($scope.column);
   };
 
-  $scope.moveLeft = function (columnName:string) {
-    wpTableColumns.shift(columnName, -1);
-    QueryService.getQuery().dirty = true;
+  $scope.moveLeft = function () {
+    wpTableColumns.shift($scope.column, -1);
   };
 
-  $scope.moveRight = function (columnName:string) {
-    wpTableColumns.shift(columnName, 1);
-    QueryService.getQuery().dirty = true;
+  $scope.moveRight = function () {
+    wpTableColumns.shift($scope.column, 1);
   };
 
-  $scope.hideColumn = function (columnName:string) {
+  $scope.hideColumn = function () {
     columnContextMenu.close();
-    let previousColumn = wpTableColumns.previous(columnName);
-    wpTableColumns.removeColumn(columnName);
-    QueryService.getQuery().dirty = true;
+    let previousColumn = wpTableColumns.previous($scope.column);
+    wpTableColumns.removeColumn($scope.column);
 
     window.setTimeout(function () {
       if (previousColumn) {
-        jQuery('#' + previousColumn).focus();
+        jQuery('#' + previousColumn.id).focus();
       } else {
         jQuery('th.checkbox a').focus();
       }
@@ -101,24 +92,16 @@ function ColumnContextMenuController($scope:any,
     columnsModal.activate();
   };
 
-  $scope.canSort = function () {
-    return $scope.column && !!$scope.column.sortable;
-  };
-
-  function isValidColumn(column:api.ex.Column) {
-    return column;
-  }
-
   $scope.canMoveLeft = function () {
-    return isValidColumn($scope.column) && !wpTableColumns.isFirst($scope.column);
+    return !wpTableColumns.isFirst($scope.column);
   };
 
   $scope.canMoveRight = function () {
-    return isValidColumn($scope.column) && !wpTableColumns.isLast($scope.column);
+    return !wpTableColumns.isLast($scope.column);
   };
 
   $scope.canBeHidden = function () {
-    return isValidColumn($scope.column);
+    return true;
   };
 
   $scope.focusFeature = function (feature:string) {

@@ -27,5 +27,3 @@
 //++
 
 angular.module('openproject.models')
-  .factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', require(
-    './sortation')]);

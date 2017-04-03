@@ -34,9 +34,9 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   end
 
   def value_objects
-    prepared_values = values.map { |value| value == 'me' ? User.current : value }
+    prepared_values = values.map { |value| value == 'me' ? User.current.id : value }
 
-    Principal.find(prepared_values)
+    Principal.where(id: prepared_values)
   end
 
   def ar_object_filter?

@@ -26,15 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
 module.exports = function() {
   return {
     restrict: 'E',
     replace: true,
     scope: {
-      selectedTitle: '=',
-      groups: '=',
-      transitionMethod: '='
+      selectedTitle: '='
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {

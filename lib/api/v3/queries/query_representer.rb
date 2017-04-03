@@ -69,6 +69,24 @@ module API
           }
         end
 
+        link :star do
+          next if represented.starred || !allowed_to?(:star)
+
+          {
+            href: api_v3_paths.query_star(represented.id),
+            method: :patch
+          }
+        end
+
+        link :unstar do
+          next unless represented.starred && allowed_to?(:unstar)
+
+          {
+            href: api_v3_paths.query_unstar(represented.id),
+            method: :patch
+          }
+        end
+
         links :columns do
           represented.columns.map do |column|
             {
@@ -127,6 +145,25 @@ module API
           }
         end
 
+        link :updateImmediately do
+          next unless represented.new_record? && allowed_to?(:create) ||
+                      represented.persisted? && allowed_to?(:update)
+          {
+            href: api_v3_paths.query(represented.id),
+            method: :patch
+          }
+        end
+
+        link :delete do
+          next if represented.new_record? ||
+                  !allowed_to?(:destroy)
+
+          {
+            href: api_v3_paths.query(represented.id),
+            method: :delete
+          }
+        end
+
         linked_property :user
         linked_property :project
 
@@ -171,13 +208,22 @@ module API
                    results
                  }
 
-        self.to_eager_load = [:query_menu_item,
-                              project: { work_package_custom_fields: :translations }]
+        self.to_eager_load = [
+          :query_menu_item,
+          project: [:enabled_modules,
+                    { work_package_custom_fields: :translations }]
+        ]
 
         private
 
         def _type
           'Query'
+        end
+
+        def allowed_to?(action)
+          @policy ||= QueryPolicy.new(current_user)
+
+          @policy.allowed?(represented, action)
         end
 
         def self_v3_path(*_args)

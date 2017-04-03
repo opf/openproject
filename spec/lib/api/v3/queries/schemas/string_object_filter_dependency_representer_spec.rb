@@ -55,7 +55,7 @@ describe ::API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter do
         let(:type) { '[]StringObject' }
         let(:hrefs) do
           filter.allowed_values.each_with_object([]) do |value, array|
-            array << api_v3_paths.string_object(value.last)
+            array << api_v3_paths.string_object(value)
           end
         end
 

@@ -2,22 +2,19 @@
   <div wp-toolbar class="toolbar">
     <selectable-title
         focus
-        selected-title="selectedTitle"
-        groups="groups"
-        transition-method="loadQuery">
+        selected-title="selectedTitle">
     </selectable-title>
 
-    <ul class="toolbar-items hide-when-print">
+    <ul class="toolbar-items hide-when-print" ng-if="tableInformationLoaded">
       <li class="toolbar-item">
         <wp-create-button
-            allowed="!!resource.$links.createWorkPackage"
+            allowed="allowed('work_package', 'createWorkPackage')"
             project-identifier="projectIdentifier"
             state-name="work-packages.list.new">
         </wp-create-button>
       </li>
       <li class="toolbar-item hidden-for-mobile">
         <wp-filter-button
-            filters="query.filters"
             ng-disabled="wpEditModeState.active">
         </wp-filter-button>
       </li>
@@ -44,9 +41,8 @@
   </div>
 </div>
 
-<filter-container></filter-container>
 
-<back-url></back-url>
+<filter-container></filter-container>
 
 <div class="work-packages--split-view"
      ng-class="{'edit-all-mode': wpEditModeState.active}">
@@ -62,17 +58,8 @@
        class="work-packages--list">
     <div class="work-packages--list-table-area loading-indicator--location"
          data-indicator-name="table">
-      <wp-table ng-if="columns"
-                project-identifier="projectIdentifier"
-                columns="columns"
-                rowcount="rowcount"
-                query="query"
-                queryError="queryError"
-                group-by="query.groupBy"
-                group-headers="groupHeaders"
-                display-sums="query.displaySums"
-                resource="resource"
-                activation-callback="openWorkPackageInFullView(id, force)">
+      <wp-table project-identifier="projectIdentifier"
+                ng-if="tableInformationLoaded">
       </wp-table>
     </div>
 

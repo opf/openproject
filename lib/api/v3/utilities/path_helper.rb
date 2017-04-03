@@ -123,6 +123,11 @@ module API
             "#{priorities}/#{id}"
           end
 
+          class << self
+            alias :issue_priorities :priorities
+            alias :issue_priority :priority
+          end
+
           def self.projects
             "#{root}/projects"
           end
@@ -289,6 +294,11 @@ module API
 
           def self.user(id)
             "#{users}/#{id}"
+          end
+
+          class << self
+            alias :groups :users
+            alias :group :user
           end
 
           def self.user_lock(id)
