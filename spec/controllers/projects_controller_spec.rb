@@ -246,6 +246,7 @@ describe ProjectsController, type: :controller do
 
         before do
           expect(type.attribute_visibility.keys).not_to include "custom_field_#{custom_field_1.id}"
+          RequestStore.clear!
 
           request
         end

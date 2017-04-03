@@ -32,6 +32,11 @@ require 'spec_helper'
 describe ::Type, type: :model do
   let(:type) { FactoryGirl.build(:type) }
 
+  before do
+    # Clear up the request store cache for all_work_package_attributes
+    RequestStore.clear!
+  end
+
   describe "#attribute_groups" do
     it 'returns #default_attribute_groups if not yet set' do
       expect(type.read_attribute(:attribute_groups)).to be_empty
