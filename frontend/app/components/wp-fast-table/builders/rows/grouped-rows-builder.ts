@@ -1,3 +1,4 @@
+import {HalResource} from '../../../api/api-v3/hal-resources/hal-resource.service';
 import {RowsBuilder} from './rows-builder';
 import {States} from '../../../states.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -71,7 +72,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       let row = table.rowIndex[wpId];
       let nextGroup = this.matchingGroup(row.object, groups);
 
-      if (currentGroup !== nextGroup) {
+      if (nextGroup && currentGroup !== nextGroup) {
         tbodyContent.appendChild(this.buildGroupRow(nextGroup, colspan));
         currentGroup = nextGroup;
       }
@@ -94,6 +95,12 @@ export class GroupedRowsBuilder extends RowsBuilder {
       // explicitly check for undefined as `false` (bool) is a valid value.
       if (property === undefined) {
         property = null;
+      }
+
+      // If the property is a multi-value
+      // Compare the href's of all resources with the ones in valueLink
+      if (_.isArray(property)) {
+        return this.matchesMultiValue(property, group);
       }
 
       //// If its a linked resource, compare the href,
@@ -144,6 +151,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
       group.collapsed = this.collapsedGroups[group.identifier] === true;
       return group;
     });
+  }
+
+  private matchesMultiValue(property:HalResource[], group:GroupObject) {
+    if (property.length !== group.href.length) {
+      return false;
+    }
+
+    return _.isEqualWith(property, group._links.valueLink, (a:any, b:any) => a.href === b.href);
   }
 
   /**
