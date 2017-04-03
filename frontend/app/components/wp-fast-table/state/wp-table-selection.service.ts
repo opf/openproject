@@ -38,7 +38,7 @@ export class WorkPackageTableSelection {
    */
   public getSelectedWorkPackages():WorkPackageResource[] {
     let wpState = this.states.workPackages;
-    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).getCurrentValue() as WorkPackageResource);
+    return this.getSelectedWorkPackageIds().map(id => wpState.get(id).value as WorkPackageResource);
   }
 
   public getSelectedWorkPackageIds():string[] {

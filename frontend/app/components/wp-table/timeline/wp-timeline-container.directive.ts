@@ -137,8 +137,8 @@ export class WorkPackageTimelineTableController {
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
-    const wpObs = this.states.workPackages.get(wpId)
-      .observeUntil(scopeDestroyed$(this.$scope))
+    const wpObs = this.states.workPackages.get(wpId).values$()
+      .takeUntil(scopeDestroyed$(this.$scope))
       .map((wp: any) => {
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
@@ -154,11 +154,7 @@ export class WorkPackageTimelineTableController {
         };
       })
       .distinctUntilChanged((v1, v2) => {
-        if (v1 === v2) {
-          return true;
-        } else {
-          return false;
-        }
+        return v1 === v2;
       }, renderInfo => {
         return ""
           + renderInfo.viewParams.dateDisplayStart

@@ -1,42 +1,47 @@
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
-import {debugLog} from '../../../../helpers/debug_output';
-import {locateRow} from '../../helpers/wp-table-row-helpers';
-import {States} from '../../../states.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {debugLog} from "../../../../helpers/debug_output";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../../../states.service";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {WorkPackageTableRow} from "../../wp-table.interfaces";
+import {Observable} from "rxjs";
+import {InputState} from "reactivestates";
+
 
 export class RowsTransformer {
-  public states:States;
+  public states: States;
 
   constructor(public table: WorkPackageTable) {
     injectorBridge(this);
 
     // Redraw table if the current row state changed
     this.states.table.rows.observeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((rows:WorkPackageResourceInterface[]) => {
-      var t0 = performance.now();
+      .subscribe((rows: WorkPackageResourceInterface[]) => {
+        var t0 = performance.now();
 
-      table.initialSetup(rows);
-      table.postRender();
+        table.initialSetup(rows);
+        table.postRender();
 
-      var t1 = performance.now();
-      debugLog("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
-    });
-
+        var t1 = performance.now();
+        debugLog("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");
+      });
 
     // Refresh a single row if it exists
-    this.states.workPackages.observeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((nextVal:[string, WorkPackageResourceInterface]) => {
-        if (!nextVal) {
+    this.states.workPackages.observeChange()
+      .takeUntil(this.states.table.stopAllSubscriptions.asObservable())
+      .subscribe(([changedId, wp, state]) => {
+        if (wp === undefined) {
           return;
         }
 
-        let [changedId, wp] = nextVal;
-        let row = table.rowIndex[changedId];
+        // let [changedId, wp] = nextVal;
+        let row: WorkPackageTableRow = table.rowIndex[changedId];
 
         if (wp && row) {
-          row.object = wp;
+          row.object = wp as any;
           this.refreshWorkPackage(table, row);
         }
       });
@@ -46,7 +51,7 @@ export class RowsTransformer {
    * Refreshes a single entity from changes in the work package itself.
    * Will skip rendering when dirty or fresh. Does not check for table changes.
    */
-  private refreshWorkPackage(table:WorkPackageTable, row:WorkPackageTableRow) {
+  private refreshWorkPackage(table: WorkPackageTable, row: WorkPackageTableRow) {
     table.refreshRow(row);
   }
 }

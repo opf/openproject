@@ -1,5 +1,17 @@
 import IScope = angular.IScope;
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer, Subscriber} from "rxjs";
+import {TeardownLogic} from "rxjs/Subscription";
+
+// export class ScopedOperator<T, R> {
+//
+//   constructor(public readonly scope: IScope) {
+//   }
+//
+//   call(subscriber: Subscriber<R>, source: any): TeardownLogic {
+//     const scoped = scopedObservable(this.scope, source);
+//     return scoped.subscribe();
+//   }
+// }
 
 export function runInScopeDigest(scope: IScope, fn: () => void) {
   if (scope.$root.$$phase !== "$apply" && scope.$root.$$phase !== "$digest") {
@@ -41,10 +53,10 @@ export function asyncTest<T>(done: (error?: any) => void, fn: (value: T) => any)
 
 }
 
-export function scopeDestroyed$(scope: IScope): Observable<IScope> {
+export function scopeDestroyed$(scope: IScope) {
   return Observable.create((s: any) => {
     scope.$on("$destroy", () => {
-      s.onNext(scope);
+      s.onNext(true);
       s.onCompleted();
     });
   });

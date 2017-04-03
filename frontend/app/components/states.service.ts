@@ -24,12 +24,13 @@ import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
 import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
 import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
 import {Subject} from 'rxjs';
-import {createNewContext} from "reactivestates";
+import {createNewContext, inputStateCache} from "reactivestates";
 
 export class States extends Component {
 
   /* /api/v3/work_packages */
-  workPackages = new MultiState<WorkPackageResource>();
+  workPackages = inputStateCache<WorkPackageResource>();// new MultiState<WorkPackageResource>();
+  // workPackages = stateCache(() => input<WorkPackageResource>());// new MultiState<WorkPackageResource>();
 
   /* /api/v3/schemas */
   schemas = new MultiState<SchemaResource>();
@@ -90,9 +91,7 @@ const ctx = createNewContext();
 const states = ctx.create(States);
 
 whenDebugging(() => {
-  states.loggingFn = (msg: string) => {
-    console.debug(msg);
-  }
+  states.enableLog(true);
 });
 
 opServicesModule.value('states', states);
