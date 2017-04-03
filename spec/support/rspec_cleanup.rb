@@ -4,6 +4,8 @@ RSpec.configure do |config|
     # This happens automatically for :mailer specs
     ActionMailer::Base.delivery_method = :test
     ActionMailer::Base.deliveries.clear
+
+    RequestStore.clear!
   end
 
   config.append_after(:each) do

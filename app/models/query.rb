@@ -628,7 +628,7 @@ class Query < ActiveRecord::Base
     if project
       project.all_work_package_custom_fields
     else
-      WorkPackageCustomField.includes.all
+      WorkPackageCustomField.all
     end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
   end
 end
