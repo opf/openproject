@@ -23,6 +23,11 @@ OpenProject::Application.routes.draw do
       collection do
         match :index, via: [:get, :post]
       end
+
+      member do
+        post :update
+        post :rename
+      end
     end
   end
 
