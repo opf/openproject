@@ -97,19 +97,6 @@ Redmine::AccessControl.map do |map|
                    :'work_packages/reports' => [:report, :report_details],
                    planning_elements: [:index, :all, :show, :recycle_bin],
                    planning_element_journals: [:index],
-                   :'api/experimental/queries' => [:available_columns,
-                                                   :custom_field_filters,
-                                                   :grouped],
-                   :'api/experimental/users' => [:index],
-                   :'api/experimental/roles' => [:index],
-                   :'api/experimental/groups' => [:index],
-                   :'api/experimental/versions' => [:index],
-                   :'api/experimental/projects' => [:show,
-                                                    :sub_projects,
-                                                    :index],
-                   :'api/experimental/work_packages' => [:index,
-                                                         :column_data,
-                                                         :column_sums],
                    # This is api/v2/planning_element_types
                    planning_element_types: [:index,
                                                :show]
@@ -165,15 +152,11 @@ Redmine::AccessControl.map do |map|
                    {}
     # Queries
     wpt.permission :manage_public_queries,
-                   { :'api/experimental/queries' => [:create,
-                                                     :update,
-                                                     :destroy],
-                     queries: [:star, :unstar] },
+                   { queries: [:star, :unstar] },
                    require: :member
 
     wpt.permission :save_queries,
-                   { :'api/experimental/queries' => [:create, :update, :destroy],
-                     queries: [:star, :unstar] },
+                   { queries: [:star, :unstar] },
                    require: :loggedin
     # Watchers
     wpt.permission :view_work_package_watchers,

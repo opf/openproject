@@ -109,34 +109,6 @@ OpenProject::Application.routes.draw do
         end
       end
     end
-
-    namespace :experimental do
-      resources :work_packages, only: [:index]
-      resources :queries, only: [:create, :update, :destroy] do
-        get :available_columns, on: :collection
-        get :custom_field_filters, on: :collection
-        get :grouped, on: :collection
-      end
-
-      resources :projects, only: [:show, :index] do
-        resources :work_packages, only: [:index] do
-          get :column_sums, on: :collection
-        end
-        resources :queries, only: [:create, :update, :destroy] do
-          get :available_columns, on: :collection
-          get :custom_field_filters, on: :collection
-          get :grouped, on: :collection
-        end
-        resources :versions, only: [:index]
-        get :sub_projects
-        resources :users, only: [:index]
-      end
-
-      resources :versions, only: [:index]
-      resources :groups, only: [:index]
-      resources :roles, only: [:index]
-      resources :users, only: [:index]
-    end
   end
 
   # Because of https://github.com/intridea/grape/pull/853/files this has to be

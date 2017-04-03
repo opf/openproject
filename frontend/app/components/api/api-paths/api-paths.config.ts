@@ -62,7 +62,6 @@ function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
   };
 
   apiPathsProvider.pathConfig = {
-    ex: ['api/experimental', config],
     v3: ['api/v3', config]
   };
 }
