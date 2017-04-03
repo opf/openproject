@@ -36,7 +36,7 @@ class LaborBudgetItem < ActiveRecord::Base
     table = self.arel_table
 
     view_allowed = Project.allowed_to(user, :view_hourly_rates).select(:id)
-    view_own_allowed = Project.allowed_to(user, :view_own_hourly_rates).select(:id)
+    view_own_allowed = Project.allowed_to(user, :view_own_hourly_rate).select(:id)
 
     view_or_view_own = table[:project_id]
                        .in(view_allowed.arel)
