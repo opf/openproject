@@ -63,6 +63,50 @@ describe Query, type: :model do
         expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_nil
       end
     end
+
+    context 'results caching' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:project2) { FactoryGirl.build_stubbed(:project) }
+
+      it 'does not call the db twice for the custom fields' do
+        query.project = project
+
+        query.available_columns
+
+        expect(project)
+          .not_to receive(:all_work_package_custom_fields)
+
+        query.available_columns
+      end
+
+      it 'does call the db for the custom fields if the project changes' do
+        query.project = project
+
+        query.available_columns
+
+        query.project = project2
+
+        expect(project2)
+          .to receive(:all_work_package_custom_fields)
+          .and_return []
+
+        query.available_columns
+      end
+
+      it 'does call the db for the custom fields if the project changes to nil' do
+        query.project = project
+
+        query.available_columns
+
+        query.project = nil
+
+        expect(WorkPackageCustomField)
+          .to receive_message_chain(:includes, :all)
+          .and_return []
+
+        query.available_columns
+      end
+    end
   end
 
   describe '#valid?' do

@@ -290,13 +290,13 @@ class Query < ActiveRecord::Base
   end
 
   def available_columns
-    return @available_columns if @available_columns
-    @available_columns = ::Query.available_columns
-    @available_columns += if project
-                            project.all_work_package_custom_fields(include: :translations)
-                          else
-                            WorkPackageCustomField.includes(:translations).all
-                          end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
+    if @available_columns &&
+       (@available_columns_project == (project && project.cache_key || 0))
+      return @available_columns
+    end
+
+    @available_columns_project = project && project.cache_key || 0
+    @available_columns = ::Query.available_columns + custom_field_columns
 
     # have to use this instead of
     # #select! as #select! can return nil
@@ -622,5 +622,13 @@ class Query < ActiveRecord::Base
 
   def for_all?
     @for_all ||= project.nil?
+  end
+
+  def custom_field_columns
+    if project
+      project.all_work_package_custom_fields(include: :translations)
+    else
+      WorkPackageCustomField.includes(:translations).all
+    end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
   end
 end
