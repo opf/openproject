@@ -100,7 +100,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       // If the property is a multi-value
       // Compare the href's of all resources with the ones in valueLink
       if (_.isArray(property)) {
-        return this.matchesMultiValue(property, group);
+        return this.matchesMultiValue(property as HalResource[], group);
       }
 
       //// If its a linked resource, compare the href,
