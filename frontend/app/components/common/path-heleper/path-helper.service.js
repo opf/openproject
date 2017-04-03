@@ -38,7 +38,6 @@ function PathHelper() {
     staticBase:   appBasePath,
 
     apiV2: appBasePath + '/api/v2',
-    apiExperimental: appBasePath + '/api/experimental',
     apiV3: appBasePath + '/api/v3',
 
     activityPath: function() {
@@ -151,78 +150,6 @@ function PathHelper() {
       return path;
     },
 
-    // Experimental API
-    apiAvailableColumnsPath: function() {
-      return PathHelper.apiQueriesPath() + '/available_columns';
-    },
-    apiCustomFieldsPath: function() {
-      return PathHelper.apiQueriesPath() + '/custom_field_filters';
-    },
-    apiGroupedQueriesPath: function() {
-      return PathHelper.apiQueriesPath() + '/grouped';
-    },
-    apiGroupsPath: function() {
-      return PathHelper.apiExperimental + '/groups';
-    },
-    apiProjectAvailableColumnsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/available_columns';
-    },
-    apiProjectCustomFieldsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/custom_field_filters';
-    },
-    apiProjectGroupedQueriesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/grouped';
-    },
-    apiProjectPath: function(projectIdentifier) {
-      return PathHelper.apiExperimental + '/projects/' + projectIdentifier;
-    },
-    apiProjectQueriesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries';
-    },
-    apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/' + queryIdentifier;
-    },
-    apiProjectsPath: function(){
-      return PathHelper.apiExperimental + '/projects';
-    },
-    apiProjectSubProjectsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/sub_projects';
-    },
-    apiProjectUsersPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/users';
-    },
-    apiVersionsPath: function(projectIdentifier) {
-      return PathHelper.apiExperimental + '/versions';
-    },
-    apiProjectVersionsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/versions';
-    },
-    apiProjectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/work_packages';
-    },
-    apiProjectWorkPackagesSumsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectWorkPackagesPath(projectIdentifier) + '/column_sums';
-    },
-    apiQueriesPath: function() {
-      return PathHelper.apiExperimental + '/queries';
-    },
-    apiQueryPath: function(query_id) {
-      return PathHelper.apiQueriesPath() + '/' + query_id;
-    },
-    apiRolesPath: function() {
-      return PathHelper.apiExperimental + '/roles';
-    },
-    apiUsersPath: function() {
-      // experimantal, TODO: Migrate to V3
-      return PathHelper.apiExperimental + '/users';
-    },
-    apiWorkPackagesPath: function() {
-      return PathHelper.apiExperimental + '/work_packages';
-    },
-    apiWorkPackagesSumsPath: function() {
-      return PathHelper.apiWorkPackagesPath() + '/column_sums';
-    },
-
     // API V2
     apiV2ProjectsPath: function() {
       return PathHelper.apiV2 + '/projects';
@@ -249,9 +176,6 @@ function PathHelper() {
     },
     apiV3WorkPackageFormPath: function(projectIdentifier) {
       return PathHelper.apiV3WorkPackagesPath() + '/form';
-    },
-    apiPrioritiesPath: function() {
-      return PathHelper.apiV3 + '/priorities';
     },
     apiV3ProjectPath: function(projectIdentifier) {
       return PathHelper.apiV3 + '/projects/' + projectIdentifier;

@@ -33,7 +33,6 @@ angular.module('openproject.services')
     'NotificationsService',
     require('./activity-service')
   ])
-  .service('GroupService', ['$http', 'PathHelper', require('./group-service')])
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [
     '$window',
@@ -43,25 +42,11 @@ angular.module('openproject.services')
     require('./keyboard-shortcut-service')])
   .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', 'ConfigurationDm', require(
     './pagination-service')])
-  .service('PriorityService', ['$http', 'PathHelper', require(
-    './priority-service')])
-  .service('RoleService', ['$http', 'PathHelper', require('./role-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
   .factory('TextileService', ['$http', 'PathHelper', require('./textile-service')])
   .service('TimezoneService', ['ConfigurationService', 'I18n', require(
     './timezone-service')])
-  .service('TypeService', ['$http', 'PathHelper', require('./type-service')])
-  .service('UserService', [
-    '$http',
-    'PathHelper',
-    'CacheService',
-    require('./user-service')
-  ])
-  .service('VersionService', ['$http', 'PathHelper', require(
-    './version-service')])
-  .service('CategoryService', ['$http', 'PathHelper', require(
-    './category-service')])
   .service('ApiNotificationsService', [
     'NotificationsService',
     'ApiHelper',

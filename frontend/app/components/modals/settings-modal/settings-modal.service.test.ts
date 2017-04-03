@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 
-describe.only('SettingsModalController', () => {
+describe('SettingsModalController', () => {
   var scope:any;
   var settingsModal:any;
   var ctrl:any;

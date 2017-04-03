@@ -45,10 +45,6 @@ describe('apiPaths', () => {
     expect(apiPaths).to.exist;
   });
 
-  it('should have an `ex` property', () => {
-    expect(apiPaths).to.have.property('ex');
-  });
-
   it('should have a `v3` property', () => {
     expect(apiPaths).to.have.property('v3');
   });

@@ -26,12 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This capsulates permissions a user has for a work package.  It caches based
-# on the work package's project and is thus optimized for the context menu.
-#
-# This is no conern but it was placed here so that it will be removed together
-# with the rest of the experimental API.
-
 require 'scm/authorization_policy'
 class Scm::GitAuthorizationPolicy < Scm::AuthoriziationPolicy
   private
