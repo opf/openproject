@@ -4,7 +4,6 @@ Copyright (C) 2013 the OpenProject Foundation (OPF)
 This work is based on the following sources
 Minicons Free Vector Icons Pack http://www.webalys.com/minicons and
 User Interface Design framework http://www.webalys.com/design-interface-application-framework.php
-See README.rdoc for more details.
 
 Creative Commons Attribution 3.0 Unported License
 This license can also be found at this permalink: http://creativecommons.org/licenses/by/3.0/
