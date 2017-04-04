@@ -38,13 +38,8 @@ function transformDateUtc(TimezoneService) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
           return undefined;
         }
-        var d = TimezoneService.parseLocalDate(data);
-        if (scope.transformDateUtc == 'end-of-day') {
-          d.endOf('day');
-        } else { // begin-of-day
-          d.startOf('day');
-        }
-        return TimezoneService.formattedISODatetime(d);
+        var d = TimezoneService.parseLocalDateTime(data);
+        return TimezoneService.formattedISODateTime(d);
       });
       ngModelController.$formatters.push(function (data) {
         if (!moment(data, 'YYYY-MM-DDTHH:mm:ssZ', true).isValid()) {

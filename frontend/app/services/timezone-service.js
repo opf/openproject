@@ -33,6 +33,10 @@ module.exports = function(ConfigurationService, I18n) {
       moment.locale(I18n.locale);
     },
 
+    /**
+     * Takes a utc date time string and turns it into
+     * a local date time moment object.
+     */
     parseDatetime: function(datetime, format) {
       var d = moment.utc(datetime, format);
 
@@ -49,20 +53,24 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     /**
-     * Parses a string that is considered to be a local date, which is always considered to be in UTC.
-     * If the user's settings define a different timezone, then that timezone is applied.
+     * Parses a string that is considered to be a local date and
+     * turns it inot a utc date time moment object.
+     * 'Local' might mean the browsers default time zone or the one configured
+     * in the Configuration Service.
      *
      * @param {String} date
      * @param {String} format
      * @returns {Moment}
      */
-    parseLocalDate: function(date, format) {
-      var result = moment.utc(date, format);
+    parseLocalDateTime: function(date, format) {
+      var result;
 
       if (ConfigurationService.isTimezoneSet()) {
-        result.local();
-        result.tz(ConfigurationService.timezone());
+        result = moment.tz(date, format, ConfigurationService.timezone());
+      } else {
+        result = moment(date, format);
       }
+      result.utc();
 
       return result;
     },
@@ -125,8 +133,8 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.parseDate(date).format('YYYY-MM-DD');
     },
 
-    formattedISODatetime: function(datetime) {
-      return datetime.format('YYYY-MM-DDTHH:mm:ssZ');
+    formattedISODateTime: function(datetime) {
+      return datetime.format();
     },
 
     isValidISODate: function(date) {
