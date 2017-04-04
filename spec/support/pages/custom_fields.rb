@@ -39,7 +39,7 @@ module Pages
     end
 
     def set_name(name)
-      find("#custom_field_name_attributes input.form--text-field").set name
+      find("#custom_field_name").set name
     end
 
     def set_default_value(value)

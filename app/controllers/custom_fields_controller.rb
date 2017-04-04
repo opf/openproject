@@ -32,10 +32,10 @@ class CustomFieldsController < ApplicationController
 
   before_action :require_admin
   before_action :find_custom_field, only: [:edit, :update, :destroy, :move, :delete_option]
-  before_action :blank_translation_attributes_as_nil, only: [:create, :update]
+  before_action :get_custom_field_params, only: [:create, :update]
 
   def index
-    @custom_fields_by_type = CustomField.includes(:translations).group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
@@ -104,6 +104,14 @@ class CustomFieldsController < ApplicationController
 
   private
 
+  def get_custom_field_params
+    @custom_field_params = permitted_params.custom_field
+
+    if !EnterpriseToken.allows_to?(:multiselect_custom_fields)
+      @custom_field_params.delete :multi_value
+    end
+  end
+
   def delete_custom_values!(custom_option)
     CustomValue
       .where(custom_field_id: custom_option.custom_field_id, value: custom_option.id)
@@ -141,22 +149,6 @@ class CustomFieldsController < ApplicationController
       custom_option.default_value = attr[:default_value].present?
       custom_option.position = i + 1
       custom_option.save!
-    end
-  end
-
-  def blank_translation_attributes_as_nil
-    @custom_field_params = permitted_params.custom_field
-
-    if !EnterpriseToken.allows_to?(:multiselect_custom_fields)
-      @custom_field_params.delete :multi_value
-    end
-
-    return unless @custom_field_params['translations_attributes']
-
-    @custom_field_params['translations_attributes'].each do |_index, attributes|
-      attributes.each do |key, value|
-        attributes[key] = nil if value.blank?
-      end
     end
   end
 

@@ -35,13 +35,13 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        wp_fields = WorkPackageCustomField.visible_by_user(User.current)
-                    .includes(:translations, :projects, :types)
+        wp_fields = WorkPackageCustomField
+                    .visible_by_user(User.current)
+                    .includes(:projects, :types)
                     .order(:id)
                     .uniq
-        other_fields = CustomField.includes(:translations)
-                       .where("type != 'WorkPackageCustomField'")
-                       .order(:type, :id)
+        other_fields = CustomField.where("type != 'WorkPackageCustomField'")
+                                  .order(:type, :id)
 
         @custom_fields = wp_fields + other_fields
 
@@ -51,7 +51,7 @@ module Api
       end
 
       def show
-        @custom_field = CustomField.includes(:translations).find params[:id]
+        @custom_field = CustomField.find params[:id]
 
         respond_to do |format|
           format.api

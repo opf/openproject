@@ -101,7 +101,7 @@ describe Query, type: :model do
         query.project = nil
 
         expect(WorkPackageCustomField)
-          .to receive_message_chain(:includes, :all)
+          .to receive(:all)
           .and_return []
 
         query.available_columns

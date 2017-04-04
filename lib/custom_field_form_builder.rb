@@ -52,8 +52,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
-                                  id: custom_field_field_id,
-                                  lang: object.custom_field.name_locale)
+                                  id: custom_field_field_id)
 
     field_format = Redmine::CustomFieldFormat.find_by_name(object.custom_field.field_format)
 
@@ -122,13 +121,9 @@ class CustomFieldFormBuilder < TabularFormBuilder
     content_tag 'label',
                 for: custom_field_field_id,
                 class: classes,
-                title: custom_value.custom_field.name,
-                lang: custom_value.custom_field.name_locale do
-                  content_tag('span', custom_value.custom_field.name) +
-                  (content_tag('span',
-                             '*',
-                             class: 'form--label-required',
-                             :'aria-hidden' => true) if is_required)
+                title: custom_value.custom_field.name do
+      content_tag('span', custom_value.custom_field.name) +
+        (content_tag('span', '*', class: 'form--label-required', :'aria-hidden' => true) if is_required)
     end
   end
 end

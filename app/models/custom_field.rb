@@ -34,26 +34,6 @@ class CustomField < ActiveRecord::Base
   has_many :custom_options, -> { order(position: :asc) }, dependent: :delete_all
 
   acts_as_list scope: 'type = \'#{self.class}\''
-  translates :name
-
-  accepts_nested_attributes_for :translations,
-                                allow_destroy: true,
-                                reject_if: :blank_attributes
-
-  def translations_attributes_with_globalized=(attr)
-    ret = self.translations_attributes_without_globalized = (attr)
-
-    # enable globalize to access newly set attributes
-    translations.loaded
-    # remove previously set translated attributes so that they do not override
-    # the ones set here
-    globalize.reset
-    globalize.stash.clear
-
-    ret
-  end
-
-  alias_method_chain :translations_attributes=, :globalized
 
   validates_presence_of :field_format
 
@@ -64,7 +44,7 @@ class CustomField < ActiveRecord::Base
   def uniqueness_of_name_with_scope
     taken_names = CustomField.where(type: type)
     taken_names = taken_names.where('id != ?', id) if id
-    taken_names = taken_names.map { |cf| cf.read_attribute(:name, locale: I18n.locale) }
+    taken_names = taken_names.pluck(:name)
 
     errors.add(:name, :taken) if name.in?(taken_names)
   end
@@ -231,7 +211,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def name_locale
-    attribute_locale :name, name
+    name
   end
 
   def list?
@@ -248,7 +228,7 @@ class CustomField < ActiveRecord::Base
   def cache_key
     tag = multi_value? ? "mv" : "sv"
 
-    ["work_package_custom_fields", id, tag, translation.cache_key].join("/")
+    ["work_package_custom_fields", id, tag].join("/")
   end
 
   private
@@ -259,19 +239,5 @@ class CustomField < ActiveRecord::Base
     else
       arg.to_s.split(/[\n\r]+/).map(&:strip).reject(&:blank?)
     end
-  end
-
-  def attribute_locale(attribute, value)
-    locales_for_value = translations.select { |t| t.send(attribute) == value }
-                        .map(&:locale)
-                        .uniq
-
-    locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
-  end
-
-  def blank_attributes(attributes)
-    value_keys = attributes.reject { |_k, v| v.blank? }.keys.map(&:to_sym)
-
-    !value_keys.include?(:locale) || (value_keys & translated_attribute_names).size == 0
   end
 end

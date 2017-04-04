@@ -75,7 +75,7 @@ module Type::Attributes
           attributes.delete 'start_date'
         end
 
-        WorkPackageCustomField.includes(:translations, :custom_options).all.each do |field|
+        WorkPackageCustomField.includes(:custom_options).all.each do |field|
           attributes["custom_field_#{field.id}"] = {
             required: field.is_required,
             has_default: field.default_value.present?,

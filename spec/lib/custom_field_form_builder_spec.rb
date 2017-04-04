@@ -68,7 +68,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
                  id="user#{resource.custom_field_id}"
-                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="checkbox"
                  value="1" />
@@ -93,7 +92,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
-                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />
         }).at_path('input')
@@ -113,7 +111,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
                     id="user#{resource.custom_field_id}"
-                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     rows="3">
           </textarea>
@@ -134,7 +131,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
-                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />
         }).at_path('input')
@@ -154,7 +150,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
-                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />
         }).at_path('input')
@@ -174,7 +169,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{resource.custom_field_id}"
-                 lang=\"en\"
                  name="user[#{resource.custom_field_id}]"
                  type="text" />
         }).at_path('input')
@@ -199,7 +193,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
-                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option
                   value=\"\"></option>
@@ -218,7 +211,6 @@ describe CustomFieldFormBuilder do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
-                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
@@ -239,7 +231,6 @@ describe CustomFieldFormBuilder do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
-                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option
                     value=\"#{value}\">my_option</option></select>
@@ -259,7 +250,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
-                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
@@ -275,7 +265,6 @@ describe CustomFieldFormBuilder do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
-                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>
@@ -296,7 +285,6 @@ describe CustomFieldFormBuilder do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
-                  lang=\"en\"
                   name="user[#{resource.custom_field_id}]"
                   no_label="true"><option value=\"\"></option>
           </select>
@@ -312,7 +300,6 @@ describe CustomFieldFormBuilder do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
-                    lang=\"en\"
                     name="user[#{resource.custom_field_id}]"
                     no_label="true"><option value=\"\">---
                     Please select ---</option>

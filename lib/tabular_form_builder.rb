@@ -37,19 +37,15 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   (field_helpers - %i(radio_button hidden_field fields_for label) + %i(date_select)).each do |selector|
     define_method selector do |field, options = {}, *args|
-      if options[:multi_locale] || options[:single_locale]
-        localize_field(field, options, __method__)
-      else
-        options[:class] = Array(options[:class]) + [field_css_class(selector)]
-        merge_required_attributes(options[:required], options)
+      options[:class] = Array(options[:class]) + [field_css_class(selector)]
+      merge_required_attributes(options[:required], options)
 
-        input_options, label_options = extract_from options
+      input_options, label_options = extract_from options
 
-        label = label_for_field(field, label_options)
-        input = super(field, input_options, *args)
+      label = label_for_field(field, label_options)
+      input = super(field, input_options, *args)
 
-        (label + container_wrap_field(input, selector, options))
-      end
+      (label + container_wrap_field(input, selector, options))
     end
   end
 
@@ -153,28 +149,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def localize_field(field, options, meth)
-    localized_field = Proc.new do |translation_form, _multiple|
-      localized_field(translation_form, meth, field, options)
-    end
-
-    ret = nil
-
-    translation_objects = translation_objects field, options
-
-    fields_for(:translations, translation_objects, builder: TabularFormBuilder) do |translation_form|
-      ret = label_for_field(field, options, translation_form) unless ret
-
-      ret.concat localized_field.call(translation_form)
-    end
-
-    if options[:multi_locale]
-      ret.concat add_localization_link
-    end
-
-    ret
-  end
-
   def field_container_css_class(selector, options)
     classes = if TEXT_LIKE_FIELDS.include?(selector)
                 'form--text-field-container'
@@ -196,7 +170,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   # Returns a label tag for the given field
-  def label_for_field(field, options = {}, translation_form = nil)
+  def label_for_field(field, options = {})
     return ''.html_safe if options[:no_label]
 
     text = get_localized_field(field, options[:label])
@@ -211,7 +185,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     content = h(text)
     label_for_field_errors(content, label_options, field)
     label_for_field_required(content, label_options, options[:required])
-    label_for_field_for(options, label_options, translation_form, field)
+    label_for_field_for(options, label_options, field)
     label_for_field_prefix(content, options)
 
     label_options[:lang] = options[:lang]
@@ -239,14 +213,8 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def label_for_field_for(options, label_options, translation_form, field)
-    id = element_id(translation_form) if translation_form
-
-    label_options[:for] = if options[:for]
-                            options[:for]
-                          elsif options[:multi_locale] && id
-                            id.sub(/\_id$/, "_#{field}")
-                          end
+  def label_for_field_for(options, label_options, field)
+    label_options[:for] = options[:for]
   end
 
   def label_for_field_prefix(content, options)
@@ -265,93 +233,6 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     else
       l(field)
     end
-  end
-
-  def element_id(translation_form)
-    match = /id=\"(?<id>\w+)"/.match(translation_form.hidden_field :id)
-    match ? match[:id] : nil
-  end
-
-  def localized_field(translation_form, method, field, options)
-    @template.content_tag :span, class: "form--field-container translation #{field}_translation" do
-      ret = ''.html_safe
-
-      field_options = localized_options options, translation_form.object.locale
-
-      ret.safe_concat translation_form.send(method, field, field_options.merge(no_label: true))
-      ret.safe_concat translation_form.hidden_field :id,
-                                                    class: 'translation_id'
-      if options[:multi_locale]
-        ret.safe_concat translation_form.select :locale,
-                                                Setting.available_languages.map { |lang| [ll(lang.to_s, :general_lang_name), lang.to_sym] },
-                                                { no_label: true },
-                                                class: 'locale_selector'
-        ret.safe_concat translation_form.hidden_field '_destroy',
-                                                      disabled: true,
-                                                      class: 'destroy_flag',
-                                                      value: '1'
-        ret.safe_concat '<a href="#" class="destroy_locale icon icon-delete" title="Delete"></a>'
-      else
-        ret.safe_concat translation_form.hidden_field :locale,
-                                                      class: 'locale_selector'
-      end
-
-      ret
-    end
-  end
-
-  def translation_objects(field, options)
-    if options[:multi_locale]
-      multi_translation_object field, options
-    elsif options[:single_locale]
-      single_translation_object field, options
-    end
-  end
-
-  def single_translation_object(_field, _options)
-    if object.translations.detect { |t| t.locale == :en }.nil?
-      object.translations.build locale: :en
-    end
-
-    object.translations.select { |t| t.locale == :en }
-  end
-
-  def multi_translation_object(field, _options)
-    if object.translations.size == 0
-      object.translations.build locale: user_locale
-      object.translations
-    else
-      translations = object.translations.select { |t|
-        t.send(field).present?
-      }
-
-      if translations.size > 0
-        translations
-      else
-        object.translations.detect { |t| t.locale == user_locale } ||
-          object.translations.first
-      end
-
-    end
-  end
-
-  def add_localization_link
-    @template.content_tag :a, l(:button_add), href: '#', class: 'form--field-extra-actions add_locale icon icon-add'
-  end
-
-  def localized_options(options, locale = :en)
-    localized_options = options.clone
-    localized_options[:value] = localized_options[:value][locale] if options[:value].is_a?(Hash)
-    localized_options.delete(:single_locale)
-    localized_options.delete(:multi_locale)
-
-    localized_options
-  end
-
-  def user_locale
-    User.current.language.present? ?
-      User.current.language.to_sym :
-      Setting.default_language.to_sym
   end
 
   def extract_from(options)

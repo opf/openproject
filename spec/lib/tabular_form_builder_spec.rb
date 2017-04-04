@@ -52,63 +52,15 @@ describe TabularFormBuilder do
 
     it_behaves_like 'labelled by default'
 
-    context 'with single_locale option' do
-      let(:options)   { { single_locale: true } }
-      let(:resource)  { FactoryGirl.build(:custom_field) }
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
 
-      it_behaves_like 'wrapped in field-container by default'
-      it_behaves_like 'wrapped in container', 'text-field-container'
-
-      it 'should output element' do
-        expect(output).to be_html_eql(%{
-          <input class="form--text-field"
-            id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" type="text" />
-        }).at_path('input:first-child')
-      end
-    end
-
-    context 'with multi_locale option' do
-      let(:options)   { { multi_locale: true } }
-      let(:resource)  { FactoryGirl.build(:custom_field) }
-
-      it_behaves_like 'wrapped in field-container by default'
-      it_behaves_like 'wrapped in container', 'text-field-container'
-
-      before do
-        allow(Setting).to receive(:available_languages).and_return([:en])
-      end
-
-      it 'should output element' do
-        expect(output).to be_html_eql(%{
-          <input class="form--text-field"
-            id="user_translations_attributes_0_name"
-            name="user[translations_attributes][0][name]" type="text" />
-        }).at_path('input:first-child')
-      end
-
-      it 'should output select' do
-        expect(output).to have_selector 'select.locale_selector > option', count: 1
-      end
-
-      it 'should have a link to add a locale' do
-        expect(output).to be_html_eql(%{
-          <a class="form--field-extra-actions add_locale icon icon-add" href="#">Add</a>
-        }).at_path('body > a')
-      end
-    end
-
-    context 'without locale' do
-      it_behaves_like 'wrapped in field-container by default'
-      it_behaves_like 'wrapped in container', 'text-field-container'
-
-      it 'should output element' do
-        expect(output).to be_html_eql(%{
-          <input class="custom-class form--text-field"
-            id="user_name" name="user[name]" title="Name" type="text"
-            value="JJ Abrams" />
-        }).at_path('input')
-      end
+    it 'should output element' do
+      expect(output).to be_html_eql(%{
+        <input class="custom-class form--text-field"
+          id="user_name" name="user[name]" title="Name" type="text"
+          value="JJ Abrams" />
+      }).at_path('input')
     end
 
     context 'with affixes' do

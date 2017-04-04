@@ -84,8 +84,8 @@ module Api
 
       def show
         @planning_element = @project.work_packages
-                            .includes([{ custom_values: [{ custom_field: :translations }] }])
-                            .find(params[:id])
+                                    .includes(custom_values: :custom_field)
+                                    .find(params[:id])
 
         respond_to do |format|
           format.api

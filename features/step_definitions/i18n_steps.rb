@@ -105,50 +105,6 @@ def update_localization(container, language, value)
   new_locale.select(locale_name.text) if locale_name
 end
 
-Then /^there should be the following localizations:$/ do |table|
-  cleaned_expectation = table.hashes.map { |x|
-    x.reject { |_k, v| v == 'nil' }
-  }
-
-  attributes = []
-
-  page.should have_selector(:xpath, '(//*[contains(@name, "translations_attributes") and not(contains(@disabled,"disabled"))])[1]')
-
-  attributes = page.all(:css, "[name*=\"translations_attributes\"]:not([disabled=disabled])", visible: false)
-
-  name_regexp = /\[(\d)+\]\[(\w+)\]$/
-
-  attribute_group = attributes.inject({}) { |h, element|
-    if element['name'] =~ name_regexp
-      h[$1] ||= []
-      h[$1] << element
-    end
-    h
-  }
-
-  actual_localizations = attribute_group.inject([]) { |a, (_k, group)|
-    a << group.inject({}) { |h, element|
-      if element['name'] =~ name_regexp
-
-        if $2 != 'id' and
-           $2 != '_destroy' and
-           (element['type'] != 'checkbox' or (element['type'] == 'checkbox' and element.checked?))
-
-          h[$2] = element['value']
-        end
-      end
-
-      h
-    }
-
-    a
-  }
-
-  actual_localizations = actual_localizations.group_by { |e| e['locale'] }.map { |(_k, v)| v.inject({}) { |a, x| a.merge(x) } }
-
-  actual_localizations.should =~ cleaned_expectation
-end
-
 Then /^the delete link for the (.+) localization of the "(.+)" attribute should not be visible$/ do |locale, attribute_name|
   attribute_span = span_for_localization locale, attribute_name
 

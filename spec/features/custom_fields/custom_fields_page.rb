@@ -34,8 +34,8 @@ class CustomFieldsPage
     visit new_custom_field_path type: type
   end
 
-  def name_attributes
-    find '#custom_field_name_attributes span[lang]'
+  def name_attribute
+    find '#custom_field_name'
   end
 
   def default_value_attributes

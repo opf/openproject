@@ -471,12 +471,6 @@ class PermittedParams
           :default_value,
           :possible_values,
           :multi_value,
-          translations_attributes: [
-            :_destroy,
-            :id,
-            :locale,
-            :name
-          ],
           type_ids: []],
         enumeration: [
           :active,
