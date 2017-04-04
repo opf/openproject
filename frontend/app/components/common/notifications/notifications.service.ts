@@ -103,6 +103,12 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
       return notification;
     },
     addError = function (message:any, errors : Array<any> = []) {
+      // depite the Typescript annotation,
+      // errors might still be string
+      if (!Array.isArray(errors)) {
+        errors = [errors];
+      }
+
       return add(createErrorNotification(message, errors));
     },
     addWarning = function (message:any) {
