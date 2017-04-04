@@ -50,16 +50,20 @@ module Queries::SqlForCalendarialField
   def sql_for_datetime_field(field, operator, values, db_table, db_field)
     if operator == '=d'
       datetime = DateTime.parse(values.first)
-      datetime_range_clause(db_table, db_field, datetime.beginning_of_day,
-                            datetime.end_of_day)
+
+      lower_boundary = datetime
+      upper_boundary = datetime + 24.hours
+
+      datetime_range_clause(db_table,
+                            db_field,
+                            lower_boundary,
+                            upper_boundary)
     elsif operator == '<>d'
-      if values.first != 'undefined'
-        from = DateTime.parse(values.first).beginning_of_day
-      end
-      if values.size == 2
-        to = DateTime.parse(values.last).end_of_day
-      end
-      datetime_range_clause(db_table, db_field, from, to)
+      lower_boundary, upper_boundary = values.map { |v| v.blank? ? nil : DateTime.parse(v) }
+      datetime_range_clause(db_table,
+                            db_field,
+                            lower_boundary,
+                            upper_boundary)
     else
       sql_for_calendarial_field(field, operator, values, db_table, db_field)
     end

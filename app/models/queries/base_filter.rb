@@ -158,7 +158,7 @@ class Queries::BaseFilter
   end
 
   def values=(values)
-    @values = Array(values).reject(&:blank?).map(&:to_s)
+    @values = Array(values).map(&:to_s)
   end
 
   # Does the filter filter on other models, e.g. User, Status
@@ -190,30 +190,42 @@ class Queries::BaseFilter
     return true if self.class.operators_not_requiring_values.include?(operator)
 
     case type
-    when :integer, :date, :datetime_past
-      if operator == '=d' || operator == '<>d'
-        if type == :date
-          validate_values_all_date
-        else
-          validate_values_all_datetime
-        end
-      else
-        validate_values_all_integer
-      end
+    when :integer
+      validate_values_all_integer
+    when :date
+      validate_date_filter_values
+    when :datetime_past
+      validate_datetime_past_filter_values
     when :list, :list_optional
       validate_values_in_allowed_values_list
     end
   end
 
+  def validate_date_filter_values
+    if operator == '=d' || operator == '<>d'
+      validate_values_all_date
+    else
+      validate_values_all_integer
+    end
+  end
+
+  def validate_datetime_past_filter_values
+    if operator == '=d' || operator == '<>d'
+      validate_values_all_datetime
+    else
+      validate_values_all_integer
+    end
+  end
+
   def validate_values_all_date
-    unless values.all? { |value| value != 'undefined' ? date?(value) : true }
+    unless values.all? { |value| value.blank? || date?(value) }
       errors.add(:values, I18n.t('activerecord.errors.messages.not_a_date'))
     end
   end
 
   def validate_values_all_datetime
-    unless values.all? { |value| value != 'undefined' ? datetime?(value) : true }
-      errors.add(:values, I18n.t('activerecord.errors.messages.not_a_date'))
+    unless values.all? { |value| value.blank? || datetime?(value) }
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_a_datetime'))
     end
   end
 

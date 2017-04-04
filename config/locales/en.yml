@@ -441,6 +441,7 @@ en:
         invalid: "is invalid."
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_a_date: "is not a valid date."
+        not_a_datetime: "is not a valid date time."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_a_number: "is not a number."
         not_an_integer: "is not an integer."
@@ -451,7 +452,6 @@ en:
         too_short: "is too short (minimum is %{count} characters)."
         wrong_length: "is the wrong length (should be %{count} characters)."
         # translations for date-validator
-        not_a_date: "is not a date."
         after: "must be after %{date}."
         after_or_equal_to: "must be after or equal to %{date}."
         before: "must be before %{date}."
