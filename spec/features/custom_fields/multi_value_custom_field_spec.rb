@@ -21,7 +21,7 @@ describe "multi select custom values", js: true do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
-  let(:wp_table) { Pages::WorkPackagesTable.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
@@ -36,47 +36,105 @@ describe "multi select custom values", js: true do
       wp
     end
 
-    before do
-      login_as(user)
+    let(:work_package2) do
+      wp = FactoryGirl.create :work_package, project: project, type: type
 
-      wp_page.visit!
-      wp_page.ensure_page_loaded
+      wp.custom_field_values = {
+        custom_field.id => ["ham"].map { |s| custom_value_for(s) }
+      }
+
+      wp.save
+      wp
     end
 
-    include_context 'work package table helpers'
+    describe 'in single view' do
+      let(:edit_field) {
+        field = wp_page.edit_field "customField#{custom_field.id}"
+        field.field_type = 'select'
+        field
+      }
 
-    it "should be shown and allowed to be updated" do
-      expect(page).to have_text custom_field.name
-      expect(page).to have_text "ham"
-      expect(page).to have_text "pineapple"
-      expect(page).to have_text "onions"
+      before do
+        login_as(user)
 
-      page.find("div.custom-option", text: "ham").click
+        wp_page.visit!
+        wp_page.ensure_page_loaded
+      end
 
-      sel = page.find(:select)
+      it "should be shown and allowed to be updated" do
+        expect(page).to have_text custom_field.name
+        expect(page).to have_text "ham"
+        expect(page).to have_text "pineapple"
+        expect(page).to have_text "onions"
 
-      sel.unselect "pineapple"
-      sel.select "mushrooms"
+        edit_field.activate!
+        sel = edit_field.input_element
 
-      click_on "Ingredients: Save"
+        sel.unselect "pineapple"
+        sel.select "mushrooms"
 
-      expect(page).to have_selector('.custom-option.-multiple-lines', count: 3)
-      expect(page).to have_text "Successful update"
+        edit_field.submit_by_dashboard
 
-      expect(page).to have_text custom_field.name
-      expect(page).to have_text "ham"
-      expect(page).not_to have_text "pineapple"
-      expect(page).to have_text "onions"
-      expect(page).to have_text "mushrooms"
+        expect(page).to have_selector('.custom-option.-multiple-lines', count: 3)
+        expect(page).to have_text "Successful update"
+
+        expect(page).to have_text custom_field.name
+        expect(page).to have_text "ham"
+        expect(page).not_to have_text "pineapple"
+        expect(page).to have_text "onions"
+        expect(page).to have_text "mushrooms"
+      end
     end
 
-    it 'should truncate the field in the WP table' do
-      wp_table.visit!
-      wp_table.expect_work_package_listed(wp_page)
-      add_wp_table_column(custom_field.name)
+    describe 'in the WP table' do
+      let(:edit_field) {
+        field = wp_table.edit_field work_package, "customField#{custom_field.id}"
+        field.field_type = 'select'
+        field
+      }
+      include_context 'work package table helpers'
 
-      expect(page).to have_text "ham , pineapple , ... 3"
-      expect(page).not_to have_text "onions"
+      before do
+        work_package
+        work_package2
+
+        login_as(user)
+
+        wp_table.visit!
+        wp_table.expect_work_package_listed(work_package)
+        wp_table.expect_work_package_listed(work_package2)
+        add_wp_table_column(custom_field.name)
+      end
+
+      it 'should be usable in the table context' do
+        # Should show truncated values
+        expect(page).to have_text "ham , pineapple , ... 3"
+        expect(page).not_to have_text "onions"
+
+        # Group by the CF
+        wp_table.click_setting_item 'Group by ...'
+        select 'Ingredients', from: 'selected_columns_new'
+        click_button 'Apply'
+
+        loading_indicator_saveguard
+
+        # Expect changed groups
+        expect(page).to have_selector('.group--value .count', count: 2)
+        expect(page).to have_selector('.group--value', text: 'ham, onions, pineapple (1)')
+        expect(page).to have_selector('.group--value', text: 'ham (1)')
+
+        edit_field.activate!
+        sel = edit_field.input_element
+
+        sel.unselect "pineapple"
+        sel.unselect "onions"
+
+        edit_field.submit_by_dashboard
+
+        # Expect changed groups
+        expect(page).to have_selector('.group--value .count', count: 1)
+        expect(page).to have_selector('.group--value', text: 'ham (2)')
+      end
     end
   end
 end
