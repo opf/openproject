@@ -36,7 +36,6 @@ See doc/COPYRIGHT.rdoc for more details.
     var notice = $("<%= escape_javascript(render(partial: 'members/common_notice',
                                                  locals: { message: l(:notice_successful_update) })) %>");
     $('#tab-content-memberships').prepend(notice);
-    $('#member-<%= @membership.id %>').effect("highlight", {}, 2000);
 
   <% else %>
     var error = $("<%= escape_javascript(render(partial: 'members/member_errors',
