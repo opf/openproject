@@ -31,8 +31,9 @@ require 'spec_helper'
 describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:column) { 'status' }
+  let(:column_name) { 'status' }
   let(:direction) { 'desc' }
+  let(:column) { QueryColumn.new(column_name) }
   let(:representer) do
     described_class
       .new(::API::V3::Queries::SortBys::SortByDecorator.new(column, direction))
@@ -104,7 +105,7 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
     end
 
     context 'for a translated column' do
-      let(:column) { 'assigned_to' }
+      let(:column_name) { 'assigned_to' }
 
       describe '_links' do
         it_behaves_like 'has a titled link' do

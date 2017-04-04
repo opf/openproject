@@ -71,7 +71,7 @@ module API
         def sort_by
           return unless represented.sort_criteria
 
-          map_with_sort_by_as_decorated(represented.sort_criteria) do |sort_by|
+          map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
             ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
           end
         end
@@ -127,7 +127,7 @@ module API
           href = query_attributes.dig("_links", "project", "href")
           id = id_from_href "projects", href
 
-          if id.to_i != 0
+          if id.to_i.nonzero?
             id # return numerical ID
           else
             Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
@@ -180,8 +180,8 @@ module API
         end
 
         def map_with_sort_by_as_decorated(sort_criteria)
-          sort_criteria.map do |attribute, order|
-            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(attribute, order)
+          sort_criteria.map do |column, order|
+            decorated = ::API::V3::Queries::SortBys::SortByDecorator.new(column, order)
 
             yield decorated
           end

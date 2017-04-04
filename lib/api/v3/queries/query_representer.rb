@@ -113,7 +113,7 @@ module API
         end
 
         links :sortBy do
-          map_with_sort_by_as_decorated(represented.sort_criteria) do |sort_by|
+          map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
             {
               href: api_v3_paths.query_sort_by(sort_by.converted_name, sort_by.direction_name),
               title: sort_by.name

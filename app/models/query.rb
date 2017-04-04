@@ -419,6 +419,17 @@ class Query < ActiveRecord::Base
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
   end
 
+  def sort_criteria_columns
+    sort_criteria.map do |attribute, direction|
+      attribute = attribute.to_sym
+
+      column = sortable_columns
+               .detect { |candidate| candidate.name == attribute }
+
+      [column, direction]
+    end
+  end
+
   def sorted?
     sort_criteria.any?
   end
