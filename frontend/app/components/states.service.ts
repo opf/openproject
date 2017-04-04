@@ -23,7 +23,8 @@ import {WorkPackageTableFilters} from './wp-fast-table/wp-table-filters';
 import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
 import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
 import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
-import {Subject} from 'rxjs';
+import { Subject } from 'rxjs';
+import { WorkPackageTableTimelineVisible } from "./wp-fast-table/wp-table-timeline-visible";
 
 export class States {
 
@@ -86,7 +87,7 @@ export class TableState {
   // State to be updated when the table is up to date
   rendered = new State<WorkPackageTable>();
   // State to determine timeline visibility
-  timelineVisible = new State<boolean>();
+  timelineVisible = new State<WorkPackageTableTimelineVisible>();
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
 }

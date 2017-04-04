@@ -1,3 +1,4 @@
+import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -78,9 +79,7 @@ function wpTable(
                    attributes:ng.IAttributes,
                    wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
-
       scope.wpTimelineContainer = wpTimelineContainer;
-      states.table.timelineVisible.put(wpTimelineContainer.visible);
 
       var t0 = performance.now();
 
@@ -129,6 +128,7 @@ class WorkPackagesTableController {
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableSum:WorkPackageTableSumService,
+              wpTableTimeline:WorkPackageTableTimelineService,
               wpTableColumns:WorkPackageTableColumnsService,
              ) {
     // Clear any old table subscribers
@@ -166,8 +166,9 @@ class WorkPackagesTableController {
       states.table.results.observeOnScope($scope),
       wpTableSum.observeOnScope($scope),
       wpTableGroupBy.observeOnScope($scope),
-      wpTableColumns.observeOnScope($scope)
-    ).subscribe(([query, results, sum, groupBy, columns]) => {
+      wpTableColumns.observeOnScope($scope),
+      wpTableTimeline.observeOnScope($scope)
+    ).subscribe(([query, results, sum, groupBy, columns, timelines]) => {
 
       $scope.query = query;
       $scope.resource = results;
@@ -178,6 +179,8 @@ class WorkPackagesTableController {
       $scope.columns = columns.current;
       // Total columns = all available columns + id + checkbox
       $scope.numTableColumns = $scope.columns.length + 2;
+
+      $scope.timelineVisible = timelines.current;
 
       if (sum.current) {
         if (!this.sumsSchemaFetched()) { this.fetchSumsSchema(); }

@@ -118,8 +118,8 @@ export class WpTimelineGlobalService {
       this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope)),
       this.states.table.rows.observeUntil(scopeDestroyed$(this.scope))
     )
-      .filter(([visible, rows]) => visible)
-      .map(([visible, rows]) => rows)
+      .filter(([timelineState, rows]) => timelineState.isVisible)
+      .map(([_timelineState, rows]) => rows)
       .subscribe((rows:WorkPackageResource[]) => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
         this.wpRelations.requireInvolved(this.workPackageIdOrder);
@@ -135,8 +135,8 @@ export class WpTimelineGlobalService {
       .withLatestFrom(
         this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope))
       )
-      .filter(([nextVal, visible]) => nextVal && visible)
-      .map(([nextVal, visible]) => nextVal)
+      .filter(([nextVal, timelineState]) => nextVal && timelineState.isVisible)
+      .map(([nextVal, _timelineState]) => nextVal)
       .subscribe((nextVal:[string, RelationsStateValue]) => {
         const [workPackageId, relations] = nextVal;
 

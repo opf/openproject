@@ -32,7 +32,7 @@ import {WorkPackageCollectionResource} from '../hal-resources/wp-collection-reso
 import {FormResource} from '../hal-resources/form-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {HalRequestService} from '../hal-request/hal-request.service';
-import {PayloadDmService} from './payload-dm.service.ts';
+import {PayloadDmService} from './payload-dm.service';
 
 export interface PaginationObject {
   pageSize:number,

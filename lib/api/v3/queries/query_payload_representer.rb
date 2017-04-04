@@ -70,6 +70,9 @@ module API
         property :display_sums, as: :sums
         property :is_public, as: :public
 
+        # Timeline properties
+        property :timeline_visible
+
         private
 
         ##
