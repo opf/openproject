@@ -81,7 +81,7 @@ module API
 
         def trim_links(value)
           if value.is_a? ::Hash
-            value.except("_type", "name", "title", "schema").map_values { |v| trim_links v }
+            ::Hash[value.except("_type", "name", "title", "schema").map { |k, v| [k, trim_links(v)] }]
           elsif value.is_a? Array
             value.map { |v| trim_links v }
           else

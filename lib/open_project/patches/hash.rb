@@ -26,17 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# This patch adds a convenience method to models that are including acts_as_list.
-# After including it is possible to e.g. call
-#
-# including_instance.move_to = "highest"
-#
-# and the instance will be sorted to to the top of the list.
-#
-# This enables having the view send string that will be used for sorting.
-
-# Needs to be applied before any of the models using acts_as_list get loaded.
-
 module OpenProject
   module Patches
     module Hash
