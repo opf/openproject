@@ -82,40 +82,4 @@ describe('TimezoneService', function() {
       expect(time.format('HH:mm')).to.eq('00:00');
     });
   });
-
-  // describe('#parseLocalDate', function() {
-  //   it('has UTC time zone', function() {
-  //     var time = TimezoneService.parseLocalDate(DATE, 'YYYY-MM-DD');
-  //     expect(time.utcOffset()).to.equal(0);
-  //   });
-  //
-  //   it('has no time information', function() {
-  //     var time = TimezoneService.parseLocalDate(DATE, 'YYYY-MM-DD');
-  //     expect(time.format('HH:mm')).to.eq('00:00');
-  //   });
-  // });
-  //
-  // describe('#parseISODatetime', function() {
-  //   it('has UTC time zone', function() {
-  //     var time = TimezoneService.parseISODatetime(DATETIME);
-  //     expect(time.utcOffset()).to.equal(0);
-  //   });
-  //
-  //   it('has no time information', function() {
-  //     var time = TimezoneService.parseLocalDate(DATE, 'YYYY-MM-DD');
-  //     expect(time.format('HH:mm')).to.eq('00:00');
-  //   });
-  // });
-  //
-  // describe('#getTimezoneNG', function() {
-  //   it('has UTC time zone', function() {
-  //     var time = TimezoneService.parseLocalDate(DATE, 'YYYY-MM-DD');
-  //     expect(time.utcOffset()).to.equal(0);
-  //   });
-  //
-  //   it('has no time information', function() {
-  //     var time = TimezoneService.parseLocalDate(DATE, 'YYYY-MM-DD');
-  //     expect(time.format('HH:mm')).to.eq('00:00');
-  //   });
-  // });
 });

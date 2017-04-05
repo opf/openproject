@@ -34,15 +34,15 @@ function transformDateUtc(TimezoneService:any) {
     require: '^ngModel',
     link: function (scope:ng.IScope, element:HTMLElement, attrs:any, ngModelController:any) {
       ngModelController.$parsers.push(function (data:string) {
-        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
-          return undefined;
+        if (!TimezoneService.isValidISODate(data)) {
+          return '';
         }
         var d = TimezoneService.parseLocalDateTime(data);
         return TimezoneService.formattedISODateTime(d);
       });
       ngModelController.$formatters.push(function (data:string) {
-        if (!moment(data, 'YYYY-MM-DDTHH:mm:ssZ', true).isValid()) {
-          return undefined;
+        if (!TimezoneService.isValidISODateTime(data)) {
+          return '';
         }
         var d = TimezoneService.parseISODatetime(data);
         return TimezoneService.formattedISODate(d);

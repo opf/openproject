@@ -84,15 +84,7 @@ module.exports = function(ConfigurationService, I18n) {
      * @returns {Moment}
      */
     parseISODatetime: function(datetime) {
-      var result = moment(datetime, 'YYYY-MM-DDTHH:mm:ssZ');
-
-      if (ConfigurationService.isTimezoneSet()) {
-        // TODO:needs to be moved out of the conditional, all date/datetimes need to be displayed using the system timezone
-        result.local();
-        result.tz(ConfigurationService.timezone());
-      }
-
-      return result;
+      return this.parseDatetime(datetime, 'YYYY-MM-DDTHH:mm:ssZ');
     },
 
     parseISODate: function(date) {
@@ -142,13 +134,13 @@ module.exports = function(ConfigurationService, I18n) {
     },
 
     isValidISODateTime: function(dateTime) {
-      return TimezoneService.isValid(dateTime, moment.ISO_8601);
+      return TimezoneService.isValid(dateTime, 'YYYY-MM-DDTHH:mm:ssZ');
     },
 
     isValid: function(date, dateFormat) {
       var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
                    ConfigurationService.dateFormat() : 'L');
-      return moment(date, [format]).isValid();
+      return moment(date, [format], true).isValid();
     },
 
 
@@ -159,15 +151,6 @@ module.exports = function(ConfigurationService, I18n) {
     getTimeFormat: function() {
       return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
     },
-
-    getTimezoneNG: function() {
-      var now = moment().utc();
-      if (ConfigurationService.isTimezoneSet()) {
-        now.local();
-        now.tz(ConfigurationService.timezone());
-      }
-      return now.format('ZZ');
-    }
   };
 
   return TimezoneService;

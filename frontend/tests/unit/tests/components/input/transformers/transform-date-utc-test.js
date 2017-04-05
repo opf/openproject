@@ -29,13 +29,13 @@
 describe('transformDateUtc Directive', function() {
   var compile, element, rootScope, scope, ConfigurationService, isTimezoneSetStub, timezoneStub;
 
-  var prepare = function (timeOfDay) {
+  var prepare = function () {
 
     angular.mock.module('openproject');
 
     inject(function($rootScope, $compile, _ConfigurationService_) {
       var html =
-        '<input type="text" ng-model="dateValue" transform-date-utc="' + timeOfDay + '"/>';
+        '<input type="text" ng-model="dateValue" transform-date-utc />';
 
       ConfigurationService = _ConfigurationService_;
       isTimezoneSetStub = sinon.stub(ConfigurationService, 'isTimezoneSet');
@@ -73,16 +73,16 @@ describe('transformDateUtc Directive', function() {
 
   var shouldBehaveCorrectlyWhenGivenInvalidDateValues = function () {
     describe('when given invalid date values', function () {
-      shouldBehaveLikeAParser('', undefined);
-      shouldBehaveLikeAParser('invalid', undefined);
-      shouldBehaveLikeAParser('2016-12', undefined);
-      shouldBehaveLikeAFormatter(undefined, '');
+      shouldBehaveLikeAParser(null, null);
+      shouldBehaveLikeAParser('invalid', '');
+      shouldBehaveLikeAParser('2016-12', '');
+      shouldBehaveLikeAFormatter('', '');
       shouldBehaveLikeAFormatter('invalid', '');
       shouldBehaveLikeAFormatter('2016-12', '');
     });
   };
 
-  context('should behave like begin-of-day with no time-of-day value given', function () {
+  context('when having UTC configured', function () {
     beforeEach(function () {
       prepare();
       timezoneStub.returns('UTC');
@@ -90,7 +90,7 @@ describe('transformDateUtc Directive', function() {
 
     describe('when given valid date values', function() {
       var value = '2016-12-01';
-      var expectedValue = value + 'T00:00:00+00:00';
+      var expectedValue = value + 'T00:00:00Z';
       shouldBehaveLikeAParser(value, expectedValue);
       shouldBehaveLikeAFormatter(expectedValue, value);
     });
@@ -98,95 +98,31 @@ describe('transformDateUtc Directive', function() {
     shouldBehaveCorrectlyWhenGivenInvalidDateValues();
   });
 
-  context('with begin-of-day', function () {
+  context('when having GMT+1 zone configured', function () {
     beforeEach(function () {
-      prepare('begin-of-day');
-      timezoneStub.returns('UTC');
+      prepare();
+      // moment-timezone: GMT+1 is actually GMT-1
+      timezoneStub.returns('Etc/GMT+1');
     });
 
-    describe('when given valid date values', function() {
-      var value = '2016-12-01';
-      var expectedValue = value + 'T00:00:00+00:00';
-      shouldBehaveLikeAParser(value, expectedValue);
-      shouldBehaveLikeAFormatter(expectedValue, value);
+    describe('it has the time adjusted', function () {
+      var value = '2016-12-03T00:00:00Z';
+      var expectedValue = '2016-12-02';
+      shouldBehaveLikeAFormatter(value, expectedValue);
     });
-
-    shouldBehaveCorrectlyWhenGivenInvalidDateValues();
   });
 
-  context('with end-of-day', function () {
+  context('when having GMT-1 zone configured', function () {
     beforeEach(function () {
-      prepare('end-of-day');
-      timezoneStub.returns('UTC');
+      prepare();
+      // moment-timezone: GMT-1 is actually GMT+1
+      timezoneStub.returns('Etc/GMT-1');
     });
 
-    describe('when given valid date values', function() {
+    describe('it has the time adjusted', function () {
       var value = '2016-12-01';
-      var expectedValue = value + 'T23:59:59+00:00';
+      var expectedValue = '2016-11-30T23:00:00Z';
       shouldBehaveLikeAParser(value, expectedValue);
-      shouldBehaveLikeAFormatter(expectedValue, value);
-    });
-
-    shouldBehaveCorrectlyWhenGivenInvalidDateValues();
-  });
-
-  context('when receiving datetime values from a different timezone', function () {
-    context('with begin-of-day', function () {
-      beforeEach(function () {
-        prepare('begin-of-day');
-        // moment-timezone: GMT+1 is actually GMT-1
-        timezoneStub.returns('Etc/GMT+1');
-      });
-
-      describe('it should be transformed to the local timezone', function () {
-        var value = '2016-12-03T00:00:00+00:00';
-        var expectedValue = '2016-12-02';
-        shouldBehaveLikeAFormatter(value, expectedValue);
-      });
-    });
-
-    context('with end-of-day', function () {
-      beforeEach(function () {
-        prepare('end-of-day');
-        // moment-timezone: GMT-1 is actually GMT+1
-        timezoneStub.returns('Etc/GMT-1');
-      });
-
-      describe('it should be transformed to the local timezone', function () {
-        var value = '2016-12-01T23:59:59+00:00';
-        var expectedValue = '2016-12-02';
-        shouldBehaveLikeAFormatter(value, expectedValue);
-      });
-    });
-  });
-
-  context('when operating in a different timezone than UTC', function () {
-    context('with begin-of-day', function () {
-      beforeEach(function () {
-        prepare('begin-of-day');
-        // moment-timezone: GMT-1 is actually GMT+1
-        timezoneStub.returns('Etc/GMT-1');
-      });
-
-      describe('it should have the expected timezone offset', function () {
-        var value = '2016-12-01';
-        var expectedValue = value + 'T00:00:00+01:00';
-        shouldBehaveLikeAParser(value, expectedValue);
-      });
-    });
-
-    context('with end-of-day', function () {
-      beforeEach(function () {
-        prepare('end-of-day');
-        // moment-timezone: GMT+1 is actually GMT-1
-        timezoneStub.returns('Etc/GMT+1');
-      });
-
-      describe('it should have the expected timezone offset', function () {
-        var value = '2016-12-01';
-        var expectedValue = '2016-11-30T23:59:59-01:00';
-        shouldBehaveLikeAParser(value, expectedValue);
-      });
     });
   });
 });
