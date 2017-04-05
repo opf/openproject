@@ -82,9 +82,14 @@
   @include advanced-filters--sizing
   align-items:      center
   padding:          0.5rem 0
+  // necessary to display tooltips
+  overflow:         visible
 
-.advanced-filters--text-field
+// The type="text" is required to be more specific
+.advanced-filters--text-field[type="text"],
+.advanced-filters--date-field[type="text"]
   @extend .form--text-field, .form--text-field.-small
+
   &:required
     box-shadow: none
 
@@ -110,6 +115,9 @@
 .advanced-filters--filter-value
   @include grid-content()
   @include grid-visible-overflow
+
+  op-date-picker
+    flex: 1
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)

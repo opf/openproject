@@ -34,7 +34,8 @@ export class DateTimeValueController {
   public filter:QueryFilterInstanceResource;
 
   constructor(public $scope:ng.IScope,
-              public I18n:op.I18n) {
+              public I18n:op.I18n,
+              private TimezoneService:any) {
   }
 
   public get value() {
@@ -51,6 +52,20 @@ export class DateTimeValueController {
         debounce: {'default': 400, 'change': 0, 'blur': 0}
     };
   };
+
+  public get isTimeZoneDifferent() {
+    let value = this.TimezoneService.parseDatetime(this.filter.values[0])
+
+    return value.hours() !== 0 || value.minutes() !== 0;
+  }
+
+  public get timeZoneText() {
+    let lowerBoundary = this.TimezoneService.parseDatetime(this.filter.values[0]);
+    let upperBoundary = this.TimezoneService.parseDatetime(this.filter.values[0]).add(24, 'hours');
+
+    return this.I18n.t('js.filter.time_zone_converted', { from: lowerBoundary.format('YYYY-MM-DD HH:mm'),
+                                                          to: upperBoundary.format('YYYY-MM-DD HH:mm') });
+  }
 }
 
 function dateTimeValue() {
