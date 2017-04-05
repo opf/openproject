@@ -21,6 +21,8 @@ import {WPTableHierarchyState, WPTableRowSelectionState} from "./wp-fast-table/w
 
 export class States extends Component {
 
+  name = "MainStore";
+
   /* /api/v3/work_packages */
   workPackages = inputStateCache<WorkPackageResource>();
 
@@ -42,6 +44,9 @@ export class States extends Component {
 }
 
 export class TableState {
+
+  name = "TableStore";
+
   // the query associated with the table
   query = input<QueryResource>();
   // the results associated with the table
