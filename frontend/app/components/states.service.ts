@@ -1,8 +1,7 @@
-import {Component, createNewContext, input, inputStateCache, toggle} from "reactivestates";
+import {Component, createNewContext, input, inputStateCache} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {whenDebugging} from "../helpers/debug_output";
-import {MultiState, State} from "../helpers/reactive-fassade";
 import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
 import {QueryResource} from "./api/api-v3/hal-resources/query-resource.service";
 import {SchemaResource} from "./api/api-v3/hal-resources/schema-resource.service";
