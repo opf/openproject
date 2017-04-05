@@ -22,14 +22,13 @@ import {WPTableHierarchyState, WPTableRowSelectionState} from "./wp-fast-table/w
 export class States extends Component {
 
   /* /api/v3/work_packages */
-  workPackages = inputStateCache<WorkPackageResource>();// new MultiState<WorkPackageResource>();
-  // workPackages = stateCache(() => input<WorkPackageResource>());// new MultiState<WorkPackageResource>();
+  workPackages = inputStateCache<WorkPackageResource>();
 
   /* /api/v3/schemas */
-  schemas = new MultiState<SchemaResource>();
+  schemas = inputStateCache<SchemaResource>();
 
   /* /api/v3/types */
-  types = new MultiState<TypeResource>();
+  types = inputStateCache<TypeResource>();
 
   // Work package table states
   table = new TableState();

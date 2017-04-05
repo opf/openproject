@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryResource} from '../hal-resources/query-resource.service';
-import {CollectionResource} from '../hal-resources/collection-resource.service';
-import {WorkPackageCollectionResource} from '../hal-resources/wp-collection-resource.service';
-import {FormResource} from '../hal-resources/form-resource.service';
-import {opApiModule} from '../../../../angular-modules';
-import {HalRequestService} from '../hal-request/hal-request.service';
-import {PayloadDmService} from './payload-dm.service.ts';
+import {opApiModule} from "../../../../angular-modules";
+import {HalRequestService} from "../hal-request/hal-request.service";
+import {CollectionResource} from "../hal-resources/collection-resource.service";
+import {FormResource} from "../hal-resources/form-resource.service";
+import {QueryResource} from "../hal-resources/query-resource.service";
+import {WorkPackageCollectionResource} from "../hal-resources/wp-collection-resource.service";
+import {PayloadDmService} from "./payload-dm.service";
 
 export interface PaginationObject {
   pageSize:number,

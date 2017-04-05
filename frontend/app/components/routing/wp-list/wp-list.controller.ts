@@ -26,27 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
-import {States} from '../../states.service';
-import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
-import {QueryResource, QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service.ts'
-import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service.ts'
+import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
+import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
+import {States} from "../../states.service";
+import {WorkPackageTableColumnsService} from "../../wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableFiltersService} from "../../wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageTableGroupByService} from "../../wp-fast-table/state/wp-table-group-by.service";
+import {WorkPackageTablePaginationService} from "../../wp-fast-table/state/wp-table-pagination.service";
+import {WorkPackageTableSortByService} from "../../wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableSumService} from "../../wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageTablePagination} from "../../wp-fast-table/wp-table-pagination";
+import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
+import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
