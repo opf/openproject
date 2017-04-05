@@ -36,6 +36,7 @@ import {
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import { Observable } from "rxjs";
 import { WorkPackageRelationsService, RelationsStateValue } from "./wp-relations.service";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -61,9 +62,7 @@ export class WorkPackageRelationsController {
       });
 
     // Listen for changes to this WP.
-    this.wpCacheService
-      .loadWorkPackage(this.workPackage.id)
-      .observeOnScope(this.$scope)
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.wpRelations.require(wp);
@@ -72,7 +71,7 @@ export class WorkPackageRelationsController {
 
   protected getRelatedWorkPackages(workPackageIds:string[]) {
     let observablesToGetZipped = workPackageIds.map(wpId => {
-      return this.wpCacheService.loadWorkPackage(wpId).observeOnScope(this.$scope);
+      return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
     });
 
     if (observablesToGetZipped.length > 1) {

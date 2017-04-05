@@ -26,12 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {CollectionResource} from "../../api/api-v3/hal-resources/collection-resource.service";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
 
 export class WatchersPanelController {
 
@@ -45,13 +46,13 @@ export class WatchersPanelController {
   public watching: any[] = [];
   public text: any;
 
-  constructor(public $scope:ng.IScope,
-              public $element:ng.IAugmentedJQuery,
-              public $q:ng.IQService,
-              public I18n:op.I18n,
-              public $templateCache:ng.ITemplateCacheService,
-              public $compile:ng.ICompileService,
-              public loadingIndicator:LoadingIndicatorService,
+  constructor(public $scope: ng.IScope,
+              public $element: ng.IAugmentedJQuery,
+              public $q: ng.IQService,
+              public I18n: op.I18n,
+              public $templateCache: ng.ITemplateCacheService,
+              public $compile: ng.ICompileService,
+              public loadingIndicator: LoadingIndicatorService,
               public wpNotificationsService: WorkPackageNotificationService,
               public wpCacheService: WorkPackageCacheService) {
 
@@ -67,7 +68,7 @@ export class WatchersPanelController {
       return;
     }
 
-    wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
+    scopedObservable($scope, wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadCurrentWatchers();
@@ -80,7 +81,7 @@ export class WatchersPanelController {
     this.allowedToRemove = !!this.workPackage.removeWatcher;
 
     this.workPackage.watchers.$load()
-      .then((collection:CollectionResource) => {
+      .then((collection: CollectionResource) => {
         this.watching = collection.elements;
       })
       .catch((error) => {
@@ -95,27 +96,27 @@ export class WatchersPanelController {
     input.autocomplete({
       delay: 250,
       autoFocus: false, // Accessibility!
-      source: (request:{ term:string }, response:Function) => {
-        this.autocompleteWatchers(request.term).then((values:any) => {
-          response(values.map((watcher:any) => {
-            return { watcher: watcher, value: watcher.name };
+      source: (request: { term: string }, response: Function) => {
+        this.autocompleteWatchers(request.term).then((values: any) => {
+          response(values.map((watcher: any) => {
+            return {watcher: watcher, value: watcher.name};
           }));
         });
       },
-      select: (evt:JQueryEventObject, ui:any) => {
+      select: (evt: JQueryEventObject, ui: any) => {
         this.addWatcher(ui.item.watcher);
         input.val('');
         return false; // Avoid setting the value after selection
       },
     });
-    (input.autocomplete( "instance" )as any)._renderItem = (ul:any, item:any) => this.renderWatcherItem(ul,item);
+    (input.autocomplete("instance")as any)._renderItem = (ul: any, item: any) => this.renderWatcherItem(ul, item);
   }
 
-  public set loadingPromise(promise:ng.IPromise<any>) {
+  public set loadingPromise(promise: ng.IPromise<any>) {
     this.loadingIndicator.wpDetails.promise = promise;
   }
 
-  public renderWatcherItem(ul:JQuery, item:{value: string, watcher: any}) {
+  public renderWatcherItem(ul: JQuery, item: { value: string, watcher: any }) {
     let itemScope = this.$scope.$new();
     itemScope['value'] = item.value;
     itemScope['watcher'] = item.watcher;
@@ -129,7 +130,7 @@ export class WatchersPanelController {
     return element;
   }
 
-  public autocompleteWatchers(query:string):ng.IPromise<any> {
+  public autocompleteWatchers(query: string): ng.IPromise<any> {
     if (!query) {
       return this.$q.when([]);
     }
@@ -149,15 +150,15 @@ export class WatchersPanelController {
       },
       {
         caching: {enabled: false}
-      }).then((collection:CollectionResource) => {
-        this.$scope['noResults'] = collection.count === 0;
+      }).then((collection: CollectionResource) => {
+      this.$scope['noResults'] = collection.count === 0;
       deferred.resolve(collection.elements);
     }).catch(() => deferred.reject());
 
     return deferred.promise;
   }
 
-  public addWatcher(user:any) {
+  public addWatcher(user: any) {
     this.loadingPromise = this.workPackage.addWatcher.$link.$fetch({user: {href: user.href}})
       .then(() => {
         // Forcefully reload the resource to update the watch/unwatch links
@@ -165,18 +166,20 @@ export class WatchersPanelController {
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
         this.autocompleteInput = '';
       })
-      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error: any) => this.wpNotificationsService.showError(error, this.workPackage));
   };
 
-  public removeWatcher(watcher:any) {
-    this.workPackage.removeWatcher.$link.$prepare({ user_id: watcher.id })()
+  public removeWatcher(watcher: any) {
+    this.workPackage.removeWatcher.$link.$prepare({user_id: watcher.id})()
       .then(() => {
-        _.remove(this.watching, (other:HalResource) => { return other.href === watcher.href; });
+        _.remove(this.watching, (other: HalResource) => {
+          return other.href === watcher.href;
+        });
 
         // Forcefully reload the resource to update the watch/unwatch links
         // should the current user have been removed
         this.wpCacheService.loadWorkPackage(this.workPackage.id, true);
       })
-      .catch((error:any) => this.wpNotificationsService.showError(error, this.workPackage));
+      .catch((error: any) => this.wpNotificationsService.showError(error, this.workPackage));
   };
 }

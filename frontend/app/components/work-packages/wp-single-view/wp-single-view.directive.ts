@@ -26,18 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from '../../../angular-modules';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {WorkPackageCacheService} from '../work-package-cache.service';
-import { WorkPackageDisplayFieldService } from "../../wp-display/wp-display-field/wp-display-field.service";
-import { DisplayField } from "../../wp-display/wp-display-field/wp-display-field.module";
-import { debugLog } from "../../../helpers/debug_output";
+import {opWorkPackagesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {debugLog} from "../../../helpers/debug_output";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
+import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
+import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
+import {WorkPackageCacheService} from "../work-package-cache.service";
 
 interface FieldDescriptor {
   name:string;
@@ -78,11 +74,12 @@ export class WorkPackageSingleViewController {
 
     // Subscribe to work package
     const workPackageId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
-    wpCacheService.loadWorkPackage(workPackageId)
-      .observeOnScope($scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
+    scopedObservable(
+      $scope,
+      wpCacheService.loadWorkPackage(workPackageId).values$())
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.init(wp);
-    });
+      });
   }
 
   /**

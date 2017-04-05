@@ -26,29 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {wpDirectivesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 export class WorkPackageRelationsHierarchyController {
-  public workPackage:WorkPackageResourceInterface;
-  public showEditForm:boolean = false;
+  public workPackage: WorkPackageResourceInterface;
+  public showEditForm: boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
   public canHaveChildren = !this.workPackage.isMilestone;
   public canModifyHierarchy = !!this.workPackage.changeParent;
   public canAddRelation = !!this.workPackage.addRelation;
 
-  constructor(protected $scope:ng.IScope,
-              protected $rootScope:ng.IRootScopeService,
-              protected $q:ng.IQService,
-              protected wpCacheService:WorkPackageCacheService,
-              protected PathHelper:op.PathHelper,
-              protected I18n:op.I18n) {
+  constructor(protected $scope: ng.IScope,
+              protected $rootScope: ng.IRootScopeService,
+              protected $q: ng.IQService,
+              protected wpCacheService: WorkPackageCacheService,
+              protected PathHelper: op.PathHelper,
+              protected I18n: op.I18n) {
 
-    this.wpCacheService
-      .loadWorkPackage(this.workPackage.id)
-      .observeOnScope(this.$scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
+    scopedObservable(
+      this.$scope,
+      this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadParent();
         this.loadChildren();
@@ -70,11 +71,11 @@ export class WorkPackageRelationsHierarchyController {
       return;
     }
 
-    this.wpCacheService
-      .loadWorkPackage(this.workPackage.parentId.toString())
-      .observeOnScope(this.$scope)
+    scopedObservable(
+      this.$scope,
+      this.wpCacheService.loadWorkPackage(this.workPackage.parentId.toString()).values$())
       .take(1)
-      .subscribe((parent:WorkPackageResourceInterface) => {
+      .subscribe((parent: WorkPackageResourceInterface) => {
         this.workPackage.parent = parent;
       });
   }

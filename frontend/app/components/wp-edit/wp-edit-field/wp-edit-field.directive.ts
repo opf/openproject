@@ -26,13 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
-import {WorkPackageEditFieldService} from "./wp-edit-field.service";
-import {EditField} from "./wp-edit-field.module";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {SchemaResource} from "../../api/api-v3/hal-resources/schema-resource.service";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {ContextMenuService} from "../../context-menus/context-menu.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {ContextMenuService} from '../../context-menus/context-menu.service';
-import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
+import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
+import {EditField} from "./wp-edit-field.module";
+import {WorkPackageEditFieldService} from "./wp-edit-field.service";
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
@@ -349,7 +350,9 @@ function wpEditField(wpCacheService: WorkPackageCacheService) {
     controllers[1].formCtrl = formCtrl;
 
     formCtrl.registerField(scope.vm);
-    wpCacheService.loadWorkPackage(formCtrl.workPackage.id).observeOnScope(scope)
+    scopedObservable(
+      scope,
+      wpCacheService.loadWorkPackage(formCtrl.workPackage.id).values$())
       .subscribe((wp: WorkPackageResource) => {
         scope.vm.workPackage = wp;
         scope.vm.initializeField();

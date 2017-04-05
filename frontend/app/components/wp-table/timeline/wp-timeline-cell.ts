@@ -73,7 +73,6 @@ export class WorkPackageTimelineCell {
   }
 
   deactivate() {
-    console.log("deactivate()");
     this.clear();
     this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
     this.subscription && this.subscription.unsubscribe();

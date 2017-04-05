@@ -27,8 +27,9 @@
 // ++
 
 import {opWorkPackagesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageCacheService} from "../work-package-cache.service";
 
 export class WorkPackageSubjectController {
 
@@ -38,7 +39,9 @@ export class WorkPackageSubjectController {
               protected $stateParams:ng.ui.IStateParamsService,
               protected wpCacheService:WorkPackageCacheService) {
     if (!this.workPackage) {
-      wpCacheService.loadWorkPackage($stateParams['workPackageId']).observeOnScope($scope)
+      scopedObservable(
+        $scope,
+        wpCacheService.loadWorkPackage($stateParams['workPackageId']).values$())
         .subscribe((wp: WorkPackageResource) => {
           this.workPackage = wp;
         });

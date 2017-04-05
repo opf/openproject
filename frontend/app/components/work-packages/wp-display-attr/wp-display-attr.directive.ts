@@ -1,4 +1,3 @@
-import {DisplayFieldFactory} from './../../wp-display/wp-display-field/wp-display-field.module';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,17 +26,19 @@ import {DisplayFieldFactory} from './../../wp-display/wp-display-field/wp-displa
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
-import {WorkPackageCacheService} from "../work-package-cache.service";
-import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
-import {MultipleLinesStringObjectsDisplayField} from '../../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
-import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {MultipleLinesStringObjectsDisplayField} from "../../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module";
+import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
+import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
+import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
+import {WorkPackageCacheService} from "../work-package-cache.service";
+
 
 export class WorkPackageDisplayAttributeController {
 
@@ -131,7 +132,9 @@ function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
                     attr:ng.IAttributes) {
 
     if (!scope.$ctrl.customSchema) {
-      wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).observeOnScope(scope)
+      scopedObservable(
+        scope,
+        wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).values$())
         .subscribe((wp: WorkPackageResource) => {
           scope.$ctrl.updateAttribute(wp);
         });
