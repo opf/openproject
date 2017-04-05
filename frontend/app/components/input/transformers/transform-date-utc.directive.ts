@@ -26,22 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformDateUtc(TimezoneService) {
+function transformDateUtc(TimezoneService:any) {
   return {
     restrict: 'A',
     scope: {
-      transformDateUtc: '@'
     },
     require: '^ngModel',
-    link: function (scope, element, attrs, ngModelController) {
-      ngModelController.$parsers.push(function (data) {
+    link: function (scope:ng.IScope, element:HTMLElement, attrs:any, ngModelController:any) {
+      ngModelController.$parsers.push(function (data:string) {
         if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
           return undefined;
         }
         var d = TimezoneService.parseLocalDateTime(data);
         return TimezoneService.formattedISODateTime(d);
       });
-      ngModelController.$formatters.push(function (data) {
+      ngModelController.$formatters.push(function (data:string) {
         if (!moment(data, 'YYYY-MM-DDTHH:mm:ssZ', true).isValid()) {
           return undefined;
         }

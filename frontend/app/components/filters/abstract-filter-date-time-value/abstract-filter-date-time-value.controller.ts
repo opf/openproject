@@ -28,62 +28,51 @@
 
 
 import {filtersModule} from '../../../angular-modules';
+import {Moment} from 'moment';
 import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 
-export class DateTimesValueController extends AbstractDateTimeValueController {
+export abstract class AbstractDateTimeValueController {
+  public filter:QueryFilterInstanceResource;
 
   constructor(protected $scope:ng.IScope,
               protected I18n:op.I18n,
               protected TimezoneService:any) {
-    super($scope, I18n, TimezoneService);
+    _.remove(this.filter.values as string[], value => !this.TimezoneService.isValidISODateTime(value));
   }
 
-  public get begin() {
-    return this.filter.values[0];
-  }
+  public abstract get lowerBoundary():Moment
+  public abstract get upperBoundary():Moment
 
-  public set begin(val) {
-    this.filter.values[0] = val || '';
-  }
+  public get filterDateModelOptions() {
+    return {
+        updateOn: 'default change blur',
+        debounce: {'default': 400, 'change': 0, 'blur': 0}
+    };
+  };
 
-  public get end() {
-    return this.filter.values[1];
-  }
+  public get isTimeZoneDifferent() {
+    let value = this.lowerBoundary || this.upperBoundary;
 
-  public set end(val) {
-    this.filter.values[1] = val || '';
-  }
-
-  public get lowerBoundary() {
-    if (this.begin && this.TimezoneService.isValidISODateTime(this.begin)) {
-      return this.TimezoneService.parseDatetime(this.begin);
+    if (!value) {
+      return false;
     } else {
-      return null;
+      return value.hours() !== 0 || value.minutes() !== 0;
     }
   }
 
-  public get upperBoundary() {
-    if (this.end && this.TimezoneService.isValidISODateTime(this.end)) {
-      return this.TimezoneService.parseDatetime(this.end);
+  public get timeZoneText() {
+    if (this.lowerBoundary && this.upperBoundary) {
+      return this.I18n.t('js.filter.time_zone_converted.two_values',
+                         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm'),
+                           to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
+    } else if (this.upperBoundary) {
+      return this.I18n.t('js.filter.time_zone_converted.only_end',
+                         { to: this.upperBoundary.format('YYYY-MM-DD HH:mm') });
+
     } else {
-      return null;
+      return this.I18n.t('js.filter.time_zone_converted.only_start',
+                         { from: this.lowerBoundary.format('YYYY-MM-DD HH:mm') });
+
     }
   }
 }
-
-function dateTimesValue() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      filter: '=',
-    },
-    templateUrl: '/components/filters/filter-date-times-value/filter-date-times-value.directive.html',
-    controller: DateTimesValueController,
-    bindToController: true,
-    controllerAs: '$ctrl'
-  };
-};
-
-filtersModule.directive('filterDateTimesValue', dateTimesValue);

@@ -1,5 +1,5 @@
 <div id="div-values-{{$ctrl.filter.id}}"
-     class="advanced-filters--value-container inline-label">
+  class="inline-label">
   <op-date-picker>
     <input ng-model="$ctrl.begin"
            ng-model-options="::$ctrl.filterDateModelOptions"
@@ -13,8 +13,8 @@
            type="text"/>
   </op-date-picker>
 
-  <span class="form-label -transparent">
-    {{ ::$ctrl.I18n.t('js.label_and') }}
+  <span class="advanced-filters--affix">
+    {{ ::$ctrl.I18n.t('js.filter.value_spacer') }}
   </span>
 
   <op-date-picker>

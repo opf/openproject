@@ -78,7 +78,11 @@ en:
         text_open_filter: "Open this filter with 'ALT' and arrow keys."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
       noneElement: "(none)"
-      time_zone_converted: "%{from} - %{to} in your local time."
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: "From %{from} in your local time."
+        only_end: "Till %{to} in your local time."
+      value_spacer: "-"
       sorting:
         criteria:
           one: "First sorting criteria"

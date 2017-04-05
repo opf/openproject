@@ -1,5 +1,4 @@
-<div id="div-values-{{$ctrl.filter.id}}"
-     class="advanced-filters--value-container inline-label">
+<div id="div-values-{{$ctrl.filter.id}}" class="inline-label">
   <op-date-picker>
     <input ng-model="$ctrl.begin"
            ng-model-options="::$ctrl.filterDateModelOptions"
@@ -13,8 +12,8 @@
            type="text"/>
   </op-date-picker>
 
-  <span class="form-label -transparent">
-    {{ ::$ctrl.I18n.t('js.label_and') }}
+  <span class="advanced-filters--affix">
+    {{ ::$ctrl.I18n.t('js.filter.value_spacer') }}
   </span>
 
   <op-date-picker>
@@ -29,4 +28,9 @@
            transform-date-utc
            type="text"/>
   </op-date-picker>
+  <span class="advanced-filters--tooltip-trigger -multiline"
+        ng-if="$ctrl.isTimeZoneDifferent"
+        data-tooltip="{{$ctrl.timeZoneText}}">
+    <i class="icon icon-warning"></i>
+  </span>
 </div>

@@ -54,7 +54,7 @@ module.exports = function(ConfigurationService, I18n) {
 
     /**
      * Parses a string that is considered to be a local date and
-     * turns it inot a utc date time moment object.
+     * turns it into a utc date time moment object.
      * 'Local' might mean the browsers default time zone or the one configured
      * in the Configuration Service.
      *
@@ -141,11 +141,16 @@ module.exports = function(ConfigurationService, I18n) {
       return TimezoneService.isValid(date, 'YYYY-MM-DD');
     },
 
+    isValidISODateTime: function(dateTime) {
+      return TimezoneService.isValid(dateTime, moment.ISO_8601);
+    },
+
     isValid: function(date, dateFormat) {
       var format = dateFormat || (ConfigurationService.dateFormatPresent() ?
                    ConfigurationService.dateFormat() : 'L');
       return moment(date, [format]).isValid();
     },
+
 
     getDateFormat: function() {
       return ConfigurationService.dateFormatPresent() ? ConfigurationService.dateFormat() : 'L';

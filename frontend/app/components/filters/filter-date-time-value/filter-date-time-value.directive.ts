@@ -29,13 +29,14 @@
 
 import {filtersModule} from '../../../angular-modules';
 import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {AbstractDateTimeValueController} from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller'
 
-export class DateTimeValueController {
-  public filter:QueryFilterInstanceResource;
+export class DateTimeValueController extends AbstractDateTimeValueController {
 
-  constructor(public $scope:ng.IScope,
-              public I18n:op.I18n,
-              private TimezoneService:any) {
+  constructor(protected $scope:ng.IScope,
+              protected I18n:op.I18n,
+              protected TimezoneService:any) {
+    super($scope, I18n, TimezoneService);
   }
 
   public get value() {
@@ -46,25 +47,20 @@ export class DateTimeValueController {
     this.filter.values = [val as string];
   }
 
-  public get filterDateModelOptions() {
-    return {
-        updateOn: 'default change blur',
-        debounce: {'default': 400, 'change': 0, 'blur': 0}
-    };
-  };
-
-  public get isTimeZoneDifferent() {
-    let value = this.TimezoneService.parseDatetime(this.filter.values[0])
-
-    return value.hours() !== 0 || value.minutes() !== 0;
+  public get lowerBoundary() {
+    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
+      return this.TimezoneService.parseDatetime(this.value);
+    } else {
+      null
+    }
   }
 
-  public get timeZoneText() {
-    let lowerBoundary = this.TimezoneService.parseDatetime(this.filter.values[0]);
-    let upperBoundary = this.TimezoneService.parseDatetime(this.filter.values[0]).add(24, 'hours');
-
-    return this.I18n.t('js.filter.time_zone_converted', { from: lowerBoundary.format('YYYY-MM-DD HH:mm'),
-                                                          to: upperBoundary.format('YYYY-MM-DD HH:mm') });
+  public get upperBoundary() {
+    if (this.value && this.TimezoneService.isValidISODateTime(this.value)) {
+      return this.TimezoneService.parseDatetime(this.value).add(24, 'hours');
+    } else {
+      null
+    }
   }
 }
 

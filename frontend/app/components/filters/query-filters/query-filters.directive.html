@@ -14,8 +14,6 @@
         {{ ::filter.name }}
       </label>
 
-      <div class="advanced-filters--operator-value-container">
-
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
 
@@ -72,7 +70,10 @@
           <filter-toggled-multiselect-value ng-switch-default
                                             filter="filter">
           </filter-toggled-multiselect-value>
-        </div>
+      </div>
+
+      <div class="advanced-filters--filter-value"
+           ng-if="!showValuesInput">
       </div>
 
       <div class="advanced-filters--remove-filter">
