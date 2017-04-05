@@ -152,8 +152,8 @@ module API
                                          visibility: false,
                                          values_callback: -> do
                                            values = represented.sortable_columns.map do |column|
-                                             [SortBys::SortByDecorator.new(column.name, 'asc'),
-                                              SortBys::SortByDecorator.new(column.name, 'desc')]
+                                             [SortBys::SortByDecorator.new(column, 'asc'),
+                                              SortBys::SortByDecorator.new(column, 'desc')]
                                            end
 
                                            values.flatten

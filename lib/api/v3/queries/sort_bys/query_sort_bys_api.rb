@@ -36,6 +36,14 @@ module API
               def convert_to_ar(attribute)
                 ::API::Utilities::WpPropertyNameConverter.to_ar_name(attribute)
               end
+
+              def find_column(attribute)
+                ar_id = convert_to_ar(attribute).to_sym
+
+                Query
+                  .sortable_columns
+                  .detect { |candidate| candidate.name == ar_id }
+              end
             end
 
             params do
@@ -49,10 +57,10 @@ module API
 
             namespace ':id-:direction' do
               get do
-                ar_id = convert_to_ar(params[:id])
+                column = find_column(params[:id])
 
                 begin
-                  decorator = ::API::V3::Queries::SortBys::SortByDecorator.new(ar_id,
+                  decorator = ::API::V3::Queries::SortBys::SortByDecorator.new(column,
                                                                                params[:direction])
                   ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(decorator)
                 rescue ArgumentError
