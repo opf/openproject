@@ -26,11 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
-import {States} from '../../states.service';
-import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {wpControllersModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {States} from "../../states.service";
+import {WorkPackageTableSelection} from "../../wp-fast-table/state/wp-table-selection.service";
+import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
@@ -46,21 +47,24 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
 
     let wpId = $state.params['workPackageId'];
     let focusState = this.states.focusedWorkPackage;
-    let focusedWP = focusState.getCurrentValue();
+    let focusedWP = focusState.value;
 
     if (!focusedWP) {
-      focusState.put(wpId);
+      focusState.putValue(wpId);
       this.wpTableSelection.setRowState(wpId, true);
     }
 
-    this.states.focusedWorkPackage.observeOnScope($scope).subscribe((wpId) => {
-      if ($state.includes('work-packages.list.details')) {
-        $state.go(
-          ($state.current.name as string),
-          { workPackageId: wpId }
-        );
-      }
-    });
+    scopedObservable(
+      $scope,
+      this.states.focusedWorkPackage.values$())
+      .subscribe((wpId) => {
+        if ($state.includes('work-packages.list.details')) {
+          $state.go(
+            ($state.current.name as string),
+            {workPackageId: wpId}
+          );
+        }
+      });
   }
 
   public close() {

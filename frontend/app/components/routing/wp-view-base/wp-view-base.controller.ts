@@ -112,7 +112,7 @@ export class WorkPackageViewController {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
-    this.states.focusedWorkPackage.put(this.workPackage.id);
+    this.states.focusedWorkPackage.putValue(this.workPackage.id);
 
     // Listen to tab changes to update the tab label
     scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {

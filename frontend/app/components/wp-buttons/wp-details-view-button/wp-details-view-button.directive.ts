@@ -91,7 +91,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
 
   public openDetailsView() {
     var params = {
-      workPackageId: this.states.focusedWorkPackage.getCurrentValue(),
+      workPackageId: this.states.focusedWorkPackage.value,
       projectPath: this.projectIdentifier,
     };
 

@@ -1,4 +1,4 @@
-import {Component, createNewContext, inputStateCache} from "reactivestates";
+import {Component, createNewContext, input, inputStateCache} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {whenDebugging} from "../helpers/debug_output";
@@ -34,7 +34,7 @@ export class States extends Component {
   table = new TableState();
 
   // Current focused work package (e.g, row preselected for details button)
-  focusedWorkPackage = new State<string>();
+  focusedWorkPackage = input<string>();
 
   // Open editing forms
   editing = new MultiState<WorkPackageEditForm>();

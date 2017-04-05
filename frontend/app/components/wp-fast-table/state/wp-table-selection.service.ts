@@ -83,7 +83,7 @@ export class WorkPackageTableSelection {
     let newState = this._emptyState;
     newState.selected[workPackgeId] = true;
     this.selectionState.put(newState);
-    this.states.focusedWorkPackage.put(workPackgeId);
+    this.states.focusedWorkPackage.putValue(workPackgeId);
   }
 
   /**
