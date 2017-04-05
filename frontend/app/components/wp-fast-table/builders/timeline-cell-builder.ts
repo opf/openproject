@@ -19,7 +19,7 @@ export class TimelineCellBuilder {
   }
 
   public get isVisible():boolean {
-    return this.states.table.timelineVisible.getCurrentValue() || false;
+    return this.states.table.timelineVisible.value || false;
   }
 
   public build(workPackage:WorkPackageResource):HTMLElement {

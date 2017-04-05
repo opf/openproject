@@ -32,7 +32,7 @@ export interface WorkPackageEditContext {
   /**
    * Show this required field. E.g., add the necessary column
    */
-  requireVisible(fieldName:string):Promise<JQuery>;
+  requireVisible(fieldName:string): PromiseLike<JQuery>;
 
   /**
    * Reset the field and re-render the current WPs value.

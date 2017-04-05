@@ -51,7 +51,7 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService {
   public initialize(query:QueryResource) {
     let sum = new WorkPackageTableSum(query.sums);
 
-    this.state.put(sum);
+    this.state.putValue(sum);
   }
 
   public toggle() {
@@ -59,7 +59,7 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService {
 
     currentState.toggle();
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   public get isEnabled() {
@@ -67,7 +67,7 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService {
   }
 
   private get current():WorkPackageTableSum {
-    return this.state.getCurrentValue() as WorkPackageTableSum;
+    return this.state.value as WorkPackageTableSum;
   }
 
   public get currentSum():boolean|undefined {

@@ -27,15 +27,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../angular-modules';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import { RelationResource, RelationResourceInterface } from '../api/api-v3/hal-resources/relation-resource.service';
-import { WorkPackageResourceInterface } from '../api/api-v3/hal-resources/work-package-resource.service';
-import { HalRequestService } from "../api/api-v3/hal-request/hal-request.service";
-import { CollectionResource } from "../api/api-v3/hal-resources/collection-resource.service";
-import { State } from "../../helpers/reactive-fassade";
-import { WorkPackageStates } from "../work-package-states.service";
+import {InputState} from "reactivestates";
+import {wpDirectivesModule} from "../../angular-modules";
+import {HalRequestService} from "../api/api-v3/hal-request/hal-request.service";
+import {CollectionResource} from "../api/api-v3/hal-resources/collection-resource.service";
+import {RelationResource, RelationResourceInterface} from "../api/api-v3/hal-resources/relation-resource.service";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageStates} from "../work-package-states.service";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
 
 export type RelationsStateValue = {[id:number]:RelationResource};
 
@@ -61,7 +61,7 @@ export class WorkPackageRelationsService {
   /**
    * Return the relation state for the given work package ID.
    */
-  public relationState(workPackageId:string):State<RelationsStateValue> {
+  public relationState(workPackageId: string): InputState<RelationsStateValue> {
     return this.wpStates.relations.get(workPackageId);
   }
 
@@ -80,7 +80,7 @@ export class WorkPackageRelationsService {
         if (collection.elements.length > 0) {
           this.mergeIntoStates(collection.elements as RelationResource[]);
         } else {
-          this.relationState(workPackage.id).put({}, 'Received empty response from singular relations');
+          this.relationState(workPackage.id).putValue({}, 'Received empty response from singular relations');
         }
       });
     }
@@ -145,11 +145,11 @@ export class WorkPackageRelationsService {
     return relation.delete().then(() => {
       _.each(relation.ids, (member:string) => {
         const state = this.relationState(member);
-        const currentValue = state.getCurrentValue();
+        const currentValue = state.value!;
 
           if (currentValue !== null) {
             delete currentValue[relation.id];
-            state.put(currentValue);
+            state.putValue(currentValue);
           }
       });
       this.throttledUpdaterFn();
@@ -197,13 +197,13 @@ export class WorkPackageRelationsService {
   private merge(workPackageId:string, newRelations:RelationResource[]) {
     const state = this.relationState(workPackageId);
     let relationsToInsert = _.keyBy(newRelations, r => r.id);
-    let current = state.getCurrentValue()!;
+    let current = state.value!;
 
     if (current !== null) {
       relationsToInsert = _.assign(current, relationsToInsert);
     }
 
-    state.put(relationsToInsert, 'Initializing relations state.');
+    state.putValue(relationsToInsert, 'Initializing relations state.');
   }
 
 

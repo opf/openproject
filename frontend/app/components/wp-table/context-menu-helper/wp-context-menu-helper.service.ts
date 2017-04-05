@@ -107,7 +107,7 @@ function WorkPackageContextMenuHelper(
       }
     });
 
-    if (workPackage.addRelation && states.table.timelineVisible.getCurrentValue()) {
+    if (workPackage.addRelation && states.table.timelineVisible.value) {
       allowedActions.push({
         icon: "timeline-relation-add-predecessor",
         text: I18n.t("js.relation_buttons.add_predecessor"),

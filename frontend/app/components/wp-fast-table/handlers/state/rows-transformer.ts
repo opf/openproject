@@ -1,14 +1,9 @@
 import {debugLog} from "../../../../helpers/debug_output";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {States} from "../../../states.service";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableRow} from "../../wp-table.interfaces";
-import {Observable} from "rxjs";
-import {InputState} from "reactivestates";
 
 
 export class RowsTransformer {
@@ -18,7 +13,8 @@ export class RowsTransformer {
     injectorBridge(this);
 
     // Redraw table if the current row state changed
-    this.states.table.rows.observeUntil(this.states.table.stopAllSubscriptions)
+    this.states.table.rows.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((rows: WorkPackageResourceInterface[]) => {
         var t0 = performance.now();
 

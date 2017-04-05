@@ -1,4 +1,4 @@
-import {Component, createNewContext, input, inputStateCache} from "reactivestates";
+import {Component, createNewContext, input, inputStateCache, toggle} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {whenDebugging} from "../helpers/debug_output";
@@ -37,43 +37,43 @@ export class States extends Component {
   focusedWorkPackage = input<string>();
 
   // Open editing forms
-  editing = new MultiState<WorkPackageEditForm>();
+  editing = inputStateCache<WorkPackageEditForm>();
 
 }
 
 export class TableState {
   // the query associated with the table
-  query = new State<QueryResource>();
+  query = input<QueryResource>();
   // the results associated with the table
-  results = new State<WorkPackageCollectionResource>();
+  results = input<WorkPackageCollectionResource>();
   // the query form associated with the table
-  form = new State<QueryFormResource>();
+  form = input<QueryFormResource>();
   // Set of work package IDs in strict order of appearance
-  rows = new State<WorkPackageResource[]>();
+  rows = input<WorkPackageResource[]>();
   // all groups returned as results
-  groups = new State<GroupObject[]>();
+  groups = input<GroupObject[]>();
   // Set of columns in strict order of appearance
-  columns = new State<WorkPackageTableColumns>();
+  columns = input<WorkPackageTableColumns>();
   // Set of filters
-  filters = new State<WorkPackageTableFilters>();
+  filters = input<WorkPackageTableFilters>();
   // Active and available sort by
-  sortBy = new State<WorkPackageTableSortBy>();
+  sortBy = input<WorkPackageTableSortBy>();
   // Active and available group by
-  groupBy = new State<WorkPackageTableGroupBy>();
+  groupBy = input<WorkPackageTableGroupBy>();
   // is query summed
-  sum = new State<WorkPackageTableSum>();
+  sum = input<WorkPackageTableSum>();
   // pagination information
-  pagination = new State<WorkPackageTablePagination>();
+  pagination = input<WorkPackageTablePagination>();
   // Table row selection state
-  selection = new State<WPTableRowSelectionState>();
+  selection = input<WPTableRowSelectionState>();
   // Current state of collapsed groups (if any)
-  collapsedGroups = new State<{[identifier:string]: boolean}>();
+  collapsedGroups = input<{[identifier:string]: boolean}>();
   // Hierarchies of table
-  hierarchies = new State<WPTableHierarchyState>();
+  hierarchies = input<WPTableHierarchyState>();
   // State to be updated when the table is up to date
-  rendered = new State<WorkPackageTable>();
+  rendered = input<WorkPackageTable>();
   // State to determine timeline visibility
-  timelineVisible = new State<boolean>();
+  timelineVisible = input(false);
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
 }

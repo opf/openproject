@@ -63,7 +63,7 @@ export class WorkPackageTimelineCell {
   activate() {
     this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
       .withLatestFrom(
-        this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions))
+        this.states.table.timelineVisible.values$().takeUntil(this.states.table.stopAllSubscriptions))
       .filter(([renderInfo, visible]) => visible)
       .map(([renderInfo, visible]) => renderInfo)
       .subscribe(renderInfo => {

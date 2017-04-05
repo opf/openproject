@@ -1,8 +1,7 @@
-import {debugLog} from '../../../../helpers/debug_output';
-import {States} from '../../../states.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {debugLog} from "../../../../helpers/debug_output";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {States} from "../../../states.service";
+import {WorkPackageTable} from "../../wp-fast-table";
 
 export class ColumnsTransformer {
   public states:States;
@@ -12,7 +11,8 @@ export class ColumnsTransformer {
 
     // observeOnScope
     // observeUntil
-    this.states.table.columns.observeUntil(this.states.table.stopAllSubscriptions).subscribe(() => {
+    this.states.table.columns.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions).subscribe(() => {
       if (table.rows.length > 0) {
 
         var t0 = performance.now();

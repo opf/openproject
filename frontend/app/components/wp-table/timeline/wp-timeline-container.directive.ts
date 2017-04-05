@@ -81,14 +81,13 @@ export class WorkPackageTimelineTableController {
     });
 
     // Refresh timeline view after table rendered
-    states.table.rendered
-      .observeUntil(scopeDestroyed$(this.$scope)) // TODO can be removed, if take(1) remains
+    states.table.rendered.values$()
       .take(1)
       .subscribe(() => this.refreshView());
 
     // Refresh timeline view when becoming visible
-    states.table.timelineVisible
-      .observeUntil(scopeDestroyed$(this.$scope))
+    states.table.timelineVisible.values$()
+      .takeUntil(scopeDestroyed$(this.$scope))
       .subscribe((visible) => {
         if (visible) {
           this.refreshView();
@@ -104,7 +103,7 @@ export class WorkPackageTimelineTableController {
    */
   public toggle() {
     this.visible = !this.visible;
-    this.states.table.timelineVisible.put(this.visible);
+    this.states.table.timelineVisible.putValue(this.visible);
   }
 
   /**

@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
 import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
 import {States} from "../../states.service";
@@ -72,20 +73,20 @@ function WorkPackagesListController($scope:any,
 
   function setupObservers() {
 
-    states.table.query.observeOnScope($scope).withLatestFrom(
-      wpTablePagination.observeOnScope($scope)
-    ).subscribe(([query, pagination]) => {
+    scopedObservable($scope, states.table.query.values$())
+      .withLatestFrom(
+        wpTablePagination.observeOnScope($scope)
+      ).subscribe(([query, pagination]) => {
       $scope.tableInformationLoaded = true;
 
       updateTitle(query);
 
-      wpListChecksumService.updateIfDifferent(query,
-                                              pagination as WorkPackageTablePagination);
+      wpListChecksumService.updateIfDifferent(query, pagination as WorkPackageTablePagination);
     });
 
-    wpTablePagination.observeOnScope($scope).withLatestFrom(
-      states.table.query.observeOnScope($scope)
-    ).subscribe(([pagination, query]) => {
+    wpTablePagination.observeOnScope($scope)
+      .withLatestFrom(scopedObservable($scope, states.table.query.values$()))
+      .subscribe(([pagination, query]) => {
       if (wpListChecksumService.isQueryOutdated(query, pagination as WorkPackageTablePagination)) {
         wpListChecksumService.update(query, pagination as WorkPackageTablePagination);
 
@@ -119,7 +120,7 @@ function WorkPackagesListController($scope:any,
       return;
     }
 
-    let query = states.table.query.getCurrentValue();
+    let query = states.table.query.value;
 
     if (!query || _.isEqual(query[name], updateData)) {
       return;
@@ -129,7 +130,7 @@ function WorkPackagesListController($scope:any,
 
     query[name] = _.cloneDeep(updateData);
 
-    states.table.query.put(query);
+    states.table.query.putValue(query);
 
     if (triggerUpdate) {
       updateResultsVisibly(true);
@@ -205,12 +206,12 @@ function WorkPackagesListController($scope:any,
   // that we do not set them if he dependent state does depend on another query with
   // the value only being available because it is still retained.
   function isAnyDependentStateClear() {
-    return !states.table.pagination.getCurrentValue() ||
-           !states.table.filters.getCurrentValue() ||
-           !states.table.columns.getCurrentValue() ||
-           !states.table.sortBy.getCurrentValue() ||
-           !states.table.groupBy.getCurrentValue() ||
-           !states.table.sum.getCurrentValue()
+    return !states.table.pagination.value ||
+      !states.table.filters.value ||
+      !states.table.columns.value ||
+      !states.table.sortBy.value ||
+      !states.table.groupBy.value ||
+      !states.table.sum.value
   }
 
   $rootScope.$on('workPackagesRefreshRequired', function () {

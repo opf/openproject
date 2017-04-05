@@ -1,11 +1,11 @@
-import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WPTableRowSelectionState} from '../../wp-table.interfaces';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {rowId} from '../../helpers/wp-table-row-helpers';
-import {checkedClassName} from '../../builders/ui-state-link-builder';
-import {rowClassName} from '../../builders/rows/single-row-builder';
-import {States} from '../../../states.service';
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {States} from "../../../states.service";
+import {rowClassName} from "../../builders/rows/single-row-builder";
+import {checkedClassName} from "../../builders/ui-state-link-builder";
+import {rowId} from "../../helpers/wp-table-row-helpers";
+import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {WPTableRowSelectionState} from "../../wp-table.interfaces";
 
 export class SelectionTransformer {
   public wpTableSelection:WorkPackageTableSelection;
@@ -14,10 +14,11 @@ export class SelectionTransformer {
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
 
-    this.wpTableSelection.selectionState
-      .observeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WPTableRowSelectionState) => {
-      this.renderSelectionState(state);
-    });
+    this.wpTableSelection.selectionState.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
+      .subscribe((state: WPTableRowSelectionState) => {
+        this.renderSelectionState(state);
+      });
 
     // Bind CTRL+A to select all work packages
     Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {

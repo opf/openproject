@@ -28,20 +28,18 @@
 // ++
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
-import {timelineElementCssClass, TimelineViewParameters} from './wp-timeline';
-import {WorkPackageTimelineCell} from './wp-timeline-cell';
-import {States} from '../../states.service';
-import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
-import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
-import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
-import {debugLog} from '../../../helpers/debug_output';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageStates} from '../../work-package-states.service';
-import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
-import {WorkPackageRelationsService, RelationsStateValue} from "../../wp-relations/wp-relations.service";
 import {Observable} from "rxjs/Rx";
-import { TimelineRelationElement } from "./global-elements/timeline-relation-element";
-import { scopeDestroyed$ } from "../../../helpers/angular-rx-utils";
+import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
+import {debugLog} from "../../../helpers/debug_output";
+import {injectorBridge} from "../../angular/angular-injector-bridge.functions";
+import {RelationResource} from "../../api/api-v3/hal-resources/relation-resource.service";
+import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../../states.service";
+import {WorkPackageStates} from "../../work-package-states.service";
+import {RelationsStateValue, WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {TimelineRelationElement} from "./global-elements/timeline-relation-element";
+import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
+import {WorkPackageTimelineCell} from "./wp-timeline-cell";
 import IScope = angular.IScope;
 
 
@@ -115,12 +113,12 @@ export class WpTimelineGlobalService {
     // Observe the rows and request relations if changed
     // AND timeline is visible.
     Observable.combineLatest(
-      this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope)),
-      this.states.table.rows.observeUntil(scopeDestroyed$(this.scope))
+      this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.scope)),
+      this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.scope))
     )
       .filter(([visible, rows]) => visible)
       .map(([visible, rows]) => rows)
-      .subscribe((rows:WorkPackageResource[]) => {
+      .subscribe((rows: WorkPackageResource[]) => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
         this.wpRelations.requireInvolved(this.workPackageIdOrder);
       });
@@ -130,18 +128,19 @@ export class WpTimelineGlobalService {
    * Refresh relations of visible rows.
    */
   private setupRelationSubscription() {
-    this.wpStates.relations
-      .observeUntil(scopeDestroyed$(this.scope))
-      .withLatestFrom(
-        this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope))
-      )
-      .filter(([nextVal, visible]) => nextVal && visible)
-      .map(([nextVal, visible]) => nextVal)
-      .subscribe((nextVal:[string, RelationsStateValue]) => {
+    const relations = this.wpStates.relations.observeChange();
+    const tlVisible = this.states.table.timelineVisible.values$();
+
+    relations
+      .withLatestFrom(tlVisible)
+      .takeUntil(scopeDestroyed$(this.scope))
+      .filter(([relations, visible]) => relations && visible)
+      .map(([relations, visible]) => relations)
+      .subscribe((nextVal) => {
         const [workPackageId, relations] = nextVal;
 
         if (workPackageId && this.cells[workPackageId]) {
-          this.refreshRelations(workPackageId, relations);
+          this.refreshRelations(workPackageId, relations!);
         }
       });
   }

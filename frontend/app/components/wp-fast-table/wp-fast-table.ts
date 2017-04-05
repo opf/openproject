@@ -44,7 +44,7 @@ export class WorkPackageTable {
    * Returns the reference to the last table.query state value
    */
   public get query() {
-    return this.states.table.query.getCurrentValue();
+    return this.states.table.query.value;
   }
 
   public get rowBuilder():RowsBuilder {
@@ -110,7 +110,7 @@ export class WorkPackageTable {
    * Update the rendered state that the table is now refreshed.
    */
   public postRender() {
-    this.states.table.rendered.put(this);
+    this.states.table.rendered.putValue(this);
   }
 }
 

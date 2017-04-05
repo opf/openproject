@@ -45,14 +45,14 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Returns the reference to the last table.groups state value
    */
   public get groups() {
-    return this.states.table.groups.getCurrentValue() || [];
+    return this.states.table.groups.value || [];
   }
 
   /**
    * Returns the reference to the last table.collapesedGroups state value
    */
   public get collapsedGroups() {
-    return this.states.table.collapsedGroups.getCurrentValue() || {};
+    return this.states.table.collapsedGroups.value || {};
   }
 
   /**

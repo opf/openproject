@@ -1,12 +1,12 @@
-import {States} from '../../states.service';
-import {opServicesModule} from '../../../angular-modules';
-import {State} from '../../../helpers/reactive-fassade';
-import {WPTableHierarchyState} from '../wp-table.interfaces';
+import {InputState} from "reactivestates";
+import {opServicesModule} from "../../../angular-modules";
+import {States} from "../../states.service";
+import {WPTableHierarchyState} from "../wp-table.interfaces";
 
 export class WorkPackageTableHierarchyService {
 
   // The selected columns state of the current table instance
-  public hierarchyState:State<WPTableHierarchyState>;
+  public hierarchyState: InputState<WPTableHierarchyState>;
 
   constructor(public states: States) {
     this.hierarchyState = states.table.hierarchies;
@@ -23,7 +23,7 @@ export class WorkPackageTableHierarchyService {
      const state = this.currentState;
      state.enabled = active;
 
-     this.hierarchyState.put(state);
+     this.hierarchyState.putValue(state);
    }
 
    /**
@@ -67,14 +67,14 @@ export class WorkPackageTableHierarchyService {
   private setState(wpId:string, isCollapsed:boolean):void {
     const state = this.currentState;
     state.collapsed[wpId] = isCollapsed;
-    this.hierarchyState.put(state);
+    this.hierarchyState.putValue(state);
   }
 
   /**
    * Get current selection state.
    */
   public get currentState():WPTableHierarchyState {
-    const state = this.hierarchyState.getCurrentValue();
+    const state = this.hierarchyState.value;
 
     if (state == null) {
       return this.initialState;

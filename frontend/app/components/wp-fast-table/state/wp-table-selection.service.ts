@@ -1,12 +1,12 @@
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {State} from '../../../helpers/reactive-fassade';
 import {WPTableRowSelectionState, WorkPackageTableRow} from '../wp-table.interfaces';
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {InputState} from "reactivestates";
 
 export class WorkPackageTableSelection {
 
-  public selectionState:State<WPTableRowSelectionState>;
+  public selectionState: InputState<WPTableRowSelectionState>;
 
   constructor(public states: States) {
     this.selectionState = states.table.selection;
@@ -30,7 +30,7 @@ export class WorkPackageTableSelection {
       state.selected[workPackageId] = true;
     });
 
-    this.selectionState.put(state);
+    this.selectionState.putValue(state);
   }
 
   /**
@@ -57,7 +57,7 @@ export class WorkPackageTableSelection {
    * Reset the selection state to an empty selection
    */
   public reset() {
-    this.selectionState.put(this._emptyState);
+    this.selectionState.putValue(this._emptyState);
   }
 
   /**
@@ -65,7 +65,7 @@ export class WorkPackageTableSelection {
    * @returns {WPTableRowSelectionState}
    */
   public get currentState():WPTableRowSelectionState {
-    return this.selectionState.getCurrentValue() as WPTableRowSelectionState;
+    return this.selectionState.value as WPTableRowSelectionState;
   }
 
   /**
@@ -82,7 +82,7 @@ export class WorkPackageTableSelection {
   public focusOn(workPackgeId:string) {
     let newState = this._emptyState;
     newState.selected[workPackgeId] = true;
-    this.selectionState.put(newState);
+    this.selectionState.putValue(newState);
     this.states.focusedWorkPackage.putValue(workPackgeId);
   }
 
@@ -103,7 +103,7 @@ export class WorkPackageTableSelection {
   public setRowState(workPackageId:string, newState:boolean) {
     let state = this.currentState;
     state.selected[workPackageId] = newState;
-    this.selectionState.put(state);
+    this.selectionState.putValue(state);
   }
 
   /**
@@ -116,7 +116,7 @@ export class WorkPackageTableSelection {
     };
     state.selected[row.workPackageId] = true;
 
-    this.selectionState.put(state);
+    this.selectionState.putValue(state);
   }
 
   /**
@@ -141,7 +141,7 @@ export class WorkPackageTableSelection {
       });
     }
 
-    this.selectionState.put(state);
+    this.selectionState.putValue(state);
   }
 
 

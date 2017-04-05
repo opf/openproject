@@ -1,14 +1,14 @@
-import {debugLog} from '../../../../helpers/debug_output';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {States} from '../../../states.service';
-import {cellClassName, editableClassName} from '../../builders/cell-builder';
-import {TableEventHandler} from '../table-handler-registry';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {rowClassName} from '../../builders/rows/single-row-builder';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
-import {State} from '../../../../helpers/reactive-fassade';
-import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
-import {ClickOrEnterHandler} from '../click-or-enter-handler';
+import {InputState} from "reactivestates";
+import {debugLog} from "../../../../helpers/debug_output";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {States} from "../../../states.service";
+import {TableRowEditContext} from "../../../wp-edit-form/table-row-edit-context";
+import {WorkPackageEditForm} from "../../../wp-edit-form/work-package-edit-form";
+import {cellClassName, editableClassName} from "../../builders/cell-builder";
+import {rowClassName} from "../../builders/rows/single-row-builder";
+import {WorkPackageTable} from "../../wp-fast-table";
+import {ClickOrEnterHandler} from "../click-or-enter-handler";
+import {TableEventHandler} from "../table-handler-registry";
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -51,7 +51,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     // Get any existing edit state for this work package
     let state = this.editState(workPackageId);
-    let form = state.getCurrentValue() || this.startEditing(state, workPackageId);
+    let form = state.value || this.startEditing(state, workPackageId);
 
     // Get the position where the user clicked.
     const positionOffset = this.getClickPosition(evt);
@@ -85,16 +85,16 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     }
   }
 
-  private startEditing(state:State<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
+  private startEditing(state: InputState<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
     let form = new WorkPackageEditForm(workPackageId);
-    state.put(form);
+    state.putValue(form);
     return form;
   }
 
   /**
    * Retrieve the edit state for this work package
    */
-  private editState(workPackageId:string):State<WorkPackageEditForm> {
+  private editState(workPackageId: string): InputState<WorkPackageEditForm> {
     return this.states.editing.get(workPackageId);
   }
 }

@@ -57,9 +57,9 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
   }
 
   public initialize(results:WorkPackageCollectionResource) {
-    let state = new WorkPackageTablePagination(results)
+    let state = new WorkPackageTablePagination(results);
 
-    this.state.put(state);
+    this.state.putValue(state);
   }
 
   public updateFromObject(object:PaginationUpdateObject) {
@@ -78,20 +78,20 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
       currentState.count = object.count;
     }
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
     let update = { page: results.offset,
                    perPage: results.pageSize,
                    total: results.total,
-                   count: results.count }
+                   count: results.count };
 
     this.updateFromObject(update);
   }
 
   public get current():WorkPackageTablePagination {
-    return this.state.getCurrentValue()! as WorkPackageTablePagination;
+    return this.state.value! as WorkPackageTablePagination;
   }
 }
 

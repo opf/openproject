@@ -53,7 +53,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
   public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
     let state = this.create(query, schema);
 
-    this.state.put(state);
+    this.state.putValue(state);
   }
 
   public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
@@ -61,7 +61,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
 
     currentState.update(query, schema);
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
@@ -132,7 +132,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
 
     currentState.current = columns;
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   /**
@@ -208,7 +208,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
 
   // only exists to cast the state
   protected get currentState():WorkPackageTableColumns {
-    return this.state.getCurrentValue() as WorkPackageTableColumns;
+    return this.state.value as WorkPackageTableColumns;
   }
 
   /**
