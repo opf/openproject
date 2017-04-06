@@ -137,7 +137,15 @@ module API
           }
         end
 
-        link :configure_form do
+        link :'custom-fields' do
+          {
+            href: 'custom-fields',
+            type: 'text/html',
+            title: "Custom fields"
+          } if current_user_allowed_to(:edit_project, context: represented.project)
+        end
+
+        link :'configure-form' do
           {
             href: 'form-configuration',
             type: 'text/html',
