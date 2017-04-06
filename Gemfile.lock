@@ -152,7 +152,7 @@ GEM
       tzinfo (~> 1.1)
     acts_as_list (0.9.5)
       activerecord (>= 3.0)
-    acts_as_tree (2.5.1)
+    acts_as_tree (2.6.1)
       activerecord (>= 3.0.0)
     addressable (2.4.0)
     airbrake (5.1.0)
@@ -601,7 +601,7 @@ DEPENDENCIES
   activerecord-jdbcpostgresql-adapter
   activerecord-session_store (~> 1.0.0)
   acts_as_list (~> 0.9.5)
-  acts_as_tree (~> 2.5.1)
+  acts_as_tree (~> 2.6.1)
   airbrake (~> 5.1.0)
   autoprefixer-rails (~> 6.4.1)
   awesome_nested_set (~> 3.1.1)

@@ -52,7 +52,7 @@ gem 'warden-basic_auth', '~> 0.2.1'
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_list', '~> 0.9.5'
-gem 'acts_as_tree', '~> 2.5.1'
+gem 'acts_as_tree', '~> 2.6.1'
 
 gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
