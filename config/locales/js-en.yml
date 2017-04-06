@@ -42,6 +42,7 @@ en:
     button_add_watcher: "Add watcher"
     button_cancel: "Cancel"
     button_check_all: "Check all"
+    button_configure_form: "Configure form"
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"

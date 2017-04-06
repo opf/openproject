@@ -626,6 +626,7 @@ en:
   button_clear: "Clear"
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
+  button_configure_form: "Configure form"
   button_copy: "Copy"
   button_copy_and_follow: "Copy and follow"
   button_create: "Create"

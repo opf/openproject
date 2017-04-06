@@ -137,6 +137,14 @@ module API
           }
         end
 
+        link :configure_form do
+          {
+            href: 'form-configuration',
+            type: 'text/html',
+            title: "Configure form"
+          } if current_user.admin?
+        end
+
         linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
         linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 
