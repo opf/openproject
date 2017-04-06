@@ -785,15 +785,6 @@ module.exports = function($q, FilterQueryStringBuilder, Color, HistoricalPlannin
 
           var value = custom_fields[field_id];
 
-          // -1 and the empty string both need to be added in the
-          // (none)-case, since (none) has to both match work packages
-          // w/ custom values that are empty and work packages w/o
-          // custom values.
-
-          if (Array.isArray(value) && value.indexOf("-1") !== -1) {
-            value.push("");
-          }
-
           if (value && value !== "" && value.length > 0) {
             hash["cf_" + field_id] = value;
           }
