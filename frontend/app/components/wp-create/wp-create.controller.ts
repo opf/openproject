@@ -32,9 +32,8 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
-import {
-  HalResource
-} from '../api/api-v3/hal-resources/hal-resource.service';
+import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
+import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
@@ -87,7 +86,7 @@ export class WorkPackageCreateController {
               protected wpEditModeState:WorkPackageEditModeStateService,
               protected wpTableSelection:WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService,
-              protected halRequest:any,
+              protected RootDm:RootDmService,
               protected v3Path:any) {
 
     this.newWorkPackageFromParams($state.params)
@@ -106,7 +105,7 @@ export class WorkPackageCreateController {
       })
       .catch(error => {
         if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
-          this.halRequest.get(this.v3Path.root()).then((root:HalResource) => {
+          this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
               let url: string = $location.absUrl();
