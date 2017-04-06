@@ -43,7 +43,9 @@ module API
 
         parsed_params[:columns] = columns_from_params(params)
 
-        parsed_params[:display_sums] = sums_from_params(params)
+        parsed_params[:display_sums] = boolearize(params[:showSums])
+
+        parsed_params[:timeline_visible] = boolearize(params[:timelineVisible])
 
         ServiceResult.new(success: true,
                           result: without_empty(parsed_params, params.keys))
@@ -98,10 +100,10 @@ module API
         end
       end
 
-      def sums_from_params(params)
-        if params[:showSums] == 'true'
+      def boolearize(value)
+        if value == 'true'
           true
-        elsif params[:showSums] == 'false'
+        elsif value == 'false'
           false
         end
       end

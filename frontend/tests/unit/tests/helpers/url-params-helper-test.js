@@ -89,6 +89,7 @@ describe('UrlParamsHelper', function() {
         id: 1,
         name: 'knoblauch soße',
         sums: true,
+        timelineVisible: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
           id: 'status'
@@ -107,7 +108,7 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
       expect(encodedJSON).to.eq(expectedJSON);
     });
   });
@@ -116,7 +117,7 @@ describe('UrlParamsHelper', function() {
     var params;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
@@ -125,6 +126,7 @@ describe('UrlParamsHelper', function() {
       var expected = {
         'columns[]': ['type', 'status', 'soße'],
         showSums: true,
+        timelineVisible: true,
         groupBy: 'status',
         filters: JSON.stringify([
           {

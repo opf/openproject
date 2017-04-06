@@ -43,6 +43,8 @@ class UpdateQueryFromParamsService
 
     apply_sums(params)
 
+    apply_timeline(params)
+
     if query.valid?
       ServiceResult.new(success: true,
                         result: query)
@@ -76,6 +78,10 @@ class UpdateQueryFromParamsService
 
   def apply_sums(params)
     query.display_sums = params[:display_sums] if params[:display_sums]
+  end
+
+  def apply_timeline(params)
+    query.timeline_visible = params[:timeline_visible] if params[:timeline_visible]
   end
 
   attr_accessor :query,
