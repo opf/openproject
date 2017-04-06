@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from '../../../angular-modules';
+import {wpControllersModule} from "../../../angular-modules";
+import {input} from "reactivestates";
 
 describe('SettingsModalController', () => {
   var scope:any;
@@ -47,9 +48,7 @@ describe('SettingsModalController', () => {
     };
     states = {
       table: {
-        query: {
-          getCurrentValue: () => query
-        }
+        query: input<{name: string}>()
       }
     };
     settingsModal = {
@@ -64,10 +63,10 @@ describe('SettingsModalController', () => {
   beforeEach(angular.mock.inject(function ($rootScope:any, $controller:any) {
     scope = $rootScope.$new();
 
-
     query = {
       name: 'bogus'
     };
+    states.table.query.putValue(query);
 
     buildController = () => {
       ctrl = $controller('SettingsModalController', {
