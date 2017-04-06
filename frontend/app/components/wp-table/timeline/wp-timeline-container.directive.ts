@@ -1,3 +1,5 @@
+import * as moment from "moment";
+import {BehaviorSubject, Observable} from "rxjs";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,27 +28,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {openprojectModule} from "../../../angular-modules";
-import {
-  TimelineViewParameters, RenderInfo, timelineElementCssClass,
-  timelineMarkerSelectionStartClass
-} from "./wp-timeline";
+import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
+import {debugLog} from "../../../helpers/debug_output";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "./../../api/api-v3/hal-resources/work-package-resource.service";
-import {WpTimelineHeader} from "./wp-timeline.header";
-import {States} from "../../states.service";
-import {BehaviorSubject, Observable} from "rxjs";
-import * as moment from "moment";
-import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
-import { scopeDestroyed$ } from "../../../helpers/angular-rx-utils";
-import { debugLog } from "../../../helpers/debug_output";
+import {States} from "../../states.service";
+import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {
+  RenderInfo,
+  timelineElementCssClass,
+  timelineMarkerSelectionStartClass,
+  TimelineViewParameters
+} from "./wp-timeline";
+import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+import {WpTimelineHeader} from "./wp-timeline.header";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
-import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
-import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 
 export class WorkPackageTimelineTableController {
 

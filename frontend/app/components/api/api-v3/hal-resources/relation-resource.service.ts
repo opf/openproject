@@ -1,3 +1,4 @@
+import {opApiModule} from "../../../../angular-modules";
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,9 +27,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {HalResource} from "./hal-resource.service";
-import {opApiModule} from "../../../../angular-modules";
-import {WorkPackageResource} from './work-package-resource.service';
-import {State} from '../../../../helpers/reactive-fassade';
+import {WorkPackageResource} from "./work-package-resource.service";
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;

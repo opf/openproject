@@ -1,4 +1,3 @@
-
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,6 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
 import IDirective = angular.IDirective;
 import IComponentOptions = angular.IComponentOptions;
 import {Observable} from "rxjs/Rx";
