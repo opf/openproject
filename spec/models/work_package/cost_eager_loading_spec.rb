@@ -58,7 +58,6 @@ describe WorkPackage, 'cost eager loading', type: :model do
                        user: user,
                        work_package: work_package,
                        project: project)
-
   end
   let(:time_entry1) do
     FactoryGirl.create(:time_entry,
@@ -84,9 +83,9 @@ describe WorkPackage, 'cost eager loading', type: :model do
 
   context "combining core's and cost's eager loading" do
     let(:scope) do
-
       scope = WorkPackage
               .include_spent_hours(user)
+              .select('work_packages.*')
               .where(id: [work_package.id])
 
       OpenProject::Costs::Engine::EagerLoadedCosts.join_costs(scope)

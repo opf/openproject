@@ -17,7 +17,7 @@ class WorkPackage
     end
 
     def sum_subselect(base_scope)
-      super.project('SUM(hours) hours')
+      super
     end
   end
 end
