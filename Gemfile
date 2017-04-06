@@ -136,7 +136,7 @@ gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '3.5.0.pre.rc.1'
 gem 'autoprefixer-rails', '~> 6.7.7.1'
 gem 'bourbon', '~> 4.2.0'
-gem 'i18n-js', '>= 3.0.0.rc13'
+gem 'i18n-js', '~> 3.0.0'
 
 # small wrapper around the command line
 gem 'cocaine', '~> 0.5.8'
