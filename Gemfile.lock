@@ -356,7 +356,7 @@ GEM
     nio4r (1.2.1)
     nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
-    oj (2.17.4)
+    oj (2.18.5)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
     parallel (1.9.0)
@@ -649,7 +649,7 @@ DEPENDENCIES
   net-ldap (~> 0.14.0)
   newrelic_rpm
   nokogiri (~> 1.7.1)
-  oj (~> 2.17.4)
+  oj (~> 2.18.5)
   omniauth!
   openproject-token (~> 1.0.0)
   openproject-translations!
