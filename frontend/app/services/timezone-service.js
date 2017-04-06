@@ -150,7 +150,7 @@ module.exports = function(ConfigurationService, I18n) {
 
     getTimeFormat: function() {
       return ConfigurationService.timeFormatPresent() ? ConfigurationService.timeFormat() : 'LT';
-    },
+    }
   };
 
   return TimezoneService;
