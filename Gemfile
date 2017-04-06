@@ -233,7 +233,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.17'
+gem 'grape', '~> 0.19.1'
 gem 'grape-cache_control', '~> 1.0.1'
 
 gem 'roar',   '~> 1.0.0'
