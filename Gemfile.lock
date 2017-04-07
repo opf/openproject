@@ -351,7 +351,7 @@ GEM
       tool (~> 0.2)
     mustermann-grape (0.4.0)
       mustermann (= 0.4.0)
-    mysql2 (0.4.4)
+    mysql2 (0.4.5)
     net-ldap (0.14.0)
     netrc (0.11.0)
     newrelic_rpm (4.0.0.332)
