@@ -7,6 +7,11 @@
     <p ng-bind="::text.text"></p>
   </div>
   <div class="modal--footer">
+    <button class="confirm-form-submit--continue button"
+            ng-click="cancel()"
+            ng-bind="::text.button_cancel"
+            ng-attr-title="::text.button_cancel">
+    </button>
     <button class="confirm-form-submit--continue button -highlight"
             ng-click="confirmAndClose()"
             ng-bind="::text.button_continue"

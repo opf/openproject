@@ -74,6 +74,11 @@ export class ConfirmDialogService {
       dialog.close();
     };
 
+    scope.cancel = () => {
+      scope.confirmed = false;
+      dialog.close();
+    };
+
 
     dialog = this.ngDialog.open({
       closeByEscape: _.defaultTo(options.closeByDocument, true),
