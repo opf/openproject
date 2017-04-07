@@ -43,7 +43,8 @@ module Type::AttributeGroups
         assignee: :people,
         responsible: :people,
         estimated_time: :estimates_and_time,
-        spent_time: :estimates_and_time
+        spent_time: :estimates_and_time,
+        priority: :details
       }
     end
 
@@ -53,7 +54,7 @@ module Type::AttributeGroups
         people: :label_people,
         estimates_and_time: :label_estimates_and_time,
         details: :label_details,
-        other: :label_other,
+        other: :label_other
       }
     end
   end

@@ -160,7 +160,7 @@ export class WorkPackageSingleViewController {
     this.setFocus();
 
     // Accept the fields you always need to show.
-    this.specialFields = this.getFields(['project', 'status', 'priority']);
+    this.specialFields = this.getFields(['project', 'status']);
 
     // Get attribute groups if they are available (in project context)
     const attributeGroups = this.workPackage.schema._attributeGroups;

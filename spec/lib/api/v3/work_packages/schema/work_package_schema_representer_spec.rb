@@ -581,7 +581,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { 'priority' }
         let(:type) { 'Priority' }
         let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
         let(:has_default) { true }
       end
@@ -601,7 +601,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:path) { 'priority' }
           let(:type) { 'Priority' }
           let(:name) { I18n.t('activerecord.attributes.work_package.priority') }
-          let(:required) { true }
+          let(:required) { false }
           let(:writable) { false }
           let(:has_default) { true }
         end
