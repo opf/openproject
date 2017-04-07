@@ -32,10 +32,40 @@ See doc/COPYRIGHT.rdoc for more details.
 <section class="form--section">
       <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.to_json %>
       <%= f.hidden_field :attribute_visibility, value: @type.attribute_visibility.to_json %>
-  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl">
+  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  '?utm_source=ce-form-configuration' + '"' %>">
     <div class="grid-block wrap">
       <div class="grid-content small-12 large-10">
       <p><%= t('text_form_configuration') %></p>
+
+      <% if EnterpriseToken.show_banners? %>
+        <div class="notification-box upsale-notification">
+          <div class="notification-box--content">
+            <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
+            <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+
+            <p><%= t('homescreen.blocks.upsale.description') %></p>
+
+            <ul class="">
+              <li>
+                <%= t('homescreen.blocks.upsale.additional_features') %>
+              </li>
+              <li>
+                <%= t('homescreen.blocks.upsale.professional_support') %>
+              </li>
+            </ul>
+            <p>
+              <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
+            </p>
+            <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-form-configuration",
+                  { class: 'button -alt-highlight',
+                    aria: {label: t('admin.enterprise.order')},
+                    title: t('admin.enterprise.order')}) do %>
+              <i class="button--icon icon-add"></i>
+              <span class="button--text"><%= t('admin.enterprise.order') %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
 
       <%= toolbar title: '' do %>
         <li class="toolbar-item">
@@ -45,10 +75,17 @@ See doc/COPYRIGHT.rdoc for more details.
           </button>
         </li>
         <li class="toolbar-item">
-          <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
-            <i class="button--icon icon-add"></i>
-            <span class="button--text"><%= t('types.edit.add_group') %></span>
-          </button>
+          <% if EnterpriseToken.allows_to?(:edit_attribute_groups) %>
+            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
+              <i class="button--icon icon-add"></i>
+              <span class="button--text"><%= t('types.edit.add_group') %></span>
+            </button>
+          <% else %>
+            <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="showEEOnlyHint()">
+              <i class="button--icon icon-add"></i>
+              <span class="button--text"><%= t('types.edit.add_group') %></span>
+            </button>
+          <% end %>
         </li>
       <% end %>
       </div>
@@ -62,6 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
               name=""
               key=""
               onvaluechange="groupNameChange"
+              onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
               class="group-name">
             </group-edit-in-place>
             <span class="visibility-check"><%= t('label_always_visible') %></span>
@@ -79,6 +117,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   name="<%= group %>"
                   key="<%= group %>"
                   onvaluechange="groupNameChange"
+                  onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
                   class="group-name">
                   <%= group %>
                 </group-edit-in-place>
