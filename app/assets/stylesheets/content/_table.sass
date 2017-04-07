@@ -93,7 +93,6 @@ table.generic-table
       text-align: left
       line-height: 34px
       padding: 0
-      min-width: 150px
 
       &.active-column
         background: #f8f8f8
@@ -103,9 +102,6 @@ table.generic-table
         &:hover, &:active
           text-decoration: none
           color: $body-font-color
-
-      &.-short
-        min-width: 0
 
       .-required:after
         @include default-transition
@@ -150,7 +146,6 @@ table.generic-table
     td
       border-bottom: 1px solid $table-row-border-color
       max-width: 300px
-      min-width: 150px
       overflow:  hidden
       text-overflow: ellipsis
       text-align: left
@@ -169,10 +164,6 @@ table.generic-table
 
       input[type="checkbox"], input[type="radio"]
         margin-top: -0.25rem
-
-      &.-short
-        min-width: 50px
-        width: 50px
 
       // In the interactive table the behaviour is like this:
       // * if there is more space available than is required to render
