@@ -219,6 +219,9 @@ class UsersController < ApplicationController
   end
 
   def resend_invitation
+    status = Principal::STATUSES[:invited]
+    @user.update status: status if @user.status != status
+
     token = UserInvitation.reinvite_user @user.id
 
     if token.persisted?
