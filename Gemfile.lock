@@ -557,7 +557,7 @@ GEM
     ttfunk (1.5.0)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2016.6)
+    tzinfo-data (1.2017.2)
       tzinfo (>= 1.0.0)
     uber (0.0.15)
     unf (0.1.4)
@@ -706,7 +706,7 @@ DEPENDENCIES
   thin (~> 1.7.0)
   timecop (~> 0.8.1)
   transactional_lock!
-  tzinfo-data (~> 1.2016.1)
+  tzinfo-data (~> 1.2017.2)
   unicorn
   unicorn-worker-killer
   warden (~> 1.2)
