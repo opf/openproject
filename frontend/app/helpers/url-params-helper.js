@@ -57,6 +57,10 @@ module.exports = function(I18n, PaginationService, PathHelper) {
         paramsData.s = query.sums;
       }
 
+      if(!!query.timelineVisible) {
+        paramsData.tv = query.timelineVisible;
+      }
+
       if(query.groupBy) {
         paramsData.g = query.groupBy.id;
       }
@@ -103,6 +107,10 @@ module.exports = function(I18n, PaginationService, PathHelper) {
       if(!!properties.s) {
         queryData.showSums = properties.s;
       }
+      if(!!properties.tv) {
+        queryData.timelineVisible = properties.tv;
+      }
+
       if(properties.g) {
         queryData.groupBy = properties.g;
       }
@@ -148,6 +156,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
       queryData["columns[]"] = query.columns.map(function(column) { return column.id; });
 
       queryData.showSums = query.sums;
+      queryData.timelineVisible = query.timelineVisible;
 
       if(query.groupBy) {
         queryData.groupBy = query.groupBy.id;

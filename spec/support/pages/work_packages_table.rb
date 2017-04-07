@@ -148,6 +148,10 @@ module Pages
       find('#content .work-package-table--container')
     end
 
+    def work_package_row_selector(work_package)
+      "#wp-row-#{work_package.id}"
+    end
+
     private
 
     def path

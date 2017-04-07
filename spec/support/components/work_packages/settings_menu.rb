@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,52 +26,50 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+module Components
+  module WorkPackages
+    class SettingsMenu
+      include Capybara::DSL
+      include RSpec::Matchers
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
-
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
-    attribute :timeline_visible
-
-    attribute :column_names # => columns
-    attribute :filters
-
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
-
-    attr_reader :user
-
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
-    def initialize(query, user)
-      super query
-
-      @user = user
-    end
-
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      return if model.project_id.present? && model.project.nil?
-
-      if is_public && may_not_manage_queries?
-        errors.add :public, :error_unauthorized
+      def open_and_save_query(name)
+        open!
+        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
+        page.within('.ng-modal-inner') do
+          find('#save-query-name').set name
+          click_on 'Save'
+        end
       end
-    end
 
-    def may_not_manage_queries?
-      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
+      def open!
+        click_on 'work-packages-settings-button'
+        expect_open
+      end
+
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
+
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
+
+      def choose(target)
+        find("#{selector} .menu-item", text: target).click
+      end
+
+      def expect_options(options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_selector("#{selector} a", text: text)
+        end
+      end
+
+      private
+
+      def selector
+        '#settingsDropdown'
+      end
     end
   end
 end

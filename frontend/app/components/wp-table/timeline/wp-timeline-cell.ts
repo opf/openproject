@@ -1,3 +1,4 @@
+import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-timeline-visible';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import * as moment from "moment";
 import IScope = angular.IScope;
@@ -61,11 +62,12 @@ export class WorkPackageTimelineCell {
   }
 
   activate() {
-    this.subscription = this.workPackageTimeline.addWorkPackage(this.workPackageId)
-      .withLatestFrom(
-        this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions))
-      .filter(([renderInfo, visible]) => visible)
-      .map(([renderInfo, visible]) => renderInfo)
+    this.subscription = Observable.combineLatest(
+      this.workPackageTimeline.addWorkPackage(this.workPackageId),
+      this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions)
+    )
+      .filter(([renderInfo, timelineState]) => timelineState.isVisible)
+      .map(([renderInfo, _visible]) => renderInfo)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
         this.workPackageTimeline.globalService.updateWorkPackageInfo(this);

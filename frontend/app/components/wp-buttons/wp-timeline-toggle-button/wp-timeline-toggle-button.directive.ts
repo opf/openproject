@@ -28,18 +28,16 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
-import {WorkPackageTimelineTableController} from './../../wp-table/timeline/wp-timeline-container.directive';
+import { WorkPackageTableTimelineService } from "../../wp-fast-table/state/wp-table-timeline.service";
 
 export class WorkPackageTimelineButtonController extends WorkPackageButtonController {
-  public wpTimelineContainer:WorkPackageTimelineTableController ;
-
   public buttonId:string = 'work-packages-timeline-toggle-button';
   public iconClass:string = 'icon-view-timeline';
 
   private activateLabel:string;
   private deactivateLabel:string;
 
-  constructor(public I18n:op.I18n) {
+  constructor(public I18n:op.I18n, public wpTableTimeline:WorkPackageTableTimelineService) {
     'ngInject';
     super(I18n);
 
@@ -60,24 +58,18 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   }
 
   public isActive():boolean {
-    return this.wpTimelineContainer && this.wpTimelineContainer.visible;
+    return this.wpTableTimeline.isVisible;
   }
 
   public performAction() {
-    this.wpTimelineContainer.toggle();
+    this.wpTableTimeline.toggle();
   }
 }
 
 function wpTimelineToggleButton():ng.IDirective {
   return wpButtonDirective({
     require: '^wpTimelineContainer',
-    controller: WorkPackageTimelineButtonController,
-    link: (scope:any,
-           attr:ng.IAttributes,
-           element:ng.IAugmentedJQuery,
-           wpTimelineContainer:WorkPackageTimelineTableController) => {
-      scope.vm.wpTimelineContainer = wpTimelineContainer;
-    }
+    controller: WorkPackageTimelineButtonController
   });
 }
 

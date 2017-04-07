@@ -47,7 +47,8 @@ import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-gr
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service.ts';
+import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
+import {WorkPackageTableTimelineService} from './../wp-fast-table/state/wp-table-timeline.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -64,6 +65,7 @@ export class WorkPackagesListService {
               protected wpTableGroupBy:WorkPackageTableGroupByService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpTableSum:WorkPackageTableSumService,
+              protected wpTableTimeline:WorkPackageTableTimelineService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
@@ -245,7 +247,7 @@ export class WorkPackagesListService {
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
-      this.updateQueryMenu()
+      this.updateQueryMenu();
     });
 
     return promise;
@@ -298,6 +300,7 @@ export class WorkPackagesListService {
     this.wpTableSum.initialize(query);
     this.wpTableColumns.initialize(query);
     this.wpTableGroupBy.initialize(query);
+    this.wpTableTimeline.initialize(query);
 
     this.AuthorisationService.initModelAuth('query', query.$links);
   }

@@ -1,3 +1,4 @@
+import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-timeline-visible';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -62,16 +63,14 @@ export class WorkPackageTimelineTableController {
 
   private refreshViewRequested = false;
 
-  public visible = false;
-
   public disableViewParamsCalculation = false;
 
-  constructor(private $scope: IScope,
-              private $element: ng.IAugmentedJQuery,
+  constructor(private $scope:IScope,
+              private $element:ng.IAugmentedJQuery,
               private TypeResource:any,
-              private states: States,
-              private halRequest: HalRequestService,
-              private wpRelations: WorkPackageRelationsService) {
+              private states:States,
+              private halRequest:HalRequestService,
+              private wpRelations:WorkPackageRelationsService) {
 
     "ngInject";
 
@@ -89,22 +88,14 @@ export class WorkPackageTimelineTableController {
     // Refresh timeline view when becoming visible
     states.table.timelineVisible
       .observeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((visible) => {
-        if (visible) {
+      .subscribe((timelineState:WorkPackageTableTimelineVisible) => {
+        if (timelineState.isVisible) {
           this.refreshView();
         }
     });
 
     // TODO: Load only necessary types from API
     TypeResource.loadAll();
-  }
-
-  /**
-   * Toggle whether this instance is currently showing.
-   */
-  public toggle() {
-    this.visible = !this.visible;
-    this.states.table.timelineVisible.put(this.visible);
   }
 
   /**

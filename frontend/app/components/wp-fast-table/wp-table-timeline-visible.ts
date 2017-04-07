@@ -26,35 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
-import {WorkPackageTableBaseInterface} from '../wp-table-base';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
+export class WorkPackageTableTimelineVisible {
+  public current:boolean;
 
-export type TableStateStates = 'columns' |
-                               'groupBy' |
-                               'filters' |
-                               'sum' |
-                               'sortBy' |
-                               'timelineVisible' |
-                               'pagination';
-
-export abstract class WorkPackageTableBaseService {
-  protected abstract stateName: TableStateStates;
-
-  constructor(protected states: States) {
+  constructor(isVisible:boolean) {
+    this.current = isVisible;
   }
 
-  protected get state():State<WorkPackageTableBaseInterface> {
-    return this.states.table[this.stateName];
-  };
-
-  public observeOnScope(scope:ng.IScope) {
-    return this.state.observeOnScope(scope);
+  public toggle() {
+    this.current = !this.current;
   }
 
-  public onReady(scope:ng.IScope) {
-    return this.state.observeOnScope(scope).take(1).mapTo(null).toPromise();
+  public get isVisible() {
+    return this.current;
   }
 }

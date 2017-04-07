@@ -1,3 +1,4 @@
+import { WorkPackageTableTimelineService } from './../../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -45,8 +46,8 @@ import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query
 import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service.ts'
-import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service.ts'
+import {WorkPackagesListService} from '../../wp-list/wp-list.service'
+import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service'
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
@@ -59,6 +60,7 @@ function WorkPackagesListController($scope:any,
                                     wpTableGroupBy:WorkPackageTableGroupByService,
                                     wpTableFilters:WorkPackageTableFiltersService,
                                     wpTableSum:WorkPackageTableSumService,
+                                    wpTableTimeline:WorkPackageTableTimelineService,
                                     wpTablePagination:WorkPackageTablePaginationService,
                                     wpListService:WorkPackagesListService,
                                     wpListChecksumService:WorkPackagesListChecksumService,
@@ -118,8 +120,12 @@ function WorkPackagesListController($scope:any,
       updateAndExecuteIfAltered(sums.current, 'sums', true);
     });
 
+    wpTableTimeline.observeOnScope($scope).subscribe(timeline => {
+      updateAndExecuteIfAltered(timeline.current, 'timelineVisible');
+    });
+
     wpTableColumns.observeOnScope($scope).subscribe(columns => {
-      updateAndExecuteIfAltered(columns.current, 'columns')
+      updateAndExecuteIfAltered(columns.current, 'columns');
     });
   }
 
@@ -219,6 +225,7 @@ function WorkPackagesListController($scope:any,
            !states.table.columns.getCurrentValue() ||
            !states.table.sortBy.getCurrentValue() ||
            !states.table.groupBy.getCurrentValue() ||
+           !states.table.timelineVisible.getCurrentValue() ||
            !states.table.sum.getCurrentValue()
   }
 

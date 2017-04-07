@@ -97,6 +97,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :timeline_visible,
+                 type: 'Boolean',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema :starred,
                  type: 'Boolean',
                  required: false,
