@@ -70,7 +70,12 @@ module OpenProject
           ##
           # Only valid if global basic auth is configured and tried.
           def valid?
-            self.class.configuration? && super && username == self.class.user
+            (
+              OpenProject::Configuration.apiv3_enable_basic_auth? &&
+              self.class.configuration? &&
+              super &&
+              username == self.class.user
+            )
           end
 
           def authenticate_user(username, password)
