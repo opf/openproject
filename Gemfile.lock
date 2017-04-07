@@ -396,7 +396,7 @@ GEM
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
     public_suffix (2.0.5)
-    rabl (0.13.0)
+    rabl (0.13.1)
       activesupport (>= 2.3.14)
     rack (2.0.1)
     rack-accept (0.4.5)
