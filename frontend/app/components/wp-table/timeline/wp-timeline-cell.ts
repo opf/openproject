@@ -64,7 +64,7 @@ export class WorkPackageTimelineCell {
   activate() {
     this.subscription = Observable.combineLatest(
       this.workPackageTimeline.addWorkPackage(this.workPackageId),
-      this.states.table.timelineVisible.observeUntil(this.states.table.stopAllSubscriptions)
+      this.states.table.timelineVisible.values$().takeUntil(this.states.table.stopAllSubscriptions)
     )
       .filter(([renderInfo, timelineState]) => timelineState.isVisible)
       .map(([renderInfo, _visible]) => renderInfo)

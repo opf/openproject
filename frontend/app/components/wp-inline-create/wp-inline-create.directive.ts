@@ -85,7 +85,7 @@ export class WorkPackageInlineCreateController {
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
-          this.states.focusedWorkPackage.put(wp.id, 'Added in inline create');
+          this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
         }
     });
 

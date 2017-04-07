@@ -129,14 +129,13 @@ export class WpTimelineGlobalService {
    * Refresh relations of visible rows.
    */
   private setupRelationSubscription() {
-    this.wpStates.relations
-      .observeUntil(scopeDestroyed$(this.scope))
+    this.wpStates.relations.observeChange()
+      .takeUntil(scopeDestroyed$(this.scope))
       .withLatestFrom(
-        this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope))
-      )
-      .filter(([nextVal, timelineState]) => nextVal && timelineState.isVisible)
-      .map(([nextVal, _timelineState]) => nextVal)
-      .subscribe((nextVal:[string, RelationsStateValue]) => {
+        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.scope)))
+      .filter(([relations, timelineVisible]) => relations && timelineVisible.isVisible)
+      .map(([relations]) => relations)
+      .subscribe((nextVal) => {
         const [workPackageId, relations] = nextVal;
 
         if (workPackageId && this.cells[workPackageId]) {
