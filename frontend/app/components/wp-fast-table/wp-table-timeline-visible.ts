@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,36 +24,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {wpDirectivesModule} from '../../angular-modules';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-/**
- * Contains methods and attributes shared
- * between common relations and parent-child relations
- */
-export class WorkPackageSingleRelationController {
-  public workPackagePath = this.PathHelper.workPackagePath;
+export class WorkPackageTableTimelineVisible {
+  public current:boolean;
 
-  constructor(protected PathHelper:op.PathHelper) {
+  constructor(isVisible:boolean) {
+    this.current = isVisible;
   }
 
-  public getFullIdentifier(workPackage:WorkPackageResourceInterface, hideType?:boolean) {
-    if (hideType) {
-      return workPackage.subject;
-    }
+  public toggle() {
+    this.current = !this.current;
+  }
 
-    return workPackage.subjectWithType;
+  public get isVisible() {
+    return this.current;
   }
 }
-
-function wpSingleRelationDirective() {
-  return {
-    restrict: 'A',
-    controller: WorkPackageSingleRelationController,
-    controllerAs: 'singleRelationCtrl',
-    bindToController: true,
-  };
-}
-
-wpDirectivesModule.directive('wpSingleRelation', wpSingleRelationDirective);

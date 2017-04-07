@@ -450,6 +450,10 @@ describe ::API::V3::Queries::QueryRepresenter do
       is_expected.to be_json_eql(query.display_sums.to_json).at_path('sums')
     end
 
+    it 'should indicate whether timeline is shown' do
+      is_expected.to be_json_eql(query.timeline_visible.to_json).at_path('timelineVisible')
+    end
+
     it 'should indicate whether the query is publicly visible' do
       is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
     end
@@ -593,6 +597,17 @@ describe ::API::V3::Queries::QueryRepresenter do
           is_expected
             .not_to have_json_path('_embedded/groupBy')
         end
+      end
+    end
+
+    describe 'when timeline is visible' do
+      let(:query) do
+        FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+          query.timeline_visible = true
+        end
+      end
+      it do
+        is_expected.to be_json_eql('true').at_path('timelineVisible')
       end
     end
 

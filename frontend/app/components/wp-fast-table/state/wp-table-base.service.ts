@@ -36,7 +36,8 @@ export type TableStateStates = 'columns' |
                                'filters' |
                                'sum' |
                                'sortBy' |
-                               'pagination'
+                               'timelineVisible' |
+                               'pagination';
 
 export abstract class WorkPackageTableBaseService {
   protected abstract stateName: TableStateStates;

@@ -83,6 +83,9 @@ export class WorkPackageInlineCreateController {
           // Remove this row and add another
           this.removeWorkPackageRow();
           this.addWorkPackageRow();
+
+          // Focus on the last inserted id
+          this.states.focusedWorkPackage.put(wp.id, 'Added in inline create');
         }
     });
 

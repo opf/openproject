@@ -47,6 +47,14 @@ describe Query, type: :model do
     end
   end
 
+  describe 'timeline' do
+    it 'has a property for timeline visible' do
+      expect(query.timeline_visible).to be_falsey
+      query.timeline_visible = true
+      expect(query.timeline_visible).to be_truthy
+    end
+  end
+
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do

@@ -1,6 +1,7 @@
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import { WorkPackageTableTimelineVisible } from './../../wp-table-timeline-visible';
 import {States} from "../../../states.service";
 import {timelineCellClassName, timelineCollapsedClassName} from "../../builders/timeline-cell-builder";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
 
 export class TimelineTransformer {
@@ -10,10 +11,9 @@ export class TimelineTransformer {
     injectorBridge(this);
 
     this.states.table.timelineVisible.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((visible: boolean) => {
-        this.renderVisibility(visible);
-      });
+      .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineVisible) => {
+      this.renderVisibility(state.isVisible);
+    });
   }
 
   /**

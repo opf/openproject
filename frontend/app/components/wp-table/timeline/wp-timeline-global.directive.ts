@@ -1,3 +1,4 @@
+
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -116,9 +117,9 @@ export class WpTimelineGlobalService {
       this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.scope)),
       this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.scope))
     )
-      .filter(([visible, rows]) => visible)
-      .map(([visible, rows]) => rows)
-      .subscribe((rows: WorkPackageResource[]) => {
+      .filter(([timelineState, rows]) => timelineState.isVisible)
+      .map(([_timelineState, rows]) => rows)
+      .subscribe((rows:WorkPackageResource[]) => {
         this.workPackageIdOrder = rows.map(wp => wp.id.toString());
         this.wpRelations.requireInvolved(this.workPackageIdOrder);
       });
@@ -128,15 +129,14 @@ export class WpTimelineGlobalService {
    * Refresh relations of visible rows.
    */
   private setupRelationSubscription() {
-    const relations = this.wpStates.relations.observeChange();
-    const tlVisible = this.states.table.timelineVisible.values$();
-
-    relations
-      .withLatestFrom(tlVisible)
-      .takeUntil(scopeDestroyed$(this.scope))
-      .filter(([relations, visible]) => relations && visible)
-      .map(([relations, visible]) => relations)
-      .subscribe((nextVal) => {
+    this.wpStates.relations
+      .observeUntil(scopeDestroyed$(this.scope))
+      .withLatestFrom(
+        this.states.table.timelineVisible.observeUntil(scopeDestroyed$(this.scope))
+      )
+      .filter(([nextVal, timelineState]) => nextVal && timelineState.isVisible)
+      .map(([nextVal, _timelineState]) => nextVal)
+      .subscribe((nextVal:[string, RelationsStateValue]) => {
         const [workPackageId, relations] = nextVal;
 
         if (workPackageId && this.cells[workPackageId]) {

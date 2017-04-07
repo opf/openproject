@@ -37,26 +37,27 @@ import {ProjectResource} from './project-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 
 interface QueryResourceEmbedded {
-  results: WorkPackageCollectionResourceInterface;
-  columns: QueryColumn[];
-  groupBy: QueryGroupByResource | undefined;
-  project: ProjectResource;
-  sortBy: QuerySortByResource[];
-  filters: QueryFilterInstanceResource[];
+  results:WorkPackageCollectionResourceInterface;
+  columns:QueryColumn[];
+  groupBy:QueryGroupByResource | undefined;
+  project:ProjectResource;
+  sortBy:QuerySortByResource[];
+  filters:QueryFilterInstanceResource[];
 }
 
 export class QueryResource extends HalResource {
-  public $embedded: QueryResourceEmbedded;
-  public id: number;
-  public results: WorkPackageCollectionResourceInterface;
-  public columns: QueryColumn[];
-  public groupBy: QueryGroupByResource | undefined;
-  public sortBy: QuerySortByResource[];
-  public filters: QueryFilterInstanceResource[];
-  public starred: boolean;
-  public sums: boolean;
-  public public: boolean;
-  public project: ProjectResource;
+  public $embedded:QueryResourceEmbedded;
+  public id:number;
+  public results:WorkPackageCollectionResourceInterface;
+  public columns:QueryColumn[];
+  public groupBy:QueryGroupByResource | undefined;
+  public sortBy:QuerySortByResource[];
+  public filters:QueryFilterInstanceResource[];
+  public starred:boolean;
+  public sums:boolean;
+  public timelineVisible:boolean;
+  public public:boolean;
+  public project:ProjectResource;
 
   protected $initialize(source:any) {
     super.$initialize(source);

@@ -183,6 +183,8 @@ module API
         property :display_sums,
                  as: :sums
 
+        property :timeline_visible
+
         property :starred
 
         property :columns,

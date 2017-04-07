@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,52 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+require 'support/pages/page'
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
+module Pages
+  class WorkPackagesTimeline < WorkPackagesTable
 
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
-    attribute :timeline_visible
-
-    attribute :column_names # => columns
-    attribute :filters
-
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
-
-    attr_reader :user
-
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
-    def initialize(query, user)
-      super query
-
-      @user = user
+    def toggle_timeline
+      find('#work-packages-timeline-toggle-button').click
     end
 
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      return if model.project_id.present? && model.project.nil?
-
-      if is_public && may_not_manage_queries?
-        errors.add :public, :error_unauthorized
+    def expect_timeline!(open: true)
+      if open
+        expect(page).to have_selector('#work-packages-timeline-toggle-button.-active')
+        expect(page).to have_selector('.work-package-table .wp-timeline-cell')
+      else
+        expect(page).to have_no_selector('#work-packages-timeline-toggle-button.-active')
+        expect(page).to have_no_selector('.work-package-table .wp-timeline-cell', visible: true)
       end
     end
 
-    def may_not_manage_queries?
-      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
+    def expect_timeline_element(work_package)
+      type = work_package.milestone? ? :milestone : :bar
+      expect(page).to have_selector("#{work_package_row_selector(work_package)} .timeline-element.#{type}")
     end
   end
 end

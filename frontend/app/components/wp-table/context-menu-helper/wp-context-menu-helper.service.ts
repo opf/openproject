@@ -109,12 +109,12 @@ function WorkPackageContextMenuHelper(
 
     if (workPackage.addRelation && states.table.timelineVisible.value) {
       allowedActions.push({
-        icon: "timeline-relation-add-predecessor",
+        icon: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),
         link: "addRelation"
       });
       allowedActions.push({
-        icon: "timeline-relation-add-follower",
+        icon: "relation-follows",
         text: I18n.t("js.relation_buttons.add_follower"),
         link: "addRelation"
       });

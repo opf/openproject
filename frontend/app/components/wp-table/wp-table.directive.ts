@@ -27,17 +27,28 @@
 // ++
 
 
-import {Observable} from "rxjs/Observable";
+import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-table-timeline.service';
 import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {debugLog} from "../../helpers/debug_output";
-import {ContextMenuService} from "../context-menus/context-menu.service";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
-import {States} from "./../states.service";
-import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
-import {WorkPackageTimelineTableController} from "./timeline/wp-timeline-container.directive";
+import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
+import * as MouseTrap from "mousetrap";
+import {States} from './../states.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
+import {ContextMenuService} from '../context-menus/context-menu.service';
+import {debugLog} from '../../helpers/debug_output';
+import {Observable} from 'rxjs/Observable';
 
 angular
   .module('openproject.workPackages.directives')
@@ -68,9 +79,7 @@ function wpTable(
                    attributes:ng.IAttributes,
                    wpTimelineContainer:WorkPackageTimelineTableController) {
       var activeSelectionBorderIndex;
-
       scope.wpTimelineContainer = wpTimelineContainer;
-      states.table.timelineVisible.putValue(wpTimelineContainer.visible);
 
       var t0 = performance.now();
 
@@ -119,6 +128,7 @@ class WorkPackagesTableController {
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableSum:WorkPackageTableSumService,
+              wpTableTimeline:WorkPackageTableTimelineService,
               wpTableColumns:WorkPackageTableColumnsService,
              ) {
     // Clear any old table subscribers
@@ -156,8 +166,9 @@ class WorkPackagesTableController {
       scopedObservable($scope, states.table.results.values$()),
       wpTableSum.observeOnScope($scope),
       wpTableGroupBy.observeOnScope($scope),
-      wpTableColumns.observeOnScope($scope)
-    ).subscribe(([query, results, sum, groupBy, columns]) => {
+      wpTableColumns.observeOnScope($scope),
+      wpTableTimeline.observeOnScope($scope)
+    ).subscribe(([query, results, sum, groupBy, columns, timelines]) => {
 
       $scope.query = query;
       $scope.resource = results;
@@ -168,6 +179,8 @@ class WorkPackagesTableController {
       $scope.columns = columns.current;
       // Total columns = all available columns + id + checkbox
       $scope.numTableColumns = $scope.columns.length + 2;
+
+      $scope.timelineVisible = timelines.current;
 
       if (sum.current) {
         if (!this.sumsSchemaFetched()) { this.fetchSumsSchema(); }

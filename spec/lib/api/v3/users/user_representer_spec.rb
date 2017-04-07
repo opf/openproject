@@ -176,10 +176,9 @@ describe ::API::V3::Users::UserRepresenter do
       end
     end
 
-    describe 'avatar' do
+    describe 'avatar', with_settings: { gravatar_enabled?: true, protocol: 'http' } do
       before do
         user.mail = 'foo@bar.com'
-        allow(Setting).to receive(:gravatar_enabled?).and_return(true)
       end
 
       it 'should have an url to gravatar if settings permit and mail is set' do

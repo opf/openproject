@@ -51,87 +51,100 @@ describe API::V3, type: :request do
     end
 
     shared_examples 'it is basic auth protected' do
-      context 'without credentials' do
-        before do
-          get resource
-        end
+      context 'when not allowed', with_config: { apiv3_enable_basic_auth: false } do
+        context 'with valid credentials' do
+          before do
+            get resource, params: {}, headers: basic_auth(username, password)
+          end
 
-        it 'should return 401 unauthorized' do
-          expect(response.status).to eq 401
-        end
-
-        it 'should return the correct JSON response' do
-          expect(JSON.parse(response.body)).to eq response_401
-        end
-
-        it 'should return the WWW-Authenticate header' do
-          expect(response.header['WWW-Authenticate'])
-            .to include 'Basic realm="OpenProject API"'
+          it 'should return 401 unauthorized' do
+            expect(response.status).to eq 401
+          end
         end
       end
+      context 'when allowed', with_config: { apiv3_enable_basic_auth: true } do
+        context 'without credentials' do
+          before do
+            get resource
+          end
 
-      context 'with invalid credentials' do
-        let(:expected_message) { 'You did not provide the correct credentials.' }
+          it 'should return 401 unauthorized' do
+            expect(response.status).to eq 401
+          end
 
-        before do
-          get resource, params: {}, headers: basic_auth(username, password.reverse)
+          it 'should return the correct JSON response' do
+            expect(JSON.parse(response.body)).to eq response_401
+          end
+
+          it 'should return the WWW-Authenticate header' do
+            expect(response.header['WWW-Authenticate'])
+              .to include 'Basic realm="OpenProject API"'
+          end
         end
 
-        it 'should return 401 unauthorized' do
-          expect(response.status).to eq 401
+        context 'with invalid credentials' do
+          let(:expected_message) { 'You did not provide the correct credentials.' }
+
+          before do
+            get resource, params: {}, headers: basic_auth(username, password.reverse)
+          end
+
+          it 'should return 401 unauthorized' do
+            expect(response.status).to eq 401
+          end
+
+          it 'should return the correct JSON response' do
+            expect(JSON.parse(response.body)).to eq response_401
+          end
+
+          it 'should return the correct content type header' do
+            expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+          end
+
+          it 'should return the WWW-Authenticate header' do
+            expect(response.header['WWW-Authenticate'])
+              .to include 'Basic realm="OpenProject API"'
+          end
         end
 
-        it 'should return the correct JSON response' do
-          expect(JSON.parse(response.body)).to eq response_401
+        context 'with invalid credentials an X-Authentication-Scheme "Session"' do
+          let(:expected_message) { 'You did not provide the correct credentials.' }
+          let(:headers) do
+            auth = basic_auth(username, password.reverse)
+
+            auth.merge('X-Authentication-Scheme' => 'Session')
+          end
+
+          before do
+            get resource, params: {}, headers: headers
+          end
+
+          it 'should return 401 unauthorized' do
+            expect(response.status).to eq 401
+          end
+
+          it 'should return the correct JSON response' do
+            expect(JSON.parse(response.body)).to eq response_401
+          end
+
+          it 'should return the correct content type header' do
+            expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
+          end
+
+          it 'should return the WWW-Authenticate header' do
+            expect(response.header['WWW-Authenticate'])
+              .to include 'Session realm="OpenProject API"'
+          end
         end
 
-        it 'should return the correct content type header' do
-          expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
-        end
+        context 'with valid credentials' do
+          before do
+            get resource, params: {}, headers: basic_auth(username, password)
+          end
 
-        it 'should return the WWW-Authenticate header' do
-          expect(response.header['WWW-Authenticate'])
-            .to include 'Basic realm="OpenProject API"'
-        end
-      end
-
-      context 'with invalid credentials an X-Authentication-Scheme "Session"' do
-        let(:expected_message) { 'You did not provide the correct credentials.' }
-        let(:headers) do
-          auth = basic_auth(username, password.reverse)
-
-          auth.merge('X-Authentication-Scheme' => 'Session')
-        end
-
-        before do
-          get resource, params: {}, headers: headers
-        end
-
-        it 'should return 401 unauthorized' do
-          expect(response.status).to eq 401
-        end
-
-        it 'should return the correct JSON response' do
-          expect(JSON.parse(response.body)).to eq response_401
-        end
-
-        it 'should return the correct content type header' do
-          expect(response.headers['Content-Type']).to eq 'application/hal+json; charset=utf-8'
-        end
-
-        it 'should return the WWW-Authenticate header' do
-          expect(response.header['WWW-Authenticate'])
-            .to include 'Session realm="OpenProject API"'
-        end
-      end
-
-      context 'with valid credentials' do
-        before do
-          get resource, params: {}, headers: basic_auth(username, password)
-        end
-
-        it 'should return 200 OK' do
-          expect(response.status).to eq 200
+          it 'should return 200 OK' do
+            expect(response.status).to eq 200
+          end
         end
       end
     end
@@ -174,74 +187,76 @@ describe API::V3, type: :request do
       end
     end
 
-    context 'without login required' do
-      before do
-        allow(Setting).to receive(:login_required).and_return(false)
-        allow(Setting).to receive(:login_required?).and_return(false)
-      end
-
-      context 'with global and user basic auth enabled' do
-        let(:username) { 'hancholo' }
-        let(:password) { 'olooleol' }
-
-        let(:api_user) { FactoryGirl.create :user, login: 'user_account' }
-        let(:api_key)  { FactoryGirl.create :api_key, user: api_user }
-
+    context 'when enabled', with_config: { apiv3_enable_basic_auth: true } do
+      context 'without login required' do
         before do
-          config = { user: 'global_account', password: 'global_password' }
-          strategies::GlobalBasicAuth.configure! config
+          allow(Setting).to receive(:login_required).and_return(false)
+          allow(Setting).to receive(:login_required?).and_return(false)
         end
 
-        context 'without credentials' do
+        context 'with global and user basic auth enabled' do
+          let(:username) { 'hancholo' }
+          let(:password) { 'olooleol' }
+
+          let(:api_user) { FactoryGirl.create :user, login: 'user_account' }
+          let(:api_key)  { FactoryGirl.create :api_key, user: api_user }
+
           before do
-            get resource
+            config = { user: 'global_account', password: 'global_password' }
+            strategies::GlobalBasicAuth.configure! config
           end
 
-          it 'should return 200 OK' do
-            expect(response.status).to eq 200
+          context 'without credentials' do
+            before do
+              get resource
+            end
+
+            it 'should return 200 OK' do
+              expect(response.status).to eq 200
+            end
+
+            it 'should "login" the anonymous user' do
+              expect(User.current).to be_anonymous
+            end
           end
 
-          it 'should "login" the anonymous user' do
-            expect(User.current).to be_anonymous
-          end
-        end
+          context 'with invalid credentials' do
+            before do
+              get resource, params: {}, headers: basic_auth(username, password)
+            end
 
-        context 'with invalid credentials' do
-          before do
-            get resource, params: {}, headers: basic_auth(username, password)
-          end
-
-          it 'should return 401 unauthorized' do
-            expect(response.status).to eq 401
-          end
-        end
-
-        context 'with valid global credentials' do
-          before do
-            get resource, params: {}, headers: basic_auth('global_account', 'global_password')
+            it 'should return 401 unauthorized' do
+              expect(response.status).to eq 401
+            end
           end
 
-          it 'should return 200 OK' do
-            expect(response.status).to eq 200
+          context 'with valid global credentials' do
+            before do
+              get resource, params: {}, headers: basic_auth('global_account', 'global_password')
+            end
+
+            it 'should return 200 OK' do
+              expect(response.status).to eq 200
+            end
+
+            it 'should login an admin system user' do
+              expect(User.current.is_a?(SystemUser)).to eq true
+              expect(User.current).to be_admin
+            end
           end
 
-          it 'should login an admin system user' do
-            expect(User.current.is_a?(SystemUser)).to eq true
-            expect(User.current).to be_admin
-          end
-        end
+          context 'with valid user credentials' do
+            before do
+              get resource, params: {}, headers: basic_auth('apikey', api_key.value)
+            end
 
-        context 'with valid user credentials' do
-          before do
-            get resource, params: {}, headers: basic_auth('apikey', api_key.value)
-          end
+            it 'should return 200 OK' do
+              expect(response.status).to eq 200
+            end
 
-          it 'should return 200 OK' do
-            expect(response.status).to eq 200
-          end
-
-          it 'should login user' do
-            expect(User.current).to eq api_user
+            it 'should login user' do
+              expect(User.current).to eq api_user
+            end
           end
         end
       end

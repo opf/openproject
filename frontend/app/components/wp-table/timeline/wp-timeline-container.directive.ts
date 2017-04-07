@@ -1,5 +1,3 @@
-import * as moment from "moment";
-import {BehaviorSubject, Observable} from "rxjs";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,28 +25,29 @@ import {BehaviorSubject, Observable} from "rxjs";
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-timeline-visible';
 import {openprojectModule} from "../../../angular-modules";
-import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../helpers/debug_output";
-import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
+import {
+  TimelineViewParameters, RenderInfo, timelineElementCssClass,
+  timelineMarkerSelectionStartClass
+} from "./wp-timeline";
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
-import {States} from "../../states.service";
-import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
-import {
-  RenderInfo,
-  timelineElementCssClass,
-  timelineMarkerSelectionStartClass,
-  TimelineViewParameters
-} from "./wp-timeline";
-import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+} from "./../../api/api-v3/hal-resources/work-package-resource.service";
 import {WpTimelineHeader} from "./wp-timeline.header";
+import {States} from "../../states.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import * as moment from "moment";
+import {WpTimelineGlobalService} from "./wp-timeline-global.directive";
+import {opDimensionEventName} from "../../common/ui/detect-dimension-changes.directive";
+import { scopeDestroyed$ } from "../../../helpers/angular-rx-utils";
+import { debugLog } from "../../../helpers/debug_output";
 import Moment = moment.Moment;
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
+import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 
 export class WorkPackageTimelineTableController {
 
@@ -64,16 +63,14 @@ export class WorkPackageTimelineTableController {
 
   private refreshViewRequested = false;
 
-  public visible = false;
-
   public disableViewParamsCalculation = false;
 
-  constructor(private $scope: IScope,
-              private $element: ng.IAugmentedJQuery,
+  constructor(private $scope:IScope,
+              private $element:ng.IAugmentedJQuery,
               private TypeResource:any,
-              private states: States,
-              private halRequest: HalRequestService,
-              private wpRelations: WorkPackageRelationsService) {
+              private states:States,
+              private halRequest:HalRequestService,
+              private wpRelations:WorkPackageRelationsService) {
 
     "ngInject";
 
@@ -83,29 +80,22 @@ export class WorkPackageTimelineTableController {
     });
 
     // Refresh timeline view after table rendered
-    states.table.rendered.values$()
+    states.table.rendered
+      .observeUntil(scopeDestroyed$(this.$scope)) // TODO can be removed, if take(1) remains
       .take(1)
       .subscribe(() => this.refreshView());
 
     // Refresh timeline view when becoming visible
-    states.table.timelineVisible.values$()
-      .takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((visible) => {
-        if (visible) {
+    states.table.timelineVisible
+      .observeUntil(scopeDestroyed$(this.$scope))
+      .subscribe((timelineState:WorkPackageTableTimelineVisible) => {
+        if (timelineState.isVisible) {
           this.refreshView();
         }
     });
 
     // TODO: Load only necessary types from API
     TypeResource.loadAll();
-  }
-
-  /**
-   * Toggle whether this instance is currently showing.
-   */
-  public toggle() {
-    this.visible = !this.visible;
-    this.states.table.timelineVisible.putValue(this.visible);
   }
 
   /**

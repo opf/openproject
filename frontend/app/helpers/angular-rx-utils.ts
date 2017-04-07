@@ -53,11 +53,11 @@ export function asyncTest<T>(done: (error?: any) => void, fn: (value: T) => any)
 
 }
 
-export function scopeDestroyed$(scope: IScope) {
-  return Observable.create((s: any) => {
+export function scopeDestroyed$(scope: IScope): Observable<IScope> {
+  return Observable.create((s:Observer<IScope>) => {
     scope.$on("$destroy", () => {
-      s.onNext(true);
-      s.onCompleted();
+      s.next(scope);
+      s.complete();
     });
   });
 }

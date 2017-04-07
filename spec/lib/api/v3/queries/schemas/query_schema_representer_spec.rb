@@ -192,6 +192,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'timelineVisible' do
+        let(:path) { 'timelineVisible' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Boolean' }
+          let(:name) { Query.human_attribute_name('timeline_visible') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'starred' do
         let(:path) { 'starred' }
 
