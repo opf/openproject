@@ -39,11 +39,11 @@ export class WorkPackageSingleRelationController {
   }
 
   public getFullIdentifier(workPackage:WorkPackageResourceInterface, hideType?:boolean) {
-    var type = '';
-    if (workPackage.type && !hideType) {
-      type += workPackage.type.name + ': ';
+    if (hideType) {
+      return workPackage.subject;
     }
-    return `${type}${workPackage.subject}`;
+
+    return workPackage.subjectWithType;
   }
 }
 

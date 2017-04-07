@@ -11,10 +11,19 @@
             work-package="$ctrl.workPackage"
             related-work-package="$ctrl.workPackage.parent"
             relation-type="parent"></wp-relations-hierarchy-row>
-    <wp-relations-hierarchy-row
-            work-package="$ctrl.workPackage"
-            indent-by="20"
-            ng-if="$ctrl.workPackage.parent.$loaded || $ctrl.workPackage.children.length"></wp-relations-hierarchy-row>
+
+    <div class="relation-row self">
+        <div class="grid-block v-align hierarchy-item">
+            <div class="grid-content medium-7 collapse">
+                <span style="padding-left: 20px"
+                      class="wp-relations-hierarchy-subject">
+                    <span ng-bind="$ctrl.workPackage.subjectWithType">
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
     <wp-relations-hierarchy-row
             work-package="$ctrl.workPackage"
             related-work-package="relatedWorkPackage"
