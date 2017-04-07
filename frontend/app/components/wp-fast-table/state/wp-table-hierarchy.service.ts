@@ -2,8 +2,8 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {InputState} from "reactivestates";
 import {opServicesModule} from "../../../angular-modules";
 import {States} from "../../states.service";
-import {WorkPackageTableHierarchies} from "../wp-table-hierarchies";
-import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
+import { TableStateStates, WorkPackageTableBaseService } from './wp-table-base.service';
+import { WorkPackageTableHierarchies } from "../wp-table-hierarchies";
 
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService {
   protected stateName = 'hierarchies' as TableStateStates;

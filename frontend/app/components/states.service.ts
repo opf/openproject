@@ -16,7 +16,7 @@ import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
 import {WorkPackageTableTimelineVisible} from "./wp-fast-table/wp-table-timeline-visible";
-import {WPTableHierarchyState, WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
+import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 

@@ -93,7 +93,9 @@ describe 'work package export', type: :feature do
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
     work_packages_page.open_settings!
+    click_on 'Hide hierarchy'
 
+    work_packages_page.open_settings!
     click_on 'Group by ...'
     select 'Type', from: 'selected_columns_new'
     click_on 'Apply'

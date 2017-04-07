@@ -39,6 +39,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       name: "A Query",
       user: user,
       is_public: false,
+      show_hierarchies: false,
       display_sums: false
     )
   end
@@ -47,6 +48,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
     {
       name: "Dummy Query",
       public: true,
+      showHierarchies: false,
       filters: [
         {
           name: "Status",

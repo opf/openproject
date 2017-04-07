@@ -2,9 +2,7 @@ import {injectorBridge} from "../../../angular/angular-injector-bridge.functions
 import {States} from "../../../states.service";
 import {indicatorCollapsedClass} from "../../builders/rows/hierarchy-rows-builder";
 import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from "../../helpers/wp-table-hierarchy-helpers";
-import {WorkPackageTableHierarchyService} from "../../state/wp-table-hierarchy.service";
 import {WorkPackageTable} from "../../wp-fast-table";
-import {WPTableHierarchyState} from "../../wp-table.interfaces";
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 
@@ -16,8 +14,8 @@ export class HierarchyTransformer {
     injectorBridge(this);
     let enabled = false;
 
-    this.wpTableHierarchies.hierarchyState.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
+    this.wpTableHierarchies
+      .observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((state: WorkPackageTableHierarchies) => {
         if (enabled !== state.isEnabled) {
           table.refreshBody();

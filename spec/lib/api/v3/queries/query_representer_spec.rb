@@ -455,7 +455,7 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     it 'should indicate whether hierarchy is shown' do
-      is_expected.to be_json_eql(query.hierarchies.to_json).at_path('hierarchies')
+      is_expected.to be_json_eql(query.show_hierarchies.to_json).at_path('showHierarchies')
     end
 
     it 'should indicate whether the query is publicly visible' do
@@ -622,7 +622,7 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
       end
       it do
-        is_expected.to be_json_eql('false').at_path('displayHierarchies')
+        is_expected.to be_json_eql('false').at_path('showHierarchies')
       end
     end
 

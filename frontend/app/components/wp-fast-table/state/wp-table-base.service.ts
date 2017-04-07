@@ -30,6 +30,7 @@ import {InputState} from "reactivestates";
 import {States} from "../../states.service";
 import {WorkPackageTableBaseInterface} from "../wp-table-base";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {Observable} from 'rxjs';
 
 export type TableStateStates = 'columns' |
                                'groupBy' |
@@ -51,6 +52,10 @@ export abstract class WorkPackageTableBaseService {
 
   public observeOnScope(scope:ng.IScope) {
     return scopedObservable(scope, this.state.values$());
+  }
+
+  public observeUntil(unsubscribe:Observable<any>) {
+    return this.state.values$().takeUntil(unsubscribe);
   }
 
   public onReady(scope:ng.IScope) {
