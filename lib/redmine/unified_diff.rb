@@ -236,7 +236,7 @@ module Redmine
 
     def html_line_left
       if offsets
-        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line_left.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_left
       end
@@ -244,7 +244,7 @@ module Redmine
 
     def html_line_right
       if offsets
-        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line_right.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line_right
       end
@@ -252,7 +252,7 @@ module Redmine
 
     def html_line
       if offsets
-        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>')
+        line.dup.insert(offsets.first, '<span>').insert(offsets.last, '</span>').html_safe
       else
         line
       end
