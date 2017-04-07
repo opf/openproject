@@ -160,6 +160,17 @@ export class WorkPackageResource extends HalResource {
     return '';
   }
 
+  /**
+   * Return "<type name>: <subject>" if the type is known.
+   */
+  public get subjectWithType():string {
+    if (this.type) {
+      return `${this.type.name}: ${this.subject}`;
+    } else {
+      return this.subject;
+    }
+  }
+
   public get isNew(): boolean {
     return this.id === 'new';
   }
