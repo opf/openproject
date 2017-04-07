@@ -115,7 +115,7 @@ gem 'airbrake', '~> 5.1.0', require: false
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
                           branch: 'master'
 
-gem 'prawn', '~> 2.1'
+gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
 gem 'cells-rails', '~> 0.0.6'
