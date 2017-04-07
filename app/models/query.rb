@@ -49,6 +49,7 @@ class Query < ActiveRecord::Base
   validate :validate_columns
   validate :validate_sort_criteria
   validate :validate_group_by
+  validate :validate_show_hierarchies
 
   scope :visible, ->(to:) do
     # User can see public queries and his own queries
@@ -233,6 +234,12 @@ class Query < ActiveRecord::Base
   def validate_group_by
     unless group_by.blank? || groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
       errors.add :group_by, I18n.t(:error_invalid_group_by, value: group_by)
+    end
+  end
+
+  def validate_show_hierarchies
+    if show_hierarchies && group_by.present?
+      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by: group_by
     end
   end
 

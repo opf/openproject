@@ -78,6 +78,23 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
 
+  $scope.text = {
+    group_by_title: () => {
+      if ($scope.displayHierarchies) {
+        return I18n.t('js.work_packages.query.group_by_disabled_by_hierarchy');
+      } else {
+        return I18n.t('js.work_packages.query.hierarchy_mode');
+      }
+    },
+    hierarchy_title: () => {
+      if (wpTableGroupBy.current) {
+        return I18n.t('js.work_packages.query.hierarchy_disabled_by_group_by', { column: wpTableGroupBy.current.id! });
+      } else {
+        return I18n.t('js.work_packages.query.group_by');
+      }
+    }
+  };
+
   $scope.displayHierarchies = wpTableHierarchies.isEnabled;
   $scope.displaySums = wpTableSum.isEnabled;
   $scope.isGrouped = wpTableGroupBy.isEnabled;

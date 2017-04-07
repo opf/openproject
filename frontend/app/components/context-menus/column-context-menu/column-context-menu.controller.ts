@@ -1,3 +1,4 @@
+import { WorkPackageTableHierarchiesService } from './../../wp-fast-table/state/wp-table-hierarchy.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -40,16 +41,26 @@ function ColumnContextMenuController($scope:any,
                                      wpTableColumns:WorkPackageTableColumnsService,
                                      wpTableSortBy:WorkPackageTableSortByService,
                                      wpTableGroupBy:WorkPackageTableGroupByService,
+                                     wpTableHierarchies:WorkPackageTableHierarchiesService,
                                      I18n:op.I18n,
                                      columnsModal:any) {
 
   $scope.I18n = I18n;
+  $scope.text = {
+    group_by: I18n.t('js.work_packages.query.group'),
+    group_by_disabled_by_hierarchy: I18n.t('js.work_packages.query.group_by_disabled_by_hierarchy')
+  };
 
   $scope.$watch('column', function () {
     // fall back to 'id' column as the default
     $scope.column = $scope.column || {name: 'id', sortable: true};
     $scope.isGroupable = wpTableGroupBy.isGroupable($scope.column) && !wpTableGroupBy.isCurrentlyGroupedBy($scope.column);
+    $scope.isGroupableDisabled = wpTableHierarchies.isEnabled;
     $scope.isSortable = wpTableSortBy.isSortable($scope.column)
+  });
+
+  wpTableHierarchies.observeOnScope($scope).subscribe(() => {
+    $scope.isGroupableDisabled = wpTableHierarchies.isEnabled;
   });
 
   // context menu actions

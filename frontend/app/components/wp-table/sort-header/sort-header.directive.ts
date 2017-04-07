@@ -34,6 +34,7 @@ import {
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
 import {WorkPackageTableSortBy} from '../../wp-fast-table/wp-table-sort-by';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 
 angular
   .module('openproject.workPackages.directives')
@@ -41,6 +42,7 @@ angular
 
 function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
                     wpTableSortBy: WorkPackageTableSortByService,
+                    wpTableGroupBy: WorkPackageTableGroupByService,
                     I18n: op.I18n) {
   return {
     restrict: 'A',
@@ -78,6 +80,11 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.column.id === 'subject';
       scope.hierarchyIcon = 'icon-hierarchy';
+      scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+
+      wpTableGroupBy.observeOnScope(scope).subscribe(() => {
+        scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+      });
 
       scope.toggleHierarchy = function(evt:JQueryEventObject) {
         wpTableHierarchies.toggleState();

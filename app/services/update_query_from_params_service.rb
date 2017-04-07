@@ -45,6 +45,8 @@ class UpdateQueryFromParamsService
 
     apply_timeline(params)
 
+    apply_hierarchy(params)
+
     if query.valid?
       ServiceResult.new(success: true,
                         result: query)
@@ -77,11 +79,15 @@ class UpdateQueryFromParamsService
   end
 
   def apply_sums(params)
-    query.display_sums = params[:display_sums] if params[:display_sums]
+    query.display_sums = params[:display_sums] if params.key?(:display_sums)
   end
 
   def apply_timeline(params)
-    query.timeline_visible = params[:timeline_visible] if params[:timeline_visible]
+    query.timeline_visible = params[:timeline_visible] if params.key?(:timeline_visible)
+  end
+
+  def apply_hierarchy(params)
+    query.show_hierarchies = params[:show_hierarchies] if params.key?(:show_hierarchies)
   end
 
   attr_accessor :query,

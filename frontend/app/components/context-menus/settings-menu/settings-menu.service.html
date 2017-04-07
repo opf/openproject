@@ -11,6 +11,7 @@
           href
           ng-disabled="displayHierarchies"
           ng-class="{'inactive': displayHierarchies}"
+          ng-attr-title="{{ text.group_by_title() }}"
           ng-click="showGroupingModal($event)">
           <i class="icon-action-menu icon-group-by"></i>
           {{ I18n.t('js.toolbar.settings.group_by') }}
@@ -33,6 +34,7 @@
       <a ng-disabled="isGrouped"
          ng-class="{'inactive': !!isGrouped}"
          ng-if="!displayHierarchies"
+         ng-attr-title="{{ text.hierarchy_title() }}"
          class="menu-item"
          href
          ng-click="toggleHierarchies($event)">
