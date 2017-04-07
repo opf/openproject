@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {
   QuerySortByResource,
   QUERY_SORT_BY_ASC,
@@ -39,7 +39,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('sortHeader', sortHeader);
 
-function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService,
+function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
                     wpTableSortBy: WorkPackageTableSortByService,
                     I18n: op.I18n) {
   return {
@@ -80,9 +80,9 @@ function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService,
       scope.hierarchyIcon = 'icon-hierarchy';
 
       scope.toggleHierarchy = function(evt:JQueryEventObject) {
-        wpTableHierarchy.toggleState();
+        wpTableHierarchies.toggleState();
 
-        if(wpTableHierarchy.isEnabled) {
+        if(wpTableHierarchies.isEnabled) {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
           scope.hierarchyIcon = 'icon-no-hierarchy';
         }

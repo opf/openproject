@@ -206,6 +206,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'hierarchies' do
+        let(:path) { 'hierarchies' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'Boolean' }
+          let(:name) { Query.human_attribute_name('hierarchies') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'starred' do
         let(:path) { 'starred' }
 

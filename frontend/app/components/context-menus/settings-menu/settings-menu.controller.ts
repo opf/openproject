@@ -27,7 +27,7 @@
 
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {ContextMenuService} from '../context-menu.service';
-import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
@@ -70,7 +70,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         sortingModal:any,
                                         groupingModal:any,
                                         contextMenu:ContextMenuService,
-                                        wpTableHierarchy:WorkPackageTableHierarchyService,
+                                        wpTableHierarchies:WorkPackageTableHierarchiesService,
                                         wpTableSum:WorkPackageTableSumService,
                                         wpTableGroupBy:WorkPackageTableGroupByService,
                                         wpListService:WorkPackagesListService,
@@ -78,7 +78,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
 
-  $scope.displayHierarchies = wpTableHierarchy.isEnabled;
+  $scope.displayHierarchies = wpTableHierarchies.isEnabled;
   $scope.displaySums = wpTableSum.isEnabled;
   $scope.isGrouped = wpTableGroupBy.isEnabled;
 
@@ -170,8 +170,8 @@ function SettingsDropdownMenuController($scope:IMyScope,
       return;
     }
 
-    const isEnabled = wpTableHierarchy.isEnabled;
-    wpTableHierarchy.setEnabled(!isEnabled);
+    const isEnabled = wpTableHierarchies.isEnabled;
+    wpTableHierarchies.setEnabled(!isEnabled);
   };
 
   $scope.toggleDisplaySums = function () {

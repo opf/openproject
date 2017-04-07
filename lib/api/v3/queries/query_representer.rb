@@ -185,6 +185,8 @@ module API
 
         property :timeline_visible
 
+        property :show_hierarchies
+
         property :starred
 
         property :columns,

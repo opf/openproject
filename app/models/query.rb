@@ -155,6 +155,7 @@ class Query < ActiveRecord::Base
     new(attributes).tap do |query|
       query.add_default_filter
       query.set_default_sort
+      query.show_hierarchies = true
     end
   end
 

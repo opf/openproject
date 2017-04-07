@@ -37,6 +37,7 @@ module Queries
     attribute :is_public # => public
     attribute :display_sums # => sums
     attribute :timeline_visible
+    attribute :show_hierarchies
 
     attribute :column_names # => columns
     attribute :filters

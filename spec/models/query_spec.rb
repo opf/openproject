@@ -55,6 +55,14 @@ describe Query, type: :model do
     end
   end
 
+  describe 'hierarchies' do
+    it 'is enabled by default' do
+      expect(query.show_hierarchies).to be_truthy
+      query.show_hierarchies = true
+      expect(query.show_hierarchies).to be_falsey
+    end
+  end
+
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do

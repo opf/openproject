@@ -47,6 +47,8 @@ module API
 
         parsed_params[:timeline_visible] = boolearize(params[:timelineVisible])
 
+        parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
+
         ServiceResult.new(success: true,
                           result: without_empty(parsed_params, params.keys))
       end

@@ -56,6 +56,7 @@ export class QueryResource extends HalResource {
   public starred:boolean;
   public sums:boolean;
   public timelineVisible:boolean;
+  public showHierarchies:boolean;
   public public:boolean;
   public project:ProjectResource;
 

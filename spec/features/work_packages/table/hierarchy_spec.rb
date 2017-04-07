@@ -43,11 +43,7 @@ describe 'Work Package table hierarchy', js: true do
     wp_table.visit!
     expect_listed(wp_root, wp_inter, wp_leaf, wp_other)
 
-    hierarchy.expect_no_hierarchies
-
-    # Hierarchy mode is disabled by default
-    hierarchy.enable_hierarchy
-
+    # Hierarchy mode is enabled by default
     hierarchy.expect_hierarchy_at(wp_root)
     hierarchy.expect_hierarchy_at(wp_inter)
     hierarchy.expect_leaf_at(wp_leaf)
@@ -91,10 +87,6 @@ describe 'Work Package table hierarchy', js: true do
 
     # Should only list the matching leaf
     wp_table.expect_work_package_listed(wp_leaf)
-
-    # When toggling hierarchies, shows root and intermediate node
-    # Hierarchy mode is disabled by default
-    hierarchy.enable_hierarchy
 
     hierarchy.expect_hierarchy_at(wp_root)
     hierarchy.expect_hierarchy_at(wp_inter)
