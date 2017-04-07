@@ -251,7 +251,7 @@ GEM
       representable (~> 2.0)
       uber
     docile (1.1.5)
-    domain_name (0.5.20170223)
+    domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     enumerable-lazy (0.0.1)
     equalizer (0.0.11)
