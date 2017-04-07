@@ -575,7 +575,7 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
-    warden (1.2.6)
+    warden (1.2.7)
       rack (>= 1.0)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
