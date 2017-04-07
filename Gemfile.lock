@@ -318,7 +318,7 @@ GEM
     interception (0.5)
     ipaddress (0.8.3)
     iso8601 (0.9.1)
-    json (1.8.3)
+    json (1.8.6)
     json_spec (1.1.4)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
@@ -444,8 +444,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
-    rdoc (4.2.2)
-      json (~> 1.4)
+    rdoc (5.1.0)
     redcarpet (3.3.4)
     reform (1.2.6)
       activemodel
