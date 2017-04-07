@@ -69,7 +69,7 @@ gem 'tzinfo-data', '~> 1.2017.2'
 gem 'htmldiff'
 
 # Generate url slugs with #to_url and other string niceties
-gem 'stringex', '~> 2.6.1'
+gem 'stringex', '~> 2.7.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
