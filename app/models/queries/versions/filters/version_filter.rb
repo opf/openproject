@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Versions::Filters::VersionFilter < Queries::BaseFilter
+class Queries::Versions::Filters::VersionFilter < Queries::Filters::Base
   self.model = Version
 
   def human_name

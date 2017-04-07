@@ -55,6 +55,6 @@ class Queries::Users::Filters::GroupFilter < Queries::Users::Filters::UserFilter
   end
 
   def where
-    sql_for_field(self.class.key, operator, values, 'groups', 'id')
+    operator_strategy.sql_for_field(values, 'groups', 'id')
   end
 end

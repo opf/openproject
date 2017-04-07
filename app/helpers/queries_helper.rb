@@ -28,8 +28,8 @@
 #++
 
 module QueriesHelper
-  def operators_for_select(filter_type)
-    Queries::BaseFilter.operators_by_filter_type[filter_type].map { |o| [l(Queries::BaseFilter.operators[o]), o] }
+  def operators_for_select(filter)
+    filter.available_operators.map { |o| [o.human_name, o.to_sym] }
   end
 
   def entries_for_filter_select_sorted(query)

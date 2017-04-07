@@ -56,4 +56,21 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
   def self.key
     :assigned_to_id
   end
+
+  private
+
+  def values_me_replaced
+    vals = values.clone
+
+    if vals.delete('me')
+      if User.current.logged?
+        vals.push(User.current.id.to_s)
+        vals += User.current.group_ids.map(&:to_s)
+      else
+        vals.push('0')
+      end
+    end
+
+    vals
+  end
 end

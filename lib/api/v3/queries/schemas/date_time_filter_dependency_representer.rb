@@ -35,10 +35,9 @@ module API
           IntegerFilterDependencyRepresenter
 
           def type
-            case operator
-            when '=d'
+            if operator == ::Queries::Operators::OnDateTime
               '[1]DateTime'
-            when '<>d'
+            elsif operator == ::Queries::Operators::BetweenDateTime
               '[2]DateTime'
             else
               super

@@ -34,7 +34,7 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
 
   it_behaves_like 'basic query filter' do
     let(:order) { 1 }
-    let(:type) { :list_status }
+    let(:type) { :list }
     let(:class_key) { :status_id }
 
     describe '#available?' do

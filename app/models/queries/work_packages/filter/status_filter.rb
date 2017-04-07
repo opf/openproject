@@ -32,12 +32,20 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     all_statuses.map { |s| [s.name, s.id.to_s] }
   end
 
+  def available_operators
+    [Queries::Operators::OpenWorkPackages,
+     Queries::Operators::Equals,
+     Queries::Operators::ClosedWorkPackages,
+     Queries::Operators::NotEquals,
+     Queries::Operators::All]
+  end
+
   def available?
     Status.exists?
   end
 
   def type
-    :list_status
+    :list
   end
 
   def order
@@ -66,5 +74,22 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
 
   def all_statuses
     @all_statuses ||= Status.all
+  end
+
+  def operator_strategy
+    super_value = super
+
+    if !super_value
+      case operator
+      when 'o'
+        Queries::Operators::OpenWorkPackages
+      when 'c'
+        Queries::Operators::ClosedWorkPackages
+      when '*'
+        Queries::Operators::All
+      end
+    else
+      super_value
+    end
   end
 end

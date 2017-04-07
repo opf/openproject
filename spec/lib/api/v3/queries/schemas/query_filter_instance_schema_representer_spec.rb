@@ -155,8 +155,8 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
             let(:hrefs) do
               [api_v3_paths.query_operator('o'),
                api_v3_paths.query_operator('='),
-               api_v3_paths.query_operator('!'),
                api_v3_paths.query_operator('c'),
+               api_v3_paths.query_operator('!'),
                api_v3_paths.query_operator('*')]
             end
           end
@@ -184,9 +184,9 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
           it 'is the hash' do
             expected = {
               api_v3_paths.query_operator('=') => { "lorem": "ipsum" },
+              api_v3_paths.query_operator('c') => { "lorem": "ipsum" },
               api_v3_paths.query_operator('!') => { "lorem": "ipsum" },
               api_v3_paths.query_operator('*') => { "lorem": "ipsum" },
-              api_v3_paths.query_operator('c') => { "lorem": "ipsum" },
               api_v3_paths.query_operator('o') => { "lorem": "ipsum" }
             }
 

@@ -57,14 +57,14 @@ describe ::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter do
         let(:path) { 'values' }
         let(:type) { '[1]Boolean' }
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '!'" do
-          let(:operator) { '!' }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency'
         end

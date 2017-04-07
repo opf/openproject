@@ -49,32 +49,32 @@ describe ::API::V3::Queries::Schemas::StatusFilterDependencyRepresenter do
         let(:type) { '[]Status' }
         let(:href) { api_v3_paths.statuses }
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency with allowed link'
         end
 
-        context "for operator '!'" do
-          let(:operator) { "!" }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency with allowed link'
         end
 
-        context "for operator 'c'" do
-          let(:operator) { "c" }
+        context "for operator 'Queries::Operators::OpenWorkPackages'" do
+          let(:operator) { Queries::Operators::OpenWorkPackages }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator 'o'" do
-          let(:operator) { "o" }
+        context "for operator 'Queries::Operators::ClosedWorkPackages'" do
+          let(:operator) { Queries::Operators::ClosedWorkPackages }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator '*'" do
-          let(:operator) { "*" }
+        context "for operator 'Queries::Operators::All'" do
+          let(:operator) { Queries::Operators::All }
 
           it_behaves_like 'filter dependency empty'
         end

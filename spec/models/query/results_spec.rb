@@ -69,7 +69,9 @@ describe ::Query::Results, type: :model do
 
   describe '#work_package_count_by_group' do
     context 'when grouping by responsible' do
-      before do query.group_by = 'responsible' end
+      before do
+        query.group_by = 'responsible'
+      end
 
       it 'should produce a valid SQL statement' do
         expect { query_results.work_package_count_by_group }.not_to raise_error
@@ -80,30 +82,30 @@ describe ::Query::Results, type: :model do
   describe '#work_packages' do
     let!(:project_1) { FactoryGirl.create :project }
     let!(:project_2) { FactoryGirl.create :project }
-    let!(:member) {
+    let!(:member) do
       FactoryGirl.create(:member,
                          project: project_2,
                          principal: user_1,
                          roles: [role_pm])
-    }
-    let!(:user_2) {
+    end
+    let!(:user_2) do
       FactoryGirl.create(:user,
                          firstname: 'user',
                          lastname: '2',
                          member_in_project: project_2,
                          member_through_role: role_dev)
-    }
+    end
 
-    let!(:wp_p2) {
+    let!(:wp_p2) do
       FactoryGirl.create(:work_package,
                          project: project_2,
                          assigned_to_id: user_2.id)
-    }
-    let!(:wp2_p2) {
+    end
+    let!(:wp2_p2) do
       FactoryGirl.create(:work_package,
                          project: project_2,
                          assigned_to_id: user_1.id)
-    }
+    end
 
     before do
       wp_p1
@@ -114,14 +116,11 @@ describe ::Query::Results, type: :model do
         allow(User).to receive(:current).and_return(user_2)
         allow(project_2.descendants).to receive(:active).and_return([])
 
-        query.add_filter('assigned_to_role', '=', ["#{role_dev.id}"])
+        query.add_filter('assigned_to_role', '=', [role_dev.id.to_s])
       end
 
       context 'when a project is set' do
-        before do
-          allow(query).to receive(:project).and_return(project_2)
-          allow(query).to receive(:project_id).and_return(project_2.id)
-        end
+        let(:query) { FactoryGirl.build :query, project: project_2 }
 
         it 'should display only wp for selected project and selected role' do
           expect(query_results.work_packages).to match_array([wp_p2])
@@ -129,10 +128,7 @@ describe ::Query::Results, type: :model do
       end
 
       context 'when no project is set' do
-        before do
-          allow(query).to receive(:project_id).and_return(false)
-          allow(query).to receive(:project).and_return(false)
-        end
+        let(:query) { FactoryGirl.build :query, project: nil }
 
         it 'should display all wp from projects where User.current has access' do
           expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])

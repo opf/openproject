@@ -105,7 +105,7 @@ module API
           end
 
           def operator_name
-            I18n.t(represented.class.operators[represented.operator.to_sym])
+            represented.operator_class.human_name if represented.operator_class.present?
           end
 
           def convert_attribute(attribute)

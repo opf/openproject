@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::BaseFilter
+class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
   include ActiveModel::Serialization
+
+  self.model = WorkPackage
+
   # (de-)serialization
   def self.from_hash(filter_hash)
     filter_hash.keys.map { |field| new(field, filter_hash[field]) }

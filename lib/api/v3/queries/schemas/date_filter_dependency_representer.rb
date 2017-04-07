@@ -37,10 +37,9 @@ module API
           private
 
           def type
-            case operator
-            when '=d'
+            if operator == ::Queries::Operators::OnDate
               '[1]Date'
-            when '<>d'
+            elsif operator == ::Queries::Operators::BetweenDate
               '[2]Date'
             else
               super

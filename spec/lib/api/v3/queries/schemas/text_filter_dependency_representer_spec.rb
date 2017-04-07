@@ -49,26 +49,26 @@ describe ::API::V3::Queries::Schemas::TextFilterDependencyRepresenter do
         let(:path) { 'values' }
         let(:type) { '[1]String' }
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '~'" do
-          let(:operator) { "~" }
+        context "for operator 'Queries::Operators::Contains'" do
+          let(:operator) { Queries::Operators::Contains }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '!'" do
-          let(:operator) { '!' }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '!~'" do
-          let(:operator) { '!~' }
+        context "for operator 'Queries::Operators::NotContains'" do
+          let(:operator) { Queries::Operators::NotContains }
 
           it_behaves_like 'filter dependency'
         end

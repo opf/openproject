@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
   include ::API::V3::Utilities::PathHelper
 
-  let(:operator) { "=" }
+  let(:operator) { Queries::Operators::Equals }
   let(:form_embedded) { true }
 
   describe '.create' do

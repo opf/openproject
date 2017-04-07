@@ -64,9 +64,56 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
     roles.select { |r| value_ints.include?(r.id) }
   end
 
+  def where
+    operator_for_filtering.sql_for_field(user_ids_for_filtering.map(&:to_s),
+                                         WorkPackage.table_name,
+                                         'assigned_to_id')
+  end
+
   private
 
   def roles
     ::Role.givable
+  end
+
+  def operator_for_filtering
+    case operator
+    when '*' # Any Role
+      # Override the operator since we want to find by assigned_to
+      ::Queries::Operators::Equals
+    when '!*' # No role
+      # Override the operator since we want to find by assigned_to
+      ::Queries::Operators::NotEquals
+    else
+      operator_strategy
+    end
+  end
+
+  def user_ids_for_filtering
+    scope = if ['*', '!*'].include?(operator)
+              user_ids_for_filtering_scope
+            elsif context
+              user_ids_for_filter_project_scope
+            else
+              user_ids_for_filter_non_project_scope
+            end
+
+    scope.pluck(:user_id).sort.uniq
+  end
+
+  def user_ids_for_filtering_scope
+    roles
+      .joins(member_roles: :member)
+  end
+
+  def user_ids_for_filter_project_scope
+    user_ids_for_filtering_scope
+      .where(id: values)
+      .where(members: { project_id: context.id })
+  end
+
+  def user_ids_for_filter_non_project_scope
+    user_ids_for_filtering_scope
+      .where(id: values)
   end
 end

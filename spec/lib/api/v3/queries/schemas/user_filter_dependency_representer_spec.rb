@@ -57,14 +57,14 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
           "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}"
         end
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency with allowed link'
         end
 
-        context "for operator '!'" do
-          let(:operator) { "!" }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency with allowed link'
         end
@@ -76,14 +76,14 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
              { status: { operator: '=', values: ['1'] } }]
           end
 
-          context "for operator '='" do
-            let(:operator) { "=" }
+          context "for operator 'Queries::Operators::Equals'" do
+            let(:operator) { Queries::Operators::Equals }
 
             it_behaves_like 'filter dependency with allowed link'
           end
 
-          context "for operator '!'" do
-            let(:operator) { "!" }
+          context "for operator 'Queries::Operators::NotEquals'" do
+            let(:operator) { Queries::Operators::NotEquals }
 
             it_behaves_like 'filter dependency with allowed link'
           end

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Queries::Filters::QueryFilter < Queries::BaseFilter
+class Queries::Queries::Filters::QueryFilter < Queries::Filters::Base
   self.model = Query
 
   def human_name

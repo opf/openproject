@@ -114,7 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="advanced-filters--filter-operator">
           <%= label_tag "op_#{field}", l(:description_filter), class: "hidden-for-sighted" %>
           <%= select_tag "op[#{field}]",
-                         options_for_select(operators_for_select(options[:type]),
+                         options_for_select(operators_for_select(filter),
                                             query.filter_for(field).try(:operator)),
                          id:       "operators_#{field}",
                          onchange: "toggle_operator('#{field}');",
