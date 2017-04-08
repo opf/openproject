@@ -83,8 +83,8 @@ lt:
   caption_show_locked: "Rodyti užrakintus tipus"
   cost_objects_title: "Biudžetai"
   label_cost_type_plural: "Kaštų tipai"
-  currency_delimiter: ","
-  currency_separator: "."
+  currency_delimiter: "."
+  currency_separator: ","
   description_date_for_new_rate: "Naujo koeficiento data"
   events:
     cost_object: "Biudžetas redaguotas"
