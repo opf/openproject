@@ -1,7 +1,7 @@
 de:
   button_edit_this_page: "Diese Seite bearbeiten"
   error_saving_changes: 'Änderungen konnten nicht gespeichert werden: %{errors}'
-  error_textile_not_saved: "The textile block could not be saved."
+  error_textile_not_saved: "Der Textile-Block konnte nicht gespeichert werden."
   label_hidden_elements: "Versteckte Elemente"
   label_visible_elements: "Sichtbare Elemente"
   label_project_description: "Projektbeschreibung"
