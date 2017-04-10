@@ -680,19 +680,23 @@ class User < Principal
 
   def self.system
     system_user = SystemUser.first
+
     if system_user.nil?
-      (system_user = SystemUser.new.tap do |u|
-        u.lastname = 'System'
-        u.login = ''
-        u.firstname = ''
-        u.mail = ''
-        u.admin = false
-        u.status = User::STATUSES[:locked]
-        u.first_login = false
-        u.random_password!
-      end).save
-      raise 'Unable to create the automatic migration user.' if system_user.new_record?
+      system_user = SystemUser.new(
+        firstname: "",
+        lastname: "System",
+        login: "",
+        mail: "",
+        admin: false,
+        status: User::STATUSES[:locked],
+        first_login: false
+      )
+
+      system_user.save(validate: false)
+
+      raise 'Unable to create the automatic migration user.' unless system_user.persisted?
     end
+
     system_user
   end
 
