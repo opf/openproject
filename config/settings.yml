@@ -263,7 +263,6 @@ default_projects_modules:
   - work_package_tracking
   - news
   - time_tracking
-  - timelines
   - wiki
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
