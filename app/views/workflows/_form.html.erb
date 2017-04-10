@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </colgroup>
       <thead>
         <tr>
-          <th class="-short"></th>
+          <th></th>
           <th><div class="generic-table--empty-header"></div></th>
           <th colspan="<%= @statuses.length%>">
             <div class="generic-table--sort-header-outer -border">
@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </thead>
       <tbody>
         <tr>
-          <td class="-no-border -short">
+          <td class="-no-border">
             <span class="workflow-table--turned-header">
               <%=l(:label_current_status)%>
             </span>
@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </tr>
         <% for old_status in @statuses %>
           <tr>
-            <td class="-no-border -border-right  -short"></td>
+            <td class="-no-border -border-right"></td>
             <td class="workflow-table--current-status -border-right">
               <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
                                          class: 'no-decoration-on-hover',

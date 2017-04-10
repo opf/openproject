@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </caption>
         <thead>
           <tr>
-            <th class="-short">
+            <th>
               <div class="generic-table--sort-header-outer">
                 <div class="generic-table--sort-header">
                   <span aria-describedby="revision-id--description">
@@ -110,14 +110,14 @@ See doc/COPYRIGHT.rdoc for more details.
           <% line_num = 1 %>
           <% revisions.each do |changeset| %>
             <tr class="changeset">
-              <td class="id -short">
+              <td class="id">
                 <%= link_to_revision(changeset, project) %>
               </td>
-              <td class="checkbox -short">
+              <td class="checkbox">
                 <%= label_tag "cb-#{line_num}", t(:description_compare_from) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
                 <%= radio_button_tag('rev', changeset.identifier, (line_num==1), id: "cb-#{line_num}", onclick: "jQuery('#cbto-#{line_num+1}').attr('checked', true);") if show_diff && (line_num < revisions.size) %>
               </td>
-              <td class="checkbox -short">
+              <td class="checkbox">
                 <%= label_tag "cbto-#{line_num}", t(:description_compare_to) + ' ' + t(:label_changeset), class: 'hidden-for-sighted' %>
                 <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), id: "cbto-#{line_num}", onclick: "if (jQuery('#cb-#{line_num}').attr('checked')) {jQuery('#cb-#{line_num-1}').attr('checked', true)}") if show_diff && (line_num > 1) %>
               </td>
@@ -135,7 +135,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-      
+
     </div>
   </div>
   <% if show_diff %>

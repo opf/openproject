@@ -23,7 +23,7 @@ export class DetailsLinkBuilder {
   public build(workPackage:WorkPackageResource):HTMLElement {
     // Append details button
     let td = document.createElement('td');
-    td.classList.add(detailsLinkTdClass, 'hide-when-print', '-short');
+    td.classList.add(detailsLinkTdClass, 'hide-when-print');
 
     let detailsLink = this.uiStatebuilder.linkToDetails(
       workPackage.id,
