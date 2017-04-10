@@ -95,15 +95,17 @@ module DemoData
     end
 
     def seed_timeline(project)
-      timeline = Timeline.create!(
-        project: project,
-        name: I18n.t('seeders.demo_data.timeline.name'),
-        options: {
-          'zoom_factor' => ['3'],
-          'initial_outline_expansion' => ['2'],
-          'columns' => [:start_date, :due_date, :status]
-        }
-      )
+      query = Query.create! project: project,
+                            filters: [status_id: { operator: "o" }],
+                            name: 'Timeline',
+                            user_id: User.admin.first.id,
+                            is_public: true,
+                            timeline_visible: true,
+                            column_names: [:subject, :type, :status]
+
+      MenuItems::QueryMenuItem.create! navigatable_id: query.id,
+                                       name: SecureRandom.uuid,
+                                       title: query.name
     end
 
     def seed_versions(project)
