@@ -32,6 +32,8 @@ import {
   WorkPackageResourceInterface
 } from "../api/api-v3/hal-resources/work-package-resource.service";
 import {States} from "../states.service";
+import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
+import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
@@ -41,9 +43,9 @@ import IRootScopeService = angular.IRootScopeService;
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 
 export class WorkPackageCreateController {
-  public newWorkPackage: WorkPackageResource | any;
-  public parentWorkPackage: WorkPackageResource | any;
-  public successState: string;
+  public newWorkPackage:WorkPackageResource|any;
+  public parentWorkPackage:WorkPackageResource|any;
+  public successState:string;
 
   public get header(): string {
     if (!this.newWorkPackage.type) {
@@ -82,7 +84,10 @@ export class WorkPackageCreateController {
               protected wpCreate: WorkPackageCreateService,
               protected wpEditModeState: WorkPackageEditModeStateService,
               protected wpTableSelection: WorkPackageTableSelection,
-              protected wpCacheService: WorkPackageCacheService) {
+              protected wpCacheService:WorkPackageCacheService,
+              protected $location:ng.ILocationService,
+              protected RootDm:RootDmService,
+              protected v3Path:any) {
 
     this.newWorkPackageFromParams($state.params)
       .then(wp => {
@@ -98,7 +103,20 @@ export class WorkPackageCreateController {
             });
         }
       })
-      .catch(error => this.wpNotificationsService.handleErrorResponse(error));
+      .catch(error => {
+        if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
+          this.RootDm.load().then((root:RootResource) => {
+            if (!root.user) {
+              // Not logged in
+              let url: string = $location.absUrl();
+              $location.path('/login').search({back_url: url});
+              let loginUrl: string = $location.absUrl();
+              window.location.href = loginUrl;
+            };
+          });
+          this.wpNotificationsService.handleErrorResponse(error);
+        };
+      });
   }
 
   public switchToFullscreen() {
