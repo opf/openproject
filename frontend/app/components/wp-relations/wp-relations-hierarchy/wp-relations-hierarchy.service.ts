@@ -62,17 +62,9 @@ export class WorkPackageRelationsHierarchyService {
     const deferred = this.$q.defer();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    if (state.hasValue()) {
-      return this.changeParent(state.value as WorkPackageResourceInterface, workPackage.id);
-    }
-
-    state
-      .values$()
-      .take(1)
-      .toPromise()
-      .then((wpToBecomeChild:WorkPackageResourceInterface) => {
-        deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
-      });
+    state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface) => {
+      deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
+    });
 
     return deferred.promise;
   }
