@@ -28,10 +28,6 @@ export class CellBuilder {
     container.classList.add(editCellContainer);
     const displayElement = this.buildDisplayElement(workPackage, name);
 
-    if (name === 'id') {
-      td.classList.add('-short');
-    }
-
     container.appendChild(displayElement);
     td.appendChild(container);
 

@@ -76,7 +76,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected buildCancelButton() {
     const td = document.createElement('td');
-    td.classList.add('wp-table--cancel-create-td', '-short');
+    td.classList.add('wp-table--cancel-create-td');
 
    td.innerHTML = `
     <a
