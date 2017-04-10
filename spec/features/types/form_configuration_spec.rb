@@ -47,6 +47,7 @@ describe 'form configuration', type: :feature, js: true do
 
   let(:add_button) { page.find '.form-configuration--add-group' }
   let(:reset_button) { page.find '.form-configuration--reset' }
+  let(:inactive_group) { page.find '#type-form-conf-inactive-group' }
   let(:inactive_drop) { page.find '#type-form-conf-inactive-group .attributes' }
 
   def group_selector(name)
@@ -90,10 +91,27 @@ describe 'form configuration', type: :feature, js: true do
 
   def move_to(attribute, group_label)
     handle = find_attribute_handle(attribute)
-    group = find("#{group_selector(group_label)} .attributes")
-
-    handle.drag_to group
+    group = find(group_selector(group_label))
+    drag_and_drop(handle, group)
     expect_group(group_label, key: attribute)
+  end
+
+  def drag_and_drop(handle, group)
+    target = group.find('.attributes')
+
+    scroll_to_element(group)
+    page.driver.browser
+      .action
+      .move_to(handle.native)
+      .click_and_hold(handle.native)
+      .perform
+
+    scroll_to_element(group)
+    page.driver.browser
+      .action
+      .move_to(target.native)
+      .release
+      .perform
   end
 
   def add_group(name, expect: true)
@@ -196,7 +214,7 @@ describe 'form configuration', type: :feature, js: true do
         #
 
         # Disable version
-        find_attribute_handle(:version).drag_to inactive_drop
+        drag_and_drop(find_attribute_handle(:version), inactive_group)
         expect_inactive(:version)
 
         # Toggle assignee to be always visible
