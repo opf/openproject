@@ -28,19 +28,24 @@
 #++
 
 class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
+  class OldCustomField < ActiveRecord::Base
+    self.table_name = :custom_fields
+    self.inheritance_column = nil
+
+    translates :name, :default_value, :possible_values
+  end
+
   def self.up
     # Added this retroactively to the migration. In the new code (Feb 2017)
     # custom fields' default value and possible values are not translated anymore.
     # Consequently this old migration fails without the following `translates` call
     # which restores the old code for the purposes of this migration.
-    CustomField.send :translates, :name, :default_value, :possible_values
-
-    CustomField.create_translation_table! name: :string,
+    OldCustomField.create_translation_table! name: :string,
                                           default_value: :text,
                                           possible_values: :text
 
     I18n.locale = Setting.default_language.to_sym
-    CustomField.all.each do |f|
+    OldCustomField.all.each do |f|
       f.name = f.read_attribute(:name)
       f.default_value = f.read_attribute(:default_value)
       f.possible_values = YAML::load(f.read_attribute(:possible_values))
@@ -59,12 +64,12 @@ class AddCustomFieldTranslationTable < ActiveRecord::Migration[4.2]
 
     I18n.locale = Setting.default_language.to_sym
 
-    CustomField.all.each do |f|
+    OldCustomField.all.each do |f|
       f.write_attribute(:name, f.name)
       f.write_attribute(:default_value, f.default_value)
       f.write_attribute(:possible_values, f.possible_values)
     end
 
-    CustomField.drop_translation_table!
+    OldCustomField.drop_translation_table!
   end
 end
