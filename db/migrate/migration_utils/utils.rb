@@ -124,7 +124,7 @@ module Migration
           SELECT journable_id, journable_type, #{system_user_id}, NOW(), MAX(version) + 1, activity_type
           FROM journals
           WHERE journable_type = '#{journable_type}' AND journable_id = #{id}
-          GROUP BY journable_id, journable_type, activity_type;
+          GROUP BY journable_id, journable_type, activity_type
         SQL
       end
 

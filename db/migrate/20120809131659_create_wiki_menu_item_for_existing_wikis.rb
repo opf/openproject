@@ -28,15 +28,73 @@
 #++
 
 class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[4.2]
+  class OldWikiMenuItem < ActiveRecord::Base
+    self.table_name = "wiki_menu_items"
+
+    serialize :options, Hash
+
+    belongs_to :wiki, :foreign_key => 'wiki_id'
+
+    def index_page
+      !!options[:index_page]
+    end
+
+    def index_page=(value)
+      options[:index_page] = value
+    end
+
+    def new_wiki_page
+      !!options[:new_wiki_page]
+    end
+
+    def new_wiki_page=(value)
+      options[:new_wiki_page] = value
+    end
+  end
+
+  class OldWiki < ActiveRecord::Base
+    self.table_name = "wikis"
+
+    belongs_to :project, :foreign_key => 'wiki_id'
+    has_many :pages, :class_name => 'WikiPage', :foreign_key => 'wiki_id'
+    has_many :wiki_menu_items, :class_name => 'MenuItems::WikiMenuItem', :foreign_key => 'wiki_id'
+    has_many :redirects, :class_name => 'WikiRedirect', :foreign_key => 'wiki_id'
+
+    # find the page with the given title
+    def find_page(title, options = {})
+      title = start_page if title.blank?
+      title = titleize(title)
+      page = find_first pages, title
+      if !page && !(options[:with_redirect] == false)
+        # search for a redirect
+        redirect = find_first redirects, title
+        page = find_page(redirect.redirects_to, :with_redirect => false) if redirect
+      end
+      page
+    end
+
+    def find_first(pages, title)
+      pages.where("LOWER(title) = LOWER(?)", title).order(id: :asc).first
+    end
+
+    def titleize(title)
+      # replace spaces with _ and remove unwanted caracters
+      title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
+      # upcase the first letter
+      title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
+      title
+    end
+  end
+
   def self.up
-    Wiki.all.each do |wiki|
+    OldWiki.all.each do |wiki|
       page = wiki.find_page(wiki.start_page, with_redirects: true)
 
       current_title = page.present? ?
                         page.title :
                         wiki.start_page
 
-      menu_item = MenuItems::WikiMenuItem.new
+      menu_item = OldWikiMenuItem.new
       menu_item.name = wiki.start_page
       menu_item.title = current_title
       menu_item.wiki_id = wiki.id
