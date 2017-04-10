@@ -38,7 +38,6 @@ import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query
 import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
 import {WorkPackageTableSum} from '../wp-table-sum';
 
 export class WorkPackageTableSumService extends WorkPackageTableBaseService {

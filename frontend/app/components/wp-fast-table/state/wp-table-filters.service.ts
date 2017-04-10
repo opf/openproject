@@ -39,7 +39,6 @@ import {
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
 import {WorkPackageTableFilters} from '../wp-table-filters';
 
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService {

@@ -36,7 +36,6 @@ import {opServicesModule} from '../../../angular-modules';
 import {
   States
 } from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {
   WorkPackageTableBaseService,

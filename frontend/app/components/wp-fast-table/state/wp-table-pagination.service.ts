@@ -32,7 +32,6 @@ import {
 } from './wp-table-base.service';
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {State} from '../../../helpers/reactive-fassade';
 import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service'
 import {
   QueryResource

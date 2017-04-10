@@ -31,7 +31,6 @@ import {CollectionResource} from './collection-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageResource} from './work-package-resource.service';
 import {States} from '../../../states.service';
-import {State} from './../../../../helpers/reactive-fassade';
 
 var states: States;
 
