@@ -198,6 +198,19 @@ function typesFormConfigurationCtrl(
   $scope.$on('attributes.drop', function (e:any, el:any) {
     $scope.updateHiddenFields();
   });
+
+  $scope.showEEOnlyHint = function():void {
+    confirmDialog.confirm({
+      text: {
+        title: I18n.t('js.types.attribute_groups.upgrade_to_ee'),
+        text: I18n.t('js.types.attribute_groups.upgrade_to_ee_text'),
+        button_continue: I18n.t('js.types.attribute_groups.more_information'),
+        button_cancel: I18n.t('js.types.attribute_groups.nevermind')
+      }
+    }).then(() => {
+      window.location.href = $scope.upsaleLink;
+    });
+  }
 };
 
 openprojectModule.controller('TypesFormConfigurationCtrl', typesFormConfigurationCtrl);

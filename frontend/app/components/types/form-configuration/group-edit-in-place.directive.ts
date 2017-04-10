@@ -42,6 +42,7 @@ interface GroupEditInPlaceScope {
   // The orginal value in case user cancels edition.
   nameOriginal:string|null,
   onvaluechange:Function,
+  onupsale:Function,
   saveEdition:Function
 }
 
@@ -50,7 +51,8 @@ function groupEditInPlace($timeout:any, $parse:any) {
     restrict: 'E',
     templateUrl: '/components/types/form-configuration/group-edit-in-place.directive.html',
     scope: {
-      onvaluechange: '='
+      onvaluechange: '=',
+      onupsale: '='
     },
     link: function(scope:GroupEditInPlaceScope, element:any, attributes:any) {
       scope.editing = false;
@@ -59,6 +61,10 @@ function groupEditInPlace($timeout:any, $parse:any) {
       scope.nameOriginal = attributes.name || '';
 
       scope.enterEditingMode = function() {
+        if(attributes.onupsale) {
+          scope.onupsale();
+          return;
+        }
         scope.editing = true;
         scope.nameBefore = scope.name;
         $timeout(function(){
@@ -105,7 +111,8 @@ function groupEditInPlace($timeout:any, $parse:any) {
         return false;
       };
 
-      if (attributes.name == null || attributes.name.length === 0) {
+      if (!attributes.onupsale &&
+          (attributes.name == null || attributes.name.length === 0)) {
         // Group name is empty so open in editing mode straight away.
         scope.enterEditingMode();
       }
