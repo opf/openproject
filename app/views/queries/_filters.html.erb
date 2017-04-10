@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
     if (check_box.prop('checked')) {
       operator.show().prop('disabled', false);
       values.show().prop('disabled', false);
-      toggle_operator(field, operator);
+      toggle_operator(field);
     } else {
       operator.hide();
       filter.hide();
@@ -61,8 +61,9 @@ See doc/COPYRIGHT.rdoc for more details.
     }
   }
 
-  function toggle_operator(field, operator) {
-    switch (operator.value) {
+  function toggle_operator(field) {
+    var operator = jQuery("#operators_" + field);
+    switch (operator.val()) {
       case "!*":
       case "*":
       case "t":
@@ -84,8 +85,8 @@ See doc/COPYRIGHT.rdoc for more details.
   }
 
   function apply_filters_observer() {
-    jQuery('#query_form input[type=text]').each(function (a) {
-      jQuery(a).on('keypress', function (e) {
+    jQuery('#query_form input[type=text]').each(function (index, filter) {
+      jQuery(filter).on('keypress', function (e) {
         if ((e.keyCode || e.which) == 13) {
           selectAllOptions("selected_columns");
           jQuery.ajax({
@@ -118,20 +119,19 @@ See doc/COPYRIGHT.rdoc for more details.
                                             query.filter_for(field).try(:operator)),
                          id:       "operators_#{field}",
                          onchange: "toggle_operator('#{field}');",
-                         class:    "advanced-filters--select",
-                         style:    "vertical-align: top;" %>
+                         class:    "advanced-filters--select" %>
 
         </div>
         <div id="div_values_<%= field %>" style="display:none;" class="advanced-filters--filter-value">
-          <% field_values = query.filter_for(field).try(:values) || []
-             case filter.type
-             when :list, :list_optional, :list_status, :list_subprojects %>
+          <% field_values = query.filter_for(field).try(:values) || [] %>
+
+          <% case filter.type
+             when :list, :list_optional %>
            <span class="inline-label">
              <select <%= "multiple=true" if field_values and field_values.length > 1 %>
                      name="v[<%= field %>][]"
                      id="values_<%= field %>"
-                     class="form--select -small"
-                     style="vertical-align: top;">
+                     class="form--select -small">
 
                <%= options_for_select filter.allowed_values, field_values %>
 
@@ -181,5 +181,3 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </li>
 </ul>
-
-<%= hidden_field_tag 'f[]', '' %>

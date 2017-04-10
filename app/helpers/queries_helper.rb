@@ -29,7 +29,18 @@
 
 module QueriesHelper
   def operators_for_select(filter)
-    filter.available_operators.map { |o| [o.human_name, o.to_sym] }
+    # We do not support OnDate(Time) and BetweenDate(Time)
+    # for rails based filters
+    operators = filter
+                .available_operators
+                .reject do |o|
+                  [Queries::Operators::OnDate,
+                   Queries::Operators::OnDateTime,
+                   Queries::Operators::BetweenDate,
+                   Queries::Operators::BetweenDateTime].include?(o)
+                end
+
+    operators.map { |o| [o.human_name, o.to_sym] }
   end
 
   def entries_for_filter_select_sorted(query)
