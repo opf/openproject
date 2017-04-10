@@ -181,6 +181,7 @@ describe 'form configuration', type: :feature, js: true do
                    { key: :category, checked: false, translation: 'Category' },
                    { key: :date, checked: false, translation: 'Date' },
                    { key: :percentage_done, checked: false, translation: 'Progress (%)' },
+                   { key: :priority, checked: false, translation: 'Priority' },
                    { key: :version, checked: false, translation: 'Version' }
 
 

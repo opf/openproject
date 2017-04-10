@@ -267,6 +267,7 @@ module API
                                              title: priority.name
                                            }
                                          },
+                                         required: false,
                                          has_default: true
         end
       end
