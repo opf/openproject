@@ -1,3 +1,4 @@
+import { WorkPackageTableTimelineService } from './../../../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,14 +27,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../../../angular-modules";
-import {WorkPackageTimelineTableController} from '../wp-timeline-container.directive';
-import {ZoomLevel} from '../wp-timeline';
+import { openprojectModule } from "../../../../angular-modules";
+import { WorkPackageTimelineTableController } from '../wp-timeline-container.directive';
+import { ZoomLevel } from '../wp-timeline';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 
 class WorkPackageTimelineControlController {
 
+  public timelineVisible: boolean = false;
   private wpTimeline: WorkPackageTimelineTableController;
 
   hscroll: number;
@@ -42,15 +44,21 @@ class WorkPackageTimelineControlController {
   minZoomLevel = ZoomLevel.DAYS;
   maxZoomLevel = ZoomLevel.YEARS;
 
-  text:any;
+  text: any;
 
-  static $inject = ['I18n'];
+  constructor(public wpTableTimeline: WorkPackageTableTimelineService,
+              public $scope: ng.IScope,
+              public I18n: op.I18n) {
+    'ngInject';
 
-  constructor(private I18n:op.I18n) {
     this.text = {
       zoomIn: I18n.t('js.timelines.zoom.in'),
       zoomOut: I18n.t('js.timelines.zoom.out'),
-    }
+    };
+
+    wpTableTimeline.observeOnScope($scope).subscribe(() => {
+      this.timelineVisible = wpTableTimeline.isVisible;
+    });
   }
 
   $onInit() {
@@ -63,7 +71,7 @@ class WorkPackageTimelineControlController {
     this.wpTimeline.refreshScrollOnly();
   }
 
-  updateZoom(delta:number) {
+  updateZoom(delta: number) {
     this.currentZoom += delta;
 
     this.wpTimeline.viewParameterSettings.zoomLevel = this.currentZoom;
@@ -74,7 +82,7 @@ class WorkPackageTimelineControlController {
 
 
 openprojectModule.component("timelineControl", {
-  templateUrl: '/components/wp-table/timeline/controls/wp-timeline.dummy-controls.directive.html',
+  templateUrl: '/components/wp-table/timeline/controls/wp-timeline-control.directive.html',
   controller: WorkPackageTimelineControlController,
   require: {
     wpTimeline: '^wpTimelineContainer'
