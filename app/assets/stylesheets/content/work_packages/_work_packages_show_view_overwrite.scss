@@ -250,13 +250,9 @@ body.controller-work_packages.action-show {
       line-height: 34px;
     }
 
-    .work-packages--type-selector .wp-inline-edit--field {
-      line-height: 34px;
-    }
-
     .work-packages--subject-element .wp-inline-edit--field {
-      height: auto;
-      padding: 0;
+      height: 1.75rem;
+      margin-top: 11px;
     }
   }
 }
