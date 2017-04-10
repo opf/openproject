@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {wpDirectivesModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 export class ActivityPanelController {
 
@@ -42,10 +43,12 @@ export class ActivityPanelController {
 
     this.reverse = wpActivity.order === 'asc';
 
-    wpCacheService.loadWorkPackage(this.workPackage.id).observeOnScope($scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
+    scopedObservable(
+      $scope,
+      wpCacheService.loadWorkPackage(this.workPackage.id).values$())
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {
+        this.wpActivity.aggregateActivities(this.workPackage).then((activities: any) => {
           this.activities = activities;
         });
       });

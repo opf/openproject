@@ -1,3 +1,4 @@
+import { WorkPackageNotificationService } from 'core-components/wp-edit/wp-notification.service';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,13 +27,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import { wpDirectivesModule } from '../../../angular-modules';
+import { WorkPackageCacheService } from '../../work-packages/work-package-cache.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state:ng.ui.IStateService,
               protected $q:ng.IQService,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected wpCacheService:WorkPackageCacheService) {
 
   }
@@ -46,6 +48,9 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp:WorkPackageResourceInterface) => {
         this.wpCacheService.updateWorkPackage(wp);
         return wp;
+      })
+      .catch((err) => {
+        this.wpNotificationsService.handleErrorResponse(err, workPackage);
       });
   }
 
@@ -53,13 +58,13 @@ export class WorkPackageRelationsHierarchyService {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string) {
-    var deferred = this.$q.defer();
-    this.wpCacheService.loadWorkPackage(childWpId)
-      .get()
-      .then((wpToBecomeChild:WorkPackageResourceInterface) => {
-        deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
-      });
+  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string):ng.IPromise<WorkPackageResourceInterface> {
+    const deferred = this.$q.defer();
+    const state = this.wpCacheService.loadWorkPackage(childWpId);
+
+    state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface) => {
+      deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
+    });
 
     return deferred.promise;
   }
@@ -88,6 +93,8 @@ export class WorkPackageRelationsHierarchyService {
       return childWorkPackage.changeParent({
         parentId: null,
         lockVersion: childWorkPackage.lockVersion
+      }).then(wp => {
+        this.wpCacheService.updateWorkPackage(wp);
       });
     });
   }

@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
-import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
-import {States} from '../../states.service';
+import {wpControllersModule} from "../../../angular-modules";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../../states.service";
+import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
 
 export class WorkPackageViewController {
 
@@ -77,8 +77,8 @@ export class WorkPackageViewController {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    this.wpCacheService.loadWorkPackage(this.workPackageId).observeOnScope(this.$scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackageId).values$())
+      .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.init();
         this.initialized.resolve();
@@ -112,7 +112,7 @@ export class WorkPackageViewController {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
-    this.states.focusedWorkPackage.put(this.workPackage.id);
+    this.states.focusedWorkPackage.putValue(this.workPackage.id);
 
     // Listen to tab changes to update the tab label
     scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {

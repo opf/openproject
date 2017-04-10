@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
 import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
 import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
@@ -57,7 +58,9 @@ export class WorkPackageEditFormController {
       wpEditModeState.register(this);
     }
 
-    states.workPackages.get(this.workPackage.id.toString()).observeOnScope($scope)
+    scopedObservable(
+      $scope,
+      states.workPackages.get(this.workPackage.id.toString()).values$())
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });

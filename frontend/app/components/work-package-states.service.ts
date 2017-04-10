@@ -1,25 +1,23 @@
-import { MultiState, initStates } from '../helpers/reactive-fassade';
-import {RelationResource} from './api/api-v3/hal-resources/relation-resource.service';
-import {whenDebugging} from '../helpers/debug_output';
-import { opServicesModule } from '../angular-modules';
-import { RelationsStateValue } from "./wp-relations/wp-relations.service";
-
+import {Component, createNewContext, inputStateCache} from "reactivestates";
+import {opServicesModule} from "../angular-modules";
+import {whenDebugging} from "../helpers/debug_output";
+import {RelationsStateValue} from "./wp-relations/wp-relations.service";
 
 
 /* /api/v3/work_packages */
-export class WorkPackageStates {
+export class WorkPackageStates extends Component {
 
   /* /:id/relations */
-  relations = new MultiState<RelationsStateValue>();
-
-  constructor() {
-    initStates(this, function (msg: any) {
-      whenDebugging(() => {
-        console.debug(msg);
-      });
-    });
-  }
+  relations = inputStateCache<RelationsStateValue>();
 
 }
 
-opServicesModule.service('wpStates', WorkPackageStates);
+
+const ctx = createNewContext();
+const wpStates = ctx.create(WorkPackageStates);
+
+whenDebugging(() => {
+  wpStates.enableLog(true);
+});
+
+opServicesModule.value('wpStates', wpStates);

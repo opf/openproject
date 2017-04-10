@@ -49,7 +49,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Save the currently focused work package
-    this.states.focusedWorkPackage.put(row.workPackageId);
+    this.states.focusedWorkPackage.putValue(row.workPackageId);
 
     this.$state.go(
       'work-packages.show',

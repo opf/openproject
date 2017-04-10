@@ -26,8 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from "./work-package-cache.service";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "./work-package-cache.service";
 
 
 describe('WorkPackageCacheService', () => {
@@ -64,11 +65,12 @@ describe('WorkPackageCacheService', () => {
     wpCacheService.updateWorkPackageList(dummyWorkPackages);
 
     let workPackage: WorkPackageResource;
-    wpCacheService.loadWorkPackage('1').observeOnScope($rootScope).subscribe((wp:any) => {
-      workPackage = wp;
-      expect(workPackage.id).to.eq('1');
-      done();
-    });
+    scopedObservable($rootScope, wpCacheService.loadWorkPackage('1').values$())
+      .subscribe((wp: any) => {
+        workPackage = wp;
+        expect(workPackage.id).to.eq('1');
+        done();
+      });
 
     $rootScope.$apply();
   });
@@ -99,15 +101,16 @@ describe('WorkPackageCacheService', () => {
     wpCacheService.updateWorkPackageList([workPackage]);
     $rootScope.$apply();
 
-    wpCacheService.loadWorkPackage('1').observeOnScope($rootScope).subscribe((wp:any) => {
-      expect(wp.id).to.eq('1');
-      expect(wp.dummy).to.eq(expected);
+    scopedObservable($rootScope, wpCacheService.loadWorkPackage('1').values$())
+      .subscribe((wp: any) => {
+        expect(wp.id).to.eq('1');
+        expect(wp.dummy).to.eq(expected);
 
-      expected += 1;
-      if (expected == 2) {
-        done();
-      }
-    });
+        expected += 1;
+        if (expected == 2) {
+          done();
+        }
+      });
 
     workPackage.dummy = 1;
     wpCacheService.updateWorkPackageList([workPackage]);

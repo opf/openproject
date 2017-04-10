@@ -1,4 +1,3 @@
-import {IStateService} from 'angular-ui-router';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,11 +26,11 @@ import {IStateService} from 'angular-ui-router';
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackageViewController} from '../wp-view-base/wp-view-base.controller';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {wpControllersModule} from "../../../angular-modules";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {UserResource} from "../../api/api-v3/hal-resources/user-resource.service";
+import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
 
 export class WorkPackageShowController extends WorkPackageViewController {
 

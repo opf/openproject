@@ -1,4 +1,3 @@
-import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,6 +27,7 @@ import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-tab
 // ++
 
 
+import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-table-timeline.service';
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
@@ -162,8 +162,8 @@ class WorkPackagesTableController {
     };
 
     Observable.combineLatest(
-      states.table.query.observeOnScope($scope),
-      states.table.results.observeOnScope($scope),
+      scopedObservable($scope, states.table.query.values$()),
+      scopedObservable($scope, states.table.results.values$()),
       wpTableSum.observeOnScope($scope),
       wpTableGroupBy.observeOnScope($scope),
       wpTableColumns.observeOnScope($scope),

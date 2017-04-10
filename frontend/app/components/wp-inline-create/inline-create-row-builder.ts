@@ -55,7 +55,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
     // Set editing context to table
     form.editContext = new TableRowEditContext(workPackage.id);
-    this.states.editing.get(workPackage.id).put(form);
+    this.states.editing.get(workPackage.id).putValue(form);
 
     return row;
   }

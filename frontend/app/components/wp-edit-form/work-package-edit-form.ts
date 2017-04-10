@@ -26,22 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {WorkPackageEditContext} from './work-package-edit-context';
-import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
-import {WorkPackageEditFieldService} from '../wp-edit/wp-edit-field/wp-edit-field.service';
-import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
-import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
-import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import { States } from '../states.service';
-import { Subscription } from "rxjs/Subscription";
+import {Subscription} from "rxjs/Subscription";
+import {injectorBridge} from "../angular/angular-injector-bridge.functions";
+import {SimpleTemplateRenderer} from "../angular/simple-template-renderer";
+import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../states.service";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {EditField} from "../wp-edit/wp-edit-field/wp-edit-field.module";
+import {WorkPackageEditFieldService} from "../wp-edit/wp-edit-field/wp-edit-field.service";
+import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
+import {WorkPackageEditContext} from "./work-package-edit-context";
+import {WorkPackageEditFieldHandler} from "./work-package-edit-field-handler";
 
 export class WorkPackageEditForm {
   // Injections
@@ -75,8 +72,8 @@ export class WorkPackageEditForm {
               public editMode = false) {
     injectorBridge(this);
 
-    this.subscription = this.wpCacheService.loadWorkPackage(workPackageId)
-      .observeUntil(this.states.table.stopAllSubscriptions)
+    this.subscription = this.wpCacheService.loadWorkPackage(workPackageId).values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((wp: WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });

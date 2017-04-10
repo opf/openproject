@@ -1,11 +1,9 @@
-import {RowRefreshBuilder} from "./row-refresh-builder";
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {Subject} from "rxjs";
 import {States} from "../../../states.service";
-import {SingleRowBuilder} from "./single-row-builder";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableRow} from "../../wp-table.interfaces";
-import {Subject} from "rxjs";
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {RowRefreshBuilder} from "./row-refresh-builder";
+import {SingleRowBuilder} from "./single-row-builder";
 
 export abstract class RowsBuilder {
   public states:States;
@@ -43,7 +41,7 @@ export abstract class RowsBuilder {
    * Will perform dirty checking for when a work package is currently being edited.
    */
   public refreshRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement|null {
-    let editing = this.states.editing.get(row.workPackageId).getCurrentValue();
+    let editing = this.states.editing.get(row.workPackageId).value;
     return this.refreshBuilder.refreshRow(row, editing);
   }
 

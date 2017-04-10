@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../../../angular-modules';
-import {HalLink, HalLinkInterface} from '../hal-link/hal-link.service';
-import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
-import {State} from './../../../../helpers/reactive-fassade';
+import {InputState} from "reactivestates";
+import {opApiModule} from "../../../../angular-modules";
+import {HalLink, HalLinkInterface} from "../hal-link/hal-link.service";
+import {HalResourceFactoryService} from "../hal-resource-factory/hal-resource-factory.service";
 
 const ObservableArray:any = require('observable-array');
 
@@ -104,7 +104,7 @@ export class HalResource {
   /**
    * Return the associated state to this HAL resource, if any.
    */
-  public get state():State<HalResource>|null {
+  public get state(): InputState<HalResource> | null {
     return null;
   }
 
@@ -121,11 +121,9 @@ export class HalResource {
 
     // If nobody has asked yet for the resource to be $loaded, do it ourselves.
     // Otherwise, we risk returning a promise, that will never be resolved.
-    if (state.isPristine()) {
-      state.putFromPromise(this.$loadResource(force));
-    }
+    state.putFromPromiseIfPristine(() => this.$loadResource(force));
 
-    return <ng.IPromise<HalResource>> state.get().then(source => {
+    return <ng.IPromise<HalResource>> state.valuesPromise().then(source => {
       this.$initialize(source);
       this.$loaded = true;
       return this;

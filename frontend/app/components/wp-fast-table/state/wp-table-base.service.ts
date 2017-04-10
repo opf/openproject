@@ -26,11 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
-import {WorkPackageTableBaseInterface} from '../wp-table-base';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
+import {InputState} from "reactivestates";
+import {States} from "../../states.service";
+import {WorkPackageTableBaseInterface} from "../wp-table-base";
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
 
 export type TableStateStates = 'columns' |
                                'groupBy' |
@@ -46,15 +45,15 @@ export abstract class WorkPackageTableBaseService {
   constructor(protected states: States) {
   }
 
-  protected get state():State<WorkPackageTableBaseInterface> {
+  protected get state(): InputState<WorkPackageTableBaseInterface> {
     return this.states.table[this.stateName];
   };
 
   public observeOnScope(scope:ng.IScope) {
-    return this.state.observeOnScope(scope);
+    return scopedObservable(scope, this.state.values$());
   }
 
   public onReady(scope:ng.IScope) {
-    return this.state.observeOnScope(scope).take(1).mapTo(null).toPromise();
+    return scopedObservable(scope, this.state.values$()).take(1).mapTo(null).toPromise();
   }
 }

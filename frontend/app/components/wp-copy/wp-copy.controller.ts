@@ -26,20 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from '../../angular-modules';
-import {WorkPackageCreateController} from '../wp-create/wp-create.controller';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {wpDirectivesModule} from "../../angular-modules";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
     var deferred = this.$q.defer();
 
-    this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).observeOnScope(this.$scope)
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.createCopyFrom(wp).then((newWorkPackage:WorkPackageResourceInterface) => {
+    scopedObservable(
+      this.$scope,
+      this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).values$())
+      .subscribe((wp: WorkPackageResourceInterface) => {
+        this.createCopyFrom(wp).then((newWorkPackage: WorkPackageResourceInterface) => {
           deferred.resolve(newWorkPackage);
         });
       });

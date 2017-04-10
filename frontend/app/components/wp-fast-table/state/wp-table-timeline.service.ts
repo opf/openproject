@@ -51,7 +51,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   public initialize(query:QueryResource) {
     let current = new WorkPackageTableTimelineVisible(query.timelineVisible);
 
-    this.state.put(current);
+    this.state.putValue(current);
   }
 
   public toggle() {
@@ -59,7 +59,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
     currentState.toggle();
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   public get isVisible() {
@@ -67,7 +67,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   private get current():WorkPackageTableTimelineVisible {
-    return this.state.getCurrentValue() as WorkPackageTableTimelineVisible;
+    return this.state.value as WorkPackageTableTimelineVisible;
   }
 
   public get currentSum():boolean|undefined {

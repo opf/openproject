@@ -85,8 +85,8 @@ function SettingsDropdownMenuController($scope:IMyScope,
   $scope.displaySumsLabel = $scope.displaySums ? I18n.t('js.toolbar.settings.hide_sums')
                                                : I18n.t('js.toolbar.settings.display_sums');
 
-  let form = states.table.form.getCurrentValue()!;
-  let query = states.table.query.getCurrentValue()!;
+  let form = states.table.form.value!;
+  let query = states.table.query.value!;
 
   $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();

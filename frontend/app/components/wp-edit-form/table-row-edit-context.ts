@@ -35,8 +35,10 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
+import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 
 export class TableRowEditContext implements WorkPackageEditContext {
+
   // Injections
   public wpCacheService:WorkPackageCacheService;
   public wpTableColumns:WorkPackageTableColumnsService;
@@ -64,9 +66,9 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public requireVisible(fieldName:string):Promise<JQuery> {
+  public requireVisible(fieldName:string): PromiseLike<JQuery> {
     this.wpTableColumns.addColumn(fieldName);
-    let updated = this.states.table.rendered.get();
+    let updated = this.states.table.rendered.valuesPromise();
     return updated.then(() => {
       return this.findContainer(fieldName);
     });

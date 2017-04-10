@@ -1,20 +1,16 @@
-import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
-import {wpCellTdClassName} from '../cell-builder';
-import {timelineCellClassName} from '../timeline-cell-builder';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
-import {locateRow} from '../../helpers/wp-table-row-helpers';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
-import {SingleRowBuilder} from './single-row-builder';
-
-import {detailsLinkClassName} from '../details-link-builder';
+import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
+import {WorkPackageEditForm} from "../../../wp-edit-form/work-package-edit-form";
+import {locateRow} from "../../helpers/wp-table-row-helpers";
+import {WorkPackageTableRow} from "../../wp-table.interfaces";
+import {wpCellTdClassName} from "../cell-builder";
+import {SingleRowBuilder} from "./single-row-builder";
 
 export class RowRefreshBuilder extends SingleRowBuilder {
 
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(row:WorkPackageTableRow, editForm:WorkPackageEditForm|null):HTMLElement|null {
+  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined): HTMLElement | null {
     // Get the row for the WP if refreshing existing
     const rowElement = row.element || locateRow(row.workPackageId);
     if (!rowElement) {
@@ -48,7 +44,7 @@ export class RowRefreshBuilder extends SingleRowBuilder {
     return rowElement;
   }
 
-  private isColumnBeingEdited(editForm:WorkPackageEditForm|null, column:QueryColumn) {
+  private isColumnBeingEdited(editForm: WorkPackageEditForm | undefined, column: QueryColumn) {
     return editForm && editForm.activeFields[column.id];
   }
 }

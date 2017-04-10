@@ -1,3 +1,5 @@
+import {State} from "reactivestates";
+import {Observable, Subject} from "rxjs";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -31,15 +33,13 @@ import {
   WorkPackageResourceInterface
 } from "../api/api-v3/hal-resources/work-package-resource.service";
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
-import {State} from "../../helpers/reactive-fassade";
 import {States} from "../states.service";
-import {Observable, Subject} from "rxjs";
+import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
 import IScope = angular.IScope;
 import IPromise = angular.IPromise;
 
 
-function getWorkPackageId(id: number|string): string {
+function getWorkPackageId(id: number | string): string {
   return (id || "__new_work_package__").toString();
 }
 
@@ -51,7 +51,7 @@ export class WorkPackageCacheService {
   constructor(private states: States,
               private $rootScope: ng.IRootScopeService,
               private $q: ng.IQService,
-              private wpNotificationsService:WorkPackageNotificationService,
+              private wpNotificationsService: WorkPackageNotificationService,
               private apiWorkPackages: ApiWorkPackagesService) {
   }
 
@@ -67,7 +67,7 @@ export class WorkPackageCacheService {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
       const wpState = this.states.workPackages.get(workPackageId);
-      const lastValue = wpState.getCurrentValue()
+      const lastValue = wpState.value;
       const wpForPublish = lastValue && lastValue.dirty
         ? lastValue // dirty, use current wp
         : wp; // not dirty or unknown, use new wp
@@ -75,9 +75,9 @@ export class WorkPackageCacheService {
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       if (wpForPublish.schema.$loaded) {
-        wpState.put(wpForPublish);
+        wpState.putValue(wpForPublish);
       } else {
-        wpState.putFromPromise(wpForPublish.schema.$load().then(() => {
+        wpState.clearAndPutFromPromise(wpForPublish.schema.$load().then(() => {
           return wpForPublish;
         }));
       }
@@ -121,7 +121,7 @@ export class WorkPackageCacheService {
       const deferred = this.$q.defer();
 
       this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate)
-        .then((workPackage:WorkPackageResource) => {
+        .then((workPackage: WorkPackageResource) => {
           workPackage.schema.$load().then(() => {
             deferred.resolve(workPackage);
           });

@@ -1,4 +1,3 @@
-import { WorkPackageTableTimelineService } from './../../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,27 +26,20 @@ import { WorkPackageTableTimelineService } from './../../wp-fast-table/state/wp-
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
-import {States} from '../../states.service';
-import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
-import {QueryResource, QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageCollectionResource} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service'
-import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service'
+import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
+import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
+import {States} from "../../states.service";
+import {WorkPackageTableColumnsService} from "../../wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableFiltersService} from "../../wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageTableGroupByService} from "../../wp-fast-table/state/wp-table-group-by.service";
+import {WorkPackageTablePaginationService} from "../../wp-fast-table/state/wp-table-pagination.service";
+import {WorkPackageTableSortByService} from "../../wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableSumService} from "../../wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageTablePagination} from "../../wp-fast-table/wp-table-pagination";
+import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
+import {WorkPackagesListService} from "../../wp-list/wp-list.service";
+import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
@@ -60,7 +52,7 @@ function WorkPackagesListController($scope:any,
                                     wpTableGroupBy:WorkPackageTableGroupByService,
                                     wpTableFilters:WorkPackageTableFiltersService,
                                     wpTableSum:WorkPackageTableSumService,
-                                    wpTableTimeline:WorkPackageTableTimelineService,
+                                    wpTableTimeline: WorkPackageTableTimelineService,
                                     wpTablePagination:WorkPackageTablePaginationService,
                                     wpListService:WorkPackagesListService,
                                     wpListChecksumService:WorkPackagesListChecksumService,
@@ -83,20 +75,20 @@ function WorkPackagesListController($scope:any,
 
   function setupObservers() {
 
-    states.table.query.observeOnScope($scope).withLatestFrom(
-      wpTablePagination.observeOnScope($scope)
-    ).subscribe(([query, pagination]) => {
+    scopedObservable($scope, states.table.query.values$())
+      .withLatestFrom(
+        wpTablePagination.observeOnScope($scope)
+      ).subscribe(([query, pagination]) => {
       $scope.tableInformationLoaded = true;
 
       updateTitle(query);
 
-      wpListChecksumService.updateIfDifferent(query,
-                                              pagination as WorkPackageTablePagination);
+      wpListChecksumService.updateIfDifferent(query, pagination as WorkPackageTablePagination);
     });
 
-    wpTablePagination.observeOnScope($scope).withLatestFrom(
-      states.table.query.observeOnScope($scope)
-    ).subscribe(([pagination, query]) => {
+    wpTablePagination.observeOnScope($scope)
+      .withLatestFrom(scopedObservable($scope, states.table.query.values$()))
+      .subscribe(([pagination, query]) => {
       if (wpListChecksumService.isQueryOutdated(query, pagination as WorkPackageTablePagination)) {
         wpListChecksumService.update(query, pagination as WorkPackageTablePagination);
 
@@ -121,11 +113,11 @@ function WorkPackagesListController($scope:any,
     });
 
     wpTableTimeline.observeOnScope($scope).subscribe(timeline => {
-      updateAndExecuteIfAltered(timeline.current, 'timelineVisible');
+      updateAndExecuteIfAltered(timeline.current, "timelineVisible");
     });
 
     wpTableColumns.observeOnScope($scope).subscribe(columns => {
-      updateAndExecuteIfAltered(columns.current, 'columns');
+      updateAndExecuteIfAltered(columns.current, "columns");
     });
   }
 
@@ -134,7 +126,7 @@ function WorkPackagesListController($scope:any,
       return;
     }
 
-    let query = states.table.query.getCurrentValue();
+    let query = states.table.query.value;
 
     if (!query || _.isEqual(query[name], updateData)) {
       return;
@@ -144,7 +136,7 @@ function WorkPackagesListController($scope:any,
 
     query[name] = _.cloneDeep(updateData);
 
-    states.table.query.put(query);
+    states.table.query.putValue(query);
 
     if (triggerUpdate) {
       updateResultsVisibly(true);
@@ -220,13 +212,13 @@ function WorkPackagesListController($scope:any,
   // that we do not set them if he dependent state does depend on another query with
   // the value only being available because it is still retained.
   function isAnyDependentStateClear() {
-    return !states.table.pagination.getCurrentValue() ||
-           !states.table.filters.getCurrentValue() ||
-           !states.table.columns.getCurrentValue() ||
-           !states.table.sortBy.getCurrentValue() ||
-           !states.table.groupBy.getCurrentValue() ||
-           !states.table.timelineVisible.getCurrentValue() ||
-           !states.table.sum.getCurrentValue()
+    return !states.table.pagination.value ||
+      !states.table.filters.value ||
+      !states.table.columns.value ||
+      !states.table.sortBy.value ||
+      !states.table.groupBy.value ||
+      !states.table.timelineVisible.value ||
+      !states.table.sum.value;
   }
 
   $rootScope.$on('workPackagesRefreshRequired', function () {

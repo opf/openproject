@@ -53,7 +53,7 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
   public initialize(query:QueryResource, schema:QuerySchemaResourceInterface) {
     let sortBy = new WorkPackageTableSortBy(query, schema);
 
-    this.state.put(sortBy);
+    this.state.putValue(sortBy);
   }
 
   public isSortable(column:QueryColumn):boolean {
@@ -81,7 +81,7 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
 
     currentState.addCurrent(sortBy);
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   public set(sortBys:QuerySortByResource[]) {
@@ -89,11 +89,11 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
 
     currentState.setCurrent(sortBys);
 
-    this.state.put(currentState);
+    this.state.putValue(currentState);
   }
 
   private get current():WorkPackageTableSortBy {
-    return this.state.getCurrentValue() as WorkPackageTableSortBy;
+    return this.state.value as WorkPackageTableSortBy;
   }
 
   public get currentSortBys():QuerySortByResource[] {

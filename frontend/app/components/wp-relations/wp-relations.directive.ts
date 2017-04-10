@@ -26,16 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from '../../angular-modules';
-import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
-import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
-import {
-  WorkPackageResourceInterface,
-  WorkPackageResource
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import { Observable } from "rxjs";
-import { WorkPackageRelationsService, RelationsStateValue } from "./wp-relations.service";
+import {Observable} from "rxjs";
+import {wpDirectivesModule} from "../../angular-modules";
+import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {RelationResourceInterface} from "../api/api-v3/hal-resources/relation-resource.service";
+import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {RelatedWorkPackagesGroup} from "./wp-relations.interfaces";
+import {RelationsStateValue, WorkPackageRelationsService} from "./wp-relations.service";
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -53,17 +51,13 @@ export class WorkPackageRelationsController {
               protected wpRelations:WorkPackageRelationsService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    this.wpRelations
-      .relationState(this.workPackage.id)
-      .observeOnScope(this.$scope)
-      .subscribe((relations:RelationsStateValue) => {
+    scopedObservable(this.$scope, this.wpRelations.relationState(this.workPackage.id).values$())
+      .subscribe((relations: RelationsStateValue) => {
         this.loadedRelations(relations);
       });
 
     // Listen for changes to this WP.
-    this.wpCacheService
-      .loadWorkPackage(this.workPackage.id)
-      .observeOnScope(this.$scope)
+    scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.wpRelations.require(wp);
@@ -72,7 +66,7 @@ export class WorkPackageRelationsController {
 
   protected getRelatedWorkPackages(workPackageIds:string[]) {
     let observablesToGetZipped = workPackageIds.map(wpId => {
-      return this.wpCacheService.loadWorkPackage(wpId).observeOnScope(this.$scope);
+      return scopedObservable(this.$scope, this.wpCacheService.loadWorkPackage(wpId).values$());
     });
 
     if (observablesToGetZipped.length > 1) {

@@ -169,11 +169,11 @@ export class WorkPackagesListService {
    */
   public create(name:string) {
     let query = this.currentQuery;
-    let form = this.states.table.form.getCurrentValue()!;
+    let form = this.states.table.form.value!;
 
     query.name = name;
 
-    let promise = this.QueryDm.create(query, form)
+    let promise = this.QueryDm.create(query, form);
 
     promise
       .then(query => {
@@ -210,7 +210,7 @@ export class WorkPackagesListService {
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
-    let form = this.states.table.form.getCurrentValue()!;
+    let form = this.states.table.form.value!;
 
     let promise = this.QueryDm.save(query, form);
 
@@ -225,7 +225,7 @@ export class WorkPackagesListService {
         // We should actually put the query newly received
         // from the backend in here.
         // But the backend does currently not return work packages (results).
-        this.states.table.query.put(query!);
+        this.states.table.query.putValue(query!);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -243,7 +243,7 @@ export class WorkPackagesListService {
     let starred = !query.starred;
 
     promise.then((query) => {
-      this.states.table.query.put(query);
+      this.states.table.query.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
@@ -265,14 +265,14 @@ export class WorkPackagesListService {
   private conditionallyLoadForm(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise.then(query => {
 
-      let currentForm = this.states.table.form.getCurrentValue();
+      let currentForm = this.states.table.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
         this.loadForm(query);
       }
 
       return query;
-    })
+    });
 
     return promise;
   }
@@ -295,7 +295,7 @@ export class WorkPackagesListService {
   private updateStatesFromQuery(query:QueryResource) {
     this.updateStatesFromWPCollection(query.results);
 
-    this.states.table.query.put(query);
+    this.states.table.query.putValue(query);
 
     this.wpTableSum.initialize(query);
     this.wpTableColumns.initialize(query);
@@ -308,19 +308,19 @@ export class WorkPackagesListService {
   private updateStatesFromWPCollection(results:WorkPackageCollectionResource) {
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
-        this.states.schemas.get(schema.href as string).put(schema);
+        this.states.schemas.get(schema.href as string).putValue(schema);
       });
-    };
+    }
 
     this.$q.all(results.elements.map(wp => wp.schema.$load())).then(() => {
-      this.states.table.rows.put(results.elements);
+      this.states.table.rows.putValue(results.elements);
     });
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
-    this.states.table.results.put(results);
+    this.states.table.results.putValue(results);
 
-    this.states.table.groups.put(angular.copy(results.groups));
+    this.states.table.groups.putValue(angular.copy(results.groups));
 
     this.wpTablePagination.initialize(results);
 
@@ -331,10 +331,10 @@ export class WorkPackagesListService {
     let schema = form.schema as QuerySchemaResourceInterface;
 
     _.each(schema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
-      this.states.schemas.get(schema.href as string).put(schema);
+      this.states.schemas.get(schema.href as string).putValue(schema);
     });
 
-    this.states.table.form.put(form);
+    this.states.table.form.putValue(form);
     this.wpTableSortBy.initialize(query, schema);
     this.wpTableFilters.initialize(query, schema);
     this.wpTableGroupBy.update(query, schema);
@@ -351,7 +351,7 @@ export class WorkPackagesListService {
   }
 
   private get currentQuery() {
-    return this.states.table.query.getCurrentValue()!;
+    return this.states.table.query.value!;
   }
 
   private updateQueryMenu() {

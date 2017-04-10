@@ -26,13 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {WorkPackageResource} from './work-package-resource.service';
-import {CollectionResource} from './collection-resource.service';
-import {HalRequestService} from './../hal-request/hal-request.service';
-import {opApiModule} from '../../../../angular-modules';
-import {States} from '../../../states.service';
-import {State} from './../../../../helpers/reactive-fassade';
+import {opApiModule} from "../../../../angular-modules";
+import {States} from "../../../states.service";
+import {HalRequestService} from "../hal-request/hal-request.service";
+import {CollectionResource} from "./collection-resource.service";
+import {HalResource} from "./hal-resource.service";
 
 var states: States;
 var halRequest: HalRequestService;
@@ -47,7 +45,7 @@ export class TypeResource extends HalResource {
 
     halRequest.get(typeUrl).then((result:CollectionResource) => {
       result.elements.forEach((value:TypeResource) => {
-        types.get(value.href as string).put(value);
+        types.get(value.href as string).putValue(value);
       });
     });
   }
