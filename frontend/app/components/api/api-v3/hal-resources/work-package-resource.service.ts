@@ -37,7 +37,6 @@ import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 import ITimeoutService = angular.ITimeoutService;
 import {States} from '../../../states.service';
-import {State} from './../../../../helpers/reactive-fassade';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';

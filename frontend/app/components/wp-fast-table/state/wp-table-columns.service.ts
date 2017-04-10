@@ -34,7 +34,6 @@ import {
   States
 } from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {State} from '../../../helpers/reactive-fassade';
 import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service'
 import {Observable} from 'rxjs/Observable';

@@ -40,7 +40,6 @@ import {
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {State} from '../../../helpers/reactive-fassade';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
