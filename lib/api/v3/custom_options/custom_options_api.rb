@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,36 +28,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < ::API::OpenProjectAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Categories::CategoriesAPI
-      mount ::API::V3::Configuration::ConfigurationAPI
-      mount ::API::V3::CustomOptions::CustomOptionsAPI
-      mount ::API::V3::Principals::PrincipalsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Render::RenderAPI
-      mount ::API::V3::Relations::RelationsAPI
-      mount ::API::V3::Repositories::RevisionsAPI
-      mount ::API::V3::Roles::RolesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::StringObjects::StringObjectsAPI
-      mount ::API::V3::Types::TypesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::UserPreferences::UserPreferencesAPI
-      mount ::API::V3::Versions::VersionsAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+    module CustomOptions
+      class CustomOptionsAPI < ::API::OpenProjectAPI
+        resources :custom_options do
+          namespace ':id' do
+            params do
+              requires :id, type: Integer
+            end
 
-      get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+            helpers do
+              def authorize_view_in_activated_project(custom_option)
+                allowed = Project
+                          .allowed_to(current_user, :view_work_packages)
+                          .joins(:work_package_custom_fields)
+                          .where(custom_fields: { id: custom_option.custom_field_id })
+                          .exists?
+
+                unless allowed
+                  raise API::Errors::NotFound
+                end
+              end
+            end
+
+            get do
+              co = CustomOption.find(params[:id])
+
+              authorize_view_in_activated_project(co)
+
+              CustomOptionRepresenter.new(co, current_user: current_user)
+            end
+          end
+        end
       end
     end
   end

@@ -105,7 +105,7 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
 
         it 'is the string object dependency' do
-          is_expected.to be_a(::API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter)
+          is_expected.to be_a(::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
         end
       end
 

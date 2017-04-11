@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,22 +57,9 @@ class ::Query::Results
     @work_package_count_by_group ||= begin
       r = nil
       if query.grouped?
-        begin
-          # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
-          r = WorkPackage
-              .group(query.group_by_statement)
-              .visible
-              .includes(:status, :project)
-              .where(query.statement)
-              .references(:statuses, :projects)
-              .count
-        rescue ActiveRecord::RecordNotFound
-          r = { nil => work_package_count }
-        end
-        c = query.group_by_column
-        if c.is_a?(QueryCustomFieldColumn)
-          r = r.keys.inject({}) { |h, k| h[c.custom_field.cast_value(k)] = r[k]; h }
-        end
+        r = groups_grouped_by_column(query)
+
+        r = transform_group_keys(query, r)
       end
       r
     end
@@ -163,5 +151,53 @@ class ::Query::Results
 
   def custom_field_column?(name)
     name.to_s =~ /\Acf_\d+\z/
+  end
+
+  def groups_grouped_by_column(query)
+    # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
+    WorkPackage
+      .group(query.group_by_statement)
+      .visible
+      .includes(:status, :project)
+      .where(query.statement)
+      .references(:statuses, :projects)
+      .count
+  rescue ActiveRecord::RecordNotFound
+    { nil => work_package_count }
+  end
+
+  def transform_group_keys(query, groups)
+    column = query.group_by_column
+
+    if column.is_a?(QueryCustomFieldColumn) && column.custom_field.list?
+      transform_list_group_by_keys(column.custom_field, groups)
+    elsif column.is_a?(QueryCustomFieldColumn)
+      transform_custom_field_keys(column.custom_field, groups)
+    else
+      groups
+    end
+  end
+
+  def transform_list_group_by_keys(custom_field, groups)
+    options = custom_options_for_keys(custom_field, groups)
+
+    groups.transform_keys do |key|
+      if custom_field.multi_value?
+        key.split('.').map do |subkey|
+          options[subkey].first
+        end
+      else
+        options[key] ? options[key].first : nil
+      end
+    end
+  end
+
+  def custom_options_for_keys(custom_field, groups)
+    keys = groups.keys.map { |k| k.split('.') }
+    custom_field.custom_options.find(keys.flatten).group_by { |o| o.id.to_s }
+  end
+
+  def transform_custom_field_keys(custom_field, groups)
+    groups.transform_keys { |key| custom_field.cast_value(key) }
   end
 end

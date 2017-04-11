@@ -140,6 +140,12 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'api v3 path', '/configuration'
   end
 
+  describe '#custom_option' do
+    subject { helper.custom_option 42 }
+
+    it_behaves_like 'api v3 path', '/custom_options/42'
+  end
+
   describe '#create_work_package_form' do
     subject { helper.create_work_package_form }
 

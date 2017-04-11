@@ -28,8 +28,8 @@
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
-export class StringObjectsDisplayField extends DisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-string-objects-field.directive.html';
+export class ResourcesDisplayField extends DisplayField {
+  public template: string = '/components/wp-display/field-types/wp-display-resources-field.directive.html';
 
   public get value() {
     if (this.schema) {

@@ -412,20 +412,9 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         end
 
         it 'returns an array with custom classes' do
-          expect(instance.value_objects.length)
-            .to eql(2)
-
-          expect(instance.value_objects[0].id)
-            .to match_array([custom_field.custom_options.first.value,
-                             custom_field.custom_options.first.id])
-          expect(instance.value_objects[0].name)
-            .to eql(custom_field.custom_options.first.value)
-
-          expect(instance.value_objects[1].id)
-            .to match_array([custom_field.custom_options.last.value,
-                             custom_field.custom_options.last.id])
-          expect(instance.value_objects[1].name)
-            .to eql(custom_field.custom_options.last.value)
+          expect(instance.value_objects)
+            .to match_array([custom_field.custom_options.last,
+                             custom_field.custom_options.first])
         end
       end
     end
