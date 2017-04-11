@@ -48,6 +48,7 @@ import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 
 export class WorkPackageTimelineTableController {
 
@@ -70,6 +71,7 @@ export class WorkPackageTimelineTableController {
               private TypeResource:any,
               private states:States,
               private halRequest:HalRequestService,
+              private wpTableTimeline:WorkPackageTableTimelineService,
               private wpRelations:WorkPackageRelationsService) {
 
     "ngInject";
@@ -109,6 +111,11 @@ export class WorkPackageTimelineTableController {
   }
 
   refreshView() {
+    if (!this.wpTableTimeline.isVisible) {
+      debugLog('refreshView() requested, but TL is invisible.');
+      return;
+    }
+
     if (!this.refreshViewRequested) {
       debugLog('refreshView() in timeline container');
       setTimeout(() => {
