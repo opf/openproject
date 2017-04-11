@@ -42,8 +42,10 @@ module API
 
             route_param :id do
               get do
-                if ::Queries::BaseFilter.operators[params[:id].to_sym]
-                  ::API::V3::Queries::Operators::QueryOperatorRepresenter.new(params[:id])
+                operator = ::Queries::Operators::OPERATORS[params[:id]]
+
+                if operator
+                  ::API::V3::Queries::Operators::QueryOperatorRepresenter.new(operator)
                 else
                   raise API::Errors::NotFound
                 end

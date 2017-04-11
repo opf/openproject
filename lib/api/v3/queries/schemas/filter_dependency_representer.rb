@@ -74,7 +74,7 @@ module API
           private
 
           def value_required?
-            !filter.class.operators_not_requiring_values.include? operator
+            operator.requires_value?
           end
 
           def type

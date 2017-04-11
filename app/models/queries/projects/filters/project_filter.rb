@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::ProjectFilter < Queries::BaseFilter
+class Queries::Projects::Filters::ProjectFilter < Queries::Filters::Base
   self.model = Project
 
   def human_name

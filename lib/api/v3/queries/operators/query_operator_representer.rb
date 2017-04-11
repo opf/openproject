@@ -32,11 +32,11 @@ module API
     module Queries
       module Operators
         class QueryOperatorRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { represented },
+          self_link id_attribute: ->(*) { id },
                     title_getter: ->(*) { name }
 
           def initialize(model, *_)
-            super(model.to_sym, current_user: nil, embed_links: true)
+            super(model, current_user: nil, embed_links: true)
           end
 
           property :id,
@@ -48,10 +48,12 @@ module API
           private
 
           def name
-            I18n.t(::Queries::BaseFilter.operators[represented])
+            represented.human_name
           end
 
-          alias :id :represented
+          def id
+            represented.to_sym
+          end
 
           def _type
             'QueryOperator'

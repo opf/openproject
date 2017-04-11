@@ -43,6 +43,10 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     true
   end
 
+  def where
+    operator_strategy.sql_for_field(values_me_replaced, self.class.model.table_name, self.class.key)
+  end
+
   private
 
   def me_value
@@ -53,5 +57,19 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   def principal_loader
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
+  end
+
+  def values_me_replaced
+    vals = values.clone
+
+    if vals.delete('me')
+      if User.current.logged?
+        vals.push(User.current.id.to_s)
+      else
+        vals.push('0')
+      end
+    end
+
+    vals
   end
 end

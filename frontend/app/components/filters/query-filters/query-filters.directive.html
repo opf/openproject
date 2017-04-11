@@ -14,8 +14,6 @@
         {{ ::filter.name }}
       </label>
 
-      <div class="advanced-filters--operator-value-container">
-
       <!-- Operator -->
       <div class="advanced-filters--filter-operator">
 
@@ -53,6 +51,14 @@
                               filter="filter">
           </filter-dates-value>
 
+          <filter-date-time-value ng-switch-when="[1]DateTime"
+                                  filter="filter">
+          </filter-date-time-value>
+
+          <filter-date-times-value ng-switch-when="[2]DateTime"
+                                   filter="filter">
+          </filter-date-times-value>
+
           <filter-string-value ng-switch-when="[1]String"
                                filter="filter">
           </filter-string-value>
@@ -64,7 +70,10 @@
           <filter-toggled-multiselect-value ng-switch-default
                                             filter="filter">
           </filter-toggled-multiselect-value>
-        </div>
+      </div>
+
+      <div class="advanced-filters--filter-value"
+           ng-if="!showValuesInput">
       </div>
 
       <div class="advanced-filters--remove-filter">

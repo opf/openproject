@@ -49,34 +49,49 @@ describe ::API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter do
         let(:path) { 'values' }
         let(:type) { '[1]Integer' }
 
-        context "for operator '>t-" do
-          let(:operator) { ">t-" }
+        context "for operator 'Queries::Operators::LessThanAgo" do
+          let(:operator) { Queries::Operators::LessThanAgo }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '<t-'" do
-          let(:operator) { "<t-" }
+        context "for operator 'Queries::Operators::MoreThanAgo'" do
+          let(:operator) { Queries::Operators::MoreThanAgo }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator 't-'" do
-          let(:operator) { "t-" }
+        context "for operator 'Queries::Operators::Ago'" do
+          let(:operator) { Queries::Operators::Ago }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator 't'" do
-          let(:operator) { "t" }
+        context "for operator 'Queries::Operators::Today'" do
+          let(:operator) { Queries::Operators::Today }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator 'w'" do
-          let(:operator) { "w" }
+        context "for operator 'Queries::Operators::ThisWeek'" do
+          let(:operator) { Queries::Operators::ThisWeek }
 
           it_behaves_like 'filter dependency empty'
+        end
+
+        context "for operator 'Queries::Operators::OnDate'" do
+          let(:operator) { Queries::Operators::OnDateTime }
+
+          let(:type) { '[1]DateTime' }
+
+          it_behaves_like 'filter dependency'
+        end
+
+        context "for operator 'Queries::Operators::BetweenDate'" do
+          let(:operator) { Queries::Operators::BetweenDateTime }
+          let(:type) { '[2]DateTime' }
+
+          it_behaves_like 'filter dependency'
         end
       end
     end

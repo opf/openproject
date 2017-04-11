@@ -36,9 +36,11 @@ class Queries::Queries::Filters::ProjectFilter < Queries::Queries::Filters::Quer
     :project_id
   end
 
-  # Instead of getting the IDs of all the projects a user is allowed
-  # to see we only check that the value is an integer.  Non valid ids
-  # will then simply create an empty result but will not cause any
-  # harm.
-  alias :validate_values_in_allowed_values_list :validate_values_all_integer
+  def type_strategy
+    # Instead of getting the IDs of all the projects a user is allowed
+    # to see we only check that the value is an integer.  Non valid ids
+    # will then simply create an empty result but will not cause any
+    # harm.
+    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+  end
 end

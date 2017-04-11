@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Principals::Filters::PrincipalFilter < Queries::BaseFilter
+class Queries::Principals::Filters::PrincipalFilter < Queries::Filters::Base
   self.model = Principal
 
   def human_name

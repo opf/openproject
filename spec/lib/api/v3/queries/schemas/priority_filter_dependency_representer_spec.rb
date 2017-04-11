@@ -50,14 +50,14 @@ describe ::API::V3::Queries::Schemas::PriorityFilterDependencyRepresenter do
         let(:type) { '[]Priority' }
         let(:href) { api_v3_paths.priorities }
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency with allowed link'
         end
 
-        context "for operator '!'" do
-          let(:operator) { "!" }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency with allowed link'
         end

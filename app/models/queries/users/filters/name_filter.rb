@@ -54,7 +54,7 @@ class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
   def sql_value
     case operator
     when '=', '!'
-      values.map { |val| connection.quote_string(val.downcase) }.join(',')
+      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
     when '~', '!~'
       values.first.downcase
     end

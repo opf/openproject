@@ -196,7 +196,9 @@ module.exports = function(I18n, PaginationService, PathHelper) {
         return value ? 't': 'f';
       }
 
-      if (value.id) {
+      if (!value) {
+        return '';
+      } else if (value.id) {
         return value.id.toString();
       } else if (value.$href && value.$href.match(/^\/api\/v3\/string_objects/i)) {
         return value.$href.match(/value=([^&]+)/)[1].toString();

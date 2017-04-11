@@ -78,6 +78,11 @@ en:
         text_open_filter: "Open this filter with 'ALT' and arrow keys."
         text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
       noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: "From %{from} in your local time."
+        only_end: "Till %{to} in your local time."
+      value_spacer: "-"
       sorting:
         criteria:
           one: "First sorting criteria"
@@ -246,35 +251,6 @@ en:
       label_add: Add watchers
       label_discard: Discard selection
       typeahead_placeholder: Search for possible watchers
-
-    filter_labels:
-      assigned_to: "Assignee"
-      assigned_to_role: "Assignee's role"
-      author: "Author"
-      category: "Category"
-      created_at: "Created on"
-      done_ratio: "Progress (%)"
-      due_date: "Due date"
-      estimated_hours: "Estimated time"
-      fixed_version: "Version"
-      member_of_group: "Assignee's group"
-      parent: "Parent"
-      parent_issue: "Parent"
-      parent_work_package: "Parent"
-      priority: "Priority"
-      progress: "Progress (%)"
-      project: "Project"
-      responsible: "Responsible"
-      spent_time: "Spent time"
-      start_date: "Start date"
-      status: "Status"
-      subject: "Subject"
-      subproject: "Subproject"
-      time_entries: "Log time"
-      type: "Type"
-      updated_at: "Updated on"
-      version: "Version"
-      watcher: "Watcher"
 
     relation_labels:
       parent: "Parent"

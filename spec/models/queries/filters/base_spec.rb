@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::BaseFilter, type: :model do
+describe Queries::Filters::Base, type: :model do
   let(:integer_filter) do
     filter_class = Class.new(described_class) do
       def type
@@ -178,6 +178,7 @@ describe Queries::BaseFilter, type: :model do
     describe '#valid?' do
       context 'when the filter values is not an integer' do
         before do
+          filter.operator = '='
           filter.values == [1, 'asdf']
         end
 

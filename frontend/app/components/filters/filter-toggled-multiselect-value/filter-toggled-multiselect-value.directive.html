@@ -7,8 +7,7 @@
           ng-model="$ctrl.value"
           ng-disabled="$ctrl.disabled"
           ng-attr-id="values-{{$ctrl.filter.id}}"
-          class="form--select -small"
-          style="vertical-align: top;"
+          class="advanced-filters--select"
           ng-options="value.name for value in $ctrl.availableOptions track by value.$href">
     <option value="" disabled ng-bind="::$ctrl.text.placeholder" ng-if="$ctrl.hasNoValue"></option>
   </select>
@@ -20,8 +19,7 @@
           ng-model="$ctrl.value"
           ng-disabled="$ctrl.disabled"
           ng-attr-id="values-{{$ctrl.filter.id}}"
-          class="form--select -small"
-          style="vertical-align: top;"
+          class="advanced-filters--select"
           ng-options="value.name for value in $ctrl.availableOptions track by value.$href">
     <option value="" disabled ng-bind="::$ctrl.text.placeholder" ng-if="$ctrl.hasNoValue"></option>
   </select>

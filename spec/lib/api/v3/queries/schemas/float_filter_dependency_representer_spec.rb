@@ -54,38 +54,38 @@ describe ::API::V3::Queries::Schemas::FloatFilterDependencyRepresenter do
         let(:path) { 'values' }
         let(:type) { '[1]Float' }
 
-        context "for operator '='" do
-          let(:operator) { "=" }
+        context "for operator 'Queries::Operators::Equals'" do
+          let(:operator) { Queries::Operators::Equals }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '!'" do
-          let(:operator) { "!" }
+        context "for operator 'Queries::Operators::NotEquals'" do
+          let(:operator) { Queries::Operators::NotEquals }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '>='" do
-          let(:operator) { ">=" }
+        context "for operator 'Queries::Operators::GreaterOrEqual'" do
+          let(:operator) { Queries::Operators::GreaterOrEqual }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '<='" do
-          let(:operator) { "<=" }
+        context "for operator 'Queries::Operators::LessOrEqual'" do
+          let(:operator) { Queries::Operators::LessOrEqual }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '!*'" do
-          let(:operator) { "!*" }
+        context "for operator 'Queries::Operators::None'" do
+          let(:operator) { Queries::Operators::None }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator '*'" do
-          let(:operator) { "*" }
+        context "for operator 'Queries::Operators::All'" do
+          let(:operator) { Queries::Operators::All }
 
           it_behaves_like 'filter dependency empty'
         end

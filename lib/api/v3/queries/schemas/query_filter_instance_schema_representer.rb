@@ -30,6 +30,8 @@
 require 'roar/decorator'
 require 'roar/json/hal'
 
+require 'queries/operators'
+
 module API
   module V3
     module Queries
@@ -73,8 +75,8 @@ module API
           def self.operator_link_factory
             ->(operator) do
               {
-                href: api_v3_paths.query_operator(operator),
-                title: I18n.t(::Queries::BaseFilter.operators[operator.to_sym])
+                href: api_v3_paths.query_operator(operator.to_sym),
+                title: operator.human_name
               }
             end
           end
@@ -124,7 +126,7 @@ module API
 
           def dependencies
             filter.available_operators.each_with_object({}) do |operator, hash|
-              path = api_v3_paths.query_operator(operator)
+              path = api_v3_paths.query_operator(operator.to_sym)
               value = FilterDependencyRepresenterFactory.create(filter,
                                                                 operator,
                                                                 form_embedded: form_embedded)

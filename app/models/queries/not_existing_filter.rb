@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::NotExistingFilter < Queries::BaseFilter
+class Queries::NotExistingFilter < Queries::Filters::Base
   def available?
     false
   end
@@ -41,7 +41,7 @@ class Queries::NotExistingFilter < Queries::BaseFilter
   end
 
   def human_name
-    name
+    name.to_s.blank? ? type : name.to_s
   end
 
   validate :always_false

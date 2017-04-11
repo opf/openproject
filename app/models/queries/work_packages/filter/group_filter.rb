@@ -62,7 +62,37 @@ class Queries::WorkPackages::Filter::GroupFilter < Queries::WorkPackages::Filter
     all_groups.select { |g| value_ints.include?(g.id) }
   end
 
+  def where
+    operator_for_filtering.sql_for_field(user_ids_for_filtering.map(&:to_s),
+                                         WorkPackage.table_name,
+                                         'assigned_to_id')
+  end
+
   private
+
+  def operator_for_filtering
+    case operator
+    when '*' # Any Role
+      # Override the operator since we want to find by assigned_to
+      ::Queries::Operators::Equals
+    when '!*' # No role
+      # Override the operator since we want to find by assigned_to
+      ::Queries::Operators::NotEquals
+    else
+      operator_strategy
+    end
+  end
+
+  def user_ids_for_filtering
+    scope = case operator
+            when '*', '!*'
+              all_groups
+            else
+              all_groups.where(id: values)
+            end
+
+    scope.joins(:users).pluck('users_users.id').uniq.sort
+  end
 
   def all_groups
     @all_groups ||= ::Group.all

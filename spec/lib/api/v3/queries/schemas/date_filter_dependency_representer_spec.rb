@@ -49,57 +49,57 @@ describe ::API::V3::Queries::Schemas::DateFilterDependencyRepresenter do
         let(:path) { 'values' }
         let(:type) { '[1]Integer' }
 
-        context "for operator '<t+'" do
-          let(:operator) { "<t+" }
+        context "for operator 'Queries::Operators::InLessThan'" do
+          let(:operator) { Queries::Operators::InLessThan }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '>t+'" do
-          let(:operator) { ">t+" }
+        context "for operator 'Queries::Operators::InMoreThan'" do
+          let(:operator) { Queries::Operators::InMoreThan }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator 't+'" do
-          let(:operator) { "t+" }
+        context "for operator 'Queries::Operators::In'" do
+          let(:operator) { Queries::Operators::In }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator 'w'" do
-          let(:operator) { "w" }
+        context "for operator 'Queries::Operators::ThisWeek'" do
+          let(:operator) { Queries::Operators::ThisWeek }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator '>t-'" do
-          let(:operator) { ">t-" }
+        context "for operator 'Queries::Operators::LessThanAgo'" do
+          let(:operator) { Queries::Operators::LessThanAgo }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '<t-'" do
-          let(:operator) { "<t-" }
+        context "for operator 'Queries::Operators::MoreThanAgo'" do
+          let(:operator) { Queries::Operators::MoreThanAgo }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator 't-'" do
-          let(:operator) { "t-" }
+        context "for operator 'Queries::Operators::Ago'" do
+          let(:operator) { Queries::Operators::Ago }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '=d'" do
-          let(:operator) { "=d" }
+        context "for operator 'Queries::Operators::OnDate'" do
+          let(:operator) { Queries::Operators::OnDate }
           let(:type) { '[1]Date' }
 
           it_behaves_like 'filter dependency'
         end
 
-        context "for operator '<>d'" do
-          let(:operator) { "<>d" }
+        context "for operator 'Queries::Operators::BetweenDate'" do
+          let(:operator) { Queries::Operators::BetweenDate }
           let(:type) { '[2]Date' }
 
           it_behaves_like 'filter dependency'

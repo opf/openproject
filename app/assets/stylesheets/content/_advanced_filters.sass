@@ -35,27 +35,6 @@
   &.collapsed
     display: none
 
-.advanced-filters--operator-value-container
-  display: flex
-  flex: 0 0 60%
-  flex-flow: row wrap
-  align-items: flex-start
-  min-width: 60%
-  max-width: 60%
-
-.advanced-filters--value-container
-  display: flex
-  align-items: flex-start
-  flex: 1 1 auto
-  flex-flow: row nowrap
-
-.advanced-filters--value-container > *
-  margin-right: 8px
-
-.advanced-filters--value-container
-  .advanced-filters--date-field
-    min-width: 100px
-
 @mixin advanced-filters--sizing()
   @include grid-block()
 
@@ -82,9 +61,14 @@
   @include advanced-filters--sizing
   align-items:      center
   padding:          0.5rem 0
+  // necessary to display tooltips
+  overflow:         visible
 
-.advanced-filters--text-field
+// The type="text" is required to be more specific
+.advanced-filters--text-field[type="text"],
+.advanced-filters--date-field[type="text"]
   @extend .form--text-field, .form--text-field.-small
+
   &:required
     box-shadow: none
 
@@ -92,7 +76,8 @@
   @extend .form--select, .form--select.-small, .form--select.-narrow
   margin-bottom: 0
 
-.advanced-filters--number-field
+// The type="number" is required to be more specific
+.advanced-filters--number-field[type="number"]
   @extend .form--text-field, .form--text-field.-small
 
 .advanced-filters--filter-name
@@ -100,6 +85,7 @@
   overflow-y: hidden
   white-space: nowrap
   text-overflow: ellipsis
+  font-size: 0.9rem
 
 .advanced-filters--filter-operator
   @include grid-content()
@@ -110,6 +96,16 @@
 .advanced-filters--filter-value
   @include grid-content()
   @include grid-visible-overflow
+
+  op-date-picker
+    flex: 1
+
+.advanced-filters--affix
+  @extend .form--field-affix, .form--field-affix.-transparent
+  font-size: 0.9rem
+
+.advanced-filters--tooltip-trigger[data-tooltip]
+  @extend .advanced-filters--affix, .tooltip--right
 
 .advanced-filters--remove-filter
   @include grid-content($size: shrink)
@@ -131,6 +127,7 @@
 
 .advanced-filters--add-filter-label
   @include grid-content(shrink)
+  font-size: 0.9rem
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4

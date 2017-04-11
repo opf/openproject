@@ -52,14 +52,14 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter do
           "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}"
         end
 
-        context "for operator '*'" do
-          let(:operator) { "*" }
+        context "for operator 'Queries::Operators::All'" do
+          let(:operator) { Queries::Operators::All }
 
           it_behaves_like 'filter dependency empty'
         end
 
-        context "for operator '!*'" do
-          let(:operator) { "*" }
+        context "for operator 'Queries::Operators::None'" do
+          let(:operator) { Queries::Operators::None }
 
           it_behaves_like 'filter dependency empty'
         end
@@ -71,14 +71,14 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter do
           end
           let(:group_assignment_enabled) { true }
 
-          context "for operator '='" do
-            let(:operator) { "=" }
+          context "for operator 'Queries::Operators::Equals'" do
+            let(:operator) { Queries::Operators::Equals }
 
             it_behaves_like 'filter dependency with allowed link'
           end
 
-          context "for operator '!'" do
-            let(:operator) { "!" }
+          context "for operator 'Queries::Operators::NotEquals'" do
+            let(:operator) { Queries::Operators::NotEquals }
 
             it_behaves_like 'filter dependency with allowed link'
           end
@@ -91,14 +91,14 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter do
              { member: { operator: '*', values: [] } }]
           end
 
-          context "for operator '='" do
-            let(:operator) { "=" }
+          context "for operator 'Queries::Operators::Equals'" do
+            let(:operator) { Queries::Operators::Equals }
 
             it_behaves_like 'filter dependency with allowed link'
           end
 
-          context "for operator '!'" do
-            let(:operator) { "!" }
+          context "for operator 'Queries::Operators::NotEquals'" do
+            let(:operator) { Queries::Operators::NotEquals }
 
             it_behaves_like 'filter dependency with allowed link'
           end

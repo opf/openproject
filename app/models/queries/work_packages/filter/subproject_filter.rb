@@ -35,6 +35,12 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     end
   end
 
+  def available_operators
+    [::Queries::Operators::All,
+     ::Queries::Operators::None,
+     ::Queries::Operators::Equals]
+  end
+
   def available?
     project &&
       !project.leaf? &&
@@ -42,7 +48,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   end
 
   def type
-    :list_subprojects
+    :list
   end
 
   def order
@@ -71,5 +77,16 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
 
   def visible_subprojects
     @visible_subprojects ||= project.descendants.visible
+  end
+
+  def operator_strategy
+    case operator
+    when '*'
+      ::Queries::Operators::All
+    when '!*'
+      ::Queries::Operators::None
+    when '='
+      ::Queries::Operators::Equals
+    end
   end
 end

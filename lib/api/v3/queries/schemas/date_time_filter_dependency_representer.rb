@@ -34,9 +34,15 @@ module API
         class DateTimeFilterDependencyRepresenter <
           IntegerFilterDependencyRepresenter
 
-          # This here exists because it is planned to have
-          # be able to insert date time values, soon. Then,
-          # the functionality will be different from the integer filter.
+          def type
+            if operator == ::Queries::Operators::OnDateTime
+              '[1]DateTime'
+            elsif operator == ::Queries::Operators::BetweenDateTime
+              '[2]DateTime'
+            else
+              super
+            end
+          end
         end
       end
     end

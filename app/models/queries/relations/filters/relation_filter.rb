@@ -30,7 +30,7 @@
 module Queries
   module Relations
     module Filters
-      class RelationFilter < ::Queries::BaseFilter
+      class RelationFilter < ::Queries::Filters::Base
         self.model = Relation
 
         def human_name

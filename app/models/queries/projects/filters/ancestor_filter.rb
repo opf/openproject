@@ -51,13 +51,15 @@ module Queries
           :ancestor
         end
 
-        # Instead of getting the IDs of all the projects a user is allowed
-        # to see we only check that the value is an integer.  Non valid ids
-        # will then simply create an empty result but will not cause any
-        # harm.
-        alias :validate_values_in_allowed_values_list :validate_values_all_integer
-
         private
+
+        def type_strategy
+          # Instead of getting the IDs of all the projects a user is allowed
+          # to see we only check that the value is an integer.  Non valid ids
+          # will then simply create an empty result but will not cause any
+          # harm.
+          @type_strategy ||= ::Queries::Filters::Strategies::IntegerList.new(self)
+        end
 
         def join_specific_ancestor_projects
           projects_table
