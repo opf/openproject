@@ -86,7 +86,7 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         });
       }
 
-      input.on('keyup change', _.throttle(function(event:any) {
+      input.on('keyup change', _.debounce(function(event:any) {
         // This prevents an update of the result list when
         // tabbing to the result list (9),
         // pressing enter (13)
@@ -97,7 +97,7 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         if (keyCodesArray.indexOf(event.keyCode) == -1 && event.keyCode != undefined) {
           updater();
         }
-        }, 1000, { leading: true })
+        }, 1000)
       );
     }
   };
