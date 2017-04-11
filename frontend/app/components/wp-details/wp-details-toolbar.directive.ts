@@ -46,7 +46,7 @@ function wpDetailsToolbar(
     var augmentedActions = { };
 
     angular.forEach(permittedActions, function(this:any, permission) {
-      var css = ["icon-" + permission.key];
+      let css = [ (permission.icon || 'icon-' + permission.key) ];
 
       this[permission.key] = { link: permission.link, css: css };
     }, augmentedActions);
