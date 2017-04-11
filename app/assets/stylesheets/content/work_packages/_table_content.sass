@@ -55,7 +55,7 @@
 // Shrink column of details / inline-create icons
 .wp-table--details-column
   // Set a minimum width for the cell to avoid movement
-  width: 25px
+  min-width: 40px
   // Center the th icon
   text-align: center !important
 
@@ -64,17 +64,15 @@
 .wp-table--details-link
   .issue:hover &,
   &:focus
+    // override the hidden-for-sighted definition
     position: relative
     left: 0
-    width: 1.5rem
-    height: 1.5rem
+    width: initial
+    height: initial
 
-    .icon
-      position: relative
-      left: 0.25rem
-      &:before
-        color: $body-font-color
-        padding: 0 0 0 0.25rem
+    .icon:before
+      color: $body-font-color
+      padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
 
