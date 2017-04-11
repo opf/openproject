@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableHierarchyService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-table-hierarchy.service';
 import {
   QuerySortByResource,
   QUERY_SORT_BY_ASC,
@@ -34,13 +34,15 @@ import {
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
 import {WorkPackageTableSortBy} from '../../wp-fast-table/wp-table-sort-by';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('sortHeader', sortHeader);
 
-function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService,
+function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
                     wpTableSortBy: WorkPackageTableSortByService,
+                    wpTableGroupBy: WorkPackageTableGroupByService,
                     I18n: op.I18n) {
   return {
     restrict: 'A',
@@ -78,11 +80,16 @@ function sortHeader(wpTableHierarchy: WorkPackageTableHierarchyService,
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.column.id === 'subject';
       scope.hierarchyIcon = 'icon-hierarchy';
+      scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+
+      wpTableGroupBy.observeOnScope(scope).subscribe(() => {
+        scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+      });
 
       scope.toggleHierarchy = function(evt:JQueryEventObject) {
-        wpTableHierarchy.toggleState();
+        wpTableHierarchies.toggleState();
 
-        if(wpTableHierarchy.isEnabled) {
+        if(wpTableHierarchies.isEnabled) {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
           scope.hierarchyIcon = 'icon-no-hierarchy';
         }

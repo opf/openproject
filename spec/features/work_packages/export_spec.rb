@@ -42,6 +42,7 @@ describe 'work package export', type: :feature do
   let(:wp_4) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do
     wp_1
@@ -93,10 +94,17 @@ describe 'work package export', type: :feature do
 
   it 'shows all work packages grouped by ', js: true, retry: 2 do
     work_packages_page.open_settings!
+    click_on 'Hide hierarchy'
 
+    work_packages_page.open_settings!
     click_on 'Group by ...'
     select 'Type', from: 'selected_columns_new'
     click_on 'Apply'
+
+    wp_table.expect_work_package_listed(wp_1)
+    wp_table.expect_work_package_listed(wp_2)
+    wp_table.expect_work_package_listed(wp_3)
+    wp_table.expect_work_package_listed(wp_4)
 
     export!
 

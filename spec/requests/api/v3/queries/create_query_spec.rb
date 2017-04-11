@@ -36,6 +36,7 @@ describe "POST /api/v3/queries", type: :request do
   let(:params) do
     {
       name: "Dummy Query",
+      showHierarchies: false,
       filters: [
         {
           name: "Status",

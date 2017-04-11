@@ -17,9 +17,15 @@
     </li>
 
     <li ng-if="isGroupable">
-      <a class="menu-item" focus="focusFeature('group')" href="" ng-click="groupBy()">
+      <a class="menu-item"
+         ng-class="{'inactive': isGroupableDisabled }"
+         focus="focusFeature('group')"
+         href=""
+         ng-attr-title="{{ isGroupableDisabled ? text.group_by_disabled_by_hierarchy : text.group_by }}"
+         ng-disabled="isGroupableDisabled"
+         ng-click="isGroupableDisabled || groupBy()">
         <i class="icon-action-menu icon-group-by"></i>
-        <span ng-bind="I18n.t('js.work_packages.query.group')"/>
+        <span ng-bind="text.group_by"/>
       </a>
     </li>
 

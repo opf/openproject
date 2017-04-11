@@ -16,13 +16,13 @@ import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
 import {WorkPackageTableTimelineVisible} from "./wp-fast-table/wp-table-timeline-visible";
-import {WPTableHierarchyState, WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
+import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
+import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 
 export class States extends Component {
 
   name = "MainStore";
-
   /* /api/v3/work_packages */
   workPackages = inputStateCache<WorkPackageResource>();
 
@@ -74,7 +74,7 @@ export class TableState {
   // Current state of collapsed groups (if any)
   collapsedGroups = input<{[identifier:string]: boolean}>();
   // Hierarchies of table
-  hierarchies = input<WPTableHierarchyState>();
+  hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
   rendered = input<WorkPackageTable>();
   // State to determine timeline visibility

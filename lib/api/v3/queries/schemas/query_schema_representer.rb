@@ -104,6 +104,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :show_hierarchies,
+                 type: 'Boolean',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema :starred,
                  type: 'Boolean',
                  required: false,

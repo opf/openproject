@@ -15,6 +15,7 @@ describe 'Work Package table group headers', js: true do
   let!(:query) do
     query              = FactoryGirl.build(:query, user: user, project: project)
     query.column_names = ['subject', 'category']
+    query.show_hierarchies = false
 
     query.save!
     query

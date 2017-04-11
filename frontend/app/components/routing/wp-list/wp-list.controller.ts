@@ -37,6 +37,7 @@ import {WorkPackageTablePaginationService} from "../../wp-fast-table/state/wp-ta
 import {WorkPackageTableSortByService} from "../../wp-fast-table/state/wp-table-sort-by.service";
 import {WorkPackageTableSumService} from "../../wp-fast-table/state/wp-table-sum.service";
 import {WorkPackageTablePagination} from "../../wp-fast-table/wp-table-pagination";
+import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
@@ -52,7 +53,8 @@ function WorkPackagesListController($scope:any,
                                     wpTableGroupBy:WorkPackageTableGroupByService,
                                     wpTableFilters:WorkPackageTableFiltersService,
                                     wpTableSum:WorkPackageTableSumService,
-                                    wpTableTimeline: WorkPackageTableTimelineService,
+                                    wpTableTimeline:WorkPackageTableTimelineService,
+                                    wpTableHierarchies:WorkPackageTableHierarchiesService,
                                     wpTablePagination:WorkPackageTablePaginationService,
                                     wpListService:WorkPackagesListService,
                                     wpListChecksumService:WorkPackagesListChecksumService,
@@ -114,6 +116,10 @@ function WorkPackagesListController($scope:any,
 
     wpTableTimeline.observeOnScope($scope).subscribe(timeline => {
       updateAndExecuteIfAltered(timeline.current, "timelineVisible");
+    });
+
+    wpTableHierarchies.observeOnScope($scope).subscribe(hierarchies => {
+      updateAndExecuteIfAltered(hierarchies.current, 'showHierarchies');
     });
 
     wpTableColumns.observeOnScope($scope).subscribe(columns => {
@@ -218,6 +224,7 @@ function WorkPackagesListController($scope:any,
       !states.table.sortBy.value ||
       !states.table.groupBy.value ||
       !states.table.timelineVisible.value ||
+      !states.table.hierarchies.value ||
       !states.table.sum.value;
   }
 

@@ -34,6 +34,8 @@ Please note, that all the properties listed above will also be embedded when ind
 | name             | Query name                                                                                                | String                |                                  | READ                 |
 | filters          | A set of QueryFilters which will be applied to the work packages to determine the resulting work packages | []QueryFilterInstance |                                  | READ                 |
 | sums             | Should sums (of supported properties) be shown?                                                           | Boolean               |                                  | READ                 |
+| timelineVisible  | Should the timeline mode be shown?                                                                        | Boolean               |                                  | READ                 |
+| showHierarchies  | Should the hierarchy mode be enabled?                                                                     | Boolean               |                                  | READ                 |
 | public           | Can users besides the owner see the query?                                                                | Boolean               |                                  | READ                 |
 | starred          | Should the query be highlighted to the user?                                                              | Boolean               |                                  | READ                 |
 
@@ -99,7 +101,7 @@ If the values are nonprimitive (e.g. User, Project), they will be listed as obje
 
 ```
 
-## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+## Query [/api/v3/queries/{id}{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,showHierarchies}]
 
 + Model
     + Body
@@ -257,6 +259,8 @@ Retreive an individual query as identified by the id parameter. Then end point a
     + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
+    + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
 + Response 200 (application/hal+json)
 
@@ -398,7 +402,7 @@ Delete the query identified by the id parameter
                 "message": "The requested resource could not be found."
             }
 
-## Default Query [/api/v3/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+## Default Query [/api/v3/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,showHierarchies}]
 
 + Model
     + Body
@@ -428,6 +432,8 @@ Delete the query identified by the id parameter
               ],
               "public": false,
               "sums": false,
+              "timelineVisible": false,
+              "showHierarchies": true,
               "starred": false,
               "_embedded": {
                 "results": {
@@ -533,6 +539,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
+    + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
 + Response 200 (application/hal+json)
 
@@ -552,7 +560,7 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
                 "message": "You are not authorized to access this resource."
             }
 
-## Default Query for Project [/api/v3/projects/{id}/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums}]
+## Default Query for Project [/api/v3/projects/{id}/queries/default{?offset,pageSize,filters,sortBy,groupBy,showSums,timelineVisible,showHierarchies}]
 
 + Model
     + Body
@@ -582,6 +590,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
               ],
               "public": false,
               "sums": false,
+              "timelineVisible": false,
+              "showHierarchies": true,
               "starred": false,
               "_embedded": {
                 "results": {
@@ -690,6 +700,8 @@ Same as [viewing an existing, persisted Query](#queries-query-get) in its respon
     + sortBy (optional, string, `[["status", "asc"]]`) ... JSON specifying sort criteria. The sort criteria is applied to the querie's result collection of work packages overriding the query's persisted sort criteria.
     + groupBy (optional, string, `status`) ... The column to group by. The grouping criteria is applied to the to the querie's result collection of work packages overriding the query's persisted group criteria.
     + showSums = `false` (optional, boolean, `true`) ... Indicates whether properties should be summed up if they support it. The showSums parameter is applied to the to the querie's result collection of work packages overriding the query's persisted sums property.
+    + timelineVisible = `false` (optional, boolean, `true`) ... Indicates whether the timeline should be shown.
+    + showHierarchies = `true` (optional, boolean, `true`) ... Indicates whether the hierarchy mode should be enabled.
 
 + Response 200 (application/hal+json)
 
@@ -1422,6 +1434,20 @@ For more details and all possible responses see the general specification of [Fo
                 "hasDefault": true,
                 "writable": true
               },
+              "timelineVisible": {
+                "type": "Boolean",
+                "name": "Timeline visible",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "showHierarchies": {
+                "type": "Boolean",
+                "name": "Show hierarchies",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
               "starred": {
                 "type": "Boolean",
                 "name": "Starred",
@@ -1676,6 +1702,20 @@ Retrieve the schema for global queries, those, that are not assigned to a projec
               "sums": {
                 "type": "Boolean",
                 "name": "Sums",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "timelineVisible": {
+                "type": "Boolean",
+                "name": "Timeline visible",
+                "required": false,
+                "hasDefault": true,
+                "writable": true
+              },
+              "showHierarchies": {
+                "type": "Boolean",
+                "name": "Show hierarchies",
                 "required": false,
                 "hasDefault": true,
                 "writable": true

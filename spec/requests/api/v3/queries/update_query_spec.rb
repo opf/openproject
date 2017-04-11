@@ -33,12 +33,17 @@ describe "PATCH /api/v3/queries/:id", type: :request do
   let(:status) { FactoryGirl.create :status }
   let(:project) { FactoryGirl.create :project }
 
+  def json
+    JSON.parse response.body
+  end
+
   let!(:query) do
     FactoryGirl.create(
       :global_query,
       name: "A Query",
       user: user,
       is_public: false,
+      show_hierarchies: false,
       display_sums: false
     )
   end
@@ -47,6 +52,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
     {
       name: "Dummy Query",
       public: true,
+      showHierarchies: false,
       filters: [
         {
           name: "Status",
@@ -158,10 +164,6 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       patch "/api/v3/queries/#{query.id}",
             params: params.to_json,
             headers: { "Content-Type": "application/json" }
-    end
-
-    def json
-      JSON.parse response.body
     end
 
     it "yields a 422 error given an unknown project" do

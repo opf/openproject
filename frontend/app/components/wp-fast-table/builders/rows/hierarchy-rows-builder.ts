@@ -1,5 +1,5 @@
 import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from '../../helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTableHierarchyService} from '../../state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
 import {UiStateLinkBuilder} from '../ui-state-link-builder';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
@@ -17,7 +17,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   // Injections
   public states:States;
   public wpTableColumns:WorkPackageTableColumnsService;
-  public wpTableHierarchy:WorkPackageTableHierarchyService;
+  public wpTableHierarchies:WorkPackageTableHierarchiesService;
   public I18n:op.I18n;
 
   public uiStateBuilder = new UiStateLinkBuilder();
@@ -43,7 +43,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * The hierarchy builder is only applicable if the hierachy mode is active
    */
   public isApplicable(table:WorkPackageTable) {
-    return this.wpTableHierarchy.isEnabled;
+    return this.wpTableHierarchies.isEnabled;
   }
 
   /**
@@ -101,7 +101,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
 
   public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable, level?:number) {
     const element = this.rowBuilder.buildEmpty(row.object);
-    const state = this.wpTableHierarchy.currentState;
+    const state = this.wpTableHierarchies.currentState;
 
     row.object.ancestors.forEach((ancestor:WorkPackageResourceInterface) => {
       element.classList.add(`__hierarchy-group-${ancestor.id}`);
@@ -130,7 +130,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, index:number|null = null):HTMLElement {
       const level = index === null ? workPackage.ancestors.length : index;
       const hierarchyIndicator = document.createElement('span');
-      const collapsed = this.wpTableHierarchy.collapsed(workPackage.id);
+      const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
       hierarchyIndicator.classList.add(hierarchyCellClassName);
       hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
 
@@ -255,4 +255,4 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
 }
 
 
-HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchy', 'states', 'I18n'];
+HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchies', 'states', 'I18n'];

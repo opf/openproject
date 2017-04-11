@@ -26,39 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState} from "reactivestates";
-import {States} from "../../states.service";
-import {WorkPackageTableBaseInterface} from "../wp-table-base";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {Observable} from 'rxjs';
+export class WorkPackageTableHierarchies {
+  public current:boolean;
+  public collapsed:{[workPackageId:string]:boolean};
 
-export type TableStateStates = 'columns' |
-                               'groupBy' |
-                               'filters' |
-                               'sum' |
-                               'sortBy' |
-                               'timelineVisible' |
-                               'pagination';
-
-export abstract class WorkPackageTableBaseService {
-  protected abstract stateName: TableStateStates;
-
-  constructor(protected states: States) {
+  constructor(isVisible:boolean) {
+    this.current = isVisible;
+    this.collapsed = {};
   }
 
-  protected get state(): InputState<WorkPackageTableBaseInterface> {
-    return this.states.table[this.stateName];
-  };
-
-  public observeOnScope(scope:ng.IScope) {
-    return scopedObservable(scope, this.state.values$());
+  public toggle() {
+    this.current = !this.current;
   }
 
-  public observeUntil(unsubscribe:Observable<any>) {
-    return this.state.values$().takeUntil(unsubscribe);
-  }
-
-  public onReady(scope:ng.IScope) {
-    return scopedObservable(scope, this.state.values$()).take(1).mapTo(null).toPromise();
+  public get isEnabled() {
+    return this.current;
   }
 }

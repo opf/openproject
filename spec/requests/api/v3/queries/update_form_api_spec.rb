@@ -116,6 +116,7 @@ describe "POST /api/v3/queries/form", type: :request do
         name: "Some Query",
         public: true,
         sums: true,
+        showHierarchies: false,
         filters: [
           {
             name: "Status",

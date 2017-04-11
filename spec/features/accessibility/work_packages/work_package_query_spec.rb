@@ -291,6 +291,18 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       end
 
       context 'grouping popup anchor' do
+        let!(:query) do
+          query = FactoryGirl.build(:query, user: user, project: project)
+          query.show_hierarchies = false
+          query.save!
+          query
+        end
+        let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
+        before do
+          wp_table.visit_query query
+        end
+
         it_behaves_like 'menu setting item' do
           let (:anchor) { find('#settingsDropdown .dropdown-menu li:nth-child(3) a') }
         end

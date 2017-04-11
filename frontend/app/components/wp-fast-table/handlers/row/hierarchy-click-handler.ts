@@ -1,5 +1,5 @@
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
-import {WorkPackageTableHierarchyService} from '../../state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
@@ -9,7 +9,7 @@ import {rowClassName} from '../../builders/rows/single-row-builder';
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
   public states:States;
-  public wpTableHierarchy:WorkPackageTableHierarchyService;
+  public wpTableHierarchies:WorkPackageTableHierarchiesService;
 
   constructor(table: WorkPackageTable) {
     super();
@@ -35,7 +35,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     let element = target.closest(`.${rowClassName}`);
     let wpId = element.data('workPackageId');
 
-    this.wpTableHierarchy.toggle(wpId);
+    this.wpTableHierarchies.toggle(wpId);
 
     evt.stopImmediatePropagation();
     evt.preventDefault();
@@ -43,4 +43,4 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 }
 
-HierarchyClickHandler.$inject = ['states', 'wpTableHierarchy'];
+HierarchyClickHandler.$inject = ['states', 'wpTableHierarchies'];

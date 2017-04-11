@@ -2,22 +2,22 @@ import {injectorBridge} from "../../../angular/angular-injector-bridge.functions
 import {States} from "../../../states.service";
 import {indicatorCollapsedClass} from "../../builders/rows/hierarchy-rows-builder";
 import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from "../../helpers/wp-table-hierarchy-helpers";
-import {WorkPackageTableHierarchyService} from "../../state/wp-table-hierarchy.service";
 import {WorkPackageTable} from "../../wp-fast-table";
-import {WPTableHierarchyState} from "../../wp-table.interfaces";
+import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 
 export class HierarchyTransformer {
-  public wpTableHierarchy:WorkPackageTableHierarchyService;
+  public wpTableHierarchies:WorkPackageTableHierarchiesService;
   public states:States;
 
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
     let enabled = false;
 
-    this.wpTableHierarchy.hierarchyState.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((state: WPTableHierarchyState) => {
-        if (enabled !== state.enabled) {
+    this.wpTableHierarchies
+      .observeUntil(this.states.table.stopAllSubscriptions)
+      .subscribe((state: WorkPackageTableHierarchies) => {
+        if (enabled !== state.isEnabled) {
           table.refreshBody();
           table.postRender();
         } else if (enabled) {
@@ -26,14 +26,14 @@ export class HierarchyTransformer {
           this.renderHierarchyState(state);
         }
 
-        enabled = state.enabled;
-      });
+        enabled = state.isEnabled;
+    });
   }
 
   /**
    * Update all currently visible rows to match the selection state.
    */
-  private renderHierarchyState(state:WPTableHierarchyState) {
+  private renderHierarchyState(state:WorkPackageTableHierarchies) {
    // Show all hierarchies
    jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
     return (classNames.match(/__collapsed-group-\d+/g) || []).join(' ');
@@ -49,4 +49,4 @@ export class HierarchyTransformer {
   }
 }
 
-HierarchyTransformer.$inject = ['wpTableHierarchy', 'states'];
+HierarchyTransformer.$inject = ['wpTableHierarchies', 'states'];

@@ -55,6 +55,24 @@ describe Query, type: :model do
     end
   end
 
+  describe 'hierarchies' do
+    it 'is enabled by default' do
+      expect(query.show_hierarchies).to be_truthy
+      query.show_hierarchies = false
+      expect(query.show_hierarchies).to be_falsey
+    end
+
+    it 'is mutually exclusive with group_by' do
+      expect(query.show_hierarchies).to be_truthy
+      query.group_by = :assignee
+
+      expect(query.save).to be_falsey
+      expect(query).not_to be_valid
+      expect(query.errors[:show_hierarchies].first)
+        .to include(I18n.t('activerecord.errors.models.query.group_by_hierarchies_exclusive', group_by: 'assignee'))
+    end
+  end
+
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do

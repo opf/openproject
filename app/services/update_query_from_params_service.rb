@@ -45,6 +45,10 @@ class UpdateQueryFromParamsService
 
     apply_timeline(params)
 
+    apply_hierarchy(params)
+
+    disable_hierarchy_when_only_grouped_by(params)
+
     if query.valid?
       ServiceResult.new(success: true,
                         result: query)
@@ -77,11 +81,21 @@ class UpdateQueryFromParamsService
   end
 
   def apply_sums(params)
-    query.display_sums = params[:display_sums] if params[:display_sums]
+    query.display_sums = params[:display_sums] if params.key?(:display_sums)
   end
 
   def apply_timeline(params)
-    query.timeline_visible = params[:timeline_visible] if params[:timeline_visible]
+    query.timeline_visible = params[:timeline_visible] if params.key?(:timeline_visible)
+  end
+
+  def apply_hierarchy(params)
+    query.show_hierarchies = params[:show_hierarchies] if params.key?(:show_hierarchies)
+  end
+
+  def disable_hierarchy_when_only_grouped_by(params)
+    if params.key?(:group_by) && !params.key?(:show_hierarchies)
+      query.show_hierarchies = false
+    end
   end
 
   attr_accessor :query,

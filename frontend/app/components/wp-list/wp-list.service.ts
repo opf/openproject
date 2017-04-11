@@ -1,3 +1,4 @@
+import { WorkPackageTableHierarchiesService } from './../wp-fast-table/state/wp-table-hierarchy.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -66,6 +67,7 @@ export class WorkPackagesListService {
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpTableSum:WorkPackageTableSumService,
               protected wpTableTimeline:WorkPackageTableTimelineService,
+              protected wpTableHierarchies:WorkPackageTableHierarchiesService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
@@ -301,6 +303,7 @@ export class WorkPackagesListService {
     this.wpTableColumns.initialize(query);
     this.wpTableGroupBy.initialize(query);
     this.wpTableTimeline.initialize(query);
+    this.wpTableHierarchies.initialize(query);
 
     this.AuthorisationService.initModelAuth('query', query.$links);
   }
@@ -347,6 +350,7 @@ export class WorkPackagesListService {
     this.states.table.columns.clear();
     this.states.table.sortBy.clear();
     this.states.table.groupBy.clear();
+    this.states.table.hierarchies.clear();
     this.states.table.sum.clear();
   }
 

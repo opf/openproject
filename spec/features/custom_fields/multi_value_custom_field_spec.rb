@@ -22,6 +22,7 @@ describe "multi select custom values", js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
@@ -107,6 +108,10 @@ describe "multi select custom values", js: true do
       end
 
       it 'should be usable in the table context' do
+        # Disable hierarchies
+        hierarchy.disable_hierarchy
+        hierarchy.expect_no_hierarchies
+
         # Should show truncated values
         expect(page).to have_text "ham , pineapple , ... 3"
         expect(page).not_to have_text "onions"

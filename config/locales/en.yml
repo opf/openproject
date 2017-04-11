@@ -468,6 +468,7 @@ en:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
         query:
+          group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."

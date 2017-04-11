@@ -33,8 +33,3 @@ export interface WPTableRowSelectionState {
   // required for shift-offsets
   activeRowIndex: number | null;
 }
-
-export interface WPTableHierarchyState {
-  enabled:boolean;
-  collapsed:{[workPackageId: string]: boolean};
-}
