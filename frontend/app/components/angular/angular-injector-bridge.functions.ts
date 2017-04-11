@@ -7,6 +7,10 @@
     return angular.element(document.body).injector();
   }
 
+  export function $injectNow(dep:string) {
+    return $currentInjector().get(dep);
+  }
+
   /**
    * Detects desired injections from `target.$inject = [...]` definitions
    * analogous to how angular does its DI, only that we're not registering the

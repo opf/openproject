@@ -36,6 +36,7 @@ import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import {Observable, Subscription} from "rxjs";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import * as moment from "moment";
+import { injectorBridge } from "../../angular/angular-injector-bridge.functions";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
 
@@ -45,6 +46,8 @@ const renderers = {
 };
 
 export class WorkPackageTimelineCell {
+  public wpCacheService: WorkPackageCacheService;
+  public states: States;
 
   private subscription: Subscription;
 
@@ -55,10 +58,9 @@ export class WorkPackageTimelineCell {
   private elementShape: string;
 
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
-              private wpCacheService: WorkPackageCacheService,
-              private states: States,
               private workPackageId: string,
               public timelineCell: HTMLElement) {
+    injectorBridge(this);
   }
 
   activate() {
@@ -183,3 +185,5 @@ export class WorkPackageTimelineCell {
   }
 
 }
+
+WorkPackageTimelineCell.$inject = ['wpCacheService', 'states', 'TimezoneService'];

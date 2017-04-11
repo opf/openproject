@@ -5,6 +5,7 @@ import {
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import * as moment from 'moment';
+import { $injectNow } from "../../../angular/angular-injector-bridge.functions";
 import Moment = moment.Moment;
 
 interface CellDateMovement {
@@ -14,6 +15,7 @@ interface CellDateMovement {
 }
 
 export class TimelineCellRenderer {
+  protected TimezoneService:any;
 
   protected dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
 
@@ -315,12 +317,16 @@ export class TimelineCellRenderer {
   }
 
   private updateLeftRightMovedLabel(start: Moment, due: Moment) {
+    if (!this.TimezoneService) {
+      this.TimezoneService = $injectNow('TimezoneService');
+    }
+
     if (this.dateDisplaysOnMouseMove.left && start) {
-      this.dateDisplaysOnMouseMove.left.innerText = start.format("L");
+      this.dateDisplaysOnMouseMove.left.innerText = this.TimezoneService.formattedDate(start);
     }
 
     if (this.dateDisplaysOnMouseMove.right && due) {
-      this.dateDisplaysOnMouseMove.right.innerText = due.format("L");
+      this.dateDisplaysOnMouseMove.right.innerText = this.TimezoneService.formattedDate(due);
     }
   }
 }
