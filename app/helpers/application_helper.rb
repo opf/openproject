@@ -611,16 +611,6 @@ module ApplicationHelper
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
     })
-    if User.current.pref.warn_on_leaving_unsaved?
-      tags += javascript_tag(%{
-        jQuery(document).ready(function(){
-          warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}');
-          jQuery(document).ajaxComplete(function(){
-            warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}')
-          });
-        });
-      })
-    end
 
     tags.html_safe
   end
