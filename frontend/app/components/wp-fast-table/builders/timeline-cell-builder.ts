@@ -37,8 +37,6 @@ export class TimelineCellBuilder {
     // required data for timeline cell
     const timelineCell = new WorkPackageTimelineCell(
       this.workPackageTable.timelineController,
-      this.wpCacheService,
-      this.states,
       workPackage.id,
       cell
     );

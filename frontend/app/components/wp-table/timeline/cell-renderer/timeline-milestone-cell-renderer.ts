@@ -7,6 +7,7 @@ import {
   calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import * as moment from "moment";
+import { $injectNow } from "../../../angular/angular-injector-bridge.functions";
 import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
@@ -15,7 +16,6 @@ interface CellMilestoneMovement {
 }
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
-
   public get type(): string {
     return 'milestone';
   }
@@ -175,7 +175,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   private updateMilestoneMovedLabel(date: Moment) {
-    this.dateDisplaysOnMouseMove.right!.innerText = date.format("L");
+    if (!this.TimezoneService) {
+      this.TimezoneService = $injectNow('TimezoneService');
+    }
+    this.dateDisplaysOnMouseMove.right!.innerText = this.TimezoneService.formattedDate(date);
   }
 
 }
