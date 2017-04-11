@@ -47,6 +47,8 @@ class UpdateQueryFromParamsService
 
     apply_hierarchy(params)
 
+    disable_hierarchy_when_only_grouped_by(params)
+
     if query.valid?
       ServiceResult.new(success: true,
                         result: query)
@@ -88,6 +90,12 @@ class UpdateQueryFromParamsService
 
   def apply_hierarchy(params)
     query.show_hierarchies = params[:show_hierarchies] if params.key?(:show_hierarchies)
+  end
+
+  def disable_hierarchy_when_only_grouped_by(params)
+    if params.key?(:group_by) && !params.key?(:show_hierarchies)
+      query.show_hierarchies = false
+    end
   end
 
   attr_accessor :query,

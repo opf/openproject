@@ -48,8 +48,29 @@ describe UpdateQueryFromParamsService,
         it 'sets the value' do
           subject
 
-          expect(query.group_by)
-            .to eql('status')
+          expect(query.group_by).to eql('status')
+        end
+
+        context 'when hierarchy was set previously' do
+          it 'disables the mode when not given' do
+            subject
+
+            expect(query.group_by).to eql('status')
+            expect(query.show_hierarchies).to eql(false)
+            expect(subject).to be_success
+          end
+        end
+      end
+
+      context 'when passed along with hierarchy mode' do
+        let(:params) { { group_by: 'status', show_hierarchies: true } }
+
+        it 'sets both values' do
+          subject
+
+          expect(query.group_by).to eql('status')
+          expect(query.show_hierarchies).to eql(true)
+            expect(subject).not_to be_success
         end
       end
     end

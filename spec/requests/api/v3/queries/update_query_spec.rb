@@ -33,6 +33,10 @@ describe "PATCH /api/v3/queries/:id", type: :request do
   let(:status) { FactoryGirl.create :status }
   let(:project) { FactoryGirl.create :project }
 
+  def json
+    JSON.parse response.body
+  end
+
   let!(:query) do
     FactoryGirl.create(
       :global_query,
@@ -160,10 +164,6 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       patch "/api/v3/queries/#{query.id}",
             params: params.to_json,
             headers: { "Content-Type": "application/json" }
-    end
-
-    def json
-      JSON.parse response.body
     end
 
     it "yields a 422 error given an unknown project" do
