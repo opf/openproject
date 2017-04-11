@@ -498,6 +498,7 @@ en:
         errors:
           unretrievable_query: "Unable to retrieve query from URL"
           not_found: "There is no such query"
+        text_no_results: "No matching queries were found."
       table:
         summary: "Table with rows of work package and columns of work package attributes."
         text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."

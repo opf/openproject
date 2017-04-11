@@ -52,6 +52,7 @@ interface MyI18n {
   label:string;
   scope_global:string;
   scope_private:string;
+  no_results:string;
 }
 
 export class WorkPackageQuerySelectController {
@@ -68,7 +69,8 @@ export class WorkPackageQuerySelectController {
       loading: I18n.t('js.ajax.loading'),
       label: I18n.t('js.toolbar.search_query_label'),
       scope_global: I18n.t('js.label_global_queries'),
-      scope_private: I18n.t('js.label_custom_queries')
+      scope_private: I18n.t('js.label_custom_queries'),
+      no_results: I18n.t('js.work_packages.query.text_no_results')
     };
 
     this.setup();
@@ -93,8 +95,7 @@ export class WorkPackageQuerySelectController {
     this.defineJQueryQueryComplete();
 
     let input = angular.element('#query-title-filter') as IQueryAutocompleteJQuery;
-
-    let close = () => { this.contextMenu.close() }
+    let noResults = angular.element('.query-select-dropdown--no-results');
 
     input.querycomplete({
       delay: 0,
@@ -102,11 +103,14 @@ export class WorkPackageQuerySelectController {
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item.query);
       },
+      response: (event:any,ui:any) => {
+        // Show the noResults span if we don't have any matches
+        noResults.toggle(ui.content.length === 0);
+      },
       appendTo: '.search-query-wrapper',
       classes: {
         'ui-autocomplete': '-inplace'
-      },
-      close: close
+      }
     });
   }
 

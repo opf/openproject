@@ -74,7 +74,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
         event.stopPropagation();
         scope.$evalAsync(() => {
           open(event).then((menuElement:JQuery) => {
-            menuElement.find('.menu-item').first().focus();
+            FocusHelper.focusElement(menuElement.find('.menu-item,input').first(), true);
           });
         });
 
