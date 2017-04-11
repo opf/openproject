@@ -30,7 +30,7 @@ source 'https://rubygems.org'
 
 ruby '>= 2.2.5'
 
-gem 'rails', '~> 5.0.1'
+gem 'rails', '~> 5.0.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.0.0'
@@ -51,8 +51,8 @@ gem 'warden-basic_auth', '~> 0.2.1'
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
-gem 'acts_as_list', '~> 0.8.1'
-gem 'acts_as_tree', '~> 2.5.1'
+gem 'acts_as_list', '~> 0.9.5'
+gem 'acts_as_tree', '~> 2.6.1'
 
 gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
@@ -63,17 +63,17 @@ gem 'color-tools', '~> 1.3.0', require: 'color'
 gem 'ruby-progressbar'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2016.1'
+gem 'tzinfo-data', '~> 1.2017.2'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
 # Generate url slugs with #to_url and other string niceties
-gem 'stringex', '~> 2.6.1'
+gem 'stringex', '~> 2.7.1'
 
 # generates SVG Graphs
 # used for statistics on svn repositories
-gem 'svg-graph', '~> 2.0.1'
+gem 'svg-graph', '~> 2.1.0'
 
 gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
@@ -89,7 +89,7 @@ gem 'bcrypt', '~> 3.1.6'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 2.17.4'
+gem 'oj', '~> 2.18.5'
 
 gem 'delayed_job_active_record', '~> 4.1.1'
 gem 'daemons'
@@ -115,7 +115,7 @@ gem 'airbrake', '~> 5.1.0', require: false
 gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.git',
                           branch: 'master'
 
-gem 'prawn', '~> 2.1'
+gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
 gem 'cells-rails', '~> 0.0.6'
@@ -134,9 +134,9 @@ end
 gem 'sprockets', '~> 3.7.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '3.5.0.pre.rc.1'
-gem 'autoprefixer-rails', '~> 6.4.1'
-gem 'bourbon', '~> 4.2.0'
-gem 'i18n-js', '>= 3.0.0.rc13'
+gem 'autoprefixer-rails', '~> 6.7.7.1'
+gem 'bourbon', '~> 4.3.4'
+gem 'i18n-js', '~> 3.0.0'
 
 # small wrapper around the command line
 gem 'cocaine', '~> 0.5.8'
@@ -189,7 +189,7 @@ group :test do
   # More information: https://github.com/rspec/rspec-rails/issues/1644
   gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
-  gem 'capybara', '~> 2.8.1'
+  gem 'capybara', '~> 2.13.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
@@ -207,7 +207,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.14.0'
+  gem 'net-ldap', '~> 0.16.0'
 end
 
 group :development do
@@ -215,25 +215,23 @@ group :development do
   gem 'faker'
   gem 'livingstyleguide', '~> 2.0.1'
 
-  # Pry seems to cause a lot of segfaults in the tests.
-  # Therefore, it has been removed from the :test group for now.
-  # Reevaluate once newer versions of pry have been released.
-  gem 'pry-rails', '~> 0.3.4'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
-  gem 'pry-rescue', '~> 1.4.4'
-  gem 'pry-byebug', '~> 3.4.0', platforms: [:mri]
-  gem 'pry-doc', '~> 0.9.0'
-
   gem 'rubocop'
   gem 'active_record_query_trace'
 end
 
 group :development, :test do
   gem 'thin', '~> 1.7.0'
+
+  gem 'pry-rails', '~> 0.3.6'
+  gem 'pry-stack_explorer', '~> 0.4.9.2'
+  gem 'pry-rescue', '~> 1.4.5'
+  gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
+  gem 'pry-doc', '~> 0.10'
+
 end
 
 # API gems
-gem 'grape', '~> 0.17'
+gem 'grape', '~> 0.19.1'
 gem 'grape-cache_control', '~> 1.0.1'
 
 gem 'roar',   '~> 1.0.0'
@@ -245,7 +243,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   group :postgres do
-    gem 'pg', '~> 0.19.0'
+    gem 'pg', '~> 0.20.0'
   end
 end
 
