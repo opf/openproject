@@ -29,6 +29,8 @@
 
 require_relative 'shared/user_feedback'
 
+require 'tasks/shared/legacy_attachment'
+
 module Migrations
   ##
   # We create a separate classes as this is most likely to be used during
@@ -98,6 +100,20 @@ namespace :migrations do
         move_version_attachments_to_wiki!
 
         ActiveRecord::Base.connection.execute("ALTER SEQUENCE journals_id_seq RESTART WITH 1")
+      end
+    end
+
+    desc 'Moves old attachment files to their correct new path under carrierwave.'
+    task move_old_files: :environment do |_task|
+      count = Attachment.count
+
+      puts "Migrating #{count} attachments to CarrierWave."
+      puts 'Depending on your configuration this can take a while.
+            Especially if files are uploaded to S3.'.squish
+
+      Attachment.all.each_with_index do |attachment, i|
+        puts "Migrating attachment #{i + 1}/#{count} (#{attachment.disk_filename})"
+        Tasks::Shared::LegacyAttachment.migrate_attachment attachment
       end
     end
 
