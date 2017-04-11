@@ -67,13 +67,13 @@ function wpContextMenuController($scope:any,
         editSelectedWorkPackages(link);
         break;
 
-      case "timeline-relation-add-predecessor":
+      case 'relation-precedes':
         table = $scope.table;
         wp = $scope.row.object;
         table.timelineController.startAddRelationPredecessor(wp);
         break;
 
-      case "timeline-relation-add-follower":
+      case 'relation-follows':
         table = $scope.table;
         wp = $scope.row.object;
         table.timelineController.startAddRelationFollower(wp);
