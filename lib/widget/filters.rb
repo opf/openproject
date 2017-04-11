@@ -17,7 +17,8 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-class Widget::Filters < Widget::Base
+require_dependency 'widget/base'
+class Widget::Filters < ::Widget::Base
   def render
     spacer = content_tag :li, '', class: 'advanced-filters--spacer'
 

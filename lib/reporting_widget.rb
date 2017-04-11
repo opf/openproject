@@ -19,7 +19,7 @@
 
 require_dependency 'reporting_engine/helpers/reporting_helper'
 
-class Widget < ActionView::Base
+class ReportingWidget < ActionView::Base
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::AssetTagHelper
   include ActionView::Helpers::FormTagHelper
@@ -63,5 +63,5 @@ class Widget < ActionView::Base
   end
 end
 
-ActionView::Base.send(:include, Widget::RenderWidgetInstanceMethods)
-ActionController::Base.send(:include, Widget::RenderWidgetInstanceMethods)
+ActionView::Base.send(:include, ReportingWidget::RenderWidgetInstanceMethods)
+ActionController::Base.send(:include, ReportingWidget::RenderWidgetInstanceMethods)
