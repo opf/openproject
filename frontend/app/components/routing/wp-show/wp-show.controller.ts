@@ -87,12 +87,6 @@ export class WorkPackageShowController extends WorkPackageViewController {
       case 'delete':
         this.deleteSelectedWorkPackage();
         break;
-      case 'configure-form':
-        this.$window.location.href = `/types/${this.workPackage.type.id}/edit/form_configuration`;
-        break;
-      case 'custom-fields':
-        this.$window.location.href = `/projects/${this.projectIdentifier}/settings/custom_fields`;
-        break;
       default:
         this.$window.location.href = link;
         break;

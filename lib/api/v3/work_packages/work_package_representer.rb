@@ -139,7 +139,7 @@ module API
 
         link :'custom-fields' do
           {
-            href: 'custom-fields',
+            href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
             type: 'text/html',
             title: "Custom fields"
           } if current_user_allowed_to(:edit_project, context: represented.project)
@@ -147,7 +147,7 @@ module API
 
         link :'configure-form' do
           {
-            href: 'form-configuration',
+            href: edit_type_path(represented.type_id, tab: 'form-configuration'),
             type: 'text/html',
             title: "Configure form"
           } if current_user.admin?
