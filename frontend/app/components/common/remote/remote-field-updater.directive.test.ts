@@ -56,18 +56,21 @@ describe('remote-field-updater directive', function() {
     element.remove();
   });
 
-  it('should request the given url on input', function() {
+  it('should request the given url on input', function(done) {
     $httpBackend.expectGET('/foo/bar?q=foobar').respond(200, '<span>response!</span>');
     var input = element.find('.remote-field--input');
     var e = jQuery.Event('keyup');
     e.keyCode = 65;
     input.val('foobar').trigger(e);
 
+    setTimeout(() => {
     $httpBackend.flush();
 
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
 
     expect(element.find('.remote-field--target span').length).to.eql(1);
+    done();
+    }, 1500);
   });
 });
