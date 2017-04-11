@@ -34,7 +34,9 @@ angular.module('openproject.workPackages.directives')
     { key: 'delete', link: 'delete', resource: 'workPackage' },
     { key: 'copy', link: 'createWorkPackage', resource: 'project' },
     { key: 'export-pdf', link: 'pdf', resource: 'workPackage' },
-    { key: 'export-atom', link: 'atom', resource: 'workPackage' }
+    { key: 'export-atom', link: 'atom', resource: 'workPackage' },
+    { key: 'custom-fields', link: 'customFields', icon: 'icon-custom-fields', resource: 'workPackage' },
+    { key: 'configure-form', link: 'configureForm', icon: 'icon-settings3', resource: 'workPackage' }
   ])
   .directive('workPackageDynamicAttribute', ['$compile', require(
     './work-package-dynamic-attribute-directive')]);

@@ -137,6 +137,22 @@ module API
           }
         end
 
+        link :customFields do
+          {
+            href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
+            type: 'text/html',
+            title: "Custom fields"
+          } if current_user_allowed_to(:edit_project, context: represented.project)
+        end
+
+        link :configureForm do
+          {
+            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
+            type: 'text/html',
+            title: "Configure form"
+          } if current_user.admin?
+        end
+
         linked_property :type, embed_as: ::API::V3::Types::TypeRepresenter
         linked_property :status, embed_as: ::API::V3::Statuses::StatusRepresenter
 

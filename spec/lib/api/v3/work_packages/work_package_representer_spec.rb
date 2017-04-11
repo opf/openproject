@@ -870,6 +870,31 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let(:permission) { :add_work_package_watchers }
         end
       end
+
+      describe 'customFields' do
+        it_behaves_like 'action link' do
+          let(:action) { 'customFields' }
+          let(:permission) { :edit_project }
+          let(:href) { settings_project_path(work_package.project.identifier, tab: 'custom_fields') }
+        end
+      end
+
+      describe 'formConfiguration' do
+        context 'when not admin' do
+          it_behaves_like 'has no link' do
+            let(:link) { 'formConfiguration' }
+          end
+        end
+        context 'when admin' do
+          let!(:current_user) { FactoryGirl.create :admin }
+
+          it_behaves_like 'has a titled link' do
+            let(:link) { 'configureForm' }
+            let(:href) { edit_type_path(work_package.type_id, tab: 'form_configuration') }
+            let(:title) { 'Configure form' }
+          end
+        end
+      end
     end
 
     describe '_embedded' do
