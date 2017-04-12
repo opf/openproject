@@ -57,14 +57,14 @@ class MembersController < ApplicationController
     end
 
     if members.present? && members.all?(&:valid?)
-      flash.notice = members_added_notice members
+      flash[:notice] = members_added_notice members
 
       redirect_to project_members_path(project_id: @project)
     else
       if members.present? && params[:member]
         @member = members.first
       else
-        flash.error = t(:error_check_user_and_role)
+        flash[:error] = t(:error_check_user_and_role)
       end
 
       set_index_data!
