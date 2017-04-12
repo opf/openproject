@@ -102,7 +102,7 @@ module OpenProject
       'main-menu-selected-hover-border-color'                => "$main-menu-border-color",
       'main-menu-navigation-toggler-font-hover-color'        => "#FFFFFF",
       'main-menu-toggler-separator-color'                    => "#EAEAEA",
-      'main-menu-child-item-height'                          => "38px",
+      'main-menu-child-item-height'                          => "35px",
       'main-menu-child-menu-bg-color'                        => "#FFFFFF",
       'main-menu-child-bg-selected-color'                    => "$primary-color",
       'main-menu-child-bg-hover-color'                       => "$primary-color-dark",
