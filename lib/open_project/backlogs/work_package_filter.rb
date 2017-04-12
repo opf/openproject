@@ -37,7 +37,7 @@ require 'story'
 require 'task'
 
 module OpenProject::Backlogs
-  class WorkPackageFilter < ::Queries::BaseFilter
+  class WorkPackageFilter < ::Queries::Filters::Base
 
     alias :project :context
     alias :project= :context=
@@ -56,6 +56,43 @@ module OpenProject::Backlogs
 
     def self.key
       :backlogs_work_package_type
+    end
+
+    def self.sql_for_field(values, db_table, _db_field)
+      sql = []
+
+      selected_values = ['story', 'task'] if values.include?('any')
+
+      story_types = Story.types.map(&:to_s).join(',')
+      all_types = (Story.types + [Task.type]).map(&:to_s).join(',')
+
+      selected_values.each do |val|
+        case val
+        when 'story'
+          sql << "(#{db_table}.type_id IN (#{story_types}))"
+        when 'task'
+          sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
+        when 'impediment'
+          sql << "(#{db_table}.id IN (
+                select from_id
+                FROM relations ir
+                JOIN work_packages blocked
+                ON
+                  blocked.id = ir.to_id
+                  AND blocked.type_id IN (#{all_types})
+                WHERE ir.relation_type = 'blocks'
+              ) AND #{db_table}.parent_id IS NULL)"
+        end
+
+        case operator
+        when '='
+          sql = sql.join(' OR ')
+        when '!'
+          sql = 'NOT (' + sql.join(' OR ') + ')'
+        end
+      end
+
+      sql
     end
 
     def order
