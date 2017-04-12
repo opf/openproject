@@ -121,14 +121,13 @@ module Redmine::MenuManager::TopMenuHelper
 
     if side_displayed && show_decoration
       content_tag(:li,
+                  id: 'toggle-project-menu',
                   "ng-class" => "{ 'show': !showNavigation }",
-                  id: 'top-menu--project-toggler',
                   "ng-controller" => 'MainMenuController as mainMenu') do
         link_to '',
                 '',
-                "ng-attr-title" => "{{ showNavigation ? '#{l(:hide_project_menu)}' : '#{l(:show_project_menu)}' }}".html_safe,
-                "ng-class" => "{ 'show icon-hamburger': !showNavigation, 'icon-arrow-left2' : showNavigation }",
-                class: 'navigation-toggler',
+                title: l(:show_hide_project_menu),
+                class: 'navigation-toggler icon-hamburger',
                 "ng-click" => 'mainMenu.toggleNavigation()'
       end
     end

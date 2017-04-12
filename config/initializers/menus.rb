@@ -242,7 +242,8 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages/reports', action: 'report' },
             param: :project_id,
             caption: :label_workflow_summary,
-            parent: :work_packages
+            parent: :work_packages,
+            html: { class: 'icon2 icon-chart3' }
 
   menu.push :timelines,
             { controller: '/timelines', action: 'index' },
