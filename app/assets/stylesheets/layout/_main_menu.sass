@@ -48,7 +48,9 @@ $toggler-width: 40px
     padding: 0
 
     &.menu_root
-      // -------------- ALL menu items --------------------------------
+      border-right: $main-menu-border-width solid $main-menu-border-color
+
+      // -------------------- ALL menu items ---------------------------
       li
         float: none
         list-style-type: none
@@ -61,19 +63,12 @@ $toggler-width: 40px
         &.ng-leave
           @include animation(0.5s fade-out)
 
-        > a,
-        .main-item-wrapper > a
-          @include default-transition
-          cursor: pointer
-          text-decoration: none
+        a
+          background: none
+          &:before
+            padding-right: 25px
 
-          &:hover, &.selected, &.selected + a
-            @include varprop(background, main-menu-bg-selected-background)
-            @include varprop(color, main-menu-selected-font-color)
-            font-weight: bold
-
-
-      // -------------- MAIN menu items --------------------------------
+      // -------------------- MAIN menu items ---------------------------
       > li
         .main-item-wrapper
           display: flex
@@ -88,9 +83,25 @@ $toggler-width: 40px
               > a
                 @include varprop(color, main-menu-selected-font-color)
 
-          > a:before
-            padding-right: 25px
+          > a
+            @include default-transition
+            cursor: pointer
+            text-decoration: none
 
+            &.selected, &.selected + a
+              @include varprop(background, main-menu-bg-selected-background)
+
+              &:hover
+                @include varprop(background, main-menu-bg-hover-background)
+
+            &:hover, &.selected, &.selected + a
+              @include varprop(color, main-menu-selected-font-color)
+
+            &:hover
+              @include varprop(background, main-menu-bg-hover-background)
+
+
+          // placeholder for highlighted left-item-border
           a:not(.toggler)
             @extend .small-12
 
@@ -106,20 +117,17 @@ $toggler-width: 40px
         a
           // work around due to dom manipulation on document: ready:
           // this isn't scoped to .main-item-wrapper to avoid flickering
-          padding-left: 7px
+          padding-left: 11px
         a.toggler
           // explicitly reset to zero to avoid selector precedence problems
           padding-left: 0
 
-      &:first-of-type
-        border-top: 1px solid $main-menu-item-border-color
-
-
-    // -------------- CHILD menu items --------------------------------
+    // -------------------- CHILD menu items ---------------------------
     ul.menu-children
       display: none
-      margin-top: 10px
-      margin-bottom: 10px
+      padding-top: 10px
+      padding-bottom: 10px
+      background-color: $main-menu-child-menu-bg-color
       padding: 0
       &.unattached
         border-top: 1px solid #ddd
@@ -134,14 +142,35 @@ $toggler-width: 40px
             > a
               color: $main-menu-child-selected-font-color
 
+        > a
+          @include default-transition
+          cursor: pointer
+          text-decoration: none
+
+          &.selected, &.selected + a
+            @include varprop(background, main-menu-child-bg-selected-color)
+
+
+          &:hover, &.selected, &.selected + a
+            color: $main-menu-child-selected-font-color
+
         a
-          padding-left: 54px
+          padding-left: 12px
           font-size: $main-menu-child-font-size
           line-height: $main-menu-child-item-height
           height: $main-menu-child-item-height
+          border: none
+          color: $main-menu-child-font-color
+          margin-top: 1px
 
           &:hover
+            border: none
             text-decoration: none
+            color: $main-menu-child-selected-font-color
+          &.selected
+            border: none !important
+            color: $main-menu-child-selected-font-color
+            font-weight: bold
 
   a
     text-decoration: none
@@ -162,6 +191,29 @@ $toggler-width: 40px
   .sub-menu-heading
     float: left
 
+  #toggle-project-menu
+    border: $main-menu-item-border-width solid $main-menu-item-border-color
+    height: $main-menu-item-height
+    width: $main-menu-width
+    background-color: $main-menu-bg-color
+    @include default-transition
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+    &.show
+      width: $main-menu-folded-width
+      a.navigation-toggler
+        height: 100%
+        padding: 0 10px 0 0
+        &:before
+          @extend .icon-double-arrow-right:before
+    a.navigation-toggler
+      @include default-transition
+      position: relative
+      height: $main-menu-item-height
+      text-align: right
+      padding: 0 6px 0 0
+      &:hover
+        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
   .toggle-follow
     position: absolute
     width: 140px
@@ -178,8 +230,6 @@ $toggler-width: 40px
       -ms-text-overflow: clip
     .toggler
       display: none
-
-  #menu-sidebar,
   #sidebar,
   .menu-children
     display: none
