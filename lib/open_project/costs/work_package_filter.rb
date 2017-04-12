@@ -18,7 +18,7 @@
 #++
 
 module OpenProject::Costs
-  class WorkPackageFilter < ::Queries::BaseFilter
+  class WorkPackageFilter < ::Queries::Filters::Base
 
     alias :project :context
     alias :project= :context=
