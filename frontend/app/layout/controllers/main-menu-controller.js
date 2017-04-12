@@ -34,6 +34,7 @@ module.exports = function($rootScope, $window) {
       menuList = hideSubMenuEntries();
     } else {
       showSubMenuEntries(menuList);
+      focusFirstEntry();
     }
     $rootScope.showNavigation = !$rootScope.showNavigation;
     $rootScope.$broadcast('openproject.layout.navigationToggled', $rootScope.showNavigation);
@@ -59,4 +60,13 @@ function toggleMenus(togglers) {
   togglers.each(function(index) {
     jQuery(this).trigger('click');
   });
+}
+
+function focusFirstEntry() {
+  var element = jQuery('#main-menu .main-item-wrapper > a')[0];
+  if (element)  {
+    window.setTimeout(function(){
+      element.focus();
+    }, 100);
+  }
 }
