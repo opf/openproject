@@ -74,6 +74,10 @@ export class WorkPackageDisplayField extends DisplayField {
     return this.value.href.match(/(\d+)$/)[0];
   }
 
+  public get writable():boolean {
+    return false;
+  }
+
   public get valueString() {
     return "#" + this.wpId;
   }
