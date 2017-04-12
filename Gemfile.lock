@@ -60,7 +60,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 2c5b033ccb5aa5f57aad6b18ea0ce8a37d2e5214
+  revision: b5283a02657a1e2e83ed6dcad2da30e1195d3126
   branch: dev
   specs:
     openproject-translations (6.2.0)
@@ -563,7 +563,7 @@ GEM
     uber (0.0.15)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
+    unf_ext (0.0.7.3)
     unicode-display_width (1.1.3)
     unicorn (5.3.0)
       kgio (~> 2.6)
