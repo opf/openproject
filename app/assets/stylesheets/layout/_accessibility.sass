@@ -38,5 +38,10 @@ body.accessibility-mode
   .hidden-for-accessibility
     display: none !important
 
+  &.controller-work_packages
+    #content
+      height: calc(100% - #{$breadcrumb-height})
+      padding-bottom: 0
+
 [hidden]
   display: none
