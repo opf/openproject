@@ -130,9 +130,6 @@ $toggler-width: 40px
           // explicitly reset to zero to avoid selector precedence problems
           padding-left: 0
 
-      &:first-of-type
-        border-top: 1px solid $main-menu-item-border-color
-
       // all menu items
       li
         float: none
@@ -217,6 +214,30 @@ $toggler-width: 40px
   .sub-menu-heading
     float: left
 
+  #toggle-project-menu
+    border: $main-menu-item-border-width solid $main-menu-item-border-color
+    border-left: none
+    height: $main-menu-item-height
+    width: $main-menu-width
+    background-color: $main-menu-bg-color
+    @include default-transition
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+    &.show
+      width: $main-menu-folded-width
+      a.navigation-toggler
+        height: 100%
+        padding: 0 10px 0 0
+        &:before
+          @extend .icon-double-arrow-right:before
+    a.navigation-toggler
+      @include default-transition
+      position: relative
+      height: $main-menu-item-height
+      text-align: right
+      padding: 0 6px 0 0
+      &:hover
+        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
   .toggle-follow
     position: absolute
     width: 140px
@@ -233,8 +254,6 @@ $toggler-width: 40px
       -ms-text-overflow: clip
     .toggler
       display: none
-
-  #menu-sidebar,
   #sidebar,
   .menu-children
     display: none

@@ -80,21 +80,16 @@
             padding: 0.25rem
             @include icon-font-common
 
+          + ul
+            top: $header-height-mobile
+            width: 100vw
+            box-shadow: 1px 1px 4px #cccccc
+            border: solid 1px rgba(0, 0, 0, 0.2)
+
+            li
+              max-width: none
           > img
             display: none
-
-      > ul
-        top: $header-height-mobile
-        width: 100vw
-        box-shadow: 1px 1px 4px #cccccc
-        border: solid 1px rgba(0, 0, 0, 0.2)
-
-        li
-          max-width: none
-
-    #more-menu.drop-down--modules
-      // 58 = Width of one menu item
-      right: -58px
 
   #account-nav-left
     #projects-menu

@@ -101,7 +101,14 @@ See doc/COPYRIGHT.rdoc for more details.
            class="<%= initial_classes %>"
            ng-class="{ 'hidden-navigation': !showNavigation }">
         <% if (side_displayed && show_decoration) %>
-          <div id="main-menu">
+          <div id="main-menu" ng-controller="MainMenuController as mainMenu">
+            <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
+            <div id="toggle-project-menu"
+          ng-class="{ 'show': !showNavigation }">
+              <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>"
+            ng-click="mainMenu.toggleNavigation()"
+            class="navigation-toggler icon4 icon-double-arrow-left"></a>
+            </div>
             <div id="menu-sidebar">
               <%= main_menu %>
               <%= content_for :main_menu %>
