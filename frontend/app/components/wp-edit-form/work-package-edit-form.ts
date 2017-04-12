@@ -95,6 +95,11 @@ export class WorkPackageEditForm {
         fieldName,
         schema[fieldName]
       ) as EditField;
+
+      if (!field.writable) {
+        return this.$q.reject();
+      }
+
       this.workPackage.storePristine(fieldName);
       return this.buildField(fieldName, field);
     });
@@ -185,7 +190,6 @@ export class WorkPackageEditForm {
 
     // Accumulate errors for the given response
     _.each(attributes, (fieldName:string) => {
-      // if the field does not exist, show it (e.g, add column in table)
       this.editContext.requireVisible(fieldName).then(() => {
         this.activate(fieldName);
       });
