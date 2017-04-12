@@ -40,13 +40,6 @@ import {WikiTextareaEditField} from "../field-types/wp-edit-wiki-textarea-field.
 import {WorkPackageEditField} from './../field-types/wp-edit-work-package-field.module';
 import {openprojectModule} from "../../../angular-modules";
 
-//TODO: Implement
-class DateRangeEditField extends EditField {
-}
-
-
-//TODO: See file wp-field.service.js:getInplaceEditStrategy for more eventual classes
-
 openprojectModule
   .run((wpEditField:WorkPackageEditFieldService) => {
     wpEditField.defaultType = 'text';
@@ -60,10 +53,10 @@ openprojectModule
         'User',
         'Version',
         'Category',
-        'StringObject',
+        'CustomOption',
         'Project'])
       .addFieldType(MultiSelectEditField, 'multi-select', [
-        '[]StringObject',
+        '[]CustomOption',
         '[]User'
       ])
       .addFieldType(FloatEditField, 'float', ['Float'])

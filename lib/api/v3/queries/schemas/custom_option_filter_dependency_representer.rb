@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,7 +32,7 @@ module API
   module V3
     module Queries
       module Schemas
-        class StringObjectFilterDependencyRepresenter <
+        class CustomOptionFilterDependencyRepresenter <
           FilterDependencyRepresenter
 
           schema_with_allowed_collection :values,
@@ -41,13 +42,13 @@ module API
                                          required: true,
                                          visibility: false,
                                          values_callback: ->(*) {
-                                           represented.allowed_values
+                                           represented.custom_field.custom_options
                                          },
-                                         value_representer: StringObjects::StringObjectRepresenter,
+                                         value_representer: CustomOptions::CustomOptionRepresenter,
                                          link_factory: ->(value) {
                                            {
-                                             href: api_v3_paths.string_object(value),
-                                             title: value
+                                             href: api_v3_paths.custom_option(value),
+                                             title: value.to_s
                                            }
                                          },
                                          show_if: ->(*) {
@@ -57,7 +58,7 @@ module API
           private
 
           def type
-            '[]StringObject'
+            '[]CustomOption'
           end
         end
       end

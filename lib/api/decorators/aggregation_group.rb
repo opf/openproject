@@ -35,7 +35,7 @@ module API
         @sums = sums
         @query = query
 
-        group_key = set_links!(query, group_key) || group_key
+        group_key = set_links!(group_key) || group_key
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
@@ -92,35 +92,20 @@ module API
                   :query
 
       ##
-      # Initializes the links collection for this group if the query is being grouped by
-      # a multi value custom field. In that case an updated group_key is returned too.
+      # Initializes the links collection for this group if the group has multiple keys
       #
       # @return [String] A new group key for the multi value custom field.
-      def set_links!(query, group_key)
-        if multi_value_custom_field? query
-          options = link_options query, group_key
-
-          if options
-            @links = options.map do |opt|
-              {
-                href: ::API::V3::Utilities::ResourceLinkGenerator.make_link(opt.id.to_s),
-                title: opt.value
-              }
-            end
-
-            options.map(&:value).join(", ")
+      def set_links!(group_key)
+        if group_key.is_a?(Array)
+          @links = group_key.map do |opt|
+            {
+              href: ::API::V3::Utilities::ResourceLinkGenerator.make_link(opt),
+              title: opt.to_s
+            }
           end
+
+          group_key.map(&:name).sort.join(", ")
         end
-      end
-
-      def multi_value_custom_field?(query)
-        column = query.group_by_column
-
-        column.is_a?(QueryCustomFieldColumn) && column.custom_field.multi_value?
-      end
-
-      def link_options(query, group_key)
-        query.group_by_column.custom_field.custom_options.where(id: group_key.to_s.split("."))
       end
 
       def value

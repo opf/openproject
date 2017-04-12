@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {StringObjectsDisplayField} from "./wp-display-string-objects-field.module";
+import {ResourcesDisplayField} from "./wp-display-resources-field.module";
 
-export class MultipleLinesStringObjectsDisplayField extends StringObjectsDisplayField {
+export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-multiple-lines-string-objects-field.directive.html';
 }

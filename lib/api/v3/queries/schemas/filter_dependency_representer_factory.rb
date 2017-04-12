@@ -84,7 +84,7 @@ module API
 
             case format
             when 'list'
-              'API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter'
+              'API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter'
             when 'bool'
               'API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
             when 'user', 'version', 'float'

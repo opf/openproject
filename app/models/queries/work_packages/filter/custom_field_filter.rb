@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -119,7 +120,7 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     when 'version'
       Version.find(values)
     when 'list'
-      value_objects_for_list
+      custom_field.custom_options.find(values)
     else
       super
     end
@@ -182,35 +183,11 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
          .map(&:id).include? custom_field.id
   end
 
-  def value_objects_for_list
-    objects = allowed_values.select do |value|
-      values.include? value.last.to_s
-    end
-
-    objects.map do |value|
-      Queries::StringObject.new(value.last, value.first)
-    end
-  end
-
   def strategies
     strategies = Queries::Filters::STRATEGIES.dup
     strategies[:list_optional] = Queries::Filters::Strategies::CfListOptional
     strategies[:integer] = Queries::Filters::Strategies::CfInteger
 
     strategies
-  end
-end
-
-#
-# This object is only used to transport the values tothe query filter instance
-# representer which expects a class and deduces the path from the classes' name.
-#
-class Queries::StringObject
-  attr_accessor :id,
-                :name
-
-  def initialize(id, name)
-    self.id = [name, id]
-    self.name = name
   end
 end

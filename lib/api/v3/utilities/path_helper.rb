@@ -107,6 +107,10 @@ module API
             "#{work_packages_by_project(project_id)}/form"
           end
 
+          def self.custom_option(id)
+            "#{root}/custom_options/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
           end
@@ -262,18 +266,9 @@ module API
             "#{statuses}/#{id}"
           end
 
-          ##
-          # Accepts either a single value or a [value, title] tuple (array)
-          # and returns an URL to a string object for it.
           def self.string_object(value)
-            val, title = Array(value).reverse.map { |v| ::ERB::Util::url_encode(v) }
-            path = "#{root}/string_objects?value=#{val}"
-
-            if title
-              "#{path}&title=#{title}"
-            else
-              path
-            end
+            val = ::ERB::Util::url_encode(value)
+            "#{root}/string_objects?value=#{val}"
           end
 
           def self.types

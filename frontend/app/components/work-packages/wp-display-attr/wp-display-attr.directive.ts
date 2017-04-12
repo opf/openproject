@@ -109,7 +109,8 @@ export class WorkPackageDisplayAttributeController {
   protected updateAttribute(wp:WorkPackageResourceInterface) {
     this.workPackage = wp;
 
-    if (this.schema[this.attribute] && (this.schema[this.attribute].type === '[]StringObject' || this.schema[this.attribute].type === '[]User')) {
+    if (this.schema[this.attribute] && (this.schema[this.attribute].type === '[]CustomOption' ||
+                                        this.schema[this.attribute].type === '[]User')) {
       this.field = new MultipleLinesStringObjectsDisplayField(this.workPackage, this.attribute, this.schema[this.attribute])
     } else {
       this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;

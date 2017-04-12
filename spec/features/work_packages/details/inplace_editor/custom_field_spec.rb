@@ -86,7 +86,6 @@ describe 'custom field inplace editor', js: true do
                     message: I18n.t('js.notice_successful_update'),
                     field: field1
 
-
       field2.activate!
       expect_update 'Y',
                     message: I18n.t('js.notice_successful_update'),
@@ -96,11 +95,11 @@ describe 'custom field inplace editor', js: true do
                                 customField2: 'Y'
 
       field1.activate!
-      field1.expect_value("/api/v3/string_objects?value=#{custom_value('bar')}&title=bar")
+      field1.expect_value("/api/v3/custom_options/#{custom_value('bar')}")
       field1.cancel_by_escape
 
       field2.activate!
-      field2.expect_value("/api/v3/string_objects?value=#{custom_value('Y')}&title=Y")
+      field2.expect_value("/api/v3/custom_options/#{custom_value('Y')}")
       expect_update 'X',
                     message: I18n.t('js.notice_successful_update'),
                     field: field2

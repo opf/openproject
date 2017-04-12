@@ -366,9 +366,12 @@ describe Query, type: :model do
     q = Query.new(name: '_', group_by: 'cf_1')
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
-    assert_equal %w(NilClass String), count_by_group.keys.map { |k| k.class.name }.uniq.sort
+    expect(count_by_group.keys.map { |k| k.class.name }.uniq)
+      .to match_array(%w(CustomOption NilClass))
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
-    assert count_by_group.has_key?('1')
+    puts count_by_group
+    expect(count_by_group.any? { |k, v| k.is_a?(CustomOption) && k.id == 1 && v == 1 })
+      .to be_truthy
   end
 
   it 'should issue count by date custom field group' do

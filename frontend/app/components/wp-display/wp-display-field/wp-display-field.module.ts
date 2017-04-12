@@ -36,6 +36,7 @@ export class DisplayField extends Field {
   public static $injector: ng.auto.IInjectorService;
   public template:string|null = null;
   public I18n: op.I18n;
+  public mode:string|null = null;
 
   public get value() {
     if (this.schema) {

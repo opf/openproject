@@ -833,21 +833,19 @@ describe 'API v3 Work package resource', type: :request do
       end
 
       context 'list custom field' do
-        let(:custom_field) {
-          FactoryGirl.create(:work_package_custom_field,
-                             field_format: 'list',
-                             is_required: false,
-                             possible_values: [target_value])
-        }
-        let(:target_value) { 'Low No. of specialc#aracters!' }
-
-        let(:value_link) do
-          api_v3_paths.string_object [target_value, custom_field.custom_options.first.id]
+        let(:custom_field) do
+          FactoryGirl.create(:list_wp_custom_field)
         end
 
-        let(:value_parameter) {
+        let(:target_value) { custom_field.possible_values.last }
+
+        let(:value_link) do
+          api_v3_paths.custom_option target_value.id
+        end
+
+        let(:value_parameter) do
           { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
-        }
+        end
         let(:params) { valid_params.merge(value_parameter) }
 
         before do

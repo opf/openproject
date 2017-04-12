@@ -155,7 +155,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         allow(schema)
           .to receive(:assignable_custom_field_values)
           .with(custom_field)
-          .and_return(custom_field.possible_values.map { |co| [co.value, co.id] })
+          .and_return(custom_field.possible_values)
       end
 
       let(:custom_field) do
@@ -170,7 +170,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'has basic schema properties' do
         let(:path) { cf_path }
-        let(:type) { 'StringObject' }
+        let(:type) { 'CustomOption' }
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
@@ -180,7 +180,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:path) { cf_path }
         let(:hrefs) do
           custom_field.possible_values.map do |value|
-            api_v3_paths.string_object([value.value, value.id])
+            api_v3_paths.custom_option(value.id)
           end
         end
       end
@@ -297,18 +297,21 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
 
     context 'list custom field' do
-      let(:value) { 'Foobar' }
-      let(:raw_value) { value }
+      let(:value) { FactoryGirl.build_stubbed(:custom_option) }
+      let(:typed_value) { value.value }
+      let(:raw_value) { value.id.to_s }
       let(:field_format) { 'list' }
 
       it_behaves_like 'has a titled link' do
         let(:link) { cf_path }
-        let(:href) { "/api/v3/string_objects?value=#{raw_value}&title=#{value}" }
-        let(:title) { value }
+        let(:href) { api_v3_paths.custom_option(value.id) }
+        let(:title) { value.value }
       end
 
       context 'value is nil' do
         let(:value) { nil }
+        let(:raw_value) { '' }
+        let(:typed_value) { '' }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }

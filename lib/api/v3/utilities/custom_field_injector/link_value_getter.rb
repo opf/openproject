@@ -59,11 +59,10 @@ module API
               Array(represented.custom_value_for(custom_field)).flat_map do |custom_value|
                 if custom_value && custom_value.value.present?
                   title = link_value_title(custom_value)
-                  params = link_value_params(title, custom_field, custom_value)
 
                   [{
                     title: title,
-                    href: api_v3_paths.send(path_method, params)
+                    href: api_v3_paths.send(path_method, custom_value.value)
                   }]
                 else
                   []
@@ -79,17 +78,8 @@ module API
               end
             end
 
-            def link_value_params(title, custom_field, custom_value)
-              if custom_field.list?
-                # list custom_fields values use string objects which support and need titles
-                [title, custom_value.value]
-              else
-                custom_value.value
-              end
-            end
-
             ##
-            # While multi value custom fields are expected to simpl return an empty array
+            # While multi value custom fields are expected to simply return an empty array
             # if they have no value a normal single value custom field is expected by
             # the frontend to return a single element with a null href and title.
             def single_empty_value

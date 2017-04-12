@@ -40,7 +40,7 @@ module API
           'bool' => 'Boolean',
           'user' => 'User',
           'version' => 'Version',
-          'list' => 'StringObject'
+          'list' => 'CustomOption'
         }.freeze
 
         LINK_FORMATS = ['list', 'user', 'version'].freeze
@@ -48,19 +48,19 @@ module API
         PATH_METHOD_MAP = {
           'user' => :user,
           'version' => :version,
-          'list' => :string_object
+          'list' => :custom_option
         }.freeze
 
         NAMESPACE_MAP = {
           'user' => 'users',
           'version' => 'versions',
-          'list' => 'string_objects'
+          'list' => 'custom_options'
         }.freeze
 
         REPRESENTER_MAP = {
           'user' => Users::UserRepresenter,
           'version' => Versions::VersionRepresenter,
-          'list' => StringObjects::StringObjectRepresenter
+          'list' => CustomOptions::CustomOptionRepresenter
         }.freeze
 
         class << self
@@ -182,14 +182,14 @@ module API
 
           @class.schema_with_allowed_collection property_name(custom_field.id),
                                                 type: 'Version',
-                                                name_source: -> (*) { custom_field.name },
-                                                values_callback: -> (*) {
+                                                name_source: ->(*) { custom_field.name },
+                                                values_callback: ->(*) {
                                                   customized
                                                     .assignable_custom_field_values(custom_field)
                                                 },
                                                 writable: true,
                                                 value_representer: Versions::VersionRepresenter,
-                                                link_factory: -> (version) {
+                                                link_factory: ->(version) {
                                                   {
                                                     href: api_v3_paths.version(version.id),
                                                     title: version.name
@@ -216,16 +216,14 @@ module API
         end
 
         def inject_list_schema(custom_field, customized)
-          representer = StringObjects::StringObjectRepresenter
-          type = custom_field.multi_value ? "[]StringObject" : "StringObject"
+          representer = CustomOptions::CustomOptionRepresenter
+          type = custom_field.multi_value ? "[]CustomOption" : "CustomOption"
           name_source = ->(*) { custom_field.name }
           values_callback = ->(*) { customized.assignable_custom_field_values(custom_field) }
           link_factory = ->(value) do
-            # allow both single values and tuples for
-            # custom titles
             {
-              href: api_v3_paths.string_object(value),
-              title: Array(value).first
+              href: api_v3_paths.custom_option(value.id),
+              title: value.to_s
             }
           end
 

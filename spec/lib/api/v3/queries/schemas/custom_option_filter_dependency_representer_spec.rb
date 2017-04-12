@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter do
+describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
@@ -52,10 +52,10 @@ describe ::API::V3::Queries::Schemas::StringObjectFilterDependencyRepresenter do
     context 'properties' do
       describe 'values' do
         let(:path) { 'values' }
-        let(:type) { '[]StringObject' }
+        let(:type) { '[]CustomOption' }
         let(:hrefs) do
-          filter.allowed_values.each_with_object([]) do |value, array|
-            array << api_v3_paths.string_object(value)
+          custom_field.custom_options.map do |value|
+            api_v3_paths.custom_option(value)
           end
         end
 
