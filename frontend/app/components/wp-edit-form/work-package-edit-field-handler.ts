@@ -85,7 +85,7 @@ export class WorkPackageEditFieldHandler {
   }
 
   public focus() {
-    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field'), true);
+    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field'), 2);
   }
 
   public setErrors(newErrors:string[]) {
