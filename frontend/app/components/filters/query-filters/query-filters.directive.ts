@@ -62,6 +62,7 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
               let newFilter = scope.filters.add(filter);
               var index = currentFilterLength();
               updateFilterFocus(index);
+              updateRemainingFilters();
 
               if (newFilter.isCompletelyDefined()) {
                 wpTableFilters.replace(scope.filters);
