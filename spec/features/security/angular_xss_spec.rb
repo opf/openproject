@@ -131,8 +131,6 @@ describe 'Angular expression escaping', type: :feature do
       expect(preview.text).to match /\{\{[\s\w]+\}\}/
 
       btn_cancel.click
-      page.driver.browser.switch_to.alert.accept
-      expect(page).to have_no_selector('#content_text')
     end
   end
 

@@ -68,10 +68,19 @@ describe 'Cancel editing work package', js: true do
     expect(page).to have_selector('h2', text: 'OpenProject')
   end
 
-  it 'shows an alert when moving to other pages' do
+  it 'does not show an alert when moving to other pages' do
+    # This used to show an alert until browsers dropped support
+    # for `onbeforeunload`.
+    #
+    # We want to find a way how to to regain that possibility
+    # at some later point in time. Until then we keep that block
+    # and only flip
+    #   move_to_home_page(alert: true)
+    # to
+    #  move_to_home_page(alert: false)
     paths.each do |path|
       expect_active_edit(path)
-      move_to_home_page
+      move_to_home_page(alert: false)
     end
   end
 
@@ -85,9 +94,6 @@ describe 'Cancel editing work package', js: true do
 
     expect(page).to have_selector('.wp-edit-field.subject.-active')
     expect(wp_page).not_to have_alert_dialog
-
-    # Actually move somewhere to accept the beforeunload
-    move_to_home_page
   end
 
   it 'cancels the editing when clicking the button' do
