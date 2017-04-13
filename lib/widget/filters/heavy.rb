@@ -33,6 +33,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
     opts = Array(values).empty? ? [] : values.map { |i| filter_class.label_for_value(i.to_i) }
     div = content_tag :div, id: "#{filter_class.underscore_name}_arg_1", class: 'advanced-filters--filter-value hidden' do
       select_options = {  :"data-remote-url" => url_for(action: 'available_values'),
+                          :"data-initially-selected" => JSON::dump(Array(filter.values).flatten),
                           name: "values[#{filter_class.underscore_name}][]",
                           :"data-loading" => '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
