@@ -58,9 +58,7 @@ function queryFilterDirective($animate:any,
       });
 
       function putStateIfComplete() {
-        if (scope.filter.isCompletelyDefined()) {
-          wpTableFilters.replace(scope.filters);
-        }
+        wpTableFilters.replaceIfComplete(scope.filters);
       }
     }
   };
