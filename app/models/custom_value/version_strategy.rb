@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,32 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::VersionStrategy < CustomValue::FormatStrategy
-  def typed_value
-    return memoized_typed_value if memoized_typed_value
+class CustomValue::VersionStrategy < CustomValue::ARObjectStrategy
+  private
 
-    unless value.blank?
-      RequestStore.fetch(:"version_custom_value_#{value}") do
-        Version.find_by(id: value)
-      end
-    end
+  def ar_class
+    Version
   end
 
-  def parse_value(val)
-    if val.is_a?(Version)
-      self.memoized_typed_value = val
-
-      val.id.to_s
-    elsif val.blank?
-      super(nil)
-    else
-      super
-    end
-  end
-
-  def validate_type_of_value
-    unless custom_field.possible_values(custom_value.customized).include?(value)
-      :inclusion
-    end
+  def ar_object(value)
+    Version.find_by(id: value)
   end
 end

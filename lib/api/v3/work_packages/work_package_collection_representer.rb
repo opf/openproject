@@ -190,6 +190,7 @@ module API
           eager_load_ancestry(wps, ids_in_order)
           eager_load_user_custom_values(wps)
           eager_load_version_custom_values(wps)
+          eager_load_list_custom_values(wps)
 
           wps.sort_by { |wp| ids_in_order.index(wp.id) }
         end
@@ -210,14 +211,19 @@ module API
           eager_load_custom_values work_packages, 'version', Version
         end
 
+        def eager_load_list_custom_values(work_packages)
+          eager_load_custom_values work_packages, 'list', CustomOption
+        end
+
         def eager_load_custom_values(work_packages, field_format, scope)
           cvs = custom_values_of(work_packages, field_format)
 
-          ids_of_values = cvs.map(&:value)
+          ids_of_values = cvs.map(&:value).select { |v| v =~ /\A\d+\z/ }
 
           values_by_id = scope.find(ids_of_values).group_by(&:id)
 
           cvs.each do |cv|
+            next unless values_by_id[cv.value.to_i]
             cv.value = values_by_id[cv.value.to_i].first
           end
         end

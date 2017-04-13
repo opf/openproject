@@ -29,31 +29,63 @@
 require 'spec_helper'
 
 describe CustomValue::ListStrategy do
-  let(:custom_field) { FactoryGirl.create :list_wp_custom_field, possible_values: ["foo", "bar"] }
+  let(:custom_field) { FactoryGirl.create :list_wp_custom_field }
   let(:custom_value) do
     double("CustomField", value: value, custom_field: custom_field, customized: customized)
   end
 
   let(:customized) { double('customized') }
 
-  let(:foo_value) { custom_field.custom_options.first.id.to_s }
+  describe '#parse_value/#typed_value' do
+    subject { described_class.new(custom_value) }
 
-  describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
+    context 'with a CustomOption' do
+      let(:value) { custom_field.custom_options.first }
 
-    context 'value is some string' do
-      let(:value) { foo_value }
-      it { is_expected.to eql("foo") }
+      it 'returns the CustomOption and sets it for later retrieval' do
+        expect(CustomOption)
+          .to_not receive(:where)
+
+        expect(subject.parse_value(value)).to eql value.id.to_s
+
+        expect(subject.typed_value).to eql value.value
+      end
+    end
+
+    context 'with an id string' do
+      let(:value) { custom_field.custom_options.first.id.to_s }
+
+      it 'returns the string and has to later find the CustoOption' do
+        expect(subject.parse_value(value)).to eql value
+
+        expect(subject.typed_value).to eql custom_field.custom_options.first.value
+      end
     end
 
     context 'value is blank' do
       let(:value) { '' }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the CustomOption' do
+        expect(CustomOption)
+          .to_not receive(:where)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
 
     context 'value is nil' do
       let(:value) { nil }
-      it { is_expected.to be_nil }
+
+      it 'is nil and does not look for the CustomOption' do
+        expect(CustomOption)
+          .to_not receive(:where)
+
+        expect(subject.parse_value(value)).to be_nil
+
+        expect(subject.typed_value).to be_nil
+      end
     end
   end
 
@@ -61,7 +93,8 @@ describe CustomValue::ListStrategy do
     subject { described_class.new(custom_value).validate_type_of_value }
 
     context 'value is included' do
-      let(:value) { foo_value }
+      let(:value) { custom_field.custom_options.first.id.to_s }
+
       it 'accepts' do
         is_expected.to be_nil
       end
