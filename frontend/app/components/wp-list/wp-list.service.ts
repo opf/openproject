@@ -1,4 +1,3 @@
-import { WorkPackageTableHierarchiesService } from './../wp-fast-table/state/wp-table-hierarchy.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -50,6 +49,7 @@ import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.se
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageTableTimelineService} from './../wp-fast-table/state/wp-table-timeline.service';
+import { WorkPackageTableHierarchiesService } from './../wp-fast-table/state/wp-table-hierarchy.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,

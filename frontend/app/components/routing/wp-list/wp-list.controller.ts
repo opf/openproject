@@ -182,9 +182,9 @@ function WorkPackagesListController($scope:any,
     }
   }
 
-  $scope.allowed = function(model:string, permission: string) {
+  $scope.allowed = function(model:string, permission:string) {
     return AuthorisationService.can(model, permission);
-  }
+  };
 
   initialSetup();
 
@@ -209,7 +209,7 @@ function WorkPackagesListController($scope:any,
 
       wpListChecksumService.executeIfOutdated(newId,
                                               newChecksum,
-                                              loadQuery)
+                                              loadQuery);
     });
 
   // The combineLatest retains the last value of each observable regardless of
