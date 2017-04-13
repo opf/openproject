@@ -8,8 +8,8 @@ provide any official support for them.
 
 ### Hardware
 
-* __Memory:__ 512 MB (1024 recommended)
-* __Free disc space:__ 300 MB (4096 recommended)
+* __Memory:__ 768 MB (1GB recommended)
+* __Free disk space:__ at least 400 MB (1GB recommended)
 
 ### Operating system
 
