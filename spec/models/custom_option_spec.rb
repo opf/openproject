@@ -1,14 +1,12 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,19 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# A custom option is a possible value for a given custom field
-# which is restricted to a set of specific values.
-class CustomOption < ActiveRecord::Base
-  acts_as_list
+require 'spec_helper'
 
-  belongs_to :custom_field, touch: true
+describe CustomField, type: :model do
+  let(:custom_field) { FactoryGirl.create(:list_wp_custom_field) }
+  let(:custom_option) { custom_field.custom_options.first }
 
-  validates :value, presence: true, length: { maximum: 255 }
-
-  def to_s
-    value
+  describe 'saving' do
+    it "updates the custom_field's timestamp" do
+      timestamp_before = custom_field.updated_at
+      sleep 1
+      custom_option.touch
+      expect(custom_field.reload.updated_at).not_to eql(timestamp_before)
+    end
   end
-
-  alias :name :to_s
 end
