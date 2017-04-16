@@ -34,6 +34,7 @@ class ActivitiesController < ApplicationController
 
   def index
     @days = Setting.activity_days_default.to_i
+    @event_limit = Setting.activity_events_default.to_i
 
     if params[:from]
       begin; @date_to = params[:from].to_date + 1; rescue; end
@@ -50,7 +51,7 @@ class ActivitiesController < ApplicationController
 
     set_activity_scope
 
-    events = @activity.events(@date_from, @date_to)
+    events = @activity.events(@date_from, @date_to, {limit: @event_limit})
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
     if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
