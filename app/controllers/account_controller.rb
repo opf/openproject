@@ -222,6 +222,8 @@ class AccountController < ApplicationController
     redirect_to signin_path(username: user.login)
   end
 
+
+
   # Process a password change form, used when the user is forced
   # to change the password.
   # When making changes here, also check MyController.change_password
