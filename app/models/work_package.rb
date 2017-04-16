@@ -288,6 +288,14 @@ class WorkPackage < ActiveRecord::Base
       end
     self.status = work_package.status
 
+    # when duplicating a work package we want to have it behave just like the original.
+    # why? some code in this beautiful project makes decisions based on AR's dirty
+    # attributes feature which breaks the copy due to validation errors.
+    # this ensures that the *_was values are set exactly like in the original.
+    changed.each do |attribute|
+      changed_attributes[attribute] = work_package.attributes[attribute]
+    end
+
     work_package.watchers.each do |watcher|
       # This might be a problem once this method is used on existing work packages
       # then, the watchers are added, keeping preexisting watchers
