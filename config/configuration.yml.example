@@ -151,7 +151,20 @@
 #     - 'statuses'
 #     - 'types'
 #     - 'admin/roles'
-
+#
+# User is provided with posibility to stylized the error pages
+# to do this add following configuration as array in yml format:
+#
+# production:
+#   multitenancy:
+#     styling:
+#       error_layout:
+#         url: https://openproject.yopeso.com/error-404
+#         minimum_length: 3000
+#         read_options:
+#           read_timeout: 8 # seconds
+#           ssl_verify_mode: 0
+#         place_holder: <div id="op-sass-content"></div>
 
 # default configuration options for all environments
 default:
