@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'sys/filesystem'
 module OpenProject
   module Storage
     class << self
@@ -85,7 +84,7 @@ module OpenProject
       end
 
       def read_fs_info(dir)
-        stat = Sys::Filesystem.stat(dir)
+        stat = ::Sys::Filesystem.stat(dir)
 
         {
           dir: dir,

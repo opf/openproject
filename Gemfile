@@ -79,7 +79,7 @@ gem 'date_validator', '~> 0.9.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
-gem 'sys-filesystem', '~> 1.1.4', require: false
+gem 'sys-filesystem', '~> 1.1.4'
 
 gem 'bcrypt', '~> 3.1.6'
 
