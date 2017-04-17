@@ -18,9 +18,11 @@ following workflow:
 
     npm install
     npm shrinkwrap
-    ./scripts/clean-shrinkwrap.js
 
 Please commit `npm-shrinkwrap.json` along with any changes to `package.json`.
+
+If you want to install single packages, you can alternatively use `npm install --save <package>`.
+The `shrinkwrap.json` should be updated automatically.
 
 ## Topics
 
