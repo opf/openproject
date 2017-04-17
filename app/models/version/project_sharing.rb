@@ -120,7 +120,7 @@ module Version::ProjectSharing
     when 'hierarchy'
       project_sharing_hierarchy_join_condition(sharing_table, projects_table)
     when 'system'
-      Arel::Nodes::True.new
+      '1=1'
     else
       sharing_table[:id].eq(projects_table[:id])
     end
