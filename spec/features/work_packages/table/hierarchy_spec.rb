@@ -18,6 +18,7 @@ describe 'Work Package table hierarchy', js: true do
     query.column_names = ['subject', 'category']
     query.filters.clear
     query.add_filter('category_id', '=', [category.id])
+    query.show_hierarchies = true
 
     query.save!
     query
