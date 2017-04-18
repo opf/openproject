@@ -18,11 +18,9 @@ describe 'Zen mode', js: true do
   let(:project) { FactoryGirl.create(:project, types: [type]) }
 
   let(:work_package) {
-    work_package = FactoryGirl.create :work_package,
-                                      project: project,
-                                      type: type,
-                                      created_at: 5.days.ago.to_date.to_s(:db)
+    FactoryGirl.create :work_package, project: project, type: type
   }
+
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:status_from) { work_package.status }
