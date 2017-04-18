@@ -33,7 +33,7 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
   public iconClass:string = 'icon-zen-mode';
 
-  public inZenMode:boolean = false;
+  static inZenMode:boolean = false;
 
   private activateLabel:string;
   private deactivateLabel:string;
@@ -58,17 +58,17 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   }
 
   public isActive():boolean {
-    return this.inZenMode;
+    return WorkPackageZenModeButtonController.inZenMode;
   }
 
   public performAction() {
-    if (this.inZenMode) {
+    if (WorkPackageZenModeButtonController.inZenMode) {
       // deactivate Zen Mode
-      this.inZenMode = false;
+      WorkPackageZenModeButtonController.inZenMode = false;
       angular.element('body').removeClass('zen-mode');
     } else {
       // activate Zen Mode
-      this.inZenMode = true;
+      WorkPackageZenModeButtonController.inZenMode = true;
       angular.element('body').addClass('zen-mode');
     }
   }
