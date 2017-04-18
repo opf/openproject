@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,9 @@ module API
         @sums = sums
         @query = query
 
-        group_key = set_links!(group_key) || group_key
+        if group_key.is_a?(Array)
+          group_key = set_links!(group_key)
+        end
 
         @link = ::API::V3::Utilities::ResourceLinkGenerator.make_link(group_key)
 
@@ -67,12 +70,12 @@ module API
 
       property :count,
                exec_context: :decorator,
-               getter: -> (*) { count },
+               getter: ->(*) { count },
                render_nil: true
 
       property :sums,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(sums) if sums
                },
                render_nil: false
@@ -96,14 +99,16 @@ module API
       #
       # @return [String] A new group key for the multi value custom field.
       def set_links!(group_key)
-        if group_key.is_a?(Array)
-          @links = group_key.map do |opt|
-            {
-              href: ::API::V3::Utilities::ResourceLinkGenerator.make_link(opt),
-              title: opt.to_s
-            }
-          end
+        @links = group_key.map do |opt|
+          {
+            href: ::API::V3::Utilities::ResourceLinkGenerator.make_link(opt),
+            title: opt.to_s
+          }
+        end
 
+        if group_key.empty?
+          nil
+        else
           group_key.map(&:name).sort.join(", ")
         end
       end
