@@ -294,7 +294,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     it 'is list_optional for a list' do
       instance.name = "cf_#{list_wp_custom_field.id}"
       expect(instance.allowed_values)
-        .to match_array list_wp_custom_field.custom_options.map { |co| [co.value, co.id] }
+        .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id] })
     end
 
     it 'is list_optional for a user' do
@@ -394,8 +394,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
   end
 
-  describe '#ar_object_filter? / #value_objects' do
-    context 'list cf' do
+  context 'list cf' do
+    describe '#ar_object_filter? / #value_objects' do
       let(:custom_field) { list_wp_custom_field }
 
       describe '#ar_object_filter?' do
@@ -415,6 +415,14 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           expect(instance.value_objects)
             .to match_array([custom_field.custom_options.last,
                              custom_field.custom_options.first])
+        end
+
+        it 'ignores invalid values' do
+          instance.values = ['invalid',
+                             custom_field.custom_options.last.id]
+
+          expect(instance.value_objects)
+            .to match_array([custom_field.custom_options.last])
         end
       end
     end
@@ -459,8 +467,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
         before do
           allow(User)
-            .to receive(:find)
-            .with([user1.id.to_s, user2.id.to_s])
+            .to receive(:where)
+            .with(id: [user1.id.to_s, user2.id.to_s])
             .and_return([user1, user2])
 
           instance.values = [user1.id.to_s, user2.id.to_s]
@@ -489,8 +497,8 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
 
         before do
           allow(Version)
-            .to receive(:find)
-            .with([version1.id.to_s, version2.id.to_s])
+            .to receive(:where)
+            .with(id: [version1.id.to_s, version2.id.to_s])
             .and_return([version1, version2])
 
           instance.values = [version1.id.to_s, version2.id.to_s]
