@@ -53,6 +53,8 @@ require('angular-modal/modal.min.js');
 require('angular-sanitize/angular-sanitize.min.js');
 require('angular-truncate/src/truncate.js');
 require('angular-ui-router/release/angular-ui-router.min.js');
+// Load the deprecated stateChange* events
+require('angular-ui-router/release/stateEvents.min.js');
 require('ng-file-upload/dist/ng-file-upload.min.js');
 
 // Jquery UI
