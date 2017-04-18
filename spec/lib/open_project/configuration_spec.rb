@@ -192,7 +192,87 @@ describe OpenProject::Configuration do
     end
   end
 
-  describe '.configure_action_mailer' do
+  describe '.migrate_mailer_configuration!' do
+    after do
+      # reset this setting value
+      Setting[:email_delivery_method] = nil
+      # reload configuration to isolate specs
+      OpenProject::Configuration.load
+    end
+
+    it 'does nothing if no legacy configuration given' do
+      OpenProject::Configuration['email_delivery_method'] = nil
+      expect(Setting).to_not receive(:email_delivery_method=)
+      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+    end
+
+    it 'does nothing if setting already set' do
+      OpenProject::Configuration['email_delivery_method'] = :sendmail
+      Setting.email_delivery_method = :sendmail
+      expect(Setting).to_not receive(:email_delivery_method=)
+      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+    end
+
+    it 'migrates the existing configuration to the settings table' do
+      OpenProject::Configuration['email_delivery_method'] = :smtp
+      OpenProject::Configuration['smtp_password'] = "p4ssw0rd"
+      OpenProject::Configuration['smtp_address'] = "smtp.example.com"
+      OpenProject::Configuration['smtp_port'] = 587
+      OpenProject::Configuration['smtp_user_name'] = "username"
+      OpenProject::Configuration['smtp_enable_starttls_auto'] = true
+
+      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+      expect(Setting.email_delivery_method).to eq(:smtp)
+      expect(Setting.smtp_password).to eq("p4ssw0rd")
+      expect(Setting.smtp_address).to eq("smtp.example.com")
+      expect(Setting.smtp_port).to eq(587)
+      expect(Setting.smtp_user_name).to eq("username")
+      expect(Setting.smtp_enable_starttls_auto?).to eq(true)
+    end
+  end
+
+  describe '.reload_mailer_configuration!' do
+    let(:action_mailer) { double('ActionMailer::Base', smtp_settings: {}) }
+
+    before do
+      stub_const('ActionMailer::Base', action_mailer)
+    end
+
+    after do
+      # reload configuration to isolate specs
+      OpenProject::Configuration.load
+    end
+
+    it 'uses the legacy method to configure email settings if email_delivery_configuration is set to legacy' do
+      OpenProject::Configuration['email_delivery_configuration'] = 'legacy'
+      expect(OpenProject::Configuration).to receive(:configure_legacy_action_mailer)
+      OpenProject::Configuration.reload_mailer_configuration!
+    end
+
+    it 'correctly sets the action mailer configuration based on the settings' do
+      Setting.email_delivery_method = :smtp
+      Setting.smtp_password = "p4ssw0rd"
+      Setting.smtp_address = "smtp.example.com"
+      Setting.smtp_port = 587
+      Setting.smtp_user_name = "username"
+      Setting.smtp_enable_starttls_auto = 1
+
+      expect(action_mailer).to receive(:perform_deliveries=).with(true)
+      expect(action_mailer).to receive(:delivery_method=).with(:smtp)
+      OpenProject::Configuration.reload_mailer_configuration!
+      expect(action_mailer.smtp_settings).to eq({
+        address: "smtp.example.com",
+        port: 587,
+        domain: "example.com",
+        authentication: "plain",
+        user_name: "username",
+        password: "p4ssw0rd",
+        enable_starttls_auto: true
+      })
+    end
+  end
+
+  describe '.configure_legacy_action_mailer' do
     let(:action_mailer) { double('ActionMailer::Base') }
     let(:config) {
       { 'email_delivery_method' => 'smtp',
@@ -209,7 +289,7 @@ describe OpenProject::Configuration do
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
       expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
                                                              port: '25')
-      OpenProject::Configuration.send(:configure_action_mailer, config)
+      OpenProject::Configuration.send(:configure_legacy_action_mailer, config)
     end
   end
 

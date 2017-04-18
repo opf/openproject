@@ -256,8 +256,9 @@ describe Repository::Subversion, type: :model do
         expect(c.format_identifier).to eq(c.revision)
       end
 
-      it 'should log encoding ignore setting' do
-        with_settings commit_logs_encoding: 'windows-1252' do
+      context 'with windows-1252 encoding',
+              with_settings: { commit_logs_encoding: %w(windows-1252) } do
+        it 'should log encoding ignore setting' do
           s1 = "\xC2\x80"
           s2 = "\xc3\x82\xc2\x80"
           if s1.respond_to?(:force_encoding)

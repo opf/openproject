@@ -33,20 +33,22 @@ describe UserPassword, type: :model do
   let(:password) { FactoryGirl.create(:user_password) }
 
   describe '#expired?' do
-    it 'should be true for an old password when password expiry is activated' do
-      with_settings password_days_valid: 30 do
+    context 'with expiry value set',
+            with_settings: { password_days_valid: 30 } do
+
+      it 'should be true for an old password when password expiry is activated' do
         expect(old_password.expired?).to be_truthy
       end
-    end
 
-    it 'should be false when password expiry is enabled and the password was changed recently' do
-      with_settings password_days_valid: 30 do
+      it 'should be false when password expiry is enabled and the password was changed recently' do
         expect(password.expired?).to be_falsey
       end
     end
 
-    it 'should be false for an old password when password expiry is disabled' do
-      with_settings password_days_valid: 0 do
+    context 'with expiry value disabled',
+             with_settings: { password_days_valid: 0 } do
+
+      it 'should be false for an old password when password expiry is disabled' do
         expect(old_password.expired?).to be_falsey
       end
     end

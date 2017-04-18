@@ -68,15 +68,32 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
       <% end %>
     </fieldset>
+    <fieldset id="mail_configuration" class="form--fieldset"><legend class="form--fieldset-legend"><%=l(:text_setup_mail_configuration)%></legend>
+      <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch") %></div>
+      <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
+        <div class="form--field"><%= setting_text_field :smtp_address %></div>
+        <div class="form--field"><%= setting_text_field :smtp_port, size: 6 %></div>
+        <div class="form--field"><%= setting_text_field :smtp_domain %></div>
+        <div class="form--field"><%= setting_select(:smtp_authentication, [:plain, :login, :cram_md5]) %></div>
+        <div class="form--field"><%= setting_text_field :smtp_user_name %></div>
+        <div class="form--field"><%= setting_password :smtp_password %></div>
+        <div class="form--field"><%= setting_check_box :smtp_enable_starttls_auto %></div>
+      </div>
+      <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
+        <div class="form--field"><%= setting_text_field :sendmail_location %></div>
+      </div>
+    </fieldset>
+
     <%= javascript_tag do -%>
       jQuery(document).ready(function () {
         toggleEmailDecoratorFields();
+        toggleEmailSettingsFields();
       });
     <% end -%>
-    <div style="float:right;">
+    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <div style="float:none;display:inline-block;font-weight:bold;">
       <%= link_to l(:label_send_test_email), controller: '/admin', action: 'test_email' %>
     </div>
-    <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
   <% end %>
 <% else %>
   <div class="nodata">

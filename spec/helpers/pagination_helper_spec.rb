@@ -170,10 +170,11 @@ describe PaginationHelper, type: :helper do
       expect(page_param(page: page)).to eq(1)
     end
 
-    it 'should calculate page from offset and limit if page is not provided' do
-      # need to change settings as only multiples of per_page
-      # are allowed for limit
-      with_settings per_page_options: '5,10,15' do
+    context 'with multiples per_page',
+            with_settings: { per_page_options: '5,10,15' } do
+      it 'should calculate page from offset and limit if page is not provided' do
+        # need to change settings as only multiples of per_page
+        # are allowed for limit
         offset = 55
         limit = 10
 
@@ -189,8 +190,9 @@ describe PaginationHelper, type: :helper do
       expect(page_param(offset: offset, limit: limit, page: page)).to eq(page)
     end
 
-    it 'should not break if limit is bogus (also faulty settings)' do
-      with_settings per_page_options: '-1,2,3' do
+    context 'faulty settings',
+            with_settings: { per_page_options: '-1,2,3' } do
+      it 'should not break if limit is bogus (also faulty settings)' do
         offset = 55
         limit = 'lorem'
 
@@ -203,74 +205,59 @@ describe PaginationHelper, type: :helper do
     end
   end
 
-  describe '#per_page_param' do
+  describe '#per_page_param',
+            with_settings: { per_page_options: '1,2,3' } do
     it 'should return per_page if provided and one of the values stored in the settings' do
-      with_settings per_page_options: '1,2,3' do
-        per_page = 2
+      per_page = 2
 
-        expect(per_page_param(per_page: per_page)).to eq(per_page)
-      end
+      expect(per_page_param(per_page: per_page)).to eq(per_page)
     end
 
     it 'should return per_page if provided and store it in the session' do
-      with_settings per_page_options: '1,2,3' do
-        session[:per_page] = 3
-        per_page = 2
+      session[:per_page] = 3
+      per_page = 2
 
-        expect(per_page_param(per_page: per_page)).to eq(per_page)
-        expect(session[:per_page]).to eq(2)
-      end
+      expect(per_page_param(per_page: per_page)).to eq(per_page)
+      expect(session[:per_page]).to eq(2)
     end
 
     it 'should take the smallest value stored in the settings if provided per_page param is not one of the configured' do
-      with_settings per_page_options: '1,2,3' do
-        per_page = 4
+      per_page = 4
 
-        expect(per_page_param(per_page: per_page)).to eq(1)
-      end
+      expect(per_page_param(per_page: per_page)).to eq(1)
     end
 
     it 'prefers the value stored in the session if it is valid according to the settings' do
-      with_settings per_page_options: '1,2,3' do
-        session[:per_page] = 2
+      session[:per_page] = 2
 
-        expect(per_page_param(per_page: 3)).to eq(session[:per_page])
-      end
+      expect(per_page_param(per_page: 3)).to eq(session[:per_page])
     end
 
     it 'ignores the value stored in the session if it is not valid according to the settings' do
-      with_settings per_page_options: '1,2,3' do
-        session[:per_page] = 4
+      session[:per_page] = 4
 
-        expect(per_page_param(per_page: 3)).to eq(3)
-      end
+      expect(per_page_param(per_page: 3)).to eq(3)
     end
 
     it 'uses limit synonymously to per_page' do
-      with_settings per_page_options: '1,2,3' do
-        limit = 2
+      limit = 2
 
-        expect(per_page_param(limit: limit)).to eq(limit)
-      end
+      expect(per_page_param(limit: limit)).to eq(limit)
     end
 
     it 'prefers per_page over limit' do
-      with_settings per_page_options: '1,2,3' do
-        limit = 2
-        per_page = 3
+      limit = 2
+      per_page = 3
 
-        expect(per_page_param(limit: limit, per_page: per_page)).to eq(per_page)
-      end
+      expect(per_page_param(limit: limit, per_page: per_page)).to eq(per_page)
     end
 
     it 'stores the value in the session' do
-      with_settings per_page_options: '1,2,3' do
-        limit = 2
+      limit = 2
 
-        per_page_param(limit: limit)
+      per_page_param(limit: limit)
 
-        expect(session[:per_page]).to eq(limit)
-      end
+      expect(session[:per_page]).to eq(limit)
     end
   end
 end

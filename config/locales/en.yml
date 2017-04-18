@@ -1633,6 +1633,16 @@ en:
 
   search_input_placeholder: "search ..."
 
+  setting_email_delivery_method: "Email delivery method"
+  setting_sendmail_location: "Location of the sendmail executable"
+  setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
+  setting_smtp_address: "SMTP server"
+  setting_smtp_port: "SMTP port"
+  setting_smtp_authentication: "SMTP authentication"
+  setting_smtp_domain: "SMTP domain"
+  setting_smtp_user_name: "SMTP username"
+  setting_smtp_password: "SMTP password"
+  setting_smtp_domain: "SMTP HELLO domain"
   setting_activity_days_default: "Days displayed on project activity"
   setting_app_subtitle: "Application subtitle"
   setting_app_title: "Application title"
@@ -1823,6 +1833,7 @@ en:
   text_workflow_edit: "Select a role and a type to edit the workflow"
   text_zoom_in: "Zoom in"
   text_zoom_out: "Zoom out"
+  text_setup_mail_configuration: "Configure your email provider"
 
   time:
     am: "am"

@@ -36,13 +36,11 @@ describe Timeline, type: :model do
         ba = FactoryGirl.create(:user, firstname: 'b', lastname: 'a')
         t  = Timeline.new
 
-        with_settings user_format: :firstname_lastname do
-          expect(t.available_responsibles).to eq([ab, ba])
-        end
+        Setting.user_format = :firstname_lastname
+        expect(t.available_responsibles).to eq([ab, ba])
 
-        with_settings user_format: :lastname_firstname do
-          expect(t.available_responsibles).to eq([ba, ab])
-        end
+        Setting.user_format = :lastname_firstname
+        expect(t.available_responsibles).to eq([ba, ab])
       end
     end
   end

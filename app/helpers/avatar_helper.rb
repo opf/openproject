@@ -32,11 +32,15 @@ require 'gravatar_image_tag'
 module AvatarHelper
   include GravatarImageTag
 
-  GravatarImageTag.configure do |c|
-    c.include_size_attributes = false
-    c.secure = Setting.protocol == 'https'
-    c.default_image = Setting.gravatar_default.blank? ? nil : Setting.gravatar_default
+  def self.configure!
+    GravatarImageTag.configure do |c|
+      c.include_size_attributes = false
+      c.secure = Setting.protocol == 'https'
+      c.default_image = Setting.gravatar_default.presence
+    end
   end
+
+  configure!
 
   Setting.register_callback(:protocol) do |values|
     GravatarImageTag.configure do |c|
@@ -46,7 +50,7 @@ module AvatarHelper
 
   Setting.register_callback(:gravatar_default) do |values|
     GravatarImageTag.configure do |c|
-      c.default_image = values[:value].blank? ? nil : values[:value]
+      c.default_image = values[:value].presence
     end
   end
 

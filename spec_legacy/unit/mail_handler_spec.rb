@@ -100,8 +100,9 @@ describe MailHandler, type: :model do
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  it 'should add work package with group assignment' do
-    with_settings work_package_group_assignment: '1' do
+  context 'with group assignment set',
+          with_settings: { work_package_group_assignment: 1 } do
+    it 'should add work package with group assignment' do
       work_package = submit_email('ticket_on_given_project.eml') do |email|
         email.gsub!('Assigned to: John Smith', 'Assigned to: B Team')
       end
@@ -529,8 +530,9 @@ describe MailHandler, type: :model do
     end
   end
 
-  it 'should new user from attributes should respect minimum password length' do
-    with_settings password_min_length: 15 do
+  context 'with min password length',
+          with_settings: { password_min_length: 15 } do
+    it 'should new user from attributes should respect minimum password length' do
       user = MailHandler.new_user_from_attributes('jsmith@example.net')
       assert user.valid?
       assert user.password.length >= 15
