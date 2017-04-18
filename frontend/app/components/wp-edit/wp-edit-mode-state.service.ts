@@ -41,7 +41,6 @@ export class WorkPackageEditModeStateService {
     protected $q:ng.IQService,
     protected I18n:op.I18n) {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
-    const cancelEventName = 'beforeunload.confirm_cancel';
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
@@ -54,20 +53,6 @@ export class WorkPackageEditModeStateService {
 
         this.cancel();
       }
-    });
-
-    // Show confirmation message when browsing to a new page
-    angular.element($window).on(cancelEventName, (event:JQueryEventObject):string|void => {
-      if (requiresConfirmation && this.active) {
-        (event as any).returnValue = confirmText;
-        event.preventDefault();
-
-        return confirmText;
-      }
-    });
-
-    $rootScope.$on('$destroy', () => {
-      return angular.element($window).off(cancelEventName);
     });
   }
 
