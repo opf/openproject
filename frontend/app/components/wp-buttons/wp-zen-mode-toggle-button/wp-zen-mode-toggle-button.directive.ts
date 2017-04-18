@@ -43,8 +43,8 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   constructor(public I18n:op.I18n) {
     super(I18n);
 
-    this.activateLabel = I18n.t('js.timelines.button_activate');
-    this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
+    this.activateLabel = I18n.t('js.zen_mode.button_activate');
+    this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
   }
 
   public get label():string {
