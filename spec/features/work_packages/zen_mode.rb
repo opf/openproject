@@ -17,9 +17,9 @@ describe 'Zen mode', js: true do
   let(:type) { FactoryGirl.create :type }
   let(:project) { FactoryGirl.create(:project, types: [type]) }
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create :work_package, project: project, type: type
-  }
+  end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
