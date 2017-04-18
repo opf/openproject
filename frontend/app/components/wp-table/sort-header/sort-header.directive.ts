@@ -79,27 +79,43 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
 
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.column.id === 'subject';
-      scope.hierarchyIcon = 'icon-hierarchy';
-      scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
 
-      wpTableGroupBy.observeOnScope(scope).subscribe(() => {
-        scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
-      });
-
-      scope.toggleHierarchy = function(evt:JQueryEventObject) {
-        wpTableHierarchies.toggleState();
-
-        if(wpTableHierarchies.isEnabled) {
+      function setHierarchyIcon() {
+        if (wpTableHierarchies.isEnabled) {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
           scope.hierarchyIcon = 'icon-no-hierarchy';
         }
         else {
-          scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');;
+          scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
           scope.hierarchyIcon = 'icon-hierarchy';
         }
+      }
 
-        evt.stopPropagation();
-        return false;
+      if (scope.isHierarchyColumn) {
+        scope.hierarchyIcon = 'icon-hierarchy';
+        scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+
+        // Disable hierarchy mode when group by is active
+        wpTableGroupBy.observeOnScope(scope).subscribe(() => {
+          scope.isHierarchyDisabled = wpTableGroupBy.isEnabled;
+        });
+
+        // Update hierarchy icon when updated elsewhere
+        wpTableHierarchies.observeOnScope(scope).subscribe(() => {
+          setHierarchyIcon();
+        });
+
+        // Set initial icon
+        setHierarchyIcon();
+
+        // Hierarchy toggle handler
+        scope.toggleHierarchy = function(evt:JQueryEventObject) {
+          wpTableHierarchies.toggleState();
+          setHierarchyIcon();
+
+          evt.stopPropagation();
+          return false;
+        };
       }
 
       function directionClass() {
