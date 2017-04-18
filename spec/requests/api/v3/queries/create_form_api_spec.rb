@@ -118,7 +118,7 @@ describe "POST /api/v3/queries/form", type: :request do
                 href: "/api/v3/queries/filters/status"
               },
               operator: {
-                "href": "/api/v3/queries/operators/="
+                "href": "/api/v3/queries/operators/%3D"
               },
               values: [
                 {
@@ -182,7 +182,7 @@ describe "POST /api/v3/queries/form", type: :request do
         {
           "_links" => {
             "filter" => { "href" => "/api/v3/queries/filters/status" },
-            "operator" => { "href" => "/api/v3/queries/operators/=" },
+            "operator" => { "href" => "/api/v3/queries/operators/%3D" },
             "values" => [
               { "href" => "/api/v3/statuses/#{status.id}" }
             ]

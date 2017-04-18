@@ -489,7 +489,7 @@ describe ::API::V3::Queries::QueryRepresenter do
               "title": "Status"
             },
             "operator": {
-              "href": "/api/v3/queries/operators/=",
+              "href": api_v3_paths.query_operator(CGI.escape('=')),
               "title": "is"
             },
             "values": [
@@ -512,7 +512,7 @@ describe ::API::V3::Queries::QueryRepresenter do
               "title": "Assignee"
             },
             "operator": {
-              "href": "/api/v3/queries/operators/!",
+              "href": api_v3_paths.query_operator(CGI.escape('!')),
               "title": "is not"
             },
             "values": [

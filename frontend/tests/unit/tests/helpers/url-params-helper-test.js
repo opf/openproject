@@ -67,7 +67,7 @@ describe('UrlParamsHelper', function() {
         name: 'soße_id',
         type: 'list_model',
         operator: {
-          $href: '/api/operator/='
+          id: '='
         },
         filter: {
           $href: '/api/filter/soße'
@@ -78,7 +78,7 @@ describe('UrlParamsHelper', function() {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
-          $href: '/api/operator/<t-'
+          id: '<t-'
         },
         filter: {
           $href: '/api/filter/created_at'
@@ -163,7 +163,7 @@ describe('UrlParamsHelper', function() {
         name: 'soße_id',
         type: 'list_model',
         operator: {
-          $href: '/api/operator/='
+          id: '='
         },
         filter: {
           $href: '/api/filter/soße'
@@ -174,7 +174,7 @@ describe('UrlParamsHelper', function() {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
-          $href: '/api/operator/<t-'
+          id: '<t-'
         },
         filter: {
           $href: '/api/filter/created_at'
@@ -237,7 +237,7 @@ describe('UrlParamsHelper', function() {
       var filter1 = {
         id: 'customField1',
         operator: {
-          $href: '/api/operator/='
+          id: '='
         },
         filter: {
           $href: '/api/filter/customField1'

@@ -153,11 +153,11 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
 
           it_behaves_like 'links to and embeds allowed values directly' do
             let(:hrefs) do
-              [api_v3_paths.query_operator('o'),
-               api_v3_paths.query_operator('='),
-               api_v3_paths.query_operator('c'),
-               api_v3_paths.query_operator('!'),
-               api_v3_paths.query_operator('*')]
+              [api_v3_paths.query_operator(CGI.escape('o')),
+               api_v3_paths.query_operator(CGI.escape('=')),
+               api_v3_paths.query_operator(CGI.escape('c')),
+               api_v3_paths.query_operator(CGI.escape('!')),
+               api_v3_paths.query_operator(CGI.escape('*'))]
             end
           end
         end
@@ -183,11 +183,11 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
         describe 'dependencies' do
           it 'is the hash' do
             expected = {
-              api_v3_paths.query_operator('=') => { "lorem": "ipsum" },
-              api_v3_paths.query_operator('c') => { "lorem": "ipsum" },
-              api_v3_paths.query_operator('!') => { "lorem": "ipsum" },
-              api_v3_paths.query_operator('*') => { "lorem": "ipsum" },
-              api_v3_paths.query_operator('o') => { "lorem": "ipsum" }
+              api_v3_paths.query_operator(CGI.escape('=')) => { "lorem": "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('c')) => { "lorem": "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('!')) => { "lorem": "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('*')) => { "lorem": "ipsum" },
+              api_v3_paths.query_operator(CGI.escape('o')) => { "lorem": "ipsum" }
             }
 
             expect(subject)
@@ -200,8 +200,8 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
 
             it 'is the hash' do
               expected = {
-                api_v3_paths.query_operator('=') => { "lorem": "ipsum" },
-                api_v3_paths.query_operator('!') => { "lorem": "ipsum" }
+                api_v3_paths.query_operator(CGI.escape('=')) => { "lorem": "ipsum" },
+                api_v3_paths.query_operator(CGI.escape('!')) => { "lorem": "ipsum" }
               }
 
               expect(subject)

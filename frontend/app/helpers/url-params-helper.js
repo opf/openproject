@@ -80,8 +80,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
                        .map(function(filter) {
                          var id = filter.id;
 
-                         var operator = filter.operator.$href
-                         operator = operator.substring(operator.lastIndexOf('/') + 1, operator.length);
+                         var operator = filter.operator.id;
 
                          return {
                            n: id,
@@ -176,8 +175,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
         var id = filter.filter.$href;
         id = id.substring(id.lastIndexOf('/') + 1, id.length);
 
-        var operator = filter.operator.$href
-        operator = operator.substring(operator.lastIndexOf('/') + 1, operator.length);
+        var operator = filter.operator.id;
 
         var values = _.map(filter.values, UrlParamsHelper.queryFilterValueToParam);
 
