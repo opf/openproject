@@ -36,3 +36,21 @@
 
 [hidden]
   display: none
+
+#account-nav-left
+  .drop-down li a.selected,
+  li a.selected
+    background: $primary-color-dark
+    color: $font-color-on-primary-dark
+
+  .drop-down li a.selected,
+    border: 1px solid $font-color-on-primary-dark
+
+  li:first-child a.selected
+    border-left: 1px solid $font-color-on-primary-dark
+
+  .hidden-for-sighted
+    display: none
+
+  .selected .hidden-for-sighted
+    display: block

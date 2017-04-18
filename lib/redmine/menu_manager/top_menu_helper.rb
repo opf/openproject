@@ -51,24 +51,41 @@ module Redmine::MenuManager::TopMenuHelper
 
     return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
-    link_to_all_projects = link_to l(:label_project_plural),
+    projects_selected = if current_url_projects_index?
+                 'selected'
+               else
+                  ''
+               end
+
+    new_project_selected = if current_url_projects_new?
+                 'selected'
+               else
+                  ''
+               end
+
+
+    link_to_all_projects = link_to content_tag(:span, l(:description_current_position), class: 'hidden-for-sighted') + l(:label_project_plural),
                             { controller: '/projects', action: 'index' },
                             title: l(:label_project_plural),
                             accesskey: OpenProject::AccessKeys.key_for(:project_search),
-                            class: 'icon5 icon-projects',
+                            class: "icon5 icon-projects #{projects_selected}",
                             aria: { haspopup: 'true' }
 
     result = ''.html_safe
     if User.current.impaired?
-      result << content_tag(:li, link_to_all_projects)
+      result << content_tag(:li) do
+        link_to_all_projects
+      end
 
       if User.current.allowed_to?(:add_project, nil, global: true)
         result << content_tag(:li) do
-                    link_to l(:label_project_new), new_project_path,
-                      class: 'icon4 icon-add',
+                    (link_to(
+                      content_tag(:span, l(:description_current_position), class: 'hidden-for-sighted') + l(:label_project_new),
+                      new_project_path,
+                      class: "icon4 icon-add #{new_project_selected}",
                       # For the moment we actually don't have a key for new project.
                       # Need to decide on one.
-                      accesskey: OpenProject::AccessKeys.key_for(:new_project)
+                      accesskey: OpenProject::AccessKeys.key_for(:new_project)))
                   end
       end
       result
@@ -93,6 +110,14 @@ module Redmine::MenuManager::TopMenuHelper
         end
       end
     end
+  end
+
+  def current_url_projects_index?
+    params[:controller] == 'projects' && params[:action] == 'index'
+  end
+
+  def current_url_projects_new?
+    params[:controller] == 'projects' && params[:action] == 'new'
   end
 
   def render_user_top_menu_node(items = menu_items_for(:account_menu))

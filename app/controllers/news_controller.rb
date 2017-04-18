@@ -60,6 +60,10 @@ class NewsController < ApplicationController
     end
   end
 
+  current_menu_item :index do
+    :news
+  end
+
   def show
     @comments = @news.comments
     @comments.reverse_order if User.current.wants_comments_in_reverse_order?
