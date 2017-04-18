@@ -129,6 +129,16 @@ module Pages
                                     text: "#{parent.type.name}: #{parent.subject}")
     end
 
+    def expect_zen_mode
+      expect(page).to have_selector('#main-menu', visible: false)
+      expect(page).to have_selector('#top-menu', visible: false)
+    end
+
+    def expect_no_zen_mode
+      expect(page).to have_selector('#main-menu', visible: true)
+      expect(page).to have_selector('#top-menu', visible: true)
+    end
+
     def update_attributes(key_value_map, save: true)
       set_attributes(key_value_map, save: save)
     end
