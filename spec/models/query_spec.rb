@@ -56,13 +56,15 @@ describe Query, type: :model do
   end
 
   describe 'hierarchies' do
-    it 'is enabled by default' do
+    it 'is enabled in default queries' do
+      query = Query.new_default
       expect(query.show_hierarchies).to be_truthy
       query.show_hierarchies = false
       expect(query.show_hierarchies).to be_falsey
     end
 
     it 'is mutually exclusive with group_by' do
+      query = Query.new_default
       expect(query.show_hierarchies).to be_truthy
       query.group_by = :assignee
 
