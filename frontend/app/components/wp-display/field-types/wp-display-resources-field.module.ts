@@ -31,6 +31,10 @@ import {DisplayField} from "../wp-display-field/wp-display-field.module";
 export class ResourcesDisplayField extends DisplayField {
   public template: string = '/components/wp-display/field-types/wp-display-resources-field.directive.html';
 
+  public isEmpty():boolean {
+    return _.isEmpty(this.value);
+  }
+
   public get value() {
     if (this.schema) {
       var cf = this.resource[this.name];
