@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,14 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::UserStrategy < CustomValue::ARObjectStrategy
-  private
-
-  def ar_class
-    User
-  end
-
-  def ar_object(value)
-    User.find_by(id: value)
+module OpenProject
+  module Cache
+    def self.fetch(*parts, &block)
+      Rails.cache.fetch(CacheKey.key(parts), &block)
+    end
   end
 end

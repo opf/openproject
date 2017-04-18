@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@
 class CustomOption < ActiveRecord::Base
   acts_as_list
 
-  belongs_to :custom_field
+  belongs_to :custom_field, touch: true
 
   validates :value, presence: true, length: { maximum: 255 }
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,14 +26,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::UserStrategy < CustomValue::ARObjectStrategy
-  private
+require 'spec_helper'
 
-  def ar_class
-    User
-  end
+describe CustomField, type: :model do
+  let(:custom_field) { FactoryGirl.create(:list_wp_custom_field) }
+  let(:custom_option) { custom_field.custom_options.first }
 
-  def ar_object(value)
-    User.find_by(id: value)
+  describe 'saving' do
+    it "updates the custom_field's timestamp" do
+      timestamp_before = custom_field.updated_at
+      sleep 1
+      custom_option.touch
+      expect(custom_field.reload.updated_at).not_to eql(timestamp_before)
+    end
   end
 end

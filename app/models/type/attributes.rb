@@ -60,13 +60,15 @@ module Type::Attributes
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
-      all_attributes = RequestStore.fetch(:all_work_package_form_attributes) do
+      OpenProject::Cache.fetch('all_work_package_form_attributes',
+                               *WorkPackageCustomField.pluck('max(updated_at), count(id)').flatten,
+                               merge_date) do
         rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
         definitions = rattrs[:definitions]
         skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
         attributes = definitions.keys
                                 .reject { |key| skip.include?(key) || definitions[key][:required] }
-                                .map { |key| [key, definitions[key]] }.to_h
+                                .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
 
         # within the form date is shown as a single entry including start and due
         if merge_date
@@ -86,8 +88,6 @@ module Type::Attributes
 
         attributes
       end
-
-      all_attributes
     end
   end
 

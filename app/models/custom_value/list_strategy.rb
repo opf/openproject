@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,18 +28,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::ListStrategy < CustomValue::FormatStrategy
-  def typed_value
-    unless value.blank?
-      @option ||= CustomOption.where(id: value.to_s).limit(1).map(&:value).first
-
-      @option || "#{value} not found"
-    end
-  end
-
+class CustomValue::ListStrategy < CustomValue::ARObjectStrategy
   def validate_type_of_value
     unless custom_field.custom_options.pluck(:id).include?(value.to_i)
       :inclusion
     end
+  end
+
+  def typed_value
+    super_value = super
+    super_value && super_value.to_s || nil
+  end
+
+  private
+
+  def ar_class
+    CustomOption
+  end
+
+  def ar_object(value)
+    CustomOption.where(id: value.to_s).limit(1).map(&:value).first || "#{value} not found"
   end
 end

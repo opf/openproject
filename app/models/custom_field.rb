@@ -107,9 +107,7 @@ class CustomField < ActiveRecord::Base
         []
       end
     else
-      locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
-      attribute = possible_values(locale: locale)
-      attribute
+      possible_values
     end
   end
 
