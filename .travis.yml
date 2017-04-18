@@ -67,6 +67,13 @@ env:
     - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=6  GROUP=4"
     - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=6  GROUP=5"
     - "TEST_SUITE=rspec             DB=mysql     GROUP_SIZE=6  GROUP=6"
+    - "TEST_SUITE=plugins:spec      DB=mysql     GROUP_SIZE=3  GROUP=1 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:spec      DB=mysql     GROUP_SIZE=3  GROUP=2 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:spec      DB=mysql     GROUP_SIZE=3  GROUP=3 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=mysql     GROUP_SIZE=3  GROUP=1 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=mysql     GROUP_SIZE=3  GROUP=2 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=mysql     GROUP_SIZE=3  GROUP=3 ONLY_ON_PRODUCT=true"
+
 
     - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=1"
     - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=2  GROUP=2"
@@ -79,8 +86,15 @@ env:
     - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=6  GROUP=4"
     - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=6  GROUP=5"
     - "TEST_SUITE=rspec             DB=postgres  GROUP_SIZE=6  GROUP=6"
+    - "TEST_SUITE=plugins:spec      DB=postgres  GROUP_SIZE=3  GROUP=1 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:spec      DB=postgres  GROUP_SIZE=3  GROUP=2 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:spec      DB=postgres  GROUP_SIZE=3  GROUP=3 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=postgres  GROUP_SIZE=3  GROUP=1 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=postgres  GROUP_SIZE=3  GROUP=2 ONLY_ON_PRODUCT=true"
+    - "TEST_SUITE=plugins:cucumber  DB=postgres  GROUP_SIZE=3  GROUP=3 ONLY_ON_PRODUCT=true"
 
 before_install:
+  - sh script/ci_product_check.sh
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"

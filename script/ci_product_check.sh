@@ -27,40 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# script/ci_runner.sh
+# script/ci_product_check.sh
 #!/bin/bash
 
-set -e
-
-# Usage:
-#   sh script/ci_runner.sh spec 3 1
-#
-# Use
-#   sh script/ci_runner.sh spec
-# to make use of all available cores on the current machine. Most likely to
-# be used on local dev machines.
-#
-
-# $1: type
-# $2: group size
-# $3: group number
-run() {
-  echo $1;
-  eval $1;
-  echo $2;
-  eval $2;
-  echo $3;
-  eval $3;
-}
-
-if [ -n "$2" ] && [ -n "$3" ]; then
-  GROUPING=" -n $2 --only-group $3"
-else
-  GROUPING=''
-fi
-
-if [ $1 = "npm" ]; then
-  run "npm test"
-else
-  run "bundle exec rake parallel:$1 GROUP_SIZE=$2 GROUP=$3"
+if [ -z "${PRODUCT_NAME}" ] && [ -n "${ONLY_ON_PRODUCT}" ]; then
+  echo "Matrix wants to run '${TEST_SUITE}', but enabled for products only."
+  exit 0
 fi
