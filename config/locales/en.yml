@@ -374,7 +374,7 @@ en:
         impaired: "Accessibility mode"
         time_zone: "Time zone"
         auto_hide_popups: "Auto-hide success notifications"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved text"
+        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
       version:
         effective_date: "Due date"
         sharing: "Sharing"
