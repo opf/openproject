@@ -54,6 +54,8 @@ class Authorization::EnterpriseService
       true # Every non-expired token
     when :multiselect_custom_fields
       true
+    when :edit_attribute_groups
+      true
     else
       false
     end
