@@ -37,10 +37,11 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
 
   private activateLabel:string;
   private deactivateLabel:string;
+  private scope:ng.IScope;
 
-  constructor(public I18n:op.I18n) {
+  constructor(public I18n:op.I18n, protected $scope:ng.IScope) {
     super(I18n);
-
+    this.scope = $scope;
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
   }
@@ -61,15 +62,51 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
     return WorkPackageZenModeButtonController.inZenMode;
   }
 
+  private deactivateZenMode():void {
+    WorkPackageZenModeButtonController.inZenMode = false;
+    angular.element('body').removeClass('zen-mode');
+    this.disabled = false;
+  }
+
+  private activateZenMode():void {
+    WorkPackageZenModeButtonController.inZenMode = true;
+    angular.element('body').addClass('zen-mode');
+  }
+
+  static notDesktopSafari():boolean {
+    let isSafari:boolean = navigator.userAgent.indexOf("Safari") > -1;
+    let isMac:boolean    = navigator.userAgent.indexOf("Mac OS") > -1;
+    let isChrome:boolean = navigator.userAgent.indexOf("Chrome") > -1;
+    return !(isSafari && !isChrome && isMac)
+  }
+
+  private toggleBrowserFullscreen(startFullscreen:boolean):void {
+    let self = this;
+
+    if (WorkPackageZenModeButtonController.notDesktopSafari()) {
+      if (startFullscreen) {
+        jQuery(document).bind("fullscreenchange", function() {
+          // This event might get triggered several times for once leaving
+          // fullscreen mode.
+          if (!jQuery(document).fullScreen()) {
+            self.deactivateZenMode();
+            // The event wasn't cached from angularJS so we need to make sure
+            // a rendering cycle gets triggered:
+            self.scope.$apply();
+          }
+        });
+      };
+      jQuery(document).fullScreen(startFullscreen);
+    }
+  }
+
   public performAction() {
     if (WorkPackageZenModeButtonController.inZenMode) {
-      // deactivate Zen Mode
-      WorkPackageZenModeButtonController.inZenMode = false;
-      angular.element('body').removeClass('zen-mode');
+      this.deactivateZenMode();
+      this.toggleBrowserFullscreen(false);
     } else {
-      // activate Zen Mode
-      WorkPackageZenModeButtonController.inZenMode = true;
-      angular.element('body').addClass('zen-mode');
+      this.activateZenMode();
+      this.toggleBrowserFullscreen(true);
     }
   }
 }
