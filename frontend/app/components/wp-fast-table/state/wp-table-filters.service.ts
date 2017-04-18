@@ -75,6 +75,12 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
     this.state.putValue(newState);
   }
 
+  public replaceIfComplete(newState:WorkPackageTableFilters) {
+    if (newState.isComplete()) {
+      this.state.putValue(newState);
+    }
+  }
+
   public remove(removedFilter:QueryFilterInstanceResource) {
     this.currentState.remove(removedFilter);
 

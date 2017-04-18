@@ -70,6 +70,10 @@ export class WorkPackageTableFilters {
     return _.remove(this.availableFilters, filter => activeFilterHrefs.indexOf(filter.href) === -1);
   }
 
+  public isComplete():boolean {
+    return _.every(this.current, filter => filter.isCompletelyDefined());
+  }
+
   private get currentFilters() {
     return this.current.map((filter:QueryFilterInstanceResource) => filter.filter);
   }

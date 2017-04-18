@@ -62,17 +62,20 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
               let newFilter = scope.filters.add(filter);
               var index = currentFilterLength();
               updateFilterFocus(index);
+              updateRemainingFilters();
 
-              if (newFilter.isCompletelyDefined()) {
-                wpTableFilters.replace(scope.filters);
-              }
+              wpTableFilters.replaceIfComplete(scope.filters);
             }
           });
 
           scope.deactivateFilter = function (removedFilter:QueryFilterInstanceResource) {
             let index = scope.filters.current.indexOf(removedFilter);
 
-            wpTableFilters.remove(removedFilter);
+            if (removedFilter.isCompletelyDefined()) {
+              wpTableFilters.remove(removedFilter);
+            } else {
+              scope.filters.remove(removedFilter);
+            }
 
             updateFilterFocus(index);
 
