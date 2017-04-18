@@ -14,6 +14,10 @@ class UserFilterCell < RailsCell
         .first
     end
 
+    def is_filtered(params)
+      [:name, :status, :group_id, :role_id].any? { |name| params[name].present? }
+    end
+
     ##
     # Returns the selected status from the parameters
     # or the default status to be filtered by (active)
