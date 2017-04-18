@@ -83,7 +83,8 @@ log_requesting_user:
   default: 0
   format: int
 login_required:
-  default: 0
+  default: 1
+  format: boolean
 self_registration:
   default: '2'
 lost_password:
