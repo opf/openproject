@@ -33,8 +33,6 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
   public iconClass:string = 'icon-zen-mode';
 
-  public iconClassDeactive:string = 'icon-zen-mode';
-  public iconClassActive:string = 'icon-no-zen-mode';
   public inZenMode:boolean = false;
 
   private activateLabel:string;
@@ -66,22 +64,18 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
   public performAction() {
     if (this.inZenMode) {
       // deactivate Zen Mode
-      console.log("ZEN MODE TOGGLE: deactivate");
       this.inZenMode = false;
       angular.element('body').removeClass('zen-mode');
     } else {
       // activate Zen Mode
-      console.log("ZEN MODE TOGGLE: activate");
       this.inZenMode = true;
       angular.element('body').addClass('zen-mode');
     }
-    // this.wpTableTimeline.toggle();
   }
 }
 
 function wpZenModeToggleButton():ng.IDirective {
   return wpButtonDirective({
-    // require: '^wpTimelineContainer',
     controller: WorkPackageZenModeButtonController
   });
 }
