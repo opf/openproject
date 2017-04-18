@@ -2,6 +2,7 @@
   <span class="hierarchy-header--outer-span" ng-if="isHierarchyColumn">
     <accessible-by-keyboard execute="toggleHierarchy($event)"
                             ng-if="!isHierarchyDisabled"
+                            link-title="{{ text.toggleHierarchy }}"
                             link-aria-label="{{ text.toggleHierarchy }}"
                             link-class="hierarchy-header--icon"
                             span-class="icon {{ hierarchyIcon }}"
