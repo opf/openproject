@@ -65,10 +65,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <div>
+  <%= cell Members::UserFilterCell, params, @members_filter_options %>
   <% if any_members %>
-    <%= cell Members::UserFilterCell, params, @members_filter_options %>
-    &nbsp;
     <%= cell Members::TableCell, @members, @members_table_options %>
+  <% elsif @is_filtered %>
+    <%= no_results_box custom_title: t(:notice_no_principals_found) %>
   <% else %>
     <%= no_results_box %>
   <% end %>

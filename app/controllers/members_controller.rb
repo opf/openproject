@@ -190,6 +190,7 @@ class MembersController < ApplicationController
   def set_index_data!
     set_roles_and_principles!
 
+    @is_filtered = Members::UserFilterCell.is_filtered params
     @members = Members::UserFilterCell.filter index_members(@project), params
     @members_table_options = members_table_options @roles
     @members_filter_options = members_filter_options @roles
