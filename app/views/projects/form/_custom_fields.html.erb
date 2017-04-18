@@ -105,9 +105,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 </td>
                 <td>
                   <% if current_user.admin? %>
-                    <% custom_field.types.each do |type| %>
-                      <%= link_to type.name, edit_type_tab_path(id: type.id, tab: 'form_configuration') %>
-                    <% end %>
+                    <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_tab_path(id: t.id, tab: 'form_configuration')) } %>
+                    <%= safe_join type_links, ', '.html_safe %>
                   <% else %>
                     <%= custom_field.types.map(&:name).join(', ') %>
                   <% end %>
