@@ -52,4 +52,14 @@ export class ResourcesDisplayField extends DisplayField {
       return null;
     }
   }
+
+  public get valueAbridged() {
+    let valueForDisplay = _.take(this.value, 2).join(', ');
+
+    if (this.value.length > 2) {
+      valueForDisplay += ', ...';
+    }
+
+    return valueForDisplay;
+  }
 }

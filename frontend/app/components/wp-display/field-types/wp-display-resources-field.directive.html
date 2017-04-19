@@ -1,10 +1,9 @@
 <span title="{{vm.field.value.join(', ')}}">
-  <div ng-repeat="value in vm.field.value" class="custom-option">
-    <span ng-if="$index < 2 && vm.field.value.length > 1"> {{ value }} </span>
-    <span ng-if="$first && vm.field.value.length == 1"> {{ value }} </span>
-    <span ng-if="$index == 2 && vm.field.value.length > 2">... </span>
-    <span ng-if="$index == 2 && vm.field.value.length > 2" class="badge -secondary"> {{vm.field.value.length}} </span>
-    <span ng-if="$index < 2 && vm.field.value.length > 2 || $index == 0 && vm.field.value.length == 2">,</span>
+  <div ng-if="vm.field.value.length > 0" class="custom-option">
+    <span> {{ vm.field.valueAbridged }}</span>
+  </div>
+  <div ng-if="vm.field.value.length > 2" class="custom-option">
+    <span class="badge -secondary"> {{vm.field.value.length}} </span>
   </div>
 
   <div title="I18n.t('js.work_packages.no_value')" ng-if="vm.field.value.length == 0" class="custom-option -empty">
