@@ -46,8 +46,9 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Bas
     WorkPackage.human_attribute_name(name)
   end
 
-  alias :project :context
-  alias :project= :context=
+  def project
+    context.project
+  end
 
   def attributes
     { name: name, operator: operator, values: values }

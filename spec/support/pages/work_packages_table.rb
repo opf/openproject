@@ -138,6 +138,17 @@ module Pages
       find('#settingsDropdown .menu-item', text: label).click
     end
 
+    def save_as(name)
+      click_setting_item 'Save as'
+
+      fill_in 'save-query-name', with: name
+
+      click_button 'Save'
+
+      expect_notification message: 'Successful creation.'
+      expect_title name
+    end
+
     def open_filter_section
       unless page.has_selector?('#work-packages-filter-toggle-button.-active')
         click_button('work-packages-filter-toggle-button')

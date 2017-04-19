@@ -30,11 +30,12 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:instance) do
     filter = described_class.new
     filter.name = "cf_#{custom_field.id}"
     filter.operator = '='
-    filter.context = project
+    filter.context = query
     filter
   end
   let(:instance_key) { nil }

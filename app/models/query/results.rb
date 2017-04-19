@@ -55,13 +55,11 @@ class ::Query::Results
   # Returns the work package count by group or nil if query is not grouped
   def work_package_count_by_group
     @work_package_count_by_group ||= begin
-      r = nil
       if query.grouped?
         r = groups_grouped_by_column(query)
 
-        r = transform_group_keys(query, r)
+        transform_group_keys(query, r)
       end
-      r
     end
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)

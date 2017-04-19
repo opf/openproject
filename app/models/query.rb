@@ -157,6 +157,9 @@ class Query < ActiveRecord::Base
   end
 
   after_initialize :set_context
+  # For some reasons the filters loose their context
+  # between the after_save and the after_commit callback.
+  after_commit :set_context
 
   def set_context
     # We need to set the project for each filter if a project
@@ -168,7 +171,7 @@ class Query < ActiveRecord::Base
     return unless respond_to?(:filters)
 
     filters.each do |filter|
-      filter.context = project
+      filter.context = self
     end
   end
 
@@ -178,7 +181,9 @@ class Query < ActiveRecord::Base
     self.sort_criteria = [['parent', 'desc']]
   end
 
-  alias :context :project
+  def context
+    self
+  end
 
   def add_default_filter
     return unless filters.blank?
@@ -267,7 +272,7 @@ class Query < ActiveRecord::Base
   def filter_for(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super(field)
 
-    filter.context = project
+    filter.context = self
 
     filter
   end

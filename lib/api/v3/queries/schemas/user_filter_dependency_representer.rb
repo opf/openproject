@@ -40,8 +40,8 @@ module API
             params = [{ type: { operator: '=', values: ['User'] } },
                       { status: { operator: '=', values: [Principal::STATUSES[:active].to_s] } }]
 
-            if filter.context
-              params << { member: { operator: '=', values: [filter.context.id.to_s] } }
+            if filter.project
+              params << { member: { operator: '=', values: [filter.project.id.to_s] } }
             end
 
             params
