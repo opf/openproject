@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,7 +38,7 @@ module API
           before do
             @versions = @project.shared_versions
 
-            authorize_any [:view_work_packages, :manage_versions], projects: @project
+            authorize_any %i(view_work_packages manage_versions), projects: @project
           end
 
           get do

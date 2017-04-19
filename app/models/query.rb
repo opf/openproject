@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,7 +49,7 @@ class Query < ActiveRecord::Base
   validate :validate_group_by
   validate :validate_show_hierarchies
 
-  scope :visible, ->(to:) do
+  scope(:visible, ->(to:) do
     # User can see public queries and his own queries
     scope = where(is_public: true)
 
@@ -57,11 +58,9 @@ class Query < ActiveRecord::Base
     else
       scope
     end
-  end
+  end)
 
-  scope :global, -> {
-    where(project_id: nil)
-  }
+  scope(:global, -> { where(project_id: nil) })
 
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
@@ -388,7 +387,7 @@ class Query < ActiveRecord::Base
     if arg.is_a?(Hash)
       arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.select { |k, _o| !k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
+    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
     write_attribute(:sort_criteria, c)
   end
 
@@ -483,7 +482,7 @@ class Query < ActiveRecord::Base
   def statement
     filters_clauses = if filters.present? and valid?
                         filters
-                          .select { |f| f.field.to_s != 'subproject_id' }
+                          .reject { |f| f.field.to_s == 'subproject_id' }
                           .map do |filter|
                             "(#{filter.where})"
                           end
@@ -515,7 +514,6 @@ class Query < ActiveRecord::Base
            .offset(options[:offset])
            .references(:users)
            .merge(WorkPackage.visible)
-
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
