@@ -54,6 +54,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
               public $scope:any,
               public $state:ng.ui.IStateService,
               public $window:ng.IWindowService,
+              public $location:ng.ILocationService,
               public HookService:any,
               public AuthorisationService:any,
               public WorkPackageAuthorization:any,
@@ -88,7 +89,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
         this.deleteSelectedWorkPackage();
         break;
       default:
-        this.$window.location.href = link;
+        this.$location.path(link);
         break;
     }
   };

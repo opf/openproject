@@ -32,6 +32,7 @@ require 'support/pages/abstract_work_package'
 module Pages
   class AbstractWorkPackageCreate < AbstractWorkPackage
     attr_reader :original_work_package,
+                :project,
                 :parent_work_package
 
     def initialize(original_work_package: nil, parent_work_package: nil)

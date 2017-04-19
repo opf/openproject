@@ -73,25 +73,11 @@ const panels = {
   }
 };
 
-const redirectTo = (routeTo:string) => {
-  return ($match:any, $state:any) => {
-    $state.go(routeTo, $match, { location: 'replace' });
-    return true;
-  };
-};
-
 openprojectModule
   .config(($stateProvider:ng.ui.IStateProvider,
            $urlRouterProvider:ng.ui.IUrlRouterProvider,
            $urlMatcherFactoryProvider:ng.ui.IUrlMatcherFactory) => {
     $urlMatcherFactoryProvider.strictMode(false);
-
-    $urlRouterProvider.when('/work_packages/', '/work_packages')
-                      .when('/{projects}/{projectPath}/work_packages/', '/{projects}/{projectPath}/work_packages')
-                      .when('/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.list.details.overview'))
-                      .when('/{projects}/{projectPath}/work_packages/details/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.list.details.overview'))
-                      .when('/work_packages/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.show.activity'))
-                      .when('/{projects}/{projectPath}/work_packages/{workPackageId:[0-9]+}?query_id&query_props', redirectTo('work-packages.show.activity'))
 
     $stateProvider
       .state('work-packages', {
@@ -102,6 +88,8 @@ openprojectModule
           // squash: true avoids duplicate slashes when the paramter is not provided
           projectPath: {value: null, squash: true},
           projects: {value: null, squash: true},
+          query_id: { dynamic: true },
+          query_props: { dynamic: true }
         },
         templateUrl: '/components/routing/main/work-packages.html',
         controller: 'WorkPackagesController'
@@ -124,8 +112,9 @@ openprojectModule
         reloadOnSearch: false,
         templateUrl: '/components/routing/main/work-packages.new.html',
         onEnter: () => {
-          document.title = 'Copy Work Package - OpenProject';
-        }
+          angular.element('body').addClass('action-show');
+        },
+        onExit: () => angular.element('body').removeClass('action-show')
       })
 
       .state('work-packages.edit', {
@@ -144,6 +133,8 @@ openprojectModule
 
       .state('work-packages.show', {
         url: '/{workPackageId:[0-9]+}',
+        // Redirect to 'activity' by default.
+        redirectTo: 'work-packages.show.activity',
         templateUrl: '/components/routing/wp-show/wp.show.html',
         controller: 'WorkPackageShowController',
         controllerAs: '$ctrl',
@@ -196,6 +187,7 @@ openprojectModule
         onExit: () => angular.element('body').removeClass('action-details')
       })
       .state('work-packages.list.details', {
+        redirectTo: 'work-packages.list.details.overview',
         url: '/details/{workPackageId:[0-9]+}',
         templateUrl: '/components/routing/wp-details/wp.list.details.html',
         controller: 'WorkPackageDetailsController',
@@ -244,9 +236,9 @@ openprojectModule
       const projectIdentifier = toParams.projectPath || $rootScope['projectIdentifier'];
 
       if (!toParams.projects && projectIdentifier) {
-        toParams.projectPath = projectIdentifier;
-        toParams.projects = 'projects';
-        $state.go(toState, toParams);
+        const newParams = _.clone(toParams);
+        _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
+        $state.go(toState, newParams);
       }
     });
   }
