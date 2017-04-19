@@ -116,11 +116,11 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   def value_objects
     case custom_field.field_format
     when 'user'
-      User.find(values)
+      User.where(id: values)
     when 'version'
-      Version.find(values)
+      Version.where(id: values)
     when 'list'
-      custom_field.custom_options.find(values)
+      custom_field.custom_options.where(id: values)
     else
       super
     end
