@@ -1,3 +1,5 @@
+## Frequently asked questions - FAQ
+
 ### How can I install an OpenProject plugin?
 
 Our [official installation page][install-page] has instructions on how to customize your OpenProject installation.
