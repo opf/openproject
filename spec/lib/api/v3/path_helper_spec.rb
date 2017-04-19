@@ -61,6 +61,12 @@ describe ::API::V3::Utilities::PathHelper do
     it { is_expected.to eql('/api/v3/budgets/42') }
   end
 
+  describe '#variable_cost_object' do
+    subject { helper.variable_cost_object 42 }
+
+    it { is_expected.to eql('/api/v3/budgets/42') }
+  end
+
   describe '#budgets_by_project' do
     subject { helper.budgets_by_project 42 }
 
