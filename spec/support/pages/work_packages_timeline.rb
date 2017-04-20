@@ -27,10 +27,10 @@
 #++
 
 require 'support/pages/page'
+require 'support/pages/work_packages_table'
 
 module Pages
   class WorkPackagesTimeline < WorkPackagesTable
-
     def toggle_timeline
       find('#work-packages-timeline-toggle-button').click
     end
