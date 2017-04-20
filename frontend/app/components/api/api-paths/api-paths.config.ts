@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,33 +24,35 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {wpButtonsModule} from '../../../angular-modules';
+import {opApiModule} from '../../../angular-modules';
+import {ApiPathsServiceProvider} from './api-paths.service';
 
-export default class WorkPackageCreateButtonController {
-  public projectIdentifier:string;
-  public text:any;
-  public types:any;
-  public stateName:string;
+function apiPathsProviderConfig(apiPathsProvider:ApiPathsServiceProvider) {
+  const projects = ['projects{/project}', {
+    subProjects: 'sub_projects'
+  }];
+  const workPackages = ['work_packages{/wp}', {
+    form: 'form',
+    availableProjects: 'available_projects'
+  }, {
+    project: projects
+  }];
+  const types = ['types{/type}', {}, projects];
 
-  public allowed:boolean;
+  const config = {
+    wp: workPackages,
+    wps: workPackages,
+    project: projects,
+    projects,
+    types,
+  };
 
-  constructor(protected $state,
-              protected I18n) {
-    this.text = {
-      button: I18n.t('js.work_packages.create.button'),
-      create: I18n.t('js.label_create_work_package')
-    };
-  }
-
-  public createWorkPackage() {
-    this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
-  }
-
-  public isDisabled() {
-    return !this.allowed || this.$state.includes('**.new');
-  }
+  apiPathsProvider.pathConfig = {
+    ex: ['api/experimental', config],
+    v3: ['api/v3', config]
+  };
 }
 
-wpButtonsModule.controller('WorkPackageCreateButtonController', WorkPackageCreateButtonController);
+opApiModule.config(apiPathsProviderConfig);

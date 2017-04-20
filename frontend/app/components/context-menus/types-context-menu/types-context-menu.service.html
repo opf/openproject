@@ -1,0 +1,10 @@
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar"
+     id="types-context-menu">
+  <ul class="dropdown-menu">
+    <li ng-repeat="type in $ctrl.types">
+      <a class="menu-item" ng-click="$ctrl.goToWpCreateRoute(type)">
+        {{ type.name }}
+      </a>
+    </li>
+  </ul>
+</div>
