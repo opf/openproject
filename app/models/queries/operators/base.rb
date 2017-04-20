@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -65,6 +66,10 @@ module Queries::Operators
 
     def self.human_name
       I18n.t(label_key)
+    end
+
+    def self.to_query
+      CGI.escape(symbol.to_s)
     end
   end
 end

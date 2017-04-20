@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -75,7 +76,7 @@ module API
           def self.operator_link_factory
             ->(operator) do
               {
-                href: api_v3_paths.query_operator(operator.to_sym),
+                href: api_v3_paths.query_operator(operator.to_query),
                 title: operator.human_name
               }
             end
@@ -126,7 +127,7 @@ module API
 
           def dependencies
             filter.available_operators.each_with_object({}) do |operator, hash|
-              path = api_v3_paths.query_operator(operator.to_sym)
+              path = api_v3_paths.query_operator(operator.to_query)
               value = FilterDependencyRepresenterFactory.create(filter,
                                                                 operator,
                                                                 form_embedded: form_embedded)

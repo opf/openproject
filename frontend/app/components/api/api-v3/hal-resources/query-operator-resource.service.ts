@@ -47,7 +47,7 @@ export class QueryOperatorResource extends HalResource {
 
   public get idFromLink():string {
     if (this.href) {
-      return this.href.split('/').pop()!;
+      return decodeURIComponent(this.href.split('/').pop()!);
     }
 
     return '';

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ module API
     module Queries
       module Operators
         class QueryOperatorRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { id },
+          self_link id_attribute: ->(*) { represented.to_query },
                     title_getter: ->(*) { name }
 
           def initialize(model, *_)

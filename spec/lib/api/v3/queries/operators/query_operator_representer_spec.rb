@@ -40,7 +40,7 @@ describe ::API::V3::Queries::Operators::QueryOperatorRepresenter do
     describe '_links' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
-        let(:href) { api_v3_paths.query_operator operator.to_sym }
+        let(:href) { api_v3_paths.query_operator operator.to_query }
         let(:title) { I18n.t(:label_not_contains) }
       end
     end

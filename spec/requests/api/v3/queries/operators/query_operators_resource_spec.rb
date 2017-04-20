@@ -34,7 +34,7 @@ describe 'API v3 Query Operator resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   describe '#get queries/operators/:id' do
-    let(:path) { api_v3_paths.query_operator(operator) }
+    let(:path) { api_v3_paths.query_operator(CGI.escape(operator)) }
     let(:operator) { '=' }
     let(:project) { FactoryGirl.create(:project) }
     let(:role) { FactoryGirl.create(:role, permissions: permissions) }
