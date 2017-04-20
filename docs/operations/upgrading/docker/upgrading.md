@@ -2,7 +2,7 @@
 
 Upgrading a Docker container is easy. First, pull the latest version of the image:
 
-    docker pull openproject/community:5.0
+    docker pull openproject/community:latest
 
 Then stop and remove your existing container:
 
@@ -12,5 +12,5 @@ Then stop and remove your existing container:
 Finally, re-launch the container in the same way you launched it previously.
 This time, it will use the new image:
 
-    docker run -d ... openproject/community:5.0
+    docker run -d ... openproject/community:latest
 
