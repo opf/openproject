@@ -33,7 +33,12 @@ jQuery(document).ready(function($) {
     }
   });
 
-  setTimeout(function() {
-    $('.flash.autohide-notification').remove();
-  }, 5000);
+  autoHideFlashMessage();
+
 });
+
+function autoHideFlashMessage() {
+  setTimeout(function() {
+    jQuery('.flash.autohide-notification').remove();
+  }, 5000);
+}

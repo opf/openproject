@@ -36,3 +36,5 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
   alert('<%= escape_javascript(l(:notice_failed_to_save_members, errors: @membership.errors.full_messages.join(', '))).html_safe %>');
 <% end %>
+
+autoHideFlashMessage();
