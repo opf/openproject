@@ -458,44 +458,13 @@ class Query < ActiveRecord::Base
     group_by_column.try(:groupable)
   end
 
-  def project_statement
-    project_clauses = []
-    subproject_filter = filter_for 'subproject_id'
-    if project && !project.descendants.active.empty?
-      ids = [project.id]
-      if subproject_filter
-        case subproject_filter.operator
-        when '='
-          # include the selected subprojects
-          ids += subproject_filter.values.each(&:to_i)
-        when '!*'
-          # main project only
-        else
-          # all subprojects
-          ids += project.descendants.pluck(:id)
-        end
-      elsif Setting.display_subprojects_work_packages?
-        ids += project.descendants.pluck(:id)
-      end
-      project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
-    elsif project
-      project_clauses << "#{Project.table_name}.id = %d" % project.id
-    end
-    project_clauses.join(' AND ')
-  end
-
   def statement
-    filters_clauses = if filters.present? and valid?
-                        filters
-                          .reject { |f| f.field.to_s == 'subproject_id' }
-                          .map do |filter|
-                            "(#{filter.where})"
-                          end
-                      else
-                        []
-                      end
+    return '1=0' unless valid?
 
-    (filters_clauses << project_statement).reject(&:empty?).join(' AND ')
+    statement_filters
+      .map { |filter| "(#{filter.where})" }
+      .reject(&:empty?)
+      .join(' AND ')
   end
 
   # Returns the result set
@@ -529,6 +498,18 @@ class Query < ActiveRecord::Base
     !!query_menu_item
   end
 
+  def project_limiting_filter
+    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.new
+    subproject_filter.context = self
+
+    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+                                   '*'
+                                 else
+                                   '!*'
+                                 end
+    subproject_filter
+  end
+
   private
 
   def for_all?
@@ -541,5 +522,15 @@ class Query < ActiveRecord::Base
     else
       WorkPackageCustomField.all
     end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
+  end
+
+  def statement_filters
+    if filters.any? { |filter| filter.name == :subproject_id }
+      filters
+    elsif project
+      [project_limiting_filter] + filters
+    else
+      filters
+    end
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -71,6 +72,20 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
     value_ints = values.map(&:to_i)
 
     visible_subprojects.select { |p| value_ints.include?(p.id) }
+  end
+
+  def where
+    ids = [project.id]
+
+    case operator
+    when '='
+      # include the selected subprojects
+      ids += values.each(&:to_i)
+    when '*'
+      ids += project.descendants.pluck(:id)
+    end
+
+    "#{Project.table_name}.id IN (%s)" % ids.join(',')
   end
 
   private
