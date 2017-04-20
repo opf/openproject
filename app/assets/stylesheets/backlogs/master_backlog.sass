@@ -82,11 +82,7 @@
       position: absolute
       top: 7px
       left: 12px
-      &:before
-        content: "\e08a"
       &.open
-        &:before
-          content: "\e089"
         &+ .items
           display: block
     .items
@@ -143,12 +139,10 @@
           width: 23px
           cursor: pointer
           &:before
-            content: "\e00c"
             position: absolute
             left: 6px
             top: 10px
           &.closed:before
-            content: "\e00b"
             position: absolute
             left: 6px
             top: 10px

@@ -2,6 +2,9 @@
 # The tested plugin will be moved to the path `./plugins/this`
 # whereas OpenProject will be checked out to `.`.
 
+gem 'prawn', '~> 2.2'
+gem 'pdf-inspector', '~>1.0.0'
+
 group :opf_plugins do
   gem 'openproject-pdf_export', git: 'https://github.com/finnlabs/openproject-pdf_export', branch: 'dev'
   gem 'openproject-backlogs', path: 'plugins/this'

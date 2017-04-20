@@ -43,7 +43,7 @@ jQuery(function ($) {
   });
 
   $('.backlog .toggler').on('click',function(){
-    $(this).toggleClass('closed');
+    $(this).toggleClass('closed icon-arrow-up1 icon-arrow-down1');
     $(this).parents('.backlog').find('ul.stories').toggleClass('closed');
   });
 });
