@@ -29,7 +29,7 @@
 language: ruby
 
 rvm:
-  - 2.2.5
+  - 2.3.4
 
 sudo: false
 
