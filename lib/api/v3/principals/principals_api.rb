@@ -34,6 +34,7 @@ module API
           get do
             scope = Principal.includes(:preference, :members)
                              .where(members: { project_id: Project.visible(current_user) })
+                             .order_by_name
 
             representer = Users::UserCollectionRepresenter
 
