@@ -79,9 +79,6 @@ export class ContextMenuService {
     // Open the menu
     contextMenu.open(target, locals).then((menuElement) => {
 
-      // Hide menu until rendered
-      menuElement.css('visibility', 'hidden');
-
       contextMenu.menuElement = menuElement;
       this.active_menu = contextMenu;
       (menuElement as any).trap();
