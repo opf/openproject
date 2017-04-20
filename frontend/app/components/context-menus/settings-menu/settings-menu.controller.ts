@@ -120,6 +120,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
     event.stopPropagation();
     if (allowQueryAction(event, 'delete') && deleteConfirmed()) {
       wpListService.delete();
+      closeAnyContextMenu();
     }
   };
 
