@@ -73,7 +73,7 @@ describe ::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter do
 
         context 'within a project with group assignment' do
           let(:filter_query) do
-            [{ status: { operator: '=', values: ['1'] } },
+            [{ status: { operator: '!', values: ['0', '3'] } },
              { member: { operator: '=', values: [project.id.to_s] } }]
           end
           let(:group_assignment_enabled) { true }
@@ -93,7 +93,7 @@ describe ::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter do
 
         context 'within a project without group assignment' do
           let(:filter_query) do
-            [{ status: { operator: '=', values: ['1'] } },
+            [{ status: { operator: '!', values: ['0', '3'] } },
              { type: { operator: '=', values: ['User'] } },
              { member: { operator: '=', values: [project.id.to_s] } }]
           end
@@ -114,7 +114,7 @@ describe ::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter do
         context 'global with no group assignments' do
           let(:project) { nil }
           let(:filter_query) do
-            [{ status: { operator: '=', values: ['1'] } },
+            [{ status: { operator: '!', values: ['0', '3'] } },
              { type: { operator: '=', values: ['User'] } },
              { member: { operator: '*', values: [] } }]
           end
@@ -135,7 +135,7 @@ describe ::API::V3::Queries::Schemas::AssignedToFilterDependencyRepresenter do
         context 'global with group assignments' do
           let(:project) { nil }
           let(:filter_query) do
-            [{ status: { operator: '=', values: ['1'] } },
+            [{ status: { operator: '!', values: ['0', '3'] } },
              { member: { operator: '*', values: [] } }]
           end
           let(:group_assignment_enabled) { true }
