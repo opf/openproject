@@ -243,12 +243,13 @@ module OpenProject::Backlogs
       end
     end
 
-    initializer 'backlogs.register_hooks' do
-      require 'open_project/backlogs/hooks'
+    add_api_path :backlogs_type do |id|
+      # There is no api endpoint for this url
+      "#{root}/backlogs_types/#{id}"
     end
 
-    initializer 'backlogs.register_query_filter' do
-      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
+    initializer 'backlogs.register_hooks' do
+      require 'open_project/backlogs/hooks'
     end
 
     config.to_prepare do
@@ -267,6 +268,8 @@ module OpenProject::Backlogs
       end
 
       ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
+
+      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
     end
   end
 end
