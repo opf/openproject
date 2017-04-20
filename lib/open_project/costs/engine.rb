@@ -116,6 +116,10 @@ module OpenProject::Costs
       "#{root}/budgets/#{id}"
     end
 
+    add_api_path :variable_cost_object do |id|
+      "#{root}/budgets/#{id}"
+    end
+
     add_api_path :budgets_by_project do |project_id|
       "#{project(project_id)}/budgets"
     end
@@ -346,10 +350,6 @@ module OpenProject::Costs
                                                attribute: :updated_on
     end
 
-    initializer 'costs.register_query_filter' do
-      Queries::Register.filter Query, OpenProject::Costs::WorkPackageFilter
-    end
-
     module EagerLoadedCosts
       def add_eager_loading(*args)
         EagerLoadedCosts.join_costs(super)
@@ -447,6 +447,8 @@ module OpenProject::Costs
       cost_attributes.each do |attribute|
         ::Type.add_constraint attribute, constraint
       end
+
+      Queries::Register.filter Query, OpenProject::Costs::WorkPackageFilter
     end
   end
 end
