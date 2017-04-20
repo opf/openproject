@@ -49,11 +49,11 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in single view' do
-      let(:edit_field) {
+      let(:edit_field) do
         field = wp_page.edit_field "customField#{custom_field.id}"
         field.field_type = 'select'
         field
-      }
+      end
 
       before do
         login_as(user)
@@ -88,11 +88,11 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in the WP table' do
-      let(:edit_field) {
+      let(:edit_field) do
         field = wp_table.edit_field work_package, "customField#{custom_field.id}"
         field.field_type = 'select'
         field
-      }
+      end
       include_context 'work package table helpers'
 
       before do
@@ -113,7 +113,7 @@ describe "multi select custom values", js: true do
         hierarchy.expect_no_hierarchies
 
         # Should show truncated values
-        expect(page).to have_text "ham , pineapple , ... 3"
+        expect(page).to have_text "ham, pineapple, ... 3"
         expect(page).not_to have_text "onions"
 
         # Group by the CF
