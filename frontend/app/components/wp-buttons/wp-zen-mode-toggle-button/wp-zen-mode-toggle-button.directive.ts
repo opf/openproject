@@ -29,6 +29,8 @@
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 
+const screenfull:any = require('screenfull/dist/screenfull.js');
+
 export class WorkPackageZenModeButtonController extends WorkPackageButtonController {
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
   public iconClass:string = 'icon-zen-mode';
@@ -44,6 +46,17 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
     this.scope = $scope;
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
+    let self = this;
+    screenfull.onchange(function() {
+      // This event might get triggered several times for once leaving
+      // fullscreen mode.
+      if (!screenfull.isFullscreen) {
+        self.deactivateZenMode();
+        // The event wasn't cached from angularJS so we need to make sure
+        // a rendering cycle gets triggered:
+        self.scope.$apply();
+      }
+    });
   }
 
   public get label():string {
@@ -66,47 +79,24 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
     WorkPackageZenModeButtonController.inZenMode = false;
     angular.element('body').removeClass('zen-mode');
     this.disabled = false;
+    if (screenfull.enabled && screenfull.isFullscreen) {
+      screenfull.exit();
+    }
   }
 
   private activateZenMode():void {
     WorkPackageZenModeButtonController.inZenMode = true;
     angular.element('body').addClass('zen-mode');
-  }
-
-  static notDesktopSafari():boolean {
-    let isSafari:boolean = navigator.userAgent.indexOf("Safari") > -1;
-    let isMac:boolean    = navigator.userAgent.indexOf("Mac OS") > -1;
-    let isChrome:boolean = navigator.userAgent.indexOf("Chrome") > -1;
-    return !(isSafari && !isChrome && isMac)
-  }
-
-  private toggleBrowserFullscreen(startFullscreen:boolean):void {
-    let self = this;
-
-    if (WorkPackageZenModeButtonController.notDesktopSafari()) {
-      if (startFullscreen) {
-        jQuery(document).bind("fullscreenchange", function() {
-          // This event might get triggered several times for once leaving
-          // fullscreen mode.
-          if (!jQuery(document).fullScreen()) {
-            self.deactivateZenMode();
-            // The event wasn't cached from angularJS so we need to make sure
-            // a rendering cycle gets triggered:
-            self.scope.$apply();
-          }
-        });
-      };
-      jQuery(document).fullScreen(startFullscreen);
+    if (screenfull.enabled) {
+      screenfull.request();
     }
   }
 
   public performAction() {
     if (WorkPackageZenModeButtonController.inZenMode) {
       this.deactivateZenMode();
-      this.toggleBrowserFullscreen(false);
     } else {
       this.activateZenMode();
-      this.toggleBrowserFullscreen(true);
     }
   }
 }
