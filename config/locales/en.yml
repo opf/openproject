@@ -43,6 +43,7 @@ en:
         unit: "Unit name"
         unit_plural: "Pluralized unit name"
       work_package:
+        costs_by_type: "Spent units"
         cost_object_subject: "Budget title"
         labor_costs: "Labor costs"
         material_costs: "Unit costs"
