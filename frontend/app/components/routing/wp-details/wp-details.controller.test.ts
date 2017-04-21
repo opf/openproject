@@ -36,7 +36,6 @@ describe('WorkPackageDetailsController', () => {
   var promise:any;
   var buildController:any;
   var ctrl:any;
-  var stateParams:any = {};
   var I18n:any = {t: angular.identity};
 
   var workPackage:any = {
@@ -128,18 +127,14 @@ describe('WorkPackageDetailsController', () => {
       isTimezoneSet: sinon.stub().returns(false),
       warnOnLeavingUnsaved: sinon.stub().returns(false)
     });
-
-    $provide.constant('$stateParams', stateParams);
   }));
 
   beforeEach(angular.mock.inject(($rootScope:any,
                                   $controller:any,
                                   $state:any,
-                                  $timeout:any,
                                   $q:any,
                                   $httpBackend:any,
                                   WorkPackageService:any) => {
-    $state.params = stateParams;
     $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
 
     WorkPackageService.getWorkPackage = () => {
@@ -167,9 +162,7 @@ describe('WorkPackageDetailsController', () => {
         workPackage: workPackage,
       });
 
-      $timeout.flush();
       promise = ctrl.initialized.promise;
-
     };
   }));
 

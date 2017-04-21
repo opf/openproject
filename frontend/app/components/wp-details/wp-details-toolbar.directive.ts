@@ -35,6 +35,7 @@ function wpDetailsToolbar(
   $state:ng.ui.IStateService,
   states:States,
   $window:ng.IWindowService,
+  $location:ng.ILocationService,
   I18n:op.I18n,
   HookService:any,
   WorkPackageService:any,
@@ -102,7 +103,7 @@ function wpDetailsToolbar(
               deleteSelectedWorkPackage();
               break;
             default:
-              $window.location.href = link;
+              $location.path(link);
               break;
           }
         };

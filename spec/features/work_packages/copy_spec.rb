@@ -93,7 +93,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
   end
 
   scenario 'on fullscreen page' do
-    original_work_package_page = Pages::FullWorkPackage.new(original_work_package)
+    original_work_package_page = Pages::FullWorkPackage.new(original_work_package, project)
     to_copy_work_package_page = original_work_package_page.visit_copy!
 
     to_copy_work_package_page.expect_current_path
