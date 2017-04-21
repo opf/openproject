@@ -38,24 +38,33 @@ export class SimpleTemplateRenderer {
   }
 
   /**
+   * Return a new isolated $scope used to pass to renderIsolated.
+   * The caller needs to maintain the lifetime of this scope
+   * and call `.$destroy()` when it is no longer required.
+   */
+  public createRenderScope() {
+    return this.$rootScope.$new();
+  }
+
+  /**
    * Render the given angular template in an isolated scope
    * into the given element.
    *
    * All content of the element is replaced.
    */
   public renderIsolated(element:HTMLElement,
+                        scope:ng.IScope,
                         template:string,
                         scopeValues:Object):ng.IPromise<ng.IAugmentedJQuery> {
-    const scope = this.$rootScope.$new();
     const deferred = this.$q.defer();
     _.assign(scope, scopeValues);
 
     const templateEl = angular.element(this.$templateCache.get(template) as string);
-    this.$compile(templateEl)(scope, (clonedElement:ng.IAugmentedJQuery, scope) => {
+    this.$compile(templateEl)(scope, (clonedElement:ng.IAugmentedJQuery) => {
       element.innerHTML = '';
       element.appendChild(clonedElement[0]);
 
-      this.$timeout(() => deferred.resolve(clonedElement));
+      deferred.resolve(clonedElement);
     });
 
     return deferred.promise;

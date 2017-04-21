@@ -29,14 +29,28 @@
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
 
 export class ProgressDisplayField extends DisplayField {
-  public template:string = '/components/wp-display/field-types/wp-display-progress-field.directive.html'
-
   public get value() {
-    if(this.schema) {
+    if (this.schema) {
       return this.resource[this.name] || 0;
     }
     else {
       return null;
     }
+  }
+
+  public render(element:HTMLElement, displayText:string): void {
+    const progressInPercent = Math.round(Number(this.value)) || 0;
+    const label = this.I18n.t('js.label_total_progress', { percent: progressInPercent });
+
+    element.setAttribute('title', displayText);
+    element.innerHTML = `
+      <span>
+        <span style="width: 80px" class="progress-bar">
+          <span style="width: ${progressInPercent}%" class="inner-progress closed"></span>
+          <span style="width: 0%" class="inner-progress done"></span>
+        </span>
+        <span class="progress-bar-legend">${label}</span>
+      </span>
+    `;
   }
 }

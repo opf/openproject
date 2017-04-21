@@ -63,7 +63,6 @@ angular.module('openproject.uiComponents')
     'CacheService',
     require('./persistent-toggle-directive')]
   )
-  .directive('progressBar', ['I18n', require('./progress-bar-directive')])
   .constant('LABEL_MAX_CHARS', 40)
   .constant('KEY_CODES', {
     enter: 13,

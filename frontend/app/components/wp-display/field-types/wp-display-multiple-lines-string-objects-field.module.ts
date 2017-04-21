@@ -26,8 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {ResourcesDisplayField} from "./wp-display-resources-field.module";
+import {cssClassCustomOption, ResourcesDisplayField} from "./wp-display-resources-field.module";
 
 export class MultipleLinesStringObjectsDisplayField extends ResourcesDisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-multiple-lines-string-objects-field.directive.html';
+
+  public render(element:HTMLElement, displayText:string):void {
+    const values = this.value;
+    element.setAttribute('title', displayText);
+    element.textContent = displayText;
+
+    element.innerHTML = '';
+
+    if (values.length === 0) {
+      this.renderEmpty(element);
+    } else {
+      this.renderValues(values, element);
+    }
+  }
+
+  protected renderValues(values:string[], element:HTMLElement) {
+    values.forEach((value) => {
+      const div = document.createElement('div');
+      div.classList.add(cssClassCustomOption, '-multiple-lines');
+      div.setAttribute('title', value);
+      div.textContent = value;
+
+      element.appendChild(div);
+    });
+  }
 }

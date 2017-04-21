@@ -37,6 +37,9 @@ export class WorkPackageEditFieldHandler {
   public FocusHelper:any;
   public I18n:op.I18n;
 
+  // Scope the field has been rendered in
+  public $scope:ng.IScope;
+
   // Other fields
   public editContext:WorkPackageEditContext;
   public fieldName:string;
@@ -126,6 +129,7 @@ export class WorkPackageEditFieldHandler {
   public deactivate(focus:boolean = false) {
     delete this.form.activeFields[this.fieldName];
     this.editContext.reset(this.workPackage, this.fieldName, focus);
+    this.$scope && this.$scope.$destroy();
   }
 
   /**
