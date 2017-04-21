@@ -35,38 +35,26 @@
 
 module API
   module V3
-    module Queries
-      module Schemas
-        class BacklogsTypeDependencyRepresenter <
-          FilterDependencyRepresenter
+    module BacklogsTypes
+      class BacklogsTypeRepresenter < ::API::Decorators::Single
+        self_link path: :backlogs_type,
+                  id_attribute: ->(*) { represented.last },
+                  title_getter: ->(*) { represented.first }
 
-          schema_with_allowed_collection :values,
-                                         type: ->(*) { type },
-                                         writable: true,
-                                         has_default: false,
-                                         required: true,
-                                         visibility: false,
-                                         values_callback: ->(*) {
-                                           represented.allowed_values
-                                         },
-                                         value_representer: BacklogsTypes::BacklogsTypeRepresenter,
-                                         link_factory: ->(value) {
-                                           {
-                                             href: api_v3_paths.backlogs_type(value.last),
-                                             title: value.first
-                                           }
-                                         },
-                                         show_if: ->(*) {
-                                           value_required?
-                                         }
+        property :id,
+                 exec_context: :decorator
 
-          def href_callback; end
+        property :name,
+                 exec_context: :decorator
 
-          private
+        private
 
-          def type
-            '[1]BacklogsType'
-          end
+        def id
+          represented.last
+        end
+
+        def name
+          represented.first
         end
       end
     end

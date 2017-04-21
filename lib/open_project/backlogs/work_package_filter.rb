@@ -37,11 +37,7 @@ require 'story'
 require 'task'
 
 module OpenProject::Backlogs
-  class WorkPackageFilter < ::Queries::Filters::Base
-
-    alias :project :context
-    alias :project= :context=
-
+  class WorkPackageFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
     def allowed_values
       [[I18n.t(:story, scope: [:backlogs]), 'story'],
        [I18n.t(:task, scope: [:backlogs]), 'task'],
@@ -58,41 +54,8 @@ module OpenProject::Backlogs
       :backlogs_work_package_type
     end
 
-    def self.sql_for_field(values, db_table, _db_field)
-      sql = []
-
-      selected_values = ['story', 'task'] if values.include?('any')
-
-      story_types = Story.types.map(&:to_s).join(',')
-      all_types = (Story.types + [Task.type]).map(&:to_s).join(',')
-
-      selected_values.each do |val|
-        case val
-        when 'story'
-          sql << "(#{db_table}.type_id IN (#{story_types}))"
-        when 'task'
-          sql << "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
-        when 'impediment'
-          sql << "(#{db_table}.id IN (
-                select from_id
-                FROM relations ir
-                JOIN work_packages blocked
-                ON
-                  blocked.id = ir.to_id
-                  AND blocked.type_id IN (#{all_types})
-                WHERE ir.relation_type = 'blocks'
-              ) AND #{db_table}.parent_id IS NULL)"
-        end
-
-        case operator
-        when '='
-          sql = sql.join(' OR ')
-        when '!'
-          sql = 'NOT (' + sql.join(' OR ') + ')'
-        end
-      end
-
-      sql
+    def where
+      sql_for_field(values)
     end
 
     def order
@@ -111,6 +74,16 @@ module OpenProject::Backlogs
       '::API::V3::Queries::Schemas::BacklogsTypeDependencyRepresenter'
     end
 
+    def ar_object_filter?
+      true
+    end
+
+    def value_objects
+      allowed_values
+        .select { |av| values.include?(av.last) }
+        .map { |value| BacklogsType.new(*value) }
+    end
+
     private
 
     def backlogs_configured?
@@ -119,6 +92,72 @@ module OpenProject::Backlogs
 
     def backlogs_enabled?
       project.nil? || project.module_enabled?(:backlogs)
+    end
+
+    def sql_for_field(values)
+      selected_values = if values.include?('any')
+                          ['story', 'task']
+                        else
+                          values
+                        end
+
+      sql_parts = selected_values.map do |val|
+        case val
+        when 'story'
+          sql_for_story
+        when 'task'
+          sql_for_task
+        when 'impediment'
+          sql_for_impediment
+        end
+      end
+
+      case operator
+      when '='
+        sql_parts.join(' OR ')
+      when '!'
+        'NOT (' + sql_parts.join(' OR ') + ')'
+      end
+    end
+
+    def db_table
+      WorkPackage.table_name
+    end
+
+    def sql_for_story
+      story_types = Story.types.map(&:to_s).join(',')
+
+      "(#{db_table}.type_id IN (#{story_types}))"
+    end
+
+    def sql_for_task
+      "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
+    end
+
+    def sql_for_impediment
+      all_types = (Story.types + [Task.type]).map(&:to_s).join(',')
+
+      "(#{db_table}.id IN (
+          select from_id
+          FROM relations ir
+          JOIN work_packages blocked
+          ON
+            blocked.id = ir.to_id
+            AND blocked.type_id IN (#{all_types})
+          WHERE ir.relation_type = 'blocks'
+        ) AND #{db_table}.parent_id IS NULL)"
+    end
+  end
+
+  # Need to be conformant to the interface required
+  # by api/v3/queries/filters/query_filter_instance_representer.rb
+  class BacklogsType
+    attr_accessor :id,
+                  :name
+
+    def initialize(name, id)
+      self.id = id
+      self.name = name
     end
   end
 end
