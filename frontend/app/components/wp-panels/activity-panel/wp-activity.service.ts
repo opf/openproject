@@ -58,6 +58,8 @@ export class WorkPackagesActivityService {
       aggregated.push(data.elements);
     };
 
+    this.hackNonCachedActivities(workPackage);
+
     promises.push(workPackage.activities.$load().then(add));
 
     if (workPackage.revisions) {
@@ -79,6 +81,15 @@ export class WorkPackagesActivityService {
   public info(activities:any, activity:any, index:any) {
     return new ActivityEntryInfo(this.$filter, this.isReversed, activities, activity, index);
   };
+
+  // FIXME: ugly hack to enable circumventing cached responses which would return stale activities after a user updated a resource.
+  // The correct solution is to rely on states.
+  private hackNonCachedActivities(workPackage:WorkPackageResourceInterface) {
+    let newLoadHeaders = () => {
+      return { caching: { enabled: false } }
+    };
+    workPackage.activities['$loadHeaders'] = newLoadHeaders;
+  }
 }
 
 opWorkPackagesModule.service('wpActivity', WorkPackagesActivityService);
