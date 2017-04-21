@@ -273,25 +273,17 @@ module Api
       end
 
       def current_work_packages(projects)
-        work_packages = WorkPackage.for_projects(projects)
+        work_packages = WorkPackage
+                        .for_projects(projects)
                         .changed_since(@since)
-                        .includes(:status, :project, :type, :custom_values)
+                        .includes(:status, :project, :type, custom_values: :custom_field)
                         .references(:projects)
 
         wp_ids = parse_work_package_ids
         work_packages = work_packages.where(id: wp_ids) if wp_ids
 
         if params[:f]
-          # we need a project to make project-specific custom fields work
-          project = timeline_to_project(params[:timeline])
-          query = Query.new(project: project, name: '_')
-
-          query.add_filters(params[:f], params[:op], params[:v])
-
-          # if we do not remove the project, the filter will only add wps from this project
-          query.project = nil
-
-          work_packages = work_packages.with_query query
+          work_packages = work_packages.merge(filtered_work_package_scope(params))
         end
 
         work_packages
@@ -365,6 +357,25 @@ module Api
 
       def parse_work_package_ids
         params[:ids] ? params[:ids].split(',') : nil
+      end
+
+      def filtered_work_package_scope(params)
+        # we need a project to make project-specific custom fields work
+        project = timeline_to_project(params[:timeline])
+        query = Query.new(project: project, name: '_')
+
+        query.add_filters(params[:f], params[:op], params[:v])
+
+        # if we do not remove the project, the filter will only add wps from this project
+        # but as the filters still need the project (e.g. to determine whether they are valid),
+        # we need to duplicate the query and assign it to the filters
+        filter_query = query.dup
+        query.filters.each do |filter|
+          filter.context = filter_query
+        end
+        query.project = nil
+
+        WorkPackage.with_query query
       end
     end
   end

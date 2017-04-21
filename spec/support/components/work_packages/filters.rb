@@ -54,6 +54,23 @@ module Components
         select name, from: "values-watcher"
       end
 
+      # limited to select fields for now
+      def add_filter_by(name, operator, value, selector = nil)
+        id = selector || name.downcase
+
+        select name, from: "add_filter_select"
+        select operator, from: "operators-#{id}"
+        select value, from: "values-#{id}"
+      end
+
+      # limited to select fields for now
+      def expect_filter_by(name, operator, value, selector = nil)
+        id = selector || name.downcase
+
+        expect(page).to have_select("operators-#{id}", selected: operator)
+        expect(page).to have_select("values-#{id}", selected: value)
+      end
+
       def remove_filter(field)
         page.within(filters_selector) do
           find("#filter_#{field} .advanced-filters--remove-filter-icon").click

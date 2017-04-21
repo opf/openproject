@@ -157,7 +157,7 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
     it_behaves_like 'filtering by bool custom field'
   end
 
-  context 'with a global bool custom field' do
+  context 'with a project bool custom field' do
     let(:cf) { bool_cf_local }
     it_behaves_like 'filtering by bool custom field'
   end
@@ -248,7 +248,7 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
     it_behaves_like 'filtering by list custom field'
   end
 
-  context 'with a global list custom field' do
+  context 'with a project list custom field' do
     let(:cf) { list_cf_local }
     it_behaves_like 'filtering by list custom field'
   end

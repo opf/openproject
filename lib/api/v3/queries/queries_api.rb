@@ -57,7 +57,7 @@ module API
           end
 
           get do
-            authorize_any [:view_work_packages, :manage_public_queries], global: true
+            authorize_any %i(view_work_packages manage_public_queries), global: true
 
             queries_scope = Query.all.includes(QueryRepresenter.to_eager_load)
 

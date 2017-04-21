@@ -35,10 +35,10 @@ module API
           FilterDependencyRepresenter
 
           def href_callback
-            if filter.context.nil?
+            if filter.project.nil?
               api_v3_paths.types
             else
-              api_v3_paths.types_by_project(filter.context.id)
+              api_v3_paths.types_by_project(filter.project.id)
             end
           end
 

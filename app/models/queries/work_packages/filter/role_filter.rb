@@ -92,7 +92,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   def user_ids_for_filtering
     scope = if ['*', '!*'].include?(operator)
               user_ids_for_filtering_scope
-            elsif context
+            elsif project
               user_ids_for_filter_project_scope
             else
               user_ids_for_filter_non_project_scope
@@ -109,7 +109,7 @@ class Queries::WorkPackages::Filter::RoleFilter < Queries::WorkPackages::Filter:
   def user_ids_for_filter_project_scope
     user_ids_for_filtering_scope
       .where(id: values)
-      .where(members: { project_id: context.id })
+      .where(members: { project_id: project.id })
   end
 
   def user_ids_for_filter_non_project_scope

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Project, type: :model do
   fixtures :all
@@ -880,8 +881,8 @@ describe Project, type: :model do
       # group role
       (Member.new.tap do |m|
         m.attributes = { project_id: @source_project.id,
-                               principal: group,
-                               role_ids: [2] }
+                         principal: group,
+                         role_ids: [2] }
       end).save!
 
       member = Member.find_by(user_id: user.id, project_id: @source_project.id)

@@ -209,7 +209,7 @@ module Project::Copy
       # Copy users first, then groups to handle members with inherited and given roles
       members_to_copy = []
       members_to_copy += project.memberships.select { |m| m.principal.is_a?(User) }
-      members_to_copy += project.memberships.select { |m| !m.principal.is_a?(User) }
+      members_to_copy += project.memberships.reject { |m| m.principal.is_a?(User) }
       members_to_copy.each do |member|
         new_member = Member.new
         new_member.send(:assign_attributes, member.attributes.dup.except('id', 'project_id', 'created_on'))
@@ -235,6 +235,7 @@ module Project::Copy
       project.queries.each do |query|
         new_query = ::Query.new name: '_'
         new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
+        new_query.set_context
         new_query.sort_criteria = query.sort_criteria if query.sort_criteria
         new_query.project = self
         queries << new_query
@@ -245,15 +246,12 @@ module Project::Copy
     def copy_boards(project)
       project.boards.each do |board|
         new_board = Board.new
-        new_board.attributes = board.attributes.dup.except('id', 'project_id', 'topics_count', 'messages_count', 'last_message_id')
-        topics = board.topics.where('parent_id is NULL')
-        topics.each do |topic|
-          new_topic = Message.new
-          new_topic.attributes = topic.attributes.dup.except('id', 'board_id', 'author_id', 'replies_count', 'last_reply_id', 'created_on', 'updated_on')
-          new_topic.board = new_board
-          new_topic.author_id = topic.author_id
-          new_board.topics << new_topic
-        end
+        new_board.attributes = board.attributes.dup.except('id',
+                                                           'project_id',
+                                                           'topics_count',
+                                                           'messages_count',
+                                                           'last_message_id')
+        copy_topics(board, new_board)
 
         new_board.project = self
         boards << new_board
@@ -262,7 +260,7 @@ module Project::Copy
 
     # Copies project associations from +project+
     def copy_project_associations(project)
-      [:project_a, :project_b].each do |association_type|
+      %i(project_a project_b).each do |association_type|
         project.send(:"#{association_type}_associations").each do |association|
           new_association = ProjectAssociation.new
           new_association.attributes = association.attributes.dup.except('id', "#{association_type}_id")
@@ -296,6 +294,23 @@ module Project::Copy
         copied_reporting.attributes = reporting.attributes.dup.except('id', 'reporting_to_project')
         copied_reporting.reporting_to_project = self
         copied_reporting.save
+      end
+    end
+
+    def copy_topics(board, new_board)
+      topics = board.topics.where('parent_id is NULL')
+      topics.each do |topic|
+        new_topic = Message.new
+        new_topic.attributes = topic.attributes.dup.except('id',
+                                                           'board_id',
+                                                           'author_id',
+                                                           'replies_count',
+                                                           'last_reply_id',
+                                                           'created_on',
+                                                           'updated_on')
+        new_topic.board = new_board
+        new_topic.author_id = topic.author_id
+        new_board.topics << new_topic
       end
     end
   end

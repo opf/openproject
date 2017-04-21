@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,8 +46,9 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Bas
     WorkPackage.human_attribute_name(name)
   end
 
-  alias :project :context
-  alias :project= :context=
+  def project
+    context.project
+  end
 
   def attributes
     { name: name, operator: operator, values: values }

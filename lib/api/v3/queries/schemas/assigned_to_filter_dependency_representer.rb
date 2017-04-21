@@ -46,8 +46,8 @@ module API
               params << { type: { operator: '=', values: ['User'] } }
             end
 
-            params << if filter.context
-                        { member: { operator: '=', values: [filter.context.id.to_s] } }
+            params << if filter.project
+                        { member: { operator: '=', values: [filter.project.id.to_s] } }
                       else
                         { member: { operator: '*', values: [] } }
                       end

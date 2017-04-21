@@ -337,7 +337,8 @@ describe Query, type: :model do
     c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+    issues = WorkPackage
+             .includes(:assigned_to, :status, :type, :project, :priority)
              .where(q.statement)
              .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
              .references(:projects)
@@ -369,7 +370,6 @@ describe Query, type: :model do
     expect(count_by_group.keys.map { |k| k.class.name }.uniq)
       .to match_array(%w(CustomOption NilClass))
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
-    puts count_by_group
     expect(count_by_group.any? { |k, v| k.is_a?(CustomOption) && k.id == 1 && v == 1 })
       .to be_truthy
   end

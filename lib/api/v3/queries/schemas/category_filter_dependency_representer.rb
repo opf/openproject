@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ module API
 
           def href_callback
             # This filter is only available inside projects
-            api_v3_paths.categories(filter.context.identifier)
+            api_v3_paths.categories(filter.project.identifier)
           end
 
           def type
