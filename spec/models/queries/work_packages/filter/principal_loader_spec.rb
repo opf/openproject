@@ -73,6 +73,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
   context 'without a project' do
     let(:project) { nil }
     let(:visible_projects) { [FactoryGirl.build_stubbed(:project)] }
+    let(:matching_principals) { [user_1, group_1] }
 
     before do
       allow(Project)
@@ -80,9 +81,9 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         .and_return visible_projects
 
       allow(Principal)
-        .to receive_message_chain(:active, :in_project)
+        .to receive_message_chain(:active_or_registered, :in_project)
         .with(visible_projects)
-        .and_return([user_1, group_1])
+        .and_return(matching_principals)
     end
 
     describe '#user_values' do
@@ -90,13 +91,12 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.user_values).to match_array([[user_1.name, user_1.id.to_s]])
       end
 
-      it 'is empty if no user exists' do
-        allow(Principal)
-          .to receive_message_chain(:active, :in_project)
-          .with(visible_projects)
-          .and_return([group_1])
+      context 'no user exists' do
+        let(:matching_principals) { [group_1] }
 
-        expect(instance.user_values).to be_empty
+        it 'is empty' do
+          expect(instance.user_values).to be_empty
+        end
       end
     end
 
@@ -105,13 +105,12 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
         expect(instance.group_values).to match_array([[group_1.name, group_1.id.to_s]])
       end
 
-      it 'is empty if no group exists' do
-        allow(Principal)
-          .to receive_message_chain(:active, :in_project)
-          .with(visible_projects)
-          .and_return([user_1])
+      context 'no group exists' do
+        let(:matching_principals) { [user_1] }
 
-        expect(instance.group_values).to be_empty
+        it 'is empty' do
+          expect(instance.group_values).to be_empty
+        end
       end
     end
   end

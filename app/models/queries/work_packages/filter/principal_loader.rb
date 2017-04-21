@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -55,7 +56,7 @@ class Queries::WorkPackages::Filter::PrincipalLoader
       project.principals.sort
     elsif visible_projects.any?
       user_or_principal = Setting.work_package_group_assignment? ? Principal : User
-      user_or_principal.active.in_project(visible_projects).sort
+      user_or_principal.active_or_registered.in_project(visible_projects).sort
     else
       []
     end
