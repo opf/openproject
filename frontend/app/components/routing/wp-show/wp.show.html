@@ -31,6 +31,10 @@
         <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
           <wp-watcher-button work-package="$ctrl.workPackage" disabled="$ctrl.wpEditModeState.active"></wp-watcher-button>
         </li>
+        <li class="toolbar-item">
+          <wp-zen-mode-toggle-button>
+          </wp-zen-mode-toggle-button>
+        </li>
         <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
           <button class="button dropdown-relative"
                   ng-disabled="!actionsAvailable || $ctrl.wpEditModeState.active"
