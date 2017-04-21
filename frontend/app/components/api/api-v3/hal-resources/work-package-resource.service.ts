@@ -29,6 +29,7 @@
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {SchemaCacheService} from './../../../schemas/schema-cache.service';
 import {ApiWorkPackagesService} from '../../api-work-packages/api-work-packages.service';
 import {CollectionResource, CollectionResourceInterface} from './collection-resource.service';
 import {AttachmentCollectionResourceInterface} from './attachment-collection-resource.service';
@@ -56,7 +57,6 @@ interface WorkPackageResourceEmbedded {
   relations: CollectionResourceInterface;
   responsible: HalResource|any;
   revisions: CollectionResourceInterface|any;
-  schema: SchemaResource;
   status: HalResource|any;
   timeEntries: HalResource[]|any[];
   type: TypeResource;
@@ -88,6 +88,10 @@ interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   watch(): ng.IPromise<any>;
 }
 
+interface WorkPackageLinksObject extends WorkPackageResourceLinks {
+  schema: HalResource;
+}
+
 var $q: IQService;
 var $stateParams: any;
 var $timeout: ITimeoutService;
@@ -95,6 +99,7 @@ var I18n: op.I18n;
 var states: States;
 var apiWorkPackages: ApiWorkPackagesService;
 var wpCacheService: WorkPackageCacheService;
+var schemaCacheService: SchemaCacheService;
 var NotificationsService: any;
 var wpNotificationsService: any;
 var AttachmentCollectionResource:any;
@@ -127,8 +132,7 @@ export class WorkPackageResource extends HalResource {
   }
 
   public $embedded: WorkPackageResourceEmbedded;
-  public $links: WorkPackageResourceLinks;
-  public schema: SchemaResource;
+  public $links: WorkPackageLinksObject;
   public $pristine: { [attribute: string]: any } = {};
   public parentId: number;
   public subject: string;
@@ -142,6 +146,9 @@ export class WorkPackageResource extends HalResource {
   public pendingAttachments: UploadFile[] = [];
 
   private form:any;
+  // Keep a reference to an embedded form schema,
+  // if this work package currently has one.
+  private overriddenSchema:SchemaResource|null;
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -359,7 +366,7 @@ export class WorkPackageResource extends HalResource {
       .then((form:any) => {
         // Override the current schema with
         // the changes from API
-        this.schema = form.$embedded.schema;
+        this.overriddenSchema = form.$embedded.schema;
 
         // Take over new values from the form
         // this resource doesn't know yet.
@@ -377,7 +384,7 @@ export class WorkPackageResource extends HalResource {
 
   public loadFormSchema() {
     return this.getForm().then((form:any) => {
-      this.schema = form.$embedded.schema;
+      this.overriddenSchema = form.$embedded.schema;
 
       angular.forEach(this.schema, (field, name) => {
         // Assign only links from schema when an href is set
@@ -409,15 +416,16 @@ export class WorkPackageResource extends HalResource {
 
         this.$links.updateImmediately(payload)
           .then((workPackage:WorkPackageResource) => {
-            // Remove the current form, otherwise old form data
+            // Remove the current form and schema, otherwise old form data
             // might still be used for the next edit field to be edited
             this.form = null;
+            this.overriddenSchema = null;
+
+            // Initialize any potentially new HAL values
+            this.$initialize(workPackage);
 
             // Ensure the schema is loaded before updating
-            workPackage.schema.$load().then((schema:SchemaResource) => {
-              // Initialize any potentially new HAL values
-              this.$initialize(workPackage);
-              this.schema = schema;
+            schemaCacheService.ensureLoaded(this).then(() => {
               this.updateActivities();
 
               if (wasNew) {
@@ -573,7 +581,7 @@ export class WorkPackageResource extends HalResource {
    * @param form
    */
   public initializeNewResource(form:any) {
-    this.schema = form.schema;
+    this.overriddenSchema = form.schema;
     this.form = $q.when(form);
     this.$source.id = 'new';
 
@@ -585,6 +593,38 @@ export class WorkPackageResource extends HalResource {
     };
 
     this.parentId = this.parentId || $stateParams.parent_id;
+  }
+
+  /**
+   * Exclude the schema _link from the linkable Resources.
+  */
+  public $linkableKeys():string[] {
+    return _.without(super.$linkableKeys(), 'schema');
+  }
+
+  /**
+   * Get the current schema, assuming it is either:
+   * 1. Overridden by the current loaded form
+   * 2. Available as a schema state
+   *
+   * If it is neither, an exception is raised.
+   */
+  public get schema():SchemaResource {
+    if (this.hasOverriddenSchema) {
+      return this.overriddenSchema!;
+    }
+
+    const state = schemaCacheService.state(this);
+
+    if (!state.hasValue()) {
+      throw `Accessing schema of ${this.id} without it being loaded.`;
+    }
+
+    return state.value!;
+  }
+
+  public get hasOverriddenSchema():boolean {
+    return this.overriddenSchema != null;
   }
 }
 
@@ -600,6 +640,7 @@ function wpResource(...args:any[]) {
     states,
     apiWorkPackages,
     wpCacheService,
+    schemaCacheService,
     NotificationsService,
     wpNotificationsService,
     AttachmentCollectionResource] = args;
@@ -614,6 +655,7 @@ wpResource.$inject = [
   'states',
   'apiWorkPackages',
   'wpCacheService',
+  'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',
   'AttachmentCollectionResource'

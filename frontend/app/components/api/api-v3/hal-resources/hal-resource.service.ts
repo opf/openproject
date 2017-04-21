@@ -191,6 +191,35 @@ export class HalResource {
 
     return headers;
   }
+
+  /**
+   * Specify this resource's embedded keys that should be transformed with resources.
+   * Use this to restrict, e.g., links that should not be made properties if you have a custom get/setter.
+  */
+  public $embeddableKeys():string[] {
+    const properties = Object.keys(this.$source);
+    return _.without(properties, '_links', '_embedded');
+  }
+
+  /**
+   * Specify this resource's keys that should not be transformed with resources.
+   * Use this to restrict, e.g., links that should not be made properties if you have a custom get/setter.
+  */
+  public $linkableKeys():string[] {
+    const properties = Object.keys(this.$links);
+    return _.without(properties, 'self');
+  }
+
+  /**
+   * Get a linked resource from its HalLink with the correct ype
+   */
+  public createLinkedResource(linkName:string, link:HalLinkInterface) {
+    const resource = HalResource.getEmptyResource();
+    const type = this.constructor._type;
+    resource._links.self = link;
+
+    return halResourceFactory.createLinkedHalResource(resource, type, linkName);
+  }
 }
 
 function initializeResource(halResource:HalResource) {
@@ -212,7 +241,7 @@ function initializeResource(halResource:HalResource) {
   }
 
   function proxyProperties() {
-    _.without(Object.keys(halResource.$source), '_links', '_embedded').forEach((property:any) => {
+    halResource.$embeddableKeys().forEach((property:any) => {
       Object.defineProperty(halResource, property, {
         get() {
           return halResource.$source[property];
@@ -229,13 +258,13 @@ function initializeResource(halResource:HalResource) {
   }
 
   function setLinksAsProperties() {
-    _.without(Object.keys(halResource.$links), 'self').forEach((linkName:string) => {
+    halResource.$linkableKeys().forEach((linkName:string) => {
       lazy(halResource, linkName,
         () => {
           const link:any = halResource.$links[linkName].$link || halResource.$links[linkName];
 
           if (Array.isArray(link)) {
-            var items = link.map(item => createLinkedResource(linkName, item.$link));
+            var items = link.map(item => halResource.createLinkedResource(linkName, item.$link));
             var property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach(item => {
                 if (!item.$link) {
@@ -254,7 +283,7 @@ function initializeResource(halResource:HalResource) {
               return HalLink.callable(link);
             }
 
-            return createLinkedResource(linkName, link);
+            return halResource.createLinkedResource(linkName, link);
           }
 
           return null;
@@ -306,14 +335,6 @@ function initializeResource(halResource:HalResource) {
 
       return HalResource.create(element);
     });
-  }
-
-  function createLinkedResource(linkName:string, link:any) {
-    const resource = HalResource.getEmptyResource();
-    const type = halResource.constructor._type;
-    resource._links.self = link;
-
-    return halResourceFactory.createLinkedHalResource(resource, type, linkName);
   }
 
   function setter(val:HalResource, linkName:string) {
