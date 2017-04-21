@@ -46,9 +46,9 @@ export class ActivityPanelController {
     scopedObservable(
       $scope,
       wpCacheService.loadWorkPackage(this.workPackage.id).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.wpActivity.aggregateActivities(this.workPackage).then((activities: any) => {
+        this.wpActivity.aggregateActivities(this.workPackage).then((activities:any) => {
           this.activities = activities;
         });
       });
