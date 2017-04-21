@@ -3065,9 +3065,9 @@
       "resolved": "https://registry.npmjs.org/ms/-/ms-0.7.2.tgz"
     },
     "nan": {
-      "version": "2.6.1",
+      "version": "2.6.2",
       "from": "nan@>=2.3.0 <3.0.0",
-      "resolved": "https://registry.npmjs.org/nan/-/nan-2.6.1.tgz",
+      "resolved": "https://registry.npmjs.org/nan/-/nan-2.6.2.tgz",
       "optional": true
     },
     "negotiator": {
@@ -3477,9 +3477,9 @@
       "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-2.2.0.tgz"
     },
     "reactivestates": {
-      "version": "0.4.9",
-      "from": "reactivestates@0.4.9",
-      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.4.9.tgz"
+      "version": "0.4.11",
+      "from": "reactivestates@0.4.11",
+      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.4.11.tgz"
     },
     "read-pkg": {
       "version": "1.1.0",
