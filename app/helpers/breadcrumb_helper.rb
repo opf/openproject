@@ -46,7 +46,7 @@ module BreadcrumbHelper
 
     breadcrumb_elements += elements.map { |element|
       if element
-        css_class = if element.include? 'breadcrumb-project-title'
+        css_class = if element.try(:include?, 'breadcrumb-project-title')
                       'breadcrumb-project-element '
                     end
         content_tag(:li,
