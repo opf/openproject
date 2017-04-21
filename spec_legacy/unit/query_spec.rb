@@ -310,9 +310,9 @@ describe Query, type: :model do
     assert c
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
-             .where(q.statement)
-             .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
-             .references(:projects)
+                        .where(q.statement)
+                        .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
+                        .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort, values
@@ -337,7 +337,8 @@ describe Query, type: :model do
     c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
-    issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
+    issues = WorkPackage
+             .includes(:assigned_to, :status, :type, :project, :priority)
              .where(q.statement)
              .order(Array(c.sortable).map { |s| "#{s} ASC" }.join(', '))
              .references(:projects)
@@ -354,7 +355,10 @@ describe Query, type: :model do
   end
 
   it 'should issue count by association group' do
-    q = Query.new(name: '_', group_by: 'assigned_to')
+    q = Query.new(name: '_',
+                  group_by: 'assigned_to',
+                  show_hierarchies: false)
+
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass User), count_by_group.keys.map { |k| k.class.name }.uniq.sort
@@ -363,53 +367,28 @@ describe Query, type: :model do
   end
 
   it 'should issue count by list custom field group' do
-    q = Query.new(name: '_', group_by: 'cf_1')
+    q = Query.new(name: '_',
+                  group_by: 'cf_1',
+                  show_hierarchies: false)
+
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     expect(count_by_group.keys.map { |k| k.class.name }.uniq)
       .to match_array(%w(CustomOption NilClass))
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
-    puts count_by_group
     expect(count_by_group.any? { |k, v| k.is_a?(CustomOption) && k.id == 1 && v == 1 })
       .to be_truthy
   end
 
   it 'should issue count by date custom field group' do
-    q = Query.new(name: '_', group_by: 'cf_8')
+    q = Query.new(name: '_',
+                  group_by: 'cf_8',
+                  show_hierarchies: false)
+
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.map { |k| k.class.name }.uniq.sort
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
-  end
-
-  it 'should editable by' do
-    admin = User.find(1)
-    manager = User.find(2)
-    developer = User.find(3)
-
-    # Public query on project 1
-    q = Query.find(1)
-    assert q.editable_by?(admin)
-    assert q.editable_by?(manager)
-    assert !q.editable_by?(developer)
-
-    # Private query on project 1
-    q = Query.find(2)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert q.editable_by?(developer)
-
-    # Private query for all projects
-    q = Query.find(3)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert q.editable_by?(developer)
-
-    # Public query for all projects
-    q = Query.find(4)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert !q.editable_by?(developer)
   end
 
   context '#filter_for' do

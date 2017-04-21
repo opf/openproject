@@ -205,11 +205,7 @@ describe Query, type: :model do
       end
 
       it 'has the context set' do
-        expect(subject.context).to eql query.project
-
-        query.project = nil
-
-        expect(query.filter_for('status_id').context).to be_nil
+        expect(subject.context).to eql query
       end
 
       it 'reuses an existing filter' do
@@ -224,7 +220,7 @@ describe Query, type: :model do
 
       query.reload
       query.filters.each do |filter|
-        expect(filter.context).to eql(query.project)
+        expect(filter.context).to eql(query)
       end
     end
   end

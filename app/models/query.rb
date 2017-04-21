@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,7 +49,7 @@ class Query < ActiveRecord::Base
   validate :validate_group_by
   validate :validate_show_hierarchies
 
-  scope :visible, ->(to:) do
+  scope(:visible, ->(to:) do
     # User can see public queries and his own queries
     scope = where(is_public: true)
 
@@ -57,11 +58,9 @@ class Query < ActiveRecord::Base
     else
       scope
     end
-  end
+  end)
 
-  scope :global, -> {
-    where(project_id: nil)
-  }
+  scope(:global, -> { where(project_id: nil) })
 
   # WARNING: sortable should not contain a column called id (except for the
   # work_packages.id column). Otherwise naming collisions can happen when AR
@@ -158,6 +157,9 @@ class Query < ActiveRecord::Base
   end
 
   after_initialize :set_context
+  # For some reasons the filters loose their context
+  # between the after_save and the after_commit callback.
+  after_commit :set_context
 
   def set_context
     # We need to set the project for each filter if a project
@@ -169,7 +171,7 @@ class Query < ActiveRecord::Base
     return unless respond_to?(:filters)
 
     filters.each do |filter|
-      filter.context = project
+      filter.context = self
     end
   end
 
@@ -179,7 +181,9 @@ class Query < ActiveRecord::Base
     self.sort_criteria = [['parent', 'desc']]
   end
 
-  alias :context :project
+  def context
+    self
+  end
 
   def add_default_filter
     return unless filters.blank?
@@ -227,14 +231,6 @@ class Query < ActiveRecord::Base
     end
   end
 
-  def editable_by?(user)
-    return false unless user
-    # Admin can edit them all and regular users can edit their private queries
-    return true if user.admin? || (!is_public && user_id == user.id)
-    # Members can not edit public queries that are for all project (only admin is allowed to)
-    is_public && !for_all? && user.allowed_to?(:manage_public_queries, project)
-  end
-
   def add_filter(field, operator, values)
     filter = filter_for(field)
 
@@ -268,7 +264,7 @@ class Query < ActiveRecord::Base
   def filter_for(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super(field)
 
-    filter.context = project
+    filter.context = self
 
     filter
   end
@@ -388,7 +384,7 @@ class Query < ActiveRecord::Base
     if arg.is_a?(Hash)
       arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.select { |k, _o| !k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
+    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == 'desc' ? o : 'asc'] }
     write_attribute(:sort_criteria, c)
   end
 
@@ -454,44 +450,13 @@ class Query < ActiveRecord::Base
     group_by_column.try(:groupable)
   end
 
-  def project_statement
-    project_clauses = []
-    subproject_filter = filter_for 'subproject_id'
-    if project && !project.descendants.active.empty?
-      ids = [project.id]
-      if subproject_filter
-        case subproject_filter.operator
-        when '='
-          # include the selected subprojects
-          ids += subproject_filter.values.each(&:to_i)
-        when '!*'
-          # main project only
-        else
-          # all subprojects
-          ids += project.descendants.pluck(:id)
-        end
-      elsif Setting.display_subprojects_work_packages?
-        ids += project.descendants.pluck(:id)
-      end
-      project_clauses << "#{Project.table_name}.id IN (%s)" % ids.join(',')
-    elsif project
-      project_clauses << "#{Project.table_name}.id = %d" % project.id
-    end
-    project_clauses.join(' AND ')
-  end
-
   def statement
-    filters_clauses = if filters.present? and valid?
-                        filters
-                          .select { |f| f.field.to_s != 'subproject_id' }
-                          .map do |filter|
-                            "(#{filter.where})"
-                          end
-                      else
-                        []
-                      end
+    return '1=0' unless valid?
 
-    (filters_clauses << project_statement).reject(&:empty?).join(' AND ')
+    statement_filters
+      .map { |filter| "(#{filter.where})" }
+      .reject(&:empty?)
+      .join(' AND ')
   end
 
   # Returns the result set
@@ -515,7 +480,6 @@ class Query < ActiveRecord::Base
            .offset(options[:offset])
            .references(:users)
            .merge(WorkPackage.visible)
-
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
@@ -524,6 +488,18 @@ class Query < ActiveRecord::Base
   # menu items in a non implementation-specific way
   def starred
     !!query_menu_item
+  end
+
+  def project_limiting_filter
+    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.new
+    subproject_filter.context = self
+
+    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+                                   '*'
+                                 else
+                                   '!*'
+                                 end
+    subproject_filter
   end
 
   private
@@ -538,5 +514,15 @@ class Query < ActiveRecord::Base
     else
       WorkPackageCustomField.all
     end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
+  end
+
+  def statement_filters
+    if filters.any? { |filter| filter.name == :subproject_id }
+      filters
+    elsif project
+      [project_limiting_filter] + filters
+    else
+      filters
+    end
   end
 end

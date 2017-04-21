@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,11 +42,11 @@ module Concerns::Contracted
 
     def validate_and_save(object)
       if !contract.validate
-        return false, contract.errors
+        [false, contract.errors]
       elsif !object.save
-        return false, object.errors
+        [false, object.errors]
       else
-        return true, object.errors
+        [true, object.errors]
       end
     end
   end

@@ -55,13 +55,11 @@ class ::Query::Results
   # Returns the work package count by group or nil if query is not grouped
   def work_package_count_by_group
     @work_package_count_by_group ||= begin
-      r = nil
       if query.grouped?
-        r = groups_grouped_by_column(query)
+        r = groups_grouped_by_column
 
-        r = transform_group_keys(query, r)
+        transform_group_keys(r)
       end
-      r
     end
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
@@ -77,7 +75,8 @@ class ::Query::Results
 
     WorkPackage
       .visible
-      .where(::Query.merge_conditions(query.statement, options[:conditions]))
+      .where(query.statement)
+      .where(options[:conditions])
       .includes(includes)
       .joins((query.group_by_column ? query.group_by_column.join : nil))
       .order(order_option)
@@ -93,11 +92,15 @@ class ::Query::Results
   end
 
   def versions
-    Version
-      .visible
-      .where(::Query.merge_conditions(query.project_statement, options[:conditions]))
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
+    scope = Version
+            .visible
+            .where(options[:conditions])
+
+    if query.project
+      scope.where(query.project_limiting_filter.where)
+    end
+
+    scope
   end
 
   def column_total_sums
@@ -153,20 +156,20 @@ class ::Query::Results
     name.to_s =~ /\Acf_\d+\z/
   end
 
-  def groups_grouped_by_column(query)
+  def groups_grouped_by_column
     # Rails will raise an (unexpected) RecordNotFound if there's only a nil group value
     WorkPackage
       .group(query.group_by_statement)
       .visible
       .includes(:status, :project)
-      .where(query.statement)
       .references(:statuses, :projects)
+      .where(query.statement)
       .count
   rescue ActiveRecord::RecordNotFound
     { nil => work_package_count }
   end
 
-  def transform_group_keys(query, groups)
+  def transform_group_keys(groups)
     column = query.group_by_column
 
     if column.is_a?(QueryCustomFieldColumn) && column.custom_field.list?

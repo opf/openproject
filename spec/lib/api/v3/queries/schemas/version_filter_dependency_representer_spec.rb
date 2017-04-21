@@ -32,7 +32,8 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:filter) { Queries::WorkPackages::Filter::VersionFilter.new(context: project) }
+  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:filter) { Queries::WorkPackages::Filter::VersionFilter.new(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do

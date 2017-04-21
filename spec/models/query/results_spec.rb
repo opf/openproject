@@ -29,7 +29,10 @@
 require 'spec_helper'
 
 describe ::Query::Results, type: :model do
-  let(:query) { FactoryGirl.build :query }
+  let(:query) do
+    FactoryGirl.build :query,
+                      show_hierarchies: false
+  end
   let(:query_results) do
     ::Query::Results.new query, include: [:assigned_to,
                                           :type,
@@ -68,10 +71,14 @@ describe ::Query::Results, type: :model do
   end
 
   describe '#work_package_count_by_group' do
+    let(:query) do
+      FactoryGirl.build :query,
+                        show_hierarchies: false,
+                        group_by: group_by
+    end
+
     context 'when grouping by responsible' do
-      before do
-        query.group_by = 'responsible'
-      end
+      let(:group_by) { 'responsible' }
 
       it 'should produce a valid SQL statement' do
         expect { query_results.work_package_count_by_group }.not_to raise_error
@@ -139,12 +146,22 @@ describe ::Query::Results, type: :model do
     # this tests some unfortunate combination of filters where wrong
     # sql statements where produced.
     context 'with a custom field being returned and paginating' do
+      let(:group_by) { nil }
+      let(:query) do
+        FactoryGirl.build_stubbed :query,
+                                  show_hierarchies: false,
+                                  group_by: group_by,
+                                  project: project_2
+      end
+
       let!(:custom_field) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
 
       before do
         allow(User).to receive(:current).and_return(user_2)
-        allow(query).to receive(:project).and_return(project_2)
-        allow(query).to receive(:project_id).and_return(project_2.id)
+
+        # reload in order to have the custom field as an available
+        # custom field
+        query.project = Project.find(query.project.id)
       end
 
       context 'when grouping by assignees' do
@@ -154,8 +171,9 @@ describe ::Query::Results, type: :model do
         end
 
         it 'returns all work packages of project 2' do
-          work_packages = query.results(include: [:assigned_to, { custom_values: :custom_field }],
-                                        order: 'work_packages.root_id, work_packages.lft')
+          work_packages = query
+                          .results(include: [:assigned_to, { custom_values: :custom_field }],
+                                   order: 'work_packages.root_id, work_packages.lft')
                           .work_packages
                           .page(1)
                           .per_page(10)
@@ -165,14 +183,16 @@ describe ::Query::Results, type: :model do
       end
 
       context 'when grouping by responsibles' do
+        let(:group_by) { 'responsible' }
+
         before do
           query.column_names = [:responsible, :"cf_#{custom_field.id}"]
-          query.group_by = 'responsible'
         end
 
         it 'returns all work packages of project 2' do
-          work_packages = query.results(include: [:responsible, { custom_values: :custom_field }],
-                                        order: 'work_packages.root_id, work_packages.lft')
+          work_packages = query
+                          .results(include: [:responsible, { custom_values: :custom_field }],
+                                   order: 'work_packages.root_id, work_packages.lft')
                           .work_packages
                           .page(1)
                           .per_page(10)
@@ -183,18 +203,24 @@ describe ::Query::Results, type: :model do
     end
 
     context 'when grouping by responsible' do
+      let(:query) do
+        FactoryGirl.build :query,
+                          show_hierarchies: false,
+                          group_by: group_by,
+                          project: project_1
+      end
+      let(:group_by) { 'responsible' }
+
       before do
         allow(User).to receive(:current).and_return(user_1)
 
         wp_p1[0].update_attribute(:responsible, user_1)
         wp_p1[1].update_attribute(:responsible, user_2)
-
-        query.project = project_1
-        query.group_by = 'responsible'
       end
 
       it 'outputs the work package count in the schema { <User> => count }' do
-        expect(query_results.work_package_count_by_group).to eql(user_1 => 1, user_2 => 1, nil => 1)
+        expect(query_results.work_package_count_by_group)
+          .to eql(user_1 => 1, user_2 => 1, nil => 1)
       end
     end
   end

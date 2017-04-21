@@ -44,8 +44,8 @@ module API
                                   values: [Principal::STATUSES[:builtin].to_s,
                                            Principal::STATUSES[:locked].to_s] } }]
 
-            if filter.context
-              params << { member: { operator: '=', values: [filter.context.id.to_s] } }
+            if filter.project
+              params << { member: { operator: '=', values: [filter.project.id.to_s] } }
             end
 
             params

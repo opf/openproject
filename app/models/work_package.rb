@@ -107,7 +107,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :with_query, ->(query) {
-    where(::Query.merge_conditions(query.statement))
+    where(query.statement)
   }
 
   scope :with_author, ->(author) {
@@ -854,12 +854,13 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions(conditions = nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    WorkPackage.where(
-      merge_conditions(
+    WorkPackage
+      .where(
         "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
         " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-        " AND #{Version.table_name}.sharing <> 'system'",
-        conditions))
+        " AND #{Version.table_name}.sharing <> 'system'"
+      )
+      .where(conditions)
       .includes(:project, :fixed_version)
       .references(:versions).each do |issue|
       next if issue.project.nil? || issue.fixed_version.nil?

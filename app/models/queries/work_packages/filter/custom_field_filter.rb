@@ -42,7 +42,7 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
       [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
        [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
     when 'user', 'version'
-      custom_field.possible_values_options(context)
+      custom_field.possible_values_options(project)
     end
   end
 
@@ -90,7 +90,9 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   end
 
   def self.all_for(context = nil)
-    custom_fields(context).map do |cf|
+    project = context ? context.project : nil
+
+    custom_fields(project).map do |cf|
       filter = new
       filter.custom_field = cf
       filter.context = context
@@ -98,9 +100,9 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     end
   end
 
-  def self.custom_fields(context)
-    if context
-      context.all_work_package_custom_fields
+  def self.custom_fields(project)
+    if project
+      project.all_work_package_custom_fields
     else
       WorkPackageCustomField
         .filter
@@ -127,7 +129,6 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   end
 
   def where
-    # custom field
     db_table = CustomValue.table_name
 
     <<-SQL
@@ -169,17 +170,17 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   end
 
   def invalid_custom_field_for_context?
-    context && invalid_custom_field_for_project? ||
-      !context && invalid_custom_field_globally?
+    project && invalid_custom_field_for_project? ||
+      !project && invalid_custom_field_globally?
   end
 
   def invalid_custom_field_globally?
-    !self.class.custom_fields(context)
+    !self.class.custom_fields(project)
          .exists?(custom_field.id)
   end
 
   def invalid_custom_field_for_project?
-    !self.class.custom_fields(context)
+    !self.class.custom_fields(project)
          .map(&:id).include? custom_field.id
   end
 
