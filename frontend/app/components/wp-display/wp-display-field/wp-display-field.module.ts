@@ -29,12 +29,10 @@
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {Field, FieldFactory} from "../../wp-field/wp-field.module";
 import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
-import {SimpleTemplateRenderer} from '../../angular/simple-template-renderer';
 
 export class DisplayField extends Field {
   public static type: string;
   public static $injector: ng.auto.IInjectorService;
-  public template:string|null = null;
   public I18n: op.I18n;
   public mode:string|null = null;
 
@@ -68,28 +66,8 @@ export class DisplayField extends Field {
   }
 
   public render(element:HTMLElement, displayText:string): void {
-    if (this.template == null || this.isEmpty()) {
-      element.setAttribute("title", displayText);
-      element.textContent = displayText;
-    } else {
-      this.renderTemplate(element, displayText);
-    }
-  }
-
-  protected renderTemplate(element:HTMLElement, displayText:string) {
-    const renderer = <SimpleTemplateRenderer> this.$injector.get('templateRenderer');
-    const template:string = this.template as string;
-
-    renderer.renderIsolated(element, template, {
-      workPackage: this.resource,
-      name: this.name,
-      displayText: displayText,
-      field: this,
-      vm: {
-        displayText: displayText,
-        field: this
-      }
-    });
+    element.setAttribute('title', displayText);
+    element.textContent = displayText;
   }
 
   constructor(public resource: HalResource,

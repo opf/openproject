@@ -27,9 +27,22 @@
 // ++
 
 import {DisplayField} from "../wp-display-field/wp-display-field.module";
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+
+export const cssClassCustomOption = 'custom-option';
 
 export class ResourcesDisplayField extends DisplayField {
-  public template: string = '/components/wp-display/field-types/wp-display-resources-field.directive.html';
+  private text:{ empty:string, placeholder:string };
+
+  constructor(public resource:HalResource,
+              public name:string,
+              public schema:op.FieldSchema) {
+    super(resource, name, schema);
+    this.text = {
+      empty: this.I18n.t('js.work_packages.no_value'),
+      placeholder: this.I18n.t('js.placeholders.default')
+    };
+  }
 
   public isEmpty():boolean {
     return _.isEmpty(this.value);
@@ -53,13 +66,73 @@ export class ResourcesDisplayField extends DisplayField {
     }
   }
 
-  public get valueAbridged() {
-    let valueForDisplay = _.take(this.value, 2).join(', ');
+  public render(element:HTMLElement, displayText:string):void {
+    const values = this.value;
+    element.innerHTML = '';
+    element.setAttribute('title', values.join(', '));
 
-    if (this.value.length > 2) {
-      valueForDisplay += ', ...';
+    if (values.length === 0) {
+      this.renderEmpty(element);
+    } else {
+      this.renderValues(values, element);
+    }
+  }
+
+  /**
+   * Render an empty placeholder if no values are present
+   */
+  protected renderEmpty(element:HTMLElement) {
+    const emptyDiv = document.createElement('div');
+    emptyDiv.setAttribute('title', this.text.empty);
+    emptyDiv.textContent = this.text.placeholder;
+    emptyDiv.classList.add(cssClassCustomOption, '-empty');
+
+    element.appendChild(emptyDiv);
+  }
+
+  /**
+   * Renders at most the first two values, followed by a badge indicating
+   * the total count.
+   */
+  protected renderValues(values:any[], element:HTMLElement) {
+    const content = document.createDocumentFragment();
+    const abridged = this.optionDiv(this.valueAbridged(values));
+
+    content.appendChild(abridged);
+
+    if (values.length > 2) {
+      const badge = this.optionDiv(values.length.toString(), 'badge', '-secondary');
+      content.appendChild(badge);
     }
 
-    return valueForDisplay;
+    element.appendChild(content);
+  }
+
+  /**
+   * Build .custom-option div/span nodes with the given text
+   */
+  private optionDiv(text:string, ...classes:string[]) {
+    const div = document.createElement('div');
+    const span = document.createElement('span');
+    div.classList.add(cssClassCustomOption);
+    span.classList.add(...classes);
+    span.textContent = text;
+
+    div.appendChild(span);
+
+    return div;
+  }
+
+  /**
+   * Return the first two joined values, if any.
+   */
+  private valueAbridged(values:any[]) {
+    const valueForDisplay = _.take(values, 2);
+
+    if (values.length > 2) {
+      valueForDisplay.push('... ');
+    }
+
+    return valueForDisplay.join(', ');
   }
 }

@@ -43,6 +43,7 @@ import {WorkPackageEditFieldHandler} from "./work-package-edit-field-handler";
 export class WorkPackageEditForm {
   // Injections
   public $q:ng.IQService;
+  public $timeout:ng.ITimeoutService;
   public $rootScope:ng.IRootScopeService;
   public states:States;
   public wpCacheService:WorkPackageCacheService;
@@ -221,9 +222,11 @@ export class WorkPackageEditForm {
       this.errorsPerAttribute[fieldName] || []
     );
 
+    fieldHandler.$scope = this.templateRenderer.createRenderScope();
     const promise = this.templateRenderer.renderIsolated(
       // Replace the current cell
       cell[0],
+      fieldHandler.$scope,
       '/components/wp-edit-form/wp-edit-form.template.html',
       {
         vm: fieldHandler,
@@ -232,12 +235,15 @@ export class WorkPackageEditForm {
 
     this.activeFields[fieldName] = fieldHandler;
     this.lastActiveField = fieldName;
-    return promise;
+    return promise.then((element) => {
+      // Assure the element is visible
+      return this.$timeout(() => element);
+    });
   }
 }
 
 WorkPackageEditForm.$inject = [
-  'wpCacheService', '$q', '$rootScope',
+  'wpCacheService', '$timeout', '$q', '$rootScope',
   'wpEditField', 'templateRenderer', 'wpNotificationsService',
   'states'
 ];

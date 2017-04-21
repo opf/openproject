@@ -111,7 +111,7 @@ export class WorkPackageDisplayAttributeController {
 
     if (this.schema[this.attribute] && (this.schema[this.attribute].type === '[]CustomOption' ||
                                         this.schema[this.attribute].type === '[]User')) {
-      this.field = new MultipleLinesStringObjectsDisplayField(this.workPackage, this.attribute, this.schema[this.attribute])
+      this.field = new MultipleLinesStringObjectsDisplayField(this.workPackage, this.attribute, this.schema[this.attribute]);
     } else {
       this.field = this.wpDisplayField.getField(this.workPackage, this.attribute, this.schema[this.attribute]) as DisplayField;
     }
