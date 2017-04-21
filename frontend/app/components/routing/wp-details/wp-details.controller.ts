@@ -57,6 +57,8 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     scopedObservable(
       $scope,
       this.states.focusedWorkPackage.values$())
+      .map(wpId => parseInt(wpId))
+      .distinctUntilChanged()
       .subscribe((wpId) => {
         if ($state.includes('work-packages.list.details')) {
           $state.go(
