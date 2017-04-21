@@ -391,36 +391,6 @@ describe Query, type: :model do
     assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
   end
 
-  it 'should editable by' do
-    admin = User.find(1)
-    manager = User.find(2)
-    developer = User.find(3)
-
-    # Public query on project 1
-    q = Query.find(1)
-    assert q.editable_by?(admin)
-    assert q.editable_by?(manager)
-    assert !q.editable_by?(developer)
-
-    # Private query on project 1
-    q = Query.find(2)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert q.editable_by?(developer)
-
-    # Private query for all projects
-    q = Query.find(3)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert q.editable_by?(developer)
-
-    # Public query for all projects
-    q = Query.find(4)
-    assert q.editable_by?(admin)
-    assert !q.editable_by?(manager)
-    assert !q.editable_by?(developer)
-  end
-
   context '#filter_for' do
     before do
       @query = Query.new(name: '_')
