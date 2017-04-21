@@ -1,11 +1,14 @@
+import * as moment from "moment";
+import {$injectNow} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {
-  RenderInfo, calculatePositionValueForDayCount, timelineElementCssClass,
-  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
+  calculatePositionValueForDayCount,
+  calculatePositionValueForDayCountingPx,
+  RenderInfo,
+  timelineElementCssClass,
+  timelineMarkerSelectionStartClass
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
-import * as moment from 'moment';
-import { $injectNow } from "../../../angular/angular-injector-bridge.functions";
 import Moment = moment.Moment;
 
 interface CellDateMovement {
@@ -15,16 +18,17 @@ interface CellDateMovement {
 }
 
 export class TimelineCellRenderer {
+
   protected TimezoneService:any;
 
   protected dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
 
   public get type(): string {
-    return 'bar';
+    return "bar";
   }
 
   public get fallbackColor(): string {
-    return '#8CD1E8';
+    return "#8CD1E8";
   }
 
   public isEmpty(wp: WorkPackageResourceInterface) {
@@ -54,8 +58,8 @@ export class TimelineCellRenderer {
    *
    */
   public assignDateValues(wp: WorkPackageResourceInterface, dates: CellDateMovement) {
-    this.assignDate(wp, 'startDate', dates.startDate!);
-    this.assignDate(wp, 'dueDate', dates.dueDate!);
+    this.assignDate(wp, "startDate", dates.startDate!);
+    this.assignDate(wp, "dueDate", dates.dueDate!);
 
     this.updateLeftRightMovedLabel(dates.startDate!, dates.dueDate!);
   }
@@ -64,8 +68,8 @@ export class TimelineCellRenderer {
    * Restore the original date, if any was set.
    */
   public onCancel(wp: WorkPackageResourceInterface) {
-    wp.restoreFromPristine('startDate');
-    wp.restoreFromPristine('dueDate');
+    wp.restoreFromPristine("startDate");
+    wp.restoreFromPristine("dueDate");
   }
 
   /**
@@ -77,8 +81,8 @@ export class TimelineCellRenderer {
                      delta: number,
                      direction: "left" | "right" | "both" | "create" | "dragright"): CellDateMovement {
 
-    const initialStartDate = wp.$pristine['startDate'];
-    const initialDueDate = wp.$pristine['dueDate'];
+    const initialStartDate = wp.$pristine["startDate"];
+    const initialDueDate = wp.$pristine["dueDate"];
 
     let dates: CellDateMovement = {};
 
@@ -121,29 +125,29 @@ export class TimelineCellRenderer {
       return "both"; // irrelevant
     }
 
-    renderInfo.workPackage.storePristine('startDate');
-    renderInfo.workPackage.storePristine('dueDate');
+    renderInfo.workPackage.storePristine("startDate");
+    renderInfo.workPackage.storePristine("dueDate");
     let direction: "left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       // only left
       direction = "left";
-      this.forceCursor('w-resize');
+      this.forceCursor("w-resize");
       if (renderInfo.workPackage.startDate === null) {
         renderInfo.workPackage.startDate = renderInfo.workPackage.dueDate;
       }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = "right";
-      this.forceCursor('e-resize');
+      this.forceCursor("e-resize");
       if (renderInfo.workPackage.dueDate === null) {
         renderInfo.workPackage.dueDate = renderInfo.workPackage.startDate;
       }
     } else {
       // both
       direction = "both";
-      this.forceCursor('ew-resize');
+      this.forceCursor("ew-resize");
     }
 
     this.dateDisplaysOnMouseMove = [null, null];
@@ -233,6 +237,7 @@ export class TimelineCellRenderer {
     }
 
     this.checkForActiveSelectionMode(renderInfo, bar);
+    this.checkForSpecialDisplaySituations(renderInfo, bar);
 
     return true;
   }
@@ -316,9 +321,26 @@ export class TimelineCellRenderer {
     jQuery("." + timelineElementCssClass).css("cursor", cursor);
   }
 
+  /**
+   * Changes the presentation of the work package.
+   *
+   * Known cases:
+   * 1. Display a clamp if this work package is a parent element
+   */
+  checkForSpecialDisplaySituations(renderInfo: RenderInfo, bar: HTMLElement) {
+    const wp = renderInfo.workPackage;
+    if (!wp.isLeaf) {
+      bar.style.borderLeft = "2px solid black";
+      bar.style.borderRight = "2px solid black";
+      bar.style.borderTop = "2px solid black";
+      bar.style.borderBottom = "none";
+      bar.style.background = "none";
+    }
+  }
+
   private updateLeftRightMovedLabel(start: Moment, due: Moment) {
     if (!this.TimezoneService) {
-      this.TimezoneService = $injectNow('TimezoneService');
+      this.TimezoneService = $injectNow("TimezoneService");
     }
 
     if (this.dateDisplaysOnMouseMove.left && start) {
