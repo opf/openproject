@@ -4,6 +4,7 @@ ar:
       work_package:
         position: "الموقع"
         remaining_hours: "الساعات المتبقية"
+        remaining_time: "الساعات المتبقية"
         story_points: "نقاط القصة"
         backlogs_work_package_type: "نوع الأعمال المتراكمة غير المنجزة"
     errors:

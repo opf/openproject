@@ -4,6 +4,7 @@ fi:
       work_package:
         position: "Sijainti"
         remaining_hours: "Jäljellä olevat tunnit"
+        remaining_time: "Jäljellä olevat tunnit"
         story_points: "Tarinapisteet"
         backlogs_work_package_type: "Työjonon tyyppi"
     errors:

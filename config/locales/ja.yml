@@ -4,6 +4,7 @@ ja:
       work_package:
         position: "位置"
         remaining_hours: "残り時間"
+        remaining_time: "残り時間"
         story_points: "ストーリーポイント"
         backlogs_work_package_type: "バックログの種類"
     errors:

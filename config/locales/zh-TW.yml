@@ -4,6 +4,7 @@ zh-TW:
       work_package:
         position: "位置"
         remaining_hours: "剩餘時數"
+        remaining_time: "剩餘時數"
         story_points: "需求重要性"
         backlogs_work_package_type: "待辦項目類型"
     errors:

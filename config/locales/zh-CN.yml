@@ -4,6 +4,7 @@ zh-CN:
       work_package:
         position: "位置"
         remaining_hours: "剩余小时数"
+        remaining_time: "剩余小时数"
         story_points: "故事点"
         backlogs_work_package_type: "待办清单类型"
     errors:

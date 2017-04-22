@@ -4,6 +4,7 @@ ru:
       work_package:
         position: "Позиция"
         remaining_hours: "Оставшиеся часы"
+        remaining_time: "Оставшиеся часы"
         story_points: "Баллы описаний"
         backlogs_work_package_type: "Тип невыполненной работы"
     errors:

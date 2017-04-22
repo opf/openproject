@@ -4,6 +4,7 @@ sv:
       work_package:
         position: "Position"
         remaining_hours: "Återstående timmar"
+        remaining_time: "Återstående timmar"
         story_points: "Berättelsepoäng"
         backlogs_work_package_type: "Typ av backlogg"
     errors:

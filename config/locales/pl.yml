@@ -4,6 +4,7 @@ pl:
       work_package:
         position: "Pozycja"
         remaining_hours: "Pozostałe godziny"
+        remaining_time: "Pozostałe godziny"
         story_points: "Historia Punktów"
         backlogs_work_package_type: "Typ backlogu"
     errors:

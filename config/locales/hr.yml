@@ -4,6 +4,7 @@ hr:
       work_package:
         position: "Pozicija"
         remaining_hours: "Preostali sati"
+        remaining_time: "Preostalo vrijeme"
         story_points: "Točke priče"
         backlogs_work_package_type: "Backlog tip"
     errors:

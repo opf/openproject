@@ -4,6 +4,7 @@ ko:
       work_package:
         position: "위치"
         remaining_hours: "남은 시간"
+        remaining_time: "남은 시간"
         story_points: "스토리 포인트"
         backlogs_work_package_type: "백로그 유형"
     errors:
