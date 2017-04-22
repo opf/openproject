@@ -48,5 +48,8 @@ fi
 # run migrations for mysql or postgres
 if [ $1 != '' ]; then
   run "bundle exec rake db:migrate"
+fi
+
+if [ $2 != *"spec"* ] && [ $2 != *"npm"* ]; then
   run "bundle exec rake assets:precompile"
 fi
