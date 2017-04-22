@@ -23,6 +23,7 @@ sv:
         unit: "Enhetsnamn"
         unit_plural: "Enhetsnamn plural"
       work_package:
+        costs_by_type: "Bokade enheter"
         cost_object_subject: "Budgettitel"
         labor_costs: "Personalkostnader"
         material_costs: "Enhetskostnader"

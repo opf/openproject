@@ -23,6 +23,7 @@ fi:
         unit: "Yksikön nimi"
         unit_plural: "Yksikön nimi monikossa"
       work_package:
+        costs_by_type: "Käytetyt yksiköt"
         cost_object_subject: "Budjetin otsikko"
         labor_costs: "Työvoimakustannukset"
         material_costs: "Yksikkökustannukset"

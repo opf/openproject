@@ -23,6 +23,7 @@ da:
         unit: "Enhedsnavn"
         unit_plural: "Pluralistisk enhedsnavn"
       work_package:
+        costs_by_type: "Forbrugte enheder"
         cost_object_subject: "Budgettitel"
         labor_costs: "Lønomkostninger"
         material_costs: "Enhedsomkostninger"

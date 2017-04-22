@@ -23,6 +23,7 @@ fr:
         unit: "Nom de l'unité"
         unit_plural: "Nom pluriel de l'unité"
       work_package:
+        costs_by_type: "Unités consommées"
         cost_object_subject: "Titre du budget"
         labor_costs: "Coûts de main d'œuvre"
         material_costs: "Coûts unitaires"

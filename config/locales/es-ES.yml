@@ -23,6 +23,7 @@ es:
         unit: "Nombre de la unidad"
         unit_plural: "Nombre de la unidad pluralizado"
       work_package:
+        costs_by_type: "Unidades usadas"
         cost_object_subject: "Título de presupuesto"
         labor_costs: "Costos de mano de obra"
         material_costs: "Costos unitarios"

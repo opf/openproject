@@ -23,6 +23,7 @@ zh-CN:
         unit: "单位名称"
         unit_plural: "多元化单位名称"
       work_package:
+        costs_by_type: "已支出单位成本"
         cost_object_subject: "预算标题"
         labor_costs: "劳动力成本"
         material_costs: "单位成本"

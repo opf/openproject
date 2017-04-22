@@ -23,6 +23,7 @@ lt:
         unit: "Vieneto pavadinimas"
         unit_plural: "Daugiaskaitinis vienetų pavadinimas"
       work_package:
+        costs_by_type: "Panaudota vienetų"
         cost_object_subject: "Biudžeto pavadinimas"
         labor_costs: "Darbų kaštai"
         material_costs: "Vienetų kaštai"

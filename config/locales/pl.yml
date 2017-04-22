@@ -23,6 +23,7 @@ pl:
         unit: "Nazwa jednostki"
         unit_plural: "Liczba mnoga jednostki"
       work_package:
+        costs_by_type: "Zużyte jednostki"
         cost_object_subject: "Tytuł budżetu"
         labor_costs: "Koszty pracy"
         material_costs: "Koszt jednostki"

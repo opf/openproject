@@ -23,6 +23,7 @@ ko:
         unit: "단위 이름"
         unit_plural: "복수형 단위 이름"
       work_package:
+        costs_by_type: "소비 단위"
         cost_object_subject: "예산 제목"
         labor_costs: "노동 비용"
         material_costs: "단위 비용"

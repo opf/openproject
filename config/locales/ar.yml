@@ -23,6 +23,7 @@ ar:
         unit: "اسم الوحدة"
         unit_plural: "اسم الوحدة متعددة الأقطاب"
       work_package:
+        costs_by_type: "الوحدات المستهلكة"
         cost_object_subject: "عنوان الميزانية"
         labor_costs: "تكاليف العمل"
         material_costs: "تكاليف الوحدة"

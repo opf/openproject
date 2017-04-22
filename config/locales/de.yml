@@ -23,6 +23,7 @@ de:
         unit: "Einheit"
         unit_plural: "Einheit plural"
       work_package:
+        costs_by_type: "Gebuchte Einheiten"
         cost_object_subject: "Budgettitel"
         labor_costs: "Personaleinzelkosten"
         material_costs: "Stückkosten"

@@ -23,6 +23,7 @@ ja:
         unit: "単位名"
         unit_plural: "単位名"
       work_package:
+        costs_by_type: "使用済単価"
         cost_object_subject: "予算のタイトル"
         labor_costs: "作業員コスト"
         material_costs: "単価"

@@ -23,6 +23,7 @@ id:
         unit: "Nama unit"
         unit_plural: "Nama plural unit"
       work_package:
+        costs_by_type: "Unit terpakai"
         cost_object_subject: "Judul anggaran"
         labor_costs: "Biaya tenaga"
         material_costs: "Biaya unit"

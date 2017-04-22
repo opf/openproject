@@ -23,6 +23,7 @@ hr:
         unit: "Naziv jedinice"
         unit_plural: "Višestruki nazivi jedinica"
       work_package:
+        costs_by_type: "Potrošene jedinice"
         cost_object_subject: "Naziv proračuna"
         labor_costs: "Troškovi rada"
         material_costs: "Jedinice troškova"
