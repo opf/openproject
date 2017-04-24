@@ -33,6 +33,10 @@ import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {HalLink} from '../../api/api-v3/hal-link/hal-link.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 
+interface ExportLink extends HalLink {
+  identifier:string;
+}
+
 class ExportModalController {
   public name: string;
   public closeMe: Function;
@@ -51,11 +55,11 @@ class ExportModalController {
 
   private buildExportOptions(results:WorkPackageCollectionResource) {
     return results.representations.map(format => {
-      let label = format.$link.title;
+      const link = format.$link as ExportLink;
 
       return {
-        identifier: this.exportIdentifier(format),
-        label: label,
+        identifier: link.identifier,
+        label: link.title,
         url: this.addColumnsToHref(format.href!)
       };
     });
@@ -67,22 +71,6 @@ class ExportModalController {
     let columnIds = columns.map(function(column) { return column.id; });
 
     return href + "&" + this.UrlParamsHelper.buildQueryString({'columns[]': columnIds});
-  }
-
-  private exportIdentifier(format:HalResource) {
-    let identifier = (format.$link as HalLink).type.split('/').pop()!;
-
-    if (format.$href!.indexOf('show_descriptions') !== -1) {
-      identifier += '-descr'
-    }
-
-    if (identifier.endsWith('+xml')) {
-      identifier = identifier.replace('+xml', '');
-    }
-
-    identifier = identifier.replace('.', '-');
-
-    return identifier;
   }
 }
 

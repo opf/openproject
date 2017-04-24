@@ -14,6 +14,7 @@ Links to other resources in the API are represented uniformly by so called link 
 | templated | If true the `href` contains parts that need to be replaced by the client | Boolean |          |          | false       |
 | method    | The HTTP verb to use when requesting the resource                        | String  |          |          | GET         |
 | payload   | The payload to send in the request to achieve the desired result         | String  |          |          | unspecified |
+| identifier| An optional unique identifier to the link object                         | String  |          |          | unspecified |
 
 All link objects *must* contain the `href` property, though it might be `null`. Thus the following is a valid
 link object:
