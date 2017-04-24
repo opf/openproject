@@ -96,6 +96,7 @@ describe('wpDisplayAttr directive', () => {
         customField1: 'asdf1234',
         emptyField: null,
         hiddenField: 'foobar',
+        hasOverriddenSchema: true,
         schema: {
           "$load": () => $q.when(true),
           "_type": "Schema",

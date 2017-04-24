@@ -1,5 +1,4 @@
-import {State} from "reactivestates";
-import {Observable, Subject} from "rxjs";
+
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,6 +26,9 @@ import {Observable, Subject} from "rxjs";
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import { SchemaCacheService } from './../schemas/schema-cache.service';
+import {State} from "reactivestates";
+import {Observable, Subject} from "rxjs";
 import {opWorkPackagesModule} from "../../angular-modules";
 import {
   WorkPackageResource,
@@ -52,6 +54,7 @@ export class WorkPackageCacheService {
               private $rootScope: ng.IRootScopeService,
               private $q: ng.IQService,
               private wpNotificationsService: WorkPackageNotificationService,
+              private schemaCacheService: SchemaCacheService,
               private apiWorkPackages: ApiWorkPackagesService) {
   }
 
@@ -74,13 +77,9 @@ export class WorkPackageCacheService {
 
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
-      if (wpForPublish.schema.$loaded) {
+      this.schemaCacheService.ensureLoaded(wp).then(() => {
         wpState.putValue(wpForPublish);
-      } else {
-        wpState.clearAndPutFromPromise(wpForPublish.schema.$load().then(() => {
-          return wpForPublish;
-        }));
-      }
+      });
     }
   }
 
@@ -122,7 +121,7 @@ export class WorkPackageCacheService {
 
       this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate)
         .then((workPackage: WorkPackageResource) => {
-          workPackage.schema.$load().then(() => {
+          this.schemaCacheService.ensureLoaded(workPackage).then(() => {
             deferred.resolve(workPackage);
           });
         });

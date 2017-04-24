@@ -49,7 +49,9 @@ import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.se
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageTableTimelineService} from './../wp-fast-table/state/wp-table-timeline.service';
-import { WorkPackageTableHierarchiesService } from './../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableHierarchiesService} from './../wp-fast-table/state/wp-table-hierarchy.service';
+import {SchemaCacheService} from "../schemas/schema-cache.service";
+import {Observable} from 'rxjs';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -61,6 +63,7 @@ export class WorkPackagesListService {
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
               protected wpCacheService:WorkPackageCacheService,
+              protected schemaCacheService:SchemaCacheService,
               protected wpTableColumns:WorkPackageTableColumnsService,
               protected wpTableSortBy:WorkPackageTableSortByService,
               protected wpTableGroupBy:WorkPackageTableGroupByService,
@@ -315,9 +318,12 @@ export class WorkPackagesListService {
       });
     }
 
-    this.$q.all(results.elements.map(wp => wp.schema.$load())).then(() => {
-      this.states.table.rows.putValue(results.elements);
-    });
+    Observable
+      .forkJoin(results.elements.map(wp => this.schemaCacheService.ensureLoaded(wp)))
+      .toPromise()
+      .then(() => {
+        this.states.table.rows.putValue(results.elements);
+      });
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 

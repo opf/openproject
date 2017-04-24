@@ -40,11 +40,13 @@ describe('WorkPackageCacheService', () => {
 
   beforeEach(angular.mock.module('openproject'));
 
-  beforeEach(angular.mock.inject((_$q_:any, _$rootScope_:any, _wpCacheService_:any, _WorkPackageResource_:any) => {
+  beforeEach(angular.mock.inject((_$q_:any, _$rootScope_:any, _wpCacheService_:any, _WorkPackageResource_:any, schemaCacheService:any) => {
     $rootScope = _$rootScope_;
     $q = _$q_;
     wpCacheService = _wpCacheService_;
     WorkPackageResource = _WorkPackageResource_;
+
+    sinon.stub(schemaCacheService, 'ensureLoaded').returns($q.when(true));
 
     // dummy 1
     const workPackage1 = new _WorkPackageResource_({
@@ -53,10 +55,6 @@ describe('WorkPackageCacheService', () => {
         self: ""
       }
     });
-    workPackage1.schema = {
-      '$load': () => { return $q.when(true) }
-    };
-
 
     dummyWorkPackages = [workPackage1];
   }));
@@ -94,9 +92,6 @@ describe('WorkPackageCacheService', () => {
     let expected = 0;
     let workPackage: any = new WorkPackageResource({id: '1', _links: {self: ""}});
     workPackage.dummy = 0;
-    workPackage.schema = {
-      '$load': () => { return $q.when(true) }
-    };
 
     wpCacheService.updateWorkPackageList([workPackage]);
     $rootScope.$apply();
