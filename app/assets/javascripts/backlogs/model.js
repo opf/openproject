@@ -103,8 +103,7 @@ RB.Model = (function ($) {
     },
 
     displayEditor: function (editor) {
-      var pos = this.$.offset(),
-          self = this,
+      var self = this,
           baseClasses;
 
       baseClasses = 'ui-button ui-widget ui-state-default ui-corner-all';
@@ -135,7 +134,7 @@ RB.Model = (function ($) {
         },
         dialogClass: this.getType().toLowerCase() + '_editor_dialog',
         modal:       true,
-        position:    [pos.left - $(document).scrollLeft(), pos.top - $(document).scrollTop()],
+        position:    { my: 'center', at: 'center', of: window },
         resizable:   false,
         title:       (this.isNew() ? this.newDialogTitle() : this.editDialogTitle())
       });
@@ -215,7 +214,6 @@ RB.Model = (function ($) {
           input.datepicker({
             changeMonth: true,
             changeYear: true,
-            closeText: 'Close',
             dateFormat: 'yy-mm-dd',
             firstDay: 1,
             showOn: 'button',

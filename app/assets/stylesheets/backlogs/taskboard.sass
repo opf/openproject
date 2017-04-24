@@ -55,9 +55,6 @@
 .controller-rb_taskboards.action-show #main
   overflow: visible
 
-#taskboard
-  overflow-x: auto
-
 #rb .task
   color: #484848
   line-height: inherit
@@ -246,10 +243,8 @@
     background-color: none
     border: none
 
-.ui-dialog
-  .ui-dialog-titlebar-close
-    .ui-button-text
-      display: none
+.ui-dialog-titlebar-close
+  overflow: hidden
 
 .dark #task_editor label
   color: #FFFFFF
