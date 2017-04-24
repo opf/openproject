@@ -93,7 +93,7 @@ export class WorkPackagesListChecksumService {
     this.visibleChecksum = null;
   }
 
-  private isUninitialized() {
+  public isUninitialized() {
     return !this.id && !this.checksum;
   }
 

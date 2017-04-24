@@ -72,7 +72,9 @@ function WorkPackagesListController($scope:any,
   function initialSetup() {
     setupObservers();
 
-    loadQuery();
+    if (wpListChecksumService.isUninitialized()) {
+      loadQuery();
+    }
   }
 
   function setupObservers() {
