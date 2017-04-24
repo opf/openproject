@@ -109,4 +109,49 @@ describe 'filter work packages', js: true do
       filters.expect_filter_by('Version', 'is', version.name)
     end
   end
+
+  context 'by due date outside of a project' do
+    let(:work_package_with_due_date) { FactoryGirl.create :work_package, project: project, due_date: Date.today }
+    let(:work_package_without_due_date) { FactoryGirl.create :work_package, project: project, due_date: Date.today + 5.days }
+    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+
+    before do
+      work_package_with_due_date
+      work_package_without_due_date
+
+      wp_table.visit!
+    end
+
+    it 'allows filtering, saving and retrieving the saved filter' do
+      filters.open
+
+      filters.add_filter_by('Due date',
+                            'between',
+                            [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
+                            'dueDate')
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
+      expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
+
+      wp_table.save_as('Some query name')
+
+      filters.remove_filter 'dueDate'
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_due_date, work_package_without_due_date]
+
+      last_query = Query.last
+
+      wp_table.visit_query(last_query)
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
+      expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
+
+      filters.open
+
+      filters.expect_filter_by('Due date',
+                               'between',
+                               [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
+                               'dueDate')
+    end
+  end
 end
