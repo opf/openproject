@@ -164,6 +164,14 @@ module API
           }
         end
 
+        link :customFields do
+          {
+            href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
+            type: 'text/html',
+            title: I18n.t('label_custom_field_plural')
+          } if current_user_allowed_to(:edit_project, context: represented.project)
+        end
+
         linked_property :user
         linked_property :project
 
