@@ -19,5 +19,5 @@ Gem::Specification.new do |s|
 
   s.add_dependency "prawn", "~> 2.2"
 
-  s.add_development_dependency "pdf-inspector", "~>1.0.0"
+  s.add_development_dependency "pdf-inspector", "~>1.3.0"
 end
