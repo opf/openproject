@@ -77,12 +77,14 @@ module OpenProject::PdfExport::ExportCard
         used_group_height = 0
 
         gv["rows"].each do |rk, rv|
+          # The + 1 on the height is needed as prawn does not seem to render
+          # when the string to render has the same size as the row height.
           if rv["height"]
-            used_group_height += rv["height"]
-            row_heights << { height: rv["height"], group: i, priority: rv["priority"] || 10 }
+            used_group_height += rv["height"] + 1
+            row_heights << { height: rv["height"] + 1, group: i, priority: rv["priority"] || 10 }
           else
-            used_group_height += min_row_height(rv)
-            row_heights << { height: min_row_height(rv), group: i, priority: rv["priority"] || 10 }
+            used_group_height += min_row_height(rv) + 1
+            row_heights << { height: min_row_height(rv) + 1, group: i, priority: rv["priority"] || 10 }
           end
         end
 
