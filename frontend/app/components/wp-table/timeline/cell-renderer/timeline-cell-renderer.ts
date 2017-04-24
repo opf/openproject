@@ -330,6 +330,7 @@ export class TimelineCellRenderer {
   checkForSpecialDisplaySituations(renderInfo: RenderInfo, bar: HTMLElement) {
     const wp = renderInfo.workPackage;
     if (!wp.isLeaf) {
+      bar.classList.add("-readonly");
       bar.style.borderLeft = "2px solid black";
       bar.style.borderRight = "2px solid black";
       bar.style.borderTop = "2px solid black";

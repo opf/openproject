@@ -87,7 +87,12 @@ export function registerWorkPackageMouseHandler(this: void,
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
 
-    // Determine what attributes of the work package should be changed
+    // if this wp is a parent element, changing it is not allowed
+    if (!renderInfo.workPackage.isLeaf) {
+      return;
+    }
+
+      // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, bar);
 
     jBody.on("mousemove", createMouseMoveFn(direction));
