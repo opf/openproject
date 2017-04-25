@@ -14,11 +14,6 @@ Requirements
 The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in
 version greater or equal to *3.0.0*.
 
-Tests for this plugin require `pdf-inspector`, so just add the following line to
-OpenProject's `Gemfile.plugins`:
-
-`gem "pdf-inspector", "~>1.0.0", :group => :test`
-
 
 Installation
 ------------
