@@ -147,6 +147,7 @@ export class WorkPackageQuerySelectController {
 
   private loadQuery(query:QueryResource) {
     this.wpListService.reloadQuery(query);
+    this.contextMenu.close();
   }
 
   private setLoaded() {
