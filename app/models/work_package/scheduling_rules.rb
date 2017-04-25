@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ module WorkPackage::SchedulingRules
   end
 
   def reschedule_by(delta)
-    return if delta == 0
+    return if delta.zero?
 
     if leaf?
       current_buffer = soonest_start - start_date
@@ -62,7 +63,10 @@ module WorkPackage::SchedulingRules
     return if date.nil?
     if leaf?
       if start_date.nil? || start_date < date
-        self.start_date, self.due_date = date, date + duration - 1
+        # order is important here as the calculation for duration factors in start and due date
+        self.due_date = date + duration - 1
+        self.start_date = date
+
         save
       end
     else
