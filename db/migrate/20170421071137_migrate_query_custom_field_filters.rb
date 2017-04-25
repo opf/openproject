@@ -76,6 +76,6 @@ class MigrateQueryCustomFieldFilters < ActiveRecord::Migration[5.0]
 
   def list_custom_field?(filter)
     filter.is_a?(Queries::WorkPackages::Filter::CustomFieldFilter) &&
-      filter.custom_field.field_format == "list"
+      filter.custom_field && filter.custom_field.field_format == "list"
   end
 end
