@@ -40,7 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-  <% Redmine::AccessControl.available_project_modules.sort.each do |name| %>
+  <% sorted_modules = Redmine::AccessControl.available_project_modules.sort_by { |name| l_or_humanize(name, prefix: "project_module_") } %>
+  <% sorted_modules.each do |name| %>
     <div class="form--field">
       <%= form.collection_check_box :enabled_module_names,
                                     name,
