@@ -176,11 +176,7 @@ class MyController < ApplicationController
 
     # We track blocks that will show up on the page. This is in order to have
     # them disabled in the blocks-to-add-to-page dropdown.
-    blocks_on_page =  if User.current.pref[:my_page_layout].present?
-                        User.current.pref[:my_page_layout].values.flatten
-                      else
-                        []
-                      end
+    blocks_on_page = get_current_layout.values.flatten
 
     MyController.available_blocks.each do |block, value|
       if blocks_on_page.include?(block)
