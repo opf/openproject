@@ -80,7 +80,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
           it 'has a collection of export formats' do
             expected_query = query.merge(pageSize: 30, offset: 1)
-            expected = [
+            expected = JSON.parse([
               {
                 href: work_packages_path({ format: 'pdf' }.merge(expected_query)),
                 type: 'application/pdf',
@@ -101,11 +101,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                 type: 'application/atom+xml',
                 title: I18n.t('export.format.atom')
               }
-            ]
+            ].to_json)
 
-            is_expected
-              .to be_json_eql(expected.to_json)
-              .at_path('_links/representations')
+            actual = JSON.parse(subject).dig('_links', 'representations')
+
+            # As plugins might extend the representation, we only
+            # check for a subset
+            expect(actual)
+              .to include(*expected)
           end
 
           context 'with project scope' do
@@ -113,7 +116,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
             it 'has a project scoped collection of export formats if inside a project' do
               expected_query = query.merge(pageSize: 30, offset: 1)
-              expected = [
+              expected = JSON.parse([
                 {
                   href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query)),
                   type: 'application/pdf',
@@ -134,11 +137,14 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                   type: 'application/atom+xml',
                   title: I18n.t('export.format.atom')
                 }
-              ]
+              ].to_json)
 
-              is_expected
-                .to be_json_eql(expected.to_json)
-                .at_path('_links/representations')
+              actual = JSON.parse(subject).dig('_links', 'representations')
+
+              # As plugins might extend the representation, we only
+              # check for a subset
+              expect(actual)
+                .to include(*expected)
             end
           end
         end
