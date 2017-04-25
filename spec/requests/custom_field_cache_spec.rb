@@ -108,8 +108,8 @@ describe 'Custom field filter and group by caching', type: :request do
     expect_group_by_all_to_include(custom_field)
     expect_filter_all_to_include(custom_field)
 
-    CustomField::Translation.where(custom_field_id: custom_field.id)
-                            .update_all(name: new_label)
+    CustomField.where(id: custom_field.id)
+               .update_all(name: new_label)
 
     visit_cost_reports_index
 
