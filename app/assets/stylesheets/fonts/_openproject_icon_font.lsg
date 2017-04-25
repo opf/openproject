@@ -78,8 +78,11 @@
 <li><span class="icon icon-export-atom"></span>export-atom</li>
 <li><span class="icon icon-export-csv"></span>export-csv</li>
 <li><span class="icon icon-export-pdf-descr"></span>export-pdf-descr</li>
+<li><span class="icon icon-export-pdf-with-descriptions"></span>export-pdf-with-descriptions</li>
 <li><span class="icon icon-export-pdf"></span>export-pdf</li>
 <li><span class="icon icon-export-xls-descr"></span>export-xls-descr</li>
+<li><span class="icon icon-export-xls-with-descriptions"></span>export-xls-with-descriptions</li>
+<li><span class="icon icon-export-xls-with-relations"></span>export-xls-with-relations</li>
 <li><span class="icon icon-export-xls"></span>export-xls</li>
 <li><span class="icon icon-export"></span>export</li>
 <li><span class="icon icon-faq"></span>faq</li>

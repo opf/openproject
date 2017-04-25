@@ -258,7 +258,7 @@ module API
           formats
         end
 
-        def representation_format(format, type, i18n_key = format, url_query_extras = nil)
+        def representation_format(identifier, mime_type:, format: identifier, i18n_key: format, url_query_extras: nil)
           path_params = { controller: :work_packages, action: :index, project_id: project }
 
           href = "#{url_for(path_params.merge(format: format))}?#{href_query(@page, @per_page)}"
@@ -269,25 +269,33 @@ module API
 
           {
             href: href,
-            type: type,
+            identifier: identifier,
+            type: mime_type,
             title: I18n.t("export.format.#{i18n_key}")
           }
         end
 
         def representation_format_pdf
-          representation_format('pdf', 'application/pdf')
+          representation_format 'pdf',
+                                mime_type: 'application/pdf'
         end
 
         def representation_format_pdf_description
-          representation_format('pdf', 'application/pdf', 'pdf_with_descriptions', 'show_descriptions=true')
+          representation_format 'pdf-with-descriptions',
+                                format: 'pdf',
+                                i18n_key: 'pdf_with_descriptions',
+                                mime_type: 'application/pdf',
+                                url_query_extras: 'show_descriptions=true'
         end
 
         def representation_format_csv
-          representation_format('csv', 'text/csv')
+          representation_format 'csv',
+                                mime_type: 'text/csv'
         end
 
         def representation_format_atom
-          representation_format('atom', 'application/atom+xml')
+          representation_format 'atom',
+                                mime_type: 'application/atom+xml'
         end
 
         attr_reader :project,
