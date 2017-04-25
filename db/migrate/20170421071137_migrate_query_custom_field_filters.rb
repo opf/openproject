@@ -5,7 +5,9 @@
 # to restore or map it by hand.
 class MigrateQueryCustomFieldFilters < ActiveRecord::Migration[5.0]
   def up
-    update_query_filters! do |filter|
+    # Don't validate in case there are queries which are already invalid.
+    # It's not our responsibility here to fix corrupt data.
+    update_query_filters! validate: false do |filter|
       update_filter_values! filter
     end
   end
