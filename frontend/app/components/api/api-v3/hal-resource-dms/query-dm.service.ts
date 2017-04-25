@@ -92,8 +92,10 @@ export class QueryDmService {
 
   public create(query:QueryResource, form:FormResource):ng.IPromise<QueryResource> {
     let payload = this.PayloadDm.extract(query, form.schema);
+    let path = this.v3Path.queries();
 
-    return form.commit(payload);
+    return this.halRequest.post(path,
+                                payload);
   }
 
   public delete(query:QueryResource) {
