@@ -30,23 +30,45 @@
 # script/ci_setup.sh
 #!/bin/sh
 
+# $1 = TEST_SUITE
+# $2 = DB
+
 run() {
   echo $1;
   eval $1;
+
+  echo $2;
+  eval $2;
 }
 
-if [ $1 = "mysql" ]; then
+if [ $2 = "mysql" ]; then
   run "mysql -e 'create database travis_ci_test;'"
   run "cp script/templates/database.travis.mysql.yml config/database.yml"
 
-elif [ $1 = "postgres" ]; then
+elif [ $2 = "postgres" ]; then
   run "psql -c 'create database travis_ci_test;' -U postgres"
   run "cp script/templates/database.travis.postgres.yml config/database.yml"
-
 fi
 
 # run migrations for mysql or postgres
-if [ $1 != '' ]; then
+if [ $1 != 'npm' ]; then
   run "bundle exec rake db:migrate"
+fi
+
+if [ $1 != 'specs' ] && [ $1 != 'spec_legacy' ]; then
+  # We need npm 4.0 for a bugfix in cross-platform shrinkwrap
+  # https://github.com/npm/npm/issues/14042
+  run "npm install npm@4.0"
+
+  run "for i in {1..3}; do npm install && break || sleep 15; done"
+
   run "bundle exec rake assets:precompile"
+else
+  # fake result of npm/asset run
+  run "mkdir -p app/assets/javascripts/bundles"
+  run "touch app/assets/javascripts/bundles/openproject-core-app.js"
+  run "touch app/assets/javascripts/bundles/openproject-vendors.js"
+
+  run "mkdir -p app/assets/stylesheets/bundles"
+  run "touch app/assets/javascripts/bundles/openproject-core-app.css"
 fi
