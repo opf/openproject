@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {scopeDestroyed$, scopedObservable} from "../../../helpers/angular-rx-utils";
 import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
 import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
 import {States} from "../../states.service";
@@ -41,6 +41,14 @@ import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+
+interface ObserverSetupOptions {
+  attrName:string;
+  triggerUpdate?:boolean;
+  isHal?:boolean;
+}
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
@@ -100,33 +108,34 @@ function WorkPackagesListController($scope:any,
       }
     });
 
-    wpTableFilters.observeOnScope($scope).subscribe(filters => {
-      updateAndExecuteIfAltered(filters.current, 'filters', true);
-    });
+    setupChangeObserver(wpTableFilters, { attrName: 'filters', triggerUpdate: true });
+    setupChangeObserver(wpTableGroupBy, { attrName: 'groupBy', triggerUpdate: true, isHal: true });
+    setupChangeObserver(wpTableSortBy, { attrName: 'sortBy', triggerUpdate: true, isHal: true });
+    setupChangeObserver(wpTableSum, { attrName: 'sums', triggerUpdate: true });
+    setupChangeObserver(wpTableTimeline, { attrName: 'timelineVisible', triggerUpdate: false });
+    setupChangeObserver(wpTableHierarchies, { attrName: 'showHierarchies', triggerUpdate: false });
+    setupChangeObserver(wpTableColumns, { attrName: 'columns', triggerUpdate: false, isHal: true });
+  }
 
-    wpTableGroupBy.observeOnScope($scope).subscribe(groupBy => {
-      updateAndExecuteIfAltered(groupBy.current, 'groupBy', true);
-    });
+  function setupChangeObserver(service:WorkPackageTableBaseService, options:ObserverSetupOptions) {
+    let keyFunc;
 
-    wpTableSortBy.observeOnScope($scope).subscribe(sortBy => {
-      updateAndExecuteIfAltered(sortBy.current, 'sortBy', true);
-    });
+    if (options.isHal) {
+      keyFunc = (stateValue:any) => stateValue.current && stateValue.current.map((el:HalResource) => el.href);
+    } else {
+      keyFunc = (stateValue:any) => stateValue.current;
+    }
 
-    wpTableSum.observeOnScope($scope).subscribe(sums => {
-      updateAndExecuteIfAltered(sums.current, 'sums', true);
-    });
-
-    wpTableTimeline.observeOnScope($scope).subscribe(timeline => {
-      updateAndExecuteIfAltered(timeline.current, "timelineVisible");
-    });
-
-    wpTableHierarchies.observeOnScope($scope).subscribe(hierarchies => {
-      updateAndExecuteIfAltered(hierarchies.current, 'showHierarchies');
-    });
-
-    wpTableColumns.observeOnScope($scope).subscribe(columns => {
-      updateAndExecuteIfAltered(columns.current, "columns");
-    });
+    service
+      .observeUntil(scopeDestroyed$($scope))
+      .distinctUntilChanged(
+        (a,b) => _.isEqual(a,b),
+        keyFunc
+      )
+      .skip(1) // Skip the first value to avoid distinctUntilChanged firing for empty
+      .subscribe((stateValue:any) => {
+        updateAndExecuteIfAltered(stateValue.current, options.attrName, options.triggerUpdate);
+      });
   }
 
   function updateAndExecuteIfAltered(updateData:any, name:string, triggerUpdate:boolean = false) {
@@ -139,8 +148,6 @@ function WorkPackagesListController($scope:any,
     if (!query || _.isEqual(query[name], updateData)) {
       return;
     }
-
-    let pagination = wpTablePagination.current;
 
     query[name] = _.cloneDeep(updateData);
 
