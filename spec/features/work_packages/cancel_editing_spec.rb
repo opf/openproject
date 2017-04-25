@@ -65,7 +65,7 @@ describe 'Cancel editing work package', js: true do
     find('.home-link').click
 
     page.driver.browser.switch_to.alert.accept if alert
-    expect(page).to have_selector('h2', text: 'OpenProject')
+    expect(page).to have_selector('#projects-menu', text: 'Select a project')
   end
 
   it 'does not show an alert when moving to other pages' do
