@@ -29,7 +29,10 @@
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {ContextMenuService} from '../context-menu.service';
 import {WorkPackageTable} from "../../wp-fast-table/wp-fast-table";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../../api/api-v3/hal-resources/work-package-resource.service";
 
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,
@@ -56,7 +59,7 @@ function wpContextMenuController($scope:any,
 
   $scope.triggerContextMenuAction = function (action:any, link:any) {
     let table: WorkPackageTable;
-    let wp: WorkPackageResource;
+    let wp: WorkPackageResourceInterface;
 
     switch (action) {
       case 'delete':

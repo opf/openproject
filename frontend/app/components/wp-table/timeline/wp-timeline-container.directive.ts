@@ -49,6 +49,7 @@ import IScope = angular.IScope;
 import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
 import {HalRequestService} from "../../api/api-v3/hal-request/hal-request.service";
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageNotificationService} from "../../wp-edit/wp-notification.service";
 
 export class WorkPackageTimelineTableController {
 
@@ -70,8 +71,8 @@ export class WorkPackageTimelineTableController {
               private $element:ng.IAugmentedJQuery,
               private TypeResource:any,
               private states:States,
-              private halRequest:HalRequestService,
               private wpTableTimeline:WorkPackageTableTimelineService,
+              private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService) {
 
     "ngInject";
@@ -170,22 +171,26 @@ export class WorkPackageTimelineTableController {
       );
   }
 
-  startAddRelationPredecessor(start: WorkPackageResource) {
+  startAddRelationPredecessor(start: WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelations.addCommonRelation(start as any, "follows", end.id);
+      this.wpRelations
+        .addCommonRelation(start as any, "follows", end.id)
+        .catch(error => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
 
-  startAddRelationFollower(start: WorkPackageResource) {
+  startAddRelationFollower(start: WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelations.addCommonRelation(start as any, "precedes", end.id);
+      this.wpRelations
+        .addCommonRelation(start as any, "precedes", end.id)
+        .catch(error => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
 
-  private activateSelectionMode(start: string, callback: (wp: WorkPackageResource) => any) {
+  private activateSelectionMode(start: string, callback: (wp: WorkPackageResourceInterface) => any) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
-    this._viewParameters.activeSelectionMode = (wp: WorkPackageResource) => {
+    this._viewParameters.activeSelectionMode = (wp: WorkPackageResourceInterface) => {
       callback(wp);
 
       this._viewParameters.activeSelectionMode = null;
