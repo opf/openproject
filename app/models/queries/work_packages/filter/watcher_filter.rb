@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -77,14 +78,14 @@ class Queries::WorkPackages::Filter::WatcherFilter <
         (SELECT #{db_table}.watchable_id
          FROM #{db_table}
          WHERE #{db_table}.watchable_type='WorkPackage'
-           AND #{::Queries::Operators::Equals.sql_for_field values_me_replaced, db_table, db_field})
+           AND #{::Queries::Operators::Equals.sql_for_field values_replaced, db_table, db_field})
     SQL
   end
 
   def where_allowed_watchers
     sql_parts = []
 
-    if User.current.logged? && user_id = values_me_replaced.delete(User.current.id.to_s)
+    if User.current.logged? && user_id = values_replaced.delete(User.current.id.to_s)
       # a user can always see his own watched issues
       sql_parts << where_self_watcher(user_id)
     end
@@ -110,7 +111,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
         (SELECT #{db_table}.watchable_id
          FROM #{db_table}
          WHERE #{db_table}.watchable_type='WorkPackage'
-           AND #{::Queries::Operators::Equals.sql_for_field values_me_replaced, db_table, db_field})
+           AND #{::Queries::Operators::Equals.sql_for_field values_replaced, db_table, db_field})
            AND #{Project.table_name}.id IN
              (#{view_watcher_allowed_scoped.to_sql})
     SQL

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   end
 
   def where
-    operator_strategy.sql_for_field(values_me_replaced, self.class.model.table_name, self.class.key)
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
   end
 
   private
@@ -59,7 +60,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
   end
 
-  def values_me_replaced
+  def values_replaced
     vals = values.clone
 
     if vals.delete('me')

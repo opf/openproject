@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -59,18 +60,25 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
 
   private
 
-  def values_me_replaced
-    vals = values.clone
+  def values_replaced
+    vals = super
+    vals += group_members_added(vals)
+    vals + user_groups_added(vals)
+  end
 
-    if vals.delete('me')
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-        vals += User.current.group_ids.map(&:to_s)
-      else
-        vals.push('0')
-      end
-    end
+  def group_members_added(vals)
+    User
+      .joins(:groups)
+      .where(groups_users: { id: vals })
+      .pluck(:id)
+      .map(&:to_s)
+  end
 
-    vals
+  def user_groups_added(vals)
+    Group
+      .joins(:users)
+      .where(users_users: { id: vals })
+      .pluck(:id)
+      .map(&:to_s)
   end
 end
