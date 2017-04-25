@@ -110,7 +110,8 @@ export class WorkPackageQuerySelectController {
       appendTo: '.search-query-wrapper',
       classes: {
         'ui-autocomplete': '-inplace'
-      }
+      },
+      autoFocus: true
     });
   }
 
