@@ -30,5 +30,5 @@
   background-position-x: 8px;
   background-size: 18px 18px;
   background-color: #FFF;
-  background-image: url('/assets/openid_connect/auth_provider-google.png');
+  background-image: image-url('/assets/openid_connect/auth_provider-google.png');
 }
