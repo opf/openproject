@@ -34,6 +34,7 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 export class WorkPackageRelationsHierarchyService {
   constructor(protected $state: ng.ui.IStateService,
               protected $q: ng.IQService,
+              protected $rootScope: ng.IRootScopeService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpCacheService: WorkPackageCacheService) {
 
@@ -48,6 +49,7 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp: WorkPackageResourceInterface) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
+        this.$rootScope.$emit('workPackagesRefreshRequired');
         return wp;
       })
       .catch((err) => {
@@ -64,6 +66,7 @@ export class WorkPackageRelationsHierarchyService {
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
     state.valuesPromise().then((wpToBecomeChild: WorkPackageResourceInterface) => {
+      this.$rootScope.$emit('workPackagesRefreshRequired');
       deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
     });
 
