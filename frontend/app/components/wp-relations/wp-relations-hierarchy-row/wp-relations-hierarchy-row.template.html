@@ -1,7 +1,6 @@
 <div class="relation-row"
      ng-class="$ctrl.relationClassName"
-     ng-mouseover="$ctrl.showRelationControls = true"
-     ng-mouseleave="$ctrl.showRelationControls = false">
+     focus-within>
     <div class="grid-block v-align hierarchy-item"
          ng-if="!$ctrl.showEditForm && $ctrl.relationReady">
         <div class="grid-content medium-7 collapse" wp-single-relation>
@@ -26,24 +25,20 @@
                 </div>
             </div>
         </div>
-        <div class="grid-content medium-2 collapse wp-relations-controls-section">
-          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                  ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"
+        <div class="grid-content medium-2 collapse wp-relations-controls-section focus-within--depending">
+          <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"
                                   aria-hidden="false"
                                   execute="$ctrl.showEditForm = true"
-                                  link-class="wp-relation--edit"
-                                  class="-shown-in-accessibility-mode">
+                                  link-class="wp-relation--edit">
               <icon-wrapper icon-name="edit"
                             icon-title="{{ ::$ctrl.text.change_parent }}">
               </icon-wrapper>
           </accessible-by-keyboard>
 
-          <accessible-by-keyboard ng-show="$ctrl.showRelationControls"
-                                  ng-if="$ctrl.canModifyHierarchy && $ctrl.relationType"
+          <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.relationType"
                                   aria-hidden="false"
                                   execute="$ctrl.removeRelation()"
-                                  link-class="wp-relation--remove"
-                                  class="-shown-in-accessibility-mode">
+                                  link-class="wp-relation--remove">
               <icon-wrapper icon-name="remove"
                             icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}">
               </icon-wrapper>

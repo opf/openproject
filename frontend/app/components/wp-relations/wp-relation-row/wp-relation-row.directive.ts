@@ -22,7 +22,6 @@ class WpRelationRowDirectiveController {
     showDescriptionEditForm: false,
     showRelationTypesForm: false,
     showRelationInfo: false,
-    showRelationControls: false,
   };
 
   // Create a quasi-field object
@@ -113,18 +112,7 @@ class WpRelationRowDirectiveController {
   }
 
   public get showDescriptionInfo() {
-    // Show when relation info is expanded
-    if (this.userInputs.showRelationInfo) {
-      return true;
-    }
-
-    // Show when relation has a description
-    if (this.relation.description) {
-      return true;
-    }
-
-    // Show depending on mouseover
-    return this.userInputs.showRelationControls;
+    return this.userInputs.showRelationInfo || this.relation.description;
   }
 
   public saveRelationType() {
@@ -166,25 +154,6 @@ function WpRelationRowDirective($timeout:ng.ITimeoutService) {
       workPackage: '=',
       groupByWorkPackageType: '=',
       relatedWorkPackage: '='
-    },
-    link: (scope:ng.IScope,
-           element:ng.IAugmentedJQuery,
-           attr:ng.IAttributes,
-           $ctrl:WpRelationRowDirectiveController) => {
-      let focusWithinPromise:ng.IPromise<void>;
-
-      scope.$watch('focusWithin', (focus:boolean) => {
-        if (focusWithinPromise) {
-          $timeout.cancel(focusWithinPromise);
-        }
-
-        // The timeout will prevent the controls from disappearing
-        // when switching between one focusable element and the next which in
-        // effect would prevent the user from reaching the controls.
-        focusWithinPromise = $timeout(() => {
-                               $ctrl.userInputs.showRelationControls = focus;
-                             }, 100);
-      });
     },
     controller:WpRelationRowDirectiveController,
     controllerAs:'$ctrl',

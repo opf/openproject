@@ -39,8 +39,6 @@ export class WorkPackageAttachmentListController {
   public itemTemplateUrl =
     '/components/wp-attachments/wp-attachment-list/wp-attachment-list-item.html';
 
-  private focusedAttachment: any = null;
-
   constructor(protected wpNotificationsService:WorkPackageNotificationService, I18n:op.I18n) {
     this.text = {
       destroyConfirmation: I18n.t('js.text_attachment_destroy_confirmation'),
@@ -50,27 +48,6 @@ export class WorkPackageAttachmentListController {
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
-  }
-
-  /**
-   * Focus an attachment.
-   */
-  public focus(attachment:any) {
-    this.focusedAttachment = attachment;
-  }
-
-  /**
-   * Reset the focus.
-   */
-  public undoFocus() {
-    this.focus(null);
-  }
-
-  /**
-   * Return whether an attachment is focused.
-   */
-  public isFocused(attachment:any): boolean {
-    return this.focusedAttachment === attachment;
   }
 }
 

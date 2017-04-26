@@ -1,15 +1,13 @@
 <span class="inplace-editing--trigger-container">
   <span class="inplace-editing--trigger-link"
-        ng-class="{'-focus': $ctrl.isFocused(attachment)}">
+        focus-within="'.inplace-edit--icon-wrapper'">
     <span class="inplace-editing--container">
       <span class="inplace-edit--read-value">
         <i class="icon-context icon-attachment"></i>
         <a
             class="work-package--attachments--filename"
             ng-href="{{ ::attachment.downloadLocation.href || '#' }}"
-            download
-            ng-focus="$ctrl.focus(attachment)"
-            ng-blur="$ctrl.undoFocus()">
+            download>
 
           {{ ::attachment.fileName || attachment.name }}
         </a>
@@ -17,8 +15,6 @@
       <a
           href=""
           class="inplace-edit--icon-wrapper"
-          ng-focus="$ctrl.focus(attachment)"
-          ng-blur="$ctrl.undoFocus()"
           ng-click="$ctrl.workPackage.removeAttachment(attachment)"
           confirm-popup="{{ ::$ctrl.text.destroyConfirmation }}">
         <icon-wrapper

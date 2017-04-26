@@ -26,28 +26,47 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../../angular-modules";
+import {wpDirectivesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {BehaviorSubject} from 'rxjs';
 
 // with courtesy of http://stackoverflow.com/a/29722694/3206935
 
-function focusWithinDirective() {
+function focusWithinDirective($timeout:ng.ITimeoutService) {
   return {
     restrict: 'A',
 
+    scope: {
+      selector: '=focusWithin'
+    },
+
     link: (scope:ng.IScope, element:ng.IAugmentedJQuery) => {
-      var focusListener = function () {
-          scope.focusWithin = true;
-          scope.$digest();
+      let focusedObservable = new BehaviorSubject(false);
+
+      scopedObservable(
+          scope,
+          focusedObservable.delay(50)
+        )
+        .filter(delayed => delayed === focusedObservable.getValue())
+        .subscribe((focused) => {
+           element.toggleClass('-focus', focused);
+        });
+
+
+      let focusListener = function () {
+          focusedObservable.next(true);
       };
-
-      var blurListener = function () {
-          scope.focusWithin = false;
-          scope.$digest();
-      };
-
-
       element[0].addEventListener('focus', focusListener, true);
+
+      let blurListener = function () {
+          focusedObservable.next(false);
+      };
       element[0].addEventListener('blur', blurListener, true);
+
+      $timeout(() => {
+        element.addClass('focus-within--trigger');
+        element.find(scope.selector).addClass('focus-within--depending');
+      }, 0);
     }
   };
 }

@@ -37,8 +37,7 @@ export class WatcherEntryController {
   public panelCtrl:WatchersPanelController;
 
   public state = {
-    deleting: false,
-    focussing: false
+    deleting: false
   };
 
   constructor(
@@ -50,28 +49,12 @@ export class WatcherEntryController {
     this.text = {
       remove: I18n.t('js.label_remove_watcher', { name: this.watcher.name })
     };
-
-    this.$element.bind('focusin', this.focus.bind(this));
-    this.$element.bind('focusout', this.blur.bind(this));
   }
 
   public remove() {
     this.state.deleting = true;
     this.panelCtrl.removeWatcher(this.watcher);
   }
-
-  public focus() {
-    this.$timeout(() => {
-      this.state.focussing = true;
-    });
-  }
-
-  public blur() {
-    this.$timeout(() => {
-      this.state.focussing = false;
-    });
-  }
-
 }
 
 function wpWatcher() {
