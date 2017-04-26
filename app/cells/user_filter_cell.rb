@@ -100,6 +100,10 @@ class UserFilterCell < RailsCell
 
   # INSTANCE METHODS:
 
+  def initially_visible?
+    true
+  end
+
   def params
     model
   end

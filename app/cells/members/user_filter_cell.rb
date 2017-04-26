@@ -36,6 +36,10 @@ module Members
       end
     end
 
+    def initially_visible?
+      false
+    end
+
     ##
     # Adapts the user filter counts to count members as opposed to users.
     def extra_user_status_options
