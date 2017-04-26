@@ -44,9 +44,9 @@ jQuery(document).ready(function($) {
     localStorage.setItem("showFilter", 'false')
   }
 
-  // hide member form by default unless there's an error
-  if (jQuery("#errorExplanation").text() == "") {
-    hideAddMemberForm();
+  // show member form only when there's an error
+  if (jQuery("#errorExplanation").text() != "") {
+    showAddMemberForm();
   }
 });
 
