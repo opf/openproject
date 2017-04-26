@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,9 +36,14 @@ module WorkPackage::SchedulingRules
   end
 
   def reschedule_by(delta)
-    return if delta == 0
+    return if delta.zero?
 
     if leaf?
+      # HACK: On some more deeply nested settings (not sure what causes it)
+      # the work package can already have been updated by one of the other after_save hooks.
+      # To prevent a stale object error, we reload the lock preemptively.
+      reload_lock_and_timestamps
+
       current_buffer = soonest_start - start_date
 
       max_allowed_delta = if current_buffer < delta
@@ -48,7 +54,8 @@ module WorkPackage::SchedulingRules
 
       self.start_date += max_allowed_delta
       self.due_date += max_allowed_delta
-      save
+
+      save(validate: false)
     else
       leaves.each do |leaf|
         # this depends on the "update_parent_attributes" after save hook
@@ -62,8 +69,11 @@ module WorkPackage::SchedulingRules
     return if date.nil?
     if leaf?
       if start_date.nil? || start_date < date
-        self.start_date, self.due_date = date, date + duration - 1
-        save
+        # order is important here as the calculation for duration factors in start and due date
+        self.due_date = date + duration - 1
+        self.start_date = date
+
+        save(validate: false)
       end
     else
       leaves.each do |leaf|
