@@ -26,25 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {States} from "../states.service";
 angular
     .module('openproject.services')
     .factory('WorkPackageService', WorkPackageService);
 
-function WorkPackageService($http,
-                            $rootScope,
-                            $window,
-                            $q,
-                            $cacheFactory,
-                            $state,
-                            PathHelper,
-                            UrlParamsHelper,
-                            NotificationsService) {
+function WorkPackageService($http:ng.IHttpService,
+                            $window:ng.IWindowService,
+                            $cacheFactory:any,
+                            $state:ng.ui.IStateService,
+                            states:States,
+                            I18n:op.I18n,
+                            PathHelper:any,
+                            UrlParamsHelper:any,
+                            NotificationsService:any) {
 
   var workPackageCache = $cacheFactory('workPackageCache');
 
   var WorkPackageService = {
 
-    doQuery: function (url, params) {
+    doQuery: function (url:string, params:any) {
       return $http({
         method: 'GET',
         url: url,
@@ -70,7 +71,7 @@ function WorkPackageService($http,
       );
     },
 
-    performBulkDelete: function (ids, defaultHandling) {
+    performBulkDelete: function (ids:any, defaultHandling:any) {
       if (defaultHandling && !$window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'))) {
         return;
       }
@@ -87,7 +88,7 @@ function WorkPackageService($http,
               NotificationsService.addSuccess(
                   I18n.t('js.work_packages.message_successful_bulk_delete')
               );
-              $rootScope.$emit('workPackagesRefreshRequired');
+              states.table.refreshRequired.putValue(true);
 
               if ($state.includes('**.list.details.**')
                   && ids.indexOf(+$state.params.workPackageId) > -1) {
@@ -98,7 +99,7 @@ function WorkPackageService($http,
               // FIXME catch this kind of failover in angular instead of redirecting
               // to a rails-based legacy view
               params = UrlParamsHelper.buildQueryString(params);
-              window.location = PathHelper.workPackagesBulkDeletePath() + '?' + params;
+              window.location.href = PathHelper.workPackagesBulkDeletePath() + '?' + params;
             });
       }
 

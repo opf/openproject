@@ -32,15 +32,16 @@ import {States} from "../../states.service";
 import {WorkPackageTableSelection} from "../../wp-fast-table/state/wp-table-selection.service";
 import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
+import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
   constructor(public $injector:ng.auto.IInjectorService,
               public $scope:ng.IScope,
-              public $rootScope:ng.IRootScopeService,
               public states:States,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
+              public wpTableRefresh: WorkPackageTableRefreshService,
               public $state:ng.ui.IStateService) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
@@ -78,7 +79,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
   }
 
   public onWorkPackageSave() {
-    this.$rootScope.$emit('workPackagesRefreshInBackground');
+    this.wpTableRefresh.request(false, `Work package ${this.workPackage.id} saved in details view.`);
   }
 
   public get shouldFocus() {

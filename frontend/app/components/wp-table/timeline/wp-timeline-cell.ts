@@ -39,6 +39,7 @@ import * as moment from "moment";
 import { injectorBridge } from "../../angular/angular-injector-bridge.functions";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
+import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
 
 const renderers = {
   milestone: new TimelineMilestoneCellRenderer(),
@@ -47,6 +48,7 @@ const renderers = {
 
 export class WorkPackageTimelineCell {
   public wpCacheService: WorkPackageCacheService;
+  public wpTableRefresh: WorkPackageTableRefreshService;
   public states: States;
 
   private subscription: Subscription;
@@ -134,6 +136,7 @@ export class WorkPackageTimelineCell {
         () => this.latestRenderInfo,
         this.workPackageTimeline,
         this.wpCacheService,
+        this.wpTableRefresh,
         this.timelineCell,
         this.wpElement,
         renderer,

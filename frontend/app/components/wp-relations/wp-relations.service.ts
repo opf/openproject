@@ -36,26 +36,20 @@ import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-pac
 import {WorkPackageStates} from "../work-package-states.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
+import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
 
 export type RelationsStateValue = {[id:number]:RelationResource};
 
 export class WorkPackageRelationsService {
 
-  private throttledUpdaterFn:Function;
-
-  constructor(protected $rootScope:ng.IRootScopeService,
-              protected $q:ng.IQService,
-              protected wpStates:WorkPackageStates,
+  constructor(protected wpStates:WorkPackageStates,
               protected halRequest:HalRequestService,
               protected wpCacheService:WorkPackageCacheService,
+              protected wpTableRefresh: WorkPackageTableRefreshService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected I18n:op.I18n,
               protected PathHelper:any,
               protected NotificationsService:any) {
-
-    this.throttledUpdaterFn = _.throttle(() => {
-      this.$rootScope.$emit('workPackagesRefreshInBackground');
-    }, 2000);
   }
 
   /**
@@ -108,7 +102,7 @@ export class WorkPackageRelationsService {
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
       this.mergeIntoStates([relation]);
-      this.throttledUpdaterFn();
+      this.wpTableRefresh.request(true, `Adding relation (${relation.ids.from} to ${relation.ids.to})`);
       return relation;
     });
   }
@@ -132,7 +126,7 @@ export class WorkPackageRelationsService {
     return relation.updateImmediately(params)
     .then((savedRelation:RelationResourceInterface) => {
       this.mergeIntoStates([savedRelation]);
-      this.throttledUpdaterFn();
+      this.wpTableRefresh.request(true, `Updating relation (${relation.ids.from} to ${relation.ids.to})`);
       return savedRelation;
     });
   }
@@ -152,7 +146,7 @@ export class WorkPackageRelationsService {
             state.putValue(currentValue);
           }
       });
-      this.throttledUpdaterFn();
+      this.wpTableRefresh.request(true, `Removing relation (${relation.ids.from} to ${relation.ids.to})`);
     });
   }
 

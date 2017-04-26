@@ -81,6 +81,8 @@ export class TableState {
   timelineVisible = input<WorkPackageTableTimelineVisible>();
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
+  // Fire when table refresh is required
+  refreshRequired = input<boolean>();
 }
 
 
