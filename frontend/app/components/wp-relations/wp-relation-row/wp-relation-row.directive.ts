@@ -158,7 +158,7 @@ class WpRelationRowDirectiveController {
   }
 }
 
-function WpRelationRowDirective() {
+function WpRelationRowDirective($timeout:ng.ITimeoutService) {
   return {
     restrict:'E',
     templateUrl:'/components/wp-relations/wp-relation-row/wp-relation-row.template.html',
@@ -166,6 +166,25 @@ function WpRelationRowDirective() {
       workPackage: '=',
       groupByWorkPackageType: '=',
       relatedWorkPackage: '='
+    },
+    link: (scope:ng.IScope,
+           element:ng.IAugmentedJQuery,
+           attr:ng.IAttributes,
+           $ctrl:WpRelationRowDirectiveController) => {
+      let focusWithinPromise:ng.IPromise<void>;
+
+      scope.$watch('focusWithin', (focus:boolean) => {
+        if (focusWithinPromise) {
+          $timeout.cancel(focusWithinPromise);
+        }
+
+        // The timeout will prevent the controls from disappearing
+        // when switching between one focusable element and the next which in
+        // effect would prevent the user from reaching the controls.
+        focusWithinPromise = $timeout(() => {
+                               $ctrl.userInputs.showRelationControls = focus;
+                             }, 100);
+      });
     },
     controller:WpRelationRowDirectiveController,
     controllerAs:'$ctrl',
