@@ -348,16 +348,17 @@ class Query < ActiveRecord::Base
   end
 
   def column_names=(names)
-    if names.present?
-      names = names.inject([]) { |out, e| out += e.to_s.split(',') }
-      names = names.select { |n| n.is_a?(Symbol) || !n.blank? }
-      names = names.map { |n| n.is_a?(Symbol) ? n : n.to_sym }
-      # Set column_names to nil if default columns
-      if names.map(&:to_s) == Setting.work_package_list_default_columns
-        names = nil
-      end
+    col_names = Array(names)
+                .reject(&:blank?)
+                .map(&:to_sym)
+
+    # Set column_names to blank/nil if default columns
+    if (col_names.map(&:to_s) - Setting.work_package_list_default_columns).empty? &&
+       (Setting.work_package_list_default_columns - col_names.map(&:to_s)).empty?
+      col_names.clear
     end
-    write_attribute(:column_names, names)
+
+    write_attribute(:column_names, col_names)
   end
 
   def has_column?(column)
