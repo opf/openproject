@@ -108,20 +108,21 @@ function SettingsDropdownMenuController($scope:IMyScope,
   $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (!query.id && allowQueryAction(event, 'updateImmediately')) {
-      closeAnyContextMenu();
       saveModal.activate();
     } else if (query.id && allowQueryAction(event, 'updateImmediately')) {
       closeAnyContextMenu();
-      wpListService.save();
     }
+
+    closeAnyContextMenu();
   };
 
   $scope.deleteQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (allowQueryAction(event, 'delete') && deleteConfirmed()) {
       wpListService.delete();
-      closeAnyContextMenu();
     }
+
+    closeAnyContextMenu();
   };
 
   // Modals
