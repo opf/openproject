@@ -193,6 +193,12 @@ openprojectModule
         controller: 'WorkPackageDetailsController',
         controllerAs: '$ctrl',
         reloadOnSearch: false,
+        params: {
+          focus: {
+            dynamic: true,
+            value: true
+          }
+        },
         onEnter: () => angular.element('body').addClass('action-details'),
         onExit: () => angular.element('body').removeClass('action-details')
       })

@@ -57,13 +57,13 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     scopedObservable(
       $scope,
       this.states.focusedWorkPackage.values$())
-      .map(wpId => parseInt(wpId))
+      .map(wpId => wpId.toString())
       .distinctUntilChanged()
-      .subscribe((wpId) => {
-        if ($state.includes('work-packages.list.details')) {
+      .subscribe((newId) => {
+        if (wpId !== newId && $state.includes('work-packages.list.details')) {
           $state.go(
             ($state.current.name as string),
-            {workPackageId: wpId}
+            {workPackageId: newId, focus: false }
           );
         }
       });
@@ -79,6 +79,10 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
 
   public onWorkPackageSave() {
     this.$rootScope.$emit('workPackagesRefreshInBackground');
+  }
+
+  public get shouldFocus() {
+    return this.$state.params.focus === true;
   }
 
   protected initializeTexts() {
