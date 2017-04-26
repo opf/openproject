@@ -88,7 +88,6 @@ export class WorkPackageRelationsCreateController {
     this.toggleRelationsCreateForm();
     return this.wpRelationsHierarchyService.changeParent(this.workPackage, this.selectedWpId)
       .then((updatedWp:WorkPackageResourceInterface) => {
-        this.wpNotificationsService.showSave(this.workPackage);
         this.$timeout(() => {
           angular.element('#hierarchy--parent').focus();
         });

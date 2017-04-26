@@ -1,4 +1,3 @@
-import { WorkPackageNotificationService } from 'core-components/wp-edit/wp-notification.service';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,26 +26,28 @@ import { WorkPackageNotificationService } from 'core-components/wp-edit/wp-notif
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import { wpDirectivesModule } from '../../../angular-modules';
-import { WorkPackageCacheService } from '../../work-packages/work-package-cache.service';
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state:ng.ui.IStateService,
-              protected $q:ng.IQService,
-              protected wpNotificationsService:WorkPackageNotificationService,
-              protected wpCacheService:WorkPackageCacheService) {
+  constructor(protected $state: ng.ui.IStateService,
+              protected $q: ng.IQService,
+              protected wpNotificationsService: WorkPackageNotificationService,
+              protected wpCacheService: WorkPackageCacheService) {
 
   }
 
-  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string|null) {
+  public changeParent(workPackage: WorkPackageResourceInterface, parentId: string | null) {
     return workPackage
       .changeParent({
         parentId: parentId,
         lockVersion: workPackage.lockVersion
       })
-      .then((wp:WorkPackageResourceInterface) => {
+      .then((wp: WorkPackageResourceInterface) => {
         this.wpCacheService.updateWorkPackage(wp);
+        this.wpNotificationsService.showSave(wp);
         return wp;
       })
       .catch((err) => {
@@ -54,22 +55,22 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeParent(workPackage:WorkPackageResourceInterface) {
+  public removeParent(workPackage: WorkPackageResourceInterface) {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string):ng.IPromise<WorkPackageResourceInterface> {
+  public addExistingChildWp(workPackage: WorkPackageResourceInterface, childWpId: string): ng.IPromise<WorkPackageResourceInterface> {
     const deferred = this.$q.defer();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface) => {
+    state.valuesPromise().then((wpToBecomeChild: WorkPackageResourceInterface) => {
       deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
     });
 
     return deferred.promise;
   }
 
-  public addNewChildWp(workPackage:WorkPackageResourceInterface) {
+  public addNewChildWp(workPackage: WorkPackageResourceInterface) {
     workPackage.project.$load()
       .then(() => {
         const args = [
@@ -88,7 +89,7 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeChild(childWorkPackage:WorkPackageResourceInterface) {
+  public removeChild(childWorkPackage: WorkPackageResourceInterface) {
     return childWorkPackage.$load().then(() => {
       return childWorkPackage.changeParent({
         parentId: null,
@@ -98,7 +99,6 @@ export class WorkPackageRelationsHierarchyService {
       });
     });
   }
-
 
 }
 
