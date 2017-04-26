@@ -35,11 +35,16 @@ import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-pac
 import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {WorkPackageCreateService} from "../wp-create/wp-create.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {InlineCreateRowBuilder, inlineCreateCancelClassName} from "./inline-create-row-builder";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {
+  InlineCreateRowBuilder, inlineCreateCancelClassName,
+  inlineCreateRowClassName
+} from "./inline-create-row-builder";
+import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
 import {States} from "../states.service";
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
+import {RowRefreshBuilder} from "../wp-fast-table/builders/rows/row-refresh-builder";
+import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
 
 export class WorkPackageInlineCreateController {
 
@@ -52,6 +57,7 @@ export class WorkPackageInlineCreateController {
   public text:{ create: string };
 
   private currentWorkPackage:WorkPackageResourceInterface|null;
+  private workPackageEditForm:WorkPackageEditForm|undefined;
   private rowBuilder:InlineCreateRowBuilder;
 
   constructor(
@@ -64,8 +70,6 @@ export class WorkPackageInlineCreateController {
     public wpCreate:WorkPackageCreateService,
     public wpTableColumns:WorkPackageTableColumnsService,
     private wpTableFilters:WorkPackageTableFiltersService,
-    private v3Path:any,
-    private PathHelper:any,
     private AuthorisationService:any,
     private $q:ng.IQService,
     private I18n:op.I18n
@@ -86,6 +90,23 @@ export class WorkPackageInlineCreateController {
 
           // Focus on the last inserted id
           this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
+        }
+    });
+
+    // Watch on this scope when the columns change and refresh this row
+    this.states.table.columns.values$()
+      .filter(() => this.isHidden) // Take only when row is inserted
+      .takeUntil(scopeDestroyed$($scope)).subscribe(() => {
+        const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
+
+        if (rowElement.length) {
+          const data = {
+            element: rowElement[0],
+            object: this.currentWorkPackage,
+            workPackageId: 'new',
+            position: 0
+          };
+          this.rowBuilder.refreshRow(data as WorkPackageTableRow, this.workPackageEditForm);
         }
     });
 
@@ -117,12 +138,12 @@ export class WorkPackageInlineCreateController {
       this.applyDefaultsFromFilters(this.currentWorkPackage!).then(() => {
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        const form = new WorkPackageEditForm('new');
-        const row = this.rowBuilder.buildNew(wp, form);
+        this.workPackageEditForm = new WorkPackageEditForm('new');
+        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
         this.$element.append(row);
 
         this.$timeout(() => {
-          form.activateMissingFields();
+          this.workPackageEditForm!.activateMissingFields();
           this.hideRow();
         });
       });

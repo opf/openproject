@@ -27,7 +27,7 @@ export class RowRefreshBuilder extends SingleRowBuilder {
     const newCells:HTMLElement[] = [];
 
     this.columns.forEach((column:QueryColumn) => {
-      const oldTd = jRow.find(`td.${column.id}`);
+      const oldTd = cells.filter(`td.${column.id}`);
 
       // Skip the replacement of the column if this is being edited.
       if (this.isColumnBeingEdited(editForm, column)) {

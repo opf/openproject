@@ -18,11 +18,12 @@ import IScope = angular.IScope;
 import {scopeDestroyed$} from "../../helpers/angular-rx-utils";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 import {QueryColumn} from '../api/api-v3/hal-resources/query-resource.service';
+import {RowRefreshBuilder} from "../wp-fast-table/builders/rows/row-refresh-builder";
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
-export class InlineCreateRowBuilder extends SingleRowBuilder {
+export class InlineCreateRowBuilder extends RowRefreshBuilder {
   // Injections
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
