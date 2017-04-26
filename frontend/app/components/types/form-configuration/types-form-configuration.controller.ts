@@ -54,7 +54,8 @@ function typesFormConfigurationCtrl(
 
   dragulaService.options($scope, 'groups', {
     moves: function (el:any, container:any, handle:any) {
-      return handle.classList.contains('group-handle');
+      const editing = angular.element(el).find('.group-edit-in-place--input').length > 0;
+      return !editing && handle.classList.contains('group-handle');
     }
   });
 
