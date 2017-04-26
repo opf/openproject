@@ -340,8 +340,9 @@ function initializeResource(halResource:HalResource) {
   function setter(val:HalResource, linkName:string) {
     if (!val) {
       halResource.$source._links[linkName] = {href: null};
-    }
-    else if (val.$link) {
+    } else if (_.isArray(val)) {
+      halResource.$source._links[linkName] = val.map((el:any) => { return {href: el.href} });
+    } else if (val.$link) {
       const link = val.$link;
 
       if (link.href) {

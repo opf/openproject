@@ -35,6 +35,7 @@ import {
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
+import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
 
 export class WorkPackageTableFilters {
   public availableSchemas:QueryFilterInstanceSchemaResource[] = [];

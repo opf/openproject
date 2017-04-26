@@ -46,8 +46,9 @@ import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 
 interface ObserverSetupOptions {
   attrName:string;
+  keyFunc?:(a:any) => any;
   triggerUpdate?:boolean;
-  isHal?:boolean;
+  halMap?:boolean;
 }
 
 function WorkPackagesListController($scope:any,
@@ -108,19 +109,40 @@ function WorkPackagesListController($scope:any,
       }
     });
 
-    setupChangeObserver(wpTableFilters, { attrName: 'filters', triggerUpdate: true });
-    setupChangeObserver(wpTableGroupBy, { attrName: 'groupBy', triggerUpdate: true, isHal: true });
-    setupChangeObserver(wpTableSortBy, { attrName: 'sortBy', triggerUpdate: true, isHal: true });
+    setupChangeObserver(wpTableSortBy, { attrName: 'sortBy', triggerUpdate: true, halMap: true });
     setupChangeObserver(wpTableSum, { attrName: 'sums', triggerUpdate: true });
     setupChangeObserver(wpTableTimeline, { attrName: 'timelineVisible', triggerUpdate: false });
     setupChangeObserver(wpTableHierarchies, { attrName: 'showHierarchies', triggerUpdate: false });
-    setupChangeObserver(wpTableColumns, { attrName: 'columns', triggerUpdate: false, isHal: true });
+    setupChangeObserver(wpTableColumns, { attrName: 'columns', triggerUpdate: false, halMap: true });
+
+    // Filter objects do not have hrefs to compare them by, but we can use a copy of their source
+    // (copying is necessary while the state objects are still mutable)
+    setupChangeObserver(
+      wpTableFilters,
+      {
+        attrName: 'filters',
+        triggerUpdate: true,
+        keyFunc: (stateValue: any) => stateValue.current && stateValue.current.map((el:HalResource) => el.$plain())
+      }
+    );
+
+    // Group by is a single HAL resource instead of an array
+    setupChangeObserver(
+      wpTableGroupBy,
+      {
+        attrName: 'groupBy',
+        triggerUpdate: true,
+        keyFunc: (stateValue: any) => stateValue.current && stateValue.current.href
+      }
+    );
   }
 
   function setupChangeObserver(service:WorkPackageTableBaseService, options:ObserverSetupOptions) {
     let keyFunc;
 
-    if (options.isHal) {
+    if (options.keyFunc) {
+      keyFunc = options.keyFunc;
+    } else if (options.halMap) {
       keyFunc = (stateValue:any) => stateValue.current && stateValue.current.map((el:HalResource) => el.href);
     } else {
       keyFunc = (stateValue:any) => stateValue.current;
@@ -145,7 +167,7 @@ function WorkPackagesListController($scope:any,
 
     let query = states.table.query.value;
 
-    if (!query || _.isEqual(query[name], updateData)) {
+    if (!query) {
       return;
     }
 
