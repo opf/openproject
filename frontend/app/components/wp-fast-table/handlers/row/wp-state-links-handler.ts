@@ -37,7 +37,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     this.$state.go(
       (this.keepTab as any)[state],
-      { workPackageId: workPackageId }
+      { workPackageId: workPackageId, focus: true }
     );
 
     evt.preventDefault();
