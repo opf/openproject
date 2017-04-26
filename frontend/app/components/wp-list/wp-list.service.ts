@@ -201,6 +201,8 @@ export class WorkPackagesListService {
       .then(() => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
+        this.removeMenuItem(query);
+
         let id;
         if (query.project) {
           id = query.project.$href!.split('/').pop();
@@ -368,20 +370,12 @@ export class WorkPackagesListService {
     let query = this.currentQuery;
 
     if(query.starred) {
-      this
-        .queryMenuItemFactory
-        .generateMenuItem(query.name,
-                          this.$state.href('work-packages.list', { query_id: query.id }),
-                          query.id);
+      this.createMenuItem(query);
     } else {
-      this
-        .queryMenuItemFactory
-        .removeMenuItem(query.id);
+      this.removeMenuItem(query);
     }
 
-    this
-      .queryMenuItemFactory
-      .activateMenuItem();
+    this.activateMenuItem();
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
@@ -410,6 +404,26 @@ export class WorkPackagesListService {
     });
 
     return deferred.promise;
+  }
+
+  private createMenuItem(query:QueryResource) {
+    this
+      .queryMenuItemFactory
+      .generateMenuItem(query.name,
+                        this.$state.href('work-packages.list', { query_id: query.id }),
+                        query.id);
+  }
+
+  private removeMenuItem(query:QueryResource) {
+    this
+      .queryMenuItemFactory
+      .removeMenuItem(query.id);
+  }
+
+  private activateMenuItem() {
+    this
+      .queryMenuItemFactory
+      .activateMenuItem();
   }
 }
 
