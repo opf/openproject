@@ -110,7 +110,8 @@ export class WorkPackageQuerySelectController {
       appendTo: '.search-query-wrapper',
       classes: {
         'ui-autocomplete': '-inplace'
-      }
+      },
+      autoFocus: true
     });
   }
 
@@ -147,6 +148,7 @@ export class WorkPackageQuerySelectController {
 
   private loadQuery(query:QueryResource) {
     this.wpListService.reloadQuery(query);
+    this.contextMenu.close();
   }
 
   private setLoaded() {
