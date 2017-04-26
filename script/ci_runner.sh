@@ -45,10 +45,10 @@ case "$TEST_SUITE" in
             exec bundle exec rspec -I spec_legacy -o "--seed $CI_SEED" spec_legacy
             ;;
         specs)
-            exec bundle exec parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
+            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec/(?!features\/)' spec
             ;;
         features)
-            exec bundle exec parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
+            bin/parallel_test --type rspec -o "--seed $CI_SEED" -n $GROUP_SIZE --only-group $GROUP --pattern '^spec\/features\/' spec
             ;;
         *)
             bundle exec rake parallel:$TEST_SUITE
