@@ -36,7 +36,10 @@ export class WorkPackageUploadDirectiveController {
   public text: any;
   public maxFileSize: number;
 
-  constructor(protected $q:ng.IQService, ConfigurationService:any) {
+  constructor(protected $q:ng.IQService, ConfigurationService:any, protected I18n:op.I18n) {
+    this.text = {
+      uploadLabel: I18n.t('js.label_add_attachments')
+    };
     ConfigurationService.api().then((settings:any) => {
       this.maxFileSize = settings.maximumAttachmentFileSize;
     });
@@ -72,6 +75,8 @@ function wpUploadDirective(): IDirective {
         ngf-change="$ctrl.uploadFiles($files)"
         ngf-multiple="true"
         ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+        tabindex="0"
+        aria-label="{{ ::$ctrl.text.uploadLabel }}"
         click-on-keypress="[13, 32]"
         ng-transclude>
       </div>`,
