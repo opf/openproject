@@ -86,7 +86,7 @@ Docker Engine, or via an environment file:
     docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
     docker run -d --env-file path/to/file ...
 
-[configuration-doc]: https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md
+[configuration-doc]: https://github.com/opf/openproject/blob/dev/docs/configuration/configuration.md
 
 ### SMTP configuration
 
