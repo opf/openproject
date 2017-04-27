@@ -1,7 +1,6 @@
 <div class="relation-row"
      ng-class="['relation-row-{{ $ctrl.relatedWorkPackage.id }}']"
-     ng-mouseover="$ctrl.userInputs.showRelationControls = true"
-     ng-mouseleave="$ctrl.userInputs.showRelationControls = false">
+     focus-within="'.wp-relations-controls-section accessible-by-keyboard'">
     <div class="grid-block hierarchy-item">
 
         <div class="grid-content medium-3 collapse" aria-hidden="true">
@@ -38,11 +37,11 @@
         </div>
 
         <div class="grid-content medium-2 collapse wp-relations-controls-section"
-             ng-class="{ '-visible': $ctrl.userInputs.showRelationControls, '-expanded': $ctrl.userInputs.showRelationInfo }">
-            <accessible-by-keyboard ng-show="$ctrl.showDescriptionInfo"
-                                    link-aria-label="{{ ::$ctrl.text.description_label }}"
+             ng-class="{'-expanded': $ctrl.userInputs.showRelationInfo }">
+            <accessible-by-keyboard link-aria-label="{{ ::$ctrl.text.description_label }}"
                                     link-title="{{ ::$ctrl.text.description_label }}"
                                     link-class="wp-relations--description-btn"
+                                    ng-class="{'-visible': $ctrl.showDescriptionInfo }"
                                     execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
                 <icon-wrapper icon-name="info1"
                               css-class="wp-relations--icon wp-relations--description-icon"
@@ -54,8 +53,7 @@
                                     aria-hidden="false"
                                     link-aria-label="{{ ::$ctrl.text.remove }}"
                                     link-title="{{ ::$ctrl.text.remove }}"
-                                    link-class="relation-row--remove-btn"
-                                    class="-shown-in-accessibility-mode">
+                                    link-class="relation-row--remove-btn">
                 <icon-wrapper icon-name="remove"
                               css-class="wp-relations--icon"
                               icon-title="{{ ::$ctrl.text.removeButton }}">
@@ -64,7 +62,8 @@
         </div>
     </div>
 
-    <div class="grid-block hierarchy-item description-container" ng-show="$ctrl.userInputs.showRelationInfo" ng-init="editDescription = false">
+    <div class="grid-block hierarchy-item description-container"
+         ng-show="$ctrl.userInputs.showRelationInfo">
         <div class="wp-relation--description-read-value"
              ng-class="{'-placeholder': !$ctrl.relation.description }"
              ng-click="$ctrl.startDescriptionEdit()"

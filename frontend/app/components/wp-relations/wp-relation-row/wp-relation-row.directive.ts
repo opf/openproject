@@ -22,7 +22,6 @@ class WpRelationRowDirectiveController {
     showDescriptionEditForm: false,
     showRelationTypesForm: false,
     showRelationInfo: false,
-    showRelationControls: false,
   };
 
   // Create a quasi-field object
@@ -113,18 +112,7 @@ class WpRelationRowDirectiveController {
   }
 
   public get showDescriptionInfo() {
-    // Show when relation info is expanded
-    if (this.userInputs.showRelationInfo) {
-      return true;
-    }
-
-    // Show when relation has a description
-    if (this.relation.description) {
-      return true;
-    }
-
-    // Show depending on mouseover
-    return this.userInputs.showRelationControls;
+    return this.userInputs.showRelationInfo || this.relation.description;
   }
 
   public saveRelationType() {
@@ -158,7 +146,7 @@ class WpRelationRowDirectiveController {
   }
 }
 
-function WpRelationRowDirective() {
+function WpRelationRowDirective($timeout:ng.ITimeoutService) {
   return {
     restrict:'E',
     templateUrl:'/components/wp-relations/wp-relation-row/wp-relation-row.template.html',

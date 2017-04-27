@@ -190,50 +190,5 @@ describe('wpAttachmentList directive', () => {
         expect(template.fileName.text()).to.contain(attachment.name);
       });
     });
-
-    describe('when focusing an element', () => {
-      var focusElement:any;
-
-      const testFocus = (prepare:any) => {
-        beforeEach(() => {
-          prepare();
-          focusElement.triggerHandler('focus');
-        });
-
-        it('should set the `-focus` class for that attachment', () => {
-          expect(template.triggerLink.hasClass('-focus')).to.be.true;
-        });
-
-        it('should be focused', () => {
-          expect(controller.isFocused(attachment)).to.be.true;
-        });
-
-        describe('when setting the focus somewhere else', () => {
-          beforeEach(() => {
-            focusElement.triggerHandler('blur');
-          });
-
-          it('should unset the `-focus` class for that attachment', () => {
-            expect(template.triggerLink.hasClass('-focus')).to.be.false;
-          });
-
-          it('should not be focused', () => {
-            expect(controller.isFocused(attachment)).to.be.false;
-          });
-        });
-      };
-
-      describe('when focusing the file name element', () => {
-        testFocus(() => {
-          focusElement = template.fileName;
-        });
-      });
-
-      describe('when focusing the delete icon', () => {
-        testFocus(() => {
-          focusElement = template.deleteIcon;
-        });
-      });
-    });
   });
 });

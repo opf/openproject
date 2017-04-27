@@ -26,52 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {WatchersPanelController} from '../wp-panels/watchers-panel/watchers-panel.controller';
-import {UserResource} from '../api/api-v3/hal-resources/user-resource.service';
-import {wpDirectivesModule} from '../../angular-modules';
+import {wpDirectivesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {BehaviorSubject} from 'rxjs';
 
-export class WatcherEntryController {
+// with courtesy of http://stackoverflow.com/a/29722694/3206935
 
-  public watcher:UserResource;
-  public text:{ remove:string };
-  public panelCtrl:WatchersPanelController;
+function focusWithinDirective($timeout:ng.ITimeoutService) {
+  return {
+    restrict: 'A',
 
-  public state = {
-    deleting: false
+    scope: {
+      selector: '=focusWithin'
+    },
+
+    link: (scope:ng.IScope, element:ng.IAugmentedJQuery) => {
+      let focusedObservable = new BehaviorSubject(false);
+
+      scopedObservable(
+          scope,
+          focusedObservable.delay(50)
+        )
+        .filter(delayed => delayed === focusedObservable.getValue())
+        .subscribe((focused) => {
+           element.toggleClass('-focus', focused);
+        });
+
+
+      let focusListener = function () {
+          focusedObservable.next(true);
+      };
+      element[0].addEventListener('focus', focusListener, true);
+
+      let blurListener = function () {
+          focusedObservable.next(false);
+      };
+      element[0].addEventListener('blur', blurListener, true);
+
+      $timeout(() => {
+        element.addClass('focus-within--trigger');
+        element.find(scope.selector).addClass('focus-within--depending');
+      }, 0);
+    }
   };
-
-  constructor(
-    public $element:ng.IAugmentedJQuery,
-    public I18n:op.I18n,
-    public $timeout:ng.ITimeoutService) {
-    'ngInject';
-
-    this.text = {
-      remove: I18n.t('js.label_remove_watcher', { name: this.watcher.name })
-    };
-  }
-
-  public remove() {
-    this.state.deleting = true;
-    this.panelCtrl.removeWatcher(this.watcher);
-  }
 }
 
-function wpWatcher() {
-  return {
-    templateUrl: '/components/wp-watchers/wp-watcher-entry.directive.html',
-    scope: {
-      watcher: '='
-    },
-    link: (scope:any, element:ng.IAugmentedJQuery, attr:ng.IAttributes, controller:WatchersPanelController) => {
-      scope.$ctrl.panelCtrl = controller;
-    },
-    require: '^watchersPanel',
-    controller: WatcherEntryController,
-    controllerAs: '$ctrl',
-    bindToController: true
-
-  };
-};
-
-wpDirectivesModule.directive('wpWatcher', wpWatcher);
+wpDirectivesModule.directive('focusWithin', focusWithinDirective);
