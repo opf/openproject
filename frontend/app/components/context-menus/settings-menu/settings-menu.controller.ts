@@ -105,8 +105,8 @@ function SettingsDropdownMenuController($scope:IMyScope,
   let form = states.table.form.value!;
   let query = states.table.query.value!;
 
-  if (query.customFields) {
-    $scope.queryCustomFields = query.customFields;
+  if (query.results && query.results.customFields) {
+    $scope.queryCustomFields = query.results.customFields;
   }
 
   $scope.saveQuery = function (event:JQueryEventObject) {

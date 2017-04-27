@@ -102,6 +102,14 @@ module API
           } if represented.any?
         end
 
+        link :customFields do
+          {
+            href: settings_project_path(project.identifier, tab: 'custom_fields'),
+            type: 'text/html',
+            title: I18n.t('label_custom_field_plural')
+          } if current_user.try(:admin?) || (project.present? && current_user_allowed_to(:edit_project, context: project))
+        end
+
         links :representations do
           representation_formats if current_user.allowed_to?(:export_work_packages, project, global: project.nil?)
         end
