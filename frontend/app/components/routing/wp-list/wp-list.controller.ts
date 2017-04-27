@@ -115,33 +115,27 @@ function WorkPackagesListController($scope:any,
   }
 
   function setupChangeObserver(service:WorkPackageTableBaseService, name:string, triggerUpdate:boolean = true) {
+    const queryState = states.table.query;
+
     service
       .observeUntil(scopeDestroyed$($scope))
+      .filter(() => !isAnyDependentStateClear()) // Avoid updating while not all states are initialized
+      .filter(() => queryState.hasValue())
+      .filter((stateValue:WorkPackageTableBaseState<any>) => {
+
+        // Avoid updating if the query is up-to-date
+        // (Loaded into query elsewhere)
+        const queryValue = stateValue.comparerFunction()(queryState.value![name]);
+        return _.isEqual(queryValue, stateValue.extractedCompareValue) === false;
+      })
       .distinctUntilChanged(
         (a,b) => _.isEqual(a,b),
         (stateValue:WorkPackageTableBaseState<any>) => stateValue.extractedCompareValue
       )
       .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
-        // Avoid updating while not all states are initialized
-        if (isAnyDependentStateClear()) {
-          return;
-        }
-
-        // Avoid updating if the query isn't yet available
-        const query = states.table.query.value;
-        if (!query) {
-          return;
-        }
-
-        // Avoid updating if the query is up-to-date
-        // (Loaded into query elsewhere)
-        const queryValue = stateValue.comparerFunction()(query[name]);
-        if (_.isEqual(queryValue, stateValue.extractedCompareValue)) {
-          return;
-        }
-
-        query[name] = _.cloneDeep(stateValue.current);
-        states.table.query.putValue(query);
+        const newQuery = queryState.value!;
+        newQuery[name] = _.cloneDeep(stateValue.current);
+        states.table.query.putValue(newQuery);
 
         if (triggerUpdate) {
           updateResultsVisibly(true);

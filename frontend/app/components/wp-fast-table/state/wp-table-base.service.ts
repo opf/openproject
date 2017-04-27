@@ -50,8 +50,6 @@ export abstract class WorkPackageTableBaseService {
     return this.states.table[this.stateName];
   };
 
-
-
   public observeOnScope(scope:ng.IScope) {
     return scopedObservable(scope, this.state.values$());
   }
