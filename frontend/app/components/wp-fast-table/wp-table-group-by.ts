@@ -32,12 +32,18 @@ import {
   QueryColumn
 } from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export class WorkPackageTableGroupBy {
+export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> {
   public available:QueryGroupByResource[] = [];
   public current:QueryGroupByResource | undefined;
 
+  public comparerFunction():(current:QueryGroupByResource|undefined) => any {
+    return (current:QueryGroupByResource) => current && current.href;
+  }
+
   constructor(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+    super();
     this.current = angular.copy(query.groupBy);
 
     if (schema) {

@@ -40,6 +40,8 @@ import {CollectionResource} from '../../api/api-v3/hal-resources/collection-reso
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableFilters} from '../wp-table-filters';
+import {WorkPackageTableBaseState} from "../wp-table-base";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 
 export class WorkPackageTableFiltersService extends WorkPackageTableBaseService {
   protected stateName = 'filters' as TableStateStates;

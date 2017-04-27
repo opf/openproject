@@ -26,6 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export interface WorkPackageTableBaseInterface {
-  current:any
+export class WorkPackageTableBaseState<T> {
+
+  /**
+   * Extract the current value from this state and pass it through the comparer function.
+   */
+  public get extractedCompareValue():any {
+    return this.current && this.comparerFunction()(this.current);
+  }
+
+  /**
+   * Returns a comparer function for this state's value used to compare state values,
+   * e.g., as a distinctUntilChanged() key function.
+   */
+  public comparerFunction():(current:T) => any {
+    return (current: T) => current;
+  }
+
+  public current:T;
 }

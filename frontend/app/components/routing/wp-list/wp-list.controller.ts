@@ -43,13 +43,9 @@ import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
 import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageTableBaseState} from "../../wp-fast-table/wp-table-base";
 
-interface ObserverSetupOptions {
-  attrName:string;
-  keyFunc?:(a:any) => any;
-  triggerUpdate?:boolean;
-  halMap?:boolean;
-}
+
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
@@ -109,75 +105,48 @@ function WorkPackagesListController($scope:any,
       }
     });
 
-    setupChangeObserver(wpTableSortBy, { attrName: 'sortBy', triggerUpdate: true, halMap: true });
-    setupChangeObserver(wpTableSum, { attrName: 'sums', triggerUpdate: true });
-    setupChangeObserver(wpTableTimeline, { attrName: 'timelineVisible', triggerUpdate: false });
-    setupChangeObserver(wpTableHierarchies, { attrName: 'showHierarchies', triggerUpdate: false });
-    setupChangeObserver(wpTableColumns, { attrName: 'columns', triggerUpdate: false, halMap: true });
-
-    // Filter objects do not have hrefs to compare them by, but we can use a copy of their source
-    // (copying is necessary while the state objects are still mutable)
-    setupChangeObserver(
-      wpTableFilters,
-      {
-        attrName: 'filters',
-        triggerUpdate: true,
-        keyFunc: (stateValue: any) => stateValue.current && stateValue.current.map((el:HalResource) => el.$plain())
-      }
-    );
-
-    // Group by is a single HAL resource instead of an array
-    setupChangeObserver(
-      wpTableGroupBy,
-      {
-        attrName: 'groupBy',
-        triggerUpdate: true,
-        keyFunc: (stateValue: any) => stateValue.current && stateValue.current.href
-      }
-    );
+    setupChangeObserver(wpTableFilters, 'filters');
+    setupChangeObserver(wpTableGroupBy, 'groupBy');
+    setupChangeObserver(wpTableSortBy, 'sortBy');
+    setupChangeObserver(wpTableSum, 'sums');
+    setupChangeObserver(wpTableTimeline, 'timelineVisible', false);
+    setupChangeObserver(wpTableHierarchies, 'showHierarchies', false);
+    setupChangeObserver(wpTableColumns, 'columns', false);
   }
 
-  function setupChangeObserver(service:WorkPackageTableBaseService, options:ObserverSetupOptions) {
-    let keyFunc;
-
-    if (options.keyFunc) {
-      keyFunc = options.keyFunc;
-    } else if (options.halMap) {
-      keyFunc = (stateValue:any) => stateValue.current && stateValue.current.map((el:HalResource) => el.href);
-    } else {
-      keyFunc = (stateValue:any) => stateValue.current;
-    }
-
+  function setupChangeObserver(service:WorkPackageTableBaseService, name:string, triggerUpdate:boolean = true) {
     service
       .observeUntil(scopeDestroyed$($scope))
       .distinctUntilChanged(
         (a,b) => _.isEqual(a,b),
-        keyFunc
+        (stateValue:WorkPackageTableBaseState<any>) => stateValue.extractedCompareValue
       )
-      .skip(1) // Skip the first value to avoid distinctUntilChanged firing for empty
-      .subscribe((stateValue:any) => {
-        updateAndExecuteIfAltered(stateValue.current, options.attrName, options.triggerUpdate);
+      .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
+        // Avoid updating while not all states are initialized
+        if (isAnyDependentStateClear()) {
+          return;
+        }
+
+        // Avoid updating if the query isn't yet available
+        const query = states.table.query.value;
+        if (!query) {
+          return;
+        }
+
+        // Avoid updating if the query is up-to-date
+        // (Loaded into query elsewhere)
+        const queryValue = stateValue.comparerFunction()(query[name]);
+        if (_.isEqual(queryValue, stateValue.extractedCompareValue)) {
+          return;
+        }
+
+        query[name] = _.cloneDeep(stateValue.current);
+        states.table.query.putValue(query);
+
+        if (triggerUpdate) {
+          updateResultsVisibly(true);
+        }
       });
-  }
-
-  function updateAndExecuteIfAltered(updateData:any, name:string, triggerUpdate:boolean = false) {
-    if (isAnyDependentStateClear()) {
-      return;
-    }
-
-    let query = states.table.query.value;
-
-    if (!query) {
-      return;
-    }
-
-    query[name] = _.cloneDeep(updateData);
-
-    states.table.query.putValue(query);
-
-    if (triggerUpdate) {
-      updateResultsVisibly(true);
-    }
   }
 
   function loadQuery() {

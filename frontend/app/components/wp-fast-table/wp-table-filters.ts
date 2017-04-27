@@ -36,12 +36,18 @@ import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service'
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
 import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export class WorkPackageTableFilters {
+export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
   public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
   public current:QueryFilterInstanceResource[] = [];
 
+  public comparerFunction():(current:QueryFilterInstanceResource[]) => any {
+    return (current:QueryFilterInstanceResource[]) => current.map((el:HalResource) => el.$plain());
+  }
+
   constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResourceInterface) {
+    super();
     this.current = filters;
     this.availableSchemas = schema
                             .filtersSchemas

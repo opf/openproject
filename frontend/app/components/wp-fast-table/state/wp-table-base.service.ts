@@ -28,7 +28,7 @@
 
 import {InputState} from "reactivestates";
 import {States} from "../../states.service";
-import {WorkPackageTableBaseInterface} from "../wp-table-base";
+import {WorkPackageTableBaseState} from "../wp-table-base";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {Observable} from 'rxjs';
 
@@ -46,9 +46,11 @@ export abstract class WorkPackageTableBaseService {
   constructor(protected states: States) {
   }
 
-  protected get state(): InputState<WorkPackageTableBaseInterface> {
+  protected get state(): InputState<any> {
     return this.states.table[this.stateName];
   };
+
+
 
   public observeOnScope(scope:ng.IScope) {
     return scopedObservable(scope, this.state.values$());
