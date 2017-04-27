@@ -66,7 +66,7 @@ function toggleMemberFilter() {
 }
 
 function showAddMemberForm() {
-  jQuery('#members_add_form').show();
+  jQuery('#members_add_form').css('display', 'block');
   jQuery('#members_add_form #principal_search').focus();
   hideFilter(filter = findFilter());
   jQuery('#filter-member-button').removeClass('-active');
@@ -75,7 +75,7 @@ function showAddMemberForm() {
 }
 
 function hideAddMemberForm() {
-  jQuery('#members_add_form').hide();
+  jQuery('#members_add_form').css('display', 'none');
   jQuery('#add-member-button').focus();
   jQuery('#add-member-button').prop('disabled', false);
 }
