@@ -101,7 +101,8 @@ class PermittedParams
     params.permit(*self.class.permitted_attributes[:group_membership])
   end
 
-  def new_work_package(args = {})
+  def update_work_package(args = {})
+    # used to be called new_work_package with an alias to update_work_package
     permitted = permitted_attributes(:new_work_package, args)
 
     permitted_params = params.require(:work_package).permit(*permitted)
@@ -184,8 +185,6 @@ class PermittedParams
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
-
-  alias :update_work_package :new_work_package
 
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
@@ -427,7 +426,7 @@ class PermittedParams
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
+    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
 
     values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end
