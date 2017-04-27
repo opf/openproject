@@ -8,7 +8,8 @@
         ng-disabled="vm.workPackage.inFlight"
         focus="vm.shouldFocus()"
         focus-priority="vm.shouldFocus()"
-        ng-attr-id="{{vm.htmlId}}">
+        ng-attr-id="{{vm.htmlId}}"
+        role="listbox">
   <option value=""
           ng-bind="vm.field.text.requiredPlaceholder"
           ng-if="vm.field.currentValueInvalid"
