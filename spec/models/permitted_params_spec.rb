@@ -919,7 +919,7 @@ describe PermittedParams, type: :model do
     end
 
     it 'should not allow identity_url' do
-      hash = { 'identity_url'  => 'test_identity_url' }
+      hash = { 'identity_url' => 'test_identity_url' }
 
       params = ActionController::Parameters.new(user: hash)
 
@@ -928,10 +928,24 @@ describe PermittedParams, type: :model do
   end
 
   shared_context 'prepare params comparison' do
-    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
-    let(:params) { ActionController::Parameters.new(params_key => hash) }
+    let(:params_key) { defined?(hash_key) ? hash_key : attribute }
+    let(:params) do
+      nested_params = if defined?(nested_key)
+                        { nested_key => hash }
+                      else
+                        hash
+                      end
 
-    subject { PermittedParams.new(params, user).send(attribute) }
+      ac_params = if defined?(flat) && flat
+                    nested_params
+                  else
+                    { params_key => nested_params }
+                  end
+
+      ActionController::Parameters.new(ac_params)
+    end
+
+    subject { PermittedParams.new(params, user).send(attribute).to_h }
   end
 
   shared_examples_for 'allows params' do
@@ -941,10 +955,7 @@ describe PermittedParams, type: :model do
   end
 
   shared_examples_for 'allows nested params' do
-    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
-    let(:params) { ActionController::Parameters.new(params_key => { nested_key => hash }) }
-
-    subject { PermittedParams.new(params, user).send attribute }
+    include_context 'prepare params comparison'
 
     it { expect(subject).to eq(hash) }
   end
@@ -1144,6 +1155,47 @@ describe PermittedParams, type: :model do
       let(:hash) { { 'mail_notification' => 'blubs' } }
 
       it_behaves_like 'forbids params'
+    end
+  end
+
+  describe 'calendar_filter' do
+    let(:attribute) { :calendar_filter }
+    let(:flat) { true }
+
+    describe 'project_id' do
+      let(:hash) { { 'project_id' => 'some_identifier' } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'f' do
+      let(:hash) { { 'f' => ['assigned_to_id', 'subject'] } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'op' do
+      let(:hash) { { 'op' => { 'assigned_to_id' => '=', 'subject' => '~', 'cf_0815' => '=' } } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'v' do
+      let(:hash) { { 'v' => { 'assigned_to_id' => ['1'], 'subject' => ['blubs'], 'cf_0815' => ['a', 'b', 'c'] } } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'month' do
+      let(:hash) { { 'month' => '3' } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'year' do
+      let(:hash) { { 'year' => '3' } }
+
+      it_behaves_like 'allows params'
     end
   end
 

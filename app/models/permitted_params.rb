@@ -153,10 +153,24 @@ class PermittedParams
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
-    p[:sort_criteria] = params.require(:query)
+    p[:sort_criteria] = params
+                        .require(:query)
                         .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
     p[:sort_criteria].delete :sort_criteria
     p
+  end
+
+  def calendar_filter
+    keys =  Query.registered_filters.map(&:key)
+    op_keys = keys_whitelisted_by_list(params["op"], keys)
+    v_keys = keys_whitelisted_by_list(params["v"], keys).map { |f| { f => [] } }
+
+    params.permit(:project_id,
+                  :month,
+                  :year,
+                  f: [],
+                  op: op_keys,
+                  v: v_keys)
   end
 
   def role
@@ -659,5 +673,11 @@ class PermittedParams
     attributes.each_pair do |key, attrs|
       permitted_attributes[key] += attrs
     end
+  end
+
+  def keys_whitelisted_by_list(hash, list)
+    (hash || {})
+      .keys
+      .select { |k| list.any? { |whitelisted| whitelisted.to_s == k.to_s || whitelisted === k } }
   end
 end

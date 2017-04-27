@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -693,6 +694,10 @@ module ApplicationHelper
     rgb[1] = (rgb[1].to_i * amount).round
     rgb[2] = (rgb[2].to_i * amount).round
     "#%02x%02x%02x" % rgb
+  end
+
+  def permitted_params
+    PermittedParams.new(params, current_user)
   end
 
   private

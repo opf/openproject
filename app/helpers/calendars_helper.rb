@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -59,6 +60,11 @@ module CalendarsHelper
   def link_to_month(date_to_show, options = {})
     date = date_to_show.to_date
     name = ::I18n.l date, format: options.delete(:display_year) ? '%B %Y' : '%B'
-    link_to_content_update(name, { year: date.year, month: date.month }, options)
+
+    merged_params = permitted_params
+                    .calendar_filter
+                    .merge(year: date.year, month: date.month)
+
+    link_to_content_update(name, merged_params, options)
   end
 end
