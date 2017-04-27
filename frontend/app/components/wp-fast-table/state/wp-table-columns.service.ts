@@ -38,7 +38,7 @@ import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service'
 import {Observable} from 'rxjs/Observable';
 import {WorkPackageTableColumns} from '../wp-table-columns'
-import {WorkPackageTableBaseInterface} from '../wp-table-base';
+import {WorkPackageTableBaseState} from '../wp-table-base';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 

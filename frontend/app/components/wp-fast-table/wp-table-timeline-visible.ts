@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageTableTimelineVisible {
+import {WorkPackageTableBaseState} from "./wp-table-base";
+export class WorkPackageTableTimelineVisible extends WorkPackageTableBaseState<boolean> {
   public current:boolean;
 
   constructor(isVisible:boolean) {
+    super();
     this.current = isVisible;
   }
 

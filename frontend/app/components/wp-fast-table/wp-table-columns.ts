@@ -30,8 +30,9 @@ import {QueryColumn} from '../api/api-v3/hal-resources/query-resource.service'
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service'
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service'
 import {Observable} from 'rxjs/Observable';
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export class WorkPackageTableColumns {
+export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 
   // Available columns
   public available:QueryColumn[]|undefined;
@@ -40,6 +41,7 @@ export class WorkPackageTableColumns {
   public current:QueryColumn[];
 
   constructor(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+    super();
     this.update(query, schema);
   }
 

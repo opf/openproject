@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
+import {scopeDestroyed$, scopedObservable} from "../../../helpers/angular-rx-utils";
 import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
 import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
 import {States} from "../../states.service";
@@ -41,6 +41,11 @@ import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
+import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageTableBaseState} from "../../wp-fast-table/wp-table-base";
+
+
 
 function WorkPackagesListController($scope:any,
                                     $rootScope:ng.IRootScopeService,
@@ -72,7 +77,9 @@ function WorkPackagesListController($scope:any,
   function initialSetup() {
     setupObservers();
 
-    loadQuery();
+    if (wpListChecksumService.isUninitialized()) {
+      loadQuery();
+    }
   }
 
   function setupObservers() {
@@ -98,55 +105,42 @@ function WorkPackagesListController($scope:any,
       }
     });
 
-    wpTableFilters.observeOnScope($scope).subscribe(filters => {
-      updateAndExecuteIfAltered(filters.current, 'filters', true);
-    });
-
-    wpTableGroupBy.observeOnScope($scope).subscribe(groupBy => {
-      updateAndExecuteIfAltered(groupBy.current, 'groupBy', true);
-    });
-
-    wpTableSortBy.observeOnScope($scope).subscribe(sortBy => {
-      updateAndExecuteIfAltered(sortBy.current, 'sortBy', true);
-    });
-
-    wpTableSum.observeOnScope($scope).subscribe(sums => {
-      updateAndExecuteIfAltered(sums.current, 'sums', true);
-    });
-
-    wpTableTimeline.observeOnScope($scope).subscribe(timeline => {
-      updateAndExecuteIfAltered(timeline.current, "timelineVisible");
-    });
-
-    wpTableHierarchies.observeOnScope($scope).subscribe(hierarchies => {
-      updateAndExecuteIfAltered(hierarchies.current, 'showHierarchies');
-    });
-
-    wpTableColumns.observeOnScope($scope).subscribe(columns => {
-      updateAndExecuteIfAltered(columns.current, "columns");
-    });
+    setupChangeObserver(wpTableFilters, 'filters');
+    setupChangeObserver(wpTableGroupBy, 'groupBy');
+    setupChangeObserver(wpTableSortBy, 'sortBy');
+    setupChangeObserver(wpTableSum, 'sums');
+    setupChangeObserver(wpTableTimeline, 'timelineVisible', false);
+    setupChangeObserver(wpTableHierarchies, 'showHierarchies', false);
+    setupChangeObserver(wpTableColumns, 'columns', false);
   }
 
-  function updateAndExecuteIfAltered(updateData:any, name:string, triggerUpdate:boolean = false) {
-    if (isAnyDependentStateClear()) {
-      return;
-    }
+  function setupChangeObserver(service:WorkPackageTableBaseService, name:string, triggerUpdate:boolean = true) {
+    const queryState = states.table.query;
 
-    let query = states.table.query.value;
+    service
+      .observeUntil(scopeDestroyed$($scope))
+      .filter(() => !isAnyDependentStateClear()) // Avoid updating while not all states are initialized
+      .filter(() => queryState.hasValue())
+      .filter((stateValue:WorkPackageTableBaseState<any>) => {
 
-    if (!query || _.isEqual(query[name], updateData)) {
-      return;
-    }
+        // Avoid updating if the query is up-to-date
+        // (Loaded into query elsewhere)
+        const queryValue = stateValue.comparerFunction()(queryState.value![name]);
+        return _.isEqual(queryValue, stateValue.extractedCompareValue) === false;
+      })
+      .distinctUntilChanged(
+        (a,b) => _.isEqual(a,b),
+        (stateValue:WorkPackageTableBaseState<any>) => stateValue.extractedCompareValue
+      )
+      .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
+        const newQuery = queryState.value!;
+        newQuery[name] = _.cloneDeep(stateValue.current);
+        states.table.query.putValue(newQuery);
 
-    let pagination = wpTablePagination.current;
-
-    query[name] = _.cloneDeep(updateData);
-
-    states.table.query.putValue(query);
-
-    if (triggerUpdate) {
-      updateResultsVisibly(true);
-    }
+        if (triggerUpdate) {
+          updateResultsVisibly(true);
+        }
+      });
   }
 
   function loadQuery() {

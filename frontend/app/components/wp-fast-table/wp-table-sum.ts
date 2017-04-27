@@ -26,10 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageTableSum {
+import {WorkPackageTableBaseState} from "./wp-table-base";
+export class WorkPackageTableSum extends WorkPackageTableBaseState<boolean> {
   public current:boolean;
 
   constructor(isSum:boolean) {
+    super();
     this.current = isSum;
   }
 

@@ -27,12 +27,14 @@
 // ++
 
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service'
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export class WorkPackageTablePaginationObject {
+export class WorkPackageTablePaginationObject extends WorkPackageTableBaseState<WorkPackageTablePagination> {
   constructor(public page:number,
               public perPage:number,
               public total:number,
               public count:number) {
+    super();
   }
 }
 

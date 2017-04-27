@@ -38,7 +38,7 @@ import {
 } from '../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-table-pagination';
 import {
-  WorkPackageTableBaseInterface,
+  WorkPackageTableBaseState,
 } from '../wp-table-base';
 
 interface PaginationUpdateObject {
