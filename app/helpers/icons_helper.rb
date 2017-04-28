@@ -36,4 +36,12 @@ module IconsHelper
   def op_icon(classnames)
     %(<i class="#{classnames}" aria-hidden="true"></i>).html_safe
   end
+
+  ##
+  # Icon wrapper with an invisible label
+  def icon_wrapper(icon_class, label)
+    content = op_icon(icon_class)
+    content << content_tag(:span, label, class: 'hidden-for-sighted')
+    content
+  end
 end

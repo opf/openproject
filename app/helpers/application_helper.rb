@@ -694,10 +694,4 @@ module ApplicationHelper
     s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
   end
-
-  def icon_wrapper(icon_class, label)
-    content  = content_tag(:span, '', class: icon_class)
-    content += content_tag(:span, label, class: 'hidden-for-sighted')
-    content
-  end
 end

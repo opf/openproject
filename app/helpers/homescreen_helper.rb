@@ -37,7 +37,7 @@ module HomescreenHelper
   ##
   # Homescreen organization icon
   def organization_icon
-    content_tag :span, '', class: 'icon-context icon-enterprise'
+    op_icon('icon-context icon-enterprise')
   end
 
   ##
@@ -45,7 +45,7 @@ module HomescreenHelper
   def homescreen_user_avatar
     avatar = avatar(User.current)
 
-    avatar.presence || content_tag(:span, '', class: 'icon-context icon-user')
+    avatar.presence ||  op_icon('icon-context icon-user')
   end
 
   ##
