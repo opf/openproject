@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
           { class: 'button -alt-highlight',
             aria: {label: t(:label_role_new)},
             title: t(:label_role_new)}) do %>
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= Role.model_name.human %></span>
     <% end %>
   </li>
