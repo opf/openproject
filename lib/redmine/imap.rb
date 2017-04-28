@@ -58,14 +58,12 @@ module Redmine
       end
 
       def ssl_option(imap_options)
-        if imap_options[:ssl]
-          if imap_options[:ssl_verification]
-            true # use SSL with verification
-          else
-            { verify_mode: OpenSSL::SSL::VERIFY_NONE } # use SSL without verification
-          end
+        return false if imap_options[:ssl] == false # don't use SSL
+
+        if imap_options[:ssl_verification] == false
+          { verify_mode: OpenSSL::SSL::VERIFY_NONE } # use SSL without verification
         else
-          false # don't use SSL
+          true # use SSL with verification
         end
       end
 
