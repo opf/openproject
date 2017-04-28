@@ -103,11 +103,14 @@ module API
         end
 
         link :customFields do
-          {
-            href: settings_project_path(project.identifier, tab: 'custom_fields'),
-            type: 'text/html',
-            title: I18n.t('label_custom_field_plural')
-          } if current_user.try(:admin?) || (project.present? && current_user_allowed_to(:edit_project, context: project))
+          if project.present? &&
+              (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
+            {
+              href: settings_project_path(project.identifier, tab: 'custom_fields'),
+              type: 'text/html',
+              title: I18n.t('label_custom_field_plural')
+            }
+          end
         end
 
         links :representations do
