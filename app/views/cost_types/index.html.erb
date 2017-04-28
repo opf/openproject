@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= toolbar title: CostType.model_name.human(count: 2) do %>
   <li class="toolbar-item">
     <a href="<%= new_cost_type_path %>" aria-label="<%= t(:button_add_cost_type) %>" title="<%= t(:button_add_cost_type) %>" class="button -alt-highlight">
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= CostType.model_name.human %></span>
     </a>
   </li>

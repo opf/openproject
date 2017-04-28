@@ -72,7 +72,7 @@ module OpenProject::Costs
       menu :admin_menu,
            :cost_types,
            { controller: '/cost_types', action: 'index' },
-           html: { class: 'icon2 icon-cost-types' },
+           icon: 'icon2 icon-cost-types',
            caption: :label_cost_type_plural
 
       menu :project_menu,
@@ -81,7 +81,7 @@ module OpenProject::Costs
            param: :project_id,
            before: :settings,
            caption: :cost_objects_title,
-           html: { class: 'icon2 icon-budget' }
+           icon: 'icon2 icon-budget'
 
       Redmine::Activity.map do |activity|
         activity.register :cost_objects, class_name: 'Activity::CostObjectActivityProvider', default: false
