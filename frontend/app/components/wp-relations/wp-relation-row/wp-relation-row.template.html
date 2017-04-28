@@ -3,19 +3,24 @@
      focus-within="'.wp-relations-controls-section accessible-by-keyboard'">
     <div class="grid-block hierarchy-item">
 
-        <div class="grid-content medium-3 collapse" aria-hidden="true">
+        <div class="grid-content medium-3 collapse">
             <span class="relation-row--type"
                   ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  tabindex="0"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
+
 
               <span ng-if="$ctrl.groupByWorkPackageType"
                     ng-bind="$ctrl.normalizedRelationType"></span>
               <span ng-if="!$ctrl.groupByWorkPackageType"
                     ng-bind="$ctrl.relatedWorkPackage.type.name"></span>
+              <span class="hidden-for-sighted" ng-bind="::$ctrl.text.updateRelation"></span>
             </span>
-            <div class="wp-edit-field inplace-edit" ng-if="$ctrl.userInputs.showRelationTypesForm">
+            <div class="wp-edit-field inplace-edit"
+                 ng-if="$ctrl.userInputs.showRelationTypesForm">
                 <select class="wp-inline-edit--field form--select"
                         ng-model="$ctrl.selectedRelationType"
+                        focus
                         ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
                         ng-change="$ctrl.saveRelationType()"></select>
             </div>
