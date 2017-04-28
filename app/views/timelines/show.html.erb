@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:new) %>
     <li class="toolbar-item">
       <%= new_timeline_link @project do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('timelines.timeline') %></span>
       <% end %>
     </li>
@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:edit) %>
     <li class="toolbar-item">
       <%= edit_timeline_link @project, @timeline do %>
-        <i class="button--icon icon-edit"></i>
+        <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= t(:button_edit) %></span>
         <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if timeline_action_authorized?(:destroy) %>
     <li class="toolbar-item">
       <%= destroy_timeline_link @project, @timeline do %>
-        <i class="button--icon icon-delete"></i>
+        <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= t(:button_delete) %></span>
         <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
       <% end %>
@@ -62,7 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <li class="toolbar-item">
     <%= link_to url_for(controller: '/reportings', action: 'index', project_id: @project.id), class: 'button' do %>
-      <i class="button--icon icon-status-reporting"></i>
+      <%= op_icon('button--icon icon-status-reporting') %>
       <span class="button--text"><%= t('timelines.project_menu.reportings') %></span>
     <% end %>
   </li>

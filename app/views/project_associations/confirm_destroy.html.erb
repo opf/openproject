@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class='flash warning'>
     <%= l('timelines.really_delete_project_association_between_project_a_and_project_b',
           project_a: @project, project_b: @project_association.project(@project)) %>
-    <i class="icon-close close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}"></i>
+    <%= op_icon('icon-close close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}') %>
   </div>
 
   <%= format_text @project_association, :description %>

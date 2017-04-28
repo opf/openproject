@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     aria: {label: t(:label_message_new)},
                     title: t(:label_message_new)},
                     onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t(:label_message) %></span>
       <% end %>
     </li>

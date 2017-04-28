@@ -1,6 +1,6 @@
 <h3 class="widget-box--header">
-  <span class="icon-context icon-group"></span>
-  <span class="icon-context icon-relations"></span>
+  <%= op_icon('icon-context icon-group') %>
+  <%= op_icon('icon-context icon-relations') %>
   <span class="widget-box--header-title"><%= l(:label_user_plural) %></span>
 </h3>
 <p class="widget-box--additional-info"><%= l('homescreen.additional.users') %></p>
@@ -19,7 +19,7 @@
 <div class="widget-box--buttons">
   <% if User.current.admin? %>
     <%= link_to new_user_path, class: 'button -alt-highlight' do %>
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= l(:label_invite_user) %></span>
     <% end %>
   <% end %>

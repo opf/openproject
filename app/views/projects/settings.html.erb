@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
           { class: 'button -alt-highlight',
             aria: {label: t(:label_subproject_new)},
             title: t(:label_subproject_new)} do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.attributes.workpackage.subproject') %></span>
       <% end %>
     </li>
@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if @project.copy_allowed? %>
     <li class="toolbar-item">
       <%= link_to copy_from_project_path(@project, coming_from: :settings), class: 'button copy', accesskey: accesskey(:copy) do %>
-        <i class="button--icon icon-copy"></i>
+        <%= op_icon('button--icon icon-copy') %>
         <span class="button--text"><%= t(:label_copy_project) %></span>
       <% end %>
     </li>
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     method: :put,
                     title: t(:label_archive_project),
                     class: 'button') do %>
-        <i class="button--icon icon-locked"></i>
+        <%= op_icon('button--icon icon-locked') %>
         <span class="button--text"><%= t(:label_archive_project) %></span>
       <% end %>
     </li>
@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to confirm_destroy_project_path(@project),
                   class: 'button delete',
                   title: t(:label_delete_project) do %>
-        <i class="button--icon icon-delete"></i>
+        <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= t(:label_delete_project) %></span>
       <% end %>
     </li>

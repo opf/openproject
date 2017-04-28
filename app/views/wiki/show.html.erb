@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 { class: 'button -alt-highlight',
                   aria: {label: t('wiki.index.no_results_content_text')},
                   title: t('wiki.index.no_results_content_text')}) do %>
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= t(:create_new_page) %></span>
             <% end %>
         </li>
@@ -67,7 +67,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item drop-down">
     <a href="javascript:" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
       <span class="button--text"><%= t(:label_more) %></span>
-      <i class="button--dropdown-indicator"></i>
+      <%= op_icon('button--dropdown-indicator') %>
     </a>
     <ul style="display:none;" class="legacy-actions-more">
       <% if @editable %>

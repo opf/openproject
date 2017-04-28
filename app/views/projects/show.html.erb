@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if User.current.allowed_to?(:view_work_packages, @project) %>
         <div class="issues widget-box">
           <h3 class="widget-box--header">
-            <span class="icon-context icon-types"></span>
+            <%= op_icon('icon-context icon-types') %>
             <span class="widget-box--header-title"><%=l(:label_work_package_tracking)%></span>
           </h3>
           <ul>
@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
               { class: 'button -alt-highlight',
                 aria: {label: t(:label_work_package_new)},
                 title: t(:label_work_package_new)} do %>
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= l('activerecord.models.work_package') %></span>
             <% end %>
           </div>
@@ -87,7 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if @news.any? && authorize_for('news', 'index') %>
         <div class="news widget-box">
           <h3 class="widget-box--header">
-            <span class="icon-context icon-news"></span>
+            <%= op_icon('icon-context icon-news') %>
             <span class="widget-box--header-title"><%=l(:label_news_latest)%></span>
           </h3>
           <%= render partial: 'news/news', collection: @news %>
@@ -97,7 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
               { class: 'button -alt-highlight',
                 aria: {label: t(:label_news_new)},
                 title: t(:label_news_new)} do %>
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= l('activerecord.models.news') %></span>
             <% end %>
           </div>

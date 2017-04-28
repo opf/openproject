@@ -30,13 +30,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: title do %>
   <li class="toolbar-item">
     <%= link_to({ action: 'copy' }, class: 'button') do %>
-      <i class="button--icon icon-copy"></i>
+      <%= op_icon('button--icon icon-copy') %>
       <span class="button--text"><%= l(:button_copy) %></span>
     <% end %>
   </li>
   <li class="toolbar-item">
     <%= link_to({ action: 'index' }, class: 'button') do %>
-      <i class="button--icon icon-info1"></i>
+      <%= op_icon('button--icon icon-info1') %>
       <span class="button--text"><%= l(:label_workflow_summary) %></span>
     <% end %>
   </li>

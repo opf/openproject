@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @users_by_role.any? %>
   <div class="members widget-box">
     <h3 class="widget-box--header">
-      <span class="icon-context icon-group"></span>
+      <%= op_icon('icon-context icon-group') %>
       <span class="widget-box--header-title"><%=l(:label_member_plural)%></span>
     </h3>
     <p>
@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   class: 'button -alt-highlight',
                   aria: { label: t(:button_add_member) },
                   title: t(:button_add_member) do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= l('activerecord.models.member') %></span>
       <% end %>
     <% end %>

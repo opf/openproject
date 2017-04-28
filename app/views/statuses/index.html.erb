@@ -34,14 +34,14 @@ See doc/COPYRIGHT.rdoc for more details.
           { class: 'button -alt-highlight',
             aria: {label: t(:label_work_package_status_new)},
             title: t(:label_work_package_status_new)} do %>
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= t(:label_status) %></span>
     <% end %>
   </li>
   <% if WorkPackage.use_status_for_done_ratio? %>
     <li class="toolbar-item">
       <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', remote: true, method: :post, data: { confirm: l(:text_are_you_sure) } do %>
-        <i class="button--icon icon-reload"></i>
+        <%= op_icon('button--icon icon-reload') %>
         <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
       <% end %>
     </li>

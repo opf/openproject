@@ -84,7 +84,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= link_to({ url: { action: 'revisions', project_id: @project,
                            key: User.current.rss_key } },
                   { class: 'button', title: l('repositories.atom_revision_feed') }) do %>
-        <i class="button--icon icon-export-atom"></i>
+        <%= op_icon('button--icon icon-export-atom') %>
       <% end %>
     </li>
   <% end %>

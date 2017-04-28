@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% @homescreen[:links].each do |link| %>
     <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
     <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
-      <span class="<%= link[:icon] %>"></span>
+      <%= op_icon(link[:icon]) %>
       <%= title %>
     </a>
   <% end %>

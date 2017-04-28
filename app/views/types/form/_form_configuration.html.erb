@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   { class: 'button -alt-highlight',
                     aria: {label: t('admin.enterprise.order')},
                     title: t('admin.enterprise.order')}) do %>
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= t('admin.enterprise.order') %></span>
             <% end %>
           </div>
@@ -71,19 +71,19 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= toolbar title: '' do %>
         <li class="toolbar-item">
           <button type="button" class="form-configuration--reset button" ng-click="resetToDefault($event)">
-            <i class="button--icon icon-undo"></i>
+            <%= op_icon('button--icon icon-undo') %>
             <span class="button--text"><%= t('types.edit.reset') %></span>
           </button>
         </li>
         <li class="toolbar-item">
           <% if EnterpriseToken.allows_to?(:edit_attribute_groups) %>
             <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="addGroup($event)">
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= t('types.edit.add_group') %></span>
             </button>
           <% else %>
             <button type="button" class="form-configuration--add-group button -alt-highlight" ng-click="showEEOnlyHint()">
-              <i class="button--icon icon-add"></i>
+              <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= t('types.edit.add_group') %></span>
             </button>
           <% end %>

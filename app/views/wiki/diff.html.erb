@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: h(@page.title) do %>
   <li class="toolbar-item">
     <%= link_to({action: 'history', id: @page}, class: 'button') do %>
-      <i class="button--icon icon-wiki"></i>
+      <%= op_icon('button--icon icon-wiki') %>
       <span class="button--text"><%= t(:label_history) %></span>
     <% end %>
   </li>

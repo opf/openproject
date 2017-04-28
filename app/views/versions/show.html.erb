@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
  <% if authorize_for(:versions, :edit) %>
     <li class="toolbar-item">
       <%= link_to(edit_version_path(@version), class: 'button') do %>
-        <i class="button--icon icon-edit"></i>
+        <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
     </li>
@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    project_id: @version.project,
                    id: @version.wiki_page_title},
                    class: 'button') do %>
-        <i class="button--icon icon-edit"></i>
+        <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit_associated_wikipage, page_title: truncate(@version.wiki_page_title, length: 50, separator: ' ')) %></span>
       <% end %>
     </li>

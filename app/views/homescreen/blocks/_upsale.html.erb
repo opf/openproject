@@ -1,5 +1,5 @@
 <h3 class="widget-box--header">
-  <span class="icon-context icon-cart"></span>
+  <%= op_icon('icon-context icon-cart') %>
   <span class="widget-box--header-title"><%= t('homescreen.blocks.upsale.title') %></span>
 </h3>
 
@@ -24,7 +24,7 @@
         { class: 'button -alt-highlight',
           aria: {label: t('homescreen.blocks.upsale.more_info')},
           title: t('homescreen.blocks.upsale.more_info')} do %>
-    <i class="button--icon icon-info2"></i>
+    <%= op_icon('button--icon icon-info2') %>
     <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
   <% end %>
 </div>

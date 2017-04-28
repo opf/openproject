@@ -1,5 +1,5 @@
 <h3 class="widget-box--header">
-  <span class="icon-context icon-projects"></span>
+  <%= op_icon('icon-context icon-projects') %>
   <span class="widget-box--header-title"><%= l(:label_project_plural) %></span>
 </h3>
 
@@ -21,7 +21,7 @@
           { class: 'button -alt-highlight',
             aria: {label: t(:label_project_new)},
             title: t(:label_project_new)} do %>
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= Project.model_name.human %></span>
     <% end %>
   <% end %>
