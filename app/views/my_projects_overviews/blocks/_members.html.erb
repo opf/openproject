@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 
 <h3 class="widget-box--header">
-  <span class="icon-context icon-group"></span>
+  <%= op_icon('icon-context icon-group') %>
   <span class="widget-box--header-title"><%=t(:label_member_plural)%></span>
 </h3>
 
@@ -42,16 +42,16 @@ See doc/COPYRIGHT.md for more details.
         { class: 'button -alt-highlight',
           title: t(:button_add_member),
           aria: { label: t(:button_add_member) }} do %>
-    <i class="button--icon icon-add"></i>
+    <%= op_icon('button--icon icon-add') %>
     <span class="button--text"><%= t('activerecord.models.member') %></span>
   <% end %>
 <% end %>
 <% if current_user.allowed_to?(:view_members, project) %>
   <%= link_to project_members_path(project_id: project.identifier),
         { class: 'button',
-          title: t('members.show_all'),
-          aria: { label: t('members.show_all') }} do %>
-    <i class="button--icon icon-group"></i>
-    <span class="button--text"><%= t('members.show_all') %></span>
+          title: t(:label_memder_view_all),
+          aria: { label: t(:label_memder_view_all) }} do %>
+    <%= op_icon('button--icon icon-group') %>
+    <span class="button--text"><%= t(:label_memder_view_all) %></span>
   <% end %>
 <% end %>
