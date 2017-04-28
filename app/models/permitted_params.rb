@@ -101,7 +101,8 @@ class PermittedParams
     params.permit(*self.class.permitted_attributes[:group_membership])
   end
 
-  def new_work_package(args = {})
+  def update_work_package(args = {})
+    # used to be called new_work_package with an alias to update_work_package
     permitted = permitted_attributes(:new_work_package, args)
 
     permitted_params = params.require(:work_package).permit(*permitted)
@@ -153,10 +154,24 @@ class PermittedParams
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
-    p[:sort_criteria] = params.require(:query)
+    p[:sort_criteria] = params
+                        .require(:query)
                         .permit(sort_criteria: { '0' => [], '1' => [], '2' => [] })
     p[:sort_criteria].delete :sort_criteria
     p
+  end
+
+  def calendar_filter
+    keys =  Query.registered_filters.map(&:key)
+    op_keys = keys_whitelisted_by_list(params["op"], keys)
+    v_keys = keys_whitelisted_by_list(params["v"], keys).map { |f| { f => [] } }
+
+    params.permit(:project_id,
+                  :month,
+                  :year,
+                  f: [],
+                  op: op_keys,
+                  v: v_keys)
   end
 
   def role
@@ -170,8 +185,6 @@ class PermittedParams
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
-
-  alias :update_work_package :new_work_package
 
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
@@ -413,7 +426,7 @@ class PermittedParams
 
     # only permit values following the schema
     # 'id as string' => 'value as string'
-    values.reject! do |k, v| k.to_i < 1 || !v.is_a?(String) end
+    values.reject! { |k, v| k.to_i < 1 || !v.is_a?(String) }
 
     values.empty? ? {} : { 'custom_field_values' => values.permit! }
   end
@@ -659,5 +672,11 @@ class PermittedParams
     attributes.each_pair do |key, attrs|
       permitted_attributes[key] += attrs
     end
+  end
+
+  def keys_whitelisted_by_list(hash, list)
+    (hash || {})
+      .keys
+      .select { |k| list.any? { |whitelisted| whitelisted.to_s == k.to_s || whitelisted === k } }
   end
 end

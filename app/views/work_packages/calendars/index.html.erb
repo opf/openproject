@@ -58,8 +58,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
   <p style="float:right;">
-    <%= link_to_previous_month(@year, @month, project: @project) %>
-    | <%= link_to_next_month(@year, @month, project: @project) %>
+    <%= link_to_previous_month(@year, @month, project: @query.project) %>
+    | <%= link_to_next_month(@year, @month, project: @query.project) %>
   </p>
   <%= render partial: 'common/calendar', locals: { calendar: @calendar } %>
   <p class="legend cal">

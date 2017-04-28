@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -412,33 +413,6 @@ module ApplicationHelper
     end
   end
 
-  # this method seems to not be used any more
-  def page_header_title
-    if @page_header_title.present?
-      h(@page_header_title)
-    elsif @project.nil? || @project.new_record?
-      h(Setting.app_title)
-    else
-      b = []
-      ancestors = (@project.root? ? [] : @project.ancestors.visible)
-      if ancestors.any?
-        root = ancestors.shift
-        b << link_to_project(root, { jump: current_menu_item }, class: 'root')
-
-        if ancestors.size > 2
-          b << '&#8230;'
-          ancestors = ancestors[-2, 2]
-        end
-
-        b += ancestors.map { |p|
-          link_to_project(p, { jump: current_menu_item }, class: 'ancestor')
-        }
-      end
-      b << h(@project)
-      b.join(' &#187; ')
-    end
-  end
-
   def html_title(*args)
     title = []
 
@@ -693,6 +667,10 @@ module ApplicationHelper
     rgb[1] = (rgb[1].to_i * amount).round
     rgb[2] = (rgb[2].to_i * amount).round
     "#%02x%02x%02x" % rgb
+  end
+
+  def permitted_params
+    PermittedParams.new(params, current_user)
   end
 
   private
