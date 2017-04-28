@@ -108,7 +108,8 @@ export class WatchersPanelController {
         input.val('');
         return false; // Avoid setting the value after selection
       },
-    });
+      minLength: 0
+    }).focus(() => input.autocomplete('search', input.val()));
     (input.autocomplete("instance")as any)._renderItem = (ul: any, item: any) => this.renderWatcherItem(ul, item);
   }
 
@@ -131,23 +132,24 @@ export class WatchersPanelController {
   }
 
   public autocompleteWatchers(query: string): ng.IPromise<any> {
-    if (!query) {
-      return this.$q.when([]);
-    }
-
     const deferred = this.$q.defer();
     this.autocompleteLoadingPromise = deferred.promise;
 
+    let payload:any = { sortBy: JSON.stringify([["name", "asc"]]) }
+
+    if (query && query.length > 0) {
+      let filter = {
+        name: {
+          operator: '~',
+          values: query,
+        }
+      }
+
+      payload['filters'] = JSON.stringify([filter]);
+    }
+
     this.workPackage.availableWatchers.$link.$fetch(
-      {
-        filters: JSON.stringify([{
-          name: {
-            operator: '~',
-            values: query,
-          }
-        }]),
-        sortBy: JSON.stringify([["name", "asc"]])
-      },
+      payload,
       {
         caching: {enabled: false}
       }).then((collection: CollectionResource) => {
