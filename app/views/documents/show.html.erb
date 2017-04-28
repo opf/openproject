@@ -36,14 +36,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if authorize_for(:documents, :edit) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'edit', id: @document}, class: 'button', accesskey: accesskey(:edit)) do %>
-        <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+        <%= op_icon('button--icon icon-edit') %> <%= l(:button_edit) %>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for(:documents, :destroy) %>
     <li class="toolbar-item">
       <%= link_to({controller: '/documents', action: 'destroy', id: @document}, class: 'button', data: { confirm: l(:text_are_you_sure) }, method: :delete) do %>
-        <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+        <%= op_icon('button--icon icon-delete') %> <%= l(:button_delete) %>
       <% end %>
     </li>
   <% end %>

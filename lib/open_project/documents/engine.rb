@@ -44,7 +44,7 @@ module OpenProject::Documents
                           { controller: '/documents', action: 'index' },
                           param: :project_id,
                           caption: :label_document_plural,
-                          html: { class: 'icon2 icon-notes' }
+                          icon: 'icon2 icon-notes'
 
       project_module :documents do |_map|
         permission :manage_documents, {
