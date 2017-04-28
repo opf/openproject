@@ -111,18 +111,18 @@
     select
       width: 100%
 
-    > a
-      &:after
+    .button--dropdown-indicator
+      &:before
         @include icon-font-common
         font-size: 10px
         padding: 0 0 0 9px
         @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
-    &.open > a
+    &.open .button--dropdown-indicator
       @include varprop(background-color, header-item-bg-hover-color)
       color: $header-item-font-hover-color
-      &:after
+      &:before
         @extend .icon-pulldown-up:before
 
     li
@@ -135,10 +135,6 @@
 
     > ul
       padding: 6px 0
-
-    &.-hide-icon
-      > a:after
-        display: none
 
   li.last-child > ul,
   .drop-down--help,

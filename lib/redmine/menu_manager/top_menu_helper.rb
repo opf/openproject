@@ -61,10 +61,12 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_login_drop_down
     url = { controller: '/account', action: 'login' }
-    link = link_to l(:label_login),
-                   url,
+    link = link_to url,
                    class: 'login',
-                   title: l(:label_login)
+                   title: l(:label_login) do
+      concat(t(:label_login))
+      concat('<i class="button--dropdown-indicator"></i>'.html_safe)
+    end
 
     render_menu_dropdown(link, menu_item_class: 'drop-down last-child') do
       render_login_partial
@@ -86,10 +88,10 @@ module Redmine::MenuManager::TopMenuHelper
       label: avatar.presence || '',
       label_options: {
         title: User.current.name,
-        class: (avatar.present? ? '' : 'icon-user')
+        icon: (avatar.present? ? nil : 'icon-user')
       },
       items: items,
-      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child -hide-icon' }
+      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
     )
   end
 
@@ -107,9 +109,9 @@ module Redmine::MenuManager::TopMenuHelper
   def render_module_top_menu_node(items = more_top_menu_items)
     render_menu_dropdown_with_items(
       label: '',
-      label_options: { class: 'icon-menu', title: I18n.t('label_modules') },
+      label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
       items: items,
-      options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: '-hide-icon' }
+      options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ' }
     )
   end
 

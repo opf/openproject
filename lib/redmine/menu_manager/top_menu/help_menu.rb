@@ -44,14 +44,15 @@ module Redmine::MenuManager::TopMenu::HelpMenu
   end
 
   def render_help_dropdown
-    link_to_help_pop_up = link_to '', '',
+    link_to_help_pop_up = link_to '',
                                   title: l(:label_help),
-                                  class: 'icon-help',
-                                  aria: { haspopup: 'true' }
+                                  aria: { haspopup: 'true' } do
+      op_icon('icon-help')
+    end
 
     render_menu_dropdown(
       link_to_help_pop_up,
-      menu_item_class: 'hidden-for-mobile -hide-icon',
+      menu_item_class: 'hidden-for-mobile',
       drop_down_class: 'drop-down--help'
     ) do
       result = ''.html_safe
