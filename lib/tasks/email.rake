@@ -141,6 +141,7 @@ END_DESC
       imap_options = { host: ENV['host'],
                        port: ENV['port'],
                        ssl: ENV['ssl'],
+                       ssl_verification: !['0', 'false', 'f'].include?(ENV['ssl_verification']),
                        username: ENV['username'],
                        password: ENV['password'],
                        folder: ENV['folder'],
