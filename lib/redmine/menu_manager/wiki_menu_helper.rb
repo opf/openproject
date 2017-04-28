@@ -49,7 +49,7 @@ module Redmine::MenuManager::WikiMenuHelper
               param: :project_id,
               caption: main_item.title,
               after: :repository,
-              html: { class: 'icon2 icon-wiki' }
+              icon: 'icon2 icon-wiki'
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
