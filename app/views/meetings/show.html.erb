@@ -33,14 +33,14 @@ See doc/COPYRIGHT.md for more details.
   <% if authorize_for(:meetings, :edit) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/meetings', :action => 'edit', :id => @meeting}, class: 'button',:accesskey => accesskey(:edit)) do%>
-        <i class="button--icon icon-edit"></i> <%= l(:button_edit) %>
+        <%= op_icon('button--icon icon-edit') %> <%= l(:button_edit) %>
       <% end %>
     </li>
   <% end %>
   <% if authorize_for(:meetings, :copy) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/meetings', :action => 'copy', :id => @meeting}, class: 'button') do %>
-        <i class="button--icon icon-copy"></i> <%= l(:button_copy) %>
+        <%= op_icon('button--icon icon-copy') %> <%= l(:button_copy) %>
       <% end %>
     </li>
   <% end %>
@@ -50,7 +50,7 @@ See doc/COPYRIGHT.md for more details.
                   class: 'button',
                   method: :delete,
                   confirm: l(:text_are_you_sure)) do %>
-        <i class="button--icon icon-delete"></i> <%= l(:button_delete) %>
+        <%= op_icon('button--icon icon-delete') %> <%= l(:button_delete) %>
       <% end %>
     </li>
   <% end %>
