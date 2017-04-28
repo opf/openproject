@@ -8,8 +8,9 @@
       <div class="wp-show--back-button">
           <accessible-by-keyboard execute="$ctrl.goToList()"
                           link-class="work-packages-list-view-button button -small"
-                          link-aria-label="{{ ::$ctrl.sectionTitle }}"
-                          span-class="button--icon icon-back-up">
+                          link-aria-label="{{ ::$ctrl.text.goToList }}"
+                          link-title="{{ ::$ctrl.text.goToList }}">
+            <op-icon icon-classes="button--icon icon-back-up"></op-icon>
         </accessible-by-keyboard>
       </div>
       <ul id="toolbar-items" class="toolbar-items">
@@ -25,7 +26,7 @@
                   ng-click="$ctrl.wpEditModeState.start()"
                   ng-disabled="!$ctrl.wpEditModeState.form.isEditable"
                   title="{{I18n.t('js.button_edit')}}">
-            <i class="button--icon icon-edit"></i>
+            <op-icon icon-classes="button--icon icon-edit"></op-icon>
           </button>
         </li>
         <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
@@ -42,7 +43,7 @@
                   target="ShowMoreDropdownMenu"
                   locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
                   title="{{I18n.t('js.button_more')}}">
-            <i class="button--icon icon-show-more"></i>
+            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
           </button>
         </li>
       </ul>

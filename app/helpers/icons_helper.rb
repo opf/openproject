@@ -28,7 +28,6 @@
 #++
 
 module IconsHelper
-
   ##
   # Create an <i> tag with the given icon class names
   # and make it aria-hidden since screenreaders otherwise

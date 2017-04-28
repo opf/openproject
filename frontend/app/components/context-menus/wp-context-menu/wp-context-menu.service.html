@@ -2,26 +2,26 @@
   <ul class="dropdown-menu">
     <li ng-if="row.object.isNew" class="open detailsViewMenuItem">
       <a role="menuitem" focus ng-click="cancelInlineCreate($index, row)">
-        <i ng-class="['icon-action-menu', 'icon-delete']"></i>
+        <op-icon icon-classes="icon-action-menu icon-delete"></op-icon>
         <span ng-bind="I18n.t('js.button_cancel')"/>
       </a>
     </li>
     <li ng-if="!row.object.isNew" class="open detailsViewMenuItem">
       <a role="menuitem" focus ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
-        <i ng-class="['icon-action-menu', 'icon-view-split']"></i>
+        <op-icon icon-classes="icon-action-menu view-split"></op-icon>
         <span ng-bind="I18n.t('js.button_open_details')"/>
       </a>
     </li>
     <li ng-if="!row.object.isNew" class="openFullScreenView">
       <a role="menuitem" ui-sref="work-packages.show({workPackageId: row.object.id})">
-        <i ng-class="['icon-action-menu', 'icon-view-fullscreen']"></i>
+        <op-icon icon-classes="icon-action-menu icon-view-fullscreen"></op-icon>
         <span ng-bind="I18n.t('js.button_open_fullscreen')"/>
       </a>
     </li>
     <li ng-repeat="action in permittedActions"
         class="{{action.icon}}">
       <a role="menuitem" href="" ng-click="triggerContextMenuAction(action.icon, action.link)">
-        <i ng-class="['icon-action-menu', 'icon-' + action.icon]"></i>
+        <op-icon icon-classes="icon-action-menu icon-{{action.icon}}"></op-icon>
         <span ng-bind="action.text"/>
       </a>
     </li>

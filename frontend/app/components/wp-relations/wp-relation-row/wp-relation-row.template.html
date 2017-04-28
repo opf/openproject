@@ -48,10 +48,7 @@
                                     link-class="wp-relations--description-btn"
                                     ng-class="{'-visible': $ctrl.showDescriptionInfo }"
                                     execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
-                <icon-wrapper icon-name="info1"
-                              css-class="wp-relations--icon wp-relations--description-icon"
-                              icon-title="Info for related workpackage">
-                </icon-wrapper>
+                <op-icon icon-classes="icon-info1 wp-relations--icon wp-relations--description-icon" icon-title="{{ ::$ctrl.text.toggleDescription }}"></op-icon>
             </accessible-by-keyboard>
             <accessible-by-keyboard ng-if="$ctrl.relation.delete"
                                     execute="$ctrl.removeRelation($ctrl.relation)"
@@ -59,10 +56,7 @@
                                     link-aria-label="{{ ::$ctrl.text.remove }}"
                                     link-title="{{ ::$ctrl.text.remove }}"
                                     link-class="relation-row--remove-btn">
-                <icon-wrapper icon-name="remove"
-                              css-class="wp-relations--icon"
-                              icon-title="{{ ::$ctrl.text.removeButton }}">
-                </icon-wrapper>
+                <op-icon icon-classes="icon-remove wp-relations--icon" icon-title="{{ ::$ctrl.text.removeButton }}"></op-icon>
             </accessible-by-keyboard>
         </div>
     </div>

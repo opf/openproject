@@ -25,14 +25,11 @@
   </select>
 
   <a href class="form-label no-decoration-on-hover -transparent" ng-click="$ctrl.toggleMultiselect()">
-    <icon-wrapper icon-name="minus2"
-                  icon-title="{{ ::$ctrl.text.disableMulti }}" ng-if="$ctrl.isMultiselect"
-                  css-class="icon4">
-    </icon-wrapper>
-
-    <icon-wrapper icon-name="add"
-                  icon-title="{{ ::$ctrl.text.enableMulti }}" ng-if="!$ctrl.isMultiselect"
-                  css-class="icon4">
-    </icon-wrapper>
+    <op-icon ng-if="$ctrl.isMultiselect"
+             icon-classes="icon4 icon-minus2"
+             icon-title="{{ ::$ctrl.text.disableMulti }}"></op-icon>
+    <op-icon ng-if="!$ctrl.isMultiselect"
+             icon-classes="icon4 icon-add"
+             icon-title="{{ ::$ctrl.text.enableMulti }}"></op-icon>
   </a>
 </div>

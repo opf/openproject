@@ -3,7 +3,7 @@
         focus-within="'.inplace-edit--icon-wrapper'">
     <span class="inplace-editing--container">
       <span class="inplace-edit--read-value">
-        <i class="icon-context icon-attachment"></i>
+        <op-icon icon-classes="icon-context icon-attachment"></op-icon>
         <a
             class="work-package--attachments--filename"
             ng-href="{{ ::attachment.downloadLocation.href || '#' }}"
@@ -17,10 +17,7 @@
           class="inplace-edit--icon-wrapper"
           ng-click="$ctrl.workPackage.removeAttachment(attachment)"
           confirm-popup="{{ ::$ctrl.text.destroyConfirmation }}">
-        <icon-wrapper
-            icon-name="delete"
-            icon-title="{{ ::$ctrl.text.removeFile({fileName: attachment.fileName}) }}">
-        </icon-wrapper>
+        <op-icon icon-classes="icon-delete" icon-title="{{ ::$ctrl.text.removeFile({fileName: attachment.fileName}) }}"></op-icon>
       </a>
     </span>
   </span>

@@ -23,19 +23,13 @@
       <accessible-by-keyboard ng-if="userCanQuote"
                               execute="quoteComment()"
                               link-title="{{ I18n.t('js.label_quote_comment') }}">
-        <icon-wrapper icon-name="quote"
-                      icon-title="{{ I18n.t('js.label_quote_comment') }}"
-                      css-class="action-icon">
-        </icon-wrapper>
+        <op-icon icon-classes="action-icon icon-quote" icon-title="{{ I18n.t('js.label_quote_comment') }}"></op-icon>
       </accessible-by-keyboard>
       <accessible-by-keyboard ng-if="userCanEdit"
                               execute="editComment()"
                               link-title="{{ I18n.t('js.label_edit_comment') }}"
                               class="edit-activity--{{activityNo}}">
-        <icon-wrapper icon-name="edit"
-                      icon-title="{{ I18n.t('js.label_edit_comment') }}"
-                      css-class="action-icon">
-        </icon-wrapper>
+        <op-icon icon-classes="action-icon icon-edit" icon-title="{{ I18n.t('js.label_edit_comment') }}"></op-icon>
       </accessible-by-keyboard>
     </div>
   </div>
@@ -60,13 +54,11 @@
               <accessible-by-keyboard execute="updateComment()"
                                       ng-disabled="editCommentForm.$invalid"
                                       class="inplace-edit--control inplace-edit--control--save">
-                <icon-wrapper icon-name="checkmark" icon-title="{{ I18n.t('js.button_save') }}">
-                </icon-wrapper>
+                <op-icon icon-classes="action-icon icon-checkmark" icon-title="{{ I18n.t('js.button_save') }}"></op-icon>
               </accessible-by-keyboard>
               <accessible-by-keyboard execute="cancelEdit()"
                                       class="inplace-edit--control inplace-edit--control--cancel">
-                <icon-wrapper icon-name="close" icon-title="{{ I18n.t('js.button_cancel') }}">
-                </icon-wrapper>
+                <op-icon icon-classes="action-icon icon-close" icon-title="{{ I18n.t('js.button_cancel') }}"></op-icon>
               </accessible-by-keyboard>
             </div>
           </div>

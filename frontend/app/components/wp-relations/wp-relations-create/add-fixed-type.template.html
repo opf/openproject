@@ -15,16 +15,12 @@
                     execute="$ctrl.createRelation()"
                     is-disabled="$ctrl.isDisabled"
                     aria-hidden="false">
-                <icon-wrapper icon-name="checkmark"
-                              icon-title="{{ ::$ctrl.text.save }}">
-                </icon-wrapper>
+                <op-icon icon-classes="icon-checkmark" icon-title="{{ ::$ctrl.text.save }}"></op-icon>
             </accessible-by-keyboard>
             <accessible-by-keyboard
                     execute="$ctrl.toggleRelationsCreateForm()"
                     aria-hidden="false">
-                <icon-wrapper icon-name="remove"
-                              icon-title="{{ ::$ctrl.text.abort }}">
-                </icon-wrapper>
+                <op-icon icon-classes="icon-remove" icon-title="{{ ::$ctrl.text.abort }}"></op-icon>
             </accessible-by-keyboard>
         </div>
 </div>

@@ -82,9 +82,7 @@
 
       <div class="advanced-filters--remove-filter">
         <accessible-by-keyboard execute="deactivateFilter(filter)">
-          <icon-wrapper icon-name="close"
-                        icon-title="{{I18n.t('js.button_delete')}}"
-                        css-class="advanced-filters--remove-filter-icon"/>
+          <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
         </accessible-by-keyboard>
       </div>
 
@@ -95,7 +93,7 @@
     <li class="advanced-filters--add-filter">
       <!-- Add filters -->
       <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
-        <i class="icon-add icon4"></i>
+        <op-icon icon-classes="icon-add icon4"></op-icon>
         {{ I18n.t('js.work_packages.label_filter_add') }}:
       </label>
       <label for="add_filter_select" class="hidden-for-sighted">

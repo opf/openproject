@@ -89,9 +89,9 @@ end
 
 Redmine::MenuManager.map :my_menu do |menu|
   menu_push = menu.push :account,
-                         { controller: '/my', action: 'account' },
-                         caption: :label_profile,
-                         icon: 'icon2 icon-user'
+                        { controller: '/my', action: 'account' },
+                        caption: :label_profile,
+                        icon: 'icon2 icon-user'
   menu_push
   menu.push :settings,
             { controller: '/my', action: 'settings' },

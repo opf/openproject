@@ -5,5 +5,5 @@
         ng-attr-accesskey="{{ ::vm.accessKey }}"
         ng-disabled="vm.disabled || (!vm.isToggle() && vm.isActive())"
         ng-class="{ '-active': vm.isActive() }">
-  <i class="{{ ::vm.iconClass }} button--icon"></i>
+  <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
 </button>

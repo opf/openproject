@@ -1,11 +1,8 @@
 <div class="panel-toggler"
      tabindex="-1">
-  <accessible-by-keyboard link-class="icon-context icon-small button {{ !collapsed ? 'icon-arrow-up1' : 'icon-arrow-down1' }}" data-execute="toggle()">
-    <span ng-if="!collapsed">
-      <span ng-bind="collapseText"/>
-    </span>
-    <span ng-if="collapsed">
-      <span ng-bind="expandText"/>
-    </span>
+  <accessible-by-keyboard link-class="button" data-execute="toggle()">
+    <op-icon icon-classes="icon-context icon-small {{ !collapsed ? 'icon-arrow-up1' : 'icon-arrow-down1' }}"></op-icon>
+    <span ng-if="!collapsed" ng-bind="collapseText"></span>
+    <span ng-if="collapsed" ng-bind="expandText"></span>
   </accessible-by-keyboard>
 </div>

@@ -51,6 +51,7 @@ class WpRelationRowDirectiveController {
       save: I18n.t('js.button_save'),
       removeButton: I18n.t('js.relation_buttons.remove'),
       description_label: I18n.t('js.relation_buttons.update_description'),
+      toggleDescription: I18n.t('js.relation_buttons.toggle_description'),
       updateRelation: I18n.t('js.relation_buttons.update_relation'),
       placeholder: {
         description: I18n.t('js.placeholders.relation_description')

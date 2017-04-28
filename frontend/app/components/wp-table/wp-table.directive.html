@@ -29,7 +29,7 @@
                           link-class="wp-table--columns-selection"
                           link-title="{{ ::text.addColumns }}"
                           link-aria-label="{{ ::text.addColumns }}">
-                <span class="icon-button icon-small icon-add"></span>
+                <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
               </accessible-by-keyboard>
             </div>
           </th>
@@ -55,12 +55,12 @@
       <tr id="empty-row-notification">
         <td colspan="{{ columns.length + 1 }}">
           <span ng-if="!query.hasError">
-            <i class="icon-info1 icon-context"></i>
+            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <strong ng-bind="text.noResults.title"></strong>
             <span ng-bind="text.noResults.description"></span>
           </span>
           <span ng-if="query.hasError">
-            <i class="wp-table--faulty-query-icon icon-warning icon-context"></i>
+            <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
             <strong ng-bind="text.faultyQuery.title"></strong>
             <span ng-bind="text.faultyQuery.description"></span>
           </span>

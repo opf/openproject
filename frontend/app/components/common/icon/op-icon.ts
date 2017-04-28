@@ -26,29 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opWorkPackagesModule} from '../../../angular-modules';
+import {opUiComponentsModule} from "../../../angular-modules";
 
-function showMoreMenuService(ngContextMenu:any) {
-  return ngContextMenu({
+function opIcon() {
+  return {
+    restrict: 'EA',
+    scope: { iconClasses: '@', title: '@iconTitle' },
+    link: (_scope:ng.IScope, element:ng.IAugmentedJQuery) => {
+        element.addClass('op-icon--wrapper');
+    },
     template: `
-      <div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar">
-        <ul class="dropdown-menu" ng-if="actionsAvailable">
-          <li ng-repeat="(action, properties) in permittedActions"
-              class="{{action}}">
-            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
-            properly. Thus, don't remove the hrefs or the empty URLs! -->
-            <a href="" focus="{{ !$index }}"
-               ng-click="triggerMoreMenuAction(action, properties.link)">
-               <op-icon icon-classes="icon-context {{ properties.css.join(' ') }}"></op-icon>
-               {{ I18n.t('js.button_' + action) }}
-            </a>
-          </li>
-        </ul>
-      </div>
-    `,
+    <i class="{{iconClasses}}" aria-hidden="true"></i>
+    <span class="hidden-for-sighted" ng-bind="title" ng-if="title"></span>
+    `
+  };
+};
 
-    container: '#action-show-more-dropdown-menu'
-  });
-}
-
-opWorkPackagesModule.factory('ShowMoreDropdownMenu', showMoreMenuService);
+opUiComponentsModule.directive('opIcon', opIcon);

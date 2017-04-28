@@ -40,6 +40,7 @@ en:
       copied_successful: "Sucessfully copied to clipboard!"
 
     button_add_watcher: "Add watcher"
+    button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
@@ -285,6 +286,7 @@ en:
       remove_child: "Remove child"
       add_new_relation: "Create new relation"
       update_description: "Set or update description of this relation"
+      toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
       add_predecessor: "Add predecessor"
