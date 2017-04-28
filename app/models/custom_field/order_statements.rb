@@ -102,7 +102,7 @@ module CustomField::OrderStatements
 
   def order_by_user_sql(column)
     <<-SQL
-    (SELECT #{column} FROM #{User.table_name} cv_user
+    (SELECT #{column} user_cv_#{column} FROM #{User.table_name} cv_user
      WHERE cv_user.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
