@@ -83,12 +83,6 @@ before_install:
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
 
-  # We need phantomjs 2.0 to get tests passing
-  - mkdir travis-phantomjs
-  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
-  - export PATH=$PWD/travis-phantomjs:$PATH
-
 bundler_args: --binstubs --without development production docker
 
 before_script:
