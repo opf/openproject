@@ -23,7 +23,7 @@ If you want to run an instance of OpenProject in production (or for evaluation),
 in-depth [installation guides](https://www.openproject.org/download-and-installation/).
 
 If you're a developer wanting to set-up a local environment for contributing to OpenProject or
-developing plugins, you should refer instead to our [Quick Start for Developers](./doc/development/quick-start.md).
+developing plugins, you should refer instead to our [Quick Start for Developers](https://www.openproject.org/development/setting-up-development-environment/).
 
 ## Contact
 
