@@ -1,7 +1,7 @@
 sv:
-  button_edit_this_page: "Edit this page"
-  error_saving_changes: 'The changes could not be saved: %{errors}'
-  error_textile_not_saved: "The textile block could not be saved."
+  button_edit_this_page: "Redigera sidan"
+  error_saving_changes: 'Ändringarna kunde inte sparas: %{errors}'
+  error_textile_not_saved: "Textblocket kunde inte sparas."
   label_hidden_elements: "Dolda element"
   label_visible_elements: "Synliga element"
   label_project_description: "Projektbeskrivning"
@@ -13,7 +13,7 @@ sv:
   label_work_packages_responsible_for: "Arbetspaket jag är ansvarig för"
   label_work_packages_assigned_to_me: "Arbetspaket som tilldelats till mig"
   label_work_packages_watched: "Bevakade arbetspaket"
-  label_work_package_tracking: " Work package tracking"
+  label_work_package_tracking: " Spåra arbetspaket"
   label_members: "Medlemmar"
   label_subprojects: "Delprojekt"
   project_page:
