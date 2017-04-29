@@ -168,11 +168,11 @@ module Queries::WorkPackages::AvailableFilterOptions
                       []
 
     assigned_to_values = (user_values + group_values).sort
-    assigned_to_values = [["<< #{l(:label_me)} >>", 'me']] + assigned_to_values if User.current.logged?
+    assigned_to_values = [[l(:label_me), 'me']] + assigned_to_values if User.current.logged?
     @available_work_package_filters['assigned_to_id'] = { type: :list_optional, order: 4, values: assigned_to_values, name: WorkPackage.human_attribute_name('assigned_to_id') } unless assigned_to_values.empty?
 
     author_values = []
-    author_values << ["<< #{l(:label_me)} >>", 'me'] if User.current.logged?
+    author_values << [l(:label_me), 'me'] if User.current.logged?
     author_values += user_values
     @available_work_package_filters['author_id'] = { type: :list, order: 5, values: author_values, name: WorkPackage.human_attribute_name('author_id') } unless author_values.empty?
 
@@ -183,14 +183,14 @@ module Queries::WorkPackages::AvailableFilterOptions
     @available_work_package_filters['assigned_to_role'] = { type: :list_optional, order: 7, values: role_values, name: I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
 
     responsible_values = user_values.dup
-    responsible_values = [["<< #{l(:label_me)} >>", 'me']] + responsible_values if User.current.logged?
+    responsible_values = [[l(:label_me), 'me']] + responsible_values if User.current.logged?
     @available_work_package_filters['responsible_id'] = { type: :list_optional, order: 4, values: responsible_values, name: WorkPackage.human_attribute_name('responsible_id') } unless responsible_values.empty?
 
     # watcher filters
     if User.current.logged?
       # populate the watcher list with the same user list as other user filters if the user has the :view_work_package_watchers permission in at least one project
       # TODO: this could be differentiated more, e.g. all users could watch issues in public projects, but won't necessarily be shown here
-      watcher_values = [["<< #{l(:label_me)} >>", 'me']]
+      watcher_values = [[l(:label_me), 'me']]
       user_values.each { |v| watcher_values << v } if User.current.allowed_to_globally?(:view_work_packages_watchers, {})
       @available_work_package_filters['watcher_id'] = { type: :list, order: 15, values: watcher_values, name: WorkPackage.human_attribute_name('watcher_id') }
     end

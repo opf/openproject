@@ -506,7 +506,7 @@ describe Query, type: :model do
           end
 
           it 'should have a list of active users as values' do
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['<< me >>', 'me'])
+            assert @query.available_work_package_filters['watcher_id'][:values].include?(['me', 'me'])
             assert @query.available_work_package_filters['watcher_id'][:values].include?(['John Smith', '2'])
             assert @query.available_work_package_filters['watcher_id'][:values].include?(['Dave Lopper', '3'])
             assert @query.available_work_package_filters['watcher_id'][:values].include?(['redMine Admin', '1'])
@@ -556,7 +556,7 @@ describe Query, type: :model do
           end
 
           it 'should have a list of the project members as values' do
-            assert @query.available_work_package_filters['watcher_id'][:values].include?(['<< me >>', 'me'])
+            assert @query.available_work_package_filters['watcher_id'][:values].include?(['me', 'me'])
             assert @query.available_work_package_filters['watcher_id'][:values].include?(['John Smith', '2'])
             assert @query.available_work_package_filters['watcher_id'][:values].include?(['Dave Lopper', '3'])
           end
