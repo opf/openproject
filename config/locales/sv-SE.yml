@@ -7,7 +7,7 @@ sv:
   enumeration_doc_categories: "Dokumentkategorier"
   enumeration:
     document_category:
-      documentation: Documentation
+      documentation: Dokumentation
       specification: Specification
       other: Other
   label_document_added: "Dokumentet tillagt"
