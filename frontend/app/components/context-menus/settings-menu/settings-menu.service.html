@@ -72,5 +72,9 @@
            ng-class="{'inactive': showSettingsModalInvalid()}">
       <i class="icon-action-menu icon-settings"></i>{{ I18n.t('js.toolbar.settings.page_settings') }}</a>
     </li>
+    <li class="dropdown-divider" ng-if="queryCustomFields"></li>
+    <li><a class="menu-item" href="{{queryCustomFields.href}}" ng-if="queryCustomFields">
+      <i class="icon-action-menu icon-custom-fields"></i>{{ queryCustomFields.name }}</a>
+    </li>
   </ul>
 </div>

@@ -381,5 +381,58 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
       end
     end
+
+    context 'with project admin priviliges' do
+      # In this spec a user responds to `allowed_to` with true per default.
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+
+      it 'has a link to set the custom fields for that project' do
+        expected = {
+          href: "/projects/#{project.identifier}/settings/custom_fields",
+          type: "text/html",
+          title: "Custom fields"
+        }
+
+        is_expected
+          .to be_json_eql(expected.to_json)
+          .at_path('_links/customFields')
+      end
+    end
+
+    context 'without project admin priviliges' do
+      # In this spec a user responds to `allowed_to` with true per default.
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+
+      before do
+        allow(user).to receive(:allowed_to?).with(:edit_project, project).and_return(false)
+      end
+
+      it 'has no link to set the custom fields for that project' do
+        is_expected.to_not have_json_path('_links/customFields')
+      end
+    end
+
+    context 'with project admin priviliges' do
+      # In this spec a user responds to `allowed_to` with true per default.
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:user) { FactoryGirl.build_stubbed(:admin) }
+
+      before do
+        allow(user).to receive(:allowed_to?).with(:edit_project, project).and_return(false)
+      end
+
+      it 'has a link to set the custom fields for that project' do
+        expected = {
+          href: "/projects/#{project.identifier}/settings/custom_fields",
+          type: "text/html",
+          title: "Custom fields"
+        }
+
+        is_expected
+          .to be_json_eql(expected.to_json)
+          .at_path('_links/customFields')
+      end
+    end
+
   end
 end
