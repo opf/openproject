@@ -33,12 +33,11 @@ module API
       module QuerySerialization
         ##
         # Overriding this to initialize properties whose values depend on the "_links" attribute.
+        # Especially the project attribute needs to be set first as the filters depend on this.
         def from_hash(hash)
-          query = super
+          initialize_links! hash
 
-          initialize_links! query, hash
-
-          query
+          super
         end
 
         def columns
@@ -110,11 +109,11 @@ module API
               .compact
         end
 
-        def initialize_links!(query, attributes)
-          query.project_id = get_project_id(attributes) || query.project_id
-          query.group_by = get_group_by(attributes) || query.group_by
-          query.column_names = get_columns(attributes) || query.column_names
-          query.sort_criteria = get_sort_criteria(attributes) || query.sort_criteria
+        def initialize_links!(attributes)
+          represented.project_id = get_project_id(attributes) || represented.project_id
+          represented.group_by = get_group_by(attributes) || represented.group_by
+          represented.column_names = get_columns(attributes) || represented.column_names
+          represented.sort_criteria = get_sort_criteria(attributes) || represented.sort_criteria
         end
 
         def get_user_id(query_attributes)
@@ -136,7 +135,7 @@ module API
 
         def get_sort_criteria(query_attributes)
           criteria = Array(query_attributes.dig("_links", "sortBy")).map do |sort_by|
-            if id = id_from_href("queries/sort_bys", sort_by.href)
+            if id = id_from_href("queries/sort_bys", sort_by['href'])
               column, direction = id.split("-") # e.g. ["start_date", "desc"]
 
               if column && direction
@@ -160,7 +159,7 @@ module API
 
         def get_columns(query_attributes)
           columns = Array(query_attributes.dig("_links", "columns")).map do |column|
-            name = id_from_href "queries/columns", column.href
+            name = id_from_href "queries/columns", column['href']
 
             ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
           end
