@@ -47,6 +47,13 @@ module Pages
       end
     end
 
+    def expect_work_package_not_listed(work_package)
+      within(table_container) do
+        expect(page).to have_no_selector("#wp-row-#{work_package.id} td.subject",
+                                         text: work_package.subject)
+      end
+    end
+
     def has_work_packages_listed?(work_packages)
       work_packages.all? { |wp| has_text? wp.subject }
     end

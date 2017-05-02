@@ -62,7 +62,7 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
       // If this row was already rendered in a hierarchy, ignore it here
       if (additional[row.workPackageId]) {
         return;
-     }
+      }
 
       // If we have ancestors
       if (row.object.ancestors.length) {
@@ -117,40 +117,67 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
   }
 
   private appendHierarchyIndicator(workPackage:WorkPackageResourceInterface, row:HTMLElement, level?:number):void {
-      const jRow = jQuery(row);
-      const hierarchyElement = this.buildHierarchyIndicator(workPackage, level);
-      jRow.find('td.subject')
-          .addClass('-with-hierarchy')
-          .prepend(hierarchyElement);
+    const jRow = jQuery(row);
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, level);
+    jRow.find('td.subject')
+      .addClass('-with-hierarchy')
+      .prepend(hierarchyElement);
   }
 
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
   private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, index:number|null = null):HTMLElement {
-      const level = index === null ? workPackage.ancestors.length : index;
-      const hierarchyIndicator = document.createElement('span');
-      const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
-      hierarchyIndicator.classList.add(hierarchyCellClassName);
-      hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
+    const level = index === null ? workPackage.ancestors.length : index;
+    const hierarchyIndicator = document.createElement('span');
+    const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
+    hierarchyIndicator.classList.add(hierarchyCellClassName);
+    hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
 
-      if (workPackage.$loaded && workPackage.isLeaf) {
-        hierarchyIndicator.innerHTML = `
+    if (workPackage.$loaded && !this.hasChildrenInTable(workPackage)) {
+      hierarchyIndicator.innerHTML = `
             <span tabindex="0" class="wp-table--leaf-indicator">
               <span class="hidden-for-sighted">${this.text.leaf(level)}</span>
             </span>
         `;
-      } else {
-        const className = collapsed ? indicatorCollapsedClass : '';
-        hierarchyIndicator.innerHTML = `
+    } else {
+      const className = collapsed ? indicatorCollapsedClass : '';
+      hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
-              <span class="wp-table--hierarchy-indicator-icon"></span>
+              <span class="wp-table--hierarchy-indicator-icon" aria-hidden="true"></span>
               <span class="wp-table--hierarchy-indicator-expanded hidden-for-sighted">${this.text.expanded(level)}</span>
               <span class="wp-table--hierarchy-indicator-collapsed hidden-for-sighted">${this.text.collapsed(level)}</span>
             </a>
         `;
-      }
-      return hierarchyIndicator;
+    }
+    return hierarchyIndicator;
+  }
+
+  /**
+   * Returns whether any of the children of this work package
+   * are visible in the table results.
+   */
+  private hasChildrenInTable(workPackage:WorkPackageResourceInterface) {
+    if (workPackage.isLeaf) {
+      return false; // Work Package has no children at all
+    }
+
+    const rows = this.workPackageTable.rows;
+    const total = rows.length;
+    if (rows[total - 1] === workPackage.id) {
+      return false; // Last element, can have no children
+    }
+
+    // If immediately following child has element
+    const row = this.workPackageTable.rowIndex[workPackage.id];
+    const nextIndex = row.position + 1;
+
+    if (nextIndex < total) {
+      const nextId = rows[nextIndex].toString();
+      return !!_.find(workPackage.children, (child:WorkPackageResourceInterface) => child.idFromLink === nextId);
+    }
+
+    return false;
   }
 
   private buildWithHierarchy(
