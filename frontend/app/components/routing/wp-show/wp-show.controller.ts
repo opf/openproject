@@ -31,6 +31,7 @@ import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {UserResource} from "../../api/api-v3/hal-resources/user-resource.service";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
+import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 
 export class WorkPackageShowController extends WorkPackageViewController {
 
@@ -51,10 +52,11 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public attachments:any;
 
   constructor(public $injector:ng.auto.IInjectorService,
-              public $scope:any,
+              public $scope:ng.IScope,
               public $state:ng.ui.IStateService,
               public $window:ng.IWindowService,
               public $location:ng.ILocationService,
+              public wpListChecksumService:WorkPackagesListChecksumService,
               public HookService:any,
               public AuthorisationService:any,
               public WorkPackageAuthorization:any,
@@ -69,6 +71,11 @@ export class WorkPackageShowController extends WorkPackageViewController {
     // initialization
     this.initializeAllowedActions();
     this.setWorkPackageScopeProperties(this.workPackage);
+
+    // Clear the list checksum if we're doing something that requires reloading the list
+    this.$scope.$root.$on('workPackagesRefreshRequired', () => {
+      this.wpListChecksumService.clear();
+    })
   }
 
   public goToList() {
