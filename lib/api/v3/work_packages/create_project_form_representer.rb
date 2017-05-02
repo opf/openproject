@@ -59,6 +59,15 @@ module API
           } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
                @errors.empty?
         end
+
+        link :configureForm do
+          {
+            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
+            type: 'text/html',
+            title: "Configure form"
+          } if current_user.admin?
+        end
+
       end
     end
   end
