@@ -323,6 +323,9 @@ registration_footer:
 repository_storage_cache_minutes:
   default: 720
   format: int
+repository_truncate_at:
+  default: 500
+  format: int
 repository_checkout_data:
   serialized: true
   default:

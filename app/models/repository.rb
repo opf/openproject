@@ -144,8 +144,17 @@ class Repository < ActiveRecord::Base
     scm.entry(path, identifier)
   end
 
-  def entries(path = nil, identifier = nil)
-    scm.entries(path, identifier)
+  def entries(path = nil, identifier = nil, limit: nil)
+    entries = scm.entries(path, identifier)
+
+    if limit && limit < entries.size
+      result = OpenProject::Scm::Adapters::Entries.new entries.take(limit)
+      result.truncated = entries.size - result.size
+
+      result
+    else
+      entries
+    end
   end
 
   def branches

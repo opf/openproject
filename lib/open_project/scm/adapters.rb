@@ -31,13 +31,30 @@ module OpenProject
     module Adapters
       class Entries < Array
         def sort_by_name
-          sort do |x, y|
+          sorted = sort do |x, y|
             if x.kind == y.kind
               x.name.to_s <=> y.name.to_s
             else
               x.kind <=> y.kind
             end
           end
+
+          entries = Entries.new sorted
+          entries.truncated = truncated
+
+          entries
+        end
+
+        def truncated=(truncated)
+          @truncated = truncated
+        end
+
+        def truncated
+          @truncated
+        end
+
+        def truncated?
+          @truncated
         end
       end
 

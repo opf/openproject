@@ -327,6 +327,35 @@ describe Repository::Subversion, type: :model do
         end
       end
 
+      describe "#entries" do
+        let(:entries) { instance.entries }
+
+        it "lists 10 entries" do
+          expect(entries.size).to eq 10
+        end
+
+        describe "with limit: 5" do
+          let(:directories) { entries.select { |e| e.kind == "dir" } }
+          let(:files) { entries.select { |e| e.kind == "file" } }
+
+          let(:limited_entries) { instance.entries limit: 5 }
+
+          before do
+            expect(directories.size).to eq 3
+          end
+
+          it "lists 5 entries only, directories first" do
+            expected_entries = (directories + files.take(2)).map(&:path)
+
+            expect(limited_entries.map(&:path)).to eq expected_entries
+          end
+
+          it "indicates 5 omitted entries" do
+            expect(limited_entries.truncated).to eq 5
+          end
+        end
+      end
+
       it_behaves_like 'is a countable repository' do
         let(:repository) { instance }
       end
