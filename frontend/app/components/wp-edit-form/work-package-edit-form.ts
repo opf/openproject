@@ -85,11 +85,6 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   public activate(fieldName:string):ng.IPromise<ng.IAugmentedJQuery> {
-    const activeField = this.activeFields[fieldName];
-    if (activeField) {
-      return this.$q.when(activeField.element);
-    }
-
     return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
@@ -107,12 +102,25 @@ export class WorkPackageEditForm {
   }
 
   /**
+   * Activate the field unless it is marked active already
+   * (e.g., already being activated).
+   */
+  public activateWhenNeeded(fieldName:string) {
+    const activeField = this.activeFields[fieldName];
+    if (activeField) {
+      return this.$q.when(activeField.element);
+    }
+
+    return this.activate(fieldName);
+  }
+
+  /**
    * Activate all fields that are returned in validation errors
    */
   public activateMissingFields() {
     this.workPackage.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
-        this.activate(key);
+        this.activateWhenNeeded(key);
       });
     });
   }
@@ -192,7 +200,7 @@ export class WorkPackageEditForm {
     // Accumulate errors for the given response
     _.each(attributes, (fieldName:string) => {
       this.editContext.requireVisible(fieldName).then(() => {
-        this.activate(fieldName);
+        this.activateWhenNeeded(fieldName);
       });
     });
 
