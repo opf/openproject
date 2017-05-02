@@ -117,7 +117,7 @@ Please include a description on how to reproduce the issue if possible. Our secu
 
 ## Accessibility
 
-For our impaired users please have a look at our [accessibility-checklist](https://www.openproject.org/help/develope-openproject/accessibility-checklist).
+For our impaired users please have a look at our [accessibility-checklist](https://www.openproject.org/development/accessibility-checklist/).
 
 ## Contributor code of conduct
 
