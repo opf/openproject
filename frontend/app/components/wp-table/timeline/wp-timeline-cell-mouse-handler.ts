@@ -34,6 +34,7 @@ import {keyCodes} from "../../common/keyCodes.enum";
 import IScope = angular.IScope;
 import * as moment from 'moment';
 import Moment = moment.Moment;
+import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
@@ -52,6 +53,7 @@ export function registerWorkPackageMouseHandler(this: void,
                                                 getRenderInfo: () => RenderInfo,
                                                 workPackageTimeline: WorkPackageTimelineTableController,
                                                 wpCacheService: WorkPackageCacheService,
+                                                wpTableRefresh: WorkPackageTableRefreshService,
                                                 cell: HTMLElement,
                                                 bar: HTMLDivElement,
                                                 renderer: TimelineCellRenderer,
@@ -211,6 +213,9 @@ export function registerWorkPackageMouseHandler(this: void,
 
   function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
     wpCacheService.saveIfChanged(workPackage)
+      .then(() => {
+        wpTableRefresh.request(true, `Moved work package ${workPackage.id} through timeline`);
+      })
       .catch(() => {
         if (!workPackage.isNew) {
           // Reset the changes on error

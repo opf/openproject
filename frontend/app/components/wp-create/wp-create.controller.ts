@@ -41,6 +41,7 @@ import {WorkPackageTableSelection} from "../wp-fast-table/state/wp-table-selecti
 import {WorkPackageCreateService} from "./wp-create.service";
 import IRootScopeService = angular.IRootScopeService;
 import {scopedObservable} from "../../helpers/angular-rx-utils";
+import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource|any;
@@ -75,7 +76,6 @@ export class WorkPackageCreateController {
 
   constructor(protected $state: ng.ui.IStateService,
               protected $scope: ng.IScope,
-              protected $rootScope: IRootScopeService,
               protected $q: ng.IQService,
               protected I18n: op.I18n,
               protected wpNotificationsService: WorkPackageNotificationService,
@@ -85,6 +85,7 @@ export class WorkPackageCreateController {
               protected wpEditModeState: WorkPackageEditModeStateService,
               protected wpTableSelection: WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService,
+              protected wpTableRefresh:WorkPackageTableRefreshService,
               protected $location:ng.ILocationService,
               protected RootDm:RootDmService,
               protected v3Path:any) {
@@ -143,7 +144,7 @@ export class WorkPackageCreateController {
     this.wpTableSelection.focusOn(wp.id);
     this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
       .then(() => {
-        this.$rootScope.$emit('workPackagesRefreshInBackground');
+        this.wpTableRefresh.request(false, `Saved work package ${wp.id}`);
         this.wpNotificationsService.showSave(wp, true);
       });
   }

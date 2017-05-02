@@ -42,17 +42,15 @@ import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
 import {WorkPackageTableBaseState} from "../../wp-fast-table/wp-table-base";
-
-
+import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
+import {debugLog} from "../../../helpers/debug_output";
 
 function WorkPackagesListController($scope:any,
-                                    $rootScope:ng.IRootScopeService,
                                     $state:ng.ui.IStateService,
-                                    $q:ng.IQService,
                                     AuthorisationService:any,
                                     states:States,
+                                    wpTableRefresh:WorkPackageTableRefreshService,
                                     wpTableColumns:WorkPackageTableColumnsService,
                                     wpTableSortBy:WorkPackageTableSortByService,
                                     wpTableGroupBy:WorkPackageTableGroupByService,
@@ -75,14 +73,27 @@ function WorkPackagesListController($scope:any,
 
   // Setup
   function initialSetup() {
-    setupObservers();
+    const loadingRequired = wpListChecksumService.isUninitialized();
 
-    if (wpListChecksumService.isUninitialized()) {
+    // Listen to changes on the query state objects
+    setupQueryObservers();
+
+    //  Require initial loading of the list if not yet done
+    if (loadingRequired) {
+      wpTableRefresh.clear('Impending query loading.');
       loadQuery();
     }
+
+    // Listen for refresh changes
+    setupRefreshObserver();
   }
 
-  function setupObservers() {
+  // Teardown
+  $scope.$on('$destroy', () => {
+    wpTableRefresh.clear("Table controller scope destroyed.");
+  });
+
+  function setupQueryObservers() {
 
     scopedObservable($scope, states.table.query.values$())
       .withLatestFrom(
@@ -139,6 +150,26 @@ function WorkPackagesListController($scope:any,
 
         if (triggerUpdate) {
           updateResultsVisibly(true);
+        }
+      });
+  }
+
+  /**
+   * Setup the listener for members of the table to request a refresh of the entire table
+   * through the refresh service.
+   */
+  function setupRefreshObserver() {
+    wpTableRefresh.state
+      .values$('Refresh listener in wp-list.controller')
+      .throttleTime(2000)
+      .takeUntil(scopeDestroyed$($scope))
+      .subscribe((refreshVisibly:boolean) => {
+        if (refreshVisibly) {
+          debugLog("Refreshing work package results visibly.");
+          updateResultsVisibly();
+        } else {
+          debugLog("Refreshing work package results in the background.");
+          updateResults();
         }
       });
   }
@@ -221,14 +252,6 @@ function WorkPackagesListController($scope:any,
       !states.table.hierarchies.value ||
       !states.table.sum.value;
   }
-
-  $rootScope.$on('workPackagesRefreshRequired', function () {
-    updateResultsVisibly();
-  });
-
-  $rootScope.$on('workPackagesRefreshInBackground', function () {
-    updateResults();
-  });
 }
 
 angular

@@ -37,6 +37,7 @@ import {
 import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
 import {States} from "../states.service";
 import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
+import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
 import IScope = angular.IScope;
 import IPromise = angular.IPromise;
 
@@ -51,7 +52,6 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
-              private $rootScope: ng.IRootScopeService,
               private $q: ng.IQService,
               private wpNotificationsService: WorkPackageNotificationService,
               private schemaCacheService: SchemaCacheService,
@@ -92,7 +92,6 @@ export class WorkPackageCacheService {
     workPackage.save()
       .then(() => {
         this.wpNotificationsService.showSave(workPackage);
-        this.$rootScope.$emit('workPackagesRefreshInBackground');
         deferred.resolve(workPackage);
       })
       .catch((error) => {

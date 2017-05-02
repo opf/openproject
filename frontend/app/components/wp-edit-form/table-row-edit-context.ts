@@ -36,14 +36,15 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
+import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
   // Injections
   public wpCacheService:WorkPackageCacheService;
+  public wpTableRefresh:WorkPackageTableRefreshService;
   public wpTableColumns:WorkPackageTableColumnsService;
   public states:States;
-  public $rootScope:ng.IRootScopeService;
   public FocusHelper:any;
 
   // Use cell builder to reset edit fields
@@ -79,10 +80,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public onSaved(workPackage:WorkPackageResource) {
-    this.$rootScope.$emit('workPackagesRefreshInBackground');
+    this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
   }
 }
 
 TableRowEditContext.$inject = [
-  'wpCacheService', 'states', 'wpTableColumns', '$rootScope', 'FocusHelper'
+  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh', 'FocusHelper'
 ];
