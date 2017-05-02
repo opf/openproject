@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -81,9 +82,9 @@ module API
           end
 
           def create_value_representer_for_property_patching(customizable, representer)
-            property_fields = customizable.available_custom_fields.select { |cf|
+            property_fields = customizable.available_custom_fields.select do |cf|
               property_field?(cf)
-            }
+            end
 
             new_representer_class_with(representer, customizable) do |injector|
               property_fields.each do |custom_field|
@@ -93,9 +94,9 @@ module API
           end
 
           def create_value_representer_for_link_patching(customizable, representer)
-            linked_fields = customizable.available_custom_fields.select { |cf|
+            linked_fields = customizable.available_custom_fields.select do |cf|
               linked_field?(cf)
-            }
+            end
 
             new_representer_class_with(representer, customizable) do |injector|
               linked_fields.each do |custom_field|
@@ -208,11 +209,7 @@ module API
                                           writable: true,
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
-                                          href_callback: -> (*) {
-                                            # for now we ASSUME that every customized that has a
-                                            # user custom field, will also define a project...
-                                            api_v3_paths.available_assignees(customized.project.id)
-                                          }
+                                          href_callback: allowed_users_href_callback(customized)
         end
 
         def inject_list_schema(custom_field, customized)
@@ -342,6 +339,22 @@ module API
           ->(value, *) {
             value = value['raw'] if custom_field.field_format == 'text'
             self.custom_field_values = { custom_field.id => value }
+          }
+        end
+
+        def allowed_users_href_callback(customized)
+          # for now we ASSUME that every customized that has a
+          # user custom field, will also define a project...
+          ->(*) {
+            params = [{ status: { operator: '!',
+                                  values: [Principal::STATUSES[:builtin].to_s,
+                                           Principal::STATUSES[:locked].to_s] } },
+                      { type: { operator: '=', values: ['User'] } },
+                      { member: { operator: '=', values: [customized.project_id.to_s] } }]
+
+            query = CGI.escape(::JSON.dump(params))
+
+            "#{api_v3_paths.principals}?filters=#{query}"
           }
         end
       end

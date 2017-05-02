@@ -53,7 +53,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:modified_class) { described_class.create_schema_representer(schema, base_class) }
     let(:schema) do
       double('WorkPackageSchema',
-             project: double(id: 42),
+             project_id: 42,
              defines_assignable_values?: true,
              available_custom_fields: [custom_field])
     end
@@ -203,7 +203,17 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like 'links to allowed values via collection link' do
         let(:path) { cf_path }
-        let(:href) { api_v3_paths.available_assignees 42 }
+        let(:href) do
+          params = [{ status: { operator: '!',
+                                values: [Principal::STATUSES[:builtin].to_s,
+                                         Principal::STATUSES[:locked].to_s] } },
+                    { type: { operator: '=', values: ['User'] } },
+                    { member: { operator: '=', values: [schema.project_id.to_s] } }]
+
+          query = CGI.escape(::JSON.dump(params))
+
+          "#{api_v3_paths.principals}?filters=#{query}"
+        end
       end
     end
   end
