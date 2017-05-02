@@ -189,4 +189,4 @@ export class WorkPackageTimelineCell {
 
 }
 
-WorkPackageTimelineCell.$inject = ['wpCacheService', 'states', 'TimezoneService'];
+WorkPackageTimelineCell.$inject = ['wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService'];
