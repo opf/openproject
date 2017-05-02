@@ -40,12 +40,10 @@ module API
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
         def work_package_query(query, from, limit)
-          wps = WorkPackage.visible
-                           .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
-                                  query.to_i, "%#{query.downcase}%")
-                           .where('work_packages.id != ?', from.id) # can't relate to itself
-                           .references(:work_packages)
-                           .limit(limit)
+          wps = visible_work_packages_without_related_or_self(from)
+                .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
+                       query.to_i, "%#{query.downcase}%")
+                .limit(limit)
 
           if Setting.cross_project_work_package_relations?
             wps
@@ -64,6 +62,13 @@ module API
 
             rel.shared_hierarchy? || rel.circular_dependency?
           end
+        end
+
+        def visible_work_packages_without_related_or_self(wp)
+          WorkPackage.visible
+                     .where.not(id: wp.id) # can't relate to itself
+                     .where.not(id: wp.relations_from.select(:to_id))
+                     .where.not(id: wp.relations_to.select(:from_id))
         end
       end
     end
