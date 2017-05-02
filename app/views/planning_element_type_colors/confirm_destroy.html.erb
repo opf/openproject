@@ -34,7 +34,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class='flash warning'>
     <%= l('timelines.really_delete_color') %>
-    <%= op_icon('icon-close close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}') %>
+    <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
+      <%= op_icon('icon-close') %>
+    </span>
   </div>
 
   <fieldset class="form--fieldset">

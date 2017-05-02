@@ -30,7 +30,7 @@ require 'spec_helper'
 
 feature 'Help menu items' do
   let(:user) { FactoryGirl.create :admin }
-  let(:help_item) { find('.icon-help') }
+  let(:help_item) { find('.menu-item--help') }
 
   before do
     login_as user

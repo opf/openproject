@@ -49,7 +49,8 @@ module Redmine::MenuManager::WikiMenuHelper
               param: :project_id,
               caption: main_item.title,
               after: :repository,
-              icon: 'icon2 icon-wiki'
+              icon: 'icon2 icon-wiki',
+              html:    { class: 'wiki-menu--main-item' }
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{main_item.slug} to wiki menu: #{e}. Deleting it."
     main_item.destroy
@@ -60,7 +61,8 @@ module Redmine::MenuManager::WikiMenuHelper
               { controller: '/wiki', action: 'show', id: child.slug },
               param: :project_id,
               caption: child.title,
-              html:    { class: 'icon2 icon-wiki2' },
+              icon: 'icon2 icon-wiki2',
+              html:    { class: 'wiki-menu--sub-item' },
               parent: main_item.menu_identifier
   rescue ArgumentError => e
     Rails.logger.error "Failed to add wiki item #{child.slug} to wiki menu: #{e}. Deleting it."

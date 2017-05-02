@@ -138,8 +138,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
             <tr ng-repeat="message in messages">
               <td class="subject">
-                <icon-wrapper ng-if="message.isSticky == true" icon-name="wiki" icon-title="{{I18n.t('js.label_board_sticky')}}"></icon-wrapper>
-                <icon-wrapper ng-if="message.isLocked == true" icon-name="locked" icon-title="{{I18n.t('js.label_board_locked')}}"></icon-wrapper>
+                <op-icon ng-if="message.isSticky == true" icon-classes="icon-wiki" icon-title="{{I18n.t('js.label_board_sticky')}}"></op-icon>
+                <op-icon ng-if="message.isLocked == true" icon-classes="icon-locked" icon-title="{{I18n.t('js.label_board_locked')}}"></op-icon>
                 <a ng-href="{{PathHelper.messagePath(message.id)}}">{{message.subject}}</a>
               </td>
               <td class="author"><a ng-href="{{PathHelper.userPath(message.author.id)}}">{{message.author.name}}</a></td>
