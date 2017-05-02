@@ -57,7 +57,12 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     FactoryGirl.create :relation, from: wp_2_1, to: wp_2_2, relation_type: "relates"
   end
 
-  let(:result) { JSON.parse response.body }
+  let(:href) { "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP" }
+  let(:request) { get href }
+  let(:result) do
+    request
+    JSON.parse response.body
+  end
   let(:subjects) { work_packages.map { |e| e["subject"] } }
 
   def work_packages
@@ -70,9 +75,6 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
 
   context 'with no permissions' do
     let(:user) { FactoryGirl.create(:user) }
-    before do
-      get "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP"
-    end
 
     it 'does not return any work packages' do
       expect(result["errorIdentifier"]).to eq('urn:openproject-org:api:v3:errors:NotFound')
@@ -85,19 +87,13 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "relation candidates for wp_1 (in hierarchy)" do
-      before do
-        get "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP"
-      end
-
       it "should return an empty list" do # as relations to ancestors or descendents is not allowed
         expect(result["count"]).to eq 0
       end
     end
 
     describe "relation candidates for wp_2" do
-      before do
-        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
 
       it "should return WP 2.1 and 2.2" do
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
@@ -105,9 +101,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "case-insensitive matches" do
-      before do
-        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=wp"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=wp" }
 
       it "should return WP 2.1 and 2.2" do
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
@@ -115,9 +109,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "relation candidates for WP 2.2 (circular dependency check)" do
-      before do
-        get "/api/v3/work_packages/#{wp_2_2.id}/available_relation_candidates?query=WP"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_2_2.id}/available_relation_candidates?query=WP" }
 
       it "should return just WP 2, not WP 2.1" do
         expect(subjects).to match_array ["WP 2"]
@@ -131,9 +123,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "relation candidates for wp_1 (in hierarchy)" do
-      before do
-        get "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_1.id}/available_relation_candidates?query=WP" }
 
       it "should return WP 2 and all WP 2.x" do
         expect(subjects).to match_array ["WP 2", "WP 2.1", "WP 2.2"]
@@ -141,21 +131,30 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     describe "relation candidates for wp_2" do
-      before do
-        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
 
       it "should return WP 2.1 and 2.2, WP 1 and all WP 1.x" do
         expect(subjects).to match_array ["WP 1", "WP 1.1", "WP 1.2", "WP 1.2.1", "WP 2.1", "WP 2.2"]
+      end
+
+      describe 'with an already existing relationship from the work package' do
+        let!(:relation_wp_2_to_wp_2_2) do
+          FactoryGirl.create :relation, from: wp_2, to: wp_2_2, relation_type: "relates"
+        end
+
+        let!(:relation_wp_1_1_to_wp_2) do
+          FactoryGirl.create :relation, from: wp_1_1, to: wp_2, relation_type: "relates"
+        end
+
+        it 'does not contain the work packages with which a relationship already exists' do
+          expect(subjects).to match_array ["WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1"]
+        end
       end
     end
 
     context 'when a project is archived' do
       let(:project_1) { FactoryGirl.create :project, status: Project::STATUS_ARCHIVED }
-
-      before do
-        get "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP"
-      end
+      let(:href) { "/api/v3/work_packages/#{wp_2.id}/available_relation_candidates?query=WP" }
 
       it 'does not return work packages from that project' do
         expect(subjects).to match_array ["WP 2.1", "WP 2.2"]
