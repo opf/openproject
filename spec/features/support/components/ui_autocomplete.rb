@@ -32,6 +32,7 @@ shared_context 'ui-autocomplete helpers' do
     element.click
     # Insert the text to find
     element.set(query)
+    sleep(0.5)
 
     ##
     # Find the open dropdown

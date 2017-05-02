@@ -57,11 +57,15 @@ function wpRelationsAutocompleteDirective(
       scope.options = [];
       scope.relatedWps = [];
 
-      jQuery('.wp-relations--autocomplete').autocomplete({
+      let input = jQuery('.wp-relations--autocomplete')
+      let selected = false;
+
+      input.autocomplete({
         delay: 250,
         autoFocus: false, // Accessibility!
         source: (request:{ term:string }, response:Function) => {
           autocompleteWorkPackages(request.term).then((values) => {
+            selected = false;
             response(values.map(wp => {
               return { workPackage: wp, value: getIdentifier(wp) };
             }));
@@ -69,10 +73,12 @@ function wpRelationsAutocompleteDirective(
         },
         select: (evt, ui:any) => {
           scope.$evalAsync(() => {
+            selected = true;
             scope.selectedWpId = ui.item.workPackage.id;
           });
-        }
-      });
+        },
+        minLength: 0
+      }).focus(() => !selected && input.autocomplete('search', input.val()));
 
       function getIdentifier(workPackage:WorkPackageResourceInterface):string {
         if (workPackage) {
@@ -83,10 +89,6 @@ function wpRelationsAutocompleteDirective(
       };
 
       function autocompleteWorkPackages(query:string):Promise<WorkPackageResourceInterface[]> {
-        if (!query) {
-          return $q.when([]);
-        }
-
         const deferred = $q.defer();
         loadingIndicator.indicator(scope.loadingPromiseName).promise = deferred.promise;
 
