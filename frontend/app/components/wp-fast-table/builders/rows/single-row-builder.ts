@@ -3,7 +3,7 @@ import {States} from "../../../states.service";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
 import {CellBuilder} from "../cell-builder";
 import {DetailsLinkBuilder} from "../details-link-builder";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {$injectFields, injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
@@ -38,8 +38,8 @@ export class SingleRowBuilder {
   // Timeline builder
   protected timelineCellBuilder = new TimelineCellBuilder(this.stopExisting$, this.workPackageTable);
 
-  constructor(private stopExisting$: Observable<any>, private workPackageTable: WorkPackageTable) {
-    injectorBridge(this);
+  constructor(protected stopExisting$: Observable<any>, protected workPackageTable: WorkPackageTable) {
+    $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
   }
 
   /**
@@ -102,6 +102,3 @@ export class SingleRowBuilder {
     return tr;
   }
 }
-
-
-SingleRowBuilder.$inject = ['wpTableSelection', 'wpTableColumns', 'I18n'];

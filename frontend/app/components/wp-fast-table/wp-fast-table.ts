@@ -1,5 +1,3 @@
-import {HierarchyRowsBuilder} from './builders/rows/hierarchy-rows-builder';
-import {RowsBuilder} from './builders/rows/rows-builder';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 
@@ -9,9 +7,11 @@ import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
-import {GroupedRowsBuilder} from './builders/rows/grouped-rows-builder';
-import {PlainRowsBuilder} from './builders/rows/plain-rows-builder';
 import {WorkPackageTimelineTableController} from "../wp-table/timeline/wp-timeline-container.directive";
+import {PlainRowsBuilder} from "./builders/modes/plain/plain-rows-builder";
+import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder";
+import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
+import {RowsBuilder} from "./builders/modes/rows-builder";
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;

@@ -20,7 +20,18 @@
    */
   export function injectorBridge(injectable:any) {
     let $injector = $currentInjector();
-    $injector.annotate(injectable.constructor).forEach((dep:string) => {
-      injectable[dep] = $injector.get(dep);
+    $injectFields(injectable, ...$injector.annotate(injectable.constructor));
+  }
+  /**
+   * Inject specified field into the target.
+   * Use when `Constructor.$inject` isn't an option, e.g., due to class inerheritance.
+   *
+   * @param target The target to inject into
+   * @param dependencies A set of dependencies to inject
+   */
+  export function $injectFields(target:any, ...dependencies:string[]) {
+    let $injector = $currentInjector();
+    dependencies.forEach((dep:string) => {
+      target[dep] = $injector.get(dep);
     });
   }
