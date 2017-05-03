@@ -44,7 +44,7 @@ export class IntegerValueController {
   }
 
   public set value(val) {
-    if (val) {
+    if (typeof(val) === 'number') {
       this.filter.values = [val.toString()];
     } else {
       this.filter.values = [];
