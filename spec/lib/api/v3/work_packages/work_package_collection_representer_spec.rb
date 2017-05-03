@@ -412,7 +412,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
     end
 
-    context 'with project admin priviliges' do
+    context 'with project and general admin priviliges' do
       # In this spec a user responds to `allowed_to` with true per default.
       let(:project) { FactoryGirl.build_stubbed(:project) }
       let(:user) { FactoryGirl.build_stubbed(:admin) }
