@@ -118,6 +118,15 @@ function WorkPackageContextMenuHelper(
         text: I18n.t("js.relation_buttons.add_follower"),
         link: "addRelation"
       });
+
+      if (!!workPackage.addChild) {
+        allowedActions.push({
+          icon: "relation-new-child",
+          text: I18n.t("js.relation_buttons.add_new_child"),
+          link: "addChild"
+        });
+      }
+
     }
 
     return allowedActions;

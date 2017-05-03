@@ -63,6 +63,18 @@ describe 'Work package table context menu', js: true do
     goto_context_menu
     menu.choose('Delete')
     wp_table.dismiss_alert_dialog!
+
+    # Open create new child
+    goto_context_menu
+    menu.choose('Create new child')
+    expect(page).to have_selector('.wp-edit-field.subject input')
+
+    task_name = work_package.type.name
+    select task_name, from: 'wp-new-inline-edit--field-type'
+    expect(page).to have_selector('.work-packages--details-content h2', text: "New #{task_name} (Child of #{task_name} ##{work_package.id})")
+
+    find('#work-packages--edit-actions-cancel').click
+    expect(page).to have_no_selector('.wp-edit-field.subject input')
   end
 
   context 'multiple selected' do

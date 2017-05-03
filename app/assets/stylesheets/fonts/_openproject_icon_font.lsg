@@ -170,6 +170,7 @@
 <li><span class="icon icon-quote2"></span>quote2</li>
 <li><span class="icon icon-redo"></span>redo</li>
 <li><span class="icon icon-relation-follows"></span>relation-follows</li>
+<li><span class="icon icon-relation-new-child"></span>relation-new-child</li>
 <li><span class="icon icon-relation-precedes"></span>relation-precedes</li>
 <li><span class="icon icon-reload"></span>reload</li>
 <li><span class="icon icon-reminder"></span>reminder</li>

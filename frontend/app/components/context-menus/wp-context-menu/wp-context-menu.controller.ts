@@ -33,12 +33,14 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {WorkPackageRelationsHierarchyService} from "../../wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,
                                  $state:ng.ui.IStateService,
                                  WorkPackageContextMenuHelper:any,
                                  WorkPackageService:any,
+                                 wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
                                  contextMenu:ContextMenuService,
                                  I18n:op.I18n,
                                  $window:ng.IWindowService,
@@ -80,6 +82,11 @@ function wpContextMenuController($scope:any,
         table = $scope.table;
         wp = $scope.row.object;
         table.timelineController.startAddRelationFollower(wp);
+        break;
+
+      case 'relation-new-child':
+        wp = $scope.row.object;
+        wpRelationsHierarchyService.addNewChildWp(wp);
         break;
 
       default:
