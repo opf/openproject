@@ -100,6 +100,7 @@ module DemoData
                             name: 'Timeline',
                             user_id: User.admin.first.id,
                             is_public: true,
+                            show_hierarchies: true,
                             timeline_visible: true,
                             column_names: [:subject, :type, :status]
 
