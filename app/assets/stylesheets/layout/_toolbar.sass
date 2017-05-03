@@ -42,7 +42,7 @@
 
 .toolbar-container
   padding: 0
-  margin-bottom: 12px
+  margin-bottom: 5px
   min-height: 50px
 
   > .subtitle
@@ -124,6 +124,12 @@
         left: 0
         right: 1px
         vertical-align: text-top
+  .button, button
+    height: 30px !important
+    padding: 3px 9px
+    &:before,
+    .button--icon:before
+      vertical-align: middle
 
 .title-container
   @include clearfix
@@ -135,8 +141,7 @@
     border: 0
     padding: 12px 0
     color: $toolbar-title-color
-    @include breakpoint(medium down)
-      font-size: $h2-font-size
+    font-size: 20px
 
   span
     @include varprop(color, content-link-color)
