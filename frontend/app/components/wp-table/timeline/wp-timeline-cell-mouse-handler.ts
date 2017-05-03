@@ -67,7 +67,10 @@ export function registerWorkPackageMouseHandler(this: void,
 
   // handles change to existing work packages
   bar.onmousedown = (ev: MouseEvent) => {
-    workPackageMouseDownFn(ev);
+    if (ev.which === 1) {
+      // Left click only
+      workPackageMouseDownFn(ev);
+    }
   };
 
   // handles initial creation of start/due values
