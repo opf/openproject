@@ -124,4 +124,47 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.expect_leaf_at(wp_inter)
     end
   end
+
+  describe 'sorting so that the parent appears below the child' do
+    let!(:wp_root) { FactoryGirl.create(:work_package, project: project, assigned_to: user) }
+    let!(:wp_inter) { FactoryGirl.create(:work_package, project: project, parent: wp_root) }
+
+    let!(:query) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['subject', 'category']
+      query.filters.clear
+      query.show_hierarchies = false
+
+      query.save!
+      query
+    end
+
+    it 'removes the parent from the flow, moving it above' do
+      # Hierarchy disabled, expect wp_inter before wp_root
+      wp_table.visit_query query
+      wp_table.expect_work_package_listed(wp_inter)
+      wp_table.expect_work_package_listed(wp_root)
+      wp_table.expect_work_package_order(wp_inter.id, wp_root.id)
+
+      hierarchy.expect_no_hierarchies
+
+      # Enable hierarchy mode, should move it above now
+      hierarchy.enable_hierarchy
+
+      hierarchy.expect_hierarchy_at(wp_root)
+      hierarchy.expect_leaf_at(wp_inter)
+
+      wp_table.expect_work_package_listed(wp_inter)
+      wp_table.expect_work_package_listed(wp_root)
+      wp_table.expect_work_package_order(wp_root.id, wp_inter.id)
+
+      # Toggling hierarchies hides the inner children
+      hierarchy.toggle_row(wp_root)
+
+      # Root showing
+      expect_listed(wp_root)
+      # Inter hidden
+      expect_hidden(wp_inter)
+    end
+  end
 end
