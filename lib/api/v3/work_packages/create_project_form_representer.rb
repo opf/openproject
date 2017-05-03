@@ -60,12 +60,22 @@ module API
                @errors.empty?
         end
 
+        link :customFields do
+          if current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: represented.project)
+            {
+              href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
+              type: 'text/html',
+              title: I18n.t('label_custom_field_plural')
+            }
+          end
+        end
+
         link :configureForm do
           {
             href: edit_type_path(represented.type_id, tab: 'form_configuration'),
             type: 'text/html',
             title: "Configure form"
-          } if current_user.admin?
+          } if current_user.admin? && represented.type_id && represented.type_id != 0
         end
 
       end
