@@ -370,7 +370,8 @@ export class WorkPackageResource extends HalResource {
 
         // Take over new values from the form
         // this resource doesn't know yet.
-        this.assignNewValues(form.$embedded.payload);
+        _.defaultsDeep(this.$source, form.$source._embedded.payload);
+        this.$initialize(this.$source);
 
         deferred.resolve(form);
       })
@@ -517,14 +518,6 @@ export class WorkPackageResource extends HalResource {
     });
 
     return plainPayload;
-  }
-
-  private assignNewValues(formPayload:{[attr:string]: any, $source:any}) {
-    Object.keys(formPayload.$source).forEach(key => {
-      if (angular.isUndefined(this[key])) {
-        this[key] = formPayload[key];
-      }
-    });
   }
 
   /**
