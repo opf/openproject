@@ -61,9 +61,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
         paramsData.tv = query.timelineVisible;
       }
 
-      if(!!query.showHierarchies) {
-        paramsData.hi = query.showHierarchies;
-      }
+      paramsData.hi = !!query.showHierarchies;
 
       if(query.groupBy) {
         paramsData.g = query.groupBy.id;
