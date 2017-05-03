@@ -37,6 +37,7 @@ describe 'rendering the login buttons for all providers' do
     ]
   end
 
+
   before do
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return(providers)
 
@@ -52,6 +53,6 @@ describe 'rendering the login buttons for all providers' do
   end
 
   it 'should render a custom icon if defined' do
-    expect(rendered).to match /#{providers[2][:icon]}/
+    expect(view.content_for(:header_tags)).to match /#{providers[2][:icon]}/
   end
 end
