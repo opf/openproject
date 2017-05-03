@@ -1,3 +1,5 @@
+@import "fonts/openproject_icon_definitions"
+
 @mixin sort-icons
   font-family: "openproject-icon-font" !important
   font-weight: normal !important
@@ -13,12 +15,12 @@
 .tablesorter-headerDesc .generic-table--sort-header span
   &:after
     @include sort-icons
-    content: "\e0a0"
+    @include icon-mixin-sort-descending
 
 .tablesorter-headerAsc .generic-table--sort-header span
   &:after
     @include sort-icons
-    content: "\e09f"
+    @include icon-mixin-sort-ascending
 
 #result-table .generic-table--results-container tfoot
   td
