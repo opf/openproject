@@ -103,7 +103,7 @@ function wpDetailsToolbar(
               deleteSelectedWorkPackage();
               break;
             default:
-              $location.path(link);
+              window.location.href = link;
               break;
           }
         };

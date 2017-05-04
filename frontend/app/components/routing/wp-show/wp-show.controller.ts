@@ -92,7 +92,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
         this.deleteSelectedWorkPackage();
         break;
       default:
-        this.$location.path(link);
+        window.location.href = link;
         break;
     }
   };
