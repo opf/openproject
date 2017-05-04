@@ -2,8 +2,8 @@ import {Subject} from "rxjs";
 import {States} from "../../../states.service";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableRow} from "../../wp-table.interfaces";
-import {RowRefreshBuilder} from "./row-refresh-builder";
-import {SingleRowBuilder} from "./single-row-builder";
+import {SingleRowBuilder} from "../rows/single-row-builder";
+import {RowRefreshBuilder} from "../rows/row-refresh-builder";
 
 export abstract class RowsBuilder {
   public states:States;
@@ -11,11 +11,10 @@ export abstract class RowsBuilder {
   protected rowBuilder:SingleRowBuilder;
   protected refreshBuilder:RowRefreshBuilder;
 
-  private stopExisting$ = new Subject();
+  protected stopExisting$ = new Subject();
 
   constructor(public workPackageTable: WorkPackageTable) {
-    this.rowBuilder = new SingleRowBuilder(this.stopExisting$, workPackageTable);
-    this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$, workPackageTable);
+    this.setupRowBuilders();
   }
 
   /**
@@ -43,6 +42,14 @@ export abstract class RowsBuilder {
   public refreshRow(row:WorkPackageTableRow, table:WorkPackageTable):HTMLElement|null {
     let editing = this.states.editing.get(row.workPackageId).value;
     return this.refreshBuilder.refreshRow(row, editing);
+  }
+
+  /**
+   * Construct the single and refresh row builders for this instance
+   */
+  protected setupRowBuilders() {
+    this.rowBuilder = new SingleRowBuilder(this.stopExisting$, this.workPackageTable);
+    this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$, this.workPackageTable);
   }
 
   /**

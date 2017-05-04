@@ -1,18 +1,13 @@
-import {HalResource} from '../../../api/api-v3/hal-resources/hal-resource.service';
-import {RowsBuilder} from './rows-builder';
-import {States} from '../../../states.service';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {groupedRowClassName} from '../../helpers/wp-table-row-helpers';
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {WorkPackageTableGroupByService} from '../../state/wp-table-group-by.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {QueryResource} from '../../../api/api-v3/hal-resources/query-resource.service';
-import {QueryGroupByResource} from '../../../api/api-v3/hal-resources/query-group-by-resource.service';
-import {WorkPackageCollectionResource} from '../../../api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageTableRow} from '../../wp-table.interfaces';
-import {GroupObject} from '../../../api/api-v3/hal-resources/wp-collection-resource.service';
-
+import {RowsBuilder} from "../rows-builder";
+import {States} from "../../../../states.service";
+import {WorkPackageTableColumnsService} from "../../../state/wp-table-columns.service";
+import {WorkPackageTable} from "../../../wp-fast-table";
+import {injectorBridge} from "../../../../angular/angular-injector-bridge.functions";
+import {GroupObject} from "../../../../api/api-v3/hal-resources/wp-collection-resource.service";
+import {WorkPackageResource} from "../../../../api/api-v3/hal-resources/work-package-resource.service";
+import {HalResource} from "../../../../api/api-v3/hal-resources/hal-resource.service";
+import {groupedRowClassName} from "../../../helpers/wp-table-row-helpers";
+import {WorkPackageTableRow} from "../../../wp-table.interfaces";
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
 

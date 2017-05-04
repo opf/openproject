@@ -1,9 +1,7 @@
-import {WorkPackageTableRow} from "../../wp-table.interfaces";
-import {RowsBuilder} from "./rows-builder";
-import {States} from "../../../states.service";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
-import {WorkPackageTable} from "../../wp-fast-table";
+import {RowsBuilder} from "../rows-builder";
+import {WorkPackageTable} from "../../../wp-fast-table";
+import {injectorBridge} from "../../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTableRow} from "../../../wp-table.interfaces";
 
 export class PlainRowsBuilder extends RowsBuilder {
   // Injections

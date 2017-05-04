@@ -3,7 +3,10 @@ import {injectorBridge} from "../../../angular/angular-injector-bridge.functions
 import {WorkPackageTable} from "../../wp-fast-table";
 import {States} from "../../../states.service";
 import {TableEventHandler} from "../table-handler-registry";
-import {GroupedRowsBuilder, rowGroupClassName} from "../../builders/rows/grouped-rows-builder";
+import {
+  GroupedRowsBuilder,
+  rowGroupClassName
+} from "../../builders/modes/grouped/grouped-rows-builder";
 
 export class GroupRowHandler implements TableEventHandler {
   // Injections

@@ -1,10 +1,10 @@
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {States} from "../../../states.service";
-import {indicatorCollapsedClass} from "../../builders/rows/hierarchy-rows-builder";
 import {collapsedGroupClass, hierarchyGroupClass, hierarchyRootClass} from "../../helpers/wp-table-hierarchy-helpers";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
+import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
 
 export class HierarchyTransformer {
   public wpTableHierarchies:WorkPackageTableHierarchiesService;
