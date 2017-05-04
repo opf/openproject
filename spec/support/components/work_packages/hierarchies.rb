@@ -47,24 +47,31 @@ module Components
         expect(page).to have_no_selector('.wp-table--hierarchy-span')
       end
 
-      def expect_leaf_at(work_package)
-        expect(page).to have_selector("#wp-row-#{work_package.id} .wp-table--leaf-indicator")
-      end
-
-      def expect_hierarchy_at(work_package, collapsed = false)
-        selector = "#wp-row-#{work_package.id} .wp-table--hierarchy-indicator"
-        collapsed_sel = ".-hierarchy-collapsed"
-
-        if collapsed
-          expect(page).to have_selector("#{selector}#{collapsed_sel}")
-        else
-          expect(page).to have_selector(selector)
-          expect(page).to have_no_selector("#{selector}#{collapsed_sel}")
+      def expect_leaf_at(*work_packages)
+        work_packages.each do |wp|
+          expect(page).to have_selector("#wp-row-#{wp.id} .wp-table--leaf-indicator")
         end
       end
 
-      def expect_hidden(work_package)
-        expect(page).to have_selector("#wp-row-#{work_package.id}", visible: :hidden)
+      def expect_hierarchy_at(*work_packages, collapsed: false)
+        collapsed_sel = ".-hierarchy-collapsed"
+
+        work_packages.each do |wp|
+          selector = "#wp-row-#{wp.id} .wp-table--hierarchy-indicator"
+
+          if collapsed
+            expect(page).to have_selector("#{selector}#{collapsed_sel}")
+          else
+            expect(page).to have_selector(selector)
+            expect(page).to have_no_selector("#{selector}#{collapsed_sel}")
+          end
+        end
+      end
+
+      def expect_hidden(*work_packages)
+        work_packages.each do |wp|
+          expect(page).to have_selector("#wp-row-#{wp.id}", visible: :hidden)
+        end
       end
 
       def toggle_row(work_package)

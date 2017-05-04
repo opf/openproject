@@ -40,17 +40,21 @@ module Pages
       visit "#{path}?query_id=#{query.id}"
     end
 
-    def expect_work_package_listed(work_package)
+    def expect_work_package_listed(*work_packages)
       within(table_container) do
-        expect(page).to have_selector("#wp-row-#{work_package.id} td.subject",
-                                      text: work_package.subject)
+        work_packages.each do |wp|
+          expect(page).to have_selector("#wp-row-#{wp.id} td.subject",
+                                        text: wp.subject)
+        end
       end
     end
 
-    def expect_work_package_not_listed(work_package)
+    def expect_work_package_not_listed(*work_packages)
       within(table_container) do
-        expect(page).to have_no_selector("#wp-row-#{work_package.id} td.subject",
-                                         text: work_package.subject)
+        work_packages.each do |wp|
+          expect(page).to have_no_selector("#wp-row-#{wp.id} td.subject",
+                                           text: wp.subject)
+        end
       end
     end
 
