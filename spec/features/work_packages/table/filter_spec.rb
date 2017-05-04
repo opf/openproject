@@ -63,7 +63,7 @@ describe 'filter work packages', js: true do
       filters.open
       loading_indicator_saveguard
 
-      filters.filter_by_watcher watcher.name
+      filters.add_filter_by 'Watcher', 'is', watcher.name
       loading_indicator_saveguard
 
       expect(wp_table).to have_work_packages_listed [work_package_with_watcher]

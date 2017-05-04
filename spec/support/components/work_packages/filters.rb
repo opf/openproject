@@ -49,11 +49,6 @@ module Components
         expect(page).to have_selector(filters_selector, visible: :hidden)
       end
 
-      def filter_by_watcher(name)
-        select "Watcher", from: "add_filter_select"
-        select name, from: "values-watcher"
-      end
-
       def add_filter_by(name, operator, value, selector = nil)
         select name, from: "add_filter_select"
 
