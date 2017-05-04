@@ -106,10 +106,6 @@ export class QueryFilterInstanceResource extends HalResource {
     return this.values.length || (this.currentSchema && !this.currentSchema.isValueRequired());
   }
 
-  public $copy() {
-    return this.constructor(this.$source);
-  }
-
   private static definesAllowedValues(schema:QueryFilterInstanceSchemaResource) {
     return _.some(schema._dependencies[0].dependencies,
                   (dependency:any) => dependency.values && dependency.values._links && dependency.values._links.allowedValues );

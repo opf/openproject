@@ -169,7 +169,8 @@ export class HalResource {
   }
 
   public $copy() {
-    return this.constructor(this.$source);
+    let clone:any = this.constructor
+    return new clone(_.cloneDeep(this.$source), this.$loaded);;
   }
 
   protected $initialize(source:any) {

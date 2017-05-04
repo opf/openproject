@@ -83,7 +83,7 @@ describe 'filter work packages', js: true do
       wp_table.visit!
     end
 
-    it 'allows filtering, saving and retrieving the saved filter' do
+    it 'allows filtering, saving, retrieving and altering the saved filter' do
       filters.open
 
       filters.add_filter_by('Version', 'is', version.name)
@@ -107,6 +107,11 @@ describe 'filter work packages', js: true do
       filters.open
 
       filters.expect_filter_by('Version', 'is', version.name)
+
+      filters.set_operator 'Version', 'is not'
+
+      expect(wp_table).to have_work_packages_listed [work_package_without_version]
+      expect(wp_table).not_to have_work_packages_listed [work_package_with_version]
     end
   end
 
@@ -122,7 +127,7 @@ describe 'filter work packages', js: true do
       wp_table.visit!
     end
 
-    it 'allows filtering, saving and retrieving the saved filter' do
+    it 'allows filtering, saving and retrieving and altering the saved filter' do
       filters.open
 
       filters.add_filter_by('Due date',
@@ -152,6 +157,11 @@ describe 'filter work packages', js: true do
                                'between',
                                [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
                                'dueDate')
+
+      filters.set_filter 'Due date', 'in more than', '1', 'dueDate'
+
+      expect(wp_table).to have_work_packages_listed [work_package_without_due_date]
+      expect(wp_table).not_to have_work_packages_listed [work_package_with_due_date]
     end
   end
 end

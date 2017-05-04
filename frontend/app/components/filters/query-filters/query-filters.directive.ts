@@ -83,13 +83,7 @@ function queryFiltersDirective($timeout:ng.ITimeoutService,
           };
 
           function initialize() {
-            let newState = wpTableFilters.currentState;
-            // prevent circular updates
-            if (scope.filters === newState) {
-              return;
-            }
-
-            scope.filters = _.cloneDeep(wpTableFilters.currentState);
+            scope.filters = wpTableFilters.currentState;
 
             updateRemainingFilters();
           }

@@ -67,7 +67,7 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
 
   public get current():QueryFilterInstanceResource[]{
     if (this.currentState) {
-      return this.currentState.current;
+      return _.map(this.currentState.current, filter => filter.$copy());
     } else {
       return [];
     }
