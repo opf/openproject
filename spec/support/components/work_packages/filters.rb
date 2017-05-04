@@ -49,16 +49,22 @@ module Components
         expect(page).to have_selector(filters_selector, visible: :hidden)
       end
 
-      def filter_by_watcher(name)
-        select "Watcher", from: "add_filter_select"
-        select name, from: "values-watcher"
+      def add_filter_by(name, operator, value, selector = nil)
+        select name, from: "add_filter_select"
+
+        set_filter(name, operator, value, selector)
       end
 
-      def add_filter_by(name, operator, value, selector = nil)
+      def set_operator(name, operator, selector = nil)
         id = selector || name.downcase
 
-        select name, from: "add_filter_select"
         select operator, from: "operators-#{id}"
+      end
+
+      def set_filter(name, operator, value, selector = nil)
+        id = selector || name.downcase
+
+        set_operator(name, operator, selector)
 
         set_value(id, value)
       end
