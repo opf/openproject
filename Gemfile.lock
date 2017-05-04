@@ -161,7 +161,7 @@ GEM
     airbrake-ruby (1.5.0)
     arel (7.1.4)
     ast (2.3.0)
-    autoprefixer-rails (6.7.7.1)
+    autoprefixer-rails (6.7.7.2)
       execjs
     awesome_nested_set (3.1.2)
       activerecord (>= 4.0.0, < 5.1)
@@ -604,7 +604,7 @@ DEPENDENCIES
   acts_as_list (~> 0.9.5)
   acts_as_tree (~> 2.6.1)
   airbrake (~> 5.1.0)
-  autoprefixer-rails (~> 6.7.7.1)
+  autoprefixer-rails (~> 6.7.7.2)
   awesome_nested_set (~> 3.1.1)
   bcrypt (~> 3.1.6)
   bourbon (~> 4.3.4)
