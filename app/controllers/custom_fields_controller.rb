@@ -71,7 +71,7 @@ class CustomFieldsController < ApplicationController
     if ok
       flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
-      redirect_to edit_custom_field_path(id: @custom_field.id)
+      redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
     else
       render action: 'edit'
     end
