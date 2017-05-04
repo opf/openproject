@@ -48,11 +48,13 @@ module OpenProject::Backlogs::Patches::SpecificWorkPackageSchemaPatch
 
   module InstanceMethods
     def writable?(property)
-      if property == :remaining_time
-        return @work_package.leaf?
+      if property == :remaining_time && !@work_package.leaf?
+        false
+      elsif property == :version && @work_package.is_task?
+        false
+      else
+        super
       end
-
-      super
     end
   end
 end

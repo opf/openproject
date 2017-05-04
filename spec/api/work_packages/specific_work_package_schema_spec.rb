@@ -31,11 +31,11 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) { FactoryGirl.build(:project) }
   let(:type) { FactoryGirl.build(:type) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package,
                       project: project,
                       type: type)
-  }
+  end
 
   describe '#remaining_time_writable?' do
     subject { described_class.new(work_package: work_package) }
@@ -50,13 +50,41 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'work_package is a leaf' do
+    context 'work_package is no leaf' do
       before do
         allow(work_package).to receive(:leaf?).and_return(false)
       end
 
       it 'is not writable' do
         expect(subject.writable?(:remaining_time)).to eql(false)
+      end
+    end
+  end
+
+  describe '#version_writable?' do
+    subject { described_class.new(work_package: work_package) }
+
+    context 'work_package is a task' do
+      before do
+        allow(work_package)
+          .to receive(:is_task?)
+          .and_return(true)
+      end
+
+      it 'is writable' do
+        expect(subject.writable?(:version)).to eql(false)
+      end
+    end
+
+    context 'work_package is no task' do
+      before do
+        allow(work_package)
+          .to receive(:is_task?)
+          .and_return(false)
+      end
+
+      it 'is not writable' do
+        expect(subject.writable?(:version)).to eql(true)
       end
     end
   end
