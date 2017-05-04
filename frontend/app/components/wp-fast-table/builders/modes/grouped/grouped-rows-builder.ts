@@ -153,7 +153,13 @@ export class GroupedRowsBuilder extends RowsBuilder {
       return false;
     }
 
-    return _.isEqualWith(property, group._links.valueLink, (a:any, b:any) => a.href === b.href);
+    let joinedOrderedHrefs = (objects:any[]) => {
+      return _.map(objects, object => object.href).sort().join(', ')
+    }
+
+    return _.isEqualWith(property,
+                         group.href,
+                         (a, b) => joinedOrderedHrefs(a) === joinedOrderedHrefs(b));
   }
 
   /**
