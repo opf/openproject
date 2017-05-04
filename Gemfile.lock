@@ -292,13 +292,13 @@ GEM
     gon (4.1.1)
       actionpack (>= 2.3.0)
       json
-    grape (0.19.1)
+    grape (0.19.2)
       activesupport
       builder
       hashie (>= 2.1.0)
       multi_json (>= 1.3.2)
       multi_xml (>= 0.5.2)
-      mustermann-grape (~> 0.4.0)
+      mustermann-grape (~> 1.0.0)
       rack (>= 1.3.0)
       rack-accept
       virtus (>= 1.0.0)
@@ -347,10 +347,9 @@ GEM
     multi_json (1.12.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
-    mustermann (0.4.0)
-      tool (~> 0.2)
-    mustermann-grape (0.4.0)
-      mustermann (= 0.4.0)
+    mustermann (1.0.0)
+    mustermann-grape (1.0.0)
+      mustermann (~> 1.0.0)
     mysql2 (0.4.5)
     net-ldap (0.16.0)
     netrc (0.11.0)
@@ -554,7 +553,6 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.5)
     timecop (0.8.1)
-    tool (0.2.3)
     ttfunk (1.5.0)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
@@ -636,7 +634,7 @@ DEPENDENCIES
   fuubar (~> 2.2.0)
   globalize!
   gon (~> 4.0)
-  grape (~> 0.19.1)
+  grape (~> 0.19.2)
   grape-cache_control (~> 1.0.1)
   gravatar_image_tag (~> 1.2.0)
   health_check
