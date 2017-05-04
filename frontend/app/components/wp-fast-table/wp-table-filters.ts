@@ -43,15 +43,7 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   public current:QueryFilterInstanceResource[] = [];
 
   public comparerFunction():(current:QueryFilterInstanceResource[]) => any {
-    // TODO: this should be
-    //
-    // return (current:QueryFilterInstanceResource[]) => current.map((el:HalResource) => el.$plain());
-    //
-    // instead. But for some reasons deeply burried probably within the
-    // HalResource, filters received from the server will not set the
-    // HalResource's source correctly when updating the values, operators ...
-    // Filters created in the frontend itself behave as expected.
-    return (current:QueryFilterInstanceResource[]) => current.map((el:HalResource) => _.cloneDeep(el));
+    return (current:QueryFilterInstanceResource[]) => current.map((el:HalResource) => el.$plain());
   }
 
   constructor(filters:QueryFilterInstanceResource[], schema:QuerySchemaResourceInterface) {
