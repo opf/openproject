@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,8 +32,8 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_custom_field, only: [:edit, :update, :destroy, :move, :delete_option]
-  before_action :get_custom_field_params, only: [:create, :update]
+  before_action :find_custom_field, only: %i(edit update destroy move delete_option)
+  before_action :get_custom_field_params, only: %i(create update)
 
   def index
     @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
@@ -154,7 +155,7 @@ class CustomFieldsController < ApplicationController
 
   def careful_new_custom_field(type, params = {})
     cf = begin
-      if type.to_s.match(/.+CustomField\z/)
+      if type.to_s =~ /.+CustomField\z/
         klass = type.to_s.constantize
         klass.new(params) if klass.ancestors.include? CustomField
       end
