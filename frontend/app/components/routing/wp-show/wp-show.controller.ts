@@ -33,12 +33,9 @@ import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
+import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 
 export class WorkPackageShowController extends WorkPackageViewController {
-
-  // Permitted actions for WP toolbar
-  public permittedActions:any;
-  public actionsAvailable:boolean;
 
   // Watcher properties
   public isWatched:boolean;
@@ -52,16 +49,12 @@ export class WorkPackageShowController extends WorkPackageViewController {
   public authorActive:boolean;
   public attachments:any;
 
+  private wpMoreMenu:WorkPackageMoreMenuService;
+
   constructor(public $injector:ng.auto.IInjectorService,
               public $scope:ng.IScope,
               public $state:ng.ui.IStateService,
-              public $window:ng.IWindowService,
-              public $location:ng.ILocationService,
-              public wpListChecksumService:WorkPackagesListChecksumService,
-              public HookService:any,
-              public AuthorisationService:any,
-              public WorkPackageAuthorization:any,
-              public PERMITTED_MORE_MENU_ACTIONS:any) {
+              protected wpMoreMenuService:WorkPackageMoreMenuService) {
     super($injector, $scope, $state.params['workPackageId']);
     this.observeWorkPackage();
   }
@@ -70,87 +63,20 @@ export class WorkPackageShowController extends WorkPackageViewController {
     super.init();
 
     // initialization
-    this.initializeAllowedActions();
+    this.wpMoreMenu = new (this.wpMoreMenuService as any)(this.workPackage);
+
+    this.wpMoreMenu.initialize().then(() => {
+      this.$scope.permittedActions = this.wpMoreMenu.permittedActions;
+      this.$scope.actionsAvailable = this.wpMoreMenu.actionsAvailable;
+    });
+
     this.setWorkPackageScopeProperties(this.workPackage);
+
+    this.$scope.triggerMoreMenuAction = this.wpMoreMenu.triggerMoreMenuAction.bind(this.wpMoreMenu);
   }
 
   public goToList() {
     this.$state.go('work-packages.list', this.$state.params);
-  }
-
-  public deleteSelectedWorkPackage() {
-    var promise = this.WorkPackageService.performBulkDelete([this.workPackage.id], true);
-
-    promise.then(() => {
-      this.$state.go('work-packages.list', { projectPath: this.projectIdentifier });
-    });
-  }
-
-  public triggerMoreMenuAction(action:string, link:any) {
-    switch (action) {
-      case 'delete':
-        this.deleteSelectedWorkPackage();
-        break;
-      default:
-        var stateForLink = $state.get().filter(state => state.$$state().url.exec(link));
-        if (stateForLink.length > 0) {
-          this.$location.path(link);
-        } else {
-          this.$window.location.href = link;
-        }
-        break;
-    }
-  };
-
-  /**
-   * Load allowed links on this work package.
-   * For copying, requires the project to be loaded.
-   */
-  private initializeAllowedActions() {
-    this.workPackage.project.$load().then(() => {
-      this.AuthorisationService.initModelAuth('work_package', this.workPackage);
-
-      var authorization = new this.WorkPackageAuthorization(this.workPackage);
-      this.$scope.permittedActions = angular.extend(this.getPermittedActions(authorization, this.PERMITTED_MORE_MENU_ACTIONS),
-        this.getPermittedPluginActions(authorization));
-      this.$scope.actionsAvailable = Object.keys(this.$scope.permittedActions).length > 0;
-      this.$scope.triggerMoreMenuAction = this.triggerMoreMenuAction.bind(this);
-    });
-  }
-
-  private getPermittedActions(authorization:any, permittedMoreMenuActions:any) {
-    var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
-    var augmentedActions = { };
-
-    angular.forEach(permittedActions, function(this:any, permission) {
-      let css = [ (permission.icon || 'icon-' + permission.key) ];
-
-      this[permission.key] = { link: permission.link, css: css };
-    }, augmentedActions);
-
-    return augmentedActions;
-  }
-
-  private getPermittedPluginActions(authorization:any) {
-    var pluginActions:any = [];
-    angular.forEach(this.HookService.call('workPackageDetailsMoreMenu'), function(action) {
-      pluginActions = pluginActions.concat(action);
-    });
-
-    var permittedPluginActions = authorization.permittedActionsWithLinks(pluginActions);
-    var augmentedPluginActions = { };
-
-    angular.forEach(permittedPluginActions, function(this:any, action) {
-      var css:string[] = [].concat(action.css);
-
-      if (css.length === 0) {
-        css = ["icon-" + action.key];
-      }
-
-      this[action.key] = { link: action.link, css: css };
-    }, augmentedPluginActions);
-
-    return augmentedPluginActions;
   }
 
   private setWorkPackageScopeProperties(wp:WorkPackageResourceInterface) {
