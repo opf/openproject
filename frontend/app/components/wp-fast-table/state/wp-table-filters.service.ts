@@ -99,12 +99,12 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
 
     filter.schema.$load().then(() => {
       if (_.has(filter, ['values.length', 'currentSchema.values.allowedValues.$load'])) {
-          (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
-            .then((options:CollectionResource) => {
-              this.setLoadedValues(filter, options);
+        (filter.currentSchema!.values!.allowedValues as CollectionResource).$load()
+          .then((options:CollectionResource) => {
+            this.setLoadedValues(filter, options);
 
-              deferred.resolve();
-            });
+            deferred.resolve();
+          });
       } else {
         deferred.resolve();
       }
