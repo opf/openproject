@@ -92,7 +92,12 @@ export class WorkPackageShowController extends WorkPackageViewController {
         this.deleteSelectedWorkPackage();
         break;
       default:
-        this.$location.path(link);
+        var stateForLink = $state.get().filter(state => state.$$state().url.exec(link));
+        if (stateForLink.length > 0) {
+          this.$location.path(link);
+        } else {
+          this.$window.location.href = link;
+        }
         break;
     }
   };

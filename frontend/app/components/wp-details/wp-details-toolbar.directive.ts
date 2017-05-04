@@ -103,7 +103,12 @@ function wpDetailsToolbar(
               deleteSelectedWorkPackage();
               break;
             default:
-              $location.path(link);
+              var stateForLink = $state.get().filter(state => state.$$state().url.exec(link));
+              if (stateForLink.length > 0) {
+                $location.path(link);
+              } else {
+                $window.location.href = link;
+              }
               break;
           }
         };
