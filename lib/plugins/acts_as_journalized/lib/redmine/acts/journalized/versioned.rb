@@ -70,19 +70,21 @@ module Redmine::Acts::Journalized
     def self.extended(base) # :nodoc:
       base.class_eval do
         class << self
-          alias_method_chain :acts_as_journalized, :flag
+          prepend ClassMethods
         end
       end
     end
 
-    # Overrides the +journaled+ method to first define the +journaled?+ class method before
-    # deferring to the original +journaled+.
-    def acts_as_journalized_with_flag(*args)
-      acts_as_journalized_without_flag(*args)
+    module ClassMethods
+      # Overrides the +journaled+ method to first define the +journaled?+ class method before
+      # deferring to the original +journaled+.
+      def acts_as_journalized(*args)
+        super(*args)
 
-      class << self
-        def journaled?
-          true
+        class << self
+          def journaled?
+            true
+          end
         end
       end
     end

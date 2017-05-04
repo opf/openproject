@@ -491,13 +491,14 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Overrides attributes= so that type_id gets assigned first
-  def attributes_with_type_first=(new_attributes)
+  def attributes=(new_attributes)
     return if new_attributes.nil?
     new_type_id = new_attributes['type_id'] || new_attributes[:type_id]
     if new_type_id
       self.type_id = new_type_id
     end
-    send :attributes_without_type_first=, new_attributes
+
+    super
   end
 
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
@@ -709,10 +710,6 @@ class WorkPackage < ActiveRecord::Base
   def reload_lock_and_timestamps
     reload(select: [:lock_version, :created_at, :updated_at])
   end
-
-  # Do not redefine alias chain on reload (see #4838)
-  alias_method_chain(:attributes=,
-                     :type_first) unless method_defined?(:attributes_without_type_first=)
 
   def <=>(issue)
     if issue.nil?
