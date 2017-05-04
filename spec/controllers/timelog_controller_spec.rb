@@ -31,22 +31,24 @@ require 'spec_helper'
 describe TimelogController, type: :controller do
   let!(:activity) { FactoryGirl.create(:default_activity) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:user) {
+  let(:user) do
     FactoryGirl.create(:admin,
                        member_in_project: project)
-  }
-  let(:params) {
-    { time_entry: { work_package_id: work_package_id,
-                    spent_on: Date.today,
-                    hours: 5,
-                    comments: '',
-                    activity_id: activity.id },
-      project_id: project_id }
-  }
+  end
+  let(:params) do
+    { 'time_entry' => { 'work_package_id' => work_package_id,
+                        'spent_on' => Date.today.strftime('%Y-%m-%d'),
+                        'hours' => '5',
+                        'comments' => '',
+                        'activity_id' => activity.id.to_s },
+      'project_id' => project_id.to_s }
+  end
   let(:project_id) { project.id }
   let(:work_package_id) { '' }
 
-  before do login_as(user) end
+  before do
+    login_as(user)
+  end
 
   describe '#create' do
     shared_examples_for 'successful timelog creation' do
@@ -57,7 +59,9 @@ describe TimelogController, type: :controller do
 
     context 'project' do
       describe '#valid' do
-        before do post :create, params: params end
+        before do
+          post :create, params: params
+        end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -65,53 +69,55 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:project_id) { -1 }
 
-        before do post :create, params: params end
+        before do
+          post :create, params: params
+        end
 
         it { expect(response.status).to eq(404) }
       end
 
       context 'with a required custom field' do
-        let!(:custom_field) do
-          FactoryGirl.create :time_entry_custom_field,
-                             name: 'supplies',
-                             is_required: true
+        let(:custom_field) do
+          FactoryGirl.build_stubbed :time_entry_custom_field,
+                                    name: 'supplies',
+                                    is_required: true
+        end
+
+        let(:time_entry) { double('time_entry', save: true, project: project) }
+
+        before do
+          allow(TimeEntry)
+            .to receive(:new)
+            .and_return(time_entry)
         end
 
         describe 'which is given' do
           before do
-            params[:time_entry][:custom_field_values] = { custom_field.id.to_s => 'wurst' }
+            params['time_entry']['custom_field_values'] = { custom_field.id.to_s => 'wurst' }
+
+            expect(time_entry)
+              .to receive(:attributes=)
+              .with(params['time_entry'])
 
             post :create, params: params
           end
 
           it_behaves_like 'successful timelog creation'
         end
-
-        describe 'which is omitted' do
-          render_views
-
-          before do
-            params[:time_entry][:custom_field_values] = { "42" => 'wurst' }
-
-            post :create, params: params
-          end
-
-          it 'is rejected' do
-            expect(response.body).to include 'supplies can&#39;t be blank'
-          end
-        end
       end
     end
 
     context 'work_package' do
       describe '#valid' do
-        let(:work_package) {
+        let(:work_package) do
           FactoryGirl.create(:work_package,
                              project: project)
-        }
+        end
         let(:work_package_id) { work_package.id }
 
-        before do post :create, params: params end
+        before do
+          post :create, params: params
+        end
 
         it_behaves_like 'successful timelog creation'
       end
@@ -119,7 +125,9 @@ describe TimelogController, type: :controller do
       describe '#invalid' do
         let(:work_package_id) { 'blub' }
 
-        before do post :create, params: params end
+        before do
+          post :create, params: params
+        end
 
         it { expect(response).to render_template(:edit) }
 

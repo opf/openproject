@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -135,13 +136,14 @@ class TimelogController < ApplicationController
   def show
     respond_to do |format|
       # TODO: Implement html response
-      format.html do render nothing: true, status: 406 end
+      format.html do
+        render nothing: true, status: 406
+      end
     end
   end
 
   def new
-    @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.attributes = permitted_params.time_entry
+    @time_entry = new_time_entry(@project, @issue, permitted_params.time_entry.to_h)
 
     call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
 
@@ -149,25 +151,9 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry ||= TimeEntry.new(project: @project, work_package: @issue, user: User.current, spent_on: User.current.today)
-    @time_entry.attributes = permitted_params.time_entry
+    @time_entry = new_time_entry(@project, @issue, permitted_params.time_entry.to_h)
 
-    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
-
-    if @time_entry.save
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default action: 'index', project_id: @time_entry.project
-        end
-      end
-    else
-      respond_to do |format|
-        format.html do
-          render action: 'edit'
-        end
-      end
-    end
+    save_time_entry_and_respond @time_entry
   end
 
   def edit
@@ -179,22 +165,7 @@ class TimelogController < ApplicationController
   def update
     @time_entry.attributes = permitted_params.time_entry
 
-    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: @time_entry)
-
-    if @time_entry.save
-      respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default action: 'index', project_id: @time_entry.project
-        end
-      end
-    else
-      respond_to do |format|
-        format.html do
-          render action: 'edit'
-        end
-      end
-    end
+    save_time_entry_and_respond @time_entry
   end
 
   def destroy
@@ -230,7 +201,8 @@ class TimelogController < ApplicationController
       .visible
       .includes(:project, :activity, :user, work_package: :type)
       .references(:projects)
-      .where(cond.conditions).count
+      .where(cond.conditions)
+      .count
   end
 
   def set_entries(cond)
@@ -263,6 +235,36 @@ class TimelogController < ApplicationController
     @project = Project.find(project_id_from_params) if @project.nil?
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def new_time_entry(project, work_package, attributes)
+    time_entry = TimeEntry.new(project: project,
+                               work_package: work_package,
+                               user: User.current,
+                               spent_on: User.current.today)
+
+    time_entry.attributes = attributes
+
+    time_entry
+  end
+
+  def save_time_entry_and_respond(time_entry)
+    call_hook(:controller_timelog_edit_before_save, params: params, time_entry: time_entry)
+
+    if @time_entry.save
+      respond_to do |format|
+        format.html do
+          flash[:notice] = l(:notice_successful_update)
+          redirect_back_or_default action: 'index', project_id: time_entry.project
+        end
+      end
+    else
+      respond_to do |format|
+        format.html do
+          render action: 'edit'
+        end
+      end
+    end
   end
 
   def project_id_from_params
