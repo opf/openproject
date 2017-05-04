@@ -26,56 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {States} from '../states.service';
 import {WorkPackageEditModeStateService} from '../wp-edit/wp-edit-mode-state.service';
+import {WorkPackageMoreMenuService} from '../work-packages/work-package-more-menu.service'
 
 import {openprojectModule} from "../../angular-modules";
 function wpDetailsToolbar(
-  PERMITTED_MORE_MENU_ACTIONS:any,
-  $state:ng.ui.IStateService,
-  states:States,
-  $window:ng.IWindowService,
-  $location:ng.ILocationService,
   I18n:op.I18n,
-  HookService:any,
-  WorkPackageService:any,
-  WorkPackageAuthorization:any,
-  wpEditModeState:WorkPackageEditModeStateService) {
-
-  function getPermittedActions(authorization:any, permittedMoreMenuActions:any) {
-    var permittedActions = authorization.permittedActionsWithLinks(permittedMoreMenuActions);
-    var augmentedActions = { };
-
-    angular.forEach(permittedActions, function(this:any, permission) {
-      let css = [ (permission.icon || 'icon-' + permission.key) ];
-
-      this[permission.key] = { link: permission.link, css: css };
-    }, augmentedActions);
-
-    return augmentedActions;
-  }
-
-  function getPermittedPluginActions(authorization:any) {
-    var pluginActions:any = [];
-    angular.forEach(HookService.call('workPackageDetailsMoreMenu'), function(action) {
-      pluginActions = pluginActions.concat(action);
-    });
-
-    var permittedPluginActions = authorization.permittedActionsWithLinks(pluginActions);
-    var augmentedPluginActions = { };
-
-    angular.forEach(permittedPluginActions, function(this:any, action) {
-      var css:string[] = [].concat(action.css);
-
-      if (css.length === 0) {
-        css = ["icon-" + action.key];
-      }
-
-      this[action.key] = { link: action.link, css: css };
-    }, augmentedPluginActions);
-
-    return augmentedPluginActions;
-  }
+  wpEditModeState:WorkPackageEditModeStateService,
+  wpMoreMenuService:WorkPackageMoreMenuService) {
 
   return {
     restrict: 'E',
@@ -86,40 +44,21 @@ function wpDetailsToolbar(
 
     link: function(scope:any, attr:ng.IAttributes, element:ng.IAugmentedJQuery) {
 
-      scope.workPackage.project.$load().then(() => {
-        var authorization = new WorkPackageAuthorization(scope.workPackage);
+      let wpMoreMenu = new (wpMoreMenuService as any)(scope.workPackage);
 
-        scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
-          scope.workPackage.hasOwnProperty('watch');
-
-        scope.I18n = I18n;
-        scope.permittedActions = angular.extend(getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
-          getPermittedPluginActions(authorization));
-        scope.actionsAvailable = Object.keys(scope.permittedActions).length > 0;
-
-        scope.triggerMoreMenuAction = function(action:any, link:any) {
-          switch (action) {
-            case 'delete':
-              deleteSelectedWorkPackage();
-              break;
-            default:
-              $location.path(link);
-              break;
-          }
-        };
-
-        scope.wpEditModeState = wpEditModeState;
+      wpMoreMenu.initialize().then(() => {
+        scope.permittedActions = wpMoreMenu.permittedActions;
+        scope.actionsAvailable = wpMoreMenu.actionsAvailable;
       });
 
-      function deleteSelectedWorkPackage() {
-        var workPackageDeletionId = scope.workPackage.id;
-        var promise = WorkPackageService.performBulkDelete([workPackageDeletionId], true);
+      scope.triggerMoreMenuAction = wpMoreMenu.triggerMoreMenuAction.bind(wpMoreMenu);
 
-        promise.success(function() {
-          states.focusedWorkPackage.clear();
-          $state.go('work-packages.list');
-        });
-      }
+      scope.displayWatchButton = scope.workPackage.hasOwnProperty('unwatch') ||
+        scope.workPackage.hasOwnProperty('watch');
+
+      scope.I18n = I18n;
+
+      scope.wpEditModeState = wpEditModeState;
     }
   };
 }
