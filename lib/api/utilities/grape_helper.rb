@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,26 +49,45 @@ module API
         end
       end
 
-      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: ->() { {} })
-        default_response = lambda { |e|
-          representer = ::API::V3::Errors::ErrorRepresenter.new e
-          resp_headers = instance_exec &headers
-          env['api.format'] = 'hal+json'
-
-          Rails.logger.error "Grape rescuing from error: #{e}"
-          error_response status: e.code, message: representer.to_json, headers: resp_headers
-        }
+      def error_response(rescued_error, error = nil, rescue_subclasses: nil, headers: ->() { {} }, log: true)
+        error_response_lambda = default_error_response(headers, log)
 
         response =
           if error.nil?
-            default_response
+            error_response_lambda
           else
-            lambda { instance_exec error, &default_response }
+            lambda { instance_exec error, &error_response_lambda }
           end
 
         # We do this lambda business because #rescue_from behaves differently
         # depending on the number of parameters the passed block accepts.
         rescue_from rescued_error, rescue_subclasses: rescue_subclasses, &response
+      end
+
+      def default_error_response(headers, log)
+        lambda { |e|
+          representer = ::API::V3::Errors::ErrorRepresenter.new e
+          resp_headers = instance_exec &headers
+          env['api.format'] = 'hal+json'
+
+          if log
+            message = <<-MESSAGE
+  Grape rescuing from error: #{e}
+
+  Original error: #{$!.inspect}
+
+  Stacktrace:
+            MESSAGE
+
+            $@.each do |line|
+              message << "\n    #{line}"
+            end
+
+            Rails.logger.error message
+          end
+
+          error_response status: e.code, message: representer.to_json, headers: resp_headers
+        }
       end
     end
   end
