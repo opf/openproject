@@ -164,4 +164,77 @@ describe 'filter work packages', js: true do
       expect(wp_table).not_to have_work_packages_listed [work_package_with_due_date]
     end
   end
+
+  context 'by list cf inside a project' do
+    let(:type) do
+      type = FactoryGirl.create(:type)
+
+      project.types << type
+
+      type
+    end
+
+    let(:work_package_with_list_value) do
+      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
+      wp.save!
+      wp
+    end
+
+    let(:work_package_with_anti_list_value) do
+      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
+      wp.save!
+      wp
+    end
+
+    let(:list_cf) do
+      cf = FactoryGirl.create :list_wp_custom_field
+
+      project.work_package_custom_fields << cf
+      type.custom_fields << cf
+
+      cf
+    end
+
+    before do
+      list_cf
+      work_package_with_list_value
+      work_package_with_anti_list_value
+
+      wp_table.visit!
+    end
+
+    it 'allows filtering, saving and retrieving the saved filter' do
+      filters.open
+
+      filters.add_filter_by(list_cf.name,
+                            'is not',
+                            list_cf.custom_options.last.value,
+                            "customField#{list_cf.id}")
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
+      expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
+
+      wp_table.save_as('Some query name')
+
+      filters.remove_filter "customField#{list_cf.id}"
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_list_value, work_package_with_anti_list_value]
+
+      last_query = Query.last
+
+      wp_table.visit_query(last_query)
+
+      expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
+      expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
+
+      filters.open
+
+      filters.expect_filter_by(list_cf.name,
+                               'is not',
+                               list_cf.custom_options.last.value,
+                               "customField#{list_cf.id}")
+    end
+  end
 end

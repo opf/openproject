@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,12 +34,11 @@ module API
       module QuerySerialization
         ##
         # Overriding this to initialize properties whose values depend on the "_links" attribute.
+        # Especially the project attribute needs to be set first as the filters depend on this.
         def from_hash(hash)
-          query = super
+          initialize_links! hash
 
-          initialize_links! query, hash
-
-          query
+          super
         end
 
         def columns
@@ -110,11 +110,11 @@ module API
               .compact
         end
 
-        def initialize_links!(query, attributes)
-          query.project_id = get_project_id(attributes) || query.project_id
-          query.group_by = get_group_by(attributes) || query.group_by
-          query.column_names = get_columns(attributes) || query.column_names
-          query.sort_criteria = get_sort_criteria(attributes) || query.sort_criteria
+        def initialize_links!(attributes)
+          set_project_id(attributes)
+          set_group_by(attributes)
+          set_columns(attributes)
+          set_sort_criteria(attributes)
         end
 
         def get_user_id(query_attributes)
@@ -123,49 +123,46 @@ module API
           id_from_href "users", href
         end
 
-        def get_project_id(query_attributes)
+        def set_project_id(query_attributes)
           href = query_attributes.dig("_links", "project", "href")
           id = id_from_href "projects", href
 
-          if id.to_i.nonzero?
-            id # return numerical ID
-          else
-            Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
-          end
+          id = if id.to_i.nonzero?
+                 id # return numerical ID
+               else
+                 Project.where(identifier: id).pluck(:id).first # lookup Project by identifier
+               end
+
+          represented.project_id = id if id
         end
 
-        def get_sort_criteria(query_attributes)
-          criteria = Array(query_attributes.dig("_links", "sortBy")).map do |sort_by|
-            if id = id_from_href("queries/sort_bys", sort_by.href)
-              column, direction = id.split("-") # e.g. ["start_date", "desc"]
+        def set_sort_criteria(query_attributes)
+          raw_criteria = query_attributes.dig("_links", "sortBy")
 
-              if column && direction
-                column = ::API::Utilities::PropertyNameConverter.to_ar_name(column, context: WorkPackage.new)
-                direction = nil unless ["asc", "desc"].include? direction
-
-                [column, direction]
-              end
-            end
+          criteria = Array(raw_criteria).map do |sort_by|
+            column_direction_from_href(sort_by)
           end
 
-          criteria.compact.presence
+          represented.sort_criteria = criteria.compact if raw_criteria
         end
 
-        def get_group_by(query_attributes)
+        def set_group_by(query_attributes)
           href = query_attributes.dig "_links", "groupBy", "href"
           attr = id_from_href "queries/group_bys", href
 
-          ::API::Utilities::PropertyNameConverter.to_ar_name(attr, context: WorkPackage.new) if attr
+          represented.group_by = ::API::Utilities::PropertyNameConverter.to_ar_name(attr, context: WorkPackage.new) if attr
         end
 
-        def get_columns(query_attributes)
-          columns = Array(query_attributes.dig("_links", "columns")).map do |column|
-            name = id_from_href "queries/columns", column.href
+        def set_columns(query_attributes)
+          raw_columns = query_attributes.dig("_links", "columns")
+
+          columns = Array(raw_columns).map do |column|
+            name = id_from_href "queries/columns", column['href']
 
             ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
           end
 
-          columns.map(&:to_sym).compact.presence
+          represented.column_names = columns.map(&:to_sym).compact if raw_columns
         end
 
         def id_from_href(expected_namespace, href)
@@ -177,6 +174,19 @@ module API
             expected_version: "3",
             expected_namespace: expected_namespace
           )
+        end
+
+        def column_direction_from_href(sort_by)
+          if id = id_from_href("queries/sort_bys", sort_by['href'])
+            column, direction = id.split("-") # e.g. ["start_date", "desc"]
+
+            if column && direction
+              column = ::API::Utilities::PropertyNameConverter.to_ar_name(column, context: WorkPackage.new)
+              direction = nil unless ["asc", "desc"].include? direction
+
+              [column, direction]
+            end
+          end
         end
 
         def map_with_sort_by_as_decorated(sort_criteria)
