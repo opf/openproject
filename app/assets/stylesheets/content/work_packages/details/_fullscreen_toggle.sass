@@ -2,19 +2,19 @@
 // Full screen toggle indicator on the
 // left side of the details container
 .wp--details--switch-fullscreen
-  @include varprop(background, gray-light)
-  @include varprop(color, body-font-color)
+  @include varprop(background, font-color-on-primary)
+  @include varprop(color, primary-color)
   width: 20px
   height: 50px
   position: absolute
   left: -12px
   top: calc(50% - 25px)
-  border: 1px solid $button--border-color
-  border-radius: 2px
+  border: 1px solid $light-gray
   cursor: pointer
 
   &:hover
-    @include varprop(background, button--background-hover-color)
+    @include varprop(background, primary-color-dark)
+    @include varprop(color, font-color-on-primary-dark)
 
   // Align icon
   font-size: 10px
