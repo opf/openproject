@@ -75,12 +75,11 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
    * Append an additional ancestor row that is not yet loaded
    */
   public buildAncestorRow(
-    table:WorkPackageTable,
     ancestor:WorkPackageResourceInterface,
     ancestorGroups:string[],
     index:number):HTMLElement {
 
-    const loadedRow = table.rowIndex[ancestor.id];
+    const loadedRow = this.workPackageTable.rowIndex[ancestor.id];
 
     if (loadedRow) {
       const tr =  this.buildEmpty(loadedRow.object);
@@ -178,22 +177,11 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
       return false; // Work Package has no children at all
     }
 
-    const rows = this.workPackageTable.rows;
-    const total = rows.length;
-    if (rows[total - 1] === workPackage.id) {
-      return false; // Last element, can have no children
-    }
-
-    // If immediately following child has element
-    const row = this.workPackageTable.rowIndex[workPackage.id];
-    const nextIndex = row.position + 1;
-
-    if (nextIndex < total) {
-      const nextId = rows[nextIndex].toString();
-      return !!_.find(workPackage.children, (child:WorkPackageResourceInterface) => child.idFromLink === nextId);
-    }
-
-    return false;
+    // If any visible children in the table
+    return !!_.find(workPackage.children, (child:WorkPackageResourceInterface) => {
+      const childId = child.idFromLink!;
+      return this.workPackageTable.rowIndex[childId] !== undefined;
+    });
   }
 }
 
