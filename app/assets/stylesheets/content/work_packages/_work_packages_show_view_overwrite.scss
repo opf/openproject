@@ -52,6 +52,7 @@ body.controller-work_packages {
 
   .toolbar-container {
     @include clearfix;
+    margin-bottom: 10px;
   }
 
 
@@ -136,12 +137,13 @@ body.controller-work_packages {
     width: 40%;
 
     .work-packages--panel-inner {
-      padding: 20px 0px 0px 15px;
+      padding: 2px 0 20px 15px;
     }
   }
 
   ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
 
     li {
@@ -245,7 +247,7 @@ body.controller-work_packages {
 
     .work-packages--subject-element,
     .work-packages--details--subject .wp-inline-edit--field {
-      font-size: 20px;
+      font-size: 1.5rem;
       font-weight: bold;
       line-height: 34px;
     }
