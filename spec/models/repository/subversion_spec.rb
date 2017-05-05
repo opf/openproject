@@ -167,8 +167,8 @@ describe Repository::Subversion, type: :model do
         instance.fetch_changesets
         instance.reload
 
-        expect(instance.changesets.count).to eq(13)
-        expect(instance.file_changes.count).to eq(25)
+        expect(instance.changesets.count).to eq(14)
+        expect(instance.file_changes.count).to eq(34)
         expect(instance.changesets.find_by(revision: '1').comments).to eq('Initial import.')
       end
 
@@ -181,7 +181,7 @@ describe Repository::Subversion, type: :model do
         expect(instance.changesets.count).to eq(5)
 
         instance.fetch_changesets
-        expect(instance.changesets.count).to eq(13)
+        expect(instance.changesets.count).to eq(14)
       end
 
       it 'should latest changesets' do
@@ -296,7 +296,7 @@ describe Repository::Subversion, type: :model do
         changeset = instance.find_changeset_by_name('1')
         expect(changeset.previous).to be_nil
 
-        changeset = instance.find_changeset_by_name('13')
+        changeset = instance.find_changeset_by_name('14')
         expect(changeset.next).to be_nil
       end
 
