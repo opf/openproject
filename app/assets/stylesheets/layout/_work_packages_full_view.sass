@@ -70,50 +70,6 @@ body.controller-work_packages.action-show
 
         ul li
           float: none
-  .work-packages--split-view
-    flex-shrink: 8
-    border-top: 1px solid #ccc
-    overflow: visible
-    height: 100%
-    // Important for Firefox to let 'flex-shrink' work correctly.
-    min-height: 0
-
-  .work-packages--left-panel
-    border-right: 1px solid #ccc
-    overflow-y: auto
-    overflow-x: auto
-
-    // Don't cut border-left from editable description
-    width: calc(60% + 0.375rem)
-    margin-left: -0.375rem
-    padding-left: 0.375rem
-
-    .work-packages--panel-inner
-      padding: 5px 15px 20px 0px
-
-      // These styles were taken over from the details tab styling.
-      // Thus the header and the details tab can be aligned on the same line.
-      .attributes-group:first-of-type
-        margin-top: 0px
-
-        .attributes-group--header-container
-          padding-bottom: 2px
-
-          h3.attributes-group--header-text
-            line-height: $work-package-details--tab-height - 10px
-  &.edit-all-mode
-    .work-packages--left-panel
-      height: calc(100% - 55px)
-
-  .work-packages--right-panel
-    min-width: 420px
-    overflow-y: auto
-    overflow-x: auto
-    width: 40%
-
-    .work-packages--panel-inner
-      padding: 20px 0px 0px 15px
-
   ul
     list-style-type: none
     padding: 0
@@ -129,6 +85,52 @@ body.controller-work_packages.action-show
           margin-right: 0
     button
       margin-right: 0
+
+.work-packages-full-view--split-container
+  display: flex
+  flex-shrink: 8
+  border-top: 1px solid #ccc
+  overflow: visible
+  height: 100%
+  // Important for Firefox to let 'flex-shrink' work correctly.
+  min-height: 0
+
+
+.work-packages-full-view--split-left
+  border-right: 1px solid #ccc
+  overflow-y: auto
+  overflow-x: auto
+
+  // Don't cut border-left from editable description
+  width: calc(60% + 0.375rem)
+  margin-left: -0.375rem
+  padding-left: 0.375rem
+
+  .work-packages--panel-inner
+    padding: 5px 15px 20px 0px
+
+    // These styles were taken over from the details tab styling.
+    // Thus the header and the details tab can be aligned on the same line.
+    .attributes-group:first-of-type
+      margin-top: 0px
+
+      .attributes-group--header-container
+        padding-bottom: 2px
+
+        h3.attributes-group--header-text
+          line-height: $work-package-details--tab-height - 10px
+  &.edit-all-mode
+    .work-packages--left-panel
+      height: calc(100% - 55px)
+
+.work-packages-full-view--split-right
+  min-width: 420px
+  overflow-y: auto
+  overflow-x: auto
+  width: 40%
+
+  .work-packages--panel-inner
+    padding: 20px 0px 0px 15px
 
   .work-package-details-activities-activity-contents ul
     padding-left: 2em
@@ -169,6 +171,8 @@ body.controller-work_packages.action-show
     display: none
 
 .work-packages--show-view
+  padding: 0 10px
+
   .subject-header
     margin: 0
     padding: 0
