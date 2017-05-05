@@ -172,6 +172,7 @@ group :test do
   gem 'cucumber-rails', '~> 1.4.4', require: false
   gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.5.3'
+  # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.5.2', group: :development
@@ -197,7 +198,7 @@ group :test do
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
   gem 'timecop', '~> 0.8.1'
-  gem 'webmock', '~> 2.1.0', require: false
+  gem 'webmock', '~> 3.0.0', require: false
 
   gem 'simplecov', '~> 0.12.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
