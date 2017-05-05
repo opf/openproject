@@ -360,8 +360,8 @@ GEM
     oj (3.0.5)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
-    parallel (1.9.0)
-    parallel_tests (2.4.1)
+    parallel (1.11.1)
+    parallel_tests (2.14.1)
       parallel
     parser (2.4.0.0)
       ast (~> 2.2)
@@ -655,7 +655,7 @@ DEPENDENCIES
   omniauth!
   openproject-token (~> 1.0.0)
   openproject-translations!
-  parallel_tests (~> 2.4.1)
+  parallel_tests (~> 2.14.0)
   passenger
   pg (~> 0.20.0)
   prawn (~> 2.2)

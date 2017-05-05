@@ -205,7 +205,7 @@ group :test do
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
 
-  gem 'parallel_tests', '~> 2.4.1'
+  gem 'parallel_tests', '~> 2.14.0'
 end
 
 group :ldap do
