@@ -92,8 +92,8 @@ gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
 gem 'oj', '~> 3.0.5'
 
-gem 'delayed_job_active_record', '~> 4.1.1'
 gem 'daemons'
+gem 'delayed_job_active_record', '~> 4.1.1'
 
 gem 'rack-protection', '~> 2.0.0.beta2'
 
@@ -106,8 +106,8 @@ gem 'rack-attack', '~> 5.0.1'
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
+gem 'gon', '~> 6.1.0'
 gem "syck", '~> 1.0.5', require: false
-gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured

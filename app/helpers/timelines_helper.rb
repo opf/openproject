@@ -157,7 +157,7 @@ module TimelinesHelper
     end
   end
 
-  include Gon::GonHelpers
+  include Gon::ControllerHelpers
 
   def push_visible_timelines(visible_timelines, target = gon)
     target.timelines = visible_timelines.map { |timeline|
