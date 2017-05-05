@@ -35,6 +35,6 @@ function columnContextMenu(ngContextMenu) {
     controller: 'ColumnContextMenuController',
     controllerAs: 'contextMenu',
     templateUrl: '/components/context-menus/column-context-menu/column-context-menu.template.html',
-    container: '.work-packages--list-table-area'
+    container: '.work-packages-split-view--left-table'
   });
 }
