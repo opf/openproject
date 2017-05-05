@@ -1,0 +1,112 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+// Right part of the split view
+// Visible only in the details ui-view
+body.action-details,
+body.action-create
+
+  .work-packages-split-view--right
+    overflow-x: hidden
+    overflow-y: auto
+    position: relative
+    border-left: 4px solid #eee
+    border-top: 4px solid #eee
+    padding: 0 10px
+
+.work-packages--details
+  height: 100%
+  position: relative
+
+  @media only screen and (max-width: 1280px)
+    // display: none
+    width: 480px
+
+    @at-root
+      .detailsViewMenuItem
+        display: none
+  @media only screen and (min-width: 1281px)
+    width: 480px
+
+  @media only screen and (min-width: 1440px)
+    width: 580px
+
+.work-packages--create--title
+  margin-bottom: 1em
+
+.work-packages--details-toolbar-container
+  position:   absolute
+  bottom:     0
+  height:     55px
+  width:      100%
+  background: #F8F8F8
+  border:     1px solid #eeeeee
+  margin-left: -10px
+  padding: 0 1rem 10px
+
+  .button
+    margin: .5rem .5rem 0 0
+
+.work-packages--details-content
+  position:   absolute
+  top:        80px
+  bottom:     55px
+  width:      100%
+  +allow-vertical-scrolling
+  padding:    0
+  &.-create-mode
+    top: 0
+    h2
+      margin-top: 0.375em
+
+.work-packages--details
+
+  // Fix height of subject row
+  .work-packages--subject-element,
+  .work-packages--details--subject .wp-inline-edit--field
+    font-size: 1.125rem
+    font-weight: bold
+
+  .work-packages--subject-element
+    line-height: 24px
+
+    .wp-inline-edit--field
+      height: 38px
+      line-height: 36px
+      padding: 0 0.375rem
+
+
+.work-packages--details
+  .work-packages--attachments
+    margin-bottom: 25px
+
+.work-package--new-state
+  margin-bottom: 55px
+
+  .work-packages--attachments
+    margin-bottom: 25px

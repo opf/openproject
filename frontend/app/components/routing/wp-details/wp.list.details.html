@@ -47,7 +47,7 @@
       <div class="work-package-details-tab" ui-view></div>
     </div>
 
-    <div class="bottom-toolbar" ng-if="$ctrl.workPackage">
+    <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
       <wp-details-toolbar ng-show="!$ctrl.wpEditModeState.active" work-package='$ctrl.workPackage'></wp-details-toolbar>
       <edit-actions-bar
           ng-show="$ctrl.wpEditModeState.active"

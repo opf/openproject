@@ -1,0 +1,223 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.controller-work_packages.action-index,
+.controller-work_packages.action-show,
+.controller-work_packages.full-create
+  @extend %absolute-layout-mode
+
+  #content
+    padding: 0
+
+  .in_modal &
+    #main
+      top: 12px
+
+// Ensure correct height applied to child elements.
+// The dom looks like this:
+// flash (generated from rails - if it was generated when rendering the page)
+// div[ui-view] (main content we want to adjust the height for)
+// div style="clear:both;" (is pushed to overflow - of no relevance)
+//
+// This makes use of more specific rules overwriting less specific ones.
+// Per default, the height is always 100%
+.work-packages-page--ui-view
+  height: 100%
+
+.work-packages-list-view--container
+  // Set minor padding on left side
+  padding-left: 5px
+  // Flexbox for the toolbar, filters and work package table
+  display: flex
+  flex-direction: column
+  height: 100%
+
+  > .toolbar-container
+    // not flex-item
+    padding-right: 5px
+
+  .work-packages--filters-optional-container
+    // not flex-item
+    height: auto
+    flex-shrink: 0
+    // Filters are hidden when not expanded
+    // When expanded, add some padding to the table
+    padding-bottom: 20px
+
+// Flex container for (table+timeline)|splitview
+.work-packages-split-view--flex-container
+  flex: 1 1 auto
+  display: flex
+
+// Left part of the split view
+// == Flex container for (table|timeline)
+.work-packages-split-view--left
+  flex: 2
+  display: flex
+  overflow: hidden
+
+// TABLE half
+.work-packages-split-view--left-table
+  // Same flex as timeline
+  flex: 1 1
+  // Show scrollbars for inner content
+  overflow: auto
+  // relative for loading indicator
+  position: relative
+
+// TIMELINE half
+.work-packages-split-view--left-timeline
+  flex: 1 1
+  overflow: auto
+  // Hidden by default
+  display: none
+
+.work-packages--edit-actions
+  .work-packages--left-panel &
+    position: absolute
+    width: calc(60% + 7px)
+    left: -20px
+    padding: 0 20px .5rem
+
+  .in_modal &
+    width: 100%
+
+.edit-all-mode .work-packages--left-panel
+  padding-bottom: 50px
+
+.work-package--attachments--files
+  margin-bottom: 1rem
+
+  > h4
+    margin-top: 5px
+
+  .inplace-edit--read-value
+    padding: 0.375rem 0.6rem
+
+    i
+      display: inline-block
+      &:before
+        vertical-align: middle
+        padding-top: 0
+
+  .work-package--attachments--filename
+    display: inline-block
+    line-height: 1.4
+    // FF & IE
+    word-break: break-all
+    // Chrome & Safari
+    word-break: break-word
+    width: 90%
+    vertical-align: middle
+
+.work-package--attachments--drop-box
+  border: 2px dashed $light-gray
+  border-radius: 2px
+  text-align: center
+  padding: 20px
+  cursor: pointer
+
+.work-package--attachments--label
+  color: $light-gray
+  text-align: center
+
+  i, p
+    display: inline-block
+    vertical-align: middle
+
+  .icon-attachment:before
+    color: $light-gray
+    font-size: 3rem
+
+  p
+    color: $gray-dark
+    font-size: 0.9rem
+    font-weight: bold
+    line-height: 1.4
+    margin: 0 0 0 10px
+    text-align: left
+
+.work-package--attachments--hint
+  font-size: 85%
+
+.controller-work_packages
+  #work-packages-query-selection
+    .select2-container
+      margin-left: 5px
+
+  .icon-button, .sort-header, .action-icon
+    cursor: pointer
+
+  select, input
+    &.to-validate.ng-dirty.ng-valid
+      border: 1px solid Green
+    &.to-validate.ng-dirty.ng-valid ~ span.ok
+      color: green
+      display: inline
+    &.to-validate.ng-dirty.ng-invalid
+      border: 1px solid Red
+    &.to-validate.ng-dirty.ng-invalid ~ span.ok
+      color: red
+      display: inline
+
+  .work_package
+    tr
+      line-height: $user-avatar-mini-width
+  .avatar-mini
+    float: left
+
+  #attributes
+    .form--field-container
+      max-width: 400px
+
+// Workaround to make the toolbar menu accessible even on very small screens
+@media screen and (max-height: 25em)
+  .controller-work_packages.action-show,
+  .controller-work_packages.action-details,
+  .controller-work_packages.action-index
+    #main
+      overflow: overlay
+    #content
+      overflow-y: auto
+
+// Implement two column layout for WP full screen view
+@media screen and (min-width: 90rem)
+  .action-show .attributes-group,
+  .full-create .attributes-group
+    .-columns-2
+      column-count: 2
+      column-gap: 4rem
+
+      .attributes-key-value
+        -webkit-column-break-inside: avoid
+        page-break-inside: avoid
+        break-inside: avoid
+
+
+
+

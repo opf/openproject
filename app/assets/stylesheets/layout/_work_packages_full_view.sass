@@ -1,0 +1,225 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY without even the implied warranty of
+
+
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+body.controller-work_packages.action-show
+  overflow-x: auto
+
+.work-packages--show-view
+  display: flex
+  flex-direction: column
+  height: inherit
+
+  #toolbar
+    display: flex
+    justify-content: flex-end
+    flex-wrap: wrap-reverse
+    @include clearfix
+
+  .toolbar-container
+    @include clearfix
+
+  ul#toolbar-items
+    @include clearfix
+    order: 2
+    margin: 0 0 1rem 2rem
+
+    button
+      margin-bottom: 0
+
+
+    li
+      float: left
+      position: relative
+
+      &.toolbar-item:first-of-type
+        margin-left: 0
+
+
+      .dropdown
+        top: 100% !important
+        right: 0px !important
+        left: auto !important
+        margin-top: 0
+
+        ul li
+          float: none
+  .work-packages--split-view
+    flex-shrink: 8
+    border-top: 1px solid #ccc
+    overflow: visible
+    height: 100%
+    // Important for Firefox to let 'flex-shrink' work correctly.
+    min-height: 0
+
+  .work-packages--left-panel
+    border-right: 1px solid #ccc
+    overflow-y: auto
+    overflow-x: auto
+
+    // Don't cut border-left from editable description
+    width: calc(60% + 0.375rem)
+    margin-left: -0.375rem
+    padding-left: 0.375rem
+
+    .work-packages--panel-inner
+      padding: 5px 15px 20px 0px
+
+      // These styles were taken over from the details tab styling.
+      // Thus the header and the details tab can be aligned on the same line.
+      .attributes-group:first-of-type
+        margin-top: 0px
+
+        .attributes-group--header-container
+          padding-bottom: 2px
+
+          h3.attributes-group--header-text
+            line-height: $work-package-details--tab-height - 10px
+  &.edit-all-mode
+    .work-packages--left-panel
+      height: calc(100% - 55px)
+
+  .work-packages--right-panel
+    min-width: 420px
+    overflow-y: auto
+    overflow-x: auto
+    width: 40%
+
+    .work-packages--panel-inner
+      padding: 20px 0px 0px 15px
+
+  ul
+    list-style-type: none
+    padding: 0
+
+    li
+      margin: 0
+      padding: 0
+
+      &.toolbar-item
+        margin: 0 5px
+
+        &:last-child
+          margin-right: 0
+    button
+      margin-right: 0
+
+  .work-package-details-activities-activity-contents ul
+    padding-left: 2em
+
+  .activity-comment
+    margin-top: 15px
+
+  .button.icon-edit.ng-hide
+    display: block !important
+    visibility: hidden
+
+.nosidebar
+  ul.subject-header
+    width: 67%
+
+    li
+      &.inline-edit
+        width: 75%
+
+@media only screen and (max-width: 1280px)
+  .work-packages--details
+    @at-root
+      .detailsViewMenuItem
+        display: block
+
+@media only screen and (max-width: 78rem)
+  .work-packages--show-view
+    // Important for Safari
+    height: initial
+
+@media only screen and (max-width: 679px)
+  #toolbar
+    #toolbar-items
+      margin-left: 0
+
+#work-packages-index
+  .wiki-anchor
+    display: none
+
+.work-packages--show-view
+  .subject-header
+    margin: 0
+    padding: 0
+    min-height: 50px
+    width: initial
+    align-self: center
+    flex-grow: 1
+    /* Leave space for the back button */
+    max-width: calc(100% - 100px)
+
+    .wp-table--cell-span
+      white-space: normal
+
+    li.inline-edit
+      width: 100%
+
+    .inplace-edit--read-value
+      margin: 0
+      padding-top: 0
+      padding-bottom: 0
+
+    .work-packages--subject-element,
+    .work-packages--details--subject .wp-inline-edit--field
+      font-size: 20px
+      font-weight: bold
+      line-height: 34px
+
+    .work-packages--subject-element .wp-inline-edit--field
+      height: 1.75rem
+      margin-top: 11px
+
+.work-packages--subject-type-row
+  display: flex
+
+.work-packages--type-selector
+  .wp-table--cell-span
+    padding-right: 5px !important
+
+  .wp-edit-field.-active
+    margin-right: 80px !important
+    width: 95%
+
+  .inplace-edit--read-value--value-span
+    white-space: nowrap
+
+  .inplace-edit--read-value--value-span:after
+    content: ':'
+
+.edit-all-mode
+  .subject-header .work-packages--details--subject .inplace-edit--text-field
+    padding-left: 0.375rem
+
+  .work-packages--details--title, .work-packages--details--description
+    margin-left: 0

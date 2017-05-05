@@ -1,96 +1,75 @@
-<div class="generic-table--container work-package-table--container"
-     ng-class="{ '-with-footer': displaySums }">
-  <div class="generic-table--results-container" detect-dimension-changes>
-    <table class="keyboard-accessible-list generic-table work-package-table">
-      <colgroup>
-        <col highlight-col />
-        <col highlight-col ng-repeat="column in columns track by column.href" />
-      </colgroup>
-      <caption class="hidden-for-sighted">
-        <span ng-bind="::text.tableSummary"></span>
-        <span id="wp-table-sort-summary"></span>
-        <span ng-bind="::text.tableSummaryHints"></span>
-      </caption>
-      <thead class="-sticky">
-        <tr>
-          <th sort-header ng-repeat="column in columns track by column.href"
-                          has-dropdown-menu
-                          class="wp-table--table-header"
-                          collision-container=".work-packages--list"
-                          target="columnContextMenu"
-                          locals="columns, column"
-                          locale="column.custom_field && columns.custom_field.name_locale || locale"
-                          header-column="column">
-          </th>
-          <th class="wp-table--details-column -short hide-when-print">
-            <div class="generic-table--sort-header-outer">
-              <accessible-by-keyboard
-                          execute="openColumnsModal()"
-                          link-class="wp-table--columns-selection"
-                          link-title="{{ ::text.addColumns }}"
-                          link-aria-label="{{ ::text.addColumns }}">
-                <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
-              </accessible-by-keyboard>
-            </div>
-          </th>
-
-         <th class="wp-timeline--th" ng-show="timelineVisible">
-            <div class="wp-timeline--slider-wrapper">
-              <div class="wp-timeline--slider"></div>
-            </div>
-            <div class="wp-timeline-header-controls generic-table--sort-header-outer">
-              <timeline-control></timeline-control>
-            </div>
-            <div class="wp-timeline-header-container generic-table--sort-header-outer">
-              <div class="wp-timeline--scroll-wrapper">
-                <span class="generic-table--sort-header wp-timeline-header">
-                </span>
-              </div>
-            </div>
-          </th>
-
-        </tr>
-      </thead>
-      <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
-      <tr id="empty-row-notification">
-        <td colspan="{{ columns.length + 1 }}">
-          <span ng-if="!query.hasError">
-            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
-            <strong ng-bind="text.noResults.title"></strong>
-            <span ng-bind="text.noResults.description"></span>
-          </span>
-          <span ng-if="query.hasError">
-            <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
-            <strong ng-bind="text.faultyQuery.title"></strong>
-            <span ng-bind="text.faultyQuery.description"></span>
-          </span>
-        </td>
-      </tr>
-      </tbody>
-      <tbody class="results-tbody work-package--results-tbody">
-      </tbody>
-      <tbody wp-inline-create
-             project-identifier="projectIdentifier"
-             table="table">
-      </tbody>
-      <tfoot>
-        <tr ng-if="sumsLoaded()"
-            class="sum group all issue work_package">
-          <td ng-repeat="column in columns track by column.href">
-            <div class="generic-table--footer-outer">
-              <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
-              <wp-display-attr
-                    attribute="column.id"
-                    custom-schema="resource.sumsSchema"
-                    work-package="resource.totalSums">
-              </wp-display-attr>
-            </div>
-          </td>
-          <td>
-            <div class="generic-table--footer-outer"></div>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-</div>
+<table class="keyboard-accessible-list generic-table work-package-table">
+  <colgroup>
+    <col highlight-col />
+    <col highlight-col ng-repeat="column in columns track by column.href" />
+  </colgroup>
+  <caption class="hidden-for-sighted">
+    <span ng-bind="::text.tableSummary"></span>
+    <span id="wp-table-sort-summary"></span>
+    <span ng-bind="::text.tableSummaryHints"></span>
+  </caption>
+  <thead class="-sticky">
+    <tr>
+      <th sort-header ng-repeat="column in columns track by column.href"
+                      has-dropdown-menu
+                      class="wp-table--table-header"
+                      collision-container=".work-packages--list"
+                      target="columnContextMenu"
+                      locals="columns, column"
+                      locale="column.custom_field && columns.custom_field.name_locale || locale"
+                      header-column="column">
+      </th>
+      <th class="wp-table--details-column -short hide-when-print">
+        <div class="generic-table--sort-header-outer">
+          <accessible-by-keyboard
+                      execute="openColumnsModal()"
+                      link-class="wp-table--columns-selection"
+                      link-title="{{ ::text.addColumns }}"
+                      link-aria-label="{{ ::text.addColumns }}">
+            <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
+  <tr id="empty-row-notification">
+    <td colspan="{{ columns.length + 1 }}">
+      <span ng-if="!query.hasError">
+        <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+        <strong ng-bind="text.noResults.title"></strong>
+        <span ng-bind="text.noResults.description"></span>
+      </span>
+      <span ng-if="query.hasError">
+        <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
+        <strong ng-bind="text.faultyQuery.title"></strong>
+        <span ng-bind="text.faultyQuery.description"></span>
+      </span>
+    </td>
+  </tr>
+  </tbody>
+  <tbody class="results-tbody work-package--results-tbody">
+  </tbody>
+  <tbody wp-inline-create
+         project-identifier="projectIdentifier"
+         table="table">
+  </tbody>
+  <tfoot>
+    <tr ng-if="sumsLoaded()"
+        class="sum group all issue work_package">
+      <td ng-repeat="column in columns track by column.href">
+        <div class="generic-table--footer-outer">
+          <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
+          <wp-display-attr
+                attribute="column.id"
+                custom-schema="resource.sumsSchema"
+                work-package="resource.totalSums">
+          </wp-display-attr>
+        </div>
+      </td>
+      <td>
+        <div class="generic-table--footer-outer"></div>
+      </td>
+    </tr>
+  </tfoot>
+</table>
