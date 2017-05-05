@@ -129,8 +129,10 @@ class RepositoriesController < ApplicationController
       @repository.update_required_storage
     end
 
-    @entries = @repository.entries(@path, @rev)
+    @limit = Setting.repository_truncate_at
+    @entries = @repository.entries(@path, @rev, limit: @limit)
     @changeset = @repository.find_changeset_by_name(@rev)
+
     if request.xhr?
       if @entries && @repository.valid?
         render(partial: 'dir_list_content')

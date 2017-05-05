@@ -84,7 +84,6 @@ module RandomData
           user:           user,
           revision:       work_package.id * 10 + changeset_count,
           scmid:          work_package.id * 10 + changeset_count,
-          user:           user,
           work_packages:  [work_package],
           committer:      Faker::Name.name,
           committed_on:   Date.today,

@@ -187,32 +187,32 @@ describe OpenProject::Scm::Adapters::Subversion do
         it 'builds the info object' do
           info = adapter.info
           expect(info.root_url).to eq(url)
-          expect(info.lastrev.identifier).to eq('13')
-          expect(info.lastrev.author).to eq('oliver')
-          expect(info.lastrev.time).to eq('2016-04-14T19:23:01.74469Z')
+          expect(info.lastrev.identifier).to eq('14')
+          expect(info.lastrev.author).to eq('mkahl')
+          expect(info.lastrev.time.getlocal("+01:00").strftime("%FT%T%:z")).to eq('2017-05-04T14:26:53+01:00')
         end
       end
 
       describe '.entries' do
         it 'reads all entries from the current revision' do
           entries = adapter.entries
-          expect(entries.length).to eq(2)
+          expect(entries.length).to eq(10)
 
           expect(entries[0].name).to eq('Föbar')
           expect(entries[0].path).to eq('Föbar')
-          expect(entries[1].name).to eq('subversion_test')
-          expect(entries[1].path).to eq('subversion_test')
+          expect(entries[1].name).to eq('folder_a')
+          expect(entries[1].path).to eq('folder_a')
         end
 
         it 'contains a reference to the last revision' do
           entries = adapter.entries
-          expect(entries.length).to eq(2)
+          expect(entries.length).to eq(10)
           lastrev = entries[0].lastrev
 
           expect(lastrev.identifier).to eq('13')
           expect(lastrev.author).to eq('oliver')
           expect(lastrev.message).to eq('')
-          expect(lastrev.time).to eq('2016-04-14T19:23:01.74469Z')
+          expect(lastrev.time.getlocal("+01:00").strftime("%FT%T%:z")).to eq('2016-04-14T20:23:01+01:00')
         end
 
         it 'reads all entries from the given revision' do
@@ -284,13 +284,13 @@ describe OpenProject::Scm::Adapters::Subversion do
       describe '.revisions' do
         it 'returns all revisions by default' do
           revisions = adapter.revisions
-          expect(revisions.length).to eq(13)
+          expect(revisions.length).to eq(14)
 
-          expect(revisions[0].author).to eq('oliver')
-          expect(revisions[0].message).to eq("UTF-8 Test")
+          expect(revisions[0].author).to eq('mkahl')
+          expect(revisions[0].message.strip).to eq("added some more files to work with")
 
           revisions.each_with_index do |rev, i|
-            expect(rev.identifier).to eq((13 - i).to_s)
+            expect(rev.identifier).to eq((14 - i).to_s)
           end
         end
 

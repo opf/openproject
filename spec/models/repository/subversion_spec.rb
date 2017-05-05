@@ -167,8 +167,8 @@ describe Repository::Subversion, type: :model do
         instance.fetch_changesets
         instance.reload
 
-        expect(instance.changesets.count).to eq(13)
-        expect(instance.file_changes.count).to eq(25)
+        expect(instance.changesets.count).to eq(14)
+        expect(instance.file_changes.count).to eq(34)
         expect(instance.changesets.find_by(revision: '1').comments).to eq('Initial import.')
       end
 
@@ -181,7 +181,7 @@ describe Repository::Subversion, type: :model do
         expect(instance.changesets.count).to eq(5)
 
         instance.fetch_changesets
-        expect(instance.changesets.count).to eq(13)
+        expect(instance.changesets.count).to eq(14)
       end
 
       it 'should latest changesets' do
@@ -296,7 +296,7 @@ describe Repository::Subversion, type: :model do
         changeset = instance.find_changeset_by_name('1')
         expect(changeset.previous).to be_nil
 
-        changeset = instance.find_changeset_by_name('13')
+        changeset = instance.find_changeset_by_name('14')
         expect(changeset.next).to be_nil
       end
 
@@ -324,6 +324,35 @@ describe Repository::Subversion, type: :model do
           event = find_events(user).first
           expect(event.event_title).to include('123456789:')
           expect(event.event_path).to match(/\?rev=123456789$/)
+        end
+      end
+
+      describe "#entries" do
+        let(:entries) { instance.entries }
+
+        it "lists 10 entries" do
+          expect(entries.size).to eq 10
+        end
+
+        describe "with limit: 5" do
+          let(:directories) { entries.select { |e| e.kind == "dir" } }
+          let(:files) { entries.select { |e| e.kind == "file" } }
+
+          let(:limited_entries) { instance.entries limit: 5 }
+
+          before do
+            expect(directories.size).to eq 3
+          end
+
+          it "lists 5 entries only, directories first" do
+            expected_entries = (directories + files.take(2)).map(&:path)
+
+            expect(limited_entries.map(&:path)).to eq expected_entries
+          end
+
+          it "indicates 5 omitted entries" do
+            expect(limited_entries.truncated).to eq 5
+          end
         end
       end
 
