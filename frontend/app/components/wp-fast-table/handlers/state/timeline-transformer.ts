@@ -1,6 +1,5 @@
 import { WorkPackageTableTimelineVisible } from './../../wp-table-timeline-visible';
 import {States} from "../../../states.service";
-import {timelineCellClassName, timelineCollapsedClassName} from "../../builders/timeline-cell-builder";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
 
@@ -20,7 +19,7 @@ export class TimelineTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderVisibility(visible:boolean) {
-    jQuery(`.${timelineCellClassName}`).toggleClass(timelineCollapsedClassName, !visible);
+    jQuery('.work-packages-split-view--left-timeline').toggle(visible);
   }
 }
 

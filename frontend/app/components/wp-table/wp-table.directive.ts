@@ -83,7 +83,7 @@ function wpTable(
 
       var t0 = performance.now();
 
-      const timeline = element.find('.wp-table-timeline--container');
+      const timeline = element.find('.wp-table-timeline--body');
       const tbody = element.find('.work-package--results-tbody');
       scope.tbody = tbody;
       scope.table = new WorkPackageTable(element[0], tbody[0], timeline[0], wpTimelineContainer);

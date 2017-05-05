@@ -15,14 +15,9 @@ import {WorkPackageTable} from "../../wp-fast-table";
 export const rowClassName = 'wp-table--row';
 
 export const internalColumnDetails = '__internal-detailsLink';
-export const internalColumnTimelines = '__internal-timelines';
 
 export const internalDetailsColumn = {
   id: '__internal-detailsLink'
-} as QueryColumn;
-
-export const internalTimelinesColumn = {
-  id: '__internal-timelines'
 } as QueryColumn;
 
 export class SingleRowBuilder {
@@ -35,8 +30,6 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder();
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
-  // Timeline builder
-  protected timelineCellBuilder = new TimelineCellBuilder(this.stopExisting$, this.workPackageTable);
 
   constructor(protected stopExisting$: Observable<any>, protected workPackageTable: WorkPackageTable) {
     $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
@@ -54,13 +47,11 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return this.columns.concat(internalDetailsColumn, internalTimelinesColumn);
+    return this.columns.concat(internalDetailsColumn);
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
     switch (column.id) {
-      case internalTimelinesColumn.id:
-        return this.timelineCellBuilder.build(workPackage);
       case internalDetailsColumn.id:
         return this.detailsLinkBuilder.build(workPackage);
       default:

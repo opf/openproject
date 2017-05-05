@@ -6,6 +6,7 @@ import {WorkPackageTable} from "../../../wp-fast-table";
 import {injectorBridge} from "../../../../angular/angular-injector-bridge.functions";
 import {SingleHierarchyRowBuilder} from "./single-hierarchy-row-builder";
 import {HierarchyRenderPass} from "./hierarchy-render-pass";
+import {TimelineRowBuilder} from "../../timeline/timeline-row-builder";
 
 
 export class HierarchyRowsBuilder extends PlainRowsBuilder {
@@ -36,13 +37,14 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public internalBuildRows(table:WorkPackageTable):DocumentFragment {
-    const instance = new HierarchyRenderPass(table, this.rowBuilder);
-    return instance.content;
+  public internalBuildRows(table:WorkPackageTable):[DocumentFragment,DocumentFragment] {
+    const instance = new HierarchyRenderPass(table, this.rowBuilder, this.timelinebuilder);
+    return [instance.tableBody, instance.timelineBody];
   }
 
   protected setupRowBuilders() {
     this.rowBuilder = new SingleHierarchyRowBuilder(this.stopExisting$, this.workPackageTable);
+    this.timelinebuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
     this.refreshBuilder = this.rowBuilder;
   }
 }

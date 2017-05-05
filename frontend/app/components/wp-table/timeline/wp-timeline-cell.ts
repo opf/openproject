@@ -142,27 +142,6 @@ export class WorkPackageTimelineCell {
         renderer,
         renderInfo);
     }
-
-    //-------------------------------------------------
-    // TODO Naive horizontal scroll logic, for testing purpose only
-    jQuery(this.timelineCell).on("wheel", ev => {
-      const mwe = ev.originalEvent as MouseWheelEvent;
-
-      // horizontal scroll
-      // if (Math.abs(mwe.deltaY) < 20) {
-      mwe.preventDefault();
-      const scrollInDays = -Math.round(mwe.deltaX / 15);
-      this.workPackageTimeline.wpTimelineHeader.addScrollDelta(scrollInDays);
-      // }
-
-      // forward vertical scroll
-      const s = jQuery(".generic-table--results-container");
-      window.requestAnimationFrame(() => {
-        s.scrollTop(s.scrollTop() + mwe.deltaY);
-        // s.stop().animate({scrollTop: s.scrollTop() + mwe.deltaY}, 200);
-      });
-    });
-    //-------------------------------------------------
   }
 
   private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {

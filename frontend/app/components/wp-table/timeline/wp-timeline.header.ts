@@ -37,11 +37,8 @@ import * as noUiSlider from "nouislider";
 import * as moment from 'moment';
 import Moment = moment.Moment;
 
-const cssClassTableBody = ".work-package-table";
-const cssClassTableContainer = ".generic-table--results-container";
-const cssClassHeader = ".wp-timeline-header";
+const cssClassHeader = ".wp-table-timeline--header";
 const cssHeaderContainer = ".wp-timeline-header-container";
-const scrollBarHeight = 16;
 
 const colorGrey1 = "#AAAAAA";
 const colorGrey2 = "#DDDDDD";
@@ -58,22 +55,7 @@ export class WpTimelineHeader {
   private headerCell: HTMLElement;
   private outerHeader: JQuery;
 
-  /** UI Scrollbar */
-  private scrollBar: HTMLElement;
-  private scrollWrapper: JQuery;
-  private scrollBarHandle: JQuery;
-  private scrollBarOrigin: JQuery;
-
   private marginTop: number;
-
-  /** Height of the header elements */
-  private headerHeight = 45;
-
-  /** Height of the table body + table header */
-  private globalHeight: number;
-
-  /** The total outer height available to the wrapping container */
-  private containerHeight: number;
 
   private activeZoomLevel: ZoomLevel;
 
@@ -85,7 +67,6 @@ export class WpTimelineHeader {
     this.lazyInit();
     this.renderLabels(vp);
     this.renderGlobalElements(vp);
-    this.updateScrollbar(vp);
   }
 
   getHeaderWidth() {
@@ -106,107 +87,11 @@ export class WpTimelineHeader {
     delete this.globalElementsRegistry[name];
   }
 
-  setupScrollbar() {
-    this.scrollWrapper = jQuery('.wp-timeline--slider-wrapper');
-    this.scrollBar = this.scrollWrapper.find('.wp-timeline--slider')[0];
-    noUiSlider.create(this.scrollBar, {
-      start: [0],
-      range: {
-        min: [0],
-        max: [100]
-      },
-      orientation: 'horizontal',
-      tooltips: false,
-    });
-
-    this.sliderInstance.on('update', (values: any[]) => {
-      let value = values[0];
-      this.wpTimeline.viewParameterSettings.scrollOffsetInDays = -value;
-      this.wpTimeline.refreshScrollOnly();
-    });
-
-    this.scrollBarHandle = this.scrollWrapper.find('.noUi-handle');
-    this.scrollBarOrigin = this.scrollWrapper.find('.noUi-origin');
-  }
-
-  public addScrollDelta(delta:number) {
-    const value = (this.wpTimeline.viewParameterSettings.scrollOffsetInDays += delta);
-    this.sliderInstance.set(-value);
-    this.wpTimeline.refreshScrollOnly();
-  }
-
-  // noUiSlider doesn't extend the HTMLElement interface
-  // and thus requires casting for now.
-  private get sliderInstance(): noUiSlider.noUiSlider {
-    return (this.scrollBar as noUiSlider.Instance).noUiSlider;
-  }
-
-  private updateScrollbar(vp: TimelineViewParameters) {
-    const headerWidth = this.getHeaderWidth();
-
-    // Update the scrollbar to match the current width
-    this.scrollWrapper.css('width', headerWidth + 'px');
-
-    // Re-position the scrollbar depending on the global height
-    // It should not be any larger than the container height
-    if (this.containerHeight > (this.globalHeight + scrollBarHeight)) {
-      this.scrollWrapper.css('top', this.globalHeight + 'px');
-    } else {
-      this.scrollWrapper.css('top', (this.containerHeight - scrollBarHeight) + 'px');
-    }
-
-    let maxWidth = headerWidth,
-      daysDisplayed = Math.min(vp.maxSteps, Math.floor(maxWidth / vp.pixelPerDay)),
-      newMax = Math.max(vp.maxSteps - daysDisplayed, 1),
-      currentValue = <number> this.sliderInstance.get(),
-      newValue = Math.min(newMax, currentValue),
-      desiredWidth, newWidth, cssWidth;
-
-    // Compute the actual width of the handle depending on the scrollable content
-    // The width should be no smaller than 30px
-    desiredWidth = Math.max(vp.maxSteps / vp.pixelPerDay, (40 - vp.pixelPerDay)) * 2;
-
-    // The actual width should be no larger than the actual width of the scrollbar
-    // If the entirety of the timeline is already visible, hide the scrollbar
-    if (newMax === 1) {
-      newWidth = maxWidth;
-      this.scrollWrapper.hide();
-    } else {
-      this.scrollWrapper.show();
-      newWidth = Math.min(maxWidth, desiredWidth);
-    }
-
-    let newCssWidth = newWidth + 'px';
-
-    // With changed widths, we need to correct the
-    // - right padding of the scrollbar (avoid right boundary traversal)
-    // - width of the actual handle
-    // - offset for origin of the slider.
-    jQuery(this.scrollBar).css('padding-right', (newWidth - 1) + 'px');
-    this.scrollBarHandle.css('width', newCssWidth);
-    this.scrollBarOrigin.css('right', '-' + newCssWidth);
-
-    (this.sliderInstance as any).updateOptions({
-      start: newValue,
-      range: {
-        min: 0,
-        max: newMax
-      }
-    });
-  }
-
   private lazyInit() {
     if (this.headerCell === undefined) {
       this.headerCell = jQuery(cssClassHeader)[0];
       this.outerHeader = jQuery(cssHeaderContainer);
-      this.setupScrollbar();
     }
-
-    this.containerHeight = jQuery(cssClassTableContainer).outerHeight();
-    this.globalHeight = jQuery(cssClassTableBody).outerHeight();
-    this.marginTop = this.headerHeight;
-
-    this.headerCell.style.height = this.globalHeight + 'px';
   }
 
   private renderLabels(vp: TimelineViewParameters) {
@@ -248,7 +133,7 @@ export class WpTimelineHeader {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.height = '100%';
       cell.style.zIndex = "2";
     });
 
@@ -256,7 +141,7 @@ export class WpTimelineHeader {
       cell.innerHTML = start.format("D");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.zIndex = "1";
-      cell.style.height = (this.globalHeight - 20) + "px";
+      cell.style.height = '100%';
       cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
@@ -281,7 +166,7 @@ export class WpTimelineHeader {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.height = '100%';
       cell.style.zIndex = "2";
     });
 
@@ -308,7 +193,7 @@ export class WpTimelineHeader {
       cell.innerHTML = start.format("MMM");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.height = '100%';
     });
 
     this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -335,7 +220,7 @@ export class WpTimelineHeader {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.height = '100%';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -364,7 +249,7 @@ export class WpTimelineHeader {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = (this.globalHeight - 10) + "px";
+      cell.style.height = '100%';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -441,7 +326,6 @@ export class WpTimelineHeader {
     // update elements
     for (const elemType of _.keys(this.globalElements)) {
       const elem = this.globalElements[elemType];
-      elem.style.height = this.globalHeight + "px";
       this.globalElementsRegistry[elemType](vp, elem);
     }
   }

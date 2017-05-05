@@ -31,7 +31,7 @@ export class WorkPackageTable {
 
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
-              public timelineContainer:HTMLElement,
+              public timelineBody:HTMLElement,
               public timelineController: WorkPackageTimelineTableController) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
@@ -86,10 +86,13 @@ export class WorkPackageTable {
    * all elements.
    */
   public refreshBody() {
-    let newBody = this.rowBuilder.buildRows(this);
+    let [tableBody, timelineBody] = this.rowBuilder.buildRows(this);
 
     this.tbody.innerHTML = '';
-    this.tbody.appendChild(newBody);
+    this.tbody.appendChild(tableBody);
+
+    this.timelineBody.innerHTML = '';
+    this.timelineBody.appendChild(timelineBody);
   }
 
   /**
@@ -98,7 +101,7 @@ export class WorkPackageTable {
   public refreshRow(row:WorkPackageTableRow) {
     // Find the row we want to replace
     let oldRow = row.element || locateRow(row.workPackageId);
-    let newRow = this.rowBuilder.refreshRow(row, this);
+    let newRow = this.rowBuilder.refreshRow(row);
 
     if (newRow && oldRow && oldRow.parentNode) {
       oldRow.parentNode.replaceChild(newRow, oldRow);
