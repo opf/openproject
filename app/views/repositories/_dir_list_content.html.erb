@@ -26,6 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% if @entries.truncated? %>
+  <tr class="<%= h params[:parent_id] %> entry file truncation-warning">
+    <td colspan="7" style="padding-left: <%= 18 * params[:depth].to_i %>px;">
+      <div class="notification-box -warning">
+        <div class="notification-box--content">
+          <%= I18n.t "repositories.truncated", limit: @limit, truncated: @entries.truncated %>
+        </div>
+      </div>
+    </td>
+  </tr>
+<% end %>
+
 <% @entries.each do |entry| %>
   <% tr_id = Digest::MD5.hexdigest(entry.path)
    depth = params[:depth].to_i %>

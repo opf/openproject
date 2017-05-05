@@ -129,8 +129,8 @@ class RepositoriesController < ApplicationController
       @repository.update_required_storage
     end
 
-    limit = Setting.repository_truncate_at
-    @entries = @repository.entries(@path, @rev, limit: limit)
+    @limit = Setting.repository_truncate_at
+    @entries = @repository.entries(@path, @rev, limit: @limit)
     @changeset = @repository.find_changeset_by_name(@rev)
 
     if request.xhr?
@@ -142,10 +142,6 @@ class RepositoriesController < ApplicationController
     elsif @entries.nil? && @repository.invalid?
       show_error_not_found
     else
-      if @entries.truncated?
-        flash[:warning] = I18n.t "repositories.truncated", limit: limit, truncated: @entries.truncated
-      end
-
       @changesets = @repository.latest_changesets(@path, @rev)
       @properties = @repository.properties(@path, @rev)
       render action: 'show'

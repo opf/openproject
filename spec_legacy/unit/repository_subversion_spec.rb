@@ -45,8 +45,8 @@ describe Repository::Subversion, type: :model do
     @repository.fetch_changesets
     @repository.reload
 
-    assert_equal 13, @repository.changesets.count
-    assert_equal 25, @repository.file_changes.count
+    assert_equal 14, @repository.changesets.count
+    assert_equal 34, @repository.file_changes.count
     assert_equal 'Initial import.', @repository.changesets.find_by(revision: '1').comments
   end
 
@@ -58,7 +58,7 @@ describe Repository::Subversion, type: :model do
     assert_equal 5, @repository.changesets.count
 
     @repository.fetch_changesets
-    assert_equal 13, @repository.changesets.count
+    assert_equal 14, @repository.changesets.count
   end
 
   it 'should latest changesets' do
@@ -198,7 +198,7 @@ describe Repository::Subversion, type: :model do
   it 'should next nil' do
     @repository.fetch_changesets
     @repository.reload
-    changeset = @repository.find_changeset_by_name('13')
+    changeset = @repository.find_changeset_by_name('14')
     assert_nil changeset.next
   end
 
