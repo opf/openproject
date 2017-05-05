@@ -43,7 +43,8 @@ export class QueryDmService {
   constructor(protected halRequest:HalRequestService,
               protected v3Path:any,
               protected UrlParamsHelper:any,
-              protected PayloadDm:PayloadDmService) {
+              protected PayloadDm:PayloadDmService,
+              protected $q:ng.IQService) {
   }
 
   public find(queryData:Object, queryId?:string, projectIdentifier?:string):ng.IPromise<QueryResource> {
@@ -85,17 +86,18 @@ export class QueryDmService {
   }
 
   public save(query:QueryResource, form:FormResource) {
-    let payload = this.PayloadDm.extract(query, form.schema);
-
-    return query.updateImmediately(payload);
+    return this.extractPayload(query, form).then(payload => {
+      return query.updateImmediately(payload);
+    });
   }
 
   public create(query:QueryResource, form:FormResource):ng.IPromise<QueryResource> {
-    let payload = this.PayloadDm.extract(query, form.schema);
-    let path = this.v3Path.queries();
+    return this.extractPayload(query, form).then(payload => {
+      let path = this.v3Path.queries();
 
-    return this.halRequest.post(path,
-                                payload);
+      return this.halRequest.post(path,
+                                  payload);
+    });
   }
 
   public delete(query:QueryResource) {
@@ -131,6 +133,14 @@ export class QueryDmService {
     return this.halRequest.get(this.v3Path.queries(),
                                urlQuery,
                                caching);
+  }
+
+  private extractPayload(query: QueryResource, form:FormResource) {
+    // Extracting requires having the filter schemas loaded as the dependencies
+    // need to be present. This should be handled within the cached information however, so it is fast.
+    return this.$q.all(_.map(query.filters, filter => filter.schema.$load())).then(() => {
+      return this.PayloadDm.extract(query, form.schema);
+    });
   }
 }
 
