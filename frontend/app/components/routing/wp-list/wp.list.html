@@ -60,23 +60,8 @@
        ng-class="{'edit-all-mode': wpEditModeState.active}">
 
     <!-- TABLE + TIMELINE -->
-    <div class="work-packages-split-view--left">
-
-      <div table-timeline
-           class="work-packages-split-view--left-table loading-indicator--location"
-           data-indicator-name="table">
-          <wp-table project-identifier="projectIdentifier"
-                    ng-if="tableInformationLoaded">
-          </wp-table>
-      </div>
-
-      <div class="work-packages-split-view--left-timeline">
-        <div id="timeline">
-          <div class="header" style="">Timeline</div>
-        </div>
-      </div>
-
-    </div>
+    <wp-table project-identifier="projectIdentifier" ng-if="tableInformationLoaded">
+    </wp-table>
     <div class="work-packages-split-view--right" ui-view></div>
   </div>
 </div>

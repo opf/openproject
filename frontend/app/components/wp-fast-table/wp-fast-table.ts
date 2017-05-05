@@ -31,6 +31,7 @@ export class WorkPackageTable {
 
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
+              public timelineContainer:HTMLElement,
               public timelineController: WorkPackageTimelineTableController) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
