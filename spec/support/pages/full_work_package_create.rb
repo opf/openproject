@@ -31,6 +31,10 @@ require 'support/pages/abstract_work_package_create'
 
 module Pages
   class FullWorkPackageCreate < AbstractWorkPackageCreate
+    def edit_field(attribute)
+      super(attribute, container)
+    end
+
     private
 
     def container

@@ -289,7 +289,6 @@ function initializeResource(halResource:HalResource) {
 
           return null;
         },
-
         (val:any) => setter(val, linkName)
       );
     });
@@ -338,17 +337,24 @@ function initializeResource(halResource:HalResource) {
     });
   }
 
-  function setter(val:HalResource, linkName:string) {
+  function setter(val:HalResource|{ href?: string }, linkName:string) {
     if (!val) {
       halResource.$source._links[linkName] = {href: null};
     } else if (_.isArray(val)) {
       halResource.$source._links[linkName] = val.map((el:any) => { return {href: el.href} });
-    } else if (val.$link) {
-      const link = val.$link;
+    } else if (val.hasOwnProperty('$link')) {
+      const link = (val as HalResource).$link;
 
       if (link.href) {
         halResource.$source._links[linkName] = link;
       }
+    } else if ('href' in val) {
+      halResource.$source._links[linkName] = {href: val.href};
+    }
+
+    if (halResource.$embedded && halResource.$embedded[linkName]) {
+      halResource.$embedded[linkName] = val;
+      halResource.$source._embedded[linkName] = (val as HalResource).$source || val;
     }
 
     return val;
