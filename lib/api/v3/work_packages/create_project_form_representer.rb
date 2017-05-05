@@ -53,17 +53,23 @@ module API
         end
 
         link :commit do
-          {
-            href: api_v3_paths.work_packages_by_project(represented.project_id),
-            method: :post
-          } if current_user.allowed_to?(:edit_work_packages, represented.project) &&
-               @errors.empty?
+          if current_user
+             .allowed_to?(:edit_work_packages, represented.project) &&
+             @errors.empty?
+            {
+              href: api_v3_paths.work_packages_by_project(represented.project_id),
+              method: :post
+            }
+          end
         end
 
         link :customFields do
-          if current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: represented.project)
+          if current_user.try(:admin?) ||
+             current_user_allowed_to(:edit_project,
+                                     context: represented.project)
             {
-              href: settings_project_path(represented.project.identifier, tab: 'custom_fields'),
+              href: settings_project_path(represented.project.identifier,
+                                          tab: 'custom_fields'),
               type: 'text/html',
               title: I18n.t('label_custom_field_plural')
             }
@@ -71,13 +77,17 @@ module API
         end
 
         link :configureForm do
-          {
-            href: edit_type_path(represented.type_id, tab: 'form_configuration'),
-            type: 'text/html',
-            title: "Configure form"
-          } if current_user.admin? && represented.type_id && represented.type_id != 0
+          if current_user.admin? &&
+             represented.type_id &&
+             represented.type_id != 0
+            {
+              href: edit_type_path(represented.type_id,
+                                   tab: 'form_configuration'),
+              type: 'text/html',
+              title: "Configure form"
+            }
+          end
         end
-
       end
     end
   end
