@@ -181,7 +181,7 @@ module API
       api_error = ::API::Errors::Unauthenticated.new error_message
       representer = ::API::V3::Errors::ErrorRepresenter.new api_error
 
-      e.error_response status: 401, message: representer.to_json, headers: warden.headers
+      e.error_response status: 401, message: representer.to_json, headers: warden.headers, log: false
     end
 
     error_response ActiveRecord::RecordNotFound, ::API::Errors::NotFound.new
@@ -189,8 +189,8 @@ module API
 
     error_response MultiJson::ParseError, ::API::Errors::ParseError.new
 
-    error_response ::API::Errors::Unauthenticated, headers: auth_headers
-    error_response ::API::Errors::ErrorBase, rescue_subclasses: true
+    error_response ::API::Errors::Unauthenticated, headers: auth_headers, log: false
+    error_response ::API::Errors::ErrorBase, rescue_subclasses: true, log: false
 
     # hide internal errors behind the same JSON response as all other errors
     # only doing it in production to allow for easier debugging
