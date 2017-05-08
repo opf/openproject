@@ -34,10 +34,12 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe 'email notifications' do
     let(:user) { FactoryGirl.create :admin }
+    let(:project) { FactoryGirl.create :project }
     let!(:work_package) do
       FactoryGirl.create :work_package,
                          author: user,
-                         subject: 'I can see you'
+                         subject: 'I can see you',
+                         project: project
     end
 
     context 'after creation' do
@@ -45,6 +47,25 @@ describe WorkPackage, type: :model do
         mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
 
         expect(mail).to be_present
+      end
+
+      context 'with email notifications disabled' do
+        let(:user) { FactoryGirl.create :admin, mail_notification: "none" }
+
+        let(:project) do
+          project = FactoryGirl.create :project
+          role = FactoryGirl.create :role
+
+          project.members.create principal: user, roles: [role], mail_notification: true
+
+          project
+        end
+
+        it "are not sent to the work package's author" do
+          mail = ActionMailer::Base.deliveries.detect { |m| m.subject.include? 'I can see you' }
+
+          expect(mail).not_to be_present
+        end
       end
     end
 

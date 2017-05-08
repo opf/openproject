@@ -586,7 +586,13 @@ class Project < ActiveRecord::Base
   # Returns the users that should be notified on project events
   def notified_users
     # TODO: User part should be extracted to User#notify_about?
-    members.select { |m| m.mail_notification? || m.user.mail_notification == 'all' }.map(&:user)
+    notified_members = members.select do |member|
+      setting = member.user.mail_notification
+
+      (setting == 'selected' && member.mail_notification?) || setting == 'all'
+    end
+
+    notified_members.map(&:user)
   end
 
   # Returns an array of all custom fields enabled for project issues
