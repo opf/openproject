@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -70,11 +71,10 @@ module Redmine::Acts::Journalized
   module Creation
     def self.included(base) # :nodoc:
       base.class_eval do
-        extend ClassMethods
         include InstanceMethods
 
         class << self
-          alias_method_chain :prepare_journaled_options, :creation
+          prepend ClassMethods
         end
       end
     end
@@ -83,8 +83,8 @@ module Redmine::Acts::Journalized
     module ClassMethods
       # Overrides the basal +prepare_journaled_options+ method defined in VestalVersions::Options
       # to extract the <tt>:only</tt> and <tt>:except</tt> options into +vestal_journals_options+.
-      def prepare_journaled_options_with_creation(options)
-        result = prepare_journaled_options_without_creation(options)
+      def prepare_journaled_options(options)
+        result = super(options)
 
         vestal_journals_options[:only] = Array(result.delete(:only)).map(&:to_s).uniq if result[:only]
         vestal_journals_options[:except] = Array(result.delete(:except)).map(&:to_s).uniq if result[:except]

@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # ActsAsWatchable
 module Redmine
   module Acts
@@ -71,8 +72,8 @@ module Redmine
 
             self.acts_as_watchable_options = options
           end
-          send :include, Redmine::Acts::Watchable::InstanceMethods
-          alias_method_chain :watcher_user_ids=, :uniq_ids
+
+          send :prepend, Redmine::Acts::Watchable::InstanceMethods
         end
 
         def acts_as_watchable_enforce_project_association
@@ -93,7 +94,7 @@ module Redmine
       end
 
       module InstanceMethods
-        def self.included(base)
+        def self.prepended(base)
           base.extend ClassMethods
         end
 
@@ -143,11 +144,12 @@ module Redmine
         end
 
         # Overrides watcher_user_ids= to make user_ids uniq
-        def watcher_user_ids_with_uniq_ids=(user_ids)
+        def watcher_user_ids=(user_ids)
           if user_ids.is_a?(Array)
             user_ids = user_ids.uniq
           end
-          send :watcher_user_ids_without_uniq_ids=, user_ids
+
+          super
         end
 
         # Returns true if object is watched by +user+

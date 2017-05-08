@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -70,9 +71,7 @@ module Redmine::Acts::Journalized
   module Reload
     def self.included(base) # :nodoc:
       base.class_eval do
-        include InstanceMethods
-
-        alias_method_chain :reload, :journals
+        prepend InstanceMethods
       end
     end
 
@@ -80,9 +79,9 @@ module Redmine::Acts::Journalized
     module InstanceMethods
       # Overrides ActiveRecord::Base#reload, resetting the instance-variable-cached journal number
       # before performing the original +reload+ method.
-      def reload_with_journals(*args)
+      def reload(*args)
         reset_journal
-        reload_without_journals(*args)
+        super
       end
     end
   end

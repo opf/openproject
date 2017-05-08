@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -69,13 +70,12 @@ module Redmine::Acts::Journalized
   # responsible for the associated update to the parent.
   module Users
     def self.included(base) # :nodoc:
-      Journal.send(:include, JournalMethods) unless Journal.include? JournalMethods
+      Journal.send(:prepend, JournalMethods) unless Journal.include? JournalMethods
 
       base.class_eval do
-        include InstanceMethods
+        prepend InstanceMethods
 
         attr_accessor :updated_by
-        alias_method_chain :journal_attributes, :user
       end
     end
 
@@ -86,8 +86,8 @@ module Redmine::Acts::Journalized
 
         # Overrides the +journal_attributes+ method to include user information passed into the
         # parent object, by way of a +updated_by+ attr_accessor.
-        def journal_attributes_with_user
-          journal_attributes_without_user.merge(user_id: journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
+        def journal_attributes
+          super.merge(user_id: journal_user.try(:id) || updated_by.try(:id) || User.current.try(:id))
         end
     end
 
@@ -97,16 +97,15 @@ module Redmine::Acts::Journalized
       def self.included(base) # :nodoc:
         base.class_eval do
           belongs_to :user
-          alias_method_chain :user=, :name
         end
       end
 
       # Overrides the +user=+ method created by the polymorphic +belongs_to+ user association.
       # Based on the class of the object given, either the +user+ association columns or the
       # +user_name+ string column is populated.
-      def user_with_name=(value)
+      def user=(value)
         case value
-        when ActiveRecord::Base then self.user_without_name = value
+        when ActiveRecord::Base then super(value)
         else self.user = User.find_by_login(value)
         end
       end
