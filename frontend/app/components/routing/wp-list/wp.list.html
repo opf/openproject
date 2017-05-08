@@ -6,43 +6,44 @@
           selected-title="selectedTitle">
       </selectable-title>
 
-    <ul class="toolbar-items hide-when-print" ng-if="tableInformationLoaded">
-      <li class="toolbar-item">
-        <wp-create-button
-            allowed="allowed('work_package', 'createWorkPackage')"
-            project-identifier="projectIdentifier"
-            state-name="work-packages.list.new">
-        </wp-create-button>
-      </li>
-      <li class="toolbar-item hidden-for-mobile">
-        <wp-filter-button
-            ng-disabled="wpEditModeState.active">
-        </wp-filter-button>
-      </li>
-      <li class="toolbar-item hidden-for-mobile">
-        <wp-details-view-button>
-        </wp-details-view-button>
-      </li>
-      <li class="toolbar-item hidden-for-mobile">
-        <wp-timeline-toggle-button>
-        </wp-timeline-toggle-button>
-      </li>
-      <li class="toolbar-item hidden-for-mobile">
-        <wp-zen-mode-toggle-button>
-        </wp-zen-mode-toggle-button>
-      </li>
-      <li class="toolbar-item hidden-for-mobile">
-        <button id="work-packages-settings-button"
-                ng-disabled="wpEditModeState.active"
-                title="{{ I18n.t('js.button_settings') }}"
-                class="button last work-packages-settings-button"
-                has-dropdown-menu
-                target="SettingsDropdownMenu"
-                locals="query">
-          <op-icon icon-classes="button--icon icon-show-more"></op-icon>
-        </button>
-      </li>
-    </ul>
+      <ul class="toolbar-items hide-when-print" ng-if="tableInformationLoaded">
+        <li class="toolbar-item">
+          <wp-create-button
+              allowed="allowed('work_package', 'createWorkPackage')"
+              project-identifier="projectIdentifier"
+              state-name="work-packages.list.new">
+          </wp-create-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-filter-button
+              ng-disabled="wpEditModeState.active">
+          </wp-filter-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-details-view-button>
+          </wp-details-view-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-timeline-toggle-button>
+          </wp-timeline-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <wp-zen-mode-toggle-button>
+          </wp-zen-mode-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <button id="work-packages-settings-button"
+                  ng-disabled="wpEditModeState.active"
+                  title="{{ I18n.t('js.button_settings') }}"
+                  class="button last work-packages-settings-button"
+                  has-dropdown-menu
+                  target="SettingsDropdownMenu"
+                  locals="query">
+            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 
 
