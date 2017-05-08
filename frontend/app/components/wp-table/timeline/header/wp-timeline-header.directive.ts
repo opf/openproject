@@ -31,7 +31,6 @@ import {
   ZoomLevel,
   calculatePositionValueForDayCount
 } from "../wp-timeline";
-import {todayLine} from "../wp-timeline.today-line";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import * as moment from 'moment';
 import Moment = moment.Moment;

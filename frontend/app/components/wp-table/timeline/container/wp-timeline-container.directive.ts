@@ -34,7 +34,6 @@ import {
   TimelineViewParameters
 } from "../wp-timeline";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {WpTimelineGlobalService} from "../wp-timeline-global.directive";
 import {States} from "../../../states.service";
 import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageNotificationService} from "../../../wp-edit/wp-notification.service";
@@ -45,6 +44,7 @@ import {debugLog} from "../../../../helpers/debug_output";
 import {openprojectModule} from "../../../../angular-modules";
 import {WorkPackageTimelineHeaderController} from "../header/wp-timeline-header.directive";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
+import {WorkPackageTimelineCell} from "../wp-timeline-cell";
 
 export class WorkPackageTimelineTableController {
 
@@ -54,8 +54,6 @@ export class WorkPackageTimelineTableController {
 
   private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
 
-  public readonly globalService = new WpTimelineGlobalService(this.$scope);
-
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
   private refreshViewRequested = false;
@@ -64,7 +62,9 @@ export class WorkPackageTimelineTableController {
 
   public header:WorkPackageTimelineHeaderController;
 
-  private members:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
+  public cells:{[id: string]:WorkPackageTimelineCell} = {};
+
+  private renderers:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
 
   constructor(private $scope:IScope,
               private $element:ng.IAugmentedJQuery,
@@ -108,15 +108,25 @@ export class WorkPackageTimelineTableController {
   }
 
   onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void) {
-    this.members[name] = callback;
+    this.renderers[name] = callback;
   }
 
+  refreshScrollOnly() {
+    jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
+  }
 
-  /**
-   * Returns a defensive copy of the currently used view parameters.
-   */
-  getViewParametersCopy(): TimelineViewParameters {
-    return _.cloneDeep(this._viewParameters);
+  public updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
+    this.cells[cell.latestRenderInfo.workPackage.id] = cell;
+    this.refreshView();
+  }
+
+  public removeWorkPackageInfo(id: string) {
+    delete this.cells[id];
+    this.refreshView();
+  }
+
+  get viewParameters(): TimelineViewParameters {
+    return this._viewParameters;
   }
 
   get viewParameterSettings() {
@@ -140,20 +150,15 @@ export class WorkPackageTimelineTableController {
         this.updateAllWorkPackagesSubject.next(true);
         this.header.refreshView(this._viewParameters);
 
-        _.each(this.members, (cb, key) => {
+        _.each(this.renderers, (cb, key) => {
           debugLog(`Refreshing timeline member ${key}`);
           cb(this._viewParameters);
         });
 
-        this.refreshScrollOnly();
         this.refreshViewRequested = false;
       }, 30);
     }
     this.refreshViewRequested = true;
-  }
-
-  refreshScrollOnly() {
-    jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
@@ -163,8 +168,6 @@ export class WorkPackageTimelineTableController {
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          // view params have changed, notify all cells
-          this.globalService.updateViewParameter(this._viewParameters);
           this.refreshView();
         }
 

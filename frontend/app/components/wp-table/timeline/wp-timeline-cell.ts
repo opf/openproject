@@ -74,13 +74,13 @@ export class WorkPackageTimelineCell {
       .map(([renderInfo, _visible]) => renderInfo)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
-        this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
+        this.workPackageTimeline.cells[this.workPackageId] = this;
       });
   }
 
   deactivate() {
     this.clear();
-    this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
+    delete this.workPackageTimeline.cells[this.workPackageId];
     this.subscription && this.subscription.unsubscribe();
   }
 

@@ -1,7 +1,6 @@
-
 // -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +25,25 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {
+  timelineElementCssClass,
+  TimelineViewParameters,
+} from "../wp-timeline";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 
-import IDirective = angular.IDirective;
-import IComponentOptions = angular.IComponentOptions;
-import {Observable} from "rxjs/Rx";
-import {scopeDestroyed$} from "../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../helpers/debug_output";
-import {injectorBridge} from "../../angular/angular-injector-bridge.functions";
-import {RelationResource} from "../../api/api-v3/hal-resources/relation-resource.service";
-import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../../states.service";
-import {WorkPackageStates} from "../../work-package-states.service";
-import {RelationsStateValue, WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
-import {TimelineRelationElement} from "./global-elements/timeline-relation-element";
-import {timelineElementCssClass, TimelineViewParameters} from "./wp-timeline";
-import {WorkPackageTimelineCell} from "./wp-timeline-cell";
-import IScope = angular.IScope;
-
+import {Observable} from 'rxjs';
+import * as moment from 'moment';
+import Moment = moment.Moment;
+import {openprojectModule} from "../../../../angular-modules";
+import {States} from "../../../states.service";
+import {WorkPackageStates} from "../../../work-package-states.service";
+import {
+  RelationsStateValue,
+  WorkPackageRelationsService
+} from "../../../wp-relations/wp-relations.service";
+import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
+import {TimelineRelationElement} from "./timeline-relation-element";
+import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
 
 export const timelineGlobalElementCssClassname = "relation-line";
 
@@ -70,40 +71,33 @@ function newSegment(vp: TimelineViewParameters,
   return segment;
 }
 
-export class WpTimelineGlobalService {
+export class WorkPackageTableTimelineRelations {
 
-  // Injected arguments
-  public states:States;
-  public wpStates:WorkPackageStates;
-  public wpRelations:WorkPackageRelationsService;
+  public wpTimeline:WorkPackageTimelineTableController;
+
+  private container:ng.IAugmentedJQuery;
 
   private workPackageIdOrder:string[] = [];
 
-  private viewParameters:TimelineViewParameters;
-
-  private cells:{[id: string]:WorkPackageTimelineCell} = {};
-
   private elements:TimelineRelationElement[] = [];
 
-  constructor(private scope:IScope) {
-    injectorBridge(this);
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $scope:ng.IScope,
+              public states:States,
+              public wpStates:WorkPackageStates,
+              public wpRelations:WorkPackageRelationsService) {
+  }
+
+  $onInit() {
+    this.container = this.$element.find('.wp-table-timeline--relations');
+    this.wpTimeline.onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView(vp));
+
     this.requireVisibleRelations();
     this.setupRelationSubscription();
   }
 
-  updateViewParameter(viewParams: TimelineViewParameters) {
-    this.viewParameters = viewParams;
-    this.update();
-  }
-
-  updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
-    this.cells[cell.latestRenderInfo.workPackage.id] = cell;
-    this.update();
-  }
-
-  removeWorkPackageInfo(id: string) {
-    delete this.cells[id];
-    this.update();
+  private refreshView(vp:TimelineViewParameters) {
+    this.update(vp);
   }
 
   /**
@@ -114,15 +108,24 @@ export class WpTimelineGlobalService {
     // Observe the rows and request relations if changed
     // AND timeline is visible.
     Observable.combineLatest(
-      this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.scope)),
-      this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.scope))
+      this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)),
+      this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
     )
-      .filter(([timelineState, rows]) => timelineState.isVisible)
-      .map(([_timelineState, rows]) => rows)
-      .subscribe((rows:WorkPackageResource[]) => {
-        this.workPackageIdOrder = rows.map(wp => wp.id.toString());
+      .filter(([timelineState, rendered]) => timelineState.isVisible)
+      .subscribe(() => {
+        this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
         this.wpRelations.requireInvolved(this.workPackageIdOrder);
       });
+  }
+
+  private getVisibleWorkPackageOrder():string[] {
+    const ids:string[] = [];
+
+    jQuery('.wp-table--row').each((i, el) => {
+      ids.push(el.getAttribute('data-work-package-id')!);
+    });
+
+    return ids;
   }
 
   /**
@@ -130,15 +133,15 @@ export class WpTimelineGlobalService {
    */
   private setupRelationSubscription() {
     this.wpStates.relations.observeChange()
-      .takeUntil(scopeDestroyed$(this.scope))
+      .takeUntil(scopeDestroyed$(this.$scope))
       .withLatestFrom(
-        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.scope)))
+        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)))
       .filter(([relations, timelineVisible]) => relations && timelineVisible.isVisible)
       .map(([relations]) => relations)
       .subscribe((nextVal) => {
         const [workPackageId, relations] = nextVal;
 
-        if (workPackageId && this.cells[workPackageId]) {
+        if (workPackageId && this.wpTimeline.cells[workPackageId]) {
           this.refreshRelations(workPackageId, relations!);
         }
       });
@@ -154,45 +157,32 @@ export class WpTimelineGlobalService {
       const elem = new TimelineRelationElement(workPackageId, relation);
       this.elements.push(elem);
 
-      if (this.viewParameters !== undefined) {
-        this.renderElement(elem);
-      }
+      this.renderElement(this.wpTimeline.viewParameters, elem);
     });
   }
 
-  private update() {
+  private update(vp:TimelineViewParameters) {
     this.removeAllVisibleElements();
-    this.renderElements();
-  }
-
-  private removeAllElements() {
-    this.removeAllVisibleElements();
-    this.elements = [];
+    this.renderElements(vp);
   }
 
   private removeAllVisibleElements() {
     jQuery('.' + timelineGlobalElementCssClassname).remove();
   }
 
-  private renderElements() {
-    if (this.viewParameters === undefined) {
-      debugLog('renderElements() aborted - no viewParameters');
-      return;
-    }
-
+  private renderElements(vp:TimelineViewParameters) {
     for (const e of this.elements) {
-      this.renderElement(e);
+      this.renderElement(vp, e);
     }
   }
 
-  private renderElement(e:TimelineRelationElement) {
-    const vp = this.viewParameters;
+  private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
     const idxFrom = this.workPackageIdOrder.indexOf(involved.from);
     const idxTo = this.workPackageIdOrder.indexOf(involved.to);
 
-    const startCell = this.cells[involved.from];
-    const endCell = this.cells[involved.to];
+    const startCell = this.wpTimeline.cells[involved.from];
+    const endCell = this.wpTimeline.cells[involved.to];
 
     if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
       return;
@@ -225,7 +215,7 @@ export class WpTimelineGlobalService {
     // vert segment
     for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
       const id = this.workPackageIdOrder[index];
-      const cell = this.cells[id];
+      const cell = this.wpTimeline.cells[id];
       if (_.isNil(cell)) {
         continue;
       }
@@ -255,6 +245,13 @@ export class WpTimelineGlobalService {
       }
     }
   }
+
 }
 
-WpTimelineGlobalService.$inject = ['states', 'wpStates', 'wpRelations'];
+openprojectModule.component("wpTimelineRelations", {
+  template: '<div class="wp-table-timeline--relations"></div>',
+  controller: WorkPackageTableTimelineRelations,
+  require: {
+    wpTimeline: '^wpTimelineContainer'
+  }
+});

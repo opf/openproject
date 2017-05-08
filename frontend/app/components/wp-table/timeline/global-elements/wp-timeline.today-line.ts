@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {calculatePositionValueForDayCount, TimelineViewParameters} from "./wp-timeline";
+import {calculatePositionValueForDayCount, TimelineViewParameters} from "../wp-timeline";
 import * as moment from 'moment';
 
 
