@@ -68,6 +68,10 @@ $toggler-width: 40px
           &:before
             padding-right: 25px
 
+        [class*="-menu-item"]
+          display: flex
+          align-items: center
+
       // -------------------- MAIN menu items ---------------------------
       > li
         .main-item-wrapper
@@ -85,8 +89,6 @@ $toggler-width: 40px
 
           > a
             @include default-transition
-            cursor: pointer
-            text-decoration: none
 
             &.selected, &.selected + a
               @include varprop(background, main-menu-bg-selected-background)
@@ -144,8 +146,6 @@ $toggler-width: 40px
 
         > a
           @include default-transition
-          cursor: pointer
-          text-decoration: none
 
           &.selected, &.selected + a
             @include varprop(background, main-menu-child-bg-selected-color)
@@ -159,12 +159,10 @@ $toggler-width: 40px
           font-size: $main-menu-child-font-size
           line-height: $main-menu-child-item-height
           height: $main-menu-child-item-height
-          border: none
           color: $main-menu-child-font-color
           margin-top: 1px
 
           &:hover
-            border: none
             text-decoration: none
             color: $main-menu-child-selected-font-color
           &.selected
@@ -248,7 +246,6 @@ $toggler-width: 40px
   h3
     display: block
     border: none
-    //border-top: 1px solid $main-menu-sidebar-h3-border-top-color
     color: $main-menu-sidebar-h3-color
     font-weight: normal
     font-size: $main-menu-sidebar-h3-font-size
