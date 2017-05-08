@@ -29,18 +29,6 @@
 #++
 
 class CustomValue < ActiveRecord::Base
-  FORMAT_STRATEGIES = {
-    'string' => CustomValue::StringStrategy,
-    'text' => CustomValue::StringStrategy,
-    'int' => CustomValue::IntStrategy,
-    'float' => CustomValue::FloatStrategy,
-    'date' => CustomValue::DateStrategy,
-    'bool' => CustomValue::BoolStrategy,
-    'user' => CustomValue::UserStrategy,
-    'version' => CustomValue::VersionStrategy,
-    'list' => CustomValue::ListStrategy
-  }.freeze
-
   belongs_to :custom_field
   belongs_to :customized, polymorphic: true
 
@@ -109,6 +97,6 @@ class CustomValue < ActiveRecord::Base
   end
 
   def strategy
-    @strategy ||= FORMAT_STRATEGIES[custom_field.field_format].new(self)
+    @strategy ||= Redmine::CustomFieldFormat.find_by_name(custom_field.field_format).formatter.new(self)
   end
 end

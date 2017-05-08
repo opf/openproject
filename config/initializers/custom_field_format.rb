@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,29 +37,36 @@ Redmine::CustomFieldFormat.map do |fields|
                                                  order: 2)
   fields.register Redmine::CustomFieldFormat.new('int',
                                                  label: :label_integer,
-                                                 order: 3)
+                                                 order: 3,
+                                                 formatter: CustomValue::IntStrategy)
   fields.register Redmine::CustomFieldFormat.new('float',
                                                  label: :label_float,
-                                                 order: 4)
+                                                 order: 4,
+                                                 formatter: CustomValue::FloatStrategy)
   fields.register Redmine::CustomFieldFormat.new('list',
                                                  label: :label_list,
-                                                 order: 5)
+                                                 order: 5,
+                                                 formatter: CustomValue::ListStrategy)
   fields.register Redmine::CustomFieldFormat.new('date',
                                                  label: :label_date,
-                                                 order: 6)
+                                                 order: 6,
+                                                 formatter: CustomValue::DateStrategy)
   fields.register Redmine::CustomFieldFormat.new('bool',
                                                  label: :label_boolean,
-                                                 order: 7)
+                                                 order: 7,
+                                                 formatter: CustomValue::BoolStrategy)
   fields.register Redmine::CustomFieldFormat.new('user',
                                                  label: Proc.new { User.model_name.human },
                                                  only: %w(WorkPackage TimeEntry
                                                           Version Project),
                                                  edit_as: 'list',
-                                                 order: 8)
+                                                 order: 8,
+                                                 formatter: CustomValue::UserStrategy)
   fields.register Redmine::CustomFieldFormat.new('version',
                                                  label: Proc.new { Version.model_name.human },
                                                  only: %w(WorkPackage TimeEntry
                                                           Version Project),
                                                  edit_as: 'list',
-                                                 order: 9)
+                                                 order: 9,
+                                                 formatter: CustomValue::VersionStrategy)
 end

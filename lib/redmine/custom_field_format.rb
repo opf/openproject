@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,19 +31,19 @@
 module Redmine
   class CustomFieldFormat
     include Redmine::I18n
-    include ActionView::Helpers::NumberHelper
 
     cattr_accessor :available
     @@available = {}
 
-    attr_accessor :name, :order, :label, :edit_as, :class_names
+    attr_accessor :name, :order, :label, :edit_as, :class_names, :formatter
 
-    def initialize(name, label:, order:, edit_as: name, only: nil)
+    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: CustomValue::StringStrategy)
       self.name = name
       self.label = label
       self.order = order
       self.edit_as = edit_as
       self.class_names = only
+      self.formatter = formatter
     end
 
     class << self
@@ -65,18 +66,21 @@ module Redmine
 
       def label_for(name)
         format = @@available[name.to_s]
-        format.label.is_a?(Proc) ? format.label.call : l(format.label) if format
+        if format
+          format.label.is_a?(Proc) ? format.label.call : l(format.label)
+        end
       end
 
       # Return an array of custom field formats which can be used in select_tag
       def as_select(class_name = nil)
         fields = @@available.values
         fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
-        fields.sort {|a, b|
-          a.order <=> b.order
-        }.map {|custom_field_format|
-          [label_for(custom_field_format.name), custom_field_format.name]
-        }
+
+        fields
+          .sort_by(&:order)
+          .map do |custom_field_format|
+            [label_for(custom_field_format.name), custom_field_format.name]
+          end
       end
 
       def format_value(value, _field_format)

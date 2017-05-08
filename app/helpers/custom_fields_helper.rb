@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -135,12 +136,14 @@ module CustomFieldsHelper
   # Return a string used to display a custom value
   def show_value(custom_value)
     return '' unless custom_value
-    format_value(custom_value.value, custom_value.custom_field.field_format)
+    custom_value.formatted_value
   end
 
   # Return a string used to display a custom value
-  def format_value(value, field_format)
-    Redmine::CustomFieldFormat.format_value(value, field_format) # Proxy
+  def format_value(custom_value, _field_format)
+    deprecate format_value: 'Use CustomValue#formatted_value instead'
+
+    custom_value.formatted_value
   end
 
   # Return an array of custom field formats which can be used in select_tag
