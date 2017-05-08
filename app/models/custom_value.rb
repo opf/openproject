@@ -53,17 +53,12 @@ class CustomValue < ActiveRecord::Base
            :formatted_value,
            to: :strategy
 
-  def editable?
-    custom_field.editable?
-  end
-
-  def visible?
-    custom_field.visible?
-  end
-
-  def required?
-    custom_field.is_required?
-  end
+  delegate :editable?,
+           :visible?,
+           :required?,
+           :max_length,
+           :min_length,
+           to: :custom_field
 
   def to_s
     value.to_s
@@ -78,7 +73,7 @@ class CustomValue < ActiveRecord::Base
   protected
 
   def validate_presence_of_required_value
-    errors.add(:value, :blank) if custom_field.is_required? && !strategy.value_present?
+    errors.add(:value, :blank) if custom_field.required? && !strategy.value_present?
   end
 
   def validate_format_of_value
@@ -97,13 +92,21 @@ class CustomValue < ActiveRecord::Base
   end
 
   def validate_length_of_value
-    if value.present? && custom_field.min_length.present? && custom_field.max_length.present?
-      errors.add(:value, :too_short, count: custom_field.min_length) if custom_field.min_length > 0 and value.length < custom_field.min_length
-      errors.add(:value, :too_long, count: custom_field.max_length) if custom_field.max_length > 0 and value.length > custom_field.max_length
+    if value.present? && (min_length.present? || max_length.present?)
+      validate_min_length_of_value
+      validate_max_length_of_value
     end
   end
 
   private
+
+  def validate_min_length_of_value
+    errors.add(:value, :too_short, count: min_length) if min_length > 0 && value.length < min_length
+  end
+
+  def validate_max_length_of_value
+    errors.add(:value, :too_long, count: max_length) if max_length > 0 && value.length > max_length
+  end
 
   def strategy
     @strategy ||= FORMAT_STRATEGIES[custom_field.field_format].new(self)

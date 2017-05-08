@@ -96,6 +96,10 @@ class CustomField < ActiveRecord::Base
     end
   end
 
+  def required?
+    is_required?
+  end
+
   def possible_values_options(obj = nil)
     case field_format
     when 'user', 'version'
