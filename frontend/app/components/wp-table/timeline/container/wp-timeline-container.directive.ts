@@ -93,9 +93,18 @@ export class WorkPackageTimelineTableController {
         }
       });
 
+    // Load the types whenever the timeline is first visible
     // TODO: Load only necessary types from API
-    TypeResource.loadAll();
+    this.states.table.timelineVisible.values$()
+      .filter((timelineState) => timelineState.isVisible)
+      .take(1)
+      .subscribe(() => {
+        TypeResource.loadAll().then(() => {
+          this.refreshView();
+        });
+      });
   }
+
 
   /**
    * Returns a defensive copy of the currently used view parameters.
