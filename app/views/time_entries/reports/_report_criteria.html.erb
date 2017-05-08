@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% @hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value| %>
+
   <% hours_for_value = select_hours(hours, criterias[level], value) -%>
   <% next if hours_for_value.empty? -%>
     <tr class="<%= 'last-level' unless criterias.length > level+1 %>">

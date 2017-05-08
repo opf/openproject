@@ -63,6 +63,14 @@ module OpenProject
       def find_by_name(name)
         @@available[name.to_s]
       end
+
+      def all_for_field(custom_field)
+        class_name = custom_field.class.customized_class.name
+
+        available
+          .values
+          .select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
+      end
     end
   end
 end

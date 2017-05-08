@@ -149,12 +149,8 @@ module CustomFieldsHelper
 
   # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select(custom_field)
-    class_name = custom_field.class.customized_class.name
-
-    fields = OpenProject::CustomFieldFormat.available.values
-    fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
-
-    fields
+    OpenProject::CustomFieldFormat
+      .all_for_field(custom_field)
       .sort_by(&:order)
       .map do |custom_field_format|
         [label_for_custom_field_format(custom_field_format.name), custom_field_format.name]
