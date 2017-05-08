@@ -172,7 +172,6 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = "20px";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
       cell.style.borderBottom = `1px solid ${colorGrey1}`;
@@ -197,7 +196,6 @@ export class WorkPackageTimelineHeaderController {
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
-      cell.style.height = "20px";
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.paddingTop = "5px";
@@ -228,7 +226,6 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("M");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = "20px";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
       cell.style.borderBottom = `1px solid ${colorGrey1}`;

@@ -64,6 +64,8 @@ export class WorkPackageTimelineTableController {
 
   public header:WorkPackageTimelineHeaderController;
 
+  private members:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
+
   constructor(private $scope:IScope,
               private $element:ng.IAugmentedJQuery,
               private TypeResource:any,
@@ -105,6 +107,10 @@ export class WorkPackageTimelineTableController {
       });
   }
 
+  onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void) {
+    this.members[name] = callback;
+  }
+
 
   /**
    * Returns a defensive copy of the currently used view parameters.
@@ -133,6 +139,12 @@ export class WorkPackageTimelineTableController {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
         this.header.refreshView(this._viewParameters);
+
+        _.each(this.members, (cb, key) => {
+          debugLog(`Refreshing timeline member ${key}`);
+          cb(this._viewParameters);
+        });
+
         this.refreshScrollOnly();
         this.refreshViewRequested = false;
       }, 30);
