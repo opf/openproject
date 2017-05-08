@@ -97,6 +97,6 @@ class CustomValue < ActiveRecord::Base
   end
 
   def strategy
-    @strategy ||= Redmine::CustomFieldFormat.find_by_name(custom_field.field_format).formatter.new(self)
+    @strategy ||= OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format).formatter.new(self)
   end
 end

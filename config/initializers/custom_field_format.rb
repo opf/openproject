@@ -28,45 +28,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Redmine::CustomFieldFormat.map do |fields|
-  fields.register Redmine::CustomFieldFormat.new('string',
-                                                 label: :label_string,
-                                                 order: 1)
-  fields.register Redmine::CustomFieldFormat.new('text',
-                                                 label: :label_text,
-                                                 order: 2)
-  fields.register Redmine::CustomFieldFormat.new('int',
-                                                 label: :label_integer,
-                                                 order: 3,
-                                                 formatter: CustomValue::IntStrategy)
-  fields.register Redmine::CustomFieldFormat.new('float',
-                                                 label: :label_float,
-                                                 order: 4,
-                                                 formatter: CustomValue::FloatStrategy)
-  fields.register Redmine::CustomFieldFormat.new('list',
-                                                 label: :label_list,
-                                                 order: 5,
-                                                 formatter: CustomValue::ListStrategy)
-  fields.register Redmine::CustomFieldFormat.new('date',
-                                                 label: :label_date,
-                                                 order: 6,
-                                                 formatter: CustomValue::DateStrategy)
-  fields.register Redmine::CustomFieldFormat.new('bool',
-                                                 label: :label_boolean,
-                                                 order: 7,
-                                                 formatter: CustomValue::BoolStrategy)
-  fields.register Redmine::CustomFieldFormat.new('user',
-                                                 label: Proc.new { User.model_name.human },
-                                                 only: %w(WorkPackage TimeEntry
-                                                          Version Project),
-                                                 edit_as: 'list',
-                                                 order: 8,
-                                                 formatter: CustomValue::UserStrategy)
-  fields.register Redmine::CustomFieldFormat.new('version',
-                                                 label: Proc.new { Version.model_name.human },
-                                                 only: %w(WorkPackage TimeEntry
-                                                          Version Project),
-                                                 edit_as: 'list',
-                                                 order: 9,
-                                                 formatter: CustomValue::VersionStrategy)
+OpenProject::CustomFieldFormat.map do |fields|
+  fields.register OpenProject::CustomFieldFormat.new('string',
+                                                     label: :label_string,
+                                                     order: 1)
+  fields.register OpenProject::CustomFieldFormat.new('text',
+                                                     label: :label_text,
+                                                     order: 2)
+  fields.register OpenProject::CustomFieldFormat.new('int',
+                                                     label: :label_integer,
+                                                     order: 3,
+                                                     formatter: CustomValue::IntStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('float',
+                                                     label: :label_float,
+                                                     order: 4,
+                                                     formatter: CustomValue::FloatStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('list',
+                                                     label: :label_list,
+                                                     order: 5,
+                                                     formatter: CustomValue::ListStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('date',
+                                                     label: :label_date,
+                                                     order: 6,
+                                                     formatter: CustomValue::DateStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('bool',
+                                                     label: :label_boolean,
+                                                     order: 7,
+                                                     formatter: CustomValue::BoolStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('user',
+                                                     label: Proc.new { User.model_name.human },
+                                                     only: %w(WorkPackage TimeEntry
+                                                              Version Project),
+                                                     edit_as: 'list',
+                                                     order: 8,
+                                                     formatter: CustomValue::UserStrategy)
+  fields.register OpenProject::CustomFieldFormat.new('version',
+                                                     label: Proc.new { Version.model_name.human },
+                                                     only: %w(WorkPackage TimeEntry
+                                                              Version Project),
+                                                     edit_as: 'list',
+                                                     order: 9,
+                                                     formatter: CustomValue::VersionStrategy)
 end

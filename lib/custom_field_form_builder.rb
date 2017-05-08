@@ -54,7 +54,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
                                   name: custom_field_field_name,
                                   id: custom_field_field_id)
 
-    field_format = Redmine::CustomFieldFormat.find_by_name(object.custom_field.field_format)
+    field_format = OpenProject::CustomFieldFormat.find_by_name(object.custom_field.field_format)
 
     case field_format.try(:edit_as)
     when 'date'

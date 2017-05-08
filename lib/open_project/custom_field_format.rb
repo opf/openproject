@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   class CustomFieldFormat
     include Redmine::I18n
 
@@ -62,31 +62,6 @@ module Redmine
 
       def find_by_name(name)
         @@available[name.to_s]
-      end
-
-      def label_for(name)
-        format = @@available[name.to_s]
-        if format
-          format.label.is_a?(Proc) ? format.label.call : l(format.label)
-        end
-      end
-
-      # Return an array of custom field formats which can be used in select_tag
-      def as_select(class_name = nil)
-        fields = @@available.values
-        fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
-
-        fields
-          .sort_by(&:order)
-          .map do |custom_field_format|
-            [label_for(custom_field_format.name), custom_field_format.name]
-          end
-      end
-
-      def format_value(value, _field_format)
-        deprecate format_value: 'Use value#formatted_value instead'
-
-        value.formatted_value
       end
     end
   end

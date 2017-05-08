@@ -49,7 +49,7 @@ class CustomField < ActiveRecord::Base
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_inclusion_of :field_format, in: Redmine::CustomFieldFormat.available_formats
+  validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
 
   validate :validate_default_value
 

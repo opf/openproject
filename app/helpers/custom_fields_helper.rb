@@ -48,7 +48,7 @@ module CustomFieldsHelper
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
 
-    field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
+    field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
 
     tag = case field_format.try(:edit_as)
           when 'date'
@@ -115,7 +115,7 @@ module CustomFieldsHelper
   def custom_field_tag_for_bulk_edit(name, custom_field, project=nil)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
-    field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
+    field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
     when 'date'
       styled_text_field_tag(field_name, '', id: field_id, size: 10) +
@@ -148,6 +148,23 @@ module CustomFieldsHelper
 
   # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select(custom_field)
-    Redmine::CustomFieldFormat.as_select(custom_field.class.customized_class.name)
+    class_name = custom_field.class.customized_class.name
+
+    fields = OpenProject::CustomFieldFormat.available.values
+    fields = fields.select { |field| field.class_names.nil? || field.class_names.include?(class_name) }
+
+    fields
+      .sort_by(&:order)
+      .map do |custom_field_format|
+        [label_for_custom_field_format(custom_field_format), custom_field_format.name]
+      end
+  end
+
+  private
+
+  def label_for_custom_field_format(format)
+    if format
+      format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
+    end
   end
 end
