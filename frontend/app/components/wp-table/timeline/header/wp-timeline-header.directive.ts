@@ -40,25 +40,15 @@ import {openprojectModule} from "../../../../angular-modules";
 const colorGrey1 = "#AAAAAA";
 const colorGrey2 = "#DDDDDD";
 
-export type GlobalElement = (viewParams:TimelineViewParameters, elem:HTMLElement) => any;
-type GlobalElementsRegistry = { [name:string]:GlobalElement };
-
 export class WorkPackageTimelineHeaderController {
 
   public wpTimeline:WorkPackageTimelineTableController;
-
-  private globalElementsRegistry:GlobalElementsRegistry = {};
-
-  private globalElements:{ [type:string]:HTMLElement } = {};
-
-  private marginTop:number;
 
   private activeZoomLevel:ZoomLevel;
 
   private innerHeader:ng.IAugmentedJQuery;
 
   constructor(public $element:ng.IAugmentedJQuery) {
-    this.addElement("todayline", todayLine);
   }
 
   $onInit() {
@@ -68,7 +58,6 @@ export class WorkPackageTimelineHeaderController {
   refreshView(vp:TimelineViewParameters) {
     this.innerHeader = this.$element.find('.wp-table-timeline--header-inner');
     this.renderLabels(vp);
-    this.renderGlobalElements(vp);
   }
 
   getHeaderWidth():number {
@@ -80,23 +69,12 @@ export class WorkPackageTimelineHeaderController {
     return this.$element.offset().left;
   }
 
-  addElement(name:string, renderer:GlobalElement) {
-    this.globalElementsRegistry[name] = renderer;
-  }
-
-  removeElement(name:string) {
-    this.globalElements[name].remove();
-    delete this.globalElementsRegistry[name];
-  }
-
   private renderLabels(vp:TimelineViewParameters) {
     if (this.activeZoomLevel === vp.settings.zoomLevel) {
       return;
     }
 
     this.innerHeader.empty();
-    this.globalElements = {};
-    this.renderGlobalElements(vp);
 
     switch (vp.settings.zoomLevel) {
       case ZoomLevel.DAYS:
@@ -127,7 +105,7 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = '100%';
+      cell.style.height = '32px';
       cell.style.zIndex = "2";
     });
 
@@ -135,7 +113,7 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("D");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.zIndex = "1";
-      cell.style.height = '100%';
+      cell.style.height = '22px';
       cell.style.borderTop = `1px solid ${colorGrey1}`;
     });
 
@@ -160,7 +138,7 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = '100%';
+      cell.style.height = '22px';
       cell.style.zIndex = "2";
     });
 
@@ -187,14 +165,14 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = start.format("MMM");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = '100%';
+      cell.style.height = '32px';
     });
 
     this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.style.borderColor = `${colorGrey1}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = "25px";
+      cell.style.height = "20px";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
       cell.style.borderBottom = `1px solid ${colorGrey1}`;
@@ -214,12 +192,12 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = '100%';
+      cell.style.height = '32px';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
-      cell.style.height = "25px";
+      cell.style.height = "20px";
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.style.paddingTop = "5px";
@@ -243,14 +221,14 @@ export class WorkPackageTimelineHeaderController {
       cell.innerHTML = "Q" + start.format("Q");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = '100%';
+      cell.style.height = '32px';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("M");
       cell.style.borderColor = `${colorGrey2}`;
       cell.style.borderTop = `1px solid ${colorGrey1}`;
-      cell.style.height = "25px";
+      cell.style.height = "20px";
       cell.style.paddingTop = "5px";
       cell.style.height = "20px";
       cell.style.borderBottom = `1px solid ${colorGrey1}`;
@@ -299,29 +277,6 @@ export class WorkPackageTimelineHeaderController {
     label.style.lineHeight = "normal";
     this.innerHeader.append(label);
     return label;
-  }
-
-  private renderGlobalElements(vp:TimelineViewParameters) {
-    const enabledGlobalElements = _.keys(this.globalElementsRegistry);
-    const createdGlobalElements = _.keys(this.globalElements);
-    const newGlobalElements = _.difference(enabledGlobalElements, createdGlobalElements);
-
-    // new elements
-    for (const newElem of newGlobalElements) {
-      const elem = document.createElement("div");
-      elem.className = timelineElementCssClass + " wp-timeline-global-element-" + newElem;
-      elem.style.position = "absolute";
-      elem.style.top = this.marginTop + "px";
-      elem.style.zIndex = "100";
-      this.innerHeader.append(elem);
-      this.globalElements[newElem] = elem;
-    }
-
-    // update elements
-    for (const elemType of _.keys(this.globalElements)) {
-      const elem = this.globalElements[elemType];
-      this.globalElementsRegistry[elemType](vp, elem);
-    }
   }
 }
 
