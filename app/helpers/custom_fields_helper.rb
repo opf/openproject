@@ -150,15 +150,4 @@ module CustomFieldsHelper
   def custom_field_formats_for_select(custom_field)
     Redmine::CustomFieldFormat.as_select(custom_field.class.customized_class.name)
   end
-
-  # Renders the custom_values in api views
-  def render_api_custom_values(custom_values, api)
-    api.array :custom_fields do
-      custom_values.each do |custom_value|
-        api.custom_field id: custom_value.custom_field_id, name: custom_value.custom_field.name do
-          api.value custom_value.value
-        end
-      end
-    end unless custom_values.empty?
-  end
 end
