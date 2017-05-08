@@ -71,8 +71,8 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
   end
 
   def format_single(custom_field, values)
-    old_value = format_value(values.first, custom_field.field_format) if values.first
-    value = format_value(values.last, custom_field.field_format) if values.last
+    old_value = format_value(values.first, custom_field) if values.first
+    value = format_value(values.last, custom_field) if values.last
 
     [old_value, value]
   end
@@ -89,7 +89,7 @@ class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
     String(values)
       .split(",")
       .map(&:strip)
-      .map { |value| format_value value, custom_field.field_format }
+      .map { |value| format_value value, custom_field }
       .join(", ")
       .presence
   end

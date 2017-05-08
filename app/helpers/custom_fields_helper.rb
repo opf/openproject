@@ -140,8 +140,9 @@ module CustomFieldsHelper
   end
 
   # Return a string used to display a custom value
-  def format_value(custom_value, _field_format)
-    deprecate format_value: 'Use CustomValue#formatted_value instead'
+  def format_value(value, custom_field)
+    custom_value = CustomValue.new(custom_field: custom_field,
+                                   value: value)
 
     custom_value.formatted_value
   end
@@ -156,13 +157,13 @@ module CustomFieldsHelper
     fields
       .sort_by(&:order)
       .map do |custom_field_format|
-        [label_for_custom_field_format(custom_field_format), custom_field_format.name]
+        [label_for_custom_field_format(custom_field_format.name), custom_field_format.name]
       end
   end
 
-  private
+  def label_for_custom_field_format(format_string)
+    format = OpenProject::CustomFieldFormat.find_by_name(format_string)
 
-  def label_for_custom_field_format(format)
     if format
       format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
     end

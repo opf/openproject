@@ -45,7 +45,7 @@ describe OpenProject::JournalFormatter::CustomField do
   describe '#render' do
     describe 'WITH the first value beeing nil, and the second a valid value as string' do
       let(:values) { [nil, '1'] }
-      let(:formatted_value) { format_value(values.last, custom_field.field_format) }
+      let(:formatted_value) { format_value(values.last, custom_field) }
 
       let(:expected) {
         I18n.t(:text_journal_set_to,
@@ -58,8 +58,8 @@ describe OpenProject::JournalFormatter::CustomField do
 
     describe 'WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string' do
       let(:values) { ['0', '1'] }
-      let(:old_formatted_value) { format_value(values.first, custom_field.field_format) }
-      let(:new_formatted_value) { format_value(values.last, custom_field.field_format) }
+      let(:old_formatted_value) { format_value(values.first, custom_field) }
+      let(:new_formatted_value) { format_value(values.last, custom_field) }
 
       let(:expected) {
         I18n.t(:text_journal_changed,
@@ -73,7 +73,7 @@ describe OpenProject::JournalFormatter::CustomField do
 
     describe 'WITH the first value beeing a valid value as a string, and the second beeing nil' do
       let(:values) { ['0', nil] }
-      let(:formatted_value) { format_value(values.first, custom_field.field_format) }
+      let(:formatted_value) { format_value(values.first, custom_field) }
 
       let(:expected) {
         I18n.t(:text_journal_deleted,
@@ -91,7 +91,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) {
         I18n.t(:text_journal_set_to,
                label: "#{custom_field.name}",
-               value: "#{ format_value(values.last, custom_field.field_format) }")
+               value: "#{ format_value(values.last, custom_field) }")
       }
 
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
@@ -104,8 +104,8 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) {
         I18n.t(:text_journal_changed,
                label: "#{custom_field.name}",
-               old: "#{ format_value(values.first, custom_field.field_format) }",
-               new: "#{ format_value(values.last, custom_field.field_format) }")
+               old: "#{ format_value(values.first, custom_field) }",
+               new: "#{ format_value(values.last, custom_field) }")
       }
 
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
@@ -118,7 +118,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) {
         I18n.t(:text_journal_deleted,
                label: "#{custom_field.name}",
-               old: "#{ format_value(values.first, custom_field.field_format) }")
+               old: "#{ format_value(values.first, custom_field) }")
       }
 
       it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
