@@ -12,6 +12,14 @@
           nextDesc     : I18n.t('js.sort.activate_dsc'),
           nextNone     : I18n.t('js.sort.activate_no')
     };
-    $('#sortable-table').not('.tablesorter').tablesorter();
+
+    $('#sortable-table')
+      .not('.tablesorter')
+      .tablesorter({
+        sortList: [[0, 0]],
+        textExtraction: function(node, table, cellIndex) {
+          return $(node).attr('raw-data');
+        }
+      });
   });
 })(jQuery);
