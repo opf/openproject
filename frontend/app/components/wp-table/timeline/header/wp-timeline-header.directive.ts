@@ -55,6 +55,8 @@ export class WorkPackageTimelineHeaderController {
 
   private activeZoomLevel:ZoomLevel;
 
+  private innerHeader:ng.IAugmentedJQuery;
+
   constructor(public $element:ng.IAugmentedJQuery) {
     this.addElement("todayline", todayLine);
   }
@@ -64,6 +66,7 @@ export class WorkPackageTimelineHeaderController {
   }
 
   refreshView(vp:TimelineViewParameters) {
+    this.innerHeader = this.$element.find('.wp-table-timeline--header-inner');
     this.renderLabels(vp);
     this.renderGlobalElements(vp);
   }
@@ -91,7 +94,7 @@ export class WorkPackageTimelineHeaderController {
       return;
     }
 
-    this.$element.empty();
+    this.innerHeader.empty();
     this.globalElements = {};
     this.renderGlobalElements(vp);
 
@@ -294,7 +297,7 @@ export class WorkPackageTimelineHeaderController {
     label.style.top = "0px";
     label.style.left = "0px";
     label.style.lineHeight = "normal";
-    this.$element.append(label);
+    this.innerHeader.append(label);
     return label;
   }
 
@@ -310,7 +313,7 @@ export class WorkPackageTimelineHeaderController {
       elem.style.position = "absolute";
       elem.style.top = this.marginTop + "px";
       elem.style.zIndex = "100";
-      this.$element.append(elem);
+      this.innerHeader.append(elem);
       this.globalElements[newElem] = elem;
     }
 
@@ -323,7 +326,7 @@ export class WorkPackageTimelineHeaderController {
 }
 
 openprojectModule.component("wpTimelineHeader", {
-  template: '<div class="wp-table-timeline--header"></div>',
+  templateUrl: '/components/wp-table/timeline/header/wp-timeline-header.html',
   controller: WorkPackageTimelineHeaderController,
   require: {
     wpTimeline: '^wpTimelineContainer'
