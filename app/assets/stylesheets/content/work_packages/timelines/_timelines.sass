@@ -1,4 +1,4 @@
-@import '_slider'
+@import '_grid'
 @import 'elements/_bar'
 @import 'elements/_milestone'
 @import 'elements/_relation'
@@ -13,7 +13,6 @@
   top: calc(#{$generic-table--header-height} + 10px)
   border: 1px solid #D7D7D7
   box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.2)
-  // Should match the thead z-index
   z-index: 200
 
   // Ensure even padding around buttons
@@ -32,6 +31,10 @@
 .wp-table-timeline--header
   height: $generic-table--header-height
   width: 100%
+  position: sticky
+  top: 0
+  background: white
+  z-index: 300
 
 // Ensure the height of table and timeline rows
 .wp-timeline-cell,

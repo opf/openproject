@@ -34,6 +34,7 @@ import {WorkPackageTimelineHeaderController} from "./header/wp-timeline-header.d
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
+export const timelineGridElementCssClass = "wp-timeline--grid-element";
 export const timelineMarkerSelectionStartClass = "selection-start";
 
 /**

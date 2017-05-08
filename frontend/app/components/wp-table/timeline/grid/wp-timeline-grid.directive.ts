@@ -29,16 +29,13 @@ import {
   TimelineViewParameters,
   timelineElementCssClass,
   ZoomLevel,
-  calculatePositionValueForDayCount
+  calculatePositionValueForDayCount, timelineGridElementCssClass
 } from "../wp-timeline";
 import {todayLine} from "../wp-timeline.today-line";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import * as moment from 'moment';
 import Moment = moment.Moment;
 import {openprojectModule} from "../../../../angular-modules";
-
-const colorGrey1 = "#AAAAAA";
-const colorGrey2 = "#DDDDDD";
 
 export class WorkPackageTableTimelineGrid {
 
@@ -133,15 +130,9 @@ export class WorkPackageTableTimelineGrid {
 
     for (let [start, end] of slices) {
       const cell = document.createElement("div");
-      cell.className = timelineElementCssClass;
-      cell.style.position = "absolute";
-      cell.style.borderRight = `1px solid ${colorGrey1}`;
-      cell.style.top = "45px";
-      cell.style.height = "calc(100% - 45px)";
+      cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
       cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
-      cell.style.textAlign = "center";
-      cell.style.fontSize = "8px";
       this.gridContainer[0].appendChild(cell);
       cellCallback(start, cell);
     }
