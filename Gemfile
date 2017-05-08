@@ -35,7 +35,7 @@ gem 'rails', '~> 5.0.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.0.0'
-gem 'responders', '~> 2.3'
+gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', '~> 0.9.7'
@@ -90,10 +90,10 @@ gem 'bcrypt', '~> 3.1.6'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 2.18.5'
+gem 'oj', '~> 3.0.5'
 
-gem 'delayed_job_active_record', '~> 4.1.1'
 gem 'daemons'
+gem 'delayed_job_active_record', '~> 4.1.1'
 
 gem 'rack-protection', '~> 2.0.0.beta2'
 
@@ -106,8 +106,8 @@ gem 'rack-attack', '~> 5.0.1'
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
+gem 'gon', '~> 6.1.0'
 gem "syck", '~> 1.0.5', require: false
-gem 'gon', '~> 4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
@@ -135,7 +135,7 @@ end
 gem 'sprockets', '~> 3.7.0'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sass', '3.5.0.pre.rc.1'
-gem 'autoprefixer-rails', '~> 6.7.7.1'
+gem 'autoprefixer-rails', '~> 6.7.7.2'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
 
@@ -172,6 +172,7 @@ group :test do
   gem 'cucumber-rails', '~> 1.4.4', require: false
   gem 'rack_session_access'
   gem 'database_cleaner', '~> 1.5.3'
+  # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 3.5.2', group: :development
@@ -197,14 +198,14 @@ group :test do
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 2.53.4'
   gem 'timecop', '~> 0.8.1'
-  gem 'webmock', '~> 2.1.0', require: false
+  gem 'webmock', '~> 3.0.0', require: false
 
   gem 'simplecov', '~> 0.12.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
 
-  gem 'parallel_tests', '~> 2.4.1'
+  gem 'parallel_tests', '~> 2.14.0'
 end
 
 group :ldap do
@@ -232,7 +233,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.19.1'
+gem 'grape', '~> 0.19.2'
 gem 'grape-cache_control', '~> 1.0.1'
 
 gem 'roar',   '~> 1.0.0'
