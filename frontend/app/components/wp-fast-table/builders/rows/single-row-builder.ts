@@ -1,20 +1,16 @@
-import {TimelineCellBuilder} from "../timeline-cell-builder";
-import {States} from "../../../states.service";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
 import {CellBuilder} from "../cell-builder";
 import {DetailsLinkBuilder} from "../details-link-builder";
-import {$injectFields, injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
+import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
 import {checkedClassName} from "../ui-state-link-builder";
 import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
 import {WorkPackageTable} from "../../wp-fast-table";
 
 export const rowClassName = 'wp-table--row';
-
-export const internalColumnDetails = '__internal-detailsLink';
 
 export const internalDetailsColumn = {
   id: '__internal-detailsLink'
@@ -31,7 +27,7 @@ export class SingleRowBuilder {
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
 
-  constructor(protected stopExisting$: Observable<any>, protected workPackageTable: WorkPackageTable) {
+  constructor(protected stopExisting$:Observable<any>, protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
   }
 

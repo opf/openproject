@@ -26,29 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
-import { WorkPackageTableTimelineService } from './../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
-import {WorkPackageTimelineTableController} from './timeline/wp-timeline-container.directive';
-import * as MouseTrap from "mousetrap";
-import {States} from './../states.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageDisplayFieldService} from './../wp-display/wp-display-field/wp-display-field.service';
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageTable} from './../wp-fast-table/wp-fast-table';
-import {ContextMenuService} from '../context-menus/context-menu.service';
-import {debugLog} from '../../helpers/debug_output';
-import {Observable} from 'rxjs/Observable';
+import {States} from "./../states.service";
+import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
+import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
+import {ContextMenuService} from "../context-menus/context-menu.service";
+import {debugLog} from "../../helpers/debug_output";
+import {Observable} from "rxjs/Observable";
+import {WorkPackageTimelineTableController} from "./timeline/container/wp-timeline-container.directive";
 
 angular
   .module('openproject.workPackages.directives')
@@ -56,17 +45,13 @@ angular
 
 function wpTable(
   keepTab:KeepTabService,
-  I18n:op.I18n,
-  $window:ng.IWindowService,
   PathHelper:any,
   columnsModal:any,
-  states:States,
   contextMenu:ContextMenuService
 ){
   return {
     restrict: 'E',
     replace: true,
-    require: '^wpTimelineContainer',
     templateUrl: '/components/wp-table/wp-table.directive.html',
     scope: {
       projectIdentifier: '='
@@ -76,21 +61,7 @@ function wpTable(
 
     link: function(scope:any,
                    element:ng.IAugmentedJQuery,
-                   attributes:ng.IAttributes,
-                   wpTimelineContainer:WorkPackageTimelineTableController) {
-      var activeSelectionBorderIndex;
-      scope.wpTimelineContainer = wpTimelineContainer;
-
-      var t0 = performance.now();
-
-      const timeline = element.find('.wp-table-timeline--body');
-      const tbody = element.find('.work-package--results-tbody');
-      scope.tbody = tbody;
-      scope.table = new WorkPackageTable(element[0], tbody[0], timeline[0], wpTimelineContainer);
-
-
-      var t1 = performance.now();
-      debugLog("Render took " + (t1 - t0) + " milliseconds.");
+                   attributes:ng.IAttributes) {
 
       scope.workPackagePath = PathHelper.workPackagePath;
 
@@ -123,8 +94,9 @@ function wpTable(
   };
 }
 
-class WorkPackagesTableController {
-  constructor(private $scope:any,
+export class WorkPackagesTableController {
+  constructor(private $scope:ng.IScope,
+              public $element:ng.IAugmentedJQuery,
               $rootScope:ng.IRootScopeService,
               states:States,
               I18n:op.I18n,
@@ -188,6 +160,19 @@ class WorkPackagesTableController {
         if (!this.sumsSchemaFetched()) { this.fetchSumsSchema(); }
       }
     });
+  }
+
+  public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
+
+    var t0 = performance.now();
+
+    const tbody = this.$element.find('.work-package--results-tbody');
+    this.$scope.table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.$scope.tbody = tbody;
+
+
+    var t1 = performance.now();
+    debugLog("Render took " + (t1 - t0) + " milliseconds.");
   }
 
   private sumsSchemaFetched() {

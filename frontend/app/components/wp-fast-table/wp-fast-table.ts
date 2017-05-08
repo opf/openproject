@@ -7,11 +7,11 @@ import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
-import {WorkPackageTimelineTableController} from "../wp-table/timeline/wp-timeline-container.directive";
 import {PlainRowsBuilder} from "./builders/modes/plain/plain-rows-builder";
 import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder";
 import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
 import {RowsBuilder} from "./builders/modes/rows-builder";
+import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -29,10 +29,12 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
+  // Timeline elements
+
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
-              public timelineController: WorkPackageTimelineTableController) {
+              public timelineController:WorkPackageTimelineTableController) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }

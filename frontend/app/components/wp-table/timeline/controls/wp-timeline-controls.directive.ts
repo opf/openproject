@@ -1,4 +1,3 @@
-import { WorkPackageTableTimelineService } from './../../../wp-fast-table/state/wp-table-timeline.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,10 +27,11 @@ import { WorkPackageTableTimelineService } from './../../../wp-fast-table/state/
 // ++
 
 import { openprojectModule } from "../../../../angular-modules";
-import { WorkPackageTimelineTableController } from '../wp-timeline-container.directive';
+import { WorkPackageTableTimelineService } from './../../../wp-fast-table/state/wp-table-timeline.service';
 import { ZoomLevel } from '../wp-timeline';
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 
 class WorkPackageTimelineControlController {
 
@@ -81,8 +81,8 @@ class WorkPackageTimelineControlController {
 }
 
 
-openprojectModule.component("timelineControl", {
-  templateUrl: '/components/wp-table/timeline/controls/wp-timeline-control.directive.html',
+openprojectModule.component("wpTimelineControls", {
+  templateUrl: '/components/wp-table/timeline/controls/wp-timeline-controls.directive.html',
   controller: WorkPackageTimelineControlController,
   require: {
     wpTimeline: '^wpTimelineContainer'

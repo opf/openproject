@@ -30,78 +30,69 @@ import {
   timelineElementCssClass,
   ZoomLevel,
   calculatePositionValueForDayCount
-} from "./wp-timeline";
-import {todayLine} from "./wp-timeline.today-line";
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
-import * as noUiSlider from "nouislider";
+} from "../wp-timeline";
+import {todayLine} from "../wp-timeline.today-line";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import * as moment from 'moment';
 import Moment = moment.Moment;
-
-const cssClassHeader = ".wp-table-timeline--header";
-const cssHeaderContainer = ".wp-timeline-header-container";
+import {openprojectModule} from "../../../../angular-modules";
 
 const colorGrey1 = "#AAAAAA";
 const colorGrey2 = "#DDDDDD";
 
-export type GlobalElement = (viewParams: TimelineViewParameters, elem: HTMLElement) => any;
-type GlobalElementsRegistry = {[name: string]: GlobalElement};
+export type GlobalElement = (viewParams:TimelineViewParameters, elem:HTMLElement) => any;
+type GlobalElementsRegistry = { [name:string]:GlobalElement };
 
-export class WpTimelineHeader {
+export class WorkPackageTimelineHeaderController {
 
-  private globalElementsRegistry: GlobalElementsRegistry = {};
+  public wpTimeline:WorkPackageTimelineTableController;
 
-  private globalElements: {[type: string]: HTMLElement} = {};
+  private globalElementsRegistry:GlobalElementsRegistry = {};
 
-  private headerCell: HTMLElement;
-  private outerHeader: JQuery;
+  private globalElements:{ [type:string]:HTMLElement } = {};
 
-  private marginTop: number;
+  private marginTop:number;
 
-  private activeZoomLevel: ZoomLevel;
+  private activeZoomLevel:ZoomLevel;
 
-  constructor(protected wpTimeline: WorkPackageTimelineTableController) {
+  constructor(public $element:ng.IAugmentedJQuery) {
     this.addElement("todayline", todayLine);
   }
 
-  refreshView(vp: TimelineViewParameters) {
-    this.lazyInit();
+  $onInit() {
+    this.wpTimeline.header = this;
+  }
+
+  refreshView(vp:TimelineViewParameters) {
     this.renderLabels(vp);
     this.renderGlobalElements(vp);
   }
 
-  getHeaderWidth() {
+  getHeaderWidth():number {
     // Consider the left margin of the header due to the border.
-    return this.outerHeader ? (this.outerHeader.width() - 5) : 1;
+    return this.$element.width();
   }
 
-  getAbsoluteLeftCoordinates(): number {
-    return jQuery(this.headerCell).offset().left;
+  getAbsoluteLeftCoordinates():number {
+    return this.$element.offset().left;
   }
 
-  addElement(name: string, renderer: GlobalElement) {
+  addElement(name:string, renderer:GlobalElement) {
     this.globalElementsRegistry[name] = renderer;
   }
 
-  removeElement(name: string) {
+  removeElement(name:string) {
     this.globalElements[name].remove();
     delete this.globalElementsRegistry[name];
   }
 
-  private lazyInit() {
-    if (this.headerCell === undefined) {
-      this.headerCell = jQuery(cssClassHeader)[0];
-      this.outerHeader = jQuery(cssHeaderContainer);
-    }
-  }
-
-  private renderLabels(vp: TimelineViewParameters) {
+  private renderLabels(vp:TimelineViewParameters) {
     if (this.activeZoomLevel === vp.settings.zoomLevel) {
       return;
     }
 
-    jQuery(this.headerCell).empty();
+    this.$element.empty();
     this.globalElements = {};
-    this.lazyInit();
     this.renderGlobalElements(vp);
 
     switch (vp.settings.zoomLevel) {
@@ -120,7 +111,7 @@ export class WpTimelineHeader {
     this.activeZoomLevel = vp.settings.zoomLevel;
   }
 
-  private renderLabelsDays(vp: TimelineViewParameters) {
+  private renderLabelsDays(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM YYYY");
       cell.style.borderTop = `1px solid ${colorGrey1}`;
@@ -153,7 +144,7 @@ export class WpTimelineHeader {
     });
   }
 
-  private renderLabelsWeeks(vp: TimelineViewParameters) {
+  private renderLabelsWeeks(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("MMM YYYY");
@@ -180,7 +171,7 @@ export class WpTimelineHeader {
     });
   }
 
-  private renderLabelsMonths(vp: TimelineViewParameters) {
+  private renderLabelsMonths(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
@@ -207,7 +198,7 @@ export class WpTimelineHeader {
     });
   }
 
-  private renderLabelsQuarters(vp: TimelineViewParameters) {
+  private renderLabelsQuarters(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.borderTop = `1px solid ${colorGrey1}`;
       cell.innerHTML = start.format("YYYY");
@@ -234,7 +225,7 @@ export class WpTimelineHeader {
     });
   }
 
-  private renderLabelsYears(vp: TimelineViewParameters) {
+  private renderLabelsYears(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("YYYY");
       cell.style.borderTop = `1px solid ${colorGrey1}`;
@@ -263,14 +254,14 @@ export class WpTimelineHeader {
     });
   }
 
-  renderTimeSlices(vp: TimelineViewParameters,
-                   unit: moment.unitOfTime.DurationConstructor,
-                   marginTop: number,
-                   startView: Moment,
-                   endView: Moment,
-                   cellCallback: (start: Moment, cell: HTMLElement) => void) {
+  renderTimeSlices(vp:TimelineViewParameters,
+                   unit:moment.unitOfTime.DurationConstructor,
+                   marginTop:number,
+                   startView:Moment,
+                   endView:Moment,
+                   cellCallback:(start:Moment, cell:HTMLElement) => void) {
 
-    const slices: [Moment, Moment][] = [];
+    const slices:[Moment, Moment][] = [];
 
     const time = startView.clone().startOf(unit);
     const end = endView.clone().endOf(unit);
@@ -294,7 +285,7 @@ export class WpTimelineHeader {
     }
   }
 
-  private addLabelCell(): HTMLElement {
+  private addLabelCell():HTMLElement {
     const label = document.createElement("div");
     label.className = timelineElementCssClass;
     label.style.position = "absolute";
@@ -303,11 +294,11 @@ export class WpTimelineHeader {
     label.style.top = "0px";
     label.style.left = "0px";
     label.style.lineHeight = "normal";
-    this.headerCell.appendChild(label);
+    this.$element.append(label);
     return label;
   }
 
-  private renderGlobalElements(vp: TimelineViewParameters) {
+  private renderGlobalElements(vp:TimelineViewParameters) {
     const enabledGlobalElements = _.keys(this.globalElementsRegistry);
     const createdGlobalElements = _.keys(this.globalElements);
     const newGlobalElements = _.difference(enabledGlobalElements, createdGlobalElements);
@@ -319,7 +310,7 @@ export class WpTimelineHeader {
       elem.style.position = "absolute";
       elem.style.top = this.marginTop + "px";
       elem.style.zIndex = "100";
-      this.headerCell.appendChild(elem);
+      this.$element.append(elem);
       this.globalElements[newElem] = elem;
     }
 
@@ -329,5 +320,12 @@ export class WpTimelineHeader {
       this.globalElementsRegistry[elemType](vp, elem);
     }
   }
-
 }
+
+openprojectModule.component("wpTimelineHeader", {
+  template: '<div class="wp-table-timeline--header"></div>',
+  controller: WorkPackageTimelineHeaderController,
+  require: {
+    wpTimeline: '^wpTimelineContainer'
+  }
+});

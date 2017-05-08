@@ -27,7 +27,7 @@
 // ++
 import {timelineElementCssClass, RenderInfo} from "./wp-timeline";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {WorkPackageTimelineTableController} from "./container/wp-timeline-container.directive";
 import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {keyCodes} from "../../common/keyCodes.enum";

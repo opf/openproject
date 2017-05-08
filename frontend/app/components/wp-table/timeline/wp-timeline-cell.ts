@@ -28,7 +28,7 @@ import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-
 // ++
 import {States} from "../../states.service";
 import {RenderInfo} from "./wp-timeline";
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {WorkPackageTimelineTableController} from "./container/wp-timeline-container.directive";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
