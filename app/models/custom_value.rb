@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,11 +49,9 @@ class CustomValue < ActiveRecord::Base
   validate :validate_type_of_value
   validate :validate_length_of_value
 
-  # returns the value of this custom value, but converts it according to the field_format
-  # of the custom field beforehand
-  def typed_value
-    strategy.typed_value
-  end
+  delegate :typed_value,
+           :formatted_value,
+           to: :strategy
 
   def editable?
     custom_field.editable?

@@ -29,18 +29,19 @@
 require 'spec_helper'
 
 describe CustomValue::VersionStrategy do
-  let(:custom_value) {
+  let(:instance) { described_class.new(custom_value) }
+  let(:custom_value) do
     double('CustomValue',
            value: value,
            custom_field: custom_field,
            customized: customized)
-  }
+  end
   let(:customized) { double('customized') }
   let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:version) { FactoryGirl.build_stubbed(:version) }
 
   describe '#parse_value/#typed_value' do
-    subject { described_class.new(custom_value) }
+    subject { instance }
 
     context 'with a version' do
       let(:value) { version }
@@ -97,8 +98,60 @@ describe CustomValue::VersionStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'with a version' do
+      let(:value) { version }
+
+      it 'is the version to_s (without db access)' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        instance.parse_value(value)
+
+        is_expected.to eql value.to_s
+      end
+    end
+
+    context 'with an id string' do
+      let(:value) { version.id.to_s }
+
+      it 'is the version to_s (with db access)' do
+        allow(Version)
+          .to receive(:find_by)
+          .with(id: version.id.to_s)
+          .and_return(version)
+
+        is_expected.to eql version.to_s
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is blank and does not look for the version' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        is_expected.to eql ''
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is blank and does not look for the version' do
+        expect(Version)
+          .to_not receive(:find_by)
+
+        is_expected.to eql ''
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
     let(:allowed_ids) { %w(12 13) }
 
     before do

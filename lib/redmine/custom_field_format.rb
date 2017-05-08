@@ -45,34 +45,6 @@ module Redmine
       self.class_names = only
     end
 
-    def format(value)
-      send "format_as_#{name}", value
-    end
-
-    def format_as_date(value)
-      format_date(value.to_date); rescue; value     end
-
-    def format_as_bool(value)
-      is_true = ActiveRecord::Type::Boolean.new.cast(value)
-      l(is_true ? :general_text_Yes : :general_text_No)
-    end
-
-    ['string', 'text', 'int', 'list'].each do |name|
-      define_method("format_as_#{name}") {|value|
-        return value.to_s
-      }
-    end
-
-    def format_as_float(value)
-      number_with_delimiter(value.to_s)
-    end
-
-    ['user', 'version'].each do |name|
-      define_method("format_as_#{name}") {|value|
-        return value.blank? ? '' : name.classify.constantize.find_by(id: value.to_i).to_s
-      }
-    end
-
     class << self
       def map(&_block)
         yield self
@@ -107,14 +79,10 @@ module Redmine
         }
       end
 
-      def format_value(value, field_format)
-        return '' unless value && !value.empty?
+      def format_value(value, _field_format)
+        deprecate format_value: 'Use value#formatted_value instead'
 
-        if format_type = find_by_name(field_format)
-          format_type.format(value)
-        else
-          value
-        end
+        value.formatted_value
       end
     end
   end

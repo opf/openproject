@@ -29,13 +29,14 @@
 require 'spec_helper'
 
 describe CustomValue::DateStrategy do
-  let(:custom_value) {
+  let(:instance) { described_class.new(custom_value) }
+  let(:custom_value) do
     double('CustomValue',
            value: value)
-  }
+  end
 
   describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
+    subject { instance.typed_value }
 
     context 'value is some date string' do
       let(:value) { '2015-01-03' }
@@ -53,8 +54,36 @@ describe CustomValue::DateStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'value is some date string' do
+      let(:value) { '2015-01-03' }
+
+      it 'is the date' do
+        is_expected.to eql value
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is a blank string' do
+        is_expected.to eql value
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is a blank string' do
+        is_expected.to eql ''
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
 
     context 'value is valid date string' do
       let(:value) { '2015-01-03' }

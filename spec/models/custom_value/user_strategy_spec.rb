@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe CustomValue::UserStrategy do
+  let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',
            value: value,
@@ -40,7 +41,7 @@ describe CustomValue::UserStrategy do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   describe '#parse_value/#typed_value' do
-    subject { described_class.new(custom_value) }
+    subject { instance }
 
     context 'with a user' do
       let(:value) { user }
@@ -97,8 +98,54 @@ describe CustomValue::UserStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'with a User' do
+      let(:value) { user }
+
+      it 'is the user to_s (without db access)' do
+        instance.parse_value(value)
+
+        expect(User)
+          .to_not receive(:find_by)
+
+        expect(subject).to eql value.to_s
+      end
+    end
+
+    context 'with an id string' do
+      let(:value) { user.id.to_s }
+
+      it 'is the user to_s (with db access)' do
+        allow(User)
+          .to receive(:find_by)
+          .with(id: user.id.to_s)
+          .and_return(user)
+
+        expect(subject).to eql user.to_s
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is blank and does not look for the user' do
+        expect(subject).to eql ''
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is blank and does not look for the user' do
+        expect(subject).to eql ''
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
     let(:allowed_ids) { %w(12 13) }
 
     before do

@@ -29,13 +29,14 @@
 require 'spec_helper'
 
 describe CustomValue::FloatStrategy do
-  let(:custom_value) {
+  let(:instance) { described_class.new(custom_value) }
+  let(:custom_value) do
     double('CustomValue',
            value: value)
-  }
+  end
 
   describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
+    subject { instance.typed_value }
 
     context 'value is some float string' do
       let(:value) { '3.14' }
@@ -53,8 +54,42 @@ describe CustomValue::FloatStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'value is some float string' do
+      let(:value) { '3.14' }
+
+      it 'is the float string' do
+        is_expected.to eql value
+      end
+
+      it 'is localized' do
+        I18n.with_locale(:de) do
+          is_expected.to eql '3,14'
+        end
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is a blank string' do
+        is_expected.to eql value
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is a blank string' do
+        is_expected.to eql ''
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
 
     context 'value is float string in decimal notation' do
       let(:value) { '3.14' }
