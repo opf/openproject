@@ -6,14 +6,12 @@
                             is-disabled="vm.field.required && vm.field.isEmpty()"
                             link-title="{{ vm.saveTitle }}"
                             class="inplace-edit--control inplace-edit--control--save">
-      <icon-wrapper icon-name="checkmark" icon-title="{{ vm.saveTitle }}">
-      </icon-wrapper>
+      <op-icon icon-classes="icon-checkmark" icon-title="{{ ::vm.saveTitle }}"></op-icon>
     </accessible-by-keyboard>
     <accessible-by-keyboard execute="vm.onCancel()"
                             link-title="{{ vm.cancelTitle }}"
                             class="inplace-edit--control inplace-edit--control--cancel">
-      <icon-wrapper icon-name="close" icon-title="{{ vm.cancelTitle }}">
-      </icon-wrapper>
+      <op-icon icon-classes="icon-close" icon-title="{{ vm.cancelTitle }}"></op-icon>
     </accessible-by-keyboard>
 </div>
 </div>

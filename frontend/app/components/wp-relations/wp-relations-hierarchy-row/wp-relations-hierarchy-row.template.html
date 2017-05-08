@@ -30,18 +30,15 @@
                                   aria-hidden="false"
                                   execute="$ctrl.showEditForm = true"
                                   link-class="wp-relation--edit">
-              <icon-wrapper icon-name="edit"
-                            icon-title="{{ ::$ctrl.text.change_parent }}">
-              </icon-wrapper>
+              <op-icon icon-classes="icon-edit" icon-title="{{ ::$ctrl.text.change_parent }}"></op-icon>
           </accessible-by-keyboard>
 
           <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.relationType"
                                   aria-hidden="false"
                                   execute="$ctrl.removeRelation()"
                                   link-class="wp-relation--remove">
-              <icon-wrapper icon-name="remove"
-                            icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}">
-              </icon-wrapper>
+              <op-icon icon-classes="icon-remove"
+                       icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}"></op-icon>
           </accessible-by-keyboard>
         </div>
     </div>

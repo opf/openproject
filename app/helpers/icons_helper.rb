@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,37 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-feature 'Help menu items' do
-  let(:user) { FactoryGirl.create :admin }
-  let(:help_item) { find('.menu-item--help') }
-
-  before do
-    login_as user
+module IconsHelper
+  ##
+  # Create an <i> tag with the given icon class names
+  # and make it aria-hidden since screenreaders otherwise
+  # output the css `content` of the icon.
+  def op_icon(classnames)
+    %(<i class="#{classnames}" aria-hidden="true"></i>).html_safe
   end
 
-  describe 'When force_help_link is not set', js: true do
-    it 'renders a dropdown' do
-      visit home_path
-
-      help_item.click
-      expect(page).to have_selector('.drop-down--help li',
-                                    text: I18n.t('homescreen.links.user_guides'))
-    end
-  end
-
-  describe 'When force_help_link is set' do
-    let(:custom_url) { 'https://mycustomurl.example.org' }
-    before do
-      allow(OpenProject::Configuration).to receive(:force_help_link)
-        .and_return custom_url
-    end
-    it 'renders a link' do
-      visit home_path
-
-      expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.drop-down--help', visible: false)
-    end
+  ##
+  # Icon wrapper with an invisible label
+  def icon_wrapper(icon_class, label)
+    content = op_icon(icon_class)
+    content << content_tag(:span, label, class: 'hidden-for-sighted')
+    content
   end
 end

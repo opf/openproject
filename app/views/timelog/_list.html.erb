@@ -138,10 +138,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="buttons">
             <span ng-if="timeEntry.isEditable == true">
               <a ng-href="{{PathHelper.timeEntryEditPath(timeEntry.id)}}" class="no-decoration-on-hover">
-                <icon-wrapper icon-name="edit" icon-title="{{I18n.t('js.button_edit')}}"></icon-wrapper>
+                <op-icon icon-classes="icon-edit" icon-title="{{I18n.t('js.button_edit')}}"></op-icon>
               </a>
               <a ng-click="deleteTimeEntry(timeEntry.id)" href="" class="no-decoration-on-hover">
-                <icon-wrapper icon-name="delete" icon-title="{{I18n.t('js.button_delete')}}"></icon-wrapper>
+                <op-icon icon-classes="icon-delete" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
               </a>
             </span>
           </td>

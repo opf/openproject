@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <% if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
-        <i class="button--icon icon-quote"></i>
+        <%= op_icon('button--icon icon-quote') %>
         <span class="button--text"><%= l(:button_quote) %></span>
       <% end %>
     <% end %>
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <% if @message.editable_by?(User.current) %>
       <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
-        <i class="button--icon icon-edit"></i>
+        <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
     <% end %>
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item">
     <% if @message.destroyable_by?(User.current) %>
       <%= link_to(topic_path(@topic), method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'button') do %>
-        <i class="button--icon icon-delete"></i>
+        <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= l(:button_delete) %></span>
       <% end %>
     <% end %>

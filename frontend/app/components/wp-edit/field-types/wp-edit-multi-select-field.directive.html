@@ -51,17 +51,12 @@
   </select>
 
   <a href class="wp-inline-edit--toggle-multiselect form-label no-decoration-on-hover -transparent" ng-click="vm.field.toggleMultiselect()">
-    <icon-wrapper icon-name="minus2"
-                  icon-title="{{I18n.t('js.work_packages.label_switch_to_single_select')}}"
-                  ng-if="vm.field.isMultiselect"
-                  css-class="icon4">
-    </icon-wrapper>
-
-    <icon-wrapper icon-name="add"
-                  icon-title="{{I18n.t('js.work_packages.label_switch_to_multi_select')}}"
-                  ng-if="!vm.field.isMultiselect"
-                  css-class="icon4">
-    </icon-wrapper>
+    <op-icon ng-if="vm.field.isMultiselect"
+             icon-classes="icon-minus2 icon4"
+             icon-title="{{I18n.t('js.work_packages.label_switch_to_single_select')}}"></op-icon>
+    <op-icon ng-if="!vm.field.isMultiselect"
+             icon-classes="icon-add icon4"
+             icon-title="{{I18n.t('js.work_packages.label_switch_to_multi_select')}}"></op-icon>
   </a>
 
   <wp-edit-field-controls ng-show="!vm.inEditMode"

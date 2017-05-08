@@ -37,6 +37,7 @@ module ApplicationHelper
   include I18n
   include Redmine::I18n
   include HookHelper
+  include IconsHelper
 
   extend Forwardable
   def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
@@ -693,11 +694,5 @@ module ApplicationHelper
     s = raw '<em>' + OpenProject::Passwords::Evaluator.min_length_description + '</em>'
     s += raw '<br /><em>' + rules + '</em>' unless rules.empty?
     s
-  end
-
-  def icon_wrapper(icon_class, label)
-    content  = content_tag(:span, '', class: icon_class)
-    content += content_tag(:span, label, class: 'hidden-for-sighted')
-    content
   end
 end

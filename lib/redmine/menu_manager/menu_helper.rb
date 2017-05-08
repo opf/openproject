@@ -61,8 +61,9 @@ module Redmine::MenuManager::MenuHelper
                   param: :project_id,
                   caption: query_menu_item.title,
                   parent: :work_packages,
+                  icon: 'icon2 icon-pin',
                   html:    {
-                    class: 'icon2 icon-pin query-menu-item',
+                    class: 'query-menu-item',
                     'data-ui-route' => '',
                     'query-menu-item' => 'query-menu-item',
                     'object-id' => query_menu_item.navigatable_id
@@ -123,7 +124,12 @@ module Redmine::MenuManager::MenuHelper
     options[:aria] = { haspopup: 'true' }
     options[:class] = "#{options[:class]} #{selected ? 'selected' : ''}"
 
-    link_to(you_are_here_info(selected).html_safe + label, '', options)
+    link_to('', options) do
+      concat(op_icon(options[:icon])) if options[:icon]
+      concat(you_are_here_info(selected).html_safe)
+      concat(label)
+      concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options[:icon]
+    end
   end
 
   def any_item_selected?(items)
@@ -183,6 +189,7 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_menu_node(item, caption, url, selected)
     link_text = ''.html_safe
+    link_text << op_icon(item.icon) if item.icon.present?
     link_text << you_are_here_info(selected)
     link_text << content_tag(:span, caption, lang: menu_item_locale(item))
     html_options = item.html_options(selected: selected)

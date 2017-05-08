@@ -16,9 +16,8 @@
        lang="{{locale}}"
        id="{{ column.id }}">{{column.name}}</a>
     <a ng-if="!sortable">{{column.name}}</a>
-    <icon-wrapper css-class="dropdown-indicator icon-small"
-                  icon-name="pulldown"
-                  title="{{ text.openMenu }}"></icon-wrapper>
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"></op-icon>
   </span>
   <span class="generic-table--sort-header" ng-if="!isHierarchyColumn">
     <a href="javascript://"
@@ -28,8 +27,7 @@
        lang="{{locale}}"
        id="{{ column.id }}">{{column.name}}</a>
     <a ng-if="!sortable">{{column.name}}</a>
-    <icon-wrapper css-class="dropdown-indicator icon-small"
-                  icon-name="pulldown"
-                  title="{{ text.openMenu }}"></icon-wrapper>
+      <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+               icon-title="{{ text.openMenu }}"></op-icon>
   </span>
 </div>

@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             url: { action: :resend_invitation },
                             method: :post) do |_form| %>
           <button class="button" title="<%= t(:tooltip_resend_invitation) %>">
-            <i class="button--icon icon-mail1"></i>
+            <%= op_icon('button--icon icon-mail1') %>
             <span class="button--text"><%= t(:label_resend_invitation) %></span>
           </button>
         <% end %>
@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
     <li class="toolbar-item">
       <%= link_to user_path(@user), class: 'button' do %>
-        <i class="button--icon icon-user"></i>
+        <%= op_icon('button--icon icon-user') %>
         <span class="button--text"><%= l(:label_profile) %></span>
       <% end %>
     </li>
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if Setting.users_deletable_by_admins? %>
       <li class="toolbar-item">
         <%= link_to deletion_info_user_path(@user), class: 'button' do %>
-          <i class="button--icon icon-delete"></i>
+          <%= op_icon('button--icon icon-delete') %>
           <span class="button--text"><%= l(:button_delete) %></span>
         <% end %>
       </li>

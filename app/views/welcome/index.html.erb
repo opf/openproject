@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="wiki"><%= format_text Setting.welcome_text %></div>
     <% if @news.any? %>
       <div class="news mypage-box">
-        <i class="icon-context icon-news"></i>
+        <%= op_icon('icon-context icon-news') %>
         <h3><%=l(:label_news_latest)%></h3>
         <div class="overview">
           <%= render partial: 'news/news', collection: @news %>
@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="grid-content">
     <% if @projects.any? %>
       <div class="projects mypage-box overview">
-        <i class="icon-context icon-projects"></i>
+        <%= op_icon('icon-context icon-projects') %>
         <h3><%=l(:label_project_latest)%></h3>
         <ul>
           <% for project in @projects %>

@@ -2,7 +2,7 @@
   <span class="filename">{{file}}</span>
   <progress data-ng-hide="completed" max="100" value="{{value}}">{{value}}%</progress>
   <span class="upload-completed" data-ng-show="completed || error">
-    <i class="icon-close" data-ng-show="error"></i>
-    <i class="icon-checkmark" data-ng-show="completed"></i>
+    <op-icon icon-classes="icon-close" data-ng-show="error"></op-icon>
+    <op-icon icon-classes="icon-checkmark" data-ng-show="completed"></op-icon>
   </span>
 </li>

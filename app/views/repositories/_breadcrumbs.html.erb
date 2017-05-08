@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= link_to({ action: 'show', project_id: @project, path: nil, rev: @rev },
             { title: I18n.t(:label_repository_root) }) do %>
-  <i class="icon-home repository-breadcrumbs--home"></i>
+  <%= op_icon('icon-home repository-breadcrumbs--home') %>
 <% end %>
 <%
 dirs = path.split('/')

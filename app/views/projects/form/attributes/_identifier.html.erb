@@ -60,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= project.identifier %>
       </span>
       <%= link_to identifier_project_path, title: l(:button_edit), class: "icon" do %>
-        <i class="icon icon-edit"></i>
+        <%= op_icon('icon icon-edit') %>
         <span class="hidden-for-sighted">
           <%= l(:button_edit) %>
         </span>

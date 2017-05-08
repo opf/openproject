@@ -138,23 +138,23 @@ Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negati
   # TODO: This should not be a magic constant but derived from the actual table
   # header.
   if should_be_visible
-    table_row.should have_css('td:nth-child(1) span.icon-checkmark')
+    table_row.should have_css('td:nth-child(1) i.icon-checkmark')
   else
-    table_row.should_not have_css('td:nth-child(1) span.icon-checkmark')
+    table_row.should_not have_css('td:nth-child(1) i.icon-checkmark')
   end
 end
 
 Then(/^I should see that "([^"]*)" is( not)? a milestone and( not)? shown in aggregation$/) do |name, not_milestone, not_in_aggregation|
   row = page.find(:css, '.timelines-pet-name', text: Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
 
-  nodes = row.all(:css, '.timelines-pet-is_milestone span.icon-checkmark')
+  nodes = row.all(:css, '.timelines-pet-is_milestone i.icon-checkmark')
   if not_milestone
     nodes.should be_empty
   else
     nodes.should_not be_empty
   end
 
-  nodes = row.all(:css, '.timelines-pet-in_aggregation span.icon-checkmark')
+  nodes = row.all(:css, '.timelines-pet-in_aggregation i.icon-checkmark')
   if not_in_aggregation
     nodes.should be_empty
   else
@@ -169,7 +169,7 @@ Then(/^the "([^"]*)" row should (not )?be marked as allowing associations$/) do 
               .all(:css, 'table.generic-table tbody tr td', text: title)
               .first
               .find(:xpath, './ancestor::tr')
-  nodes = table_row.all(:css, '.timelines-pt-allows_association span.icon-checkmark')
+  nodes = table_row.all(:css, '.timelines-pt-allows_association i.icon-checkmark')
   if should_be_visible
     nodes.should_not be_empty
   else

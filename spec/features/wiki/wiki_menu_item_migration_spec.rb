@@ -68,7 +68,7 @@ describe 'Wiki menu_items migration', type: :feature do
 
     it 'shows the menu item' do
       visit project_wiki_path(project, project.wiki)
-      link = page.find('#menu-sidebar a.icon-wiki', text: menu_item.title)
+      link = page.find('#menu-sidebar a.wiki-menu--main-item', text: menu_item.title)
       link.click
 
       expect(page).to have_selector('.title-container h2', text: wiki_page.title)

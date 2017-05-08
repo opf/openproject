@@ -35,7 +35,7 @@ module.exports = function() {
     scope: {
       type: '&'
     },
-    template: '<i class="icon-{{icon}}"></i>',
+    template: '<op-icon icon-classes="icon-{{icon}}"></op-icon>',
     link: function(scope) {
       var icon = 'ticket',
           type = scope.type();

@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
             title="<%= l(:label_copy_to_clipboard) %>"
             copy-to-clipboard
             clipboard-target="#repository-checkout-url">
-      <span class="icon-copy"></span>
+      <%= op_icon('icon-copy') %>
       <span class="hidden-for-sighted"><%= l(:label_copy_to_clipboard) %></span>
     </button>
   </li>
@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
        class="persistent-toggle--click-handler button"
        ng-class="{ '-pressed': !isHidden }"
        title="<%= l('repositories.checkout.show_instructions') %>">
-      <i class="button--icon icon-info1"></i>
+      <%= op_icon('button--icon icon-info1') %>
     </a>
   </li>
   <% end %>
@@ -64,7 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <li class="toolbar-item -icon-only">
     <%= link_to stats_project_repository_path(@project),
         class: 'button', title: l(:label_statistics) do %>
-      <i class="button--icon icon-chart1"></i>
+      <%= op_icon('button--icon icon-chart1') %>
     <% end %>
   </li>
   <% end %>
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="toolbar-item -icon-only">
       <%= link_to settings_project_path(@project, tab: 'repository'),
           class: 'button', title: l(:label_settings) do %>
-        <i class="button--icon icon-settings"></i>
+        <%= op_icon('button--icon icon-settings') %>
       <% end %>
     </li>
   <% end %>

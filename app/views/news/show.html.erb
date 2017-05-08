@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
         accesskey: accesskey(:edit),
         class: 'button',
         onclick: 'jQuery("#edit-news").show(); return false;') do %>
-        <i class="button--icon icon-edit"></i>
+        <%= op_icon('button--icon icon-edit') %>
         <span class="button--text"><%= l(:button_edit) %></span>
       <% end %>
     </li>
@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
         data: { confirm: l(:text_are_you_sure) },
         method: :delete,
         class: 'button') do %>
-        <i class="button--icon icon-delete"></i>
+        <%= op_icon('button--icon icon-delete') %>
         <span class="button--text"><%= l(:button_delete) %></span>
       <% end %>
     </li>

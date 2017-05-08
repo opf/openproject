@@ -12,10 +12,10 @@
       <div data-ng-switch-when="upload">
         <div data-ng-show="canBeHidden()">
           <a data-ng-click="show = true" data-ng-hide="show">
-            <i class="icon-arrow-right2"></i>
+            <op-icon icon-classes="icon-arrow-right2"></op-icon>
           </a>
           <a data-ng-click="show = false" data-ng-show="show">
-            <i class="icon-arrow-down1"></i>
+            <op-icon icon-classes="icon-arrow-down1"></op-icon>
           </a>
           <span>
             {{::I18n.t('js.label_upload_counter', { done: uploadCount, count: content.uploads.length})}}

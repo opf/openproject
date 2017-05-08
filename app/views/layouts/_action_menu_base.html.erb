@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <a href="javascript:" class="button"
              accesskey="<%= OpenProject::AccessKeys.key_for(:more_menu) %>">
             <span class="button--text"><%= l(:label_more) %></span>
-            <i class="button--dropdown-indicator"></i>
+            <%= op_icon('button--dropdown-indicator') %>
           </a>
           <ul class="legacy-actions-more" style="display:none;">
             <%= content_for :action_menu_more %>

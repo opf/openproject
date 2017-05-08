@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
             id: 'new_news_link',
             aria: {label: t(:label_news_new)},
             title: t(:label_news_new)} do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.news') %></span>
       <% end %>
     </li>

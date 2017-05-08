@@ -7,7 +7,7 @@
                    ng-click="$ctrl.toggleRelationsCreateForm()"
                    href
                    id="hierarchy--add-parent">
-                    <i class="icon icon-add"></i>
+                    <op-icon icon-classes="icon icon-add"></op-icon>
                     <span>{{ ::$ctrl.text.addParent }}</span>
                 </a>
             </div>
@@ -34,17 +34,13 @@
                         execute="$ctrl.createRelation()"
                         class="wp-relations--save"
                         aria-hidden="false">
-                    <icon-wrapper icon-name="checkmark"
-                                  icon-title="{{ ::$ctrl.text.save }}">
-                    </icon-wrapper>
+                    <op-icon icon-classes="icon-checkmark" icon-title="{{ ::$ctrl.text.save }}"></op-icon>
                 </accessible-by-keyboard>
                 <accessible-by-keyboard
                         link-class="wp-create-relation--cancel"
                         execute="$ctrl.toggleRelationsCreateForm()"
                         aria-hidden="false">
-                    <icon-wrapper icon-name="remove"
-                                  icon-title="{{ ::$ctrl.text.abort }}">
-                    </icon-wrapper>
+                    <op-icon icon-classes="icon-remove" icon-title="{{ ::$ctrl.text.abort }}"></op-icon>
                 </accessible-by-keyboard>
             </div>
         </div>

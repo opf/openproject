@@ -8,11 +8,11 @@
           ng-disabled="$ctrl.isDisabled()"
           aria-label="{{ ::$ctrl.text.explanation }}">
 
-    <i class="button--icon icon-add"></i>
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
     <span class="button--text"
           ng-bind="::$ctrl.text.createWithDropdown"
           aria-hidden="true"></span>
-    <i class="button--icon icon-small icon-pulldown"></i>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
   <button class="button -alt-highlight add-work-package"
           ng-if="!$ctrl.projectIdentifier"
@@ -20,7 +20,7 @@
           ng-disabled="$ctrl.isDisabled()"
           aria-label="{{ ::$ctrl.text.explanation }}">
 
-    <i class="button--icon icon-add"></i>
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
     <span class="button--text"
           ng-bind="::$ctrl.text.createButton"
           aria-hidden="true"></span>

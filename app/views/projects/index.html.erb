@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
           { class: 'button -alt-highlight',
             aria: {label: t(:label_project_new)},
             title: t(:label_project_new)} do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= Project.model_name.human %></span>
       <% end %>
     </li>

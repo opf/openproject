@@ -6,7 +6,7 @@
         ng-disabled="vm.disabled"
         ng-class="{ '-active': vm.isActive() }"
         aria-label="{{ vm.label }}">
-  <i class="{{ ::vm.iconClass }} button--icon"></i>
+  <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
   <span class="button--text" ng-bind="::vm.buttonText"></span>
   <span class="badge -secondary" ng-if="vm.initialized">{{ vm.filterCount }}</span>
 </button>

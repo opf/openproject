@@ -15,7 +15,7 @@
     <ul class="export-options">
       <li ng-repeat="option in $ctrl.exportOptions">
         <a ng-href="{{ ::option.url }}" focus="$first" id="export-{{ ::option.identifier }}">
-          <i class="icon-export-{{ ::option.identifier }} icon-big"></i>
+          <op-icon icon-classes="icon-export-{{ ::option.identifier }} icon-big"></op-icon>
           <span class="export-label">{{ ::option.label }}</span>
         </a>
       </li>

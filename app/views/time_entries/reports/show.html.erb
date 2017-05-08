@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if User.current.allowed_to?({controller: 'timelog', action: :new}, @project) %>
       <li class="toolbar-item">
         <%= link_to polymorphic_new_time_entry_path(@issue || @project), class: 'button' do %>
-          <i class="button--icon icon-time"></i>
+          <%= op_icon('button--icon icon-time') %>
           <span class="button--text"><%= l(:button_log_time) %></span>
         <% end %>
       </li>

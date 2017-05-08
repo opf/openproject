@@ -2,7 +2,7 @@
      ng-hide="wpEditModeState.active && !wpEditModeState.form.isEditable">
   <button class="button -highlight" accesskey="3" ng-click="wpEditModeState.start()"
           ng-disabled="!wpEditModeState.form.isEditable">
-    <i class="button--icon icon-edit"></i>
+    <op-icon icon-classes="button--icon icon-edit"></op-icon>
     <span class="button--text" ng-bind="::I18n.t('js.button_edit')"></span>
   </button>
   <wp-watcher-button work-package="workPackage"
@@ -18,6 +18,6 @@
           target="DetailsMoreDropdownMenu"
           locals="permittedActions,actionsAvailable,triggerMoreMenuAction">
     <span class="button--text" ng-bind="::I18n.t('js.button_more')"></span>
-    <i class="button--dropdown-indicator"></i>
+    <op-icon icon-classes="button--dropdown-indicator"></op-icon>
   </button>
 </div>

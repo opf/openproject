@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
           title: l(:button_delete),
           disabled: true,
           class: '-highlight' do %>
-            <i class="button--icon icon-delete"></i>
+            <%= op_icon('button--icon icon-delete') %>
             <span class="button--text"><%= l(:button_delete) %></span>
         <% end %>
         <%= link_to settings_repository_tab_path,
@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
           title: l(:button_delete),
           method: :delete,
           class: 'button' do %>
-          <i class="button--icon icon-remove"></i>
+          <%= op_icon('button--icon icon-remove') %>
           <span class="button--text"><%= l(:button_remove) %></span>
         <% end %>
         <%= link_to settings_repository_tab_path,

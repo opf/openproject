@@ -146,7 +146,7 @@ describe('workPackageDetailsToolbar', function() {
 
       it('contains links for all core actions', function() {
         angular.forEach(actions, function(css, action) {
-          var link = getLink(listRoot, css);
+          var link = getLink(listRoot, action);
 
           expect(link.length).to.be.ok;
         });
@@ -154,7 +154,7 @@ describe('workPackageDetailsToolbar', function() {
 
       it('contains links with correct description', function() {
         angular.forEach(actions, function(css, action) {
-          var link = getLink(listRoot, css);
+          var link = getLink(listRoot, action);
 
           expect(link.text()).to.match(new RegExp(I18n.t('js.button_' + action)));
         });
@@ -172,7 +172,7 @@ describe('workPackageDetailsToolbar', function() {
     describe('link css', function() {
       it('contains links with correct description', function() {
         angular.forEach(actions, function(css, action) {
-          var link = getLink(listRoot, css);
+          var link = getLink(listRoot, action);
           var pluginCss = pluginActions[action][action];
 
           angular.forEach(pluginCss, function(value) {
@@ -187,7 +187,7 @@ describe('workPackageDetailsToolbar', function() {
   describe('Core actions', function() {
     var listRootSelector = 'ul.dropdown-menu';
     var actions = {
-      logTime: 'icon-log_time',
+      log_time: 'icon-log_time',
       move: 'icon-move',
       delete: 'icon-delete'
     };

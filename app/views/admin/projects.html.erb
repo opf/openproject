@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
           { class: 'button -alt-highlight',
             aria: {label: t(:label_project_new)},
             title: t(:label_project_new)} do %>
-      <i class="button--icon icon-add"></i>
+      <%= op_icon('button--icon icon-add') %>
       <span class="button--text"><%= Project.model_name.human %></span>
     <% end %>
   </li>
@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </fieldset>
 <% end %>
 <p class="information-section">
-  <i class="icon-info1"></i>
+  <%= op_icon('icon-info1') %>
   <%= l(:label_projects_storage_information,
         count: Project.count,
         storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>

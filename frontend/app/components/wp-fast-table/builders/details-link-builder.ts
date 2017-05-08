@@ -1,16 +1,17 @@
 import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 import {UiStateLinkBuilder} from './ui-state-link-builder';
+import {opIconElement} from "../../../helpers/op-icon-builder";
 
 export const detailsLinkTdClass = 'wp-table--details-column';
 export const detailsLinkClassName = 'wp-table--details-link';
 
 export class DetailsLinkBuilder {
   // Injections
-  public I18n:op.I18n;
+  public I18n: op.I18n;
 
-  public text:any;
-  private uiStatebuilder:UiStateLinkBuilder;
+  public text: any;
+  private uiStatebuilder: UiStateLinkBuilder;
 
   constructor() {
     injectorBridge(this);
@@ -20,7 +21,7 @@ export class DetailsLinkBuilder {
     this.uiStatebuilder = new UiStateLinkBuilder();
   }
 
-  public build(workPackage:WorkPackageResource):HTMLElement {
+  public build(workPackage: WorkPackageResource): HTMLElement {
     // Append details button
     let td = document.createElement('td');
     td.classList.add(detailsLinkTdClass, 'hide-when-print');
@@ -32,15 +33,11 @@ export class DetailsLinkBuilder {
     );
 
     detailsLink.classList.add(detailsLinkClassName, 'hidden-for-sighted');
-    let icon = document.createElement('i');
-    icon.classList.add('icon', 'icon-info2');
-    detailsLink.appendChild(icon);
-
+    detailsLink.appendChild(opIconElement('icon', 'icon-info2'));
     td.appendChild(detailsLink);
 
     return td;
   }
 }
-
 
 DetailsLinkBuilder.$inject = ['I18n'];

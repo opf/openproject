@@ -71,6 +71,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
     });
 
     this.setWorkPackageScopeProperties(this.workPackage);
+    this.text.goToList = this.I18n.t('js.button_back_to_list_view');
 
     this.$scope.triggerMoreMenuAction = this.wpMoreMenu.triggerMoreMenuAction.bind(this.wpMoreMenu);
   }

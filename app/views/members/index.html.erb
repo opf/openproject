@@ -34,14 +34,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if any_members %>
     <li class="toolbar-item">
       <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
-        <i class="button--icon icon-filter"></i>
+        <%= op_icon('button--icon icon-filter') %>
       </button>
     </li>
   <% end %>
   <% if authorize_for(:members, :new) %>
     <li class="toolbar-item">
       <button id="add-member-button" aria-label="<%= I18n.t(:button_add_member) %>" title="<%= I18n.t(:button_add_member) %>" onClick="showAddMemberForm()" class="button -alt-highlight">
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.member') %></span>
       </button>
     </li>

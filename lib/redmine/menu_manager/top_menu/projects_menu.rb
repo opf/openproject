@@ -81,8 +81,8 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       :list_projects,
       { controller: '/projects', action: 'index' },
       caption: projects_label,
+      icon: "#{projects_class} #{icon_class}",
       html: {
-        class: "#{projects_class} #{icon_class}",
         accesskey: OpenProject::AccessKeys.key_for(:project_search)
       }
     )
@@ -100,8 +100,8 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       :new_project,
       { controller: '/projects', action: 'new' },
       caption: Project.model_name.human,
+      icon: "icon-add #{icon_class}",
       html: {
-        class: "icon-add #{icon_class}",
         accesskey: OpenProject::AccessKeys.key_for(:new_project),
         aria: {label: t(:label_project_new)},
         title: t(:label_project_new)

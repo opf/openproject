@@ -6,7 +6,7 @@
       <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-token-admin",
             { class: 'button -alt-highlight',
               title: t('admin.enterprise.order')}) do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('admin.enterprise.order') %></span>
       <% end %>
     </li>
@@ -40,7 +40,7 @@
             { class: 'button -alt-highlight',
               aria: {label: t('admin.enterprise.order')},
               title: t('admin.enterprise.order')}) do %>
-        <i class="button--icon icon-add"></i>
+        <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('admin.enterprise.order') %></span>
       <% end %>
     </div>
