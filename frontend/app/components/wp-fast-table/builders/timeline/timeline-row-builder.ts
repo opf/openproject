@@ -24,6 +24,7 @@ export class TimelineRowBuilder {
 
       if (workPackage) {
         cell.id = `wp-timeline-row-${workPackage.id}`;
+        cell.dataset['workPackageId'] = workPackage.id;
       }
 
       // TODO skip if inserting rows that are not work packages
