@@ -57,7 +57,7 @@ gem 'acts_as_tree', '~> 2.6.1'
 
 gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
-gem 'awesome_nested_set', '~> 3.1.1'
+gem 'awesome_nested_set', '~> 3.1.3'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
