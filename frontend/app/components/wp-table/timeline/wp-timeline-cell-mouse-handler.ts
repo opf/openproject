@@ -40,15 +40,6 @@ const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
 export const classNameRightHandle = "rightHandle";
 
-
-function getCursorOffsetInDaysFromLeft(renderInfo: RenderInfo, ev: MouseEvent) {
-  const header = renderInfo.viewParams.timelineHeader;
-  const headerLeft = header.getAbsoluteLeftCoordinates();
-  const cursorOffsetLeftInPx = ev.clientX - headerLeft;
-  const cursorOffsetLeftInDays = Math.floor(cursorOffsetLeftInPx / renderInfo.viewParams.pixelPerDay);
-  return cursorOffsetLeftInDays;
-}
-
 export function registerWorkPackageMouseHandler(this: void,
                                                 getRenderInfo: () => RenderInfo,
                                                 workPackageTimeline: WorkPackageTimelineTableController,
@@ -84,6 +75,13 @@ export function registerWorkPackageMouseHandler(this: void,
 
     // Update the work package to refresh dates columns
     wpCacheService.updateWorkPackage(wp);
+  }
+
+  function getCursorOffsetInDaysFromLeft(renderInfo: RenderInfo, ev: MouseEvent) {
+    const leftOffset = workPackageTimeline.getAbsoluteLeftCoordinates();
+    const cursorOffsetLeftInPx = ev.clientX - leftOffset;
+    const cursorOffsetLeftInDays = Math.floor(cursorOffsetLeftInPx / renderInfo.viewParams.pixelPerDay);
+    return cursorOffsetLeftInDays;
   }
 
   function workPackageMouseDownFn(ev: MouseEvent) {

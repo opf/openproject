@@ -30,7 +30,6 @@ import {
   WorkPackageResourceInterface,
   WorkPackageResource
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageTimelineHeaderController} from "./header/wp-timeline-header.directive";
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
@@ -67,8 +66,6 @@ export class TimelineViewParameters {
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
 
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
-
-  timelineHeader: WorkPackageTimelineHeaderController;
 
   activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
 

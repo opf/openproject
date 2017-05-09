@@ -42,7 +42,6 @@ import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
 import {WorkPackageTableTimelineVisible} from "../../../wp-fast-table/wp-table-timeline-visible";
 import {debugLog} from "../../../../helpers/debug_output";
 import {openprojectModule} from "../../../../angular-modules";
-import {WorkPackageTimelineHeaderController} from "../header/wp-timeline-header.directive";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageTimelineCell} from "../wp-timeline-cell";
 
@@ -59,8 +58,6 @@ export class WorkPackageTimelineTableController {
   private refreshViewRequested = false;
 
   public disableViewParamsCalculation = false;
-
-  public header:WorkPackageTimelineHeaderController;
 
   public cells:{[id: string]:WorkPackageTimelineCell} = {};
 
@@ -125,6 +122,10 @@ export class WorkPackageTimelineTableController {
     this.refreshView();
   }
 
+  getAbsoluteLeftCoordinates():number {
+    return this.$element.offset().left;
+  }
+
   get viewParameters(): TimelineViewParameters {
     return this._viewParameters;
   }
@@ -148,7 +149,6 @@ export class WorkPackageTimelineTableController {
       setTimeout(() => {
         this.calculateViewParams(this._viewParameters);
         this.updateAllWorkPackagesSubject.next(true);
-        this.header.refreshView(this._viewParameters);
 
         _.each(this.renderers, (cb, key) => {
           debugLog(`Refreshing timeline member ${key}`);
@@ -266,9 +266,9 @@ export class WorkPackageTimelineTableController {
     newParams.dateDisplayStart.subtract(3, "days");
 
     // right spacing
-    const headerWidth = this.header.getHeaderWidth();
+    const width = this.$element.width();
     const pixelPerDay = currentParams.pixelPerDay;
-    const visibleDays = Math.ceil((headerWidth / pixelPerDay) * 1.5);
+    const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
     newParams.dateDisplayEnd.add(visibleDays, "days");
 
     // Check if view params changed:
@@ -284,9 +284,6 @@ export class WorkPackageTimelineTableController {
       changed = true;
       this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
-
-
-    this._viewParameters.timelineHeader = this.header;
 
     return changed;
   }

@@ -51,21 +51,12 @@ export class WorkPackageTimelineHeaderController {
   }
 
   $onInit() {
-    this.wpTimeline.header = this;
+    this.wpTimeline.onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
   refreshView(vp:TimelineViewParameters) {
     this.innerHeader = this.$element.find('.wp-table-timeline--header-inner');
     this.renderLabels(vp);
-  }
-
-  getHeaderWidth():number {
-    // Consider the left margin of the header due to the border.
-    return this.$element.width();
-  }
-
-  getAbsoluteLeftCoordinates():number {
-    return this.$element.offset().left;
   }
 
   private renderLabels(vp:TimelineViewParameters) {
