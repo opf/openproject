@@ -267,21 +267,6 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-module ActiveRecord
-  class Errors
-    #  def on_with_id_handling(attribute)
-    #    attribute = attribute.to_s
-    #    if attribute.ends_with? '_id'
-    #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    #    else
-    #      on_without_id_handling(attribute)
-    #    end
-    #  end
-
-    #  alias_method_chain :on, :id_handling
-  end
-end
-
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
 
