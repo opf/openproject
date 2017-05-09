@@ -56,13 +56,22 @@
     <span ng-bind="::text.jump_to_pagination"></span>
   </accessible-by-keyboard>
 
-  <!--Container for table + split view -->
-  <div class="work-packages-split-view--flex-container"
+  <!-- (TABLE + TIMELINE) + DETAILS view -->
+  <div class="work-packages-split-view"
        ng-class="{'edit-all-mode': wpEditModeState.active}">
 
-    <!-- TABLE + TIMELINE -->
-    <wp-table project-identifier="projectIdentifier" ng-if="tableInformationLoaded">
-    </wp-table>
-    <div class="work-packages-split-view--right" ui-view></div>
+    <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
+    <div class="work-packages-split-view--tabletimeline-side loading-indicator--location" data-indicator-name="table">
+
+      <!-- TABLE + TIMELINE horizontal split -->
+      <wp-table project-identifier="projectIdentifier" ng-if="tableInformationLoaded"></wp-table>
+
+      <!-- Footer -->
+      <div class="work-packages-split-view--tabletimeline-footer" ng-if="tableInformationLoaded">
+      </div>
+    </div>
+
+    <!-- Details view -->
+    <div class="work-packages-split-view--details-side" ui-view></div>
   </div>
 </div>

@@ -19,7 +19,7 @@ export class TimelineTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderVisibility(visible:boolean) {
-    jQuery('.work-packages-split-view--left-timeline').toggle(visible);
+    jQuery('.work-packages-tabletimeline--timeline-side').toggle(visible);
   }
 }
 

@@ -52,7 +52,7 @@
 .work-packages-list-view--container
   // Set minor padding on left side
   padding-left: 5px
-  // Flexbox for the toolbar, filters and work package table
+  // Flexbox for the toolbar, filters and work package split view
   display: flex
   flex-direction: column
   height: 100%
@@ -69,8 +69,8 @@
     // When expanded, add some padding to the table
     padding-bottom: 20px
 
-// Flex container for (table+timeline)|splitview
-.work-packages-split-view--flex-container
+// Outer Flex container for (table+timeline)|details
+.work-packages-split-view
   flex: 1 1 auto
   display: flex
 
@@ -78,30 +78,46 @@
   overflow: hidden
 
 // Left part of the split view
-// == Flex container for (table|timeline)
-.work-packages-split-view--left
+// == flex container for (table|timeline)
+.work-packages-split-view--tabletimeline-side
   flex: 2
   display: flex
-  overflow: hidden
+  flex-direction: column
   // Required for any absolute positioned elements within the viewport
   // (e.g., timeline controls)
   position: relative
 
-// TABLE half
-.work-packages-split-view--left-table
+// Content of the left side
+// == flex container for (table+timeline)
+.work-packages-split-view--tabletimeline-content
+  flex: 1
+  display: flex
+  overflow: hidden
+
+// Footer of the left side
+.work-packages-split-view--tabletimeline-footer
+  flex: 0 0 $footer-height
+  background-color: #ccc
+
+// TABLE half of the tabletimeline flexbox
+.work-packages-tabletimeline--table-side
   // Same flex as timeline
   flex: 1 1
   // Show scrollbars for inner content
   overflow: auto
   // relative for loading indicator
   position: relative
+  // Hint browser that this will inner-scroll
+  will-change: transform
 
-// TIMELINE half
-.work-packages-split-view--left-timeline
+// TIMELINE half of the tabletimeline flexbox
+.work-packages-tabletimeline--timeline-side
   flex: 1 1
   overflow: auto
   // Hidden by default
   display: none
+  // Hint browser that this will inner-scroll
+  will-change: transform
 
 .work-packages--edit-actions
   .work-packages--left-panel &
