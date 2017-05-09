@@ -38,6 +38,18 @@ export abstract class RowsBuilder {
   }
 
   /**
+   * Called after a row is added through +appendRow+.
+   * Inserts a new cell to the synced timeline, if open.
+   * @param workPackage
+   * @param timelineBody
+   */
+  public addToTimeline(workPackage:WorkPackageResourceInterface|null, timelineBody:HTMLElement|DocumentFragment) {
+    // Append row into timeline
+    this.timelinebuilder.build(workPackage, timelineBody);
+  }
+
+
+  /**
    * Refresh a single row after structural changes.
    * Will perform dirty checking for when a work package is currently being edited.
    */
@@ -68,9 +80,7 @@ export abstract class RowsBuilder {
                       timelineBody:DocumentFragment) {
 
     tableBody.appendChild(row);
-
-    // Append row into timeline
-    this.timelinebuilder.build(workPackage, timelineBody);
+    this.addToTimeline(workPackage, timelineBody);
   }
 
   /**

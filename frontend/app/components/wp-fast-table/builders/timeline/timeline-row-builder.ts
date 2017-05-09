@@ -18,9 +18,13 @@ export class TimelineRowBuilder {
     $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
   }
 
-  public build(workPackage:WorkPackageResourceInterface|null, timelineBody:DocumentFragment) {
+  public build(workPackage:WorkPackageResourceInterface|null, timelineBody:DocumentFragment|HTMLElement) {
       const cell = document.createElement('div');
       cell.classList.add(timelineCellClassName);
+
+      if (workPackage) {
+        cell.id = `wp-timeline-row-${workPackage.id}`;
+      }
 
       // TODO skip if inserting rows that are not work packages
       // We may either need to extend the timelinecell to handle these cases
