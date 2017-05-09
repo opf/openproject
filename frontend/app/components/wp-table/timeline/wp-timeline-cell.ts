@@ -1,4 +1,4 @@
-import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-timeline-visible';
+import { WorkPackageTableTimelineState } from './../../wp-fast-table/wp-table-timeline-visible';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)

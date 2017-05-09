@@ -39,11 +39,11 @@ import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-t
 import {WorkPackageNotificationService} from "../../../wp-edit/wp-notification.service";
 import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {WorkPackageTableTimelineVisible} from "../../../wp-fast-table/wp-table-timeline-visible";
 import {debugLog} from "../../../../helpers/debug_output";
 import {openprojectModule} from "../../../../angular-modules";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageTimelineCell} from "../wp-timeline-cell";
+import {WorkPackageTableTimelineState} from "../../../wp-fast-table/wp-table-timeline";
 
 export class WorkPackageTimelineTableController {
 
@@ -85,11 +85,11 @@ export class WorkPackageTimelineTableController {
 
     // Refresh timeline view when becoming visible
     this.states.table.timelineVisible.values$()
+      .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
       .takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((timelineState:WorkPackageTableTimelineVisible) => {
-        if (timelineState.isVisible) {
-          this.refreshView();
-        }
+      .subscribe((timelineState:WorkPackageTableTimelineState) => {
+        this.viewParameters.settings.zoomLevel =  timelineState.zoomLevel;
+        this.refreshView();
       });
 
     // Load the types whenever the timeline is first visible

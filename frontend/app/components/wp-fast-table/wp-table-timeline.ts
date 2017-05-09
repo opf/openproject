@@ -27,19 +27,28 @@
 // ++
 
 import {WorkPackageTableBaseState} from "./wp-table-base";
-export class WorkPackageTableTimelineVisible extends WorkPackageTableBaseState<boolean> {
-  public current:boolean;
-
-  constructor(isVisible:boolean) {
+export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
+  constructor(public visible:boolean, public zoomLevel:number) {
     super();
-    this.current = isVisible;
+  }
+
+  public get current():boolean {
+    return this.isVisible;
+  }
+
+  public get extractedCompareValue():any {
+    return this.isVisible;
+  }
+
+  public get currentQueryValue () {
+    return this.isVisible;
   }
 
   public toggle() {
-    this.current = !this.current;
+    this.visible = !this.visible;
   }
 
   public get isVisible() {
-    return this.current;
+    return this.visible;
   }
 }

@@ -145,7 +145,7 @@ function WorkPackagesListController($scope:any,
       )
       .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
         const newQuery = queryState.value!;
-        newQuery[name] = _.cloneDeep(stateValue.current);
+        newQuery[name] = _.cloneDeep(stateValue.currentQueryValue);
         states.table.query.putValue(newQuery);
 
         if (triggerUpdate) {
