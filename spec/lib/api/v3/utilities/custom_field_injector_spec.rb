@@ -42,7 +42,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
   describe 'TYPE_MAP' do
     it 'supports all available formats' do
-      Redmine::CustomFieldFormat.available_formats.each do |format|
+      OpenProject::CustomFieldFormat.available_formats.each do |format|
         expect(described_class::TYPE_MAP[format]).not_to be_nil
       end
     end

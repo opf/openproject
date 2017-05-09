@@ -135,27 +135,39 @@ class TimeEntries::ReportsController < ApplicationController
 
     # Add list and boolean custom fields as available criterias
     custom_fields = (@project.nil? ? WorkPackageCustomField.for_all : @project.all_work_package_custom_fields)
-    custom_fields.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'WorkPackage' AND c.customized_id = #{WorkPackage.table_name}.id)",
-                                              format: cf.field_format,
-                                              label: cf.name }
-    end if @project
+
+    if @project
+      custom_fields.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
+        @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c
+                                                       WHERE c.custom_field_id = #{cf.id}
+                                                       AND c.customized_type = 'WorkPackage'
+                                                       AND c.customized_id = #{WorkPackage.table_name}.id)",
+                                                format: cf,
+                                                label: cf.name }
+      end
+    end
 
     # Add list and boolean time entry custom fields
     TimeEntryCustomField.all.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
-                                              format: cf.field_format,
+      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c
+                                                     WHERE c.custom_field_id = #{cf.id}
+                                                     AND c.customized_type = 'TimeEntry'
+                                                     AND c.customized_id = #{TimeEntry.table_name}.id)",
+                                              format: cf,
                                               label: cf.name }
     end
 
     # Add list and boolean time entry activity custom fields
     TimeEntryActivityCustomField.all.select { |cf| %w(list bool).include? cf.field_format }.each do |cf|
-      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Enumeration' AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
-                                              format: cf.field_format,
+      @available_criterias["cf_#{cf.id}"] = { sql: "(SELECT c.value FROM #{CustomValue.table_name} c
+                                                     WHERE c.custom_field_id = #{cf.id}
+                                                     AND c.customized_type = 'Enumeration'
+                                                     AND c.customized_id = #{TimeEntry.table_name}.activity_id)",
+                                              format: cf,
                                               label: cf.name }
     end
 
-    call_hook(:controller_timelog_available_criterias,  available_criterias: @available_criterias, project: @project)
+    call_hook(:controller_timelog_available_criterias, available_criterias: @available_criterias, project: @project)
     @available_criterias
   end
 

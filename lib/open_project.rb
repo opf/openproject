@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 require 'redmine/menu_manager'
 require 'redmine/activity'
 require 'redmine/search'
-require 'redmine/custom_field_format'
+require 'open_project/custom_field_format'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'open_project/design'
