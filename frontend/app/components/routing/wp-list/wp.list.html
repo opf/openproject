@@ -67,7 +67,8 @@
       <wp-table project-identifier="projectIdentifier" ng-if="tableInformationLoaded"></wp-table>
 
       <!-- Footer -->
-      <div class="work-packages-split-view--tabletimeline-footer" ng-if="tableInformationLoaded">
+      <div class="work-packages-split-view--tabletimeline-footer hide-when-print" ng-if="tableInformationLoaded">
+        <table-pagination></table-pagination>
       </div>
     </div>
 
