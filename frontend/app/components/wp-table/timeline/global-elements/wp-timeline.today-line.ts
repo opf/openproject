@@ -28,15 +28,21 @@
 
 import {calculatePositionValueForDayCount, TimelineViewParameters} from "../wp-timeline";
 import * as moment from 'moment';
+import {TimelineStaticElement} from "./timeline-static-element";
 
 
-// Today Line
-export function todayLine(viewParams: TimelineViewParameters, elem: HTMLElement) {
-  elem.style.width = "2px";
-  elem.style.borderLeft = "2px dotted red";
-  const offsetToday = viewParams.now.diff(viewParams.dateDisplayStart, "days");
-  const dayProgress = moment().hour() / 24;
-  elem.style.left = calculatePositionValueForDayCount(viewParams, offsetToday + dayProgress);
-  elem.style.marginLeft = viewParams.scrollOffsetInPx + "px";
+export class TodayLineElement extends TimelineStaticElement {
+
+  protected finishElement(elem:HTMLElement, vp:TimelineViewParameters):HTMLElement {
+    const offsetToday = vp.now.diff(vp.dateDisplayStart, "days");
+    const dayProgress = moment().hour() / 24;
+    elem.style.left = calculatePositionValueForDayCount(vp, offsetToday + dayProgress);
+
+    return elem;
+  }
+
+  public get identifier():string {
+    return 'wp-timeline-static-element-today-line';
+  }
 }
 
