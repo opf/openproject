@@ -38,7 +38,6 @@ class WorkPackageTimelineControlController {
   public timelineVisible: boolean = false;
   private wpTimeline: WorkPackageTimelineTableController;
 
-  hscroll: number;
   currentZoom: number;
 
   minZoomLevel = ZoomLevel.DAYS;
@@ -62,13 +61,7 @@ class WorkPackageTimelineControlController {
   }
 
   $onInit() {
-    this.hscroll = this.wpTimeline.viewParameterSettings.scrollOffsetInDays;
     this.currentZoom = ZoomLevel.DAYS;
-  }
-
-  updateScroll() {
-    this.wpTimeline.viewParameterSettings.scrollOffsetInDays = this.hscroll;
-    this.wpTimeline.refreshScrollOnly();
   }
 
   updateZoom(delta: number) {

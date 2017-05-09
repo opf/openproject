@@ -194,7 +194,6 @@ export class TimelineCellRenderer {
     const wp = renderInfo.workPackage;
 
     // general settings - bar
-    bar.style.marginLeft = renderInfo.viewParams.scrollOffsetInPx + "px";
     bar.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;

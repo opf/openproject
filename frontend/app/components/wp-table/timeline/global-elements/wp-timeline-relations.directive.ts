@@ -63,7 +63,6 @@ function newSegment(vp: TimelineViewParameters,
   );
 
   // segment.style.backgroundColor = color;
-  segment.style.marginLeft = vp.scrollOffsetInPx + 'px';
   segment.style.top = top + 'px';
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';

@@ -43,8 +43,6 @@ export class TimelineViewParametersSettings {
 
   // showDurationInPx = true;
 
-  scrollOffsetInDays = 0;
-
   zoomLevel: ZoomLevel = ZoomLevel.DAYS;
 
 }
@@ -92,10 +90,6 @@ export class TimelineViewParameters {
 
   get maxSteps():number {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, "days");
-  }
-
-  get scrollOffsetInPx() {
-    return this.settings.scrollOffsetInDays * this.pixelPerDay;
   }
 
 }

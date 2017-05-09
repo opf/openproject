@@ -108,10 +108,6 @@ export class WorkPackageTimelineTableController {
     this.renderers[name] = callback;
   }
 
-  refreshScrollOnly() {
-    jQuery("." + timelineElementCssClass).css("margin-left", this._viewParameters.scrollOffsetInPx + "px");
-  }
-
   public updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
     this.cells[cell.latestRenderInfo.workPackage.id] = cell;
     this.refreshView();

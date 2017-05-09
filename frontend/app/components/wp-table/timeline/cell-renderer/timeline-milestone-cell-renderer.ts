@@ -132,7 +132,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery(".diamond", element)[0];
 
-    element.style.marginLeft = viewParams.scrollOffsetInPx + "px";
     element.style.width = '1em';
     element.style.height = '1em';
     diamond.style.width = '1em';
