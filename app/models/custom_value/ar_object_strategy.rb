@@ -39,6 +39,10 @@ class CustomValue::ARObjectStrategy < CustomValue::FormatStrategy
     end
   end
 
+  def formatted_value
+    typed_value.to_s
+  end
+
   def parse_value(val)
     if val.is_a?(ar_class)
       self.memoized_typed_value = val

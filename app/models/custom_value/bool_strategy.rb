@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,6 +42,11 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
     ActiveRecord::Type::Boolean.new.cast(value)
   end
 
+  def formatted_value
+    is_true = ActiveRecord::Type::Boolean.new.cast(value)
+    I18n.t(is_true ? :general_text_Yes : :general_text_No)
+  end
+
   def parse_value(val)
     parsed_val = if !present?(val)
                    nil
@@ -53,8 +59,7 @@ class CustomValue::BoolStrategy < CustomValue::FormatStrategy
     super(parsed_val)
   end
 
-  def validate_type_of_value
-  end
+  def validate_type_of_value; end
 
   private
 

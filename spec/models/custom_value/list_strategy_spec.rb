@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe CustomValue::ListStrategy do
+  let(:instance) { described_class.new(custom_value) }
   let(:custom_field) { FactoryGirl.create :list_wp_custom_field }
   let(:custom_value) do
     double("CustomField", value: value, custom_field: custom_field, customized: customized)
@@ -37,7 +38,7 @@ describe CustomValue::ListStrategy do
   let(:customized) { double('customized') }
 
   describe '#parse_value/#typed_value' do
-    subject { described_class.new(custom_value) }
+    subject { instance }
 
     context 'with a CustomOption' do
       let(:value) { custom_field.custom_options.first }
@@ -89,8 +90,49 @@ describe CustomValue::ListStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'with a CustomOption' do
+      let(:value) { custom_field.custom_options.first }
+
+      it 'is the custom option to_s (without db access)' do
+        instance.parse_value(value)
+
+        expect(CustomOption)
+          .to_not receive(:where)
+
+        expect(subject).to eql value.to_s
+      end
+    end
+
+    context 'with an id string' do
+      let(:value) { custom_field.custom_options.first.id.to_s }
+
+      it 'is the custom option to_s (with db access)' do
+        expect(subject).to eql custom_field.custom_options.first.to_s
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is blank' do
+        expect(subject).to eql value
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is blank' do
+        expect(subject).to eql ''
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
 
     context 'value is included' do
       let(:value) { custom_field.custom_options.first.id.to_s }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,10 +29,16 @@
 #++
 
 class CustomValue::FloatStrategy < CustomValue::FormatStrategy
+  include ActionView::Helpers::NumberHelper
+
   def typed_value
     unless value.blank?
       value.to_f
     end
+  end
+
+  def formatted_value
+    number_with_delimiter(value.to_s)
   end
 
   def validate_type_of_value
