@@ -134,23 +134,23 @@ module ActiveModel
   end
 end
 
-require 'reform/contract'
-
-class Reform::Contract::Errors
-  def merge_with_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = false
-    merge_without_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = true
-
-    errors.keys.each do |attribute|
-      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
-      end
-    end
-  end
-
-  alias_method_chain :merge!, :storing_error_symbols
-end
+#require 'reform/contract'
+#
+#class Reform::Contract::Errors
+#  def merge_with_storing_error_symbols!(errors, prefix)
+#    @store_new_symbols = false
+#    merge_without_storing_error_symbols!(errors, prefix)
+#    @store_new_symbols = true
+#
+#    errors.keys.each do |attribute|
+#      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
+#        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
+#      end
+#    end
+#  end
+#
+#  alias_method_chain :merge!, :storing_error_symbols
+#end
 
 module ActionView
   module Helpers
