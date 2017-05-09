@@ -399,12 +399,12 @@ GEM
     public_suffix (2.0.5)
     rabl (0.13.1)
       activesupport (>= 2.3.14)
-    rack (2.0.1)
+    rack (2.0.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-attack (5.0.1)
       rack
-    rack-protection (2.0.0.beta2)
+    rack-protection (2.0.0)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -669,7 +669,7 @@ DEPENDENCIES
   pry-stack_explorer (~> 0.4.9.2)
   rabl (~> 0.13.0)
   rack-attack (~> 5.0.1)
-  rack-protection (~> 2.0.0.beta2)
+  rack-protection (~> 2.0.0)
   rack-test (~> 0.6.3)
   rack_session_access
   rails (~> 5.0.2)
