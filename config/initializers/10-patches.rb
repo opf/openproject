@@ -272,3 +272,13 @@ require 'open_project/patches/acts_as_list'
 
 # Backports some useful ruby 2.3 methods for Hash
 require 'open_project/patches/hash'
+
+require "reform/form/active_model/validations"
+
+Reform::Form.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
+
+Reform::Contract.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
