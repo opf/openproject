@@ -73,8 +73,7 @@
 .work-packages-split-view
   flex: 1 1 auto
   display: flex
-
-  // FIX for Firefox not correctly scrolling the inner containers
+  // Required for correctly scrolling the inner containers
   overflow: hidden
 
 // Left part of the split view
@@ -86,6 +85,8 @@
   // Required for any absolute positioned elements within the viewport
   // (e.g., timeline controls)
   position: relative
+  // Required for correctly scrolling the inner containers
+  overflow: hidden
 
 // Content of the left side
 // == flex container for (table+timeline)
