@@ -63,9 +63,6 @@ class ModelContract < Reform::Contract
     collect_ancestor_attributes(:writable_attributes)
   end
 
-  #validate :readonly_attributes_unchanged
-  #validate :run_attribute_validations
-
   def validate
     readonly_attributes_unchanged
     run_attribute_validations
