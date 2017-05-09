@@ -26,6 +26,13 @@
           <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
         </li>
         <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
+                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-class="work-packages--details-fullscreen-icon"
+                                  span-class="icon-context icon-add">
+          </accessible-by-keyboard>
+        </li>
+        <li class="tab-icon">
           <accessible-by-keyboard execute="$ctrl.close()"
                                   link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
                                   link-class="work-packages--details-close-icon"
