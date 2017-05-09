@@ -48,6 +48,10 @@ jQuery(document).ready(function($) {
   if (jQuery("#errorExplanation").text() != "") {
     showAddMemberForm();
   }
+
+  if (jQuery('#add-member-button').attr('data-trigger-initially')) {
+    showAddMemberForm();
+  }
 });
 
 function toggleMemberFilter() {
