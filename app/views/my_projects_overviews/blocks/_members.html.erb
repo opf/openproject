@@ -38,7 +38,7 @@ See doc/COPYRIGHT.md for more details.
   </div>
 <% end %>
 <% if current_user.allowed_to?(:manage_members, project) %>
-  <%= link_to project_members_path(project_id: project.identifier),
+  <%= link_to project_members_path(project_id: project.identifier, show_add_members: true),
         { class: 'button -alt-highlight',
           title: t(:button_add_member),
           aria: { label: t(:button_add_member) }} do %>
