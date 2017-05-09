@@ -92,12 +92,13 @@ export function registerWorkPackageMouseHandler(this: void,
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
 
-    // if this wp is a parent element, changing it is not allowed
-    if (!renderInfo.workPackage.isLeaf) {
+    // If this wp is a parent element, changing it is not allowed.
+    // But adding a relation to it is.
+    if (!renderInfo.workPackage.isLeaf && !renderInfo.viewParams.activeSelectionMode) {
       return;
     }
 
-      // Determine what attributes of the work package should be changed
+    // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, bar);
 
     jBody.on("mousemove", createMouseMoveFn(direction));
@@ -126,7 +127,6 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function handleMouseMoveOnEmptyCell(ev: MouseEvent) {
-    // const renderInfo = getRenderInfo();
     const wp = renderInfo.workPackage;
 
 
