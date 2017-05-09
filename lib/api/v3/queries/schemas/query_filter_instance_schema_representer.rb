@@ -101,8 +101,6 @@ module API
             WorkPackage
           end
 
-          private
-
           alias :filter :represented
 
           def _type

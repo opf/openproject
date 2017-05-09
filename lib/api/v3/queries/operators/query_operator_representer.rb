@@ -46,8 +46,6 @@ module API
           property :name,
                    exec_context: :decorator
 
-          private
-
           def name
             represented.human_name
           end
