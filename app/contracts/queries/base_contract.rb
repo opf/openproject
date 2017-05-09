@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -47,13 +48,17 @@ module Queries
 
     attr_reader :user
 
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
     def initialize(query, user)
       super query
 
       @user = user
+    end
+
+    def validate
+      validate_project
+      user_allowed_to_make_public
+
+      super
     end
 
     def validate_project

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,15 +40,19 @@ module Relations
     attribute :from_id
     attribute :to_id
 
-    validate :user_allowed_to_access
-    validate :user_allowed_to_manage_relations
-
     attr_reader :user
 
     def initialize(relation, user)
       super relation
 
       @user = user
+    end
+
+    def validate
+      user_allowed_to_access
+      user_allowed_to_manage_relations
+
+      super
     end
 
     private

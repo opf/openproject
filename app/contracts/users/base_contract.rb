@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,12 +44,16 @@ module Users
     attribute :identity_url
     attribute :password
 
-    validate :existing_auth_source
-
     def initialize(user, current_user)
       super(user)
 
       @current_user = current_user
+    end
+
+    def validate
+      existing_auth_source
+
+      super
     end
 
     private
