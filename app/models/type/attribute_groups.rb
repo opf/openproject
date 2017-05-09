@@ -92,7 +92,6 @@ module Type::AttributeGroups
     groups.each do |_, attributes|
       attributes.select! { |attribute| valid_keys.include? attribute }
     end
-    groups.select! { |_,attributes| attributes.any? }
 
     groups.presence || default_attribute_groups
   end
@@ -163,7 +162,7 @@ module Type::AttributeGroups
 
   def validate_attribute_group_names
     seen = Set.new
-    attribute_groups.each do |group_key,_|
+    attribute_groups.each do |group_key, _|
       errors.add(:attribute_groups, :group_without_name) unless group_key.present?
       errors.add(:attribute_groups, :duplicate_group, group: group_key) if seen.add?(group_key).nil?
     end
