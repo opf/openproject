@@ -117,6 +117,13 @@ td.subject .wp-table--cell-container .wp-edit-field:not(.wp-table--cell-span)
     .error.macro-unavailable
       display: inline-block
 
+    &.-multiline
+      white-space: inherit
+
+    // override text size within p elements of formattables
+    p
+      font-size: 0.875rem
+
 // Style no-label fields (long text, description, ..) with padding
 .wp-edit-field.-no-label:not(.-active)
   margin-left: -0.375rem

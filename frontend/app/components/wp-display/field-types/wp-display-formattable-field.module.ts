@@ -41,7 +41,9 @@ export class FormattableDisplayField extends DisplayField {
     this.ExpressionService = <ExpressionService>this.$injector.get('ExpressionService');
   }
 
-  public render(element:HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
+    angular.element(element).addClass('-multiline');
+
     let span = document.createElement('span');
     span.innerHTML = displayText;
 
@@ -50,7 +52,7 @@ export class FormattableDisplayField extends DisplayField {
   }
 
   public get value() {
-    if(!this.schema) {
+    if (!this.schema) {
       return null;
     }
     return this.unescape(this.resource[this.name].html);
