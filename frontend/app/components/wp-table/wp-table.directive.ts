@@ -26,18 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
+import {Observable} from "rxjs/Observable";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
-import {States} from "./../states.service";
+import {debugLog} from "../../helpers/debug_output";
+import {ContextMenuService} from "../context-menus/context-menu.service";
 import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
 import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
+import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
+import {States} from "./../states.service";
+import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
-import {ContextMenuService} from "../context-menus/context-menu.service";
-import {debugLog} from "../../helpers/debug_output";
-import {Observable} from "rxjs/Observable";
 import {WorkPackageTimelineTableController} from "./timeline/container/wp-timeline-container.directive";
+
+const selectorTableSide = ".work-packages-tabletimeline--table-side";
+const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
+const jQueryScrollSyncEventNamespace = ".scroll-sync";
 
 angular
   .module('openproject.workPackages.directives')
@@ -47,8 +51,7 @@ function wpTable(
   keepTab:KeepTabService,
   PathHelper:any,
   columnsModal:any,
-  contextMenu:ContextMenuService
-){
+  contextMenu: ContextMenuService) {
   return {
     restrict: 'E',
     replace: true,
@@ -154,6 +157,9 @@ export class WorkPackagesTableController {
       // Total columns = all available columns + id + checkbox
       $scope.numTableColumns = $scope.columns.length + 2;
 
+      if ($scope.timelineVisible !== timelines.current) {
+        this.configureScrollSync(timelines.current);
+      }
       $scope.timelineVisible = timelines.current;
 
       if (sum.current) {
@@ -183,5 +189,62 @@ export class WorkPackagesTableController {
     if (this.$scope.resource.sumsSchema && !this.$scope.resource.sumsSchema.$loaded) {
       this.$scope.resource.sumsSchema.$load();
     }
+  }
+
+  /**
+   * Activate or deactivate the scroll-sync between the table and timeline view.
+   *
+   * @param timelineVisible true if the timeline is visible, false otherwise.
+   */
+  private configureScrollSync(timelineVisible: boolean) {
+    var syncedLeft = false;
+    var syncedRight = false;
+    var elTable = jQuery(this.$element).find(selectorTableSide);
+    var elTimeline = jQuery(this.$element).find(selectorTimelineSide);
+
+    function sync(jev: JQueryEventObject) {
+      const ev: WheelEvent = jev.originalEvent as any;
+      ev.preventDefault();
+
+      const scrollAmout = 30;
+      const delta = ev.deltaY > 0 ? scrollAmout : -scrollAmout;
+
+      window.requestAnimationFrame(function () {
+        elTable[0].scrollTop = elTable[0].scrollTop + delta;
+        elTimeline[0].scrollTop = elTimeline[0].scrollTop + delta;
+      });
+    }
+
+    if (timelineVisible) {
+      // setup event listener for table
+      elTable.on("wheel" + jQueryScrollSyncEventNamespace, sync);
+      elTable.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
+        syncedLeft = true;
+        if (!syncedRight) {
+          elTimeline[0].scrollTop = ev.target.scrollTop;
+        }
+        if (syncedLeft && syncedRight) {
+          syncedLeft = false;
+          syncedRight = false;
+        }
+      });
+
+      // setup event listener for timeline
+      elTimeline.on("wheel" + jQueryScrollSyncEventNamespace, sync);
+      elTimeline.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
+        syncedRight = true;
+        if (!syncedLeft) {
+          elTable[0].scrollTop = ev.target.scrollTop;
+        }
+        if (syncedLeft && syncedRight) {
+          syncedLeft = false;
+          syncedRight = false;
+        }
+      });
+    } else {
+      elTable.off(jQueryScrollSyncEventNamespace);
+    }
+
+
   }
 }
