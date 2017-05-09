@@ -63,8 +63,7 @@ module Type::Attributes
       OpenProject::Cache.fetch('all_work_package_form_attributes',
                                *WorkPackageCustomField.pluck('max(updated_at), count(id)').flatten,
                                merge_date) do
-        rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
-        definitions = rattrs[:definitions]
+        definitions = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
         skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
         attributes = definitions.keys
                                 .reject { |key| skip.include?(key) || definitions[key][:required] }
