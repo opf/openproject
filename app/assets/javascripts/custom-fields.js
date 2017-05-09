@@ -253,6 +253,17 @@
 
     $(".custom-option-default-value").change(uncheckOtherDefaults);
     $('#custom_field_multi_value').change(checkOnlyOne);
+
+    // prevent draggable interfering with the user's interaction with the input
+    // e.g. c&p
+    $(".custom-option-row input").focus(function() {
+      $(this).closest('.custom-option-row').attr('draggable', false);
+    });
+
+    $(".custom-option-row input").blur(function() {
+      $(this).closest('.custom-option-row').attr('draggable', true);
+    });
+
   });
 
   window.CustomFields = {
