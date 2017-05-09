@@ -111,7 +111,7 @@ module API
                    ::API::Utilities::DecoratorFactory.new(decorator: decorator,
                                                           current_user: current_user)
                  },
-                 if: -> (*) { embed_links && call_or_use(show_if) }
+                 if: ->(*) { embed_links && call_or_use(show_if) }
       end
 
       class_attribute :to_eager_load
@@ -121,7 +121,8 @@ module API
         current_user.allowed_to?(permission, context)
       end
 
-      private
+      # Override in subclasses to specify the JSON indicated "_type" of this representer
+      def _type; end
 
       def call_or_send_to_represented(callable_or_name)
         if callable_or_name.respond_to? :call
@@ -142,9 +143,6 @@ module API
       def datetime_formatter
         ::API::V3::Utilities::DateTimeFormatter
       end
-
-      # Override in subclasses to specify the JSON indicated "_type" of this representer
-      def _type; end
 
       # If a subclass does not depend on a model being passed to this class, it can override
       # this method and return false. Otherwise it will be enforced that the model of each
