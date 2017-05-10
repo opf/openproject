@@ -43,7 +43,7 @@ module Pages
     end
 
     def switch_to_fullscreen
-      find('.work-packages-show-view-button').click
+      find('.work-packages--details-fullscreen-icon').click
       FullWorkPackage.new(work_package, project)
     end
 

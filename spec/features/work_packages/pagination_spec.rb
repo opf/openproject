@@ -50,7 +50,7 @@ RSpec.feature 'Work package pagination', js: true do
     scenario do
       expect(page).to have_content('Work packages')
 
-      within('#work-packages-index') do
+      within('.work-packages-list-view--container') do
         expect(page).to     have_content(work_package_1.subject)
         expect(page).to_not have_content(work_package_2.subject)
       end
@@ -59,7 +59,7 @@ RSpec.feature 'Work package pagination', js: true do
         click_link '2'
       end
 
-      within('#work-packages-index') do
+      within('.work-packages-list-view--container') do
         expect(page).to     have_content(work_package_2.subject)
         expect(page).to_not have_content(work_package_1.subject)
       end
@@ -68,7 +68,7 @@ RSpec.feature 'Work package pagination', js: true do
         click_link '50'
       end
 
-      within('#work-packages-index') do
+      within('.work-packages-list-view--container') do
         expect(page).to have_content(work_package_1.subject)
         expect(page).to have_content(work_package_2.subject)
       end
