@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -47,7 +48,7 @@ module CustomFieldsHelper
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
 
-    field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
+    field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
 
     tag = case field_format.try(:edit_as)
           when 'date'
@@ -114,7 +115,7 @@ module CustomFieldsHelper
   def custom_field_tag_for_bulk_edit(name, custom_field, project=nil)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
-    field_format = Redmine::CustomFieldFormat.find_by_name(custom_field.field_format)
+    field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
     when 'date'
       styled_text_field_tag(field_name, '', id: field_id, size: 10) +
@@ -135,27 +136,32 @@ module CustomFieldsHelper
   # Return a string used to display a custom value
   def show_value(custom_value)
     return '' unless custom_value
-    format_value(custom_value.value, custom_value.custom_field.field_format)
+    custom_value.formatted_value
   end
 
   # Return a string used to display a custom value
-  def format_value(value, field_format)
-    Redmine::CustomFieldFormat.format_value(value, field_format) # Proxy
+  def format_value(value, custom_field)
+    custom_value = CustomValue.new(custom_field: custom_field,
+                                   value: value)
+
+    custom_value.formatted_value
   end
 
   # Return an array of custom field formats which can be used in select_tag
   def custom_field_formats_for_select(custom_field)
-    Redmine::CustomFieldFormat.as_select(custom_field.class.customized_class.name)
+    OpenProject::CustomFieldFormat
+      .all_for_field(custom_field)
+      .sort_by(&:order)
+      .map do |custom_field_format|
+        [label_for_custom_field_format(custom_field_format.name), custom_field_format.name]
+      end
   end
 
-  # Renders the custom_values in api views
-  def render_api_custom_values(custom_values, api)
-    api.array :custom_fields do
-      custom_values.each do |custom_value|
-        api.custom_field id: custom_value.custom_field_id, name: custom_value.custom_field.name do
-          api.value custom_value.value
-        end
-      end
-    end unless custom_values.empty?
+  def label_for_custom_field_format(format_string)
+    format = OpenProject::CustomFieldFormat.find_by_name(format_string)
+
+    if format
+      format.label.is_a?(Proc) ? format.label.call : I18n.t(format.label)
+    end
   end
 end

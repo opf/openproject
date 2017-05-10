@@ -27,8 +27,17 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
+import {
+  ButtonControllerText, WorkPackageButtonController,
+  wpButtonDirective
+} from '../wp-buttons.module';
 import { WorkPackageTableTimelineService } from "../../wp-fast-table/state/wp-table-timeline.service";
+import {ZoomLevel} from "../../wp-table/timeline/wp-timeline";
+
+interface TimelineButtonText extends ButtonControllerText {
+  zoomOut:string;
+  zoomIn:string;
+}
 
 export class WorkPackageTimelineButtonController extends WorkPackageButtonController {
   public buttonId:string = 'work-packages-timeline-toggle-button';
@@ -37,12 +46,20 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   private activateLabel:string;
   private deactivateLabel:string;
 
+  public text:TimelineButtonText;
+
+  public minZoomLevel = ZoomLevel.DAYS;
+  public maxZoomLevel = ZoomLevel.YEARS;
+
   constructor(public I18n:op.I18n, public wpTableTimeline:WorkPackageTableTimelineService) {
     'ngInject';
     super(I18n);
 
     this.activateLabel = I18n.t('js.timelines.button_activate');
     this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
+
+    this.text.zoomIn = I18n.t('js.timelines.zoom.in');
+    this.text.zoomOut = I18n.t('js.timelines.zoom.out');
   }
 
   public get label():string {
@@ -61,7 +78,19 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     return this.wpTableTimeline.isVisible;
   }
 
+  public updateZoom(delta:number) {
+    this.wpTableTimeline.updateZoom(delta);
+  }
+
+  public get currentZoom() {
+    return this.wpTableTimeline.zoomLevel;
+  }
+
   public performAction() {
+    this.toggleTimeline();
+  }
+
+  public toggleTimeline() {
     this.wpTableTimeline.toggle();
   }
 }
@@ -69,6 +98,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
 function wpTimelineToggleButton():ng.IDirective {
   return wpButtonDirective({
     require: '^wpTimelineContainer',
+    templateUrl: '/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.html',
     controller: WorkPackageTimelineButtonController
   });
 }

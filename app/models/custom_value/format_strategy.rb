@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,6 +44,12 @@ class CustomValue::FormatStrategy
   # that is used for representation in the database)
   def typed_value
     raise 'SubclassResponsibility'
+  end
+
+  # Returns the value of the CustomValue formatted to a string
+  # representation.
+  def formatted_value
+    value.to_s
   end
 
   # Parses the value to

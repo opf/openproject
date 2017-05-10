@@ -171,11 +171,11 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
   end
 
   def make_custom_field_value(work_package, column)
-    value = work_package
-      .custom_values
-      .detect { |v| v.custom_field_id == column.custom_field.id }
+    values = work_package
+             .custom_values
+             .select { |v| v.custom_field_id == column.custom_field.id }
 
-    pdf.make_cell show_value(value),
+    pdf.make_cell values.map(&:formatted_value).join(', '),
                   padding: cell_padding
   end
 end

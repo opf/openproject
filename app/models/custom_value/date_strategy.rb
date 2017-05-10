@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,6 +33,12 @@ class CustomValue::DateStrategy < CustomValue::FormatStrategy
     unless value.blank?
       Date.iso8601(value)
     end
+  end
+
+  def formatted_value
+    format_date(value.to_date)
+  rescue
+    value.to_s
   end
 
   def validate_type_of_value

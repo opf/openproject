@@ -1,7 +1,7 @@
-import { WorkPackageTableTimelineVisible } from './../../wp-table-timeline-visible';
 import {States} from "../../../states.service";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
+import {WorkPackageTableTimelineState} from "../../wp-table-timeline";
 
 export class TimelineTransformer {
   public states:States;
@@ -10,7 +10,7 @@ export class TimelineTransformer {
     injectorBridge(this);
 
     this.states.table.timelineVisible.values$()
-      .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineVisible) => {
+      .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
       this.renderVisibility(state.isVisible);
     });
   }

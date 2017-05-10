@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe CustomValue::BoolStrategy do
+  let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
     double('CustomValue',
            value: value)
@@ -64,7 +65,7 @@ describe CustomValue::BoolStrategy do
   end
 
   describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
+    subject { instance.typed_value }
 
     context 'value corresponds to true' do
       let(:value) { '1' }
@@ -97,8 +98,60 @@ describe CustomValue::BoolStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.formatted_value }
+
+    context 'value is present string' do
+      let(:value) { '1' }
+
+      it 'is the true string' do
+        is_expected.to eql I18n.t(:general_text_Yes)
+      end
+    end
+
+    context 'value is zero string' do
+      let(:value) { '0' }
+
+      it 'is the false string' do
+        is_expected.to eql I18n.t(:general_text_No)
+      end
+    end
+
+    context 'value is true' do
+      let(:value) { true }
+
+      it 'is the true string' do
+        is_expected.to eql I18n.t(:general_text_Yes)
+      end
+    end
+
+    context 'value is false' do
+      let(:value) { false }
+
+      it 'is the false string' do
+        is_expected.to eql I18n.t(:general_text_No)
+      end
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+
+      it 'is the false string' do
+        is_expected.to eql I18n.t(:general_text_No)
+      end
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+
+      it 'is the false string' do
+        is_expected.to eql I18n.t(:general_text_No)
+      end
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
 
     context 'value corresponds to true' do
       let(:value) { '1' }
@@ -130,7 +183,7 @@ describe CustomValue::BoolStrategy do
   end
 
   describe '#parse_value' do
-    subject { described_class.new(custom_value).parse_value(value) }
+    subject { instance.parse_value(value) }
 
     ActiveRecord::Type::Boolean::FALSE_VALUES.each do |falsey_value|
       context "for #{falsey_value}" do

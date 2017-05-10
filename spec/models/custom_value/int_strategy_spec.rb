@@ -29,13 +29,14 @@
 require 'spec_helper'
 
 describe CustomValue::IntStrategy do
-  let(:custom_value) {
+  let(:instance) { described_class.new(custom_value) }
+  let(:custom_value) do
     double('CustomValue',
            value: value)
-  }
+  end
 
   describe '#typed_value' do
-    subject { described_class.new(custom_value).typed_value }
+    subject { instance.typed_value }
 
     context 'value is some float string' do
       let(:value) { '10' }
@@ -53,8 +54,27 @@ describe CustomValue::IntStrategy do
     end
   end
 
+  describe '#formatted_value' do
+    subject { instance.typed_value }
+
+    context 'value is some int string' do
+      let(:value) { '10' }
+      it { is_expected.to eql(10) }
+    end
+
+    context 'value is blank' do
+      let(:value) { '' }
+      it { is_expected.to be_nil }
+    end
+
+    context 'value is nil' do
+      let(:value) { nil }
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '#validate_type_of_value' do
-    subject { described_class.new(custom_value).validate_type_of_value }
+    subject { instance.validate_type_of_value }
 
     context 'value is positive int string' do
       let(:value) { '10' }

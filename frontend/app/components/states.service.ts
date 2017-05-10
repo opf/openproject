@@ -15,10 +15,10 @@ import {WorkPackageTableGroupBy} from "./wp-fast-table/wp-table-group-by";
 import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
-import {WorkPackageTableTimelineVisible} from "./wp-fast-table/wp-table-timeline-visible";
 import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
+import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
 
 export class States extends Component {
 
@@ -78,7 +78,7 @@ export class TableState {
   // State to be updated when the table is up to date
   rendered = input<WorkPackageTable>();
   // State to determine timeline visibility
-  timelineVisible = input<WorkPackageTableTimelineVisible>();
+  timelineVisible = input<WorkPackageTableTimelineState>();
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required

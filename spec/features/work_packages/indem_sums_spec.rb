@@ -52,7 +52,7 @@ RSpec.feature 'Work package index sums', js: true do
   scenario 'calculates summs correctly' do
     expect(page).to have_content('Work packages')
 
-    within('#work-packages-index') do
+    within('.work-packages-list-view--container') do
       expect(page).to have_content(work_package_1.subject)
       expect(page).to have_content(work_package_2.subject)
     end
