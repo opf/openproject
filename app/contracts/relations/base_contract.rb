@@ -42,6 +42,10 @@ module Relations
 
     attr_reader :user
 
+    def self.model
+      Relation
+    end
+
     def initialize(relation, user)
       super relation
 
