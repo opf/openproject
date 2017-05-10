@@ -357,7 +357,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.1.0.333)
     nio4r (2.0.0)
-    nokogiri (1.7.1)
+    nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     oj (3.0.5)
     openproject-token (1.0.0)
