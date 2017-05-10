@@ -38,10 +38,7 @@ import {States} from "./../states.service";
 import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
 import {WorkPackageTimelineTableController} from "./timeline/container/wp-timeline-container.directive";
-
-const selectorTableSide = ".work-packages-tabletimeline--table-side";
-const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
-const jQueryScrollSyncEventNamespace = ".scroll-sync";
+import {createScrollSync} from "./wp-table-scroll-sync";
 
 angular
   .module('openproject.workPackages.directives')
@@ -98,6 +95,9 @@ function wpTable(
 }
 
 export class WorkPackagesTableController {
+
+  private readonly scrollSyncUpdate = createScrollSync(this.$element);
+
   constructor(private $scope:ng.IScope,
               public $element:ng.IAugmentedJQuery,
               $rootScope:ng.IRootScopeService,
@@ -158,7 +158,7 @@ export class WorkPackagesTableController {
       $scope.numTableColumns = $scope.columns.length + 2;
 
       if ($scope.timelineVisible !== timelines.current) {
-        this.configureScrollSync(timelines.current);
+        this.scrollSyncUpdate(timelines.current);
       }
       $scope.timelineVisible = timelines.current;
 
@@ -191,60 +191,4 @@ export class WorkPackagesTableController {
     }
   }
 
-  /**
-   * Activate or deactivate the scroll-sync between the table and timeline view.
-   *
-   * @param timelineVisible true if the timeline is visible, false otherwise.
-   */
-  private configureScrollSync(timelineVisible: boolean) {
-    var syncedLeft = false;
-    var syncedRight = false;
-    var elTable = jQuery(this.$element).find(selectorTableSide);
-    var elTimeline = jQuery(this.$element).find(selectorTimelineSide);
-
-    function sync(jev: JQueryEventObject) {
-      const ev: WheelEvent = jev.originalEvent as any;
-      ev.preventDefault();
-
-      const scrollAmout = 30;
-      const delta = ev.deltaY > 0 ? scrollAmout : -scrollAmout;
-
-      window.requestAnimationFrame(function () {
-        elTable[0].scrollTop = elTable[0].scrollTop + delta;
-        elTimeline[0].scrollTop = elTimeline[0].scrollTop + delta;
-      });
-    }
-
-    if (timelineVisible) {
-      // setup event listener for table
-      elTable.on("wheel" + jQueryScrollSyncEventNamespace, sync);
-      elTable.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
-        syncedLeft = true;
-        if (!syncedRight) {
-          elTimeline[0].scrollTop = ev.target.scrollTop;
-        }
-        if (syncedLeft && syncedRight) {
-          syncedLeft = false;
-          syncedRight = false;
-        }
-      });
-
-      // setup event listener for timeline
-      elTimeline.on("wheel" + jQueryScrollSyncEventNamespace, sync);
-      elTimeline.on("scroll" + jQueryScrollSyncEventNamespace, (ev: JQueryEventObject) => {
-        syncedRight = true;
-        if (!syncedLeft) {
-          elTable[0].scrollTop = ev.target.scrollTop;
-        }
-        if (syncedLeft && syncedRight) {
-          syncedLeft = false;
-          syncedRight = false;
-        }
-      });
-    } else {
-      elTable.off(jQueryScrollSyncEventNamespace);
-    }
-
-
-  }
 }
