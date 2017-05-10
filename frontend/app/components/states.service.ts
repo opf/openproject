@@ -15,10 +15,10 @@ import {WorkPackageTableGroupBy} from "./wp-fast-table/wp-table-group-by";
 import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
-import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline-visible";
 import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
+import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
 
 export class States extends Component {
 

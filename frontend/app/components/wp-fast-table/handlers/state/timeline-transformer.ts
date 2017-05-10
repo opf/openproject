@@ -1,7 +1,7 @@
-import { WorkPackageTableTimelineState } from './../../wp-table-timeline-visible';
 import {States} from "../../../states.service";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
+import {WorkPackageTableTimelineState} from "../../wp-table-timeline";
 
 export class TimelineTransformer {
   public states:States;
