@@ -20,6 +20,7 @@
                  ng-if="$ctrl.userInputs.showRelationTypesForm">
                 <select class="wp-inline-edit--field form--select"
                         ng-model="$ctrl.selectedRelationType"
+                        role="listbox"
                         focus
                         ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
                         ng-change="$ctrl.saveRelationType()"></select>
