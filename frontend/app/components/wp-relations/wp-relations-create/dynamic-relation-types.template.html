@@ -20,6 +20,7 @@
                 <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
                 <select class="form--select relationTypeSelect"
                         id="relation-type--select"
+                        role="listbox"
                         ng-model="$ctrl.selectedRelationType"
                         ng-options="type.name as type.label for type in $ctrl.relationTypes"
                         focus>
