@@ -88,8 +88,6 @@ module API
         false
       end
 
-      private
-
       attr_reader :sums,
                   :count,
                   :query
