@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -134,24 +135,6 @@ module ActiveModel
   end
 end
 
-#require 'reform/contract'
-#
-#class Reform::Contract::Errors
-#  def merge_with_storing_error_symbols!(errors, prefix)
-#    @store_new_symbols = false
-#    merge_without_storing_error_symbols!(errors, prefix)
-#    @store_new_symbols = true
-#
-#    errors.keys.each do |attribute|
-#      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
-#        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
-#      end
-#    end
-#  end
-#
-#  alias_method_chain :merge!, :storing_error_symbols
-#end
-
 module ActionView
   module Helpers
     module Tags
@@ -272,13 +255,3 @@ require 'open_project/patches/acts_as_list'
 
 # Backports some useful ruby 2.3 methods for Hash
 require 'open_project/patches/hash'
-
-require "reform/form/active_model/validations"
-
-Reform::Form.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
-
-Reform::Contract.class_eval do
-  include Reform::Form::ActiveModel::Validations
-end
