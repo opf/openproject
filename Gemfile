@@ -57,7 +57,7 @@ gem 'acts_as_tree', '~> 2.6.1'
 
 gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
 
-gem 'awesome_nested_set', '~> 3.1.1'
+gem 'awesome_nested_set', '~> 3.1.3'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
@@ -90,12 +90,12 @@ gem 'bcrypt', '~> 3.1.6'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.0.5'
+gem 'oj', '~> 3.0.6'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
 
-gem 'rack-protection', '~> 2.0.0.beta2'
+gem 'rack-protection', '~> 2.0.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
