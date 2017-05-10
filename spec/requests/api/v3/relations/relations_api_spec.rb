@@ -182,7 +182,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   describe "permissions" do
     let(:user) { FactoryGirl.create :user }
 
-    let(:permissions) { [:view_work_packages, :manage_work_package_relations] }
+    let(:permissions) { %i(view_work_packages manage_work_package_relations) }
 
     let(:role) do
       FactoryGirl.create :existing_role, permissions: permissions
