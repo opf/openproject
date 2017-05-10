@@ -8,6 +8,13 @@
       <ul class="tabrow">
         <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
         properly. Thus, don't remove the hrefs or the empty URLs! -->
+        <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
+                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-class="work-packages--details-fullscreen-icon"
+                                  span-class="icon-context icon-to-fullscreen">
+          </accessible-by-keyboard>
+        </li>
         <li ui-sref="work-packages.list.details.overview({})"
             ui-sref-active="selected">
           <a href="" ng-bind="::$ctrl.text.tabs.overview"/>
@@ -24,13 +31,6 @@
             ui-sref="work-packages.list.details.watchers({})"
             ui-sref-active="selected">
           <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
-        </li>
-        <li class="tab-icon">
-          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
-                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
-                                  link-class="work-packages--details-fullscreen-icon"
-                                  span-class="icon-context icon-add">
-          </accessible-by-keyboard>
         </li>
         <li class="tab-icon">
           <accessible-by-keyboard execute="$ctrl.close()"
