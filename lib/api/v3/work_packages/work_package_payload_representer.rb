@@ -59,33 +59,33 @@ module API
         property :linked_resources,
                  as: :_links,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    work_package_attribute_links_representer represented
                  },
-                 setter: -> (value, *) {
+                 setter: ->(value, *) {
                    representer = work_package_attribute_links_representer represented
                    representer.from_json(value.to_json)
                  }
 
         property :lock_version,
                  render_nil: true,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    lock_version.to_i
                  }
         property :subject, render_nil: true
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
-                 if: -> (*) { Setting.work_package_done_ratio == 'field' }
+                 if: ->(*) { Setting.work_package_done_ratio == 'field' }
 
         property :estimated_hours,
                  as: :estimatedTime,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_duration_from_hours(represented.estimated_hours,
                                                                  allow_nil: true)
                  },
-                 setter: -> (value, *) {
+                 setter: ->(value, *) {
                    represented.estimated_hours = datetime_formatter.parse_duration_to_hours(
                      value,
                      'estimated_hours',
@@ -95,10 +95,10 @@ module API
 
         property :description,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    API::Decorators::Formattable.new(represented.description, object: represented)
                  },
-                 setter: -> (value, *) { represented.description = value['raw'] },
+                 setter: ->(value, *) { represented.description = value['raw'] },
                  render_nil: true
 
         property :parent_id,
@@ -107,34 +107,34 @@ module API
 
         property :start_date,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  },
-                 setter: -> (value, *) {
+                 setter: ->(value, *) {
                    represented.start_date = datetime_formatter.parse_date(value,
                                                                           'startDate',
                                                                           allow_nil: true)
                  },
                  render_nil: true,
-                 if: -> (*) { !represented.milestone? }
+                 if: ->(*) { !represented.milestone? }
         property :due_date,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  },
-                 setter: -> (value, *) {
+                 setter: ->(value, *) {
                    represented.due_date = datetime_formatter.parse_date(value,
                                                                         'dueDate',
                                                                         allow_nil: true)
                  },
                  render_nil: true,
-                 if: -> (*) { !represented.milestone? }
+                 if: ->(*) { !represented.milestone? }
         property :date,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  },
-                 setter: -> (value, *) {
+                 setter: ->(value:, represented:, **) {
                    new_date = datetime_formatter.parse_date(value,
                                                             'date',
                                                             allow_nil: true)
@@ -142,15 +142,15 @@ module API
                    represented.due_date = represented.start_date = new_date
                  },
                  render_nil: true,
-                 if: -> (*) { represented.milestone? }
+                 if: ->(represented:, **) { represented.milestone? }
         property :version_id,
-                 getter: -> (*) { nil },
-                 setter: -> (value, *) { self.fixed_version_id = value },
+                 getter: ->(*) { nil },
+                 setter: ->(value, *) { self.fixed_version_id = value },
                  render_nil: false
         property :created_at,
-                 getter: -> (*) { nil }, render_nil: false
+                 getter: ->(*) { nil }, render_nil: false
         property :updated_at,
-                 getter: -> (*) { nil }, render_nil: false
+                 getter: ->(*) { nil }, render_nil: false
 
         private
 
