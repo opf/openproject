@@ -46,27 +46,39 @@ function getXandYScrollDeltas(ev: WheelEvent): [number, number] {
   return [x, y];
 }
 
-function getPlattformAgnosticScrollAmount(deltaY: number) {
-  return scrollStep;
+function getPlattformAgnosticScrollAmount(originalValue: number) {
+  if (originalValue === 0) {
+    return originalValue;
+  }
+
+  let delta = scrollStep;
+
+  // Browser-specific logic
+  // TODO
+
+  if (originalValue < 0) {
+    delta *= -1;
+  }
+  return delta;
 }
 
 function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTimeline: JQuery) {
   const ev: WheelEvent = jev.originalEvent as any;
-  const [, deltaY] = getXandYScrollDeltas(ev);
+  let [deltaX, deltaY] = getXandYScrollDeltas(ev);
 
   if (deltaY === 0) {
     return;
   }
   ev.preventDefault();
 
-  const scrollAmout = getPlattformAgnosticScrollAmount(deltaY);
-  const delta = deltaY > 0 ? scrollAmout : -scrollAmout;
+  deltaX = getPlattformAgnosticScrollAmount(deltaX);
+  deltaY = getPlattformAgnosticScrollAmount(deltaY);
 
   window.requestAnimationFrame(function () {
-    elementTable[0].scrollTop = elementTable[0].scrollTop + delta;
-    elementTable[0].scrollLeft = elementTable[0].scrollLeft + scrollStep;
-    elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + delta;
-    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + scrollStep;
+    elementTable[0].scrollTop = elementTable[0].scrollTop + deltaY;
+    elementTable[0].scrollLeft = elementTable[0].scrollLeft + deltaX;
+    elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + deltaY;
+    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + deltaX;
   });
 }
 
