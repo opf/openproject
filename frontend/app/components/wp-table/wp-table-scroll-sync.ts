@@ -64,7 +64,9 @@ function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTim
 
   window.requestAnimationFrame(function () {
     elementTable[0].scrollTop = elementTable[0].scrollTop + delta;
+    elementTable[0].scrollLeft = elementTable[0].scrollLeft + ev.deltaX;
     elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + delta;
+    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + ev.deltaX;
   });
 }
 
