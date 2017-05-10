@@ -47,21 +47,26 @@ See doc/COPYRIGHT.rdoc for more details.
     <td class="filename" style="padding-left: <%=18 * depth%>px;">
       <% if entry.dir? %>
         <a class="icon-context dir-expander"
-              title="<%= I18n.t('js.label_expand') %>"
-              href="javascript:"
-              data-element="<%= "##{tr_id}" %>"
-              data-url="<%= url_for(action: 'show',
-                                    project_id: @project,
-                                    path: to_path_param(ent_path),
-                                    rev: @rev,
-                                    depth: (depth + 1),
-                                    parent_id: tr_id) %>">
+           title="<%= I18n.t('js.label_expand') %>"
+           href="javascript:"
+           data-element="<%= "##{tr_id}" %>"
+           aria-label="<%= I18n.t('js.label_expand') %>"
+           data-url="<%= url_for(action: 'show',
+                                  project_id: @project,
+                                  path: to_path_param(ent_path),
+                                  rev: @rev,
+                                  depth: (depth + 1),
+                                  parent_id: tr_id) %>">
+          <%= op_icon('icon-context') %>
           &nbsp
         </a>
       <% end %>
-      <%=  link_to h(ent_name),
-          {action: (entry.dir? ? 'show' : 'changes'), project_id: @project, path: to_path_param(ent_path), rev: @rev},
-          class: 'icon-context ' + (entry.dir? ? 'icon-folder' : "icon-ticket #{Redmine::MimeType.css_class_of(ent_name)}"), aria: {label: (entry.dir? ? t('label_folder') : t('activerecord.attributes.attachment.file')) + " #{h(ent_name)}"} %>
+      <%= link_to({ action: (entry.dir? ? 'show' : 'changes'), project_id: @project, path: to_path_param(ent_path), rev: @rev },
+                  class: 'icon-context',
+                  aria: { label: (entry.dir? ? t('label_folder') : t('activerecord.attributes.attachment.file')) + " #{h(ent_name)}" }) do %>
+        <%= op_icon(entry.dir? ? 'icon-folder' : "icon-ticket #{Redmine::MimeType.css_class_of(ent_name)}") %>
+        <%= h(ent_name) %>
+      <% end %>
     </td>
     <td class="hidden-for-sighted"> <%= depth %></td>
     <td class="size"><%= (entry.size ? number_to_human_size(entry.size) : "?") unless entry.dir? %></td>
