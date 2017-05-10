@@ -27,16 +27,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if defined? block_name %>
-  <%= content_for "#{block_name}-remove-block" %>
-<% end %>
-
-<h3 class="widget-box--header">
-  <span class="icon-context icon-calendar"></span>
-  <span class="widget-box--header-title"><%=l(:label_calendar)%></span>
-</h3>
-
-<% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :month)
-   calendar.events = calendar_items(calendar.startdt, calendar.enddt) %>
-
-<%= render partial: 'common/calendar', locals: {calendar: calendar } %>
+<div class="form--field -required">
+  <%= form.select :state,
+                       [
+                          ['Planuojamas', 0],
+                          ['Vykdomas', 1],
+                          ['Įgyvendintas', 2],
+                          ['Problematiškas', 3]
+                       ],
+                       {},
+                       {
+                        data: { :'request-key' => 'state' }
+                        } %>
+</div>

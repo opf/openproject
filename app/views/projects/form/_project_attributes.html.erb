@@ -30,6 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render partial: "projects/form/attributes/name",
            locals: { form: form } %>
+<%= render partial: "projects/form/attributes/state",
+           locals: { form: form } %>
 <%= render partial: "customizable/form",
            locals: { form: form, all_fields: all_fields, only_required: render_advanced } %>
 <%= render partial: "projects/form/attributes/responsible_id",
