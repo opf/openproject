@@ -31,7 +31,7 @@ import {IAugmentedJQuery} from "angular";
 const selectorTableSide = ".work-packages-tabletimeline--table-side";
 const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
 const jQueryScrollSyncEventNamespace = ".scroll-sync";
-const workPackageTableRowHeight = 41;
+const scrollStep = 15;
 
 
 function getXandYScrollDeltas(ev: WheelEvent): [number, number] {
@@ -47,7 +47,7 @@ function getXandYScrollDeltas(ev: WheelEvent): [number, number] {
 }
 
 function getPlattformAgnosticScrollAmount(deltaY: number) {
-  return workPackageTableRowHeight;
+  return scrollStep;
 }
 
 function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTimeline: JQuery) {
@@ -64,9 +64,9 @@ function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTim
 
   window.requestAnimationFrame(function () {
     elementTable[0].scrollTop = elementTable[0].scrollTop + delta;
-    elementTable[0].scrollLeft = elementTable[0].scrollLeft + ev.deltaX;
+    elementTable[0].scrollLeft = elementTable[0].scrollLeft + scrollStep;
     elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + delta;
-    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + ev.deltaX;
+    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + scrollStep;
   });
 }
 
