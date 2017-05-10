@@ -46,6 +46,10 @@ module Queries
     attribute :sort_criteria # => sortBy
     attribute :group_by # => groupBy
 
+    def self.model
+      Query
+    end
+
     attr_reader :user
 
     def initialize(query, user)

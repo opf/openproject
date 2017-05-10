@@ -44,6 +44,10 @@ module Users
     attribute :identity_url
     attribute :password
 
+    def self.model
+      User
+    end
+
     def initialize(user, current_user)
       super(user)
 

@@ -32,6 +32,10 @@ require 'model_contract'
 
 module WorkPackages
   class BaseContract < ::ModelContract
+    def self.model
+      WorkPackage
+    end
+
     attribute :subject
     attribute :description
     attribute :start_date, :due_date
