@@ -40,7 +40,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <% if authorize_for(:members, :new) %>
     <li class="toolbar-item">
-      <button id="add-member-button" aria-label="<%= I18n.t(:button_add_member) %>" title="<%= I18n.t(:button_add_member) %>" onClick="showAddMemberForm()" class="button -alt-highlight">
+      <button id="add-member-button"
+              aria-label="<%= I18n.t(:button_add_member) %>"
+              title="<%= I18n.t(:button_add_member) %>"
+              onClick="showAddMemberForm()"
+              class="button -alt-highlight"
+              <%= params[:show_add_members] ? 'data-trigger-initially="true"' : '' %> >
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.member') %></span>
       </button>
