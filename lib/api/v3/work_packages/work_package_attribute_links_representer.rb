@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,9 +42,9 @@ module API
         class << self
           def create_class(work_package)
             injector_class = ::API::V3::Utilities::CustomFieldInjector
-            injector_class.create_value_representer_for_link_patching(
-              work_package,
-              WorkPackageAttributeLinksRepresenter)
+            injector_class
+              .create_value_representer_for_link_patching(work_package,
+                                                          WorkPackageAttributeLinksRepresenter)
           end
 
           def create(work_package)
@@ -60,21 +61,21 @@ module API
                                  show_if: true)
 
           property property,
-                   exec_context: :decorator,
-                   getter: -> (*) {
+                   getter: ->(represented:, **) {
                      ::API::Decorators::LinkObject.new(represented,
                                                        property_name: property,
                                                        path: path,
                                                        namespace: namespace,
                                                        getter: association)
                    },
-                   setter: -> (value, *) {
+                   setter: ->(fragment:, represented:, **) {
                      link = ::API::Decorators::LinkObject.new(represented,
                                                               property_name: property,
                                                               path: path,
                                                               namespace: namespace,
                                                               getter: association)
-                     link.from_hash(value)
+
+                     link.from_hash(fragment)
                    },
                    if: show_if
         end

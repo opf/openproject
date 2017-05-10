@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,9 +41,9 @@ module API
         class << self
           def create_class(work_package)
             injector_class = ::API::V3::Utilities::CustomFieldInjector
-            injector_class.create_value_representer_for_property_patching(
-              work_package,
-              WorkPackagePayloadRepresenter)
+            injector_class
+              .create_value_representer_for_property_patching(work_package,
+                                                              WorkPackagePayloadRepresenter)
           end
 
           def create(work_package)
@@ -58,21 +59,16 @@ module API
 
         property :linked_resources,
                  as: :_links,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   work_package_attribute_links_representer represented
-                 },
-                 setter: ->(value, *) {
-                   representer = work_package_attribute_links_representer represented
-                   representer.from_json(value.to_json)
-                 }
+                 exec_context: :decorator
 
         property :lock_version,
                  render_nil: true,
                  getter: ->(*) {
                    lock_version.to_i
                  }
-        property :subject, render_nil: true
+        property :subject,
+                 render_nil: true
+
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
@@ -81,78 +77,93 @@ module API
         property :estimated_hours,
                  as: :estimatedTime,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_duration_from_hours(represented.estimated_hours,
-                                                                 allow_nil: true)
-                 },
-                 setter: ->(value, *) {
-                   represented.estimated_hours = datetime_formatter.parse_duration_to_hours(
-                     value,
-                     'estimated_hours',
-                     allow_nil: true)
-                 },
                  render_nil: true
 
         property :description,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   API::Decorators::Formattable.new(represented.description, object: represented)
-                 },
-                 setter: ->(value, *) { represented.description = value['raw'] },
-                 render_nil: true
-
-        property :parent_id,
-                 writeable: true,
                  render_nil: true
 
         property :start_date,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.start_date, allow_nil: true)
-                 },
-                 setter: ->(value, *) {
-                   represented.start_date = datetime_formatter.parse_date(value,
-                                                                          'startDate',
-                                                                          allow_nil: true)
-                 },
                  render_nil: true,
                  if: ->(*) { !represented.milestone? }
+
         property :due_date,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 },
-                 setter: ->(value, *) {
-                   represented.due_date = datetime_formatter.parse_date(value,
-                                                                        'dueDate',
-                                                                        allow_nil: true)
-                 },
                  render_nil: true,
                  if: ->(*) { !represented.milestone? }
+
         property :date,
                  exec_context: :decorator,
-                 getter: ->(*) {
-                   datetime_formatter.format_date(represented.due_date, allow_nil: true)
-                 },
-                 setter: ->(value:, represented:, **) {
-                   new_date = datetime_formatter.parse_date(value,
-                                                            'date',
-                                                            allow_nil: true)
-
-                   represented.due_date = represented.start_date = new_date
-                 },
                  render_nil: true,
                  if: ->(represented:, **) { represented.milestone? }
-        property :version_id,
-                 getter: ->(*) { nil },
-                 setter: ->(value, *) { self.fixed_version_id = value },
-                 render_nil: false
+
         property :created_at,
                  getter: ->(*) { nil }, render_nil: false
+
         property :updated_at,
                  getter: ->(*) { nil }, render_nil: false
 
-        private
+        def linked_resources
+          work_package_attribute_links_representer represented
+        end
+
+        def linked_resources=(value)
+          representer = work_package_attribute_links_representer represented
+          representer.from_json(value.to_json)
+        end
+
+        def estimated_hours
+          datetime_formatter.format_duration_from_hours(represented.estimated_hours,
+                                                        allow_nil: true)
+        end
+
+        def estimated_hours=(value)
+          represented.estimated_hours = datetime_formatter
+                                        .parse_duration_to_hours(value,
+                                                                 'estimated_hours',
+                                                                 allow_nil: true)
+        end
+
+        def description
+          API::Decorators::Formattable.new(represented.description, object: represented)
+        end
+
+        def description=(value)
+          represented.description = value['raw']
+        end
+
+        def start_date
+          datetime_formatter.format_date(represented.start_date, allow_nil: true)
+        end
+
+        def start_date=(value)
+          represented.start_date = datetime_formatter.parse_date(value,
+                                                                 'startDate',
+                                                                 allow_nil: true)
+        end
+
+        def due_date
+          datetime_formatter.format_date(represented.due_date, allow_nil: true)
+        end
+
+        def due_date=(value)
+          represented.due_date = datetime_formatter.parse_date(value,
+                                                               'dueDate',
+                                                               allow_nil: true)
+        end
+
+        def date=(value)
+          new_date = datetime_formatter.parse_date(value,
+                                                   'date',
+                                                   allow_nil: true)
+
+          represented.due_date = represented.start_date = new_date
+        end
+
+        def date
+          datetime_formatter.format_date(represented.due_date, allow_nil: true)
+        end
 
         def datetime_formatter
           API::V3::Utilities::DateTimeFormatter
