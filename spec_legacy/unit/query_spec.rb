@@ -362,7 +362,7 @@ describe Query, type: :model do
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(NilClass User), count_by_group.keys.map { |k| k.class.name }.uniq.sort
-    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
     assert count_by_group.has_key?(User.find(3))
   end
 
@@ -375,7 +375,7 @@ describe Query, type: :model do
     assert_kind_of Hash, count_by_group
     expect(count_by_group.keys.map { |k| k.class.name }.uniq)
       .to match_array(%w(CustomOption NilClass))
-    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
     expect(count_by_group.any? { |k, v| k.is_a?(CustomOption) && k.id == 1 && v == 1 })
       .to be_truthy
   end
@@ -388,7 +388,7 @@ describe Query, type: :model do
     count_by_group = q.results.work_package_count_by_group
     assert_kind_of Hash, count_by_group
     assert_equal %w(Date NilClass), count_by_group.keys.map { |k| k.class.name }.uniq.sort
-    assert_equal %w(Fixnum), count_by_group.values.map { |k| k.class.name }.uniq
+    assert_equal %w(Integer), count_by_group.values.map { |k| k.class.name }.uniq
   end
 
   context '#filter_for' do
