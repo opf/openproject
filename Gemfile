@@ -236,8 +236,8 @@ end
 gem 'grape', '~> 0.19.2'
 gem 'grape-cache_control', '~> 1.0.1'
 
-gem 'roar',   '~> 1.0.0'
-gem 'reform', '~> 1.2.6', require: false
+gem 'reform', '~> 2.1.0', require: false
+gem 'roar',   '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
