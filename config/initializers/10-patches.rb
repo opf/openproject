@@ -34,19 +34,9 @@ module ActiveRecord
   class Base
     include Redmine::I18n
 
-    # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      options_with_raise = { raise: true, default: false }.merge options
       attr = attr.to_s.gsub(/_id\z/, '')
-      super(attr, options_with_raise)
-    rescue I18n::MissingTranslationData => e
-      included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
-      included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
-      unless included_in_general_attributes or included_in_superclasses
-        # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-        warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
-      end
-      super(attr, options)
+      super
     end
   end
 end
