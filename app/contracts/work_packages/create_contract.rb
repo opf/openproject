@@ -37,9 +37,9 @@ module WorkPackages
     end
 
     def validate
-      super
-
       user_allowed_to_add
+
+      super
     end
 
     private
