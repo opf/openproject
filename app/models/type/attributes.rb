@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -63,29 +64,54 @@ module Type::Attributes
       OpenProject::Cache.fetch('all_work_package_form_attributes',
                                *WorkPackageCustomField.pluck('max(updated_at), count(id)').flatten,
                                merge_date) do
-        definitions = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
-        skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
-        attributes = definitions.keys
-                                .reject { |key| skip.include?(key) || definitions[key][:required] }
-                                .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+        calculate_all_work_package_form_attributes(merge_date)
+      end
+    end
 
-        # within the form date is shown as a single entry including start and due
-        if merge_date
-          attributes['date'] = { required: false, has_default: false }
-          attributes.delete 'due_date'
-          attributes.delete 'start_date'
-        end
+    private
 
-        WorkPackageCustomField.includes(:custom_options).all.each do |field|
-          attributes["custom_field_#{field.id}"] = {
-            required: field.is_required,
-            has_default: field.default_value.present?,
-            is_cf: true,
-            display_name: field.name
-          }
-        end
+    def calculate_all_work_package_form_attributes(merge_date)
+      attributes = calculate_default_work_package_form_attributes
 
-        attributes
+      # within the form date is shown as a single entry including start and due
+      if merge_date
+        merge_date_for_form_attributes(attributes)
+      end
+
+      add_custom_fields_to_form_attributes(attributes)
+
+      attributes
+    end
+
+    def calculate_default_work_package_form_attributes
+      representable_config = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
+                             .representable_attrs
+
+      # For reasons beyond me, Representable::Config contains the definitions
+      #  * nested in [:definitions] in some envs, e.g. development
+      #  * directly in other envs, e.g. test
+      definitions = representable_config.key?(:definitions) ? representable_config[:definitions] : representable_config
+
+      skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
+      definitions.keys
+                 .reject { |key| skip.include?(key) || definitions[key][:required] }
+                 .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+    end
+
+    def merge_date_for_form_attributes(attributes)
+      attributes['date'] = { required: false, has_default: false }
+      attributes.delete 'due_date'
+      attributes.delete 'start_date'
+    end
+
+    def add_custom_fields_to_form_attributes(attributes)
+      WorkPackageCustomField.includes(:custom_options).all.each do |field|
+        attributes["custom_field_#{field.id}"] = {
+          required: field.is_required,
+          has_default: field.default_value.present?,
+          is_cf: true,
+          display_name: field.name
+        }
       end
     end
   end
@@ -144,7 +170,6 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
-
     # Check custom field constraints
     if custom_field?(attribute) && !project.nil?
       return custom_field_in_project?(attribute, project)
