@@ -51,7 +51,7 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
   end
 
   def human_name
-    WorkPackage.human_attribute_name('assigned_to_id')
+    WorkPackage.human_attribute_name('assigned_to')
   end
 
   def self.key
