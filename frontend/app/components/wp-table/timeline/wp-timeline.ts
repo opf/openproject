@@ -30,10 +30,10 @@ import {
   WorkPackageResourceInterface,
   WorkPackageResource
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WpTimelineHeader} from "./wp-timeline.header";
 import Moment = moment.Moment;
 
 export const timelineElementCssClass = "timeline-element";
+export const timelineGridElementCssClass = "wp-timeline--grid-element";
 export const timelineMarkerSelectionStartClass = "selection-start";
 
 /**
@@ -42,8 +42,6 @@ export const timelineMarkerSelectionStartClass = "selection-start";
 export class TimelineViewParametersSettings {
 
   // showDurationInPx = true;
-
-  scrollOffsetInDays = 0;
 
   zoomLevel: ZoomLevel = ZoomLevel.DAYS;
 
@@ -66,8 +64,6 @@ export class TimelineViewParameters {
   dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
 
   settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
-
-  timelineHeader: WpTimelineHeader;
 
   activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
 
@@ -94,10 +90,6 @@ export class TimelineViewParameters {
 
   get maxSteps():number {
     return this.dateDisplayEnd.diff(this.dateDisplayStart, "days");
-  }
-
-  get scrollOffsetInPx() {
-    return this.settings.scrollOffsetInDays * this.pixelPerDay;
   }
 
 }

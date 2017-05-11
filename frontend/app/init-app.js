@@ -37,7 +37,6 @@ require('ng-dialog/css/ngDialog.min.css');
 require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
-require('nouislider/distribute/nouislider.min.css');
 
 // load I18n, depending on the html element having a 'lang' attribute
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();

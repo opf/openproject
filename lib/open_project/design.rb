@@ -207,7 +207,9 @@ module OpenProject
       'generic-table--font-size'                             => '0.875rem',
       'generic-table--header-font-size'                      => '0.875rem',
       'generic-table--header-height'                         => '45px',
-      'generic-table--footer-height'                         => '34px'
+      'generic-table--footer-height'                         => '34px',
+      'timeline--grid-color'                                 => '#dddddd',
+      'timeline--separator'                                  => '5px solid #E7E7E7'
     }.freeze
 
     ##

@@ -17,17 +17,19 @@ export class PlainRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public internalBuildRows(table:WorkPackageTable):DocumentFragment {
-    let tbodyContent = document.createDocumentFragment();
+  public internalBuildRows(table:WorkPackageTable):[DocumentFragment,DocumentFragment] {
+    let tableBody = document.createDocumentFragment();
+    let timelineBody = document.createDocumentFragment();
 
     table.rows.forEach((wpId:string) => {
       let row = table.rowIndex[wpId];
       let tr = this.buildEmptyRow(row);
       row.element = tr;
-      tbodyContent.appendChild(tr);
+      this.appendRow(row.object, tr, tableBody, timelineBody);
+      tableBody.appendChild(tr);
     });
 
-    return tbodyContent;
+    return [tableBody, timelineBody];
   }
 
   public buildEmptyRow(row:WorkPackageTableRow, table?:WorkPackageTable) {

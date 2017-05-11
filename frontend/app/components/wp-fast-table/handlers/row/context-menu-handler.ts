@@ -5,6 +5,7 @@ import {TableEventHandler} from "../table-handler-registry";
 import {rowClassName} from "../../builders/rows/single-row-builder";
 import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
 import {ContextMenuService} from "../../../context-menus/context-menu.service";
+import {timelineCellClassName} from "../../builders/timeline/timeline-row-builder";
 
 export class ContextMenuHandler implements TableEventHandler {
   // Injections
@@ -19,11 +20,11 @@ export class ContextMenuHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${rowClassName}`;
+    return `.${rowClassName},.${timelineCellClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {
-    return jQuery(table.tbody);
+    return jQuery(table.container);
   }
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {

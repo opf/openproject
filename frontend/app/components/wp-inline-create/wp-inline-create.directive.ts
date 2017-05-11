@@ -27,7 +27,6 @@
 // ++
 
 import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
-import {SingleRowBuilder} from '../wp-fast-table/builders/rows/single-row-builder';
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
@@ -43,8 +42,8 @@ import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils"
 import {States} from "../states.service";
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {RowRefreshBuilder} from "../wp-fast-table/builders/rows/row-refresh-builder";
 import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
+import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
 
 export class WorkPackageInlineCreateController {
 
@@ -78,6 +77,16 @@ export class WorkPackageInlineCreateController {
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
+
+    // Mirror the row in timeline
+    const mirrorRow = jQuery('<div id="wp-timeline-mirror-cell" class="wp-timeline-cell"></div>');
+    $scope.$watch('$ctrl.isHidden', (hidden) => {
+      const container = jQuery('.wp-table-timeline--inline-create-mirror');
+      container.empty();
+      if (!hidden) {
+        jQuery('.wp-table-timeline--inline-create-mirror').empty().append(mirrorRow);
+      }
+    });
 
     // Remove temporary rows on creation of new work package
     scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
@@ -140,6 +149,7 @@ export class WorkPackageInlineCreateController {
 
         this.workPackageEditForm = new WorkPackageEditForm('new');
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
+        this.table.rowBuilder.addToTimeline(wp, this.table.timelineBody);
         this.$element.append(row);
 
         this.$timeout(() => {
@@ -192,6 +202,7 @@ export class WorkPackageInlineCreateController {
     this.states.editing.get('new').clear();
     this.states.workPackages.get('new').clear();
     this.$element.find('#wp-row-new').remove();
+    jQuery(this.table.timelineBody).find('#wp-timeline-row-new').remove();
   }
 
   public showRow() {

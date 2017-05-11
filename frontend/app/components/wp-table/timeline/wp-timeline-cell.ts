@@ -1,4 +1,3 @@
-import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-timeline-visible';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,7 +27,7 @@ import { WorkPackageTableTimelineVisible } from './../../wp-fast-table/wp-table-
 // ++
 import {States} from "../../states.service";
 import {RenderInfo} from "./wp-timeline";
-import {WorkPackageTimelineTableController} from "./wp-timeline-container.directive";
+import {WorkPackageTimelineTableController} from "./container/wp-timeline-container.directive";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
 import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
@@ -74,13 +73,13 @@ export class WorkPackageTimelineCell {
       .map(([renderInfo, _visible]) => renderInfo)
       .subscribe(renderInfo => {
         this.updateView(renderInfo);
-        this.workPackageTimeline.globalService.updateWorkPackageInfo(this);
+        this.workPackageTimeline.cells[this.workPackageId] = this;
       });
   }
 
   deactivate() {
     this.clear();
-    this.workPackageTimeline.globalService.removeWorkPackageInfo(this.workPackageId);
+    delete this.workPackageTimeline.cells[this.workPackageId];
     this.subscription && this.subscription.unsubscribe();
   }
 
@@ -142,27 +141,6 @@ export class WorkPackageTimelineCell {
         renderer,
         renderInfo);
     }
-
-    //-------------------------------------------------
-    // TODO Naive horizontal scroll logic, for testing purpose only
-    jQuery(this.timelineCell).on("wheel", ev => {
-      const mwe = ev.originalEvent as MouseWheelEvent;
-
-      // horizontal scroll
-      // if (Math.abs(mwe.deltaY) < 20) {
-      mwe.preventDefault();
-      const scrollInDays = -Math.round(mwe.deltaX / 15);
-      this.workPackageTimeline.wpTimelineHeader.addScrollDelta(scrollInDays);
-      // }
-
-      // forward vertical scroll
-      const s = jQuery(".generic-table--results-container");
-      window.requestAnimationFrame(() => {
-        s.scrollTop(s.scrollTop() + mwe.deltaY);
-        // s.stop().animate({scrollTop: s.scrollTop() + mwe.deltaY}, 200);
-      });
-    });
-    //-------------------------------------------------
   }
 
   private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {

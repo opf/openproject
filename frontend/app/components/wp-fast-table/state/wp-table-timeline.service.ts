@@ -26,19 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  WorkPackageTableBaseService,
-  TableStateStates
-} from './wp-table-base.service';
-import {
-  QueryResource,
-  QueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
-import {opServicesModule} from '../../../angular-modules';
-import {States} from '../../states.service';
-import {WorkPackageTableTimelineVisible} from './../wp-table-timeline-visible';
+import {TableStateStates, WorkPackageTableBaseService} from "./wp-table-base.service";
+import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
+import {opServicesModule} from "../../../angular-modules";
+import {States} from "../../states.service";
+import {WorkPackageTableTimelineState} from "./../wp-table-timeline";
+import {ZoomLevel} from "../../wp-table/timeline/wp-timeline";
 
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService {
   protected stateName = 'timelineVisible' as TableStateStates;
@@ -48,7 +41,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public initialize(query:QueryResource) {
-    let current = new WorkPackageTableTimelineVisible(query.timelineVisible);
+    let current = new WorkPackageTableTimelineState(query.timelineVisible, ZoomLevel.DAYS);
 
     this.state.putValue(current);
   }
@@ -65,17 +58,21 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     return this.current.isVisible;
   }
 
-  private get current():WorkPackageTableTimelineVisible {
-    return this.state.value as WorkPackageTableTimelineVisible;
+  public get zoomLevel() {
+    return this.current.zoomLevel;
   }
 
-  public get currentSum():boolean|undefined {
-    if (this.current) {
-      return this.current.current;
-    } else {
-      return undefined;
-    }
+  public updateZoom(delta: number) {
+    let currentState = this.current;
+    currentState.zoomLevel += delta;
+
+    this.state.putValue(currentState);
   }
+
+  private get current():WorkPackageTableTimelineState {
+    return this.state.value as WorkPackageTableTimelineState;
+  }
+
 }
 
 opServicesModule.service('wpTableTimeline', WorkPackageTableTimelineService);

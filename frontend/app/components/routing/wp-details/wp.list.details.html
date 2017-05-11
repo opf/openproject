@@ -1,7 +1,3 @@
-<div class="work-packages-show-view-button wp--details--switch-fullscreen hidden-for-accessibility"
-     ng-click="$ctrl.switchToFullscreen()">
-  <span class="icon-context icon-double-arrow-left"></span>
-</div>
 <div class="work-packages--details loading-indicator--location"
       data-indicator-name="wpDetails">
   <div wp-edit-form="$ctrl.workPackage"
@@ -12,6 +8,13 @@
       <ul class="tabrow">
         <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
         properly. Thus, don't remove the hrefs or the empty URLs! -->
+        <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
+                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-class="work-packages--details-fullscreen-icon"
+                                  span-class="icon-context icon-to-fullscreen">
+          </accessible-by-keyboard>
+        </li>
         <li ui-sref="work-packages.list.details.overview({})"
             ui-sref-active="selected">
           <a href="" ng-bind="::$ctrl.text.tabs.overview"/>
@@ -47,7 +50,7 @@
       <div class="work-package-details-tab" ui-view></div>
     </div>
 
-    <div class="bottom-toolbar" ng-if="$ctrl.workPackage">
+    <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
       <wp-details-toolbar ng-show="!$ctrl.wpEditModeState.active" work-package='$ctrl.workPackage'></wp-details-toolbar>
       <edit-actions-bar
           ng-show="$ctrl.wpEditModeState.active"

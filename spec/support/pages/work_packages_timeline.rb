@@ -35,19 +35,23 @@ module Pages
       find('#work-packages-timeline-toggle-button').click
     end
 
+    def timeline_row_selector(wp_id)
+      "#wp-timeline-row-#{wp_id}"
+    end
+
     def expect_timeline!(open: true)
       if open
         expect(page).to have_selector('#work-packages-timeline-toggle-button.-active')
-        expect(page).to have_selector('.work-package-table .wp-timeline-cell')
+        expect(page).to have_selector('.wp-table-timeline--container .wp-timeline-cell')
       else
         expect(page).to have_no_selector('#work-packages-timeline-toggle-button.-active')
-        expect(page).to have_no_selector('.work-package-table .wp-timeline-cell', visible: true)
+        expect(page).to have_no_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
     end
 
     def expect_timeline_element(work_package)
       type = work_package.milestone? ? :milestone : :bar
-      expect(page).to have_selector("#{work_package_row_selector(work_package)} .timeline-element.#{type}")
+      expect(page).to have_selector("#{timeline_row_selector(work_package.id)} .timeline-element.#{type}")
     end
   end
 end

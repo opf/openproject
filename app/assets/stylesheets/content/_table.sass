@@ -78,12 +78,10 @@ table.generic-table
   thead
     height: $generic-table--header-height
 
-    &.-sticky
+    &.-sticky th
       position: sticky
       top: 0
       background: white
-      // z-index needs be higher than row z-index
-      z-index: 200
     tr
       &:hover
         background: none

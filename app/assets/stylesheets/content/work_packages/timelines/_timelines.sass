@@ -1,7 +1,9 @@
-@import '_slider'
+@import '_grid'
 @import 'elements/_bar'
 @import 'elements/_milestone'
 @import 'elements/_relation'
+
+@import '_timelines_static_elements'
 
 .wp-timeline--th
   min-width: 600px !important
@@ -13,7 +15,6 @@
   top: calc(#{$generic-table--header-height} + 10px)
   border: 1px solid #D7D7D7
   box-shadow: 0 5px 3px -4px rgba(0, 0, 0, 0.2)
-  // Should match the thead z-index
   z-index: 200
 
   // Ensure even padding around buttons
@@ -23,34 +24,38 @@
   button
     margin: 0
 
-.wp-timeline-header-container.generic-table--sort-header-outer
-  padding: 0
-  z-index: 100
-  margin-left: -5px
-  height: $generic-table--header-height
-
-  &:hover
-    // Show scroll buttons on hover
-    .wp-timeline--scroll-btn
-      display: block
-
-.wp-timeline--scroll-wrapper
-  border-left: 5px solid $gray
-
-  // The scroll wrapper is resized to span the entire table.
-  // Without this, scroll is caught by the header.
-  pointer-events: none
+.wp-table-timeline--container
   position: relative
+  width: 100%
 
-  // Overflow must be hidden since the width of the column is fixed.
-  // Since height is explicitly set, this is effectively
-  // overflow-x: hidden / overflow-y: visible
-  overflow: hidden
+.wp-table-timeline--header
+  height: $generic-table--header-height
+  width: 100%
+  position: sticky
+  top: 0
+  background: white
+  z-index: 300
+
+// Outer container
+// Must not be relative positioned for the controls to work
+.wp-table-timeline--outer
+  height: 100%
+
+// Left border for the timeline
+.work-packages-split-view--left-timeline
+  border-left: 5px solid #888
+
+// Ensure the height of table and timeline rows
+.wp-timeline-cell
+  height: 41px
 
 .wp-timeline-cell
-  border-bottom: none !important
+  // Vertically center elements
+  display: flex
+  align-items: center
+
+  // Relative position for positioning of elements within
   position: relative
-  z-index: 100
 
   &.-collapsed
     display: none

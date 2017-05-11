@@ -256,7 +256,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         add_relation('follows', relatable)
 
         # Switch to full view
-        find('.work-packages-show-view-button').click
+        find('.work-packages--details-fullscreen-icon').click
 
         # Expect to have row
         created_row = find(".relation-row-#{relatable.id}", wait: 10)

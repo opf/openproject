@@ -7,11 +7,11 @@ import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
-import {WorkPackageTimelineTableController} from "../wp-table/timeline/wp-timeline-container.directive";
 import {PlainRowsBuilder} from "./builders/modes/plain/plain-rows-builder";
 import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder";
 import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
 import {RowsBuilder} from "./builders/modes/rows-builder";
+import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -29,9 +29,12 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
+  // Timeline elements
+
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
-              public timelineController: WorkPackageTimelineTableController) {
+              public timelineBody:HTMLElement,
+              public timelineController:WorkPackageTimelineTableController) {
     injectorBridge(this);
     TableHandlerRegistry.attachTo(this);
   }
@@ -85,10 +88,13 @@ export class WorkPackageTable {
    * all elements.
    */
   public refreshBody() {
-    let newBody = this.rowBuilder.buildRows(this);
+    let [tableBody, timelineBody] = this.rowBuilder.buildRows(this);
 
     this.tbody.innerHTML = '';
-    this.tbody.appendChild(newBody);
+    this.tbody.appendChild(tableBody);
+
+    this.timelineBody.innerHTML = '';
+    this.timelineBody.appendChild(timelineBody);
   }
 
   /**
@@ -97,7 +103,7 @@ export class WorkPackageTable {
   public refreshRow(row:WorkPackageTableRow) {
     // Find the row we want to replace
     let oldRow = row.element || locateRow(row.workPackageId);
-    let newRow = this.rowBuilder.refreshRow(row, this);
+    let newRow = this.rowBuilder.refreshRow(row);
 
     if (newRow && oldRow && oldRow.parentNode) {
       oldRow.parentNode.replaceChild(newRow, oldRow);

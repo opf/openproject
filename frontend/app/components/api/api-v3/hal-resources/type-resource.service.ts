@@ -39,11 +39,11 @@ var v3Path:any;
 export class TypeResource extends HalResource {
   public color:string;
 
-  public static loadAll() {
+  public static loadAll():ng.IPromise<any> {
     const types = states.types;
     const typeUrl = v3Path.types();
 
-    halRequest.get(typeUrl).then((result:CollectionResource) => {
+    return halRequest.get(typeUrl).then((result:CollectionResource) => {
       result.elements.forEach((value:TypeResource) => {
         types.get(value.href as string).putValue(value);
       });

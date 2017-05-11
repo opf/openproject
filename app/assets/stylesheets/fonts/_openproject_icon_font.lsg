@@ -94,6 +94,7 @@
 <li><span class="icon icon-folder-remove"></span>folder-remove</li>
 <li><span class="icon icon-folder"></span>folder</li>
 <li><span class="icon icon-forums"></span>forums</li>
+<li><span class="icon icon-from-fullscreen"></span>from-fullscreen</li>
 <li><span class="icon icon-getting-started"></span>getting-started</li>
 <li><span class="icon icon-glossar"></span>glossar</li>
 <li><span class="icon icon-google-plus"></span>google-plus</li>
@@ -209,6 +210,7 @@
 <li><span class="icon icon-ticket-note"></span>ticket-note</li>
 <li><span class="icon icon-ticket"></span>ticket</li>
 <li><span class="icon icon-time"></span>time</li>
+<li><span class="icon icon-to-fullscreen"></span>to-fullscreen</li>
 <li><span class="icon icon-toggle"></span>toggle</li>
 <li><span class="icon icon-training-consulting"></span>training-consulting</li>
 <li><span class="icon icon-types"></span>types</li>

@@ -25,7 +25,6 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-$work-package-details--tab-height: 40px
 
 // Subject field
 @mixin details-pane--form-field
@@ -101,23 +100,19 @@ i
 
 
 .work-package--new-state
-  padding: 0 20px 0px 0
+  padding: 5px 20px
   overflow-y: auto
-
-  .work-packages--edit-actions
-    margin-left: -20px
 
 // TABS row styling
 #tabs
   position: relative
   width: 100%
 
-
 .tabrow
   display: table
   text-align: left
   list-style: none
-  margin: 0 0 0 10px
+  margin: 0
   padding:     4px 0 0 0
   line-height: $work-package-details--tab-height - 10px
   height:      $work-package-details--tab-height
@@ -141,7 +136,7 @@ i
     &:hover
       text-decoration: none
   li.tab-icon
-    width: 8%
+    width: 5%
     .icon-context:before
       padding-top: 10px
   li.selected
@@ -150,7 +145,8 @@ i
     a
       color: $content-link-color
 
-.work-packages--details-close-icon span
+.work-packages--details-close-icon span,
+.work-packages--details-fullscreen-icon span
   display: inline-block
   padding-top: 2px
   font-size: 0.9rem

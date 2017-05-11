@@ -54,13 +54,15 @@ export class GroupedRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public internalBuildRows(table:WorkPackageTable) {
+  public internalBuildRows(table:WorkPackageTable):[DocumentFragment, DocumentFragment] {
     const groups = this.getGroupData();
 
     // Remember the colspan for the group rows from the current column count
     // and add one for the details link.
     let colspan = this.wpTableColumns.columnCount + 1;
-    let tbodyContent = document.createDocumentFragment();
+
+    let tableBody = document.createDocumentFragment();
+    let timelineBody = document.createDocumentFragment();
 
     let currentGroup:GroupObject|null = null;
     table.rows.forEach((wpId:string) => {
@@ -68,16 +70,17 @@ export class GroupedRowsBuilder extends RowsBuilder {
       let nextGroup = this.matchingGroup(row.object, groups);
 
       if (nextGroup && currentGroup !== nextGroup) {
-        tbodyContent.appendChild(this.buildGroupRow(nextGroup, colspan));
+        let rowElement = this.buildGroupRow(nextGroup, colspan);
+        this.appendRow(null, rowElement, tableBody, timelineBody);
         currentGroup = nextGroup;
       }
 
       row.group = currentGroup;
       let tr = this.buildSingleRow(row);
-      tbodyContent.appendChild(tr);
+      this.appendRow(row.object, tr, tableBody, timelineBody);
     });
 
-    return tbodyContent;
+    return [tableBody, timelineBody];
   }
 
   /**

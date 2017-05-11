@@ -3,6 +3,7 @@ import {WorkPackageResourceInterface} from "../../../../api/api-v3/hal-resources
 import {SingleHierarchyRowBuilder} from "./single-hierarchy-row-builder";
 import {WorkPackageTableRow} from "../../../wp-table.interfaces";
 import {hierarchyGroupClass} from "../../../helpers/wp-table-hierarchy-helpers";
+import {TimelineRowBuilder} from "../../timeline/timeline-row-builder";
 
 export class HierarchyRenderPass {
   // Remember which rows were already rendered
@@ -17,15 +18,19 @@ export class HierarchyRenderPass {
   // Defer children to be rendered when their parent occurs later in the table
   public deferred:{[parentId:string]: WorkPackageResourceInterface[]};
 
-  // The resulting rows fragment
-  public content:DocumentFragment;
+  // The resulting rows fragments
+  public tableBody:DocumentFragment;
+  public timelineBody:DocumentFragment;
 
-  constructor(public workPackageTable:WorkPackageTable, public rowBuilder:SingleHierarchyRowBuilder) {
+  constructor(public workPackageTable:WorkPackageTable,
+              public rowBuilder:SingleHierarchyRowBuilder,
+              public timelineBuilder:TimelineRowBuilder) {
     this.rendered = {};
     this.renderedOrder = [];
     this.additionalParents = {};
     this.deferred = {};
-    this.content = document.createDocumentFragment();
+    this.tableBody = document.createDocumentFragment();
+    this.timelineBody = document.createDocumentFragment();
 
     this.render();
   }
@@ -50,7 +55,7 @@ export class HierarchyRenderPass {
         // Render a work package root with no parents
         let tr = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
-        this.content.appendChild(tr);
+        this.tableBody.appendChild(tr);
         this.markRendered(workPackage);
       }
 
@@ -125,7 +130,7 @@ export class HierarchyRenderPass {
 
         if (index === 0) {
           // Special case, first ancestor => root without parent
-          this.content.appendChild(ancestorRow);
+          this.tableBody.appendChild(ancestorRow);
           this.markRendered(ancestor);
         } else {
           // This ancestor must be inserted in the last position of its root
@@ -163,6 +168,8 @@ export class HierarchyRenderPass {
   private markRendered(workPackage:WorkPackageResourceInterface) {
     this.rendered[workPackage.id] = true;
     this.renderedOrder.push(workPackage.id);
+
+    this.timelineBuilder.build(workPackage, this.timelineBody);
   }
 
   /**
@@ -174,7 +181,7 @@ export class HierarchyRenderPass {
     // Or, if it has descendants, append to the LATEST of that set
     const hierarchyGroup = `.__hierarchy-group-${parentId}`;
 
-    jQuery(this.content).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(el);
+    jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(el);
     this.markRendered(workPackage);
   }
 }

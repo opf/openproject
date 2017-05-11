@@ -21,25 +21,21 @@
     max-width: 20%
     height: 100%
 
-  .leftDateDisplay
-    position: absolute
-    background-color: #f4f4f4
-    border: 1px solid #d4d4d4
-    border-radius: 5px
-    top: -5px
-    left: -85px
-    padding: 0 5px 0 5px
-    font-size: 10px
-
+  .leftDateDisplay,
   .rightDateDisplay
     position: absolute
     background-color: #f4f4f4
     border: 1px solid #d4d4d4
     border-radius: 5px
-    top: -5px
-    right: -85px
-    padding: 0 5px 0 5px
+    padding: 2px 5px
+    top: 0px
     font-size: 10px
+
+  .leftDateDisplay
+    left: -85px
+
+  .rightDateDisplay
+    right: -85px
 
   &.-readonly
     cursor: not-allowed !important

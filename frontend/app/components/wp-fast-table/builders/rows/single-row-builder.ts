@@ -1,12 +1,10 @@
-import {TimelineCellBuilder} from "../timeline-cell-builder";
-import {States} from "../../../states.service";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
 import {CellBuilder} from "../cell-builder";
 import {DetailsLinkBuilder} from "../details-link-builder";
-import {$injectFields, injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
-import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
+import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
 import {checkedClassName} from "../ui-state-link-builder";
 import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
@@ -14,15 +12,8 @@ import {WorkPackageTable} from "../../wp-fast-table";
 
 export const rowClassName = 'wp-table--row';
 
-export const internalColumnDetails = '__internal-detailsLink';
-export const internalColumnTimelines = '__internal-timelines';
-
 export const internalDetailsColumn = {
   id: '__internal-detailsLink'
-} as QueryColumn;
-
-export const internalTimelinesColumn = {
-  id: '__internal-timelines'
 } as QueryColumn;
 
 export class SingleRowBuilder {
@@ -35,10 +26,8 @@ export class SingleRowBuilder {
   protected cellBuilder = new CellBuilder();
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
-  // Timeline builder
-  protected timelineCellBuilder = new TimelineCellBuilder(this.stopExisting$, this.workPackageTable);
 
-  constructor(protected stopExisting$: Observable<any>, protected workPackageTable: WorkPackageTable) {
+  constructor(protected stopExisting$:Observable<any>, protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
   }
 
@@ -54,13 +43,11 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return this.columns.concat(internalDetailsColumn, internalTimelinesColumn);
+    return this.columns.concat(internalDetailsColumn);
   }
 
   public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
     switch (column.id) {
-      case internalTimelinesColumn.id:
-        return this.timelineCellBuilder.build(workPackage);
       case internalDetailsColumn.id:
         return this.detailsLinkBuilder.build(workPackage);
       default:

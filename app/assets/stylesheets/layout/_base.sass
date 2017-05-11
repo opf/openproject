@@ -60,8 +60,9 @@ body
   %absolute-layout-mode &
     position: absolute
     top:      55px
-    bottom:   0
-    overflow: hidden
+    height: calc(100% - 55px)
+    overflow: visible
+    padding-bottom: 5px
     border-bottom-width: 5px
     border-bottom-style: solid
     @include varprop(border-bottom-color, footer-bg-color)
