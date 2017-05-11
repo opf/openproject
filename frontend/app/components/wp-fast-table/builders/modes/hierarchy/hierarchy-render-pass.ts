@@ -56,6 +56,7 @@ export class HierarchyRenderPass {
         let tr = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
         this.tableBody.appendChild(tr);
+        this.timelineBody.appendChild(this.buildTimelineRow(workPackage));
         this.markRendered(workPackage);
       }
 
@@ -131,6 +132,7 @@ export class HierarchyRenderPass {
         if (index === 0) {
           // Special case, first ancestor => root without parent
           this.tableBody.appendChild(ancestorRow);
+          this.timelineBody.appendChild(this.buildTimelineRow(ancestor));
           this.markRendered(ancestor);
         } else {
           // This ancestor must be inserted in the last position of its root
@@ -168,7 +170,10 @@ export class HierarchyRenderPass {
   private markRendered(workPackage:WorkPackageResourceInterface) {
     this.rendered[workPackage.id] = true;
     this.renderedOrder.push(workPackage.id);
+  }
 
+
+  private buildTimelineRow(workPackage:WorkPackageResourceInterface):HTMLElement {
     const rowClasses = [hierarchyRootClass(workPackage.id)];
 
     if (_.isArray(workPackage.ancestors)) {
@@ -177,7 +182,7 @@ export class HierarchyRenderPass {
       });
     }
 
-    this.timelineBuilder.build(workPackage, this.timelineBody, rowClasses);
+    return this.timelineBuilder.build(workPackage, rowClasses);
   }
 
   /**
@@ -189,7 +194,12 @@ export class HierarchyRenderPass {
     // Or, if it has descendants, append to the LATEST of that set
     const hierarchyGroup = `.__hierarchy-group-${parentId}`;
 
+    // Insert into table
     jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(el);
+    // Insert into timeline
+    const timelineRow = this.buildTimelineRow(workPackage);
+    jQuery(this.timelineBody).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(timelineRow);
+
     this.markRendered(workPackage);
   }
 }

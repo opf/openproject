@@ -37,14 +37,14 @@ export class HierarchyRowsBuilder extends PlainRowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    * @param table
    */
-  public internalBuildRows(table:WorkPackageTable):[DocumentFragment,DocumentFragment] {
-    const instance = new HierarchyRenderPass(table, this.rowBuilder, this.timelinebuilder);
+  public internalBuildRows(table:WorkPackageTable):[DocumentFragment, DocumentFragment] {
+    const instance = new HierarchyRenderPass(table, this.rowBuilder, this.timelineBuilder);
     return [instance.tableBody, instance.timelineBody];
   }
 
   protected setupRowBuilders() {
     this.rowBuilder = new SingleHierarchyRowBuilder(this.stopExisting$, this.workPackageTable);
-    this.timelinebuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
+    this.timelineBuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
     this.refreshBuilder = this.rowBuilder;
   }
 }

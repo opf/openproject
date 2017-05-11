@@ -110,7 +110,7 @@ export class WorkPackageTableTimelineRelations {
       this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)),
       this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
     )
-      .filter(([timelineState, rendered]) => timelineState.isVisible)
+      .filter(([timelineState, rendered]) =>  timelineState.isVisible)
       .subscribe(() => {
         this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
         this.wpRelations.requireInvolved(this.workPackageIdOrder);

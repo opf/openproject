@@ -10,7 +10,7 @@ import {TimelineRowBuilder} from "../timeline/timeline-row-builder";
 export abstract class RowsBuilder {
   public states:States;
 
-  protected timelinebuilder:TimelineRowBuilder;
+  protected timelineBuilder:TimelineRowBuilder;
   protected rowBuilder:SingleRowBuilder;
   protected refreshBuilder:RowRefreshBuilder;
 
@@ -48,7 +48,7 @@ export abstract class RowsBuilder {
                        timelineBody:HTMLElement|DocumentFragment,
                        rowClasses: string[] = []) {
     // Append row into timeline
-    this.timelinebuilder.build(workPackage, timelineBody, rowClasses);
+    this.timelineBuilder.insert(workPackage, timelineBody);
   }
 
 
@@ -67,7 +67,7 @@ export abstract class RowsBuilder {
   protected setupRowBuilders() {
     this.rowBuilder = new SingleRowBuilder(this.stopExisting$, this.workPackageTable);
     this.refreshBuilder = new RowRefreshBuilder(this.stopExisting$, this.workPackageTable);
-    this.timelinebuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
+    this.timelineBuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
   }
 
   /**
