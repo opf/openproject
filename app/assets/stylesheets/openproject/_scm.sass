@@ -205,7 +205,7 @@ div
 
 tr.dir
   a
-    &.dir-expander
+    &.dir-expander i
       @include icon-common
       cursor: pointer
       &:before
@@ -213,13 +213,13 @@ tr.dir
         margin-left: 5px
         padding: 0
   &.loading
-    .dir-expander:before
+    .dir-expander i:before
       @extend .icon-loading1:before
   &.collapsed
-    .dir-expander:before
+    .dir-expander i:before
       @extend .icon-plus:before
   &.open
-    .dir-expander:before
+    .dir-expander i:before
       @extend .icon-minus1:before
 
 tr

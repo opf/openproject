@@ -85,9 +85,8 @@ module Members
 
     def edit_link
       link_to_function(
-        '',
+        op_icon('icon icon-edit'),
         edit_javascript,
-        class: 'icon icon-edit',
         title: t(:button_edit)
       )
     end
@@ -105,23 +104,22 @@ module Members
     end
 
     def delete_link
-      delete_class, delete_title = delete_link_class_and_title
-
-      link_to(
-        '',
-        { controller: '/members', action: 'destroy', id: model, page: params[:page] },
-        method: :delete,
-        data: { confirm: delete_link_confirmation },
-        title: delete_title,
-        class: delete_class
-      ) if model.deletable?
+      if model.deletable?
+        link_to(
+          op_icon('icon icon-delete'),
+          { controller: '/members', action: 'destroy', id: model, page: params[:page] },
+          method: :delete,
+          data: { confirm: delete_link_confirmation },
+          title: delete_title
+        )
+      end
     end
 
-    def delete_link_class_and_title
+    def delete_title
       if model.disposable?
-        ['icon icon-delete', I18n.t(:title_remove_and_delete_user)]
+        I18n.t(:title_remove_and_delete_user)
       else
-        ['icon icon-remove', I18n.t(:button_remove)]
+        I18n.t(:button_remove)
       end
     end
 
