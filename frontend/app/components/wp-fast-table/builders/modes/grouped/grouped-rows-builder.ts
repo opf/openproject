@@ -8,6 +8,7 @@ import {WorkPackageResource} from "../../../../api/api-v3/hal-resources/work-pac
 import {HalResource} from "../../../../api/api-v3/hal-resources/hal-resource.service";
 import {groupedRowClassName} from "../../../helpers/wp-table-row-helpers";
 import {WorkPackageTableRow} from "../../../wp-table.interfaces";
+
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
 
@@ -71,13 +72,13 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
       if (nextGroup && currentGroup !== nextGroup) {
         let rowElement = this.buildGroupRow(nextGroup, colspan);
-        this.appendRow(null, rowElement, tableBody, timelineBody);
+        this.appendRow(null, rowElement, tableBody, timelineBody, [rowGroupClassName]);
         currentGroup = nextGroup;
       }
 
       row.group = currentGroup;
       let tr = this.buildSingleRow(row);
-      this.appendRow(row.object, tr, tableBody, timelineBody);
+      this.appendRow(row.object, tr, tableBody, timelineBody, [this.groupClassName(currentGroup!)]);
     });
 
     return [tableBody, timelineBody];
@@ -188,7 +189,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
     const group = row.group as GroupObject;
     let tr = this.rowBuilder.buildEmpty(row.object);
-    tr.classList.add(groupedRowClassName(group.index as number));
+    tr.classList.add(this.groupClassName(group));
 
     if (row.group.collapsed) {
       tr.classList.add(collapsedRowClass);
@@ -196,6 +197,10 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
     row.element = tr;
     return tr;
+  }
+
+  private groupClassName(group: GroupObject) {
+    return groupedRowClassName(group.index as number);
   }
 
   /**

@@ -110,4 +110,42 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_hidden_row(child_work_package)
     end
   end
+
+  describe 'when table is grouped' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
+    let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
+
+    let!(:wp_cat1) { FactoryGirl.create(:work_package, project: project, category: category) }
+    let!(:wp_cat2) { FactoryGirl.create(:work_package, project: project, category: category2) }
+    let!(:wp_none) { FactoryGirl.create(:work_package, project: project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
+    let!(:query) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['subject', 'category']
+      query.show_hierarchies = false
+
+      query.save!
+      query
+    end
+
+    it 'mirrors group handling when grouping by category' do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
+
+      # Group by category
+      wp_table.click_setting_item 'Group by ...'
+      select 'Category', from: 'selected_columns_new'
+      click_button 'Apply'
+
+      # Expect table to be grouped as WP created above
+      expect(page).to have_selector('.group--value .count', count: 3)
+
+      # Collapse first section
+      find('#wp-table-rowgroup-0').click
+      wp_table.expect_work_package_not_listed(wp_cat1)
+      wp_timeline.expect_hidden_row(wp_cat1)
+    end
+  end
 end
