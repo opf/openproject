@@ -119,7 +119,9 @@ export class WorkPackageDisplayAttributeController {
     this.__d__renderer = this.__d__renderer || this.$element.find(".__d__renderer");
     this.field.render(this.__d__renderer[0], this.displayText);
 
-    this.$element.attr("aria-label", this.label + " " + this.displayText);
+    // strip html tags
+    let ariaLabel = angular.element(this.displayText).text();
+    this.$element.attr('aria-label', this.label + ' ' + ariaLabel);
 
     this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
     this.__d__cell.toggleClass("-placeholder", this.isEmpty);
