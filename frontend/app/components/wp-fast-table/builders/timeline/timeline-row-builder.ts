@@ -6,6 +6,7 @@ import {States} from "../../../states.service";
 import {WorkPackageTableTimelineService} from "../../state/wp-table-timeline.service";
 import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
 import {WorkPackageTimelineCell} from "../../../wp-table/timeline/wp-timeline-cell";
+import {commonRowClassName} from "../rows/single-row-builder";
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
@@ -18,19 +19,20 @@ export class TimelineRowBuilder {
     $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
   }
 
-  public build(workPackage:WorkPackageResourceInterface|null, timelineBody:DocumentFragment|HTMLElement) {
+  public build(workPackage:WorkPackageResourceInterface|null,
+               timelineBody:DocumentFragment|HTMLElement,
+               rowClassNames:string[] = []) {
       const cell = document.createElement('div');
-      cell.classList.add(timelineCellClassName);
+      cell.classList.add(timelineCellClassName, commonRowClassName, ...rowClassNames);
 
       if (workPackage) {
         cell.id = `wp-timeline-row-${workPackage.id}`;
         cell.dataset['workPackageId'] = workPackage.id;
-      }
+        cell.classList.add(`${commonRowClassName}-${workPackage.id}`);
 
-      // TODO skip if inserting rows that are not work packages
-      // We may either need to extend the timelinecell to handle these cases
-      // or alter the rendering of (e.g.,) relations to draw over these rows
-      if (workPackage) {
+        // TODO skip if inserting rows that are not work packages
+        // We may either need to extend the timelinecell to handle these cases
+        // or alter the rendering of (e.g.,) relations to draw over these rows
         this.buildTimelineCell(cell, workPackage);
       }
 

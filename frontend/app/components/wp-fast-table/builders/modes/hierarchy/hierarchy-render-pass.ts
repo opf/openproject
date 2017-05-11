@@ -1,8 +1,8 @@
 import {WorkPackageTable} from "../../../wp-fast-table";
 import {WorkPackageResourceInterface} from "../../../../api/api-v3/hal-resources/work-package-resource.service";
-import {SingleHierarchyRowBuilder} from "./single-hierarchy-row-builder";
+import {hierarchyCellClassName, SingleHierarchyRowBuilder} from "./single-hierarchy-row-builder";
 import {WorkPackageTableRow} from "../../../wp-table.interfaces";
-import {hierarchyGroupClass} from "../../../helpers/wp-table-hierarchy-helpers";
+import {hierarchyGroupClass, hierarchyRootClass} from "../../../helpers/wp-table-hierarchy-helpers";
 import {TimelineRowBuilder} from "../../timeline/timeline-row-builder";
 
 export class HierarchyRenderPass {
@@ -169,7 +169,15 @@ export class HierarchyRenderPass {
     this.rendered[workPackage.id] = true;
     this.renderedOrder.push(workPackage.id);
 
-    this.timelineBuilder.build(workPackage, this.timelineBody);
+    const rowClasses = [hierarchyRootClass(workPackage.id)];
+
+    if (_.isArray(workPackage.ancestors)) {
+      workPackage.ancestors.forEach((ancestor) => {
+        rowClasses.push(hierarchyGroupClass(ancestor.id));
+      });
+    }
+
+    this.timelineBuilder.build(workPackage, this.timelineBody, rowClasses);
   }
 
   /**

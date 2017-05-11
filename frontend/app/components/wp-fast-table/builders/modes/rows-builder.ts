@@ -40,12 +40,15 @@ export abstract class RowsBuilder {
   /**
    * Called after a row is added through +appendRow+.
    * Inserts a new cell to the synced timeline, if open.
-   * @param workPackage
-   * @param timelineBody
+   * @param workPackage The work package that was added (if any)
+   * @param timelineBody The timeline body container
+   * @param rowClasses Additional classes to apply to the row for mirroring purposes
    */
-  public addToTimeline(workPackage:WorkPackageResourceInterface|null, timelineBody:HTMLElement|DocumentFragment) {
+  public addToTimeline(workPackage:WorkPackageResourceInterface|null,
+                       timelineBody:HTMLElement|DocumentFragment,
+                       rowClasses: string[] = []) {
     // Append row into timeline
-    this.timelinebuilder.build(workPackage, timelineBody);
+    this.timelinebuilder.build(workPackage, timelineBody, rowClasses);
   }
 
 
@@ -73,14 +76,16 @@ export abstract class RowsBuilder {
    * @param row HTMLElement to append
    * @param tableBody DocumentFragement to replace the table body
    * @param timelineBody DocumentFragment to replace the timeline
+   * @param rowClasses Additional classes to apply to the timeline row for mirroring purposes
    */
   protected appendRow(workPackage: WorkPackageResourceInterface|null,
                       row:HTMLElement,
                       tableBody:DocumentFragment,
-                      timelineBody:DocumentFragment) {
+                      timelineBody:DocumentFragment,
+                      rowClasses:string[] = []) {
 
     tableBody.appendChild(row);
-    this.addToTimeline(workPackage, timelineBody);
+    this.addToTimeline(workPackage, timelineBody, rowClasses);
   }
 
   /**

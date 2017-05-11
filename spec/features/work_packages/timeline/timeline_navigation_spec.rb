@@ -44,12 +44,12 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   before do
     work_package
     login_as(user)
-
-    wp_timeline.visit!
-    wp_timeline.expect_work_package_listed(work_package)
   end
 
   it 'can save the open state of timeline' do
+    wp_timeline.visit!
+    wp_timeline.expect_work_package_listed(work_package)
+
     # Should be initially closed
     wp_timeline.expect_timeline!(open: false)
 
@@ -73,5 +73,41 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_work_package_listed(work_package)
     wp_timeline.expect_timeline!(open: true)
     wp_timeline.expect_timeline_element(work_package)
+  end
+
+  describe 'with a hierarchy being shown' do
+    let!(:child_work_package) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         parent: work_package,
+                         start_date: Date.today,
+                         due_date: (Date.today + 5.days)
+    end
+    let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+
+    it 'toggles the hierarchy in both views' do
+      wp_timeline.visit!
+      wp_timeline.expect_work_package_listed(work_package)
+      wp_timeline.expect_work_package_listed(child_work_package)
+
+      # Should be initially closed
+      wp_timeline.expect_timeline!(open: false)
+
+      # Enable timeline
+      wp_timeline.toggle_timeline
+      wp_timeline.expect_timeline!(open: true)
+
+      # Should have an active element rendered
+      wp_timeline.expect_timeline_element(work_package)
+      wp_timeline.expect_timeline_element(child_work_package)
+
+      # Hierarchy mode is enabled by default
+      hierarchy.expect_hierarchy_at(work_package)
+      hierarchy.expect_leaf_at(child_work_package)
+
+      hierarchy.toggle_row(work_package)
+      hierarchy.expect_hidden(child_work_package)
+      wp_timeline.expect_hidden_row(child_work_package)
+    end
   end
 end

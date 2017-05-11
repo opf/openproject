@@ -10,7 +10,10 @@ import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
 import {WorkPackageTable} from "../../wp-fast-table";
 
+// Work package table row entries
 export const rowClassName = 'wp-table--row';
+// Class name for both table and timeline rows
+export const commonRowClassName = 'wp--row';
 
 export const internalDetailsColumn = {
   id: '__internal-detailsLink'
@@ -84,7 +87,7 @@ export class SingleRowBuilder {
     let tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);
     tr.dataset['workPackageId'] = workPackage.id;
-    tr.classList.add(rowClassName, 'wp--row', 'issue');
+    tr.classList.add(rowClassName, commonRowClassName, `${commonRowClassName}-${workPackage.id}`, 'issue');
 
     return tr;
   }
