@@ -218,7 +218,11 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function saveWorkPackage(workPackage: WorkPackageResourceInterface) {
-    wpCacheService.saveIfChanged(workPackage)
+    if (!(workPackage.dirty || workPackage.isNew)) {
+      return;
+    }
+
+    wpCacheService.saveWorkPackage(workPackage)
       .then(() => {
         wpTableRefresh.request(true, `Moved work package ${workPackage.id} through timeline`);
       })
