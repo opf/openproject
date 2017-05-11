@@ -148,6 +148,114 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
           end
         end
       end
+
+      describe 'customFields' do
+        before do
+          allow(current_user).to receive(:allowed_to?).and_return(true)
+        end
+
+        context 'with project admin priviliges' do
+          it 'has a link to set the custom fields for that project' do
+            expected = {
+              href: "/projects/#{work_package.project.identifier}/settings/custom_fields",
+              type: "text/html",
+              title: "Custom fields"
+            }
+
+            is_expected.to be_json_eql(expected.to_json).at_path('_links/customFields')
+          end
+        end
+
+        context 'without project admin priviliges' do
+          before do
+            allow(current_user).to receive(:allowed_to?)
+              .with(:edit_project, work_package.project)
+              .and_return(false)
+          end
+
+          it 'has no link to set the custom fields for that project' do
+            is_expected.to_not have_json_path('_links/customFields')
+          end
+        end
+
+        context 'with project and general admin priviliges' do
+          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+
+          before do
+            allow(current_user).to receive(:allowed_to?)
+              .with(:edit_project, work_package.project)
+              .and_return(false)
+          end
+
+          it 'has a link to set the custom fields for that project' do
+            expected = {
+              href: "/projects/#{work_package.project.identifier}/settings/custom_fields",
+              type: "text/html",
+              title: "Custom fields"
+            }
+
+            is_expected
+              .to be_json_eql(expected.to_json)
+              .at_path('_links/customFields')
+          end
+        end
+      end
+
+      describe 'configureForm' do
+        before do
+          allow(current_user).to receive(:allowed_to?).and_return(true)
+        end
+
+        context "as admin" do
+          let(:current_user) { FactoryGirl.build_stubbed(:admin) }
+
+          context 'with type' do
+            let(:type) { FactoryGirl.build_stubbed(:type) }
+            let(:work_package) do
+              FactoryGirl.build(:work_package,
+                                id: 42,
+                                created_at: DateTime.now,
+                                updated_at: DateTime.now,
+                                type: type)
+            end
+
+            before do
+              allow(current_user).to receive(:allowed_to?)
+                .with(:edit_project, work_package.project)
+                .and_return(false)
+            end
+
+            it 'has a link to configure the form' do
+              expected = {
+                href: "/types/#{type.id}/edit?tab=form_configuration",
+                type: "text/html",
+                title: "Configure form"
+              }
+
+              is_expected
+                .to be_json_eql(expected.to_json)
+                .at_path('_links/configureForm')
+            end
+          end
+
+          context 'without type' do
+            before do
+              allow(work_package).to receive(:type).and_return(nil)
+              allow(work_package).to receive(:type_id).and_return(nil)
+            end
+
+            it 'has no link to configure the form' do
+              is_expected.to_not have_json_path('_links/configureForm')
+            end
+          end
+        end
+
+        context 'not beeing admin' do
+          it 'has no link to configure the form' do
+            is_expected.to_not have_json_path('_links/configureForm')
+          end
+        end
+      end
     end
   end
 end
