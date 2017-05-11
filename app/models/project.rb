@@ -488,7 +488,7 @@ class Project < ActiveRecord::Base
   def types_used_by_work_packages
     ::Type.where(id: WorkPackage.where(project_id: project.id)
                                 .select(:type_id)
-                                .uniq)
+                                .distinct)
   end
 
   # Returns an array of the types used by the project and its active sub projects
