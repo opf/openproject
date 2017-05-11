@@ -202,10 +202,12 @@ export class WorkPackageRelationsService {
 
 
   private relationsRequest(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
+    let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
+
     return this.halRequest.get(
       '/api/v3/relations',
       {
-        filters: JSON.stringify([{ involved: {operator: '=', values: workPackageIds } }])
+        filters: JSON.stringify([{ involved: {operator: '=', values: validIds }}])
       },
       {
         caching: { enabled: false }
