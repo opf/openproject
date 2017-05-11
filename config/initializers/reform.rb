@@ -42,6 +42,6 @@ require 'reform/contract'
 
 require 'open_project/patches/reform'
 
-class Reform::Contract::Errors
+class Reform::Form::ActiveModel::Errors
   prepend OpenProject::Patches::Reform
 end
