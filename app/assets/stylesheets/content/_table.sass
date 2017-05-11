@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@include keyframes(fade-out)
+@keyframes fade-out
   from
     opacity: 1
   to
@@ -57,7 +57,7 @@ $input-elements: input, 'input.form--text-field', select, 'select.form--select',
 #generic-table
   tr.issue
     &.ng-enter, &.ng-move
-      @include transition(0.5s linear all)
+      transition: 0.5s linear all
       opacity: 0
     &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
       opacity: 1
