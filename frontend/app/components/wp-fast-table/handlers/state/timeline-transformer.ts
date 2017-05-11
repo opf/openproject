@@ -20,6 +20,7 @@ export class TimelineTransformer {
    */
   private renderVisibility(visible:boolean) {
     jQuery('.work-packages-tabletimeline--timeline-side').toggle(visible);
+    jQuery('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }
 }
 

@@ -112,6 +112,12 @@
   // Hinter browser that the content of the flex is contained
   contain: content
 
+  &.-timeline-visible
+    // Show the horizontal scrollbar if necessary
+    overflow-x: auto
+    // Hide the vertical scrollbar
+    overflow-y: hidden
+
 // TIMELINE half of the tabletimeline flexbox
 .work-packages-tabletimeline--timeline-side
   @include varprop(border-left, timeline--separator)
