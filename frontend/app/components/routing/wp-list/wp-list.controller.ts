@@ -161,7 +161,6 @@ function WorkPackagesListController($scope:any,
   function setupRefreshObserver() {
     wpTableRefresh.state
       .values$('Refresh listener in wp-list.controller')
-      .throttleTime(2000)
       .takeUntil(scopeDestroyed$($scope))
       .subscribe((refreshVisibly:boolean) => {
         if (refreshVisibly) {
