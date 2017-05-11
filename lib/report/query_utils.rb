@@ -37,7 +37,7 @@ module Report::QueryUtils
     end
 
     def propagate!(to = engine)
-      to.local_constants.each do |name|
+      to.constants(false).each do |name|
         const = to.const_get name
         next unless Module === const
         append_features const unless const <= self or not const < Report::QueryUtils
