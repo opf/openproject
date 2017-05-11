@@ -15,6 +15,7 @@ lv:
   label_work_packages_watched: "Pieteikumi, kuriem tiek sekots"
   label_work_package_tracking: " Work package tracking"
   label_members: "Dalībnieki"
+  label_member_view_all: "View all members"
   label_subprojects: "Apakšprojekti"
   project_page:
     all: "Rādīt visus"

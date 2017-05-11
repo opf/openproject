@@ -15,6 +15,7 @@ fi:
   label_work_packages_watched: "Seuratut työpaketit"
   label_work_package_tracking: " Työpaketin seuranta"
   label_members: "Jäsenet"
+  label_member_view_all: "View all members"
   label_subprojects: "Aliprojektit"
   project_page:
     all: "Näytä kaikki"

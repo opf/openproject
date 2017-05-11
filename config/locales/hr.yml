@@ -15,6 +15,7 @@ hr:
   label_work_packages_watched: "Nadgledani radni paketi"
   label_work_package_tracking: " Work package tracking"
   label_members: "Članovi"
+  label_member_view_all: "View all members"
   label_subprojects: "Potprojekti"
   project_page:
     all: "Prikaži sve"

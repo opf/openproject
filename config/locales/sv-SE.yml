@@ -15,6 +15,7 @@ sv:
   label_work_packages_watched: "Bevakade arbetspaket"
   label_work_package_tracking: " Spåra arbetspaket"
   label_members: "Medlemmar"
+  label_member_view_all: "View all members"
   label_subprojects: "Delprojekt"
   project_page:
     all: "Visa alla"

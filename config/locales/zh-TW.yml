@@ -15,6 +15,7 @@ zh-TW:
   label_work_packages_watched: "已關注的工作項目"
   label_work_package_tracking: " Work package tracking"
   label_members: "成員"
+  label_member_view_all: "View all members"
   label_subprojects: "子專案"
   project_page:
     all: "顯示全部"

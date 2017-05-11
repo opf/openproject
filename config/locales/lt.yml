@@ -15,6 +15,7 @@ lt:
   label_work_packages_watched: "Stebimi darbų paketai"
   label_work_package_tracking: " Darbų paketo sekimas"
   label_members: "Nariai"
+  label_member_view_all: "View all members"
   label_subprojects: "Sub-projektai"
   project_page:
     all: "Rodyti viską"

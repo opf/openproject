@@ -15,6 +15,7 @@ da:
   label_work_packages_watched: "Overvågede arbejdspakker"
   label_work_package_tracking: " Work package tracking"
   label_members: "Medlemmer"
+  label_member_view_all: "View all members"
   label_subprojects: "Underprojekter"
   project_page:
     all: "Vis alt"

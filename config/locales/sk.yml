@@ -15,6 +15,7 @@ sk:
   label_work_packages_watched: "Pozorované pracovné balíčky"
   label_work_package_tracking: " Work package tracking"
   label_members: "Členovia"
+  label_member_view_all: "View all members"
   label_subprojects: "Podprojekty"
   project_page:
     all: "Zobraziť všetko"

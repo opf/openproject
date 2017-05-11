@@ -15,6 +15,7 @@ ar:
   label_work_packages_watched: "مجموعات العمل المراقبة"
   label_work_package_tracking: " تعقُّب مجموعة العمل"
   label_members: "الأعضاء"
+  label_member_view_all: "View all members"
   label_subprojects: "المشاريع الفرعية"
   project_page:
     all: "إظهار الجميع"
