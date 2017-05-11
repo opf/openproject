@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -49,11 +50,10 @@ describe ::Type, type: :model do
       expect(type.attribute_groups).to eq [['foo', ['date']]]
     end
 
-    it 'removes groups without attributes' do
+    it 'keeps groups without attributes' do
       type.attribute_groups = [['foo', []], ['bar', ['date']]]
-      expect(type.attribute_groups).to eq [['bar', ['date']]]
+      expect(type.attribute_groups).to eq [['foo', []], ['bar', ['date']]]
     end
-
   end
 
   describe '#default_attribute_groups' do
@@ -167,15 +167,15 @@ describe ::Type, type: :model do
   end
 
   describe 'custom fields' do
-    let!(:custom_field) {
+    let!(:custom_field) do
       FactoryGirl.create(
         :work_package_custom_field,
-        field_format: 'string',
+        field_format: 'string'
       )
-    }
-    let(:cf_identifier) {
+    end
+    let(:cf_identifier) do
       :"custom_field_#{custom_field.id}"
-    }
+    end
 
     it 'can be put into attribute groups' do
       # Is in inactive group

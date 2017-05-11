@@ -167,9 +167,7 @@ function typesFormConfigurationCtrl(
         }
       });
 
-      if (attrKeys.length > 0) {
-        newAttrGroups.push([groupKey, attrKeys]);
-      }
+      newAttrGroups.push([groupKey, attrKeys]);
     });
 
 
