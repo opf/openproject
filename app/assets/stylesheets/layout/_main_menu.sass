@@ -36,6 +36,9 @@ $toggler-width: 40px
   background-color: $main-menu-bg-color
   @include default-transition
 
+  #menu-sidebar
+    // 40px is the height of the toggler
+    height: calc(100% - 40px)
   %absolute-layout-mode &
     position: relative
     height:   100%
