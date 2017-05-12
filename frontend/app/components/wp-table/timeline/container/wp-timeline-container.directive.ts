@@ -41,10 +41,13 @@ import {RenderInfo, timelineMarkerSelectionStartClass, TimelineViewParameters} f
 import {WorkPackageTimelineCell} from "../wp-timeline-cell";
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
+import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
 
 export class WorkPackageTimelineTableController {
 
-  public wpTable: WorkPackagesTableController;
+  public wpTableDirective: WorkPackagesTableController;
+
+  public workPackageTable: WorkPackageTable;
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
@@ -60,7 +63,6 @@ export class WorkPackageTimelineTableController {
 
   constructor(private $scope:IScope,
               private $element:ng.IAugmentedJQuery,
-              private TypeResource:any,
               private states:States,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -71,7 +73,7 @@ export class WorkPackageTimelineTableController {
 
   $onInit() {
     // Register this instance to the table
-    this.wpTable.registerTimeline(this, this.timelineBody[0]);
+    this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh timeline view after table rendered
     this.states.table.rendered.values$()
@@ -277,6 +279,6 @@ openprojectModule.component("wpTimelineContainer", {
   controller: WorkPackageTimelineTableController,
   templateUrl:  '/components/wp-table/timeline/container/wp-timeline-container.html',
   require: {
-    wpTable: '^wpTable'
+    wpTableDirective: '^wpTable'
   }
 });

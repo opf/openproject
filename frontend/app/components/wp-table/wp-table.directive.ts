@@ -59,7 +59,7 @@ function wpTable(
 
     controller: WorkPackagesTableController,
 
-    link: function(scope:any,
+    link: function(scope:ng.IScope,
                    element:ng.IAugmentedJQuery,
                    attributes:ng.IAttributes) {
 
@@ -175,6 +175,7 @@ export class WorkPackagesTableController {
     const tbody = this.$element.find('.work-package--results-tbody');
     this.$scope.table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
     this.$scope.tbody = tbody;
+    controller.workPackageTable = this.$scope.table;
 
 
     var t1 = performance.now();
