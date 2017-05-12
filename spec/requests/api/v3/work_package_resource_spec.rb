@@ -307,55 +307,6 @@ describe 'API v3 Work package resource', type: :request do
         end
       end
 
-      context 'parent id' do
-        let(:parent) { FactoryGirl.create(:work_package, project: work_package.project) }
-        let(:params) { valid_params.merge(parentId: parent.id) }
-
-        before do
-          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
-        end
-
-        context 'w/o permission' do
-          include_context 'patch request'
-
-          it { expect(response.status).to eq(403) }
-        end
-
-        context 'with permission' do
-          before do role.add_permission!(:manage_subtasks) end
-
-          include_context 'patch request'
-
-          context 'invalid parent' do
-            let(:params) { valid_params.merge(parentId: '-123') }
-
-            it { expect(WorkPackage.visible(current_user).exists?('-123')).to be_falsey }
-
-            it { expect(response.status).to eq(422) }
-          end
-
-          context 'empty id' do
-            let(:params) { valid_params.merge(parentId: nil) }
-
-            it { expect(response.status).to eq(200) }
-
-            it { expect(subject.body).not_to have_json_path('parentId') }
-
-            it_behaves_like 'lock version updated'
-          end
-
-          context 'valid id' do
-            let(:params) { valid_params.merge(parentId: parent.id) }
-
-            it { expect(response.status).to eq(200) }
-
-            it { expect(subject.body).to be_json_eql(parent.id.to_json).at_path('parentId') }
-
-            it_behaves_like 'lock version updated'
-          end
-        end
-      end
-
       context 'subject' do
         let(:params) { valid_params.merge(subject: 'Updated subject') }
 
@@ -918,11 +869,20 @@ describe 'API v3 Work package resource', type: :request do
 
         context 'multiple invalid attributes' do
           let(:params) do
-            valid_params.tap { |h| h[:subject] = '' }
-              .merge(parentId: '-123')
+            valid_params
+              .tap { |h| h[:subject] = '' }
+              .merge(
+                _links: {
+                  parent: {
+                    href: api_v3_paths.work_package("-123")
+                  }
+                }
+              )
           end
 
-          before do role.add_permission!(:manage_subtasks) end
+          before do
+            role.add_permission!(:manage_subtasks)
+          end
 
           include_context 'patch request'
 
@@ -979,11 +939,11 @@ describe 'API v3 Work package resource', type: :request do
           it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
 
           it_behaves_like 'multiple errors of the same type with messages' do
-            let(:message) {
-              [child_1.id, child_2.id].map { |id|
+            let(:message) do
+              [child_1.id, child_2.id].map do |id|
                 "Child element ##{id}: Parent cannot be in another project."
-              }
-            }
+              end
+            end
           end
         end
       end
