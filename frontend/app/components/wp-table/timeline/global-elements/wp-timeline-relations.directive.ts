@@ -136,13 +136,14 @@ export class WorkPackageTableTimelineRelations {
       .withLatestFrom(
         this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)))
       .filter(([relations, timelineVisible]) => relations && timelineVisible.isVisible)
-      .map(([relations]) => relations)
-      .subscribe((nextVal) => {
-        const [workPackageId, relations] = nextVal;
+      .map(([[workPackageId, relations]]) => {
+        let relevantRelations = _.pickBy(!relations, (relation:RelationResource) => (relation.type === 'precedes' || relation.type === 'follows'));
 
-        if (workPackageId && this.wpTimeline.cells[workPackageId]) {
-          this.refreshRelations(workPackageId, relations!);
-        }
+        return [workPackageId, relevantRelations];
+      })
+      .filter(([workPackageId, relations]) => !!(workPackageId && this.wpTimeline.cells[workPackageId as string]))
+      .subscribe(([workPackageId, relations]) => {
+        this.refreshRelations(workPackageId as string, relations);
       });
   }
 
