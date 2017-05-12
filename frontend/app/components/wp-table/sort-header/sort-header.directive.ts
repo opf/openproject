@@ -83,11 +83,11 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
       function setHierarchyIcon() {
         if (wpTableHierarchies.isEnabled) {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.hide');
-          scope.hierarchyIcon = 'icon-no-hierarchy';
+          scope.hierarchyIcon = 'icon-hierarchy';
         }
         else {
           scope.text.toggleHierarchy = I18n.t('js.work_packages.hierarchy.show');
-          scope.hierarchyIcon = 'icon-hierarchy';
+          scope.hierarchyIcon = 'icon-no-hierarchy';
         }
       }
 
