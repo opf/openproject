@@ -50,7 +50,7 @@ import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageTableTimelineService} from './../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTableHierarchiesService} from './../wp-fast-table/state/wp-table-hierarchy.service';
-import {SchemaCacheService} from "../schemas/schema-cache.service";
+import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {Observable} from 'rxjs';
 
 export class WorkPackagesListService {
@@ -121,7 +121,7 @@ export class WorkPackagesListService {
 
     promise
       .catch(error => {
-        let projectIdentifier = query.project && query.project.id
+        let projectIdentifier = query.project && query.project.id;
 
         return this.handleQueryLoadingError(error, {}, query.id, projectIdentifier);
       });
@@ -146,7 +146,7 @@ export class WorkPackagesListService {
     let pagination = this.getPaginationInfo();
     let query = this.currentQuery;
 
-    return this.loadResultsList(query, pagination)
+    return this.loadResultsList(query, pagination);
   }
 
   /**
@@ -157,10 +157,10 @@ export class WorkPackagesListService {
     pagination.offset = 1;
     let query = this.currentQuery;
 
-    return this.loadResultsList(query, pagination)
+    return this.loadResultsList(query, pagination);
   }
 
-  public loadForm(query:QueryResource):ng.IPromise<QueryFormResource>{
+  public loadForm(query:QueryResource):ng.IPromise<QueryFormResource> {
     return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
       this.updateStatesFromForm(query, form);
 
@@ -296,7 +296,7 @@ export class WorkPackagesListService {
   }
 
   private updateStatesFromWPListOnPromise(promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
-    return promise.then(this.updateStatesFromWPCollection.bind(this))
+    return promise.then(this.updateStatesFromWPCollection.bind(this));
   }
 
   private updateStatesFromQuery(query:QueryResource) {
@@ -335,7 +335,7 @@ export class WorkPackagesListService {
 
     this.wpTablePagination.initialize(results);
 
-    this.AuthorisationService.initModelAuth('work_package', results.$links);
+    this.AuthorisationService.initModelAuth('work_packages', results.$links);
   }
 
   private updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
@@ -369,7 +369,7 @@ export class WorkPackagesListService {
   private updateQueryMenu() {
     let query = this.currentQuery;
 
-    if(query.starred) {
+    if (query.starred) {
       this.createMenuItem(query);
     } else {
       this.removeMenuItem(query);

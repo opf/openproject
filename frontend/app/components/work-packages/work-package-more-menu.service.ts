@@ -67,7 +67,7 @@ export class WorkPackageMoreMenuService {
         }
         break;
     }
-  };
+  }
 
   /**
    * Load allowed links on this work package.
@@ -75,7 +75,7 @@ export class WorkPackageMoreMenuService {
    */
   public initialize() {
     return this.workPackage.project.$load().then(() => {
-      AuthorisationService.initModelAuth('work_package', this.workPackage);
+      AuthorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       var authorization = new WorkPackageAuthorization(this.workPackage);
       this.permittedActions = angular.extend(this.getPermittedActions(authorization, PERMITTED_MORE_MENU_ACTIONS),
@@ -113,7 +113,7 @@ export class WorkPackageMoreMenuService {
       var css:string[] = [].concat(action.css);
 
       if (css.length === 0) {
-        css = ["icon-" + action.key];
+        css = ['icon-' + action.key];
       }
 
       this[action.key] = { link: action.link, css: css };
@@ -125,7 +125,7 @@ export class WorkPackageMoreMenuService {
   private isLinkToAnguluar(link:string) {
     var stateForLink = $state.get().filter(state => (state as any).$$state().url.exec(link));
 
-    return stateForLink.length > 0
+    return stateForLink.length > 0;
   }
 }
 
