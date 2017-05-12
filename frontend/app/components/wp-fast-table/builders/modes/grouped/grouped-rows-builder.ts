@@ -218,7 +218,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     row.dataset['groupIndex'] = (group.index as number).toString();
     row.dataset['groupIdentifier'] = group.identifier as string;
     row.innerHTML = `
-      <td colspan="${colspan}">
+      <td colspan="${colspan}" class="-no-highlighting">
         <div class="expander icon-context ${togglerIconClass}">
           <span class="hidden-for-sighted">${_.escape(text)}</span>
         </div>
