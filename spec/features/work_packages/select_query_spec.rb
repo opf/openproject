@@ -39,7 +39,7 @@ describe 'Query selection', type: :feature do
 
   let(:filter_1_name) { 'assignee' }
   let(:filter_2_name) { 'percentageDone' }
-  let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to_id) }
+  let(:i18n_filter_1_name) { WorkPackage.human_attribute_name(:assigned_to) }
   let(:i18n_filter_2_name) { WorkPackage.human_attribute_name(:done_ratio) }
   let(:default_status) { FactoryGirl.create(:default_status) }
 

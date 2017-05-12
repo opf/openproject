@@ -32,10 +32,10 @@ describe 'users/edit', type: :view do
   let(:admin) { FactoryGirl.build :admin }
 
   context 'authentication provider' do
-    let(:user)  {
-      FactoryGirl.build :user, id: 1,  # id is required to create route to edit
+    let(:user) do
+      FactoryGirl.build :user, id: 1, # id is required to create route to edit
                                identity_url: 'test_provider:veryuniqueid'
-    }
+    end
 
     before do
       assign(:user, user)

@@ -52,7 +52,7 @@
 
     if (this.value === '') {
       passwordFields.show();
-      passwordInputs.removeProp('disabled');
+      passwordInputs.prop('disabled', false);
     } else {
       passwordFields.hide();
       passwordInputs.prop('disabled', 'disabled');
