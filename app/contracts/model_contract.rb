@@ -46,6 +46,9 @@ class ModelContract < Reform::Contract
     end
 
     writable_attributes.concat attributes.map(&:to_s)
+    # allow the _id variant as well
+    writable_attributes.concat(attributes.map { |a| "#{a}_id" })
+
     if block
       attribute_validations << block
     end

@@ -37,8 +37,18 @@ module Relations
     attribute :delay
     attribute :description
 
-    attribute :from_id
-    attribute :to_id
+    attribute :from
+    attribute :to
+
+    validate :from do
+      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
+    end
+
+    validate :to do
+      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
+    end
+
+    validate :manage_relations_permission?
 
     attr_reader :user
 
@@ -52,44 +62,9 @@ module Relations
       @user = user
     end
 
-    def validate
-      user_allowed_to_access
-      user_allowed_to_manage_relations
-
-      super
-    end
-
     private
 
-    def fields
-      override_delay! super
-    end
-
-    ##
-    # We have to redefine `#delay` in this `Reform::Contract::Fields` instance
-    # because it's conflicting with delayed_job's `#delay`. Without this a call
-    # to `fields.delay.nil?` will actually enqueue the call to `#nil?` as a delayed job
-    # as opposed to just checking the field for nil.
-    #
-    # This is the best I could come up with. Feel free to solve this better if you know how!
-    def override_delay!(fields)
-      @delay_overriden ||= begin
-        def fields.delay
-          @table[:delay]
-        end
-      end
-
-      fields
-    end
-
-    ##
-    # Allow the user only to create/update relations between work packages they are allowed to see.
-    def user_allowed_to_access
-      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
-      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
-    end
-
-    def user_allowed_to_manage_relations
+    def manage_relations_permission?
       if !manage_relations?
         errors.add :base, :error_unauthorized
       end
