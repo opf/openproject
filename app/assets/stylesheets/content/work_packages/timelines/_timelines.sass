@@ -49,6 +49,10 @@
   display: flex
   align-items: center
 
+  // Need to disable flex behavior on children
+  > div
+    flex: 0 0 auto
+
   // Relative position for positioning of elements within
   position: relative
 
