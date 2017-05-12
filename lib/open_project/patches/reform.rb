@@ -32,13 +32,21 @@ module OpenProject
   module Patches
     module Reform
       def merge!(errors, prefix)
+        # TODO: Check if @store_new_symbols can be removed
         @store_new_symbols = false
         super(errors, prefix)
         @store_new_symbols = true
 
         errors.keys.each do |attribute|
           errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
-            writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
+            symbols_and_messages = writable_symbols_and_messages_for(attribute)
+            next if symbols_and_messages && symbols_and_messages.any? do |sam|
+              sam[0] === symbol &&
+              sam[1] === full_message &&
+              sam[2] === partial_message
+            end
+
+            symbols_and_messages << [symbol, full_message, partial_message]
           end
         end
       end
