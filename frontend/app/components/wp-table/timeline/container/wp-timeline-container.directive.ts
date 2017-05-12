@@ -52,8 +52,6 @@ export class WorkPackageTimelineTableController {
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
-  // private refreshViewRequested = false;
-
   public disableViewParamsCalculation = false;
 
   public cells:{[id: string]:WorkPackageTimelineCell} = {};
@@ -137,9 +135,7 @@ export class WorkPackageTimelineTableController {
       return;
     }
 
-    // if (!this.refreshViewRequested) {
     debugLog("refreshView() in timeline container");
-    // setTimeout(() => {
     this.calculateViewParams(this._viewParameters);
     this.updateAllWorkPackagesSubject.next(true);
 
@@ -147,11 +143,6 @@ export class WorkPackageTimelineTableController {
       debugLog(`Refreshing timeline member ${key}`);
       cb(this._viewParameters);
     });
-
-    // this.refreshViewRequested = false;
-    // }, 30);
-    // }
-    // this.refreshViewRequested = true;
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
