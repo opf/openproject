@@ -51,15 +51,16 @@
 
 .work-packages-list-view--container
   // Set minor padding on left side
-  padding-left: 5px
+  padding-left: 15px
   // Flexbox for the toolbar, filters and work package split view
   display: flex
   flex-direction: column
   height: 100%
 
   > .toolbar-container
+    margin-top: 0.5rem
     // not flex-item
-    padding-right: 5px
+    padding-right: 15px
 
   .work-packages--filters-optional-container
     // not flex-item
@@ -98,6 +99,8 @@
 // Footer of the left side
 .work-packages-split-view--tabletimeline-footer
   flex: 0 0 $footer-height
+  .pagination--options
+    margin-right: 10px
 
 // TABLE half of the tabletimeline flexbox
 .work-packages-tabletimeline--table-side
