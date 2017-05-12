@@ -29,32 +29,32 @@
 $pagination--font-size: 0.8125rem
 
 .pagination
-  +display(flex)
-  +justify-content(space-between)
+  display: flex
+  justify-content: space-between
   width: 100%
 
 .pagination--pages
-  +flex-grow(2)
-  +flex-shrink(2)
+  flex-grow: 2
+  flex-shrink: 2
   margin: 10px 5px 10px 0
 
 .pagination--options
-  +flex-grow(1)
-  +flex-shrink(1)
+  flex-grow: 1
+  flex-shrink: 1
   margin: 10px 0 0 5px
 
 .pagination--items
   list-style-type: none
-  +display(flex)
+  display: flex
   margin: 0
   padding: 0
   font-size: $pagination--font-size
 
   .pagination--pages &
-    +justify-content(flex-start)
+    justify-content: flex-start
 
   .pagination--options &
-    +justify-content(flex-end)
+    justify-content: flex-end
 
 .pagination--item
   min-width: 25px
@@ -96,7 +96,7 @@ $pagination--font-size: 0.8125rem
   margin: 0 5px 0 0
 
 .pagination--label
-  +flex(1)
+  flex: 1
   padding: 3px 0
   margin-right: 5px
   white-space: nowrap
@@ -105,7 +105,7 @@ $pagination--font-size: 0.8125rem
   text-overflow: ellipsis
 
 .pagination--range
-  +flex(1)
+  flex: 1
   margin: 0 0 0 5px
   padding: 3px 0
   display: block
