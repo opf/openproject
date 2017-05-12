@@ -368,7 +368,7 @@ describe('optionsDropdown Directive', function() {
       });
 
       it('activates the export modal on click', function() {
-        authorisation.withArgs('work_package', 'representations').returns(true);
+        authorisation.withArgs('work_packages', 'representations').returns(true);
 
         compile();
 

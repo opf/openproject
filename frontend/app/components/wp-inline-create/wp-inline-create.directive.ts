@@ -218,7 +218,7 @@ export class WorkPackageInlineCreateController {
   }
 
   public get isAllowed():boolean {
-    return this.AuthorisationService.can('work_package', 'createWorkPackage');
+    return this.AuthorisationService.can('work_packages', 'createWorkPackage');
   }
 }
 

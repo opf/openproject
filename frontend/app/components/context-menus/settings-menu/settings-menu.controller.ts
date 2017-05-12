@@ -227,7 +227,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showExportModalInvalid = function () {
-    return AuthorisationService.cannot('work_package', 'representations');
+    return AuthorisationService.cannot('work_packages', 'representations');
   };
 
   $scope.deleteQueryInvalid = function () {
@@ -257,7 +257,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   }
 
   function allowWorkPackageAction(event:JQueryEventObject, action:any) {
-    return allowAction(event, 'work_package', action);
+    return allowAction(event, 'work_packages', action);
   }
 
   function allowFormAction(event:JQueryEventObject, action:string) {
