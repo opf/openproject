@@ -63,6 +63,7 @@ function getPlattformAgnosticScrollAmount(originalValue: number) {
 }
 
 function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTimeline: JQuery) {
+  const scrollTarget = jev.target;
   const ev: WheelEvent = jev.originalEvent as any;
   let [deltaX, deltaY] = getXandYScrollDeltas(ev);
 
@@ -71,14 +72,14 @@ function syncWheelEvent(jev: JQueryEventObject, elementTable: JQuery, elementTim
   }
   ev.preventDefault();
 
-  deltaX = getPlattformAgnosticScrollAmount(deltaX);
-  deltaY = getPlattformAgnosticScrollAmount(deltaY);
+  deltaX = getPlattformAgnosticScrollAmount(deltaX); // apply only in target div
+  deltaY = getPlattformAgnosticScrollAmount(deltaY); // apply in both divs
 
   window.requestAnimationFrame(function () {
     elementTable[0].scrollTop = elementTable[0].scrollTop + deltaY;
-    elementTable[0].scrollLeft = elementTable[0].scrollLeft + deltaX;
     elementTimeline[0].scrollTop = elementTimeline[0].scrollTop + deltaY;
-    elementTimeline[0].scrollLeft = elementTimeline[0].scrollLeft + deltaX;
+
+    scrollTarget.scrollLeft = scrollTarget.scrollLeft + deltaX;
   });
 }
 
