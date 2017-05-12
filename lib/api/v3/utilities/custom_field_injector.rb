@@ -271,8 +271,8 @@ module API
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
-          ->(link_object, *) {
-            values = Array([link_object].flatten).flat_map do |link|
+          ->(fragment:, **) {
+            values = Array([fragment].flatten).flat_map do |link|
               href = link['href']
               value =
                 if href
@@ -336,8 +336,12 @@ module API
         end
 
         def property_value_setter_for(custom_field)
-          ->(value, *) {
-            value = value['raw'] if custom_field.field_format == 'text'
+          ->(fragment:, **) {
+            value = if custom_field.field_format == 'text'
+                      fragment['raw']
+                    else
+                      fragment
+                    end
             self.custom_field_values = { custom_field.id => value }
           }
         end
