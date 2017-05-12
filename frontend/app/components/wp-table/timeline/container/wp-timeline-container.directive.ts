@@ -25,25 +25,22 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {Observable, BehaviorSubject} from 'rxjs';
-import IDirective = angular.IDirective;
-import IScope = angular.IScope;
-import {WorkPackagesTableController} from "../../wp-table.directive";
-import {
-  RenderInfo, timelineElementCssClass, timelineMarkerSelectionStartClass,
-  TimelineViewParameters
-} from "../wp-timeline";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../../../states.service";
-import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageNotificationService} from "../../../wp-edit/wp-notification.service";
-import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
 import {debugLog} from "../../../../helpers/debug_output";
-import {openprojectModule} from "../../../../angular-modules";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
-import {WorkPackageTimelineCell} from "../wp-timeline-cell";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {States} from "../../../states.service";
+import {WorkPackageNotificationService} from "../../../wp-edit/wp-notification.service";
+import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableTimelineState} from "../../../wp-fast-table/wp-table-timeline";
+import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
+import {WorkPackagesTableController} from "../../wp-table.directive";
+import {RenderInfo, timelineMarkerSelectionStartClass, TimelineViewParameters} from "../wp-timeline";
+import {WorkPackageTimelineCell} from "../wp-timeline-cell";
+import IDirective = angular.IDirective;
+import IScope = angular.IScope;
 
 export class WorkPackageTimelineTableController {
 
@@ -55,7 +52,7 @@ export class WorkPackageTimelineTableController {
 
   private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
 
-  private refreshViewRequested = false;
+  // private refreshViewRequested = false;
 
   public disableViewParamsCalculation = false;
 
@@ -136,25 +133,25 @@ export class WorkPackageTimelineTableController {
 
   refreshView() {
     if (!this.wpTableTimeline.isVisible) {
-      debugLog('refreshView() requested, but TL is invisible.');
+      debugLog("refreshView() requested, but TL is invisible.");
       return;
     }
 
-    if (!this.refreshViewRequested) {
-      debugLog('refreshView() in timeline container');
-      setTimeout(() => {
-        this.calculateViewParams(this._viewParameters);
-        this.updateAllWorkPackagesSubject.next(true);
+    // if (!this.refreshViewRequested) {
+    debugLog("refreshView() in timeline container");
+    // setTimeout(() => {
+    this.calculateViewParams(this._viewParameters);
+    this.updateAllWorkPackagesSubject.next(true);
 
-        _.each(this.renderers, (cb, key) => {
-          debugLog(`Refreshing timeline member ${key}`);
-          cb(this._viewParameters);
-        });
+    _.each(this.renderers, (cb, key) => {
+      debugLog(`Refreshing timeline member ${key}`);
+      cb(this._viewParameters);
+    });
 
-        this.refreshViewRequested = false;
-      }, 30);
-    }
-    this.refreshViewRequested = true;
+    // this.refreshViewRequested = false;
+    // }, 30);
+    // }
+    // this.refreshViewRequested = true;
   }
 
   addWorkPackage(wpId: string): Observable<RenderInfo> {
