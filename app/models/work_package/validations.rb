@@ -34,7 +34,7 @@ module WorkPackage::Validations
     attr_accessor :skip_fixed_version_validation,
                   :skip_descendants_validation
 
-    validates_presence_of :subject, :priority, :project, :type, :author, :status
+    validates_presence_of :subject, :project, :type, :author, :status
 
     validates_length_of :subject, maximum: 255
     validates_inclusion_of :done_ratio, in: 0..100
