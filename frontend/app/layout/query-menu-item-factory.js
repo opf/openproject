@@ -72,7 +72,7 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
 
       scope.$on('openproject.layout.renameMenuItem', function(event, itemData) {
         if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId == scope.queryId) {
-          element.html(itemData.objectName);
+          element.find('.menu-item--title').html(itemData.objectName);
         }
       });
     }
