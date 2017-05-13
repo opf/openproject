@@ -5,7 +5,7 @@ da:
   label_backlogs_export_card_export: "Eksportér"
   label_export_card_configuration_new: "Ny eksportkortopsætning"
   label_export_card_configuration: "Eksportkortopsætning"
-  label_export_card_configuration_plural: "Eksportkortopsætninger"
+  label_export_card_configuration_plural: "Eksport kortopsætninger"
   label_export_card_activate: "Aktivér"
   label_export_card_deactivate: "Deaktivér"
   notice_export_card_configuration_activated: "Opsætning aktiveret"
@@ -17,7 +17,7 @@ da:
   validation_error_uknown_key: "Ukendt nøgle:"
   yaml_error: "YAML-fejl:"
   help_link_rows_format: "Rækkeformatering"
-  export_config_per_page: "Pr. side"
+  export_config_per_page: "Per side"
   export_config_page_size: "Sidestørrelse"
   export_config_orientation: "Retning"
   export_config_rows: "Rækker"
@@ -25,6 +25,6 @@ da:
     attributes:
       export_card_configuration:
         rows: "Rækker"
-        per_page: "Pr. side"
+        per_page: "Per side"
         page_size: "Sidestørrelse"
         orientation: "Retning"
