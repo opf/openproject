@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,12 +38,8 @@ describe WorkPackagesController, type: :controller do
     allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
   end
 
-  let(:planning_element) { FactoryGirl.create(:work_package, project_id: project.id) }
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:stub_planning_element) { FactoryGirl.build_stubbed(:work_package, project_id: stub_project.id) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project, identifier: 'test_project', is_public: false) }
-  let(:stub_issue) { FactoryGirl.build_stubbed(:work_package, project_id: stub_project.id) }
-  let(:stub_user) { FactoryGirl.build_stubbed(:user) }
   let(:stub_work_package) { double('work_package', id: 1337, project: stub_project).as_null_object }
 
   let(:current_user) { FactoryGirl.create(:user) }
@@ -142,7 +139,7 @@ describe WorkPackagesController, type: :controller do
         # Note: Stubs for methods used to build up the json query results.
         # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
         allow(query).to receive(:results).and_return(results)
-        allow(results).to receive_message_chain(:work_packages, :page, :per_page).and_return(work_packages)
+        allow(results).to receive_message_chain(:sorted_work_packages, :page, :per_page).and_return(work_packages)
       end
 
       describe 'html' do
@@ -358,16 +355,16 @@ describe WorkPackagesController, type: :controller do
 
   describe 'redirect deep link', with_settings: { login_required?: true } do
     let(:current_user) { User.anonymous }
-    let(:params) {
+    let(:params) do
       { project_id: project.id }
-    }
+    end
 
-   it 'redirects to collection with query' do
-     get 'index', params: params.merge(query_id: 123, query_props: 'foo')
-     expect(response).to be_redirect
+    it 'redirects to collection with query' do
+      get 'index', params: params.merge(query_id: 123, query_props: 'foo')
+      expect(response).to be_redirect
 
-     location = "/projects/#{project.id}/work_packages?query_id=123&query_props=foo"
-     expect(response.location).to end_with(CGI.escape(location))
-   end
+      location = "/projects/#{project.id}/work_packages?query_id=123&query_props=foo"
+      expect(response.location).to end_with(CGI.escape(location))
+    end
   end
 end

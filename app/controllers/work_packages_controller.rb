@@ -171,7 +171,7 @@ class WorkPackagesController < ApplicationController
     @results = @query.results
     @work_packages = if @query.valid?
                        @results
-                         .work_packages
+                         .sorted_work_packages
                          .page(page_param)
                          .per_page(per_page_param)
                      else
