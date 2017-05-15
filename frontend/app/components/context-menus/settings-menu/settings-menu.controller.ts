@@ -31,6 +31,8 @@ import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-t
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+
 import {States} from '../../states.service';
 
 interface IMyScope extends ng.IScope {
@@ -74,6 +76,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         wpTableSum:WorkPackageTableSumService,
                                         wpTableGroupBy:WorkPackageTableGroupByService,
                                         wpListService:WorkPackagesListService,
+                                        wpEditModeState: WorkPackageEditModeStateService,
                                         states:States,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
@@ -109,12 +112,24 @@ function SettingsDropdownMenuController($scope:IMyScope,
     $scope.queryCustomFields = query.results.customFields;
   }
 
+  if (wpEditModeState.form && wpEditModeState.form.workPackage) {
+    if (wpEditModeState.form.inEditMode) {
+      wpEditModeState.form.workPackage.getForm().then(
+        (loadedForm:any) => {
+          $scope.configureFormLink = loadedForm.configureForm;
+        }
+      );
+    } else {
+      $scope.configureFormLink = wpEditModeState.form.workPackage.configureForm;
+    }
+  }
+
   $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
     if (!query.id && allowQueryAction(event, 'updateImmediately')) {
       saveModal.activate();
     } else if (query.id && allowQueryAction(event, 'updateImmediately')) {
-      closeAnyContextMenu();
+      wpListService.save();
     }
 
     closeAnyContextMenu();
@@ -212,7 +227,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showExportModalInvalid = function () {
-    return AuthorisationService.cannot('work_package', 'representations');
+    return AuthorisationService.cannot('work_packages', 'representations');
   };
 
   $scope.deleteQueryInvalid = function () {
@@ -242,7 +257,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
   }
 
   function allowWorkPackageAction(event:JQueryEventObject, action:any) {
-    return allowAction(event, 'work_package', action);
+    return allowAction(event, 'work_packages', action);
   }
 
   function allowFormAction(event:JQueryEventObject, action:string) {

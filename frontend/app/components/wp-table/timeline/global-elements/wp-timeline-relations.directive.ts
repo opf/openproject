@@ -28,32 +28,32 @@
 import {
   timelineElementCssClass,
   TimelineViewParameters,
-} from "../wp-timeline";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
+} from '../wp-timeline';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import Moment = moment.Moment;
-import {openprojectModule} from "../../../../angular-modules";
-import {States} from "../../../states.service";
-import {WorkPackageStates} from "../../../work-package-states.service";
+import {openprojectModule} from '../../../../angular-modules';
+import {States} from '../../../states.service';
+import {WorkPackageStates} from '../../../work-package-states.service';
 import {
   RelationsStateValue,
   WorkPackageRelationsService
-} from "../../../wp-relations/wp-relations.service";
-import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {TimelineRelationElement} from "./timeline-relation-element";
-import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
+} from '../../../wp-relations/wp-relations.service';
+import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
+import {TimelineRelationElement} from './timeline-relation-element';
+import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
 
-export const timelineGlobalElementCssClassname = "relation-line";
+export const timelineGlobalElementCssClassname = 'relation-line';
 
-function newSegment(vp: TimelineViewParameters,
-                    classNames: string[],
-                    color: string,
-                    top: number,
-                    left: number,
-                    width: number,
-                    height: number): HTMLElement {
+function newSegment(vp:TimelineViewParameters,
+                    classNames:string[],
+                    color:string,
+                    top:number,
+                    left:number,
+                    width:number,
+                    height:number):HTMLElement {
 
   const segment = document.createElement('div');
   segment.classList.add(
@@ -136,17 +136,18 @@ export class WorkPackageTableTimelineRelations {
       .withLatestFrom(
         this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)))
       .filter(([relations, timelineVisible]) => relations && timelineVisible.isVisible)
-      .map(([relations]) => relations)
-      .subscribe((nextVal) => {
-        const [workPackageId, relations] = nextVal;
+      .map(([[workPackageId, relations]]) => {
+        let relevantRelations = _.pickBy(!relations, (relation:RelationResource) => (relation.type === 'precedes' || relation.type === 'follows'));
 
-        if (workPackageId && this.wpTimeline.cells[workPackageId]) {
-          this.refreshRelations(workPackageId, relations!);
-        }
+        return [workPackageId, relevantRelations];
+      })
+      .filter(([workPackageId, relations]) => !!(workPackageId && this.wpTimeline.cells[workPackageId as string]))
+      .subscribe(([workPackageId, relations]) => {
+        this.refreshRelations(workPackageId as string, relations);
       });
   }
 
-  private refreshRelations(workPackageId:string, relations:RelationsStateValue) {
+  private refreshRelations(workPackageId:string, relations:Object) {
     // Remove all previous relations for the work package
     const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
     jQuery(`.${prefix}`).remove();
@@ -247,7 +248,7 @@ export class WorkPackageTableTimelineRelations {
 
 }
 
-openprojectModule.component("wpTimelineRelations", {
+openprojectModule.component('wpTimelineRelations', {
   template: '<div class="wp-table-timeline--relations"></div>',
   controller: WorkPackageTableTimelineRelations,
   require: {

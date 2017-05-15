@@ -354,7 +354,7 @@ function initializeResource(halResource:HalResource) {
 
     if (halResource.$embedded && halResource.$embedded[linkName]) {
       halResource.$embedded[linkName] = val;
-      halResource.$source._embedded[linkName] = (val as HalResource).$source || val;
+      halResource.$source._embedded[linkName] = _.get(val, '$source', val);
     }
 
     return val;

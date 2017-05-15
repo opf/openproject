@@ -3,6 +3,7 @@
 @import 'elements/_milestone'
 @import 'elements/_relation'
 
+@import '_timelines_header'
 @import '_timelines_static_elements'
 
 .wp-timeline--th
@@ -28,19 +29,6 @@
   position: relative
   width: 100%
 
-.wp-table-timeline--header
-  height: $generic-table--header-height
-  width: 100%
-  position: sticky
-  top: 0
-  background: white
-  z-index: 300
-
-// Outer container
-// Must not be relative positioned for the controls to work
-.wp-table-timeline--outer
-  height: 100%
-
 // Left border for the timeline
 .work-packages-split-view--left-timeline
   border-left: 5px solid #888
@@ -53,6 +41,10 @@
   // Vertically center elements
   display: flex
   align-items: center
+
+  // Need to disable flex behavior on children
+  > div
+    flex: 0 0 auto
 
   // Relative position for positioning of elements within
   position: relative

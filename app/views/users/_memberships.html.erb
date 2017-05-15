@@ -96,12 +96,12 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                   <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
-                    <%= link_to_function l(:button_edit), "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();", class: 'icon icon-edit' %>
-                    <%= link_to(l(:button_remove),
+                    <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
+                                         "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" %>
+                    <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
                                 user_membership_path(user_id: @user, id: membership),
                                 remote: true,
-                                method: :delete,
-                                class: 'icon icon-remove') if membership.deletable? %>
+                                method: :delete) if membership.deletable? %>
                   </td>
                 </tr>
               <% end %>

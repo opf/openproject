@@ -112,7 +112,7 @@ module.exports = function(I18n, PaginationService, PathHelper) {
         queryData.timelineVisible = properties.tv;
       }
 
-      if(!!properties.hi) {
+      if(properties.hi === false || properties.hi === true) {
         queryData.showHierarchies = properties.hi;
       }
 

@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -26,41 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-.avatar, .gravatar
-  border-radius: $user-avatar-border-radius
-  width: $user-avatar-width
+import {opWorkPackagesModule} from '../../../angular-modules';
 
-.avatar-mini
-  border-radius: $user-avatar-mini-border-radius
-  width: $user-avatar-mini-width
+function createWpMenuService(ngContextMenu:any) {
+  return ngContextMenu({
+    templateUrl: '/components/context-menus/create-wp-menu/create-wp-menu.service.html',
 
-h1, h2, h3, h4, tr
-  .avatar, .avatar-mini
-    vertical-align: middle
-    margin-right: 7px
+    controller: 'CreateWpDropdownMenuController',
+    container: '.toolbar'
+  });
+}
 
-
-.user-avatar--container
-  display: flex
-  align-items: flex-start
-  width: 100%
-
-.user-avatar--avatar
-  @extend .avatar-mini
-  margin-right: 0.5em
-
-.user-avatar--user-with-role
-  flex: 1
-
-.user-avatar--user
-  display:        block
-  word-wrap:      break-word
-  overflow-wrap:  break-word
-
-.user-avatar--role
-  display:      block
-  font-style:   italic
-  color:        #777777
-
-.user-link
-  display: inline-block
+opWorkPackagesModule.factory('CreateWpDropdownMenu', createWpMenuService);

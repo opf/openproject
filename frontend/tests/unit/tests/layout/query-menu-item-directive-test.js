@@ -57,7 +57,7 @@ describe('queryMenuItem Directive', function() {
     }));
 
     beforeEach(inject(function($rootScope, $compile) {
-      html = '<div query-menu-item object-id=' + queryId + '></div>';
+      html = '<div query-menu-item object-id=' + queryId + '><span class="menu-item--title">title</span></div>';
 
       compile = function() {
         element = angular.element(html);

@@ -86,6 +86,13 @@ describe('optionsDropdown Directive', function() {
       }
     };
 
+    wpEditModeState = {
+      form: {
+        inEditMode: false,
+        workPackage: {}
+      }
+    }
+
     $provide.constant('wpTableSum', wpTableSum);
     $provide.constant('wpTableHierarchies', wpTableHierarchies);
     $provide.constant('wpTableGroupBy', wpTableGroupBy);
@@ -94,6 +101,7 @@ describe('optionsDropdown Directive', function() {
     $provide.constant('groupingModal', groupByModal);
     $provide.constant('exportModal', exportModal);
     $provide.constant('states', states);
+    $provide.constant('wpEditModeState', wpEditModeState);
   }));
 
   beforeEach(inject(function($rootScope, $compile) {
@@ -360,7 +368,7 @@ describe('optionsDropdown Directive', function() {
       });
 
       it('activates the export modal on click', function() {
-        authorisation.withArgs('work_package', 'representations').returns(true);
+        authorisation.withArgs('work_packages', 'representations').returns(true);
 
         compile();
 

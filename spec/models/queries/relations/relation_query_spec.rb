@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,29 +26,50 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries
-  module Relations
-    module Filters
-      class TypeFilter < ::Queries::Relations::Filters::RelationFilter
-        def allowed_values
-          ::Relation::TYPES.map do |_, value|
-            [I18n.t(value[:name]), value[:sym]]
-          end
-        end
+require 'spec_helper'
 
-        def type
-          :list
-        end
+describe Queries::Relations::RelationQuery, type: :model do
+  let(:instance) { described_class.new }
+  let(:base_scope) { Relation.all }
 
-        def self.key
-          :type
-        end
+  context 'without a filter' do
+    describe '#results' do
+      it 'is the same as getting all the relations' do
+        expect(instance.results.to_sql).to eql base_scope.to_sql
+      end
+    end
 
-        def where
-          operator_strategy.sql_for_field(values,
-                                          self.class.model.table_name,
-                                          'relation_type')
-        end
+    describe '#valid?' do
+      it 'is true' do
+        expect(instance).to be_valid
+      end
+    end
+  end
+
+  context 'with a type filter' do
+    before do
+      instance.where('type', '=', ['follows', 'precedes'])
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = base_scope
+                   .merge(Relation
+          .where("relations.relation_type IN ('follows','precedes')"))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
+    end
+
+    describe '#valid?' do
+      it 'is true' do
+        expect(instance).to be_valid
+      end
+
+      it 'is invalid if the filter is invalid' do
+        instance.where('type', '=', [''])
+
+        expect(instance).to be_invalid
       end
     end
   end

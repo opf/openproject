@@ -35,9 +35,9 @@ body.action-create
     overflow-x: hidden
     overflow-y: auto
     position: relative
-    border-left: 4px solid #eee
-    border-top: 4px solid #eee
-    padding: 0 10px
+    border-left: 2px solid #eee
+    border-top: 2px solid #eee
+    padding: 0
 
 .work-packages--details
   height: 100%
@@ -55,6 +55,9 @@ body.action-create
 
   @media only screen and (min-width: 1440px)
     width: 580px
+
+  .tabrow
+    padding-left: 15px
 
 .work-packages--create--title
   margin-bottom: 1em
@@ -75,11 +78,11 @@ body.action-create
 
 .work-packages--details-content
   position:   absolute
-  top:        80px
+  top:        50px
   bottom:     55px
   width:      100%
   +allow-vertical-scrolling
-  padding:    0
+  padding:    0 15px
   &.-create-mode
     top: 0
     h2

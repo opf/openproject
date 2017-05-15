@@ -1,4 +1,3 @@
-
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,18 +25,17 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import { SchemaCacheService } from './../schemas/schema-cache.service';
-import {State} from "reactivestates";
-import {Observable, Subject} from "rxjs";
-import {opWorkPackagesModule} from "../../angular-modules";
+import {SchemaCacheService} from './../schemas/schema-cache.service';
+import {State} from 'reactivestates';
+import {Observable, Subject} from 'rxjs';
+import {opWorkPackagesModule} from '../../angular-modules';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {ApiWorkPackagesService} from "../api/api-work-packages/api-work-packages.service";
-import {States} from "../states.service";
-import {WorkPackageNotificationService} from "./../wp-edit/wp-notification.service";
-import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
+import {States} from '../states.service';
+import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import IScope = angular.IScope;
 import IPromise = angular.IPromise;
 
@@ -52,7 +50,7 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
-              private $q: ng.IQService,
+              private $q:ng.IQService,
               private wpNotificationsService: WorkPackageNotificationService,
               private schemaCacheService: SchemaCacheService,
               private apiWorkPackages: ApiWorkPackagesService) {
@@ -83,9 +81,9 @@ export class WorkPackageCacheService {
     }
   }
 
-  saveIfChanged(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface> {
+  saveWorkPackage(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface|null> {
     if (!(workPackage.dirty || workPackage.isNew)) {
-      return this.$q.when(workPackage);
+      return this.$q.reject(null);
     }
 
     const deferred = this.$q.defer<WorkPackageResourceInterface>();
@@ -96,7 +94,7 @@ export class WorkPackageCacheService {
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, workPackage);
-        deferred.reject(error);
+        deferred.reject(workPackage);
       });
 
     return deferred.promise;

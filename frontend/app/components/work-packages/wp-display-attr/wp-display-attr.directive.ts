@@ -120,7 +120,8 @@ export class WorkPackageDisplayAttributeController {
     this.field.render(this.__d__renderer[0], this.displayText);
 
     // strip html tags
-    let ariaLabel = angular.element(this.displayText).text();
+    // Need to wrap the string in some bogus tags in order to have jQuery do its stripping magic.
+    let ariaLabel = angular.element('<sometag>' + this.displayText + '</sometag>').text();
     this.$element.attr('aria-label', this.label + ' ' + ariaLabel);
 
     this.__d__cell = this.__d__cell || this.$element.find(".__d__cell");
