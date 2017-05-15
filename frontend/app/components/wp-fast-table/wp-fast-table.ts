@@ -79,13 +79,15 @@ export class WorkPackageTable {
    * all elements.
    */
   public refreshBody() {
-    let renderResult = this.rowBuilder.buildRows();
+    let renderPass = this.rowBuilder.buildRows();
 
     this.tbody.innerHTML = '';
-    this.tbody.appendChild(renderResult.tableBody);
+    this.tbody.appendChild(renderPass.tableBody);
 
     this.timelineBody.innerHTML = '';
-    this.timelineBody.appendChild(renderResult.timelineBody);
+    this.timelineBody.appendChild(renderPass.timelineBody);
+
+    this.states.table.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -101,13 +103,6 @@ export class WorkPackageTable {
       row.element = newRow;
       this.rowIndex[row.workPackageId] = row;
     }
-  }
-
-  /**
-   * Update the rendered state that the table is now refreshed.
-   */
-  public postRender() {
-    this.states.table.rendered.putValue(this);
   }
 }
 

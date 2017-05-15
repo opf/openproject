@@ -5,6 +5,10 @@ import {TimelineRowBuilder} from '../timeline/timeline-row-builder';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {Subject} from 'rxjs';
 
+export interface TableRenderResult {
+  renderedOrder:(string|null)[];
+}
+
 export abstract class TableRenderPass {
   public states:States;
   public I18n:op.I18n;
@@ -35,6 +39,12 @@ export abstract class TableRenderPass {
     return this;
   }
 
+  public get result():TableRenderResult {
+    return {
+      renderedOrder: this.renderedOrder
+    };
+  }
+
   protected prepare() {
     this.tableBody = document.createDocumentFragment();
     this.timelineBody = document.createDocumentFragment();
@@ -61,5 +71,11 @@ export abstract class TableRenderPass {
 
     this.tableBody.appendChild(row);
     this.timelineBuilder.insert(workPackage, this.timelineBody, rowClasses);
+
+    if (workPackage) {
+      this.renderedOrder.push(workPackage.id.toString());
+    } else {
+      this.renderedOrder.push(null);
+    }
   }
 }

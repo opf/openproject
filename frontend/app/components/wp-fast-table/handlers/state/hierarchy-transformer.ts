@@ -19,7 +19,6 @@ export class HierarchyTransformer {
       .subscribe((state: WorkPackageTableHierarchies) => {
         if (enabled !== state.isEnabled) {
           table.refreshBody();
-          table.postRender();
         } else if (enabled) {
           // No change in hierarchy mode
           // Refresh groups

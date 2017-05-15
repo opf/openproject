@@ -163,7 +163,7 @@ export class HierarchyRenderPass extends TableRenderPass {
    */
   private markRendered(workPackage:WorkPackageResourceInterface) {
     this.rendered[workPackage.id] = true;
-    this.renderedOrder.push(workPackage.id);
+    this.renderedOrder.push(workPackage.id.toString());
   }
 
 

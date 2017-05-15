@@ -19,7 +19,6 @@ export class RowsTransformer {
         var t0 = performance.now();
 
         table.initialSetup(rows);
-        table.postRender();
 
         var t1 = performance.now();
         debugLog("[RowTransformer] Reinitialized in " + (t1 - t0) + " milliseconds.");

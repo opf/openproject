@@ -73,7 +73,7 @@ export class WorkPackageTableTimelineRelations {
 
   private container:ng.IAugmentedJQuery;
 
-  private workPackageIdOrder:string[] = [];
+  private workPackageIdOrder:(string|null)[] = [];
 
   private elements:TimelineRelationElement[] = [];
 
@@ -101,35 +101,18 @@ export class WorkPackageTableTimelineRelations {
    * Ensure visible relations (through table.rows) are loaded automatically.
    */
   private requireVisibleRelations() {
-    // Observe the rows and remember if changed
-    this.states.table.rendered.values$()
-      .takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe(() => {
-      this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
-    });
-
-
     Observable.combineLatest(
       this.states.table.timelineVisible.values$(),
-      this.states.table.rows.values$()
+      this.states.table.rendered.values$()
     )
       .takeUntil(scopeDestroyed$(this.$scope))
-      .filter(([timelineState, rows]) => timelineState.isVisible && rows.length > 0)
-      .map(([timelineState, rows]) => rows)
+      .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
+      .map(([timelineState, result]) => result.renderedOrder)
       .distinctUntilChanged()
-      .subscribe((rows) => {
-        this.wpRelations.requireInvolved(rows.map(el => el.id));
+      .subscribe((orderedRows) => {
+        this.workPackageIdOrder = orderedRows;
+        this.wpRelations.requireInvolved(_.compact(orderedRows) as string[]);
       });
-  }
-
-  private getVisibleWorkPackageOrder():string[] {
-    const ids:string[] = [];
-
-    jQuery('.wp-table--row').each((i, el) => {
-      ids.push(el.getAttribute('data-work-package-id')!);
-    });
-
-    return ids;
   }
 
   /**
@@ -225,6 +208,10 @@ export class WorkPackageTableTimelineRelations {
     // vert segment
     for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
       const id = this.workPackageIdOrder[index];
+      if (!id) {
+        continue;
+      }
+
       const cell = this.wpTimeline.cells[id];
       if (_.isNil(cell)) {
         continue;
