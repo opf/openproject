@@ -52,7 +52,7 @@ describe Relations::CreateContract do
       before do
         allow(WorkPackage)
           .to receive_message_chain(:visible, :exists?)
-          .with(to)
+          .with(to.id)
           .and_return(false)
       end
 
@@ -67,7 +67,7 @@ describe Relations::CreateContract do
       before do
         allow(WorkPackage)
           .to receive_message_chain(:visible, :exists?)
-          .with(from)
+          .with(from.id)
           .and_return(false)
       end
 
