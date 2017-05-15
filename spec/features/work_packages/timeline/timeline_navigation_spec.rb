@@ -44,12 +44,12 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
   before do
     work_package
     login_as(user)
-
-    wp_timeline.visit!
-    wp_timeline.expect_work_package_listed(work_package)
   end
 
   it 'can save the open state of timeline' do
+    wp_timeline.visit!
+    wp_timeline.expect_work_package_listed(work_package)
+
     # Should be initially closed
     wp_timeline.expect_timeline!(open: false)
 
@@ -73,5 +73,79 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_work_package_listed(work_package)
     wp_timeline.expect_timeline!(open: true)
     wp_timeline.expect_timeline_element(work_package)
+  end
+
+  describe 'with a hierarchy being shown' do
+    let!(:child_work_package) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         parent: work_package,
+                         start_date: Date.today,
+                         due_date: (Date.today + 5.days)
+    end
+    let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+
+    it 'toggles the hierarchy in both views' do
+      wp_timeline.visit!
+      wp_timeline.expect_work_package_listed(work_package)
+      wp_timeline.expect_work_package_listed(child_work_package)
+
+      # Should be initially closed
+      wp_timeline.expect_timeline!(open: false)
+
+      # Enable timeline
+      wp_timeline.toggle_timeline
+      wp_timeline.expect_timeline!(open: true)
+
+      # Should have an active element rendered
+      wp_timeline.expect_timeline_element(work_package)
+      wp_timeline.expect_timeline_element(child_work_package)
+
+      # Hierarchy mode is enabled by default
+      hierarchy.expect_hierarchy_at(work_package)
+      hierarchy.expect_leaf_at(child_work_package)
+
+      hierarchy.toggle_row(work_package)
+      hierarchy.expect_hidden(child_work_package)
+      wp_timeline.expect_hidden_row(child_work_package)
+    end
+  end
+
+  describe 'when table is grouped' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
+    let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
+
+    let!(:wp_cat1) { FactoryGirl.create(:work_package, project: project, category: category) }
+    let!(:wp_cat2) { FactoryGirl.create(:work_package, project: project, category: category2) }
+    let!(:wp_none) { FactoryGirl.create(:work_package, project: project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
+    let!(:query) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['subject', 'category']
+      query.show_hierarchies = false
+
+      query.save!
+      query
+    end
+
+    it 'mirrors group handling when grouping by category' do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
+
+      # Group by category
+      wp_table.click_setting_item 'Group by ...'
+      select 'Category', from: 'selected_columns_new'
+      click_button 'Apply'
+
+      # Expect table to be grouped as WP created above
+      expect(page).to have_selector('.group--value .count', count: 3)
+
+      # Collapse first section
+      find('#wp-table-rowgroup-0').click
+      wp_table.expect_work_package_not_listed(wp_cat1)
+      wp_timeline.expect_hidden_row(wp_cat1)
+    end
   end
 end

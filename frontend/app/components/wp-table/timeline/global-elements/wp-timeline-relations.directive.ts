@@ -25,25 +25,22 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {
-  timelineElementCssClass,
-  TimelineViewParameters,
-} from '../wp-timeline';
+import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {openprojectModule} from '../../../../angular-modules';
+import {States} from '../../../states.service';
+import {WorkPackageStates} from '../../../work-package-states.service';
+import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
+import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
+import {TimelineRelationElement} from './timeline-relation-element';
+import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
 
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import Moment = moment.Moment;
-import {openprojectModule} from '../../../../angular-modules';
-import {States} from '../../../states.service';
-import {WorkPackageStates} from '../../../work-package-states.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../../wp-relations/wp-relations.service';
-import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
-import {TimelineRelationElement} from './timeline-relation-element';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
+
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
@@ -84,6 +81,7 @@ export class WorkPackageTableTimelineRelations {
               public $scope:ng.IScope,
               public states:States,
               public wpStates:WorkPackageStates,
+              public wpTableTimeline:WorkPackageTableTimelineService,
               public wpRelations:WorkPackageRelationsService) {
   }
 
@@ -103,18 +101,21 @@ export class WorkPackageTableTimelineRelations {
    * Ensure visible relations (through table.rows) are loaded automatically.
    */
   private requireVisibleRelations() {
+    const whenTimelineIsVisibleNext = () => {
+      return this.states.table.timelineVisible.values$()
+        .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
+        .take(1);
+    }
 
-    // Observe the rows and request relations if changed
-    // AND timeline is visible.
-    Observable.combineLatest(
-      this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)),
-      this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
-    )
-      .filter(([timelineState, rendered]) => timelineState.isVisible)
-      .subscribe(() => {
-        this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
-        this.wpRelations.requireInvolved(this.workPackageIdOrder);
+    // Observe the rows and remember if changed
+    // so we can request them as soon as the timeline is visible
+    this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.$scope))
+      .subscribe((rows) => {
+
+      whenTimelineIsVisibleNext().subscribe(() => {
+        this.wpRelations.requireInvolved(rows.map(el => el.id));
       });
+    });
   }
 
   private getVisibleWorkPackageOrder():string[] {
@@ -131,14 +132,24 @@ export class WorkPackageTableTimelineRelations {
    * Refresh relations of visible rows.
    */
   private setupRelationSubscription() {
-    this.wpStates.relations.observeChange()
-      .takeUntil(scopeDestroyed$(this.$scope))
-      .withLatestFrom(
-        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope)))
-      .filter(([relations, timelineVisible]) => relations && timelineVisible.isVisible)
-      .map(([[workPackageId, relations]]) => {
-        let relevantRelations = _.pickBy(!relations, (relation:RelationResource) => (relation.type === 'precedes' || relation.type === 'follows'));
+    // Refresh drawn work package order
+    // TODO: Move the rendered work packages into separate state
+    this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
+      .subscribe(() => {
+        this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
+    });
 
+    Observable.combineLatest(
+      this.wpStates.relations.observeChange().takeUntil(scopeDestroyed$(this.$scope)),
+      this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
+    )
+      .withLatestFrom(
+        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope))
+      )
+      .filter(([[relations, rendered], timelineVisible]) => relations && timelineVisible.isVisible)
+      .map(([[relations, rendered], timelineVisible]) => relations)
+      .map(([workPackageId, relations]) => {
+        let relevantRelations = _.pickBy(relations!, (relation:RelationResource) => (relation.type === 'precedes' || relation.type === 'follows'));
         return [workPackageId, relevantRelations];
       })
       .filter(([workPackageId, relations]) => !!(workPackageId && this.wpTimeline.cells[workPackageId as string]))

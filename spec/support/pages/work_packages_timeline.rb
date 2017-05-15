@@ -53,5 +53,9 @@ module Pages
       type = work_package.milestone? ? :milestone : :bar
       expect(page).to have_selector("#{timeline_row_selector(work_package.id)} .timeline-element.#{type}")
     end
+
+    def expect_hidden_row(work_package)
+      expect(page).to have_selector("#wp-timeline-row-#{work_package.id}", visible: :hidden)
+    end
   end
 end
