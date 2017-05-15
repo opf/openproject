@@ -119,11 +119,13 @@
         @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
-    &.open .button--dropdown-indicator
+    &.open
       @include varprop(background-color, header-item-bg-hover-color)
       color: $header-item-font-hover-color
-      &:before
-        @extend .icon-pulldown-up:before
+
+      .button--dropdown-indicator
+        &:before
+          @extend .icon-pulldown-up:before
 
     li
       > a
