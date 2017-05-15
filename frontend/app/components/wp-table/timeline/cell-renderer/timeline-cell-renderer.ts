@@ -10,6 +10,8 @@ import {
 } from "../wp-timeline";
 import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
 import Moment = moment.Moment;
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
 
 interface CellDateMovement {
   // Target values to move work package to
@@ -22,6 +24,9 @@ export class TimelineCellRenderer {
   protected TimezoneService:any;
 
   protected dateDisplaysOnMouseMove: {left?: HTMLElement; right?: HTMLElement} = {};
+
+  constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
+  }
 
   public get type(): string {
     return "bar";
@@ -328,8 +333,14 @@ export class TimelineCellRenderer {
    */
   checkForSpecialDisplaySituations(renderInfo: RenderInfo, bar: HTMLElement) {
     const wp = renderInfo.workPackage;
+
+    // Cannot eddit the work package if it has children
     if (!wp.isLeaf) {
       bar.classList.add("-readonly");
+    }
+
+    // Display the parent as clamp-style when it has children in the table
+    if (hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable)) {
       bar.style.borderLeft = "2px solid black";
       bar.style.borderRight = "2px solid black";
       bar.style.borderTop = "2px solid black";

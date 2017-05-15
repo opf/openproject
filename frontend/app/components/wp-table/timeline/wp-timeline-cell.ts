@@ -40,11 +40,6 @@ import IScope = angular.IScope;
 import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
 
-const renderers = {
-  milestone: new TimelineMilestoneCellRenderer(),
-  generic: new TimelineCellRenderer()
-};
-
 export class WorkPackageTimelineCell {
   public wpCacheService: WorkPackageCacheService;
   public wpTableRefresh: WorkPackageTableRefreshService;
@@ -58,10 +53,17 @@ export class WorkPackageTimelineCell {
 
   private elementShape: string;
 
+  private renderers:{ milestone: TimelineMilestoneCellRenderer, generic: TimelineCellRenderer };
+
   constructor(private workPackageTimeline: WorkPackageTimelineTableController,
               private workPackageId: string,
               public timelineCell: HTMLElement) {
     injectorBridge(this);
+
+    this.renderers = {
+      milestone: new TimelineMilestoneCellRenderer(this.workPackageTimeline),
+      generic: new TimelineCellRenderer(this.workPackageTimeline)
+    };
   }
 
   activate() {
@@ -145,10 +147,10 @@ export class WorkPackageTimelineCell {
 
   private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {
     if (workPackage.isMilestone) {
-      return renderers.milestone;
+      return this.renderers.milestone;
     }
 
-    return renderers.generic;
+    return this.renderers.generic;
   }
 
   private updateView(renderInfo: RenderInfo) {

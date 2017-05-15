@@ -6,7 +6,10 @@ import {$injectFields} from "../../../../angular/angular-injector-bridge.functio
 import {Observable} from 'rxjs';
 import {RowRefreshBuilder} from "../../rows/row-refresh-builder";
 import {WorkPackageEditForm} from "../../../../wp-edit-form/work-package-edit-form";
-import {collapsedGroupClass, hierarchyRootClass} from "../../../helpers/wp-table-hierarchy-helpers";
+import {
+  collapsedGroupClass, hasChildrenInTable,
+  hierarchyRootClass
+} from "../../../helpers/wp-table-hierarchy-helpers";
 import {QueryColumn} from "../../../../api/api-v3/hal-resources/query-resource.service";
 import {UiStateLinkBuilder} from "../../ui-state-link-builder";
 
@@ -149,7 +152,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
 
-    if (workPackage.$loaded && !this.hasChildrenInTable(workPackage)) {
+    if (workPackage.$loaded && !hasChildrenInTable(workPackage, this.workPackageTable)) {
       hierarchyIndicator.innerHTML = `
             <span tabindex="0" class="wp-table--leaf-indicator">
               <span class="hidden-for-sighted">${this.text.leaf(level)}</span>
@@ -168,21 +171,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
     return hierarchyIndicator;
   }
 
-  /**
-   * Returns whether any of the children of this work package
-   * are visible in the table results.
-   */
-  private hasChildrenInTable(workPackage:WorkPackageResourceInterface) {
-    if (workPackage.isLeaf) {
-      return false; // Work Package has no children at all
-    }
 
-    // If any visible children in the table
-    return !!_.find(workPackage.children, (child:WorkPackageResourceInterface) => {
-      const childId = child.idFromLink!;
-      return this.workPackageTable.rowIndex[childId] !== undefined;
-    });
-  }
 }
 
 SingleHierarchyRowBuilder.$inject = ['states', 'I18n'];
