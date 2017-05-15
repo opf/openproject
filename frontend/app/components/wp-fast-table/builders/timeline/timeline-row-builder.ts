@@ -1,12 +1,12 @@
+import {WorkPackageTable} from '../../wp-fast-table';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../../states.service';
+import {WorkPackageTableTimelineService} from '../../state/wp-table-timeline.service';
+import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {WorkPackageTimelineCell} from '../../../wp-table/timeline/wp-timeline-cell';
+import {commonRowClassName} from '../rows/single-row-builder';
 import {Observable} from 'rxjs';
-import {WorkPackageTable} from "../../wp-fast-table";
-import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../../../states.service";
-import {WorkPackageTableTimelineService} from "../../state/wp-table-timeline.service";
-import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-import {WorkPackageTimelineCell} from "../../../wp-table/timeline/wp-timeline-cell";
-import {commonRowClassName} from "../rows/single-row-builder";
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
@@ -15,7 +15,7 @@ export class TimelineRowBuilder {
   public wpTableTimeline:WorkPackageTableTimelineService;
   public wpCacheService:WorkPackageCacheService;
 
-  constructor(protected stopExisting$:Observable<any>, protected workPackageTable:WorkPackageTable) {
+  constructor(protected stopExisting$:Observable<void>, protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
   }
 

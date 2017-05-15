@@ -3,7 +3,6 @@ import {WorkPackageTableRow} from "../../../wp-table.interfaces";
 import {WorkPackageResourceInterface} from "../../../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageTableHierarchiesService} from "../../../state/wp-table-hierarchy.service";
 import {$injectFields} from "../../../../angular/angular-injector-bridge.functions";
-import {Observable} from 'rxjs';
 import {RowRefreshBuilder} from "../../rows/row-refresh-builder";
 import {WorkPackageEditForm} from "../../../../wp-edit-form/work-package-edit-form";
 import {
@@ -27,8 +26,8 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
     collapsed:(level:number) => string;
   };
 
-  constructor(protected stopExisting$: Observable<any>, protected workPackageTable: WorkPackageTable) {
-    super(stopExisting$, workPackageTable);
+  constructor(protected workPackageTable: WorkPackageTable) {
+    super(workPackageTable);
     $injectFields(this, 'wpTableHierarchies');
 
     this.text = {

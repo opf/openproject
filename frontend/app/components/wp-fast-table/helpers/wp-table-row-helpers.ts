@@ -12,9 +12,4 @@ export function locateRow(id:string):HTMLElement|null {
   return document.getElementById(rowId(id));
 }
 
-/**
- * Get the row group class name for the given group id.
- */
-export function groupedRowClassName(groupIndex:number) {
-  return `__row-group-${groupIndex}`
-}
+

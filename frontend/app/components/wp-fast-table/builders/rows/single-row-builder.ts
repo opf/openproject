@@ -30,7 +30,7 @@ export class SingleRowBuilder {
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
 
-  constructor(protected stopExisting$:Observable<any>, protected workPackageTable:WorkPackageTable) {
+  constructor(protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
   }
 

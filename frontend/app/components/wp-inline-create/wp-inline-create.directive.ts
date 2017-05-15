@@ -44,6 +44,7 @@ import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
 import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
+import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 
 export class WorkPackageInlineCreateController {
 
@@ -58,6 +59,7 @@ export class WorkPackageInlineCreateController {
   private currentWorkPackage:WorkPackageResourceInterface|null;
   private workPackageEditForm:WorkPackageEditForm|undefined;
   private rowBuilder:InlineCreateRowBuilder;
+  private timelineBuilder:TimelineRowBuilder;
 
   constructor(
     public $scope:ng.IScope,
@@ -73,7 +75,8 @@ export class WorkPackageInlineCreateController {
     private $q:ng.IQService,
     private I18n:op.I18n
   ) {
-    this.rowBuilder = new InlineCreateRowBuilder($scope, this.table);
+    this.rowBuilder = new InlineCreateRowBuilder(this.table);
+    this.timelineBuilder = new TimelineRowBuilder(scopeDestroyed$($scope).mapTo(undefined), this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };
@@ -149,7 +152,7 @@ export class WorkPackageInlineCreateController {
 
         this.workPackageEditForm = new WorkPackageEditForm('new');
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.table.rowBuilder.addToTimeline(wp, this.table.timelineBody);
+        this.timelineBuilder.insert(wp, this.table.timelineBody);
         this.$element.append(row);
 
         this.$timeout(() => {
