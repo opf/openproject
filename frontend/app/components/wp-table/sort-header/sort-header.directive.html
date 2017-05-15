@@ -1,13 +1,14 @@
 <div class="generic-table--sort-header-outer">
   <span class="hierarchy-header--outer-span" ng-if="isHierarchyColumn">
-    <accessible-by-keyboard execute="toggleHierarchy($event)"
-                            ng-if="!isHierarchyDisabled"
-                            link-title="{{ text.toggleHierarchy }}"
-                            link-aria-label="{{ text.toggleHierarchy }}"
-                            link-class="hierarchy-header--icon"
-                            span-class="icon {{ hierarchyIcon }}"
-                            aria-hidden="true">
-    </accessible-by-keyboard>
+    <span
+       class="hierarchy-header--icon"
+       ng-click="toggleHierarchy($event)"
+       ng-if="!isHierarchyDisabled"
+       ng-attr-title="{{ text.toggleHierarchy }}"
+       tabindex="-1"
+       aria-hidden="true">
+      <op-icon icon-classes="icon {{ hierarchyIcon }}"></op-icon>
+    </span>
     <a href="javascript://"
        class="hierarchy-header--sort-title"
        ng-if="sortable"
