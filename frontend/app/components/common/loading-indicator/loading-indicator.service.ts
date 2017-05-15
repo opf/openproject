@@ -29,6 +29,7 @@
 export const indicatorLocationSelector = '.loading-indicator--location';
 export const indicatorBackgroundSelector = '.loading-indicator--background';
 
+
 export class LoadingIndicator {
 
   constructor(public indicator:JQuery, public element:JQuery) {}
@@ -36,7 +37,8 @@ export class LoadingIndicator {
   public set promise(promise:ng.IPromise<any>) {
     this.start();
     promise.finally(() => {
-      this.stop();
+      // Delay hiding the indicator a little bit.
+      setTimeout(() => this.stop(), 25);
     });
   }
 
@@ -46,6 +48,7 @@ export class LoadingIndicator {
 
   public stop() {
     this.element.remove();
+
   }
 }
 

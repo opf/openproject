@@ -39,11 +39,13 @@ import { injectorBridge } from "../../angular/angular-injector-bridge.functions"
 import IScope = angular.IScope;
 import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 export class WorkPackageTimelineCell {
   public wpCacheService: WorkPackageCacheService;
   public wpTableRefresh: WorkPackageTableRefreshService;
   public states: States;
+  public loadingIndicator: LoadingIndicatorService;
 
   private subscription: Subscription;
 
@@ -138,6 +140,7 @@ export class WorkPackageTimelineCell {
         this.workPackageTimeline,
         this.wpCacheService,
         this.wpTableRefresh,
+        this.loadingIndicator,
         this.timelineCell,
         this.wpElement,
         renderer,
@@ -169,4 +172,4 @@ export class WorkPackageTimelineCell {
 
 }
 
-WorkPackageTimelineCell.$inject = ['wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService'];
+WorkPackageTimelineCell.$inject = ['loadingIndicator', 'wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService'];

@@ -35,6 +35,7 @@ import IScope = angular.IScope;
 import * as moment from 'moment';
 import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";
@@ -45,6 +46,7 @@ export function registerWorkPackageMouseHandler(this: void,
                                                 workPackageTimeline: WorkPackageTimelineTableController,
                                                 wpCacheService: WorkPackageCacheService,
                                                 wpTableRefresh: WorkPackageTableRefreshService,
+                                                loadingIndicator: LoadingIndicatorService,
                                                 cell: HTMLElement,
                                                 bar: HTMLDivElement,
                                                 renderer: TimelineCellRenderer,
@@ -222,7 +224,7 @@ export function registerWorkPackageMouseHandler(this: void,
       return;
     }
 
-    wpCacheService.saveWorkPackage(workPackage)
+    loadingIndicator.table.promise = wpCacheService.saveWorkPackage(workPackage)
       .then(() => {
         wpTableRefresh.request(true, `Moved work package ${workPackage.id} through timeline`);
       })
