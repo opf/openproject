@@ -488,6 +488,7 @@ en:
               not_a_valid_parent: "is invalid."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              violates_parent_relationships: "can only be set to %{soonest_start} or later so as not to violate the relationships of the work_package's ancestors."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             priority_id:

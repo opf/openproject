@@ -86,6 +86,12 @@ module WorkPackages
       if !model.leaf? && model.changed.include?('start_date')
         errors.add :start_date, :error_readonly
       end
+      if model.start_date && model.parent && model.start_date < model.parent.soonest_start
+        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_parent_relationships',
+                         soonest_start: Date.today + 4.days)
+
+        errors.add :start_date, message, error_symbol: :violates_parent_relationships
+      end
     end
 
     attribute :due_date do

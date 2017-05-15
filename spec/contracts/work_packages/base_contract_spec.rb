@@ -36,9 +36,9 @@ describe WorkPackages::BaseContract do
                        project: project)
   end
   let(:member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-  let (:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.create(:project) }
   let(:current_user) { member }
-  let(:permissions) {
+  let(:permissions) do
     [
       :view_work_packages,
       :view_work_package_watchers,
@@ -48,7 +48,7 @@ describe WorkPackages::BaseContract do
       :manage_work_package_relations,
       :add_work_package_notes
     ]
-  }
+  end
   let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:changed_values) { [] }
 
@@ -129,6 +129,31 @@ describe WorkPackages::BaseContract do
 
   describe 'start date' do
     it_behaves_like 'a parent unwritable property', :start_date
+
+    context 'before soonest start date of parent' do
+      before do
+        work_package.parent = FactoryGirl.build_stubbed(:work_package)
+        allow(work_package.parent)
+          .to receive(:soonest_start)
+          .and_return(Date.today + 4.days)
+
+        work_package.start_date = Date.today + 2.days
+      end
+
+      it 'is invalid' do
+        expect(contract).not_to be_valid
+      end
+
+      it 'notes the error' do
+        contract.valid?
+
+        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_parent_relationships',
+                         soonest_start: Date.today + 4.days)
+
+        expect(contract.errors[:start_date])
+          .to match_array [message]
+      end
+    end
   end
 
   describe 'due date' do
