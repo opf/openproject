@@ -101,21 +101,25 @@ export class WorkPackageTableTimelineRelations {
    * Ensure visible relations (through table.rows) are loaded automatically.
    */
   private requireVisibleRelations() {
-    const whenTimelineIsVisibleNext = () => {
-      return this.states.table.timelineVisible.values$()
-        .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
-        .take(1);
-    }
-
     // Observe the rows and remember if changed
-    // so we can request them as soon as the timeline is visible
-    this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((rows) => {
+    this.states.table.rendered.values$()
+      .takeUntil(scopeDestroyed$(this.$scope))
+      .subscribe(() => {
+      this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
+    });
 
-      whenTimelineIsVisibleNext().subscribe(() => {
+
+    Observable.combineLatest(
+      this.states.table.timelineVisible.values$(),
+      this.states.table.rows.values$()
+    )
+      .takeUntil(scopeDestroyed$(this.$scope))
+      .filter(([timelineState, rows]) => timelineState.isVisible && rows.length > 0)
+      .map(([timelineState, rows]) => rows)
+      .distinctUntilChanged()
+      .subscribe((rows) => {
         this.wpRelations.requireInvolved(rows.map(el => el.id));
       });
-    });
   }
 
   private getVisibleWorkPackageOrder():string[] {
@@ -134,11 +138,6 @@ export class WorkPackageTableTimelineRelations {
   private setupRelationSubscription() {
     // Refresh drawn work package order
     // TODO: Move the rendered work packages into separate state
-    this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe(() => {
-        this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
-    });
-
     Observable.combineLatest(
       this.wpStates.relations.observeChange().takeUntil(scopeDestroyed$(this.$scope)),
       this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
