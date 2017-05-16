@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -86,7 +87,7 @@ module WorkPackages
       if !model.leaf? && model.changed.include?('start_date')
         errors.add :start_date, :error_readonly
       end
-      if model.start_date && model.parent && model.start_date < model.parent.soonest_start
+      if start_before_parents_soonest_start?
         message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_parent_relationships',
                          soonest_start: Date.today + 4.days)
 
@@ -126,6 +127,13 @@ module WorkPackages
 
     def principal_visible?(id, list)
       list.exists?(user_id: id)
+    end
+
+    def start_before_parents_soonest_start?
+      model.start_date &&
+        model.parent &&
+        model.parent.soonest_start &&
+        model.start_date < model.parent.soonest_start
     end
   end
 end
