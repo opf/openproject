@@ -28,8 +28,8 @@
 
 import {IAugmentedJQuery} from "angular";
 
-const selectorTableSide = ".work-packages-tabletimeline--table-side";
-const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
+export const selectorTableSide = ".work-packages-tabletimeline--table-side";
+export const selectorTimelineSide = ".work-packages-tabletimeline--timeline-side";
 const jQueryScrollSyncEventNamespace = ".scroll-sync";
 const scrollStep = 15;
 
