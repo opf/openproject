@@ -85,21 +85,32 @@ See doc/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%=l(:label_used_by)%>
+                      <%= t(:label_used_in_projects) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t('custom_fields.contained_in_type') %>
                     </span>
                   </div>
                 </div>
               </th>
             <% end %>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%=l(:button_sort)%>
-                  </span>
+            <% unless tab[:name] == 'WorkPackageCustomField' %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:button_sort)%>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </th>
+              </th>
+            <% end %>
             <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
@@ -112,8 +123,14 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if tab[:name] == 'WorkPackageCustomField' %>
                 <td><%= checked_image custom_field.is_for_all? %></td>
                 <td><%= l(:label_x_projects, count: custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+                <td>
+                  <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_tab_path(id: t.id, tab: 'form_configuration')) } %>
+                  <%= safe_join type_links, ', '.html_safe %>
+                </td>
               <% end %>
-              <td><%= reorder_links('custom_field', { action: 'update', id: custom_field, back_url: custom_fields_path }, method: :put) %></td>
+              <% unless tab[:name] == 'WorkPackageCustomField' %>
+                <td><%= reorder_links('custom_field', { action: 'update', id: custom_field, back_url: custom_fields_path }, method: :put) %></td>
+              <% end %>
               <td class="buttons">
                 <%= delete_link custom_field_path(custom_field) %>
               </td>
