@@ -90,6 +90,7 @@ describe('tablePagination Directive', function () {
     subject = new BehaviorSubject(state);
 
     sinon.stub(PaginationService, 'loadPerPageOptions');
+    sinon.stub(PaginationService, 'getPerPageOptions', () => [10, 100, 500, 1000]);
 
     compile = function () {
       subject = new BehaviorSubject(state);

@@ -67,6 +67,10 @@ function tablePagination(PaginationService:any,
         wpTablePagination.updateFromObject({page: pageNumber});
       };
 
+      Object.defineProperty(scope, 'perPageOptions', {
+        get: () => PaginationService.getPerPageOptions()
+      });
+
       /**
        * @name updateCurrentRange
        *
