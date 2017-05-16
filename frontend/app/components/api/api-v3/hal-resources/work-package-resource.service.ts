@@ -134,7 +134,6 @@ export class WorkPackageResource extends HalResource {
   public $embedded: WorkPackageResourceEmbedded;
   public $links: WorkPackageLinksObject;
   public $pristine: { [attribute: string]: any } = {};
-  public parentId: number;
   public subject: string;
   public updatedAt: Date;
   public lockVersion: number;

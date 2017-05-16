@@ -279,8 +279,8 @@ module API
 
         linked_property :parent,
                         path: :work_package,
-                        title_getter: -> (*) { represented.parent.subject },
-                        show_if: -> (*) { represented.parent.nil? || represented.parent.visible? }
+                        title_getter: ->(*) { represented.parent.subject },
+                        show_if: ->(*) { represented.parent.nil? || represented.parent.visible? }
 
         link :timeEntries do
           {
@@ -296,7 +296,7 @@ module API
 
         linked_property :version,
                         getter: :fixed_version,
-                        title_getter: -> (*) {
+                        title_getter: ->(*) {
                           represented.fixed_version.to_s
                         },
                         embed_as: ::API::V3::Versions::VersionRepresenter
@@ -324,42 +324,42 @@ module API
         property :subject, render_nil: true
         property :description,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.description, object: represented)
                  },
-                 setter: -> (value, *) { represented.description = value['raw'] },
+                 setter: ->(value, *) { represented.description = value['raw'] },
                  render_nil: true
 
         property :start_date,
                  exec_context: :decorator,
-                 getter: -> (*) do
+                 getter: ->(*) do
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: -> (_) {
+                 if: ->(_) {
                    !represented.is_milestone?
                  }
         property :due_date,
                  exec_context: :decorator,
-                 getter: -> (*) do
+                 getter: ->(*) do
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: -> (_) {
+                 if: ->(_) {
                    !represented.is_milestone?
                  }
         property :date,
                  exec_context: :decorator,
-                 getter: -> (*) do
+                 getter: ->(*) do
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  end,
                  render_nil: true,
-                 if: -> (_) {
+                 if: ->(_) {
                    represented.is_milestone?
                  }
         property :estimated_time,
                  exec_context: :decorator,
-                 getter: -> (*) do
+                 getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.estimated_hours,
                                                                  allow_nil: true)
                  end,
@@ -367,30 +367,29 @@ module API
                  writeable: false
         property :spent_time,
                  exec_context: :decorator,
-                 getter: -> (*) do
+                 getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.spent_hours)
                  end,
                  writeable: false,
-                 if: -> (_) {
+                 if: ->(_) {
                    current_user_allowed_to(:view_time_entries, context: represented.project)
                  }
         property :done_ratio,
                  as: :percentageDone,
                  render_nil: true,
                  writeable: false,
-                 if: -> (*) { Setting.work_package_done_ratio != 'disabled' }
-        property :parent_id, writeable: true
+                 if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
         property :created_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_at) }
         property :updated_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_at) }
 
         property :watchers,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) {
+                 if: ->(*) {
                    current_user_allowed_to(:view_work_package_watchers,
                                            context: represented.project) &&
                      embed_links
@@ -399,12 +398,12 @@ module API
         property :attachments,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) { embed_links }
+                 if: ->(*) { embed_links }
 
         property :relations,
                  embedded: true,
                  exec_context: :decorator,
-                 if: -> (*) { embed_links }
+                 if: ->(*) { embed_links }
 
         def _type
           'WorkPackage'
@@ -431,9 +430,9 @@ module API
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
           relations = represented.relations
-          visible_relations = relations.select { |relation|
+          visible_relations = relations.select do |relation|
             relation.other_work_package(represented).visible?
-          }
+          end
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,
@@ -446,7 +445,7 @@ module API
 
         self.to_eager_load = [{ children: { project: :enabled_modules } },
                               { parent: { project: :enabled_modules } },
-                              { project: [:enabled_modules, :work_package_custom_fields] },
+                              { project: %i(enabled_modules work_package_custom_fields) },
                               :status,
                               :priority,
                               { type: :custom_fields },

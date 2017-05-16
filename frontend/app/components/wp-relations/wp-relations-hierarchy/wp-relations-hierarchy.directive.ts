@@ -32,24 +32,24 @@ import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 
 export class WorkPackageRelationsHierarchyController {
-  public workPackage: WorkPackageResourceInterface;
-  public showEditForm: boolean = false;
+  public workPackage:WorkPackageResourceInterface;
+  public showEditForm:boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
   public canHaveChildren = !this.workPackage.isMilestone;
   public canModifyHierarchy = !!this.workPackage.changeParent;
   public canAddRelation = !!this.workPackage.addRelation;
 
-  constructor(protected $scope: ng.IScope,
-              protected $rootScope: ng.IRootScopeService,
-              protected $q: ng.IQService,
-              protected wpCacheService: WorkPackageCacheService,
-              protected PathHelper: op.PathHelper,
-              protected I18n: op.I18n) {
+  constructor(protected $scope:ng.IScope,
+              protected $rootScope:ng.IRootScopeService,
+              protected $q:ng.IQService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected PathHelper:op.PathHelper,
+              protected I18n:op.I18n) {
 
     scopedObservable(
       this.$scope,
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.loadParent();
         this.loadChildren();
@@ -67,15 +67,15 @@ export class WorkPackageRelationsHierarchyController {
   }
 
   protected loadParent() {
-    if (!angular.isNumber(this.workPackage.parentId)) {
+    if (!this.workPackage.parent) {
       return;
     }
 
     scopedObservable(
       this.$scope,
-      this.wpCacheService.loadWorkPackage(this.workPackage.parentId.toString()).values$())
+      this.wpCacheService.loadWorkPackage(this.workPackage.parent.id).values$())
       .take(1)
-      .subscribe((parent: WorkPackageResourceInterface) => {
+      .subscribe((parent:WorkPackageResourceInterface) => {
         this.workPackage.parent = parent;
       });
   }
