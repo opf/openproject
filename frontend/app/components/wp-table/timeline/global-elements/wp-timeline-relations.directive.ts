@@ -73,7 +73,7 @@ export class WorkPackageTableTimelineRelations {
 
   private container:ng.IAugmentedJQuery;
 
-  private workPackageIdOrder:string[] = [];
+  private workPackageIdOrder:(string|null)[] = [];
 
   private elements:TimelineRelationElement[] = [];
 
@@ -101,31 +101,18 @@ export class WorkPackageTableTimelineRelations {
    * Ensure visible relations (through table.rows) are loaded automatically.
    */
   private requireVisibleRelations() {
-    const whenTimelineIsVisibleNext = () => {
-      return this.states.table.timelineVisible.values$()
-        .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
-        .take(1);
-    }
-
-    // Observe the rows and remember if changed
-    // so we can request them as soon as the timeline is visible
-    this.states.table.rows.values$().takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((rows) => {
-
-      whenTimelineIsVisibleNext().subscribe(() => {
-        this.wpRelations.requireInvolved(rows.map(el => el.id));
+    Observable.combineLatest(
+      this.states.table.timelineVisible.values$(),
+      this.states.table.rendered.values$()
+    )
+      .takeUntil(scopeDestroyed$(this.$scope))
+      .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
+      .map(([timelineState, result]) => result.renderedOrder)
+      .distinctUntilChanged()
+      .subscribe((orderedRows) => {
+        this.workPackageIdOrder = orderedRows;
+        this.wpRelations.requireInvolved(_.compact(orderedRows) as string[]);
       });
-    });
-  }
-
-  private getVisibleWorkPackageOrder():string[] {
-    const ids:string[] = [];
-
-    jQuery('.wp-table--row').each((i, el) => {
-      ids.push(el.getAttribute('data-work-package-id')!);
-    });
-
-    return ids;
   }
 
   /**
@@ -134,11 +121,6 @@ export class WorkPackageTableTimelineRelations {
   private setupRelationSubscription() {
     // Refresh drawn work package order
     // TODO: Move the rendered work packages into separate state
-    this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe(() => {
-        this.workPackageIdOrder = this.getVisibleWorkPackageOrder();
-    });
-
     Observable.combineLatest(
       this.wpStates.relations.observeChange().takeUntil(scopeDestroyed$(this.$scope)),
       this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
@@ -226,6 +208,10 @@ export class WorkPackageTableTimelineRelations {
     // vert segment
     for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
       const id = this.workPackageIdOrder[index];
+      if (!id) {
+        continue;
+      }
+
       const cell = this.wpTimeline.cells[id];
       if (_.isNil(cell)) {
         continue;

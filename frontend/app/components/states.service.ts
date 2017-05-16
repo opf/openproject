@@ -19,6 +19,7 @@ import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
+import {TableRenderResult} from './wp-fast-table/builders/modes/table-render-pass';
 
 export class States extends Component {
 
@@ -76,7 +77,7 @@ export class TableState {
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
-  rendered = input<WorkPackageTable>();
+  rendered = input<TableRenderResult>();
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
   // Subject used to unregister all listeners of states above.

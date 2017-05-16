@@ -1,16 +1,14 @@
-import {WorkPackageTable} from "../../../wp-fast-table";
-import {WorkPackageResourceInterface} from "../../../../api/api-v3/hal-resources/work-package-resource.service";
-import {hierarchyCellClassName, SingleHierarchyRowBuilder} from "./single-hierarchy-row-builder";
-import {WorkPackageTableRow} from "../../../wp-table.interfaces";
-import {hierarchyGroupClass, hierarchyRootClass} from "../../../helpers/wp-table-hierarchy-helpers";
-import {TimelineRowBuilder} from "../../timeline/timeline-row-builder";
+import {WorkPackageTable} from '../../../wp-fast-table';
+import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
+import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
+import {WorkPackageTableRow} from '../../../wp-table.interfaces';
+import {hierarchyGroupClass, hierarchyRootClass} from '../../../helpers/wp-table-hierarchy-helpers';
+import {TableRenderPass} from '../table-render-pass';
+import {Subject} from 'rxjs';
 
-export class HierarchyRenderPass {
+export class HierarchyRenderPass extends TableRenderPass {
   // Remember which rows were already rendered
   public rendered:{[workPackageId:string]: boolean};
-
-  // Remember the actual order of rendering
-  public renderedOrder:string[];
 
   // Remember additional parents inserted that are not part of the results table
   public additionalParents:{[workPackageId:string]: WorkPackageResourceInterface};
@@ -18,27 +16,24 @@ export class HierarchyRenderPass {
   // Defer children to be rendered when their parent occurs later in the table
   public deferred:{[parentId:string]: WorkPackageResourceInterface[]};
 
-  // The resulting rows fragments
-  public tableBody:DocumentFragment;
-  public timelineBody:DocumentFragment;
-
   constructor(public workPackageTable:WorkPackageTable,
-              public rowBuilder:SingleHierarchyRowBuilder,
-              public timelineBuilder:TimelineRowBuilder) {
+              public stopExisting$:Subject<undefined>,
+              public rowBuilder:SingleHierarchyRowBuilder) {
+    super(stopExisting$, workPackageTable);
+  }
+
+  protected prepare() {
+    super.prepare();
+
     this.rendered = {};
-    this.renderedOrder = [];
     this.additionalParents = {};
     this.deferred = {};
-    this.tableBody = document.createDocumentFragment();
-    this.timelineBody = document.createDocumentFragment();
-
-    this.render();
   }
 
   /**
    * Render the hierarchy table into the document fragment
    */
-  private render() {
+  protected doRender() {
     this.workPackageTable.rows.forEach((wpId:string) => {
       const row:WorkPackageTableRow = this.workPackageTable.rowIndex[wpId];
       const workPackage:WorkPackageResourceInterface = row.object;
@@ -96,7 +91,6 @@ export class HierarchyRenderPass {
    * Render any deferred children of the given work package. If recursive children were
    * deferred, each of them will be passed through renderCallback.
    * @param workPackage
-   * @param renderCallback
    */
   private renderAllDeferredChildren(workPackage:WorkPackageResourceInterface) {
     const wpId = workPackage.id.toString();
@@ -169,7 +163,7 @@ export class HierarchyRenderPass {
    */
   private markRendered(workPackage:WorkPackageResourceInterface) {
     this.rendered[workPackage.id] = true;
-    this.renderedOrder.push(workPackage.id);
+    this.renderedOrder.push(workPackage.id.toString());
   }
 
 

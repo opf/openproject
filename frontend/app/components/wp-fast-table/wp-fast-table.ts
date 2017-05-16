@@ -29,8 +29,6 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
-  // Timeline elements
-
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
@@ -41,13 +39,6 @@ export class WorkPackageTable {
 
   public rowObject(workPackageId:string):WorkPackageTableRow {
     return this.rowIndex[workPackageId];
-  }
-
-  /**
-   * Returns the reference to the last table.query state value
-   */
-  public get query() {
-    return this.states.table.query.value;
   }
 
   public get rowBuilder():RowsBuilder {
@@ -88,13 +79,15 @@ export class WorkPackageTable {
    * all elements.
    */
   public refreshBody() {
-    let [tableBody, timelineBody] = this.rowBuilder.buildRows(this);
+    let renderPass = this.rowBuilder.buildRows();
 
     this.tbody.innerHTML = '';
-    this.tbody.appendChild(tableBody);
+    this.tbody.appendChild(renderPass.tableBody);
 
     this.timelineBody.innerHTML = '';
-    this.timelineBody.appendChild(timelineBody);
+    this.timelineBody.appendChild(renderPass.timelineBody);
+
+    this.states.table.rendered.putValue(renderPass.result);
   }
 
   /**
@@ -110,13 +103,6 @@ export class WorkPackageTable {
       row.element = newRow;
       this.rowIndex[row.workPackageId] = row;
     }
-  }
-
-  /**
-   * Update the rendered state that the table is now refreshed.
-   */
-  public postRender() {
-    this.states.table.rendered.putValue(this);
   }
 }
 

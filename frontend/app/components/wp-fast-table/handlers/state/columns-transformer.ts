@@ -1,7 +1,7 @@
-import {debugLog} from "../../../../helpers/debug_output";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {States} from "../../../states.service";
-import {WorkPackageTable} from "../../wp-fast-table";
+import {debugLog} from '../../../../helpers/debug_output';
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {States} from '../../../states.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 
 export class ColumnsTransformer {
   public states:States;
@@ -21,7 +21,6 @@ export class ColumnsTransformer {
           let row = table.rowIndex[wpId];
           table.refreshRow(row);
         });
-        table.postRender();
         var t1 = performance.now();
 
         debugLog("column redraw took " + (t1 - t0) + " milliseconds.");

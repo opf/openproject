@@ -32,8 +32,8 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
 
   protected text:{ cancelButton:string };
 
-  constructor(scope: IScope, workPackageTable: WorkPackageTable) {
-    super(scopeDestroyed$(scope), workPackageTable);
+  constructor(workPackageTable: WorkPackageTable) {
+    super(workPackageTable);
     injectorBridge(this);
 
     this.text = {
