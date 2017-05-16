@@ -61,7 +61,7 @@ export class SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResource):HTMLElement {
+  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement,boolean] {
     let row = this.createEmptyRow(workPackage);
     let cell = null;
 
@@ -75,7 +75,7 @@ export class SingleRowBuilder {
       row.classList.add(checkedClassName);
     }
 
-    return row;
+    return [row, false];
   }
 
   /**

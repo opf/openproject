@@ -4,9 +4,16 @@ import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/wo
 import {TimelineRowBuilder} from '../timeline/timeline-row-builder';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {Subject} from 'rxjs';
+import {rowClass} from '../../helpers/wp-table-row-helpers';
+
+export interface RenderedRow {
+  workPackageId?:string;
+  classIdentifier:string;
+  hidden:boolean;
+}
 
 export interface TableRenderResult {
-  renderedOrder:(string|null)[];
+  renderedOrder:RenderedRow[];
 }
 
 export abstract class TableRenderPass {
@@ -17,7 +24,7 @@ export abstract class TableRenderPass {
   protected timelineBuilder:TimelineRowBuilder;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
-  public renderedOrder:(string|null)[];
+  public renderedOrder:RenderedRow[];
 
   /** Resulting table body */
   public tableBody:DocumentFragment;
@@ -58,24 +65,42 @@ export abstract class TableRenderPass {
   protected abstract doRender():void;
 
   /**
-   * Append a new row a work package (or a virtual row) to both containers
+   * Append a work package row to both containers
    * @param workPackage The work package, if the row belongs to one
    * @param row HTMLElement to append
-   * @param tableBody DocumentFragement to replace the table body
-   * @param timelineBody DocumentFragment to replace the timeline
    * @param rowClasses Additional classes to apply to the timeline row for mirroring purposes
+   * @param hidden whether the row was rendered hidden
    */
-  protected appendRow(workPackage:WorkPackageResourceInterface | null,
+  protected appendRow(workPackage:WorkPackageResourceInterface,
                       row:HTMLElement,
-                      rowClasses:string[] = []) {
+                      rowClasses:string[] = [],
+                      hidden:boolean = false) {
 
     this.tableBody.appendChild(row);
     this.timelineBuilder.insert(workPackage, this.timelineBody, rowClasses);
 
-    if (workPackage) {
-      this.renderedOrder.push(workPackage.id.toString());
-    } else {
-      this.renderedOrder.push(null);
-    }
+    this.renderedOrder.push({
+      workPackageId: workPackage.id.toString(),
+      classIdentifier: rowClass(workPackage.id),
+      hidden: hidden
+    });
+  }
+
+  /**
+   * Append a non-work package row to both containers
+   * @param row HTMLElement to append
+   * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
+   * @param additionalClasses Additional classes to apply to the timeline row for mirroring purposes
+   * @param hidden whether the row was rendered hidden
+   */
+  protected appendNonWorkPackageRow(row:HTMLElement, classIdentifer:string, additionalClasses:string[] = [], hidden:boolean = false) {
+    row.classList.add(classIdentifer);
+    this.tableBody.appendChild(row);
+    this.timelineBuilder.insert(null, this.timelineBody, additionalClasses.concat([classIdentifer]));
+
+    this.renderedOrder.push({
+      classIdentifier: classIdentifer,
+      hidden: hidden
+    });
   }
 }

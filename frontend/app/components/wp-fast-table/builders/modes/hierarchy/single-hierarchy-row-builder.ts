@@ -41,36 +41,37 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
    * Refresh a single row after structural changes.
    * Remembers and re-adds the hierarchy indicator if neccessary.
    */
-  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined): HTMLElement | null {
+  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined):[HTMLElement, boolean] {
     // Remove any old hierarchy
-    const newRow = super.refreshRow(row, editForm);
+    const [newRow, hidden] = super.refreshRow(row, editForm);
 
     if (newRow) {
       jQuery(newRow).find(`.wp-table--hierarchy-span`).remove();
       this.appendHierarchyIndicator(row.object, newRow);
     }
 
-    return newRow;
+    return [newRow, hidden];
   }
 
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResourceInterface) {
-    const element = super.buildEmpty(workPackage);
+  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement, boolean] {
+    let [element, hidden] = super.buildEmpty(workPackage);
     const state = this.wpTableHierarchies.currentState;
 
     workPackage.ancestors.forEach((ancestor:WorkPackageResourceInterface) => {
       element.classList.add(`__hierarchy-group-${ancestor.id}`);
 
       if (state.collapsed[ancestor.id]) {
+        hidden = true;
         element.classList.add(collapsedGroupClass(ancestor.id));
       }
     });
 
     element.classList.add(`__hierarchy-root-${workPackage.id}`);
     this.appendHierarchyIndicator(workPackage, element);
-    return element;
+    return [element, hidden];
   }
 
   /**
@@ -79,14 +80,14 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
   public buildAncestorRow(
     ancestor:WorkPackageResourceInterface,
     ancestorGroups:string[],
-    index:number):HTMLElement {
+    index:number):[HTMLElement, boolean] {
 
     const loadedRow = this.workPackageTable.rowIndex[ancestor.id];
 
     if (loadedRow) {
-      const tr =  this.buildEmpty(loadedRow.object);
+      const [tr, hidden] = this.buildEmpty(loadedRow.object);
       tr.classList.add('wp-table--hierarchy-aditional-row');
-      return tr;
+      return [tr, hidden];
     }
 
     const tr = this.createEmptyRow(ancestor);
@@ -123,7 +124,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
     const td = document.createElement('td');
     tr.appendChild(td);
 
-    return tr;
+    return [tr, false];
   }
 
   /**

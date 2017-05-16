@@ -2,10 +2,10 @@ import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
-import {collapsedRowClass, rowGroupClassName} from './grouped-rows-builder';
+import {collapsedRowClass} from './grouped-rows-builder';
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.service';
-import {GroupHeaderBuilder} from './group-header-builder';
+import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {Subject} from 'rxjs';
 import {PlainRenderPass} from '../plain/plain-render-pass';
@@ -29,14 +29,14 @@ export class GroupedRenderPass extends PlainRenderPass {
       let nextGroup = this.matchingGroup(row.object);
 
       if (nextGroup && currentGroup !== nextGroup) {
+        const groupClass = groupClassNameFor(nextGroup);
         let rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendRow(null, rowElement);
+        this.appendNonWorkPackageRow(rowElement, groupClass);
         currentGroup = nextGroup;
       }
 
       row.group = currentGroup;
-      let tr = this.buildSingleRow(row);
-      this.appendRow(row.object, tr, [groupedRowClassName(currentGroup!.index as number)]);
+      this.buildSingleRow(row);
     });
   }
 
@@ -89,22 +89,18 @@ export class GroupedRenderPass extends PlainRenderPass {
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row:WorkPackageTableRow):HTMLElement {
-    // Do not re-render rows before their grouping data
-    // is completed after the first try
-    if (!row.group) {
-      return row.element as HTMLElement;
-    }
+  private buildSingleRow(row:WorkPackageTableRow):void {
+    const group = row.group!;
+    const hidden = group.collapsed;
 
-    const group = row.group as GroupObject;
-    let tr = this.rowBuilder.buildEmpty(row.object);
+    let [tr, _] = this.rowBuilder.buildEmpty(row.object);
     tr.classList.add(groupedRowClassName(group.index as number));
 
-    if (row.group.collapsed) {
+    if (hidden) {
       tr.classList.add(collapsedRowClass);
     }
 
     row.element = tr;
-    return tr;
+    this.appendRow(row.object, tr, [groupedRowClassName(group.index as number)], hidden);
   }
 }

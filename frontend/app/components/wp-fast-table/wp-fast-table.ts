@@ -96,7 +96,7 @@ export class WorkPackageTable {
   public refreshRow(row:WorkPackageTableRow) {
     // Find the row we want to replace
     let oldRow = row.element || locateRow(row.workPackageId);
-    let newRow = this.rowBuilder.refreshRow(row);
+    let [newRow, hidden] = this.rowBuilder.refreshRow(row);
 
     if (newRow && oldRow && oldRow.parentNode) {
       oldRow.parentNode.replaceChild(newRow, oldRow);

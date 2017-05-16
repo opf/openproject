@@ -10,11 +10,12 @@ export class RowRefreshBuilder extends SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined): HTMLElement | null {
+  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined):[HTMLElement, boolean] {
     // Get the row for the WP if refreshing existing
     const rowElement = row.element || locateRow(row.workPackageId);
+
     if (!rowElement) {
-      return null;
+      throw new Error(`Trying to refresh row for ${row.workPackageId} that is not in the table`);
     }
 
     // Iterate all columns, reattaching or rendering new columns
@@ -41,7 +42,7 @@ export class RowRefreshBuilder extends SingleRowBuilder {
     });
 
     jRow.prepend(newCells);
-    return rowElement;
+    return [rowElement!, false];
   }
 
   private isColumnBeingEdited(editForm: WorkPackageEditForm | undefined, column: QueryColumn) {

@@ -40,6 +40,7 @@ import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-tim
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import Moment = moment.Moment;
+import {RenderedRow} from '../../../wp-fast-table/builders/modes/table-render-pass';
 
 
 export const timelineGlobalElementCssClassname = 'relation-line';
@@ -73,7 +74,7 @@ export class WorkPackageTableTimelineRelations {
 
   private container:JQuery;
 
-  private workPackageIdOrder:(string|null)[] = [];
+  private workPackageIdOrder:RenderedRow[] = [];
 
   private elements:TimelineRelationElement[] = [];
 
@@ -111,8 +112,20 @@ export class WorkPackageTableTimelineRelations {
       .distinctUntilChanged()
       .subscribe((orderedRows) => {
         this.workPackageIdOrder = orderedRows;
-        this.wpRelations.requireInvolved(_.compact(orderedRows) as string[]);
+        this.getRequiredRelations();
       });
+  }
+
+  private getRequiredRelations():void {
+    const requiredForRelations:string[] = [];
+
+    _.each(this.workPackageIdOrder, (el:RenderedRow) => {
+      if (el.workPackageId) {
+        requiredForRelations.push(el.workPackageId);
+      }
+    });
+
+    this.wpRelations.requireInvolved(requiredForRelations);
   }
 
   /**
@@ -171,14 +184,21 @@ export class WorkPackageTableTimelineRelations {
 
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
-    const idxFrom = this.workPackageIdOrder.indexOf(involved.from);
-    const idxTo = this.workPackageIdOrder.indexOf(involved.to);
+
+    // Get the rendered rows
+    const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
+    const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
 
     const startCell = this.wpTimeline.cells[involved.from];
     const endCell = this.wpTimeline.cells[involved.to];
 
-    // If targets do not exist (or are hidden) anywhere in the table, skip
+    // If targets do not exist anywhere in the table, skip
     if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
+      return;
+    }
+
+    // If any of the targets are hidden in the table, skip
+    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
       return;
     }
 
@@ -215,7 +235,6 @@ export class WorkPackageTableTimelineRelations {
     if (directionX === 1) {
       if (directionY === 1) {
         this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 19));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
       } else {
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, 1, 22));
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));

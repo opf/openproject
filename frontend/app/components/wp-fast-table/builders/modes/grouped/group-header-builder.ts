@@ -1,7 +1,12 @@
 import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {groupName} from './grouped-rows-helpers';
+
 export const rowGroupClassName = 'wp-table--group-header';
+
+export function groupClassNameFor(group:GroupObject) {
+  return `group-${group.identifier}`;
+}
 
 export class GroupHeaderBuilder {
   public I18n:op.I18n;
@@ -28,7 +33,7 @@ export class GroupHeaderBuilder {
       togglerIconClass = 'icon-minus2';
     }
 
-    row.classList.add(rowGroupClassName);
+    row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
     row.dataset['groupIndex'] = (group.index as number).toString();
     row.dataset['groupIdentifier'] = group.identifier as string;
