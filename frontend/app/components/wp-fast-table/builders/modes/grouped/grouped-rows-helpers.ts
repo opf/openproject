@@ -1,7 +1,9 @@
 import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 
 export function groupIdentifier(group:GroupObject) {
-  return `${groupByProperty(group)}-${group.value || 'nullValue'}`;
+  let value = group.value || 'nullValue';
+  value = value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  return `${groupByProperty(group)}-${value}`;
 }
 
 export function groupName(group:GroupObject) {

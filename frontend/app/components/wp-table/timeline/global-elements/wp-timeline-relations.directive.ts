@@ -41,6 +41,7 @@ import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import Moment = moment.Moment;
 import {RenderedRow} from '../../../wp-fast-table/builders/modes/table-render-pass';
+import {debugLog} from '../../../../helpers/debug_output';
 
 
 export const timelineGlobalElementCssClassname = 'relation-line';
@@ -75,6 +76,7 @@ export class WorkPackageTableTimelineRelations {
   private container:JQuery;
 
   private workPackageIdOrder:RenderedRow[] = [];
+  private relationsRequestedFor:string[] = [];
 
   private elements:TimelineRelationElement[] = [];
 
@@ -109,7 +111,6 @@ export class WorkPackageTableTimelineRelations {
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
       .map(([timelineState, result]) => result.renderedOrder)
-      .distinctUntilChanged()
       .subscribe((orderedRows) => {
         this.workPackageIdOrder = orderedRows;
         this.getRequiredRelations();
@@ -125,6 +126,13 @@ export class WorkPackageTableTimelineRelations {
       }
     });
 
+    if (_.isEqual(requiredForRelations, this.relationsRequestedFor)) {
+      debugLog('WP order unchanged, not requesting new relations, only updating them.');
+      this.update(this.wpTimeline.viewParameters);
+      return;
+    }
+
+    this.relationsRequestedFor = requiredForRelations;
     this.wpRelations.requireInvolved(requiredForRelations);
   }
 

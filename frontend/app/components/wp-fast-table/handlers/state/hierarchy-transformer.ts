@@ -5,6 +5,8 @@ import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
+import {rowClassName} from '../../builders/rows/single-row-builder';
+import {debugLog} from '../../../../helpers/debug_output';
 
 export class HierarchyTransformer {
   public wpTableHierarchies:WorkPackageTableHierarchiesService;
@@ -33,6 +35,8 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageTableHierarchies) {
+    const rendered = this.states.table.rendered.value!;
+
    // Show all hierarchies
    jQuery('[class^="__hierarchy-group-"]').removeClass((i:number, classNames:string):string => {
     return (classNames.match(/__collapsed-group-\d+/g) || []).join(' ');
@@ -40,11 +44,26 @@ export class HierarchyTransformer {
 
    // Hide all collapsed hierarchies
    _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
-     // Hide/Show the descendants.
-     jQuery(`.${hierarchyGroupClass(wpId)}`).toggleClass(collapsedGroupClass(wpId), isCollapsed);
      // Toggle the root style
      jQuery(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`).toggleClass(indicatorCollapsedClass, isCollapsed);
+
+     // Get all affected rows
+     const affected = jQuery(`.${hierarchyGroupClass(wpId)}`);
+
+     // Hide/Show the descendants.
+     affected.toggleClass(collapsedGroupClass(wpId), isCollapsed);
+
+     // Update the hidden section of the rendered state
+     affected.filter(`.${rowClassName}`).each((i, el) => {
+       // Get the index of this row
+       const index = jQuery(el).index();
+
+       // Update the hidden state
+       rendered.renderedOrder[index].hidden = isCollapsed;
+     });
    });
+
+   this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }
 
