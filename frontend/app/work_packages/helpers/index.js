@@ -28,29 +28,6 @@
 
 angular.module('openproject.workPackages.helpers')
   .factory('ApiHelper', ['NotificationsService', require('./api-helper')])
-  .constant('PERMITTED_BULK_ACTIONS', [
-    {
-      icon: 'edit',
-      link: 'update',
-      href: '/work_packages/bulk/edit'
-    },
-    // TODO: reenable watch
-    {
-      icon: 'move',
-      link: 'move',
-      href: '/work_packages/move/new'
-    },
-    {
-      icon: 'copy',
-      link: 'copy',
-      href: '/work_packages/move/new?copy=true'
-    },
-    {
-      icon: 'delete',
-      link: 'delete',
-      href: '/work_packages/bulk?_method=delete'
-    }
-  ])
   .factory('WorkPackagesHelper', ['TimezoneService', 'currencyFilter',
     'CustomFieldHelper', require('./work-packages-helper')
   ]);

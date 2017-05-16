@@ -33,11 +33,35 @@ angular
   .factory('WorkPackageContextMenuHelper', WorkPackageContextMenuHelper);
 
 function WorkPackageContextMenuHelper(
-  PERMITTED_BULK_ACTIONS:any,
   HookService:any,
   UrlParamsHelper:any,
+  PathHelper:any,
   I18n: op.I18n,
   states: States) {
+
+  const BULK_ACTIONS = [
+    {
+      icon: 'edit',
+      link: 'update',
+      href: PathHelper.staticBase + '/work_packages/bulk/edit'
+    },
+    // TODO: reenable watch
+    {
+      icon: 'move',
+      link: 'move',
+      href: PathHelper.staticBase + '/work_packages/move/new'
+    },
+    {
+      icon: 'copy',
+      link: 'copy',
+      href: PathHelper.staticBase + '/work_packages/move/new?copy=true'
+    },
+    {
+      icon: 'delete',
+      link: 'delete',
+      href: PathHelper.staticBase + '/work_packages/bulk?_method=delete'
+    }
+  ];
 
   function getPermittedActionLinks(workPackage:WorkPackageResourceInterface, permittedActionConstants:any) {
     var singularPermittedActions:any[] = [];
@@ -58,7 +82,7 @@ function WorkPackageContextMenuHelper(
   function getIntersectOfPermittedActions(workPackages:any) {
     var bulkPermittedActions:any = [];
 
-    var permittedActions = _.filter(PERMITTED_BULK_ACTIONS, function(action:any) {
+    var permittedActions = _.filter(BULK_ACTIONS, function(action:any) {
       return _.every(workPackages, function(workPackage:WorkPackageResourceInterface) {
         return getAllowedActions(workPackage, [action]).length >= 1;
       });
