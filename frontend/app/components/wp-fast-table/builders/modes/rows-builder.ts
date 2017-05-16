@@ -31,7 +31,7 @@ export abstract class RowsBuilder {
    * Refresh a single row after structural changes.
    * Will perform dirty checking for when a work package is currently being edited.
    */
-  public refreshRow(row:WorkPackageTableRow):[HTMLElement, boolean] {
+  public refreshRow(row:WorkPackageTableRow):[HTMLElement, boolean]|null {
     let editing = this.states.editing.get(row.workPackageId).value;
     return this.refreshBuilder.refreshRow(row, editing);
   }

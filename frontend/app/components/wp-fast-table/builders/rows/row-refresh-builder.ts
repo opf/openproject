@@ -4,18 +4,20 @@ import {locateRow} from "../../helpers/wp-table-row-helpers";
 import {WorkPackageTableRow} from "../../wp-table.interfaces";
 import {wpCellTdClassName} from "../cell-builder";
 import {SingleRowBuilder} from "./single-row-builder";
+import {debugLog} from '../../../../helpers/debug_output';
 
 export class RowRefreshBuilder extends SingleRowBuilder {
 
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined):[HTMLElement, boolean] {
+  public refreshRow(row: WorkPackageTableRow, editForm: WorkPackageEditForm | undefined):[HTMLElement, boolean] | null {
     // Get the row for the WP if refreshing existing
     const rowElement = row.element || locateRow(row.workPackageId);
 
     if (!rowElement) {
-      throw new Error(`Trying to refresh row for ${row.workPackageId} that is not in the table`);
+      debugLog(`Trying to refresh row for ${row.workPackageId} that is not in the table`);
+      return null;
     }
 
     // Iterate all columns, reattaching or rendering new columns

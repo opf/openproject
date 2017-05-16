@@ -214,7 +214,7 @@ export class HierarchyRenderPass extends TableRenderPass {
     const hierarchyGroup = `.__hierarchy-group-${parentId}`;
 
     // Insert into table
-    const target = jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last()
+    const target = jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last();
     target.after(el);
 
     // Mark as rendered at the given position
@@ -224,6 +224,7 @@ export class HierarchyRenderPass extends TableRenderPass {
       classIdentifier: rowClass(workPackage.id),
       hidden: hidden
     });
+    this.rendered[workPackage.id] = true;
 
     // Insert into timeline
     const timelineRow = this.buildTimelineRow(workPackage);
