@@ -316,7 +316,7 @@ class AccountController < ApplicationController
   def logout_user
     if User.current.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token.delete_all(['user_id = ? AND action = ?', User.current.id, 'autologin'])
+      Token.where(user_id: user.current.id, action: 'autologin').delete_all
       self.logged_user = nil
     end
   end
