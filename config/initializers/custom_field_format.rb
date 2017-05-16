@@ -38,35 +38,35 @@ OpenProject::CustomFieldFormat.map do |fields|
   fields.register OpenProject::CustomFieldFormat.new('int',
                                                      label: :label_integer,
                                                      order: 3,
-                                                     formatter: CustomValue::IntStrategy)
+                                                     formatter: 'CustomValue::IntStrategy')
   fields.register OpenProject::CustomFieldFormat.new('float',
                                                      label: :label_float,
                                                      order: 4,
-                                                     formatter: CustomValue::FloatStrategy)
+                                                     formatter: 'CustomValue::FloatStrategy')
   fields.register OpenProject::CustomFieldFormat.new('list',
                                                      label: :label_list,
                                                      order: 5,
-                                                     formatter: CustomValue::ListStrategy)
+                                                     formatter: 'CustomValue::ListStrategy')
   fields.register OpenProject::CustomFieldFormat.new('date',
                                                      label: :label_date,
                                                      order: 6,
-                                                     formatter: CustomValue::DateStrategy)
+                                                     formatter: 'CustomValue::DateStrategy')
   fields.register OpenProject::CustomFieldFormat.new('bool',
                                                      label: :label_boolean,
                                                      order: 7,
-                                                     formatter: CustomValue::BoolStrategy)
+                                                     formatter: 'CustomValue::BoolStrategy')
   fields.register OpenProject::CustomFieldFormat.new('user',
                                                      label: Proc.new { User.model_name.human },
                                                      only: %w(WorkPackage TimeEntry
                                                               Version Project),
                                                      edit_as: 'list',
                                                      order: 8,
-                                                     formatter: CustomValue::UserStrategy)
+                                                     formatter: 'CustomValue::UserStrategy')
   fields.register OpenProject::CustomFieldFormat.new('version',
                                                      label: Proc.new { Version.model_name.human },
                                                      only: %w(WorkPackage TimeEntry
                                                               Version Project),
                                                      edit_as: 'list',
                                                      order: 9,
-                                                     formatter: CustomValue::VersionStrategy)
+                                                     formatter: 'CustomValue::VersionStrategy')
 end
