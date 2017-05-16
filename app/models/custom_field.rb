@@ -182,7 +182,11 @@ class CustomField < ActiveRecord::Base
   end
 
   def <=>(field)
-    position <=> field.position
+    if type == 'WorkPackageCustomField'
+      name.downcase <=> field.name.downcase
+    else
+      position <=> field.position
+    end
   end
 
   def self.customized_class

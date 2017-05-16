@@ -1381,6 +1381,8 @@ en:
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_used_by: "Used by"
+  label_used_by_types: "Used by types"
+  label_used_in_projects: "Used in projects"
   label_user: "User"
   label_user_activity: "%{value}'s activity"
   label_user_anonymous: "Anonymous"

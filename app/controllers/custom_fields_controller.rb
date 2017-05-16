@@ -36,7 +36,7 @@ class CustomFieldsController < ApplicationController
   before_action :get_custom_field_params, only: %i(create update)
 
   def index
-    @custom_fields_by_type = CustomField.all.group_by { |f| f.class.name }
+    @custom_fields_by_type = CustomField.all.includes(:types).group_by { |f| f.class.name }
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
