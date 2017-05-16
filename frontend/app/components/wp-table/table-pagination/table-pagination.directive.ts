@@ -73,10 +73,10 @@ function tablePagination(PaginationService:any,
        * @description Defines a string containing page bound information inside the directive scope
        */
       function updateCurrentRangeLabel() {
-        if (scope.totalEntries){
-          scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
+        if (scope.totalEntries) {
+          scope.currentRange = '(' + PaginationService.getLowerPageBound() + ' - ' + PaginationService.getUpperPageBound(scope.totalEntries) + '/' + scope.totalEntries + ')';
         } else {
-          scope.currentRange = "(0 - 0/0)";
+          scope.currentRange = '(0 - 0/0)';
         }
       }
 
@@ -110,11 +110,13 @@ function tablePagination(PaginationService:any,
         scope.pageNumbers = pageNumbers;
       }
 
-      function truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any){
-        if (perform){
+      function truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
+        if (perform) {
           var truncationSize = PaginationService.getOptionsTruncationSize();
           var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
-          if (truncatedNums.length >= truncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
+          if (truncatedNums.length >= truncationSize * 2) {
+            truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
+          }
           return truncatedNums;
         } else {
           return [];
