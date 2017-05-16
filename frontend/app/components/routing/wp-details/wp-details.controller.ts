@@ -89,6 +89,7 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
   protected initializeTexts() {
     super.initializeTexts();
     this.text.closeDetailsView = this.I18n.t('js.button_close_details');
+    this.text.goTofullScreen = this.I18n.t('js.work_packages.message_successful_show_in_fullscreen');
   }
 }
 

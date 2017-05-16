@@ -27,7 +27,8 @@
         </li>
         <li class="tab-icon">
           <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
-                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-aria-label="{{ ::$ctrl.text.goTofullScreen }}"
+                                  link-title="{{ ::$ctrl.text.goTofullScreen }}"
                                   link-class="work-packages--details-fullscreen-icon"
                                   span-class="icon-context icon-to-fullscreen">
           </accessible-by-keyboard>
@@ -35,6 +36,7 @@
         <li class="tab-icon">
           <accessible-by-keyboard execute="$ctrl.close()"
                                   link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-title="{{ ::$ctrl.text.closeDetailsView }}"
                                   link-class="work-packages--details-close-icon"
                                   span-class="icon-context icon-close">
           </accessible-by-keyboard>
