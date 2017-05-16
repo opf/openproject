@@ -37,13 +37,18 @@ module OpenProject
 
     attr_accessor :name, :order, :label, :edit_as, :class_names, :formatter
 
-    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: CustomValue::StringStrategy)
+    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: 'CustomValue::StringStrategy')
       self.name = name
       self.label = label
       self.order = order
       self.edit_as = edit_as
       self.class_names = only
       self.formatter = formatter
+    end
+
+    def formatter
+      # avoid using stale definitions in dev mode
+      Kernel.const_get(@formatter)
     end
 
     class << self
