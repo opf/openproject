@@ -115,16 +115,39 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     let(:project) { FactoryGirl.create(:project) }
     let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
     let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
-
-    let!(:wp_cat1) { FactoryGirl.create(:work_package, project: project, category: category) }
-    let!(:wp_cat2) { FactoryGirl.create(:work_package, project: project, category: category2) }
-    let!(:wp_none) { FactoryGirl.create(:work_package, project: project) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
+    let!(:wp_cat1) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         category: category,
+                         start_date: Date.today,
+                         due_date: (Date.today + 5.days)
+    end
+    let!(:wp_cat2) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         category: category2,
+                         start_date: Date.today + 5.days,
+                         due_date: (Date.today + 10.days)
+    end
+    let!(:wp_none) do
+      FactoryGirl.create :work_package,
+                         project: project
+    end
+
+    let!(:relation) do
+      FactoryGirl.create(:relation,
+                         from: wp_cat1,
+                         to: wp_cat2,
+                         relation_type: Relation::TYPE_FOLLOWS)
+    end
 
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
       query.column_names = ['subject', 'category']
       query.show_hierarchies = false
+      query.timeline_visible = true
 
       query.save!
       query
@@ -142,10 +165,15 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       # Expect table to be grouped as WP created above
       expect(page).to have_selector('.group--value .count', count: 3)
 
+      # Expect timeline to have relation between first and second group
+      wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
+
       # Collapse first section
       find('#wp-table-rowgroup-0').click
-      wp_table.expect_work_package_not_listed(wp_cat1)
-      wp_timeline.expect_hidden_row(wp_cat1)
+      wp_timeline.expect_work_package_not_listed(wp_cat1)
+
+      # Relation should be hidden
+      wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
     end
   end
 end

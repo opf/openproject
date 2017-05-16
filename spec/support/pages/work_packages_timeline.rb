@@ -39,6 +39,30 @@ module Pages
       "#wp-timeline-row-#{wp_id}"
     end
 
+    def timeline_container
+      '.work-packages-tabletimeline--timeline-side'
+    end
+
+    def expect_work_package_listed(*work_packages)
+      super(*work_packages)
+
+      within(table_container) do
+        work_packages.each do |wp|
+          expect(page).to have_selector("#wp-timeline-row-#{wp.id}", visible: true)
+        end
+      end
+    end
+
+    def expect_work_package_not_listed(*work_packages)
+      super(*work_packages)
+
+      within(table_container) do
+        work_packages.each do |wp|
+          expect(page).to have_no_selector("#wp-timeline-row-#{wp.id}", visible: true)
+        end
+      end
+    end
+
     def expect_timeline!(open: true)
       if open
         expect(page).to have_selector('#work-packages-timeline-toggle-button.-active')
@@ -52,6 +76,24 @@ module Pages
     def expect_timeline_element(work_package)
       type = work_package.milestone? ? :milestone : :bar
       expect(page).to have_selector("#{timeline_row_selector(work_package.id)} .timeline-element.#{type}")
+    end
+
+    def expect_timeline_relation(from, to)
+      within(timeline_container) do
+        expect(page).to have_selector(".relation-line.__tl-relation-#{from.id}-#{to.id}", minimum: 1)
+      end
+    end
+
+    def expect_no_timeline_relation(from, to)
+      within(timeline_container) do
+        expect(page).to have_no_selector(".relation-line.__tl-relation-#{from.id}-#{to.id}")
+      end
+    end
+
+    def expect_no_relations
+      within(timeline_container) do
+        expect(page).to have_no_selector(".relation-line")
+      end
     end
 
     def expect_hidden_row(work_package)
