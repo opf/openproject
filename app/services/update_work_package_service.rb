@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -72,6 +73,8 @@ class UpdateWorkPackageService
     work_package.attributes = attributes
 
     unify_dates if work_package_now_milestone?
+
+    reschedule(attributes)
   end
 
   def cleanup(attributes)
@@ -116,6 +119,12 @@ class UpdateWorkPackageService
     end
 
     [true, work_package.errors]
+  end
+
+  def reschedule(attributes)
+    ScheduleWorkPackageService
+      .new(user: user, work_package: work_package)
+      .call(attributes: attributes)
   end
 
   def unify_dates

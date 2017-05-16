@@ -352,13 +352,14 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def soonest_start
-    @soonest_start ||= (
+    @soonest_start ||=
       self_and_ancestors.includes(relations_to: :from)
                         .where(relations: { relation_type: Relation::TYPE_PRECEDES })
                         .map(&:relations_to)
                         .flatten
                         .map(&:successor_soonest_start)
-    ).compact.max
+                        .compact
+                        .max
   end
 
   # Users/groups the work_package can be assigned to
@@ -669,7 +670,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Updates start/due dates of following work packages.
   # If
-  #   * there no start/due dates are set
+  #   * no start/due dates are set
   #     => no scheduling will happen.
   #   * a due date is set and the due date is moved backwards
   #     => following work package is moved backwards as well

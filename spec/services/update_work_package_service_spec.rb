@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,19 +32,19 @@ require 'spec_helper'
 
 describe UpdateWorkPackageService, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:project) {
+  let(:project) do
     p = FactoryGirl.build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     wp = FactoryGirl.build_stubbed(:work_package, project: project)
     wp.type = FactoryGirl.build_stubbed(:type)
     wp.send(:clear_changes_information)
 
     wp
-  }
+  end
   let(:instance) do
     UpdateWorkPackageService.new(user: user,
                                  work_package: work_package)
@@ -169,9 +170,9 @@ describe UpdateWorkPackageService, type: :model do
     end
 
     context 'when switching the project' do
-      let(:target_project) {
+      let(:target_project) do
         FactoryGirl.build_stubbed(:project)
-      }
+      end
       let(:call_attributes) { attributes }
       let(:attributes) { { project: target_project } }
 
@@ -322,6 +323,62 @@ describe UpdateWorkPackageService, type: :model do
           instance.call(attributes: { type: target_type })
 
           expect(work_package.due_date).to eql date
+        end
+      end
+    end
+
+    context 'when setting a parent' do
+      let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+
+      context "with the parent being restricted in it's ability to be moved" do
+        let(:soonest_date) { Date.today + 3.days }
+
+        before do
+          allow(parent)
+            .to receive(:soonest_start)
+            .and_return(soonest_date)
+        end
+
+        it 'sets the start date to the earliest possible date' do
+          instance.call(attributes: { parent: parent })
+
+          expect(work_package.start_date).to eql(Date.today + 3.days)
+        end
+      end
+
+      context 'with the parent being resticted but the attributes define a later date' do
+        let(:soonest_date) { Date.today + 3.days }
+
+        before do
+          allow(parent)
+            .to receive(:soonest_start)
+            .and_return(soonest_date)
+        end
+
+        it 'sets the dates to provided dates' do
+          instance.call(attributes: { parent: parent, start_date: Date.today + 4.days, due_date: Date.today + 5.days })
+
+          expect(work_package.start_date).to eql(Date.today + 4.days)
+          expect(work_package.due_date).to eql(Date.today + 5.days)
+        end
+      end
+
+      context 'with the parent being resticted but the attributes define an earlier date' do
+        let(:soonest_date) { Date.today + 3.days }
+
+        before do
+          allow(parent)
+            .to receive(:soonest_start)
+            .and_return(soonest_date)
+        end
+
+        # This would be invalid but the dates should be set nevertheless
+        # so we can have a correct error handling.
+        it 'sets the dates to provided dates' do
+          instance.call(attributes: { parent: parent, start_date: Date.today + 1.days, due_date: Date.today + 2.days })
+
+          expect(work_package.start_date).to eql(Date.today + 1.days)
+          expect(work_package.due_date).to eql(Date.today + 2.days)
         end
       end
     end

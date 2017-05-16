@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#overdue' do
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          due_date: due_date)
-    }
+    end
 
     shared_examples_for 'overdue' do
       subject { work_package.overdue? }
@@ -73,24 +73,26 @@ describe WorkPackage, type: :model do
 
     context 'status closed' do
       let(:due_date) { 1.day.ago.to_date }
-      let(:status) {
+      let(:status) do
         FactoryGirl.create(:status,
                            is_closed: true)
-      }
+      end
 
-      before do work_package.status = status end
+      before do
+        work_package.status = status
+      end
 
       it_behaves_like 'on time'
     end
   end
 
   describe '#behind_schedule?' do
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          start_date: start_date,
                          due_date: due_date,
                          done_ratio: done_ratio)
-    }
+    end
 
     shared_examples_for 'behind schedule' do
       subject { work_package.behind_schedule? }
@@ -148,18 +150,18 @@ describe WorkPackage, type: :model do
   describe 'rescheduling' do
     let(:work_package1_start) { Date.today }
     let(:work_package1_due) { Date.today + 3 }
-    let(:work_package1) {
+    let(:work_package1) do
       FactoryGirl.create(:work_package,
                          start_date: work_package1_start,
                          due_date: work_package1_due)
-    }
+    end
     let(:work_package2_start) { nil }
     let(:work_package2_due) { nil }
-    let(:work_package2) {
+    let(:work_package2) do
       FactoryGirl.create(:work_package,
                          start_date: work_package2_start,
                          due_date: work_package2_due)
-    }
+    end
 
     shared_examples_for 'scheduled work package' do
       before do
@@ -177,13 +179,13 @@ describe WorkPackage, type: :model do
 
     context 'for preceds/follows relationships' do
       let(:delay) { 0 }
-      let(:follows_relation) {
+      let(:follows_relation) do
         FactoryGirl.create(:relation,
                            relation_type: Relation::TYPE_PRECEDES,
                            from: work_package1,
                            to: work_package2,
                            delay: delay)
-      }
+      end
 
       before do
         follows_relation
@@ -389,17 +391,17 @@ describe WorkPackage, type: :model do
         end
 
         context 'when there is another work package also preceding the wp' do
-          let(:work_package3) {
+          let(:work_package3) do
             FactoryGirl.create(:work_package,
                                start_date: work_package1_start,
                                due_date: work_package1_due)
-          }
-          let(:follows_relation2) {
+          end
+          let(:follows_relation2) do
             FactoryGirl.create(:relation,
                                relation_type: Relation::TYPE_PRECEDES,
                                from: work_package3,
                                to: work_package2)
-          }
+          end
 
           before do
             follows_relation2
@@ -417,10 +419,10 @@ describe WorkPackage, type: :model do
             it_behaves_like 'scheduled work package' do
               # moved backwards as much as possible
               let(:expected_start) { work_package3.due_date + delay + 1 }
-              let(:expected_due) {
+              let(:expected_due) do
                 work_package3.due_date + delay + 1 +
                   (work_package3.due_date - work_package3.start_date)
-              }
+              end
             end
           end
         end
@@ -578,12 +580,12 @@ describe WorkPackage, type: :model do
      Relation::TYPE_DUPLICATES,
      Relation::TYPE_RELATES].each do |relation_type|
       context "for #{relation_type} relationships" do
-        let(:blocks_relation) {
+        let(:blocks_relation) do
           FactoryGirl.create(:relation,
                              relation_type: relation_type,
                              from: work_package1,
                              to: work_package2)
-        }
+        end
 
         context 'upon relationship generation' do
           before do
