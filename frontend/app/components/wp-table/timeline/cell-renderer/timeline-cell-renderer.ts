@@ -340,7 +340,8 @@ export class TimelineCellRenderer {
     }
 
     // Display the parent as clamp-style when it has children in the table
-    if (hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable)) {
+    if (this.workPackageTimeline.inHierarchyMode &&
+        hasChildrenInTable(wp, this.workPackageTimeline.workPackageTable)) {
       bar.style.borderLeft = "2px solid black";
       bar.style.borderRight = "2px solid black";
       bar.style.borderTop = "2px solid black";

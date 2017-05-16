@@ -42,6 +42,7 @@ import {WorkPackageTimelineCell} from "../wp-timeline-cell";
 import IDirective = angular.IDirective;
 import IScope = angular.IScope;
 import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
+import {WorkPackageTableHierarchiesService} from '../../../wp-fast-table/state/wp-table-hierarchy.service.ts';
 
 export class WorkPackageTimelineTableController {
 
@@ -66,7 +67,8 @@ export class WorkPackageTimelineTableController {
               private states:States,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
-              private wpRelations:WorkPackageRelationsService) {
+              private wpRelations:WorkPackageRelationsService,
+              private wpTableHierarchies:WorkPackageTableHierarchiesService) {
 
     "ngInject";
   }
@@ -129,6 +131,10 @@ export class WorkPackageTimelineTableController {
 
   get timelineBody():ng.IAugmentedJQuery {
     return this.$element.find('.wp-table-timeline--body');
+  }
+
+  get inHierarchyMode():boolean {
+    return this.wpTableHierarchies.isEnabled;
   }
 
   refreshView() {
