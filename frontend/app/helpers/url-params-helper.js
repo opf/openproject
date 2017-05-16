@@ -94,7 +94,9 @@ module.exports = function(PaginationService) {
     },
 
     buildV3GetQueryFromJsonParams: function(updateJson) {
-      var queryData = {};
+      var queryData = {
+        pageSize: PaginationService.getPerPage()
+      }
 
       if (!updateJson) {
         return queryData;

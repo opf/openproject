@@ -40,7 +40,7 @@ angular.module('openproject.services')
     '$timeout',
     'PathHelper',
     require('./keyboard-shortcut-service')])
-  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', 'ConfigurationDm', require(
+  .service('PaginationService', ['DEFAULT_PAGINATION_OPTIONS', 'ConfigurationDm', '$window', require(
     './pagination-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])

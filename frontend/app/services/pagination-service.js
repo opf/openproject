@@ -26,11 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm) {
+module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm, $window) {
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
-    perPage: DEFAULT_PAGINATION_OPTIONS.perPage,
-    perPageOptions: DEFAULT_PAGINATION_OPTIONS.perPageOptions,
+    perPage: $window.localStorage.getItem('pagination.perPage'),
+    perPageOptions: [],
     maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
     optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
   };
@@ -55,6 +55,7 @@ module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm) {
       return paginationOptions.optionsTruncationSize;
     },
     setPerPage: function(perPage) {
+      $window.localStorage.setItem('pagination.perPage', perPage);
       paginationOptions.perPage = perPage;
     },
     getPerPageOptions: function() {
