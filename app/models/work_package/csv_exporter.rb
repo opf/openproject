@@ -89,8 +89,7 @@ module WorkPackage::CsvExporter
 
   def csv_format_value(work_package, column)
     if column.is_a?(QueryCustomFieldColumn)
-      cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
-      show_value(cv)
+      csv_format_custom_value(work_package, column)
     else
       value = work_package.send(column.name)
 
@@ -103,5 +102,15 @@ module WorkPackage::CsvExporter
         value
       end
     end.to_s
+  end
+
+  def csv_format_custom_value(work_package, column)
+    cv = work_package
+         .custom_values
+         .select { |v| v.custom_field_id == column.custom_field.id }
+
+    cv
+      .map { |v| show_value(v) }
+      .join('; ')
   end
 end
