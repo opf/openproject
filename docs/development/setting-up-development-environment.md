@@ -184,7 +184,7 @@ Password: admin
 ## Start Coding
 
 Please have a look at [our development guidelines](https://www.openproject.org/open-source/code-contributions/) for tips and guides on how to start coding. We have advice on how to get your changes back into the OpenProject core as smooth as possible.
-Also, take a look at the `doc` directory in our sources, especially the [how to run tests](https://github.com/opf/openproject/blob/dev/doc/RUNNING_TESTS.md) documentation (we like to have automated tests for every new developed feature).
+Also, take a look at the `doc` directory in our sources, especially the [how to run tests](https://github.com/opf/openproject/blob/dev/docs/development/running_tests.md) documentation (we like to have automated tests for every new developed feature).
 
 ## Troubleshooting
 
