@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, PaginationService, PathHelper) {
+module.exports = function(PaginationService) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
