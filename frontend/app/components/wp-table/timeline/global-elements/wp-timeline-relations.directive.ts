@@ -244,7 +244,7 @@ export class WorkPackageTableTimelineRelations {
     // Draw end corner to the target
     if (directionX === 1) {
       if (directionY === 1) {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 19));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
       } else {
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, 1, 22));
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
