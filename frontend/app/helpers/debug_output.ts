@@ -13,5 +13,5 @@ export function whenDebugging(cb:Function) {
  * through webpack.
  */
 export function debugLog(...args:any[]) {
-  whenDebugging(() => console.log('[DEBUG] ', args));
+  whenDebugging(() => console.log('[DEBUG] ', args.join('-- ')));
 }

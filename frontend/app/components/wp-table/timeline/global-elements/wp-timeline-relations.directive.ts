@@ -112,12 +112,14 @@ export class WorkPackageTableTimelineRelations {
       .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
       .map(([timelineState, result]) => result.renderedOrder)
       .subscribe((orderedRows) => {
+        // remove all elements. They are refreshed either after initial loading
+        this.removeAllVisibleElements();
         this.workPackageIdOrder = orderedRows;
-        this.getRequiredRelations();
+        this.refreshRelationsWhenNeeded();
       });
   }
 
-  private getRequiredRelations():void {
+  private refreshRelationsWhenNeeded():void {
     const requiredForRelations:string[] = [];
 
     _.each(this.workPackageIdOrder, (el:RenderedRow) => {
@@ -128,7 +130,7 @@ export class WorkPackageTableTimelineRelations {
 
     if (_.isEqual(requiredForRelations, this.relationsRequestedFor)) {
       debugLog('WP order unchanged, not requesting new relations, only updating them.');
-      this.update(this.wpTimeline.viewParameters);
+      this.renderElements(this.wpTimeline.viewParameters);
       return;
     }
 

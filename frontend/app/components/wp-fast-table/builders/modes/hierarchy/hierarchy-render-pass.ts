@@ -214,11 +214,19 @@ export class HierarchyRenderPass extends TableRenderPass {
     const hierarchyGroup = `.__hierarchy-group-${parentId}`;
 
     // Insert into table
-    jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(el);
+    const target = jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last()
+    target.after(el);
+
+    // Mark as rendered at the given position
+    const index = target.index();
+    this.renderedOrder.splice(index + 1, 0, {
+      workPackageId: workPackage.id.toString(),
+      classIdentifier: rowClass(workPackage.id),
+      hidden: hidden
+    });
+
     // Insert into timeline
     const timelineRow = this.buildTimelineRow(workPackage);
     jQuery(this.timelineBody).find(`${hierarchyRoot},${hierarchyGroup}`).last().after(timelineRow);
-
-    this.markRendered(workPackage, hidden);
   }
 }
