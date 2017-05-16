@@ -23,7 +23,7 @@ You can set this `DATABASE_URL` parameter yourself to either a MySQL or PostgreS
 
 **Then, when configuring the addon, select skip in the MySQL installation wizard.** The database specified using the URL will be used by Rails automatically for preparing the database.
 
-You can use these ENV parameters to customize OpenProject. See [OpenProject Configuration](https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md).
+You can use these ENV parameters to customize OpenProject. See [OpenProject configuration](https://www.openproject.org/operations/configuration).
 
 ### Package configuration
 
