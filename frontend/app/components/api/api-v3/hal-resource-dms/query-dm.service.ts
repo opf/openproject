@@ -35,8 +35,8 @@ import {HalRequestService} from '../hal-request/hal-request.service';
 import {PayloadDmService} from './payload-dm.service';
 
 export interface PaginationObject {
-  pageSize:number,
-  offset:number
+  pageSize:number;
+  offset:number;
 }
 
 export class QueryDmService {
@@ -75,12 +75,12 @@ export class QueryDmService {
 
   public loadResults(query:QueryResource, pagination:PaginationObject):ng.IPromise<WorkPackageCollectionResource> {
     if (!query.results) {
-      throw "No results embedded when expected";
+      throw 'No results embedded when expected';
     }
 
     var queryData = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
 
-    var url = URI(query.results.href!).path()
+    var url = URI(query.results.href!).path();
 
     return this.halRequest.get(url, queryData, {caching: {enabled: false} });
   }
@@ -135,7 +135,7 @@ export class QueryDmService {
                                caching);
   }
 
-  private extractPayload(query: QueryResource, form:FormResource) {
+  private extractPayload(query:QueryResource, form:FormResource) {
     // Extracting requires having the filter schemas loaded as the dependencies
     // need to be present. This should be handled within the cached information however, so it is fast.
     return this.$q.all(_.map(query.filters, filter => filter.schema.$load())).then(() => {
