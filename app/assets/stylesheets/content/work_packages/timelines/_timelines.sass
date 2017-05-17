@@ -43,7 +43,11 @@
 
 // Ensure the height of table and timeline rows
 .wp-timeline-cell
-  height: 41px
+  height: $table-timeline--row-height
+
+  &:first-child
+    // The first table child is 1px larger
+    height: #{$table-timeline--row-height} + 1px
 
 .wp-timeline-cell
   // Vertically center elements
