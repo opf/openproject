@@ -316,4 +316,35 @@ function WorkPackagesTableController($scope, $rootScope, I18n) {
       return name;
     }
   }
+  $scope.getWorkPackageState = function(date, statusLink, columnName) {
+    if (columnName === "status") {
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var d = new Date(date); 
+        d.setHours(0, 0, 0, 0);
+        var dangerStatuses: number[] = [1, 7, 15];
+        var warningStatuses: number[] = [13];
+
+        var pieces = statusLink.split(/[\/]+/);
+        var id = (pieces[pieces.length-1])*1;
+        var dangerColor = "red";
+        var warningColor = "yellow";
+
+        if ((d.getYear() == today.getYear()) &&
+           (d.getMonth() == today.getMonth()) &&
+           (d.getDay() == today.getDay()) {
+            dangerColor = "yellow";
+            warningColor = "";
+        }
+        if(d < today){
+            if (dangerStatuses.indexOf(id) > -1) {
+                return dangerColor;
+            } else if (warningStatuses.indexOf(id) > -1) {
+                return warningColor;
+            }
+        }
+        return "";
+    }
+    return "";
+  }
 }

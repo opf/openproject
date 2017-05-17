@@ -156,6 +156,7 @@
           </td>
 
           <td ng-repeat="column in columns"
+              bgcolor="{{getWorkPackageState(row.object.dueDate, row.object.status.href, column.name)}}"
               lang="::{{column.custom_field && column.custom_field.name_locale || locale}}"
               wp-edit-field="::getTableColumnName(row.object, column.name)"
               wp-edit-field-wrapper-classes="'-small -shrink'"

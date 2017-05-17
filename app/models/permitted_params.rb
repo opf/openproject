@@ -285,6 +285,7 @@ class PermittedParams
                                                 :responsible_id,
                                                 :identifier,
                                                 :project_type_id,
+                                                :state,
                                                 custom_fields: [],
                                                 work_package_custom_field_ids: [],
                                                 type_ids: [],

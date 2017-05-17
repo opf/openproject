@@ -59,7 +59,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @projects.any? %>
   <% if User.current.logged? %>
     <p style="float:right;">
-      <span class="icon icon-star"><%= l(:label_my_projects) %></span>
+      <span>Projekto bûsena:</span><br/>
+      <%=  content_tag(:span, image_tag("project_stars/blue_star.png", size: "20x20") + "planuojamas") %><br/>
+      <%=  content_tag(:span, image_tag("project_stars/yellow_star.png", size: "20x20") + "vykdomas") %><br/>
+      <%=  content_tag(:span, image_tag("project_stars/green_star.png", size: "20x20") + "ágyvendintas") %><br/>
+      <%=  content_tag(:span, image_tag("project_stars/purple_star.png", size: "20x20") + "problematiðkas") %>
     </p>
   <% end %>
 

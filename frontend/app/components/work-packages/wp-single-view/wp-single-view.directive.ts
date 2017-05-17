@@ -84,6 +84,13 @@ export class WorkPackageSingleViewController {
     return this.singleViewWp.shouldHideGroup(this.hideEmptyFields, this.groupedFields, group);
   }
 
+  public shouldHideGroupRow(group) {
+    if (group == 'estimatesAndTime') {
+      return true;
+    }
+    return false;
+  }
+
   public shouldHideField(field) {
     let hideEmpty = this.hideEmptyFields;
 
@@ -93,6 +100,10 @@ export class WorkPackageSingleViewController {
 
     return this.singleViewWp.shouldHideField(field, hideEmpty);
   };
+
+  public shouldHideRow(field) {
+    return field == 'version' || field == 'category';
+  }
 
   public setFocus() {
     if (!this.firstTimeFocused) {

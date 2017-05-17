@@ -113,11 +113,28 @@ module OpenProject
     #
     def link_to_project(project, options = {}, html_options = nil, show_icon = false)
       link = ''
-      project_link_name = project.name
-
-      if show_icon && User.current.member_of?(project)
-        project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
+      project_link_name = ''
+      icon_name = case project.state
+      when 0
+        "blue_star.png"
+      when 1
+        "yellow_star.png"
+      when 2
+        "green_star.png"
+      when 3
+        "purple_star.png"
+      else
+        "blue_star.png"
       end
+      if show_icon
+        project_link_name = content_tag(:span, image_tag("project_stars/" + icon_name, size: "20x20"))
+        project_link_name += content_tag(:span, I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe, class: 'hidden-for-sighted')
+      end
+      project_link_name += project.name
+
+#      if show_icon && User.current.member_of?(project)
+#        project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
+#      end
 
       if project.active?
         # backwards compatibility

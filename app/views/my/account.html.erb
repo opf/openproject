@@ -52,8 +52,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
     <div class="form--field"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
 
+    <% if User.current.admin %>
     <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
       <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
+    <% end %>
     <% end %>
 
     <%= call_hook(:view_my_account, user: @user, form: f) %>
