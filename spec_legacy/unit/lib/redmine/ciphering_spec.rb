@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../../../legacy_spec_helper'
 
 describe Redmine::Ciphering do
   it 'should password should be encrypted' do
@@ -55,7 +56,7 @@ describe Redmine::Ciphering do
 
   it 'should unciphered password should be readable' do
     OpenProject::Configuration.with 'database_cipher_key' => nil do
-      r = FactoryGirl.create(:repository_subversion, password: 'clear')
+      FactoryGirl.create(:repository_subversion, password: 'clear')
     end
 
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,7 +39,7 @@ module Redmine
         if cipher_key.blank?
           text
         else
-          c = OpenSSL::Cipher::Cipher.new('aes-256-cbc')
+          c = OpenSSL::Cipher.new('aes-256-cbc')
           iv = c.random_iv
           c.encrypt
           c.key = cipher_key
@@ -52,7 +53,7 @@ module Redmine
       def decrypt_text(text)
         if text && match = text.match(/\Aaes-256-cbc:(.+)\Z/)
           text = match[1]
-          c = OpenSSL::Cipher::Cipher.new('aes-256-cbc')
+          c = OpenSSL::Cipher.new('aes-256-cbc')
           e, iv = text.split('--').map { |s| Base64.decode64(s) }
           c.decrypt
           c.key = cipher_key
@@ -66,30 +67,35 @@ module Redmine
 
       def cipher_key
         key = OpenProject::Configuration['database_cipher_key'].to_s
-        key.blank? ? nil : Digest::SHA256.hexdigest(key)
+        # With aes-256-cbc chosen to be the cipher,
+        # keys need to be 32 bytes long. Ruby < 2.4 used to silently truncate the
+        # key to the desired length but with
+        # https://github.com/ruby/ruby/commit/ce635262f53b760284d56bb1027baebaaec175d1
+        # we have to truncate it ourselves.
+        key.blank? ? nil : Digest::SHA256.hexdigest(key)[0, 32]
       end
     end
 
     module ClassMethods
       def encrypt_all(attribute)
-        transaction do
+        !!transaction do
           all.each do |object|
             clear = object.send(attribute)
             object.send "#{attribute}=", clear
             raise(ActiveRecord::Rollback) unless object.save(validate: false)
           end
-        end ? true : false
+        end
       end
 
       def decrypt_all(attribute)
-        transaction do
+        !!transaction do
           all.each do |object|
             clear = object.send(attribute)
             object[attribute] = clear
             raise(ActiveRecord::Rollback) unless object.save(validate: false)
           end
         end
-      end ? true : false
+      end
     end
 
     private
