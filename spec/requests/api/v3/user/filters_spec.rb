@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -62,29 +63,29 @@ describe 'GET /api/v3/users', type: :request do
 
   describe 'status filter' do
     it '=' do
-      expect(filter_users("status", "=", :active)).to eq ["admin", "h.wurst", "m.mario"]
+      expect(filter_users("status", "=", :active)).to match_array ["admin", "h.wurst", "m.mario"]
     end
 
     it '!' do
-      expect(filter_users("status", "!", :active)).to eq ["h.heine"]
+      expect(filter_users("status", "!", :active)).to match_array ["h.heine"]
     end
   end
 
   describe 'login filter' do
     it '=' do
-      expect(filter_users("login", "=", "admin")).to eq ["admin"]
+      expect(filter_users("login", "=", "admin")).to match_array ["admin"]
     end
 
     it '!' do
-      expect(filter_users("login", "!", "admin")).to eq ["h.wurst", "h.heine", "m.mario"]
+      expect(filter_users("login", "!", "admin")).to match_array ["h.wurst", "h.heine", "m.mario"]
     end
 
     it '~' do
-      expect(filter_users("login", "~", "h.")).to eq ["h.wurst", "h.heine"]
+      expect(filter_users("login", "~", "h.")).to match_array ["h.wurst", "h.heine"]
     end
 
     it '!~' do
-      expect(filter_users("login", "!~", "h.")).to eq ["admin", "m.mario"]
+      expect(filter_users("login", "!~", "h.")).to match_array ["admin", "m.mario"]
     end
   end
 end
