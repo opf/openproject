@@ -138,7 +138,7 @@ module Type::AttributeGroups
     active_form = get_active_groups(available, inactive)
     inactive_form = inactive
                     .map { |key, attribute| attr_form_map(key, attribute) }
-                    .sort_by { |_key, _attribute, translation| translation }
+                    .sort_by { |attr| attr[:translation] }
 
     {
       actives: active_form,

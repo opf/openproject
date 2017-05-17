@@ -67,11 +67,11 @@ describe ::Type, type: :model do
       expect(subject.detect { |g| g.class != Array }).to be_falsey
     end
 
-    it "each attribute group's 1st element is a String (the group name)" do
-      expect(subject.detect { |g| g.first.class != String }).to be_falsey
+    it "each attribute group's 1st element is a String (the group name) or symbol (for i18n)" do
+      expect(subject.detect { |g| g.first.class != String && g.first.class != Symbol }).to be_falsey
     end
 
-    it "each attribute group's 2nd element is a String (the group members)" do
+    it "each attribute group's 2nd element is an Array (the group members)" do
       expect(subject.detect { |g| g.second.class != Array }).to be_falsey
     end
 
@@ -135,7 +135,7 @@ describe ::Type, type: :model do
 
       it 'contains Hashes ordered by key :translation' do
         # The first left over attribute should currently be "date"
-        expect(subject.first[:key]).to eq "date"
+        expect(subject.first[:key]).to eq "category"
         expect(subject.first[:translation]).to be_present
         expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
       end
