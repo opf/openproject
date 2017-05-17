@@ -50,15 +50,15 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):HTMLElement {
+  public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
-    const row = this.buildEmpty(workPackage);
+    const [row, hidden] = this.buildEmpty(workPackage);
 
     // Set editing context to table
     form.editContext = new TableRowEditContext(workPackage.id);
     this.states.editing.get(workPackage.id).putValue(form);
 
-    return row;
+    return [row, hidden];
   }
 
   /**

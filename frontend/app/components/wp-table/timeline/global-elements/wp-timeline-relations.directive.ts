@@ -40,13 +40,15 @@ import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-tim
 import {Observable} from 'rxjs';
 import * as moment from 'moment';
 import Moment = moment.Moment;
+import {RenderedRow} from '../../../wp-fast-table/builders/modes/table-render-pass';
+import {debugLog} from '../../../../helpers/debug_output';
 
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
 function newSegment(vp:TimelineViewParameters,
                     classNames:string[],
-                    color:string,
+                    Yposition:number,
                     top:number,
                     left:number,
                     width:number,
@@ -60,7 +62,7 @@ function newSegment(vp:TimelineViewParameters,
   );
 
   // segment.style.backgroundColor = color;
-  segment.style.top = top + 'px';
+  segment.style.top = ((Yposition * 41) + top) + 'px';
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';
   segment.style.height = height + 'px';
@@ -71,9 +73,10 @@ export class WorkPackageTableTimelineRelations {
 
   public wpTimeline:WorkPackageTimelineTableController;
 
-  private container:ng.IAugmentedJQuery;
+  private container:JQuery;
 
-  private workPackageIdOrder:(string|null)[] = [];
+  private workPackageIdOrder:RenderedRow[] = [];
+  private relationsRequestedFor:string[] = [];
 
   private elements:TimelineRelationElement[] = [];
 
@@ -108,11 +111,31 @@ export class WorkPackageTableTimelineRelations {
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
       .map(([timelineState, result]) => result.renderedOrder)
-      .distinctUntilChanged()
       .subscribe((orderedRows) => {
+        // remove all elements. They are refreshed either after initial loading
+        this.removeAllVisibleElements();
         this.workPackageIdOrder = orderedRows;
-        this.wpRelations.requireInvolved(_.compact(orderedRows) as string[]);
+        this.refreshRelationsWhenNeeded();
       });
+  }
+
+  private refreshRelationsWhenNeeded():void {
+    const requiredForRelations:string[] = [];
+
+    _.each(this.workPackageIdOrder, (el:RenderedRow) => {
+      if (el.workPackageId) {
+        requiredForRelations.push(el.workPackageId);
+      }
+    });
+
+    if (_.isEqual(requiredForRelations, this.relationsRequestedFor)) {
+      debugLog('WP order unchanged, not requesting new relations, only updating them.');
+      this.renderElements(this.wpTimeline.viewParameters);
+      return;
+    }
+
+    this.relationsRequestedFor = requiredForRelations;
+    this.wpRelations.requireInvolved(requiredForRelations);
   }
 
   /**
@@ -143,7 +166,7 @@ export class WorkPackageTableTimelineRelations {
   private refreshRelations(workPackageId:string, relations:Object) {
     // Remove all previous relations for the work package
     const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
-    jQuery(`.${prefix}`).remove();
+    this.container.find(`.${prefix}`).remove();
     _.remove(this.elements, (element) => element.belongsToId === workPackageId);
 
     _.each(relations, (relation:RelationResource) => {
@@ -160,7 +183,7 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private removeAllVisibleElements() {
-    jQuery('.' + timelineGlobalElementCssClassname).remove();
+    this.container.find('.' + timelineGlobalElementCssClassname).remove();
   }
 
   private renderElements(vp:TimelineViewParameters) {
@@ -171,16 +194,25 @@ export class WorkPackageTableTimelineRelations {
 
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
-    const idxFrom = this.workPackageIdOrder.indexOf(involved.from);
-    const idxTo = this.workPackageIdOrder.indexOf(involved.to);
+
+    // Get the rendered rows
+    const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
+    const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
 
     const startCell = this.wpTimeline.cells[involved.from];
     const endCell = this.wpTimeline.cells[involved.to];
 
+    // If targets do not exist anywhere in the table, skip
     if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
       return;
     }
 
+    // If any of the targets are hidden in the table, skip
+    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
+      return;
+    }
+
+    // Skip if relations cannot be drawn between these cells
     if (!startCell.canConnectRelations() || !endCell.canConnectRelations()) {
       return;
     }
@@ -195,50 +227,39 @@ export class WorkPackageTableTimelineRelations {
       return;
     }
 
+    // Draw the first line next to the bar/milestone element
     const startLength = 13;
-    startCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 19, lastX, startLength, 1));
+    const height = Math.abs(idxTo - idxFrom);
+    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, startLength, 1));
     lastX += startLength;
 
     if (directionY === 1) {
-      startCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'red', 19, lastX, 1, 22));
+      // Draw a line down from from idxFrom to idxTo
+      this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41));
     } else {
-      startCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'red', -1, lastX, 1, 21));
+      // Draw a line from target row down to idxFrom
+      this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, height * 41));
     }
 
-    // vert segment
-    for (let index = idxFrom + directionY; index !== idxTo; index += directionY) {
-      const id = this.workPackageIdOrder[index];
-      if (!id) {
-        continue;
-      }
-
-      const cell = this.wpTimeline.cells[id];
-      if (_.isNil(cell)) {
-        continue;
-      }
-      cell.timelineCell.appendChild(newSegment(vp, e.classNames, 'blue', 0, lastX, 1, 42));
-    }
-
-    // end
+    // Draw end corner to the target
     if (directionX === 1) {
       if (directionY === 1) {
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 0, lastX, 1, 19));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'blue', 19, lastX, targetX - lastX, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
       } else {
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 19, lastX, 1, 22));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'blue', 19, lastX, targetX - lastX, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, 1, 22));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
       }
     } else {
       if (directionY === 1) {
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 0, lastX, 1, 8));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'blue', 8, targetX - 10, lastX - targetX + 11, 1));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 8, targetX - 10, 1, 11));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'red', 19, targetX - 10, 10, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX - 10, lastX - targetX + 11, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX - 10, 1, 11));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 10, 1));
       } else {
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 32, lastX, 1, 8));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'blue', 32, targetX - 10, lastX - targetX + 11, 1));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'green', 19, targetX - 10, 1, 13));
-        endCell.timelineCell.appendChild(newSegment(vp, e.classNames, 'red', 19, targetX - 10, 10, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 32, lastX, 1, 8));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 32, targetX - 10, lastX - targetX + 11, 1));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 1, 13));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 10, 1));
       }
     }
   }

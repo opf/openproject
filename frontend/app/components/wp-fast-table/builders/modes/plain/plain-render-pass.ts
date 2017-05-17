@@ -17,7 +17,7 @@ export class PlainRenderPass extends TableRenderPass {
   protected doRender():void {
     this.workPackageTable.rows.forEach((wpId:string) => {
       let row = this.workPackageTable.rowIndex[wpId];
-      let tr = this.rowBuilder.buildEmpty(row.object);
+      let [tr, _hidden] = this.rowBuilder.buildEmpty(row.object);
       row.element = tr;
       this.appendRow(row.object, tr);
       this.tableBody.appendChild(tr);
