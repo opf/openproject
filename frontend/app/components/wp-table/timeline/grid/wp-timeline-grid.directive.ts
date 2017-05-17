@@ -87,25 +87,37 @@ export class WorkPackageTableTimelineGrid {
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "day", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = "5px";
+    });
+
+    this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 
   private renderLabelsMonths(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = "5px";
+    });
+
+    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 
   private renderLabelsQuarters(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = "5px";
+    });
+
+    this.renderTimeSlices(vp, "quarter", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 
   private renderLabelsYears(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = "5px";
+    });
+
+    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 

@@ -133,7 +133,7 @@ export class WorkPackageTimelineHeaderController {
     this.renderTimeSlices(vp, "month", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
       cell.classList.add('-top-border');
-      cell.style.height = '32px';
+      cell.style.height = '30px';
     });
 
     this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -151,7 +151,7 @@ export class WorkPackageTimelineHeaderController {
     this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.classList.add('-top-border');
-      cell.style.height = '32px';
+      cell.style.height = '30px';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -170,7 +170,7 @@ export class WorkPackageTimelineHeaderController {
     this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.classList.add('-top-border');
-      cell.style.height = '32px';
+      cell.style.height = '30px';
     });
 
     this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
