@@ -41,12 +41,14 @@ import {openprojectModule} from '../../../angular-modules';
 import {SpentTimeDisplayField} from '../field-types/wp-display-spent-time-field.module';
 import {IntegerDisplayField} from "../field-types/wp-display-integer-field.module";
 import {WorkPackageDisplayField} from "../field-types/wp-display-work-package-field.module";
+import {FloatDisplayField} from '../field-types/wp-display-float-field.module';
 
 openprojectModule
   .run((wpDisplayField:WorkPackageDisplayFieldService) => {
     wpDisplayField.defaultType = 'text';
     wpDisplayField
       .addFieldType(TextDisplayField, 'text', ['String'])
+      .addFieldType(FloatDisplayField, 'float', ['Float'])
       .addFieldType(IntegerDisplayField, 'integer', ['Integer'])
       .addFieldType(ResourceDisplayField, 'resource', ['User',
                                                        'Project',
