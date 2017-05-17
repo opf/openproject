@@ -113,22 +113,28 @@ export class QueryDmService {
   }
 
   public all(projectIdentifier?:string):ng.IPromise<CollectionResource> {
-    let urlQuery = {};
+    let filters = [];
 
     if (projectIdentifier) {
-      urlQuery = {
-                   filters: JSON.stringify([{
+      // all queries with the provided projectIdentifier
+      filters.push({
                      project_identifier: {
                        operator: '=',
-                       values: [projectIdentifier],
+                       values: [projectIdentifier]
                      }
-                   }]),
-                 };
+                   });
+    } else {
+      // all queries having no project (i.e. being global)
+      filters.push({
+                     project: {
+                       operator: '!*',
+                       values: []
+                     }
+                   });
     }
 
-    let caching = {
-                    caching: {enabled: false}
-                  };
+    let urlQuery = { filters: JSON.stringify(filters) };
+    let caching = { caching: {enabled: false} };
 
     return this.halRequest.get(this.v3Path.queries(),
                                urlQuery,
