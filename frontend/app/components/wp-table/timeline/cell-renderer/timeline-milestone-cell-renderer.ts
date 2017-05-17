@@ -20,10 +20,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return 'milestone';
   }
 
-  public get fallbackColor(): string {
-    return '#C0392B';
-  }
-
   public isEmpty(wp: WorkPackageResourceInterface) {
     const date = moment(wp.date as any);
     const noDateValue = _.isNaN(date.valueOf());

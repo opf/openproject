@@ -33,7 +33,7 @@ export class TimelineCellRenderer {
   }
 
   public get fallbackColor(): string {
-    return "#8CD1E8";
+    return "rgba(50, 50, 50, 0.1)";
   }
 
   public isEmpty(wp: WorkPackageResourceInterface) {
