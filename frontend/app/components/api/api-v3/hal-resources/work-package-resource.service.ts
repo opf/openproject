@@ -103,6 +103,7 @@ var schemaCacheService: SchemaCacheService;
 var NotificationsService: any;
 var wpNotificationsService: any;
 var AttachmentCollectionResource:any;
+var v3Path:any;
 
 export class WorkPackageResource extends HalResource {
   // Add index signature for getter this[attr]
@@ -584,7 +585,15 @@ export class WorkPackageResource extends HalResource {
       return apiWorkPackages.createWorkPackage(payload);
     };
 
-    this.parentId = this.parentId || $stateParams.parent_id;
+    if (this.parent) {
+      this.$source._links['parent'] = {
+        href: this.parent.href
+      };
+    } else if ($stateParams.parent_id) {
+      this.$source._links['parent'] = {
+        href: v3Path.wp({ wp: $stateParams.parent_id })
+      };
+    }
   }
 
   /**
@@ -635,7 +644,8 @@ function wpResource(...args:any[]) {
     schemaCacheService,
     NotificationsService,
     wpNotificationsService,
-    AttachmentCollectionResource] = args;
+    AttachmentCollectionResource,
+    v3Path] = args;
   return WorkPackageResource;
 }
 
@@ -650,7 +660,8 @@ wpResource.$inject = [
   'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',
-  'AttachmentCollectionResource'
+  'AttachmentCollectionResource',
+  'v3Path'
 ];
 
 opApiModule.factory('WorkPackageResource', wpResource);
