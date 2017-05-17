@@ -45,6 +45,22 @@ describe Watcher, type: :model do
   let(:other_project) { FactoryGirl.create(:project) }
   let(:other_user) { FactoryGirl.create(:user, admin: true) }
 
+  describe '#valid' do
+    it 'is valid for an active user' do
+      expect(watcher).to be_valid
+    end
+
+    it 'is valid for an invited user' do
+      user.status = Principal::STATUSES[:invited]
+      expect(watcher).to be_valid
+    end
+
+    it 'is valid for a registered user' do
+      user.status = Principal::STATUSES[:registered]
+      expect(watcher).to be_valid
+    end
+  end
+
   describe '.prune' do
     shared_examples_for 'a pruned watchable' do
       before do
