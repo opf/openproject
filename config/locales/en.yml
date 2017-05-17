@@ -1968,6 +1968,9 @@ en:
   text_comma_separated: "Multiple values allowed (comma separated)."
   text_comment_wiki_page: "Comment to wiki page: %{page}"
   text_custom_field_possible_values_info: "One line for each value"
+  text_custom_field_hint_activate_per_project: >
+    When using custom fields: Keep in mind that custom fields need to be
+    activated per project, too.
   text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 110px."
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
