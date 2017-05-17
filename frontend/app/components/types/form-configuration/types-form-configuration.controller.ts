@@ -124,7 +124,7 @@ function typesFormConfigurationCtrl(
   $scope.updateHiddenFields = ():void => {
     let groups:HTMLElement[] = angular.element('.type-form-conf-group').not('#type-form-conf-group-template').toArray();
     let seenGroupNames:{[name:string]:boolean} = {};
-    let newAttrGroups:Array<Array<(string | Array<string>)>> = [];
+    let newAttrGroups:Array<Array<(string | Array<string> | boolean)>> = [];
     let newAttrVisibility:any = {};
     let inputAttributeGroups:JQuery;
     let inputAttributeVisibility:JQuery;
@@ -136,6 +136,7 @@ function typesFormConfigurationCtrl(
     // with the active groups.
     groups.forEach((group:HTMLElement) => {
       let groupKey:string = angular.element(group).attr('data-key');
+      let keyIsSymbol:boolean = JSON.parse(angular.element(group).attr('data-key-is-symbol'));
       let attributes:HTMLElement[] = angular.element('.type-form-conf-attribute', group).toArray();
       let attrKeys:string[] = [];
 
@@ -167,7 +168,7 @@ function typesFormConfigurationCtrl(
         }
       });
 
-      newAttrGroups.push([groupKey, attrKeys]);
+      newAttrGroups.push([groupKey, attrKeys, keyIsSymbol]);
     });
 
 
@@ -187,7 +188,7 @@ function typesFormConfigurationCtrl(
   };
 
   $scope.groupNameChange = function(key:string, newValue:string):void {
-    angular.element(`.type-form-conf-group[data-original-key="${key}"]`).attr('data-key', newValue);
+    angular.element(`.type-form-conf-group[data-original-key="${key}"]`).attr('data-key', newValue).attr('data-key-is-symbol', "false");
     $scope.updateHiddenFields();
   };
 
