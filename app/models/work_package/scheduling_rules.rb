@@ -42,7 +42,7 @@ module WorkPackage::SchedulingRules
       # HACK: On some more deeply nested settings (not sure what causes it)
       # the work package can already have been updated by one of the other after_save hooks.
       # To prevent a stale object error, we reload the lock preemptively.
-      reload_lock_and_timestamps
+      set_current_lock_version
 
       current_buffer = soonest_start - start_date
 
@@ -69,6 +69,12 @@ module WorkPackage::SchedulingRules
     return if date.nil?
     if leaf?
       if start_date.nil? || start_date < date
+
+        # HACK: On some more deeply nested settings (not sure what causes it)
+        # the work package can already have been updated by one of the other after_save hooks.
+        # To prevent a stale object error, we reload the lock preemptively.
+        set_current_lock_version
+
         # order is important here as the calculation for duration factors in start and due date
         self.due_date = date + duration - 1
         self.start_date = date
@@ -97,5 +103,11 @@ module WorkPackage::SchedulingRules
     else
       1
     end
+  end
+
+  def set_current_lock_version
+    # Refrain from using reload(select: :lock_version) as this would cause unperisted attribute
+    # information to be lost.
+    self.lock_version = WorkPackage.where(id: id).pluck(:lock_version).first || 0
   end
 end
