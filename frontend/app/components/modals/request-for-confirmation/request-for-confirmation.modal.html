@@ -1,11 +1,11 @@
 <div class="request-for-confirmation--modal">
-  <div class="onboarding--start-modal">
-    <div class="onboarding--top-menu">
+  <div>
+    <div class="modal--header">
       <span class="icon-context icon-locked"></span>
       <h2 ng-bind="::text.title_confirmation"></h2>
     </div>
 
-    <div class="onboarding--main">
+    <div class="modal--main">
       <form class="request-for-confirmation--form form -vertical" ng-submit="closeThisDialog()">
         <div class="form--field -required">
           <label class="form--label"
@@ -23,7 +23,7 @@
       </form>
     </div>
 
-    <div class="onboarding--footer">
+    <div class="modal--footer">
       <button class="request-for-confirmation--submit-button button -highlight"
               ng-click="closeThisDialog()"
               ng-bind="::text.confirm_button"
