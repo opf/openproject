@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ module WorkPackage::CsvExporter
   include ActionView::Helpers::NumberHelper
 
   def csv(work_packages, query)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       headers = csv_headers(query)
       csv << encode_csv_columns(headers)
 
@@ -42,7 +43,7 @@ module WorkPackage::CsvExporter
         row = csv_row(work_package, query)
         csv << encode_csv_columns(row)
       end
-    }
+    end
 
     export
   end
@@ -70,17 +71,17 @@ module WorkPackage::CsvExporter
 
   # fetch all row values
   def csv_row(work_package, query)
-    row = query.columns.collect { |column|
+    row = query.columns.collect do |column|
       csv_format_value(work_package, column)
-    }
+    end
 
-    if row.size > 0
+    if !row.empty?
 
-      if work_package.description
-        row << work_package.description.gsub(/\r/, '').gsub(/\n/, ' ')
-      else
-        row << ''
-      end
+      row << if work_package.description
+               work_package.description.squish
+             else
+               ''
+             end
     end
 
     row
@@ -88,8 +89,7 @@ module WorkPackage::CsvExporter
 
   def csv_format_value(work_package, column)
     if column.is_a?(QueryCustomFieldColumn)
-      cv = work_package.custom_values.detect { |v| v.custom_field_id == column.custom_field.id }
-      show_value(cv)
+      csv_format_custom_value(work_package, column)
     else
       value = work_package.send(column.name)
 
@@ -102,5 +102,15 @@ module WorkPackage::CsvExporter
         value
       end
     end.to_s
+  end
+
+  def csv_format_custom_value(work_package, column)
+    cv = work_package
+         .custom_values
+         .select { |v| v.custom_field_id == column.custom_field.id }
+
+    cv
+      .map { |v| show_value(v) }
+      .join('; ')
   end
 end
