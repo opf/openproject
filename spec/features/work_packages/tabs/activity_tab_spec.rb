@@ -128,7 +128,8 @@ describe 'Activity tab', js: true, selenium: true do
         page.find('#activity-1 .work-package-details-activities-activity-contents').hover
 
         # Quote this comment
-        page.find('#activity-1 .comments-icons .icon-quote', visible: false).click
+        expect(page).to have_selector('#activity-1 .comments-icons .icon-quote', visible: true)
+        page.find('#activity-1 .comments-icons .icon-quote').click
 
         field = WorkPackageTextAreaField.new work_package_page,
                                              'comment',
