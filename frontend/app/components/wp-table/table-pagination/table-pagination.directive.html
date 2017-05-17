@@ -1,4 +1,4 @@
-<div class="pagination" ng-if="pageNumbers.length">
+<div class="pagination" ng-if="totalEntries">
   <nav class="pagination--pages">
     <ul class="pagination--items">
 
@@ -70,11 +70,11 @@
     </ul>
   </nav>
 
-  <div class="pagination--options" ng-if="totalEntries > paginationOptions.perPageOptions[0]">
+  <div class="pagination--options" ng-if="totalEntries > perPageOptions[0]">
     <ul class="pagination--items">
       <li class="pagination--label" ng-bind="::text.per_page" title="{{ ::text.per_page }}"></li>
 
-      <li ng-repeat="perPageOption in paginationOptions.perPageOptions"
+      <li ng-repeat="perPageOption in perPageOptions"
           ng-class="{ '-current': perPageOption == paginationOptions.perPage }"
           class="pagination--item">
 

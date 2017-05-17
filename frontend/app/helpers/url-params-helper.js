@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(I18n, PaginationService, PathHelper) {
+module.exports = function(PaginationService) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -94,7 +94,9 @@ module.exports = function(I18n, PaginationService, PathHelper) {
     },
 
     buildV3GetQueryFromJsonParams: function(updateJson) {
-      var queryData = {};
+      var queryData = {
+        pageSize: PaginationService.getPerPage()
+      }
 
       if (!updateJson) {
         return queryData;

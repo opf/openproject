@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 
 describe('tablePagination Directive', function () {
   var compile:any, element:any, rootScope:any, scope:any, PaginationService:any, paginationOptions:any;
@@ -55,8 +55,8 @@ describe('tablePagination Directive', function () {
   let setTotalResults = (total:number) => {
     let current = subject.getValue();
 
-    pushState(total, current.current.perPage, current.current.page)
-  }
+    pushState(total, current.current.perPage, current.current.page);
+  };
 
   let pushState = (total:number, perPage:number, page:number) => {
     subject.next({
@@ -67,7 +67,7 @@ describe('tablePagination Directive', function () {
       }
     });
     scope.$apply();
-  }
+  };
 
   beforeEach(inject(function ($rootScope:any, $compile:any) {
     var html;
@@ -90,6 +90,7 @@ describe('tablePagination Directive', function () {
     subject = new BehaviorSubject(state);
 
     sinon.stub(PaginationService, 'loadPerPageOptions');
+    sinon.stub(PaginationService, 'getPerPageOptions', () => [10, 100, 500, 1000]);
 
     compile = function () {
       subject = new BehaviorSubject(state);
