@@ -80,6 +80,17 @@ module Type::AttributeGroups
   end
 
   ##
+  # Translate the given attribute group if its internal
+  # (== if it's a symbol)
+  def translated_attribute_group(groupkey)
+    if groupkey.is_a? Symbol
+      I18n.t(default_groups[groupkey])
+    else
+      groupkey
+    end
+  end
+
+  ##
   # Read the serialized attribute groups, if customized.
   # Otherwise, return +default_attribute_groups+
   def attribute_groups
@@ -108,7 +119,7 @@ module Type::AttributeGroups
     ordered = []
     default_groups.map do |groupkey, label_key|
       members = values[groupkey]
-      ordered << [I18n.t(label_key, locale: Setting.default_language), members.sort] if members.present?
+      ordered << [groupkey, members.sort] if members.present?
     end
 
     ordered
