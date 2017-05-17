@@ -48,7 +48,7 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
       });
     },
     createNoticeNotification = function (message:any) {
-      return _.extend(createNotification(message), {type: ''});
+      return _.extend(createNotification(message), {type: 'info'});
     },
     createWorkPackageUploadNotification = function (message:any, uploads:Array<any>) {
       if (!uploads.length) {
