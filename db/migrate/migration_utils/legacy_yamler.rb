@@ -76,6 +76,9 @@ module Migration
       Object.class_eval <<-EORB, __FILE__, __LINE__ + 1
         remove_const 'YAML' if defined? YAML
         YAML = ::Psych
+
+        remove_method :to_yaml
+        alias :to_yaml :psych_to_yaml
       EORB
 
       ::Syck
