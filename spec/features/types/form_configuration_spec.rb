@@ -269,6 +269,11 @@ describe 'form configuration', type: :feature, js: true do
 
         expect_inactive(:version)
 
+        # Test the actual type backend
+        type.reload
+        expect(type.attribute_groups.map { |el| el[0] })
+          .to match_array(['Cool Stuff', :estimates_and_time, 'Whatever', 'New Group'])
+
         # Visit work package with that type
         wp_page.visit!
         wp_page.ensure_page_loaded
