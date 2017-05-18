@@ -65,18 +65,29 @@ export class WorkPackageTimelineTableController {
 
   private outerContainer:JQuery;
 
+  private selectionParams = {
+    notification: null
+  };
+
+  private text:{ selectionMode:string };
+
   constructor(private $scope:angular.IScope,
               private $element:angular.IAugmentedJQuery,
               private states:States,
+              private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
-              private wpTableHierarchies:WorkPackageTableHierarchiesService) {
-
+              private wpTableHierarchies:WorkPackageTableHierarchiesService,
+              private I18n:op.I18n) {
     "ngInject";
   }
 
   $onInit() {
+    this.text = {
+      selectionMode: this.I18n.t('js.timelines.selection_mode.notification')
+    };
+
     // Get the outer container for width computation
     this.outerContainer = this.$element.find('.wp-table-timeline--outer');
 
@@ -219,20 +230,30 @@ export class WorkPackageTimelineTableController {
     });
   }
 
+  private resetSelectionMode() {
+    this._viewParameters.activeSelectionMode = null;
+    this._viewParameters.selectionModeStart = null;
+
+    this.NotificationsService.remove(this.selectionParams.notification);
+
+    Mousetrap.unbind('esc');
+
+    this.$element.removeClass("active-selection-mode");
+    jQuery("." + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
+    this.refreshView();
+  }
+
   private activateSelectionMode(start: string, callback: (wp: WorkPackageResourceInterface) => any) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
     this._viewParameters.activeSelectionMode = (wp: WorkPackageResourceInterface) => {
       callback(wp);
-
-      this._viewParameters.activeSelectionMode = null;
-      this._viewParameters.selectionModeStart = null;
-
-      this.$element.removeClass("active-selection-mode");
-      jQuery("." + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
-      this.refreshView();
+      this.resetSelectionMode();
     };
+
     this._viewParameters.selectionModeStart = start;
+    Mousetrap.bind('esc', () => this.resetSelectionMode());
+    this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
 
     this.$element.addClass("active-selection-mode");
     this.refreshView();
