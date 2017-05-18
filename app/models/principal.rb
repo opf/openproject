@@ -131,6 +131,10 @@ class Principal < ActiveRecord::Base
     'active'
   end
 
+  def active_or_registered?
+    [STATUSES[:active], STATUSES[:registered], STATUSES[:invited]].include?(status)
+  end
+
   ##
   # Allows the API and other sources to determine locking actions
   # on represented collections of children of Principals.
