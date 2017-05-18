@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'securerandom'
+
 module OpenProject
   module TextFormatting
     extend ActiveSupport::Concern
@@ -62,58 +64,31 @@ module OpenProject
     # * with a String: format_text(text, options)
     # * with an object and one of its attribute: format_text(issue, :description, options)
     def format_text(*args)
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      case args.size
-      when 1
-        obj = options[:object]
-        text = args.shift
-      when 2
-        obj = args.shift
-        attr = args.shift
-        text = obj.send(attr).to_s
-      else
-        raise ArgumentError, 'invalid arguments to format_text'
-      end
-      return '' if text.blank?
+      text, options = format_text_parse_args(args)
 
-      edit = !!options[:edit]
-      # don't return html in edit mode when textile or text formatting is enabled
-      return text if edit
-      project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
-      only_path = options.delete(:only_path) != false
+      # nothing to do
+      return text if text.blank? || options[:edit] == true
 
-      # offer 'plain' as readable version for 'no formatting' to callers
-      options_format = options[:format] == 'plain' ? '' : options[:format]
-      format = options_format || Setting.text_formatting
-      text = Redmine::WikiFormatting.to_html(format, text,
-                                             object: obj,
-                                             attribute: attr,
-                                             edit: edit)
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
-      @parsed_headings = []
+      @macros = []
       text = parse_non_pre_blocks(text) { |text|
-        [:execute_macros, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
-          send method_name, text, project, obj, attr, only_path, options
+        [:execute_macros, :parse_inline_attachments, :parse_wiki_links,
+         :parse_redmine_links, :parse_relative_urls].each do |method_name|
+          send method_name, text, options
         end
       }
 
-      if @parsed_headings.any?
-        replace_toc(text, @parsed_headings)
-      end
+      # offer 'plain' as readable version for 'no formatting' to callers
+      text = Redmine::WikiFormatting.to_html(text, options)
 
+      inject_macros(text, @macros) unless @macros.empty?
+      replace_toc(text, options)
       escape_non_macros(text)
+
       text.html_safe
     end
     deprecated_alias :textilizable, :format_text
     deprecated_alias :textilize,    :format_text
-
-    ##
-    # Escape double curly braces after macro expansion.
-    # This will avoid arbitrary angular expressions to be evaluated in
-    # formatted text marked html_safe.
-    def escape_non_macros(text)
-      text.gsub!(/\{\{(?! \$root\.DOUBLE_LEFT_CURLY_BRACE)/, '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}')
-    end
 
     def parse_non_pre_blocks(text)
       s = StringScanner.new(text)
@@ -121,14 +96,14 @@ module OpenProject
       parsed = ''
       while !s.eos?
         s.scan(/(.*?)(<(\/)?(pre|code)(.*?)>|\z)/im)
-        text = s[1]
+        fragment = s[1]
         full_tag = s[2]
         closing = s[3]
         tag = s[4]
         if tags.empty?
-          yield text
+          yield fragment
         end
-        parsed << text
+        parsed << fragment
         if tag
           if closing
             if tags.last == tag.downcase
@@ -147,28 +122,63 @@ module OpenProject
       parsed
     end
 
+    ##
+    # Escape double curly braces after macro expansion.
+    # This will avoid arbitrary angular expressions to be evaluated in
+    # formatted text marked html_safe.
+    def escape_non_macros(text)
+      unless text.nil?
+        text.gsub!(/\{\{(?! \$root\.DOUBLE_LEFT_CURLY_BRACE)/, '{{ $root.DOUBLE_LEFT_CURLY_BRACE }}')
+      end
+    end
 
-    MACROS_RE = /
-                  (!)?                        # escaping
-                  (
-                  \{\{                        # opening tag
-                  ([\w]+)                     # macro name
-                  (\(([^\}]*)\))?             # optional arguments
-                  \}\}                        # closing tag
-                  )
-                /x unless const_defined?(:MACROS_RE)
+    # recursive detection of macros used during macro matching
+    MACROS_RE = /(
+                    (!)?                                    # escaping
+                    (
+                    \{\{                                    # opening tag
+                    ([\w]+)                                 # macro name
+                    (\(([^\n\r]*)?\))?                      # optional arguments
+                    ([\n\r]([^{]?\g<1>[^}]?|[^{}])*[\n\r])? # optional block of text and macros
+                    \s*\}\}                                 # closing tag, permit leading whitespace so that
+                                                            # macro_list will display correctly when using
+                                                            # here docs as desc
+                    )
+                  )/mx unless const_defined?(:MACROS_RE)
 
-    # Macros substitution
-    def execute_macros(text, project, obj, _attr, _only_path, options)
-      return if !!options[:edit]
+    # non recursive version of MACROS_RE used during macro execution
+    MACROS_EVAL_RE = /(
+                        (!)?                        # escaping
+                        (
+                        \{\{                        # opening tag
+                        ([\w]+)                     # macro name
+                        (\(([^\n\r]*)\))?           # optional arguments
+                        ([\n\r].*[\n\r])?           # optional block of text
+                        \s*\}\}$                    # closing tag, permit leading whitespace so that
+                                                    # macro_list will display correctly when using
+                                                    # here docs as desc
+                        )
+                      )/mx unless const_defined?(:MACROS_EVAL_RE)
+
+    # Macros execution and substitution
+    def execute_macros(text, options)
+      execute = options[:macros]
+      project = options[:project]
+      object = options[:object]
       text.gsub!(MACROS_RE) do
-        esc = $1
-        all = $2
-        macro = $3
-        args = ($5 || '').split(',').each(&:strip!)
-        if esc.nil?
+        all = $1.try(:strip)
+        all =~ MACROS_EVAL_RE
+        esc = $2
+        macro = $4.downcase
+        args = $6.to_s
+        block = $7.try(:strip)
+        if esc.nil? && execute && Redmine::WikiFormatting::Macros.macro_exists?(macro)
           begin
-            exec_macro(macro, obj, args, view: self, project: project)
+            # prevent user from guessing temporary macro names
+            key = SecureRandom.hex
+            fragment = exec_macro(macro, object, args, view: self, project: project, block: block)
+            @macros << [key, fragment]
+            "{{macro#{key}}}"
           rescue => e
             "<span class=\"flash error macro-unavailable permanent\">\
             #{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})\
@@ -179,9 +189,17 @@ module OpenProject
             </span>".squish
           end || all
         else
-          all
+          esc ? all[1..all.size] : all
         end
       end
+    end
+
+    # Inject actual macro content
+    def inject_macros(text, macros)
+      macros.each_index { |index|
+        macro = macros[index]
+        text.gsub!(/{{macro#{macro[0]}}}/, macro[1])
+      }
     end
 
     RELATIVE_LINK_RE = %r{
@@ -199,8 +217,8 @@ module OpenProject
       [^<]*?<\/a>                     # content and closing link tag.
     }x unless const_defined?(:RELATIVE_LINK_RE)
 
-    def parse_relative_urls(text, _project, _obj, _attr, only_path, _options)
-      return if only_path
+    def parse_relative_urls(text, options)
+      return if options[:only_path]
       text.gsub!(RELATIVE_LINK_RE) do |m|
         href = $1
         relative_url = $2 || $3
@@ -222,8 +240,9 @@ module OpenProject
       end
     end
 
-    def parse_inline_attachments(text, _project, obj, _attr, only_path, options)
+    def parse_inline_attachments(text, options)
       # when using an image link, try to use an attachment, if possible
+      obj = options[:object]
       if options[:attachments] || (obj && obj.respond_to?(:attachments))
         attachments = nil
         text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
@@ -234,7 +253,8 @@ module OpenProject
           attachments ||= (options[:attachments] || obj.attachments).sort_by(&:created_on).reverse
           # search for the picture in attachments
           if found = attachments.detect { |att| att.filename.downcase == filename }
-            image_url = url_for only_path: only_path, controller: '/attachments', action: 'download', id: found
+            image_url = url_for only_path: options[:only_path], controller: '/attachments',
+                                action: 'download', id: found
             desc = found.description.to_s.gsub('"', '')
             if !desc.blank? && alttext.blank?
               alt = " title=\"#{desc}\" alt=\"#{desc}\""
@@ -257,9 +277,9 @@ module OpenProject
     #   [[project:|mytext]]
     #   [[project:mypage]]
     #   [[project:mypage|mytext]]
-    def parse_wiki_links(text, project, _obj, _attr, only_path, options)
+    def parse_wiki_links(text, options)
       text.gsub!(/(!)?(\[\[([^\]\n\|]+)(\|([^\]\n\|]+))?\]\])/) do |_m|
-        link_project = project
+        link_project = options[:project]
         esc = $1
         all = $2
         page = $3
@@ -288,7 +308,8 @@ module OpenProject
                   when :anchor; "##{title}"   # used for single-file wiki export
                   else
                     wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
-                    url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)
+                    url_for(only_path: options[:only_path], controller: '/wiki', action: 'show',
+                            project_id: link_project, id: wiki_page_id, anchor: anchor)
               end
             link_to(h(title || wiki_title), url, class: ('wiki-page' + (wiki_page ? '' : ' new')))
           else
@@ -333,8 +354,11 @@ module OpenProject
     #     identifier:document:"Some document"
     #     identifier:version:1.0.0
     #     identifier:source:some/file
-    def parse_redmine_links(text, project, obj, attr, only_path, options)
+    def parse_redmine_links(text, options)
+      obj = options[:object]
+      only_path = options[:only_path]
       text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
+        project = options[:project]
         leading = $1
         esc = $2
         project_prefix = $3
@@ -452,9 +476,8 @@ module OpenProject
 
     # Headings and TOC
     # Adds ids and links to headings unless options[:headings] is set to false
-    def parse_headings(text, _project, _obj, _attr, _only_path, options)
-      return if options[:headings] == false
-
+    def parse_headings(text)
+      headings = []
       text.gsub!(HEADING_RE) do
         level = $1.to_i
         attrs = $2
@@ -462,20 +485,24 @@ module OpenProject
         item = strip_tags(content).strip
         tocitem = strip_tags(content.gsub(/<br \/>/, ' '))
         anchor = item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-        @parsed_headings << [level, anchor, tocitem]
+        headings << [level, anchor, tocitem]
         url = full_url(anchor)
         "<a name=\"#{anchor}\"></a>\n<h#{level} #{attrs}>#{content}<a href=\"#{url}\" class=\"wiki-anchor\">&para;</a></h#{level}>"
       end
+      headings
     end
 
     TOC_RE = /<p>\{\{([<>]?)toc\}\}<\/p>/i unless const_defined?(:TOC_RE)
 
+    # TODO:make this a macro instead (post processing stage)
     # Renders the TOC with given headings
-    def replace_toc(text, headings)
+    def replace_toc(text, options)
+      headings = options[:headings] ? parse_headings(text) : []
       text.gsub!(TOC_RE) do
         if headings.empty?
           ''
         else
+          # TODO: use Nokogiri instead
           div_class = 'toc'
           div_class << ' right' if $1 == '>'
           div_class << ' left' if $1 == '<'
@@ -523,6 +550,37 @@ module OpenProject
 
     def current_request
       request rescue nil
+    end
+
+    private
+
+    def format_text_parse_args(args)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      attr = nil
+      case args.size
+        when 1
+          obj = options.delete(:object)
+          text = args.shift
+        when 2
+          obj = args.shift
+          attr = args.shift
+          text = obj.send(attr).to_s
+        else
+          raise ArgumentError, 'invalid arguments to format_text'
+      end
+      [text, format_text_assemble_options(obj, attr, options)]
+    end
+
+    def format_text_assemble_options(obj, attr, options)
+      options[:attr] = attr
+      options[:format] = options[:format] == 'plain' ? '' : options[:format] || Setting.text_formatting
+      options[:edit] = !!options[:edit]
+      options[:headings] = !!options[:headings]
+      options[:only_path] = !!options[:only_path]
+      options[:project] = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
+      options[:object] = obj
+      options[:macros] = options.key?(:macros) ? options[:macros] : true
+      options
     end
   end
 end
