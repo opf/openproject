@@ -90,22 +90,29 @@ namespace :ldap do
     end
 
 
-    source = LdapAuthSource.new name: args[:name],
-                                host: url.host,
-                                port: url.port,
-                                tls: url.scheme == 'ldaps',
-                                account: url.user,
-                                account_password: url.password,
-                                base_dn: url.dn,
-                                onthefly_register: !!args[:onthefly],
-                                attr_login: args[:map_login],
-                                attr_firstname: args[:map_firstname],
-                                attr_lastname: args[:map_lastname],
-                                attr_mail: args[:map_mail],
-                                attr_admin: args[:map_admin]
+    source = LdapAuthSource.find_or_initialize_by(name: args[:name])
+
+    unless source.new_record?
+      puts "LDAP auth source #{args[:name]} already exists. Updating its attributes instead."
+    end
+
+    source.attributes = {
+      host: url.host,
+      port: url.port,
+      tls: url.scheme == 'ldaps',
+      account: url.user,
+      account_password: url.password,
+      base_dn: url.dn,
+      onthefly_register: !!args[:onthefly],
+      attr_login: args[:map_login],
+      attr_firstname: args[:map_firstname],
+      attr_lastname: args[:map_lastname],
+      attr_mail: args[:map_mail],
+      attr_admin: args[:map_admin]
+    }
 
     if source.save
-      puts "Saved new LDAP auth source #{args[:name]}."
+      puts "Saved LDAP auth source #{args[:name]}."
     else
       raise "Failed to save auth source: #{source.errors.full_messages.join("\n")}"
     end
