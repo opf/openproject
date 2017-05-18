@@ -78,10 +78,6 @@ table.generic-table
   thead
     height: $generic-table--header-height
 
-    &.-sticky th
-      position: sticky
-      top: 0
-      background: white
     tr
       &:hover
         background: none
@@ -192,6 +188,15 @@ table.generic-table
     p
       padding: 0 8px
       margin: 0
+
+
+// Enable sticky headers in chrome
+html.-supports-sticky-headers
+  thead.-sticky th
+    position: sticky
+    top: 0
+    background: white
+
 
 .generic-table--footer-outer
   padding:      0 6px

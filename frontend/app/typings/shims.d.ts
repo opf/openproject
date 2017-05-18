@@ -15,6 +15,7 @@ declare global {
   const angular:typeof TAngular;
   const sinon:typeof TSinon;
   const moment:typeof TMoment;
+  const bowser:any;
 }
 
 export {};

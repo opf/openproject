@@ -26,50 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-(function($) {
+declare const I18n:op.I18n;
 
-  function mergeOptions(options) {
-    if (typeof options === "string") {
-      options = { message: options };
+(function ($:JQueryStatic) {
+
+  $(function () {
+    // Specifies minimum versions to be supported
+    // As we don't support ANY version of msie, so treat 11 (last ie before edge) as unsupported
+    const unsupported = {
+      msie: '12',
+      firefox: '45'
+    };
+    let additionalMessage = I18n.t("js.unsupported_browser.update_message");
+
+    if (bowser.isUnsupportedBrowser(unsupported, window.navigator.userAgent)) {
+      if (bowser.msie) {
+        additionalMessage = I18n.t("js.unsupported_browser.update_ie_user");
+      }
+
+      $().topShelf({
+        id: 'op.unsupported_browsers',
+        title: I18n.t("js.unsupported_browser.title"),
+        message: I18n.t("js.unsupported_browser.message") + '<br/>' + additionalMessage,
+        link: I18n.t("js.unsupported_browser.learn_more"),
+        close: I18n.t("js.unsupported_browser.close_warning"),
+        url: "https://www.openproject.org/open-source/download/systemrequirements/"
+      });
     }
-    return $.extend({}, $.fn.topShelf.defaults, options);
-  }
-
-  $.fn.topShelf = function(options) {
-    var opts = mergeOptions(options);
-    var message = this;
-    var topShelf = $("<div/>").addClass(opts.className);
-    var link = $("<a/>").append(' ' + opts.link).attr({"href": opts.url});
-
-    if (window.localStorage.getItem(opts.id)) {
-      return;
-    }
-
-    var closeLink = $("<a/>").append(opts.close);
-    closeLink.click(function() {
-      window.localStorage.setItem(opts.id, '1');
-      topShelf.remove();
-    });
-
-    if (message.length === 0) {
-      topShelf.append($("<h1/>").append(opts.title))
-              .append($("<p/>").append(opts.message).append(link))
-              .append($("<h2/>").append(closeLink));
-    } else {
-      topShelf.append(message);
-    }
-
-    $("body").prepend(topShelf);
-
-    return this;
-  };
-
-  $.fn.topShelf.defaults = {
-    className: "top-shelf icon icon-warning",
-    title: "",
-    message: "",
-    link: "",
-    url: ""
-  };
+  });
 
 }(jQuery));

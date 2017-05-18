@@ -64,6 +64,7 @@
     "autoprefixer": "^6.5.3",
     "awesome-typescript-loader": "^2.2.4",
     "bourbon": "~4.2.1",
+    "bowser": "^1.6.1",
     "bundle-loader": "^0.5.4",
     "clean-webpack-plugin": "^0.1.15",
     "contra": "^1.9.4",

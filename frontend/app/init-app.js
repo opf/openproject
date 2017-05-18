@@ -138,6 +138,13 @@ require('./timelines');
 require('./ui_components');
 require('./work_packages');
 
+// Run the browser detection
+require('expose-loader?bowser!bowser');
+
+// Global scripts previously part of the application.js
+var requireGlobals = require.context('./globals/', true, /\.ts$/);
+requireGlobals.keys().forEach(requireGlobals);
+
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);
 
