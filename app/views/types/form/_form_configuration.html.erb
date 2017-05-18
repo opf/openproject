@@ -160,7 +160,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div id="type-form-conf-inactive-group">
           <div class="group-head">
             <span class="group-name"><%= t(:label_inactive) %></span>
-            <span class="advice">(Drag attributes from here to activate them)</span>
+            <span class="advice">(<%= t('text_form_configuration_drag_to_activate') %>)</span>
           </div>
           <div class="attributes" dragula='"attributes"'>
             <% form_attributes[:inactives].each do |inactive_attribute| %>

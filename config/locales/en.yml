@@ -72,7 +72,9 @@ en:
       no_results_title_text: There are currently no posts for the board.
 
   custom_fields:
-    text_add_new_custom_field: 'New custom fields can be created on the global administration before they can be added to this project. Please use the following button to create a new custom field.'
+    text_add_new_custom_field: >
+      To add new custom fields to a project you first need to create them before
+      you can add them to this project.
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
@@ -1068,6 +1070,7 @@ en:
   label_core_version: "Core version"
   label_current_status: "Current status"
   label_current_version: "Current version"
+  label_custom_field_add_no_type: "Add this field to a work package type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
@@ -1954,15 +1957,15 @@ en:
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
-    You can customize which attributes will be displayed
-    in forms for work packages of this type. You can freely group the
-    attributes to reflect the needs for your domain.
+    You can customize which fields will be displayed
+    in work package forms. You can freely group the
+    fields to reflect the needs for your domain.
 
     By default fields will only be shown in
     the collapsed work package view if they have a value.
     Fields that are 'Always displayed' will be visibile even
     if they don't have a value.
-
+  text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
@@ -1971,6 +1974,9 @@ en:
   text_custom_field_hint_activate_per_project: >
     When using custom fields: Keep in mind that custom fields need to be
     activated per project, too.
+  text_custom_field_hint_activate_per_project_and_type: >
+    Custom fields need to be activated per work
+    package type and per project.
   text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 110px."
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"

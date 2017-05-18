@@ -30,6 +30,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if (@custom_fields_by_type[tab[:name]] || []).any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
+      <% if tab[:name] == 'WorkPackageCustomField' %>
+        <div class="notification-box -info">
+          <div class="notification-box--content">
+            <p><%= t('text_custom_field_hint_activate_per_project_and_type') %></p>
+          </div>
+        </div>
+      <% end %>
       <table class="generic-table">
         <colgroup>
           <col highlight-col>
@@ -122,9 +129,21 @@ See doc/COPYRIGHT.rdoc for more details.
               <td><%= checked_image custom_field.is_required? %></td>
               <% if tab[:name] == 'WorkPackageCustomField' %>
                 <td><%= checked_image custom_field.is_for_all? %></td>
-                <td><%= l(:label_x_projects, count: custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+                <td>
+                  <% if custom_field.projects.count == 0 && !custom_field.is_for_all? %>
+                    <span class="icon-context icon-warning">
+                      <%= t(:label_x_projects, count: custom_field.projects.count) %>
+                    </span>
+                  <% elsif !custom_field.is_for_all? %>
+                    <%= t(:label_x_projects, count: custom_field.projects.count) %></td>
+                  <% end %>
                 <td>
                   <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_tab_path(id: t.id, tab: 'form_configuration')) } %>
+                  <% if type_links.empty? %>
+                    <span class="icon-context icon-warning">
+                      <%= link_to t(:label_custom_field_add_no_type), types_path %>
+                    </span>
+                  <% end %>
                   <%= safe_join type_links, ', '.html_safe %>
                 </td>
               <% end %>
