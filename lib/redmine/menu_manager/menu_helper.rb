@@ -127,7 +127,7 @@ module Redmine::MenuManager::MenuHelper
     link_to('', options) do
       concat(op_icon(options[:icon])) if options[:icon]
       concat(you_are_here_info(selected).html_safe)
-      concat(label)
+      concat(content_tag(:span, label, class: 'button--dropdown-text'))
       concat('<i class="button--dropdown-indicator"></i>'.html_safe) unless options[:icon]
     end
   end
