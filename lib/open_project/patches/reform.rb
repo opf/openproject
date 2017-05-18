@@ -32,7 +32,6 @@ module OpenProject
   module Patches
     module Reform
       def merge!(errors, prefix)
-        # TODO: Check if @store_new_symbols can be removed
         @store_new_symbols = false
         super(errors, prefix)
         @store_new_symbols = true
