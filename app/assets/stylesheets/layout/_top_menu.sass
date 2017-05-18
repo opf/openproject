@@ -308,10 +308,14 @@ input.top-menu-search--input
     max-width: 230px
 
   #projects-menu
-    overflow: hidden
-    text-overflow: ellipsis
     padding-right: 34px
     font-weight: bold
+
+    .button--dropdown-text
+      float: left
+      max-width: 180px // 230px from sidebar minus margins
+      text-overflow: ellipsis
+      overflow: hidden
 
     &:after
       position: absolute
