@@ -81,12 +81,12 @@ en:
       no_results_content_text: Create a new custom field
 
   deprecations:
-    old_timeline: |-
-      This timelines module will be replaced by an interactive timelines view embedded into
-      the work packages module. This module is being removed from OpenProject 7.0.
-      <br/>
-      Please note that all data within this module will NOT be migrated to the new view,
-      please make all necessary preparations to recreate the information in the new view.
+    old_timeline:
+      replacement: "This timelines module is being replaced by the interactive timeline embedded into the work packages module."
+      removal: "This module is going to be removed with OpenProject 8.0. The configuration for this view will NOT be migrated to the work package view."
+      further_information_before: "Please take a look at"
+      link_name: "how to migrate to the new timeline."
+      further_information_after: ""
 
   groups:
     index:

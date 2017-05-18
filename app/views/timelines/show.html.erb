@@ -71,7 +71,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="notification-box -warning">
   <a title="close" class="notification-box--close icon-context icon-close"></a>
   <div class="notification-box--content">
-    <p><%=raw t('deprecations.old_timeline') %></p>
+    <p><%= t('deprecations.old_timeline.replacement')%></p>
+    <p><%= t('deprecations.old_timeline.removal')%></p>
+    <p>
+      <%= t('deprecations.old_timeline.further_information_before')%>
+      <a href="https://www.openproject.org/old-timeline-view-discontinued-please-migrate-timeline-openproject-7-0">
+        <%= t('deprecations.old_timeline.link_name')%>
+      </a>
+      <%= t('deprecations.old_timeline.further_information_after')%>
+    </p>
   </div>
 </div>
 
