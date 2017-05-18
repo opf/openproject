@@ -45,7 +45,11 @@ class BaseTypeService
       type.attributes = permitted
 
       if unsafe_params[:attribute_groups].present?
-        type.attribute_groups = JSON.parse(unsafe_params[:attribute_groups])
+        type.attribute_groups =
+          JSON.parse(unsafe_params[:attribute_groups])
+              .map do |group|
+                [(group[2] ? group[0].to_sym : group[0]), group[1]]
+              end
       end
       if unsafe_params[:attribute_visibility].present?
         type.attribute_visibility = JSON.parse(unsafe_params[:attribute_visibility])

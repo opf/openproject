@@ -119,6 +119,7 @@ module API
                 end
 
                 group[1].compact!
+                group[0] = type.translated_attribute_group(group[0])
                 group
               end
             end

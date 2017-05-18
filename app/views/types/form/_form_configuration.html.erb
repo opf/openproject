@@ -28,10 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% form_attributes = @type.form_configuration_groups %>
-
 <section class="form--section">
-      <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.to_json %>
-      <%= f.hidden_field :attribute_visibility, value: @type.attribute_visibility.to_json %>
+  <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.map { |group| [group[0], group[1], (group[0].is_a? Symbol)] }.to_json %>
+  <%= f.hidden_field :attribute_visibility,
+                      value: @type.attribute_visibility.to_json %>
   <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  '?utm_source=ce-form-configuration' + '"' %>">
     <div class="grid-block wrap">
       <div class="grid-content small-12 large-10">
@@ -93,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
     <div class="grid-block wrap">
       <div class="grid-content small-12 medium-6 large-5">
-        <div id="type-form-conf-group-template" class="type-form-conf-group" data-original-key="" data-key="">
+        <div id="type-form-conf-group-template" class="type-form-conf-group" data-original-key="" data-key="" data-key-is-symbol="false">
           <div class="group-head">
             <span class="group-handle icon-toggle"></span>
             <group-edit-in-place
@@ -111,16 +111,16 @@ See doc/COPYRIGHT.rdoc for more details.
         </div>
         <div id="draggable-groups" dragula='"groups"'>
           <% form_attributes[:actives].each do |group, attributes| %>
-            <div class="type-form-conf-group" data-original-key="<%= group %>" data-key="<%= group %>">
+            <div class="type-form-conf-group" data-original-key="<%= group.to_s %>" data-key="<%= group %>" data-key-is-symbol="<%= group.is_a? Symbol %>">
               <div class="group-head">
                 <span class="group-handle icon-toggle"></span>
                 <group-edit-in-place
-                  name="<%= group %>"
+                  name="<%= @type.translated_attribute_group(group) %>"
                   key="<%= group %>"
                   onvaluechange="groupNameChange"
                   onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
                   class="group-name">
-                  <%= group %>
+                  <%= @type.translated_attribute_group(group) %>
                 </group-edit-in-place>
                 <span class="visibility-check"><%= t('label_always_visible') %></span>
                 <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>

@@ -93,7 +93,7 @@ describe 'form configuration', type: :feature, js: true do
     handle = find_attribute_handle(attribute)
     group = find(group_selector(group_label))
     drag_and_drop(handle, group)
-    expect_group(group_label, key: attribute)
+    expect_group(group_label, group_label, key: attribute)
   end
 
   def drag_and_drop(handle, group)
@@ -120,7 +120,7 @@ describe 'form configuration', type: :feature, js: true do
     input.set(name)
     input.send_keys(:return)
 
-    expect_group(name) if expect
+    expect_group(name, name) if expect
   end
 
   def rename_group(from, to)
@@ -134,8 +134,8 @@ describe 'form configuration', type: :feature, js: true do
     expect(page).to have_selector('.group-edit-handler', text: to.upcase)
   end
 
-  def expect_group(label, *attributes)
-    expect(page).to have_selector("#{group_selector(label)} .group-edit-handler", text: label.upcase)
+  def expect_group(label, translation, *attributes)
+    expect(page).to have_selector("#{group_selector(label)} .group-edit-handler", text: translation.upcase)
 
     within group_selector(label) do
       attributes.each do |attribute|
@@ -178,7 +178,7 @@ describe 'form configuration', type: :feature, js: true do
         dialog.confirm
 
         expect(page).to have_no_selector(group_selector('Whatever'))
-        expect_group('Details')
+        expect_group('details', 'Details')
         expect_attribute(key: :assignee, checked: false)
       end
 
@@ -193,20 +193,24 @@ describe 'form configuration', type: :feature, js: true do
         #
         # Test default set of groups
         #
-        expect_group 'People',
+        expect_group 'people',
+                     'People',
                      { key: :assignee, checked: false, translation: 'Assignee' },
                      { key: :responsible, checked: false, translation: 'Responsible' }
 
-        expect_group 'Estimates and time',
+        expect_group 'estimates_and_time',
+                     'Estimates and time',
                      { key: :estimated_time, checked: false, translation: 'Estimated time' },
                      { key: :spent_time, checked: false, translation: 'Spent time' }
 
-        expect_group 'Details',
+        expect_group 'details',
+                     'Details',
                      { key: :category, checked: false, translation: 'Category' },
                      { key: :date, checked: false, translation: 'Date' },
                      { key: :percentage_done, checked: false, translation: 'Progress (%)' },
                      { key: :priority, checked: false, translation: 'Priority' },
                      { key: :version, checked: false, translation: 'Version' }
+
 
 
         #
@@ -244,21 +248,31 @@ describe 'form configuration', type: :feature, js: true do
 
         # Expect configuration to be correct now
         expect_group 'Cool Stuff',
+                    'Cool Stuff',
                     { key: :assignee, checked: true, translation: 'Assignee' },
                     { key: :responsible, checked: false, translation: 'Responsible' }
 
-        expect_group 'Estimates and time',
+        expect_group 'estimates_and_time',
+                    'Estimates and time',
                     { key: :estimated_time, checked: false, translation: 'Estimated time' },
                     { key: :spent_time, checked: false, translation: 'Spent time' }
 
+
         expect_group 'Whatever',
+                    'Whatever',
                     { key: :date, checked: false, translation: 'Date' },
                     { key: :percentage_done, checked: false, translation: 'Progress (%)' }
 
         expect_group 'New Group',
+                    'New Group',
                     { key: :category, checked: false, translation: 'Category' }
 
         expect_inactive(:version)
+
+        # Test the actual type backend
+        type.reload
+        expect(type.attribute_groups.map { |el| el[0] })
+          .to match_array(['Cool Stuff', :estimates_and_time, 'Whatever', 'New Group'])
 
         # Visit work package with that type
         wp_page.visit!
