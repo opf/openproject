@@ -35,7 +35,7 @@ export class HierarchyRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():HierarchyRenderPass {
-    return new HierarchyRenderPass(this.workPackageTable, this.stopExisting$, this.rowBuilder).render();
+    return new HierarchyRenderPass(this.workPackageTable, this.rowBuilder).render();
   }
 }
 

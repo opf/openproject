@@ -23,7 +23,7 @@ export class PlainRowsBuilder extends RowsBuilder {
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():TableRenderPass {
-    return new PlainRenderPass(this.workPackageTable, this.stopExisting$, this.rowBuilder).render();
+    return new PlainRenderPass(this.workPackageTable, this.rowBuilder).render();
   }
 }
 

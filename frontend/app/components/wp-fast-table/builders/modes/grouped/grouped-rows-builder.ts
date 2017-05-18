@@ -55,7 +55,6 @@ export class GroupedRowsBuilder extends RowsBuilder {
   public buildRows() {
     return new GroupedRenderPass(
       this.workPackageTable,
-      this.stopExisting$,
       this.getGroupData(),
       this.headerBuilder,
       this.colspan

@@ -15,7 +15,7 @@ export class TimelineRowBuilder {
   public wpTableTimeline:WorkPackageTableTimelineService;
   public wpCacheService:WorkPackageCacheService;
 
-  constructor(protected stopExisting$:Observable<void>, protected workPackageTable:WorkPackageTable) {
+  constructor(protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
   }
 
@@ -60,7 +60,7 @@ export class TimelineRowBuilder {
 
     // show timeline cell
     timelineCell.activate();
-    this.stopExisting$.take(1)
+    this.workPackageTable.unsubscribeTimelineCells$.take(1)
       .subscribe(() => {
         timelineCell.deactivate();
       });

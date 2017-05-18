@@ -76,7 +76,7 @@ export class WorkPackageInlineCreateController {
     private I18n:op.I18n
   ) {
     this.rowBuilder = new InlineCreateRowBuilder(this.table);
-    this.timelineBuilder = new TimelineRowBuilder(scopeDestroyed$($scope).mapTo(undefined), this.table);
+    this.timelineBuilder = new TimelineRowBuilder(this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };

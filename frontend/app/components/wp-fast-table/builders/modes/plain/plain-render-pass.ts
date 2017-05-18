@@ -1,14 +1,12 @@
 import {TableRenderPass} from '../table-render-pass';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
-import {Subject} from 'rxjs';
 
 export class PlainRenderPass extends TableRenderPass {
 
   constructor(public workPackageTable:WorkPackageTable,
-              public stopExisting$:Subject<undefined>,
               public rowBuilder:SingleRowBuilder) {
-    super(stopExisting$, workPackageTable);
+    super(workPackageTable);
   }
 
   /**

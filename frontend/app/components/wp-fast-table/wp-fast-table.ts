@@ -13,6 +13,7 @@ import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-bu
 import {RowsBuilder} from "./builders/modes/rows-builder";
 import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
 import {TableRenderPass} from './builders/modes/table-render-pass';
+import {Subject} from 'rxjs';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -30,11 +31,15 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
+  // Subject fired whenever timeline cells are about to be refreshed
+  public unsubscribeTimelineCells$:Subject<undefined>;
+
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
     injectorBridge(this);
+    this.unsubscribeTimelineCells$ = new Subject<undefined>();
     TableHandlerRegistry.attachTo(this);
   }
 
@@ -80,6 +85,7 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
+    this.unsubscribeTimelineCells$.next();
     const renderPass = this.redrawTable();
 
     this.timelineBody.innerHTML = '';
