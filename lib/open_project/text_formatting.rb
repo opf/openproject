@@ -27,6 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# enable default wiki macros
+require 'open_project/wiki_formatting/macros/default'
+
 module OpenProject
   module TextFormatting
     extend ActiveSupport::Concern
