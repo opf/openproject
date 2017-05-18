@@ -20,7 +20,7 @@ export class HierarchyTransformer {
       .observeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((state: WorkPackageTableHierarchies) => {
         if (enabled !== state.isEnabled) {
-          table.refreshBody();
+          table.redrawTableAndTimeline();
         } else if (enabled) {
           // No change in hierarchy mode
           // Refresh groups
