@@ -12,6 +12,8 @@ import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder"
 import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
 import {RowsBuilder} from "./builders/modes/rows-builder";
 import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
+import {TableRenderPass} from './builders/modes/table-render-pass';
+import {Subject} from 'rxjs';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -29,11 +31,15 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
+  // Subject fired whenever timeline cells are about to be refreshed
+  public unsubscribeTimelineCells$:Subject<undefined>;
+
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
     injectorBridge(this);
+    this.unsubscribeTimelineCells$ = new Subject<undefined>();
     TableHandlerRegistry.attachTo(this);
   }
 
@@ -66,7 +72,7 @@ export class WorkPackageTable {
     this.buildIndex(rows);
 
     // Draw work packages
-    this.refreshBody();
+    this.redrawTableAndTimeline();
 
     // Preselect first work package as focused
     if (this.rows.length && this.states.focusedWorkPackage.isPristine()) {
@@ -78,16 +84,26 @@ export class WorkPackageTable {
    * Removes the contents of this table's tbody and redraws
    * all elements.
    */
-  public refreshBody() {
-    let renderPass = this.rowBuilder.buildRows();
-
-    this.tbody.innerHTML = '';
-    this.tbody.appendChild(renderPass.tableBody);
+  public redrawTableAndTimeline() {
+    this.unsubscribeTimelineCells$.next();
+    const renderPass = this.redrawTable();
 
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timelineBody);
 
     this.states.table.rendered.putValue(renderPass.result);
+  }
+
+  /**
+   * Redraw all elements in the table section only
+   */
+  public redrawTable():TableRenderPass {
+    const renderPass = this.rowBuilder.buildRows();
+
+    this.tbody.innerHTML = '';
+    this.tbody.appendChild(renderPass.tableBody);
+
+    return renderPass;
   }
 
   /**

@@ -9,7 +9,6 @@ export abstract class RowsBuilder {
   public states:States;
 
   protected refreshBuilder:RowRefreshBuilder;
-  protected stopExisting$ = new Subject<undefined>();
 
   constructor(public workPackageTable:WorkPackageTable) {
     this.refreshBuilder = new RowRefreshBuilder(this.workPackageTable);

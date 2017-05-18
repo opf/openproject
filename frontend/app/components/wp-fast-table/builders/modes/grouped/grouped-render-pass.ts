@@ -7,16 +7,14 @@ import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-re
 import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.service';
 import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
-import {Subject} from 'rxjs';
 import {PlainRenderPass} from '../plain/plain-render-pass';
 
 export class GroupedRenderPass extends PlainRenderPass {
   constructor(public workPackageTable:WorkPackageTable,
-              public stopExisting$:Subject<undefined>,
               public groups:GroupObject[],
               public headerBuilder:GroupHeaderBuilder,
               public colspan:number) {
-    super(workPackageTable, stopExisting$, new SingleRowBuilder(workPackageTable));
+    super(workPackageTable, new SingleRowBuilder(workPackageTable));
   }
 
   /**

@@ -32,7 +32,7 @@ export abstract class TableRenderPass {
   /** Resulting timeline body */
   public timelineBody:DocumentFragment;
 
-  constructor(public stopExisting$:Subject<void>, public workPackageTable:WorkPackageTable) {
+  constructor(public workPackageTable:WorkPackageTable) {
     $injectFields(this, 'states', 'I18n');
   }
 
@@ -40,7 +40,6 @@ export abstract class TableRenderPass {
     // Prepare and reset the render pass
     this.prepare();
     // Render into the fragments
-    this.stopExisting$.next();
     this.doRender();
 
     return this;
@@ -55,7 +54,7 @@ export abstract class TableRenderPass {
   protected prepare() {
     this.tableBody = document.createDocumentFragment();
     this.timelineBody = document.createDocumentFragment();
-    this.timelineBuilder = new TimelineRowBuilder(this.stopExisting$, this.workPackageTable);
+    this.timelineBuilder = new TimelineRowBuilder(this.workPackageTable);
     this.renderedOrder = [];
   }
 

@@ -29,9 +29,8 @@ export class HierarchyRenderPass extends TableRenderPass {
   private hierarchies:WorkPackageTableHierarchies;
 
   constructor(public workPackageTable:WorkPackageTable,
-              public stopExisting$:Subject<undefined>,
               public rowBuilder:SingleHierarchyRowBuilder) {
-    super(stopExisting$, workPackageTable);
+    super(workPackageTable);
 
     $injectFields(this, 'states');
   }
