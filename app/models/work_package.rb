@@ -283,7 +283,7 @@ class WorkPackage < ActiveRecord::Base
     self.parent_id = work_package.parent_id if work_package.parent_id
     self.custom_field_values =
       work_package.custom_field_values.inject({}) do |h, v|
-        h[v.custom_field_id] = v.value
+        h[v.custom_field_id] = work_package.custom_value_for(v.custom_field_id)
         h
       end
     self.status = work_package.status
