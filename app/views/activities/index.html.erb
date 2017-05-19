@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
         <li class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
           <div class="title">
-            <% event_type = e.event_type == 'meeting' ? 'meetings' : e.event_type %>
+            <% event_type = e.event_type.start_with?('meeting') ? 'meetings' : e.event_type %>
             <% event_type = e.event_type == 'cost_object' ? 'budget' : event_type %>
             <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
             <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
