@@ -71,6 +71,8 @@ export class WorkPackageTimelineTableController {
 
   private text:{ selectionMode:string };
 
+  private debouncedRefresh:() => any;
+
   constructor(private $scope:angular.IScope,
               private $element:angular.IAugmentedJQuery,
               private states:States,
@@ -91,13 +93,24 @@ export class WorkPackageTimelineTableController {
     // Get the outer container for width computation
     this.outerContainer = this.$element.find('.wp-table-timeline--outer');
 
+    // Debounced refresh function
+    this.debouncedRefresh = _.debounce(
+      () => {
+        debugLog("Refreshing view in debounce.");
+        this.refreshView();
+      },
+      500,
+      { leading: true }
+    );
+
     // Register this instance to the table
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
     // Refresh timeline view after table rendered
     this.states.table.rendered.values$()
+      .filter(() => this.initialized)
       .take(1)
-      .subscribe(() => this.refreshView());
+      .subscribe(() => this.debouncedRefresh());
 
     // Refresh timeline view when becoming visible
     this.states.table.timelineVisible.values$()
@@ -105,7 +118,7 @@ export class WorkPackageTimelineTableController {
       .takeUntil(scopeDestroyed$(this.$scope))
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.viewParameters.settings.zoomLevel =  timelineState.zoomLevel;
-        this.refreshView();
+        this.debouncedRefresh();
       });
 
     // Load the types whenever the timeline is first visible
@@ -115,7 +128,7 @@ export class WorkPackageTimelineTableController {
       .take(1)
       .subscribe(() => {
         TypeResource.loadAll().then(() => {
-          this.refreshView();
+          this.debouncedRefresh();
         });
       });
   }
@@ -154,6 +167,10 @@ export class WorkPackageTimelineTableController {
     return this.wpTableHierarchies.isEnabled;
   }
 
+  get initialized():boolean {
+    return this.workPackageTable && this.states.table.rendered.hasValue();
+  }
+
   refreshView() {
     if (!this.wpTableTimeline.isVisible) {
       debugLog("refreshView() requested, but TL is invisible.");
@@ -182,11 +199,12 @@ export class WorkPackageTimelineTableController {
   addWorkPackage(wpId: string): Observable<RenderInfo> {
     const wpObs = this.states.workPackages.get(wpId).values$()
       .takeUntil(scopeDestroyed$(this.$scope))
+      .filter(() => this.initialized)
       .map((wp: any) => {
         this.workPackagesInView[wp.id] = wp;
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
-          this.refreshView();
+          this.debouncedRefresh();
         }
 
         return {
