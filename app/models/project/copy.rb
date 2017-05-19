@@ -33,7 +33,7 @@ module Project::Copy
     base.send :include, self::CopyMethods
 
     # things that are explicitly excluded when copying a project
-    base.not_to_copy ['id', 'name', 'identifier', 'status', 'lft', 'rgt']
+    base.not_to_copy ['id', 'created_on', 'updated_on', 'name', 'identifier', 'status', 'lft', 'rgt']
 
     # specify the order of associations to copy
     base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki']
