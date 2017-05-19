@@ -229,6 +229,7 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
+  gem 'bootsnap', '~> 1.1.2', require: false
 end
 
 # API gems
