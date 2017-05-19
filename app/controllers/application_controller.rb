@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActionController::ParameterMissing do |exception|
-    render text:   "Required parameter missing: #{exception.param}",
+    render body:   "Required parameter missing: #{exception.param}",
            status: :bad_request
   end
 

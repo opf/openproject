@@ -112,6 +112,9 @@ class Status < ActiveRecord::Base
 
   # Deletes associated workflows
   def delete_workflows
-    Workflow.delete_all(['old_status_id = :id OR new_status_id = :id', { id: id }])
+    Workflow
+      .where(old_status_id: id)
+      .or(Workflow.where(new_status_id: id))
+      .delete_all
   end
 end

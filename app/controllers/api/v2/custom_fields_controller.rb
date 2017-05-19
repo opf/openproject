@@ -40,6 +40,7 @@ module Api
                     .visible_by_user(User.current)
                     .includes(:projects, :types)
                     .order(:id)
+
         other_fields = CustomField.where("type != 'WorkPackageCustomField'")
                                   .order(:type, :id)
 
