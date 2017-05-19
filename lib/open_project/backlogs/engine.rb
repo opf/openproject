@@ -163,8 +163,8 @@ module OpenProject::Backlogs
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
-               setter: ->(value, *) {
-                 remaining = datetime_formatter.parse_duration_to_hours(value,
+               setter: ->(fragment:, represented:, **) {
+                 remaining = datetime_formatter.parse_duration_to_hours(fragment,
                                                                         'remainingTime',
                                                                         allow_nil: true)
                  represented.remaining_hours = remaining
