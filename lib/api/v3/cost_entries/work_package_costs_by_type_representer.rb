@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -40,23 +41,21 @@ module API
 
         property :total,
                  exec_context: :decorator,
-                 getter: -> (*) { cost_helper.summarized_cost_entries.size }
+                 getter: ->(*) { cost_helper.summarized_cost_entries.size }
         property :count,
                  exec_context: :decorator,
-                 getter: -> (*) { cost_helper.summarized_cost_entries.size }
+                 getter: ->(*) { cost_helper.summarized_cost_entries.size }
 
         collection :elements,
-                   getter: -> (*) {
-                     cost_helper.summarized_cost_entries.map { |kvp|
+                   getter: ->(*) {
+                     cost_helper.summarized_cost_entries.map do |kvp|
                        type = kvp[0]
                        units = kvp[1]
                        ::API::V3::CostEntries::AggregatedCostEntryRepresenter.new(type, units)
-                     }
+                     end
                    },
                    exec_context: :decorator,
                    embedded: true
-
-        private
 
         def cost_helper
           @cost_helper ||= ::OpenProject::Costs::AttributesHelper.new(represented, current_user)

@@ -29,7 +29,7 @@ module API
         property :unit_plural,
                  render_nil: true
         property :is_default,
-                 getter: -> (*) { default }
+                 getter: ->(*) { default }
 
         def _type
           'CostType'
