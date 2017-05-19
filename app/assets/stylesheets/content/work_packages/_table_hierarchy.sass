@@ -41,8 +41,10 @@
 
 // Highlight the additional hierarchy
 // so it becomes clear they're not part of the sort
-.wp-table--hierarchy-aditional-row
-  @include varprop(background, gray-light)
+body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
+  @include varprop(color, gray-dark)
+  .wp-table--hierarchy-indicator
+    @include varprop(color, gray-dark)
 
   // Fix padding on additional row/id field
   // since we don't have the edit-span's padding here
