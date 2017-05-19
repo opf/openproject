@@ -94,12 +94,7 @@ Redmine::AccessControl.map do |map|
                    journals: [:index, :diff],
                    work_packages: [:show, :index],
                    work_packages_api: [:get],
-                   :'work_packages/reports' => [:report, :report_details],
-                   planning_elements: [:index, :all, :show, :recycle_bin],
-                   planning_element_journals: [:index],
-                   # This is api/v2/planning_element_types
-                   planning_element_types: [:index,
-                                               :show]
+                   :'work_packages/reports' => [:report, :report_details]
 
     wpt.permission :export_work_packages,
                    work_packages: [:index, :all]
@@ -119,9 +114,7 @@ Redmine::AccessControl.map do |map|
                      :'work_packages/bulk' => [:edit, :update],
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
-                     journals: :preview,
-                     planning_elements: [:edit, :update],
-                     planning_element_journals: [:create] },
+                     journals: :preview },
                    require: :member
 
     wpt.permission :add_work_package_notes,
@@ -139,11 +132,7 @@ Redmine::AccessControl.map do |map|
     wpt.permission :delete_work_packages,
                    { issues: :destroy,
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy,
-                     planning_elements: [:confirm_destroy,
-                                         :destroy,
-                                         :destroy_all,
-                                         :confirm_destroy_all] },
+                     :'work_packages/bulk' => :destroy },
                    require: :member
 
     wpt.permission :manage_work_package_relations,

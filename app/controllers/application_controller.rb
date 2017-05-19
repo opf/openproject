@@ -188,11 +188,6 @@ class ApplicationController < ActionController::Base
       if (key = api_key_from_request) && accept_key_auth_actions.include?(params[:action])
         # Use API key
         User.find_by_api_key(key)
-      elsif OpenProject::Configuration.apiv2_enable_basic_auth?
-        # HTTP Basic, either username/password or API key/random
-        authenticate_with_http_basic do |username, password|
-          User.try_to_login(username, password) || User.find_by_api_key(username)
-        end
       end
     end
   end

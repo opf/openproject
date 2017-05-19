@@ -286,18 +286,6 @@ module Project::Copy
       end
     end
 
-    # Copies project associations from +project+
-    def copy_project_associations(project)
-      %i(project_a project_b).each do |association_type|
-        project.send(:"#{association_type}_associations").each do |association|
-          new_association = ProjectAssociation.new
-          new_association.attributes = association.attributes.dup.except('id', "#{association_type}_id")
-          new_association.send(:"#{association_type}=", self)
-          new_association.save
-        end
-      end
-    end
-
     def copy_topics(board, new_board)
       topics = board.topics.where('parent_id is NULL')
       topics.each do |topic|
