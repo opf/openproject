@@ -188,13 +188,8 @@ module OpenProject::Costs
                       show_if: -> (*) { costs_by_type_visible? }
 
       property :spent_time,
-               getter: -> (*) do
-                 formatter = API::V3::Utilities::DateTimeFormatter
-                 formatter.format_duration_from_hours(represented.spent_hours)
-               end,
-               writeable: false,
-               exec_context: :decorator,
-               if: -> (_) { user_has_time_entry_permissions? }
+               if: ->(_) { user_has_time_entry_permissions? },
+               inherit: true
 
       send(:define_method, :overall_costs) do
         number_to_currency(represented.overall_costs)
