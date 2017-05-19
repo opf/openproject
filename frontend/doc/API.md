@@ -6,7 +6,6 @@ In general, the OpenProject Frontend uses _all_ of the existing working APIs to 
 The documentation for these APIs and their capabilities:
 
 - [APIv3](http://opf.github.io/apiv3-doc/)
-- APIv2 docs are located in the `opf/openproject` repository at `./doc/apiv2-documentation.md`
 
 To get a feeling for which API is used at which point, please refer to the `PathHelper` located at `./frontend/app/helpers/path-helper.js`. It is used throughout the application to centralize knowledge about paths.
 

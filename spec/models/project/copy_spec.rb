@@ -445,36 +445,6 @@ describe Project::Copy, type: :model do
       it { is_expected.to eq(project.versions.count) }
     end
 
-    describe '#copy_project_associations' do
-      let(:project2) { FactoryGirl.create(:project_with_types) }
-
-      describe '#project_a_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project, project_b: project2)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_a_associations).count }
-
-        it { is_expected.to eq(project.send(:project_a_associations).count) }
-      end
-
-      describe '#project_b_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project2, project_b: project)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_b_associations).count }
-
-        it { is_expected.to eq(project.send(:project_b_associations).count) }
-      end
-    end
-
     describe '#copy_categories' do
       before do
         FactoryGirl.create(:category, project: project)

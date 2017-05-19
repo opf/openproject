@@ -95,7 +95,6 @@ module OpenProject
       'hidden_menu_items' => {},
       'blacklisted_routes' => [],
 
-      'apiv2_enable_basic_auth' => true,
       'apiv3_enable_basic_auth' => true,
 
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
