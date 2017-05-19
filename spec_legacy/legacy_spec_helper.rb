@@ -86,15 +86,6 @@ RSpec.configure do |config|
     I18n.locale = 'en'
   end
 
-  if ENV['CI']
-    $stderr.puts <<-EOS
-    WARNING
-
-    Silencing all ActiveSupport::Deprecation message output due to CI=true.
-    EOS
-    ActiveSupport::Deprecation.behavior = :silence
-  end
-
   # colorized rspec output
   config.color = true
   config.formatter = 'progress'
