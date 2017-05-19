@@ -286,7 +286,7 @@ describe WorkPackage, type: :model do
       it 'should set an error on work packages' do
         action
 
-        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: 0)])
+        expect(work_package.errors[:base]).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: 0)])
       end
     end
 
@@ -308,7 +308,7 @@ describe WorkPackage, type: :model do
       it 'should set an error on work packages' do
         action
 
-        expect(work_package.errors.get(:base)).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)])
+        expect(work_package.errors[:base]).to eq([I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)])
       end
     end
 
