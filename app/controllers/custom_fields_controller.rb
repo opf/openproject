@@ -36,7 +36,10 @@ class CustomFieldsController < ApplicationController
   before_action :get_custom_field_params, only: %i(create update)
 
   def index
-    @custom_fields_by_type = CustomField.all.includes(:types).group_by { |f| f.class.name }
+    # loading wp cfs exclicity to allow for eager loading
+    @custom_fields_by_type = CustomField.all.where.not(type: 'WorkPackageCustomField').group_by { |f| f.class.name }
+    @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
+
     @tab = params[:tab] || 'WorkPackageCustomField'
   end
 
