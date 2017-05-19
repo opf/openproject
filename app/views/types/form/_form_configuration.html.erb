@@ -35,7 +35,13 @@ See doc/COPYRIGHT.rdoc for more details.
   <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  '?utm_source=ce-form-configuration' + '"' %>">
     <div class="grid-block wrap">
       <div class="grid-content small-12 large-10">
-      <p><%= t('text_form_configuration') %></p>
+      <div class="notification-box -info">
+        <div class="notification-box--content">
+          <p><%= t('text_form_configuration') %></p>
+          <br>
+          <p><%= t('text_custom_field_hint_activate_per_project') %></p>
+        </div>
+      </div>
 
       <% if EnterpriseToken.show_banners? %>
         <div class="notification-box upsale-notification">
@@ -154,7 +160,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div id="type-form-conf-inactive-group">
           <div class="group-head">
             <span class="group-name"><%= t(:label_inactive) %></span>
-            <span class="advice">(Drag attributes from here to activate them)</span>
+            <span class="advice">(<%= t('text_form_configuration_drag_to_activate') %>)</span>
           </div>
           <div class="attributes" dragula='"attributes"'>
             <% form_attributes[:inactives].each do |inactive_attribute| %>
