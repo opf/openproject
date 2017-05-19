@@ -124,8 +124,8 @@
   contain: strict
 
   &.-timeline-visible
-    // Show the horizontal scrollbar if necessary
-    overflow-x: auto
+    // Show the horizontal scrollbar _always_ (same as timeline)
+    overflow-x: scroll
     // Hide the vertical scrollbar
     overflow-y: hidden
 
@@ -133,7 +133,10 @@
 .work-packages-tabletimeline--timeline-side
   @include varprop(border-left, timeline--separator)
   flex: 1 1
-  overflow: auto
+  // Show the horizontal scrollbar _always_ (same as table)
+  overflow-x: scroll
+  // Show the vertical scrollbar when necessary
+  overflow-y: auto
   // Hidden by default
   display: none
   // Hint browser that this will inner-scroll
