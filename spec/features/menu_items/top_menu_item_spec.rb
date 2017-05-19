@@ -68,7 +68,7 @@ feature 'Top menu items', js: true, selenium: true do
   end
 
   describe 'Modules' do
-    let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
+    !let(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
     let(:news_item) { I18n.t('label_news_plural') }
     let(:time_entries_item) { I18n.t('label_time_sheet_menu') }
@@ -101,6 +101,14 @@ feature 'Top menu items', js: true, selenium: true do
     context 'as a user with permissions', allowed_to: true do
       it 'displays all options' do
         has_menu_items?(time_entries_item, news_item)
+      end
+    end
+
+    context 'as a user without permissions', allowed_to: false do
+      let(:open_menu) { false }
+      it 'displays no options and hides the module menu' do
+        has_menu_items?
+        expect(page).not_to have_link('Modules')
       end
     end
 
