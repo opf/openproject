@@ -26,29 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-@import layout/accessibility
-@import layout/base
-@import layout/base_mobile
-@import layout/grid
-@import layout/top_shelf
-@import layout/top_menu
-@import layout/top_menu_mobile
-@import layout/breadcrumb
-@import layout/main_menu
-@import layout/main_menu_mobile
-@import layout/footer
-@import layout/drop_down
-@import layout/drop_down_mobile
-@import layout/toolbar
-@import layout/toolbar_mobile
-@import layout/zen_mode
+@include breakpoint (680px down)
+  .toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
 
-// Work packages page layouts
-@import layout/work_package_table
-@import layout/work_packages_details_view
-@import layout/work_packages_full_view
-@import layout/work_package_mobile
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
 
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
 
-// Print layout
-@import layout/print
+      button
+        width: 100%

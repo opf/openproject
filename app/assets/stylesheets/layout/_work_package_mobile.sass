@@ -29,6 +29,7 @@
 @include breakpoint(1248px down)
   body.controller-work_packages
 
+    // ------------- FULL SCREEN -------------------
     &.action-show
       overflow: auto !important
       overflow-y: scroll !important
@@ -44,71 +45,42 @@
         height: 100% !important
         overflow: visible
 
-      .work-packages--list
-        padding-bottom: 55px
+      .work-packages--show-view
+        padding: 0
 
-      .work-packages--page-container
-        .toolbar  > .work-packages--split-view
-          display: block
+        &.edit-all-mode
+          .work-packages-full-view--split-right
+            display: none
 
-      #content
-        overflow: visible
+        ul#toolbar-items li .wp-create-button .dropdown
+          left: 0 !important
+
+      .work-packages-full-view--split-container
+        flex-direction: column
+        // Safari
+        height: initial
+        .work-packages-full-view--split-left
+          padding-left: 15px
+          margin: 0
+          width: initial
+          border: none
+
+        .work-packages-full-view--split-right
+          width: initial
+          margin-bottom: 55px
+          .tabrow
+            margin: 0.75rem 0 2.5rem 0
+
+          .work-packages--panel-inner
+            padding: 0 20px 0 15px
+
+    // --------------- ALL WP VIEWS ---------------
+    .work-packages-tabletimeline--table-side
+      contain: none
 
     .toolbar-container
       margin-bottom: 1em
       min-height: 0
-
-    .work-packages--show-view
-      padding: 0
-      padding-right: 20px
-
-
-      .work-packages--split-view
-        display: block
-        left: 0
-        padding: 0
-        position: relative
-        right: 0
-        top: 0
-        // Important for safari
-        height: initial
-
-        .tabrow
-          height: auto
-          margin: 0.75rem 0 2.5rem 0
-
-          a
-            @include varprop(color, content-link-color)
-
-          li
-            border-top: 2px solid $gray
-            font-size: 0.75rem
-            margin: 0
-            padding: 8px 0
-            width: 33.33%
-
-            &.selected
-              border-bottom-width: 2px
-              border-bottom-style: solid
-              @include varprop(border-bottom-color, content-link-color)
-
-      .work-packages--left-panel,
-      .work-packages--right-panel
-        border: none
-        margin: 0
-        min-width: 0
-        overflow: visible
-        width: 100%
-
-        // Fix for iOS: Otherwise the edit actions toolbar is misplaced
-        padding: 0 0 50px 0
-
-        .work-packages--panel-inner
-          padding: 0
-
-      &.edit-all-mode
-        .work-packages--right-panel
-          display: none
 
     .attributes-key-value--key,
     .attributes-key-value--value-container
@@ -141,11 +113,6 @@
       .inplace-edit--read-value span
         white-space: normal
 
-    .work-packages--left-panel
-      .work-packages--edit-actions
-        bottom: -20px
-        width: calc(100vw + 20px)
-
     .work-package-details-activities-messages
       font-size: 0.9rem
 
@@ -162,73 +129,3 @@
       padding: 8px 0 !important
       font-size: 1rem
 
-    // Work packages list view
-
-    .work-packages--page-container
-      .toolbar
-        padding-right: 20px
-
-        .title-container
-          max-width: 90%
-          overflow: hidden
-
-          span
-            display: inline-block
-
-          a span span
-            overflow: hidden
-            text-overflow: ellipsis
-            white-space: nowrap
-
-
-
-@include breakpoint (680px down)
-  body.controller-work_packages
-    .work-packages--page-container
-      .toolbar
-        padding-right: 0
-
-    &.action-show #content
-      .work-packages--show-view
-        padding-right: 0
-
-      .subject-header
-        margin: 0
-        padding: 0
-
-    // Workaround to assure that safari has the correct height
-    &.action-index #content .work-packages--split-view,
-    &.action-details #content .work-packages--split-view
-      height: 100vh
-
-  .toolbar-items
-    background: #fff
-    display: flex
-    margin-bottom: 20px
-    width: calc(100% + 5px)
-
-    > li
-      -webkit-flex: 1 0 0
-      flex: 1 0 0
-
-      &:first-child
-        -webkit-flex: 3 0 0
-        flex: 3 0 0
-
-      button
-        width: 100%
-
-    .wp-create-button .dropdown
-      left: 0 !important
-
-    .action_menu_main .dropdown
-      left: auto !important
-
-  .work-packages--list-table-area
-    position: relative
-
-  .work-packages--list
-    padding-bottom: 55px
-
-  .work-packages-tabletimeline--table-side
-    contain: none
