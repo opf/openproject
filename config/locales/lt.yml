@@ -18,17 +18,17 @@ lt:
   description_attended: "būtinai dalyvavo"
   description_invite: "pakviesta"
   events:
-    meeting: Susitikimas redaguotas
-    meeting_agenda: Susitikimo darbotvarkė redaguota
-    meeting_agenda_closed: Susitikimo darbotvarkė uždaryta
+    meeting: Pasitarimas redaguotas
+    meeting_agenda: Pasitarimo darbotvarkė redaguota
+    meeting_agenda_closed: Pasitarimo darbotvarkė uždaryta
     meeting_agenda_opened: Susitikimo darbotvarkė atidaryta
-    meeting_minutes: Susitikimo minutės redaguotos
-    meeting_minutes_created: Susitikimo minutės sukurtos
+    meeting_minutes: Pasitarimo minutės redaguotos
+    meeting_minutes_created: Pasitarimo minutės sukurtos
   error_notification_with_errors: 'Nepavyko išsiųsti pranešimo. Toliau išvardinti adresatai nebuvo įspėti: %{recipients}'
-  label_meeting: "Susitikimas"
-  label_meeting_plural: "Susitikimai"
-  label_meeting_new: "Naujas susitikimas"
-  label_meeting_edit: "Redaguoti susitikimą"
+  label_meeting: "Pasitarimas"
+  label_meeting_plural: "Pasitarimai"
+  label_meeting_new: "Naujas pasitarimas"
+  label_meeting_edit: "Redaguoti pasitarimą"
   label_meeting_agenda: "Dienotvarkė"
   label_meeting_minutes: "Minutės"
   label_meeting_close: "Uždaryti"
@@ -43,21 +43,21 @@ lt:
   label_start_date: "Pradžios data"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
-  permission_create_meetings: "Sukurti susitikimus"
-  permission_edit_meetings: "Redaguoti susitikimus"
-  permission_delete_meetings: "Šalinti susitikimus"
-  permission_view_meetings: "Peržiūrėti susitikimus"
+  permission_create_meetings: "Sukurti pasitarimus"
+  permission_edit_meetings: "Redaguoti pasitarimus"
+  permission_delete_meetings: "Šalinti pasitarimus"
+  permission_view_meetings: "Peržiūrėti pasitarimus"
   permission_create_meeting_agendas: "Valdyti darbotvarkes"
   permission_close_meeting_agendas: "Uždaryti darbotvarkes"
   permission_send_meeting_agendas_notification: "Siųsti peržiūros pranešimą darbotvarkėms"
   permission_create_meeting_minutes: "Valdyti minutes"
   permission_send_meeting_minutes_notification: "Siųsti peržiūros pranešimą minutėms"
-  project_module_meetings: "Susitikimai"
+  project_module_meetings: "Pasitarimai"
   text_duration_in_hours: "Trukmė valandomis"
   text_in_hours: " valandos(-ų) "
-  text_meeting_agenda_for_meeting: 'Susitikimo „%{meeting}“ darbotvarkė'
+  text_meeting_agenda_for_meeting: 'pasitarimo „%{meeting}“ darbotvarkė'
   text_meeting_agenda_open_are_you_sure: "Neišsaugoti minučių pakeitimai bus prarasti! Tikrai norite tęsti?"
-  text_meeting_minutes_for_meeting: 'susitikimo „%{meeting}“ minutės'
+  text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
   text_review_meeting_agenda: "%{author} įdėjo %{link} peržiūroje."
   text_review_meeting_minutes: "%{author} įdėjo %{link} peržiūroje."
   text_notificiation_invited: "Šis laiškas turi ics įrašą žemiau nurodytam susitikimui:"
