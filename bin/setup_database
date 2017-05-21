@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require 'fileutils'
+
+# path to your application root.
+APP_ROOT = Pathname.new File.expand_path('../../', __FILE__)
+
+FileUtils.chdir APP_ROOT do
+  # if there's a binstub for rake we use that, like the template suggests
+  # if not, we're falling back to whatever is in your path
+  rake = File.exist?('bin/rake') ? 'ruby bin/rake' : 'bundle exec rake'
+
+  puts "== Preparing database =="
+
+  # wait until the database server is up and running as seen from our app
+  # creates the target database as a side effect so we don't need to later
+  loop do
+    # indicates whether our server is up
+    # we can't use db:create only as it always returns success
+    connection_established = begin
+      # fails silently if database already exists
+      system "#{rake} db:create"
+      # returns true if server runs and database exists (therefore the create)
+      system "#{rake} db:version"
+    end
+
+    # exit the loop in case of success, otherwise retry in 10 seconds
+    if connection_established
+      puts "database is awake!"
+      break
+    else
+      puts "waiting for database to wake up..."
+      sleep 10 # seconds
+    end
+  end
+
+  # is a schema.rb present (we don't check it in yet)
+  schema_exists = File.exist?('db/schema.rb')
+
+  # are we creating a completely new database (as opposed to updating)
+  # migrate status will complain about a missing schema_migrations table
+  # feel free to change this to a more appropriate check. for now, this works.
+  fresh_database = `#{rake} db:migrate:status` =~ /table does not exist/
+
+  # let's first make sure that a schema.rb is present
+  # once we check-in schema.rb, this can be removed
+  unless schema_exists
+    # one way to create schema.rb is to run migrations
+    system "#{rake} db:migrate"
+  end
+
+  # check whether we have pending migrations, if not we can skip migrations
+  # once we check in schema.rb we can move this call into the !fresh_database
+  # branch of the next if statement
+  pending_migrations = !system("#{rake} db:abort_if_pending_migrations")
+
+  # normally, at this point we have a schema.rb and possibly an empty database
+  # or a database pending some migrations. in case of a new database we run
+  # db:setup, which will db:schema:load and then seed. for existing datbases
+  # we run migrations and don't seed (because we did that in the past)
+  if fresh_database
+    # system "#{rake} db:setup"
+
+    # so far for the theory, db:setup doesn't work right now because we have
+    # seed data in our migrations which would be missing. in order to move
+    # forward, we do it the old way and hope we can use the line above soon.
+    if pending_migrations
+      system "#{rake} db:migrate"
+    end
+
+    # fresh databases need to be seeded
+    system "#{rake} db:seed"
+  else
+    if pending_migrations
+      system "#{rake} db:migrate"
+    end
+  end
+end
