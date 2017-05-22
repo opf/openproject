@@ -1,12 +1,12 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -26,14 +26,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Travis configuration based on the respective OpenProject core configuration.
-# Everything save for the matrix section and additional `before_install`
-# instructions is copied and pasted from the core.
-
 language: ruby
 
 rvm:
-  - 2.2.5
+  - 2.4.1
 
 sudo: false
 
@@ -41,10 +37,6 @@ cache:
   bundler: true
   directories:
     - frontend/node_modules
-    - frontend/bower_components
-
-
-bundler_args: --without development production docker
 
 branches:
   only:
@@ -56,7 +48,6 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
-    - COVERAGE=true
 
   matrix:
     - "TEST_SUITE=plugins:specs     DB=mysql    GROUP_SIZE=1 GROUP=1"
@@ -89,29 +80,18 @@ before_install:
   - git fetch --depth=1 openproject
   - git checkout openproject/$TRAVIS_BRANCH
 
-  # End of custom plugin instructions.
-  - "rvm @default,@global do gem uninstall bundler -a -x"
-  - gem install bundler -v 1.12.5
-  - echo `bundle -v`
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
-  # Install Node LTS Boron (6.9.1)
-  - nvm install 6.9.1
-  # We need npm 4.0 for a bugfix in cross-platform shrinkwrap
-  # https://github.com/npm/npm/issues/14042
-  - npm install npm@4.0
-  - travis_retry npm install
 
-  # We need phantomjs 2.0 to get tests passing
-  - mkdir travis-phantomjs
-  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-  - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
-  - export PATH=$PWD/travis-phantomjs:$PATH
+  # Install Node LTS Boron (6.9.1)
+  - "nvm install 6.9.1"
+
+bundler_args: --binstubs --without development production docker
 
 before_script:
-  - sh script/ci_setup.sh $DB
+  - sh script/ci_setup.sh $TEST_SUITE $DB
 
 script:
   - sh script/ci_runner.sh
@@ -119,3 +99,4 @@ script:
 addons:
   firefox: "45.0esr"
   postgresql: "9.3"
+

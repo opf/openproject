@@ -116,5 +116,16 @@ describe 'updating a budget', type: :feature, js: true do
       expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'
     end
+
+    it 'removes existing cost items' do
+      budget_page.visit!
+
+      click_on 'Update'
+
+      page.find("#cost_object_existing_labor_budget_item_attributes_#{labor_budget_item.id} a.delete-budget-item").click
+      click_on 'Submit'
+
+      expect(budget_page.labor_costs_at(1)).not_to have_content '125.00 EUR'
+    end
   end
 end

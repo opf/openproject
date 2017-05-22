@@ -151,6 +151,13 @@ class CostObjectsController < ApplicationController
     # TODO: use better way to prevent mass assignment errors
     params[:cost_object].delete(:kind)
     @cost_object.attributes = permitted_params.cost_object if params[:cost_object]
+    if params[:cost_object][:existing_material_budget_item_attributes].nil?
+      @cost_object.existing_material_budget_item_attributes=({})
+    end
+    if params[:cost_object][:existing_labor_budget_item_attributes].nil?
+      @cost_object.existing_labor_budget_item_attributes=({})
+    end
+
 
     if @cost_object.save
       Attachment.attach_files(@cost_object, params[:attachments])
