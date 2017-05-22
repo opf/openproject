@@ -140,7 +140,7 @@ td.subject .wp-table--cell-container .wp-edit-field:not(.wp-table--cell-span)
 
 // Mark focused, non-editable read-values
 .inplace-edit--read-value.-read-only,
-.wp-table--cell-span.-read-only
+.wp-table--cell-span:not(.id).-read-only
   &:focus, &:hover
     color: $inplace-edit--color--disabled
     background: $inplace-edit--bg-color--disabled
