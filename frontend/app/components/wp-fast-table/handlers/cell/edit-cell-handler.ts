@@ -4,7 +4,7 @@ import {injectorBridge} from "../../../angular/angular-injector-bridge.functions
 import {States} from "../../../states.service";
 import {TableRowEditContext} from "../../../wp-edit-form/table-row-edit-context";
 import {WorkPackageEditForm} from "../../../wp-edit-form/work-package-edit-form";
-import {cellClassName, editableClassName} from "../../builders/cell-builder";
+import {cellClassName, editableClassName, readOnlyClassName} from "../../builders/cell-builder";
 import {rowClassName} from "../../builders/rows/single-row-builder";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {ClickOrEnterHandler} from "../click-or-enter-handler";
@@ -60,9 +60,13 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     form.editContext = new TableRowEditContext(workPackageId);
 
     // Activate the field
-    form.activate(fieldName).then((fieldElement:ng.IAugmentedJQuery) => {
-      this.setClickPosition(fieldElement.find('input'), positionOffset);
-    });
+    form.activate(fieldName)
+      .then((fieldElement:ng.IAugmentedJQuery) => {
+        this.setClickPosition(fieldElement.find('input'), positionOffset);
+      })
+      .catch(() => {
+        target.addClass(readOnlyClassName);
+      });
 
     return false;
   }

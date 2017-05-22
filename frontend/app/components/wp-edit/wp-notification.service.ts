@@ -82,6 +82,13 @@ export class WorkPackageNotificationService {
     this.NotificationsService.addError(this.I18n.t('js.error.internal'));
   }
 
+  public showEditingBlockedError(attribute:string) {
+    this.NotificationsService.addError(this.I18n.t(
+      'js.work_packages.error.edit_prohibited',
+      { attribute: attribute }
+    ));
+  }
+
   private showCustomError(errorResource:any, workPackage:WorkPackageResourceInterface) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
 
