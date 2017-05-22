@@ -149,13 +149,9 @@ export class WorkPackageTableTimelineRelations {
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([[relations, rendered], timelineVisible]) => relations && timelineVisible.isVisible)
       .map(([[relationStateValue, rendered], timelineVisible]) => relationStateValue)
-      .map(([workPackageId, relations]): [string, RelationsStateValue] => {
-        let relevantRelations = _.pickBy(relations!, (relation: RelationResource) => (relation.type === "precedes" || relation.type === "follows")) as any;
-        return [workPackageId, relevantRelations];
-      })
-      .filter(([workPackageId, relations]) => !!(workPackageId && this.wpTimeline.cells[workPackageId as string]))
+      .filter(([workPackageId, relations]) => !!(relations && workPackageId && this.wpTimeline.cells[workPackageId as string]))
       .subscribe(([workPackageId, relations]) => {
-        this.refreshRelations(relations);
+        this.refreshRelations(relations!);
       });
 
     this.states.workPackages.observeChange()
@@ -170,7 +166,11 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private refreshRelations(relations: RelationsStateValue) {
-    _.each(relations, (relation:RelationResource) => {
+    const relevant = _.pickBy(relations, (relation: RelationResource) => {
+      return relation.type === "precedes" || relation.type === "follows";
+    });
+
+    _.each(relevant, (relation:RelationResource) => {
       this.removeRelationElementsForWorkPackage(relation.ids.from);
       const elem = new TimelineRelationElement(relation.ids.from, relation);
       this.elements.push(elem);
