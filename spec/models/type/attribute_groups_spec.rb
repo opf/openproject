@@ -135,7 +135,6 @@ describe ::Type, type: :model do
 
       it 'contains Hashes ordered by key :translation' do
         # The first left over attribute should currently be "date"
-        expect(subject.first[:key]).to eq "category"
         expect(subject.first[:translation]).to be_present
         expect(subject.first[:translation] <= subject.second[:translation]).to be_truthy
       end
