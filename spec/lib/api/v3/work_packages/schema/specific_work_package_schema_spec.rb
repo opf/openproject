@@ -263,7 +263,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
     it "is a list custom fields' possible values" do
       expect(subject.assignable_custom_field_values(list_cf))
-        .to eql list_cf.possible_values
+        .to match_array list_cf.possible_values
     end
 
     it "is a version custom fields' project values" do

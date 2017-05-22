@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -53,7 +54,7 @@ describe TypesController, type: :controller do
 
   it 'should post create' do
     post :create, tab: "settings", type: {
-      name: 'New type',
+      name: 'New type'
     }
     type = ::Type.find_by(name: 'New type')
     assert_redirected_to action: 'edit', tab: 'settings', id: type.id
