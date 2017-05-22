@@ -25,6 +25,17 @@ You can set this `DATABASE_URL` parameter yourself to either a MySQL or PostgreS
 
 You can use these ENV parameters to customize OpenProject. See [OpenProject configuration](https://www.openproject.org/operations/configuration).
 
+
+### Setting the locale for initial seed data
+
+The OpenProject installer wizard will reuse the `LOCALE` environment variable to determine in which language the instance is seeded (Initial names for work package types, categories, status, etc.).
+
+To override that value, set the locale to your lowercase two-digit country code, e.g., for German localization:
+
+```
+openproject config:set LOCALE="de"
+```
+
 ### Package configuration
 
 After the installation of the OpenProject package the system has to be
