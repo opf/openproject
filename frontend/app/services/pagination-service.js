@@ -27,9 +27,18 @@
 //++
 
 module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm, $window) {
+  function getCachedPerPage() {
+    var perPage = parseInt($window.localStorage.getItem('pagination.perPage'), 10);
+
+    if (perPage > 0) {
+      return perPage.toString();
+    }
+  }
+
+
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
-    perPage: $window.localStorage.getItem('pagination.perPage'),
+    perPage: getCachedPerPage(),
     perPageOptions: [],
     maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
     optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
@@ -55,7 +64,9 @@ module.exports = function(DEFAULT_PAGINATION_OPTIONS, ConfigurationDm, $window) 
       return paginationOptions.optionsTruncationSize;
     },
     setPerPage: function(perPage) {
-      $window.localStorage.setItem('pagination.perPage', perPage);
+      if (parseInt(perPage, 10) > 0) {
+        $window.localStorage.setItem('pagination.perPage', perPage);
+      }
       paginationOptions.perPage = perPage;
     },
     getPerPageOptions: function() {
