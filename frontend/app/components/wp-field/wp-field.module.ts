@@ -32,6 +32,10 @@ export class Field {
   public static type:string;
   public static $injector:ng.auto.IInjectorService;
 
+  public get displayName():string {
+    return this.schema.name || this.name;
+  }
+
   public get value() {
     return this.resource[this.name];
   }

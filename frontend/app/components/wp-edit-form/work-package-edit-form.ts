@@ -93,6 +93,7 @@ export class WorkPackageEditForm {
       ) as EditField;
 
       if (!field.writable) {
+        this.wpNotificationsService.showEditingBlockedError(field.displayName);
         return this.$q.reject();
       }
 

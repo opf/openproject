@@ -34,6 +34,7 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
 import {EditField} from "./wp-edit-field.module";
 import {WorkPackageEditFieldService} from "./wp-edit-field.service";
+import {WorkPackageNotificationService} from '../wp-notification.service';
 
 export class WorkPackageEditFieldController {
   public formCtrl: WorkPackageEditFormController;
@@ -65,6 +66,7 @@ export class WorkPackageEditFieldController {
               protected $q:ng.IQService,
               protected FocusHelper:any,
               protected NotificationsService:any,
+              protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:any,
               protected contextMenu:ContextMenuService,
               protected wpCacheService: WorkPackageCacheService,
@@ -224,10 +226,7 @@ export class WorkPackageEditFieldController {
       // Display a generic error if the field turns out not to be editable,
       // despite the field being editable.
       if (this.isEditable && !active) {
-        this.NotificationsService.addError(this.I18n.t(
-          'js.work_packages.error.edit_prohibited',
-          {attribute: this.field.schema.name}
-        ));
+        this.wpNotificationsService.showEditingBlockedError(this.field.displayName);
       }
     });
   }
