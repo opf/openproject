@@ -240,8 +240,8 @@ en:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
         reset_title: "Reset form configuration"
         confirm_reset: >
-          Are you sure you want to reset the form configuration?
-          This will remove all customizations you made in this tab and also disable ALL custom fields.
+          Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility checkboxes, and disable ALL custom fields.
         upgrade_to_ee: "Upgrade to Enterprise Edition"
         upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
         more_information: "More information"
