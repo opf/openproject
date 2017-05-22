@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'enumerations_controller'
 
 describe EnumerationsController, type: :controller do
@@ -43,13 +44,13 @@ describe EnumerationsController, type: :controller do
   end
 
   it 'should destroy enumeration not in use' do
-    post :destroy, id: 7
+    post :destroy, params: { id: 7 }
     assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by(id: 7)
   end
 
   it 'should destroy enumeration in use' do
-    post :destroy, id: 4
+    post :destroy, params: { id: 4 }
     assert_response :success
     assert_template 'destroy'
     refute_nil Enumeration.find_by(id: 4)
@@ -57,7 +58,7 @@ describe EnumerationsController, type: :controller do
 
   it 'should destroy enumeration in use with reassignment' do
     issue = WorkPackage.find_by(priority_id: 4)
-    post :destroy, id: 4, reassign_to_id: 6
+    post :destroy, params: { id: 4, reassign_to_id: 6 }
     assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by(id: 4)
     # check that the issue was reassign

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'messages_controller'
 
 describe MessagesController, type: :controller do
@@ -39,7 +40,7 @@ describe MessagesController, type: :controller do
   end
 
   it 'should show' do
-    get :show, board_id: 1, id: 1
+    get :show, params: { board_id: 1, id: 1 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:board)
@@ -56,7 +57,7 @@ describe MessagesController, type: :controller do
         message.children << m
       end
     end
-    get :show, board_id: 1, id: 1, per_page: 100, r: message.children.order('id').last.id
+    get :show, params: { board_id: 1, id: 1, per_page: 100, r: message.children.order('id').last.id }
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)
@@ -67,21 +68,22 @@ describe MessagesController, type: :controller do
 
   it 'should show with reply permission' do
     session[:user_id] = 2
-    get :show, board_id: 1, id: 1
+    get :show, params: { board_id: 1, id: 1 }
     assert_response :success
     assert_template 'show'
-    assert_select 'div', attributes: { id: 'reply' },
-                     descendant: { tag: 'textarea', attributes: { id: 'reply_content' } }
+    assert_select 'div',
+                  attributes: { id: 'reply' },
+                  descendant: { tag: 'textarea', attributes: { id: 'reply_content' } }
   end
 
   it 'should show message not found' do
-    get :show, board_id: 1, id: 99999
+    get :show, params: { board_id: 1, id: 99999 }
     assert_response 404
   end
 
   it 'should get new' do
     session[:user_id] = 2
-    get :new, board_id: 1
+    get :new, params: { board_id: 1 }
     assert_response :success
     assert_template 'new'
   end
@@ -90,9 +92,14 @@ describe MessagesController, type: :controller do
     session[:user_id] = 2
     allow(Setting).to receive(:notified_events).and_return ['message_posted']
 
-    post :create, board_id: 1,
-                  message: { subject: 'Test created message',
-                             content: 'Message body' }
+    post :create,
+         params: {
+           board_id: 1,
+           message: {
+             subject: 'Test created message',
+             content: 'Message body'
+           }
+         }
     message = Message.find_by(subject: 'Test created message')
     refute_nil message
     assert_redirected_to topic_path(message)
@@ -106,7 +113,8 @@ describe MessagesController, type: :controller do
     mail = mails_to_author.first
     assert mail.to.include?('jsmith@somenet.foo')
     assert_kind_of Mail::Message, mail
-    assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message", mail.subject
+    assert_equal "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] Test created message",
+                 mail.subject
     assert mail.body.encoded.include?('Message body')
 
     # project member
@@ -117,16 +125,21 @@ describe MessagesController, type: :controller do
 
   it 'should get edit' do
     session[:user_id] = 2
-    get :edit, id: 1
+    get :edit, params: { id: 1 }
     assert_response :success
     assert_template 'edit'
   end
 
   it 'should put update' do
     session[:user_id] = 2
-    put :update, id: 1,
-                 message: { subject: 'New subject',
-                            content: 'New body' }
+    put :update,
+        params: {
+          id: 1,
+          message: {
+            subject: 'New subject',
+            content: 'New body'
+          }
+        }
     message = Message.find(1)
     assert_redirected_to topic_path(message)
     assert_equal 'New subject', message.subject
@@ -135,7 +148,7 @@ describe MessagesController, type: :controller do
 
   it 'should reply' do
     session[:user_id] = 2
-    post :reply, board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' }
+    post :reply, params: { board_id: 1, id: 1, reply: { content: 'This is a test reply', subject: 'Test reply' } }
     reply = Message.order('id DESC').first
     assert_redirected_to topic_path(1, r: reply)
     assert Message.find_by(subject: 'Test reply')
@@ -143,14 +156,14 @@ describe MessagesController, type: :controller do
 
   it 'should destroy topic' do
     session[:user_id] = 2
-    delete :destroy, id: 1
+    delete :destroy, params: { id: 1 }
     assert_redirected_to project_board_path('ecookbook', 1)
     assert_nil Message.find_by(id: 1)
   end
 
   it 'should quote' do
     session[:user_id] = 2
-    xhr :get, :quote, board_id: 1, id: 3
+    get :quote, params: { board_id: 1, id: 3 }, xhr: true
     assert_response :success
     assert_template 'quote'
   end

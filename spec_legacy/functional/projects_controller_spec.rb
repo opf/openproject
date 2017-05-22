@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -47,16 +48,20 @@ describe ProjectsController, type: :controller do
     assert_template 'index'
     refute_nil assigns(:projects)
 
-    assert_select 'ul', child: { tag: 'li',
-                             descendant: { tag: 'a', content: 'eCookbook' },
-                             child: { tag: 'ul',
-                                      descendant: { tag: 'a',
-                                                    content: 'Child of private child'
-                                                           }
-                                          }
-                               }
+    assert_select 'ul',
+                  child: {
+                    tag: 'li',
+                    descendant: { tag: 'a', content: 'eCookbook' },
+                    child: {
+                      tag: 'ul',
+                      descendant: {
+                        tag: 'a',
+                        content: 'Child of private child'
+                      }
+                    }
+                  }
 
-    assert_select('a', {content: /Private child of eCookbook/}, false)
+    assert_select('a', { content: /Private child of eCookbook/ }, false)
   end
 
   it 'should index atom' do
@@ -78,7 +83,7 @@ describe ProjectsController, type: :controller do
       it 'should not show overall spent time link' do
         get :index
         assert_template 'index'
-        assert_select('a', {attributes: { href: '/time_entries' }}, false)
+        assert_select('a', { attributes: { href: '/time_entries' } }, false)
       end
     end
   end
@@ -106,7 +111,7 @@ describe ProjectsController, type: :controller do
         get :new
         assert_response :success
         assert_template 'new'
-        assert_select('select', {attributes: { name: 'project[parent_id]' }}, false)
+        assert_select('select', { attributes: { name: 'project[parent_id]' } }, false)
       end
     end
 
@@ -118,15 +123,20 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should accept get' do
-        get :new, parent_id: 'ecookbook'
+        get :new, params: { parent_id: 'ecookbook' }
         assert_response :success
         assert_template 'new'
         # parent project selected
-        assert_select 'select', attributes: { name: 'project[parent_id]' },
-                            child: { tag: 'option', attributes: { value: '1', selected: 'selected' } }
+        assert_select 'select',
+                      attributes: { name: 'project[parent_id]' },
+                      child: { tag: 'option', attributes: { value: '1', selected: 'selected' } }
         # no empty value
-        assert_select('select', {attributes: { name: 'project[parent_id]' },
-                               child: { tag: 'option', attributes: { value: '' } }}, false)
+        assert_select('select',
+                      {
+                        attributes: { name: 'project[parent_id]' },
+                        child: { tag: 'option', attributes: { value: '' } }
+                      },
+                      false)
       end
     end
   end
@@ -139,16 +149,18 @@ describe ProjectsController, type: :controller do
 
       it 'should create a new project' do
         post :create,
-             project: {
-               name: 'blog',
-               description: 'weblog',
-               identifier: 'blog',
-               is_public: 1,
-               custom_field_values: { :'3' => '5' },
-               type_ids: ['1', '3'],
-               # an issue custom field that is not for all project
-               work_package_custom_field_ids: ['9'],
-               enabled_module_names: ['work_package_tracking', 'news', 'repository']
+             params: {
+               project: {
+                 name: 'blog',
+                 description: 'weblog',
+                 identifier: 'blog',
+                 is_public: 1,
+                 custom_field_values: { '3': '5' },
+                 type_ids: ['1', '3'],
+                 # an issue custom field that is not for all project
+                 work_package_custom_field_ids: ['9'],
+                 enabled_module_names: ['work_package_tracking', 'news', 'repository']
+               }
              }
         assert_redirected_to '/projects/blog/work_packages'
 
@@ -165,13 +177,17 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should create a new subproject' do
-        post :create, project: { name: 'blog',
-                                 description: 'weblog',
-                                 identifier: 'blog',
-                                 is_public: 1,
-                                 custom_field_values: { '3' => '5' },
-                                 parent_id: 1
-                                }
+        post :create,
+             params: {
+               project: {
+                 name: 'blog',
+                 description: 'weblog',
+                 identifier: 'blog',
+                 is_public: 1,
+                 custom_field_values: { '3' => '5' },
+                 parent_id: 1
+               }
+             }
         assert_redirected_to '/projects/blog/work_packages'
 
         project = Project.find_by(name: 'blog')
@@ -187,14 +203,18 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should accept create a Project' do
-        post :create, project: { name: 'blog',
-                                 description: 'weblog',
-                                 identifier: 'blog',
-                                 is_public: 1,
-                                 custom_field_values: { '3' => '5' },
-                                 type_ids: ['1', '3'],
-                                 enabled_module_names: ['work_package_tracking', 'news', 'repository']
-                                }
+        post :create,
+             params: {
+               project: {
+                 name: 'blog',
+                 description: 'weblog',
+                 identifier: 'blog',
+                 is_public: 1,
+                 custom_field_values: { '3' => '5' },
+                 type_ids: ['1', '3'],
+                 enabled_module_names: ['work_package_tracking', 'news', 'repository']
+               }
+             }
 
         assert_redirected_to '/projects/blog/work_packages'
 
@@ -212,13 +232,17 @@ describe ProjectsController, type: :controller do
 
       it 'should fail with parent_id' do
         assert_no_difference 'Project.count' do
-          post :create, project: { name: 'blog',
-                                   description: 'weblog',
-                                   identifier: 'blog',
-                                   is_public: 1,
-                                   custom_field_values: { '3' => '5' },
-                                   parent_id: 1
-                                  }
+          post :create,
+               params: {
+                 project: {
+                   name: 'blog',
+                   description: 'weblog',
+                   identifier: 'blog',
+                   is_public: 1,
+                   custom_field_values: { '3' => '5' },
+                   parent_id: 1
+                 }
+               }
         end
         assert_response :success
         project = assigns(:project)
@@ -235,25 +259,32 @@ describe ProjectsController, type: :controller do
       end
 
       it 'should create a project with a parent_id' do
-        post :create, project: { name: 'blog',
-                                 description: 'weblog',
-                                 identifier: 'blog',
-                                 is_public: 1,
-                                 custom_field_values: { '3' => '5' },
-                                 parent_id: 1
-                                }
+        post :create,
+             params: {
+               project: {
+                 name: 'blog',
+                 description: 'weblog',
+                 identifier: 'blog',
+                 is_public: 1,
+                 custom_field_values: { '3' => '5' },
+                 parent_id: 1
+               }
+             }
         assert_redirected_to '/projects/blog/work_packages'
-        project = Project.find_by(name: 'blog')
       end
 
       it 'should fail without parent_id' do
         assert_no_difference 'Project.count' do
-          post :create, project: { name: 'blog',
-                                   description: 'weblog',
-                                   identifier: 'blog',
-                                   is_public: 1,
-                                   custom_field_values: { '3' => '5' }
-                                  }
+          post :create,
+               params: {
+                 project: {
+                   name: 'blog',
+                   description: 'weblog',
+                   identifier: 'blog',
+                   is_public: 1,
+                   custom_field_values: { '3' => '5' }
+                 }
+               }
         end
         assert_response :success
         project = assigns(:project)
@@ -264,13 +295,17 @@ describe ProjectsController, type: :controller do
       it 'should fail with unauthorized parent_id' do
         assert !User.find(2).member_of?(Project.find(6))
         assert_no_difference 'Project.count' do
-          post :create, project: { name: 'blog',
-                                   description: 'weblog',
-                                   identifier: 'blog',
-                                   is_public: 1,
-                                   custom_field_values: { '3' => '5' },
-                                   parent_id: 6
-                                  }
+          post :create,
+               params: {
+                 project: {
+                   name: 'blog',
+                   description: 'weblog',
+                   identifier: 'blog',
+                   is_public: 1,
+                   custom_field_values: { '3' => '5' },
+                   parent_id: 6
+                 }
+               }
         end
         assert_response :success
         project = assigns(:project)
@@ -285,11 +320,14 @@ describe ProjectsController, type: :controller do
     it 'should create should preserve modules on validation failure' do
       session[:user_id] = 1
       assert_no_difference 'Project.count' do
-        post :create, project: {
-          name: 'blog',
-          identifier: '',
-          enabled_module_names: %w(work_package_tracking news)
-        }
+        post :create,
+             params: {
+               project: {
+                 name: 'blog',
+                 identifier: '',
+                 enabled_module_names: %w(work_package_tracking news)
+               }
+             }
       end
       assert_response :success
       project = assigns(:project)
@@ -298,14 +336,14 @@ describe ProjectsController, type: :controller do
   end
 
   it 'should show by id' do
-    get :show, id: 1
+    get :show, params: { id: 1 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:project)
   end
 
   it 'should show by identifier' do
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:project)
@@ -316,18 +354,18 @@ describe ProjectsController, type: :controller do
 
   it 'should show should not display hidden custom fields' do
     ProjectCustomField.find_by(name: 'Development status').update_attribute :visible, false
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:project)
 
-    assert_select('li', {content: /Development status/}, false)
+    assert_select('li', { content: /Development status/ }, false)
   end
 
   it 'should show should not fail when custom values are nil' do
     project = Project.find_by(identifier: 'ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:project)
@@ -338,22 +376,22 @@ describe ProjectsController, type: :controller do
     project = Project.find_by(identifier: 'ecookbook')
     project.archive!
 
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response 403
     assert_nil assigns(:project)
     assert_select 'p', content: /archived/
   end
 
   it 'should private subprojects hidden' do
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response :success
     assert_template 'show'
-    assert_select('a', {content: /Private child/}, false)
+    assert_select('a', { content: /Private child/ }, false)
   end
 
   it 'should private subprojects visible' do
     session[:user_id] = 2 # manager who is a member of the private subproject
-    get :show, id: 'ecookbook'
+    get :show, params: { id: 'ecookbook' }
     assert_response :success
     assert_template 'show'
     assert_select 'a', content: /Private child/
@@ -361,15 +399,21 @@ describe ProjectsController, type: :controller do
 
   it 'should settings' do
     session[:user_id] = 2 # manager
-    get :settings, id: 1
+    get :settings, params: { id: 1 }
     assert_response :success
     assert_template 'settings'
   end
 
   it 'should update' do
     session[:user_id] = 2 # manager
-    put :update, id: 1, project: { name: 'Test changed name',
-                                   issue_custom_field_ids: [''] }
+    put :update,
+        params: {
+          id: 1,
+          project: {
+            name: 'Test changed name',
+            issue_custom_field_ids: ['']
+          }
+        }
     assert_redirected_to '/projects/ecookbook/settings'
     project = Project.find(1)
     assert_equal 'Test changed name', project.name
@@ -379,14 +423,14 @@ describe ProjectsController, type: :controller do
     session[:user_id] = 2
     Project.find(1).enabled_module_names = ['work_package_tracking', 'news']
 
-    put :modules, id: 1, project: { enabled_module_names: ['work_package_tracking', 'repository'] }
+    put :modules, params: { id: 1, project: { enabled_module_names: ['work_package_tracking', 'repository'] } }
     assert_redirected_to '/projects/ecookbook/settings/modules'
     assert_equal ['repository', 'work_package_tracking'], Project.find(1).enabled_module_names.sort
   end
 
   it 'should get destroy info' do
     session[:user_id] = 1 # admin
-    get :destroy_info, id: 1
+    get :destroy_info, params: { id: 1 }
     assert_response :success
     assert_template 'destroy_info'
     refute_nil Project.find_by(id: 1)
@@ -394,14 +438,14 @@ describe ProjectsController, type: :controller do
 
   it 'should post destroy' do
     session[:user_id] = 1 # admin
-    delete :destroy, id: 1, confirm: 1
+    delete :destroy, params: { id: 1, confirm: 1 }
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by(id: 1)
   end
 
   it 'should archive' do
     session[:user_id] = 1 # admin
-    put :archive, id: 1
+    put :archive, params: { id: 1 }
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
@@ -409,24 +453,24 @@ describe ProjectsController, type: :controller do
   it 'should unarchive' do
     session[:user_id] = 1 # admin
     Project.find(1).archive
-    put :unarchive, id: 1
+    put :unarchive, params: { id: 1 }
     assert_redirected_to '/admin/projects'
     assert Project.find(1).active?
   end
 
   it 'should jump should redirect to active tab' do
-    get :show, id: 1, jump: 'work_packages'
+    get :show, params: { id: 1, jump: 'work_packages' }
     assert_redirected_to controller: :work_packages, action: :index, project_id: 'ecookbook'
   end
 
   it 'should jump should not redirect to inactive tab' do
-    get :show, id: 3, jump: 'news'
+    get :show, params: { id: 3, jump: 'news' }
     assert_response :success
     assert_template 'show'
   end
 
   it 'should jump should not redirect to unknown tab' do
-    get :show, id: 3, jump: 'foobar'
+    get :show, params: { id: 3, jump: 'foobar' }
     assert_response :success
     assert_template 'show'
   end
@@ -434,7 +478,7 @@ describe ProjectsController, type: :controller do
   # A hook that is manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
-      context[:controller].send(:render, text: '<p id="hookselector">Hello from hook!</p>')
+      context[:controller].send(:render, html: '<p id="hookselector">Hello from hook!</p>')
     end
   end
   # Don't use this hook now
@@ -442,7 +486,7 @@ describe ProjectsController, type: :controller do
 
   it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
-    get :show, id: 1
+    get :show, params: { id: 1 }
     assert_select('p#hookselector')
 
     Redmine::Hook.clear_listeners

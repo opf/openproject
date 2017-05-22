@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe ProjectEnumerationsController, type: :controller do
   fixtures :all
@@ -41,12 +42,20 @@ describe ProjectEnumerationsController, type: :controller do
     session[:user_id] = 2 # manager
     billable_field = TimeEntryActivityCustomField.find_by(name: 'Billable')
 
-    put :update, project_id: 1, enumerations: {
-      '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' }, # Design, De-activate
-      '10' => { 'parent_id' => '10', 'custom_field_values' => { '7' => '0' }, 'active' => '1' }, # Development, Change custom value
-      '14' => { 'parent_id' => '14', 'custom_field_values' => { '7' => '1' }, 'active' => '1' }, # Inactive Activity, Activate with custom value
-      '11' => { 'parent_id' => '11', 'custom_field_values' => { '7' => '1' }, 'active' => '1' } # QA, no changes
+    params = {
+      project_id: 1,
+      enumerations: {
+        # Design, De-activate
+        '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' },
+        # Development, Change custom value
+        '10' => { 'parent_id' => '10', 'custom_field_values' => { '7' => '0' }, 'active' => '1' },
+        # Inactive Activity, Activate with custom value
+        '14' => { 'parent_id' => '14', 'custom_field_values' => { '7' => '1' }, 'active' => '1' },
+        '11' => { 'parent_id' => '11', 'custom_field_values' => { '7' => '1' }, 'active' => '1' } # QA, no changes
+      }
     }
+
+    put :update, params: params
 
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
@@ -105,10 +114,15 @@ describe ProjectEnumerationsController, type: :controller do
     )
     assert project_activity_two.save
 
-    put :update, project_id: 1, enumerations: {
-      project_activity.id => { 'custom_field_values' => { '7' => '1' }, 'active' => '0' }, # De-activate
-      project_activity_two.id => { 'custom_field_values' => { '7' => '1' }, 'active' => '0' } # De-activate
+    params = {
+      project_id: 1,
+      enumerations: {
+        project_activity.id => { 'custom_field_values' => { '7' => '1' }, 'active' => '0' }, # De-activate
+        project_activity_two.id => { 'custom_field_values' => { '7' => '1' }, 'active' => '0' } # De-activate
+      }
     }
+
+    put :update, params: params
 
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
@@ -132,16 +146,24 @@ describe ProjectEnumerationsController, type: :controller do
     assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size
 
     session[:user_id] = 2 # manager
-    put :update, project_id: 1, enumerations: {
-      '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' } # Design, De-activate
+
+    params = {
+      project_id: 1,
+      enumerations: {
+        '9' => { 'parent_id' => '9', 'custom_field_values' => { '7' => '1' }, 'active' => '0' } # Design, De-activate
+      }
     }
+    put :update, params: params
+
     assert_response :redirect
 
     # No more TimeEntries using the system activity
     assert_equal 0, TimeEntry.where(activity_id: 9, project_id: 1).size, 'Time Entries still assigned to system activities'
     # All TimeEntries using project activity
     project_specific_activity = TimeEntryActivity.find_by(parent_id: 9, project_id: 1)
-    assert_equal 3, TimeEntry.where(activity_id: project_specific_activity.id, project_id: 1).size, 'No Time Entries assigned to the project activity'
+    assert_equal 3,
+                 TimeEntry.where(activity_id: project_specific_activity.id, project_id: 1).size,
+                 'No Time Entries assigned to the project activity'
   end
 
   it 'update when creating new activities will not convert existing data if an exception is raised' do
@@ -165,16 +187,27 @@ describe ProjectEnumerationsController, type: :controller do
 
     session[:user_id] = 2 # manager
 
-    put :update, project_id: 1,
-                 enumerations: { '9' => { 'parent_id' => parent.id,
-                                          'custom_field_values' => { '7' => '1' },
-                                          'active' => '0' } }
+    params = {
+      project_id: 1,
+      enumerations: {
+        '9' => { 'parent_id' => parent.id,
+                 'custom_field_values' => { '7' => '1' },
+                 'active' => '0' }
+      }
+    }
+
+    put :update, params: params
+
     assert_response :redirect
 
     # TimeEntries shouldn't have been reassigned on the failed record
-    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size, 'Time Entries are not assigned to system activities'
+    assert_equal 3,
+                 TimeEntry.where(activity_id: 9, project_id: 1).size,
+                 'Time Entries are not assigned to system activities'
     # TimeEntries shouldn't have been reassigned on the saved record either
-    assert_equal 1, TimeEntry.where(activity_id: 10, project_id: 1).size, 'Time Entries are not assigned to system activities'
+    assert_equal 1,
+                 TimeEntry.where(activity_id: 10, project_id: 1).size,
+                 'Time Entries are not assigned to system activities'
   end
 
   it 'destroy' do
@@ -194,7 +227,7 @@ describe ProjectEnumerationsController, type: :controller do
     )
     assert project_activity_two.save
 
-    delete :destroy, project_id: 1
+    delete :destroy, params: { project_id: 1 }
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
@@ -215,12 +248,16 @@ describe ProjectEnumerationsController, type: :controller do
       .update_all("activity_id = '#{project_activity.id}'")
     assert_equal 3, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size
 
-    delete :destroy, project_id: 1
+    delete :destroy, params: { project_id: 1 }
     assert_response :redirect
     assert_redirected_to '/projects/ecookbook/settings/activities'
 
     assert_nil TimeEntryActivity.find_by(id: project_activity.id)
-    assert_equal 0, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size, 'TimeEntries still assigned to project specific activity'
-    assert_equal 3, TimeEntry.where(activity_id: 9, project_id: 1).size, 'TimeEntries still assigned to project specific activity'
+    assert_equal 0,
+                 TimeEntry.where(activity_id: project_activity.id, project_id: 1).size,
+                 'TimeEntries still assigned to project specific activity'
+    assert_equal 3,
+                 TimeEntry.where(activity_id: 9, project_id: 1).size,
+                 'TimeEntries still assigned to project specific activity'
   end
 end
