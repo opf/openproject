@@ -1,3 +1,16 @@
+import * as moment from "moment";
+
+import {Observable} from "rxjs";
+import {openprojectModule} from "../../../../angular-modules";
+import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
+import {debugLog} from "../../../../helpers/debug_output";
+import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
+import {States} from "../../../states.service";
+import {WorkPackageStates} from "../../../work-package-states.service";
+import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
+import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,30 +38,16 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {openprojectModule} from '../../../../angular-modules';
-import {States} from '../../../states.service';
-import {WorkPackageStates} from '../../../work-package-states.service';
-import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
-import {TimelineRelationElement} from './timeline-relation-element';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
-import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
-
-import {Observable} from 'rxjs';
-import * as moment from 'moment';
+import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
+import {TimelineRelationElement} from "./timeline-relation-element";
 import Moment = moment.Moment;
-import {RenderedRow} from '../../../wp-fast-table/builders/modes/table-render-pass';
-import {debugLog} from '../../../../helpers/debug_output';
 
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
 function newSegment(vp:TimelineViewParameters,
                     classNames:string[],
-                    Yposition:number,
+                    yPosition: number,
                     top:number,
                     left:number,
                     width:number,
@@ -62,7 +61,7 @@ function newSegment(vp:TimelineViewParameters,
   );
 
   // segment.style.backgroundColor = color;
-  segment.style.top = ((Yposition * 41) + top) + 'px';
+  segment.style.top = ((yPosition * 41) + top) + "px";
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';
   segment.style.height = height + 'px';
@@ -143,34 +142,37 @@ export class WorkPackageTableTimelineRelations {
    */
   private setupRelationSubscription() {
     // Refresh drawn work package order
-    // TODO: Move the rendered work packages into separate state
     Observable.combineLatest(
-      this.wpStates.relations.observeChange().takeUntil(scopeDestroyed$(this.$scope)),
-      this.states.table.rendered.values$().takeUntil(scopeDestroyed$(this.$scope))
-    )
-      .withLatestFrom(
-        this.states.table.timelineVisible.values$().takeUntil(scopeDestroyed$(this.$scope))
-      )
+      this.wpStates.relations.observeChange(),
+      this.states.table.rendered.values$())
+      .withLatestFrom(this.states.table.timelineVisible.values$())
+      .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([[relations, rendered], timelineVisible]) => relations && timelineVisible.isVisible)
-      .map(([[relations, rendered], timelineVisible]) => relations)
-      .map(([workPackageId, relations]) => {
-        let relevantRelations = _.pickBy(relations!, (relation:RelationResource) => (relation.type === 'precedes' || relation.type === 'follows'));
+      .map(([[relationStateValue, rendered], timelineVisible]) => relationStateValue)
+      .map(([workPackageId, relations]): [string, RelationsStateValue] => {
+        let relevantRelations = _.pickBy(relations!, (relation: RelationResource) => (relation.type === "precedes" || relation.type === "follows")) as any;
         return [workPackageId, relevantRelations];
       })
       .filter(([workPackageId, relations]) => !!(workPackageId && this.wpTimeline.cells[workPackageId as string]))
       .subscribe(([workPackageId, relations]) => {
-        this.refreshRelations(workPackageId as string, relations);
+        this.refreshRelations(relations);
       });
+
+    this.states.workPackages.observeChange()
+      .withLatestFrom(this.states.table.timelineVisible.values$())
+      .takeUntil(scopeDestroyed$(this.$scope))
+      .filter(([, timelineVisible]) => timelineVisible.visible)
+      .map(([[id], timelineVisible]) => this.wpStates.relations.get(id))
+      .filter(state => state !== undefined)
+      .subscribe((state) => {
+        this.refreshRelations(state.value!);
+    });
   }
 
-  private refreshRelations(workPackageId:string, relations:Object) {
-    // Remove all previous relations for the work package
-    const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
-    this.container.find(`.${prefix}`).remove();
-    _.remove(this.elements, (element) => element.belongsToId === workPackageId);
-
+  private refreshRelations(relations: RelationsStateValue) {
     _.each(relations, (relation:RelationResource) => {
-      const elem = new TimelineRelationElement(workPackageId, relation);
+      this.removeRelationElementsForWorkPackage(relation.ids.from);
+      const elem = new TimelineRelationElement(relation.ids.from, relation);
       this.elements.push(elem);
 
       this.renderElement(this.wpTimeline.viewParameters, elem);
@@ -180,6 +182,14 @@ export class WorkPackageTableTimelineRelations {
   private update(vp:TimelineViewParameters) {
     this.removeAllVisibleElements();
     this.renderElements(vp);
+  }
+
+  private removeRelationElementsForWorkPackage(workPackageId: string) {
+    console.log("removeRelationElementsForWorkPackage", workPackageId, typeof workPackageId);
+    const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
+    console.log(this.container.find(`.${prefix}`));
+    this.container.find(`.${prefix}`).remove();
+    _.remove(this.elements, (element) => element.belongsToId === workPackageId);
   }
 
   private removeAllVisibleElements() {
@@ -235,7 +245,11 @@ export class WorkPackageTableTimelineRelations {
 
     if (directionY === 1) {
       // Draw a line down from from idxFrom to idxTo
-      this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41));
+      if (directionX === 1) {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41));
+      } else {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10));
+      }
     } else {
       // Draw a line from target row down to idxFrom
       this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, height * 41));
