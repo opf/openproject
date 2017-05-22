@@ -328,7 +328,7 @@ module API
             value = send custom_field.accessor_name
 
             if custom_field.field_format == 'text'
-              ::API::Decorators::Formattable.new(value)
+              ::API::Decorators::Formattable.new(value, object: self)
             else
               value
             end

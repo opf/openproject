@@ -48,6 +48,20 @@ describe ::API::Decorators::Formattable do
     is_expected.to be_json_eql('<p>A <strong>raw</strong> string!</p>'.to_json).at_path('html')
   end
 
+  context 'passing an object context' do
+    let(:object) { FactoryGirl.build_stubbed :work_package }
+    subject { described_class.new(represented, object: object) }
+
+    it 'passes that to format_text' do
+      expect(subject)
+        .to receive(:format_text).with(anything, format: 'textile', object: object)
+        .and_call_original
+
+      expect(subject.to_json)
+        .to be_json_eql('<p>A <strong>raw</strong> string!</p>'.to_json).at_path('html')
+    end
+  end
+
   context 'format specified explicitly' do
     subject { described_class.new(represented, format: 'plain').to_json }
 
