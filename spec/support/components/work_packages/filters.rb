@@ -74,7 +74,18 @@ module Components
 
         expect(page).to have_select("operators-#{id}", selected: operator)
 
-        expect_value(id, value)
+        if value
+          expect_value(id, value)
+        else
+          expect(page).to have_no_select("values-#{id}")
+        end
+      end
+
+      def expect_no_filter_by(name, selector = nil)
+        id = selector || name.downcase
+
+        expect(page).to have_no_select("operators-#{id}")
+        expect(page).to have_no_select("values-#{id}")
       end
 
       def remove_filter(field)

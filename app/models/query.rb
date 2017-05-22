@@ -231,6 +231,26 @@ class Query < ActiveRecord::Base
     end
   end
 
+  # Try to fix an invalid query
+  #
+  # Fixes:
+  # * filters:
+  #     Reduces the filter's values to those that are valid.
+  #     If the filter remains invalid, it is removed.
+  #
+  # If the query has been valid or if the error
+  # is not one of the addressed, the query is unchanged.
+
+  def valid_subset!
+    filters.each do |filter|
+      filter.valid_values!
+
+      if filter.invalid?
+        self.filters -= [filter]
+      end
+    end
+  end
+
   def add_filter(field, operator, values)
     filter = filter_for(field)
 

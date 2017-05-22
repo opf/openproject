@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ class Queries::Filters::Base
   class_attribute :model,
                   :filter_params
 
-  self.filter_params = [:operator, :values]
+  self.filter_params = %i(operator values)
 
   attr_accessor :context,
                 *filter_params
@@ -71,6 +72,10 @@ class Queries::Filters::Base
 
   def allowed_values
     nil
+  end
+
+  def valid_values!
+    type_strategy.valid_values!
   end
 
   def available?

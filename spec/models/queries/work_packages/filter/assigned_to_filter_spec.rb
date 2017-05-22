@@ -152,4 +152,40 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
     end
   end
+
+  it_behaves_like 'basic query filter' do
+    let(:order) { 4 }
+    let(:type) { :list_optional }
+    let(:class_key) { :assigned_to_id }
+
+    describe '#valid_values!' do
+      let(:user) { FactoryGirl.build_stubbed(:user) }
+      let(:loader) do
+        loader = double('loader')
+
+        allow(loader)
+          .to receive(:user_values)
+          .and_return([[user.name, user.id.to_s]])
+        allow(loader)
+          .to receive(:group_values)
+          .and_return([])
+
+        loader
+      end
+
+      before do
+        allow(::Queries::WorkPackages::Filter::PrincipalLoader)
+          .to receive(:new)
+          .and_return(loader)
+
+        instance.values = [user.id.to_s, '99999']
+      end
+
+      it 'remove the invalid value' do
+        instance.valid_values!
+
+        expect(instance.values).to match_array [user.id.to_s]
+      end
+    end
+  end
 end

@@ -38,9 +38,15 @@ module API
         # @param query [Query]
         # @param contract [Class]
         # @param form_representer [Class]
+        #
+        # Additionally, two parameters are accepted under the hood.
+        #
+        # # request_body
+        # # params
+        #
+        # Both are applied to the query in order to adapt it.
         def create_or_update_query_form(query, contract, form_representer)
-          representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
-          query = representer.from_hash Hash(request_body)
+          query = update_query_from_body_and_params(query, request_body, params)
           contract = contract.new query, current_user
           contract.validate
 
@@ -96,6 +102,15 @@ module API
           UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
           # the service mutates the given query in place so we just return it
           query
+        end
+
+        def update_query_from_body_and_params(query, body, params)
+          representer = ::API::V3::Queries::QueryRepresenter.create query, current_user: current_user
+          # Note that we do not deal with failures here. The query
+          # needs to be validated later.
+          UpdateQueryFromV3ParamsService.new(query, current_user).call(params)
+
+          representer.from_hash Hash(body)
         end
       end
     end

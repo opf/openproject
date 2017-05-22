@@ -190,6 +190,42 @@ describe Query, type: :model do
     end
   end
 
+  describe '#valid_subset!' do
+    let(:valid_status) { FactoryGirl.build_stubbed(:status) }
+
+    before do
+      allow(Status)
+        .to receive(:all)
+        .and_return([valid_status])
+
+      query.filters.clear
+      query.add_filter('status_id', '=', values)
+
+      query.valid_subset!
+    end
+
+    context 'for a status filter having valid and invalid values' do
+      let(:values) { [valid_status.id.to_s, '99999'] }
+
+      it 'leaves the filter' do
+        expect(query.filters.length).to eq 1
+      end
+
+      it 'leaves only the invalid value' do
+        expect(query.filters[0].values)
+          .to match_array [valid_status.id.to_s]
+      end
+    end
+
+    context 'for a status filter having only invalid values' do
+      let(:values) { ['99999'] }
+
+      it 'removes the filter' do
+        expect(query.filters.length).to eq 0
+      end
+    end
+  end
+
   describe '#filter_for' do
     context 'for a status_id filter' do
       before do

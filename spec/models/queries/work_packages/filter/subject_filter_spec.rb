@@ -46,6 +46,17 @@ describe Queries::WorkPackages::Filter::SubjectFilter, type: :model do
       end
     end
 
+    describe '#valid_values!' do
+      it 'is a noop' do
+        instance.values = ['none', 'is', 'changed']
+
+        instance.valid_values!
+
+        expect(instance.values)
+          .to match_array ['none', 'is', 'changed']
+      end
+    end
+
     it_behaves_like 'non ar filter'
   end
 end
