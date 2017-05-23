@@ -193,35 +193,99 @@ describe Query, type: :model do
   describe '#valid_subset!' do
     let(:valid_status) { FactoryGirl.build_stubbed(:status) }
 
-    before do
-      allow(Status)
-        .to receive(:all)
-        .and_return([valid_status])
+    context 'filters' do
+      before do
+        allow(Status)
+          .to receive(:all)
+          .and_return([valid_status])
 
-      query.filters.clear
-      query.add_filter('status_id', '=', values)
+        query.filters.clear
+        query.add_filter('status_id', '=', values)
 
-      query.valid_subset!
-    end
-
-    context 'for a status filter having valid and invalid values' do
-      let(:values) { [valid_status.id.to_s, '99999'] }
-
-      it 'leaves the filter' do
-        expect(query.filters.length).to eq 1
+        query.valid_subset!
       end
 
-      it 'leaves only the invalid value' do
-        expect(query.filters[0].values)
-          .to match_array [valid_status.id.to_s]
+      context 'for a status filter having valid and invalid values' do
+        let(:values) { [valid_status.id.to_s, '99999'] }
+
+        it 'leaves the filter' do
+          expect(query.filters.length).to eq 1
+        end
+
+        it 'leaves only the invalid value' do
+          expect(query.filters[0].values)
+            .to match_array [valid_status.id.to_s]
+        end
+      end
+
+      context 'for a status filter having only invalid values' do
+        let(:values) { ['99999'] }
+
+        it 'removes the filter' do
+          expect(query.filters.length).to eq 0
+        end
       end
     end
 
-    context 'for a status filter having only invalid values' do
-      let(:values) { ['99999'] }
+    context 'group_by' do
+      before do
+        query.group_by = group_by
+      end
 
-      it 'removes the filter' do
-        expect(query.filters.length).to eq 0
+      context 'valid' do
+        let(:group_by) { 'project' }
+
+        it 'leaves the value untouched' do
+          query.valid_subset!
+
+          expect(query.group_by).to eql group_by
+        end
+      end
+
+      context 'invalid' do
+        let(:group_by) { 'cf_0815' }
+
+        it 'removes the group by' do
+          query.valid_subset!
+
+          expect(query.group_by).to be_nil
+        end
+      end
+    end
+
+    context 'sort_criteria' do
+      before do
+        query.sort_criteria = sort_by
+      end
+
+      context 'valid' do
+        let(:sort_by) { [['project', 'desc']] }
+
+        it 'leaves the value untouched' do
+          query.valid_subset!
+
+          expect(query.sort_criteria).to eql sort_by
+        end
+      end
+
+      context 'invalid' do
+        let(:sort_by) { [['cf_0815', 'desc']] }
+
+        it 'removes the sorting' do
+          query.valid_subset!
+
+          expect(query.sort_criteria).to be_empty
+        end
+      end
+
+      context 'partially invalid' do
+        let(:sort_by) { [['cf_0815', 'desc'], ['project', 'desc']] }
+
+        it 'removes the offending values from sort' do
+          query.valid_subset!
+
+          expect(query.sort_criteria).to match_array [['project', 'desc']]
+        end
       end
     end
   end

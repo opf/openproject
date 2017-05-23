@@ -237,18 +237,17 @@ class Query < ActiveRecord::Base
   # * filters:
   #     Reduces the filter's values to those that are valid.
   #     If the filter remains invalid, it is removed.
+  # * group_by:
+  #     Removes the group by if it is invalid
+  # * sort_criteria
+  #     Removes all invalid criteria
   #
   # If the query has been valid or if the error
   # is not one of the addressed, the query is unchanged.
-
   def valid_subset!
-    filters.each do |filter|
-      filter.valid_values!
-
-      if filter.invalid?
-        self.filters -= [filter]
-      end
-    end
+    valid_filter_subset!
+    valid_group_by_subset!
+    valid_sort_criteria_subset!
   end
 
   def add_filter(field, operator, values)
@@ -544,6 +543,32 @@ class Query < ActiveRecord::Base
       [project_limiting_filter] + filters
     else
       filters
+    end
+  end
+
+  def valid_filter_subset!
+    filters.each do |filter|
+      filter.valid_values!
+
+      if filter.invalid?
+        filters.delete(filter)
+      end
+    end
+  end
+
+  def valid_group_by_subset!
+    unless groupable_columns.map(&:name).map(&:to_s).include?(group_by.to_s)
+      self.group_by = nil
+    end
+  end
+
+  def valid_sort_criteria_subset!
+    available_criteria = sortable_columns.map(&:name).map(&:to_s)
+
+    sort_criteria.each do |criteria|
+      unless available_criteria.include? criteria.first.to_s
+        sort_criteria.delete(criteria)
+      end
     end
   end
 end
