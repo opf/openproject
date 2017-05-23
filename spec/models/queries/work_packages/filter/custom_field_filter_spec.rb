@@ -295,7 +295,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     it 'is list_optional for a list' do
       instance.name = "cf_#{list_wp_custom_field.id}"
       expect(instance.allowed_values)
-        .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id] })
+        .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id.to_s] })
     end
 
     it 'is list_optional for a user' do
