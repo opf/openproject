@@ -40,7 +40,7 @@ class ::Type < ActiveRecord::Base
 
   has_many :work_packages
   has_many :workflows, dependent: :delete_all do
-    def copy(source_type)
+    def copy_from_type(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)
     end
   end

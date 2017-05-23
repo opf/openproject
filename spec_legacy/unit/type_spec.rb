@@ -39,7 +39,7 @@ describe ::Type, type: :model do
 
     target = ::Type.new(name: 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflows.copy_from_type(source)
     target.reload
     assert_equal 89, target.workflows.size
   end
@@ -55,7 +55,7 @@ describe ::Type, type: :model do
   end
 
   it 'should statuses empty' do
-    Workflow.delete_all('type_id = 1')
+    Workflow.where(type_id: 1).delete_all
     assert_equal [], ::Type.find(1).statuses
   end
 end
