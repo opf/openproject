@@ -55,7 +55,7 @@ module DemoData
     end
 
     def applicable?
-      Project.count == 0
+      Project.count.zero?
     end
 
     def project_data_seeders(project)
@@ -90,7 +90,7 @@ module DemoData
       Member.create!(
         project: project,
         user:    user,
-        roles:   [role],
+        roles:   [role]
       )
     end
 
@@ -122,9 +122,7 @@ module DemoData
     end
 
     def seed_board(project)
-      user = User.admin.first
-
-      board = Board.create!(
+      Board.create!(
         project:     project,
         name:        I18n.t('seeders.demo_data.board.name'),
         description: I18n.t('seeders.demo_data.board.description')
