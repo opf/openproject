@@ -24,7 +24,8 @@ class Widget::Filters::Label < Widget::Filters::Base
   def render
     options = {
       id:    filter_class.underscore_name,
-      class: 'advanced-filters--filter-name'
+      class: 'advanced-filters--filter-name',
+      title: h(filter_class.label)
     }
     write(content_tag(:label, options) do
       h(filter_class.label)
