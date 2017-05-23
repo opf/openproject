@@ -212,31 +212,11 @@ openprojectModule
   .run(($location:ng.ILocationService,
         $rootElement:ng.IRootElementService,
         $rootScope:ng.IRootScopeService,
-        $state:ng.ui.IStateService,
-        $window:ng.IWindowService) => {
+        $state:ng.ui.IStateService) => {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
-    $rootElement.on('click', 'a[data-ui-route]', (event) => {
-      if (!jQuery('body').has('div[ui-view]').length || event.ctrlKey || event.metaKey
-        || event.which === 2) {
-
-        return;
-
-      }
-
-      // NOTE: making use of event delegation, thus jQuery-only.
-      var elm = jQuery(event.target);
-      var absHref = elm.prop('href');
-
-      if (absHref && !elm.attr('target') && !event.isDefaultPrevented()) {
-        event.preventDefault();
-        var targetUrl = URI(absHref);
-        $location.url(targetUrl.path() + targetUrl.search());
-        $rootScope.$apply();
-      }
-    });
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
       const projectIdentifier = toParams.projectPath || $rootScope['projectIdentifier'];
