@@ -63,6 +63,7 @@ function wpRelationsAutocompleteDirective(
       input.autocomplete({
         delay: 250,
         autoFocus: false, // Accessibility!
+        appendTo: '.detail-panel--autocomplete-target',
         source: (request:{ term:string }, response:Function) => {
           autocompleteWorkPackages(request.term).then((values) => {
             selected = false;
