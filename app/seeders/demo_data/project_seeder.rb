@@ -102,7 +102,8 @@ module DemoData
                             is_public: true,
                             show_hierarchies: true,
                             timeline_visible: true,
-                            column_names: [:subject, :type, :status]
+                            column_names: [:subject, :type, :status],
+                            sort_criteria: [['parent', 'desc']]
 
       MenuItems::QueryMenuItem.create! navigatable_id: query.id,
                                        name: SecureRandom.uuid,
