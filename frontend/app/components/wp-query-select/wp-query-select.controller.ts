@@ -26,10 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service'
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service'
+import {QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {States} from '../states.service';
-import {WorkPackagesListService} from '../wp-list/wp-list.service'
+import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 
@@ -39,7 +39,7 @@ interface IAutocompleteItem {
 }
 
 interface IQueryAutocompleteJQuery extends JQuery {
-  querycomplete({}):void
+  querycomplete({}):void;
 }
 
 interface MyScope extends ng.IScope {
@@ -74,12 +74,12 @@ export class WorkPackageQuerySelectController {
     };
 
     this.setup();
-  };
+  }
 
   private setup() {
     this.loadQueries().then(collection => {
       let sortedQueries = _.reverse(_.sortBy(collection.elements, 'public'));
-      let autocompleteValues = _.map(sortedQueries, query => { return { label: query.name, query: query } } );
+      let autocompleteValues = _.map(sortedQueries, query => { return { label: query.name, query: query }; } );
 
       this.setupAutoCompletion(autocompleteValues);
 
@@ -103,7 +103,7 @@ export class WorkPackageQuerySelectController {
       select: (ul:any, selected:{item:IAutocompleteItem}) => {
         this.loadQuery(selected.item.query);
       },
-      response: (event:any,ui:any) => {
+      response: (event:any, ui:any) => {
         // Show the noResults span if we don't have any matches
         noResults.toggle(ui.content.length === 0);
       },
@@ -123,12 +123,12 @@ export class WorkPackageQuerySelectController {
       } else {
         return this.$scope.i18n.scope_private;
       }
-    }
+    };
 
-    jQuery.widget("custom.querycomplete", jQuery.ui.autocomplete, {
+    jQuery.widget('custom.querycomplete', jQuery.ui.autocomplete, {
       _create: function(this:any) {
         this._super();
-        this.widget().menu( "option", "items", "> :not(.ui-autocomplete--category)" );
+        this.widget().menu( 'option', 'items', '> :not(.ui-autocomplete--category)' );
         this._search('');
       },
       _renderMenu: function(this:any, ul:any, items:IAutocompleteItem[] ) {
@@ -138,7 +138,7 @@ export class WorkPackageQuerySelectController {
           var query = option.query;
 
           if ( query.public !== currentlyPublic ) {
-            ul.append( "<li class='ui-autocomplete--category'>" + labelFunction(query.public) + "</li>" );
+            ul.append( "<li class='ui-autocomplete--category'>" + labelFunction(query.public) + '</li>' );
             currentlyPublic = query.public;
           }
           this._renderItemData( ul, option );
