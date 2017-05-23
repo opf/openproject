@@ -64,7 +64,7 @@ module Redmine::MenuManager::MenuHelper
                   icon: 'icon2 icon-pin',
                   html:    {
                     class: 'query-menu-item',
-                    'data-ui-route' => '',
+                    'ui-sref' => "work-packages.list({ query_id: #{query_menu_item.navigatable_id} })",
                     'query-menu-item' => 'query-menu-item',
                     'object-id' => query_menu_item.navigatable_id
                   }
