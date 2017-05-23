@@ -49,6 +49,7 @@ export class FormattableDisplayField extends DisplayField {
     }
 
     angular.element(element).addClass('-multiline');
+    angular.element(element).addClass('read-value--html');
 
     let span = document.createElement('span');
     span.innerHTML = displayText;
