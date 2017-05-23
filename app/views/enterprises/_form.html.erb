@@ -10,7 +10,7 @@
              method: :post do |f|%>
 
   <div class="form--space">
-    <%= f.text_area :encoded_token, :cols => 60, :rows => 15, placeholder: t('admin.enterprise.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
+    <%= f.text_area :encoded_token, value: nil, cols: 60, rows: 15, placeholder: t('admin.enterprise.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
   </div>
 
   <div class="form--space">
