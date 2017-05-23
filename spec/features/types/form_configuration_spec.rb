@@ -288,44 +288,54 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.visit!
         wp_page.ensure_page_loaded
 
-        # Category should be hidden
-        wp_page.expect_hidden_field(:category)
+        # Version should be hidden
+        wp_page.expect_hidden_field(:version)
 
         wp_page.expect_group('New Group') do
           wp_page.expect_attributes category: category.name
         end
 
         wp_page.expect_group('Whatever') do
-          wp_page.expect_attributes percentageDone: '30'
+          wp_page.expect_attributes percentageDone: '10'
         end
 
         wp_page.expect_group('Cool Stuff') do
-          wp_page.attributes responsible: '-'
+          wp_page.expect_attributes responsible: '-'
         end
 
         # Empty attributes should be shown on toggle
         expected_attributes = ->() do
-          wp_page.expect_hidden_field(:responsible)
+          wp_page.expect_hidden_field(:assignee)
           wp_page.expect_hidden_field(:estimated_time)
           wp_page.expect_hidden_field(:spent_time)
-          wp_page.view_all_attributes
 
           wp_page.expect_group('Cool Stuff') do
             wp_page.expect_attributes responsible: '-'
-          end
-
-          wp_page.expect_group('Estimates and time') do
-            wp_page.expect_attributes estimated_time: '-'
-            wp_page.expect_attributes spent_time: '-'
           end
         end
 
         # Should match on edit view
         expected_attributes.call
 
+        # Read values for estimates and time
+        wp_page.view_all_attributes
+
+        wp_page.expect_group('Estimates and time') do
+          wp_page.expect_attributes estimated_time: '-'
+          wp_page.expect_attributes spent_time: '-'
+        end
+
         # New work package has the same configuration
         wp_page.click_create_wp_button(type)
         expected_attributes.call
+
+        # Write values for estimates and time
+        wp_page.view_all_attributes
+
+        wp_page.expect_group('Estimates and time') do
+          expect(page).to have_selector('.wp-edit-field.estimatedTime')
+          expect(page).to have_selector('.wp-edit-field.spentTime')
+        end
 
         find('#work-packages--edit-actions-cancel').click
         expect(wp_page).not_to have_alert_dialog
@@ -391,7 +401,7 @@ describe 'form configuration', type: :feature, js: true do
 
           # Category should be hidden
           wp_page.expect_group('New Group') do
-            wp_page.expect_attribute(cf_identifier_api)
+            wp_page.expect_attributes cf_identifier_api => '-'
           end
         end
       end
@@ -410,7 +420,7 @@ describe 'form configuration', type: :feature, js: true do
 
           # Category should be hidden
           wp_page.expect_group('New Group') do
-            wp_page.expect_attribute(cf_identifier_api)
+            wp_page.expect_attributes cf_identifier_api => '-'
           end
 
           # Ensure CF is checked
