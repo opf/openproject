@@ -28,6 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require_relative '../legacy_spec_helper'
+require 'type'
 
 describe ::Type, type: :model do
   fixtures :all

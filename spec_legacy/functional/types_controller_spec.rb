@@ -29,6 +29,7 @@
 #++
 require_relative '../legacy_spec_helper'
 require 'types_controller'
+require 'type'
 
 describe TypesController, type: :controller do
   render_views

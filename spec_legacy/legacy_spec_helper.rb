@@ -43,7 +43,7 @@ require 'shoulda/matchers'
 require 'rspec/example_disabler'
 
 # Required shared support helpers from spec/
-Dir[Rails.root.join('spec/support/shared/*.rb')].each do |f| require f end
+Dir[Rails.root.join('spec/support/shared/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.expect_with :rspec, :minitest
@@ -63,14 +63,14 @@ RSpec.configure do |config|
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
   config.extend Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)
 
-  config.include(Module.new {
+  config.include(Module.new do
     extend ActiveSupport::Concern
 
     # FIXME: hack to ensure subject is an ActionDispatch::TestResponse (RSpec-port)
     included do
       subject { self }
     end
-  }, file_path: %r(spec_legacy/integration))
+  end, file_path: %r(spec_legacy/integration))
 
   config.before(:suite) do |_example|
     Delayed::Worker.delay_jobs = false
