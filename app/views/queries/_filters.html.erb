@@ -108,9 +108,10 @@ See doc/COPYRIGHT.rdoc for more details.
       <% field = filter.name
          options = filter %>
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
-        <label class="advanced-filters--filter-name">
+        <% label_value = filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
+        <label class="advanced-filters--filter-name" title="<%= label_value %>">
           <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
-          <%= filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
+          <%= label_value %>
         </label>
         <div class="advanced-filters--filter-operator">
           <%= label_tag "op_#{field}", l(:description_filter), class: "hidden-for-sighted" %>
