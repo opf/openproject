@@ -111,7 +111,8 @@ export class WorkPackageQuerySelectController {
       classes: {
         'ui-autocomplete': '-inplace'
       },
-      autoFocus: true
+      autoFocus: true,
+      minLength: 0
     });
   }
 
