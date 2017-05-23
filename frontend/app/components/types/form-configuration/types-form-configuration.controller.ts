@@ -84,6 +84,7 @@ function typesFormConfigurationCtrl(
     angular.element($event.target)
             .parents('.type-form-conf-attribute')
             .appendTo('#type-form-conf-inactive-group .attributes');
+    $scope.updateHiddenFields();
   };
 
   $scope.deleteGroup = ($event:any):void => {
