@@ -165,6 +165,18 @@ module Redmine
           end
         end
 
+        def typed_custom_value_for(c)
+          cvs = custom_value_for(c)
+
+          if cvs.is_a? Array
+            cvs.map(&:typed_value)
+          elsif cvs.is_a? CustomValue
+            cvs.typed_value
+          else
+            cvs
+          end
+        end
+
         def save_custom_field_values
           self.custom_values = custom_field_values
           custom_field_values.each(&:save)

@@ -50,4 +50,13 @@ describe ::QueryCustomFieldColumn, type: :model do
       end
     end
   end
+
+  describe '#value' do
+    let(:mock) { double(WorkPackage) }
+
+    it 'delegates to typed_custom_value_for' do
+      expect(mock).to receive(:typed_custom_value_for).with(custom_field.id)
+      instance.value(mock)
+    end
+  end
 end
