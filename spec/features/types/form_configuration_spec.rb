@@ -35,13 +35,13 @@ describe 'form configuration', type: :feature, js: true do
 
   let(:project) { FactoryGirl.create :project, types: [type] }
   let(:category) { FactoryGirl.create :category, project: project }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create :work_package,
                        project: project,
                        type: type,
                        done_ratio: 10,
                        category: category
-  }
+  end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
@@ -96,6 +96,11 @@ describe 'form configuration', type: :feature, js: true do
     expect_group(group_label, group_label, key: attribute)
   end
 
+  def remove_attribute(attribute)
+    attribute = page.find(attribute_selector(attribute))
+    attribute.find('.delete-attribute').click
+  end
+
   def drag_and_drop(handle, group)
     target = group.find('.attributes')
 
@@ -132,6 +137,10 @@ describe 'form configuration', type: :feature, js: true do
     input.send_keys(:return)
 
     expect(page).to have_selector('.group-edit-handler', text: to.upcase)
+  end
+
+  def expect_no_attribute(attribute, group)
+    expect(page).not_to have_selector("#{group_selector(group)} #{attribute_selector(attribute)}")
   end
 
   def expect_group(label, translation, *attributes)
@@ -195,7 +204,6 @@ describe 'form configuration', type: :feature, js: true do
         #
         expect_group 'people',
                      'People',
-                     { key: :assignee, checked: false, translation: 'Assignee' },
                      { key: :responsible, checked: false, translation: 'Responsible' }
 
         expect_group 'estimates_and_time',
@@ -211,8 +219,6 @@ describe 'form configuration', type: :feature, js: true do
                      { key: :priority, checked: false, translation: 'Priority' },
                      { key: :version, checked: false, translation: 'Version' }
 
-
-
         #
         # Modify configuration
         #
@@ -221,9 +227,9 @@ describe 'form configuration', type: :feature, js: true do
         drag_and_drop(find_attribute_handle(:version), inactive_group)
         expect_inactive(:version)
 
-        # Toggle assignee to be always visible
-        set_visibility(:assignee, checked: true)
-        expect_attribute(key: :assignee, checked: true)
+        # Toggle responsible to be always visible
+        set_visibility(:responsible, checked: true)
+        expect_attribute(key: :responsible, checked: true)
 
         # Rename group
         rename_group('Details', 'Whatever')
@@ -241,16 +247,20 @@ describe 'form configuration', type: :feature, js: true do
         add_group('New Group')
         move_to(:category, 'New Group')
 
+        # Delete attribute from group
+        remove_attribute('assignee')
+
         # Save configuration
         # click_button doesn't seem to work when the button is out of view!?
         page.execute_script('jQuery(".form-configuration--save").click()')
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
 
         # Expect configuration to be correct now
+        expect_no_attribute('assignee', 'Cool Stuff')
+
         expect_group 'Cool Stuff',
                     'Cool Stuff',
-                    { key: :assignee, checked: true, translation: 'Assignee' },
-                    { key: :responsible, checked: false, translation: 'Responsible' }
+                    { key: :responsible, checked: true, translation: 'Responsible' }
 
         expect_group 'estimates_and_time',
                     'Estimates and time',
@@ -278,44 +288,54 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.visit!
         wp_page.ensure_page_loaded
 
-        # Category should be hidden
-        wp_page.expect_hidden_field(:category)
+        # Version should be hidden
+        wp_page.expect_hidden_field(:version)
 
         wp_page.expect_group('New Group') do
           wp_page.expect_attributes category: category.name
         end
 
         wp_page.expect_group('Whatever') do
-          wp_page.expect_attributes percentageDone: '30'
+          wp_page.expect_attributes percentageDone: '10'
         end
 
         wp_page.expect_group('Cool Stuff') do
-          wp_page.expect_attributes assignee: '-'
+          wp_page.expect_attributes responsible: '-'
         end
 
         # Empty attributes should be shown on toggle
         expected_attributes = ->() do
-          wp_page.expect_hidden_field(:responsible)
+          wp_page.expect_hidden_field(:assignee)
           wp_page.expect_hidden_field(:estimated_time)
           wp_page.expect_hidden_field(:spent_time)
-          wp_page.view_all_attributes
 
           wp_page.expect_group('Cool Stuff') do
             wp_page.expect_attributes responsible: '-'
-          end
-
-          wp_page.expect_group('Estimates and time') do
-            wp_page.expect_attributes estimated_time: '-'
-            wp_page.expect_attributes spent_time: '-'
           end
         end
 
         # Should match on edit view
         expected_attributes.call
 
+        # Read values for estimates and time
+        wp_page.view_all_attributes
+
+        wp_page.expect_group('Estimates and time') do
+          wp_page.expect_attributes estimated_time: '-'
+          wp_page.expect_attributes spent_time: '-'
+        end
+
         # New work package has the same configuration
         wp_page.click_create_wp_button(type)
         expected_attributes.call
+
+        # Write values for estimates and time
+        wp_page.view_all_attributes
+
+        wp_page.expect_group('Estimates and time') do
+          expect(page).to have_selector('.wp-edit-field.estimatedTime')
+          expect(page).to have_selector('.wp-edit-field.spentTime')
+        end
 
         find('#work-packages--edit-actions-cancel').click
         expect(wp_page).not_to have_alert_dialog
@@ -381,17 +401,17 @@ describe 'form configuration', type: :feature, js: true do
 
           # Category should be hidden
           wp_page.expect_group('New Group') do
-            wp_page.expect_attribute(cf_identifier_api)
+            wp_page.expect_attributes cf_identifier_api => '-'
           end
         end
       end
 
       context 'active in project' do
-        let(:project) {
+        let(:project) do
           FactoryGirl.create :project,
                              types: [type],
                              work_package_custom_fields: custom_fields
-        }
+        end
 
         it 'can be added to type and is visible' do
           # Visit work package with that type
@@ -400,7 +420,7 @@ describe 'form configuration', type: :feature, js: true do
 
           # Category should be hidden
           wp_page.expect_group('New Group') do
-            wp_page.expect_attribute(cf_identifier_api)
+            wp_page.expect_attributes cf_identifier_api => '-'
           end
 
           # Ensure CF is checked

@@ -45,9 +45,7 @@ module Pages
     end
 
     def expect_tab(tab)
-      within(container) do
-        expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.camelize)
-      end
+      expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
     end
 
     def edit_field(attribute, context)
@@ -55,20 +53,14 @@ module Pages
     end
 
     def expect_hidden_field(attribute)
-      within(container) do
+      page.within(container) do
         expect(page).to have_no_selector(".inplace-edit.#{attribute}")
       end
     end
 
     def expect_subject
-      within(container) do
+      page.within(container) do
         expect(page).to have_content(work_package.subject)
-      end
-    end
-
-    def open_new
-      within '#toolbar-items' do
-        click_on 'Work package'
       end
     end
 
@@ -86,7 +78,7 @@ module Pages
     def expect_group(name, &block)
       expect(page).to have_selector('.attributes-group--header-text', text: name.upcase)
       if block_given?
-        within(".attributes-group[data-group-name='#{name}']", &block)
+        page.within(".attributes-group[data-group-name='#{name}']", &block)
       end
     end
 

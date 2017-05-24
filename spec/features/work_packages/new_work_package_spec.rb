@@ -106,7 +106,7 @@ describe 'new work package', js: true do
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
-      wp_page.expect_subject
+      wp_page.edit_field(:subject).expect_text(subject)
     end
 
     context 'with missing values' do

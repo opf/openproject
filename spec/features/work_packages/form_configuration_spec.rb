@@ -121,11 +121,14 @@ describe 'form configuration: ', js: true do
 
           wp_page.expect_attribute_hidden :version
 
-          wp_page.open_new
+          wp_page.click_create_wp_button type
         end
 
         it 'version is not shown' do
           expect(page).not_to have_text 'Version'
+          find('#work-packages--edit-actions-cancel').click
+          expect(wp_page).not_to have_alert_dialog
+          loading_indicator_saveguard
         end
       end
 
@@ -138,11 +141,14 @@ describe 'form configuration: ', js: true do
 
           wp_page.expect_attributes Version: nil
 
-          wp_page.open_new
+          wp_page.click_create_wp_button type
         end
 
         it 'version is shown' do
           expect(page).to have_text 'Version'
+          find('#work-packages--edit-actions-cancel').click
+          expect(wp_page).not_to have_alert_dialog
+          loading_indicator_saveguard
         end
       end
     end
