@@ -27,4 +27,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery('#group_users_table').html("<%= escape_javascript render(partial: 'groups/users_table') %>")
+var tab = jQuery('#tab-content-users')
+<% content = escape_javascript render(partial: 'users') %>
+tab.html('<%= content %>');
+
+<% flash_message = escape_javascript render(partial: "members/common_notice",
+                                            locals: { message: l(:notice_successful_update) }) %>
+tab.prepend('<%= flash_message %>');
+
+autoHideFlashMessage();
