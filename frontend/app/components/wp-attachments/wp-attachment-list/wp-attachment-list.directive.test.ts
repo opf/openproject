@@ -88,7 +88,7 @@ describe('wpAttachmentList directive', () => {
       const listItem = root.find('.inplace-edit--read');
       const fileName = listItem.find('.work-package--attachments--filename');
       const triggerLink = listItem.find('.inplace-editing--trigger-link');
-      const deleteIcon = listItem.first().find('.inplace-edit--icon-wrapper').first();
+      const deleteIcon = listItem.find('.work-package--atachments--delete-button');
 
       template = {root, wrapper, listItem, fileName, triggerLink, deleteIcon};
     };
@@ -115,6 +115,7 @@ describe('wpAttachmentList directive', () => {
         name: 'name',
         fileName: 'fileName'
       };
+
       attachments = [attachment, attachment];
 
       workPackage.attachments = {
@@ -150,22 +151,47 @@ describe('wpAttachmentList directive', () => {
       expect(template.fileName.attr('href')).to.equal('#');
     });
 
-    it('should have a delete icon with a title that contains the file name', () => {
-      const icon = template.deleteIcon.find('[icon-title]');
-      expect(icon.attr('icon-title')).to.contain(attachment.fileName);
+    it('does not show the delete icon when not permitted', () => {
+      expect(template.deleteIcon.length).to.equal(0);
     });
 
-    it('should have a confirm-popup attribute with the destroyConfirmation text value', () => {
-      expect(template.deleteIcon.attr('confirm-popup')).to.equal('confirm destruction');
-    });
-
-    describe('when using the delete button', () => {
+    describe('when the user can delete attachments', () => {
       beforeEach(() => {
-        template.deleteIcon.controller('ngClick').ngClick();
+        attachment = {
+          name: 'name',
+          fileName: 'fileName',
+          $links: { delete: () => undefined }
+        };
+
+        attachments = [attachment, attachment];
+
+        workPackage.attachments = {
+          elements: attachments,
+          $load: sinon.stub(),
+          updateElements: sinon.stub()
+        };
+
+
+        compile();
       });
 
-      it('should call the removeAttachment method of the work package', () => {
-        expect(workPackage.removeAttachment.called).to.be.true;
+      it('should have a delete icon with a title that contains the file name', () => {
+        const icon = template.deleteIcon.find('[icon-title]');
+        expect(icon.attr('icon-title')).to.contain(attachment.fileName);
+      });
+
+      it('should have a confirm-popup attribute with the destroyConfirmation text value', () => {
+        expect(template.deleteIcon.attr('confirm-popup')).to.equal('confirm destruction');
+      });
+
+      describe('when using the delete button', () => {
+        beforeEach(() => {
+          template.deleteIcon.controller('ngClick').ngClick();
+        });
+
+        it('should call the removeAttachment method of the work package', () => {
+          expect(workPackage.removeAttachment.called).to.be.true;
+        });
       });
     });
 
