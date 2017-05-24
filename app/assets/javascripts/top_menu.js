@@ -153,8 +153,9 @@
     open: function (dropdown) {
       this.dontCloseWhenUsing(dropdown);
       this.closeOtherItems(dropdown);
-      this.slideAndFocus(dropdown);
-      dropdown.trigger("opened", dropdown);
+      this.slideAndFocus(dropdown, function() {
+        dropdown.trigger("opened", dropdown);
+      });
     },
 
     close: function (dropdown, immediate) {
@@ -180,15 +181,15 @@
       });
     },
 
-    slideAndFocus: function (dropdown) {
-      this.slideDown(dropdown);
+    slideAndFocus: function (dropdown, callback) {
+      this.slideDown(dropdown, callback);
       this.focusFirstInputOrLink(dropdown);
     },
 
-    slideDown: function (dropdown) {
+    slideDown: function (dropdown, callback) {
       var toDrop = dropdown.find("> ul");
       dropdown.addClass("open");
-      toDrop.slideDown(animationRate).attr("aria-expanded","true");
+      toDrop.slideDown(animationRate, callback).attr("aria-expanded","true");
     },
 
     slideUp: function (dropdown, immediate) {
