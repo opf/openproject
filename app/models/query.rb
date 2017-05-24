@@ -428,14 +428,22 @@ class Query < ActiveRecord::Base
   end
 
   def sort_criteria_columns
-    sort_criteria.map do |attribute, direction|
-      attribute = attribute.to_sym
+    sort_criteria
+      .map do |attribute, direction|
+        attribute = attribute.to_sym
 
-      column = sortable_columns
-               .detect { |candidate| candidate.name == attribute }
+        column = sortable_columns
+                 .detect { |candidate| candidate.name == attribute }
 
-      [column, direction]
-    end
+        # FIXME why can this be nil here?
+        # It appears to be nil for the backlogs :position
+        if column.nil?
+          nil
+        else
+          [column, direction]
+        end
+      end
+      .compact
   end
 
   def sorted?
