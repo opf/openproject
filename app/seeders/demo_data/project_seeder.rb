@@ -55,7 +55,7 @@ module DemoData
     end
 
     def applicable?
-      Project.count == 0
+      Project.count.zero?
     end
 
     def project_data_seeders(project)
@@ -90,7 +90,7 @@ module DemoData
       Member.create!(
         project: project,
         user:    user,
-        roles:   [role],
+        roles:   [role]
       )
     end
 
@@ -102,7 +102,8 @@ module DemoData
                             is_public: true,
                             show_hierarchies: true,
                             timeline_visible: true,
-                            column_names: [:subject, :type, :status]
+                            column_names: [:subject, :type, :status],
+                            sort_criteria: [['parent', 'desc']]
 
       MenuItems::QueryMenuItem.create! navigatable_id: query.id,
                                        name: SecureRandom.uuid,
@@ -121,9 +122,7 @@ module DemoData
     end
 
     def seed_board(project)
-      user = User.admin.first
-
-      board = Board.create!(
+      Board.create!(
         project:     project,
         name:        I18n.t('seeders.demo_data.board.name'),
         description: I18n.t('seeders.demo_data.board.description')
