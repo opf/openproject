@@ -48,6 +48,11 @@ en:
         primary_color: "Main color."
         primary_color_dark: "Typically a darker version of the main color used for hover effects."
         alternative_color: "Strong accent color, typically used for most the important button on a screen."
+        header_bg_color: "Background color of the header."
+        header_item_bg_hover_color: "Background color of clickable header items when hovered with the mouse. If 'header-bg-color' is white, this setting has no effect."
+        header_item_font_color: "Font color of clickable header items."
+        header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
+        header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
