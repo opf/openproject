@@ -41,7 +41,8 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
     linkFn: function(scope, element, attrs) {
       scope.queryId = scope.objectId || attrs.objectId;
       scope.uiRouteStateName = 'work-packages.list';
-      scope.uiRouteParams = '{ query_id: ' + scope.queryId + ' }';
+      // Remove any query_props value
+      scope.uiRouteParams = '{ query_props: null, query_id: ' + scope.queryId + ' }';
 
       function setActiveState() {
         // Apparently the queryId sometimes is a number, sometimes a string, sometimes
