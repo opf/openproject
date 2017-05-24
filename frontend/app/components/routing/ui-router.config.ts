@@ -212,6 +212,7 @@ openprojectModule
 
   .run(($location:ng.ILocationService,
         $rootElement:ng.IRootElementService,
+        $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
         $state:ng.ui.IStateService,
         $window:ng.IWindowService) => {
@@ -232,7 +233,7 @@ openprojectModule
         const stateName = el.data('uiRoute');
         const params = $rootScope.$eval(el.data('uiRouteParams')) || {};
 
-        $state.go(stateName, params);
+        $timeout(() => $state.go(stateName, params));
         event.preventDefault();
         return false;
       } catch(e) {
