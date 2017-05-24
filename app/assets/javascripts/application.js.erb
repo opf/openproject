@@ -197,45 +197,6 @@ function observeProjectIdentifier() {
   });
 }
 
-var WarnLeavingUnsaved = function(message) {
-  this.message = message;
-  var changedForms = false;
-  var isEmbed = window != window.parent;
-  var obj = this;
-
-  this.unload = function() {
-    if(changedForms && !isEmbed) {
-      return message;
-    }
-  };
-
-  this.getChanged = function() {
-    return changedForms;
-  };
-
-  this.setChanged = function() {
-    changedForms = true;
-  };
-
-  this.setUnchanged = function() {
-    changedForms = false;
-  };
-
-  this.init = function() {
-    jQuery(document).on('change', 'textarea', function() {
-      obj.setChanged();
-    });
-
-    jQuery(document).on('submit', 'form', function() {
-      obj.setUnchanged();
-    });
-
-    jQuery(window).bind('beforeunload', this.unload);
-  };
-
-  this.init();
-};
-
 function hideOnLoad() {
   jQuery('.hol').hide();
 }
