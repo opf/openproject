@@ -71,32 +71,6 @@ describe "WorkPackageXlsExport" do
     sheet
   end
 
-  describe 'query' do
-    it 'is the default query (the rest of the specs relies on this)' do
-      expect(query.columns.map(&:name)).to eq [:id, :subject, :type, :status, :assigned_to]
-    end
-  end
-
-  it 'the first header row devides the sheet into work packages and relation columns' do
-    expect(sheet.rows.first.take(7))
-      .to eq ['Work packages', nil, nil, nil, nil, nil, 'Relations']
-  end
-
-  it 'the second header row includes the column names for work packages and relations' do
-    expect(sheet.rows[1])
-      .to eq [
-        nil, 'ID', 'Subject', 'Type', 'Status', 'Assignee',
-        nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
-        nil
-      ]
-  end
-
-  it 'duplicates rows for each relation' do
-    c2id = child_2.id
-    expect(sheet.column(1).drop(2))
-      .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id]
-  end
-
   # expected row and column indices
 
   PARENT = 2
@@ -108,45 +82,57 @@ describe "WorkPackageXlsExport" do
   RELATION_DESCRIPTION = 9
   RELATED_SUBJECT = 12
 
-  it 'marks Parent as parent of Child 1 and 2' do
+  it 'produces the correct result' do
+    expect(query.columns.map(&:name)).to eq [:id, :subject, :type, :status, :assigned_to]
+
+    # the first header row devides the sheet into work packages and relation columns
+    expect(sheet.rows.first.take(7)).to eq ['Work packages', nil, nil, nil, nil, nil, 'Relations']
+
+    # the second header row includes the column names for work packages and relations
+    expect(sheet.rows[1])
+      .to eq [
+        nil, 'ID', 'Subject', 'Type', 'Status', 'Assignee',
+        nil, 'Relation type', 'Delay', 'Description', 'ID', 'Type', 'Subject',
+        nil
+      ]
+
+    # duplicates rows for each relation
+    c2id = child_2.id
+    expect(sheet.column(1).drop(2))
+      .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id]
+
+    # marks Parent as parent of Child 1 and 2
     expect(sheet.row(PARENT)[RELATION]).to eq 'parent of'
     expect(sheet.row(PARENT)[RELATED_SUBJECT]).to eq 'Child 1'
 
     expect(sheet.row(PARENT + 1)[RELATION]).to eq 'parent of'
     expect(sheet.row(PARENT + 1)[RELATED_SUBJECT]).to eq 'Child 2'
-  end
 
-  it 'shows Child 1 as child of Parent' do
+    # shows Child 1 as child of Parent
     expect(sheet.row(CHILD_1)[RELATION]).to eq 'child of'
     expect(sheet.row(CHILD_1)[RELATED_SUBJECT]).to eq 'Parent'
-  end
 
-  it 'shows Child 2 as child of Parent' do
+    # shows Child 2 as child of Parent
     expect(sheet.row(CHILD_2)[RELATION]).to eq 'child of'
     expect(sheet.row(CHILD_2)[RELATED_SUBJECT]).to eq 'Parent'
-  end
 
-  it "shows Child 2 as parent of Child 2's child" do
+    # shows Child 2 as parent of Child 2's child
     expect(sheet.row(CHILD_2 + 1)[RELATION]).to eq 'parent of'
     expect(sheet.row(CHILD_2 + 1)[RELATED_SUBJECT]).to eq "Child 2's child"
-  end
 
-  it 'shows Child 2 as following Followed' do
+    # shows Child 2 as following Followed
     expect(sheet.row(CHILD_2 + 2)[RELATION]).to eq 'follows'
     expect(sheet.row(CHILD_2 + 2)[RELATED_SUBJECT]).to eq 'Followed'
-  end
 
-  it 'shows no relation information for Single' do
+    # shows no relation information for Single
     expect(sheet.row(SINGLE).drop(6).compact).to eq []
-  end
 
-  it 'shows Followed as preceding Child 2' do
+    # shows Followed as preceding Child 2'
     expect(sheet.row(FOLLOWED)[RELATION]).to eq 'precedes'
     expect(sheet.row(FOLLOWED)[RELATION_DESCRIPTION]).to eq 'description foobar'
     expect(sheet.row(FOLLOWED)[RELATED_SUBJECT]).to eq 'Child 2'
-  end
 
-  it 'exports the correct data (examples)' do
+    # exports the correct data (examples)
     expect(sheet.row(PARENT))
       .to eq [
         nil, parent.id, parent.subject, parent.type.name, parent.status.name, parent.assigned_to,

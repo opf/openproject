@@ -38,7 +38,13 @@ module OpenProject::XlsExport
       ##
       # Takes a WorkPackage and a QueryColumn and returns the value to be exported.
       def format(work_package, column)
-        column.xls_value work_package
+        value = column.xls_value work_package
+
+        if value.is_a? Array
+          value.join(", ")
+        else
+          value
+        end
       end
 
       ##
