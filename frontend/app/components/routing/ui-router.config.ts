@@ -227,7 +227,8 @@ openprojectModule
         return true;
       }
 
-      const el = jQuery(event.target);
+      // Find the potential parent (or self) with the data attribute
+      const el = jQuery(event.target).closest('a[data-ui-route]');
 
       try {
         const stateName = el.data('uiRoute');
