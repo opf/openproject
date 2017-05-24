@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
+require 'type'
 
 describe ::Type, type: :model do
   fixtures :all
@@ -37,7 +39,7 @@ describe ::Type, type: :model do
 
     target = ::Type.new(name: 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflows.copy_from_type(source)
     target.reload
     assert_equal 89, target.workflows.size
   end
@@ -53,7 +55,7 @@ describe ::Type, type: :model do
   end
 
   it 'should statuses empty' do
-    Workflow.delete_all('type_id = 1')
+    Workflow.where(type_id: 1).delete_all
     assert_equal [], ::Type.find(1).statuses
   end
 end

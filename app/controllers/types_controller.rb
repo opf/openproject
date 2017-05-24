@@ -30,11 +30,9 @@
 class TypesController < ApplicationController
   include PaginationHelper
 
-
   layout 'admin'
 
   before_action :require_admin
-
 
   def index
     @types = ::Type.page(params[:page]).per_page(per_page_param)
@@ -59,7 +57,7 @@ class TypesController < ApplicationController
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = ::Type.find_by(id: params[:copy_workflow_from]))
         @type = service.type
-        @type.workflows.copy(copy_from)
+        @type.workflows.copy_from_type(copy_from)
       end
       flash[:notice] = t(:notice_successful_create)
       redirect_to edit_type_tab_path(id: @type.id, tab: 'settings')

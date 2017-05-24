@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Role, type: :model do
   fixtures :all
@@ -37,7 +38,7 @@ describe Role, type: :model do
 
     target = Role.new(name: 'Target')
     assert target.save
-    target.workflows.copy(source)
+    target.workflows.copy_from_role(source)
     target.reload
     assert_equal 90, target.workflows.size
   end
@@ -70,7 +71,7 @@ describe Role, type: :model do
 
     context 'with a missing anonymous role' do
       before do
-        Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
+        Role.where("builtin = #{Role::BUILTIN_ANONYMOUS}").delete_all
       end
 
       it 'should create a new anonymous role' do
@@ -96,7 +97,7 @@ describe Role, type: :model do
 
     context 'with a missing non-member role' do
       before do
-        Role.delete_all("builtin = #{Role::BUILTIN_NON_MEMBER}")
+        Role.where("builtin = #{Role::BUILTIN_NON_MEMBER}").delete_all
       end
 
       it 'should create a new non-member role' do
