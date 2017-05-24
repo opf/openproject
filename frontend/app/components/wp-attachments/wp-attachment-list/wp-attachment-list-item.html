@@ -14,7 +14,8 @@
       </span>
       <a
           href=""
-          class="inplace-edit--icon-wrapper"
+          class="inplace-edit--icon-wrapper work-package--atachments--delete-button"
+          ng-if="!!attachment.$links.delete"
           ng-click="$ctrl.workPackage.removeAttachment(attachment)"
           confirm-popup="{{ ::$ctrl.text.destroyConfirmation }}">
         <op-icon icon-classes="icon-delete" icon-title="{{ ::$ctrl.text.removeFile({fileName: attachment.fileName}) }}"></op-icon>
