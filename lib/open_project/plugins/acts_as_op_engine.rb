@@ -103,7 +103,7 @@ module OpenProject::Plugins
           patched_classes.each do |klass_name|
             patch = "#{plugin_module}::Patches::#{klass_name}Patch".constantize
             klass = klass_name.to_s.constantize
-            klass.send(:include, patch) unless klass.included_modules.include?(patch)
+            klass.send(:prepend, patch) unless klass.included_modules.include?(patch)
           end
         end
       end
