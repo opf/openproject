@@ -16,32 +16,88 @@ describe 'Invalid query spec', js: true do
   let(:status) do
     FactoryGirl.create(:status)
   end
+  let(:status2) do
+    FactoryGirl.create(:status)
+  end
 
-  let(:query) do
+  let(:invalid_query) do
     query = FactoryGirl.create(:query,
                                project: project,
                                user: user)
 
     query.add_filter('assigned_to_id', '=', [99999])
-    query.save!(validate: false)
+    query.columns << 'cf_0815'
+    query.group_by = 'cf_0815'
+    query.sort_criteria = [['cf_0815', 'desc']]
+    query.save(validate: false)
 
     query
+  end
+
+  let(:valid_query) do
+    FactoryGirl.create(:query,
+                       project: project,
+                       user: user)
+  end
+
+  let(:work_package_assigned) do
+    FactoryGirl.create(:work_package,
+                       project: project,
+                       assigned_to: user)
   end
 
   before do
     login_as(user)
     status
+    status2
     member
-
-    wp_table.visit_query(query)
+    work_package_assigned
   end
 
   # Regression test for bug #24114 (broken watcher filter)
-  it 'should load the faulty query' do
-    expect(page).to have_selector(".notification-box.-error", text: I18n.t('js.work_packages.faulty_query.description'), wait: 10)
+  it 'should load a faulty query' do
+    wp_table.visit_query(invalid_query)
+
+    filters.open
+    filters.expect_filter_count 1
+    filters.expect_no_filter_by('Assignee')
+    filters.expect_filter_by('Status', 'open', nil)
+
+    wp_table.expect_no_notification(type: :error,
+                                    message: I18n.t('js.work_packages.faulty_query.description'))
+
+    wp_table.expect_work_package_listed [work_package_assigned]
+  end
+
+  it 'should not load with faulty parameters but can be fixed' do
+    filter_props = [{ 'n': 'assignee', 'o': '=', 'v': ['999999'] },
+                    { 'n': 'status', 'o': '=', 'v': [status.id.to_s, status2.id.to_s] }]
+    column_props = ['id', 'subject', 'customField0815']
+    invalid_props = JSON.dump('f': filter_props,
+                              'c': column_props,
+                              'g': 'customField0815',
+                              't': 'customField0815:desc')
+
+    wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 
     filters.open
     filters.expect_filter_count 2
-    expect(page).to have_select('values-assignee', selected: I18n.t('js.placeholders.selection'))
+    filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
+    filters.expect_filter_by('Status', 'is', [status.name, status2.name])
+
+    wp_table.expect_notification(type: :error,
+                                 message: I18n.t('js.work_packages.faulty_query.description'))
+
+    wp_table.expect_no_work_package_listed
+
+    wp_table.group_by('Assignee')
+    sleep(0.1)
+    filters.set_filter('Assignee', 'is', user.name)
+    sleep(0.1)
+
+    wp_table.expect_work_package_listed [work_package_assigned]
+    wp_table.save
+
+    wp_table.expect_notification(message: I18n.t('js.notice_successful_update'))
   end
 end

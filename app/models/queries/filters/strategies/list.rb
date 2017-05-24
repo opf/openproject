@@ -43,5 +43,9 @@ module Queries::Filters::Strategies
         errors.add(:values, :inclusion)
       end
     end
+
+    def valid_values!
+      filter.values &= (allowed_values.map(&:last) + ['-1'])
+    end
   end
 end

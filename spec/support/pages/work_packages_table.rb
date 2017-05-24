@@ -40,6 +40,10 @@ module Pages
       visit "#{path}?query_id=#{query.id}"
     end
 
+    def visit_with_params(params)
+      visit "#{path}?#{params}"
+    end
+
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
@@ -163,6 +167,18 @@ module Pages
 
       expect_notification message: 'Successful creation.'
       expect_title name
+    end
+
+    def save
+      click_setting_item /Save$/
+    end
+
+    def group_by(name)
+      click_setting_item 'Group by ...'
+
+      select name, from: 'Group by'
+
+      click_button 'Apply'
     end
 
     def open_filter_section

@@ -68,6 +68,22 @@ describe Queries::WorkPackages::Filter::StatusFilter, type: :model do
       end
     end
 
+    describe '#valid_values!' do
+      before do
+        allow(Status)
+          .to receive(:all)
+          .and_return [status]
+
+        instance.values = [status.id.to_s, '99999']
+      end
+
+      it 'remove the invalid value' do
+        instance.valid_values!
+
+        expect(instance.values).to match_array [status.id.to_s]
+      end
+    end
+
     describe '#value_objects' do
       before do
         allow(Status)

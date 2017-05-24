@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,6 +52,8 @@ module Queries::Filters::Strategies
       operator_map
         .slice(*self.class.supported_operators)[filter.operator]
     end
+
+    def valid_values!; end
 
     def supported_operator_classes
       operator_map
