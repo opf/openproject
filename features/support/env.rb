@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -77,14 +78,19 @@ end
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-    Selenium::WebDriver::Firefox::Binary.path
+                                              Selenium::WebDriver::Firefox::Binary.path
 
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en,en-us'
   profile['browser.startup.homepage_override.mstone'] = 'ignore'
   profile['startup.homepage_welcome_url.additional'] = 'about:blank'
 
-  Capybara::Selenium::Driver.new(app, browser: :firefox, profile: profile)
+  # need to disable marionette as noted
+  # https://github.com/teamcapybara/capybara#capybara
+  Capybara::Selenium::Driver.new(app,
+                                 browser: :firefox,
+                                 profile: profile,
+                                 desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false))
 end
 
 Capybara.javascript_driver = :selenium
