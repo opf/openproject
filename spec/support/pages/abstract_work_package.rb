@@ -45,9 +45,7 @@ module Pages
     end
 
     def expect_tab(tab)
-      page.within(container) do
-        expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.camelize)
-      end
+      expect(page).to have_selector('.tabrow li.selected', text: tab.to_s.upcase)
     end
 
     def edit_field(attribute, context)
@@ -63,12 +61,6 @@ module Pages
     def expect_subject
       page.within(container) do
         expect(page).to have_content(work_package.subject)
-      end
-    end
-
-    def open_new
-      page.within '#toolbar-items' do
-        click_on 'Work package'
       end
     end
 

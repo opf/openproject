@@ -85,11 +85,11 @@ module Pages
     end
 
     def open_split_view(work_package)
+      split_page = SplitWorkPackage.new(work_package, project)
+
       # Hover row to show split screen button
       row_element = row(work_package)
       row_element.hover
-
-      split_page = SplitWorkPackage.new(work_package, project)
 
       row_element.find('.wp-table--details-link').click
 
