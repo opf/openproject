@@ -65,7 +65,7 @@ module Redmine::MenuManager::MenuHelper
                   html:    {
                     class: 'query-menu-item',
                     'data-ui-route' => 'work-packages.list',
-                    'data-ui-route-params' => "{ query_id: #{query_menu_item.navigatable_id} }",
+                    'data-ui-route-params' => "{ query_id: #{query_menu_item.navigatable_id}, query_props: null }",
                     'query-menu-item' => 'query-menu-item',
                     'object-id' => query_menu_item.navigatable_id
                   }
