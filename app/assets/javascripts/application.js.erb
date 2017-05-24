@@ -354,11 +354,9 @@ jQuery(document).ready(function($) {
     });
 
     menu.bind("opened", function () {
-      setTimeout(function () {
-        // Open select2 element, when menu is opened
-        select2.open();
-        jQuery("#select2-drop-mask").hide();
-      }, 50);
+      // Open select2 element, when menu is opened
+      select2.open();
+      jQuery("#select2-drop-mask").hide();
 
       // Include input in tab cycle by attaching keydown handlers to previous
       // and next interactive DOM element.
