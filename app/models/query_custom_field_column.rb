@@ -74,8 +74,7 @@ class QueryCustomFieldColumn < QueryColumn
   end
 
   def value(work_package)
-    cv = work_package.custom_values.detect { |value| value.custom_field_id == @cf.id }
-    cv && cv.typed_value
+    work_package.typed_custom_value_for(@cf.id)
   end
 
   def sum_of(work_packages)

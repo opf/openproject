@@ -162,8 +162,7 @@ describe WorkPackage, type: :model do
             work_package.reload
           end
 
-          subject { work_package.custom_value_for(custom_field.id).typed_value }
-
+          subject { work_package.typed_custom_value_for(custom_field.id) }
           it { is_expected.to eq('PostgreSQL') }
         end
 
@@ -210,8 +209,7 @@ describe WorkPackage, type: :model do
             work_package.type = type_feature
           end
 
-          subject { WorkPackage.find(work_package.id).custom_value_for(custom_field).typed_value }
-
+          subject { WorkPackage.find(work_package.id).typed_custom_value_for(custom_field) }
           it { is_expected.to eq('PostgreSQL') }
         end
       end
