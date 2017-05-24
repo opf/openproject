@@ -245,7 +245,14 @@ module OpenProject
     ##
     # Returns the keys of variables that are customizable through the design
     def self.customizable_variables
-      %w(primary-color primary-color-dark alternative-color)
+      %w( primary-color
+          primary-color-dark
+          alternative-color
+          header-bg-color
+          header-item-font-color
+          header-item-font-hover-color
+          header-item-bg-hover-color
+          header-border-bottom-color )
     end
   end
 end

@@ -43,11 +43,28 @@ See doc/COPYRIGHT.rdoc for more details.
   :root {
   <%  DesignColor.overwritten.each do |design_color| %>
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
-
+    <% if design_color.variable == "header-border-bottom-color" %>
+      --header-border-bottom-width: 1px;
+    <% end %>
     <% if design_color.variable == "alternative-color" %>
       --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
     <% end %>
   <% end %>
   }
 
+  /* Conditional styles */
+  <% if DesignColor.overwritten.map(&:variable).include?('header-border-bottom-color') &&
+        DesignColor.overwritten.map(&:variable).include?('header-bg-color') &&
+        DesignColor.find_by(variable: 'header-bg-color', hexcode: '#FFFFFF') %>
+    #main-menu #toggle-project-menu {
+      border-top: 0px;
+    }
+    /* Disable hover background color to not overlap border */
+    #top-menu li > a:hover,
+    #top-menu li.drop-down:hover,
+    #top-menu li.drop-down.open,
+    .top-menu-search.-collapsed .top-menu-search--button:hover {
+      background: transparent;
+    }
+  <% end %>
 </style>

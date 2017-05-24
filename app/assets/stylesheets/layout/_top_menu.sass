@@ -76,14 +76,16 @@
       height: $header-height
       line-height: $header-height
       zoom: 1
-      @include default-font($header-item-font-color, $header-item-font-size)
+      @include varprop(color, header-item-font-color)
+      @include varprop(font-size, header-item-font-size)
+      font-weight: normal
       text-decoration: none
       padding: 0 15px 0 15px
 
     > a:hover
       @include varprop(background, header-item-bg-hover-color)
+      @include varprop(color, header-item-font-hover-color)
 
-      color: $header-item-font-hover-color
     > ul
       top: $header-height + $header-border-bottom-width
       display: none
@@ -121,7 +123,7 @@
       @include varprop(background-color, header-item-bg-hover-color)
     &.open
       @include varprop(background-color, header-item-bg-hover-color)
-      color: $header-item-font-hover-color
+      @include varprop(color, header-item-font-hover-color)
 
       .button--dropdown-indicator
         &:before
@@ -197,7 +199,9 @@
 .top-menu-search--button
   line-height: $header-height
   height: $header-height
-  @include default-font($header-item-font-color, $header-item-font-size)
+  @include varprop(color, header-item-font-color)
+  @include varprop(font-size, header-item-font-size)
+  font-weight: normal
   background: transparent
   &:hover
     text-decoration: none
@@ -217,7 +221,7 @@
     display: block
     &:hover
       @include varprop(background, header-item-bg-hover-color)
-      color: $header-item-font-hover-color
+      @include varprop(color, header-item-font-hover-color)
 
 input.top-menu-search--input
   margin: 0
