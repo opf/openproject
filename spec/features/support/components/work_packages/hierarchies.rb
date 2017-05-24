@@ -29,8 +29,7 @@
 module Components
   module WorkPackages
     class Hierarchies
-      include Capybara::DSL
-      include RSpec::Matchers
+      include Components::FeatureMixin
 
       def enable_hierarchy
         find('#work-packages-settings-button').click

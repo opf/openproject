@@ -26,48 +26,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  module WorkPackages
-    class ContextMenu
-      include Capybara::DSL
-      include RSpec::Matchers
+require_relative 'abstract_work_package'
+require_relative 'split_work_package_create'
 
-      def open_for(work_package)
-        find("#wp-row-#{work_package.id}").right_click
-        expect_open
+module Pages
+  class SplitWorkPackage < Pages::AbstractWorkPackage
+    attr_reader :selector
+
+    def initialize(work_package, project = nil)
+      super work_package, project
+      @selector = '.work-packages--details'
+    end
+
+    def edit_field(attribute)
+      super(attribute, container)
+    end
+
+    def switch_to_tab(tab:)
+      find('.tabrow li a', text: tab.upcase).click
+    end
+
+    def switch_to_fullscreen
+      find('.work-packages--details-fullscreen-icon').click
+      FullWorkPackage.new(work_package, project)
+    end
+
+    def closed?
+      expect(page).not_to have_selector(@selector)
+    end
+
+    private
+
+    def container
+      find(@selector)
+    end
+
+    def path(tab = 'overview')
+      state = "#{work_package.id}/#{tab}"
+
+      if project
+        project_work_packages_path(project, "details/#{state}")
+      else
+        details_work_packages_path(state)
       end
+    end
 
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
-
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
-
-      def choose(target)
-        find("#{selector} a", text: target).click
-      end
-
-      def expect_no_options(*options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_no_selector("#{selector} a", text: text)
-        end
-      end
-
-      def expect_options(options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
-        end
-      end
-
-      private
-
-      def selector
-        '#work-package-context-menu'
-      end
+    def create_page(args)
+      args.merge!(project: project || work_package.project)
+      SplitWorkPackageCreate.new(args)
     end
   end
 end

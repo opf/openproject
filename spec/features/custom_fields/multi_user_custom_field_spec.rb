@@ -1,5 +1,4 @@
 require "spec_helper"
-require "support/pages/abstract_work_package"
 
 describe "multi select custom values", js: true do
   let(:type) { FactoryGirl.create :type }
@@ -33,7 +32,7 @@ describe "multi select custom values", js: true do
 
   let(:role) { FactoryGirl.create :role }
 
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
+  let(:wp_page) { ::Pages::FullWorkPackage.new work_package }
   let(:user) { FactoryGirl.create :admin }
 
   before do

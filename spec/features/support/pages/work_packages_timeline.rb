@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/work_packages_table'
+require_relative 'work_packages_table'
 
 module Pages
   class WorkPackagesTimeline < WorkPackagesTable

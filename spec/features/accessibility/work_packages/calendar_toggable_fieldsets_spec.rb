@@ -28,7 +28,6 @@
 
 require 'spec_helper'
 require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
 
 describe 'Work package calendar index', type: :feature do
   describe 'Toggable fieldset', js: true do
@@ -36,7 +35,7 @@ describe 'Work package calendar index', type: :feature do
 
     let(:project) { FactoryGirl.create(:project) }
     let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new(project) }
+    let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
 
     before do
       allow(User).to receive(:current).and_return current_user

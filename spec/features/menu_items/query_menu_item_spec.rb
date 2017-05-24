@@ -29,12 +29,11 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
-require 'features/work_packages/work_packages_page'
 
 feature 'Query menu items' do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:status) { FactoryGirl.create :status }
 

@@ -1,6 +1,5 @@
 class InlineEditField
-  include Capybara::DSL
-  include RSpec::Matchers
+  include Components::FeatureMixin
 
   attr_reader :work_package, :attribute, :element, :selector
 

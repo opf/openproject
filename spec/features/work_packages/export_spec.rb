@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
 
 describe 'work package export', type: :feature do
   let(:project) { FactoryGirl.create :project_with_types, types: [type_a, type_b] }
@@ -41,7 +40,7 @@ describe 'work package export', type: :feature do
   let(:wp_3) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_b }
   let(:wp_4) { FactoryGirl.create :work_package, project: project, done_ratio: 0, type: type_a }
 
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do

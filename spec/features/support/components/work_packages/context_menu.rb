@@ -26,31 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+module Components
+  module WorkPackages
+    class ContextMenu
+      include Components::FeatureMixin
 
-module Pages
-  class NewUser < Page
-    def path
-      '/users/new'
-    end
+      def open_for(work_package)
+        find("#wp-row-#{work_package.id}").right_click
+        expect_open
+      end
 
-    ##
-    # Fills in the given user form fields.
-    def fill_in!(fields = {})
-      form = FormFiller.new fields
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
 
-      form.fill! 'First name', :first_name
-      form.fill! 'Last name', :last_name
-      form.fill! 'Email', :email
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
 
-      form.select! 'Authentication mode', :auth_source
-      form.fill! 'Login', :login
+      def choose(target)
+        find("#{selector} a", text: target).click
+      end
 
-      form.set_checked! 'Administrator', :admin
-    end
+      def expect_no_options(*options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_no_selector("#{selector} a", text: text)
+        end
+      end
 
-    def submit!
-      click_button 'Create'
+      def expect_options(options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_selector("#{selector} a", text: text)
+        end
+      end
+
+      private
+
+      def selector
+        '#work-package-context-menu'
+      end
     end
   end
 end

@@ -29,8 +29,7 @@
 module Components
   module WorkPackages
     class Filters
-      include Capybara::DSL
-      include RSpec::Matchers
+      include Components::FeatureMixin
 
       def open
         filter_button.click

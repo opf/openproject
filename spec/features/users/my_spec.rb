@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'my', type: :feature, js: true do
   let(:user_password) { 'bob' * 4 }

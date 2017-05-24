@@ -26,15 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ProjectsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+require_relative 'abstract_work_package'
+module Pages
+  class FullWorkPackage < Pages::AbstractWorkPackage
 
-  def initialize(project)
-    @project = project
-  end
+    def edit_field(attribute)
+      super(attribute, container)
+    end
 
-  def visit_confirm_destroy
-    visit confirm_destroy_project_path(@project)
+    private
+
+    def container
+      find('.work-packages--show-view')
+    end
+
+    def path(tab = 'activity')
+      if project
+        project_work_package_path(project, work_package.id, tab)
+      else
+        work_package_path(work_package.id, tab)
+      end
+    end
+
+    def create_page(args)
+      Pages::FullWorkPackageCreate.new(args)
+    end
   end
 end

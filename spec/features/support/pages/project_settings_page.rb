@@ -26,19 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RepositorySettingsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+require_relative 'page'
+
+class ProjectSettingsPage < ::Pages::Page
 
   def initialize(project)
     @project = project
   end
 
-  def repository_settings_path
-    settings_project_path(id: @project.id, tab: 'repository')
+  def visit_settings
+    visit settings_path
   end
 
-  def visit_repository_settings
-    visit repository_settings_path
+  def visit_settings_tab(tab)
+    visit settings_path(tab: tab)
+  end
+
+  def fieldset_label
+    find 'fieldset#project_issue_custom_fields label'
+  end
+
+  private
+
+  def settings_path(options = {})
+    settings_project_path(@project, options)
   end
 end

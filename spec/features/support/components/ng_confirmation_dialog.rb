@@ -26,23 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class NgConfirmationDialog
-  include Capybara::DSL
-  include RSpec::Matchers
+require_relative 'feature_mixin'
 
-  def container
-    '.ngdialog-content'
-  end
+module Components
+  class NgConfirmationDialog
+    include Components::FeatureMixin
 
-  def expect_open
-    expect(page).to have_selector(container)
-  end
+    def container
+      '.ngdialog-content'
+    end
 
-  def confirm
-    page.find('.confirm-form-submit--continue').click
-  end
+    def expect_open
+      expect(page).to have_selector(container)
+    end
 
-  def cancel
-    page.find('.ngdialog-close').click
+    def confirm
+      page.find('.confirm-form-submit--continue').click
+    end
+
+    def cancel
+      page.find('.ngdialog-close').click
+    end
   end
 end

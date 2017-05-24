@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-require 'features/work_packages/work_packages_page'
-require 'support/work_packages/work_package_field'
+
 
 describe 'Watcher tab', js: true, selenium: true do
   let(:project) { FactoryGirl.create(:project) }

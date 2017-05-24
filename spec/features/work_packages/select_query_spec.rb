@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
 
 describe 'Query selection', type: :feature do
   let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
@@ -52,7 +51,7 @@ describe 'Query selection', type: :feature do
     end
   end
 
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
 
   before do
     default_status

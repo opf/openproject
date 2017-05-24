@@ -26,28 +26,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+require_relative 'page'
 
-module Pages
-  class FullWorkPackageCreate < AbstractWorkPackageCreate
-    def edit_field(attribute)
-      super(attribute, container)
-    end
+class RepositorySettingsPage < ::Pages::Page
 
-    private
+  def initialize(project)
+    @project = project
+  end
 
-    def container
-      find('.work-packages--show-view')
-    end
+  def repository_settings_path
+    settings_project_path(id: @project.id, tab: 'repository')
+  end
 
-    def path
-      if original_work_package
-        project_work_package_path(original_work_package.project, original_work_package.id) + '/copy'
-      elsif parent_work_package
-        new_project_work_packages_path(parent_work_package.project.identifier,
-                                       parent_id: parent_work_package.id)
-      end
-    end
+  def visit_repository_settings
+    visit repository_settings_path
   end
 end

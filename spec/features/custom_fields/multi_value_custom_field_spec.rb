@@ -1,5 +1,4 @@
 require "spec_helper"
-require "support/pages/abstract_work_package"
 
 describe "multi select custom values", js: true do
   let(:type) { FactoryGirl.create :type }
@@ -20,8 +19,8 @@ describe "multi select custom values", js: true do
     custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
 
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
-  let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:wp_page) { ::Pages::FullWorkPackage.new work_package }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
   let(:user) { FactoryGirl.create :admin }
 

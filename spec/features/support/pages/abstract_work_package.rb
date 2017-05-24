@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require_relative 'page'
 
 module Pages
   class AbstractWorkPackage < Page
