@@ -1986,7 +1986,7 @@ en:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work
     package type and per project.
-  text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 84px."
+  text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px."
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"
