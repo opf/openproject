@@ -55,12 +55,15 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
     this.state.putValue(state);
   }
 
-  public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
+  public update(query:QueryResource, schema?:QuerySchemaResourceInterface) {
     let currentState = this.currentState;
 
-    currentState.update(query, schema);
-
-    this.state.putValue(currentState);
+    if (currentState) {
+      currentState.update(query, schema);
+      this.state.putValue(currentState);
+    } else {
+      this.initialize(query, schema);
+    }
   }
 
   protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {

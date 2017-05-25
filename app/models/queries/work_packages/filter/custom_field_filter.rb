@@ -70,6 +70,7 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
   end
 
   def name
+    # FIXME this can be nil
     :"cf_#{custom_field.id}"
   end
 
