@@ -15,7 +15,7 @@ fr:
   label_work_packages_watched: "Lots de travaux surveillés"
   label_work_package_tracking: " Suivi des lots de travaux"
   label_members: "Membres"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Afficher tous les membres"
   label_subprojects: "Sous-projets"
   project_page:
     all: "Afficher tout"

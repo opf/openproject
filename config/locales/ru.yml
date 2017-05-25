@@ -15,7 +15,7 @@ ru:
   label_work_packages_watched: "Наблюдаемые пакеты работ"
   label_work_package_tracking: " Отслеживание комплекса работ"
   label_members: "Участники"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Просмотреть всех участников"
   label_subprojects: "Подпроекты"
   project_page:
     all: "Показывать всё"

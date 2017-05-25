@@ -15,7 +15,7 @@ zh-CN:
   label_work_packages_watched: "受关注的工作包"
   label_work_package_tracking: "工作包跟踪"
   label_members: "成员"
-  label_member_view_all: "View all members"
+  label_member_view_all: "查看所有成员"
   label_subprojects: "子项目"
   project_page:
     all: "显示全部"

@@ -15,7 +15,7 @@ pl:
   label_work_packages_watched: "Obserwowane zadania"
   label_work_package_tracking: " Śledzenie zadania"
   label_members: "Członkowie"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Zobacz wszystkich członków"
   label_subprojects: "Podprojekty"
   project_page:
     all: "Pokaż wszystkie"

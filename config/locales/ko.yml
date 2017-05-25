@@ -15,7 +15,7 @@ ko:
   label_work_packages_watched: "주시하는 작업 패키지"
   label_work_package_tracking: " 작업 패키지 추적"
   label_members: "멤버"
-  label_member_view_all: "View all members"
+  label_member_view_all: "모든 회원 보기"
   label_subprojects: "하위 프로젝트"
   project_page:
     all: "모두 표시"
