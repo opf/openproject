@@ -29,6 +29,11 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   protected workPackage:WorkPackageResource;
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+    // Avoid the state capture when clicking with modifier
+    if (evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
+      return true;
+    }
+
     // Locate the row from event
     const target = jQuery(evt.target);
     const element = target.closest(this.SELECTOR);
@@ -42,6 +47,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     evt.preventDefault();
     evt.stopPropagation();
+    return false;
   }
 }
 
