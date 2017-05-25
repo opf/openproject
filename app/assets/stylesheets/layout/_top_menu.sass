@@ -332,7 +332,9 @@ input.top-menu-search--input
       // To accommodate the padding of the help icon which exisits because of the circle
       margin-top: -5px
   .icon-help:before
-    border: 2px solid $header-item-font-color
+    border-width: 2px
+    border-style: solid
+    @include varprop(border-color, header-item-font-color)
     border-radius: 50%
     width: 26px
     height: 26px
