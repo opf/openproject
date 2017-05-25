@@ -1,0 +1,19 @@
+---
+openproject-meeting:
+  :url: https://github.com/finnlabs/openproject-meeting.git
+  :branch: dev
+openproject-help_link:
+  :url: https://github.com/finnlabs/openproject-help_link.git
+  :branch: dev
+openproject-my_project_page:
+  :url: https://github.com/finnlabs/openproject-my_project_page.git
+  :branch: dev
+openproject-documents:
+  :url: https://github.com/opf/openproject-documents.git
+  :branch: dev
+openproject-translations:
+  :url: https://github.com/opf/openproject-translations.git
+  :branch: dev
+openproject-emoji:
+  :url: https://github.com/tessi/openproject-emoji.git
+  :branch: dev

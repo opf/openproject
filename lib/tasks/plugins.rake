@@ -53,3 +53,17 @@ namespace :redmine do
     end
   end
 end
+
+namespace :plugins do
+  desc 'Adds a plugin'
+  task :add, [:plugin] => :environment do |t, args|
+    plugin_manager = PluginManager.new Rails.env
+    plugin_manager.add args[:plugin]
+  end
+
+  desc 'Removes a plugin'
+  task :remove, [:plugin] => :environment do |t, args|
+    plugin_manager = PluginManager.new Rails.env
+    plugin_manager.remove args[:plugin]
+  end
+end
