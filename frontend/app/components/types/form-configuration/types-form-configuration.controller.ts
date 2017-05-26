@@ -38,7 +38,8 @@ function typesFormConfigurationCtrl(
   $element:any,
   confirmDialog:ConfirmDialogService,
   $window:ng.IWindowService,
-  $compile:any) {
+  $compile:any,
+  $timeout:ng.ITimeoutService) {
 
   // Setup autoscroll
   var scroll = autoScroll(window, {
@@ -193,11 +194,20 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
+  let scope = $scope;
   $scope.$on('groups.drop', function (e:any, el:any) {
-    $scope.updateHiddenFields();
+    /* We need a timout here, as dragula might not have removed a duplicate
+    group for dragging animation yet */
+    $timeout( function() {
+      scope.updateHiddenFields();
+    }, 1)
   });
   $scope.$on('attributes.drop', function (e:any, el:any) {
-    $scope.updateHiddenFields();
+    /* We need a timout here, as dragula might not have removed a duplicate
+    group for dragging animation yet */
+    $timeout( function() {
+      scope.updateHiddenFields();
+    }, 1)
   });
 
   $scope.showEEOnlyHint = function():void {
