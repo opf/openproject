@@ -148,7 +148,7 @@ function typesFormConfigurationCtrl(
         return;
       }
 
-      if (seenGroupNames[groupKey]) {
+      if (seenGroupNames[groupKey.toLowerCase()]) {
         NotificationsService.addError(
           I18n.t('js.types.attribute_groups.error_duplicate_group_name', { group: groupKey })
         );
@@ -156,7 +156,7 @@ function typesFormConfigurationCtrl(
         return;
       }
 
-      seenGroupNames[groupKey] = true;
+      seenGroupNames[groupKey.toLowerCase()] = true;
       attributes.forEach((attribute:HTMLElement) => {
         let attr:JQuery = angular.element(attribute);
         let key:string = attr.attr('data-key');
