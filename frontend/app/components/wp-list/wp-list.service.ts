@@ -47,6 +47,7 @@ import {WorkPackagesListInvalidQueryService} from "./wp-list-invalid-query.servi
 import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableHierarchiesService} from "./../wp-fast-table/state/wp-table-hierarchy.service";
 import {SchemaCacheService} from "../schemas/schema-cache.service";
+import {Observable} from "rxjs";
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -69,7 +70,8 @@ export class WorkPackagesListService {
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
-              protected queryMenuItemFactory:any) {}
+              protected queryMenuItemFactory:any) {
+  }
 
   /**
    * Load a query.
@@ -227,7 +229,6 @@ export class WorkPackagesListService {
         this.NotificationsService.addError(error.message);
       });
 
-
     return promise;
   }
 
@@ -317,7 +318,12 @@ export class WorkPackagesListService {
       });
     }
 
-    this.states.table.rows.putValue(results.elements);
+    Observable
+      .forkJoin(results.elements.map(wp => this.schemaCacheService.ensureLoaded(wp)))
+      .toPromise()
+      .then(() => {
+        this.states.table.rows.putValue(results.elements);
+      });
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
@@ -367,7 +373,7 @@ export class WorkPackagesListService {
 
     this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
       .then(form => {
-        this.QueryDm.findDefault({ pageSize: 0 }, projectIdentifier)
+        this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
           .then((query:QueryResource) => {
             this.wpListInvalidQueryService.restoreQuery(query, form);
 
@@ -385,7 +391,7 @@ export class WorkPackagesListService {
 
             deferred.resolve(query);
           });
-    });
+      });
 
     return deferred.promise;
   }
@@ -394,8 +400,8 @@ export class WorkPackagesListService {
     this
       .queryMenuItemFactory
       .generateMenuItem(query.name,
-                        this.$state.href('work-packages.list', { query_id: query.id }),
-                        query.id);
+        this.$state.href('work-packages.list', {query_id: query.id}),
+        query.id);
   }
 
   private removeMenuItem(query:QueryResource) {

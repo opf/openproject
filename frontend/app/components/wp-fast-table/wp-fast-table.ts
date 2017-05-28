@@ -31,15 +31,11 @@ export class WorkPackageTable {
     new PlainRowsBuilder(this)
   ];
 
-  // Subject fired whenever timeline cells are about to be refreshed
-  public unsubscribeTimelineCells$:Subject<undefined>;
-
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
     injectorBridge(this);
-    this.unsubscribeTimelineCells$ = new Subject<undefined>();
     TableHandlerRegistry.attachTo(this);
   }
 
@@ -85,8 +81,6 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
-    this.unsubscribeTimelineCells$.next();
-
     const renderPass = this.rowBuilder.buildRows();
 
     // Insert table body

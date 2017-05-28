@@ -73,7 +73,6 @@ export class WorkPackageTableTimelineRelations {
 
   private container:JQuery;
 
-  private workPackageIdOrder:RenderedRow[] = [];
   private relationsRequestedFor:string[] = [];
 
   private elements:TimelineRelationElement[] = [];
@@ -108,13 +107,15 @@ export class WorkPackageTableTimelineRelations {
     )
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([timelineState, result]) => timelineState.isVisible && result.renderedOrder.length > 0)
-      .map(([timelineState, result]) => result.renderedOrder)
-      .subscribe((orderedRows) => {
+      .subscribe(() => {
         // remove all elements. They are refreshed either after initial loading
         this.removeAllVisibleElements();
-        this.workPackageIdOrder = orderedRows;
         this.refreshRelationsWhenNeeded();
       });
+  }
+
+  private get workPackageIdOrder() {
+    return this.wpTimeline.workPackageIdOrder;
   }
 
   private refreshRelationsWhenNeeded():void {
