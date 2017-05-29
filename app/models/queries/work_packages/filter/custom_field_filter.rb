@@ -116,6 +116,10 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     %w{user version list}.include? custom_field.field_format
   end
 
+  def available?
+    custom_field.present?
+  end
+
   def value_objects
     case custom_field.field_format
     when 'user'

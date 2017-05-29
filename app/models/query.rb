@@ -555,12 +555,8 @@ class Query < ActiveRecord::Base
   end
 
   def valid_filter_subset!
-    filters.each do |filter|
-      filter.valid_values!
-
-      if filter.invalid?
-        filters.delete(filter)
-      end
+    filters.each(&:valid_values!).select! do |filter|
+      filter.available? && filter.valid?
     end
   end
 
@@ -573,10 +569,8 @@ class Query < ActiveRecord::Base
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.each do |criteria|
-      unless available_criteria.include? criteria.first.to_s
-        sort_criteria.delete(criteria)
-      end
+    sort_criteria.select! do |criteria|
+      available_criteria.include? criteria.first.to_s
     end
   end
 end

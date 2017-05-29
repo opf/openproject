@@ -199,6 +199,10 @@ describe Query, type: :model do
           .to receive(:all)
           .and_return([valid_status])
 
+        allow(Status)
+          .to receive(:exists?)
+          .and_return(true)
+
         query.filters.clear
         query.add_filter('status_id', '=', values)
 
@@ -212,7 +216,7 @@ describe Query, type: :model do
           expect(query.filters.length).to eq 1
         end
 
-        it 'leaves only the invalid value' do
+        it 'leaves only the valid value' do
           expect(query.filters[0].values)
             .to match_array [valid_status.id.to_s]
         end
@@ -223,6 +227,20 @@ describe Query, type: :model do
 
         it 'removes the filter' do
           expect(query.filters.length).to eq 0
+        end
+      end
+
+      context 'for an unavailable filter' do
+        let(:values) { [valid_status.id.to_s] }
+        before do
+          query.add_filter('cf_0815', '=', ['1'])
+
+          query.valid_subset!
+        end
+
+        it 'removes the invalid filter' do
+          expect(query.filters.length).to eq 1
+          expect(query.filters[0].name).to eq :status_id
         end
       end
     end
