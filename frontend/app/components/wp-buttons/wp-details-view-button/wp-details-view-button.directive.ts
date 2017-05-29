@@ -38,6 +38,7 @@ export class WorkPackageDetailsViewButtonController extends WorkPackageButtonCon
   public activeState:string = 'work-packages.list.details';
   public listState: string = 'work-packages.list';
   public buttonId:string = 'work-packages-details-view-button';
+  public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-info2';
 
   public activateLabel:string;

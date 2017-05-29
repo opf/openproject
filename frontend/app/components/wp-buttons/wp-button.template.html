@@ -1,5 +1,5 @@
 <button id="{{ ::vm.buttonId }}"
-        class="button"
+        class="button {{ ::vm.buttonClass }}"
         title="{{ vm.label }}"
         ng-click="vm.performAction()"
         ng-attr-accesskey="{{ ::vm.accessKey }}"

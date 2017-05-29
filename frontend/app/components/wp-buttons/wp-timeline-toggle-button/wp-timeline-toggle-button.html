@@ -1,7 +1,7 @@
 <ul id="work-packages-timeline-mode-selection" class="toolbar-button-group">
   <li>
     <button id="{{ ::vm.buttonId }}"
-            class="button timeline-toolbar--button"
+            class="button timeline-toolbar--button toolbar-icon"
             title="{{ vm.label }}"
             ng-click="vm.toggleTimeline()"
             ng-disabled="vm.disabled || (!vm.isToggle() && vm.isActive())"
@@ -11,7 +11,7 @@
   </li>
   <li ng-if="vm.isActive()">
     <button id="work-packages-timeline-zoom-out-button"
-            class="button timeline-toolbar--button"
+            class="button timeline-toolbar--button toolbar-icon"
             title="{{ vm.text.zoomOut }}"
             ng-disabled="vm.currentZoom == vm.maxZoomLevel"
             ng-click="vm.updateZoom(1)">
@@ -20,7 +20,7 @@
   </li>
   <li ng-if="vm.isActive()">
     <button id="work-packages-timeline-zoom-in-button"
-            class="button timeline-toolbar--button"
+            class="button timeline-toolbar--button toolbar-icon"
             title="{{ vm.text.zoomIn }}"
             ng-disabled="vm.currentZoom == vm.minZoomLevel"
             ng-click="vm.updateZoom(-1)">
