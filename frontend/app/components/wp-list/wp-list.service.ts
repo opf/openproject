@@ -26,32 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
-import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {QueryDmService, PaginationObject} from '../api/api-v3/hal-resource-dms/query-dm.service';
-import {QueryFormDmService} from '../api/api-v3/hal-resource-dms/query-form-dm.service';
-import {States} from '../states.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {QuerySortByResource} from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
-import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
-import {WorkPackageTableTimelineService} from './../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageTableHierarchiesService} from './../wp-fast-table/state/wp-table-hierarchy.service';
-import {SchemaCacheService} from '../schemas/schema-cache.service';
-import {Observable} from 'rxjs';
+import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+import {QueryFormResource} from "../api/api-v3/hal-resources/query-form-resource.service";
+import {PaginationObject, QueryDmService} from "../api/api-v3/hal-resource-dms/query-dm.service";
+import {QueryFormDmService} from "../api/api-v3/hal-resource-dms/query-form-dm.service";
+import {States} from "../states.service";
+import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
+import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
+import {QuerySchemaResourceInterface} from "../api/api-v3/hal-resources/query-schema-resource.service";
+import {QueryFilterInstanceSchemaResource} from "../api/api-v3/hal-resources/query-filter-instance-schema-resource.service";
+import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
+import {WorkPackageTableSortByService} from "../wp-fast-table/state/wp-table-sort-by.service";
+import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
+import {WorkPackageTableFiltersService} from "../wp-fast-table/state/wp-table-filters.service";
+import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
+import {WorkPackageTablePaginationService} from "../wp-fast-table/state/wp-table-pagination.service";
+import {WorkPackagesListInvalidQueryService} from "./wp-list-invalid-query.service";
+import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
+import {WorkPackageTableHierarchiesService} from "./../wp-fast-table/state/wp-table-hierarchy.service";
+import {SchemaCacheService} from "../schemas/schema-cache.service";
+import {Observable} from "rxjs";
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
