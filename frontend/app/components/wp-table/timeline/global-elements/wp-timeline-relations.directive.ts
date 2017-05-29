@@ -184,9 +184,7 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private removeRelationElementsForWorkPackage(workPackageId: string) {
-    console.log("removeRelationElementsForWorkPackage", workPackageId, typeof workPackageId);
     const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
-    console.log(this.container.find(`.${prefix}`));
     this.container.find(`.${prefix}`).remove();
     _.remove(this.elements, (element) => element.belongsToId === workPackageId);
   }
