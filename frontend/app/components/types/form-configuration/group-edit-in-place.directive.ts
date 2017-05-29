@@ -89,8 +89,10 @@ function groupEditInPlace($timeout:any, $parse:any) {
         scope.nameOriginal = scope.name;
         scope.name = newValue.trim();
         scope.leaveEditingMode();
-        if (attributes.onvaluechange) {
-          scope.onvaluechange(attributes.key, newValue);
+        if (scope.nameOriginal != scope.name) {
+          if (attributes.onvaluechange) {
+            scope.onvaluechange(attributes.key, newValue);
+          }
         }
       };
 

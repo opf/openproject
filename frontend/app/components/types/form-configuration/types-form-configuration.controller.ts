@@ -38,7 +38,8 @@ function typesFormConfigurationCtrl(
   $element:any,
   confirmDialog:ConfirmDialogService,
   $window:ng.IWindowService,
-  $compile:any) {
+  $compile:any,
+  $timeout:ng.ITimeoutService) {
 
   // Setup autoscroll
   var scroll = autoScroll(window, {
@@ -147,7 +148,7 @@ function typesFormConfigurationCtrl(
         return;
       }
 
-      if (seenGroupNames[groupKey]) {
+      if (seenGroupNames[groupKey.toLowerCase()]) {
         NotificationsService.addError(
           I18n.t('js.types.attribute_groups.error_duplicate_group_name', { group: groupKey })
         );
@@ -155,7 +156,7 @@ function typesFormConfigurationCtrl(
         return;
       }
 
-      seenGroupNames[groupKey] = true;
+      seenGroupNames[groupKey.toLowerCase()] = true;
       attributes.forEach((attribute:HTMLElement) => {
         let attr:JQuery = angular.element(attribute);
         let key:string = attr.attr('data-key');
@@ -193,11 +194,20 @@ function typesFormConfigurationCtrl(
     $scope.updateHiddenFields();
   };
 
+  let scope = $scope;
   $scope.$on('groups.drop', function (e:any, el:any) {
-    $scope.updateHiddenFields();
+    /* We need a timout here, as dragula might not have removed a duplicate
+    group for dragging animation yet */
+    $timeout( function() {
+      scope.updateHiddenFields();
+    }, 1)
   });
   $scope.$on('attributes.drop', function (e:any, el:any) {
-    $scope.updateHiddenFields();
+    /* We need a timout here, as dragula might not have removed a duplicate
+    group for dragging animation yet */
+    $timeout( function() {
+      scope.updateHiddenFields();
+    }, 1)
   });
 
   $scope.showEEOnlyHint = function():void {
