@@ -46,7 +46,7 @@ export abstract class WorkPackageTableBaseService {
   constructor(protected states: States) {
   }
 
-  protected get state(): InputState<any> {
+  public get state(): InputState<any> {
     return this.states.table[this.stateName];
   };
 

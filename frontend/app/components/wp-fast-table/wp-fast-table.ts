@@ -86,8 +86,14 @@ export class WorkPackageTable {
    */
   public redrawTableAndTimeline() {
     this.unsubscribeTimelineCells$.next();
-    const renderPass = this.redrawTable();
 
+    const renderPass = this.rowBuilder.buildRows();
+
+    // Insert table body
+    this.tbody.innerHTML = '';
+    this.tbody.appendChild(renderPass.tableBody);
+
+    // Insert timeline body
     this.timelineBody.innerHTML = '';
     this.timelineBody.appendChild(renderPass.timelineBody);
 
@@ -97,13 +103,13 @@ export class WorkPackageTable {
   /**
    * Redraw all elements in the table section only
    */
-  public redrawTable():TableRenderPass {
+  public redrawTable() {
     const renderPass = this.rowBuilder.buildRows();
 
     this.tbody.innerHTML = '';
     this.tbody.appendChild(renderPass.tableBody);
 
-    return renderPass;
+    this.states.table.rendered.putValue(renderPass.result);
   }
 
   /**

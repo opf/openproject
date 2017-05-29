@@ -47,7 +47,6 @@ import {WorkPackagesListInvalidQueryService} from "./wp-list-invalid-query.servi
 import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableHierarchiesService} from "./../wp-fast-table/state/wp-table-hierarchy.service";
 import {SchemaCacheService} from "../schemas/schema-cache.service";
-import {Observable} from "rxjs";
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -77,17 +76,13 @@ export class WorkPackagesListService {
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
   public fromQueryParams(queryParams:any, projectIdentifier ?:string):ng.IPromise<QueryResource> {
-    var queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
-
-    this.clearDependentStates();
-
-    var wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
-
-    let promise = this.updateStatesFromQueryOnPromise(wpListPromise);
+    const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
+    const wpListPromise = this.QueryDm.find(queryData, queryParams.query_id, projectIdentifier);
+    const promise = this.updateStatesFromQueryOnPromise(wpListPromise);
 
     promise
       .catch(error => {
-        var queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
+        const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(queryParams.query_props);
 
         return this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier);
       });
@@ -108,8 +103,6 @@ export class WorkPackagesListService {
   public reloadQuery(query:QueryResource):ng.IPromise<QueryResource> {
     let pagination = this.getPaginationInfo();
     pagination.offset = 1;
-
-    this.clearDependentStates();
 
     let wpListPromise = this.QueryDm.reload(query, pagination);
 
@@ -283,7 +276,9 @@ export class WorkPackagesListService {
   private updateStatesFromQueryOnPromise(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise
       .then(query => {
-        this.updateStatesFromQuery(query);
+        this.states.table.context.doAndTransition('Query loaded', () => {
+          this.updateStatesFromQuery(query);
+        });
 
         return query;
       });
@@ -292,7 +287,13 @@ export class WorkPackagesListService {
   }
 
   private updateStatesFromWPListOnPromise(promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
-    return promise.then(this.updateStatesFromWPCollection.bind(this));
+    return promise.then((results) => {
+      this.states.table.context.doAndTransition('Query loaded', () => {
+        this.updateStatesFromWPCollection(results);
+      });
+
+      return results;
+    });
   }
 
   private updateStatesFromQuery(query:QueryResource) {
@@ -316,12 +317,7 @@ export class WorkPackagesListService {
       });
     }
 
-    Observable
-      .forkJoin(results.elements.map(wp => this.schemaCacheService.ensureLoaded(wp)))
-      .toPromise()
-      .then(() => {
-        this.states.table.rows.putValue(results.elements);
-      });
+    this.states.table.rows.putValue(results.elements);
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
@@ -346,16 +342,6 @@ export class WorkPackagesListService {
     this.wpTableFilters.initialize(query, schema);
     this.wpTableGroupBy.update(query, schema);
     this.wpTableColumns.update(query, schema);
-  }
-
-  private clearDependentStates() {
-    this.states.table.pagination.clear();
-    this.states.table.filters.clear();
-    this.states.table.columns.clear();
-    this.states.table.sortBy.clear();
-    this.states.table.groupBy.clear();
-    this.states.table.hierarchies.clear();
-    this.states.table.sum.clear();
   }
 
   private get currentQuery() {
@@ -392,8 +378,10 @@ export class WorkPackagesListService {
               query.id = queryId;
             }
 
-            this.updateStatesFromQuery(query);
-            this.updateStatesFromForm(query, form);
+            this.states.table.context.doAndTransition('Query loaded', () => {
+              this.updateStatesFromQuery(query);
+              this.updateStatesFromForm(query, form);
+            });
 
             deferred.resolve(query);
           });

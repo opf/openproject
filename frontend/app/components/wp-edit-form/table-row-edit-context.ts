@@ -46,6 +46,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public wpTableColumns:WorkPackageTableColumnsService;
   public states:States;
   public FocusHelper:any;
+  public $q:ng.IQService;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
@@ -55,24 +56,24 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public findContainer(fieldName:string):JQuery {
-    return jQuery(`#${rowId(this.workPackageId)} .${tdClassName}.${fieldName} .${editCellContainer}`);
+    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`);
   }
 
   public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
     const cell = this.findContainer(fieldName);
-    this.cellBuilder.refresh(cell[0], workPackage, fieldName);
 
-    if (focus) {
-      this.FocusHelper.focusElement(cell);
+    if (cell.length) {
+      this.cellBuilder.refresh(cell[0], workPackage, fieldName);
+
+      if (focus) {
+        this.FocusHelper.focusElement(cell);
+      }
     }
   }
 
   public requireVisible(fieldName:string): PromiseLike<JQuery> {
     this.wpTableColumns.addColumn(fieldName);
-    let updated = this.states.table.rendered.valuesPromise();
-    return updated.then(() => {
-      return this.findContainer(fieldName);
-    });
+    return this.waitForContainer(fieldName);
   }
 
   public firstField(names:string[]) {
@@ -82,8 +83,29 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public onSaved(workPackage:WorkPackageResource) {
     this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
   }
+
+  // Ensure the given field is visible.
+  // We may want to look into MutationObserver if we need this in several places.
+  private waitForContainer(fieldName:string): PromiseLike<JQuery> {
+    const deferred = this.$q.defer();
+
+    const interval = setInterval(() => {
+      const container = this.findContainer(fieldName);
+
+      if (container.length > 0) {
+        clearInterval(interval);
+        deferred.resolve(container);
+      }
+    }, 100);
+
+    return deferred.promise;
+  }
+
+  private get rowContainer() {
+    return jQuery(`#${rowId(this.workPackageId)}`);
+  }
 }
 
 TableRowEditContext.$inject = [
-  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh', 'FocusHelper'
+  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh', 'FocusHelper', '$q'
 ];

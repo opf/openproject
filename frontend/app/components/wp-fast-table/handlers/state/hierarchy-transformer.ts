@@ -16,8 +16,9 @@ export class HierarchyTransformer {
     injectorBridge(this);
     let enabled = false;
 
-    this.wpTableHierarchies
-      .observeUntil(this.states.table.stopAllSubscriptions)
+
+    this.states.updates.hierarchyUpdates
+      .values$('Refreshing hierarchies on user request')
       .subscribe((state: WorkPackageTableHierarchies) => {
         if (enabled !== state.isEnabled) {
           table.redrawTableAndTimeline();
