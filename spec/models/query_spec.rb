@@ -306,6 +306,45 @@ describe Query, type: :model do
         end
       end
     end
+
+    context 'columns' do
+      before do
+        query.column_names = columns
+      end
+
+      context 'valid' do
+        let(:columns) { %i(status project) }
+
+        it 'leaves the values untouched' do
+          query.valid_subset!
+
+          expect(query.column_names)
+            .to match_array columns
+        end
+      end
+
+      context 'invalid' do
+        let(:columns) { %i(bogus cf_0815) }
+
+        it 'removes the values' do
+          query.valid_subset!
+
+          expect(query.column_names)
+            .to be_empty
+        end
+      end
+
+      context 'partially invalid' do
+        let(:columns) { %i(status cf_0815) }
+
+        it 'removes the offending values' do
+          query.valid_subset!
+
+          expect(query.column_names)
+            .to match_array [:status]
+        end
+      end
+    end
   end
 
   describe '#filter_for' do
