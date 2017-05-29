@@ -279,9 +279,12 @@ jQuery.viewportHeight = function() {
 * 2 - shows and hides ajax indicator
 */
 jQuery(document).ready(function($) {
-  document.ajaxActive = false;
   jQuery(document).ajaxSend(function (event, request) {
-    document.ajaxActive = true;
+    if ($(event.target.activeElement).closest('[ajax-indicated]').length &&
+        $('ajax-indicator')) {
+      $('#ajax-indicator').show();
+    }
+
     var csrf_meta_tag = $('meta[name=csrf-token]');
 
     if (csrf_meta_tag) {
@@ -293,11 +296,11 @@ jQuery(document).ready(function($) {
 
     request.setRequestHeader('X-Authentication-Scheme', "Session");
   });
+
   // ajaxStop gets called when ALL Requests finish, so we won't need a counter as in PT
   jQuery(document).ajaxStop(function () {
-    document.ajaxActive = false;
     if ($('#ajax-indicator')) {
-      jQuery('#ajax-indicator').hide();
+      $('#ajax-indicator').hide();
     }
     addClickEventToAllErrorMessages();
   });
