@@ -40,7 +40,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
   <div class="grid-content">
-    <% users = User.active.not_in_group(@group).limit(100) %>
+    <% users = User
+               .not_builtin
+               .active
+               .not_in_group(@group)
+               .limit(100) %>
     <% if users.any? %>
       <%= styled_form_tag(members_of_group_path(@group),
                           method: :post,
