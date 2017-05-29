@@ -128,8 +128,9 @@ function WorkPackagesListController($scope:any,
   function setupChangeObserver(service:WorkPackageTableBaseService, name:string, triggerUpdate:boolean = true) {
     const queryState = states.table.query;
 
-    service
-      .observeUntil(scopeDestroyed$($scope))
+    states.table.context.fireOnStateChange(service.state, 'Query loaded')
+      .values$()
+      .takeUntil(scopeDestroyed$($scope))
       .filter(() => !isAnyDependentStateClear()) // Avoid updating while not all states are initialized
       .filter(() => queryState.hasValue())
       .filter((stateValue:WorkPackageTableBaseState<any>) => {
