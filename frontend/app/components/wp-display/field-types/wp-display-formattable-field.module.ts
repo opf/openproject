@@ -42,12 +42,6 @@ export class FormattableDisplayField extends DisplayField {
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    // title stripped of html tags
-    if (this.value) {
-      let title = angular.element(this.value).text();
-      element.setAttribute('title', title);
-    }
-
     angular.element(element).addClass('-multiline');
     angular.element(element).addClass('read-value--html');
 
