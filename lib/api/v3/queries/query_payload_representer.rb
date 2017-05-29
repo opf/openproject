@@ -79,7 +79,7 @@ module API
         private
 
         ##
-        # Uses the a normal query's filter representation and removes the bits
+        # Uses the normal query's filter representation and removes the bits
         # we don't want for a payload.
         def trimmed_filters(filters)
           filters.map(&:to_hash).map { |v| trim_links v }
