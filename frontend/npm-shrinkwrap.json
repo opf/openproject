@@ -2565,9 +2565,9 @@
       "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-2.2.0.tgz"
     },
     "reactivestates": {
-      "version": "0.4.11",
-      "from": "reactivestates@0.4.11",
-      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.4.11.tgz"
+      "version": "0.5.9",
+      "from": "reactivestates@0.5.9",
+      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.5.9.tgz"
     },
     "read-pkg": {
       "version": "1.1.0",
@@ -2717,11 +2717,6 @@
       "version": "0.2.0",
       "from": "simple-is@>=0.2.0 <0.3.0",
       "resolved": "https://registry.npmjs.org/simple-is/-/simple-is-0.2.0.tgz"
-    },
-    "snabbdom": {
-      "version": "0.6.7",
-      "from": "snabbdom@>=0.6.4 <0.7.0",
-      "resolved": "https://registry.npmjs.org/snabbdom/-/snabbdom-0.6.7.tgz"
     },
     "socket.io": {
       "version": "1.7.2",
@@ -2969,9 +2964,9 @@
       "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.14.tgz"
     },
     "typescript": {
-      "version": "2.2.1",
-      "from": "typescript@2.2.1",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.2.1.tgz"
+      "version": "2.3.3",
+      "from": "typescript@>=2.3.0 <2.4.0",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.3.3.tgz"
     },
     "uglify-js": {
       "version": "2.7.5",

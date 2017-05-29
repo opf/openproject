@@ -1,16 +1,3 @@
-import * as moment from "moment";
-
-import {Observable} from "rxjs";
-import {openprojectModule} from "../../../../angular-modules";
-import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../../helpers/debug_output";
-import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
-import {States} from "../../../states.service";
-import {WorkPackageStates} from "../../../work-package-states.service";
-import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
-import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
-import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -40,8 +27,20 @@ import {WorkPackageTimelineTableController} from "../container/wp-timeline-conta
 // ++
 import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
 import {TimelineRelationElement} from "./timeline-relation-element";
+import * as moment from "moment";
 import Moment = moment.Moment;
 
+import {Observable} from "rxjs";
+import {openprojectModule} from "../../../../angular-modules";
+import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
+import {debugLog} from "../../../../helpers/debug_output";
+import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
+import {States} from "../../../states.service";
+import {WorkPackageStates} from "../../../work-package-states.service";
+import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
+import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 

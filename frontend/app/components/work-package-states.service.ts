@@ -1,14 +1,14 @@
-import {Component, createNewContext, inputStateCache} from "reactivestates";
+import {multiInput, createNewContext, StatesGroup} from "reactivestates";
 import {opServicesModule} from "../angular-modules";
 import {whenDebugging} from "../helpers/debug_output";
 import {RelationsStateValue} from "./wp-relations/wp-relations.service";
 
 
 /* /api/v3/work_packages */
-export class WorkPackageStates extends Component {
+export class WorkPackageStates extends StatesGroup {
 
   /* /:id/relations */
-  relations = inputStateCache<RelationsStateValue>();
+  relations = multiInput<RelationsStateValue>();
 
 }
 
