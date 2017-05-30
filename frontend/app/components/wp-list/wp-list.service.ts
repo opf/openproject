@@ -318,12 +318,7 @@ export class WorkPackagesListService {
       });
     }
 
-    Observable
-      .forkJoin(results.elements.map(wp => this.schemaCacheService.ensureLoaded(wp)))
-      .toPromise()
-      .then(() => {
-        this.states.table.rows.putValue(results.elements);
-      });
+    this.states.table.rows.putValue(results.elements);
 
     this.wpCacheService.updateWorkPackageList(results.elements);
 
