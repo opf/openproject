@@ -40,10 +40,17 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </div>
   <div class="grid-content">
-    <% users = User.active.not_in_group(@group).limit(100) %>
+    <% users = User
+               .not_builtin
+               .active
+               .not_in_group(@group)
+               .limit(100) %>
     <% if users.any? %>
-      <%= styled_form_tag(members_of_group_path(@group), method: :post, remote: true) do |f| %>
-        <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group) %>">
+      <%= styled_form_tag(members_of_group_path(@group),
+                          method: :post,
+                          remote: true,
+                          'ajax-indicated': '') do |f| %>
+        <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>">
           <fieldset class="form--fieldset">
             <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
               <div class="form--field -vertical">
@@ -60,9 +67,12 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= principals_check_box_tags 'user_ids[]', users %>
                 </div>
               </div>
-            <div><%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
           </fieldset>
         </remote-field-updater>
+        <div>
+          <%= styled_button_tag l(:button_add),
+                                class: '-highlight -with-icon icon-checkmark' %>
+        </div>
       <% end %>
     <% end %>
   </div>

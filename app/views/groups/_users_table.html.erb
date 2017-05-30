@@ -53,6 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= link_to l(:button_remove), member_of_group_path(@group, user),
                       method: :delete,
                       remote: :true,
+                      'ajax-indicated': '',
                       class: 'icon icon-remove' %>
         </td>
       </tr>
