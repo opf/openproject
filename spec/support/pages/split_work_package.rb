@@ -42,6 +42,10 @@ module Pages
       super(attribute, container)
     end
 
+    def switch_to_tab(tab:)
+      find('.tabrow li a', text: tab.upcase).click
+    end
+
     def switch_to_fullscreen
       find('.work-packages--details-fullscreen-icon').click
       FullWorkPackage.new(work_package, project)

@@ -116,6 +116,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     let(:category) { FactoryGirl.create :category, project: project, name: 'Foo' }
     let(:category2) { FactoryGirl.create :category, project: project, name: 'Bar' }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:relations) { ::Components::WorkPackages::Relations.new(wp_cat1) }
 
     let!(:wp_cat1) do
       FactoryGirl.create :work_package,
@@ -173,6 +174,26 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_work_package_not_listed(wp_cat1)
 
       # Relation should be hidden
+      wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
+    end
+
+    it 'removes the relation element when removed in split screen' do
+      wp_table.visit_query(query)
+      wp_table.expect_work_package_listed(wp_cat1, wp_cat2, wp_none)
+
+      # Expect timeline to have relation between first and second group
+      wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
+      wp_timeline.expect_timeline_element(wp_cat1)
+      wp_timeline.expect_timeline_element(wp_cat2)
+
+      split_view = wp_table.open_split_view(wp_cat1)
+      split_view.switch_to_tab tab: :relations
+
+      relations.remove_relation(wp_cat2)
+
+      # Relation should be removed in TL
+      wp_timeline.expect_timeline_element(wp_cat1)
+      wp_timeline.expect_timeline_element(wp_cat2)
       wp_timeline.expect_no_timeline_relation(wp_cat1, wp_cat2)
     end
   end

@@ -41,6 +41,7 @@ import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pa
 import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
+import {State} from "reactivestates";
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
@@ -150,6 +151,7 @@ export class WorkPackageTableTimelineRelations {
       .map(([[relationStateValue, rendered], timelineVisible]) => relationStateValue)
       .filter(([workPackageId, relations]) => !!(relations && workPackageId && this.wpTimeline.cells[workPackageId as string]))
       .subscribe(([workPackageId, relations]) => {
+        this.removeRelationElementsForWorkPackage(workPackageId);
         this.refreshRelations(relations!);
       });
 
@@ -157,9 +159,10 @@ export class WorkPackageTableTimelineRelations {
       .withLatestFrom(this.states.table.timelineVisible.values$())
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([, timelineVisible]) => timelineVisible.visible)
-      .map(([[id], timelineVisible]) => this.wpStates.relations.get(id))
-      .filter(state => state !== undefined)
-      .subscribe((state) => {
+      .map(([[workPackageId], timelineVisible]) => [workPackageId, this.wpStates.relations.get(workPackageId)] as [string, State<RelationsStateValue>])
+      .filter(([workPackageId, state]) => state !== undefined)
+      .subscribe(([workPackageId, state]) => {
+        this.removeRelationElementsForWorkPackage(workPackageId);
         this.refreshRelations(state.value!);
     });
   }

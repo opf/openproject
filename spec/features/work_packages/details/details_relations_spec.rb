@@ -8,6 +8,7 @@ describe 'Work package relations tab', js: true, selenium: true do
   let(:project) { FactoryGirl.create :project }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
+  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
 
   let(:visit) { true }
 
@@ -38,40 +39,6 @@ describe 'Work package relations tab', js: true, selenium: true do
     expect(page).to have_selector('.wp-relations-hierarchy-subject',
                                   text: expected_text,
                                   wait: 10)
-  end
-
-  def add_relation(relation_type, wp)
-    # Open create form
-    find('#relation--add-relation').click
-
-    # Select relation type
-    container = find('.wp-relations-create--form', wait: 10)
-
-    # Labels to expect
-    relation_label = I18n.t('js.relation_labels.' + relation_type)
-
-    select relation_label, from: 'relation-type--select'
-
-    # Enter the query and select the child
-    autocomplete = container.find(".wp-relations--autocomplete")
-    select_autocomplete(autocomplete, query: wp.subject, select_text: wp.subject)
-
-    container.find('.wp-create-relation--save').click
-
-    expect(page).to have_selector('.relation-group--header',
-                                  text: relation_label.upcase,
-                                  wait: 10)
-
-    expect(page).to have_selector('.relation-row--type', text: wp.type.name)
-
-    expect(page).to have_selector('.wp-relations--subject-field', text: wp.subject)
-
-    ## Test if relation exist
-    work_package.reload
-    relation = work_package.relations.first
-    expect(relation.relation_type).to eq('precedes')
-    expect(relation.from_id).to eq(relatable.id)
-    expect(relation.to_id).to eq(work_package.id)
   end
 
   def remove_hierarchy(selector, removed_text)
@@ -236,24 +203,17 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       let!(:relatable) { FactoryGirl.create(:work_package, project: project) }
       it 'should allow to manage relations' do
-        add_relation('follows', relatable)
+        relations.add_relation(type: 'follows', to: relatable)
 
-        ## Delete relation
-        created_row = find(".relation-row-#{relatable.id}")
-
-        # Hover row to expose button
-        created_row.hover
-        created_row.find('.relation-row--remove-btn').click
-
+        relations.remove_relation(relatable)
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
 
         work_package.reload
         expect(work_package.relations).to be_empty
       end
 
       it 'should allow to move between split and full view (Regression #24194)' do
-        add_relation('follows', relatable)
+        relations.add_relation(type: 'follows', to: relatable)
 
         # Switch to full view
         find('.work-packages--details-fullscreen-icon').click
@@ -276,7 +236,7 @@ describe 'Work package relations tab', js: true, selenium: true do
       end
 
       it 'should allow to change relation descriptions' do
-        add_relation('follows', relatable)
+        relations.add_relation(type: 'follows', to: relatable)
 
         created_row = find(".relation-row-#{relatable.id}")
 
