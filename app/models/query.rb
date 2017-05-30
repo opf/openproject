@@ -82,8 +82,8 @@ class Query < ActiveRecord::Base
                     sortable: "#{::Type.table_name}.position",
                     groupable: true),
     QueryColumn.new(:parent,
-                    sortable: ["#{WorkPackage.table_name}.root_id ASC",
-                               "#{WorkPackage.table_name}.lft ASC"],
+                    sortable: ["#{WorkPackage.table_name}.root_id",
+                               "#{WorkPackage.table_name}.lft"],
                     default_order: 'asc'),
     QueryColumn.new(:status,
                     sortable: "#{Status.table_name}.position",
@@ -178,7 +178,7 @@ class Query < ActiveRecord::Base
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['parent', 'desc']]
+    self.sort_criteria = [['parent', 'asc']]
   end
 
   def context
