@@ -7,7 +7,7 @@ import {Subject} from 'rxjs';
 import {rowClass} from '../../helpers/wp-table-row-helpers';
 
 export interface RenderedRow {
-  workPackageId?:string;
+  workPackageId:string|null;
   classIdentifier:string;
   hidden:boolean;
 }
@@ -98,6 +98,7 @@ export abstract class TableRenderPass {
     this.timelineBuilder.insert(null, this.timelineBody, additionalClasses.concat([classIdentifer]));
 
     this.renderedOrder.push({
+      workPackageId: null,
       classIdentifier: classIdentifer,
       hidden: hidden
     });
