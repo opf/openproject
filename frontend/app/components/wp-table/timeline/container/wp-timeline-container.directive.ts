@@ -112,6 +112,7 @@ export class WorkPackageTimelineTableController {
 
     // Refresh timeline view after table rendered
     this.states.table.rendered.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
       .filter(() => this.initialized)
       .map(rendered => rendered.renderedOrder)
       .subscribe((orderedRows) => {
