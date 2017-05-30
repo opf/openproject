@@ -1,5 +1,5 @@
 (function($) {
-  <% if current_user.allowed_to? :view_hourly_rates, @project, for: @user %>
-  $('#<%= "#{@element_id}_costs" %>').html("<%= number_to_currency(@costs) %>");
+  <% if current_user.allowed_to? :view_hourly_rates, @project %>
+    $('#<%= "#{@element_id}_costs" %>').html("<%= number_to_currency(@costs) %>");
   <% end %>
 })(jQuery);

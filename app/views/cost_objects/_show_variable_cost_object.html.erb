@@ -88,6 +88,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <% if User.current.allowed_to?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
+                  <td colspan="3"></td>
                   <td class="currency">
                     <div class="generic-table--footer-outer">
                       <strong><%= number_to_currency(@cost_object.material_budget) %></strong>
@@ -181,6 +182,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <% if User.current.allowed_to?(:view_cost_rates, @project) %>
               <tfoot>
                 <tr>
+                  <td colspan="3"></td>
                   <td class="currency">
                     <div class="generic-table--footer-outer">
                       <strong><%= number_to_currency(@cost_object.spent_material) %></strong>
@@ -275,6 +277,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
               <tfoot>
                 <tr>
+                  <td colspan="3"></td>
                   <td class="currency">
                     <div class="generic-table--footer-outer">
                       <strong><%= number_to_currency(@cost_object.labor_budget) %></strong>
@@ -370,6 +373,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
               </tbody>
               <tfoot>
                 <tr>
+                  <td colspan="3"></td>
                   <td class="currency">
                     <div class="generic-table--footer-outer">
                       <strong><%= number_to_currency(@cost_object.spent_labor) %></strong>

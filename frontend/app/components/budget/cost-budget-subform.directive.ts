@@ -115,7 +115,7 @@ export class CostBudgetSubformController {
     // Augment common values with specific values for this type
     row.find('.budget-item-value').each((_i:number, el:HTMLElement) => {
       var field = angular.element(el);
-      request[field.data('requestKey')] = field.val();
+      request[field.data('requestKey')] = field.val() || '0';
     });
 
     return request;
