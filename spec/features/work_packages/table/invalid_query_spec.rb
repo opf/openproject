@@ -4,7 +4,7 @@ describe 'Invalid query spec', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:member) do
@@ -54,8 +54,7 @@ describe 'Invalid query spec', js: true do
     work_package_assigned
   end
 
-  # Regression test for bug #24114 (broken watcher filter)
-  it 'should load a faulty query' do
+  it 'should load a faulty query and also the drop down' do
     wp_table.visit_query(invalid_query)
 
     filters.open
@@ -67,6 +66,8 @@ describe 'Invalid query spec', js: true do
                                     message: I18n.t('js.work_packages.faulty_query.description'))
 
     wp_table.expect_work_package_listed [work_package_assigned]
+
+    wp_table.expect_query_in_select_dropdown(invalid_query.name)
   end
 
   it 'should not load with faulty parameters but can be fixed' do

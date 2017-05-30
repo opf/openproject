@@ -344,6 +344,22 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
   end
 
+  describe '#available?' do
+    context 'for an existing custom field' do
+      it 'is true' do
+        instance.custom_field = list_wp_custom_field
+        expect(instance).to be_available
+      end
+    end
+
+    context 'for a non existing custom field (deleted)' do
+      it 'is false' do
+        instance.custom_field = nil
+        expect(instance).not_to be_available
+      end
+    end
+  end
+
   describe '.all_for' do
     context 'within a project' do
       before do

@@ -83,6 +83,14 @@ module Pages
                           text: name)
     end
 
+    def expect_query_in_select_dropdown(name)
+      page.find('.title-container').click
+
+      page.within('#querySelectDropdown') do
+        expect(page).to have_selector('.ui-menu-item', text: name)
+      end
+    end
+
     def click_inline_create
       find('.wp-inline-create--add-link').click
       expect(page).to have_selector('.wp-inline-create-row')

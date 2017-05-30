@@ -200,12 +200,11 @@ class Query < ActiveRecord::Base
   end
 
   def validate_columns
-    available_names = available_columns.map(&:name).map(&:to_s)
+    available_names = available_columns.map(&:name).map(&:to_sym)
 
-    column_names.each do |name|
-      unless available_names.include? name.to_s
-        errors.add :column_names, I18n.t(:error_invalid_query_column, value: name)
-      end
+    (column_names - available_names).each do |name|
+      errors.add :column_names,
+                 I18n.t(:error_invalid_query_column, value: name)
     end
   end
 
@@ -241,6 +240,8 @@ class Query < ActiveRecord::Base
   #     Removes the group by if it is invalid
   # * sort_criteria
   #     Removes all invalid criteria
+  # * columns
+  #     Removes all invalid columns
   #
   # If the query has been valid or if the error
   # is not one of the addressed, the query is unchanged.
@@ -248,6 +249,7 @@ class Query < ActiveRecord::Base
     valid_filter_subset!
     valid_group_by_subset!
     valid_sort_criteria_subset!
+    valid_column_subset!
   end
 
   def add_filter(field, operator, values)
@@ -555,12 +557,8 @@ class Query < ActiveRecord::Base
   end
 
   def valid_filter_subset!
-    filters.each do |filter|
-      filter.valid_values!
-
-      if filter.invalid?
-        filters.delete(filter)
-      end
+    filters.each(&:valid_values!).select! do |filter|
+      filter.available? && filter.valid?
     end
   end
 
@@ -573,10 +571,14 @@ class Query < ActiveRecord::Base
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.each do |criteria|
-      unless available_criteria.include? criteria.first.to_s
-        sort_criteria.delete(criteria)
-      end
+    sort_criteria.select! do |criteria|
+      available_criteria.include? criteria.first.to_s
     end
+  end
+
+  def valid_column_subset!
+    available_names = available_columns.map(&:name).map(&:to_sym)
+
+    self.column_names &= available_names
   end
 end

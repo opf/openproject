@@ -36,12 +36,15 @@ feature 'Query menu items' do
   let(:project) { FactoryGirl.create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
+  let(:status) { FactoryGirl.create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
   end
 
   before do
+    status
+
     allow(User).to receive(:current).and_return user
   end
 
