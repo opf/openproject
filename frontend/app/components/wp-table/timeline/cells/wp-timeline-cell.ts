@@ -80,7 +80,7 @@ export class WorkPackageTimelineCell {
   }
 
   public clear() {
-    this.timelineCell.innerHTML = "";
+    this.cellElement.html("");
     this.wpElement = null;
   }
 
