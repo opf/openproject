@@ -237,7 +237,8 @@ export class TimelineCellRenderer {
 
     // ensure minimum width
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
-      bar.style.minWidth = "30px";
+      const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
+      bar.style.minWidth = minWidth + "px";
     }
 
     this.checkForActiveSelectionMode(renderInfo, bar);
@@ -257,7 +258,7 @@ export class TimelineCellRenderer {
     }
   }
 
-  getLeftmostPosition(renderInfo: RenderInfo): number {
+  getLeftmostXValue(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);
@@ -268,7 +269,11 @@ export class TimelineCellRenderer {
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
 
-  getRightmostPosition(renderInfo: RenderInfo): number {
+  getInnerXOffsetForRelationLineDock(renderInfo: RenderInfo): number {
+    return renderInfo.viewParams.pixelPerDay / 8;
+  }
+
+  getRightmostXValue(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);

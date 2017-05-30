@@ -1,13 +1,8 @@
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {TimelineCellRenderer} from "./timeline-cell-renderer";
-import {
-  RenderInfo,
-  calculatePositionValueForDayCount,
-  timelineElementCssClass,
-  calculatePositionValueForDayCountingPx, timelineMarkerSelectionStartClass
-} from "../wp-timeline";
 import * as moment from "moment";
-import { $injectNow } from "../../../angular/angular-injector-bridge.functions";
+import {$injectNow} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {calculatePositionValueForDayCountingPx, RenderInfo, timelineElementCssClass} from "../wp-timeline";
+import {TimelineCellRenderer} from "./timeline-cell-renderer";
 import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
@@ -128,30 +123,35 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery(".diamond", element)[0];
 
-    element.style.width = '1em';
-    element.style.height = '1em';
-    diamond.style.width = '1em';
-    diamond.style.height = '1em';
+    element.style.width = 15 + "px";
+    element.style.height = 15 + "px";
+    diamond.style.width = 15 + "px";
+    diamond.style.height = 15 + "px";
+    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + "px";
     diamond.style.backgroundColor = this.typeColor(wp);
 
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, "days");
-    element.style.left = 'calc(0.5em + ' + calculatePositionValueForDayCount(viewParams, offsetStart) + ')';
+    element.style.left = calculatePositionValueForDayCountingPx(viewParams, offsetStart) + "px";
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
 
     return true;
   }
 
-  getLeftmostPosition(renderInfo: RenderInfo): number {
+  getLeftmostXValue(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
     let start = moment(wp.date as any);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
-    return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart) + 20;
+    return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
 
-  getRightmostPosition(renderInfo: RenderInfo): number {
-    return this.getLeftmostPosition(renderInfo);
+  getInnerXOffsetForRelationLineDock(renderInfo: RenderInfo): number {
+    return (renderInfo.viewParams.pixelPerDay / 2) - 1;
+  }
+
+  getRightmostXValue(renderInfo: RenderInfo): number {
+    return 15;
   }
 
   /**

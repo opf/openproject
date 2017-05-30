@@ -25,11 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
-import {TimelineRelationElement} from "./timeline-relation-element";
-import * as moment from "moment";
-import Moment = moment.Moment;
 
+import * as moment from "moment";
 import {Observable} from "rxjs";
 import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
@@ -42,6 +39,11 @@ import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-t
 import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import {State} from "reactivestates";
+import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
+import {TimelineRelationElement} from "./timeline-relation-element";
+import Moment = moment.Moment;
+
+const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
 export const timelineGlobalElementCssClassname = 'relation-line';
 
@@ -51,7 +53,8 @@ function newSegment(vp:TimelineViewParameters,
                     top:number,
                     left:number,
                     width:number,
-                    height:number):HTMLElement {
+                    height: number,
+                    color?: string): HTMLElement {
 
   const segment = document.createElement('div');
   segment.classList.add(
@@ -65,6 +68,9 @@ function newSegment(vp:TimelineViewParameters,
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';
   segment.style.height = height + 'px';
+  if (DEBUG_DRAW_RELATION_LINES_WITH_COLOR && color !== undefined) {
+    segment.style.backgroundColor = color;
+  }
   return segment;
 }
 
@@ -228,10 +234,17 @@ export class WorkPackageTableTimelineRelations {
       return;
     }
 
-    const directionY = idxFrom < idxTo ? 1 : -1;
-    let lastX = startCell.getRightmostPosition();
-    let targetX = endCell.getLeftmostPosition();
-    const directionX = targetX >= lastX ? 1 : -1;
+    // Get X values
+    let lastX = startCell.getRightmostXValue();
+    const targetX = endCell.getLeftmostXValue() + endCell.getInnerXOffsetForRelationLineDock();
+    const hookLength = endCell.getInnerXOffsetForRelationLineDock();
+
+    // Vertical direction
+    const directionY: "toUp" | "toDown" = idxFrom < idxTo ? "toDown" : "toUp";
+
+    // Horizontal direction
+    const directionX: "toLeft" | "beneath" | "toRight" =
+      targetX > lastX ? "toRight" : targetX < lastX ? "toLeft" : "beneath";
 
     // start
     if (!startCell) {
@@ -239,42 +252,37 @@ export class WorkPackageTableTimelineRelations {
     }
 
     // Draw the first line next to the bar/milestone element
-    const startLength = 13;
-    const height = Math.abs(idxTo - idxFrom);
-    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, startLength, 1));
-    lastX += startLength;
+    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, hookLength, 1, "red"));
+    lastX += hookLength;
 
-    if (directionY === 1) {
-      // Draw a line down from from idxFrom to idxTo
-      if (directionX === 1) {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41));
-      } else {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10));
+    // Draw vertical line between rows
+    const height = Math.abs(idxTo - idxFrom);
+    if (directionY === "toDown") {
+      if (directionX === "toRight" || directionX === "beneath") {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, "black"));
+      } else if (directionX === "toLeft") {
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, "black"));
       }
-    } else {
-      // Draw a line from target row down to idxFrom
-      this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, height * 41));
+    } else if (directionY === "toUp") {
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, "black"));
     }
 
     // Draw end corner to the target
-    if (directionX === 1) {
-      if (directionY === 1) {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
-      } else {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, 1, 22));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1));
+    if (directionX === "toRight") {
+      if (directionY === "toDown") {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, "red"));
+      } else if (directionY === "toUp") {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, 10, "green"));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, targetX - lastX, 1, "lightsalmon"));
       }
-    } else {
-      if (directionY === 1) {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX - 10, lastX - targetX + 11, 1));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX - 10, 1, 11));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 10, 1));
-      } else {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 32, lastX, 1, 8));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 32, targetX - 10, lastX - targetX + 11, 1));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 1, 13));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX - 10, 10, 1));
+    } else if (directionX === "toLeft") {
+      if (directionY === "toDown") {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8, "red"));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, lastX - targetX, 1, "green"));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, 1, 11, "blue"));
+      } else if (directionY === "toUp") {
+        this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, "red"));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, "blue"));
       }
     }
   }

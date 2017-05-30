@@ -41,8 +41,6 @@ export const timelineMarkerSelectionStartClass = "selection-start";
  */
 export class TimelineViewParametersSettings {
 
-  // showDurationInPx = true;
-
   zoomLevel: ZoomLevel = ZoomLevel.DAYS;
 
 }
@@ -69,7 +67,7 @@ export class TimelineViewParameters {
 
   selectionModeStart: null|string = null;
 
-  get pixelPerDay() {
+  get pixelPerDay(): number {
     switch (this.settings.zoomLevel) {
       case ZoomLevel.DAYS:
         return 30;
