@@ -34,7 +34,7 @@ module API
       class ActivitiesAPI < ::API::OpenProjectAPI
         resources :activities do
           params do
-            requires :id, desc: 'Activity id'
+            requires :id, type: Integer, desc: 'Activity id'
           end
           route_param :id do
             before do
