@@ -36,20 +36,15 @@ import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-t
 import {WorkPackageTableTimelineState} from "../../../wp-fast-table/wp-table-timeline";
 import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackagesTableController} from "../../wp-table.directive";
-import {
-  RenderInfo,
-  timelineMarkerSelectionStartClass,
-  TimelineViewParameters
-} from "../wp-timeline";
-import {WorkPackageTimelineCell} from "../wp-timeline-cell";
+import {timelineMarkerSelectionStartClass, TimelineViewParameters} from "../wp-timeline";
 import {WorkPackageTable} from "../../../wp-fast-table/wp-fast-table";
 import {WorkPackageTableHierarchiesService} from "../../../wp-fast-table/state/wp-table-hierarchy.service";
 
 import * as angular from "angular";
 import {selectorTimelineSide} from "../../wp-table-scroll-sync";
 import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
-import {TimelineMilestoneCellRenderer} from "../cell-renderer/timeline-milestone-cell-renderer";
-import {TimelineCellRenderer} from "../cell-renderer/timeline-cell-renderer";
+import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
+import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
 
 export class WorkPackageTimelineTableController {
 
@@ -59,20 +54,13 @@ export class WorkPackageTimelineTableController {
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
-  private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
-
   public disableViewParamsCalculation = false;
-
-  public cells:{[id: string]:WorkPackageTimelineCell} = {};
 
   public workPackageIdOrder:RenderedRow[] = [];
 
   private renderers:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
 
-  private cellRenderers = {
-    milestone: new TimelineMilestoneCellRenderer(this),
-    generic: new TimelineCellRenderer(this)
-  };
+  private cellsRenderer = new WorkPackageTimelineCellsRenderer(this);
 
   public outerContainer:JQuery;
   public timelineBody:JQuery;
@@ -128,21 +116,7 @@ export class WorkPackageTimelineTableController {
       .map(rendered => rendered.renderedOrder)
       .subscribe((orderedRows) => {
         this.workPackageIdOrder = orderedRows;
-        this.cells = {};
-
-        orderedRows.forEach((el:RenderedRow) => {
-          const id = el.workPackageId;
-          if (id) {
-            this.cells[id] = new WorkPackageTimelineCell(
-              this,
-              this.cellRenderers,
-              this.renderInfoFor(id),
-              id
-            );
-          }
-        });
-
-        this.debouncedRefresh();
+        this.refreshView();
       });
 
     // Refresh timeline view when becoming visible
@@ -164,6 +138,14 @@ export class WorkPackageTimelineTableController {
           this.debouncedRefresh();
         });
       });
+  }
+
+  workPackageInView(wpId:string):boolean {
+    return this.cellsRenderer.hasCell(wpId);
+  }
+
+  workPackageCell(wpId:string):WorkPackageTimelineCell {
+    return this.cellsRenderer.cells[wpId];
   }
 
   onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void) {
@@ -200,9 +182,7 @@ export class WorkPackageTimelineTableController {
     this.calculateViewParams(this._viewParameters);
 
     // Update all cells
-    _.each(this.cells, (cell) => {
-      cell.refreshView(this.renderInfoFor(cell.workPackageId));
-    });
+    this.cellsRenderer.refreshAllCells();
 
     _.each(this.renderers, (cb, key) => {
       debugLog(`Refreshing timeline member ${key}`);
@@ -221,23 +201,16 @@ export class WorkPackageTimelineTableController {
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([,timelineState]) => this.initialized && timelineState.isVisible)
       .map(([[wpId],]) => wpId)
-      .filter((wpId) => !!this.cells[wpId])
+      .filter((wpId) => this.cellsRenderer.hasCell(wpId))
       .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
           this.debouncedRefresh();
         } else {
           // Refresh the single cell
-          this.cells[wpId].refreshView(this.renderInfoFor(wpId));
+          this.cellsRenderer.refreshCellFor(wpId);
         }
       });
-  }
-
-  renderInfoFor(wpId: string):RenderInfo {
-    return {
-      viewParams: this._viewParameters,
-      workPackage: this.states.workPackages.get(wpId).value!
-    } as RenderInfo;
   }
 
   startAddRelationPredecessor(start: WorkPackageResourceInterface) {

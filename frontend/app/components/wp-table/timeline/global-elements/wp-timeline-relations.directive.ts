@@ -149,7 +149,7 @@ export class WorkPackageTableTimelineRelations {
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([[relations, rendered], timelineVisible]) => relations && timelineVisible.isVisible)
       .map(([[relationStateValue, rendered], timelineVisible]) => relationStateValue)
-      .filter(([workPackageId, relations]) => !!(relations && workPackageId && this.wpTimeline.cells[workPackageId as string]))
+      .filter(([workPackageId, relations]) => !!(relations && workPackageId && this.wpTimeline.workPackageInView(workPackageId)))
       .subscribe(([workPackageId, relations]) => {
         this.refreshRelations(relations!);
       });
@@ -207,8 +207,8 @@ export class WorkPackageTableTimelineRelations {
     const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
     const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
 
-    const startCell = this.wpTimeline.cells[involved.from];
-    const endCell = this.wpTimeline.cells[involved.to];
+    const startCell = this.wpTimeline.workPackageCell(involved.from);
+    const endCell = this.wpTimeline.workPackageCell(involved.to);
 
     // If targets do not exist anywhere in the table, skip
     if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {

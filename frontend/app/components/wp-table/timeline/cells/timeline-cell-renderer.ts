@@ -8,7 +8,7 @@ import {
   timelineElementCssClass,
   timelineMarkerSelectionStartClass
 } from "../wp-timeline";
-import {classNameLeftHandle, classNameRightHandle} from "../wp-timeline-cell-mouse-handler";
+import {classNameLeftHandle, classNameRightHandle} from "./wp-timeline-cell-mouse-handler";
 import Moment = moment.Moment;
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
