@@ -27,6 +27,7 @@
 // ++
 
 import * as moment from "moment";
+import {State} from "reactivestates";
 import {Observable} from "rxjs";
 import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
@@ -38,7 +39,6 @@ import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pa
 import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-import {State} from "reactivestates";
 import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
 import {TimelineRelationElement} from "./timeline-relation-element";
 import Moment = moment.Moment;
