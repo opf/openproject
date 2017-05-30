@@ -230,12 +230,20 @@ module WorkPackagesFilterHelper
 
   def filter_object(property, operator, values = nil)
     v3_property = API::Utilities::PropertyNameConverter.from_ar_name(property)
-    values = values.to_s if values
+    values = filter_values(values) if values
 
     {
       n: v3_property,
       o: operator,
       v: values
     }.compact
+  end
+
+  def filter_values(values)
+    if values.is_a? Array
+      values.map(&:to_s)
+    else
+      values.to_s
+    end
   end
 end
