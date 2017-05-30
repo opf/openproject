@@ -64,6 +64,16 @@ describe ::API::V3::Queries::QueryRepresenter do
     policy
   end
 
+  def non_empty_to_query(hash)
+    hash.map do |key, value|
+      if value.is_a?(Array) && value.empty?
+        "#{key}=%5B%5D"
+      else
+        value.to_query(key)
+      end
+    end.compact.sort! * '&'
+  end
+
   subject { representer.to_json }
 
   describe 'generation' do
@@ -91,9 +101,10 @@ describe ::API::V3::Queries::QueryRepresenter do
         let(:href) do
           params = {
             offset: 1,
-            pageSize: Setting.per_page_options_array.first
+            pageSize: Setting.per_page_options_array.first,
+            filters: []
           }
-          "#{api_v3_paths.work_packages_by_project(project.id)}?#{params.to_query}"
+          "#{api_v3_paths.work_packages_by_project(project.id)}?#{non_empty_to_query(params)}"
         end
       end
 
@@ -119,9 +130,10 @@ describe ::API::V3::Queries::QueryRepresenter do
           let(:href) do
             params = {
               offset: 1,
-              pageSize: Setting.per_page_options_array.first
+              pageSize: Setting.per_page_options_array.first,
+              filters: []
             }
-            "#{api_v3_paths.work_packages}?#{params.to_query}"
+            "#{api_v3_paths.work_packages}?#{non_empty_to_query(params)}"
           end
         end
       end
@@ -264,10 +276,11 @@ describe ::API::V3::Queries::QueryRepresenter do
         let(:expected_href) do
           params = {
             offset: 2,
-            pageSize: 25
+            pageSize: 25,
+            filters: []
           }
 
-          api_v3_paths.work_packages_by_project(project.id) + "?#{params.to_query}"
+          api_v3_paths.work_packages_by_project(project.id) + "?#{non_empty_to_query(params)}"
         end
 
         it_behaves_like 'has an untitled link' do

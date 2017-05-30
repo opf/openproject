@@ -330,6 +330,13 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
             expect(subject.query[:filters])
               .to eq(expected_filters)
           end
+
+          it 'represents no filters' do
+            expected_filters = JSON::dump([])
+
+            expect(subject.query[:filters])
+              .to eq(expected_filters)
+          end
         end
       end
 

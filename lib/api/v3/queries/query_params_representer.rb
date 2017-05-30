@@ -47,7 +47,10 @@ module API
           p[:showSums] = 'true' if query.display_sums?
           p[:groupBy] = query.group_by if query.group_by?
           p[:sortBy] = sort_criteria_to_v3 if query.sorted?
-          p[:filters] = filters_to_v3 if query.filtered?
+
+          # an empty filter param is also relevant as this would mean to not apply
+          # the default filter (status - open)
+          p[:filters] = filters_to_v3
 
           p
         end

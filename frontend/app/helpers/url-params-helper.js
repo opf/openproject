@@ -86,7 +86,10 @@ module.exports = function(PaginationService) {
                            v: _.map(filter.values, UrlParamsHelper.queryFilterValueToParam)
                          };
                        });
+      } else {
+        paramsData.f = [];
       }
+
       paramsData.pa = additional.page;
       paramsData.pp = additional.perPage;
 
