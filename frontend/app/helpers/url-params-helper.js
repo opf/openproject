@@ -144,7 +144,9 @@ module.exports = function(PaginationService) {
       }
 
       // Sortation
-      queryData.sortBy = JSON.stringify(properties.t.split(',').map(function(sort) { return sort.split(':') }));
+      if(properties.t) {
+        queryData.sortBy = JSON.stringify(properties.t.split(',').map(function(sort) { return sort.split(':') }));
+      }
 
       // Pagination
       if(properties.pa) {

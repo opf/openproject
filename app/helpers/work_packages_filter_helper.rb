@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ module WorkPackagesFilterHelper
   def project_property_path(project, property, property_id, options = {})
     query = {
       f: [
-        filter_object(property, '=', property_id),
+        filter_object(property, '=', property_id)
       ],
       t: default_sort
     }
@@ -158,7 +159,7 @@ module WorkPackagesFilterHelper
       f: [
         filter_object('status_id', '*'),
         filter_object('subproject_id', '!*'),
-        filter_object(property_name, '=', property_id),
+        filter_object(property_name, '=', property_id)
       ],
       t: default_sort
     }
@@ -170,7 +171,7 @@ module WorkPackagesFilterHelper
       f: [
         filter_object('status_id', '=', status_id),
         filter_object('subproject_id', '!*'),
-        filter_object(property, '=', property_id),
+        filter_object(property, '=', property_id)
       ],
       t: default_sort
     }
@@ -182,7 +183,7 @@ module WorkPackagesFilterHelper
       f: [
         filter_object('status_id', 'o'),
         filter_object('subproject_id', '!*'),
-        filter_object(property, '=', property_id),
+        filter_object(property, '=', property_id)
       ],
       t: default_sort
     }
@@ -194,7 +195,7 @@ module WorkPackagesFilterHelper
       f: [
         filter_object('status_id', 'c'),
         filter_object('subproject_id', '!*'),
-        filter_object(property, '=', property_id),
+        filter_object(property, '=', property_id)
       ],
       t: default_sort
     }
@@ -206,7 +207,7 @@ module WorkPackagesFilterHelper
       f: [
         filter_object('status_id', '*'),
         filter_object('fixed_version_id', '=', version.id),
-        filter_object(property_name, '=', property_id),
+        filter_object(property_name, '=', property_id)
       ],
       t: default_sort
     }
@@ -228,11 +229,13 @@ module WorkPackagesFilterHelper
   end
 
   def filter_object(property, operator, values = nil)
-    f = {
-      n: property,
+    v3_property = API::Utilities::PropertyNameConverter.from_ar_name(property)
+    values = values.to_s if values
+
+    {
+      n: v3_property,
       o: operator,
-    }
-    f = f.reverse_merge(v: values) if values
-    f
+      v: values
+    }.compact
   end
 end
