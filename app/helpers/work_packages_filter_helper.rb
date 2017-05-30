@@ -230,6 +230,7 @@ module WorkPackagesFilterHelper
 
   def filter_object(property, operator, values = nil)
     v3_property = API::Utilities::PropertyNameConverter.from_ar_name(property)
+    values = values.to_s if values
 
     {
       n: v3_property,
